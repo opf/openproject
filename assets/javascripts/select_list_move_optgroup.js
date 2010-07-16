@@ -1,10 +1,17 @@
 var NS4 = (navigator.appName == "Netscape" && parseInt(navigator.appVersion) < 5);
 
-function addOption(theSel, theText, theValue, theCategory)
-{
-  theSel = $(theSel.id);
-  var newOpt = new Option(theText, theValue);
+function createOption(theText, theValue, theCategory) {
+  var newOpt = document.createElement('option');
+  newOpt.text = theText;
+  newOpt.value = theValue;
   newOpt.setAttribute("data-category", theCategory);
+  return newOpt;
+}
+
+function addOption(theSel, newOpt, theCategory)
+{
+  var theCategory = newOpt.getAttribute("data-category");
+  Element.extend(theSel);
   if (theCategory && (theSel.childElements().length > 0) && theSel.down(0).tagName == "OPTGROUP") { // add the opt to the given category
     opt_groups = theSel.childElements();
     for (i in opt_groups)
@@ -14,14 +21,13 @@ function addOption(theSel, theText, theValue, theCategory)
     }
   }
   else { // no category given, just add the opt to the end of the select list
-    var selLength = theSel.length;
-    theSel.options[selLength] = newOpt;
+    theSel.appendChild(newOpt);
   }
 }
 
-function swapOptions(theSel, index1, index2) //FIXME: add category support
+function swapOptions(theSel, index1, index2)
 {
-  theSel = $(theSel.id);
+  Element.extend(theSel);
   var text, value;
   text = theSel.options[index1].text;
   value = theSel.options[index1].value;
@@ -36,7 +42,7 @@ function swapOptions(theSel, index1, index2) //FIXME: add category support
 
 function deleteOption(theSel, theIndex)
 {
-  theSel = $(theSel.id);
+  Element.extend(theSel);
   var selLength = theSel.length;
   if(selLength>0)
   {
@@ -46,8 +52,8 @@ function deleteOption(theSel, theIndex)
 
 function moveOptions(theSelFrom, theSelTo)
 {
-  theSelFrom = $(theSelFrom.id);
-  theSelTo = $(theSelTo.id);
+  Element.extend(theSelFrom);
+  Element.extend(theSelTo);
   var selLength = theSelFrom.length;
   var selectedText = new Array();
   var selectedValues = new Array();
@@ -57,27 +63,17 @@ function moveOptions(theSelFrom, theSelTo)
   var i;
 
   for(i=selLength-1; i>=0; i--)
-  {
     if(theSelFrom.options[i].selected)
     {
-      selectedText[selectedCount] = theSelFrom.options[i].text;
-      selectedValues[selectedCount] = theSelFrom.options[i].value;
-      selectedCategories[selectedCount] = theSelFrom.options[i].getAttribute("data-category");
+      addOption(theSelTo, theSelFrom.options[i].cloneNode(true));
       deleteOption(theSelFrom, i);
-      selectedCount++;
     }
-  }
-
-  for(i=selectedCount-1; i>=0; i--)
-  {
-    addOption(theSelTo, selectedText[i], selectedValues[i], selectedCategories[i]);
-  }
 
   if(NS4) history.go(0);
 }
 
 function moveOptionUp(theSel) {
-  theSel = $(theSel.id);
+  Element.extend(theSel);
   var index = theSel.selectedIndex;
   if (index > 0) {
     swapOptions(theSel, index-1, index);
@@ -86,7 +82,7 @@ function moveOptionUp(theSel) {
 }
 
 function moveOptionDown(theSel) {
-  theSel = $(theSel.id);
+  Element.extend(theSel);
   var index = theSel.selectedIndex;
   if (index < theSel.length - 1) {
     swapOptions(theSel, index, index+1);
