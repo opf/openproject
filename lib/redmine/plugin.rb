@@ -202,10 +202,10 @@ module Redmine #:nodoc:
     #   permission :say_hello, { :example => :say_hello }
     #   
     #   # A permission that can be given to registered users only
-    #   permission :say_hello, { :example => :say_hello }, :require => loggedin
+    #   permission :say_hello, { :example => :say_hello }, :require => :loggedin
     #   
     #   # A permission that can be given to project members only
-    #   permission :say_hello, { :example => :say_hello }, :require => member
+    #   permission :say_hello, { :example => :say_hello }, :require => :member
     def permission(name, actions, options = {})
       if @project_module
         Redmine::AccessControl.map {|map| map.project_module(@project_module) {|map|map.permission(name, actions, options)}}
