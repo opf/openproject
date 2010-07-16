@@ -4,9 +4,82 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
-== v1.0.0
+== v1.0.0 (Release candidate)
 
-Adds context menu to the roadmap issue lists
+#443: Adds context menu to the roadmap issue lists
+#443: Subtasking
+#741: Description preview while editing an issue
+#1131: Add support for alternate (non-LDAP) authentication
+#1214: REST API for Issues
+#1223: File upload on wiki edit form
+#1755: add "blocked by" as a related issues option
+#2420: Fetching emails from an POP server
+#2482: Named scopes in Issue and ActsAsWatchable plus some view refactoring (logic extraction).
+#2924: Make the right click menu more discoverable using a cursor property
+#2985: Make syntax highlighting pluggable
+#3201: Workflow Check/Uncheck All Rows/Columns
+#3359: Update CodeRay 0.9
+#3706: Allow assigned_to field configuration on Issue creation by email
+#3936: configurable list of models to include in search
+#4480: Create a link to the user profile from the administration interface
+#4482: Cache textile rendering
+#4572: Make it harder to ruin your database
+#4573: Move github gems to Gemcutter
+#4664: Add pagination to forum threads
+#4732: Make login case-insensitive also for PostgreSQL
+#4812: Create links to other projects
+#4819: Replace images with smushed ones for speed
+#4945: Allow custom fields attached to project to be searchable
+#5121: Fix issues list layout overflow
+#5169: Issue list view hook request
+#5208: Aibility to edit wiki sidebar
+#5281: Remove empty ul tags in the issue history
+#5291: Updated basque translations
+#5328: Automatically add "Repository" menu_item after repository creation
+#5415: Fewer SQL statements generated for watcher_recipients
+#5416: Exclude "fields_for" from overridden methods in TabularFormBuilder
+#5573: Allow issue assignment in email
+#5595: Allow start date and due dates to be set via incoming email
+#5752: The projects view (/projects) renders ul's wrong
+#5781: Allow to use more macros on the welcome page and project list
+Fixed #1288: Unable to past escaped wiki syntax in an issue description
+Fixed #1334: Wiki formatting character *_ and _*
+Fixed #1416: Inline code with less-then/greater-than produces @lt; and @gt; respectively
+Fixed #2473: Login and mail should not be case sensitive
+Fixed #2990: Ruby 1.9 - wrong number of arguments (1 for 0) on rake db:migrate
+Fixed #3089: Text formatting sometimes breaks when combined
+Fixed #3690: Status change info duplicates on the issue screen
+Fixed #3691: Redmine allows two files with the same file name to be uploaded to the same issue
+Fixed #3764: ApplicationHelperTest fails with JRuby
+Fixed #4265: Unclosed code tags in issue descriptions affects main UI
+Fixed #4745: Bug in index.xml.builder (issues)
+Fixed #4852: changing user/roles of project member not possible without javascript
+Fixed #4857: Week number calculation in date picker is wrong if a week starts with Sunday
+Fixed #4883: Bottom "contextual" placement in issue with associated changeset
+Fixed #4918: Revisions r3453 and r3454 broke On-the-fly user creation with LDAP
+Fixed #4935: Navigation to the Master Timesheet page (time_entries)
+Fixed #5043: Flash messages are not displayed after the project settings[module/activity] saved
+Fixed #5081: Broken links on public/help/wiki_syntax_detailed.html
+Fixed #5104: Description of document not wikified on documents index
+Fixed #5108: Issue linking fails inside of []s
+Fixed #5199: diff code coloring using coderay
+Fixed #5233: Add a hook to the issue report (Summary) view
+Fixed #5265: timetracking: subtasks time is added to the main task
+Fixed #5343: acts_as_event Doesn't Accept Outside URLs
+Fixed #5440: UI Inconsistency : Administration > Enumerations table row headers should be enclosed in <thead>
+Fixed #5463: 0.9.4 INSTALL and/or UPGRADE, missing session_store.rb
+Fixed #5524: Update_parent_attributes doesn't work for the old parent issue when reparenting
+Fixed #5548: SVN Repository: Can not list content of a folder which includes square brackets.
+Fixed #5589: "with subproject" malfunction
+Fixed #5676: Search for Numeric Value
+Fixed #5696: Redmine + PostgreSQL 8.4.4 fails on _dir_list_content.rhtml
+Fixed #5698: redmine:email:receive_imap fails silently for mails with subject longer than 255 characters
+Fixed #5700: TimelogController#destroy assumes success
+Fixed #5751: developer role is mispelled
+Fixed #5769: Popup Calendar doesn't Advance in Chrome
+Fixed #5771: Problem when importing git repository
+Fixed #5823: Error in comments in plugin.rb
+
 
 == 2010-07-07 v0.9.6
 
