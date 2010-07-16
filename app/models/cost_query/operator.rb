@@ -146,8 +146,8 @@ class CostQuery::Operator
     end
 
     new "0", :label => :label_none, :where_clause => "%s = 0"
-    new "y", :label => :label_yes, :where_clause => "%s IS NOT NULL"
-    new "n", :label => :label_no, :where_clause => "%s IS NULL"
+    new "y", :label => :label_yes, :arity => 0, :where_clause => "%s IS NOT NULL"
+    new "n", :label => :label_no, :arity => 0, :where_clause => "%s IS NULL"
 
     new "<d", :label => :label_less_or_equal do
       def modify(query, field, value)
