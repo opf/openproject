@@ -11,14 +11,14 @@
   <div style="" id="<%= element[:filter_name] %>_arg_1" class="filter_values">
     <select style="vertical-align: top;"
             name="values[<%= element[:filter_name] %>][]"
-            id="values_<%= element[:filter_name] %>"
+            id="<%= element[:filter_name] %>_arg_1_val"
             class="select-small">
       <% element[:values].each do |name, id| %>
-        <option value="<%= id %>" <%= 'selected="selected"' if filter and (filter.values.include? id) %>>
+        <option value="<%= id %>">
           <%= h(name) %>
         </option>
       <% end %>
     </select>
-    <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{element[:filter_name]}');", :style => "vertical-align: bottom;" %>
+    <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select($('#{element[:filter_name]}_arg_1_val'));", :style => "vertical-align: bottom;" %>
   </div>
 </td>

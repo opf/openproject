@@ -23,7 +23,6 @@
   </fieldset>
 
   <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
-
   <p class="buttons">
   <%= link_to_remote l(:button_apply),
                      { :url => { :set_filter => 1 },

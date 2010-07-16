@@ -7,13 +7,10 @@ restore_query_inputs =function() {
 
 set_filters = function() {
   // Activate recent filters on loading
-  <% active_filters = query.filters.select {|f| f.class.display? } %>
-  <% active_filters.each do |f| %>
-    show_filter("<%= f.class.underscore_name %>");
-    disable_select_option($('add_filter_select'), "<%= f.class.underscore_name %>");
-    <% if f.values && (f.values.size > 1) %>
-      toggle_multi_select("<%= f.class.underscore_name %>");
-    <% end %>
+  <% query.filters.select {|f| f.class.display? }.each do |f| %>
+    restore_filter("<%= f.class.underscore_name %>",
+                   "<%= f.operator.to_s %>"<%= "," if f.values %>
+                    <%= f.values.to_json if f.values  %>);
   <% end %>
 }
 

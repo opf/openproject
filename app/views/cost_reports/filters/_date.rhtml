@@ -10,12 +10,12 @@
 
 <td <%= style="display:none" if element[:hide] %>>
   <div style="" id="<%= id_prefix %>arg_1" class="filter_values">
-    <%= text_field_tag "#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}_date1"%>
-    <%= calendar_for("#{id_prefix}_date1") %>
+    <%= text_field_tag "#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}arg_1_val"%>
+    <%= calendar_for("#{id_prefix}arg_1_val") %>
     <span id="<%= id_prefix %>arg_2" class="between_tags">
     <%=
-      text_field_tag("#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}_date2") + " " +
-      calendar_for("#{id_prefix}_date2")
+      text_field_tag("#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}arg_2_val") + " " +
+      calendar_for("#{id_prefix}arg_2_val")
     %>
     </span>
   </div>
