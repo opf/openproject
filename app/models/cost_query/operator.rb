@@ -79,8 +79,9 @@ class CostQuery::Operator
       end
     end
 
-    new "!~" do
-      def modify(query, field, value)
+    new "!~", :arity => 1 do
+      def modify(query, field, *values)
+        value = values.first || ''
         query.where "LOWER(#{field}) NOT LIKE '%#{quote_string(value.to_s.downcase)}%'"
         query
       end
@@ -93,8 +94,9 @@ class CostQuery::Operator
       end
     end
 
-    new "~" do
-      def modify(query, field, value)
+    new "~", :arity => 1 do
+      def modify(query, field, *values)
+        value = values.first || ''
         query.where "LOWER(#{field}) LIKE '%#{quote_string(value.to_s.downcase)}%'"
         query
       end
