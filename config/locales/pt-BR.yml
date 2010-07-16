@@ -930,5 +930,5 @@ pt-BR:
   notice_failed_to_save_members: "Falha ao gravar membro(s): {{errors}}."
   text_zoom_out: Afastar zoom
   text_zoom_in: Aproximar zoom
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
+  label_overall_spent_time: Tempo gasto geral
