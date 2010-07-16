@@ -116,7 +116,7 @@ class CostQuery::Operator
 
     new ">="
 
-    new "!*", :where_clause => "%s IS NULL"
+    new "!*", :arity => 0, :where_clause => "%s IS NULL"
 
     new "<t-" do
       include DateRange
@@ -132,7 +132,7 @@ class CostQuery::Operator
       end
     end
 
-    new "*", :where_clause => "%s IS NOT NULL"
+    new "*", :arity => 0, :where_clause => "%s IS NOT NULL"
 
     # Our own operators
     new "<", :label => :label_less
