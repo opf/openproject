@@ -10,7 +10,7 @@ module Redmine
     # * official release: nil
     # * stable branch:    stable
     # * trunk:            devel
-    BRANCH = 'devel'
+    BRANCH = 'stable'
 
     def self.revision
       revision = nil
