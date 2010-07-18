@@ -203,6 +203,7 @@ sv:
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
+  notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: % klart uppdaterade.
   
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: {{value}}"
@@ -689,6 +690,7 @@ sv:
   label_changes_details: Detaljer om alla ändringar
   label_issue_tracking: Ärendeuppföljning
   label_spent_time: Spenderad tid
+  label_overall_spent_time: Total tid spenderad
   label_f_hour: "{{value}} timme"
   label_f_hour_plural: "{{value}} timmar"
   label_time_tracking: Tidsuppföljning
@@ -951,5 +953,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time

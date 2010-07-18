@@ -243,6 +243,7 @@
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
+  notice_unable_delete_time_entry: 無法刪除工時記錄項目。
   notice_issue_done_ratios_updated: 項目完成百分比已更新。
 
   error_can_t_load_default_data: "無法載入預設組態： {{value}}"
@@ -729,6 +730,7 @@
   label_changes_details: 所有變更的明細
   label_issue_tracking: 項目追蹤
   label_spent_time: 耗用工時
+  label_overall_spent_time: 整體耗用工時
   label_f_hour: "{{value}} 小時"
   label_f_hour_plural: "{{value}} 小時"
   label_time_tracking: 工時追蹤
@@ -991,5 +993,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time

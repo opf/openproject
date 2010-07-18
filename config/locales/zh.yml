@@ -428,7 +428,7 @@ zh:
     one:   1 个项目
     other: "{{count}} 个项目"
   label_project_all: 所有的项目
-  label_project_latest: 最近更新的项目
+  label_project_latest: 最近的项目
   label_issue: 问题
   label_issue_new: 新建问题
   label_issue_plural: 问题
@@ -592,10 +592,10 @@ zh:
   label_all_time: 全部时间
   label_yesterday: 昨天
   label_this_week: 本周
-  label_last_week: 下周
+  label_last_week: 上周
   label_last_n_days: "最后 {{count}} 天"
   label_this_month: 本月
-  label_last_month: 下月
+  label_last_month: 上月
   label_this_year: 今年
   label_date_range: 日期范围
   label_less_than_ago: 之前天数少于
