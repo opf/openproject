@@ -20,7 +20,7 @@
 </div>
 
 <div style="float:right;">
-    <%= link_to l(:label_ldap_authentication), :controller => 'ldap_auth_sources', :action => 'index' %>
+    <%= link_to l(:label_ldap_authentication), {:controller => 'ldap_auth_sources', :action => 'index'}, :class => 'icon icon-server-authentication' %>
 </div>
 
 <%= submit_tag l(:button_save) %>
