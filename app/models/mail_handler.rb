@@ -197,7 +197,7 @@ class MailHandler < ActionMailer::Base
   # Reply will be added to the issue
   def receive_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
-    if journal && journal.versioned_type == 'Issue'
+    if journal && journal.versioned.is_a? Issue
       receive_issue_reply(journal.versioned_id)
     end
   end

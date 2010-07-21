@@ -9,7 +9,9 @@
     <% if journal.details.any? %>
     <ul class="details">
       <% for detail in journal.details %>
-       <li><%= journal.show_detail(detail) %></li>
+        <% if d = journal.show_detail(detail) %>
+          <li><%= d %></li>
+        <% end %>
       <% end %>
     </ul>
     <% end %>

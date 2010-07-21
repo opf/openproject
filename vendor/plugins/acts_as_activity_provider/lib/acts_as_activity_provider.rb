@@ -73,7 +73,7 @@ module Redmine
             end
             
             with_scope(:find => scope_options) do
-              Journal.find(:all, provider_options[:find_options].dup)
+              journal_class.find(:all, provider_options[:find_options].dup)
             end
           end
         end

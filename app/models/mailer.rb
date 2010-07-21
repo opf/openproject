@@ -67,7 +67,7 @@ class Mailer < ActionMailer::Base
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
+    s << "(#{issue.status.name}) " if journal.details['status_id']
     s << issue.subject
     subject s
     body :issue => issue,
