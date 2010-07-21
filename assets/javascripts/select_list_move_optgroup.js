@@ -14,11 +14,11 @@ function addOption(theSel, newOpt, theCategory)
   Element.extend(theSel);
   if (theCategory && (theSel.childElements().length > 0) && theSel.down(0).tagName == "OPTGROUP") { // add the opt to the given category
     opt_groups = theSel.childElements();
-    for (i in opt_groups)
-    if (opt_groups[i].getAttribute("data-category") == theCategory) {
-      opt_groups[i].appendChild(newOpt);
-      break;
-    }
+    for (var i=0; i<opt_groups.length; i++)
+      if (opt_groups[i].getAttribute("data-category") == theCategory) {
+        opt_groups[i].appendChild(newOpt);
+        break;
+      }
   }
   else { // no category given, just add the opt to the end of the select list
     theSel.appendChild(newOpt);
