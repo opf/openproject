@@ -50,23 +50,14 @@ class WikiContent < ActiveRecord::Base
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
     attr_protected :data
 
-    acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
-                  :description => :comments,
-                  :datetime => :updated_on,
-                  :type => 'wiki-page',
-                  :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
-
-    acts_as_activity_provider :type => 'wiki_edits',
-                              :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
-                              :author_key => "#{WikiContent.versioned_table_name}.author_id",
-                              :permission => :view_wiki_edits,
-                              :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
-                                                           "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
-                                                           "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
-                                                           "#{WikiContent.versioned_table_name}.id",
-                                                :joins => "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
-                                                          "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
-                                                          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"}
+    acts_as_journalized :event_type => 'wiki-page',
+        :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
+        :event_url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}},
+        :activity_type => 'wiki_edits',
+        :activity_timestamp => "#{WikiContent.versioned_table_name}.updated_on",
+        :activity_author_key => "#{WikiContent.versioned_table_name}.author_id",
+        :activity_permission => :view_wiki_edits,
+        :activity_find_options => { :include => [:page => [:wiki => :project]] }
 
     def text=(plain)
       case Setting.wiki_compression
