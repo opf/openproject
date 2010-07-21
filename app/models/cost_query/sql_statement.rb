@@ -53,7 +53,8 @@ class CostQuery::SqlStatement
       query.select COMMON_FIELDS
       query.select({
         :type => "'#{model.model_name}'", :count => 1, :id => [model, :id],
-        :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs])
+        :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
+        :week => iso_year_week(:spent_on, model)
       })
       send("unify_#{table}", query)
     end

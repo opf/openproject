@@ -75,6 +75,7 @@ module CostQuery::QueryUtils
   # @return [String] Field name.
   def field_name_for(arg, default_table = nil)
     return 'NULL' unless arg
+    return arg if arg.is_a? String and arg =~ /\.| |\(.*\)/
     return table_name_for(arg.first || default_table) + '.' << arg.last.to_s if arg.is_a? Array and arg.size == 2
     return arg.to_s unless default_table
     field_name_for [default_table, arg]
@@ -115,7 +116,7 @@ module CostQuery::QueryUtils
   end
 
   def iso_year_week(field, default_table = nil)
-    field = field_name_for(field_name_for, default_table)
+    field = field_name_for(field, default_table)
     case adapter_name
     when :mysql
       "yearweek(#{field}, 1)"
@@ -164,9 +165,10 @@ module CostQuery::QueryUtils
 
   def map_field(key, value)
     case key.to_s
-    when "user_id" then value ? user_name(value.to_i) : ''
+    when "user_id"                          then value ? user_name(value.to_i) : ''
     when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
-    when /_(on|at)$/ then value ? Time.parse(value) : Time.at(0)
+    when "week"                             then value.to_i.divmod(100)
+    when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
     else fail "add mapping for  #{key}"
     end
   end

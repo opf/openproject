@@ -22,8 +22,9 @@ module CostQuery::Filter
       CostQuery::Filter::TrackerId,
       CostQuery::Filter::Tweek,
       CostQuery::Filter::UpdatedOn,
-      CostQuery::Filter::UserId
-      ]
+      CostQuery::Filter::UserId,
+      #CostQuery::Filter::Week,
+    ]
   end
 
   def self.all_grouped

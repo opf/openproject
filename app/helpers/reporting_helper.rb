@@ -62,6 +62,7 @@ module ReportingHelper
         when :issue_id                  then link_to_issue Issue.find(value.to_i)
         when :spent_on                  then format_date(value.to_date)
         when :tracker_id                then Tracker.find(value.to_i)
+        when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
         else value.inspect
         end
       end

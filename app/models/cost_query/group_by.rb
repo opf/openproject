@@ -11,10 +11,11 @@ module CostQuery::GroupBy
       CostQuery::GroupBy::SpentOn,
       CostQuery::GroupBy::Tmonth,
       CostQuery::GroupBy::TrackerId,
-      CostQuery::GroupBy::Tweek,
+      #CostQuery::GroupBy::Tweek,
       CostQuery::GroupBy::Tyear,
-      CostQuery::GroupBy::UserId
-      ]
+      CostQuery::GroupBy::UserId,
+      CostQuery::GroupBy::Week
+    ]
   end
 
   def self.all_grouped
