@@ -114,6 +114,54 @@ module CostQuery::QueryUtils
     "CASE #{options.map { |k,v| "WHEN #{field_name_for k} THEN #{field_name_for v}" }} ELSE #{field_name_for else_part} END"
   end
 
+  def iso_year_week(field, default_table = nil)
+    field = field_name_for(field_name_for, default_table)
+    case adapter_name
+    when :mysql
+      "yearweek(#{field}, 1)"
+    when :postgresql
+      "EXTRACT(isoyear from #{field})*100 + EXTRACT(week from #{field} - (EXTRACT(dow FROM #{field})::int+6)%7)"
+    when :sqlite
+      # enjoy
+      <<-EOS
+        case
+        when strftime('%W', strftime('%Y-01-04', #{field})) = '00' then
+          -- 01/01 is in week 1 of the current year => %W == week - 1
+          case
+          when strftime('%W', #{field}) = '52' and strftime('%W', (strftime('%Y', #{field}) + 1) || '-01-04') = '00' then
+            -- we are at the end of the year, and it's the first week of the next year
+            (strftime('%Y', #{field}) + 1) || '01'
+          when strftime('%W', #{field}) < '08' then
+            -- we are in week 1 to 9
+            strftime('%Y0', #{field}) || (strftime('%W', #{field}) + 1)
+          else
+            -- we are in week 10 or later
+            strftime('%Y', #{field}) || (strftime('%W', #{field}) + 1)
+          end
+        else
+            -- 01/01 is in week 53 of the last year
+            case
+            when strftime('%W', #{field}) = '52' and strftime('%W', (strftime('%Y', #{field}) + 1) || '-01-01') = '00' then
+              -- we are at the end of the year, and it's the first week of the next year
+              (strftime('%Y', #{field}) + 1) || '01'
+            when strftime('%W', #{field}) = '00' then
+              -- we are in the week belonging to last year
+              (strftime('%Y', #{field}) - 1) || '53'
+            else
+              -- everything is fine
+              strftime('%Y%W', #{field})
+            end
+        end
+      EOS
+    else
+      fail "#{adapter_name} not supported"
+    end
+  end
+
+  def adapter_name
+    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+  end
+
   def map_field(key, value)
     case key.to_s
     when "user_id" then value ? user_name(value.to_i) : ''

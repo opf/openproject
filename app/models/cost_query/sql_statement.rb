@@ -206,11 +206,11 @@ class CostQuery::SqlStatement
   # @overload select(*fields)
   #   Adds fields to select query.
   #   @example
-  #     SqlStatement.new.select(some_sql_statement) # => [some_sql_statement.to_s]
-  #     SqlStatement.new.select("sum(foo)")         # => ["foo"]
-  #     SqlStatement.new.select(:a).select(:b)      # => ["a", "b"]
-  #     SqlStatement.new.select(:bar => :foo)       # => ["foo as bar"]
-  #     SqlStatement.new.select(:bar => nil)        # => ["NULL as bar"]
+  #     SqlStatement.new.select(some_sql_statement) # [some_sql_statement.to_s]
+  #     SqlStatement.new.select("sum(foo)")         # ["sum(foo)"]
+  #     SqlStatement.new.select(:a).select(:b)      # ["a", "b"]
+  #     SqlStatement.new.select(:bar => :foo)       # ["foo as bar"]
+  #     SqlStatement.new.select(:bar => nil)        # ["NULL as bar"]
   #   @param [Array, Hash, String, Symbol, SqlStatement] fields Fields to add to select part
   #   @return [Array<String>] All fields/statements for select part
   def select(*fields)
