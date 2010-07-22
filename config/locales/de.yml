@@ -3,3 +3,5 @@ de:
   label_entry: "Kosteneintrag"
   label_less: "<"
   label_greater: ">"
+  label_cost_entry_attributes: "Attribute am Kosteneintrag"
+  label_issue_attributes: "Attribute am Ticket"

@@ -1,6 +1,6 @@
 class CostQuery::Filter::PriorityId < CostQuery::Filter::Base
   join_table Issue
-  applies_for :label_issue
+  applies_for :label_issue_attributes
   label :field_priority
 
   def self.available_values

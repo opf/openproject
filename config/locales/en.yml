@@ -1,5 +1,6 @@
 ---
 en:
-  label_entry: "Cost Entry"
   label_less: "<"
   label_greater: ">"
+  label_cost_entry_attributes: "Cost Entry Attributes"
+  label_issue_attributes: "Issue Attributes"

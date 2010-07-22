@@ -7,7 +7,7 @@ class CostQuery < ActiveRecord::Base
     extend CostQuery::InheritedAttribute
 
     inherited_attribute   :applies_for,
-                          :default => :label_entry #this attr. should point to a symbol useable for translations
+                          :default => :label_cost_entry_attributes #this attr. should point to a symbol useable for translations
 
     def self.accepts_property(*list)
       CostQuery.accepted_properties.push(*list.map(&:to_s))
