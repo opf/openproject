@@ -1,0 +1,23 @@
+<% list = [:project_id, :issue_id, :spent_on, :user_id, :activity_id] %>
+
+<table class="list">
+  <thead>
+    <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
+    <th><%= l(:field_costs) %></th>
+  </thead>
+  <tbody>
+    <% @query.each_direct_result do |result| %>
+      <tr class='<%= cycle("odd", "even") %>'>
+        <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
+        <td class="currency"><%= number_to_currency result.real_costs %></td>
+      </tr>
+      <% if params[:debug] %>
+        <tr>
+          <td colspan='<%= list.size + 1 %>'>
+            <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
