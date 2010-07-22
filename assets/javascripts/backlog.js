@@ -185,10 +185,6 @@ RB.Backlog = RB.Object.create(RB.Model, {
   isSprint: function(){
     return $(this.el).hasClass('sprint');
   },
-  
-  markSaving: function(){
-    this.$.addClass('saving');
-  },
 
   loadStoryTemplate: function(){
     $.ajax({
@@ -198,6 +194,10 @@ RB.Backlog = RB.Object.create(RB.Model, {
         url: RB.urlFor['new_story'],
         complete: function(xhr, textStatus){ $(xhr.responseText).removeClass("story").appendTo("#content").wrap("<div id='story_template'/>") } // removeClass() ensures that $(".story") will not include this node
     });
+  },
+
+  markSaving: function(){
+    this.$.addClass('saving');
   },
     
   newStory: function(){
