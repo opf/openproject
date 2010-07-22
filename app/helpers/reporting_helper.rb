@@ -41,6 +41,10 @@ module ReportingHelper
     klass.find(id).name
   end
 
+  def debug_fields(result, prefix = ", ")
+    prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
+  end
+
   ##
   # For a given row, determine how to render it's contents according to usability and
   # localization rules

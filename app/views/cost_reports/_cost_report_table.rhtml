@@ -4,10 +4,6 @@
 
 <%
 
-def debug_fields(result, prefix = ", ")
-  prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
-end
-
 walker.for_final_row do |row, cells|
   html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
   html << cells.join

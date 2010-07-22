@@ -7,7 +7,13 @@ class CostReportsController < ApplicationController
 
   def index
     CostQuery::QueryUtils.cache.clear
-    @table_partial = "cost_report_table"
+    if @query.group_bys.empty?
+      @table_partial = "cost_entry_table"
+    elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
+      @table_partial = "simple_cost_report_table"
+    else
+      @table_partial = "cost_report_table"
+    end
     render :layout => !request.xhr?
   end
 
@@ -24,7 +30,7 @@ class CostReportsController < ApplicationController
     filters ||= session[:cost_query].try(:[], :filters)
     filters ||= default_filter_parameters
   end
-  
+
   def group_params
     groups = http_group_parameters if set_filter?
     groups ||= session[:cost_query].try(:[], :groups)
@@ -40,7 +46,7 @@ class CostReportsController < ApplicationController
       hash
     end
   end
-  
+
   def http_group_parameters
     if params[:groups]
       rows = params[:groups][:rows]
@@ -53,7 +59,7 @@ class CostReportsController < ApplicationController
   # Set a default query to cut down initial load time
   def default_filter_parameters
     {:operators => {:user_id => "=", :created_on => ">d"},
-      :values => {:user_id => [User.current.id], :created_on => [30.days.ago.strftime('%Y-%m-%d')]}
+    :values => {:user_id => [User.current.id], :created_on => [30.days.ago.strftime('%Y-%m-%d')]}
     }.tap do |hash|
       if @project
         hash[:operators].merge! :project_id => "="
