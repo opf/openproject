@@ -2,7 +2,21 @@ class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
   db_field "entries.project_id"
   label :field_project
 
+  ##
+  # Calculates the available values for this filter.
+  # Gives a map of [project_name, project_id, nesting_level_of_project].
+  # The map is sorted such that projects appear in alphabetical order within a nesting level
+  # and so that descendant projects appear after their ancestors.
   def self.available_values
-    Project.all.map { |p| [p.name, p.id] }
+    map = []
+    ancestors = []
+    Project.all.sort_by(&:lft).each do |project|
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+      map << [project.name, project.id, ancestors.size]
+      ancestors << project
+    end
+    map
   end
 end
