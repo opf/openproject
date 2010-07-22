@@ -46,4 +46,4 @@
 </div>
 <% end %>
 
-<%= render :partial => "cost_report_table", :locals => {:query => @query, :walker => @query.walker} %>
+<%= render :partial => @table_partial, :locals => {:query => @query, :walker => @query.walker} %>

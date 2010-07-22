@@ -7,6 +7,7 @@ class CostReportsController < ApplicationController
 
   def index
     CostQuery::QueryUtils.cache.clear
+    @table_partial = "cost_report_table"
     render :layout => !request.xhr?
   end
 
