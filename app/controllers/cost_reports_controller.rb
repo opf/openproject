@@ -65,7 +65,7 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    {:columns => [:tweek], :rows => []}.tap do |h|
+    {:columns => [:week], :rows => []}.tap do |h|
       h[:rows] << :project_id unless @project
     end
   end
