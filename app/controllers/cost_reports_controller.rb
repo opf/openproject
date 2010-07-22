@@ -1,6 +1,6 @@
 class CostReportsController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
-  before_filter :query, :only => [:index]
+  before_filter :generate_query, :only => [:index]
 
   helper :reporting
   include ReportingHelper
@@ -77,12 +77,12 @@ class CostReportsController < ApplicationController
   ##
   # Build the query from the current request and save it to
   # the session.
-  def query
+  def generate_query
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
 
     session[:cost_query] = {:filters => filters, :groups => groups}
-    
+
     @query = CostQuery.new
     @query.tap do |q|
       filters[:operators].each do |filter, operator|
