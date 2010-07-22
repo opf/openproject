@@ -1,5 +1,5 @@
 module CostQuery::GroupBy
   class SpentOn < Base
-    label :field_spent_on
+    label :label_spent_on_reporting
   end
 end

@@ -4,3 +4,7 @@ en:
   label_greater: ">"
   label_cost_entry_attributes: "Cost Entry Attributes"
   label_issue_attributes: "Issue Attributes"
+  label_spent_on_reporting: "Booking Date"
+  label_week_reporting: "Booking Week"
+  label_month_reporting: "Booking Month"
+  label_year_reporting: "Booking Year"
