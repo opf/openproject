@@ -1,21 +1,4 @@
-<% reply_links = authorize_for('issues', 'edit') -%>
 <% for journal in journals %>
-  <div id="change-<%= journal.id %>" class="journal">
-    <h4><div style="float:right;"><%= link_to "##{journal.version}", :anchor => "note-#{journal.version}" %></div>
-    <%= avatar(journal.user, :size => "24") %>
-    <%= content_tag('a', '', :name => "note-#{journal.version}")%>
-		<%= authoring journal.created_at, journal.user, :label => :label_updated_time_by %></h4>
-
-    <% if journal.details.any? %>
-    <ul class="details">
-      <% for detail in journal.details %>
-        <% if d = journal.show_detail(detail) %>
-          <li><%= d %></li>
-        <% end %>
-      <% end %>
-    </ul>
-    <% end %>
-    <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
-  </div>
+  <%= render_journal(issue, journal) %>
   <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
 <% end %>
