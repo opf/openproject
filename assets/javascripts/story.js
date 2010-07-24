@@ -135,6 +135,12 @@ RB.Story = RB.Object.create(RB.Model, {
   markSaving: function(){
     this.$.addClass('saving');
   },
+  
+  refresh: function(){
+    this.checkSubjectLength();
+    var sprint = this.$.parents('.sprint.backlog');
+    if(sprint.size()>0) sprint.data('this').recalcPoints();
+  },
 
   // To be overriden by children objects such as RB.Task
   saveDirectives: function(){
