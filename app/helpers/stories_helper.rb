@@ -52,4 +52,10 @@ module StoriesHelper
   def tracker_name_or_empty(story)
     story.new_record? ? "" : story.tracker.name
   end
+  
+  def updated_on_with_milliseconds(story)
+    story.updated_on.strftime("%B %d, %Y %H:%M:%S") + '.' + (story.updated_on.to_f % 1).to_s.split('.')[1]
+  end
+  
+  
 end

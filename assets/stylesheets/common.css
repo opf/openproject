@@ -51,3 +51,6 @@ a:hover{
 .editable:hover{
   background-color:#CCCCCC;
 }
+.meta{
+  display:none;
+}

@@ -1,6 +1,7 @@
 <li class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
   <input type="checkbox" class="checkbox"/>
   <div class="indicator"> </div>
+  <div class="meta updated_on"><%= story.updated_on %></div>
   <div class="id"><%= issue_link_or_empty(story) %></div>
   <div class="tracker_id editable" fieldtype="select" fieldname="tracker_id">
     <div class="t"><%= tracker_name_or_empty(story) %></div>
@@ -16,4 +17,10 @@
     <div class="textile"><%= textile_description_or_empty(story) %></div>
     <div class="html"><%= description_or_empty(story) %></div>
   </div-->
+  <%- if @include_meta -%>
+  <div class="meta">
+    <div class="sprint"><%= story.fixed_version_id %></div>
+    <div class="previous"><%= story.higher_item.nil? ? '' : story.higher_item.id %></div>
+  </div>
+  <%- end %>
 </li>

@@ -7,8 +7,8 @@ class Story < Issue
         {
             :order => 'position ASC',
             :conditions => [
-                "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL and status_id in (?)",
-                project.id, Story.trackers, IssueStatus.find(:all, :conditions => ["is_closed = ?", false]).collect {|s| "#{s.id}" }
+                "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL", #and status_id in (?)",
+                project.id, Story.trackers #, IssueStatus.find(:all, :conditions => ["is_closed = ?", false]).collect {|s| "#{s.id}" }
                 ]
         }
     }
@@ -22,7 +22,7 @@ class Story < Issue
                 ]
         }
     }
-
+    
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
         return [] if trackers == '' or trackers.nil?

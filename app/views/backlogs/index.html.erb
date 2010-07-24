@@ -8,6 +8,10 @@
   <%= @project.name %>
 <%- end %>
 
+<%- content_for :page_specific_links do %>
+  <a id="refresh">Refresh</a>
+<%- end %>
+
 <!-- sprint backlogs -->
 <div id="sprints">
   <%= render :partial => "backlog", :collection => @sprints %>
@@ -15,6 +19,8 @@
 
 <!-- product backlog -->
 <%= render :partial => "backlog", :object => { :name => l(:backlogs_product_backlog), :stories => @product_backlog_stories }%>
+
+<div class="meta" id="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
 
 <!-- form field templates -->
 <select class="status_id template" id="status_id_options">

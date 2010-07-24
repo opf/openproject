@@ -1,0 +1,4 @@
+<div>
+  <div class="meta" id="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
+  <%= render :partial => "story", :collection => @stories, :locals => { :include_meta => @include_meta } %>
+</div>

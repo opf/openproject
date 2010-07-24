@@ -17,6 +17,9 @@ class BacklogsController < ApplicationController
     @product_backlog_stories = Story.product_backlog(@project)
     @sprints = Sprint.open_sprints(@project)
     @velocity = @project.scrum_statistics
+    @last_updated = Story.find(:first, 
+                          :conditions => ["project_id=? AND tracker_id in (?)", @project, Story.trackers],
+                          :order => "updated_on DESC")
     
     if @settings[:story_trackers].nil? || @settings[:task_tracker].nil?
       render :action => "noconfig", :layout => "backlogs"

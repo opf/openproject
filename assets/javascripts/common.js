@@ -50,7 +50,7 @@ RB.dialog = RB.Object.create({
 // Modify the ajax request before being sent to the server
 $(document).ajaxSend(function(event, request, settings) {
   var c = RB.constants;
-  
+
   settings.data = settings.data || "";
   settings.data += (settings.data ? "&" : "") + "project_id=" + c.project_id;
 

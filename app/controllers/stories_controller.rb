@@ -5,7 +5,15 @@ class StoriesController < ApplicationController
   before_filter :authorize
 
   def index
-    render :text => "We don't do no indexin' round this part o' town."
+    @include_meta = true
+    @stories = Story.find(:all, 
+                          :conditions => ["project_id=? AND tracker_id in (?) AND updated_on > ?", @project, Story.trackers, params[:after]],
+                          :order => "updated_on ASC")
+    @last_updated = Story.find(:first, 
+                          :conditions => ["project_id=? AND tracker_id in (?)", @project, Story.trackers],
+                          :order => "updated_on DESC")
+
+    render :action => "index", :layout => false
   end
 
   def new
@@ -35,6 +43,13 @@ class StoriesController < ApplicationController
     attribs = Hash[*attribs.flatten]
     result = story.journalized_update_attributes! attribs
     if result
+
+      if params[:prev]==''
+        story.insert_at 1
+      else
+        story.insert_at Story.find(params[:prev]).position + 1
+      end
+
       text = "Story updated successfully."
       status = 200
     else

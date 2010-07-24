@@ -25,7 +25,8 @@ RB.urlFor = {
   story_points: '<%= url_for(:action => 'story_points') %>',
   update_backlog: '<%= url_for(:controller => 'backlogs', :action => 'update') %>',
   update_story: '<%= url_for(:controller => 'stories', :action => 'update') %>',
-  update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>'
+  update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>',
+  list_stories: '<%= url_for(:controller => 'stories', :action => 'index') %>'
 }
 
 if(typeof console != "undefined" && console != null) console.log('*** jsvariables loaded ***');

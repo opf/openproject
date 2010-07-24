@@ -139,14 +139,23 @@ RB.Story = RB.Object.create(RB.Model, {
   // To be overriden by children objects such as RB.Task
   saveDirectives: function(){
     var j = this.$;
+    var prev = this.$.prev();
+    var sprint = this.$.parents('.backlog').hasClass('product') ? '' : this.$.parents('.backlog').data('this').getID();
+        
     var data = j.find('.editor').serialize() +
-               (this.isNew() ? "" : "&id=" + j.children('.id').text());
+               (this.isNew() ? "" : "&id=" + j.children('.id').text()) +
+               "&prev=" + (prev.length==1 ? this.$.prev().data('this').getID() : '') +
+               "&fixed_version_id=" + sprint;
     var url = RB.urlFor[(this.isNew() ? 'create_story' : 'update_story')];
 
     return {
       url: url,
       data: data
     }
+  },
+
+  saveDragResult: function(){
+    this.saveEdits();
   },
   
   saveEdits: function(){

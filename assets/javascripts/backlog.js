@@ -42,26 +42,11 @@ RB.Backlog = RB.Object.create(RB.Model, {
   },
   
   dragComplete: function(event, ui) {
-    me = $(this).parent('.backlog').data('this'); // Because 'this' represents the sortable ul element
-    
-    if(me.isSprint()) me.recalcPoints();
+    var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
 
-    stories = $(event.target).sortable('serialize');    
-    dropped = '&dropped=' + ui.item.data('this').getID();
-    
-    if(ui.sender){
-      moveto = '&moveto=' + $(event.target).parent('.backlog').data('this').getID();
-    } else {
-      moveto = '';
+    if(isDropTarget){
+      ui.item.data('this').saveDragResult();
     }
-
-    $.ajax({
-        type: "POST",
-        url: RB.urlFor['reorder'],
-        data: stories + moveto + dropped,
-        beforeSend: function(xhr){ ui.item.data('this').markSaving() },
-        complete: function(xhr, textStatus){ ui.item.data('this').unmarkSaving() }
-    });
   },
   
   dragStart: function(event, ui){ 
@@ -221,7 +206,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
     });
     this.$.children('.header').children('.points').text(total);
   },
-  
+    
   saveEdits: function(){
     var j = this.$.find('.header').first();
     var me = this.$.data('this');
