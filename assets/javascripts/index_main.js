@@ -6,12 +6,25 @@ $(function() {
   });
   
   $('#refresh').bind('click', RB.indexMain.handleRefreshClick);
+  $('#disable_autorefresh').bind('click', RB.indexMain.handleDisableAutorefreshClick);
+
   RB.pollWait = 1000;
   RB.indexMain.pollForUpdates()
 });
 
 RB.indexMain = RB.Object.create({
   
+  handleDisableAutorefreshClick: function(event, ui){
+    $('body').toggleClass('no_autorefresh');
+    if($('body').hasClass('no_autorefresh')){
+      $('#disable_autorefresh').text('Enable Auto-refresh');
+    } else {
+      RB.pollWait = 1000;
+      RB.indexMain.pollForUpdates();
+      $('#disable_autorefresh').text('Disable Auto-refresh');
+    }
+  },
+
   handleRefreshClick: function(event, ui){
     RB.pollWait = 1000;
     RB.indexMain.loadData();
@@ -30,6 +43,8 @@ RB.indexMain = RB.Object.create({
   },
   
   pollForUpdates: function() {
+    if($('body').hasClass('no_autorefresh')) return false;
+
     setTimeout(
       function() {
         RB.indexMain.loadData();
@@ -37,7 +52,7 @@ RB.indexMain = RB.Object.create({
       RB.pollWait
     );
   },
-  
+
   refresh: function(xhr, statusText){
     $('body').removeClass('loading');
     var stories = $(xhr.responseText).children('.story');
@@ -60,7 +75,7 @@ RB.indexMain = RB.Object.create({
       old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
     
-    if(stories.length==0 && RB.pollWait < 60000){
+    if(stories.length==0 && RB.pollWait < 60000 && !$('body').hasClass('no_autorefresh')){
       RB.pollWait += 250;
     } else {
       RB.pollWait = 1000;

@@ -44,6 +44,8 @@ body.loading #refresh {
   background-image:url('../images/bouncer.gif');
   background-repeat:no-repeat;
   background-position:-6px 0px;
+}
+#refresh {
   width:100px;
   padding-left:5px;
 }
