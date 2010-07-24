@@ -15,7 +15,7 @@ RB.Story = RB.Object.create(RB.Model, {
     j.data('this', this);
 
     // Observe click events in certain fields
-    j.find('.editable').bind('mouseup', this.triggerEdit);
+    j.find('.editable').live('mouseup', this.triggerEdit);
 
     // Observe click event on any part of a story
     j.bind('mouseup', this.handleSelect);
