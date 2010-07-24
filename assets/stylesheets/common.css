@@ -32,6 +32,7 @@ a:hover{
 }
 #header .links {
   bottom:7px;
+  cursor:pointer;
   font-size:11px;
   position:absolute;
   right:10px;
@@ -39,7 +40,13 @@ a:hover{
 #header .links a {
   margin:0 0 0 10px;
 }
-
+body.loading #refresh {
+  background-image:url('../images/bouncer.gif');
+  background-repeat:no-repeat;
+  background-position:-6px 0px;
+  width:100px;
+  padding-left:5px;
+}
 /* CONTENT */
 #content {
   clear:both;
