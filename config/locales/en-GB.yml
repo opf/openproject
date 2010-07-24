@@ -221,7 +221,7 @@ en-GB:
   field_tracker: Tracker
   field_subject: Subject
   field_due_date: Due date
-  field_assigned_to: Assigned to
+  field_assigned_to: Assignee
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
