@@ -52,7 +52,8 @@ RB.indexMain = RB.Object.create({
       if(previous.length > 0){
         old.$.insertAfter($("#story_" + previous));
       } else {
-        old.$.insertBefore(old.$.siblings().first());
+        var backlog = updated.$.find(".sprint").text().length==0 ? $('#product_backlog') : $('#sprint_' + updated.$.find(".sprint").text());
+        backlog.find('.stories').first().prepend(old.$);
       }
       old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
