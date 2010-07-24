@@ -103,6 +103,7 @@ RB.Story = RB.Object.create(RB.Model, {
     var me = j.data('this');
     if(!$(event.target).hasClass('editable') && 
        !$(event.target).hasClass('checkbox') &&
+       !j.hasClass('editing') &&
        !j.hasClass('dragging')){
       me.setSelection(!me.isSelected());
     }
