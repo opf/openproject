@@ -916,14 +916,14 @@ fr:
   enumeration_system_activity: Activité système
   label_board_sticky: Sticky
   label_board_locked: Verrouillé
-  error_unable_delete_issue_status: Unable to delete issue status
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  error_unable_delete_issue_status: Impossible de supprimer le statut de demande
+  error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
+  error_unable_to_connect: Connexion impossible ({{value}})
+  error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
+  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
   field_principal: Principal
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  notice_failed_to_save_members: "Erreur lors de la sauvegarde des membres: {{errors}}."
+  text_zoom_out: Zoom arrière
+  text_zoom_in: Zoom avant
+  notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
+  label_overall_spent_time: Temps passé global
