@@ -78,6 +78,7 @@ RB.indexMain = RB.Object.create({
       }
       old.refresh();
       if(editing) old.edit();
+      if(old.$.data('focus').length>0) old.$.find("*[name=" + old.$.data('focus') + "]").focus();
       old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
     
