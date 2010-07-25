@@ -70,7 +70,11 @@ RB.indexMain = RB.Object.create({
         var backlog = updated.$.find(".sprint").text().length==0 ? $('#product_backlog') : $('#sprint_' + updated.$.find(".sprint").text());
         backlog.find('.stories').first().prepend(old.$);
       }
-      if(updated.$.hasClass('closed')) old.$.addClass('closed');
+      if(updated.$.hasClass('closed')){
+        old.$.addClass('closed');
+      } else {
+        old.$.removeClass('closed');
+      }
       old.refresh();
       old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
