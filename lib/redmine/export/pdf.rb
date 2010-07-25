@@ -415,13 +415,14 @@ module Redmine
           pdf.SetY(top)
           pdf.SetX(15)
           
+          text = ""
           if i.is_a? Issue
             text = "#{i.tracker} #{i.id}: #{i.subject}"
-            text = "#{i.project} - #{text}" unless project && project == i.project
-            pdf.Cell(subject_width-15, 5, text, "LR")
           else
-            pdf.Cell(subject_width-15, 5, "#{l(:label_version)}: #{i.name}", "LR")
+            text = i.name
           end
+          text = "#{i.project} - #{text}" unless project && project == i.project
+          pdf.Cell(subject_width-15, 5, text, "LR")
         
           pdf.SetY(top + 0.2)
           pdf.SetX(subject_width)
