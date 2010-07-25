@@ -35,6 +35,12 @@ class UserTest < ActiveSupport::TestCase
   def test_truth
     assert_kind_of User, @jsmith
   end
+  
+  def test_mail_should_be_stripped
+    u = User.new
+    u.mail = " foo@bar.com  "
+    assert_equal "foo@bar.com", u.mail
+  end
 
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
