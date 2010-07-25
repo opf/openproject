@@ -32,10 +32,12 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
   
   def test_destroy
-    count_before = IssueStatus.count
     status = IssueStatus.find(3)
-    assert status.destroy
-    assert_equal count_before - 1, IssueStatus.count
+    assert_difference 'IssueStatus.count', -1 do
+      assert status.destroy
+    end
+    assert_nil Workflow.first(:conditions => {:old_status_id => status.id})
+    assert_nil Workflow.first(:conditions => {:new_status_id => status.id})
   end
 
   def test_destroy_status_in_use
