@@ -8,7 +8,7 @@
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| -%>
-		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'edit', :id => @issue, :issue => {:status_id => s}, :back_url => @back}, :method => :post,
+		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'update', :id => @issue, :issue => {:status_id => s}, :back_url => @back}, :method => :put,
 		                              :selected => (s == @issue.status), :disabled => !(@can[:update] && @allowed_statuses.include?(s)) %></li>
 		<% end -%>
 		</ul>
