@@ -138,7 +138,7 @@ RB.Story = RB.Object.create(RB.Model, {
   },
   
   refresh: function(){
-    this.checkSubjectLength();
+    this.endEdit();
     var sprint = this.$.parents('.sprint.backlog');
     if(sprint.size()>0) sprint.data('this').recalcPoints();
   },

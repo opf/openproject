@@ -62,6 +62,7 @@ RB.indexMain = RB.Object.create({
       var updated = RB.Factory.initialize(RB.Story, v);
       var previous = updated.$.find(".previous").text();
       var old = $('#story_' + updated.getID()).data('this');
+      var editing = old.$.hasClass('editing');
       
       old.$.html(updated.$.html());
       if(previous.length > 0){
@@ -76,6 +77,7 @@ RB.indexMain = RB.Object.create({
         old.$.removeClass('closed');
       }
       old.refresh();
+      if(editing) old.edit();
       old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
     
