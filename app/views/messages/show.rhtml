@@ -30,7 +30,7 @@
     </div>
   <h4>
   	<%= avatar(message.author, :size => "24") %>
-    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
+    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
     -
     <%= authoring message.created_on, message.author %>
   </h4>
