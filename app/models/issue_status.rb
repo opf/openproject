@@ -17,8 +17,10 @@
 
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity  
-  has_many :workflows, :foreign_key => "old_status_id", :dependent => :delete_all
+  has_many :workflows, :foreign_key => "old_status_id"
   acts_as_list
+  
+  before_destroy :delete_workflows
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -88,5 +90,10 @@ class IssueStatus < ActiveRecord::Base
 private
   def check_integrity
     raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id])
+  end
+  
+  # Deletes associated workflows
+  def delete_workflows
+    Workflow.delete_all(["old_status_id = :id OR new_status_id = :id", {:id => id}])
   end
 end
