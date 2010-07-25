@@ -52,7 +52,7 @@ function addFileField() {
     d.type = "text";
     d.name = "attachments[" + fileFieldCount + "][description]";
     d.size = 60;
-    var dLabel = document.createElement("label");
+    var dLabel = new Element('label');
     dLabel.addClassName('inline');
     // Pulls the languge value used for Optional Description
     dLabel.update($('attachment_description_label_content').innerHTML)
