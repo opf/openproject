@@ -3,7 +3,6 @@
 		<li><%= link_to l(:label_project_plural), {:controller => 'admin', :action => 'projects'}, :class => 'projects' %></li>
 		<li><%= link_to l(:label_user_plural), {:controller => 'users'}, :class => 'users' %></li>
 		<li><%= link_to l(:label_group_plural), {:controller => 'groups'}, :class => 'groups' %></li>
-        <li><%= link_to l(:label_ldap_authentication), {:controller => 'ldap_auth_sources', :action => 'index'}, :class => 'server_authentication' %></li>
 		<li><%= link_to l(:label_role_and_permissions), {:controller => 'roles'}, :class => 'roles' %></li>
 		<li><%= link_to l(:label_tracker_plural), {:controller => 'trackers'}, :class => 'trackers' %></li>
 		<li><%= link_to l(:label_issue_status_plural), {:controller => 'issue_statuses'}, :class => 'issue_statuses' %></li>
@@ -11,6 +10,7 @@
 		<li><%= link_to l(:label_custom_field_plural), {:controller => 'custom_fields'}, :class => 'custom_fields' %></li>
 		<li><%= link_to l(:label_enumerations), {:controller => 'enumerations'}, :class => 'enumerations' %></li>
 		<li><%= link_to l(:label_settings), {:controller => 'settings'}, :class => 'settings' %></li>
+		<li><%= link_to l(:label_ldap_authentication), {:controller => 'ldap_auth_sources', :action => 'index'}, :class => 'server_authentication' %></li>
 		<% menu_items_for(:admin_menu) do |item| -%>
 			<li><%= link_to h(item.caption), item.url, item.html_options %></li>
 		<% end -%>
