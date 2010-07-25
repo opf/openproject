@@ -54,7 +54,7 @@ module StoriesHelper
   end
   
   def updated_on_with_milliseconds(story)
-    story.updated_on.strftime("%B %d, %Y %H:%M:%S") + '.' + (story.updated_on.to_f % 1).to_s.split('.')[1]
+    story.updated_on.strftime("%B %d, %Y %H:%M:%S") + '.' + (story.updated_on.to_f % 1 + 0.001).to_s.split('.')[1]
   end
   
   
