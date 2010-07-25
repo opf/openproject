@@ -34,7 +34,7 @@
 		<ul>
 		<% @priorities.each do |p| -%>
 		    <li><%= context_menu_link p.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'priority_id' => p}, :back_url => @back}, :method => :post,
-		                              :selected => (@issue && p == @issue.priority), :disabled => !@can[:edit] %></li>
+		                              :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || !@issue.leaf?) %></li>
 		<% end -%>
 		</ul>
 	</li>
@@ -83,7 +83,7 @@
 		<ul>
 		<% (0..10).map{|x|x*10}.each do |p| -%>
 		    <li><%= context_menu_link "#{p}%", {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), :issue => {'done_ratio' => p}, :back_url => @back}, :method => :post,
-		                                  :selected => (@issue && p == @issue.done_ratio), :disabled => !@can[:edit] %></li>
+		                                  :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || !@issue.leaf?) %></li>
 		<% end -%>
 		</ul>
 	</li>
