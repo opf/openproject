@@ -27,6 +27,9 @@ class VersionsController < ApplicationController
   helper :projects
   
   def show
+    @issues = @version.fixed_issues.visible.find(:all,
+      :include => [:status, :tracker, :priority],
+      :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
   end
   
   def new
