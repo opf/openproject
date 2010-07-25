@@ -91,12 +91,12 @@ module Redmine
       
       # Generates a gantt image
       # Only defined if RMagick is avalaible
-      def to_image(format='PNG')
+      def to_image(project, format='PNG')
         date_to = (@date_from >> @months)-1    
         show_weeks = @zoom > 1
         show_days = @zoom > 2
         
-        subject_width = 320
+        subject_width = 400
         header_heigth = 18
         # width of one day in pixels
         zoom = @zoom*2
@@ -115,7 +115,14 @@ module Redmine
         gc.stroke('transparent')
         gc.stroke_width(1)
         events.each do |i|
-          gc.text(4, top + 2, (i.is_a?(Issue) ? i.subject : i.name))
+          text = ""
+          if i.is_a? Issue
+            text = "#{i.tracker} #{i.id}: #{i.subject}"
+          else
+            text = i.name
+          end
+          text = "#{i.project} - #{text}" unless project && project == i.project
+          gc.text(4, top + 2, text)
           top = top + 20
         end
     
