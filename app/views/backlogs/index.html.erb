@@ -36,6 +36,11 @@
   <%- end %>
 </select>
 <!-- end of form field templates -->
+
+<div id="story_template">
+  <%= render :partial => 'stories/story', :object => Story.new %>
+</div>
+
 <div id="velocity">
   <% if @velocity %>
     velocity <%= @velocity[:velocity] %>,
