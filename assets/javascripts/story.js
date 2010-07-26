@@ -9,7 +9,10 @@ RB.Story = RB.Object.create(RB.Model, {
     this.$ = j = $(el);
     this.el = el;
     
-    j.addClass("story"); // If node is based on #story_template, it doesn't have the story class yet
+    // If node is based on #story_template, it doesn't have the story class yet
+    // The reason #story_template doesn't have the story class is because we don't
+    // want it accidentally included in $('.story') searches
+    j.addClass("story");
 
     // Associate this object with the element for later retrieval
     j.data('this', this);

@@ -61,25 +61,33 @@ RB.indexMain = RB.Object.create({
     stories.each(function(i, v){
       var updated = RB.Factory.initialize(RB.Story, v);
       var previous = updated.$.find(".previous").text();
-      var old = $('#story_' + updated.getID()).data('this');
-      var editing = old.$.hasClass('editing');
+
+      var story;
+      if($('#story_' + updated.getID()).length==0){
+        story = RB.Factory.initialize(RB.Story, updated.$.clone());
+      } else {
+        console.log('#story_' + updated.getID());
+        story = $('#story_' + updated.getID()).data('this');
+        story.$.html(updated.$.html());
+      }
+
+      var editing = story.$.hasClass('editing');
       
-      old.$.html(updated.$.html());
       if(previous.length > 0){
-        old.$.insertAfter($("#story_" + previous));
+        story.$.insertAfter($("#story_" + previous));
       } else {
         var backlog = updated.$.find(".sprint").text().length==0 ? $('#product_backlog') : $('#sprint_' + updated.$.find(".sprint").text());
-        backlog.find('.stories').first().prepend(old.$);
+        backlog.find('.stories').first().prepend(story.$);
       }
       if(updated.$.hasClass('closed')){
-        old.$.addClass('closed');
+        story.$.addClass('closed');
       } else {
-        old.$.removeClass('closed');
+        story.$.removeClass('closed');
       }
-      old.refresh();
-      if(editing) old.edit();
-      if(old.$.data('focus')!=null && old.$.data('focus').length>0) old.$.find("*[name=" + old.$.data('focus') + "]").focus();
-      old.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
+      story.refresh();
+      if(editing) story.edit();
+      if(story.$.data('focus')!=null && story.$.data('focus').length>0) story.$.find("*[name=" + story.$.data('focus') + "]").focus();
+      story.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
     });
     
     if(stories.length==0 && RB.pollWait < 60000 && !$('body').hasClass('no_autorefresh')){

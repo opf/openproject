@@ -173,10 +173,9 @@ RB.Backlog = RB.Object.create(RB.Model, {
 
   loadStoryTemplate: function(){
     $.ajax({
-        type: "POST",
+        type: "GET",
         async: false,
-        data: "s=s",  // I don't quite understand why the server balks without any data supplied
-        url: RB.urlFor['new_story'],
+        url: RB.urlFor['new_story'] + "?project_id=" + RB.constants.project_id,
         complete: function(xhr, textStatus){ $(xhr.responseText).removeClass("story").appendTo("#content").wrap("<div id='story_template'/>") } // removeClass() ensures that $(".story") will not include this node
     });
   },
@@ -190,7 +189,8 @@ RB.Backlog = RB.Object.create(RB.Model, {
       this.loadStoryTemplate();
     }
 
-    story = $('#story_template').children().first().clone();
+    var story = $('#story_template').children().first().clone();
+    
     this.getList().prepend(story);
     o = RB.Factory.initialize(RB.Story, story[0]); // 'this' refers to an element with class="story"
     o.edit();
