@@ -166,3 +166,22 @@
 .template{
   display:none;
 }
+#velocity{
+  display:none;
+  position:absolute;
+  left: 475px;
+  top:35px;
+}
+#velocity{
+  background-color:#999999;
+}
+#velocity td{
+  background-color:#FFFFFF;
+  padding:3px;
+  vertical-align:top;
+  width:200px;
+}
+#velocity td:nth-child(1){
+  background-color:#CCCCCC;
+  width:110px;
+}

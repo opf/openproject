@@ -7,6 +7,7 @@ $(function() {
   
   $('#refresh').bind('click', RB.indexMain.handleRefreshClick);
   $('#disable_autorefresh').bind('click', RB.indexMain.handleDisableAutorefreshClick);
+  $("#project_info").bind('click', function(){ $("#velocity").toggle() });
 
   RB.pollWait = 1000;
   RB.indexMain.pollForUpdates()

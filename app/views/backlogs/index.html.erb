@@ -9,6 +9,7 @@
 <%- end %>
 
 <%- content_for :page_specific_links do %>
+  <a id="project_info">Info<a>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
 <%- end %>
@@ -43,12 +44,14 @@
 
 <div id="velocity">
   <% if @velocity %>
-    velocity <%= @velocity[:velocity] %>,
-    based on <%= @velocity[:sprints].length %> sprints with an average <%=
-    @velocity[:average_days_per_sprint] %> days:<br/>
-    <% @velocity[:sprints].each do |sprint| %>
+  <table>
+    <tr><td>Velocity</td><td><%= @velocity[:velocity] %></td></tr>
+    <tr><td>Based on</td><td><%= @velocity[:sprints].length %> sprints</td></tr>
+    <tr><td>Sprint average</td><td><%= @velocity[:average_days_per_sprint] %> days</td></tr>
+    <tr><td>Sprints</td><td>
+    <% (@velocity[:sprints]).each do |sprint| %>
         <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => @project, :sprint_id => sprint.id }) %><br/>
-    <% end %>
+    <% end %></td></tr>
   <% else %>
     No velocity
   <% end %>
