@@ -54,7 +54,7 @@ module ReportingHelper
   def show_field(key, value)
     @show_row ||= Hash.new { |h,k| h[k] = {}}
     @show_row[key][value] ||= begin
-      return "" if value.blank?
+      return l(:label_none) if value.blank?
       case key.to_sym
       when :activity_id               then mapped value, Enumeration, :caption_material_costs
       when :project_id                then link_to_project Project.find(value.to_i)
