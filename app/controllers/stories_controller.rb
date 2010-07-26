@@ -26,8 +26,11 @@ class StoriesController < ApplicationController
     attribs['author_id'] = User.current.id
     story = Story.new(attribs)
     if story.save!
-      story.insert_at 1
-      text = story.id
+      if params[:prev]==''
+        story.insert_at 1
+      else
+        story.insert_at Story.find(params[:prev]).position + 1
+      end
       status = 200
       render :partial => "story", :object => story
     else

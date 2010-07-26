@@ -220,6 +220,7 @@ RB.Story = RB.Object.create(RB.Model, {
     } else {
       var response = $(xhr.responseText);
       me.$.find('.id').html(response.find('.id').html());
+      me.$.attr('id', response.attr('id'));
       me.unmarkError();
     }
   },
