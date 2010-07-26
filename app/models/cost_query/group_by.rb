@@ -6,6 +6,7 @@ module CostQuery::GroupBy
       CostQuery::GroupBy::ActivityId,
       CostQuery::GroupBy::CostObjectId,
       CostQuery::GroupBy::CostTypeId,
+      CostQuery::GroupBy::FixedVersionId,
       CostQuery::GroupBy::IssueId,
       CostQuery::GroupBy::PriorityId,
       CostQuery::GroupBy::ProjectId,

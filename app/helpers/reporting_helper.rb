@@ -70,6 +70,7 @@ module ReportingHelper
       when :tracker_id                then Tracker.find(value.to_i)
       when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
       when :priority_id               then IssuePriority.find(value.to_i).name
+      when :fixed_version_id          then Version.find(value.to_i).name
       else value.inspect
       end
     end
