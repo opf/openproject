@@ -38,7 +38,7 @@ RB.indexMain = RB.Object.create({
       data: { after     : $('#last_updated').text(),
               project_id: RB.constants.project_id
             },
-      complete: RB.indexMain.refresh
+      success: RB.indexMain.refresh
     });
   },
   
@@ -53,11 +53,11 @@ RB.indexMain = RB.Object.create({
     );
   },
 
-  refresh: function(xhr, statusText){
+  refresh: function(data, textStatus, xhr){
     $('body').removeClass('loading');
-    var stories = $(xhr.responseText).children('.story');
-    $('#last_updated').text(($(xhr.responseText).children('#last_updated').text()));
-    
+    var stories = $(data).children('.story');
+    $('#last_updated').text(($(data).children('#last_updated').text()));
+
     stories.each(function(i, v){
       var updated = RB.Factory.initialize(RB.Story, v);
       var previous = updated.$.find(".previous").text();
@@ -66,7 +66,6 @@ RB.indexMain = RB.Object.create({
       if($('#story_' + updated.getID()).length==0){
         story = updated;
       } else {
-        console.log('#story_' + updated.getID());
         story = $('#story_' + updated.getID()).data('this');
         story.$.html(updated.$.html());
       }
