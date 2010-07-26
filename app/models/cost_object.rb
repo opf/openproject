@@ -22,7 +22,7 @@ class CostObject < ActiveRecord::Base
                             :author_key => :author_id
   
   validates_presence_of :subject, :project, :author, :kind
-  validates_length_of :subject, :maximum => 255
+  validates_length_of :subject, :maximum => 255, :minimum => 1
   
   
   def before_validation
