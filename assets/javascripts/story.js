@@ -166,7 +166,7 @@ RB.Story = RB.Object.create(RB.Model, {
   },
 
   saveDragResult: function(){
-    this.saveEdits();
+    if(!this.$.hasClass('editing')) this.saveEdits();
   },
   
   saveEdits: function(){
