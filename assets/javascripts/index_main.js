@@ -64,7 +64,7 @@ RB.indexMain = RB.Object.create({
 
       var story;
       if($('#story_' + updated.getID()).length==0){
-        story = RB.Factory.initialize(RB.Story, updated.$.clone());
+        story = updated;
       } else {
         console.log('#story_' + updated.getID());
         story = $('#story_' + updated.getID()).data('this');
