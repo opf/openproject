@@ -172,7 +172,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
   },
 
   loadStoryTemplate: function(){
-    $.ajax({
+    RB.ajax({
         type: "GET",
         async: false,
         url: RB.urlFor['new_story'] + "?project_id=" + RB.constants.project_id,
@@ -227,7 +227,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
       }
     });
 
-    $.ajax({
+    RB.ajax({
       type: "POST",
       url: RB.urlFor['update_backlog'],
       data: editors.serialize() + "&id=" + j.find('.id').text(),

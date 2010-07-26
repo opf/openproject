@@ -47,6 +47,28 @@ RB.dialog = RB.Object.create({
   }
 });
 
+RB.ajaxQueue = new Array()
+RB.ajaxOngoing = false;
+
+RB.ajax = function(options){
+  RB.ajaxQueue.push(options);
+  if(!RB.ajaxOngoing){ RB.processAjaxQueue(); }
+}
+
+RB.processAjaxQueue = function(){
+  var options = RB.ajaxQueue.shift();
+
+  if(options!=null){
+    RB.ajaxOngoing = true;
+    $.ajax(options);
+  }
+}
+
+$(document).ajaxComplete(function(event, xhr, settings){
+  RB.ajaxOngoing = false;
+  RB.processAjaxQueue();
+});
+
 // Modify the ajax request before being sent to the server
 $(document).ajaxSend(function(event, request, settings) {
   var c = RB.constants;

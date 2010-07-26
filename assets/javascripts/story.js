@@ -143,6 +143,7 @@ RB.Story = RB.Object.create(RB.Model, {
   
   refresh: function(){
     this.endEdit();
+    this.unmarkSaving();
     var sprint = this.$.parents('.sprint.backlog');
     if(sprint.size()>0) sprint.data('this').recalcPoints();
   },
@@ -195,7 +196,7 @@ RB.Story = RB.Object.create(RB.Model, {
     // Get the save directives. This should be overriden by descendant objects of RB.Story
     var saveDir = this.saveDirectives();
 
-    $.ajax({
+    RB.ajax({
       type: "POST",
       url: saveDir.url,
       data: saveDir.data,

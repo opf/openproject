@@ -31,13 +31,13 @@ RB.indexMain = RB.Object.create({
   },
   
   loadData: function(){
-    $('body').addClass('loading');
-    $.ajax({
+    RB.ajax({
       type: "GET",
       url: RB.urlFor['list_stories'],
       data: { after     : $('#last_updated').text(),
               project_id: RB.constants.project_id
             },
+      beforeSend: function(){ $('body').addClass('loading'); },
       success: RB.indexMain.refresh
     });
   },
