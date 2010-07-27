@@ -12,10 +12,6 @@
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
   <div class="story_points editable" fieldname="story_points"><%= story_points_or_empty(story) %></div>
-  <!--div class="description editable" fieldtype="textarea" fieldname="description">
-    <div class="textile"><%= textile_description_or_empty(story) %></div>
-    <div class="html"><%= description_or_empty(story) %></div>
-  </div-->
   <%- if @include_meta -%>
   <div class="meta">
     <div class="sprint"><%= story.fixed_version_id %></div>
