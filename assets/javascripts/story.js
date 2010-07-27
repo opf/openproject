@@ -196,11 +196,11 @@ RB.Story = RB.Object.create(RB.Model, {
     // Get the save directives. This should be overriden by descendant objects of RB.Story
     var saveDir = this.saveDirectives();
 
+    me.markSaving();
     RB.ajax({
       type: "POST",
       url: saveDir.url,
       data: saveDir.data,
-      beforeSend: function(xhr){ me.markSaving() },
       complete: (me.isNew() ? this.storyCreated : this.storyUpdated) 
     });
     me.endEdit();
