@@ -32,12 +32,10 @@ class StoriesController < ApplicationController
         story.insert_at Story.find(params[:prev]).position + 1
       end
       status = 200
-      render :partial => "story", :object => story
     else
-      text = "ERROR"
       status = 500
-      render :text => text, :status => status
     end
+    render :partial => "story", :object => story, :status => status
   end
 
   def update
@@ -53,13 +51,11 @@ class StoriesController < ApplicationController
         story.insert_at Story.find(params[:prev]).position + 1
       end
 
-      text = "Story updated successfully."
       status = 200
     else
-      text = "ERROR: Story could not be saved."
       status = 500
     end
-    render :text => text, :status => status
+    render :partial => "story", :object => story, :status => status
   end
 
   private

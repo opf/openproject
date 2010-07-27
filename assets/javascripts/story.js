@@ -172,7 +172,7 @@ RB.Story = RB.Object.create(RB.Model, {
   
   saveEdits: function(){
     j = this.$;
-    me = j.data('this');
+    var me = j.data('this');
     editors = j.find('.editor');
     
     // Copy the values from the fields to the proper html elements
@@ -196,11 +196,17 @@ RB.Story = RB.Object.create(RB.Model, {
     // Get the save directives. This should be overriden by descendant objects of RB.Story
     var saveDir = this.saveDirectives();
 
+    // We will pop 'me' back when the the ajax call completes
+    // This is the only way to remember the RB.Story object since
+    // the story element doesn't have an ID yet.
+    if(RB.Story.newQueue==null) RB.Story.newQueue = [];
+    if(me.isNew()) RB.Story.newQueue.push(me);
+
+    me.markSaving();
     RB.ajax({
       type: "POST",
       url: saveDir.url,
       data: saveDir.data,
-      beforeSend: function(xhr){ me.markSaving() },
       complete: (me.isNew() ? this.storyCreated : this.storyUpdated) 
     });
     me.endEdit();
@@ -214,6 +220,7 @@ RB.Story = RB.Object.create(RB.Model, {
   },
 
   storyCreated: function(xhr, textStatus){
+    var me = RB.Story.newQueue.shift(); // Get the RB.Story object back
     me.unmarkSaving();
     
     if(xhr.status!=200){
@@ -227,6 +234,8 @@ RB.Story = RB.Object.create(RB.Model, {
   },
   
   storyUpdated: function(xhr, textStatus){
+    var me = $('#story_' + RB.Factory.initialize(RB.Story, xhr.responseText).getID()).data('this');
+
     me.unmarkSaving(); 
     if(xhr.status!=200){
       me.markError();
