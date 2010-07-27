@@ -44,7 +44,7 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
             say_with_time "Migrating Backlogs data..." do
                 connection = ActiveRecord::Base.connection
 
-                res = execute "select issue_id, version_id, position, version_id, parent_id, points from items left join backlogs on backlog_id = backlogs.id"
+                res = execute "select issue_id, version_id, position, parent_id, points from items left join backlogs on backlog_id = backlogs.id"
                 res.each { |row|
                     issue, version, position, parent, points = row
                     issue = connection.quote(issue)
