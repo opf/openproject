@@ -65,14 +65,14 @@ class CostQuery::Operator
       end
     end
 
-    new "c" do
+    new "c", :arity => 0 do
       def modify(query, field, *values)
         raise "wrong field" if field.to_s.split('.').last != "status_id"
         "=".to_operator.modify(query, "#{IssueStatus.table_name}.is_closed", quoted_true)
       end
     end
 
-    new "o" do
+    new "o", :arity => 0 do
       def modify(query, field, *values)
         raise "wrong field" if field.to_s.split('.').last != "status_id"
         "=".to_operator.modify(query, "#{IssueStatus.table_name}.is_closed", quoted_false)
