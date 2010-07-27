@@ -20,7 +20,11 @@ class BacklogsController < ApplicationController
     @last_updated = Story.find(:first, 
                           :conditions => ["project_id=? AND tracker_id in (?)", @project, Story.trackers],
                           :order => "updated_on DESC")
-    
+
+    if @last_updated.nil?
+        raise "This project doesn't have a story. You should configure the story tracker and add an issue to that tracker for this project."
+    end
+
     if @settings[:story_trackers].nil? || @settings[:task_tracker].nil?
       render :action => "noconfig", :layout => "backlogs"
     else
