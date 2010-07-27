@@ -39,8 +39,18 @@ function show_filter(field) {
     check_box = $('cb_' + field);
     check_box.checked = true;
     toggle_filter(field);
-    operator_changed(field, $("operators_" + field))
-    display_category(field_el)
+    operator_changed(field, $("operators_" + field));
+    display_category(field_el);
+  }
+}
+
+function hide_filter(field) {
+  if ((field_el = $('tr_' +  field)) != null) {
+    field_el.hide();
+    check_box = $('cb_' + field);
+    check_box.checked = false;
+    toggle_filter(field);
+    operator_changed(field, $("operators_" + field));
   }
 }
 
@@ -53,6 +63,15 @@ function disable_select_option(select, field) {
   for (i=0; i<select.options.length; i++) {
     if (select.options[i].value == field) {
       select.options[i].disabled = true;
+      break;
+    }
+  }
+}
+
+function enable_select_option(select, field) {
+  for (i=0; i<select.options.length; i++) {
+    if (select.options[i].value == field) {
+      select.options[i].disabled = false;
       break;
     }
   }
@@ -142,4 +161,20 @@ function show_group_by_column(group_by) {
 
 function show_group_by_row(group_by) {
   show_group_by(group_by, $('group_by_rows'));
+}
+
+function disable_all_filters() {
+  $('filter_table').down().childElements().each(function(e){
+    e.hide();
+    if (e.readAttribute('class')=='filter')
+      hide_filter(e.id.gsub('tr_', ''));
+  });
+}
+
+function disable_all_group_bys() {
+  destination = $('group_by_container');
+  [$('group_by_columns'), $('group_by_rows')].each(function(origin) {
+    selectAllOptions(origin);
+    moveOptions(origin, destination);
+  });
 }
