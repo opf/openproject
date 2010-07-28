@@ -1,11 +1,5 @@
 <script type="text/javascript">
 //<![CDATA[
-restore_query_inputs =function() {
-  disable_all_filters();
-  disable_all_group_bys();
-  set_filters();
-  set_group_bys();
-}
 
 set_filters = function() {
   // Activate recent filters on loading
@@ -22,6 +16,13 @@ set_group_bys = function() {
     <%= "show_group_by_column('#{group_by.class.underscore_name}');" if group_by.column? %>
     <%= "show_group_by_row('#{group_by.class.underscore_name}');" if group_by.row? %>
   <% end %>
+}
+
+restore_query_inputs = function() {
+  disable_all_filters();
+  disable_all_group_bys();
+  set_filters();
+  set_group_bys();
 }
 
 restore_query_inputs.defer();

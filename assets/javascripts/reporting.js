@@ -153,6 +153,8 @@ function restore_select_values(field, values) {
     select = $(field + '_arg_1_val');
     if (values.length > 1) {
         make_select_accept_multiple_values(select);
+    } else {
+        make_select_accept_single_value(select);
     }
     for (i = 0; i < values.length; i++) {
         for (j = 0; j < select.options.length; j++) {
@@ -185,8 +187,7 @@ function restore_values(field, values) {
     }
     if (op_arity < 0) {
         restore_select_values(args[0], values);
-    }
-    else {
+    } else {
         for (i = 0; i < values.length && i < args.length; i++) {
             args[i].setValue(values[i]);
         }
