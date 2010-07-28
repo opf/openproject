@@ -6,14 +6,14 @@ module BacklogsPlugin
             # custom queries
             def view_issues_sidebar_planning_bottom(context={ })
                 locals = {}
-                locals[:sprints] = Sprint.open_sprints(context[:project])
+                locals[:sprints] = context[:project] ? Sprint.open_sprints(context[:project]) : []
                 locals[:project] = context[:project]
                 locals[:sprint] = nil
                 locals[:webcal] = (context[:request].ssl? ? 'webcals' : 'webcal')
                 locals[:key] = User.find_by_id(context[:request].session[:user_id]).api_key
 
                 q = context[:request].session[:query]
-                if q
+                if q && q[:filters]
                     sprint = q[:filters]['fixed_version_id']
                     if sprint && sprint[:operator] == '=' && sprint[:values].size == 1
                         locals[:sprint] = Sprint.find_by_id(sprint[:values][0])
