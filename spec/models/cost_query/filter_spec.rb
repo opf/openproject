@@ -79,7 +79,7 @@ describe CostQuery do
         object = User.first
         @query.filter "author_id", :value => object.id
         @query.result.each do |result|
-          result[ "author_id"].to_s.should == object.id.to_s
+          result["author_id"].to_s.should == object.id.to_s
         end
       end
 
