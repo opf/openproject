@@ -77,6 +77,14 @@
   padding-right: 5px;
 }
 
+/* Aligning filter elements at the top. */
 .new_cost_query fieldset#filters table td {
   vertical-align:top;
+}
+
+/* Overwriting styling for headlines within the query. */
+/* TODO: Font-size seems to be a bit odd. Needs some love. */
+.new_cost_query fieldset h3 {
+  font-size: 1.17em;
+  border: none;
 }
