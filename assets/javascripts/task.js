@@ -16,7 +16,7 @@ RB.Task = RB.Object.create(RB.Story, {
     j.data('this', this);
 
     // Observe click events in certain fields
-    j.find('.editable').bind('mouseup', this.triggerEdit);
+    j.find('.editable').live('mouseup', this.triggerEdit);
   },
 
   checkSubjectLength: function(){
@@ -50,11 +50,13 @@ RB.Task = RB.Object.create(RB.Story, {
   // Override saveDirectives of RB.Story
   saveDirectives: function(){
     var j = this.$;
+    var prev = this.$.prev();
     var cellID = j.parent('td').first().attr('id').split("_");
 
     var data = j.find('.editor').serialize() +
                "&parent_issue_id=" + cellID[0] +
                "&status_id=" + cellID[1] +
+               "&prev=" + (prev.length==1 ? prev.data('this').getID() : '') +
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
     var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
     

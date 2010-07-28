@@ -7,4 +7,11 @@
     <div class="v"><%= assignee_id_or_empty(task) %></div>
   </div>
   <div class="indicator"> </div>
+  <%- if @include_meta -%>
+  <div class="meta">
+    <div class="story_id"><%= task.parent_id %></div>
+    <div class="status_id"><%= task.status_id %></div>
+    <div class="previous"><%= task.higher_item.nil? ? '' : task.higher_item.id %></div>
+  </div>
+  <%- end %>
 </div>
