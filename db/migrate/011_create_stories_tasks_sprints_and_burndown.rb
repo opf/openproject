@@ -110,6 +110,9 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
                 join backlog_chart_data on backlogs.id = backlog_id
             }
         end
+
+        drop_table 'items'
+        drop_table 'backlogs'
     end
 
     def self.down
