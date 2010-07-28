@@ -1,5 +1,12 @@
 class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
     def self.up
+        if Story.trackers.nil? || Story.trackers.size == 0 || Task.Tracker.nil?
+          raise "Please configure the Backlogs Story and Task trackers before migrating"
+        end
+
+        task_tracker = Task.tracker
+        story_tracker = Story.trackers[0]
+
         add_column :issues, :position, :integer
         add_column :issues, :story_points, :integer
         add_column :issues, :remaining_hours, :float
@@ -57,6 +64,9 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
                     execute "update issues set position = #{position} where id = #{issue}"
                     execute "update issues set story_points = #{points} where id = #{issue}"
                     execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
+                    
+                    tracker = (parent_id and parent_id != 0) ? task_tracker : story_tracker
+                    execute "update issues set tracker_id = #{tracker} where id = #{issue}"
                 }
 
                 res = execute "select version_id, start_date, is_closed from backlogs"
