@@ -109,6 +109,7 @@ describe CostQuery do
     end
 
     it "should compute real_costs for DirectResults" do
+      pending "who's responsible for calculating the cost field?"
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
 
       [TimeEntry, CostEntry].each do |type|
