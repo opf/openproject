@@ -23,7 +23,7 @@ function make_select_accept_single_value(select) {
     select.size = 1;
 }
 
-function toggle_multi_sheck_boelect(select) {
+function toggle_multi_select(select) {
     if (select.multiple === true) {
         make_select_accept_single_value(select);
     } else {
