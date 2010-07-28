@@ -56,7 +56,7 @@ function change_argument_visibility(field, arg_nr) {
 function operator_changed(field, select) {
     var option_tag, arity;
     option_tag = select.options[select.selectedIndex];
-    arity = option_tag.getAttribute("data-arity");
+    arity = parseInt(option_tag.getAttribute("data-arity"));
     change_argument_visibility(field, arity);
 }
 
@@ -148,9 +148,8 @@ function select_operator(field, operator) {
     operator_changed(field, select);
 }
 
-function restore_select_values(field, values) {
-    var select, i, j;
-    select = $(field + '_arg_1_val');
+function restore_select_values(select, values) {
+    var i, j;
     if (values.length > 1) {
         make_select_accept_multiple_values(select);
     } else {
@@ -173,7 +172,7 @@ function find_arguments(field) {
         arg_count++;
         arg = $(field + '_arg_' + (arg_count + 1) + '_val');
     }
-    return arguments;
+    return args;
 }
 
 function restore_values(field, values) {
