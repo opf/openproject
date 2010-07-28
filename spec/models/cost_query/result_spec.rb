@@ -31,7 +31,6 @@ describe CostQuery do
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
-
       previous_depth = -1
       w.recursive_each_with_level do |level, result|
         #depth first, so we should get deeper into the hole, until we find a direct_result
