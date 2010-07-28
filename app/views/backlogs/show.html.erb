@@ -1,19 +1,26 @@
 <% content_for :header_tags do %>
 <%= javascript_include_tag  'show_main', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
 <%= stylesheet_link_tag 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
-<script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id) %>"></script>
+<script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
 <% content_for :breadcrumbs do %>
 <%= link_to @project.name, :controller => "backlogs", :action => "index", :project_id => @project %> : <%= @sprint.name %>
 <% end %>
 
+<%- content_for :page_specific_links do %>
+  <a id="disable_autorefresh">Disable Auto-refresh</a>
+  <a id="refresh">Refresh</a>
+<%- end %>
+
+<div class="meta" id="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
+
 <table id="taskboard" cellspacing="0">
   <tr>
-    <td class="story"><%= l(:backlogs_story) %></td>
-    <td class="new_task_button"> </td>
+    <td class="story_column"><%= l(:backlogs_story) %></td>
+    <td class="new_task_button_column"> </td>
     <%- @statuses.each do |status| %>
-    <td id="status_<%= status.id %>"><%= status.name %></td>
+      <td id="status_<%= status.id %>"><%= status.name %></td>
     <%- end %>
   </tr>
   <%- @sprint.stories.each_with_index do |story, i| %>

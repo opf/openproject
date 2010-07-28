@@ -64,7 +64,7 @@ RB.Story = RB.Object.create(RB.Model, {
         input.removeClass('template');
         input.appendTo(j);
         input.bind('keyup', j.data('this').handleKeyup);
-        input.focus(function(){ $(this).parents('.story').first().data('focus', $(this).attr('name')); }).blur(function(){ $(this).parents('.story').first().data('focus', ''); });
+        input.focus(function(){ j.data('focus', $(this).attr('name')); }).blur(function(){ j.data('focus', ''); });
       } else {
         input = input.first();
       }

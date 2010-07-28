@@ -4,6 +4,7 @@ if(RB==null){
 
 RB.constants = {
   project_id: <%= @project.id %>,
+  sprint_id: <%= @sprint ? @sprint.id : "null" %>,
   protect_against_forgery: <%= protect_against_forgery? ? "true" : "false" %>,
   request_forgery_protection_token: '<%= request_forgery_protection_token %>',
   form_authenticity_token: '<%= form_authenticity_token %>'
@@ -26,7 +27,8 @@ RB.urlFor = {
   update_backlog: '<%= url_for(:controller => 'backlogs', :action => 'update') %>',
   update_story: '<%= url_for(:controller => 'stories', :action => 'update') %>',
   update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>',
-  list_stories: '<%= url_for(:controller => 'stories', :action => 'index') %>'
+  list_stories: '<%= url_for(:controller => 'stories', :action => 'index') %>',
+  list_tasks: '<%= url_for(:controller => 'tasks', :action => 'index') %>'
 }
 
 if(typeof console != "undefined" && console != null) console.log('*** jsvariables loaded ***');

@@ -1,3 +1,5 @@
+include StoriesHelper
+
 class TasksController < ApplicationController
   unloadable
   before_filter :find_task, :only => [:edit, :update, :show, :delete]
@@ -13,18 +15,33 @@ class TasksController < ApplicationController
 
     task = Task.new(attribs)
     if task.save!
-      c = task.parent.children
-      task.move_to_left_of c[0] if c[0].id != task.id
-      render :partial => "task", :object => task
+      # c = task.parent.children
+      # task.move_to_left_of c[0] if c[0].id != task.id
+      # render :partial => "task", :object => task
+      # if params[:prev]==''
+      #   task.insert_at 1
+      # else
+      #   task.insert_at Task.find(params[:prev]).position + 1
+      # end
+      status = 200
     else
-      text = "ERROR"
       status = 500
-      render :text => text, :status => status
     end
+    render :partial => "task", :object => task, :status => status    
   end
 
   def index
-    render :text => "We don't do no indexin' round this part o' town."
+    @sprint = Sprint.find(params[:sprint_id])
+    @story_ids = @sprint.stories.map{|s| s.id}
+    @tasks = Task.find(:all, 
+                       :conditions => ["parent_id in (?) AND updated_on > ?", @story_ids, params[:after]],
+                       :order => "updated_on ASC")
+    @include_meta = true
+    @last_updated = Task.find(:first, 
+                          :conditions => ["parent_id in (?)", @story_ids],
+                          :order => "updated_on DESC")
+
+    render :action => "index", :layout => false
   end
   
   def new
@@ -40,13 +57,26 @@ class TasksController < ApplicationController
     end
 
     result = @task.journalized_update_attributes! attribs
+    # if result
+    #   render :partial => "task", :object => @task
+    # else
+    #   text = "ERROR: Task could not be saved."
+    #   status = 500
+    #   render :text => text, :status => status
     if result
-      render :partial => "task", :object => @task
+
+      if params[:prev]==''
+        @task.insert_at 1
+      else
+        @task.remove_from_list
+        @task.insert_at( (Task.find(params[:prev]).position || 0) + 1 )
+      end
+
+      status = 200
     else
-      text = "ERROR: Task could not be saved."
       status = 500
-      render :text => text, :status => status
     end
+    render :partial => "task", :object => @task, :status => status
   end
 
   private
