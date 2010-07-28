@@ -20,15 +20,15 @@ namespace :redmine_additional_formats do
   
   desc 'Run cruise task for redmine_picockpit_privacy'
   task :cruise do
-    run_cruise_task('redmine_picockpit_privacy')
+    run_cruise_task('redmine_additional_formats')
   end
   
   task :'cruise:unit:internal' do
-    unit_tests('redmine_picockpit_privacy')
+    unit_tests('redmine_additional_formats')
   end
   
   task :'cruise:integration:internal' do
-    integration_tests('redmine_picockpit_privacy')
+    integration_tests('redmine_additional_formats')
   end
 end
 
