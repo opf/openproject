@@ -39,7 +39,6 @@ describe CostQuery do
       [CostQuery::Filter::UserId,     User,               "user_id"       ],
       [CostQuery::Filter::CostTypeId, CostType,           "cost_type_id"  ],
       [CostQuery::Filter::IssueId,    Issue,              "issue_id"      ],
-      [CostQuery::Filter::AuthorId,    User,              "author_id"     ],
       [CostQuery::Filter::ActivityId, TimeEntryActivity,  "activity_id"   ]
     ].each do |filter, model, field|
       describe filter do
@@ -70,10 +69,42 @@ describe CostQuery do
         it "should compute the correct number of results" do
           object = model.first
           @query.filter field, :value => object.id
-          @query.result.count.should == Entry.all.select { |i| i.method_exists? field and i.send(field) == object.id }.count
+          @query.result.count.should == Entry.all.select { |i| i.respond_to? field and i.send(field) == object.id }.count
         end
       end
     end
+
+    describe CostQuery::Filter::AuthorId do
+      it "should only return entries from the given author" do
+        object = User.first
+        @query.filter "author_id", :value => object.id
+        @query.result.each do |result|
+          result[ "author_id"].to_s.should == object.id.to_s
+        end
+      end
+
+      it "should allow chaining the same filter" do
+        object = User.first
+        @query.filter "author_id", :value => object.id
+        @query.filter "author_id", :value => object.id
+        @query.result.each do |result|
+          result["author_id"].to_s.should == object.id.to_s
+        end
+      end
+
+      it "should return no results for excluding filters" do
+        object = User.first
+        @query.filter "author_id", :value => object.id
+        @query.filter "author_id", :value => object.id + 1
+        @query.result.count.should == 0
+      end
+
+      it "should compute the correct number of results" do
+        object = User.first
+        @query.filter "author_id", :value => object.id
+        @query.result.count.should == Entry.all.select { |i| i.issue and i.issue.author == object }.count
+      end
+    end\
 
     it "filters spent_on" do
       @query.filter :spent_on, :operator=> 'w'
