@@ -60,7 +60,7 @@ describe CostQuery do
     end
 
     it "does !~ (not contains)" do
-      query('projects', 'id', '!~', 1).size.should == Project.count - 1
+      query('projects', 'name', '!~', 'o').size.should == Project.all.select { |p| p.name !~ /o/ }.count
     end
 
     it "does c (closed issue)" do
