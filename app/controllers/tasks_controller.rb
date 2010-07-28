@@ -1,3 +1,5 @@
+include StoriesHelper
+
 class TasksController < ApplicationController
   unloadable
   before_filter :find_task, :only => [:edit, :update, :show, :delete]

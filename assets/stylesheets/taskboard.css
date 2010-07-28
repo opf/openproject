@@ -39,7 +39,8 @@
 #taskboard td.list.hover{
   background-color:#CCCCCC;
 }
-#taskboard td.story{
+#taskboard td.story,
+#taskboard td.story_column,{
   font-size:11px;
 }
 #taskboard td.story .story_id{
@@ -57,7 +58,8 @@
 #taskboard td.story.closed .subject{
   text-decoration:line-through;
 }
-#taskboard td.new_task_button{
+#taskboard td.new_task_button,
+#taskboard td.new_task_button_column{
   margin:0;
   min-width:30px;
   padding:0;

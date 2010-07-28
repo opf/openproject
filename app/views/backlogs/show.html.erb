@@ -10,10 +10,10 @@
 
 <table id="taskboard" cellspacing="0">
   <tr>
-    <td class="story"><%= l(:backlogs_story) %></td>
-    <td class="new_task_button"> </td>
+    <td class="story_column"><%= l(:backlogs_story) %></td>
+    <td class="new_task_button_column"> </td>
     <%- @statuses.each do |status| %>
-    <td id="status_<%= status.id %>"><%= status.name %></td>
+      <td id="status_<%= status.id %>"><%= status.name %></td>
     <%- end %>
   </tr>
   <%- @sprint.stories.each_with_index do |story, i| %>
