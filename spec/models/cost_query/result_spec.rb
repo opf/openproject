@@ -103,7 +103,6 @@ describe CostQuery do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
       te_result = id_sorted.select { |r| r[:type]==TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type]==CostEntry.to_s }.first
-
       te_result.units.should == TimeEntry.all.first.hours
       ce_result.units.should == CostEntry.all.first.units
     end
