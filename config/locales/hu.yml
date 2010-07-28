@@ -914,20 +914,20 @@
   permission_export_wiki_pages: Wiki oldalak exportálása
   permission_manage_project_activities: Projekt tevékenységek kezelése
   label_board_locked: Zárolt
-  error_can_not_delete_custom_field: Unable to delete custom field
-  permission_manage_subtasks: Manage subtasks
-  label_profile: Profile
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  field_parent_issue: Parent task
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_subtask_plural: Subtasks
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  label_project_copy_notifications: Send email notifications during the project copy
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  error_can_not_delete_custom_field: Nem lehet törölni az egyéni mezőt
+  permission_manage_subtasks: Alfeladatok kezelése
+  label_profile: Profil
+  error_unable_to_connect: Nem lehet csatlakozni ({{value}})
+  error_can_not_remove_role: Ez a szerepkör használatban van és ezért nem törölhető-
+  field_parent_issue: Szülő feladat
+  error_unable_delete_issue_status: Nem lehet törölni a feladat állapotát
+  label_subtask_plural: Alfeladatok
+  error_can_not_delete_tracker: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.
+  label_project_copy_notifications: Küldjön e-mail értesítéseket projektmásolás közben.
+  field_principal: Felelős
+  label_my_page_block: Saját kezdőlap-blokk
+  notice_failed_to_save_members: "Nem sikerült menteni a tago(ka)t: {{errors}}."
+  text_zoom_out: Kicsinyít
+  text_zoom_in: Nagyít
+  notice_unable_delete_time_entry: Az időrögzítés nem törölhető
+  label_overall_spent_time: Összes rászánt idő
