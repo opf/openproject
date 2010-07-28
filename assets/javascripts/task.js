@@ -77,6 +77,18 @@ RB.Task = RB.Object.create(RB.Story, {
     this.saveEdits();
   },
 
+  // Override RB.Story.storyUpdated()
+  storyUpdated: function(xhr, textStatus){
+    var me = $('#task_' + RB.Factory.initialize(RB.Story, xhr.responseText).getID()).data('this');
+
+    me.unmarkSaving();
+    if(xhr.status!=200){
+      me.markError();
+    } else {
+      me.unmarkError();
+    }
+  },
+
   triggerEdit: function(event){
     // Get the task since what was clicked was a field
     var j = $(this).parents('.task').first();

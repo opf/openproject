@@ -48,7 +48,8 @@ class StoriesController < ApplicationController
       if params[:prev]==''
         story.insert_at 1
       else
-        story.insert_at Story.find(params[:prev]).position + 1
+        story.remove_from_list
+        story.insert_at( (Story.find(params[:prev]).position || 0) + 1 )
       end
 
       status = 200
