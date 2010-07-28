@@ -32,23 +32,17 @@ function toggle_multi_select(select) {
 }
 
 function change_argument_visibility(field, arg_nr) {
-    var arg1, arg2;
-    arg1 = $(field + '_arg_1');
-    arg2 = $(field + '_arg_2');
-    if (arg1 !== null) {
-        if (arg_nr === 0) {
-            arg1.hide();
-        }
-        else {
-            arg1.show();
-        }
-    }
-    if (arg2 !== null) {
-        if (arg_nr >= 2 || arg_nr <= -2) {
-            arg2.show();
-        }
-        else {
-            arg2.hide();
+    var params, i;
+    params = [$(field + '_arg_1'), $(field + '_arg_2')];
+
+    for (i = 0; i < 2; i++) {
+        if (params[i] !== null) {
+            if (arg_nr >= (i + 1) || arg_nr <= (-1 - i) ) {
+                params[i].show();
+            }
+            else {
+                params[i].hide();
+            }
         }
     }
 }
