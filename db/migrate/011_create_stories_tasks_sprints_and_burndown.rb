@@ -65,8 +65,11 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
                     execute "update issues set story_points = #{points} where id = #{issue}"
                     execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
                     
-                    tracker = (parent_id and parent_id != 0) ? task_tracker : story_tracker
-                    execute "update issues set tracker_id = #{tracker} where id = #{issue}"
+                    if parent_id and parent_id != 0
+                      execute "update issues set tracker_id = #{task_tracker}, root_id = parent_id where id = #{issue}"
+                    else
+                      execute "update issues set tracker_id = #{story_tracker} where id = #{issue}"
+                    end
                 }
 
                 res = execute "select version_id, start_date, is_closed from backlogs"
