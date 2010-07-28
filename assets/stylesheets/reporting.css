@@ -76,3 +76,7 @@
   text-align: right;
   padding-right: 5px;
 }
+
+.new_cost_query fieldset#filters table td {
+  vertical-align:top;
+}
