@@ -104,6 +104,19 @@ module Backlogs
           # raw sql here because it's efficient and not
           # doing so causes an update loop when Issue calls
           # update_parent
+
+          if self.position.nil?
+            # separate query because appearantly mysql _still_ doesn't
+            # handle subselects well
+            position = 0
+            res = connection.execute("select coalesce(max(position)+1, 0) from issues where project_id=#{connection.quote(self.project_id)}")
+            res.each {|row|
+              position = row[0]
+            }
+
+            connection.execute("update issues set position=#{connection.quote(position)} where id = #{connection.quote(self.id)}")
+          end
+
           if not Task.tracker.nil?
             tasks = self.descendants.collect{|t| connection.quote(t.id)}.join(",")
             if tasks != ""

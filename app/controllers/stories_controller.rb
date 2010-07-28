@@ -26,11 +26,7 @@ class StoriesController < ApplicationController
     attribs['author_id'] = User.current.id
     story = Story.new(attribs)
     if story.save!
-      if params[:prev]==''
-        story.insert_at 1
-      else
-        story.insert_at Story.find(params[:prev]).position + 1
-      end
+      move_after(story, params[:prev])
       status = 200
     else
       status = 500
@@ -44,14 +40,7 @@ class StoriesController < ApplicationController
     attribs = Hash[*attribs.flatten]
     result = story.journalized_update_attributes! attribs
     if result
-
-      if params[:prev]==''
-        story.insert_at 1
-      else
-        story.remove_from_list
-        story.insert_at( (Story.find(params[:prev]).position || 0) + 1 )
-      end
-
+      move_after(story, params[:prev])
       status = 200
     else
       status = 500
@@ -60,6 +49,32 @@ class StoriesController < ApplicationController
   end
 
   private
+
+  def move_after(story, prev)
+    prev = nil if prev == ''
+    prev = Story.find(prev) unless prev.nil?
+
+    # force the story into the list (should not be necesary)
+    RAILS_DEFAULT_LOGGER.info "#### Forcing #{story.id} into the list" unless story.in_list?
+    story.insert_at 0 unless story.in_list?
+
+    # if it's the first story, move it to the 1st position
+    if !prev
+      RAILS_DEFAULT_LOGGER.info "#### Moving #{story.id} to the top"
+      story.move_to_top
+
+    # if its predecessor has no position (shouldn't happen), make it
+    # the last story
+    elsif prev.position.nil?
+      RAILS_DEFAULT_LOGGER.info "#### Moving #{story.id} to the bottom"
+      story.move_to_bottom
+
+    # there's a valid predecessor
+    else
+      RAILS_DEFAULT_LOGGER.info "#### Moving #{story.id} to position #{prev.position + 1}, after #{prev.id}"
+      story.insert_at(story.position.nil? || story.position > prev.position ? prev.position + 1 : prev.position)
+    end
+  end
 
   def find_project
     @project = if params[:project_id].nil?
