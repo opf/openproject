@@ -51,25 +51,31 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
             say_with_time "Migrating Backlogs data..." do
                 connection = ActiveRecord::Base.connection
 
-                res = execute "select issue_id, version_id, position, parent_id, points from items left join backlogs on backlog_id = backlogs.id"
+                res = execute "
+                  select item.issue_id, item.position, item.points, sprint.version_id, parent.issue_id
+                  from items item
+                  left join items parent on parent.id = item.parent_id and item.parent_id <> 0
+                  left join backlogs sprint on item.backlog_id = sprint.id"
+
                 res.each { |row|
-                    issue, version, position, parent, points = row
+                    issue, position, points, version, parent = row
+
                     issue = connection.quote(issue)
+                    tracker = connection.quote(parent.nil? ? story_tracker : task_tracker)
                     version = connection.quote(version == 0 ? nil : version)
                     position = connection.quote(position)
                     parent = connection.quote(parent == 0 ? nil : parent)
                     points = connection.quote(points == 0 ? nil : points)
+                    root = connection.quote(parent.nil? issue : parent)
 
-                    execute "update issues set fixed_version_id = #{version} where id = #{issue}"
-                    execute "update issues set position = #{position} where id = #{issue}"
-                    execute "update issues set story_points = #{points} where id = #{issue}"
-                    execute "update issues set parent_id = (select issue_id from items where id = #{parent})"
-                    
-                    if parent and parent != 0
-                      execute "update issues set tracker_id = #{task_tracker}, root_id = parent_id where id = #{issue}"
-                    else
-                      execute "update issues set tracker_id = #{story_tracker} where id = #{issue}"
-                    end
+                    execute "update issues set
+                              fixed_version_id = #{version},
+                              position = #{position},
+                              story_points = #{points},
+                              parent_id = #{parent}",
+                              tracker_id = #{tracker},
+                              root_id = #{root}
+                             where id = #{issue}"
                 }
 
                 res = execute "select version_id, start_date, is_closed from backlogs"
