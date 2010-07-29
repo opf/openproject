@@ -19,6 +19,11 @@ RB.Task = RB.Object.create(RB.Story, {
     j.find('.editable').live('mouseup', this.triggerEdit);
   },
 
+  afterSaveEdits: function(){
+    var c = this.$.find('select.assigned_to_id').children(':selected').attr('color');
+    this.$.css('background-color', c);
+  },
+
   checkSubjectLength: function(){
   },
   

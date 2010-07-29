@@ -26,6 +26,10 @@ RB.Story = RB.Object.create(RB.Model, {
     this.checkSubjectLength();
   },
 
+  afterSaveEdits: function(){
+    
+  },
+
   cancelEdit: function(){
     this.$.removeClass('editing');
     this.checkSubjectLength();
@@ -213,6 +217,8 @@ RB.Story = RB.Object.create(RB.Model, {
     
     var sprint = j.parents('.sprint.backlog');
     if(sprint.size()>0) sprint.data('this').recalcPoints();
+    
+    this.afterSaveEdits();
   },
 
   setSelection: function(select){

@@ -22,7 +22,8 @@ module Backlogs
               if !v && (!set_to || set_to == '')
                 colors = UserPreference.find(:all).collect{|p| p[prefixed].to_s.upcase}.select{|p| p != ''}
                 50.times do
-                  set_to = "##{rand(0xFFFFFF).to_s(16).upcase}"
+                  min = 0x999999
+                  set_to = "##{(min + rand(0xFFFFFF-min)).to_s(16).upcase}"
                   break unless colors.include?(set_to)
                 end
               end
