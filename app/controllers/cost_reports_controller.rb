@@ -58,8 +58,8 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_filter_parameters
-    {:operators => {:user_id => "=", :created_on => ">d"},
-    :values => {:user_id => [User.current.id], :created_on => [30.days.ago.strftime('%Y-%m-%d')]}
+    {:operators => {:user_id => "=", :spent_on => ">d"},
+    :values => {:user_id => [User.current.id], :spent_on => [30.days.ago.strftime('%Y-%m-%d')]}
     }.tap do |hash|
       if @project
         hash[:operators].merge! :project_id => "="
