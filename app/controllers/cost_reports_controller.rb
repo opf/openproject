@@ -8,10 +8,13 @@ class CostReportsController < ApplicationController
   def index
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
+      set_cost_type(-1)
     elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
       @table_partial = "simple_cost_report_table"
+      set_cost_type(-1)
     else
       @table_partial = "cost_report_table"
+      set_cost_type
     end
     render :layout => !request.xhr?
   end
@@ -100,14 +103,13 @@ class CostReportsController < ApplicationController
         :values => filters[:values][filter])
       end
     end
-    set_cost_type
     groups[:rows].reverse_each {|r| @query.row(r) }
     groups[:columns].reverse_each {|c| @query.column(c) }
     @query
   end
 
-  def set_cost_type
-    @unit_id = (params[:unit] || session[:unit_id]).try(:to_i) || -1
+  def set_cost_type(value = nil)
+    @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].try(:to_i) || -1
     session[:unit_id] = @unit_id
     if @unit_id != -1
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
