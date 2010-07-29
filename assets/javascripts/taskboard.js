@@ -6,12 +6,20 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.
+    var self = this;
     
     this.$ = j = $(el);
     this.el = el;
     
     // Associate this object with the element for later retrieval
     j.data('this', this);
+
+    // Set column widths
+    this.colWidthUnit = $("#taskboard .list").width();
+    this.defaultColWidth = 2;
+    this.loadColWidthPreference();
+    this.updateColWidths();
+    $("#col_width input").bind('keyup', function(e){ if(e.which==13) self.updateColWidths() });
 
     // Initialize all lists
     $(".list").sortable({ 
@@ -54,6 +62,15 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     var button = $(this);
     $('#taskboard').data('this').newTask(button.next());
   },
+
+  loadColWidthPreference: function(){
+    var w = RB.UserPreferences.get('taskboardColWidth');
+    if(w==null){
+      w = this.defaultColWidth;
+      RB.UserPreferences.set('taskboardColWidth', w);
+    }
+    $("#col_width input").val(w);
+  },
       
   loadTaskTemplate: function(){
     $.ajax({
@@ -75,4 +92,15 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     o.edit();
     
     task.find('.editor' ).first().focus();
-  }});
+  },
+  
+  updateColWidths: function(){
+    var w = parseInt($("#col_width input").val());
+    if(w==null || isNaN(w)){
+      w = this.defaultColWidth;
+    }
+    $("#col_width input").val(w)
+    RB.UserPreferences.set('taskboardColWidth', w);
+    $("#taskboard .list").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
+  }
+});

@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-<%= javascript_include_tag  'show_main', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
+<%= javascript_include_tag  'jquery.cookie.js', 'show_main', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
 <%= stylesheet_link_tag 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
 <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
@@ -9,6 +9,7 @@
 <% end %>
 
 <%- content_for :page_specific_links do %>
+  <span id="col_width">Column width: <input name="col_width"/></span>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
 <%- end %>
