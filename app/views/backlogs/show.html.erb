@@ -14,7 +14,7 @@
   <a id="refresh">Refresh</a>
 <%- end %>
 
-<div class="meta" id="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
+<div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.now : @last_updated.updated_on) )  %></div>
 
 <table id="taskboard" cellspacing="0">
   <tr>
