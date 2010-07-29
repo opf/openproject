@@ -79,12 +79,7 @@ class BacklogsController < ApplicationController
             end
         end
 
-        if pred.nil?
-            story.move_to_top
-        else
-            pred = Story.find(pred)
-            story.insert_at(pred.position + 1)
-        end
+        story.move_after(pred)
     end
 
     render :nothing => true, :status => 200

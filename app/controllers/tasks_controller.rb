@@ -15,14 +15,6 @@ class TasksController < ApplicationController
 
     task = Task.new(attribs)
     if task.save!
-      # c = task.parent.children
-      # task.move_to_left_of c[0] if c[0].id != task.id
-      # render :partial => "task", :object => task
-      # if params[:prev]==''
-      #   task.insert_at 1
-      # else
-      #   task.insert_at Task.find(params[:prev]).position + 1
-      # end
       status = 200
     else
       status = 500
@@ -64,13 +56,7 @@ class TasksController < ApplicationController
     #   status = 500
     #   render :text => text, :status => status
     if result
-
-      if params[:prev]==''
-        @task.insert_at 1
-      else
-        @task.remove_from_list
-        @task.insert_at( (Task.find(params[:prev]).position || 0) + 1 )
-      end
+      @task.move_after(params[:prev])
 
       status = 200
     else
