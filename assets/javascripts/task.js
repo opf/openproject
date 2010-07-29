@@ -76,7 +76,7 @@ RB.Task = RB.Object.create(RB.Story, {
       this.$.children('.remaining_hours.editable').text('0.0');
     }
 
-    this.saveEdits();
+    if(!this.$.hasClass('editing')) this.saveEdits();
   },
 
   // Override RB.Story.storyUpdated()
