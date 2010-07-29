@@ -15,10 +15,11 @@
 }
 .task .id{
   -moz-border-radius:4px 4px 4px 4px;
-  background-color:#EEEE99;
+  background-color:#FFFFFF;
   font-size:9px;
   height:14px;
   left:2px;
+  opacity:0.7;
   overflow:hidden;
   position:absolute;
   text-align:right;

@@ -1,4 +1,5 @@
 include StoriesHelper
+include TasksHelper
 include BacklogMenuHelper
 
 require 'icalendar'

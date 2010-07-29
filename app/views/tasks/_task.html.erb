@@ -1,4 +1,4 @@
-<div class="task <%= mark_if_closed(task) %>" id="task_<%= task.id %>">
+<div class="task <%= mark_if_closed(task) %>" id="task_<%= task.id %>" style="background-color:<%= task_color_or_default(task) %>">
   <div class="id"><%= issue_link_or_empty(task) %></div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= task.subject %></div>
   <div class="remaining_hours editable" fieldname="remaining_hours"><%= task.remaining_hours || "0.0" %></div>

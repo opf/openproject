@@ -42,12 +42,11 @@
 
 <!-- templates -->
 <select class="assigned_to_id template" id="assigned_to_id_options">
-  <option value=""> </option>
+  <option value="" color="<%= task_color_or_default(Task.new) %>"> </option>
   <%- @project.members.each do |member| %>
-  <option value="<%= member.user_id %>"><%= member.name %></option>
+  <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>"><%= member.name %></option>
   <%- end %>
 </select>
-
 <div id="task_template">
   <%= render :partial => "tasks/task", :object => Task.new %>
 </div>
