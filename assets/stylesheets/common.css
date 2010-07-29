@@ -32,12 +32,12 @@ a:hover{
 }
 #header .links {
   bottom:7px;
-  cursor:pointer;
   font-size:11px;
   position:absolute;
   right:10px;
 }
 #header .links a {
+  cursor:pointer;
   margin:0 0 0 10px;
 }
 body.loading #refresh {

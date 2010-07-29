@@ -1,3 +1,8 @@
+#col_width input{
+  text-align: right;
+  width: 20px;
+}
+
 /* SPRINT TABLE STYLES */
 #taskboard{
   background-color:rgb(254,250,248);
@@ -9,9 +14,9 @@
   border-right:1px dotted #CFCFCF;
   border-bottom:1px solid #CFCFCF;
   padding:0 5px 10px 0;
-  min-width:250px;
+  min-width:125px;
   vertical-align:top;
-  width:250px;
+  width:125px;
 }
 #taskboard tr:first-child td{
   background-color:rgb(235,235,235);

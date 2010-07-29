@@ -80,3 +80,15 @@ $(document).ajaxSend(function(event, request, settings) {
       settings.data += "&" + c.request_forgery_protection_token + "=" + encodeURIComponent(c.form_authenticity_token);
   }
 });
+
+// Abstract the user preference from the rest of the RB objects
+// so that we can change the underlying implementation as needed
+RB.UserPreferences = RB.Object.create({
+  get: function(key){
+    return $.cookie(key);
+  },
+  
+  set: function(key, value){
+    $.cookie(key, value, { expires: 365 * 10 });
+  }
+});
