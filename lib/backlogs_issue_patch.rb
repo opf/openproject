@@ -71,6 +71,28 @@ module Backlogs
         return [] if closed?
         relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
       end
+
+      def move_after(id = nil)
+        id = nil if id == ''
+        prev = id ? Issue.find(id) : nil
+
+        # force the story into the list (should not be necesary)
+        self.insert_at 0 unless self.in_list?
+
+        # if it's the first story, move it to the 1st position
+        if !prev
+          self.move_to_top
+
+        # if its predecessor has no position (shouldn't happen), make it
+        # the last story
+        elsif prev.position.nil?
+          self.move_to_bottom
+
+        # there's a valid predecessor
+        else
+          self.insert_at(self.position.nil? || self.position > prev.position ? prev.position + 1 : prev.position)
+        end
+      end
   
       def velocity_based_estimate
         return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
@@ -92,6 +114,11 @@ module Backlogs
       end
   
       def task_follows_story
+        if !self.in_list?
+          self.insert_at 0
+          self.move_to_bottom
+        end
+
         ## automatically sets the tracker to the task tracker for
         ## any descendant of story, and follow the version_id
         ## Normally one of the _before_save hooks ought to take
@@ -104,18 +131,6 @@ module Backlogs
           # raw sql here because it's efficient and not
           # doing so causes an update loop when Issue calls
           # update_parent
-
-          if self.position.nil?
-            # separate query because appearantly mysql _still_ doesn't
-            # handle subselects well
-            position = 0
-            res = connection.execute("select coalesce(max(position)+1, 0) from issues where project_id=#{connection.quote(self.project_id)}")
-            res.each {|row|
-              position = row[0]
-            }
-
-            connection.execute("update issues set position=#{connection.quote(position)} where id = #{connection.quote(self.id)}")
-          end
 
           if not Task.tracker.nil?
             tasks = self.descendants.collect{|t| connection.quote(t.id)}.join(",")
