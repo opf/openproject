@@ -112,6 +112,13 @@ module BacklogsPlugin
                 end
             end
 
+            def view_my_account(context={ })
+              return context[:controller].send(:render_to_string, {
+                        :partial => 'backlogs/view_my_account',
+                        :locals => {:user => context[:user], :color => context[:user].backlogs_preference(:task_color) }
+                    })
+            end
+
         end
     end
 end
