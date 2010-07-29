@@ -1,3 +1,13 @@
+.cost_types {
+  font-size: 80%;
+  padding-bottom: 3px;
+}
+
+.cost_types a.active {
+  color: #000;
+  font-weight: bold;
+}
+
 .report {
   text-align:       center;
   border-collapse:  collapse;

@@ -3,7 +3,7 @@
 walker.for_final_row do |row, cells|
   html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
   html << cells.join
-  html << "<th class='normal inner right'>#{number_to_currency(row.real_costs)}#{debug_fields(row)}</th>"
+  html << "<th class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
 end
 
 walker.for_row do |row, subrows|
@@ -12,7 +12,7 @@ walker.for_row do |row, subrows|
     subrows[0] = <<-HTML
     <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
     #{subrows[0].gsub("class='normal", "class='top")}
-    <th class='top right' rowspan='#{subrows.size}'>#{number_to_currency(row.real_costs)}#{debug_fields(row )}</th>
+    <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row )}</th>
     HTML
   end
   subrows.last.gsub!("class='normal", "class='bottom")
@@ -23,9 +23,17 @@ end
 walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>" }
 
 walker.for_cell do |result|
-  "<td class='normal'>#{number_to_currency result.real_costs}#{debug_fields(result)}</td>"
+  "<td class='normal'>#{show_result result}#{debug_fields(result)}</td>"
 end
 %>
+
+<div class='cost_types'>
+  <b><%= l(:label_display) %>:</b>
+  <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:label_money) %></a>
+  <% CostType.all.each do |t| %>
+    &bull; <a href="?unit=<%= t.id%>" class="<%= 'active' if @unit_id == t.id %>"><%= t.unit_plural %></a>
+  <% end %>
+</div>
 
 <table class='list report'>
   <thead>
@@ -50,13 +58,13 @@ end
       <% end %>
       <% list.each do |column| %>
         <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if first %>">
-          <%= number_to_currency column.real_costs %><%= debug_fields(column) %>
+          <%= show_result column %><%= debug_fields(column) %>
         </th>
       <% end %>
       <% if last_in_col %>
         <% if first %>
           <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>' class='top result'>
-            <%= number_to_currency query.real_costs %>
+            <%= show_result query %>
           </th>
         <% end %>
         </tr>

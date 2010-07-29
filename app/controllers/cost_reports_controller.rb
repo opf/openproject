@@ -6,7 +6,6 @@ class CostReportsController < ApplicationController
   include ReportingHelper
 
   def index
-    CostQuery::QueryUtils.cache.clear
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
     elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
@@ -88,11 +87,11 @@ class CostReportsController < ApplicationController
   # Build the query from the current request and save it to
   # the session.
   def generate_query
+    CostQuery::QueryUtils.cache.clear
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
 
     session[:cost_query] = {:filters => filters, :groups => groups}
-
     @query = CostQuery.new
     @query.tap do |q|
       filters[:operators].each do |filter, operator|
@@ -101,9 +100,19 @@ class CostReportsController < ApplicationController
         :values => filters[:values][filter])
       end
     end
+    set_cost_type
     groups[:rows].reverse_each {|r| @query.row(r) }
     groups[:columns].reverse_each {|c| @query.column(c) }
     @query
+  end
+
+  def set_cost_type
+    @unit_id = (params[:unit] || session[:unit_id]).try(:to_i) || -1
+    session[:unit_id] = @unit_id
+    if @unit_id != -1
+      @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
+      @cost_type = CostType.find(@unit_id)
+    end
   end
 
   private

@@ -76,6 +76,11 @@ module ReportingHelper
     end
   end
 
+  def show_result(row)
+    return number_to_currency(row.real_costs) unless @cost_type
+    "#{row.units} #{row.units != 1 ? @cost_type.unit_plural : @cost_type.unit}"
+  end
+
   ##
   # For a given row, determine how to render it's contents according to usability and
   # localization rules

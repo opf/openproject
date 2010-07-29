@@ -42,7 +42,7 @@ class CostQuery < ActiveRecord::Base
   end
 
   def group_by(name, options = {})
-    add_chain GroupBy, name, options.reverse_merge(:type => :column)
+    add_chain GroupBy, name, options
   end
 
   def column(name, options = {})
