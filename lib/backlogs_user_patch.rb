@@ -21,10 +21,10 @@ module Backlogs
             when :task_color
               if !v && (!set_to || set_to == '')
                 colors = UserPreference.find(:all).collect{|p| p[prefixed].to_s.upcase}.select{|p| p != ''}
-                1.upto(50).each {|attempt|
+                50.times do
                   set_to = "##{rand(0xFFFFFF).to_s(16).upcase}"
                   break unless colors.include?(set_to)
-                }
+                end
               end
 
             else
