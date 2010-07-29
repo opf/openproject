@@ -1,4 +1,5 @@
 <% for journal in journals %>
-  <%= render_journal(issue, journal) %>
+  <%= render_journal issue, journal, :edit_permission => :edit_issue_notes,
+      :edit_own_permission => :edit_own_issue_notes %>
   <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
 <% end %>
