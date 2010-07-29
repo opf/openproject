@@ -9,7 +9,7 @@ de:
   label_week_reporting: "Gebucht in Woche"
   label_month_reporting: "Gebucht in Monat"
   label_year_reporting: "Gebucht in Jahr"
-  label_display: "Anzeige"
+  label_report: "Report"
   label_money: "Geld"
 
   text_costs_are_rounded_note: "Die angezeigten Werte sind gerunded. Alle Berechnungen basieren auf ungerundete Werte."

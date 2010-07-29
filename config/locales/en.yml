@@ -8,7 +8,7 @@ en:
   label_week_reporting: "Booking Week"
   label_month_reporting: "Booking Month"
   label_year_reporting: "Booking Year"
-  label_display: "Display"
+  label_report: "Report"
   label_money: "Money"
 
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."

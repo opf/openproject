@@ -8,10 +8,10 @@ class CostReportsController < ApplicationController
   def index
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
-      set_cost_type(-1)
+      set_cost_type(0)
     elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
       @table_partial = "simple_cost_report_table"
-      set_cost_type(-1)
+      set_cost_type(0)
     else
       @table_partial = "cost_report_table"
       set_cost_type
@@ -109,11 +109,11 @@ class CostReportsController < ApplicationController
   end
 
   def set_cost_type(value = nil)
-    @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].try(:to_i) || -1
+    @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
     session[:unit_id] = @unit_id
-    if @unit_id != -1
+    if @unit_id != 0
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
-      @cost_type = CostType.find(@unit_id)
+      @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
   end
 

@@ -77,8 +77,11 @@ module ReportingHelper
   end
 
   def show_result(row)
-    return number_to_currency(row.real_costs) unless @cost_type
-    "#{row.units} #{row.units != 1 ? @cost_type.unit_plural : @cost_type.unit}"
+    case @unit_id
+    when -1 then l_hours(row.units)
+    when 0  then number_to_currency(row.real_costs)
+    else "#{row.units} #{row.units != 1 ? @cost_type.unit_plural : @cost_type.unit}"
+    end
   end
 
   ##

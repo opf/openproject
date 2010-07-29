@@ -43,5 +43,14 @@
 </div>
 <% end %>
 
+<div class='cost_types'>
+  <b><%= l(:label_report) %>:</b>
+  <a href="?unit=0" class="<%= 'active' if @unit_id == 0 %>"><%= l(:label_money) %></a>
+  &bull; <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:caption_labor) %></a>
+  <% CostType.all.each do |t| %>
+    &bull; <a href="?unit=<%= t.id%>" class="<%= 'active' if @unit_id == t.id %>"><%= t.unit_plural %></a>
+  <% end %>
+</div>
+
 <%= render :partial => @table_partial, :locals => {:query => @query, :walker => @query.walker} %>
 <p class="footnote"><%= l(:text_costs_are_rounded_note) %></p>

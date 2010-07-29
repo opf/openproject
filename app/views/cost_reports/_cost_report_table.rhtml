@@ -27,14 +27,6 @@ walker.for_cell do |result|
 end
 %>
 
-<div class='cost_types'>
-  <b><%= l(:label_display) %>:</b>
-  <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:label_money) %></a>
-  <% CostType.all.each do |t| %>
-    &bull; <a href="?unit=<%= t.id%>" class="<%= 'active' if @unit_id == t.id %>"><%= t.unit_plural %></a>
-  <% end %>
-</div>
-
 <table class='list report'>
   <thead>
     <% walker.headers do |list, first, first_in_col, last_in_col| %>
