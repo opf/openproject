@@ -20,7 +20,6 @@ Feature: Permissions
       | units | 424 |
     And I am on the Cost Reports page for the project called Test
     Then I should not see "No data to display"
-    And I start debugging
     And I should see "424.00"
     And I should see "Translation"
 

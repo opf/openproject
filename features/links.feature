@@ -7,7 +7,6 @@ Feature: Cost Reporting Linkage
     And the user "manager" has 1 cost entry
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "Some Project"
-    And I start debugging
     Then I should see "Cost Entry Attributes"
     And I should see "User"
     And I should see "<< me >>"
@@ -64,4 +63,33 @@ Feature: Cost Reporting Linkage
     And I follow "10.00 hours"
     Then I should see "100.00" # 10 EUR x 10 (hours)
     And I should not see "50.00" # 10 EUR x 5 (hours)
+    And I should not see "150.00"
+
+  Scenario: Going from an Issue to the cost report should set the filter on this issue
+    Given there is a standard cost control project named "Standard Project"
+    And the role "Manager" may have the following rights:
+      | view_own_hourly_rate |
+      | view_issues |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+      | view_cost_rates |
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 10   |
+    And the user "manager" has 1 issue with:
+      | subject | manager issue |
+    And the user "manager" has 1 issue with:
+      | subject | another issue |
+    And the issue "manager issue" has 1 cost entry with the following:
+      | user  | manager |
+      | units | 10      |
+    And the issue "another issue" has 1 cost entry with the following:
+      | user  | manager |
+      | units | 5       |
+    And I am logged in as "manager"
+    And I am on the page for the issue "manager issue"
+    Then I should see "10.0 words"
+    And I follow "10.0 words"
+    Then I should see "100.00" # 10 EUR x 10 (words)
+    And I should not see "50.00" # 10 EUR x 5 (words)
     And I should not see "150.00"
