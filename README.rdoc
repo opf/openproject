@@ -5,6 +5,7 @@ A scrum/agile tool. Useful for product planning, sprint planning, and daily stan
 = Installation
 
 1. Extract or clone the plugin to $REDMINE_CORE/vendor/plugins as redmine_backlogs
+2. Configure the plugin at <tt>http://path.to.redmine/settings/plugin/redmine_backlogs</tt>
 3. Run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
 4. Restart Redmine
 
