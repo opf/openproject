@@ -83,7 +83,7 @@ RB.BoardUpdater = RB.Object.create({
       } else {
         var target = $('#' + self.itemType + '_' + update.getID()).data('this');  // Re-use existing item
         target.$.html(update.$.html());
-        self.processItem(target);
+        self.processItem(target, update);
       }
     });
     
