@@ -18,8 +18,8 @@
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => [:new, :create]
   default_search_scope :issues
-  
-  before_filter :find_issue, :only => [:show, :edit, :update, :reply]
+
+  before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :create, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :preview, :context_menu]
@@ -29,10 +29,11 @@ class IssuesController < ApplicationController
   accept_key_auth :index, :show, :changes
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
-  
+
   helper :journals
+  include JournalsHelper
   helper :projects
-  include ProjectsHelper   
+  include ProjectsHelper
   helper :custom_fields
   include CustomFieldsHelper
   helper :issue_relations
@@ -162,8 +163,9 @@ class IssuesController < ApplicationController
   # Attributes that can be updated on workflow transition (without :edit permission)
   # TODO: make it configurable (at least per role)
   UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
-  
+
   def edit
+    return render_reply(@journal) if @journal
     update_issue_from_params
 
     @journal = @issue.current_journal
@@ -199,29 +201,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  def reply
-    journal = Journal.find(params[:journal_id]) if params[:journal_id]
-    if journal
-      user = journal.user
-      text = journal.notes
-    else
-      user = @issue.author
-      text = @issue.description
-    end
-    # Replaces pre blocks with [...]
-    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
-      
-    render(:update) { |page|
-      page.<< "$('notes').value = \"#{escape_javascript content}\";"
-      page.show 'update'
-      page << "Form.Element.focus('notes');"
-      page << "Element.scrollTo('update');"
-      page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
-    }
-  end
-  
   # Bulk edit a set of issues
   def bulk_edit
     @issues.sort!
