@@ -498,9 +498,9 @@ zh:
   label_date: 日期
   label_integer: 整数
   label_float: 浮点数
-  label_boolean: 布尔量
-  label_string: 文字
-  label_text: 长段文字
+  label_boolean: 布尔值
+  label_string: 字符串
+  label_text: 文本
   label_attribute: 属性
   label_attribute_plural: 属性
   label_download: "{{count}} 次下载"
@@ -910,19 +910,19 @@ zh:
   setting_cache_formatted_text: 缓存格式化文本
   permission_manage_project_activities: 管理项目活动
   error_unable_delete_issue_status: 无法删除问题状态
-  label_profile: 配置概况
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
+  label_profile: 简介
+  permission_manage_subtasks: 管理子任务
+  field_parent_issue: 父任务
+  label_subtask_plural: 子任务
+  label_project_copy_notifications: 复制项目时发送邮件通知
   error_can_not_delete_custom_field: 不能删除自定义属性
   error_unable_to_connect: 不能连接到 ({{value}})
   error_can_not_remove_role: 该角色正在使用中, 不能删除.
   error_can_not_delete_tracker: 该跟踪标签包含问题, 不能删除.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  field_principal: 用户/用户组
+  label_my_page_block: 我的工作台模块
+  notice_failed_to_save_members: "成员保存失败：{{errors}}。"
+  text_zoom_out: 缩小
+  text_zoom_in: 放大
+  notice_unable_delete_time_entry: 无法删除工时记录。
+  label_overall_spent_time: 所有项目耗用工时
