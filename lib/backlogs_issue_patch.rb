@@ -1,5 +1,37 @@
 require_dependency 'issue'
 
+module ActiveRecord
+  module Acts
+    module List
+      def move_after(id)
+        insert_at 0 unless in_list?
+
+        begin
+          prev = self.class.find(id)
+        rescue ActiveRecord::RecordNotFound
+          prev = nil
+        end
+
+        # if it's the first story, move it to the 1st position
+        if !prev
+          move_to_top
+
+        # if its predecessor has no position (shouldn't happen), make it
+        # the last story
+        elsif !prev.in_list?
+          move_to_bottom
+
+        # there's a valid predecessor
+        else
+          my_pos = send(position_column).to_i
+          prev_pos = prev.send(position_column).to_i
+          insert_at(my_pos == 0 || my_pos > prev_pos ? prev_pos + 1 : prev_pos)
+        end
+      end
+    end
+  end
+end
+
 module Backlogs
   module IssuePatch
     def self.included(base) # :nodoc:
@@ -72,28 +104,6 @@ module Backlogs
         relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
       end
 
-      def move_after(id = nil)
-        id = nil if id == ''
-        prev = id ? Issue.find(id) : nil
-
-        # force the story into the list (should not be necesary)
-        self.insert_at 0 unless self.in_list?
-
-        # if it's the first story, move it to the 1st position
-        if !prev
-          self.move_to_top
-
-        # if its predecessor has no position (shouldn't happen), make it
-        # the last story
-        elsif prev.position.nil?
-          self.move_to_bottom
-
-        # there's a valid predecessor
-        else
-          self.insert_at(self.position.nil? || self.position > prev.position ? prev.position + 1 : prev.position)
-        end
-      end
-  
       def velocity_based_estimate
         return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
   
@@ -107,18 +117,13 @@ module Backlogs
         recalculate_attributes_for_without_remaining_hours(issue_id)
   
         if issue_id && p = Issue.find_by_id(issue_id)
-        if p.left != (p.right + 1) # this node has children
-          p.update_attribute(:remaining_hours, p.leaves.sum(:remaining_hours).to_f)
-        end
+          if p.left != (p.right + 1) # this node has children
+            p.update_attribute(:remaining_hours, p.leaves.sum(:remaining_hours).to_f)
+          end
         end
       end
   
       def task_follows_story
-        if !self.in_list?
-          self.insert_at 0
-          self.move_to_bottom
-        end
-
         ## automatically sets the tracker to the task tracker for
         ## any descendant of story, and follow the version_id
         ## Normally one of the _before_save hooks ought to take
@@ -153,7 +158,19 @@ module Backlogs
         if not touched_sprint.nil?
           touched_sprint.touch_burndown
         end
+
+        if self.position.nil? && (self.is_story? || self.is_task?)
+          # MySQL still doesn't properly support subrequests, so split
+          # into 2 requests
+          lowest = 1
+          res = connection.execute "select coalesce(max(position)+1,1) from issues"
+          res.each { |row|
+            lowest = row[0]
+          }
+          connection.execute "update issues set position=#{connection.quote(lowest)} where id=#{connection.quote(self.id)}"
+        end
       end
+
     end
   end
 end
