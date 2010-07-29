@@ -903,6 +903,10 @@ td.username img.gravatar {
 	clear: left;
 }
 
+.journal-link {
+	float: right;
+}
+
 h2 img { vertical-align:middle; }
 
 .hascontextmenu { cursor: context-menu; }
