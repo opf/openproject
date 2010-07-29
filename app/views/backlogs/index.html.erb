@@ -1,7 +1,7 @@
 <%- content_for :header_tags do %>
   <%= stylesheet_link_tag 'index', 'story', :plugin => 'redmine_backlogs' %>
   <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id) %>"></script>
-  <%= javascript_include_tag 'index_main', 'backlog', 'story', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag 'board_updater', 'backlogs_updater', 'index_main', 'backlog', 'story', :plugin => 'redmine_backlogs' %>
 <%- end %>
 
 <%- content_for :breadcrumbs do %>
