@@ -14,8 +14,8 @@ class CostlogController < ApplicationController
 
   def details
     unless @project.nil?
-      filters = []
-      
+      filters = {:operators => {}, :values => {}}
+
       if @issue
         if @issue.respond_to?("lft")
           issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
@@ -23,34 +23,22 @@ class CostlogController < ApplicationController
           issue_ids = [@issue.id.to_s]
         end
 
-        filters << {
-          :column_name => "issue_id",
-          :enabled => "1",
-          :operator => "=",
-          :scope => "costs",
-          :values => issue_ids
-        }
+        filters[:operators][:issue_id] = "="
+        filters[:values][:issue_id] = issue_ids
       end
-    
+
       if @cost_type
-        filters << {
-          :column_name => "cost_type_id",
-          :enabled => "1",
-          :operator => "=",
-          :scope => "costs",
-          :values => @cost_type.id.to_s
-        }
+        filters[:operators][:cost_type_id] = "="
+        filters[:values][:cost_type_id] = [@cost_type.id.to_s]
       end
-      
+
+      filters[:operators][:project_id] = "="
+      filters[:values][:project_id] = [@project.id.to_s]
+
       respond_to do |format|
         format.html {
-          session[:cost_query] = {:project_id => @project.id,
-                                  :filters => filters || {},
-                                  :group_by => {},
-                                  :display_cost_entries => "1",
-                                  :display_time_entries => "0"
-                                 }
-          
+          session[:cost_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+
           redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
           return
         }
