@@ -14,24 +14,24 @@ CostEntry.class_eval do
   generator_for :tyear, 2010
   generator_for :tmonth, 3
   generator_for :tweek, 10
-  
+
   def self.next_project
-    Project.last or Project.generate!
+    Project.last || Project.generate!
   end
-  
+
   def self.next_cost_rate
-    CostRate.last or CostRate.generate!
+    CostRate.last || CostRate.generate!
   end
 
   def self.next_user
-    User.find_by_login("admin")
+    User.generate_with_protected!
   end
-  
+
   def self.next_cost_type
-    CostType.last or CostType.generate!
+    CostType.last || CostType.generate!
   end
-  
+
   def self.next_issue
-    self.next_project.issues.last or Issue.generate_for_project!(next_project)
+    self.next_project.issues.last || Issue.generate_for_project!(next_project)
   end
 end

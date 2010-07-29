@@ -10,6 +10,6 @@ CostObject.class_eval do
   end
 
   def self.next_author
-    User.find_by_name("admin")
+    User.first
   end
 end
