@@ -99,13 +99,13 @@ de:
           gb: "GB"
           tb: "TB"
 
-
+        
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "und"
       skip_last_comma: true
-
+      
   activerecord:
     errors:
       template:
@@ -139,7 +139,7 @@ de:
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
-
+  
   general_text_No: 'Nein'
   general_text_Yes: 'Ja'
   general_text_no: 'nein'
@@ -172,6 +172,7 @@ de:
   notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
   notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
   notice_failed_to_save_issues: "{{count}} von {{total}} ausgewählten Tickets konnte(n) nicht gespeichert werden: {{ids}}."
+  notice_failed_to_save_members: "Benutzer konnte nicht gespeichert werden: {{errors}}."
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
@@ -186,17 +187,18 @@ de:
   error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
   error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
+  error_can_not_delete_custom_field: Kann das benutzerdefinierte Feld nicht löschen.
+  error_can_not_delete_tracker: Dieser Tracker enthält Tickets und kann nicht gelöscht werden.
+  error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
   error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
   error_issue_done_ratios_not_updated: Der Ticket-Fortschritt wurde nicht aktualisiert.
   error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle.
   error_workflow_copy_target: Bitte wählen Sie die Ziel-Tracker und -Rollen.
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
-
-  warning_attachments_not_saved:
-    one: "1 Datei konnte nicht gespeichert werden."
-    other: "{{count}} Dateien konnten nicht gespeichert werden."
-
+  error_unable_to_connect: Fehler beim Verbinden ({{value}})
+  warning_attachments_not_saved: "{{count}} Datei(en) konnten nicht gespeichert werden."
+  
   mail_subject_lost_password: "Ihr {{value}} Kennwort"
   mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
   mail_subject_register: "{{value}} Kontoaktivierung"
@@ -211,7 +213,6 @@ de:
   mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
   mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' erfolgreich aktualisiert"
   mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
-
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "{{count}} Fehler"
 
@@ -250,6 +251,7 @@ de:
   field_priority: Priorität
   field_fixed_version: Zielversion
   field_user: Benutzer
+  field_principal: Principal
   field_role: Rolle
   field_homepage: Projekt-Homepage
   field_is_public: Öffentlich
@@ -305,6 +307,7 @@ de:
   field_content: Inhalt
   field_group_by: Gruppiere Ergebnisse nach
   field_sharing: Gemeinsame Verwendung
+  field_parent_issue: Übergeordnete Aufgabe
 
   setting_app_title: Applikations-Titel
   setting_app_subtitle: Applikations-Untertitel
@@ -414,6 +417,7 @@ de:
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
   permission_export_wiki_pages: Wiki-Seiten exportieren
+  permission_manage_subtasks: Unteraufgaben verwalten
 
   project_module_issue_tracking: Ticket-Verfolgung
   project_module_time_tracking: Zeiterfassung
@@ -423,7 +427,7 @@ de:
   project_module_wiki: Wiki
   project_module_repository: Projektarchiv
   project_module_boards: Foren
-
+  
   label_user: Benutzer
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
@@ -480,6 +484,7 @@ de:
   label_my_page: Meine Seite
   label_my_account: Mein Konto
   label_my_projects: Meine Projekte
+  label_my_page_block: My page block
   label_administration: Administration
   label_login: Anmelden
   label_logout: Abmelden
@@ -543,9 +548,18 @@ de:
   label_open_issues_plural: offen
   label_closed_issues: geschlossen
   label_closed_issues_plural: geschlossen
-  label_x_open_issues_abbr_on_total: "{{count}} offen / {{total}}"
-  label_x_open_issues_abbr: "{{count}} offen"
-  label_x_closed_issues_abbr: "{{count}} geschlossen"
+  label_x_open_issues_abbr_on_total:
+    zero:  0 offen / {{total}}
+    one:   1 offen / {{total}}
+    other: "{{count}} offen / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 offen
+    one:   1 offen
+    other: "{{count}} offen"
+  label_x_closed_issues_abbr:
+    zero:  0 geschlossen
+    one:   1 geschlossen
+    other: "{{count}} geschlossen"
   label_total: Gesamtzahl
   label_permissions: Berechtigungen
   label_current_status: Gegenwärtiger Status
@@ -769,7 +783,10 @@ de:
   label_api_access_key: API-Zugriffsschlüssel
   label_missing_api_access_key: Der API-Zugriffsschlüssel fehlt.
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor {{value}} erstellt
-
+  label_profile: Profil
+  label_subtask_plural: Unteraufgaben
+  label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
+  
   button_login: Anmelden
   button_submit: OK
   button_save: Speichern
@@ -817,13 +834,13 @@ de:
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
-
-  version_status_closed: abgeschlossen
-  version_status_locked: gesperrt
+  
   version_status_open: offen
+  version_status_locked: gesperrt
+  version_status_closed: abgeschlossen
 
-  field_active: Aktiv
-
+  field_active: Activ
+  
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
@@ -878,10 +895,10 @@ de:
   text_wiki_page_nullify_children: Verschiebe die Unterseiten auf die oberste Ebene
   text_wiki_page_destroy_children: Lösche alle Unterseiten
   text_wiki_page_reassign_children: Ordne die Unterseiten dieser Seite zu
-  text_own_membership_delete_confirmation: |-
-    Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.
-    Sind Sie sicher, dass Sie dies tun möchten?
-
+  text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
+  text_zoom_in: Zoom in
+  text_zoom_out: Zoom out
+  
   default_role_manager: Manager
   default_role_developer: Entwickler
   default_role_reporter: Reporter
@@ -903,21 +920,9 @@ de:
   default_priority_immediate: Sofort
   default_activity_design: Design
   default_activity_development: Entwicklung
+  
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
-  label_profile: Profil
-  permission_manage_subtasks: Unteraufgaben verwalten
-  field_parent_issue: Übergeordnete Aufgabe
-  label_subtask_plural: Unteraufgaben
-  label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
-  error_can_not_delete_custom_field: Kann das benutzerdefinierte Feld nicht löschen.
-  error_unable_to_connect: Fehler beim Verbinden ({{value}})
-  error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
-  error_can_not_delete_tracker: Dieser Tracker enthält Tickets und kann nicht gelöscht werden.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
+
