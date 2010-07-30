@@ -117,7 +117,7 @@ module Backlogs
         recalculate_attributes_for_without_remaining_hours(issue_id)
   
         if issue_id && p = Issue.find_by_id(issue_id)
-          if p.left != (p.right + 1) # this node has children
+          if p.left && p.right && p.left != (p.right + 1) # this node has children
             p.update_attribute(:remaining_hours, p.leaves.sum(:remaining_hours).to_f)
           end
         end
