@@ -3,6 +3,8 @@
     <p><%= link_to("#{l(:label_revision)} #{changeset.revision}",
                 :controller => 'repositories', :action => 'revision', :id => changeset.project, :rev => changeset.revision) %><br />
         <span class="author"><%= authoring(changeset.committed_on, changeset.author) %></span></p>
-    <%= textilizable(changeset, :comments) %>
+    <div class="changeset-changes">
+        <%= textilizable(changeset, :comments) %>
+    </div>
     </div>
 <% end %>
