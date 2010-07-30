@@ -26,6 +26,8 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
     add_index :burndown_days, :version_id
 
     Story.reset_column_information
+    Issue.reset_column_information
+    Task.reset_column_information
 
     # close existing transactions and turn on autocommit
     ActiveRecord::Base.connection.commit_db_transaction
@@ -41,31 +43,47 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
       say_with_time "Migrating Backlogs data..." do
         connection = ActiveRecord::Base.connection
 
-        res = execute "
-          select item.issue_id, item.position, item.points, sprint.version_id, parent.issue_id
-          from items item
-          left join items parent on parent.id = item.parent_id and item.parent_id <> 0
-          left join backlogs sprint on item.backlog_id = sprint.id"
+        stories = execute "
+          select story.issue_id, story.position, story.points, sprint.version_id
+          from items story
+          join issues on issues.id = story.issue_id
+          left join items parent on parent.id = story.parent_id and story.parent_id <> 0
+          left join backlogs sprint on story.backlog_id = sprint.id and sprint.id <> 0
+          where parent.id is null"
 
-        res.each { |row|
-          issue, position, points, version, parent = row
+        stories.each { |row|
+          id, position, points, sprint = row
 
-          issue = connection.quote(issue)
-          tracker = connection.quote(parent.nil? ? story_tracker : task_tracker)
-          version = connection.quote(version == 0 ? nil : version)
-          position = connection.quote(position)
-          parent = connection.quote(parent == 0 ? nil : parent)
-          points = connection.quote(points == 0 ? nil : points)
-          root = connection.quote(parent.nil? ? issue : parent)
+          story = Story.find(id)
 
-          execute "update issues set
-                fixed_version_id = #{version},
-                position = #{position},
-                story_points = #{points},
-                parent_id = #{parent},
-                tracker_id = #{tracker},
-                root_id = #{root}
-               where id = #{issue}"
+          story.update_attributes(
+            :tracker_id => story_tracker,
+            :fixed_version_id => sprint,
+            :story_points => points
+          )
+          story.insert_at position
+        }
+
+        tasks = execute "
+          select task.issue_id, task.position, sprint.version_id, parent.issue_id
+          from items task
+          join issues task_issue on task_issue.id = task.issue_id
+          join items parent on parent.id = task.parent_id and task.parent_id <> 0
+          join issues parent_issue on parent_issue.id = parent.issue_id
+          left join backlogs sprint on task.backlog_id = sprint.id and sprint.id <> 0
+          order by position"
+
+        tasks.each { |row|
+          id, position, sprint, parent_id = row
+
+          task = Task.find(id)
+
+          task.update_attributes(
+            :tracker_id => story_tracker,
+            :fixed_version_id => sprint
+          )
+          task.insert_at position
+          task.move_to_child_of parent_id
         }
 
         res = execute "select version_id, start_date, is_closed from backlogs"
@@ -83,25 +101,6 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
     # RM core started needing this... I'm not agreeing, but I need to
     # get the migration working
     execute "update issues set start_date = NULL where due_date < start_date"
-
-    say_with_time "Rebuilding issues tree..." do
-      # force rebuild
-      execute "update issues set lft = NULL, rgt = NULL"
-      Issue.reset_column_information
-      Issue.rebuild!
-    end
-
-    say_with_time "Resetting position (and incidentally force recalculation of derived attributes)" do
-      stories = Story.all(
-        :joins => 'join enumerations on issues.priority_id = enumerations.id',
-        :order => 'enumerations.position desc, issues.id',
-        :readonly => false
-      )
-
-      stories.each_with_index { |story, pos|
-        story.update_attribute(:position, pos + 1)
-      }
-    end
 
     begin
       execute "select count(*) from backlog_chart_data"
