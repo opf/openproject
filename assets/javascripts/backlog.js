@@ -6,6 +6,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
     
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.
+    var self = this;
     
     this.$ = j = $(el);
     this.el = el;
@@ -21,7 +22,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
                     dropOnEmpty: true,
                     start: this.dragStart,
                     stop: this.dragStop,
-                    update: this.dragComplete
+                    update: function(e,u){ self.dragComplete(e, u) }
                     });
 
     // Observe menu items
@@ -47,6 +48,8 @@ RB.Backlog = RB.Object.create(RB.Model, {
     if(isDropTarget){
       ui.item.data('this').saveDragResult();
     }
+
+    this.recalcPoints();
   },
   
   dragStart: function(event, ui){ 
