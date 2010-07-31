@@ -54,6 +54,7 @@ RB.Task = RB.Object.create(RB.Story, {
 
   refresh: function(obj){
     this.$.html(obj.$.html());
+    this.$.css('background-color', obj.$.css('background-color'));
   
     if(obj.isClosed()){
       this.close();
