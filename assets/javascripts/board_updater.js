@@ -70,21 +70,13 @@ RB.BoardUpdater = RB.Object.create({
     var self = this;
 
     $('body').removeClass('loading');
-    var items = $(data).children('.' + self.itemType);
     
     var latest_update = $(data).children('#last_updated').text();
     if(latest_update.length > 0) $('#last_updated').text(latest_update);
 
+    var items = $(data).children('.' + self.itemType);
     items.each(function(i, v){
-      var update = RB.Factory.initialize(self.objectType, v);
-
-      if($('#' + self.itemType + '_' + update.getID()).length==0){
-        self.processItem(update);                                                 // Create a new item
-      } else {
-        var target = $('#' + self.itemType + '_' + update.getID()).data('this');  // Re-use existing item
-        target.$.html(update.$.html());
-        self.processItem(target, update);
-      }
+      self.processItem(v);
     });
     
     self.adjustPollWait(items.length);
@@ -94,5 +86,9 @@ RB.BoardUpdater = RB.Object.create({
   processError: function(){
     this.adjustPollWait(0); 
     this.poll();
+  },
+  
+  processItem: function(update){
+    throw "RB.BoardUpdater.processItem() was not overriden by child object";
   }
 });

@@ -52,6 +52,16 @@ RB.Task = RB.Object.create(RB.Story, {
     this.$.addClass('saving');
   },
 
+  refresh: function(obj){
+    this.$.html(obj.$.html());
+  
+    if(obj.isClosed()){
+      this.close();
+    } else {
+      this.open();
+    }
+  },
+
   // Override saveDirectives of RB.Story
   saveDirectives: function(){
     var j = this.$;

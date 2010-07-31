@@ -46,6 +46,10 @@ RB.Story = RB.Object.create(RB.Model, {
       this.$.removeClass('subject_over_sixty');
     }
   },
+  
+  close: function(){
+    this.$.addClass('closed');
+  },
 
   edit: function(){
     j = this.$;
@@ -88,6 +92,10 @@ RB.Story = RB.Object.create(RB.Model, {
     return this.$.children('.id').children().first().text();
   },
   
+  getParent: function(){
+    return this.$.parents('.backlog').first().data('this');
+  },
+  
   getPoints: function(){
     points = parseInt(this.$.children('.story_points').text());
     return ( isNaN(points) ? 0 : points );
@@ -115,6 +123,10 @@ RB.Story = RB.Object.create(RB.Model, {
        !j.hasClass('dragging')){
       me.setSelection(!me.isSelected());
     }
+  },
+  
+  isClosed: function(){
+    return this.$.hasClass('closed');
   },
   
   isNew: function(){
@@ -145,11 +157,18 @@ RB.Story = RB.Object.create(RB.Model, {
     this.$.addClass('saving');
   },
   
-  refresh: function(){
-    this.endEdit();
-    this.unmarkSaving();
-    var sprint = this.$.parents('.sprint.backlog');
-    if(sprint.size()>0) sprint.data('this').recalcPoints();
+  open: function(){
+    this.$.removeClass('closed');
+  },
+
+  refresh: function(obj){
+    this.$.html(obj.$.html());
+  
+    if(obj.isClosed()){
+      this.close();
+    } else {
+      this.open();
+    }
   },
 
   // To be overriden by children objects such as RB.Task
