@@ -5,9 +5,9 @@ A scrum/agile tool. Useful for product planning, sprint planning, and daily stan
 = Installation
 
 1. Extract or clone the plugin to $REDMINE_CORE/vendor/plugins as redmine_backlogs
-2. Configure the plugin at <tt>http://path.to.redmine/settings/plugin/redmine_backlogs</tt>
-3. Run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
-4. Restart Redmine
+2. Start Redmine and configure the plugin at (see the "Settings" section below)
+3. Stop Redmine and run <tt>rake db:migrate_plugins</tt> from RAILS_ROOT
+4. Start Redmine
 
 = Documentation
 
@@ -15,9 +15,13 @@ Documentation is available at http://relaxdiego.github.com/redmine_backlogs/
 
 = Settings
 
-Configure the plugin via Administration > Plugins
+Configure the plugin via Administration > Plugins > Redmine Scrum Plugin > Configure. 
+Pick a tracker to represent your tasks, and one or more trackers to
+represent your stories. You may want to create new trackers
+specifically for this purpose under Administration > Trackers.
 
-You will need to enable the Backlogs module per project via Settings > Modules. Also, make check that the right roles have permission to use the module by going to Administration > Roles and Permissions > Permissions Report.
+You will need to enable the Backlogs module per project via Settings >
+Modules on your project. Also, make check that the right roles have permission to use the module by going to Administration > Roles and Permissions > Permissions Report.
 
 = Chart Data Generator
 
