@@ -1,7 +1,13 @@
 class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
   def self.up
     if Story.trackers.nil? || Story.trackers.size == 0 || Task.tracker.nil?
-      raise "Please configure the Backlogs Story and Task trackers before migrating"
+      raise "Please configure the Backlogs Story and Task trackers before migrating.
+
+      You do this by starting Redmine and going to \"Administration -> Plugins -> Redmine Scrum Plugin -> Configure\"
+      and setting up the Task tracker and one or more Story trackers.
+      You might have to go to  \"Administration -> Trackers\" first
+      and create new trackers for this purpose. After doing this, stop
+      redmine and re-run this migration."
     end
 
     task_tracker = Task.tracker
