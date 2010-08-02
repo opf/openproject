@@ -25,7 +25,7 @@
               }) %><br/>
     <% end %>
 
-    <% if Setting.rest_api_enabled? %>
+    <% if Setting.rest_api_enabled? && key %>
       <a href="<%= url_for({
                     :key => key,
                     :controller => 'backlogs',
