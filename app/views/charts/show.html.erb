@@ -1,6 +1,6 @@
 <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
 
-<div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>"></div>
+<div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>"><div class="loading">Generating chart...</div></div>
 
 <fieldset>
     <legend><%= l(:label_chart_options) %></legend>

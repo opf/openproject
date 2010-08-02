@@ -9,6 +9,7 @@
 <% end %>
 
 <%- content_for :page_specific_links do %>
+  <a class='show_charts'><%= l(:label_burndown) %></a>
   <span id="col_width">Column width: <input name="col_width"/></span>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
@@ -51,3 +52,6 @@
   <%= render :partial => "tasks/task", :object => Task.new %>
 </div>
 <!-- end of templates -->
+
+<div id="charts">
+</div>

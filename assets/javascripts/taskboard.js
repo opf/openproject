@@ -37,6 +37,8 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     
     // Add handler for new_task_button click
     j.find('.new_task_button').bind('mouseup', this.handleNewTaskButtonClick);
+    
+    $('.show_charts').bind('click', function(ev){ self.showCharts(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
   },
   
   dragComplete: function(event, ui) {
@@ -92,6 +94,19 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     o.edit();
     
     task.find('.editor' ).first().focus();
+  },
+
+  showCharts: function(event){
+    event.preventDefault();
+    $('#charts').html("<div class='loading'>Loading data...</div>");
+    $('#charts').load(RB.urlFor['show_charts'] + '?project_id=' + RB.constants['project_id'] + '&sprint_id=' + RB.constants.sprint_id);
+    $('#charts').dialog({ 
+                          buttons: { "Close": function() { $(this).dialog("close") } },
+                          height: 790,
+                          modal: true, 
+                          title: 'Charts', 
+                          width: 710 
+                       });
   },
   
   updateColWidths: function(){
