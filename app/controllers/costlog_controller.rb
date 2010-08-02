@@ -18,9 +18,9 @@ class CostlogController < ApplicationController
 
       if @issue
         if @issue.respond_to?("lft")
-          issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id.to_s}
+          issue_ids = Issue.all(:select => :id, :conditions => ["root_id = ? AND lft >= ? AND rgt <= ?", @issue.root_id, @issue.lft, @issue.rgt]).collect{|i| i.id}
         else
-          issue_ids = [@issue.id.to_s]
+          issue_ids = [@issue.id]
         end
 
         filters[:operators][:issue_id] = "="
