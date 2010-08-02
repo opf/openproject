@@ -35,11 +35,7 @@
             :for => :product
           },
           {
-            :item => menu_link(l(:label_burndown), {
-                               :controller => 'backlogs',
-                               :action => 'burndown',
-                               :project_id => @project,
-                               :sprint_id => backlog }),
+            :item => "<a class='show_charts' href='#{backlog.id}'>#{l(:label_burndown)}</a>",
             :for => :sprint,
             :condition => (backlog.respond_to?(:has_burndown) and backlog.has_burndown)
           },

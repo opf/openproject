@@ -56,10 +56,21 @@ body.loading #refresh {
   width:1120px;
 }
 
+/* BURNDOWN */
+.burndown_chart {
+  margin:20px; 
+  width:640px; 
+  height:480px;
+}
+
 /* MISC */
-.editable:hover{
+.editable:hover {
   background-color:#CCCCCC;
 }
-.meta{
+.meta {
   display:none;
+}
+.ui-dialog .loading {
+  text-align:center;
+  width:100%;
 }

@@ -46,6 +46,9 @@ Redmine::Plugin.register :redmine_backlogs do
                 :update,
                 :new,
                 :create ],
+              
+              :charts => [
+                :show ]
           }
 
     permission :view_backlog,
@@ -60,7 +63,8 @@ Redmine::Plugin.register :redmine_backlogs do
                 :calendar,
                 :burndown ],
               :stories => [ :index ],
-              :tasks => [   :index ],
+              :tasks => [ :index ],
+              :charts => [ :show ]
           }
     permission :view_statistics, { :backlogs_global => [ :statistics ] }
   end

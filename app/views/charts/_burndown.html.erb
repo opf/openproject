@@ -1,6 +1,5 @@
 <%- charts = (burndown.is_a?(Array) ? burndown : [burndown]) %>
 <%- dataseries = charts[0].series(:all).collect{|series| series.name } %>
-<%- content_for :header_tags do %>
 
   <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
 
@@ -113,4 +112,3 @@
       burndown_configure();
     });
   </script>
-<%- end %>

@@ -71,3 +71,5 @@ en:
   event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
   todo_issue_summary: "{{type}}: {{summary}}"
   todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+
+  label_chart_options: "Chart Options"

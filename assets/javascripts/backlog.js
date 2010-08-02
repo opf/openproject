@@ -30,6 +30,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
     j.find('.select_all').bind('mouseup', this.handleSelectAll);
     j.find('.unselect_all').bind('mouseup', this.handleSelectAll);
     j.find('.unselect_all').hide();
+    j.find('.show_charts').bind('click', function(ev){ self.showCharts(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
 
     // Initialize each item in the backlog
     this.getStories().each(function(index){
@@ -238,6 +239,19 @@ RB.Backlog = RB.Object.create(RB.Model, {
       complete: function(xhr, textStatus){ me.unmarkSaving(); /* RB.dialog.msg(xhr.responseText) */ }
     });
     me.endEdit();
+  },
+  
+  showCharts: function(event){
+    event.preventDefault();
+    $('#charts').html("<div class='loading'>Loading...</div>");
+    $('#charts').load(RB.urlFor['show_charts'] + '?project_id=' + RB.constants['project_id'] + '&sprint_id=' + $(event.target).attr('href'));
+    $('#charts').dialog({ 
+                          buttons: { "Close": function() { $(this).dialog("close") } },
+                          height: 790,
+                          modal: true, 
+                          title: 'Charts', 
+                          width: 710 
+                       });
   },
   
   unmarkSaving: function(){
