@@ -32,7 +32,7 @@ RB.Factory = RB.Object.create({
 RB.Model = RB.Object.create({});
 
 // Utilities
-RB.dialog = RB.Object.create({
+RB.Dialog = RB.Object.create({
   msg: function(msg){
     dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('#content') : $('#msgBox');
     dialog.text(msg);
@@ -43,7 +43,7 @@ RB.dialog = RB.Object.create({
   },
   
   notice: function(msg){
-    if(console!=null) console.log(msg);
+    if(typeof console != "undefined" && console != null) console.log(msg);
   }
 });
 
