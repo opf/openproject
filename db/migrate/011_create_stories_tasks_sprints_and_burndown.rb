@@ -46,7 +46,7 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
     end
 
     bottom = 0
-    execute("select coalesce(max(position), 0) from items").each { |row| {
+    execute("select coalesce(max(position), 0) from items").each { |row| 
       bottom = row[0].to_i
     }
     bottom += 1
