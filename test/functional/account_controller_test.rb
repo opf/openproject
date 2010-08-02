@@ -195,11 +195,7 @@ class AccountControllerTest < ActionController::TestCase
       should_assign_to :user
       should_redirect_to('my page') { {:controller => 'my', :action => 'account'} }
 
-      should "create a new user" do
-        user = User.last(:conditions => {:login => 'register'})
-        assert user
-        assert_kind_of User, user
-      end
+      should_create_a_new_user { User.last(:conditions => {:login => 'register'}) }
 
       should 'set the user status to active' do
         user = User.last(:conditions => {:login => 'register'})
