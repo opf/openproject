@@ -13,7 +13,7 @@ module Backlogs
     module InstanceMethods
   
         def backlogs_preference(attr, set_to = nil)
-          prefixed = "backlogs.#{attr}"
+          prefixed = "backlogs_#{attr}".intern
           v = self.pref[prefixed]
           v = nil if v == ''
 
