@@ -45,20 +45,27 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
       backlogs_present = false
     end
 
+    bottom = 0
+    execute("select coalesce(max(position), 0) from items").each { |row| {
+      bottom = row[0].to_i
+    }
+    bottom += 1
+
     if backlogs_present
       say_with_time "Migrating Backlogs data..." do
         connection = ActiveRecord::Base.connection
 
         stories = execute "
-          select story.issue_id, story.position, story.points, sprint.version_id
+          select story.issue_id, story.points, sprint.version_id
           from items story
           join issues on issues.id = story.issue_id
           left join items parent on parent.id = story.parent_id and story.parent_id <> 0
           left join backlogs sprint on story.backlog_id = sprint.id and sprint.id <> 0
-          where parent.id is null"
+          where parent.id is null
+          order by coalesce(story.position, #{bottom}) desc, story.created_at desc"
 
         stories.each { |row|
-          id, position, points, sprint = row
+          id, points, sprint = row
 
           story = Story.find(id)
 
@@ -67,20 +74,24 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
             :fixed_version_id => sprint,
             :story_points => points
           )
-          story.insert_at position
+
+          # because we're inserting the stories last-first, this
+          # position gets shifted down 1 spot each time, yielding a
+          # neatly compacted position list
+          story.insert_at 1
         }
 
         tasks = execute "
-          select task.issue_id, task.position, sprint.version_id, parent.issue_id
+          select task.issue_id, sprint.version_id, parent.issue_id
           from items task
           join issues task_issue on task_issue.id = task.issue_id
           join items parent on parent.id = task.parent_id and task.parent_id <> 0
           join issues parent_issue on parent_issue.id = parent.issue_id
           left join backlogs sprint on task.backlog_id = sprint.id and sprint.id <> 0
-          order by position"
+          order by coalesce(task.position, #{bottom}) desc, task.created_at desc"
 
         tasks.each { |row|
-          id, position, sprint, parent_id = row
+          id, sprint, parent_id = row
 
           task = Task.find(id)
 
@@ -88,8 +99,15 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
             :tracker_id => task_tracker,
             :fixed_version_id => sprint
           )
-          task.insert_at position
+
+          # this must be done before insert_at, because task position
+          # (see below) is scoped to the parent issue
           task.move_to_child_of parent_id
+
+          # because we're inserting the tasks last-first, this
+          # position gets shifted down 1 spot each time, yielding a
+          # neatly compacted position list
+          task.insert_at 1
         }
 
         res = execute "select version_id, start_date, is_closed from backlogs"
