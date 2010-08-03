@@ -206,9 +206,15 @@ function show_group_by_row(group_by) {
 
 function disable_all_filters() {
     $('filter_table').down().childElements().each(function (e) {
+        var field, possible_select;
         e.hide();
         if (e.readAttribute('class') == 'filter') {
-            hide_filter(e.id.gsub('tr_', ''));
+            field = e.id.gsub('tr_', '');
+            hide_filter(field);
+            possible_select = $(field + '_arg_1_val');
+            if (possible_select !== null && possible_select.type.include('select')) {
+                make_select_accept_single_value(possible_select);
+            }
         }
     });
 }
