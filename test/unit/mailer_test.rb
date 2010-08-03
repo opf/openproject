@@ -352,6 +352,7 @@ class MailerTest < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert mail.bcc.include?('dlopper@somenet.foo')
     assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
+    assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
   
   def last_email

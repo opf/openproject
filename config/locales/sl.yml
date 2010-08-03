@@ -167,7 +167,7 @@ sl:
   mail_body_account_information: Informacije o vašem računu
   mail_subject_account_activation_request: "{{value}} zahtevek za aktivacijo računa"
   mail_body_account_activation_request: "Registriral se je nov uporabnik ({{value}}). Račun čaka na vašo odobritev:"
-  mail_subject_reminder: "{{count}} zahtevek(zahtevki) zapadejo v naslednjih dneh"
+  mail_subject_reminder: "{{count}} zahtevek(zahtevki) zapadejo v naslednjih {{days}} dneh"
   mail_body_reminder: "{{count}} zahtevek(zahtevki), ki so vam dodeljeni bodo zapadli v naslednjih {{days}} dneh:"
   
   gui_validation_error: 1 napaka

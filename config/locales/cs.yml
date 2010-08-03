@@ -710,7 +710,7 @@ cs:
   text_subprojects_destroy_warning: "Jeho podprojek(y): {{value}} budou také smazány."
   label_and_its_subprojects: "{{value}} a jeho  podprojekty"
   mail_body_reminder: "{{count}} úkol(ů), které máte přiřazeny má termín během několik dní ({{days}}):"
-  mail_subject_reminder: "{{count}} úkol(ů) má termín během několik dní"
+  mail_subject_reminder: "{{count}} úkol(ů) má termín během několik dní ({{days}})"
   text_user_wrote: "{{value}} napsal:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Povoleno SCM

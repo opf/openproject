@@ -237,7 +237,7 @@ lt:
   mail_body_account_information: Informacija apie Jūsų paskyrą
   mail_subject_account_activation_request: "{{value}} paskyros aktyvavimo prašymas"
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas ({{value}}). Jo paskyra laukia jūsų patvirtinimo:"
-  mail_subject_reminder: "{{count}} darbas(ai) po kelių dienų"
+  mail_subject_reminder: "{{count}} darbas(ai) po kelių {{days}} dienų"
   mail_body_reminder: "{{count}} darbas(ai), kurie yra jums priskirti, baigiasi po {{days}} dienų(os):"
   mail_subject_wiki_content_added: "'{{page}}' pridėtas wiki puslapis"
   mail_body_wiki_content_added: "The '{{page}}' wiki puslapi pridėjo {{author}}."

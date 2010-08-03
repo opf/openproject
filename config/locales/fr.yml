@@ -200,7 +200,7 @@ fr:
   mail_body_account_information: Paramètres de connexion de votre compte
   mail_subject_account_activation_request: "Demande d'activation d'un compte {{value}}"
   mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation :"
-  mail_subject_reminder: "{{count}} demande(s) arrivent à échéance"
+  mail_subject_reminder: "{{count}} demande(s) arrivent à échéance ({{days}})"
   mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours :"
   mail_subject_wiki_content_added: "Page wiki '{{page}}' ajoutée"
   mail_body_wiki_content_added: "La page wiki '{{page}}' a été ajoutée par {{author}}."

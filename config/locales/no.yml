@@ -163,7 +163,7 @@
   mail_body_account_information: Informasjon om din konto
   mail_subject_account_activation_request: "{{value}} kontoaktivering"
   mail_body_account_activation_request: "En ny bruker ({{value}}) er registrert, og avventer din godkjenning:"
-  mail_subject_reminder: "{{count}} sak(er) har frist de kommende dagene"
+  mail_subject_reminder: "{{count}} sak(er) har frist de kommende {{days}} dagene"
   mail_body_reminder: "{{count}} sak(er) som er tildelt deg har frist de kommende {{days}} dager:"
   
   gui_validation_error: 1 feil

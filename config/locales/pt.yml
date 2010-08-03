@@ -181,7 +181,7 @@ pt:
   mail_body_account_information: Informação da sua conta
   mail_subject_account_activation_request: "Pedido de activação da conta {{value}}"
   mail_body_account_activation_request: "Um novo utilizador ({{value}}) registou-se. A sua conta está à espera de aprovação:"
-  mail_subject_reminder: "{{count}} tarefa(s) para entregar nos próximos dias"
+  mail_subject_reminder: "{{count}} tarefa(s) para entregar nos próximos {{days}} dias"
   mail_body_reminder: "{{count}} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos {{days}} dias:"
   
   gui_validation_error: 1 erro

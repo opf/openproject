@@ -200,7 +200,7 @@ zh:
   mail_body_account_information: 您的帐号信息
   mail_subject_account_activation_request: "{{value}}帐号激活请求"
   mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核："
-  mail_subject_reminder: "{{count}} 个问题需要尽快解决"
+  mail_subject_reminder: "{{count}} 个问题需要尽快解决 ({{days}})"
   mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
   mail_subject_wiki_content_added: "'{{page}}' wiki页面已添加"
   mail_body_wiki_content_added: "'{{page}}' wiki页面已由 {{author}} 添加。"

@@ -601,7 +601,7 @@ nl:
   mail_subject_account_activation_request: "{{value}} accountactivatieverzoek"
   mail_subject_lost_password: "uw {{value}} wachtwoord"
   mail_subject_register: "uw {{value}} accountactivatie"
-  mail_subject_reminder: "{{count}} issue(s) die voldaan moeten zijn in de komende dagen."
+  mail_subject_reminder: "{{count}} issue(s) die voldaan moeten zijn in de komende {{days}} dagen."
   notice_account_activated: uw account is geactiveerd. u kunt nu inloggen.
   notice_account_invalid_creditentials: Incorrecte gebruikersnaam of wachtwoord
   notice_account_lost_email_sent: Er is een e-mail naar u verstuurd met instructies over het kiezen van een nieuw wachtwoord.

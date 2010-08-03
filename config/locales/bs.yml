@@ -184,7 +184,7 @@ bs:
   mail_body_account_information: Informacija o vašem korisničkom računu
   mail_subject_account_activation_request: "{{value}} zahtjev za aktivaciju korisničkog računa"
   mail_body_account_activation_request: "Novi korisnik ({{value}}) se registrovao. Korisnički račun čeka vaše odobrenje za aktivaciju:"
-  mail_subject_reminder: "{{count}} aktivnost(i) u kašnjenju u narednim danima"
+  mail_subject_reminder: "{{count}} aktivnost(i) u kašnjenju u narednim {{days}} danima"
   mail_body_reminder: "{{count}} aktivnost(i) koje su dodjeljenje vama u narednim {{days}} danima:"
   
   gui_validation_error: 1 greška

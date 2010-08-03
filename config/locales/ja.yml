@@ -214,7 +214,7 @@ ja:
   mail_body_account_information: アカウント情報
   mail_subject_account_activation_request: "{{value}} アカウントの承認要求"
   mail_body_account_activation_request: "新しいユーザ {{value}} が登録されました。このアカウントはあなたの承認待ちです："
-  mail_subject_reminder: "{{count}}件のチケットが期日間近です"
+  mail_subject_reminder: "{{count}}件のチケットが{{days}}期日間近です"
   mail_body_reminder: "{{count}}件の担当チケットの期日が{{days}}日以内に到来します:"
   mail_subject_wiki_content_added: "Wikiページ {{page}} が追加されました"
   mail_body_wiki_content_added: "{{author}} によってWikiページ {{page}} が追加されました。"

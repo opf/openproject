@@ -234,7 +234,7 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_subject_account_activation_request: "{{value}} begäran om kontoaktivering"
   mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:"
-  mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande dagarna"
+  mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande {{days}} dagarna"
   mail_body_reminder: "{{count}} ärende(n) som är tilldelat dig har deadline under de {{days}} dagarna:"
   mail_subject_wiki_content_added: "'{{page}}' wikisida has lagts till"
   mail_body_wiki_content_added: The '{{page}}' wikisida has lagts till av {{author}}.

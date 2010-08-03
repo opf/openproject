@@ -707,7 +707,7 @@ th:
   enumeration_activities: กิจกรรม (ใช้ในการติดตามเวลา)
   label_and_its_subprojects: "{{value}} and its subprojects"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next days"
+  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
   text_user_wrote: "{{value}} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM

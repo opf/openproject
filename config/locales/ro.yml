@@ -164,7 +164,7 @@ ro:
   mail_body_account_information: Informații despre contul dumneavoastră
   mail_subject_account_activation_request: "Cerere de activare a contului {{value}}"
   mail_body_account_activation_request: "S-a înregistrat un utilizator nou ({{value}}). Contul așteaptă aprobarea dumneavoastră:"
-  mail_subject_reminder: "{{count}} tichete trebuie rezolvate în următoarele zile"
+  mail_subject_reminder: "{{count}} tichete trebuie rezolvate în următoarele {{days}} zile"
   mail_body_reminder: "{{count}} tichete atribuite dumneavoastră trebuie rezolvate în următoarele {{days}} zile:"
   
   gui_validation_error: o eroare

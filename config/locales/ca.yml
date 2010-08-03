@@ -166,7 +166,7 @@ ca:
   mail_body_account_information: Informació del compte
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de {{value}}"
   mail_body_account_activation_request: "S'ha registrat un usuari nou ({{value}}). El seu compte està pendent d'aprovació:"
-  mail_subject_reminder: "%d assumptes venceran els següents {{count}} dies"
+  mail_subject_reminder: "{{count}} assumptes venceran els següents {{days}} dies"
   mail_body_reminder: "{{count}} assumptes que teniu assignades venceran els següents {{days}} dies:"
   
   gui_validation_error: 1 error
