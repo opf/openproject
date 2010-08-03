@@ -8,6 +8,10 @@ class MigrateLegacy < ActiveRecord::Migration
     end
 
     if legacy
+      Story.reset_column_information
+      Issue.reset_column_information
+      Task.reset_column_information
+
       if Story.trackers.nil? || Story.trackers.size == 0 || Task.tracker.nil?
         raise "Please configure the Backlogs Story and Task trackers before migrating.
 
@@ -18,12 +22,19 @@ class MigrateLegacy < ActiveRecord::Migration
         redmine and re-run this migration."
       end
 
-      task_tracker = Task.tracker
-      story_tracker = Story.trackers[0]
+      trackers = {}
+      
+      # find story/task trackers per project
+      execute("select projects.id, pt.tracker_id
+               from projects
+               left join projects_trackers pt on pt.project_id = projects.id").each { |row|
 
-      Story.reset_column_information
-      Issue.reset_column_information
-      Task.reset_column_information
+        project_id, tracker_id = row.collect{|d| Integer(d)}
+
+        trackers[project_id] ||= {}
+        trackers[project_id][:story] = tracker_id if Story.trackers.include?(tracker_id)
+        trackers[project_id][:task] = tracker_id if Task.tracker == tracker_id
+      }
 
       # close existing transactions and turn on autocommit
       ActiveRecord::Base.connection.commit_db_transaction
@@ -38,7 +49,7 @@ class MigrateLegacy < ActiveRecord::Migration
         connection = ActiveRecord::Base.connection
 
         stories = execute "
-          select story.issue_id, story.points, sprint.version_id
+          select story.issue_id, story.points, sprint.version_id, issues.project_id
           from items story
           join issues on issues.id = story.issue_id
           left join items parent on parent.id = story.parent_id and story.parent_id <> 0
@@ -47,15 +58,20 @@ class MigrateLegacy < ActiveRecord::Migration
           order by coalesce(story.position, #{bottom}) desc, story.created_at desc"
 
         stories.each { |row|
-          id, points, sprint = row
+          id, points, sprint, project = row.collect {|d| Integer(d)}
 
+          say "Updating story #{id}"
           story = Story.find(id)
 
-          story.update_attributes(
-            :tracker_id => story_tracker,
-            :fixed_version_id => sprint,
-            :story_points => points
-          )
+          if ! Story.trackers.include?(story.tracker_id)
+            raise "Project #{project} does not have a story tracker configured" unless trackers[project][:story]
+            story.tracker_id = trackers[project][:story]
+            story.save!
+          end
+
+          story.fixed_version_id = sprint
+          story.story_points = points
+          story.save!
 
           # because we're inserting the stories last-first, this
           # position gets shifted down 1 spot each time, yielding a
@@ -64,7 +80,7 @@ class MigrateLegacy < ActiveRecord::Migration
         }
 
         tasks = execute "
-          select task.issue_id, sprint.version_id, parent.issue_id
+          select task.issue_id, sprint.version_id, parent.issue_id, task_issue.project_id
           from items task
           join issues task_issue on task_issue.id = task.issue_id
           join items parent on parent.id = task.parent_id and task.parent_id <> 0
@@ -73,18 +89,21 @@ class MigrateLegacy < ActiveRecord::Migration
           order by coalesce(task.position, #{bottom}) desc, task.created_at desc"
 
         tasks.each { |row|
-          id, sprint, parent_id = row
+          id, sprint, parent_id, project = row.collect {|d| Integer(d)}
+
+          say "Updating task #{id}"
 
           task = Task.find(id)
 
-          task.update_attributes(
-            :tracker_id => task_tracker,
-            :fixed_version_id => sprint
-          )
+          if ! Task.tracker == task.tracker_id
+            raise "Project #{project} does not have a task tracker configured" unless trackers[project][:task]
+            task.tracker_id = trackers[project][:task]
+            task.save!
+          end
 
-          # this must be done before insert_at, because task position
-          # (see below) is scoped to the parent issue
-          task.move_to_child_of parent_id
+          task.fixed_version_id = sprint
+          task.parent_issue_id = parent_id
+          task.save!
 
           # because we're inserting the tasks last-first, this
           # position gets shifted down 1 spot each time, yielding a
