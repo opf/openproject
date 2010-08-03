@@ -6,14 +6,15 @@
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
 <% active_filters = query.filters.select {|f| f.class.display? } %>
+<% grouped_filters = CostQuery::Filter.all_grouped.sort_by { |label, group_by_ary| l(label) } %>
 
 <table width="100%">
 <tr>
   <td>
     <table id="filter_table">
-    <% CostQuery::Filter.all_grouped.each do |label, filter_ary| %>
+    <% grouped_filters.each do |label, filter_ary| %>
       <tr id="tr_<%= label.to_s %>" style="display:none"><td><h3><%= l(label) %></h3></td></tr>
-      <% filter_ary.each do |filter| %>
+      <% filter_ary.sort_by { |f| l(f.label)}.each do |filter| %>
         <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none" data-label="tr_<%= label.to_s %>">
         <% html_elements(filter).each do |element| %>
           <%=
@@ -31,9 +32,9 @@
     <%= l(:label_filter_add) %>:
     <select onchange="add_filter(this);" id="add_filter_select" class="select-small">
       <option value=""></option>
-      <% CostQuery::Filter.all_grouped.each do |label, filter_ary| %>
+      <% grouped_filters.each do |label, filter_ary| %>
         <optgroup label="<%= l(label) %>">
-        <% filter_ary.each do |filter| %>
+        <% filter_ary.sort_by { |f| l(f.label)}.each do |filter| %>
           <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
         <% end %>
         </optgroup>
