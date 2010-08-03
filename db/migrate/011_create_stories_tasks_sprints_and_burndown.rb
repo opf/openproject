@@ -45,14 +45,15 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
       backlogs_present = false
     end
 
-    bottom = 0
-    execute("select coalesce(max(position), 0) from items").each { |row| 
-      bottom = row[0].to_i
-    }
-    bottom += 1
-
     if backlogs_present
       say_with_time "Migrating Backlogs data..." do
+
+        bottom = 0
+        execute("select coalesce(max(position), 0) from items").each { |row| 
+          bottom = row[0].to_i
+        }
+        bottom += 1
+
         connection = ActiveRecord::Base.connection
 
         stories = execute "
