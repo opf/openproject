@@ -5,6 +5,6 @@ class CostQuery::Filter::StatusId < CostQuery::Filter::Base
   label :field_status
 
   def self.available_values
-    IssueStatus.all.map { |i| [i.name, i.id] }
+    IssueStatus.find(:all, :order => 'name').map { |i| [i.name, i.id] }
   end
 end

@@ -4,6 +4,6 @@ class CostQuery::Filter::TrackerId < CostQuery::Filter::Base
   label :field_tracker
 
   def self.available_values
-    Tracker.all.map { |i| [i.name, i.id] }
+    Tracker.find(:all, :order => 'name').map { |i| [i.name, i.id] }
   end
 end

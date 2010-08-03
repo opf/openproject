@@ -4,6 +4,6 @@ class CostQuery::Filter::PriorityId < CostQuery::Filter::Base
   label :field_priority
 
   def self.available_values
-    IssuePriority.all.map { |i| [i.name, i.id] }
+    IssuePriority.find(:all, :order => 'position DESC').map { |i| [i.name, i.id] }
   end
 end
