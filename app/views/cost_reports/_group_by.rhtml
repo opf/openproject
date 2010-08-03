@@ -10,9 +10,9 @@
   <tbody><tr>
     <td>
       <select size="9" multiple="multiple" id="group_by_container">
-      <% CostQuery::GroupBy.all_grouped.each do |label, group_by_ary| %>
+      <% CostQuery::GroupBy.all_grouped.sort_by { |label, group_by_ary| l(label) }.each do |label, group_by_ary| %>
         <optgroup label="<%= l(label) %>" data-category="<%= label.to_s %>">
-        <% group_by_ary.each do |group_by| %>
+        <% group_by_ary.sort_by { |g| l(g.label)}.each do |group_by| %>
           <option value="<%= group_by.underscore_name %>" data-category="<%= label.to_s %>"><%= l(group_by.label) %></option>
         <% end %>
         </optgroup>
