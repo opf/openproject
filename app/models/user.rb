@@ -164,6 +164,30 @@ class User < Principal
     self.status == STATUS_LOCKED
   end
 
+  def activate
+    self.status = STATUS_ACTIVE
+  end
+
+  def register
+    self.status = STATUS_REGISTERED
+  end
+
+  def lock
+    self.status = STATUS_LOCKED
+  end
+
+  def activate!
+    update_attribute(:status, STATUS_ACTIVE)
+  end
+
+  def register!
+    update_attribute(:status, STATUS_REGISTERED)
+  end
+
+  def lock!
+    update_attribute(:status, STATUS_LOCKED)
+  end
+
   def check_password?(clear_password)
     if auth_source_id.present?
       auth_source.authenticate(self.login, clear_password)

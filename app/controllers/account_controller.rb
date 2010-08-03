@@ -83,9 +83,9 @@ class AccountController < ApplicationController
     else
       @user = User.new(params[:user])
       @user.admin = false
-      @user.status = User::STATUS_REGISTERED
+      @user.register
       if session[:auth_source_registration]
-        @user.status = User::STATUS_ACTIVE
+        @user.activate
         @user.login = session[:auth_source_registration][:login]
         @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
         if @user.save
@@ -116,8 +116,8 @@ class AccountController < ApplicationController
     token = Token.find_by_action_and_value('register', params[:token])
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
-    redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
-    user.status = User::STATUS_ACTIVE
+    redirect_to(home_url) && return unless user.registered?
+    user.activate
     if user.save
       token.destroy
       flash[:notice] = l(:notice_account_activated)
@@ -170,7 +170,7 @@ class AccountController < ApplicationController
           user.mail = registration['email'] unless registration['email'].nil?
           user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
           user.random_password
-          user.status = User::STATUS_REGISTERED
+          user.register
 
           case Setting.self_registration
           when '1'
@@ -241,7 +241,7 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_automatically(user, &block)
     # Automatic activation
-    user.status = User::STATUS_ACTIVE
+    user.activate
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
