@@ -1,13 +1,48 @@
 desc 'Fix trackers after migration 011'
 
-def assert
-  raise "Assertion failed !" unless yield if $DEBUG
+def prios(stories)
+  p = []
+
+  stories.each { |id|
+    story = Story.find(id)
+    p << [id, story.position]
+  }
+
+  return p
 end
 
-def test_order(stories, msg)
-  return if (stories[0].position + 1 == stories[1].position) && (stories[1].position + 1 == stories[2].position)
-  stories = stories.collect{|s| [s.id, s.position]}
-  raise "#{msg} #{stories.inspect}"
+$MSG = nil
+def report(stories, msg)
+  $MSG = msg
+  puts "#{msg} #{prios(stories).inspect}"
+end
+
+def verify(stories)
+  p = prios(stories)
+  (1..p.size - 1).each { |i|
+    raise "Failed #{$MSG}: #{p.inspect}" if p[i][1] <= p[i-1][1]
+  }
+  puts "success: #{p.inspect}"
+end
+
+def move(msg, stories, src, after)
+  report(stories, msg)
+
+  Story.find(stories[src]).move_after(after ? stories[after] : nil)
+
+  v = stories[src]
+  if after.nil?
+    stories.delete_at(src)
+    stories.insert(0, v)
+  else
+    o = stories[after]
+    stories.delete_at(src)
+    stories.insert(stories.index(o) + 1, v)
+  end
+
+  verify(stories)
+
+  return stories
 end
 
 namespace :redmine do
@@ -21,34 +56,31 @@ namespace :redmine do
       Issue.find(:all, :conditions => ["subject LIKE ?", "#{prefix}%"]).each {|i| i.destroy }
 
       stories = []
-      3.times do |id|
+      4.times do |id|
         story = Story.new
         story.project = project
         story.subject = "#{prefix}#{id}"
         story.author = user
         story.tracker_id = Story.trackers[0]
         story.save!
-        stories << story
+        stories << story.id
       end
 
-      puts stories.collect{|s| [s.id, s.position]}.inspect
+      Story.find(stories[-1]).fixed_version = Version.find(:first)
 
-      test_order(stories, 'init')
+      report(stories, 'init')
 
       # move story down
-      stories[0].move_after stories[1].id
-      stories[0], stories[1] = stories[1], stories[0]
-      test_order(stories, '0 after 1')
+      stories = move('0 after 1', stories, 0, 1)
 
       # move story up
-      stories[2].move_after stories[0].id
-      stories[2], stories[1] = stories[1], stories[2]
-      test_order(stories, 'up')
+      stories = move('up', stories, 2, 0)
 
       # move story to top
-      stories[1].move_after nil
-      stories[0], stories[1] = stories[1], stories[0]
-      test_order(stories, 'top')
+      stories = move('top', stories, 2, nil)
+
+      # move into backlog
+      stories = move('last to 2nd', stories, -1, 0)
 
     end
   end
