@@ -31,12 +31,21 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     });
 
     // Initialize each task in the board
-    $('.task').each(function(index){
-      task = RB.Factory.initialize(RB.Task, this); // 'this' refers to an element with class="task"
+    $('.task:not(.impediment)').each(function(index){
+      var task = RB.Factory.initialize(RB.Task, this); // 'this' refers to an element with class="task"
     });
-    
+
+    // Initialize each impediment in the board
+    $('.task.impediment').each(function(index){
+      var impediment = RB.Factory.initialize(RB.Impediment, this); // 'this' refers to an element with class="task impediment"
+    });
+
     // Add handler for new_task_button click
     j.find('.new_task_button').bind('mouseup', this.handleNewTaskButtonClick);
+
+    // Add handler for new_task_button click
+    j.find('.new_impediment_button').bind('mouseup', this.handleNewImpedimentButtonClick);
+
     
     $('.show_charts').bind('click', function(ev){ self.showCharts(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
   },
@@ -65,6 +74,11 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     $('#taskboard').data('this').newTask(button.next());
   },
 
+  handleNewImpedimentButtonClick: function(event){
+    var button = $(this);
+    $('#taskboard').data('this').newImpediment(button.next());
+  },
+
   loadColWidthPreference: function(){
     var w = RB.UserPreferences.get('taskboardColWidth');
     if(w==null){
@@ -84,16 +98,21 @@ RB.Taskboard = RB.Object.create(RB.Model, {
   },
     
   newTask: function(target){
-    if($('#task_template').size()==0){
-      this.loadTaskTemplate();
-    }
-
     var task = $('#task_template').children().first().clone();
     target.prepend(task);
     o = RB.Factory.initialize(RB.Task, task[0]); // 'this' refers to an element with class="task"
     o.edit();
     
     task.find('.editor' ).first().focus();
+  },
+
+  newImpediment: function(target){
+    var impediment = $('#impediment_template').children().first().clone();
+    target.prepend(impediment);
+    o = RB.Factory.initialize(RB.Impediment, impediment[0]); // 'this' refers to an element with class="task impediment"
+    o.edit();
+
+    impediment.find('.editor' ).first().focus();
   },
 
   showCharts: function(event){

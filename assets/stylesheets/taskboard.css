@@ -67,6 +67,7 @@
   text-decoration:line-through;
 }
 #taskboard td.new_task_button,
+#taskboard td.new_impediment_button,
 #taskboard td.new_task_button_column{
   margin:0;
   min-width:30px;
@@ -75,6 +76,7 @@
   vertical-align:middle;
   width:30px;
 }
+#taskboard td.new_impediment_button:hover,
 #taskboard td.new_task_button:hover{
   cursor:pointer;
   background-color:#ffffcc;
@@ -82,6 +84,7 @@
 #taskboard tr:hover{
   background-color:#ffffff;
 }
+#impediment_template,
 #task_template{
   display:none;
 }

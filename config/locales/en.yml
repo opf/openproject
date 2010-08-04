@@ -77,3 +77,5 @@ en:
   error_intro_singular: "The following error was encountered:"
   error_intro_plural: "The following errors were encountered:"
   error_outro: "Please correct the above errors before submitting again."
+
+  label_sprint_impediments: "Sprint Impediments"

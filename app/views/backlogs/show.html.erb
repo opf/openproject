@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-<%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'story', 'task', :plugin => 'redmine_backlogs' %>
+<%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'story', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
 <%= stylesheet_link_tag 'show', 'taskboard', 'task', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
 <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
@@ -25,13 +25,24 @@
       <td id="status_<%= status.id %>"><%= status.name %></td>
     <%- end %>
   </tr>
-  <%- @sprint.stories.each_with_index do |story, i| %>
+
+  <tr>
+    <td class="story"><span class="subject"><%= l(:label_sprint_impediments) %></span></td>
+    <td class="new_impediment_button">+</td>
+    <%- @statuses.each do |status| %>
+    <td class="list <%= status.is_closed? ? 'closed' : '' %>" id="impedimentstatus_<%= status.id %>">
+      <%= render :partial => "tasks/impediment", :collection => @sprint.impediments.select{|impediment| impediment.status_id==status.id} %>
+    </td>
+    <%- end %>
+  </tr>
+
+  <%- @sprint.stories.each do |story| %>
   <tr>
     <td class="story <%= mark_if_closed(story) %>"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id}, { :class => "story_id", :target => "_blank" } %>
                      <span class="subject"><%= story.subject %></span></td>
-    <td class="new_task_button" id="newtaskrow_<%= i + 1 %>">+</td>
+    <td class="new_task_button">+</td>
     <%- @statuses.each do |status| %>
-    <td class="list <%= status.is_closed? ? l(:label_closed_issues) + ' ': '' %>" id="<%= story.id %>_<%= status.id %>">
+    <td class="list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
       <%- story.children.select{|task| task.status.id==status.id}.each do |task| %>
       <%= render :partial => "tasks/task", :object => task %>
       <%- end %>
@@ -50,6 +61,9 @@
 </select>
 <div id="task_template">
   <%= render :partial => "tasks/task", :object => Task.new %>
+</div>
+<div id="impediment_template">
+  <%= render :partial => "tasks/impediment", :object => Task.new %>
 </div>
 <!-- end of templates -->
 
