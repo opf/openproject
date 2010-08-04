@@ -393,6 +393,19 @@ module ApplicationHelper
     end
   end
 
+  # Returns the theme, controller name, and action as css classes for the
+  # HTML body.
+  def body_css_classes
+    css = []
+    if theme = Redmine::Themes.theme(Setting.ui_theme)
+      css << 'theme-' + theme.name
+    end
+
+    css << 'controller-' + params[:controller]
+    css << 'action-' + params[:action]
+    css.join(' ')
+  end
+
   def accesskey(s)
     Redmine::AccessKeys.key_for s
   end
