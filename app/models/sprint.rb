@@ -170,6 +170,11 @@ end
 class Sprint < Version
     unloadable
 
+    validate :correctness
+    def correctness
+        errors.add_to_base("Sprint cannot end before it starts") if self.effective_date && self.sprint_start_date && self.sprint_start_date >= self.effective_date
+    end
+
     named_scope :open_sprints, lambda { |project|
         {
             :order => 'sprint_start_date ASC, effective_date ASC',
