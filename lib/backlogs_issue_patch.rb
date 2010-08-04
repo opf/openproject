@@ -40,6 +40,8 @@ module Backlogs
   
       base.class_eval do
         unloadable
+
+        acts_as_list 
   
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
@@ -160,14 +162,8 @@ module Backlogs
         end
 
         if self.position.nil? && (self.is_story? || self.is_task?)
-          # MySQL still doesn't properly support subrequests, so split
-          # into 2 requests
-          lowest = 1
-          res = connection.execute "select coalesce(max(position)+1,1) from issues"
-          res.each { |row|
-            lowest = row[0]
-          }
-          connection.execute "update issues set position=#{connection.quote(lowest)} where id=#{connection.quote(self.id)}"
+          self.insert_at
+          self.move_to_bottom
         end
       end
 

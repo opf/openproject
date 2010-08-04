@@ -1,8 +1,6 @@
 class Story < Issue
     unloadable
 
-    acts_as_list :scope => 'coalesce(cast(issues.fixed_version_id as char), \'\') = \'#{fixed_version_id}\' AND issues.parent_id is NULL'
-
     named_scope :product_backlog, lambda { |project|
         {
             :order => 'position ASC',
