@@ -173,7 +173,7 @@ class BacklogsController < ApplicationController
     attribs = params.select{|k,v| k != 'id' and Sprint.column_names.include? k }
     attribs = Hash[*attribs.flatten]
     result = sprint.update_attributes attribs
-    render :text => result
+    render :text => result, :status => (result ? 200 : 400)
   end
 
   def wiki_page
