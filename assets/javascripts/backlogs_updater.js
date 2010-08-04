@@ -33,7 +33,6 @@ RB.BacklogsUpdater = RB.Object.create(RB.BoardUpdater, {
     target.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
   },
 
-  
   start: function(){
     this.itemType   = 'story';
     this.urlFor     = 'list_stories';

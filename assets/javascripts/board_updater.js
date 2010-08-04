@@ -12,6 +12,7 @@ RB.BoardUpdater = RB.Object.create({
     $('#refresh').bind('click', function(e,u){ self.handleRefreshClick(e,u) });
     $('#disable_autorefresh').bind('click', function(e,u){ self.handleDisableAutorefreshClick(e,u) });
 
+    this.loadPreferences();
     this.pollWait = 1000;
     this.poll()
   },
@@ -43,18 +44,27 @@ RB.BoardUpdater = RB.Object.create({
 
   handleDisableAutorefreshClick: function(event, ui){
     $('body').toggleClass('no_autorefresh');
-    
-    if($('body').hasClass('no_autorefresh')){
-      $('#disable_autorefresh').text('Enable Auto-refresh');
-    } else {
+    RB.UserPreferences.set('autorefresh', !$('body').hasClass('no_autorefresh'));
+    if(!$('body').hasClass('no_autorefresh')){
       this.pollWait = 1000;
       this.poll();
-      $('#disable_autorefresh').text('Disable Auto-refresh');
     }
+    this.updateAutorefreshText();
   },
 
   handleRefreshClick: function(event, ui){
     this.getData();
+  },
+
+  loadPreferences: function(){
+    var ar = RB.UserPreferences.get('autorefresh')=="true";
+
+    if(ar){
+      $('body').removeClass('no_autorefresh');
+    } else {
+      $('body').addClass('no_autorefresh');
+    }
+    this.updateAutorefreshText();
   },
 
   poll: function() {
@@ -90,5 +100,13 @@ RB.BoardUpdater = RB.Object.create({
   
   processItem: function(update){
     throw "RB.BoardUpdater.processItem() was not overriden by child object";
+  },
+
+  updateAutorefreshText: function(){
+    if($('body').hasClass('no_autorefresh')){
+      $('#disable_autorefresh').text('Enable Auto-refresh');
+    } else {
+      $('#disable_autorefresh').text('Disable Auto-refresh');
+    }
   }
 });
