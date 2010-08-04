@@ -29,7 +29,7 @@ class StoriesController < ApplicationController
       story.move_after(params[:prev])
       status = 200
     else
-      status = 500
+      status = 400
     end
     render :partial => "story", :object => story, :status => status
   end
@@ -43,7 +43,7 @@ class StoriesController < ApplicationController
       story.move_after(params[:prev])
       status = 200
     else
-      status = 500
+      status = 400
     end
     render :partial => "story", :object => story, :status => status
   end

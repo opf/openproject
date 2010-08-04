@@ -17,7 +17,7 @@ class TasksController < ApplicationController
     if task.save!
       status = 200
     else
-      status = 500
+      status = 400
     end
     render :partial => "task", :object => task, :status => status    
   end
@@ -49,18 +49,13 @@ class TasksController < ApplicationController
     end
 
     result = @task.journalized_update_attributes! attribs
-    # if result
-    #   render :partial => "task", :object => @task
-    # else
-    #   text = "ERROR: Task could not be saved."
-    #   status = 500
-    #   render :text => text, :status => status
+
     if result
       @task.move_after(params[:prev])
 
       status = 200
     else
-      status = 500
+      status = 400
     end
     render :partial => "task", :object => @task, :status => status
   end
