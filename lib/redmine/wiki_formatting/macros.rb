@@ -95,7 +95,7 @@ module Redmine
         page = nil
         if args.size > 0
           page = Wiki.find_page(args.first.to_s, :project => @project)
-        elsif obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)
+        elsif obj.is_a?(WikiContent)
           page = obj.page
         else
           raise 'With no argument, this macro can be called from wiki pages only.'

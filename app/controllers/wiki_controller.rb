@@ -73,7 +73,7 @@ class WikiController < ApplicationController
     @content.comments = nil
     if request.get?
       # To prevent StaleObjectError exception when reverting to a previous version
-      @content.version = @page.content.version
+      @content.lock_version = @page.content.lock_version
     else
       if !@page.new_record? && @content.text == params[:content][:text]
         attachments = Attachment.attach_files(@page, params[:attachments])
@@ -120,9 +120,9 @@ class WikiController < ApplicationController
   def history
     @version_count = @page.content.versions.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
-    # don't load text    
-    @versions = @page.content.versions.find :all, 
-                                            :select => "id, author_id, comments, updated_on, version",
+    # don't load text
+    @versions = @page.content.versions.find :all,
+                                            :select => "id, user_id, notes, updated_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
                                             :offset =>  @version_pages.current.offset
