@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class AuthSourcesControllerTest < ActionController::TestCase
   fixtures :all

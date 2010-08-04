@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class GanttsControllerTest < ActionController::TestCase
   fixtures :all
