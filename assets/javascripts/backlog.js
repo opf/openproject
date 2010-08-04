@@ -184,6 +184,10 @@ RB.Backlog = RB.Object.create(RB.Model, {
     });
   },
 
+  markError: function(){
+    this.$.addClass('error');
+  },
+
   markSaving: function(){
     this.$.addClass('saving');
   },
@@ -235,8 +239,9 @@ RB.Backlog = RB.Object.create(RB.Model, {
       type: "POST",
       url: RB.urlFor['update_backlog'],
       data: editors.serialize() + "&id=" + j.find('.id').text(),
-      beforeSend: function(xhr){ me.markSaving() },
-      complete: function(xhr, textStatus){ me.unmarkSaving(); /* RB.dialog.msg(xhr.responseText) */ }
+      beforeSend: function(xhr){ me.unmarkError(); me.markSaving() },
+      success: function(d,t,x){ me.unmarkSaving(); me.unmarkError() },
+      error: function(x,t,e){ RB.Dialog.msg(x.responseText); me.markError() }
     });
     me.endEdit();
   },
@@ -252,6 +257,10 @@ RB.Backlog = RB.Object.create(RB.Model, {
                           title: 'Charts', 
                           width: 710 
                        });
+  },
+
+  unmarkError: function(){
+    this.$.removeClass('error');
   },
   
   unmarkSaving: function(){

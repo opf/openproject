@@ -27,8 +27,12 @@
   top:8px;
   width:16px;
 }
-.backlog.saving .header .pureCssMenu{
+.backlog.saving .header .pureCssMenu,
+.backlog.error .header .pureCssMenu{
   display:none;
+}
+.backlog.error .header .spinner{
+  background-image:url('../images/warning.png');
 }
 .backlog .header .name{
   font-size:14px;

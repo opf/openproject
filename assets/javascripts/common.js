@@ -35,9 +35,9 @@ RB.Model = RB.Object.create({});
 RB.Dialog = RB.Object.create({
   msg: function(msg){
     dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('#content') : $('#msgBox');
-    dialog.text(msg);
-    dialog.dialog({ title: 'Backlog Plugin',
-                    buttons: { "Ok": function() { $(this).dialog("close"); } },
+    dialog.html(msg);
+    dialog.dialog({ title: 'Backlogs Plugin',
+                    buttons: { "OK": function() { $(this).dialog("close"); } },
                     modal: true
                  });
   },
