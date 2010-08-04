@@ -69,7 +69,7 @@
             %><br/>
         <% end %>
 
-        <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-top:20px; margin-left:20px; width:256px; height:192px;"></div>
+        <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-left:0px; margin-top:20px; width:250px; height:192px;"></div>
         <%= render :partial => "charts/burndown", :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
     <% end %>
 </div>
