@@ -1,6 +1,6 @@
 = Backlogs Plugin for Redmine
 
-A scrum/agile tool. Useful for product planning, sprint planning, and daily stand-ups. For a quick demo try http://backlogsdemo.morphexchange.com/projects/demo/backlogs by logging in as demo/demo
+A scrum/agile tool. Useful for product planning, sprint planning, and daily stand-ups. For a live demo log-in as user demo with password demo at http://backlogsdemo.morphexchange.com/backlogs?project_id=demo
 
 = Installation
 
