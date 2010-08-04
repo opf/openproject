@@ -351,4 +351,13 @@ class QueryTest < ActiveSupport::TestCase
     assert !q.editable_by?(manager)
     assert !q.editable_by?(developer)
   end
+
+  context "#available_filters" do
+    should "include users of visible projects in cross-project view" do
+      query = Query.new(:name => "_")
+      users = query.available_filters["assigned_to_id"]
+      assert_not_nil users
+      assert users[:values].map{|u|u[1]}.include?("3")
+    end
+  end
 end

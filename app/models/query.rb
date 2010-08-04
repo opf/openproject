@@ -187,7 +187,7 @@ class Query < ActiveRecord::Base
     if project
       user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
     else
-      project_ids = User.current.projects.collect(&:id)
+      project_ids = Project.all(:conditions => Project.visible_by(User.current)).collect(&:id)
       if project_ids.any?
         # members of the user's projects
         user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", project_ids]).sort.collect{|s| [s.name, s.id.to_s] }
