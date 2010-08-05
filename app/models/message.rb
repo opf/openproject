@@ -31,7 +31,8 @@ class Message < ActiveRecord::Base
                   else
                     {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"}
                   end.reverse_merge :controller => 'messages', :action => 'show', :board_id => o.board_id
-                end)
+                end),
+                :activity_find_options => { :include => { :board => :project } }
 
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},

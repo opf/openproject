@@ -18,14 +18,14 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals, :journal_details
+  fixtures :issues, :issue_statuses, :journals
 
   def setup
-    @journal = Journal.find 1
+    @journal = IssueJournal.first
   end
 
   def test_journalized_is_an_issue
-    issue = @journal.issue
+    issue = @journal.journalized
     assert_kind_of Issue, issue
     assert_equal 1, issue.id
   end
@@ -34,16 +34,16 @@ class JournalTest < ActiveSupport::TestCase
     status = @journal.new_status
     assert_not_nil status
     assert_kind_of IssueStatus, status
-    assert_equal 2, status.id 
+    assert_equal 2, status.id
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
 
-    assert journal.save
+    assert_equal 0, ActionMailer::Base.deliveries.size
+    issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 

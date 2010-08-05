@@ -19,6 +19,7 @@ class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
   helper :issues
+  helper :journals
   helper :custom_fields
 
   include ActionController::UrlWriter

@@ -27,7 +27,8 @@ class WikiContent < ActiveRecord::Base
     :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
     :event_url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}},
     :activity_type => 'wiki_edits',
-    :activity_permission => :view_wiki_edits
+    :activity_permission => :view_wiki_edits,
+    :activity_find_options => { :include => { :page => { :wiki => :project } } }
 
   def activity_type
     'wiki_edits'

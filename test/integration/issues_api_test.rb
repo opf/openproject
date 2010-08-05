@@ -39,7 +39,6 @@ class IssuesApiTest < ActionController::IntegrationTest
     :custom_fields_trackers,
     :time_entries,
     :journals,
-    :journal_details,
     :queries
 
   def setup

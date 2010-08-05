@@ -20,8 +20,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionController::Assertions::SelectorAssertions
-  fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
-  
+  fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
+
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'

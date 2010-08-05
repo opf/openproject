@@ -774,6 +774,14 @@ class Issue < ActiveRecord::Base
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
-  
+
+  IssueJournal.class_eval do
+    # Shortcut
+    def new_status
+      if details.keys.include? 'status_id'
+        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
+      end
+    end
+  end
 
 end
