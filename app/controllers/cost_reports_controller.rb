@@ -6,15 +6,13 @@ class CostReportsController < ApplicationController
   include ReportingHelper
 
   def index
+    set_cost_type
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
-      set_cost_type(0)
     elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
       @table_partial = "simple_cost_report_table"
-      set_cost_type(0)
     else
       @table_partial = "cost_report_table"
-      set_cost_type
     end
     render :layout => !request.xhr?
   end

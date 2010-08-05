@@ -1,15 +1,18 @@
-<% list = [:project_id, :issue_id, :spent_on, :user_id, :activity_id] %>
+<% list = [:project_id, :issue_id, :units, :cost_type_id, :spent_on, :user_id, :activity_id] %>
 
 <table class="list">
   <thead>
     <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-    <th><%= l(:field_costs) %></th>
+    <th><%= @cost_type.try(:unit_plural) || l(:field_costs) %></th>
   </thead>
+  <tfoot>
+    <th colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+  </tfoot>
   <tbody>
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
-        <td class="currency"><%= number_to_currency result.real_costs %></td>
+        <td class="currency"><%= show_result(result) %></td>
       </tr>
       <% if params[:debug] %>
         <tr>

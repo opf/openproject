@@ -1,5 +1,6 @@
 ---
 de:
+  units: Einheiten
   label_entry: "Kosteneintrag"
   label_less: "<"
   label_greater: ">"

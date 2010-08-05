@@ -44,7 +44,9 @@ module ReportingHelper
   end
 
   def label_for(field)
-    l(CostQuery::Filter.const_get(field.to_s.camelcase).label)
+    name = field.to_s.camelcase
+    return l(field) unless CostQuery::Filter.const_defined? name
+    l(CostQuery::Filter.const_get(name).label)
   end
 
   def debug_fields(result, prefix = ", ")
@@ -59,7 +61,7 @@ module ReportingHelper
       when :activity_id               then mapped value, Enumeration, :caption_material_costs
       when :project_id                then link_to_project Project.find(value.to_i)
       when :user_id, :assigned_to_id  then link_to_user User.find(value.to_i)
-      when :tyear                     then value
+      when :tyear, :units             then value
       when :tweek                     then "#{l(:label_week)} ##{value}"
       when :tmonth                    then month_name(value.to_i)
       when :category_id               then IssueCategory.find(value.to_i).name
