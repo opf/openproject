@@ -70,7 +70,10 @@ module Backlogs
   
                 sql = []
   
-                values_for(field).each { |val|
+                selected_values = values_for(field)
+                selected_values = ['story', 'task'] if selected_values.include?('any')
+                
+                selected_values.each { |val|
                     case val
                         when "story"
                             sql << "(#{db_table}.tracker_id in (" + Story.trackers.collect{|val| "#{val}"}.join(",") + ") and #{db_table}.parent_id is NULL)"
