@@ -255,7 +255,8 @@ See RB.Taskboard.initialize()
   height:65px;
   width:272px;
 }
-#item_editor .remaining_hours{
+#item_editor .remaining_hours,
+#item_editor .blocks{
   width:268px;
 }
 
