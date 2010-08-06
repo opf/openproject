@@ -158,6 +158,7 @@ See RB.Taskboard.initialize()
   border-radius:4px 4px 4px 4px;
   background-color:#FFFFFF;
   font-size:9px;
+  height:12px;
   opacity:0.5;
   overflow:hidden;
   padding-bottom:1px;

@@ -5,49 +5,38 @@
 RB.Taskboard = RB.Object.create(RB.Model, {
     
   initialize: function(el){
-    var j;  // This ensures that we use a local 'j' variable, not a global one.
-    var self = this;
+    var j = $(el);
+    var self = this; // So we can bind the event handlers to this object
     
-    this.$ = j = $(el);
-    this.el = el;
+    self.$ = j;
+    self.el = el;
     
     // Associate this object with the element for later retrieval
-    j.data('this', this);
+    j.data('this', self);
 
-    // Set column widths
-    this.colWidthUnit = $(".swimlane").width();
-    this.defaultColWidth = 2;
-    this.loadColWidthPreference();
-    this.updateColWidths();
+    // Initialize column widths
+    self.colWidthUnit = $(".swimlane").width();
+    self.defaultColWidth = 2;
+    self.loadColWidthPreference();
+    self.updateColWidths();
     $("#col_width input").bind('keyup', function(e){ if(e.which==13) self.updateColWidths() });
 
-    // Initialize all lists
-    $(".list").sortable({ 
-      connectWith: '.list', 
+    // Initialize tasks
+    j.find("#tasks .list").sortable({ 
+      connectWith: '#tasks .list', 
       placeholder: 'placeholder',
-      start: this.dragStart,
-      stop: this.dragStop,
-      update: this.dragComplete
+      start: self.dragStart,
+      stop: self.dragStop,
+      update: self.dragComplete
     });
 
     // Initialize each task in the board
-    $('.task:not(.impediment)').each(function(index){
+    j.find('.task').each(function(index){
       var task = RB.Factory.initialize(RB.Task, this); // 'this' refers to an element with class="task"
     });
 
-    // Initialize each impediment in the board
-    $('.task.impediment').each(function(index){
-      var impediment = RB.Factory.initialize(RB.Impediment, this); // 'this' refers to an element with class="task impediment"
-    });
-
-    // Add handler for new_task_button click
-    j.find('.new_task_button').bind('mouseup', this.handleNewTaskButtonClick);
-
-    // Add handler for new_task_button click
-    j.find('.new_impediment_button').bind('mouseup', this.handleNewImpedimentButtonClick);
-
-    
-    $('.show_charts').bind('click', function(ev){ self.showCharts(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
+    // Add handler for .add_new click
+    j.find('#tasks .add_new').bind('mouseup', self.handleAddNewTaskClick);
   },
   
   dragComplete: function(event, ui) {
@@ -66,17 +55,9 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     ui.item.removeClass("dragging");  
   },
   
-  getFirstcolumnList: function(row){
-  },
-  
-  handleNewTaskButtonClick: function(event){
-    var button = $(this);
-    $('#taskboard').data('this').newTask(button.next());
-  },
-
-  handleNewImpedimentButtonClick: function(event){
-    var button = $(this);
-    $('#taskboard').data('this').newImpediment(button.next());
+  handleAddNewTaskClick: function(event){
+    var row = $(this).parents("tr").first();
+    $('#taskboard').data('this').newTask(row);
   },
 
   loadColWidthPreference: function(){
@@ -87,45 +68,13 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     }
     $("#col_width input").val(w);
   },
-      
-  loadTaskTemplate: function(){
-    $.ajax({
-        type: "GET",
-        async: false,
-        url: RB.urlFor['new_task'],
-        complete: function(xhr, textStatus){ $(xhr.responseText).removeClass("task").appendTo("#content").wrap("<div id='task_template'/>") } // removeClass() ensures that $(".story") will not include this node
-    });
-  },
-    
-  newTask: function(target){
+        
+  newTask: function(row){
     var task = $('#task_template').children().first().clone();
-    target.prepend(task);
-    o = RB.Factory.initialize(RB.Task, task[0]); // 'this' refers to an element with class="task"
-    o.edit();
-    
-    task.find('.editor' ).first().focus();
-  },
-
-  newImpediment: function(target){
-    var impediment = $('#impediment_template').children().first().clone();
-    target.prepend(impediment);
-    o = RB.Factory.initialize(RB.Impediment, impediment[0]); // 'this' refers to an element with class="task impediment"
-    o.edit();
-
-    impediment.find('.editor' ).first().focus();
-  },
-
-  showCharts: function(event){
-    event.preventDefault();
-    $('#charts').html("<div class='loading'>Loading data...</div>");
-    $('#charts').load(RB.urlFor['show_charts'] + '?project_id=' + RB.constants['project_id'] + '&sprint_id=' + RB.constants.sprint_id);
-    $('#charts').dialog({ 
-                          buttons: { "Close": function() { $(this).dialog("close") } },
-                          height: 790,
-                          modal: true, 
-                          title: 'Charts', 
-                          width: 710 
-                       });
+    row.find(".list").first().prepend(task);
+    o = RB.Factory.initialize(RB.Task, task[0]);
+    // o.edit();
+    // task.find('.editor' ).first().focus();
   },
   
   updateColWidths: function(){

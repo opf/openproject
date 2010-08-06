@@ -16,7 +16,7 @@ RB.Task = RB.Object.create(RB.Story, {
     j.data('this', this);
 
     // Observe click events in certain fields
-    j.find('.editable').live('mouseup', this.triggerEdit);
+    // j.find('.editable').live('mouseup', this.triggerEdit);
   },
 
   afterSaveEdits: function(){
@@ -88,8 +88,8 @@ RB.Task = RB.Object.create(RB.Story, {
       // This is only for the purpose of making the Remaining Hours reset
       // instantaneously after dragging to a closed status. The server should
       // still make sure to reset the value to be sure.
-      this.$.children('.remaining_hours.editor').val('0.0');
-      this.$.children('.remaining_hours.editable').text('0.0');
+      this.$.children('.remaining_hours.editor').val('');
+      this.$.children('.remaining_hours.editable').text('');
     }
 
     if(!this.$.hasClass('editing')) this.saveEdits();
