@@ -85,7 +85,6 @@ See RB.Taskboard.initialize()
   cursor:pointer;
   background-color:#ffffcc;
 }
-
 .story,
 .label_sprint_impediments{
   -moz-box-shadow: 2px 2px 2px #CCCCCC;
@@ -238,13 +237,26 @@ See RB.Taskboard.initialize()
 }
 
 /* compact view */
+.compact .story,
+.compact .label_sprint_impediments{
+  height:15px;
+}
+.compact .story .subject{
+  display:none;
+}
 .compact .item{
-  height:20px;
-  padding:2px;
-  width:20px;
+  height:21px;
+  padding:0;
+  width:21px;
 }
 .compact .item *{
   display:none;
+}
+.compact .placeholder{
+  background-color:#FFFF00;
+  border:1px dashed #333300;
+  height:19px;
+  width:19px;
 }
 
 /* others */
