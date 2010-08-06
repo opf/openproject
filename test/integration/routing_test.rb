@@ -86,7 +86,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/23/issues/64/copy", :controller => 'issues', :action => 'new', :project_id => '23', :copy_from => '64'
 
     should_route :get, "/issues/1/move", :controller => 'issues', :action => 'move', :id => '1'
-    should_route :post, "/issues/1/move", :controller => 'issues', :action => 'move', :id => '1'
+    should_route :post, "/issues/1/perform_move", :controller => 'issues', :action => 'perform_move', :id => '1'
     
     should_route :post, "/issues/1/quoted", :controller => 'issues', :action => 'reply', :id => '1'
 

@@ -1038,22 +1038,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
   end
 
-  def test_move_one_issue_to_another_project
+  def test_perform_move_one_issue_to_another_project
     @request.session[:user_id] = 2
-    post :move, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+    post :perform_move, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 2, Issue.find(1).project_id
   end
 
-  def test_move_one_issue_to_another_project_should_follow_when_needed
+  def test_perform_move_one_issue_to_another_project_should_follow_when_needed
     @request.session[:user_id] = 2
-    post :move, :id => 1, :new_project_id => 2, :follow => '1'
+    post :perform_move, :id => 1, :new_project_id => 2, :follow => '1'
     assert_redirected_to '/issues/1'
   end
 
-  def test_bulk_move_to_another_project
+  def test_bulk_perform_move_to_another_project
     @request.session[:user_id] = 2
-    post :move, :ids => [1, 2], :new_project_id => 2
+    post :perform_move, :ids => [1, 2], :new_project_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     # Issues moved to project 2
     assert_equal 2, Issue.find(1).project_id
@@ -1063,9 +1063,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, Issue.find(2).tracker_id
   end
  
-  def test_bulk_move_to_another_tracker
+  def test_bulk_perform_move_to_another_tracker
     @request.session[:user_id] = 2
-    post :move, :ids => [1, 2], :new_tracker_id => 2
+    post :perform_move, :ids => [1, 2], :new_tracker_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 2, Issue.find(1).tracker_id
     assert_equal 2, Issue.find(2).tracker_id
@@ -1075,19 +1075,19 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
       assert_no_difference 'Project.find(1).issues.count' do
-        post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
+        post :perform_move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
       end
     end
     assert_redirected_to 'projects/ecookbook/issues'
   end
 
-  context "#move via bulk copy" do
+  context "#perform_move via bulk copy" do
     should "allow not changing the issue's attributes" do
       @request.session[:user_id] = 2
       issue_before_move = Issue.find(1)
       assert_difference 'Issue.count', 1 do
         assert_no_difference 'Project.find(1).issues.count' do
-          post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
+          post :perform_move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
         end
       end
       issue_after_move = Issue.first(:order => 'id desc', :conditions => {:project_id => 2})
@@ -1104,7 +1104,7 @@ class IssuesControllerTest < ActionController::TestCase
       @request.session[:user_id] = 2
       assert_difference 'Issue.count', 2 do
         assert_no_difference 'Project.find(1).issues.count' do
-          post :move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
+          post :perform_move, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}, :new_tracker_id => '', :assigned_to_id => 4, :status_id => 3, :start_date => '2009-12-01', :due_date => '2009-12-31'
         end
       end
 
@@ -1122,7 +1122,7 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_copy_to_another_project_should_follow_when_needed
     @request.session[:user_id] = 2
-    post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
+    post :perform_move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
     issue = Issue.first(:order => 'id DESC')
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
