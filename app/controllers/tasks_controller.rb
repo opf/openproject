@@ -25,14 +25,25 @@ class TasksController < ApplicationController
   def index
     @sprint = Sprint.find(params[:sprint_id])
     @story_ids = @sprint.stories.map{|s| s.id}
+    @impediment_ids = @sprint.impediments.map{|i| i.id}
     @tasks = Task.find(:all, 
                        :conditions => ["parent_id in (?) AND updated_on > ?", @story_ids, params[:after]],
                        :order => "updated_on ASC")
-    @include_meta = true
-    @last_updated = Task.find(:first, 
-                          :conditions => ["parent_id in (?)", @story_ids],
-                          :order => "updated_on DESC")
+    
+    if params[:include_impediments]=='true'
+      @impediments = Task.find(:all,
+                               :conditions => ["id in (?) AND updated_on > ?", @impediment_ids, params[:after]],
+                               :order => "updated_on ASC")
+    end 
 
+    @include_meta = true
+    
+    @last_updated_conditions = "parent_id in (?) " +
+                               (@impediments ? "OR id in (?)" : "")
+    @last_updated = Task.find(:first, 
+                              :conditions => [@last_updated_conditions, @story_ids, @impediment_ids],
+                              :order => "updated_on DESC")
+                          
     render :action => "index", :layout => false
   end
   

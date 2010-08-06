@@ -21,7 +21,7 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     self.updateColWidths();
     $("#col_width input").bind('keyup', function(e){ if(e.which==13) self.updateColWidths() });
 
-    // Initialize tasks
+    // Initialize task lists
     j.find("#tasks .list").sortable({ 
       connectWith: '#tasks .list', 
       placeholder: 'placeholder',
@@ -37,6 +37,24 @@ RB.Taskboard = RB.Object.create(RB.Model, {
 
     // Add handler for .add_new click
     j.find('#tasks .add_new').bind('mouseup', self.handleAddNewTaskClick);
+
+
+    // Initialize impediment lists
+    j.find("#impediments .list").sortable({ 
+      connectWith: '#impediments .list', 
+      placeholder: 'placeholder',
+      start: self.dragStart,
+      stop: self.dragStop,
+      update: self.dragComplete
+    });
+
+    // Initialize each task in the board
+    j.find('.impediment').each(function(index){
+      var task = RB.Factory.initialize(RB.Impediment, this); // 'this' refers to an element with class="impediment"
+    });
+
+    // Add handler for .add_new click
+    j.find('#impediments .add_new').bind('mouseup', self.handleAddNewImpedimentClick);
   },
   
   dragComplete: function(event, ui) {
@@ -54,6 +72,11 @@ RB.Taskboard = RB.Object.create(RB.Model, {
   dragStop: function(event, ui){ 
     ui.item.removeClass("dragging");  
   },
+
+  handleAddNewImpedimentClick: function(event){
+    var row = $(this).parents("tr").first();
+    $('#taskboard').data('this').newImpediment(row);
+  },
   
   handleAddNewTaskClick: function(event){
     var row = $(this).parents("tr").first();
@@ -68,13 +91,19 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     }
     $("#col_width input").val(w);
   },
+
+  newImpediment: function(row){
+    var impediment = $('#impediment_template').children().first().clone();
+    row.find(".list").first().prepend(impediment);
+    var o = RB.Factory.initialize(RB.Impediment, impediment);
+    o.edit();
+  },
         
   newTask: function(row){
     var task = $('#task_template').children().first().clone();
     row.find(".list").first().prepend(task);
-    o = RB.Factory.initialize(RB.Task, task[0]);
-    // o.edit();
-    // task.find('.editor' ).first().focus();
+    var o = RB.Factory.initialize(RB.Task, task);
+    o.edit();
   },
   
   updateColWidths: function(){

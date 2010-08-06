@@ -15,8 +15,7 @@ RB.Task = RB.Object.create(RB.Story, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
 
-    // Observe click events in certain fields
-    // j.find('.editable').live('mouseup', this.triggerEdit);
+    j.bind('mouseup', this.handleClick);
   },
 
   afterSaveEdits: function(){
@@ -24,7 +23,20 @@ RB.Task = RB.Object.create(RB.Story, {
     this.$.css('background-color', c);
   },
 
+  // Override RB.Story.checkSubjectLength() and do nothing
   checkSubjectLength: function(){
+  },
+  
+  edit: function(){
+    throw "Edit is not yet implemented";
+  },
+  
+  handleClick: function(event){
+    var j = $(this);
+    
+    if(!j.hasClass('editing') && !j.hasClass('dragging')){
+      j.data('this').edit();
+    }
   },
   
   handleKeyup: function(event){
@@ -104,18 +116,6 @@ RB.Task = RB.Object.create(RB.Story, {
       me.markError();
     } else {
       me.unmarkError();
-    }
-  },
-
-  triggerEdit: function(event){
-    // Get the task since what was clicked was a field
-    var j = $(this).parents('.task').first();
-    
-    if(!j.hasClass('editing') && !j.hasClass('dragging')){
-      j.data('this').edit();
-      
-      // Focus on the input corresponding to the field clicked
-      j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
     }
   },
 

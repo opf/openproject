@@ -15,20 +15,18 @@ RB.Impediment = RB.Object.create(RB.Task, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
     
-    // Observe click events in certain fields
-    j.find('.editable').live('mouseup', this.triggerEdit);
+    j.bind('mouseup', this.handleClick);
   },
   
   // Override saveDirectives of RB.Task
   saveDirectives: function(){
     var j = this.$;
     var prev = this.$.prev();
-    var cellID = j.parent('td').first().attr('id').split("_");
-    var sprint = $('#taskboard').data('this').getID();
+    var statusID = j.parent('td').first().attr('id').split("_")[1];
       
     var data = j.find('.editor').serialize() +
-               "&fixed_version_id=" + sprint +
-               "&status_id=" + cellID[1] +
+               "&fixed_version_id=" + RB.constants['sprint_id'] +
+               "&status_id=" + statusID +
                "&prev=" + (prev.length==1 ? prev.data('this').getID() : '') +
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
     var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];

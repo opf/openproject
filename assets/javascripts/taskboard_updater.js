@@ -8,6 +8,12 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
     items.each(function(i, v){
       self.processItem(v, false);
     });
+
+    // Process impediments
+    var items = $(data).children('.impediment');
+    items.each(function(i, v){
+      self.processItem(v, true);
+    });
   },
   
   processItem: function(html, isImpediment){
@@ -22,19 +28,18 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
       target.refresh(update);
     }
 
-    // Position the item properly in the taskboard
+    // Place the item in the correct cell
     var cell, previous, items;
-    if(isImpediment){
-      throw "Locator for impediment not yet defined";
-    } else {
-      cell = $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
-      cell.prepend(target.$);
-    }
-    
-    // sort items in the cell according to position
+    cell = isImpediment ? $('#impcell_' + target.$.find('.meta .status_id').text()) : $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
+    cell.prepend(target.$);
+
+    // Sort items in the cell
     items = cell.children('.task').get();
-    items.sort( function(a, b) { return parseInt($(a).find('.position').text()) > parseInt($(b).find('.position').text()) });
-    console.log(items);
+    items.sort( function(a, b) { 
+      a = isNaN($(a).find('.prev').text()) ? 0 : parseInt($(a).find('.prev').text());
+      b = isNaN($(b).find('.prev').text()) ? 0 : parseInt($(b).find('.prev').text());
+      return a > b;
+    });
     for(var ii=0; ii<items.length; ii++){
       cell.append(items[ii]);
     }

@@ -11,7 +11,6 @@
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
     <div class="status_id"><%= impediment.status_id %></div>
-    <div class="position"><%= impediment.position %></div>
     <div class="previous"><%= impediment.higher_item.nil? ? '' : impediment.higher_item.id %></div>
   </div>
   <%- end %>

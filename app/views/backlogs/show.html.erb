@@ -30,7 +30,7 @@
       <td<div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
       <td class="add_new">+</td>
       <%- @statuses.each do |status| %>
-      <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impstat_<%= status.id %>">
+      <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
         <%= render :partial => "tasks/impediment", :collection => @sprint.impediments.select{|impediment| impediment.status_id==status.id} %>
       </td>
       <%- end %>
