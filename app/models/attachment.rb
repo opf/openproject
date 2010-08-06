@@ -23,7 +23,6 @@ class Attachment < ActiveRecord::Base
   # FIXME: Remove these once the Versions, Documents and Projects themselves can provide file events
   belongs_to :version, :foreign_key => "container_id"
   belongs_to :document, :foreign_key => "container_id"
-  belongs_to :project, :foreign_key => "container_id"
 
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
@@ -52,8 +51,6 @@ class Attachment < ActiveRecord::Base
     when "Document"
       "documents"
     when "Version"
-      "files"
-    when "Project"
       "files"
     else
       super
