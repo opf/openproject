@@ -33,8 +33,7 @@ RB.Task = RB.Object.create(RB.Story, {
   
   handleClick: function(event){
     var j = $(this);
-    
-    if(!j.hasClass('editing') && !j.hasClass('dragging')){
+    if(!j.hasClass('editing') && !j.hasClass('dragging') && !$(event.target).hasClass('prevent_edit')){
       j.data('this').edit();
     }
   },

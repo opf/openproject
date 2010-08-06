@@ -26,7 +26,7 @@ module StoriesHelper
   end
 
   def issue_link_or_empty(story)
-    story.new_record? ? "" : link_to(story.id, {:controller => "issues", :action => "show", :id => story}, {:target => "_blank"})
+    story.new_record? ? "" : link_to(story.id, {:controller => "issues", :action => "show", :id => story}, {:target => "_blank", :class => "prevent_edit"})
   end
 
   def status_id_or_default(story)
