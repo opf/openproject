@@ -235,6 +235,29 @@ See RB.Taskboard.initialize()
   border-color:#CC0000;
   display:block;
 }
+.item .editors{
+  display:none;
+}
+
+/* item editor */
+#item_editor label{
+  display:block;
+  font-size:11px;
+  text-transform:capitalize;
+  width:100%;
+}
+#item_editor .editor{
+  font-size:11px;
+  margin-bottom:10px;
+  width:100%;
+}
+#item_editor .subject{
+  height:65px;
+  width:272px;
+}
+#item_editor .remaining_hours{
+  width:268px;
+}
 
 /* compact view */
 .compact .story,

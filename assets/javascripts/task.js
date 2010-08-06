@@ -28,7 +28,41 @@ RB.Task = RB.Object.create(RB.Story, {
   },
   
   edit: function(){
-    throw "Edit is not yet implemented";
+    var editor = $("#item_editor").html("");
+    var self = this;
+    
+    this.$.find('.editable').each(function(index){
+      var field = $(this);
+      var fieldType = field.attr('fieldtype')!=null ? field.attr('fieldtype') : 'input';
+      var fieldName = field.attr('fieldname');
+      var input;
+      
+      $(document.createElement("label")).text(fieldName.replace(/_/ig, " ").replace(/ id$/ig,"")).appendTo(editor);
+      input = fieldType=='select' ? $('#' + fieldName + '_options').clone(true) : $(document.createElement(fieldType));
+      input.removeAttr('id');
+      input.attr('name', fieldName);
+      input.addClass(fieldName);
+      input.addClass('editor');
+      input.removeClass('template');
+      input.appendTo(editor);
+      // input.bind('keyup', j.data('this').handleKeyup);
+      
+      // Copy the value in the field to the input element
+      value = ( fieldType=='select' ? field.children('.v').first().text() : field.text() );
+      input.val(value);
+    });
+
+    editor.dialog({
+      modal: true,
+      title: "Edit " + (this.isNew() ? "New " + (this.$.hasClass('task') ? "Task" : "Impediment") : "#" + this.getID()),
+      buttons: {
+        "Cancel" : function(){ self.cancelEdit(); $(this).dialog("close") },
+        "OK" : function(){ self.saveFromDialog(); $(this).dialog("close") }
+      },
+      close: function(event, ui){ if(event.which==27) self.cancelEdit() }
+    });
+    
+    editor.find(".editor").first().focus();
   },
   
   handleClick: function(event){
@@ -104,6 +138,13 @@ RB.Task = RB.Object.create(RB.Story, {
     }
 
     if(!this.$.hasClass('editing')) this.saveEdits();
+  },
+  
+  saveFromDialog: function(){
+    var editors = this.$.find(".editors").length==0 ? $(document.createElement("div")).addClass("editors").appendTo(this.$) : this.$.find(".editors").first();
+    editors.html("");
+    editors.append($("#item_editor").children(".editor"));
+    this.saveEdits();
   },
 
   // Override RB.Story.storyUpdated()
