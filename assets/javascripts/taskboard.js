@@ -15,7 +15,7 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     j.data('this', this);
 
     // Set column widths
-    this.colWidthUnit = $("#taskboard .list").width();
+    this.colWidthUnit = $(".swimlane").width();
     this.defaultColWidth = 2;
     this.loadColWidthPreference();
     this.updateColWidths();
@@ -135,6 +135,6 @@ RB.Taskboard = RB.Object.create(RB.Model, {
     }
     $("#col_width input").val(w)
     RB.UserPreferences.set('taskboardColWidth', w);
-    $("#taskboard .list").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
+    $(".swimlane").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
   }
 });
