@@ -28,27 +28,26 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
       target.refresh(update);
     }
 
-    // Place the item in the correct cell
-    var cell, previous, items;
-    cell = isImpediment ? $('#impcell_' + target.$.find('.meta .status_id').text()) : $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
-    cell.prepend(target.$);
+    var cell, previous;
 
-    // Sort items in the cell
-    items = cell.children('.task').get();
-    items.sort( function(a, b) { 
-      a = isNaN($(a).find('.prev').text()) ? 0 : parseInt($(a).find('.prev').text());
-      b = isNaN($(b).find('.prev').text()) ? 0 : parseInt($(b).find('.prev').text());
-      return a > b;
-    });
-    for(var ii=0; ii<items.length; ii++){
-      cell.append(items[ii]);
+    // Find the correct cell for the item
+    cell = isImpediment ? $('#impcell_' + target.$.find('.meta .status_id').text()) : $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
+
+    // Check if the item's predecessor is in the same cell
+    // because we have a unified list for all issues in the db
+    previous = cell.find(idPrefix + target.$.find('.meta .previous').text());
+
+    if(previous.length>0){
+      target.$.insertAfter(previous);   // Insert after predecessor
+    } else {
+      cell.prepend(target.$);           // Insert as first item of the cell
     }
 
     // Retain edit mode and focus if user was editing the
     // task before an update was received from the server    
     // if(target.$.hasClass('editing')) target.edit();
     // if(target.$.data('focus')!=null && target.$.data('focus').length>0) target.$.find("*[name=" + target.$.data('focus') + "]").focus();
-        
+
     target.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
   },
   
