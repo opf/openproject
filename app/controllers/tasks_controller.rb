@@ -52,7 +52,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    # FAT MODELS, THIN CONTROLLERS PLEASE!
+    # FAT MODELS, SKINNY CONTROLLERS PLEASE! (http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model)
     # I'd like to see this and other controller methods
     # be simplified like this:
     #
