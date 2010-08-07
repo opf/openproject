@@ -206,6 +206,9 @@ See RB.Taskboard.initialize()
   position:absolute;
   right:-5px;
 }
+.item .blocks{
+  display:none;
+}
 .item .remaining_hours.editable:empty{
   display:none;
 }

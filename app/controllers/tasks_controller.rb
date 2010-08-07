@@ -52,6 +52,18 @@ class TasksController < ApplicationController
   end
 
   def update
+    # FAT MODELS, THIN CONTROLLERS PLEASE!
+    # I'd like to see this and other controller methods
+    # be simplified like this:
+    #
+    # status = if @task.update(params)
+    #            200
+    #          else
+    #            500
+    #          end
+    #
+    # render :partial => "task", :object => @task, :status => status
+
     attribs = params.select{|k,v| Task::SAFE_ATTRIBUTES.include? k }
     attribs = Hash[*attribs.flatten]
 

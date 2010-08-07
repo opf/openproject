@@ -1,6 +1,10 @@
 module TasksHelper
   unloadable
 
+  def blocked_ids(blocked)
+    blocked.map{|b| b.id }.join(',')
+  end
+
   def build_inline_style(task)
     task.nil? || task.assigned_to.nil? ? '' : "style='background-color:#{task.assigned_to.backlogs_preference(:task_color)}'"
   end
