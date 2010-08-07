@@ -2,7 +2,9 @@ begin
   require 'yard'
 
   YARD::Rake::YardocTask.new do |t|
-    t.files = ['lib/**/*.rb', 'app/**/*.rb', 'vendor/plugins/**/*.rb']
+    files = ['lib/**/*.rb', 'app/**/*.rb']
+    files << Dir['vendor/plugins/**/*.rb'].reject {|f| f.match(/test/) } # Exclude test files
+    t.files = files
   end
 
 rescue LoadError
