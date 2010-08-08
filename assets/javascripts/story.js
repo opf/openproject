@@ -36,7 +36,6 @@ RB.Story = RB.Object.create(RB.Model, {
     if(this.isNew()){
       this.$.hide('blind');
     }
-    console.log("cancelEdit")
   },
 
   checkSubjectLength: function(){

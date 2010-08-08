@@ -52,17 +52,21 @@ RB.Task = RB.Object.create(RB.Story, {
       input.val(value);
     });
 
+    var pos = this.$.offset();
     editor.dialog({
-      modal: true,
-      title: "Edit " + (this.isNew() ? "New " + (this.$.hasClass('task') ? "Task" : "Impediment") : "#" + this.getID()),
       buttons: {
         "Cancel" : function(){ self.cancelEdit(); $(this).dialog("close") },
         "OK" : function(){ self.saveFromDialog(); $(this).dialog("close") }
       },
-      close: function(event, ui){ if(event.which==27) self.cancelEdit() }
+      close: function(event, ui){ if(event.which==27) self.cancelEdit() },
+      modal: true,
+      position: [pos.left - $(document).scrollLeft(), pos.top - $(document).scrollTop()],
+      resizable: false,
+      title: (this.isNew() ? "New " + (this.$.hasClass('task') ? "Task" : "Impediment") : this.getID())
     });
     
     editor.find(".editor").first().focus();
+    editor.parents('.ui-dialog').css('background-color', self.$.css('background-color'));
   },
   
   handleClick: function(event){

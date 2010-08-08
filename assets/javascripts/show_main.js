@@ -5,6 +5,10 @@ $(function() {
 
   // Capture 'click' instead of 'mouseup' so we can preventDefault();
   $('#show_charts').bind('click', RB.showCharts);
+  
+  $('#assigned_to_id_options').bind('change', function(){
+    $(this).parents('.ui-dialog').css('background-color', $(this).children(':selected').attr('color'));
+  });
 });
 
 RB.showCharts = function(event){
