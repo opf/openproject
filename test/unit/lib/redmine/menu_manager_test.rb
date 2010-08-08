@@ -17,16 +17,12 @@
 
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class Redmine::MenuManagerTest < Test::Unit::TestCase
+class Redmine::MenuManagerTest < ActiveSupport::TestCase
   context "MenuManager#map" do
     should "be tested"
   end
 
   context "MenuManager#items" do
     should "be tested"
-  end
-
-  should "be tested" do
-    assert true
   end
 end
