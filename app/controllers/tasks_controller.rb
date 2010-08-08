@@ -52,34 +52,14 @@ class TasksController < ApplicationController
   end
 
   def update
-    # FAT MODELS, SKINNY CONTROLLERS PLEASE! (http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model)
-    # I'd like to see this and other controller methods
-    # be simplified like this:
-    #
-    # status = if @task.update(params)
-    #            200
-    #          else
-    #            500
-    #          end
-    #
-    # render :partial => "task", :object => @task, :status => status
+    # FAT MODELS, SKINNY CONTROLLERS PLEASE!
+    # http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model
 
-    attribs = params.select{|k,v| Task::SAFE_ATTRIBUTES.include? k }
-    attribs = Hash[*attribs.flatten]
-
-    if IssueStatus.find(params[:status_id]).is_closed?
-      attribs['remaining_hours'] = 0
-    end
-
-    result = @task.journalized_update_attributes! attribs
-
-    if result
-      @task.move_after(params[:prev])
-
-      status = 200
-    else
-      status = 400
-    end
+    status = if @task.update_with_relationships(params)
+               200
+             else
+               400
+             end
     render :partial => "task", :object => @task, :status => status
   end
 
