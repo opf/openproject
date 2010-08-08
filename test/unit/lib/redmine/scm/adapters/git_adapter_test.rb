@@ -16,6 +16,10 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal 13, @adapter.revisions('',nil,nil,:all => true).length
     end
     
+    def test_getting_certain_revisions
+      assert_equal 1, @adapter.revisions('','899a15d^','899a15d').length
+    end
+    
     def test_annotate
       annotate = @adapter.annotate('sources/watchers_controller.rb')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
