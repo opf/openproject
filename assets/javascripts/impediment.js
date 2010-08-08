@@ -40,6 +40,7 @@ RB.Impediment = RB.Object.create(RB.Task, {
   
   // Override RB.Story.storyUpdated()
   storyUpdated: function(xhr, textStatus){
+    console.log(xhr);
     var me = $('#impediment_' + RB.Factory.initialize(RB.Story, xhr.responseText).getID()).data('this');
   
     me.unmarkSaving();

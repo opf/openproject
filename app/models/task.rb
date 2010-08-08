@@ -18,7 +18,7 @@ class Task < Issue
 
     if valid_relationships && task.save
       task.move_after params[:prev]
-      task.update_blocked_list params[:blocks].split(/\D+/)
+      task.update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
     end
 
     task

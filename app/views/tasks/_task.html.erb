@@ -12,6 +12,11 @@
     <div class="story_id"><%= task.parent_id %></div>
     <div class="status_id"><%= task.status_id %></div>
     <div class="previous"><%= task.higher_item.nil? ? '' : task.higher_item.id %></div>
+    <div class="errors">
+      <%- task.errors.each_error do |a, err| %>
+      <div><%= "#{l(a)} #{l(err.type)}" %></div>
+      <%- end %>
+    </div>
   </div>
   <%- end %>
 </div>
