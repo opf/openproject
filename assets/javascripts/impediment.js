@@ -25,6 +25,7 @@ RB.Impediment = RB.Object.create(RB.Task, {
     var statusID = j.parent('td').first().attr('id').split("_")[1];
       
     var data = j.find('.editor').serialize() +
+               "&is_impediment=true" +
                "&fixed_version_id=" + RB.constants['sprint_id'] +
                "&status_id=" + statusID +
                "&prev=" + (prev.length==1 ? prev.data('this').getID() : '') +

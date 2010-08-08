@@ -79,3 +79,6 @@ en:
   error_outro: "Please correct the above errors before submitting again."
 
   label_sprint_impediments: "Sprint Impediments"
+
+  label_blocks: "Blocks"
+  error_must_have_comma_delimited_list: "must have comma delimited list of Story or Task IDs"

@@ -16,19 +16,18 @@ RB.buildImageTag = function(name){
 
 RB.urlFor = {
   create_story: '<%= url_for(:controller => 'stories', :action => 'create') %>',
+  list_stories: '<%= url_for(:controller => 'stories', :action => 'index') %>',
   new_story: '<%= url_for(:controller => 'stories', :action => 'new') %>',
-  update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>',
+  update_story: '<%= url_for(:controller => 'stories', :action => 'update') %>',
+
   create_task: '<%= url_for(:controller => 'tasks', :action => 'create') %>',
+  list_tasks: '<%= url_for(:controller => 'tasks', :action => 'index') %>',
   new_task: '<%= url_for(:controller => 'tasks', :action => 'new') %>',
-  rename: '<%= url_for(:action => 'rename') %>',
-  reorder: '<%= url_for(:action => 'reorder') %>',
+  update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>',  
+
   sprint_date: '<%= url_for(:action => 'sprint_date') %>',
   story_points: '<%= url_for(:action => 'story_points') %>',
   update_backlog: '<%= url_for(:controller => 'backlogs', :action => 'update') %>',
-  update_story: '<%= url_for(:controller => 'stories', :action => 'update') %>',
-  update_task: '<%= url_for(:controller => 'tasks', :action => 'update') %>',
-  list_stories: '<%= url_for(:controller => 'stories', :action => 'index') %>',
-  list_tasks: '<%= url_for(:controller => 'tasks', :action => 'index') %>',
   show_charts: '<%= url_for(:controller => 'charts', :action => 'show') %>'
 }
 

@@ -9,13 +9,15 @@ class TasksController < ApplicationController
   def create
     # FAT MODELS, SKINNY CONTROLLERS PLEASE!
     # http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model
-    @task = Task.create_with_relationships(params, User.current.id, @project.id)
+    @task = Task.create_with_relationships(params, User.current.id, @project.id, params[:is_impediment])
     status = if @task.errors.length==0
                200
              else
                400
              end
-    render :partial => "task", :object => @task, :status => status
+
+    @include_meta = true
+    render :partial => (params[:is_impediment] ? "impediment" : "task"), :object => @task, :status => status
   end
 
   def index
@@ -48,12 +50,14 @@ class TasksController < ApplicationController
   end
 
   def update
-    status = if @task.update_with_relationships(params)
+    status = if @task.update_with_relationships(params, params[:is_impediment])
                200
              else
                400
              end
-    render :partial => "task", :object => @task, :status => status
+
+    @include_meta = true
+    render :partial => (params[:is_impediment] ? "impediment" : "task"), :object => @task, :status => status
   end
 
   private

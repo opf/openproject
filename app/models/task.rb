@@ -1,7 +1,7 @@
 class Task < Issue
   unloadable
 
-  def self.create_with_relationships(params, user_id, project_id)
+  def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
     attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
     attribs['author_id'] = user_id
@@ -10,7 +10,13 @@ class Task < Issue
 
     task = new(attribs)
 
-    if task.validate_blocks_list(params[:blocks]) && task.save
+    valid_relationships = if is_impediment
+                            task.validate_blocks_list(params[:blocks])
+                          else
+                            true
+                          end
+
+    if valid_relationships && task.save
       task.move_after params[:prev]
       task.update_blocked_list params[:blocks].split(/\D+/)
     end
@@ -24,13 +30,19 @@ class Task < Issue
     return Integer(task_tracker)
   end
 
-  def update_with_relationships(params)
+  def update_with_relationships(params, is_impediment = false)
     attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    if validate_blocks_list(params[:blocks]) && result = journalized_update_attributes!(attribs)
+    valid_relationships = if is_impediment && params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
+                            validate_blocks_list(params[:blocks])
+                          else
+                            true
+                          end
+
+    if valid_relationships && result = journalized_update_attributes!(attribs)
       move_after params[:prev]
-      update_blocked_list params[:blocks].split(/\D+/)
+      update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
       result
     else
       false
@@ -56,7 +68,7 @@ class Task < Issue
   
   def validate_blocks_list(list)
     if list.split(/\D+/).length==0
-      errors.add "blocks", "must contain at least one valid id"
+      errors.add :label_blocks, :error_must_have_comma_delimited_list
       false
     else
       true
