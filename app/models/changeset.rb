@@ -76,7 +76,6 @@ class Changeset < ActiveRecord::Base
   def after_create
     scan_comment_for_issue_ids
   end
-  require 'pp'
   
   def scan_comment_for_issue_ids
     return if comments.blank?
