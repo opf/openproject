@@ -597,4 +597,16 @@ EXPECTED
     t = link_to_user(user)
     assert_equal ::I18n.t(:label_user_anonymous), t
   end
+
+  def test_link_to_project
+    project = Project.find(1)
+    assert_equal %(<a href="/projects/ecookbook">eCookbook</a>),
+                 link_to_project(project)
+    assert_equal %(<a href="/projects/ecookbook/settings">eCookbook</a>),
+                 link_to_project(project, :action => 'settings')
+    assert_equal %(<a href="http://test.host/projects/ecookbook?jump=blah">eCookbook</a>),
+                 link_to_project(project, {:only_path => false, :jump => 'blah'})
+    assert_equal %(<a href="/projects/ecookbook/settings" class="project">eCookbook</a>),
+                 link_to_project(project, {:action => 'settings'}, :class => "project")
+  end
 end

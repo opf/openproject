@@ -15,7 +15,7 @@
 	<% next if membership.new_record? %>
 	<tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
   <td class="project">
-    <%= link_to h(membership.project), {:controller => 'projects', :action => 'show', :id => membership.project} %>
+    <%= link_to_project membership.project %>
   </td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
