@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'story', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
   <%= stylesheet_link_tag 'show', 'taskboard', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
   <script type="text/javascript" src="<%= url_for(:action => 'jsvariables', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
@@ -71,7 +71,7 @@
   <%= render :partial => "tasks/impediment", :object => Task.new %>
 </div>
 <!-- end of templates -->
-<div id="item_editor"> </div>
+<div id="issue_editor"> </div>
 <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.now : @last_updated.updated_on) )  %></div>
 <div id="charts"> </div>
 <div id="preloader">

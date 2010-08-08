@@ -19,7 +19,7 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
   processItem: function(html, isImpediment){
     var update = RB.Factory.initialize(isImpediment ? RB.Impediment : RB.Task, html);
     var target;
-    var idPrefix = '#' + (isImpediment ? 'impediment' : 'task') + '_';
+    var idPrefix = '#issue_';
     
     if($(idPrefix + update.getID()).length==0){
       target = update;                                     // Create a new item

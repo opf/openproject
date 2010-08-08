@@ -16,7 +16,7 @@ determine the unit width of the swimlanes.
 See RB.Taskboard.initialize()
 */
 .swimlane{
-  min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .item */
+  min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .issue */
   padding:5px;
   width:105px; /* Must be the same as min-width */
 }
@@ -127,7 +127,7 @@ See RB.Taskboard.initialize()
 }
 
 /* item styles used by .task and .impediment */
-.item, .placeholder{
+.issue, .placeholder{
   background-color:#AFAFAF;
   border:none;
   cursor:move;
@@ -140,7 +140,7 @@ See RB.Taskboard.initialize()
   position:relative;
   width:85px;
 }
-.item{
+.issue{
   -moz-box-shadow: 2px 2px 2px #CCCCCC;
   -webkit-box-shadow: 2px 2px 2px #CCCCCC;
   box-shadow: 2px 2px 2px #CCCCCC;
@@ -151,7 +151,7 @@ See RB.Taskboard.initialize()
   height:78px;
   width:83px;
 }
-.item .id{
+.issue .id{
   -moz-border-radius:4px 4px 4px 4px;
   -webkit-border-radius:4px 4px 4px 4px;
   border-radius:4px 4px 4px 4px;
@@ -165,13 +165,13 @@ See RB.Taskboard.initialize()
   text-align:right;
   width:82px;
 }
-.item .id a{
+.issue .id a{
   opacity:1.0;
 }
-.item .editable:hover{
+.issue .editable:hover{
   background-color:transparent;
 }
-.item .subject.editable{
+.issue .subject.editable{
   height:52px;
   line-height:13px;
   margin-top:0;
@@ -179,7 +179,10 @@ See RB.Taskboard.initialize()
   padding:2px;
   width:81px;
 }
-.item .assigned_to_id.editable{
+.issue.closed .subject.editable{
+  text-decoration:line-through;
+}
+.issue .assigned_to_id.editable{
   font-size:9px;
   height:10px;
   margin-top:2px;
@@ -188,10 +191,10 @@ See RB.Taskboard.initialize()
   padding-top:0;
   width:81px;
 }
-.item .assigned_to_id .v{
+.issue .assigned_to_id .v{
   display:none;
 }
-.item .remaining_hours.editable{
+.issue .remaining_hours.editable{
   -moz-border-radius:15px 15px 15px 15px;
   -webkit-border-radius:15px 15px 15px 15px;
   border-radius:15px 15px 15px 15px;
@@ -206,13 +209,13 @@ See RB.Taskboard.initialize()
   position:absolute;
   right:-5px;
 }
-.item .blocks{
+.issue .blocks{
   display:none;
 }
-.item .remaining_hours.editable:empty{
+.issue .remaining_hours.editable:empty{
   display:none;
 }
-.item .indicator{
+.issue .indicator{
   -moz-border-radius:12px 12px 12px 12px;
   -webkit-border-radius:12px 12px 12px 12px;
   border-radius:12px 12px 12px 12px;
@@ -228,17 +231,17 @@ See RB.Taskboard.initialize()
   top:38px;
   width:16px;
 }
-.item.saving .indicator{
+.issue.saving .indicator{
   background-image:url('../images/indicator.gif');
   display:block;
 }
-.item.error .indicator{
+.issue.error .indicator{
   background-image:url('../images/warning.png');
   background-position:2px 0;
   border-color:#CC0000;
   display:block;
 }
-.item .editors{
+.issue .editors{
   display:none;
 }
 
@@ -270,23 +273,23 @@ See RB.Taskboard.initialize()
 }
 
 /* item editor */
-#item_editor label{
+#issue_editor label{
   display:block;
   font-size:11px;
   text-transform:capitalize;
   width:100%;
 }
-#item_editor .editor{
+#issue_editor .editor{
   font-size:11px;
   margin-bottom:10px;
   width:100%;
 }
-#item_editor .subject{
+#issue_editor .subject{
   height:65px;
   width:272px;
 }
-#item_editor .remaining_hours,
-#item_editor .blocks{
+#issue_editor .remaining_hours,
+#issue_editor .blocks{
   width:268px;
 }
 
@@ -298,12 +301,12 @@ See RB.Taskboard.initialize()
 .compact .story .subject{
   display:none;
 }
-.compact .item{
+.compact .issue{
   height:21px;
   padding:0;
   width:21px;
 }
-.compact .item *{
+.compact .issue *{
   display:none;
 }
 .compact .placeholder{

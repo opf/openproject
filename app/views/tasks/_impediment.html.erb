@@ -1,4 +1,4 @@
-<div class="item impediment <%= mark_if_closed(impediment) %>" id="impediment_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
+<div class="issue impediment <%= mark_if_closed(impediment) %>" id="issue_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
   <div class="id"><%= issue_link_or_empty(impediment) %></div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= impediment.subject %></div>
   <div class="blocks editable" fieldname="blocks"><%= blocked_ids(impediment.blocks) %></div>

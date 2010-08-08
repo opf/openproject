@@ -36,19 +36,6 @@ RB.Impediment = RB.Object.create(RB.Task, {
       url: url,
       data: data
     }
-  },
-  
-  // Override RB.Story.storyUpdated()
-  storyUpdated: function(xhr, textStatus){
-    console.log(xhr);
-    var me = $('#impediment_' + RB.Factory.initialize(RB.Story, xhr.responseText).getID()).data('this');
-  
-    me.unmarkSaving();
-    if(xhr.status!=200){
-      me.markError();
-    } else {
-      me.unmarkError();
-    }
   }
 
 });
