@@ -84,4 +84,4 @@ en:
   blank: "is blank"
 
   label_blocks: "Blocks"
-  error_must_have_comma_delimited_list: "must have comma delimited list of Story or Task IDs"
+  error_must_have_comma_delimited_list: "must have a comma delimited list of story or task IDs"

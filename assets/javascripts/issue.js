@@ -82,6 +82,7 @@ RB.Issue = RB.Object.create(RB.Model, {
         "OK" : function(){ self.copyFromDialog(); $(this).dialog("close") }
       },
       close: function(event, ui){ if(event.which==27) self.cancelEdit() },
+      dialogClass: 'issue_editor_dialog',
       modal: true,
       position: [pos.left - $(document).scrollLeft(), pos.top - $(document).scrollTop()],
       resizable: false,
@@ -98,6 +99,7 @@ RB.Issue = RB.Object.create(RB.Model, {
   
   error: function(xhr, textStatus, error){
     this.markError();
+    RB.Dialog.msg($(xhr.responseText).find('.errors').html());
     this.processError(xhr, textStatus, error);
   },
   

@@ -247,26 +247,26 @@ See RB.Taskboard.initialize()
 
 /* dialog */
 
-.ui-dialog .ui-dialog-titlebar-close{
+.issue_editor_dialog.ui-dialog .ui-dialog-titlebar-close{
   display:none;
 }
-.ui-dialog .ui-widget-header{
+.issue_editor_dialog.ui-dialog .ui-widget-header{
   background:none;
   background-color:#FFFFFF;
   opacity:0.5;
 }
-.ui-dialog .ui-dialog-title{
+.issue_editor_dialog.ui-dialog .ui-dialog-title{
   float:right;
   margin-right:0;
 }
-.ui-dialog.ui-widget-content{
+.issue_editor_dialog.ui-dialog.ui-widget-content{
   -moz-box-shadow: 2px 2px 5px #777777;
   -webkit-box-shadow: 2px 2px 5px #777777;
   box-shadow: 2px 2px 5px #777777;
   background:none;
   border:none;
 }
-.ui-dialog-buttonpane.ui-widget-content{
+.issue_editor_dialog .ui-dialog-buttonpane.ui-widget-content{
   background:none;
   background-color:none;
   border:none;
