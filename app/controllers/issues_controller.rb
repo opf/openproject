@@ -258,6 +258,18 @@ class IssuesController < ApplicationController
     @target_project ||= @project    
     @trackers = @target_project.trackers
     @available_statuses = Workflow.available_statuses(@project)
+    render :layout => false if request.xhr?
+  end
+
+  # TODO: more descriptive name? move to separate controller like IssueMovesController?
+  def perform_move
+    @issues.sort!
+    @copy = params[:copy_options] && params[:copy_options][:copy]
+    @allowed_projects = Issue.allowed_target_projects_on_move
+    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project ||= @project    
+    @trackers = @target_project.trackers
+    @available_statuses = Workflow.available_statuses(@project)
     if request.post?
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
@@ -285,12 +297,6 @@ class IssuesController < ApplicationController
       end
       return
     end
-    render :layout => false if request.xhr?
-  end
-
-  # TODO: more descriptive name? move to separate controller like IssueMovesController?
-  def perform_move
-    move
   end
   
   def destroy
