@@ -84,6 +84,7 @@ class WikiController < ApplicationController
       end
       #@content.text = params[:content][:text]
       #@content.comments = params[:content][:comments]
+      @content.init_journal(User.current, params[:content][:comments])
       @content.attributes = params[:content]
       @content.author = User.current
       # if page is new @page.save will also save content, but not if page isn't a new record

@@ -57,15 +57,11 @@ class WikiContent < ActiveRecord::Base
   WikiContentJournal.class_eval do
     attr_protected :data
     after_save :compress_version_text
-    after_save :move_comments_to_notes
 
     # Wiki Content might be large and the data should possibly be compressed
     def compress_version_text
       self.text = changes["text"].last if changes["text"]
-    end
-    
-    def move_comments_to_notes
-      self.notes = changes.delete("comments").last if changes["comments"]
+      self.text ||= self.versioned.text
     end
 
     def text=(plain)
