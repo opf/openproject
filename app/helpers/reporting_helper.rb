@@ -39,7 +39,7 @@ module ReportingHelper
 
   def mapped(value, klass, default)
     id = value.to_i
-    return l(default) if id < 0
+    return default if id < 0
     klass.find(id).name
   end
 
@@ -58,14 +58,14 @@ module ReportingHelper
     @show_row[key][value] ||= begin
       return l(:label_none) if value.blank?
       case key.to_sym
-      when :activity_id               then mapped value, Enumeration, :caption_material_costs
+      when :activity_id               then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
       when :project_id                then link_to_project Project.find(value.to_i)
       when :user_id, :assigned_to_id  then link_to_user User.find(value.to_i)
       when :tyear, :units             then value
       when :tweek                     then "#{l(:label_week)} ##{value}"
       when :tmonth                    then month_name(value.to_i)
       when :category_id               then IssueCategory.find(value.to_i).name
-      when :cost_type_id              then mapped value, CostType, :caption_labor
+      when :cost_type_id              then mapped value, CostType, l(:caption_labor)
       when :cost_object               then CostObject.find(value.to_i).subject
       when :issue_id                  then link_to_issue Issue.find(value.to_i)
       when :spent_on                  then format_date(value.to_date)
