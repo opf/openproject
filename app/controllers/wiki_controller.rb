@@ -122,7 +122,7 @@ class WikiController < ApplicationController
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
     @versions = @page.content.versions.find :all,
-                                            :select => "id, user_id, notes, updated_at, version",
+                                            :select => "id, user_id, notes, created_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
                                             :offset =>  @version_pages.current.offset
