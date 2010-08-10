@@ -89,7 +89,7 @@ module OpenIdAuthentication
 
       begin
         uri = URI.parse(identifier)
-        uri.scheme = uri.scheme.downcase  # URI should do this
+        uri.scheme = uri.scheme.downcase if uri.scheme # URI should do this
         identifier = uri.normalize.to_s
       rescue URI::InvalidURIError
         raise InvalidOpenId.new("#{identifier} is not an OpenID identifier")
