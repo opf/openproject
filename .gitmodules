@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/acts_as_journalized"]
+	path = vendor/plugins/acts_as_journalized
+	url = git://github.com/finnlabs/acts_as_journalized
