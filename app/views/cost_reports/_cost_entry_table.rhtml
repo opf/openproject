@@ -1,22 +1,31 @@
-<% list = [:project_id, :issue_id, :units, :cost_type_id, :spent_on, :user_id, :activity_id] %>
+<% list = [:project_id, :issue_id, :spent_on, :user_id, :activity_id] %>
 
 <table class="list">
   <thead>
     <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-    <th><%= @cost_type.try(:unit_plural) || l(:field_costs) %></th>
+    <th><%= l(:field_costs) %></th>
+    <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+    <th></th>
   </thead>
   <tfoot>
-    <th colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+    <th colspan='<%= list.size + 3 %>'><%= show_result @query %></th>
   </tfoot>
   <tbody>
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
         <td class="currency"><%= show_result(result) %></td>
+        <td class="units"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td style="width: 40px">
+          <%= link_to image_tag('edit.png'),    action_for(result, :action => 'edit'), :title => l(:button_edit) %>
+          <%= link_to image_tag('delete.png'),  action_for(result, :action => 'destroy'),
+            :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
+            :method => :post,           :title    => l(:button_delete) %>
+        </td>
       </tr>
       <% if params[:debug] %>
         <tr>
-          <td colspan='<%= list.size + 1 %>'>
+          <td colspan='<%= list.size + 3 %>'>
             <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
           </td>
         </tr>

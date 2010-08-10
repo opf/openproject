@@ -78,12 +78,18 @@ module ReportingHelper
     end
   end
 
-  def show_result(row)
-    case @unit_id
+  def show_result(row, unit_id = @unit_id)
+    case unit_id
     when -1 then l_hours(row.units)
     when 0  then number_to_currency(row.real_costs)
-    else "#{row.units} #{row.units != 1 ? @cost_type.unit_plural : @cost_type.unit}"
+    else
+      cost_type = @cost_type || CostType.find(unit_id)
+      "#{row.units} #{row.units != 1 ? cost_type.unit_plural : cost_type.unit}"
     end
+  end
+
+  def action_for(result, options = {})
+    options.merge :controller => result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', :id => result.fields['id'].to_i
   end
 
   ##
