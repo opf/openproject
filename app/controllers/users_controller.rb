@@ -53,10 +53,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @custom_values = @user.custom_values
     
-    # show only public projects and private projects that the logged in user is also a member of
-    @memberships = @user.memberships.select do |membership|
-      membership.project.is_public? || (User.current.member_of?(membership.project))
-    end
+    # show projects based on current user visibility
+    @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
     
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
