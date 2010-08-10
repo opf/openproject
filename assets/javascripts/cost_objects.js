@@ -1,12 +1,10 @@
-function deleteMaterialBudgetItem(id) {
-  $(id + '_units').value = 0;
+function deleteBudgetItem(id, field) {
+  $(id + '_' + field).value = 0;
   $(id).hide();
 }
 
-function deleteLaborBudgetItem(id) {
-  $(id + '_hours').value = 0;
-  $(id).hide();
-}
+function deleteMaterialBudgetItem(id) { deleteBudgetItem(id, 'units') }
+function deleteLaborBudgetItem(id) { deleteBudgetItem(id, 'hours') }
 
 function confirmChangeType(text, select, originalValue) {
   if (originalValue == "") return true;
