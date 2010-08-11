@@ -19,10 +19,10 @@ end
 require_dependency 'backlogs_hooks'
 
 Redmine::Plugin.register :redmine_backlogs do
-  name 'Redmine Scrum Plugin'
-  author 'Mark Maglana, friflaj'
-  description 'Scrum plugin for Redmine'
-  version '2.1 unstable'
+  name 'Redmine Backlogs Plugin'
+  author 'relaxdiego, friflaj'
+  description 'A plugin for scrum/agile teams'
+  version 'unstable'
 
   settings :default => { :story_trackers => nil, :task_tracker => nil, :card_spec => nil }, :partial => 'settings/backlogs_settings'
 
