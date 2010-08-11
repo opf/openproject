@@ -76,6 +76,10 @@ RB.BoardUpdater = RB.Object.create({
     }
   },
 
+  processAllItems: function(){
+    throw "RB.BoardUpdater.processItems() was not overriden by child object";
+  },
+
   processData: function(data, textStatus, xhr){
     var self = this;
 
@@ -84,22 +88,14 @@ RB.BoardUpdater = RB.Object.create({
     var latest_update = $(data).children('#last_updated').text();
     if(latest_update.length > 0) $('#last_updated').text(latest_update);
 
-    var items = $(data).children('.' + self.itemType);
-    items.each(function(i, v){
-      self.processItem(v);
-    });
-    
-    self.adjustPollWait(items.length);
+    self.processAllItems(data);
+    self.adjustPollWait($(data).children(":not(.meta)").length);
     self.poll();
   },
   
   processError: function(){
     this.adjustPollWait(0); 
     this.poll();
-  },
-  
-  processItem: function(update){
-    throw "RB.BoardUpdater.processItem() was not overriden by child object";
   },
 
   updateAutorefreshText: function(){

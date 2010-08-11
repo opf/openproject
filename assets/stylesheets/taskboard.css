@@ -6,68 +6,74 @@
   width:20px;
 }
 
-/* SPRINT TABLE STYLES */
-#taskboard{
-  background-color:rgb(254,250,248);
+/*
+ swimlane class is used by:
+  - #board_header
+  - .board
+  
+Also use by the Column Width preference to
+determine the unit width of the swimlanes.
+See RB.Taskboard.initialize()
+*/
+.swimlane{
+  min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .issue */
+  padding:5px;
+  width:105px; /* Must be the same as min-width */
+}
+
+/* status labels */
+#board_header{
+  background-color:#EBEBEB;
   border:1px solid #CCCCCC;
-  margin-bottom:10px;
+  margin-bottom:0;
   margin-right:10px;
 }
-#taskboard td{
+#board_header td{
+  background-color:#EBEBEB;
   border-right:1px dotted #CFCFCF;
-  border-bottom:1px solid #CFCFCF;
-  padding:0 5px 10px 0;
-  min-width:125px;
-  vertical-align:top;
-  width:125px;
-}
-#taskboard tr:first-child td{
-  background-color:rgb(235,235,235);
-  border-bottom:none;
-  color:rgb(126,126,126);
+  color:#7E7E7E;
   font-size:14px;
   font-weight:bold;
   height:30px;
-  padding:0;
-  padding-bottom:0;
   text-align:center;
   vertical-align:middle;
 }
-#taskboard tr:last-child td{
-  border-bottom:none;
+#board_header td:first-child{
+  min-width:231px;
+  padding:10px;
+  width:231px;
 }
-#taskboard td:last-child{
+#board_header td:last-child{
   border-right:none;
 }
-#taskboard td:first-child{
-  min-width:137px;
-  padding:10px;
-  width:175px;
+
+/* shared #impediments and #tasks */
+.board{
+  background-color:#FCFCFC;
+  border:1px solid #CCCCCC;
+  border-top:none;
+  margin-right:10px;
 }
-#taskboard td.list.hover{
-  background-color:#CCCCCC;
+.board tr:hover{
+  background-color:#ffffff;
 }
-#taskboard td.story,
-#taskboard td.story_column,{
-  font-size:11px;
+.board td{
+  border-right:1px dotted #CFCFCF;
+  border-bottom:1px dotted #CFCFCF;
+  vertical-align:top;
 }
-#taskboard td.story .story_id{
-  -moz-border-radius:4px 4px 4px 4px;
-  background-color:#EEEEEE;
-  float:left;
-  font-size:9px;
-  height:14px;
-  margin:1px 5px 0 0;
-  overflow:hidden;
-  padding:0 5px 0 1px;
-  text-align:right;
-  width:45px;
+.board td:first-child{
+  min-width:210px;
+  padding:5px;
+  width:210px; 
 }
-#taskboard td.story.closed .subject{
-  text-decoration:line-through;
+.board td:last-child{
+  border-right:none;
 }
-#taskboard td.new_task_button,
-#taskboard td.new_task_button_column{
+.board tr:last-child td{
+  border-bottom:none;
+}
+.board .add_new{
   margin:0;
   min-width:30px;
   padding:0;
@@ -75,13 +81,253 @@
   vertical-align:middle;
   width:30px;
 }
-#taskboard td.new_task_button:hover{
+.board .add_new:hover{
   cursor:pointer;
   background-color:#ffffcc;
 }
-#taskboard tr:hover{
-  background-color:#ffffff;
+.story,
+.label_sprint_impediments{
+  -moz-box-shadow: 2px 2px 2px #CCCCCC;
+  -webkit-box-shadow: 2px 2px 2px #CCCCCC;;
+  box-shadow: 2px 2px 2px #CCCCCC;;
+  background-color:#F8F6A5;
+  border:none;
+  display:block;
+  float:left;
+  font-size:10px;
+  height:80px;
+  margin:5px;
+  padding:5px;
+  position:relative;
+  width:190px;
 }
+.story .id{
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px 4px 4px 4px;
+  border-radius:4px 4px 4px 4px;
+  background-color:#FFFFFF;
+  font-size:9px;
+  opacity:0.8;
+  overflow:hidden;
+  padding-bottom:1px;
+  padding-right:3px;
+  text-align:right;
+  width:187px;
+}
+.story .subject{
+  height:63px;
+  line-height:13px;
+  margin-top:0;
+  overflow:hidden;
+  padding:2px;
+  width:186px;
+}
+.story.closed .subject{
+  text-decoration:line-through;
+}
+
+/* item styles used by .task and .impediment */
+.issue, .placeholder{
+  background-color:#AFAFAF;
+  border:none;
+  cursor:move;
+  display:block;
+  float:left;
+  font-size:10px;
+  height:80px;
+  margin:5px;
+  padding:5px;
+  position:relative;
+  width:85px;
+}
+.issue{
+  -moz-box-shadow: 2px 2px 2px #CCCCCC;
+  -webkit-box-shadow: 2px 2px 2px #CCCCCC;
+  box-shadow: 2px 2px 2px #CCCCCC;
+}
+.placeholder{
+  background-color:#FFFF00;
+  border:1px dashed #333300;
+  height:78px;
+  width:83px;
+}
+.issue .id{
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px 4px 4px 4px;
+  border-radius:4px 4px 4px 4px;
+  background-color:#FFFFFF;
+  font-size:9px;
+  height:12px;
+  opacity:0.5;
+  overflow:hidden;
+  padding-bottom:1px;
+  padding-right:3px;
+  text-align:right;
+  width:82px;
+}
+.issue .id a{
+  opacity:1.0;
+}
+.issue .editable:hover{
+  background-color:transparent;
+}
+.issue .subject.editable{
+  height:52px;
+  line-height:13px;
+  margin-top:0;
+  overflow:hidden;
+  padding:2px;
+  width:81px;
+}
+.issue.closed .subject.editable{
+  text-decoration:line-through;
+}
+.issue .assigned_to_id.editable{
+  font-size:9px;
+  height:10px;
+  margin-top:2px;
+  overflow:hidden;
+  padding:2px;
+  padding-top:0;
+  width:81px;
+}
+.issue .assigned_to_id .v{
+  display:none;
+}
+.issue .remaining_hours.editable{
+  -moz-border-radius:15px 15px 15px 15px;
+  -webkit-border-radius:15px 15px 15px 15px;
+  border-radius:15px 15px 15px 15px;
+  border:2px solid #FFFFFF;
+  background-color:#EE0000;
+  bottom:-5px;
+  color:#FFFFFF;
+  font-size:9px;
+  height:13px;
+  padding-left:5px;
+  padding-right:5px;
+  position:absolute;
+  right:-5px;
+}
+.issue .blocks{
+  display:none;
+}
+.issue .remaining_hours.editable:empty{
+  display:none;
+}
+.issue .indicator{
+  -moz-border-radius:12px 12px 12px 12px;
+  -webkit-border-radius:12px 12px 12px 12px;
+  border-radius:12px 12px 12px 12px;
+  background-color:#FFFFFF;
+  background-position:center;
+  background-repeat:no-repeat;
+  border:2px solid #000000;
+  display:none;
+  height:16px;
+  left:36px;
+  padding:2px;
+  position:absolute;
+  top:38px;
+  width:16px;
+}
+.issue.saving .indicator{
+  background-image:url('../images/indicator.gif');
+  display:block;
+}
+.issue.error .indicator{
+  background-image:url('../images/warning.png');
+  background-position:2px 0;
+  border-color:#CC0000;
+  display:block;
+}
+.issue .editors{
+  display:none;
+}
+
+/* dialog */
+
+.issue_editor_dialog.ui-dialog .ui-dialog-titlebar-close{
+  display:none;
+}
+.issue_editor_dialog.ui-dialog .ui-widget-header{
+  background:none;
+  background-color:#FFFFFF;
+  opacity:0.5;
+}
+.issue_editor_dialog.ui-dialog .ui-dialog-title{
+  float:right;
+  margin-right:0;
+}
+.issue_editor_dialog.ui-dialog.ui-widget-content{
+  -moz-box-shadow: 2px 2px 5px #777777;
+  -webkit-box-shadow: 2px 2px 5px #777777;
+  box-shadow: 2px 2px 5px #777777;
+  background:none;
+  border:none;
+}
+.issue_editor_dialog .ui-dialog-buttonpane.ui-widget-content{
+  background:none;
+  background-color:none;
+  border:none;
+}
+
+/* item editor */
+#issue_editor label{
+  display:block;
+  font-size:11px;
+  text-transform:capitalize;
+  width:100%;
+}
+#issue_editor .editor{
+  font-size:11px;
+  margin-bottom:10px;
+  width:100%;
+}
+#issue_editor .subject{
+  height:65px;
+  width:272px;
+}
+#issue_editor .remaining_hours,
+#issue_editor .blocks{
+  width:268px;
+}
+
+/* compact view */
+.compact .story,
+.compact .label_sprint_impediments{
+  height:15px;
+}
+.compact .story .subject{
+  display:none;
+}
+.compact .issue{
+  height:21px;
+  padding:0;
+  width:21px;
+}
+.compact .issue *{
+  display:none;
+}
+.compact .placeholder{
+  background-color:#FFFF00;
+  border:1px dashed #333300;
+  height:19px;
+  width:19px;
+}
+
+/* others */
+#impediment_template,
 #task_template{
   display:none;
+}
+#preloader{
+  left:-500px;
+  position:absolute;
+}
+#spinner{
+  background-image:url('../images/indicator.gif');
+}
+#warning{
+  background-image:url('../images/warning.png');
 }

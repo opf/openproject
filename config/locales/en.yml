@@ -77,3 +77,11 @@ en:
   error_intro_singular: "The following error was encountered:"
   error_intro_plural: "The following errors were encountered:"
   error_outro: "Please correct the above errors before submitting again."
+
+  label_sprint_impediments: "Sprint Impediments"
+
+  subject: "Subject"
+  blank: "is blank"
+
+  label_blocks: "Blocks"
+  error_must_have_comma_delimited_list: "must have a comma delimited list of story or task IDs"

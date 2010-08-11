@@ -227,6 +227,7 @@ RB.Story = RB.Object.create(RB.Model, {
     if(RB.Story.newQueue==null) RB.Story.newQueue = [];
     if(me.isNew()) RB.Story.newQueue.push(me);
 
+    me.unmarkError();
     me.markSaving();
     RB.ajax({
       type: "POST",

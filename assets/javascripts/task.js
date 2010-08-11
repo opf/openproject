@@ -2,7 +2,7 @@
   TASK
 ***************************************/
 
-RB.Task = RB.Object.create(RB.Story, {
+RB.Task = RB.Object.create(RB.Issue, {
   
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.
@@ -15,29 +15,16 @@ RB.Task = RB.Object.create(RB.Story, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
 
-    // Observe click events in certain fields
-    j.find('.editable').live('mouseup', this.triggerEdit);
+    j.bind('mouseup', this.handleClick);
   },
 
-  afterSaveEdits: function(){
+  beforeSave: function(){
     var c = this.$.find('select.assigned_to_id').children(':selected').attr('color');
     this.$.css('background-color', c);
   },
 
-  checkSubjectLength: function(){
-  },
-  
-  handleKeyup: function(event){
-    var j = $(this).parents('.task').first();
-    var that = j.data('this');
-
-    switch(event.which){
-      case 13   : that.saveEdits();   // Enter
-                  break;
-      case 27   : that.cancelEdit();     // ESC
-                  break;
-      default   : return true;
-    }
+  getType: function(){
+    return "Task";
   },
 
   markIfClosed: function(){
@@ -48,22 +35,6 @@ RB.Task = RB.Object.create(RB.Story, {
     }
   },
 
-  markSaving: function(){
-    this.$.addClass('saving');
-  },
-
-  refresh: function(obj){
-    this.$.html(obj.$.html());
-    this.$.css('background-color', obj.$.css('background-color'));
-  
-    if(obj.isClosed()){
-      this.close();
-    } else {
-      this.open();
-    }
-  },
-
-  // Override saveDirectives of RB.Story
   saveDirectives: function(){
     var j = this.$;
     var prev = this.$.prev();
@@ -82,45 +53,14 @@ RB.Task = RB.Object.create(RB.Story, {
     }
   },
 
-  saveDragResult: function(){
-
+  beforeSaveDragResult: function(){
     if(this.$.parent('td').first().hasClass('closed')){
       // This is only for the purpose of making the Remaining Hours reset
       // instantaneously after dragging to a closed status. The server should
       // still make sure to reset the value to be sure.
-      this.$.children('.remaining_hours.editor').val('0.0');
-      this.$.children('.remaining_hours.editable').text('0.0');
+      this.$.children('.remaining_hours.editor').val('');
+      this.$.children('.remaining_hours.editable').text('');
     }
-
-    if(!this.$.hasClass('editing')) this.saveEdits();
-  },
-
-  // Override RB.Story.storyUpdated()
-  storyUpdated: function(xhr, textStatus){
-    var me = $('#task_' + RB.Factory.initialize(RB.Story, xhr.responseText).getID()).data('this');
-
-    me.unmarkSaving();
-    if(xhr.status!=200){
-      me.markError();
-    } else {
-      me.unmarkError();
-    }
-  },
-
-  triggerEdit: function(event){
-    // Get the task since what was clicked was a field
-    var j = $(this).parents('.task').first();
-    
-    if(!j.hasClass('editing') && !j.hasClass('dragging')){
-      j.data('this').edit();
-      
-      // Focus on the input corresponding to the field clicked
-      j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
-    }
-  },
-
-  unmarkSaving: function(){
-    this.$.removeClass('saving');
-  }  
+  }
   
 });
