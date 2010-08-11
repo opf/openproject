@@ -11,12 +11,26 @@ module Backlogs
             unloadable # Send unloadable so it will not be unloaded in development
             base.add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
             base.add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{Issue.table_name}.remaining_hours"))
-            base.add_available_column(QueryColumn.new(:position, :sortable => "#{Issue.table_name}.position"))
             base.add_available_column(QueryColumn.new(:velocity_based_estimate))
+
+            base.add_available_column(QueryColumn.new(:position,
+                                      :sortable => [
+                                        # sprint startdate
+                                        "coalesce((select sprint_start_date from versions where versions.id = issues.fixed_version_id), '1900-01-01')",
+                                        # sprint name, in case start dates are the same
+                                        "(select name from versions where versions.id = issues.fixed_version_id)",
+                                        # story position
+                                        "(select root.position from issues root where issues.root_id = root.id)",
+                                        # story ID, in case positions are the same (SHOULD NOT HAPPEN!)
+                                        "issues.root_id",
+                                        # order in task tree
+                                        "issues.lft"
+                                      ],
+                                      :default_order => 'asc'))
+
   
             alias_method_chain :available_filters, :backlogs_issue_type
             alias_method_chain :sql_for_field, :backlogs_issue_type
-            alias_method_chain :columns, :backlogs_story_columns
         end
   
     end
@@ -38,46 +52,21 @@ module Backlogs
             return @available_filters.merge(backlogs_filters)
         end
   
-        def columns_with_backlogs_story_columns
-            cols = columns_without_backlogs_story_columns
-  
-            return cols if not has_default_columns?
-  
-            return cols if ! self.filters["backlogs_issue_type"]
-  
-            [   [:parent,           :before,    (self.filters["backlogs_issue_type"][:values] == ['any'])],
-                [:story_points,     :after,     true],
-                [:position,         :after,     true],
-                [:estimated_hours,  :after,     true]]. each {|col, pos, use|
-  
-                next if !use
-                col = available_columns.select{|c| c.name == col}[0]
-                if cols.include? col
-                    # pass
-                elsif pos == :before
-                    cols = [col] + cols
-                else
-                    cols = cols + [col]
-                end
-            }
-  
-            return cols
-        end
-  
         def sql_for_field_with_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter=false)
             if field == "backlogs_issue_type"
                 db_table = Issue.table_name
   
                 sql = []
   
-                values_for(field).each { |val|
+                selected_values = values_for(field)
+                selected_values = ['story', 'task'] if selected_values.include?('any')
+                
+                selected_values.each { |val|
                     case val
                         when "story"
                             sql << "(#{db_table}.tracker_id in (" + Story.trackers.collect{|val| "#{val}"}.join(",") + ") and #{db_table}.parent_id is NULL)"
                         when "task"
                             sql << "(#{db_table}.tracker_id = #{Task.tracker} and not #{db_table}.parent_id is NULL)"
-                        when "any"
-                            sql << "1 = 1"
                     end
                 }
   
