@@ -15,10 +15,11 @@ RB.Issue = RB.Object.create(RB.Model, {
 
   afterSave: function(data, textStatus, xhr){
     var isNew = this.isNew();
+    var result = RB.Factory.initialize(RB.Issue, data);
     this.unmarkSaving();
-    this.refresh(RB.Factory.initialize(RB.Issue, data));
-    this.afterCreate(data, textStatus, xhr);
+    this.refresh(result);
     if(isNew){
+      this.$.attr('id', result.$.attr('id'));
       this.afterCreate(data, textStatus, xhr);
     } else {
       this.afterUpdate(data, textStatus, xhr);
