@@ -156,8 +156,8 @@ class MigrateLegacy < ActiveRecord::Migration
         join backlog_chart_data on backlogs.id = backlog_id
         }
 
-      drop_table 'backlogs'
-      drop_table 'items'
+      drop_table :backlogs
+      drop_table :items
     end
 
   end
