@@ -24,6 +24,13 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
   end
 
   def self.down
-    #pass
+    drop_column :issues, :position
+    drop_column :issues, :story_points
+    drop_column :issues, :remaining_hours
+
+    drop_column :versions, :sprint_start_date
+
+    drop_index :burndown_days, :version_id
+    drop_table :burndown_days
   end
 end
