@@ -1,6 +1,12 @@
 class Task < Issue
   unloadable
 
+  def self.tracker
+    task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
+    return nil if task_tracker.nil? or task_tracker == ''
+    return Integer(task_tracker)
+  end
+
   def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
     attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
@@ -21,13 +27,7 @@ class Task < Issue
       task.update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
     end
 
-    task
-  end
-
-  def self.tracker
-    task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
-    return nil if task_tracker.nil? or task_tracker == ''
-    return Integer(task_tracker)
+    return task
   end
 
   def update_with_relationships(params, is_impediment = false)
@@ -75,4 +75,14 @@ class Task < Issue
     end
   end
   
+  # assumes the task is already under the same story as 'id'
+  def move_after(id)
+    id = nil if id.respond_to?('empty?') && id.empty?
+    if id.nil?
+      sib = self.siblings
+      move_to_left_of sib[0].id if sib.any?
+    else
+      move_to_right_of id
+    end
+  end
 end

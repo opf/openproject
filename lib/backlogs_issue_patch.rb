@@ -42,7 +42,7 @@ module Backlogs
         unloadable
 
         acts_as_list 
-  
+
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
         after_save  :task_follows_story
@@ -161,7 +161,7 @@ module Backlogs
           touched_sprint.touch_burndown
         end
 
-        if self.position.nil? && (self.is_story? || self.is_task?)
+        if ! self.in_list? && self.is_story?
           self.insert_at
           self.move_to_bottom
         end

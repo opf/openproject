@@ -112,7 +112,7 @@ class MigrateLegacy < ActiveRecord::Migration
           join issues parent_issue on parent_issue.id = parent.issue_id
           left join backlogs sprint on task.backlog_id = sprint.id and sprint.id <> 0
           left join versions on versions.id = sprint.version_id and sprint.version_id <> 0
-          order by coalesce(task.position, #{bottom}) desc, task.created_at desc"
+          order by coalesce(task.position, #{bottom}), task.created_at"
 
         tasks.each { |row|
           id, sprint, parent_id, project = MigrateLegacy.row(row, [:int, :int, :int, :int])
@@ -127,14 +127,11 @@ class MigrateLegacy < ActiveRecord::Migration
             task.save!
           end
 
+          # because we're inserting the tasks first-last, adding it to
+          # the story will yield the correct order
           task.fixed_version_id = sprint
           task.parent_issue_id = parent_id
           task.save!
-
-          # because we're inserting the tasks last-first, this
-          # position gets shifted down 1 spot each time, yielding a
-          # neatly compacted position list
-          task.insert_at 1
         }
 
         res = execute "select version_id, start_date, is_closed from backlogs"

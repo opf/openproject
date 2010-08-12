@@ -1,6 +1,6 @@
 class FillPosition < ActiveRecord::Migration
   def self.up
-    pos = execute "select project_id, max(position) from issues group by project_id"
+    pos = execute "select project_id, max(position) from issues where parent_id is null group by project_id"
     pos.each do |row|
       project_id, position = row
       position = position.to_i
