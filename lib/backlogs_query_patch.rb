@@ -17,12 +17,19 @@ module Backlogs
                                       :sortable => [
                                         # sprint startdate
                                         "coalesce((select sprint_start_date from versions where versions.id = issues.fixed_version_id), '1900-01-01')",
+
                                         # sprint name, in case start dates are the same
                                         "(select name from versions where versions.id = issues.fixed_version_id)",
+
                                         # story position
                                         "(select root.position from issues root where issues.root_id = root.id)",
-                                        # story ID, in case positions are the same (SHOULD NOT HAPPEN!)
+
+                                        # story ID, in case positions
+                                        # are the same (SHOULD NOT HAPPEN!).
+                                        # DO NOT CHANGE; root_id is the only field that sorts the same for stories _and_
+                                        # the tasks it has.
                                         "issues.root_id",
+
                                         # order in task tree
                                         "issues.lft"
                                       ],
