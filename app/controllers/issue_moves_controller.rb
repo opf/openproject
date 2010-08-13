@@ -52,18 +52,6 @@ class IssueMovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
   end
 
-  # TODO: duplicated in IssuesController
-  def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
-    if unsaved_issue_ids.empty?
-      flash[:notice] = l(:notice_successful_update) unless issues.empty?
-    else
-      flash[:error] = l(:notice_failed_to_save_issues,
-                        :count => unsaved_issue_ids.size,
-                        :total => issues.size,
-                        :ids => '#' + unsaved_issue_ids.join(', #'))
-    end
-  end
-
   def extract_changed_attributes_for_move(params)
     changed_attributes = {}
     [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|

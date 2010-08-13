@@ -408,17 +408,6 @@ private
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
   end
 
-  def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
-    if unsaved_issue_ids.empty?
-      flash[:notice] = l(:notice_successful_update) unless issues.empty?
-    else
-      flash[:error] = l(:notice_failed_to_save_issues,
-                        :count => unsaved_issue_ids.size,
-                        :total => issues.size,
-                        :ids => '#' + unsaved_issue_ids.join(', #'))
-    end
-  end
-
   def check_for_default_issue_status
     if IssueStatus.default.nil?
       render_error l(:error_no_default_issue_status)

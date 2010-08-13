@@ -365,6 +365,21 @@ class ApplicationController < ActionController::Base
     flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size) if obj.unsaved_attachments.present?
   end
 
+  # Sets the `flash` notice or error based the number of issues that did not save
+  #
+  # @param [Array, Issue] issues all of the saved and unsaved Issues
+  # @param [Array, Integer] unsaved_issue_ids the issue ids that were not saved
+  def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
+    if unsaved_issue_ids.empty?
+      flash[:notice] = l(:notice_successful_update) unless issues.empty?
+    else
+      flash[:error] = l(:notice_failed_to_save_issues,
+                        :count => unsaved_issue_ids.size,
+                        :total => issues.size,
+                        :ids => '#' + unsaved_issue_ids.join(', #'))
+    end
+  end
+
   # Rescues an invalid query statement. Just in case...
   def query_statement_invalid(exception)
     logger.error "Query::StatementInvalid: #{exception.message}" if logger
