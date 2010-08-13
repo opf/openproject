@@ -29,6 +29,7 @@ class MigrateLegacy < ActiveRecord::Migration
     rescue
       legacy = false
     end
+    ActiveRecord::Base.connection.commit_db_transaction
 
     if legacy
       Story.reset_column_information
@@ -152,6 +153,7 @@ class MigrateLegacy < ActiveRecord::Migration
         from backlogs
         join backlog_chart_data on backlogs.id = backlog_id
         }
+      ActiveRecord::Base.connection.commit_db_transaction
 
       drop_table :backlogs
       drop_table :items
