@@ -161,9 +161,13 @@ module Backlogs
           touched_sprint.touch_burndown
         end
 
-        if ! self.in_list? && self.is_story?
-          self.insert_at
-          self.move_to_bottom
+        if self.in_list?
+          self.remove_from_list if self.is_task?
+        else
+          if self.is_story?
+            self.insert_at
+            self.move_to_bottom
+          end
         end
       end
 
