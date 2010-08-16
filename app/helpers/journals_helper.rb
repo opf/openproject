@@ -22,7 +22,7 @@ module JournalsHelper
     links = []
     if !journal.notes.blank?
       links << link_to_remote(image_tag('comment.png'),
-                              { :url => {:controller => 'issues', :action => 'reply', :id => issue, :journal_id => journal} },
+                              { :url => {:controller => 'journals', :action => 'new', :id => issue, :journal_id => journal} },
                               :title => l(:button_quote)) if options[:reply_links]
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes", 
                                              { :controller => 'journals', :action => 'edit', :id => journal },

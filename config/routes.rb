@@ -124,7 +124,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'projects/:project_id/issues', :action => 'create'
       issues_actions.connect 'projects/:project_id/issues/gantt', :controller => 'gantts', :action => 'show'
       issues_actions.connect 'projects/:project_id/issues/calendar', :controller => 'calendars', :action => 'show'
-      issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
+      issues_actions.connect 'issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|destroy/, :id => /\d+/
       issues_actions.connect 'issues.:format', :action => 'create', :format => /xml/
     end
