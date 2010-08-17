@@ -1123,20 +1123,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:notes)
   end
 
-  def test_auto_complete_should_not_be_case_sensitive
-    get :auto_complete, :project_id => 'ecookbook', :q => 'ReCiPe'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).detect {|issue| issue.subject.match /recipe/}
-  end
-  
-  def test_auto_complete_should_return_issue_with_given_id
-    get :auto_complete, :project_id => 'subproject1', :q => '13'
-    assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).include?(Issue.find(13))
-  end
-  
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2

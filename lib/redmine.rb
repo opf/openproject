@@ -58,7 +58,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
-                                  :issues => [:index, :changes, :show, :context_menu, :auto_complete],
+                                  :issues => [:index, :changes, :show, :context_menu],
+                                  :auto_complete => [:issues],
                                   :versions => [:show, :status_by],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}

@@ -9,10 +9,7 @@
 <% unless (@issue.new_record? && @issue.parent_issue_id.nil?) || !User.current.allowed_to?(:manage_subtasks, @project) %>
 <p><%= f.text_field :parent_issue_id, :size => 10 %></p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{url_for(:controller => :issues,
-                                                       :action => :auto_complete,
-                                                       :id => @issue,
-                                                       :project_id => @project) }')" %>
+<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
 <% end %>
 
 <p><%= f.text_area :description,
