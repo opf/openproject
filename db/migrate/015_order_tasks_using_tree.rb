@@ -1,4 +1,4 @@
-class RemoveTaskPosition < ActiveRecord::Migration
+class OrderTasksUsingTree < ActiveRecord::Migration
   def self.up
     last_task = {}
     ActiveRecord::Base.transaction do
