@@ -77,7 +77,7 @@ RB.BoardUpdater = RB.Object.create({
   },
 
   processAllItems: function(){
-    throw "RB.BoardUpdater.processItems() was not overriden by child object";
+    throw "RB.BoardUpdater.processAllItems() was not overriden by child object";
   },
 
   processData: function(data, textStatus, xhr){

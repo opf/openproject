@@ -1,4 +1,13 @@
 RB.BacklogsUpdater = RB.Object.create(RB.BoardUpdater, {
+  processAllItems: function(data){
+    var self = this;
+
+    // Process all stories
+    var items = $(data).children('.story');
+    items.each(function(i, v){
+      self.processItem(v, false);
+    });
+  },
 
   processItem: function(html){
     var update = RB.Factory.initialize(RB.Story, html);
