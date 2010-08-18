@@ -1107,22 +1107,6 @@ class IssuesControllerTest < ActionController::TestCase
                                              :class => 'icon-del disabled' }
   end
   
-  def test_preview_new_issue
-    @request.session[:user_id] = 2
-    post :preview, :project_id => '1', :issue => {:description => 'Foo'}
-    assert_response :success
-    assert_template 'preview'
-    assert_not_nil assigns(:description)
-  end
-                              
-  def test_preview_notes
-    @request.session[:user_id] = 2
-    post :preview, :project_id => '1', :id => 1, :issue => {:description => Issue.find(1).description}, :notes => 'Foo'
-    assert_response :success
-    assert_template 'preview'
-    assert_not_nil assigns(:notes)
-  end
-
   def test_destroy_issue_with_no_time_entries
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
