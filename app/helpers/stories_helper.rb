@@ -54,7 +54,7 @@ module StoriesHelper
   end
   
   def updated_on_with_milliseconds(story)
-    date_string_with_milliseconds(story.updated_on, 0.001);
+    date_string_with_milliseconds(story.updated_on, 0.001) unless story.nil?
   end
 
   def date_string_with_milliseconds(d, add=0)
