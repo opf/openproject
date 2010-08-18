@@ -51,7 +51,7 @@
     <tr><td>Sprints</td><td>
     <% (@velocity[:sprints]).each do |sprint| %>
         <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => @project, :sprint_id => sprint.id }) %><br/>
-    <% end %></td></tr>
+    <% end %></td></tr></table>
   <% else %>
     No velocity
   <% end %>
