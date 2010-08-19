@@ -2,6 +2,7 @@
 # by Marko Seppä (marko.seppa@gmail.com)
 
 fi:
+  direction: ltr
   date:
     formats:
       default: "%e. %Bta %Y"

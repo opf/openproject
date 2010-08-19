@@ -1,6 +1,0 @@
-@import url(../../../stylesheets/context_menu.css);
-
-#context-menu li.folder ul { left:auto; right:168px; }
-#context-menu li.folder>ul { left:auto; right:148px; }
-
-#context-menu li a.submenu { background:url("../../../images/bullet_arrow_left.png") left no-repeat; }

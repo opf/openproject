@@ -1,5 +1,3 @@
-@import url(../../alternate/stylesheets/application.css);
-
 body, #wrapper { direction: rtl;}
 
 #quick-search { float: left; }
@@ -20,11 +18,23 @@ body, #wrapper { direction: rtl;}
 	float: right;
 	margin-left: auto;
 }
-.tabular p { clear: right; }
+.tabular p
+{
+	clear: right;
+}
 .tabular label.block { text-align: right; }
-
-.icon { background-position: 100% 40%; padding-right: 20px; padding-left: 0px; }
-div#activity dt, #search-results dt { background-position: 100% 50%; padding-right: 20px; padding-left: 0px; }
+.icon
+{
+       background-position: 100% 40%;
+       padding-right: 20px;
+       padding-left: 0px;
+}
+div#activity dt, #search-results dt
+{
+	background-position: 100% 50%;
+	padding-right: 20px;
+	padding-left: 0px;
+}
 #content .tabs ul li { float: right; }
 #content .tabs ul { padding-left: auto; padding-right: 1em; }
 table.progress { float: right; }
@@ -48,3 +58,9 @@ table.list td.buttons a { padding-right: 20px; }
 div#issue-changesets { float: left; margin-right: 1em; margin-left: 0 }
 #activity dt, .journal { clear: right; }
 .journal-link { float: left; }
+div.wiki pre { direction: ltr; }
+
+#context-menu li.folder ul { left:auto; right:168px; }
+#context-menu li.folder>ul { left:auto; right:148px; }
+
+#context-menu li a.submenu { background:url("../images/bullet_arrow_left.png") left no-repeat; }

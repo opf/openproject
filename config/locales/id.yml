@@ -2,6 +2,7 @@
 # by Raden Prabowo (cakbowo@gmail.com)
 
 id:
+  direction: ltr
   date:
     formats:
       default: "%d-%m-%Y"

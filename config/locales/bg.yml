@@ -1,4 +1,5 @@
 bg:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

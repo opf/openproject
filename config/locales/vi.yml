@@ -140,6 +140,7 @@ vi:
         not_same_project: "không thuộc cùng dự án"
         circular_dependency: "quan hệ có thể gây ra lặp vô tận"
 
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

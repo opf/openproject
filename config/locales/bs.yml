@@ -1,6 +1,7 @@
 #Ernad Husremovic hernad@bring.out.ba
 
 bs:
+  direction: ltr
   date:
     formats:
       default: "%d.%m.%Y"

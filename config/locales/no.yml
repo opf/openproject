@@ -3,6 +3,7 @@
   support:
     array:
       sentence_connector: "og"
+  direction: ltr
   date:
     formats:
       default: "%d.%m.%Y"

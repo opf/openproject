@@ -33,6 +33,7 @@ pl:
           gb: "GB"
           tb: "TB"
 
+  direction: ltr
   date:
     formats:
       default: "%Y-%m-%d"

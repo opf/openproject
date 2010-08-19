@@ -6,6 +6,7 @@
 # updated by Gábor Takács (taky77@gmail.com)
 
 "hu":
+  direction: ltr
   date:
     formats:
       default: "%Y.%m.%d."

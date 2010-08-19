@@ -1,4 +1,6 @@
 en:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.
@@ -64,6 +66,11 @@ en:
         other: "almost {{count}} years"
 
   number:
+    # Default format for numbers
+    format:
+      separator: "." 
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

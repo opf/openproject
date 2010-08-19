@@ -3,6 +3,7 @@
 # 2010-01-25
 # Distributed under the same terms as the Redmine itself.
 eu:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.
