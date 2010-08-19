@@ -891,3 +891,4 @@ nl:
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
   label_overall_spent_time: Totaal bestede tijd
+  field_time_entries: Log time

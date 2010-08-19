@@ -933,3 +933,4 @@ pt-BR:
   text_zoom_in: Aproximar zoom
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
   label_overall_spent_time: Tempo gasto geral
+  field_time_entries: Log time

@@ -280,6 +280,7 @@ en:
   field_redirect_existing_links: Redirect existing links
   field_estimated_hours: Estimated time
   field_column_names: Columns
+  field_time_entries: Log time
   field_time_zone: Time zone
   field_searchable: Searchable
   field_default_value: Default value

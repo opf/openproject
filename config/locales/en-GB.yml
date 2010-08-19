@@ -913,3 +913,4 @@ en-GB:
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
   label_project_copy_notifications: Send email notifications during the project copy
+  field_time_entries: Log time

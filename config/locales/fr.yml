@@ -928,3 +928,4 @@ fr:
   text_zoom_in: Zoom avant
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
+  field_time_entries: Log time
