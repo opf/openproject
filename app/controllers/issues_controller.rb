@@ -251,25 +251,14 @@ class IssuesController < ApplicationController
   end
 
   def move
-    @issues.sort!
-    @copy = params[:copy_options] && params[:copy_options][:copy]
-    @allowed_projects = Issue.allowed_target_projects_on_move
-    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-    @target_project ||= @project    
-    @trackers = @target_project.trackers
-    @available_statuses = Workflow.available_statuses(@project)
+    prepare_for_issue_move
     render :layout => false if request.xhr?
   end
 
   # TODO: more descriptive name? move to separate controller like IssueMovesController?
   def perform_move
-    @issues.sort!
-    @copy = params[:copy_options] && params[:copy_options][:copy]
-    @allowed_projects = Issue.allowed_target_projects_on_move
-    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-    @target_project ||= @project    
-    @trackers = @target_project.trackers
-    @available_statuses = Workflow.available_statuses(@project)
+    prepare_for_issue_move
+
     if request.post?
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
@@ -471,6 +460,16 @@ private
     @issue.start_date ||= Date.today
     @priorities = IssuePriority.all
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
+  end
+
+  def prepare_for_issue_move
+    @issues.sort!
+    @copy = params[:copy_options] && params[:copy_options][:copy]
+    @allowed_projects = Issue.allowed_target_projects_on_move
+    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project ||= @project    
+    @trackers = @target_project.trackers
+    @available_statuses = Workflow.available_statuses(@project)
   end
 
   def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
