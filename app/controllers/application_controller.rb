@@ -218,6 +218,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def back_url
+    params[:back_url] || request.env['HTTP_REFERER']
+  end
+
   def redirect_back_or_default(default)
     back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank?
