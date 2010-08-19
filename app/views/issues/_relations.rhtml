@@ -1,6 +1,6 @@
 <div class="contextual">
 <% if authorize_for('issue_relations', 'new') %>
-    <%= toggle_link l(:button_add), 'new-relation-form'%>
+  <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>
 <% end %>
 </div>
 
