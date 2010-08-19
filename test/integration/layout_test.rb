@@ -13,9 +13,7 @@ class LayoutTest < ActionController::IntegrationTest
   end
 
   test "browsing to an unauthorized page should render the base layout" do
-    user = User.find(9)
-    user.password, user.password_confirmation = 'test', 'test'
-    user.save!
+    change_user_password('miscuser9', 'test')
     
     log_user('miscuser9','test')
 
