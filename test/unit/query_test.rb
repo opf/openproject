@@ -33,6 +33,15 @@ class QueryTest < ActiveSupport::TestCase
     assert query.available_filters['fixed_version_id'][:values].detect {|v| v.last == '2'}
   end
   
+  def test_project_filter_in_global_queries
+    query = Query.new(:project => nil, :name => '_')
+    project_filter = query.available_filters["project_id"]
+    assert_not_nil project_filter
+    project_ids = project_filter[:values].map{|p| p[1]}
+    assert project_ids.include?("1")  #public project
+    assert !project_ids.include?("2") #private project user cannot see
+  end
+  
   def find_issues_with_query(query)
     Issue.find :all,
       :include => [ :assigned_to, :status, :tracker, :project, :priority ], 
