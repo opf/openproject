@@ -201,7 +201,23 @@ class ApplicationController < ActionController::Base
   def self.model_object(model)
     write_inheritable_attribute('model_object', model)
   end
-    
+
+  # Filter for bulk issue operations
+  def find_issues
+    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    raise ActiveRecord::RecordNotFound if @issues.empty?
+    projects = @issues.collect(&:project).compact.uniq
+    if projects.size == 1
+      @project = projects.first
+    else
+      # TODO: let users bulk edit/move/destroy issues from different projects
+      render_error 'Can not bulk edit/move/destroy issues from different projects'
+      return false
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy

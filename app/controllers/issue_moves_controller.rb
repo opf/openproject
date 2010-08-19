@@ -52,23 +52,6 @@ class IssueMovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
   end
 
-  # Filter for bulk operations
-  # TODO: duplicated in IssuesController
-  def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @issues.empty?
-    projects = @issues.collect(&:project).compact.uniq
-    if projects.size == 1
-      @project = projects.first
-    else
-      # TODO: let users bulk edit/move/destroy issues from different projects
-      render_error 'Can not bulk edit/move/destroy issues from different projects'
-      return false
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   # TODO: duplicated in IssuesController
   def set_flash_from_bulk_issue_save(issues, unsaved_issue_ids)
     if unsaved_issue_ids.empty?

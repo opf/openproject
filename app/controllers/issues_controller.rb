@@ -359,22 +359,6 @@ private
     render_404
   end
   
-  # Filter for bulk operations
-  def find_issues
-    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @issues.empty?
-    projects = @issues.collect(&:project).compact.uniq
-    if projects.size == 1
-      @project = projects.first
-    else
-      # TODO: let users bulk edit/move/destroy issues from different projects
-      render_error 'Can not bulk edit/move/destroy issues from different projects'
-      return false
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def find_project
     project_id = (params[:issue] && params[:issue][:project_id]) || params[:project_id]
     @project = Project.find(project_id)
