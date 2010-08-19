@@ -755,7 +755,7 @@ ru:
   mail_subject_account_activation_request: "Запрос на активацию пользователя в системе {{value}}"
   mail_subject_lost_password: "Ваш {{value}} пароль"
   mail_subject_register: "Активация учетной записи {{value}}"
-  mail_subject_reminder: "{{count}} назначенных на Вас задач в ближайшие дни"
+  mail_subject_reminder: "{{count}} назначенных на Вас задач в ближайшие {{days}} дни"
 
   notice_account_activated: Ваша учетная запись активирована. Вы можете войти.
   notice_account_invalid_creditentials: Неправильное имя пользователя или пароль

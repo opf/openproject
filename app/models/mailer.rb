@@ -80,7 +80,7 @@ class Mailer < ActionMailer::Base
   def reminder(user, issues, days)
     set_language_if_valid user.language
     recipients user.mail
-    subject l(:mail_subject_reminder, issues.size)
+    subject l(:mail_subject_reminder, :count => issues.size, :days => days)
     body :issues => issues,
          :days => days,
          :issues_url => url_for(:controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => user.id, :sort_key => 'due_date', :sort_order => 'asc')

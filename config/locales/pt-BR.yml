@@ -196,7 +196,7 @@ pt-BR:
   mail_body_account_information: Informações sobre sua conta
   mail_subject_account_activation_request: "{{value}} - Requisição de ativação de conta"
   mail_body_account_activation_request: "Um novo usuário ({{value}}) se registrou. A conta está aguardando sua aprovação:"
-  mail_subject_reminder: "{{count}} tarefa(s) com data prevista para os próximos dias"
+  mail_subject_reminder: "{{count}} tarefa(s) com data prevista para os próximos {{days}} dias"
   mail_body_reminder: "{{count}} tarefa(s) para você com data prevista para os próximos {{days}} dias:"
 
   gui_validation_error: 1 erro

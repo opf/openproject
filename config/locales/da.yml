@@ -791,7 +791,7 @@ da:
   permission_browse_repository: Gennemse repository
   permission_manage_repository: Administrér repository
   permission_manage_members: Administrér medlemmer
-  mail_subject_reminder: "{{count}} sag(er) har deadline i de kommende dage"
+  mail_subject_reminder: "{{count}} sag(er) har deadline i de kommende dage ({{days}})"
   permission_add_issue_notes: Tilføj noter
   permission_edit_messages: Redigér beskeder
   permission_view_issue_watchers: Se liste over overvågere

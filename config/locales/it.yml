@@ -717,7 +717,7 @@ it:
   text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: {{value}} verranno eliminati."
   label_and_its_subprojects: "{{value}} ed i suoi sottoprogetti"
   mail_body_reminder: "{{count}} segnalazioni che ti sono state assegnate scadranno nei prossimi {{days}} giorni:"
-  mail_subject_reminder: "{{count}} segnalazioni in scadenza nei prossimi giorni"
+  mail_subject_reminder: "{{count}} segnalazioni in scadenza nei prossimi {{days}} giorni"
   text_user_wrote: "{{value}} ha scritto:"
   label_duplicated_by: duplicato da
   setting_enabled_scm: SCM abilitato

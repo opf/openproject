@@ -178,7 +178,7 @@ sr-CY:
   mail_body_account_information: Информације о вашем налогу
   mail_subject_account_activation_request: "Захтев за активацију налога {{value}}"
   mail_body_account_activation_request: "Нови корисник ({{value}}) је регистрован. Налог чека на ваше одобрење:"
-  mail_subject_reminder: "{{count}} проблема доспева наредних дана"
+  mail_subject_reminder: "{{count}} проблема доспева наредних {{days}} дана"
   mail_body_reminder: "{{count}} проблема додељених вама доспева у наредних {{days}} дана:"
   mail_subject_wiki_content_added: "'{{page}}' wiki страна је додато"
   mail_body_wiki_content_added: "{{author}} је додао '{{page}}' wiki страна."

@@ -640,7 +640,7 @@ pl:
   mail_subject_account_activation_request: "Zapytanie aktywacyjne konta {{value}}"
   mail_subject_lost_password: "Twoje hasło do {{value}}"
   mail_subject_register: "Aktywacja konta w {{value}}"
-  mail_subject_reminder: "Uwaga na terminy, masz zagadnienia do obsłużenia w ciągu następnych {{count}} dni!"
+  mail_subject_reminder: "Uwaga na terminy, masz zagadnienia do obsłużenia w ciągu następnych {{count}} dni! ({{days}})"
   notice_account_activated: Twoje konto zostało aktywowane. Możesz się zalogować.
   notice_account_invalid_creditentials: Zły użytkownik lub hasło
   notice_account_lost_email_sent: Email z instrukcjami zmiany hasła został wysłany do Ciebie.

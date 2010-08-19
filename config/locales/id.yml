@@ -177,7 +177,7 @@ id:
   mail_body_account_information: Informasi akun anda
   mail_subject_account_activation_request: "Permintaan aktivasi akun {{value}} "
   mail_body_account_activation_request: "Pengguna baru ({{value}}) sudan didaftarkan. Akun tersebut menunggu persetujuan anda:"
-  mail_subject_reminder: "{{count}} masalah harus selesai pada hari berikutnya"
+  mail_subject_reminder: "{{count}} masalah harus selesai pada hari berikutnya ({{days}})"
   mail_body_reminder: "{{count}} masalah yang ditugaskan pada anda harus selesai dalam {{days}} hari kedepan:"
   mail_subject_wiki_content_added: "'{{page}}' halaman wiki sudah ditambahkan"
   mail_body_wiki_content_added: "The '{{page}}' halaman wiki sudah ditambahkan oleh {{author}}."

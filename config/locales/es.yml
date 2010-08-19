@@ -662,7 +662,7 @@ es:
   mail_subject_account_activation_request: "Petición de activación de cuenta {{value}}"
   mail_subject_lost_password: "Tu contraseña del {{value}}"
   mail_subject_register: "Activación de la cuenta del {{value}}"
-  mail_subject_reminder: "{{count}} peticion(es) finalizan en los próximos días"
+  mail_subject_reminder: "{{count}} peticion(es) finalizan en los próximos {{days}} días"
   notice_account_activated: Su cuenta ha sido activada. Ya puede conectarse.
   notice_account_invalid_creditentials: Usuario o contraseña inválido.
   notice_account_lost_email_sent: Se le ha enviado un correo con instrucciones para elegir una nueva contraseña.

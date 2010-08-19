@@ -639,7 +639,7 @@ gl:
   mail_subject_account_activation_request: "Petición de activación de conta {{value}}"
   mail_subject_lost_password: "O teu contrasinal de {{value}}"
   mail_subject_register: "Activación da conta de {{value}}"
-  mail_subject_reminder: "{{count}} petición(s) rematarán nos próximos días"
+  mail_subject_reminder: "{{count}} petición(s) rematarán nos próximos {{days}} días"
   notice_account_activated: A súa conta foi activada. Xa pode conectarse.
   notice_account_invalid_creditentials: Usuario ou contrasinal inválido.
   notice_account_lost_email_sent: Enviouse un correo con instrucións para elixir un novo contrasinal.

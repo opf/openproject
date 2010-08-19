@@ -273,7 +273,7 @@
   mail_body_account_information: 您的 Redmine 帳號資訊
   mail_subject_account_activation_request: Redmine 帳號啟用需求通知
   mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核："
-  mail_subject_reminder: "您有 {{count}} 個項目即將到期"
+  mail_subject_reminder: "您有 {{count}} 個項目即將到期 ({{days}})"
   mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
   mail_subject_wiki_content_added: "'{{page}}' wiki 頁面已被新增"
   mail_body_wiki_content_added: "The '{{page}}' wiki 頁面已被 {{author}} 新增。"

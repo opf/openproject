@@ -737,7 +737,7 @@
   enumeration_doc_categories: Dokumentum kategóriák
   enumeration_activities: Tevékenységek (idő rögzítés)
   mail_body_reminder: "{{count}} neked kiosztott feladat határidős az elkövetkező {{days}} napban:"
-  mail_subject_reminder: "{{count}} feladat határidős az elkövetkező napokban"
+  mail_subject_reminder: "{{count}} feladat határidős az elkövetkező {{days}} napokban"
   text_user_wrote: "{{value}} írta:"
   label_duplicated_by: duplikálta
   setting_enabled_scm: Forráskódkezelő (SCM) engedélyezése
