@@ -1,4 +1,4 @@
-<p><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless @project %>
+<p><%= link_to_project(news.project) + ': ' unless @project %>
 <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
 <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
 <br />

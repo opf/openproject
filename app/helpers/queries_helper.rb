@@ -50,7 +50,7 @@ module QueriesHelper
     when 'User'
       link_to_user value
     when 'Project'
-      link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
+      link_to_project value
     when 'Version'
       link_to(h(value), :controller => 'versions', :action => 'show', :id => value)
     when 'TrueClass'
