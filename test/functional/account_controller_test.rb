@@ -67,6 +67,13 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to 'my/page'
   end
 
+  def test_login_with_invalid_openid_provider
+    Setting.self_registration = '0'
+    Setting.openid = '1'
+    post :login, :openid_url => 'http;//openid.example.com/good_user'
+    assert_redirected_to home_url
+  end
+  
   def test_login_with_openid_for_existing_non_active_user
     Setting.self_registration = '2'
     Setting.openid = '1'
