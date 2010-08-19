@@ -1,0 +1,12 @@
+require "autotest/growl"
+require 'autotest/fsevent'
+require 'redgreen/autotest'
+
+Autotest.add_hook :initialize do |at|
+  %w{.git .DS_Store test assets}.each { |exception| at.add_exception(exception) }
+  at.remove_exception 'vendor/plugins'
+  at.find_directories << 'vendor/plugins/redmine_backlogs'
+  at.libs << 'vendor/plugins/redmine_backlogs/features'
+  
+  false
+end
