@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
   default_search_scope :issues
   
   before_filter :find_issue, :only => [:show, :edit, :update, :reply]
-  before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
+  before_filter :find_issues, :only => [:bulk_edit, :move, :perform_move, :destroy]
   before_filter :find_project, :only => [:new, :create, :update_form, :preview, :auto_complete]
   before_filter :authorize, :except => [:index, :changes, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes]
@@ -286,6 +286,11 @@ class IssuesController < ApplicationController
       return
     end
     render :layout => false if request.xhr?
+  end
+
+  # TODO: more descriptive name? move to separate controller like IssueMovesController?
+  def perform_move
+    move
   end
   
   def destroy
