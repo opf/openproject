@@ -5,6 +5,7 @@ begin
     files = ['lib/**/*.rb', 'app/**/*.rb']
     files << Dir['vendor/plugins/**/*.rb'].reject {|f| f.match(/test/) } # Exclude test files
     t.files = files
+    t.options += ['--output-dir', './doc/app']
   end
 
 rescue LoadError
