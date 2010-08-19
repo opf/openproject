@@ -63,7 +63,11 @@ bg:
         one:   "almost 1 year"
         other: "almost {{count}} years"
 
-  number: 
+  number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human: 
       format: 
         precision: 1
@@ -71,13 +75,13 @@ bg:
       storage_units: 
         format: "%n %u"
         units: 
-          kb: KB
-          tb: TB
-          gb: GB
           byte: 
             one: Byte
             other: Bytes
-          mb: 'MB'
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
       
 # Used in array.to_sentence.
   support:

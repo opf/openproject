@@ -66,6 +66,10 @@ sr:
         other: "скоро {{count}} год."
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

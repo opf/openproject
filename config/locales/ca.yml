@@ -64,6 +64,10 @@ ca:
         other: "almost {{count}} years"
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

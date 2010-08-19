@@ -66,6 +66,10 @@ sr-YU:
         other: "skoro {{count}} god."
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

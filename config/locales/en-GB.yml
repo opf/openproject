@@ -64,6 +64,11 @@ en-GB:
         other: "almost {{count}} years"
 
   number:
+    format:
+      separator: "."
+      delimiter: " "
+      precision: 3
+
     currency:
       format:
         format: "%u%n"

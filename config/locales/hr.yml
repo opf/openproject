@@ -64,6 +64,10 @@ hr:
         other: "preko {{count}} godina"
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""
