@@ -571,7 +571,7 @@ nl:
   label_used_by: Gebruikt door
   label_user: Gebruiker
   label_user_activity: "{{value}}'s activiteit"
-  label_user_mail_no_self_notified: "Ik wil niet verwittigd worden van wijzigingen die ik zelf maak."
+  label_user_mail_no_self_notified: "Ik wil niet op de hoogte gehouden worden van wijzigingen die ik zelf maak."
   label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
   label_user_mail_option_none: "Alleen in de dingen die ik monitor of in betrokken ben"
   label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
@@ -791,98 +791,98 @@ nl:
   text_wiki_page_nullify_children: Behoud subpagina's als hoofdpagina's
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
   setting_password_min_length: Minimum wachtwoord lengte
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  field_group_by: Groepeer resultaten per
+  mail_subject_wiki_content_updated: "'{{page}}' wiki pagina is bijgewerkt"
+  label_wiki_content_added: Wiki pagina toegevoegd
+  mail_subject_wiki_content_added: "'{{page}}' wiki pagina is toegevoegd"
+  mail_body_wiki_content_added: The '{{page}}' wiki pagina is toegevoegd door {{author}}.
+  label_wiki_content_updated: Wiki pagina bijgewerkt
+  mail_body_wiki_content_updated: The '{{page}}' wiki pagina is bijgewerkt door {{author}}.
+  permission_add_project: Maak project
+  setting_new_project_user_role_id: Rol van gebruiker die een project maakt
+  label_view_all_revisions: Bekijk alle revisies
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
+  error_no_tracker_in_project: Geen tracker is geassocieerd met dit project. Check de project instellingen.
+  error_no_default_issue_status: Geen standaard issue status ingesteld. Check de configuratie (Ga naar "Administratie -> Issue statussen").
+  text_journal_changed: "{{label}} gewijzigd van {{old}} naar {{new}}"
+  text_journal_set_to: "{{label}} gewijzigd naar {{value}}"
+  text_journal_deleted: "{{label}} verwijderd ({{old}})"
+  label_group_plural: Groepen
+  label_group: Groep
+  label_group_new: Nieuwe groep
+  label_time_entry_plural: Bestede tijd
+  text_journal_added: "{{label}} {{value}} toegevoegd"
+  field_active: Actief
+  enumeration_system_activity: Systeem Activiteit
+  permission_delete_issue_watchers: Verwijder volgers
+  version_status_closed: gesloten
+  version_status_locked: vergrendeld
   version_status_open: open
   error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
+  label_user_anonymous: Anoniem
+  button_move_and_follow: Verplaats en volg
+  setting_default_projects_modules: Standaard geactiveerde modules voor nieuwe projecten
+  setting_gravatar_default: Standaard Gravatar plaatje
+  field_sharing: Delen
+  label_version_sharing_hierarchy: Met project hiërarchie
+  label_version_sharing_system: Met alle projecten
+  label_version_sharing_descendants: Met subprojecten
   label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
+  label_version_sharing_none: Niet gedeeld
+  error_can_not_archive_project: Dit project kan niet worden gearchiveerd
+  button_duplicate: Dupliceer
+  button_copy_and_follow: Kopiëer en volg
+  label_copy_source: Bron
+  setting_issue_done_ratio: Bereken issue done ratio met
+  setting_issue_done_ratio_issue_status: Gebruik de issue status
+  error_issue_done_ratios_not_updated: Issue done ratios niet geupdate.
+  error_workflow_copy_target: Selecteer tracker(s) en rol(len)
+  setting_issue_done_ratio_issue_field: Gebruik het issue veld
+  label_copy_same_as_target: Zelfde als doel
+  label_copy_target: Doel
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
+  error_workflow_copy_source: Selecteer een bron tracker of rol
   label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  setting_start_of_week: Week begint op
+  permission_view_issues: Bekijk Issues
+  label_display_used_statuses_only: Laat alleen statussen zien die gebruikt worden door deze tracker
   label_revision_id: Revision {{value}}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key gemaakt {{value}} geleden
   label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
+  notice_api_access_key_reseted: Uw API access key was gereset.
   setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
+  label_missing_api_access_key: Geen API access key
+  label_missing_feeds_access_key: Geen RSS access key
+  button_show: Laat zien
+  text_line_separated: Meerdere waarden toegestaan (elke regel is een waarde).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  permission_add_subprojects: Maak subprojecten
+  label_subproject_new: Nieuw subproject
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    U staat op punt om sommige of alle van uw permissies te verwijderen en bent mogelijk niet meer toegestaan om dit project hierna te wijzigen.
+    Wilt u doorgaan?
+  label_close_versions: Sluit complete versies
   label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
+  label_board_locked: Vergrendeld
+  permission_export_wiki_pages: Exporteer wiki pagina's
+  setting_cache_formatted_text: Cache opgemaakte tekst
   permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
+  error_unable_delete_issue_status: Verwijderen van issue status niet gelukt
+  label_profile: Profiel
   permission_manage_subtasks: Manage subtasks
   field_parent_issue: Parent task
   label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  label_project_copy_notifications: Stuur email notificaties voor de project kopie
+  error_can_not_delete_custom_field: Verwijderen niet mogelijk van custom field
+  error_unable_to_connect: Geen connectie ({{value}})
+  error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
+  error_can_not_delete_tracker: Deze tracker bevat nog issues en kan niet worden verwijderd.
   field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
+  label_my_page_block: Mijn pagina block
+  notice_failed_to_save_members: "Niet gelukt om lid/leden op te slaan: {{errors}}."
+  text_zoom_out: Zoom uit
   text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
+  label_overall_spent_time: Totaal bestede tijd

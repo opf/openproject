@@ -9,6 +9,9 @@
 // Unicode is the answer to a real internationalized world.  Also please
 // include your contact information in the header, as can be seen above.
 
+// Italian translation
+// by Diego Pierotto (ita.translations@tiscali.it)
+
 // full day names
 Calendar._DN = new Array
 ("Domenica",
@@ -83,19 +86,19 @@ Calendar._TT["INFO"] = "Informazioni sul calendario";
 
 Calendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
-"(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
-"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"(c) dynarch.com 2002-2005 / Autore: Mihai Bazon\n" + // don't translate this this ;-)
+"Per l'ultima versione visita: http://www.dynarch.com/projects/calendar/\n" +
+"Distribuito sotto i termini GNU LGPL.  Vedi http://gnu.org/licenses/lgpl.html per maggiori dettagli." +
 "\n\n" +
-"Date selection:\n" +
-"- Use the \xab, \xbb buttons to select year\n" +
-"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
-"- Hold mouse button on any of the above buttons for faster selection.";
+"Selezione data:\n" +
+"- Usa i tasti \xab, \xbb per selezionare l'anno\n" +
+"- Usa i tasti " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " per selezionare il mese\n" +
+"- Tieni premuto il tasto del mouse su uno qualunque dei tasti sopra per una selezione più veloce.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
-"Time selection:\n" +
-"- Click on any of the time parts to increase it\n" +
-"- or Shift-click to decrease it\n" +
-"- or click and drag for faster selection.";
+"Selezione ora:\n" +
+"- Fai click su una delle ore per incrementarla\n" +
+"- oppure Shift-click per diminuirla\n" +
+"- oppure click e trascina per una selezione più veloce.";
 
 Calendar._TT["PREV_YEAR"] = "Anno prec. (tieni premuto per menu)";
 Calendar._TT["PREV_MONTH"] = "Mese prec. (tieni premuto per menu)";

@@ -839,7 +839,7 @@ de:
   version_status_locked: gesperrt
   version_status_closed: abgeschlossen
 
-  field_active: Activ
+  field_active: Aktiv
   
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
