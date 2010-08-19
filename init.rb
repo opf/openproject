@@ -35,6 +35,7 @@ Redmine::Plugin.register :redmine_backlogs do
                 :jsvariables,
                 :reorder,
                 :sprint_date,
+                :index,
                 :update ],
 
               :stories => [

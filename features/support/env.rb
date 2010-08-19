@@ -6,7 +6,9 @@
 
 require 'rubygems'
 require 'spork'
- 
+require 'spec/expectations'
+require 'spec/matchers'
+
 Spork.prefork do
   ENV["RAILS_ENV"] ||= "cucumber"
   require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')

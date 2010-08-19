@@ -1,7 +1,7 @@
 Feature: Manage stories
-  In order to [goal]
-  [stakeholder]
-  wants [behaviour]
+  In order to track project progress
+  Product Owner, Scrum Master, and Team Members
+  want to manage stories
 
   Scenario: Something
     Given I am on the home page

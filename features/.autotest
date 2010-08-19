@@ -7,6 +7,6 @@ Autotest.add_hook :initialize do |at|
   at.remove_exception 'vendor/plugins'
   at.find_directories << 'vendor/plugins/redmine_backlogs'
   at.libs << 'vendor/plugins/redmine_backlogs/features'
-  
+  at.libs << 'vendor/plugins/redmine_backlogs/lib'
   false
 end
