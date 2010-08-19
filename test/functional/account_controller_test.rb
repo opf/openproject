@@ -153,4 +153,27 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to ''
     assert_nil @request.session[:user_id]
   end
+
+  context "GET #register" do
+    context "with self registration on" do
+      setup do
+        Setting.self_registration = '3'
+        get :register
+      end
+      
+      should_respond_with :success
+      should_render_template :register
+      should_assign_to :user
+    end
+    
+    context "with self registration off" do
+      setup do
+        Setting.self_registration = '0'
+        get :register
+      end
+
+      should_redirect_to('/') { home_url }
+    end
+  end
+  
 end
