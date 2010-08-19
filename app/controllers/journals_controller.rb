@@ -16,7 +16,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal
+  before_filter :find_journal, :only => [:edit]
+  before_filter :find_issue, :only => [:new]
+  
+  def new
+    journal = Journal.find(params[:journal_id]) if params[:journal_id]
+    if journal
+      user = journal.user
+      text = journal.notes
+    else
+      user = @issue.author
+      text = @issue.description
+    end
+    # Replaces pre blocks with [...]
+    text = text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]')
+    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+      
+    render(:update) { |page|
+      page.<< "$('notes').value = \"#{escape_javascript content}\";"
+      page.show 'update'
+      page << "Form.Element.focus('notes');"
+      page << "Element.scrollTo('update');"
+      page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
+    }
+  end
   
   def edit
     if request.post?
@@ -35,6 +59,14 @@ private
     @journal = Journal.find(params[:id])
     (render_403; return false) unless @journal.editable_by?(User.current)
     @project = @journal.journalized.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  # TODO: duplicated in IssuesController
+  def find_issue
+    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
+    @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end

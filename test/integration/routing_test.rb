@@ -88,7 +88,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/move/new", :controller => 'issue_moves', :action => 'new'
     should_route :post, "/issues/move", :controller => 'issue_moves', :action => 'create'
     
-    should_route :post, "/issues/1/quoted", :controller => 'issues', :action => 'reply', :id => '1'
+    should_route :post, "/issues/1/quoted", :controller => 'journals', :action => 'new', :id => '1'
 
     should_route :get, "/issues/calendar", :controller => 'calendars', :action => 'show'
     should_route :post, "/issues/calendar", :controller => 'calendars', :action => 'show'
