@@ -24,7 +24,7 @@ module RedmineMenuTestHelper
   end
 end
 
-class Redmine::MenuManager::MenuItemTest < Test::Unit::TestCase
+class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
   include RedmineMenuTestHelper
 
   Redmine::MenuManager.map :test_menu do |menu|

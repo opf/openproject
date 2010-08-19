@@ -33,7 +33,7 @@ module RedmineMenuTestHelper
   end
 end
 
-class RedmineTest < Test::Unit::TestCase
+class RedmineTest < ActiveSupport::TestCase
   include RedmineMenuTestHelper
 
   def test_top_menu
