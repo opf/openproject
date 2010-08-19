@@ -9,7 +9,7 @@
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
     <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'issues', :action => 'preview', :project_id => @project },
+                       { :url => preview_issue_path(:project_id => @project),
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('issue-form')",
