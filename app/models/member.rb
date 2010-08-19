@@ -82,7 +82,7 @@ class Member < ActiveRecord::Base
   protected
   
   def validate
-    errors.add_to_base "Role can't be blank" if member_roles.empty? && roles.empty?
+    errors.add_on_empty :role if member_roles.empty? && roles.empty?
   end
   
   private
