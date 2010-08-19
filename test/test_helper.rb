@@ -63,7 +63,7 @@ class ActiveSupport::TestCase
   end
 
   # Mock out a file
-  def mock_file
+  def self.mock_file
     file = 'a_file.png'
     file.stubs(:size).returns(32)
     file.stubs(:original_filename).returns('a_file.png')
@@ -71,7 +71,11 @@ class ActiveSupport::TestCase
     file.stubs(:read).returns(false)
     file
   end
-  
+
+  def mock_file
+    self.class.mock_file
+  end
+
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
     Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")

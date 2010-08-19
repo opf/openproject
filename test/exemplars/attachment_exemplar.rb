@@ -12,6 +12,6 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.generate_file
-    @file = mock_file
+    @file = ActiveSupport::TestCase.mock_file
   end
 end
