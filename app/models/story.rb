@@ -1,15 +1,15 @@
 class Story < Issue
     unloadable
 
-    named_scope :product_backlog, lambda { |project|
-        {
+    def self.product_backlog(project, limit=nil)
+      return Story.find(:all,
             :order => 'position ASC',
             :conditions => [
                 "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL", #and status_id in (?)",
                 project.id, Story.trackers #, IssueStatus.find(:all, :conditions => ["is_closed = ?", false]).collect {|s| "#{s.id}" }
-                ]
-        }
-    }
+                ],
+            :limit => limit)
+    end
 
     named_scope :sprint_backlog, lambda { |sprint|
         {

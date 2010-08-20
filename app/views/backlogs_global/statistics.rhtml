@@ -13,33 +13,38 @@
 
 <div id="projects">
     <% @projects.each do |project| %>
-        <% stats = project.scrum_statistics %>
-        <h3><a href="#"><span class="score score_<%= stats[:score][:score] %>"><%= stats[:score][:score] %></span> <%= project.name %></a> </h3>
+        <%
+          stats = project.scrum_statistics
+          scores = stats.scores
+          errors = stats.errors('backlogs_')
+          info = stats.info
+        %>
+        <h3><a href="#"><span class="score score_<%= stats.score %>"><%= stats.score %></span> <%= project.name %></a> </h3>
         <div>
-            <% if stats[:velocity] %>
-                <%= l(:label_sprint_velocity, { :velocity => stats[:velocity], :sprints => stats[:sprints].length, :days => stats[:average_days_per_sprint]}) %><br/>
+            <% if !scores[:velocity_missing] %>
+                <%= l(:label_sprint_velocity, { :velocity => info[:velocity], :sprints => info[:closed_sprints].length, :days => info[:average_days_per_sprint]}) %><br/>
             <% end %>
             <h4><%= l(:backlogs_product_backlog) %></h4>
             <%= link_to(l(:backlogs_product_backlog), { :controller => 'backlogs', :action => 'select_issues', :project_id => project }) %><br/>
-            <% if stats[:active_sprint] || stats[:sprints] %>
+            <% if info[:active_sprint] || info[:closed_sprints] %>
                 <h4><%= l(:backlogs_sprints) %></h4>
-                <% if stats[:active_sprint] %>
-                    <%= link_to(stats[:active_sprint].name, {
+                <% if info[:active_sprint] %>
+                    <%= link_to(info[:active_sprint].name, {
                         :controller => 'backlogs',
                         :action => 'select_issues',
                         :project_id => project,
-                        :sprint_id => stats[:active_sprint].id }) %> (<%= l(:backlogs_active) %>)<br/>
+                        :sprint_id => info[:active_sprint].id }) %> (<%= l(:backlogs_active) %>)<br/>
                 <% end %>
-                <% if stats[:sprints] %>
-                    <% stats[:sprints].each do |sprint| %>
+                <% if info[:closed_sprints] %>
+                    <% info[:closed_sprints].each do |sprint| %>
                         <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => project, :sprint_id => sprint.id }) %><br/>
                     <% end %>
                 <% end %>
             <% end %>
 
-            <% stats[:score][:errors].each do |e| %>
+            <% errors.each do |e| %>
                 <ul>
-                    <li><%= e %></li>
+                    <li><%= l(e) %></li>
                 </ul>
             <% end %>
         </div>

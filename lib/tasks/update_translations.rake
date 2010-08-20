@@ -18,6 +18,9 @@ namespace :redmine do
                     next if lang[l][key]
                     lang[l][key] = "[[#{txt}]]"
                 }
+                lang[l].keys.each {|k|
+                  lang[l].delete(k) unless template[k]
+                }
 
                 File.open( lang_file, 'w' ) do |out|
                     YAML.dump(lang, out)

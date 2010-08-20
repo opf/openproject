@@ -258,7 +258,8 @@ class Sprint < Version
 
     def burndown(burn_direction = nil)
         return nil if not self.has_burndown
-        return Burndown.new(self, burn_direction)
+        @cached_burndown ||= Burndown.new(self, burn_direction)
+        return @cached_burndown
     end
 
     def self.generate_burndown(only_current = true)
