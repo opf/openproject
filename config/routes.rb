@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
     map.connect 'backlogs/:project_id', :controller => 'backlogs', :action => 'index'
+    map.connect 'backlogs/:project_id/server_variables', :controller => 'server_variables', :action => 'index'
     map.connect 'backlogs/:project_id/:sprint_id/burndown', :controller => 'backlogs', :action => 'burndown'
     map.connect 'backlogs/:project_id/issues', :controller => 'backlogs', :action => 'select_issues'
     map.connect 'backlogs/:project_id/:sprint_id/issues', :controller => 'backlogs', :action => 'select_issues'
