@@ -7,6 +7,15 @@ module Backlogs
       @info = {}
     end
 
+    def merge(stats, prefix = '')
+      errors.each {|err|
+        err = "#{prefix}#{err}".intern
+        stats[err] ||= 0
+        stats[err] += 1
+      }
+      return stats
+    end
+
     def []=(cat, key, *args)
       raise "Unexpected data category #{cat}" unless [:error, :info].include?(cat)
 

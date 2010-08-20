@@ -12,12 +12,14 @@
 </script>
 
 <div id="projects">
+    <% global = {} %>
     <% @projects.each do |project| %>
         <%
           stats = project.scrum_statistics
           scores = stats.scores
           errors = stats.errors('backlogs_')
           info = stats.info
+          global = stats.merge(global, 'backlogs_')
         %>
         <h3><a href="#"><span class="score score_<%= stats.score %>"><%= stats.score %></span> <%= project.name %></a> </h3>
         <div>
@@ -50,3 +52,11 @@
         </div>
     <% end %>
 </div>
+    <% if @projects.size > 0 %>
+      <h3>Overall</h3>
+      <ul>
+        <% global.each_pair do |e, n| %>
+          <li><%= l(e) %>: <%= (n * 100) / @projects.size %>%</li>
+        <% end %>
+      </ul>
+    <% end %>
