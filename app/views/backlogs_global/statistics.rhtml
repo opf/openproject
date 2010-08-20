@@ -54,9 +54,13 @@
 </div>
     <% if @projects.size > 0 %>
       <h3>Overall</h3>
-      <ul>
+      <table>
         <% global.each_pair do |e, n| %>
-          <li><%= l(e) %>: <%= (n * 100) / @projects.size %>%</li>
+          <tr>
+            <td><%= l(e) %></td>
+            <td><b><%= (n * 100) / @projects.size %>%</b></td>
+            <td><span class="score_<%= 10 - ((n * 10) / @projects.size) %>">&nbsp;&nbsp;</td>
+          </tr>
         <% end %>
-      </ul>
+      </table>
     <% end %>
