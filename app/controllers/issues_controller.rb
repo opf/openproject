@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :move, :perform_move, :destroy]
-  before_filter :find_project, :only => [:new, :create, :update_form]
+  before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index, :changes]
   before_filter :find_optional_project, :only => [:index, :changes]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
@@ -132,7 +132,10 @@ class IssuesController < ApplicationController
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
   def new
-    render :action => 'new', :layout => !request.xhr?
+    respond_to do |format|
+      format.html { render :action => 'new', :layout => !request.xhr? }
+      format.js { render :partial => 'attributes' }
+    end
   end
 
   def create
@@ -258,20 +261,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  def update_form
-    if params[:id].blank?
-      @issue = Issue.new
-      @issue.project = @project
-    else
-      @issue = @project.issues.visible.find(params[:id])
-    end
-    @issue.attributes = params[:issue]
-    @allowed_statuses = ([@issue.status] + @issue.status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
-    @priorities = IssuePriority.all
-    
-    render :partial => 'attributes'
-  end
-  
 private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
@@ -310,8 +299,14 @@ private
 
   # TODO: Refactor, lots of extra code in here
   def build_new_issue_from_params
-    @issue = Issue.new
-    @issue.copy_from(params[:copy_from]) if params[:copy_from]
+    if params[:id].blank?
+      @issue = Issue.new
+      @issue.copy_from(params[:copy_from]) if params[:copy_from]
+      @issue.project = @project
+    else
+      @issue = @project.issues.visible.find(params[:id])
+    end
+    
     @issue.project = @project
     # Tracker must be set before custom field values
     @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
