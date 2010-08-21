@@ -3,10 +3,14 @@
 # NOTE: You may also use "Then show me the page" to display the browser view
 #
 Then /^show me the list of stories$/ do
-  puts "\n\t| id   \t| pos  \t| subject    |"
+  puts "\n"
+  puts "\t------------------------------------"
+  puts "\t| id  | position | subject         |"
+  puts "\t------------------------------------"
   Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC").each do |story|
-    puts "\t| #{story.id.to_s.ljust(5)}\t| #{story.position.to_s.ljust(5)}\t| #{story.subject.to_s.ljust(10)} |"
+    puts "\t| #{story.id.to_s.ljust(3)} | #{story.position.to_s.ljust(8)} | #{story.subject.to_s.ljust(15)} |"
   end
+  puts "\t------------------------------------\n\n"
 end
 
 #
