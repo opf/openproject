@@ -5,10 +5,11 @@ class FillPosition < ActiveRecord::Migration
       project_id = row[0].to_i
       position = row[1].to_i
 
-      stories = execute "select id from issues where project_id = #{project_id} and parent_id is null and position is null order by created_on"
-      stories.each do |id|
+      Story.find(:all, :conditions => ["project_id = ? and parent_id is null and position is null", project_id], :order => "created_on").each do |story|
         position += 1
-        execute "update issues set position = #{position} where id = #{id}"
+
+        story.position = position
+        story.save
       end
     end
   end
