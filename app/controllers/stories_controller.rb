@@ -21,8 +21,9 @@ class StoriesController < ApplicationController
   end
 
   def create
-    attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
+    attribs = params.select{|k,v| k!= 'position' and k != 'id' and Story.column_names.include? k }
     attribs = Hash[*attribs.flatten]
+    puts attribs.inspect
     attribs['author_id'] = User.current.id
     story = Story.new(attribs)
     if story.save!

@@ -17,7 +17,7 @@ Feature: Product Owner
       | 2        | Story 2 |
       | 3        | Story 3 |
       | 4        | Story 4 |
-      
+
   Scenario: View the product backlog
     Given I am viewing the master backlog
     Then I should see the product backlog
@@ -25,9 +25,23 @@ Feature: Product Owner
   Scenario: Move a story to the top
     Given I am viewing the master backlog
     When I move the 3rd story to the 1st position
-    Then the story should be at the top
-    
+    Then the 1st story should be Story 3
+
   Scenario: Move a story to the bottom
     Given I am viewing the master backlog
     When I move the 2nd story to the last position
-    Then the story should be at the bottom
+    Then the 4th story should be Story 2
+
+  Scenario: Move a story down
+    Given I am viewing the master backlog
+    When I move the 2nd story to the 3rd position
+    Then the 2nd story should be Story 3
+    And the 3rd story should be Story 2
+    And the 4th story should be Story 4
+
+  Scenario: Move a story up
+    Given I am viewing the master backlog
+    When I move the 4th story to the 2nd position
+    Then the 2nd story should be Story 4
+    And the 3rd story should be Story 2
+    And the 4th story should be Story 3

@@ -28,17 +28,17 @@ class Story < Issue
         return trackers.map { |tracker| Integer(tracker) }
     end
 
-    def move_after(id)
+    def move_after(prev_id)
       insert_at 0 unless in_list?
 
       begin
-        prev = self.class.find(id)
+        prev = self.class.find(prev_id)
       rescue ActiveRecord::RecordNotFound
         prev = nil
       end
 
       # if it's the first story, move it to the 1st position
-      if !prev
+      if prev.nil?
         move_to_top
 
       # if its predecessor has no position (shouldn't happen), make it

@@ -5,22 +5,22 @@ module ActiveRecord
     module List
       def move_after(id)
         insert_at 0 unless in_list?
-
+      
         begin
           prev = self.class.find(id)
         rescue ActiveRecord::RecordNotFound
           prev = nil
         end
-
+      
         # if it's the first story, move it to the 1st position
         if !prev
           move_to_top
-
+      
         # if its predecessor has no position (shouldn't happen), make it
         # the last story
         elsif !prev.in_list?
           move_to_bottom
-
+      
         # there's a valid predecessor
         else
           my_pos = send(position_column).to_i

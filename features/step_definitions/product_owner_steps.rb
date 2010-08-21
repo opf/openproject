@@ -1,4 +1,15 @@
 #
+# Debugging steps
+# NOTE: You may also use "Then show me the page" to display the browser view
+#
+Then /^show me the list of stories$/ do
+  puts "\n\t| id   \t| pos  \t| subject    |"
+  Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC").each do |story|
+    puts "\t| #{story.id.to_s.ljust(5)}\t| #{story.position.to_s.ljust(5)}\t| #{story.subject.to_s.ljust(10)} |"
+  end
+end
+
+#
 # Background steps
 #
 
@@ -31,12 +42,21 @@ end
 
 Given /^the project has the following stories in the product backlog:$/ do |table|
   @project.issues.delete_all
+
   table.hashes.each do |story|
     story['project_id'] = @project.id
     story['tracker_id'] = Story.trackers[0]
     story['author_id']  = User.find(:first).id
-    Story.create! story
+
+    # TODO: Refactor this part. This logic should be inside the Story model
+    attribs = story.select{|k,v| k != 'id' and Story.column_names.include? k }
+    attribs = Hash[*attribs.flatten]
+    s = Story.new(attribs)
+    s.save!
+    s.position = story['position'].to_i
+    s.save!
   end
+
 end
 
 #
@@ -46,6 +66,17 @@ end
 Given /^I am viewing the master backlog$/ do
   login_as_product_owner
   visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
+end
+
+Given /^I want to create a new story$/ do
+  @story = Story.new
+  @story.project = @project
+  @story.tracker_id = Story.trackers.first
+  @story.position = 0
+end
+
+Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
+  @story[attribute] = value
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
@@ -58,6 +89,8 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
            nil
          elsif new_pos=='last'
            @story_ids.last
+         elsif old_pos.to_i > new_pos.to_i
+           @story_ids[new_pos.to_i-2]
          else
            @story_ids[new_pos.to_i-1]
          end
@@ -65,7 +98,14 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
   page.driver.process :post, 
                       url_for(:controller => 'stories', :action => 'update'),
                       {:id => story.text, :prev => (prev.nil? ? '' : prev.text), :project_id => @project.id}
+
   @story = Story.find(story.text.to_i)
+end
+
+When /^I create the story$/ do
+  page.driver.process :post, 
+                      url_for(:controller => 'stories', :action => 'create'),
+                      @story.attributes
 end
 
 Then /^I should see the product backlog$/ do
@@ -78,4 +118,13 @@ Then /^the story should be at the (top|bottom)$/ do |position|
   else
     @story.position.should == @story_ids.length
   end
+end
+
+Then /^the (\d+)(?:st|nd|rd|th) story should be (.+)$/ do |position, subject|
+  story = Story.find(:first, :conditions => "position=#{position}")
+  story.subject.should == subject
+end
+
+Then /^the (\d+)(?:st|nd|rd|th) position should be unique$/ do |position|
+  Story.find(:all, :conditions => "position=#{position}").length.should == 1
 end
