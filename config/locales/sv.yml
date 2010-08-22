@@ -905,9 +905,9 @@ sv:
   text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
   text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
   text_default_administrator_account_changed: Standardadministratörens konto ändrat
-  text_file_repository_writable: Arkivet för bifogade filer är skrivbar
-  text_plugin_assets_writable: Arkivet för plug-ins är skrivbar
-  text_rmagick_available: RMagick tillgängligt (valfritt)
+  text_file_repository_writable: Arkivet för bifogade filer är skrivbart
+  text_plugin_assets_writable: Arkivet för plug-ins är skrivbart
+  text_rmagick_available: RMagick tillgängligt (ej obligatoriskt)
   text_destroy_time_entries_question: "{{hours}} timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?"
   text_destroy_time_entries: Ta bort rapporterade timmar
   text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
