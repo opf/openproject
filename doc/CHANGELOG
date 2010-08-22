@@ -4,6 +4,66 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 201008-22 v1.0.1
+
+* #819: Add a body ID and class to all pages
+* #871: Commit new CSS styles!
+* #3301: Add favicon to base layout
+* #4656: On Issue#show page, clicking on “Add related issue” should focus on the input
+* #4896: Project identifier should be a limited field
+* #5084: Filter all isssues by projects
+* #5477: Replace Test::Unit::TestCase with ActiveSupport::TestCase
+* #5591: 'calendar' action is used with 'issue' controller in issue/sidebar
+* #5735: Traditional Chinese language file (to r3810)
+* #5740: Swedish Translation for r3810
+* #5785: pt-BR translation update
+* #5898: Projects should be displayed as links in users/memberships
+* #5910: Chinese translation to redmine-1.0.0
+* #5912: Translation update for french locale
+* #5962: Hungarian translation update to r3892
+* #5971: Remove falsly applied chrome on revision links
+* #5972: Updated Hebrew translation for 1.0.0
+* #5982: Updated german translation
+* #6008: Move admin_menu to Redmine::MenuManager
+* #6012: RTL layout
+* #6021: Spanish translation 1.0.0-RC
+* #6025: nl translation updated for r3905
+* #6030: Japanese Translation for r3907
+* #6074: sr-CY.yml contains DOS-type newlines (\r\n)
+* #6087: SERBIAN translation updated
+* #6093: Updated italian translation
+* #6142: Swedish Translation for r3940
+* #6153: Move view_calendar and view_gantt to own modules
+* #6169: Add issue status to issue tooltip
+* Fixed #3834: Add a warning when not choosing a member role
+* Fixed #3922: Bad english arround "Assigned to" text in journal entries
+* Fixed #5158: Simplified Chinese language file zh.yml updated to r3608
+* Fixed #5162: translation missing: zh-TW, field_time_entrie
+* Fixed #5297: openid not validated correctly
+* Fixed #5628: Wrong commit range in git log command
+* Fixed #5760: Assigned_to and author filters in "Projects>View all issues" should be based on user's project visibility
+* Fixed #5771: Problem when importing git repository
+* Fixed #5775: ldap authentication in admin menu should have an icon
+* Fixed #5811: deleting statuses doesnt delete workflow entries
+* Fixed #5834: Emails with trailing spaces incorrectly detected as invalid
+* Fixed #5846: ChangeChangesPathLengthLimit does not remove default for MySQL
+* Fixed #5861: Vertical scrollbar always visible in Wiki "code" blocks in Chrome.
+* Fixed #5883: correct label_project_latest Chinese translation
+* Fixed #5892: Changing status from contextual menu opens the ticket instead
+* Fixed #5904: Global gantt PDF and PNG should display project names
+* Fixed #5925: parent task's priority edit should be disabled through shortcut menu in issues list page
+* Fixed #5935: Add Another file to ticket doesn't work in IE Internet Explorer
+* Fixed #5937: Harmonize french locale "zero" translation with other locales
+* Fixed #5945: Forum message permalinks don't take pagination into account
+* Fixed #5978: Debug code still remains
+* Fixed #6009: When using "English (British)", the repository browser (svn) shows files over 1000 bytes as floating point (2.334355)
+* Fixed #6045: Repository file Diff view sometimes shows more than selected file
+* Fixed #6079: German Translation error in TimeEntryActivity
+* Fixed #6100: User's profile should display all visible projects
+* Fixed #6132: Allow Key based authentication in the Boards atom feed
+* Fixed #6163: Bad CSS class for calendar project menu_item
+* Fixed #6172: Browsing to a missing user's page shows the admin sidebar
+
 == 2010-07-18 v1.0.0 (Release candidate)
 
 * #443: Adds context menu to the roadmap issue lists
