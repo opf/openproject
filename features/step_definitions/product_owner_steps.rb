@@ -75,7 +75,17 @@ Given /^I want to create a new story$/ do
   @story_params = initialize_story_params
 end
 
-Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
+Given /^I want to update the story with subject (.+)$/ do |subject|
+  @story = Story.find(:first, :conditions => "subject='#{subject}'")
+  @story.should_not be_nil
+  @story_params = @story.attributes
+end
+
+When /^I set the (.+) of the story to (.+)$/ do |attribute, value|
+  if attribute=="tracker"
+    attribute="tracker_id"
+    value = Tracker.find(:first, :conditions => "name='#{value}'").id
+  end
   @story_params[attribute] = value
 end
 
@@ -108,6 +118,18 @@ When /^I create the story$/ do
                       @story_params
 end
 
+When /^I update the story$/ do
+  page.driver.process :post,
+                      url_for(:controller => 'stories', :action => 'update'),
+                      @story_params
+end
+
+When /^I close (.+)$/ do |subject|
+  @story = Story.find(:first, :conditions => "subject='#{subject}'")
+  @story.should_not be_nil
+  @story.update_attributes :status_id => IssueStatus.find(:first, :conditions => "name='Closed'").id
+end
+
 Then /^I should see the product backlog$/ do
   page.should have_css('#product_backlog')
 end
@@ -128,4 +150,18 @@ end
 
 Then /^the (\d+)(?:st|nd|rd|th) position should be unique$/ do |position|
   Story.find(:all, :conditions => "position=#{position}").length.should == 1
+end
+
+Then /^the status of the story should be set as (.+)$/ do |status|
+  @story.reload
+  @story.status.name.downcase.should == status
+end
+
+Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
+  @story.reload
+  if attribute=="tracker"
+    attribute="tracker_id"
+    value = Tracker.find(:first, :conditions => "name='#{value}'").id
+  end
+  @story[attribute].should == value
 end

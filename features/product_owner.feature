@@ -49,7 +49,21 @@ Feature: Product Owner
   Scenario: Create a new story
     Given I am viewing the master backlog
     And I want to create a new story
-    And I set the subject of the story to Story 5
-    When I create the story
-    Then the 1st story should be Story 5
+    When I set the subject of the story to A Whole New Story
+    And I create the story
+    Then the 1st story should be A Whole New Story
     And the 1st position should be unique
+  
+  Scenario: Close and reopen a story
+    Given I am viewing the master backlog
+    When I close Story 2
+    Then the status of the story should be set as closed
+  
+  Scenario: Update a story
+    Given I am viewing the master backlog
+    And I want to update the story with subject Story 3
+    When I set the subject of the story to Relaxdiego was here
+    And I set the tracker of the story to Bug
+    When I update the story  
+    Then the story should have a subject of Relaxdiego was here
+    And the story should have a tracker of Bug
