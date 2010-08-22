@@ -45,6 +45,7 @@ gl:
           tb: "TB"
   
   
+  direction: ltr
   date:
     formats:
       default:  "%e/%m/%Y"

@@ -4,6 +4,7 @@
 # contributor: Thibaut Cuvelier - Developpez.com
 
 fr:
+  direction: ltr
   date:
     formats:
       default: "%d/%m/%Y"

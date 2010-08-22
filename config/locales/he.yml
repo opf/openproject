@@ -3,6 +3,7 @@
 # Jul 2010 - Updated by Orgad Shaneh (orgads@gmail.com)
 
 he:
+  direction: rtl
   date:
     formats:
       default: "%d/%m/%Y"

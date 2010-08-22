@@ -1,6 +1,7 @@
 # Serbian translations for Redmine
 # by Vladimir Medarović (vlada@medarovic.com)
 sr:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

@@ -6,6 +6,7 @@ pt:
       sentence_connector: "e"
       skip_last_comma: true
     
+  direction: ltr
   date:
     formats:
       default: "%d/%m/%Y"

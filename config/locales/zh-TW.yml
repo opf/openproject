@@ -3,6 +3,7 @@
 # See http://github.com/svenfuchs/rails-i18n/ for details.
 
 "zh-TW":
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

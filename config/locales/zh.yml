@@ -2,6 +2,7 @@
 # by tsechingho (http://github.com/tsechingho)
 
 zh:
+  direction: ltr
   date:
     formats:
       default: "%Y-%m-%d"

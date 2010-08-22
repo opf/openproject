@@ -1,5 +1,6 @@
 pt-BR:
   # formatos de data e hora
+  direction: ltr
   date:
     formats:
       default: "%d/%m/%Y"

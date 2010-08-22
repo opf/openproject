@@ -3,6 +3,7 @@
 # updated and upgraded to 0.9 by Morten Krogh Andersen (http://www.krogh.net)
 
 da:
+  direction: ltr
   date:
     formats:
       default: "%d.%m.%Y"

@@ -5,6 +5,7 @@ tr:
   locale:
     native_name: Türkçe
     address_separator: " "
+  direction: ltr
   date:
     formats:
       default: "%d.%m.%Y"

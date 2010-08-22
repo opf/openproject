@@ -2,6 +2,7 @@
 # by Vaggelis Typaldos (vtypal@gmail.com),  Spyros Raptis (spirosrap@gmail.com)
 
 el:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

@@ -3,6 +3,7 @@
 # by Diego Pierotto (ita.translations@tiscali.it)
 
 it:
+  direction: ltr
   date:
     formats:
       default: "%d-%m-%Y"

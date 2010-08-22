@@ -4,6 +4,7 @@
 #                      and Sergej Jegorov sergej.jegorov@gmail.com
 #					   and Gytis Gurklys gytis.gurklys@gmail.com
 lt:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

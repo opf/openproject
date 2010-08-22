@@ -2,6 +2,7 @@
 # by Clemens Kofler (clemens@railway.at)
 
 de:
+  direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.

@@ -1,6 +1,7 @@
 # translated by Dzintars Bergs (dzintars.bergs@gmail.com)
 
 lv:
+  direction: ltr
   date:
     formats:
       default: "%d.%m.%Y"
