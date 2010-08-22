@@ -33,11 +33,7 @@ class StoriesController < ApplicationController
 
   def update
     story = Story.find(params[:id])
-    attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
-    attribs = Hash[*attribs.flatten]
-    result = story.journalized_update_attributes! attribs
-    if result
-      story.move_after(params[:prev])
+    if story.update_and_position!(params)
       status = 200
     else
       status = 400

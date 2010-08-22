@@ -113,4 +113,14 @@ class Story < Issue
         }
         return {:open => open, :closed => closed}
     end
+
+    def update_and_position!(params)
+      attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
+      attribs = Hash[*attribs.flatten]
+      result = journalized_update_attributes! attribs
+      if result
+        move_after(params[:prev])
+      end
+      result
+    end
 end
