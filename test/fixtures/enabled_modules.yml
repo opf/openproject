@@ -63,3 +63,35 @@ enabled_modules_016:
   name: boards
   project_id: 2
   id: 16
+enabled_modules_017: 
+  name: calendar
+  project_id: 1
+  id: 17
+enabled_modules_018: 
+  name: gantt 
+  project_id: 1
+  id: 18
+enabled_modules_019: 
+  name: calendar
+  project_id: 2
+  id: 19
+enabled_modules_020: 
+  name: gantt 
+  project_id: 2
+  id: 20
+enabled_modules_021: 
+  name: calendar
+  project_id: 3
+  id: 21
+enabled_modules_022: 
+  name: gantt
+  project_id: 3
+  id: 22
+enabled_modules_023: 
+  name: calendar
+  project_id: 5
+  id: 23
+enabled_modules_024: 
+  name: gantt 
+  project_id: 5
+  id: 24

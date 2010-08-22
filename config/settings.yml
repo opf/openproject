@@ -150,6 +150,8 @@ default_projects_modules:
   - wiki
   - repository
   - boards
+  - calendar
+  - gantt
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int
