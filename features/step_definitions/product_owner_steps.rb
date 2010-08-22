@@ -162,6 +162,8 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   if attribute=="tracker"
     attribute="tracker_id"
     value = Tracker.find(:first, :conditions => "name='#{value}'").id
+  elsif attribute=="position"
+    value = value.to_i
   end
   @story[attribute].should == value
 end

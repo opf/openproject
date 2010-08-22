@@ -118,7 +118,7 @@ class Story < Issue
       attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
       result = journalized_update_attributes! attribs
-      if result
+      if result and params[:prev]
         move_after(params[:prev])
       end
       result
