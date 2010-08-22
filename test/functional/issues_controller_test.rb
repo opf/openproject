@@ -365,7 +365,7 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_update_new_form
     @request.session[:user_id] = 2
-    xhr :post, :update_form, :project_id => 1,
+    xhr :post, :new, :project_id => 1,
                      :issue => {:tracker_id => 2, 
                                 :subject => 'This is the test_new issue',
                                 :description => 'This is the description',
@@ -617,7 +617,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_edit_form
     @request.session[:user_id] = 2
-    xhr :post, :update_form, :project_id => 1,
+    xhr :post, :new, :project_id => 1,
                              :id => 1,
                              :issue => {:tracker_id => 2, 
                                         :subject => 'This is the test_new issue',

@@ -1,6 +1,6 @@
 <div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
-<%= observe_field :issue_tracker_id, :url => { :action => :update_form, :project_id => @project, :id => @issue },
+<%= observe_field :issue_tracker_id, :url => { :action => :new, :project_id => @project, :id => @issue },
                                      :update => :attributes,
                                      :with => "Form.serialize('issue-form')" %>
 
