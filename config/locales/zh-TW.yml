@@ -377,7 +377,8 @@
   field_group_by: 結果分組方式
   field_sharing: 共用
   field_parent_issue: 父工作項目
-  
+  field_time_entries: 耗用工時
+    
   setting_app_title: 標題
   setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
@@ -994,3 +995,4 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
+  field_time_entries: Log time
