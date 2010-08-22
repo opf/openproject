@@ -104,6 +104,8 @@ class RoutingTest < ActionController::IntegrationTest
 
     should_route :get, "/issues/preview/123", :controller => 'previews', :action => 'issue', :id => '123'
     should_route :post, "/issues/preview/123", :controller => 'previews', :action => 'issue', :id => '123'
+    should_route :get, "/issues/context_menu", :controller => 'context_menus', :action => 'issues'
+    should_route :post, "/issues/context_menu", :controller => 'context_menus', :action => 'issues'
   end
 
   context "issue categories" do
