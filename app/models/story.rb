@@ -20,7 +20,22 @@ class Story < Issue
                 ]
         }
     }
-    
+
+    def self.create_and_position!(params)
+      attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
+      attribs = Hash[*attribs.flatten]
+      position = (params['prev_id']=='' or params['prev_id'].nil?) ? 1 : (Story.find(params['prev_id']).position + 1)
+      s = Story.new(attribs)
+      if s.save!
+        # At exactly this point, there are now two stories with position=1 (I don't know why! Ask acts_as_list)        
+        s.position = nil  # DO NOT use remove_from_list because that will decrement lower items
+        s.save!
+        s.reload
+        s.insert_at position
+      end
+      s
+    end
+
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
         return [] if trackers == '' or trackers.nil?

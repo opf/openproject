@@ -45,3 +45,11 @@ Feature: Product Owner
     Then the 2nd story should be Story 4
     And the 3rd story should be Story 2
     And the 4th story should be Story 3
+
+  Scenario: Create a new story
+    Given I am viewing the master backlog
+    And I want to create a new story
+    And I set the subject of the story to Story 5
+    When I create the story
+    Then the 1st story should be Story 5
+    And the 1st position should be unique

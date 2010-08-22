@@ -34,6 +34,7 @@ Given /^I am a product owner of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :manage_backlog
   role.save!
+  login_as_product_owner
 end
 
 Given /^the project has the following sprints:$/ do |table|
@@ -46,19 +47,18 @@ end
 
 Given /^the project has the following stories in the product backlog:$/ do |table|
   @project.issues.delete_all
+  prev_id = ''
 
   table.hashes.each do |story|
-    story['project_id'] = @project.id
-    story['tracker_id'] = Story.trackers[0]
-    story['author_id']  = User.find(:first).id
+    params = initialize_story_params
+    params['subject'] = story['subject']
+    params['prev_id'] = prev_id
 
-    # TODO: Refactor this part. This logic should be inside the Story model
-    attribs = story.select{|k,v| k != 'id' and Story.column_names.include? k }
-    attribs = Hash[*attribs.flatten]
-    s = Story.new(attribs)
-    s.save!
-    s.position = story['position'].to_i
-    s.save!
+    # NOTE: We're bypassing the controller here because we're just
+    # setting up the database for the actual tests. The actual tests,
+    # however, should NOT bypass the controller
+    s = Story.create_and_position! params
+    prev_id = s.id
   end
 
 end
@@ -68,19 +68,15 @@ end
 #
 
 Given /^I am viewing the master backlog$/ do
-  login_as_product_owner
   visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
 end
 
 Given /^I want to create a new story$/ do
-  @story = Story.new
-  @story.project = @project
-  @story.tracker_id = Story.trackers.first
-  @story.position = 0
+  @story_params = initialize_story_params
 end
 
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
-  @story[attribute] = value
+  @story_params[attribute] = value
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
@@ -109,7 +105,7 @@ end
 When /^I create the story$/ do
   page.driver.process :post, 
                       url_for(:controller => 'stories', :action => 'create'),
-                      @story.attributes
+                      @story_params
 end
 
 Then /^I should see the product backlog$/ do
@@ -126,6 +122,7 @@ end
 
 Then /^the (\d+)(?:st|nd|rd|th) story should be (.+)$/ do |position, subject|
   story = Story.find(:first, :conditions => "position=#{position}")
+  story.should_not be_nil
   story.subject.should == subject
 end
 
