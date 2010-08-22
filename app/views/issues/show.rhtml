@@ -128,6 +128,7 @@
     <%= stylesheet_link_tag 'scm' %>
     <%= javascript_include_tag 'context_menu' %>
     <%= stylesheet_link_tag 'context_menu' %>
+    <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
