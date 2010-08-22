@@ -1,4 +1,4 @@
-require "autotest/growl"
+require "autotest/growl" if RUBY_PLATFORM.downcase.include?("darwin")
 require 'autotest/fsevent'
 require 'redgreen/autotest'
 
