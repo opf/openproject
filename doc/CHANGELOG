@@ -4,7 +4,7 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
-== 201008-22 v1.0.1
+== 2010-08-22 v1.0.1
 
 * #819: Add a body ID and class to all pages
 * #871: Commit new CSS styles!
