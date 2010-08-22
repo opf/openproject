@@ -64,6 +64,10 @@ mn:
         other: "бараг {{count}} жил"
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

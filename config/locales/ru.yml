@@ -41,7 +41,7 @@ ru:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: " "
       precision: 3
 
@@ -64,7 +64,7 @@ ru:
     human:
       format:
         delimiter: ""
-        precision: 1
+        precision: 2
       # Rails 2.2
       # storage_units: [байт, КБ, МБ, ГБ, ТБ]
 

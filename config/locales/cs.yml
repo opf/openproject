@@ -63,7 +63,11 @@ cs:
         one:   "almost 1 year"
         other: "almost {{count}} years"
 
-  number: 
+  number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human: 
       format: 
         precision: 1

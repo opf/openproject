@@ -68,6 +68,10 @@ eu:
         other: "ia {{count}} urte"
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: ""

@@ -61,6 +61,10 @@ lv:
         other: "gandrīz {{count}} gadus"
 
   number:
+    format:
+      separator: "."
+      delimiter: ""
+      precision: 3
     human:
       format:
         delimiter: " "
