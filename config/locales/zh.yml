@@ -928,3 +928,5 @@ zh:
   notice_unable_delete_time_entry: 无法删除工时记录。
   label_overall_spent_time: 所有项目耗用工时
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

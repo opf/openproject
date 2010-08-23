@@ -892,3 +892,5 @@ nl:
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
   label_overall_spent_time: Totaal bestede tijd
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

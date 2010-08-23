@@ -911,3 +911,5 @@ sr:
   enumeration_system_activity: Системска активност
   
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

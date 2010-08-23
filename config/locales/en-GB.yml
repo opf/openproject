@@ -914,3 +914,5 @@ en-GB:
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
   label_project_copy_notifications: Send email notifications during the project copy
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

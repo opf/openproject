@@ -914,3 +914,5 @@ it:
   notice_unable_delete_time_entry: Impossibile eliminare il valore time log.
   label_overall_spent_time: Totale tempo impiegato
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

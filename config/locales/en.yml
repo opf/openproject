@@ -412,6 +412,8 @@ en:
   project_module_wiki: Wiki
   project_module_repository: Repository
   project_module_boards: Boards
+  project_module_calendar: Calendar
+  project_module_gantt: Gantt
   
   label_user: User
   label_user_plural: Users

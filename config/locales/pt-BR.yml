@@ -934,3 +934,5 @@ pt-BR:
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
   label_overall_spent_time: Tempo gasto geral
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

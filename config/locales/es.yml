@@ -950,3 +950,5 @@ es:
   notice_unable_delete_time_entry: Fue imposible eliminar la entrada de tiempo dedicado.
   label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

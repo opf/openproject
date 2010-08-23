@@ -915,3 +915,5 @@ he:
   enumeration_activities: פעילויות (מעקב אחר זמנים)
   enumeration_system_activity: פעילות מערכת
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

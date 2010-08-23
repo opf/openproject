@@ -929,3 +929,5 @@ fr:
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar

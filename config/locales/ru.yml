@@ -845,6 +845,8 @@ ru:
   project_module_repository: Хранилище
   project_module_time_tracking: Учет времени
   project_module_wiki: Wiki
+  project_module_gantt: Диаграмма Ганта
+  project_module_calendar: Календарь
 
   setting_activity_days_default: Количество дней, отображаемых в Активности
   setting_app_subtitle: Подзаголовок приложения
@@ -1026,3 +1028,4 @@ ru:
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
+

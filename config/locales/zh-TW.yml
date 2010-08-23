@@ -996,3 +996,5 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
