@@ -19,4 +19,13 @@ def login_as_product_owner
   fill_in 'username', :with => 'jsmith'
   fill_in 'password', :with => 'jsmith'
   click_button 'Login »'
+  @user = User.find(:first, :conditions => "login='jsmith'")
+end
+
+def initialize_story_params
+  @story = Story.new.attributes
+  @story['project_id'] = @project.id
+  @story['tracker_id'] = Story.trackers.first
+  @story['author_id']  = @user.id
+  @story
 end
