@@ -31,6 +31,13 @@ class JournalsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
+  def test_index
+    get :index, :project_id => 1
+    assert_response :success
+    assert_not_nil assigns(:journals)
+    assert_equal 'application/atom+xml', @response.content_type
+  end
+  
   def test_reply_to_issue
     @request.session[:user_id] = 2
     get :new, :id => 1

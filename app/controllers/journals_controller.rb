@@ -18,6 +18,29 @@
 class JournalsController < ApplicationController
   before_filter :find_journal, :only => [:edit]
   before_filter :find_issue, :only => [:new]
+  before_filter :find_optional_project, :only => [:index]
+  accept_key_auth :index
+
+  helper :issues
+  helper :queries
+  include QueriesHelper
+  helper :sort
+  include SortHelper
+
+  def index
+    retrieve_query
+    sort_init 'id', 'desc'
+    sort_update(@query.sortable_columns)
+    
+    if @query.valid?
+      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+                                  :limit => 25)
+    end
+    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
+    render :layout => false, :content_type => 'application/atom+xml'
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
   
   def new
     journal = Journal.find(params[:journal_id]) if params[:journal_id]

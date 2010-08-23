@@ -231,13 +231,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal columns, session[:query][:column_names].map(&:to_s)
   end
 
-  def test_changes
-    get :changes, :project_id => 1
-    assert_response :success
-    assert_not_nil assigns(:journals)
-    assert_equal 'application/atom+xml', @response.content_type
-  end
-  
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -307,7 +300,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_show_atom
     get :show, :id => 2, :format => 'atom'
     assert_response :success
-    assert_template 'changes.rxml'
+    assert_template 'journals/index.rxml'
     # Inline image
     assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
   end

@@ -108,6 +108,7 @@ ActionController::Routing::Routes.draw do |map|
   # TODO: would look nicer as /issues/:id/preview
   map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue'
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
+  map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
   
   map.with_options :controller => 'issues' do |issues_routes|
     issues_routes.with_options :conditions => {:method => :get} do |issues_views|

@@ -22,11 +22,11 @@ class IssuesController < ApplicationController
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :move, :perform_move, :destroy]
   before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index, :changes]
-  before_filter :find_optional_project, :only => [:index, :changes]
+  before_filter :authorize, :except => [:index]
+  before_filter :find_optional_project, :only => [:index]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
-  accept_key_auth :index, :show, :changes
+  accept_key_auth :index, :show
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
   
@@ -95,21 +95,6 @@ class IssuesController < ApplicationController
     render_404
   end
   
-  def changes
-    retrieve_query
-    sort_init 'id', 'desc'
-    sort_update(@query.sortable_columns)
-    
-    if @query.valid?
-      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
-                                  :limit => 25)
-    end
-    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
-    render :layout => false, :content_type => 'application/atom+xml'
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
   def show
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
@@ -124,7 +109,7 @@ class IssuesController < ApplicationController
       format.html { render :template => 'issues/show.rhtml' }
       format.xml  { render :layout => false }
       format.json { render :text => @issue.to_json, :layout => false }
-      format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
+      format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end
