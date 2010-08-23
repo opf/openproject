@@ -1,5 +1,7 @@
-require "autotest/growl" if RUBY_PLATFORM.downcase.include?("darwin")
-require 'autotest/fsevent'
+if RUBY_PLATFORM.downcase.include?("darwin")
+  require "autotest/growl"
+  require 'autotest/fsevent'
+end
 require 'redgreen/autotest'
 
 Autotest.add_hook :initialize do |at|
