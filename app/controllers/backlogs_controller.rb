@@ -17,7 +17,6 @@ class BacklogsController < ApplicationController
     @settings = Setting.plugin_redmine_backlogs
     @product_backlog_stories = Story.product_backlog(@project)
     @sprints = Sprint.open_sprints(@project)
-    @velocity = @project.scrum_statistics
     @last_updated = Story.find(:first, 
                           :conditions => ["project_id=? AND tracker_id in (?)", @project, Story.trackers],
                           :order => "updated_on DESC")

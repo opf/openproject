@@ -42,14 +42,18 @@
   <%= render :partial => 'stories/story', :object => Story.new %>
 </div>
 
+<%
+  scores = @project.scrum_statistics.scores
+  info = @project.scrum_statistics.info
+%>
 <div id="velocity">
-  <% if @velocity %>
+  <% if !scores[:velocity_missing] %>
   <table>
-    <tr><td>Velocity</td><td><%= @velocity[:velocity] %></td></tr>
-    <tr><td>Based on</td><td><%= @velocity[:sprints].length %> sprints</td></tr>
-    <tr><td>Sprint average</td><td><%= @velocity[:average_days_per_sprint] %> days</td></tr>
+    <tr><td>Velocity</td><td><%= info[:velocity] %></td></tr>
+    <tr><td>Based on</td><td><%= info[:closed_sprints].length %> sprints</td></tr>
+    <tr><td>Sprint average</td><td><%= info[:average_days_per_sprint] %> days</td></tr>
     <tr><td>Sprints</td><td>
-    <% (@velocity[:sprints]).each do |sprint| %>
+    <% (info[:closed_sprints]).each do |sprint| %>
         <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => @project, :sprint_id => sprint.id }) %><br/>
     <% end %></td></tr></table>
   <% else %>

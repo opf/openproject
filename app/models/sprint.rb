@@ -235,11 +235,11 @@ class Sprint < Version
     def eta
         return nil if ! self.start_date
 
-        v = self.project.scrum_statistics
-        return nil if ! v or ! v[:days_per_point]
+        dpp = self.project.scrum_statistics.info[:average_days_per_point]
+        return nil if !dpp
 
         # assume 5 out of 7 are working days
-        return self.start_date + Integer(self.points * v[:days_per_point] * 7.0/5)
+        return self.start_date + Integer(self.points * dpp * 7.0/5)
     end
 
     def has_burndown
