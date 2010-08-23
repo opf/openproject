@@ -1,71 +1,72 @@
 --- 
 nl: 
-  backlogs_sprint_unestimated: "Gesloten of actieve sprints bevatten stories zonder tijdschattingen"
-  error_outro: Verbeter a.u.b de eerdergenoemde problemen voordat u nogmaals verzend.
-  backlogs_card_specification: Label type voor kaartjes
-  label_select_all: Selecteer alles
-  label_sprint_impediments: Sprint Impediments
   points_resolved: points opgelost
-  label_points_burn_down: Omlaag
+  label_sprint_impediments: Sprint Impediments
+  label_select_all: Selecteer alles
+  backlogs_card_specification: Label type voor kaartjes
+  error_outro: Verbeter a.u.b de eerdergenoemde problemen voordat u nogmaals verzend.
+  backlogs_sprint_unestimated: Gesloten of actieve sprints bevatten stories zonder tijdschattingen
   label_task_board: Taakbord
-  backlogs_velocity_missing: "De velocity voor dit project kan niet worden berekend"
-  blank: is leeg
-  backlogs_wiki_template: Template voor sprint wiki pagina
-  backlogs_points_burn_direction: Points burn omhoog/omlaag
-  label_printable_cards: Print kaarten
-  required_burn_rate_hours: benodigde burn rate (hours)
+  label_points_burn_down: Omlaag
   button_edit_wiki: Wijzig wiki page
-  error_intro_plural: "De volgende fouten zijn opgetreden:"
-  label_not_prioritized: geen prioriteit
-  field_remaining_hours: Resterende uren
+  required_burn_rate_hours: benodigde burn rate (hours)
+  label_printable_cards: Print kaarten
+  backlogs_points_burn_direction: Points burn omhoog/omlaag
+  backlogs_wiki_template: Template voor sprint wiki pagina
+  blank: is leeg
+  backlogs_velocity_missing: De velocity voor dit project kan niet worden berekend
   error_intro_singular: "De volgende fout is opgetreden:"
-  backlogs_sizing_inconsistent: "Story sizes varieren ten opzichte van hun tijdsschattingen"
-  label_hours: uren
-  label_back_to_project: Terug naar het project
-  points_committed: points toegezegd
-  label_Product_backlog: Product backlog
+  field_remaining_hours: Resterende uren
+  label_not_prioritized: geen prioriteit
+  error_intro_plural: "De volgende fouten zijn opgetreden:"
   label_product_backlog: product backlog
-  backlogs_sprint_notes_missing: "Gesloten sprints zonder retrospective/review aantekeningen"
-  backlogs_story_tracker: Story trackers
-  label_points: points
-  label_sprint_backlog: sprint backlog
-  label_sprint_velocity: Velocity {{velocity}}, berekend over {{sprints}} sprints met gemiddeld {{days}} dagen
-  points_accepted: points geaccepteerd
-  label_backlogs: Backlogs
-  backlogs_task: Task
-  subject: Onderwerp
-  label_stories_tasks: Stories/Taken
+  label_Product_backlog: Product backlog
+  points_committed: points toegezegd
+  label_back_to_project: Terug naar het project
+  label_hours: uren
+  backlogs_sizing_inconsistent: Story sizes varieren ten opzichte van hun tijdsschattingen
   backlogs_any: alle
-  label_burndown: Burndown
-  points_to_resolve: points niet opgelost
-  backlogs_active: lopend
-  label_points_burn_up: Omhoog
+  label_stories_tasks: Stories/Taken
+  subject: Onderwerp
+  backlogs_task: Task
+  label_backlogs: Backlogs
+  points_accepted: points geaccepteerd
+  label_sprint_velocity: Velocity {{velocity}}, berekend over {{sprints}} sprints met gemiddeld {{days}} dagen
+  label_sprint_backlog: sprint backlog
+  label_points: points
+  backlogs_story_tracker: Story trackers
+  backlogs_sprint_notes_missing: Gesloten sprints zonder retrospective/review aantekeningen
+  backlogs_product_backlog_unsized: "De top van de product backlog heeft stories zonder size"
   field_backlogs_issue_type: Backlog type
-  points_to_accept: points niet geaccepteerd
-  required_burn_rate_points: benodigde burn rate (points)
-  field_story_points: Story points
-  field_position: Positie
+  label_points_burn_up: Omhoog
+  backlogs_active: lopend
+  points_to_resolve: points niet opgelost
+  label_burndown: Burndown
   label_sprint_name: Sprint "{{name}}"
-  remaining_hours: resterende uren
-  backlogs_product_backlog: Product backlog
+  field_position: Positie
+  field_story_points: Story points
+  required_burn_rate_points: benodigde burn rate (points)
+  points_to_accept: points niet geaccepteerd
   label_blocks: Blokken
-  backlogs_inactive: "Project lijkt inactief"
+  backlogs_product_backlog: Product backlog
+  remaining_hours: resterende uren
+  todo_issue_summary: "{{type}}: {{summary}}"
+  backlogs_sprints: Sprints
+  backlogs_task_tracker: Task tracker
+  label_chart_options: Grafiek Opties
   todo_issue_description: |-
     {{summary}}: {{url}}
     {{description}}
-  label_chart_options: Grafiek Opties
-  backlogs_task_tracker: Task tracker
-  backlogs_sprints: Sprints
-  todo_issue_summary: "{{type}}: {{summary}}"
-  backlogs_product_backlog_is_empty: "Product backlog is leeg"
-  field_velocity_based_estimate: Schatting obv velocity
+  backlogs_inactive: Project lijkt inactief
+  event_sprint_summary: "{{project}}: {{summary}}"
+  error_must_have_comma_delimited_list: moet een komma-gescheiden lijst van story of taak IDs hebben
+  label_stories: Stories
+  label_backlogs_unconfigured: U heeft Backlogs nog niet geconfigureerd. Gaat u asltublieft naar {{administration}} > {{plugins}}, en klik dan op de {{configure}} link voor deze plugin. Nadat u de configuratie hebt opgeslagen kunt u teruggaan naar deze pagina om de plugin in gebruik te nemen.
+  label_scrum_statistics: Scrum statistieken
+  backlogs_story: Story
+  ideal: ideaal
   event_sprint_description: |-
     {{summary}}: {{url}}
     {{description}}
-  ideal: ideaal
-  backlogs_story: Story
-  label_scrum_statistics: Scrum statistieken
-  label_backlogs_unconfigured: U heeft Backlogs nog niet geconfigureerd. Gaat u asltublieft naar {{administration}} > {{plugins}}, en klik dan op de {{configure}} link voor deze plugin. Nadat u de configuratie hebt opgeslagen kunt u teruggaan naar deze pagina om de plugin in gebruik te nemen.
-  label_stories: Stories
-  error_must_have_comma_delimited_list: moet een komma-gescheiden lijst van story of taak IDs hebben
-  event_sprint_summary: "{{project}}: {{summary}}"
+  field_velocity_based_estimate: Schatting obv velocity
+  backlogs_product_backlog_is_empty: Product backlog is leeg

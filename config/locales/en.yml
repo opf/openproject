@@ -52,6 +52,8 @@ en:
   backlogs_inactive: "Project shows no activity"
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
   backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
+  backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
+
 
   label_hours: hours
   label_points: points
