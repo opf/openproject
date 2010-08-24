@@ -56,6 +56,14 @@ Given /^the project has the following stories in the product backlog:$/ do |tabl
 
 end
 
+Given /^I am a member of the project$/ do
+  role = Role.find(:first, :conditions => "name='Manager'")
+  role.permissions << :manage_backlog
+  role.save!
+  login_as_member
+end
+
+
 
 #
 # Scenario steps
@@ -65,10 +73,22 @@ Given /^I am viewing the master backlog$/ do
   visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
 end
 
+When /^I request the server_variables resource$/ do
+  visit url_for(:controller => 'server_variables', :action => 'index', :project_id => @project.id)
+end
+
 Then /^the request should complete successfully$/ do
   page.driver.response.status.should == 200
 end
 
 def get_project(identifier)
   Project.find(:first, :conditions => "identifier='#{identifier}'")
+end
+
+def login_as_member
+  visit url_for(:controller => 'account', :action=>'login')
+  fill_in 'username', :with => 'jsmith'
+  fill_in 'password', :with => 'jsmith'
+  click_button 'Login »'
+  @user = User.find(:first, :conditions => "login='jsmith'")
 end
