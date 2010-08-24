@@ -1,34 +1,6 @@
 #
-# Debugging steps
-# NOTE: You may also use "Then show me the page" to display the browser view
-#
-Then /^show me the list of stories$/ do
-  puts "\n"
-  puts "\t------------------------------------"
-  puts "\t| id  | position | subject         |"
-  puts "\t------------------------------------"
-  Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC").each do |story|
-    puts "\t| #{story.id.to_s.ljust(3)} | #{story.position.to_s.ljust(8)} | #{story.subject.to_s.ljust(15)} |"
-  end
-  puts "\t------------------------------------\n\n"
-end
-
-#
 # Background steps
 #
-
-Given /^the (.*) project has the backlogs plugin enabled$/ do |project_id|
-  @project = get_project(project_id)
-  
-  # Enable the backlogs plugin
-  @project.enabled_modules << EnabledModule.new(:name => 'backlogs')
-  
-  # Configure the story and task trackers
-  story_trackers = Tracker.find(:all).map{|s| "#{s.id}"}
-  task_tracker = "#{Tracker.create!(:name => 'Task').id}"
-  plugin = Redmine::Plugin.find('redmine_backlogs')
-  Setting["plugin_#{plugin.id}"] = {:story_trackers => story_trackers, :task_tracker => task_tracker }
-end
 
 Given /^I am a product owner of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
@@ -37,39 +9,10 @@ Given /^I am a product owner of the project$/ do
   login_as_product_owner
 end
 
-Given /^the project has the following sprints:$/ do |table|
-  @project.versions.delete_all
-  table.hashes.each do |version|
-    version['project_id'] = @project.id
-    Version.create! version
-  end
-end
-
-Given /^the project has the following stories in the product backlog:$/ do |table|
-  @project.issues.delete_all
-  prev_id = ''
-
-  table.hashes.each do |story|
-    params = initialize_story_params
-    params['subject'] = story['subject']
-    params['prev_id'] = prev_id
-
-    # NOTE: We're bypassing the controller here because we're just
-    # setting up the database for the actual tests. The actual tests,
-    # however, should NOT bypass the controller
-    s = Story.create_and_position params
-    prev_id = s.id
-  end
-
-end
 
 #
 # Scenario steps
 #
-
-Given /^I am viewing the master backlog$/ do
-  visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
-end
 
 Given /^I want to create a new story$/ do
   @story_params = initialize_story_params
@@ -173,4 +116,21 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
     value = value.to_i
   end
   @story[attribute].should == value
+end
+
+
+def login_as_product_owner
+  visit url_for(:controller => 'account', :action=>'login')
+  fill_in 'username', :with => 'jsmith'
+  fill_in 'password', :with => 'jsmith'
+  click_button 'Login »'
+  @user = User.find(:first, :conditions => "login='jsmith'")
+end
+
+def initialize_story_params
+  @story = Story.new.attributes
+  @story['project_id'] = @project.id
+  @story['tracker_id'] = Story.trackers.first
+  @story['author_id']  = @user.id
+  @story
 end
