@@ -35,7 +35,7 @@
             :for => :product
           },
           {
-            :item => "<a class='show_charts' href='#{backlog.id}'>#{l(:label_burndown)}</a>",
+            :item => "<a class='show_charts' href='#{backlog[:id]}'>#{l(:label_burndown)}</a>",
             :for => :sprint,
             :condition => (backlog.respond_to?(:has_burndown) and backlog.has_burndown)
           },
@@ -59,7 +59,7 @@
                                :controller => 'backlogs',
                                :action => 'wiki_page',
                                :project_id => @project.id,
-                               :sprint_id => backlog.id }),
+                               :sprint_id => backlog[:id] }),
             :for => :sprint,
             :condition => @project.enabled_modules.any? {|m| m.name=="wiki" }
           },

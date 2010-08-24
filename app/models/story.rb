@@ -20,7 +20,22 @@ class Story < Issue
                 ]
         }
     }
-    
+
+    def self.create_and_position(params)
+      attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
+      attribs = Hash[*attribs.flatten]
+      position = (params['prev_id']=='' or params['prev_id'].nil?) ? 1 : (Story.find(params['prev_id']).position + 1)
+      s = Story.new(attribs)
+      if s.save!
+        # At exactly this point, there are now two stories with position=1 (I don't know why! Ask acts_as_list)        
+        s.position = nil  # DO NOT use remove_from_list because that will decrement lower items
+        s.save!
+        s.reload
+        s.insert_at position
+      end
+      s
+    end
+
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
         return [] if trackers == '' or trackers.nil?
@@ -28,17 +43,17 @@ class Story < Issue
         return trackers.map { |tracker| Integer(tracker) }
     end
 
-    def move_after(id)
+    def move_after(prev_id)
       insert_at 0 unless in_list?
 
       begin
-        prev = self.class.find(id)
+        prev = self.class.find(prev_id)
       rescue ActiveRecord::RecordNotFound
         prev = nil
       end
 
       # if it's the first story, move it to the 1st position
-      if !prev
+      if prev.nil?
         move_to_top
 
       # if its predecessor has no position (shouldn't happen), make it
@@ -94,5 +109,15 @@ class Story < Issue
             end
         }
         return {:open => open, :closed => closed}
+    end
+
+    def update_and_position!(params)
+      attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
+      attribs = Hash[*attribs.flatten]
+      result = journalized_update_attributes! attribs
+      if result and params[:prev]
+        move_after(params[:prev])
+      end
+      result
     end
 end

@@ -41,11 +41,6 @@ class BacklogsController < ApplicationController
     @burndown = sprint.burndown
     render :action => "burndown", :layout => "backlogs"
   end
-  
-  def jsvariables
-    @sprint = params[:sprint_id] ? Sprint.find(params[:sprint_id]) : nil
-    render :action => "jsvariables.js", :content_type => 'text/javascript', :layout => false
-  end
 
   def select_issues
     @query = Query.new(:name => "_")
