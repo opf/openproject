@@ -26,14 +26,8 @@ class Story < Issue
       attribs = Hash[*attribs.flatten]
       position = (params['prev_id']=='' or params['prev_id'].nil?) ? 1 : (Story.find(params['prev_id']).position + 1)
       s = Story.new(attribs)
-      if s.save!
-        # At exactly this point, there are now two stories with position=1 (I don't know why! Ask acts_as_list)        
-        s.position = nil  # DO NOT use remove_from_list because that will decrement lower items
-        s.save!
-        s.reload
-        s.insert_at position
-      end
-      s
+      s.move_after(params['prev_id']) if s.save!
+      return s
     end
 
     def self.trackers
@@ -44,7 +38,8 @@ class Story < Issue
     end
 
     def move_after(prev_id)
-      insert_at 0 unless in_list?
+      # remove so the potential 'prev' has a correct position
+      remove_from_list
 
       begin
         prev = self.class.find(prev_id)
@@ -54,18 +49,18 @@ class Story < Issue
 
       # if it's the first story, move it to the 1st position
       if prev.nil?
+        insert_at
         move_to_top
 
       # if its predecessor has no position (shouldn't happen), make it
       # the last story
       elsif !prev.in_list?
+        insert_at
         move_to_bottom
 
       # there's a valid predecessor
       else
-        my_pos = send(position_column).to_i
-        prev_pos = prev.send(position_column).to_i
-        insert_at(my_pos == 0 || my_pos > prev_pos ? prev_pos + 1 : prev_pos)
+        insert_at(prev.position + 1)
       end
     end
 
