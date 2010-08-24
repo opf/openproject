@@ -305,6 +305,7 @@ ja:
   field_redirect_existing_links: 既存のリンクをリダイレクトする
   field_estimated_hours: 予定工数
   field_column_names: 項目
+  field_time_entries: 時間を記録
   field_time_zone: タイムゾーン
   field_searchable: 検索条件に設定可能とする
   field_default_value: デフォルト値
@@ -436,6 +437,8 @@ ja:
   project_module_wiki: Wiki
   project_module_repository: リポジトリ
   project_module_boards: フォーラム
+  project_module_gantt: ガントチャート
+  project_module_calendar: カレンダー
   
   label_user: ユーザ
   label_user_plural: ユーザ
@@ -934,6 +937,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar

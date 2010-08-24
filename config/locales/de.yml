@@ -68,10 +68,11 @@ de:
         other: "fast {{count}} Jahren"
 
   number:
+    # Default format for numbers
     format:
-      precision: 2
       separator: ','
       delimiter: '.'
+      precision: 2
     currency:
       format:
         unit: '€'
@@ -214,6 +215,7 @@ de:
   mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
   mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' erfolgreich aktualisiert"
   mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
+
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "{{count}} Fehler"
 
@@ -252,7 +254,7 @@ de:
   field_priority: Priorität
   field_fixed_version: Zielversion
   field_user: Benutzer
-  field_principal: Principal
+  field_principal: Auftraggeber
   field_role: Rolle
   field_homepage: Projekt-Homepage
   field_is_public: Öffentlich
@@ -297,6 +299,7 @@ de:
   field_redirect_existing_links: Existierende Links umleiten
   field_estimated_hours: Geschätzter Aufwand
   field_column_names: Spalten
+  field_time_entries: Logzeit
   field_time_zone: Zeitzone
   field_searchable: Durchsuchbar
   field_default_value: Standardwert
@@ -428,6 +431,8 @@ de:
   project_module_wiki: Wiki
   project_module_repository: Projektarchiv
   project_module_boards: Foren
+  project_module_calendar: Kalender
+  project_module_gantt: Gantt
   
   label_user: Benutzer
   label_user_plural: Benutzer
@@ -485,7 +490,7 @@ de:
   label_my_page: Meine Seite
   label_my_account: Mein Konto
   label_my_projects: Meine Projekte
-  label_my_page_block: My page block
+  label_my_page_block: Bereich "Meine Seite"
   label_administration: Administration
   label_login: Anmelden
   label_logout: Abmelden
@@ -499,7 +504,7 @@ de:
   label_user_activity: "Aktivität von {{value}}"
   label_new: Neu
   label_logged_as: Angemeldet als
-  label_environment: Environment
+  label_environment: Umgebung
   label_authentication: Authentifizierung
   label_auth_source: Authentifizierungs-Modus
   label_auth_source_new: Neuer Authentifizierungs-Modus
@@ -831,7 +836,7 @@ de:
   button_quote: Zitieren
   button_duplicate: Duplizieren
   button_show: Anzeigen
-
+  
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
@@ -927,6 +932,3 @@ de:
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
 
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar

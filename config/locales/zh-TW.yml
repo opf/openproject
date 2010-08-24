@@ -1,4 +1,4 @@
-# Chinese (Taiwan) translations for Ruby on Rails 
+﻿# Chinese (Taiwan) translations for Ruby on Rails 
 # by tsechingho (http://github.com/tsechingho)
 # See http://github.com/svenfuchs/rails-i18n/ for details.
 
@@ -497,6 +497,8 @@
   project_module_wiki: Wiki
   project_module_repository: 版本控管
   project_module_boards: 討論區
+  project_module_calendar: 日曆
+  project_module_gantt: 甘特圖
   
   label_user: 用戶
   label_user_plural: 用戶清單
@@ -514,7 +516,7 @@
   label_issue: 項目
   label_issue_new: 建立新項目
   label_issue_plural: 項目清單
-  label_issue_view_all: 檢視全部的項目
+  label_issue_view_all: 檢視所有項目
   label_issues_by: "項目按 {{value}} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
@@ -564,7 +566,7 @@
   label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
-  label_overall_activity: 檢視整體活動
+  label_overall_activity: 整體活動
   label_user_activity: "{{value}} 的活動"
   label_new: 建立新的...
   label_logged_as: 目前登入
@@ -995,6 +997,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
