@@ -53,7 +53,8 @@ en:
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
   backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
   backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
-
+  backlogs_velocity_varies: "Velocity varies significantly over sprints"
+  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
 
   label_hours: hours
   label_points: points
