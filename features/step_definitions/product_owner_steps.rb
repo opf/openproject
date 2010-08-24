@@ -57,7 +57,7 @@ Given /^the project has the following stories in the product backlog:$/ do |tabl
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position! params
+    s = Story.create_and_position params
     prev_id = s.id
   end
 
@@ -81,7 +81,7 @@ Given /^I want to update the story with subject (.+)$/ do |subject|
   @story_params = @story.attributes
 end
 
-When /^I set the (.+) of the story to (.+)$/ do |attribute, value|
+Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
   if attribute=="tracker"
     attribute="tracker_id"
     value = Tracker.find(:first, :conditions => "name='#{value}'").id
@@ -130,9 +130,16 @@ When /^I close (.+)$/ do |subject|
   @story.update_attributes :status_id => IssueStatus.find(:first, :conditions => "name='Closed'").id
 end
 
+
 Then /^I should see the product backlog$/ do
   page.should have_css('#product_backlog')
 end
+
+Then /^I should see (\d+) sprint backlogs$/ do |count|
+  sprint_backlogs = page.all(:css, ".sprint")
+  sprint_backlogs.length.should == count.to_i
+end
+
 
 Then /^the story should be at the (top|bottom)$/ do |position|
   if position == 'top'

@@ -21,7 +21,7 @@ class Story < Issue
         }
     }
 
-    def self.create_and_position!(params)
+    def self.create_and_position(params)
       attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
       position = (params['prev_id']=='' or params['prev_id'].nil?) ? 1 : (Story.find(params['prev_id']).position + 1)
