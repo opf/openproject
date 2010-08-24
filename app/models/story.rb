@@ -1,9 +1,12 @@
 class Story < Issue
     unloadable
 
+    acts_as_list :scope => :project
+
     def self.product_backlog(project, limit=nil)
       return Story.find(:all,
-            :order => 'position ASC',
+            # this forces NULLS-LAST ordering
+            :order => 'case when position is null then 1 else 0 end ASC, position ASC',
             :conditions => [
                 "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL", #and status_id in (?)",
                 project.id, Story.trackers #, IssueStatus.find(:all, :conditions => ["is_closed = ?", false]).collect {|s| "#{s.id}" }
@@ -13,7 +16,8 @@ class Story < Issue
 
     named_scope :sprint_backlog, lambda { |sprint|
         {
-            :order => 'position ASC',
+            # this forces NULLS-LAST ordering
+            :order => 'case when position is null then 1 else 0 end ASC, position ASC',
             :conditions => [
                 "parent_id is NULL and tracker_id in (?) and fixed_version_id = ?",
                 Story.trackers, sprint.id
@@ -24,7 +28,6 @@ class Story < Issue
     def self.create_and_position(params)
       attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
-      position = (params['prev_id']=='' or params['prev_id'].nil?) ? 1 : (Story.find(params['prev_id']).position + 1)
       s = Story.new(attribs)
       s.move_after(params['prev_id']) if s.save!
       return s
