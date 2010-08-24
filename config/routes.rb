@@ -132,6 +132,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|destroy/, :id => /\d+/
       issues_actions.connect 'issues.:format', :action => 'create', :format => /xml/
+      issues_actions.connect 'issues/bulk_edit', :action => 'bulk_update'
     end
     issues_routes.with_options :conditions => {:method => :put} do |issues_actions|
       issues_actions.connect 'issues/:id/edit', :action => 'update', :id => /\d+/

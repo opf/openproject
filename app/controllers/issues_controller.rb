@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
   default_search_scope :issues
   
   before_filter :find_issue, :only => [:show, :edit, :update]
-  before_filter :find_issues, :only => [:bulk_edit, :move, :perform_move, :destroy]
+  before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
@@ -54,6 +54,7 @@ class IssuesController < ApplicationController
          :render => { :nothing => true, :status => :method_not_allowed }
 
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
+  verify :method => :post, :only => :bulk_update, :render => {:nothing => true, :status => :method_not_allowed }
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   
   def index
@@ -191,28 +192,30 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     @issues.sort!
-    if request.post?
-      attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
-      attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
-      attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
-      
-      unsaved_issue_ids = []
-      @issues.each do |issue|
-        issue.reload
-        journal = issue.init_journal(User.current, params[:notes])
-        issue.safe_attributes = attributes
-        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
-        unless issue.save
-          # Keep unsaved issue ids to display them in flash error
-          unsaved_issue_ids << issue.id
-        end
-      end
-      set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
-      redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
-      return
-    end
     @available_statuses = Workflow.available_statuses(@project)
     @custom_fields = @project.all_issue_custom_fields
+  end
+
+  def bulk_update
+    @issues.sort!
+
+    attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
+    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+    attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
+    
+    unsaved_issue_ids = []
+    @issues.each do |issue|
+      issue.reload
+      journal = issue.init_journal(User.current, params[:notes])
+      issue.safe_attributes = attributes
+      call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
+      unless issue.save
+        # Keep unsaved issue ids to display them in flash error
+        unsaved_issue_ids << issue.id
+      end
+    end
+    set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
+    redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
   end
   
   def destroy
