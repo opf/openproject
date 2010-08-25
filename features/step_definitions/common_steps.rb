@@ -3,14 +3,17 @@
 # NOTE: You may also use "Then show me the page" to display the browser view
 #
 Then /^show me the list of stories$/ do
+  stories = Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC")
+  subject_max = (stories.map{|s| s.subject} << "subject").sort{|a,b| a.length <=> b.length}.last.length
+  sprints = @project.versions.find(:all)
+  sprint_max = (sprints.map{|s| s.name} << "sprint").sort{|a,b| a.length <=> b.length}.last.length
+
   puts "\n"
-  puts "\t------------------------------------"
-  puts "\t| id  | position | subject         |"
-  puts "\t------------------------------------"
-  Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC").each do |story|
-    puts "\t| #{story.id.to_s.ljust(3)} | #{story.position.to_s.ljust(8)} | #{story.subject.to_s.ljust(15)} |"
+  puts "\t| id  | position | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
+  stories.each do |story|
+    puts "\t| #{story.id.to_s.ljust(3)} | #{story.position.to_s.ljust(8)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
   end
-  puts "\t------------------------------------\n\n"
+  puts "\n\n"
 end
 
 #
@@ -34,7 +37,7 @@ Given /^the project has the following sprints:$/ do |table|
   @project.versions.delete_all
   table.hashes.each do |version|
     version['project_id'] = @project.id
-    Version.create! version
+    Sprint.create! version
   end
 end
 
