@@ -18,12 +18,13 @@ Feature: Team Member
         | 2        | Story 2 | Sprint 001 |
         | 3        | Story 3 | Sprint 001 |
         | 4        | Story 4 | Sprint 002 |
-Then show me the list of stories
+
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
      When I create the task
-     Then the 1st task for Story 1 should be A Whole New Task
-      And the request should complete successfully
+Then show me the page
+     Then the request should complete successfully
+      And the 1st task for Story 1 should be A Whole New Task
      
