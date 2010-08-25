@@ -198,11 +198,8 @@ class IssuesController < ApplicationController
 
   def bulk_update
     @issues.sort!
+    attributes = parse_params_for_bulk_issue_attributes(params)
 
-    attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
-    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
-    attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
-    
     unsaved_issue_ids = []
     @issues.each do |issue|
       issue.reload
@@ -317,5 +314,12 @@ private
       render_error l(:error_no_default_issue_status)
       return false
     end
+  end
+
+  def parse_params_for_bulk_issue_attributes(params)
+    attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
+    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+    attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
+    attributes
   end
 end
