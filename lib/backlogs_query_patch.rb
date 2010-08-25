@@ -21,6 +21,10 @@ module Backlogs
                                         # sprint name, in case start dates are the same
                                         "(select name from versions where versions.id = issues.fixed_version_id)",
 
+                                        # make sure stories with NULL
+                                        # position sort-last
+                                        "(select case when root.position is null then 1 else 0 end from issues root where issues.root_id = root.id)",
+
                                         # story position
                                         "(select root.position from issues root where issues.root_id = root.id)",
 
