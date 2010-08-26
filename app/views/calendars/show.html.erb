@@ -1,6 +1,7 @@
 <h2><%= l(:label_calendar) %></h2>
 
-<% form_tag({}, :id => 'query_form') do %>
+<% form_tag(calendar_path, :method => :put, :id => 'query_form') do %>
+  <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="collapsible">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
   <div>

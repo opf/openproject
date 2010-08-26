@@ -91,14 +91,14 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/issues/1/quoted", :controller => 'journals', :action => 'new', :id => '1'
 
     should_route :get, "/issues/calendar", :controller => 'calendars', :action => 'show'
-    should_route :post, "/issues/calendar", :controller => 'calendars', :action => 'show'
+    should_route :put, "/issues/calendar", :controller => 'calendars', :action => 'update'
     should_route :get, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
-    should_route :post, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'show', :project_id => 'project-name'
+    should_route :put, "/projects/project-name/issues/calendar", :controller => 'calendars', :action => 'update', :project_id => 'project-name'
 
     should_route :get, "/issues/gantt", :controller => 'gantts', :action => 'show'
-    should_route :post, "/issues/gantt", :controller => 'gantts', :action => 'show'
+    should_route :put, "/issues/gantt", :controller => 'gantts', :action => 'update'
     should_route :get, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
-    should_route :post, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'show', :project_id => 'project-name'
+    should_route :put, "/projects/project-name/issues/gantt", :controller => 'gantts', :action => 'update', :project_id => 'project-name'
 
     should_route :get, "/issues/auto_complete", :controller => 'auto_completes', :action => 'issues'
 

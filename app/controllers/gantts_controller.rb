@@ -43,4 +43,8 @@ class GanttsController < ApplicationController
     end
   end
 
+  def update
+    show
+  end
+
 end

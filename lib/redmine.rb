@@ -137,11 +137,11 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :calendar do |map|
-    map.permission :view_calendar, :calendars => :show
+    map.permission :view_calendar, :calendars => [:show, :update]
   end
 
   map.project_module :gantt do |map|
-    map.permission :view_gantt, :gantts => :show
+    map.permission :view_gantt, :gantts => [:show, :update]
   end
 end
 

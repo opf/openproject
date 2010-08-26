@@ -32,8 +32,11 @@ class CalendarsController < ApplicationController
       @calendar.events = events
     end
     
-    render :layout => false if request.xhr?
+    render :action => 'show', :layout => false if request.xhr?
   end
   
+  def update
+    show
+  end
 
 end

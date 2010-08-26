@@ -12,7 +12,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/1/edit',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => '/issues/1/edit?issue%5Bstatus_id%5D=5',
+                            :attributes => { :href => '/issues/1?issue%5Bstatus_id%5D=5',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',

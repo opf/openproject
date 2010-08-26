@@ -104,56 +104,37 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
+
+  # Misc issue routes. TODO: move into resources
   map.auto_complete_issues '/issues/auto_complete', :controller => 'auto_completes', :action => 'issues'
-  # TODO: would look nicer as /issues/:id/preview
-  map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue'
+  map.preview_issue '/issues/preview/:id', :controller => 'previews', :action => 'issue' # TODO: would look nicer as /issues/:id/preview
   map.issues_context_menu '/issues/context_menu', :controller => 'context_menus', :action => 'issues'
   map.issue_changes '/issues/changes', :controller => 'journals', :action => 'index'
-  
-  map.with_options :controller => 'issues' do |issues_routes|
-    issues_routes.with_options :conditions => {:method => :get} do |issues_views|
-      issues_views.connect 'issues', :action => 'index'
-      issues_views.connect 'issues.:format', :action => 'index'
-      issues_views.connect 'projects/:project_id/issues', :action => 'index'
-      issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
-      issues_views.connect 'projects/:project_id/issues/new', :action => 'new'
-      issues_views.connect 'projects/:project_id/issues/gantt', :controller => 'gantts', :action => 'show'
-      issues_views.connect 'projects/:project_id/issues/calendar', :controller => 'calendars', :action => 'show'
-      issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
-      issues_views.connect 'issues/:id', :action => 'show', :id => /\d+/
-      issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
-      issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
-    end
-    issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
-      issues_actions.connect 'issues', :action => 'index'
-      issues_actions.connect 'projects/:project_id/issues', :action => 'create'
-      issues_actions.connect 'projects/:project_id/issues/gantt', :controller => 'gantts', :action => 'show'
-      issues_actions.connect 'projects/:project_id/issues/calendar', :controller => 'calendars', :action => 'show'
-      issues_actions.connect 'issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/
-      issues_actions.connect 'issues/:id/:action', :action => /edit|destroy/, :id => /\d+/
-      issues_actions.connect 'issues.:format', :action => 'create', :format => /xml/
-      issues_actions.connect 'issues/bulk_edit', :action => 'bulk_update'
-    end
-    issues_routes.with_options :conditions => {:method => :put} do |issues_actions|
-      issues_actions.connect 'issues/:id/edit', :action => 'update', :id => /\d+/
-      issues_actions.connect 'issues/:id.:format', :action => 'update', :id => /\d+/, :format => /xml/
-    end
-    issues_routes.with_options :conditions => {:method => :delete} do |issues_actions|
-      issues_actions.connect 'issues/:id.:format', :action => 'destroy', :id => /\d+/, :format => /xml/
-    end
-    issues_routes.connect 'issues/gantt', :controller => 'gantts', :action => 'show'
-    issues_routes.connect 'issues/calendar', :controller => 'calendars', :action => 'show'
-    issues_routes.connect 'issues/:action'
+  map.bulk_edit_issue 'issues/bulk_edit', :controller => 'issues', :action => 'bulk_edit', :conditions => { :method => :get }
+  map.bulk_update_issue 'issues/bulk_edit', :controller => 'issues', :action => 'bulk_update', :conditions => { :method => :post }
+  map.quoted_issue '/issues/:id/quoted', :controller => 'journals', :action => 'new', :id => /\d+/, :conditions => { :method => :post }
+  map.connect '/issues/:id/destroy', :controller => 'issues', :action => 'destroy', :conditions => { :method => :post } # legacy
+
+  map.resource :gantt, :path_prefix => '/issues', :controller => 'gantts', :only => [:show, :update]
+  map.resource :gantt, :path_prefix => '/projects/:project_id/issues', :controller => 'gantts', :only => [:show, :update]
+  map.resource :calendar, :path_prefix => '/issues', :controller => 'calendars', :only => [:show, :update]
+  map.resource :calendar, :path_prefix => '/projects/:project_id/issues', :controller => 'calendars', :only => [:show, :update]
+
+  map.with_options :controller => 'reports', :conditions => {:method => :get} do |reports|
+    reports.connect 'projects/:id/issues/report', :action => 'issue_report'
+    reports.connect 'projects/:id/issues/report/:detail', :action => 'issue_report_details'
   end
+
+  # Following two routes conflict with the resources because #index allows POST
+  map.connect '/issues', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
+  map.connect '/issues/create', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
+  
+  map.resources :issues, :member => { :edit => :post }, :collection => {}
+  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post }
 
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
     relations.connect 'issues/:issue_id/relations/:id', :action => 'new'
     relations.connect 'issues/:issue_id/relations/:id/destroy', :action => 'destroy'
-  end
-  
-  map.with_options :controller => 'reports', :conditions => {:method => :get} do |reports|
-    reports.connect 'projects/:id/issues/report', :action => 'issue_report'
-    reports.connect 'projects/:id/issues/report/:detail', :action => 'issue_report_details'
   end
   
   map.with_options :controller => 'news' do |news_routes|
@@ -203,6 +184,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
+      project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
     end
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
