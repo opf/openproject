@@ -1,7 +1,7 @@
 REDMINE BACKLOGS
 ----------------
 A Redmine plugin for agile teams. For more information,
-please visit http://relaxdiego.github.com/redmine_backlogs/.
+please visit http://www.redminebacklogs.net
 
 
 LICENSE
