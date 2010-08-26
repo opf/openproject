@@ -31,6 +31,9 @@ Given /^the (.*) project has the backlogs plugin enabled$/ do |project_id|
   task_tracker = "#{Tracker.create!(:name => 'Task').id}"
   plugin = Redmine::Plugin.find('redmine_backlogs')
   Setting["plugin_#{plugin.id}"] = {:story_trackers => story_trackers, :task_tracker => task_tracker }
+
+  # Make sure these trackers are enabled in the project
+  @project.update_attributes :tracker_ids => (story_trackers << task_tracker)
 end
 
 Given /^the project has the following sprints:$/ do |table|

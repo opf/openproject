@@ -24,7 +24,6 @@ Feature: Team Member
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
      When I create the task
-Then show me the page
      Then the request should complete successfully
       And the 1st task for Story 1 should be A Whole New Task
      

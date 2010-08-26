@@ -52,7 +52,8 @@ When /^I create the task$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
-  pending # express the regexp above with the code you wish you had
+  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  story.children[position.to_i - 1].subject.should == task_subject
 end
 
 def login_as_team_member
