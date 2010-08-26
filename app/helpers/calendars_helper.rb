@@ -12,9 +12,11 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
     
-     link_to_remote ('&#171; ' + name),
-                        {:update => "content", :url => { :year => target_year, :month => target_month }},
-                        {:href => url_for(:action => 'show', :year => target_year, :month => target_month)}
+    link_target = calendar_path(:year => target_year, :month => target_month)
+
+    link_to_remote(('&#171; ' + name),
+                   {:update => "content", :url => link_target, :method => :put},
+                   {:href => link_target})
   end
 
   def link_to_next_month(year, month)
@@ -30,9 +32,11 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
 
-    link_to_remote (name + ' &#187;'), 
-                        {:update => "content", :url => { :year => target_year, :month => target_month }},
-                        {:href => url_for(:action => 'show', :year => target_year, :month =>target_month)}
+    link_target = calendar_path(:year => target_year, :month => target_month)
+
+    link_to_remote((name + ' &#187;'), 
+                   {:update => "content", :url => link_target, :method => :put},
+                   {:href => link_target})
 
   end
 end
