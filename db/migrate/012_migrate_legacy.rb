@@ -19,7 +19,11 @@ class MigrateLegacy < ActiveRecord::Migration
   end
 
   def self.row(r, t)
-    return r.size.times.collect{|i| MigrateLegacy.normalize_value(r[i], t[i])}
+    normalized = []
+    r.each_with_index{|v, i|
+      normalized << MigrateLegacy.normalize_value(v, t[i])
+    }
+    return normalized
   end
 
   def self.up
