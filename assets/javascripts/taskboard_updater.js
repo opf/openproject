@@ -19,6 +19,8 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
   processItem: function(html, isImpediment){
     var update = RB.Factory.initialize(isImpediment ? RB.Impediment : RB.Task, html);
     var target;
+    var oldCellID = '';
+    var newCell;
     var idPrefix = '#issue_';
     
     if($(idPrefix + update.getID()).length==0){
@@ -26,27 +28,16 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
     } else {
       target = $(idPrefix + update.getID()).data('this');  // Re-use existing item
       target.refresh(update);
+      oldCellID = target.$.parent('td').first().attr('id');
     }
-
-    var cell, previous;
 
     // Find the correct cell for the item
-    cell = isImpediment ? $('#impcell_' + target.$.find('.meta .status_id').text()) : $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
+    newCell = isImpediment ? $('#impcell_' + target.$.find('.meta .status_id').text()) : $('#' + target.$.find('.meta .story_id').text() + '_' + target.$.find('.meta .status_id').text());
 
-    // Check if the item's predecessor is in the same cell
-    // because we have a unified list for all issues in the db
-    previous = cell.find(idPrefix + target.$.find('.meta .previous').text());
-
-    if(previous.length>0){
-      target.$.insertAfter(previous);   // Insert after predecessor
-    } else {
-      cell.prepend(target.$);           // Insert as first item of the cell
+    // Prepend to the cell if it's not already there
+    if(oldCellID != newCell.attr('id')){
+      newCell.prepend(target.$);
     }
-
-    // Retain edit mode and focus if user was editing the
-    // task before an update was received from the server    
-    // if(target.$.hasClass('editing')) target.edit();
-    // if(target.$.data('focus')!=null && target.$.data('focus').length>0) target.$.find("*[name=" + target.$.data('focus') + "]").focus();
 
     target.$.effect("highlight", { easing: 'easeInExpo' }, 4000);
   },
