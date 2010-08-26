@@ -12,12 +12,7 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
 
-    project_id = options[:project].present? ? options[:project].to_param : nil
-    link_target = calendar_path(:year => target_year, :month => target_month, :project_id => project_id)
-
-    link_to_remote(('&#171; ' + name),
-                   {:update => "content", :url => link_target, :method => :put},
-                   {:href => link_target})
+    link_to_month(('&#171; ' + name), target_year, target_month, options)
   end
 
   def link_to_next_month(year, month, options={})
@@ -33,12 +28,18 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
 
-    project_id = options[:project].present? ? options[:project].to_param : nil
-    link_target = calendar_path(:year => target_year, :month => target_month, :project_id => project_id)
+    link_to_month((name + ' &#187;'), target_year, target_month, options)
+  end
 
-    link_to_remote((name + ' &#187;'), 
+  def link_to_month(link_name, year, month, options={})
+    project_id = options[:project].present? ? options[:project].to_param : nil
+
+    link_target = calendar_path(:year => year, :month => month, :project_id => project_id)
+
+    link_to_remote(link_name,
                    {:update => "content", :url => link_target, :method => :put},
                    {:href => link_target})
 
   end
+  
 end
