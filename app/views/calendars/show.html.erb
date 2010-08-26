@@ -10,7 +10,7 @@
 </fieldset>
 
 <p style="float:right;">
-  <%= link_to_previous_month(@year, @month) %> | <%= link_to_next_month(@year, @month) %>
+  <%= link_to_previous_month(@year, @month, :project => @project) %> | <%= link_to_next_month(@year, @month, :project => @project) %>
 </p>
 
 <p class="buttons">
