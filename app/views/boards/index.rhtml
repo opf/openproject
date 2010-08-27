@@ -30,11 +30,11 @@
 </table>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:controller => 'projects', :action => 'activity', :id => @project, :show_messages => 1, :key => User.current.rss_key} %>
+	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_messages => 1, :key => User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:controller => 'projects', :action => 'activity', :id => @project, :format => 'atom', :show_messages => 1, :key => User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :id => @project, :format => 'atom', :show_messages => 1, :key => User.current.rss_key}) %>
 <% end %>
 
 <% html_title l(:label_board_plural) %>

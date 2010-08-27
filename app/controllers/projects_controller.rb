@@ -17,17 +17,15 @@
 
 class ProjectsController < ApplicationController
   menu_item :overview
-  menu_item :activity, :only => :activity
   menu_item :roadmap, :only => :roadmap
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
   
-  before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
-  before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
+  before_filter :find_project, :except => [ :index, :list, :add, :copy ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
-  accept_key_auth :activity, :index
+  accept_key_auth :index
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
@@ -311,48 +309,6 @@ class ProjectsController < ApplicationController
       end
     end
     @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
-  end
-  
-  def activity
-    @days = Setting.activity_days_default.to_i
-    
-    if params[:from]
-      begin; @date_to = params[:from].to_date + 1; rescue; end
-    end
-
-    @date_to ||= Date.today + 1
-    @date_from = @date_to - @days
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
-    
-    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, 
-                                                             :with_subprojects => @with_subprojects,
-                                                             :author => @author)
-    @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
-
-    events = @activity.events(@date_from, @date_to)
-    
-    if events.empty? || stale?(:etag => [events.first, User.current])
-      respond_to do |format|
-        format.html { 
-          @events_by_day = events.group_by(&:event_date)
-          render :layout => false if request.xhr?
-        }
-        format.atom {
-          title = l(:label_activity)
-          if @author
-            title = @author.name
-          elsif @activity.scope.size == 1
-            title = l("label_#{@activity.scope.first.singularize}_plural")
-          end
-          render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
-        }
-      end
-    end
-    
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
   
 private

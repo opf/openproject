@@ -19,8 +19,8 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 
 class RoutingTest < ActionController::IntegrationTest
   context "activities" do
-    should_route :get, "/activity", :controller => 'projects', :action => 'activity', :id => nil
-    should_route :get, "/activity.atom", :controller => 'projects', :action => 'activity', :id => nil, :format => 'atom'
+    should_route :get, "/activity", :controller => 'activities', :action => 'index', :id => nil
+    should_route :get, "/activity.atom", :controller => 'activities', :action => 'index', :id => nil, :format => 'atom'
   end
 
   context "attachments" do
@@ -175,8 +175,8 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/33/files", :controller => 'projects', :action => 'list_files', :id => '33'
     should_route :get, "/projects/33/files/new", :controller => 'projects', :action => 'add_file', :id => '33'
     should_route :get, "/projects/33/roadmap", :controller => 'projects', :action => 'roadmap', :id => '33'
-    should_route :get, "/projects/33/activity", :controller => 'projects', :action => 'activity', :id => '33'
-    should_route :get, "/projects/33/activity.atom", :controller => 'projects', :action => 'activity', :id => '33', :format => 'atom'
+    should_route :get, "/projects/33/activity", :controller => 'activities', :action => 'index', :id => '33'
+    should_route :get, "/projects/33/activity.atom", :controller => 'activities', :action => 'index', :id => '33', :format => 'atom'
     
     should_route :post, "/projects/new", :controller => 'projects', :action => 'add'
     should_route :post, "/projects.xml", :controller => 'projects', :action => 'add', :format => 'xml'

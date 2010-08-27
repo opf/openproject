@@ -44,7 +44,7 @@ end
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity]}, :public => true
+  map.permission :view_project, {:projects => [:show], :activities => [:index]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => :add}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
@@ -185,7 +185,7 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
-  menu.push :activity, { :controller => 'projects', :action => 'activity' }
+  menu.push :activity, { :controller => 'activities', :action => 'index' }
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
               :if => Proc.new { |p| p.shared_versions.any? }
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
