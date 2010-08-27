@@ -270,7 +270,7 @@ private
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new
     
-    @notes = params[:notes]
+    @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
     @issue.init_journal(User.current, @notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
