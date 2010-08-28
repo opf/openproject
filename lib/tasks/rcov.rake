@@ -16,9 +16,6 @@ namespace :redmine do
       task :all do |t|
         rm "coverage.data" if File.exist?("coverage.data")
         Rake::Task["redmine:backlogs_plugin:rcov:cucumber"].invoke
-        puts "\n******************************************"
-        puts "* See report under REDMINE_ROOT/coverage *"
-        puts "******************************************"
       end
     end
   end
