@@ -55,3 +55,11 @@ When /^I update the story$/ do
                       @story_params
 end
 
+When /^I view the stories in (.+) in the issues tab/ do |sprint_name|
+  sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> sprint.project_id, :sprint_id => sprint.id)
+end
+
+When /^I view the stories in the issues tab/ do
+  visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> @project.id)
+end

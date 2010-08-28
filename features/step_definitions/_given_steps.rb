@@ -22,12 +22,14 @@ end
 Given /^I am a team member of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :manage_backlog
+  role.permissions << :view_backlog
   role.save!
   login_as_team_member
 end
 
 Given /^I am viewing the master backlog$/ do
   visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
+  page.driver.response.status.should == 200
 end
 
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|

@@ -7,6 +7,10 @@ Then /^I should see the burndown chart$/ do
   page.should have_css("#burndown_#{@sprint.id.to_s}")
 end
 
+Then /^I should see the Issues page$/ do
+  page.should have_css("#query_form")
+end
+
 Then /^I should see the taskboard$/ do
   page.should have_css('#taskboard')
 end
