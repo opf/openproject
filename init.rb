@@ -32,6 +32,8 @@ Redmine::Plugin.register :redmine_backlogs do
                 :wiki_page_edit,
                 :story_points,
                 :rename,
+                :show,
+                :burndown,
                 :jsvariables,
                 :reorder,
                 :sprint_date,

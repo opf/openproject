@@ -10,7 +10,7 @@ class BacklogsController < ApplicationController
   include Cards
 
   accept_key_auth :calendar
-  before_filter :find_sprint, :only => [:show]
+  before_filter :find_sprint, :only => [:show, :burndown]
   before_filter :find_project, :authorize
 
   def index
@@ -37,8 +37,7 @@ class BacklogsController < ApplicationController
   end
 
   def burndown
-    sprint = Sprint.find_by_id(params[:sprint_id])
-    @burndown = sprint.burndown
+    @burndown = @sprint.burndown
     render :action => "burndown", :layout => "backlogs"
   end
 

@@ -32,8 +32,15 @@ end
 #
 
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
-  sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  visit url_for(:controller => 'backlogs', :action=>'show', :project_id => @project, :id => sprint.id)
+  @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  visit url_for(:controller => 'backlogs', :action=>'show', :id => @sprint.id)
+  page.driver.response.status.should == 200
+end
+
+Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
+  @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  visit url_for(:controller => 'backlogs', :action=>'burndown', :id => @sprint.id)
+  page.driver.response.status.should == 200
 end
 
 Given /^I want to create a task for (.+)$/ do |story_subject|
@@ -54,6 +61,14 @@ end
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
   story = Story.find(:first, :conditions => "subject='#{story_subject}'")
   story.children[position.to_i - 1].subject.should == task_subject
+end
+
+Then /^I should see the burndown chart$/ do
+  page.should have_css("#burndown_#{@sprint.id.to_s}")
+end
+
+Then /^I should see the taskboard$/ do
+  page.should have_css('#taskboard')
 end
 
 def login_as_team_member
