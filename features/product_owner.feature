@@ -26,7 +26,7 @@ Feature: Product Owner
 
   Scenario: Create a new story
     Given I am viewing the master backlog
-      And I want to create a new story
+      And I want to create a story
       And I set the subject of the story to A Whole New Story
      When I create the story
      Then the 1st story should be A Whole New Story
