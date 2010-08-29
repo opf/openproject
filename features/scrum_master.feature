@@ -5,7 +5,7 @@ Feature: Scrum Master
 
   Background:
     Given the ecookbook project has the backlogs plugin enabled
-      And I am a scum master of the project
+      And I am a scrum master of the project
       And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
         | sprint 001 | 2010-01-01        | 2010-01-31     |

@@ -12,3 +12,8 @@ Autotest.add_hook :initialize do |at|
   at.libs << 'vendor/plugins/redmine_backlogs/lib'
   false
 end
+
+Autotest.add_hook :all_good do |at|
+  system "rake redmine:backlogs_plugin:rcov"
+  false
+end

@@ -1,4 +1,4 @@
-desc 'Generate chart data for all backlogs'
+desc 'Update translation files'
 
 require 'yaml'
 
