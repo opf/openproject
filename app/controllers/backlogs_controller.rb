@@ -63,19 +63,6 @@ class BacklogsController < ApplicationController
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project.id, :sort => 'position'
   end
 
-  def select_product_backlog
-    @query = Query.new(:name => "_")
-    @query.project = @project
-
-    @query.add_filter("status_id", 'o', ['']) # only open
-    @query.add_filter("fixed_version_id", '!*', ['']) # only unassigned
-    @query.add_filter("backlogs_issue_type", '=', ['story'])
-
-    session[:query] = {:project_id => @query.project_id, :filters => @query.filters}
-
-    redirect_to :controller => 'issues', :action => 'index', :project_id => @project.id
-  end
-  
   def update
     sprint = Sprint.find(params[:id])
     attribs = params.select{|k,v| k != 'id' and Sprint.column_names.include? k }
