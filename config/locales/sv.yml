@@ -325,6 +325,7 @@ sv:
   field_redirect_existing_links: Omdirigera existerande länkar
   field_estimated_hours: Estimerad tid
   field_column_names: Kolumner
+  field_time_entries: Spenderad tid
   field_time_zone: Tidszon
   field_searchable: Sökbar
   field_default_value: Standardvärde
@@ -456,6 +457,8 @@ sv:
   project_module_wiki: Wiki
   project_module_repository: Versionsarkiv
   project_module_boards: Forum
+  project_module_calendar: Kalender
+  project_module_gantt: Gantt
   
   label_user: Användare
   label_user_plural: Användare
@@ -857,7 +860,7 @@ sv:
   button_update: Uppdatera
   button_configure: Konfigurera
   button_quote: Citera
-  button_duplicate: Duplisera
+  button_duplicate: Duplicera
   button_show: Visa
   
   status_active: aktiv
@@ -954,6 +957,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
