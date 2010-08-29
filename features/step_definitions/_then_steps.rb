@@ -1,3 +1,11 @@
+Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
+  position = position.to_i
+  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  stories = Story.find(:all, :conditions => "fixed_version_id=#{sprint.id}", :order => "position ASC")
+  stories[position-1].should == story
+end
+
 Then /^I should see (\d+) sprint backlogs$/ do |count|
   sprint_backlogs = page.all(:css, ".sprint")
   sprint_backlogs.length.should == count.to_i

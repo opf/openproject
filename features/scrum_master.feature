@@ -8,10 +8,10 @@ Feature: Scrum Master
       And I am a scrum master of the project
       And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
-        | sprint 001 | 2010-01-01        | 2010-01-31     |
-        | sprint 002 | 2010-02-01        | 2010-02-28     |
-        | sprint 003 | 2010-03-01        | 2010-03-31     |
-        | sprint 004 | 2010-03-01        | 2010-03-31     |
+        | Sprint 001 | 2010-01-01        | 2010-01-31     |
+        | Sprint 002 | 2010-02-01        | 2010-02-28     |
+        | Sprint 003 | 2010-03-01        | 2010-03-31     |
+        | Sprint 004 | 2010-03-01        | 2010-03-31     |
       And the project has the following stories in the product backlog:
         | position | subject |
         | 1        | Story 1 |
@@ -21,18 +21,28 @@ Feature: Scrum Master
 
   Scenario: Update sprint details
     Given I am viewing the master backlog
-      And I want to edit the sprint named sprint 001
+      And I want to edit the sprint named Sprint 001
       And I want to set the name of the sprint to sprint xxx
       And I want to set the sprint_start_date of the sprint to 2010-03-01
       And I want to set the effective_date of the sprint to 2010-03-20
      When I update the sprint
      Then the sprint should be updated accordingly
       And the request should complete successfully
-     
+
   Scenario: Update sprint with no name
     Given I am viewing the master backlog
-      And I want to edit the sprint named sprint 001
+      And I want to edit the sprint named Sprint 001
       And I want to set the name of the sprint to an empty string
      When I update the sprint
      Then the server should return an update error
+
+  Scenario: Move a story from product backlog to sprint backlog
+    Given I am viewing the master backlog
+     When I move the story named Story 1 to the 1st position of the sprint named Sprint 001
+      And I move the story named Story 4 to the 2nd position of the sprint named Sprint 001
+      And I move the story named Story 2 to the 1st position of the sprint named Sprint 002
+      And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
+      And Story 4 should be in the 1st position of the sprint named Sprint 001
+     Then Story 1 should be in the 2nd position of the sprint named Sprint 001
+      And Story 2 should be in the 1st position of the sprint named Sprint 002
      

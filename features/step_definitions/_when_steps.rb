@@ -16,6 +16,25 @@ When /^I create the task$/ do
                       @task_params
 end
 
+When /^I move the story named (.+) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
+  position = position.to_i
+  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  story.fixed_version = sprint
+
+  attributes = story.attributes
+  attributes[:prev] = if position == 1
+                        ''
+                      else
+                        stories = Story.find(:all, :conditions => "fixed_version_id=#{sprint.id}", :order => "position ASC")
+                        stories[position-2].id
+                      end
+
+  page.driver.process :post,
+                      url_for(:controller => 'stories', :action => 'update'),
+                      attributes
+end
+
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
   @story_ids = page.all(:css, "#product_backlog .stories .story .id")
 
