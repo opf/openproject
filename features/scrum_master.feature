@@ -29,3 +29,10 @@ Feature: Scrum Master
      Then the sprint should be updated accordingly
       And the request should complete successfully
      
+  Scenario: Update sprint with no name
+    Given I am viewing the master backlog
+      And I want to edit the sprint named sprint 001
+      And I want to set the name of the sprint to an empty string
+     When I update the sprint
+     Then the server should return an update error
+     

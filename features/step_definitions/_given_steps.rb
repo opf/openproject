@@ -53,6 +53,7 @@ Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
 end
 
 Given /^I set the (.+) of the task to (.+)$/ do |attribute, value|
+  value = '' if value == 'an empty string'
   @task_params[attribute] = value
 end
 
@@ -72,6 +73,7 @@ Given /^I want to edit the sprint named (.+)$/ do |name|
 end
 
 Given /^I want to set the (.+) of the sprint to (.+)$/ do |attribute, value|
+  value = '' if value == "an empty string"
   @sprint_params[attribute] = value
 end
 

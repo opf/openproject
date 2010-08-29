@@ -52,6 +52,10 @@ Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, sto
   story.children[position.to_i - 1].subject.should == task_subject
 end
 
+Then /^the server should return an update error$/ do
+  page.driver.response.status.should == 400
+end
+
 Then /^the sprint should be updated accordingly$/ do
   sprint = Sprint.find(@sprint_params['id'])
   
