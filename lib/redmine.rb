@@ -57,11 +57,10 @@ Redmine::AccessControl.map do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
     # Issues
-    map.permission :view_issues, {:projects => :roadmap, 
-                                  :issues => [:index, :show],
+    map.permission :view_issues, {:issues => [:index, :show],
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
-                                  :versions => [:show, :status_by],
+                                  :versions => [:index, :show, :status_by],
                                   :journals => :index,
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}
@@ -186,7 +185,7 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :activity, { :controller => 'activities', :action => 'index' }
-  menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
+  menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
   menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,

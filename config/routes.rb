@@ -180,7 +180,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/:id', :action => 'show'
       project_views.connect 'projects/:id.:format', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|destroy|settings/
+      project_views.connect 'projects/:id/:action', :action => /destroy|settings/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
@@ -215,6 +215,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'versions' do |versions|
     versions.connect 'projects/:project_id/versions/new', :action => 'new'
+    versions.connect 'projects/:project_id/roadmap', :action => 'index'
     versions.with_options :conditions => {:method => :post} do |version_actions|
       version_actions.connect 'projects/:project_id/versions/close_completed', :action => 'close_completed'
     end

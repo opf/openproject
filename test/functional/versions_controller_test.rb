@@ -31,6 +31,39 @@ class VersionsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
+  def test_index
+    get :index, :project_id => 1
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:versions)
+    # Version with no date set appears
+    assert assigns(:versions).include?(Version.find(3))
+    # Completed version doesn't appear
+    assert !assigns(:versions).include?(Version.find(1))
+  end
+  
+  def test_index_with_completed_versions
+    get :index, :project_id => 1, :completed => 1
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:versions)
+    # Version with no date set appears
+    assert assigns(:versions).include?(Version.find(3))
+    # Completed version appears
+    assert assigns(:versions).include?(Version.find(1))
+  end
+
+  def test_index_showing_subprojects_versions
+    @subproject_version = Version.generate!(:project => Project.find(3))
+    get :index, :project_id => 1, :with_subprojects => 1
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:versions)
+
+    assert assigns(:versions).include?(Version.find(4)), "Shared version not found"
+    assert assigns(:versions).include?(@subproject_version), "Subproject version not found"
+  end
+
   def test_show
     get :show, :id => 2
     assert_response :success
