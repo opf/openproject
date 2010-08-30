@@ -46,3 +46,8 @@ Feature: Scrum Master
      Then Story 1 should be in the 2nd position of the sprint named Sprint 001
       And Story 2 should be in the 1st position of the sprint named Sprint 002
      
+  Scenario: Request the project calendar feed
+    Given I have my set my API access key
+    And I am viewing the issues list
+    And I download the calendar feed
+    Then the request should complete successfully

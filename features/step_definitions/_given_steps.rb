@@ -141,3 +141,29 @@ Given /^the project has the following stories in the following sprints:$/ do |ta
     prev_id = s.id
   end
 end
+
+Given /^I am viewing the issues list$/ do
+  visit url_for(:controller => 'issues', :action=>'index', :project_id => @project)
+  page.driver.response.status.should == 200
+end
+
+Given /^I have my set my API access key$/ do
+  if ! Setting.rest_api_enabled?
+    post url_for(:controller => 'settings', :action => 'edit', :settings_rest_api_enabled => '1')
+    page.driver.response.status.should == 200
+    raise "Failed to enable the REST API" unless Setting.rest_api_enabled?
+  end
+
+  if ! @user.api_token
+    post url_for(:controller => 'my', :action => 'reset_api_key')
+    page.driver.response.status.should == 200
+  end
+
+  @user.reload
+
+  @user.api_token.should_not be_nil
+end
+
+Given /^I download the calendar feed$/ do
+  visit url_for({ :only_path => true, :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project })
+end
