@@ -74,6 +74,10 @@ When /^I update the story$/ do
                       @story_params
 end
 
+When /^I download the calendar feed$/ do
+  visit url_for({ :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project })
+end
+
 When /^I view the stories in (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
   visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> sprint.project_id, :sprint_id => sprint.id)

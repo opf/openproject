@@ -15,6 +15,7 @@ end
 Given /^I am a scrum master of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :manage_backlog
+  role.permissions << :view_backlog
   role.save!
   login_as_scrum_master
 end
@@ -147,23 +148,8 @@ Given /^I am viewing the issues list$/ do
   page.driver.response.status.should == 200
 end
 
-Given /^I have my set my API access key$/ do
-  if ! Setting.rest_api_enabled?
-    post url_for(:controller => 'settings', :action => 'edit', :settings_rest_api_enabled => '1')
-    page.driver.response.status.should == 200
-    raise "Failed to enable the REST API" unless Setting.rest_api_enabled?
-  end
-
-  if ! @user.api_token
-    post url_for(:controller => 'my', :action => 'reset_api_key')
-    page.driver.response.status.should == 200
-  end
-
+Given /^I have set my API access key$/ do
+  Setting[:rest_api_enabled] = 1
   @user.reload
-
-  @user.api_token.should_not be_nil
-end
-
-Given /^I download the calendar feed$/ do
-  visit url_for({ :only_path => true, :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project })
+  @user.api_key.should_not be_nil
 end
