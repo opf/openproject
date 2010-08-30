@@ -75,7 +75,7 @@ When /^I update the story$/ do
 end
 
 When /^I download the calendar feed$/ do
-  visit url_for({ :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project })
+  visit url_for({ :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project.id })
 end
 
 When /^I view the stories in (.+) in the issues tab/ do |sprint_name|
