@@ -104,6 +104,9 @@ Given /^the project has the following sprints:$/ do |table|
   @project.versions.delete_all
   table.hashes.each do |version|
     version['project_id'] = @project.id
+    ['effective_date', 'sprint_start_date'].each do |date_attr|
+      version[date_attr] = eval(version[date_attr]).strftime("%Y-%m-%d") if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
+    end
     Sprint.create! version
   end
 end

@@ -7,11 +7,11 @@ Feature: Scrum Master
     Given the ecookbook project has the backlogs plugin enabled
       And I am a scrum master of the project
       And the project has the following sprints:
-        | name       | sprint_start_date | effective_date |
-        | Sprint 001 | 2010-01-01        | 2010-01-31     |
-        | Sprint 002 | 2010-02-01        | 2010-02-28     |
-        | Sprint 003 | 2010-03-01        | 2010-03-31     |
-        | Sprint 004 | 2010-03-01        | 2010-12-30     |
+        | name       | sprint_start_date | effective_date  |
+        | Sprint 001 | 2010-01-01        | 2010-01-31      |
+        | Sprint 002 | 2010-02-01        | 2010-02-28      |
+        | Sprint 003 | 2010-03-01        | 2010-03-31      |
+        | Sprint 004 | 2.weeks.ago       | 1.week.from_now |
       And the project has the following stories in the product backlog:
         | position | subject |
         | 1        | Story 1 |
@@ -49,6 +49,5 @@ Feature: Scrum Master
   Scenario: Request the project calendar feed
     Given I have set my API access key
       And I am viewing the issues list
-      Then show me the list of stories
      When I download the calendar feed
      Then the request should complete successfully

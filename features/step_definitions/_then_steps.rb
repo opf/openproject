@@ -27,6 +27,17 @@ Then /^I should see the product backlog$/ do
   page.should have_css('#product_backlog')
 end
 
+Then /^show me the list of sprints$/ do
+  sprints = Sprint.find(:all, :conditions => "project_id=#{@project.id}")
+
+  puts "\n"
+  puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'sprint_start_date'.ljust(18)} | #{'effective_date'.ljust(18)} |"
+  sprints.each do |sprint|
+    puts "\t| #{sprint.id.to_s.ljust(3)} | #{sprint.name.to_s.ljust(18)} | #{sprint.sprint_start_date.to_s.ljust(18)} | #{sprint.effective_date.to_s.ljust(18)} |"
+  end
+  puts "\n\n"
+end
+
 Then /^show me the list of stories$/ do
   stories = Story.find(:all, :conditions => "project_id=#{@project.id}", :order => "position ASC")
   subject_max = (stories.map{|s| s.subject} << "subject").sort{|a,b| a.length <=> b.length}.last.length
