@@ -49,6 +49,6 @@ Feature: Scrum Master
   Scenario: Request the project calendar feed
     Given I have set my API access key
       And I am viewing the issues list
+      Then show me the list of stories
      When I download the calendar feed
      Then the request should complete successfully
-     

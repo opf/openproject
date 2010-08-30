@@ -132,7 +132,7 @@ class BacklogsController < ApplicationController
       end
     }
 
-    open_issues = "
+    open_issues = <<-EOSQL
         #{IssueStatus.table_name}.is_closed = ?
         and tracker_id in (?)
         and fixed_version_id in (
@@ -143,8 +143,9 @@ class BacklogsController < ApplicationController
             and not sprint_start_date is null
             and effective_date >= ?
         )
-    "
-    open_issues_and_impediments = "
+    EOSQL
+
+    open_issues_and_impediments = <<-EOSQL
       (assigned_to_id is null or assigned_to_id = ?)
       and
       (
@@ -158,7 +159,7 @@ class BacklogsController < ApplicationController
             where #{open_issues})
         )
       )
-    "
+    EOSQL
 
     conditions = [open_issues_and_impediments]
     # me or none
