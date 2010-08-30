@@ -1,11 +1,11 @@
 <% content_for :header_tags do %>
   <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
   <%= stylesheet_link_tag 'show', 'taskboard', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'server_variables', :action => 'index', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
+  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
 <% content_for :breadcrumbs do %>
-<%= link_to @project.name, :controller => "backlogs", :action => "index", :project_id => @project %> : <%= @sprint.name %>
+<%= link_to @project.name, :controller => "rb_master_backlogs", :action => "show", :id => @project %> : <%= @sprint.name %>
 <% end %>
 
 <%- content_for :page_specific_links do %>
@@ -33,7 +33,7 @@
       <td class="add_new">+</td>
       <%- @statuses.each do |status| %>
       <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
-        <%= render :partial => "tasks/impediment", :collection => @sprint.impediments.select{|impediment| impediment.status_id==status.id} %>
+        <%= render :partial => "rb_impediments/impediment", :collection => @sprint.impediments.select{|impediment| impediment.status_id==status.id} %>
       </td>
       <%- end %>
     </tr>
@@ -51,7 +51,7 @@
       <td class="add_new">+</td>
       <%- @statuses.each do |status| %>
       <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-        <%= render :partial => "tasks/task", :collection => story.children.select{|task| task.status.id==status.id} %>
+        <%= render :partial => "rb_tasks/task", :collection => story.children.select{|task| task.status.id==status.id} %>
       </td>
       <%- end %>
     </tr>
@@ -67,10 +67,10 @@
   <%- end %>
 </select>
 <div id="task_template">
-  <%= render :partial => "tasks/task", :object => Task.new %>
+  <%= render :partial => "rb_tasks/task", :object => Task.new %>
 </div>
 <div id="impediment_template">
-  <%= render :partial => "tasks/impediment", :object => Task.new %>
+  <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
 </div>
 <!-- end of templates -->
 <div id="issue_editor"> </div>

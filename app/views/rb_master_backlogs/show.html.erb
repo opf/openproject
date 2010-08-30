@@ -1,6 +1,6 @@
 <%- content_for :header_tags do %>
   <%= stylesheet_link_tag 'index', 'story', :plugin => 'redmine_backlogs' %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'server_variables', :action => 'index', :project_id => @project.id) %>"></script>
+  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id) %>"></script>
   <%= javascript_include_tag 'board_updater', 'backlogs_updater', 'index_main', 'backlog', 'story', :plugin => 'redmine_backlogs' %>
 <%- end %>
 
@@ -39,7 +39,7 @@
 <!-- end of form field templates -->
 
 <div id="story_template">
-  <%= render :partial => 'stories/story', :object => Story.new %>
+  <%= render :partial => 'rb_stories/story', :object => Story.new %>
 </div>
 
 <%

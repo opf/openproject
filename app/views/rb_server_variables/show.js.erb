@@ -1,0 +1,30 @@
+if(RB==null){
+  var RB = {};
+}
+
+RB.constants = {
+  project_id: <%= @project.id %>,
+  sprint_id: <%= @sprint ? @sprint.id : "null" %>,
+  protect_against_forgery: <%= protect_against_forgery? ? "true" : "false" %>,
+  request_forgery_protection_token: '<%= request_forgery_protection_token %>',
+  form_authenticity_token: '<%= form_authenticity_token %>'
+}
+
+RB.buildImageTag = function(name){
+  return "<img src='<%= Engines::RailsExtensions::AssetHelpers.plugin_asset_path('redmine_backlogs', 'images', nil) %>" + name + "'/>"
+}
+
+RB.urlFor = {
+  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :id => ":id") %>',
+  
+  create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
+  update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
+  
+  create_task: '<%= url_for(:controller => 'rb_tasks', :action => 'create') %>',
+  update_task: '<%= url_for(:controller => 'rb_tasks', :action => 'update', :id => ":id") %>',
+
+  create_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'create') %>',
+  update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>'
+}
+
+if(typeof console != "undefined" && console != null) console.log('*** server variables loaded ***');

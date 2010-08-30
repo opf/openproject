@@ -180,10 +180,15 @@ RB.Story = RB.Object.create(RB.Model, {
     var sprint = this.$.parents('.backlog').hasClass('product') ? '' : this.$.parents('.backlog').data('this').getID();
         
     var data = j.find('.editor').serialize() +
-               (this.isNew() ? "" : "&id=" + j.children('.id').text()) +
                "&prev=" + (prev.length==1 ? this.$.prev().data('this').getID() : '') +
                "&fixed_version_id=" + sprint;
-    var url = RB.urlFor[(this.isNew() ? 'create_story' : 'update_story')];
+
+    if( this.isNew() ){
+      var url = RB.urlFor['create_story']
+    } else {
+      var url = RB.urlFor['update_story'].replace(":id", j.children('.id').text())
+      data += "&_method=put"
+    }
 
     return {
       url: url,

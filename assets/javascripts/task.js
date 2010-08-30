@@ -45,7 +45,13 @@ RB.Task = RB.Object.create(RB.Issue, {
                "&status_id=" + cellID[1] +
                "&prev=" + (prev.length==1 ? prev.data('this').getID() : '') +
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
-    var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
+
+    if( this.isNew() ){
+      var url = RB.urlFor['create_task']
+    } else {
+      var url = RB.urlFor['update_task'].replace(":id", j.children('.id').text())
+      data += "&_method=put"
+    }
     
     return {
       url: url,

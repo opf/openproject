@@ -237,8 +237,8 @@ RB.Backlog = RB.Object.create(RB.Model, {
 
     RB.ajax({
       type: "POST",
-      url: RB.urlFor['update_backlog'],
-      data: editors.serialize() + "&id=" + j.find('.id').text(),
+      url: RB.urlFor['update_sprint'].replace(":id", j.find('.id').text()),
+      data: editors.serialize() + "&_method=put",
       beforeSend: function(xhr){ me.unmarkError(); me.markSaving() },
       success: function(d,t,x){ me.unmarkSaving(); me.unmarkError() },
       error: function(x,t,e){ RB.Dialog.msg(x.responseText); me.markError() }

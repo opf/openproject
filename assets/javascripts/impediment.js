@@ -30,8 +30,14 @@ RB.Impediment = RB.Object.create(RB.Task, {
                "&status_id=" + statusID +
                "&prev=" + (prev.length==1 ? prev.data('this').getID() : '') +
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
-    var url = RB.urlFor[(this.isNew() ? 'create_task' : 'update_task')];
-    
+
+    if( this.isNew() ){
+      var url = RB.urlFor['create_impediment']
+    } else {
+      var url = RB.urlFor['update_impediment'].replace(":id", j.children('.id').text())
+      data += "&_method=put"
+    }
+        
     return {
       url: url,
       data: data

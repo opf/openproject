@@ -14,7 +14,7 @@
         [
           {
             :item => menu_link(l(:label_task_board), {
-                               :controller => 'backlogs',
+                               :controller => 'rb_sprints',
                                :action => 'show',
                                :id => backlog }),
             :for => :sprint
@@ -41,23 +41,25 @@
           },
           {
             :item => menu_link(l(:label_printable_cards), {
-                               :controller => 'backlogs',
-                               :action => 'taskboard_cards',
+                               :controller => 'rb_stories',
+                               :action => 'index',
                                :project_id => @project,
-                               :sprint_id => backlog }),
+                               :sprint_id => backlog,
+                               :format => :pdf }),
             :for => :sprint
           },
           {
             :item => menu_link(l(:label_printable_cards), {
-                               :controller => 'backlogs',
-                               :action => 'product_backlog_cards',
-                               :project_id => @project}),
+                               :controller => 'rb_stories',
+                               :action => 'index',
+                               :project_id => @project,
+                               :format => :pdf }),
             :for => :product
           },
           {
             :item => menu_link(l(:label_wiki), {
-                               :controller => 'backlogs',
-                               :action => 'wiki_page',
+                               :controller => 'rb_wikis',
+                               :action => 'edit',
                                :project_id => @project.id,
                                :sprint_id => backlog[:id] }),
             :for => :sprint,
@@ -77,6 +79,6 @@
     <div class="spinner"> </div>
   </div><!-- class="header" -->
   <ul class="stories">
-    <%= render :partial => "stories/story", :collection => stories(backlog) %>
+    <%= render :partial => "rb_stories/story", :collection => stories(backlog) %>
   </ul>
 </div>
