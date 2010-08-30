@@ -108,3 +108,7 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   end
   @story[attribute].should == value
 end
+
+Then /^I can fetch the newest label specifications$/ do
+  Cards::TaskboardCards.fetch_labels
+end

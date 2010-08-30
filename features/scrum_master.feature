@@ -52,3 +52,12 @@ Feature: Scrum Master
       And I am viewing the issues list
      When I download the calendar feed
      Then the request should complete successfully
+     
+  Scenario: Download printable cards for the product backlog
+    Given I have selected card label stock "Avery C32015"
+      And I am viewing the issues list
+     When I download the product backlog cards
+     Then the request should complete successfully
+
+  Scenario: Refresh the label specifications
+     Then I can fetch the newest label specifications
