@@ -172,7 +172,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/4223/settings", :controller => 'projects', :action => 'settings', :id => '4223'
     should_route :get, "/projects/4223/settings/members", :controller => 'projects', :action => 'settings', :id => '4223', :tab => 'members'
     should_route :get, "/projects/567/destroy", :controller => 'projects', :action => 'destroy', :id => '567'
-    should_route :get, "/projects/33/files", :controller => 'projects', :action => 'list_files', :id => '33'
+    should_route :get, "/projects/33/files", :controller => 'files', :action => 'index', :id => '33'
     should_route :get, "/projects/33/files/new", :controller => 'projects', :action => 'add_file', :id => '33'
     should_route :get, "/projects/33/roadmap", :controller => 'versions', :action => 'index', :project_id => '33'
     should_route :get, "/projects/33/activity", :controller => 'activities', :action => 'index', :id => '33'

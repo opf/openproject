@@ -103,7 +103,7 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :files do |map|
     map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
-    map.permission :view_files, :projects => :list_files, :versions => :download
+    map.permission :view_files, :files => :index, :versions => :download
   end
     
   map.project_module :wiki do |map|
@@ -198,7 +198,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_file_plural
+  menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true

@@ -353,21 +353,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal Version.find(2), a.container
   end
   
-  def test_list_files
-    get :list_files, :id => 1
-    assert_response :success
-    assert_template 'list_files'
-    assert_not_nil assigns(:containers)
-    
-    # file attached to the project
-    assert_tag :a, :content => 'project_file.zip',
-                   :attributes => { :href => '/attachments/download/8/project_file.zip' }
-    
-    # file attached to a project's version
-    assert_tag :a, :content => 'version_file.zip',
-                   :attributes => { :href => '/attachments/download/9/version_file.zip' }
-  end
-
   def test_archive
     @request.session[:user_id] = 1 # admin
     post :archive, :id => 1

@@ -18,7 +18,7 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
-  menu_item :files, :only => [:list_files, :add_file]
+  menu_item :files, :only => [:add_file]
   menu_item :settings, :only => :settings
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy ]
@@ -248,7 +248,7 @@ class ProjectsController < ApplicationController
       if !attachments.empty? && Setting.notified_events.include?('file_added')
         Mailer.deliver_attachments_added(attachments[:files])
       end
-      redirect_to :controller => 'projects', :action => 'list_files', :id => @project
+      redirect_to :controller => 'files', :action => 'index', :id => @project
       return
     end
     @versions = @project.versions.sort
@@ -275,18 +275,6 @@ class ProjectsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :tab => 'activities', :id => @project
   end
   
-  def list_files
-    sort_init 'filename', 'asc'
-    sort_update 'filename' => "#{Attachment.table_name}.filename",
-                'created_on' => "#{Attachment.table_name}.created_on",
-                'size' => "#{Attachment.table_name}.filesize",
-                'downloads' => "#{Attachment.table_name}.downloads"
-                
-    @containers = [ Project.find(@project.id, :include => :attachments, :order => sort_clause)]
-    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
-    render :layout => !request.xhr?
-  end
-
 private
   def find_optional_project
     return true unless params[:id]

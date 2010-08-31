@@ -181,7 +181,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id', :action => 'show'
       project_views.connect 'projects/:id.:format', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /destroy|settings/
-      project_views.connect 'projects/:id/files', :action => 'list_files'
+      project_views.connect 'projects/:id/files', :controller => 'files', :action => 'index'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
