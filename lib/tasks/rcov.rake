@@ -1,7 +1,8 @@
-require 'cucumber/rake/task' #I have to add this
 
 namespace :redmine do
   namespace :backlogs_plugin do 
+
+    require 'cucumber/rake/task' #I have to add this
 
     desc "Generate RCov report for Redmine Backlogs"
     task :rcov => ["rcov:all"]
