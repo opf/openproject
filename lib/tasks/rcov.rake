@@ -1,4 +1,4 @@
-if ARGV.include? /redmine:backlogs_plugin:rcov/
+begin
   require 'cucumber/rake/task' #I have to add this
   
   namespace :redmine do
@@ -22,4 +22,6 @@ if ARGV.include? /redmine:backlogs_plugin:rcov/
       end
     end
   end
+rescue LoadError
+  #pass
 end
