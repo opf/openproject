@@ -22,7 +22,7 @@ Redmine::Plugin.register :redmine_backlogs do
   name 'Redmine Backlogs Plugin'
   author 'relaxdiego, friflaj'
   description 'A plugin for scrum/agile teams'
-  version '0.2.x maintenance branch'
+  version 'v0.2.2'
 
   settings :default => { :story_trackers => nil, :task_tracker => nil, :card_spec => nil }, :partial => 'settings/backlogs_settings'
 
