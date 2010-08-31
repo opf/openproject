@@ -86,3 +86,11 @@ end
 When /^I view the stories in the issues tab/ do
   visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> @project.id)
 end
+
+When /^I download the product backlog cards$/ do
+  visit url_for(:controller => 'backlogs', :action => 'product_backlog_cards', :project_id => @project.id)
+end
+
+When /^I have selected card label stock "(.+)"$/ do |stock|
+  Setting.plugin_redmine_backlogs[:card_spec] = stock
+end
