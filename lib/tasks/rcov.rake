@@ -1,4 +1,4 @@
-begin
+if ARGV.include? /redmine:backlogs_plugin:rcov/
   require 'cucumber/rake/task' #I have to add this
   
   namespace :redmine do
@@ -22,6 +22,4 @@ begin
       end
     end
   end
-rescue LoadError
-  puts "RCov disabled"
 end
