@@ -59,5 +59,22 @@ Feature: Scrum Master
      When I download the product backlog cards
      Then the request should complete successfully
 
+  Scenario: Download printable cards for the task board
+    Given I have selected card label stock "Avery C32015"
+      And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
+      And I am viewing the taskboard for Sprint 001
+     When I download the task board cards
+     Then the request should complete successfully
+
   Scenario: Refresh the label specifications
      Then I can fetch the newest label specifications
+
+  Scenario: view the sprint notes
+    Given I am viewing the taskboard for Sprint 001
+    When I view the sprint notes
+    Then the request should complete successfully
+
+  Scenario: edit the sprint notes
+    Given I am viewing the taskboard for Sprint 001
+     When I edit the sprint notes
+    Then the request should complete successfully
