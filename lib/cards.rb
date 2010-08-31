@@ -121,15 +121,6 @@ module Cards
     
         attr_reader :pdf
     
-        def task_header(t)
-            return "#{t.id}: #{t.subject}"
-        end
-    
-        def story_header(s)
-            pos = (s.position.nil? ? '?' : s.position)
-            return "#{pos} / #{s.id}: #{s.subject}"
-        end
-    
         def card(issue, type)
             row = (@cards % @down) + 1
             col = ((@cards / @down) % @across) + 1
