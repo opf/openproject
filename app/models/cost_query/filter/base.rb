@@ -47,18 +47,6 @@ module CostQuery::Filter
       super
     end
 
-    def self.display!
-      display true
-    end
-
-    def self.display?
-      !!display
-    end
-
-    def self.dont_display!
-      display false
-    end
-
     def self.available_values(project)
       raise NotImplementedError, "subclass responsibility"
     end

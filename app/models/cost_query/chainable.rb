@@ -55,7 +55,7 @@ class CostQuery < ActiveRecord::Base
       @last_table = table_from(args.last)
       table_joins << args
     end
-    
+
     def self.underscore_name
       name.demodulize.underscore
     end
@@ -104,7 +104,7 @@ class CostQuery < ActiveRecord::Base
     def bottom?
       child.nil?
     end
-    
+
     def bottom
       return self if bottom?
       child.bottom
@@ -204,6 +204,18 @@ class CostQuery < ActiveRecord::Base
     inherited_attributes :db_field, :display
     def self.field
       db_field || name[/[^:]+$/].underscore
+    end
+
+    def self.display!
+      display true
+    end
+
+    def self.display?
+      !!display
+    end
+
+    def self.dont_display!
+      display false
     end
 
     def self.last_table
