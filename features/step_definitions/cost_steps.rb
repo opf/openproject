@@ -93,7 +93,11 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
       | Name | #{name} |
     And the project "#{name}" has 1 subproject
     And the role "Manager" may have the following rights:
-      | View own cost entries |
+      | view_own_hourly_rate |
+      | view_issues |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+      | view_cost_rates |
     And there is a role "Controller"
     And the role "Controller" may have the following rights:
       | View own cost entries |
