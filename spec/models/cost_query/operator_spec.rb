@@ -24,7 +24,7 @@ describe CostQuery do
       operator.to_operator.modify sql, field, *values
       ActiveRecord::Base.connection.select_all sql.to_s
     end
-    
+
     def query_on_entries(field, operator, *values)
       sql = CostQuery::SqlStatement.for_entries
       operator.to_operator.modify sql, field, *values
@@ -42,8 +42,8 @@ describe CostQuery do
     it "does = for no values" do
       sql = CostQuery::SqlStatement.new 'projects'
       "=".to_operator.modify sql, 'id'
-      count = ActiveRecord::Base.connection.select_all sql.to_s
-      count.should == 0
+      result = (ActiveRecord::Base.connection.select_all sql.to_s)
+      result.count.should == 0
     end
 
     it "does = for nil" do
@@ -81,7 +81,7 @@ describe CostQuery do
     it "does o (open issue)" do
       query('issues', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size.should >= 0
     end
-    
+
     it "does give the correct number of results when counting closed and open issues" do
       a = query('issues', 'status_id', 'o') { |s| s.join IssueStatus => [Issue, :status] }.size
       b = query('issues', 'status_id', 'c') { |s| s.join IssueStatus => [Issue, :status] }.size
@@ -160,7 +160,7 @@ describe CostQuery do
       query_on_entries('costs', '=n', 4.2).size.should == Entry.all.select { |e| e.costs == 4.2 }.count
       query_on_entries('costs', '=n', 2.3).size.should == Entry.all.select { |e| e.costs == 2.3 }.count
     end
-    
+
     it "does 0" do
       query_on_entries('costs', '0').size.should == Entry.all.select { |e| e.costs == 0 }.count
     end
@@ -169,7 +169,7 @@ describe CostQuery do
     it "does y" do
       query_on_entries('overridden_costs', 'y').size.should == Entry.all.select { |e| e.overridden_costs != nil }.count
     end
-    
+
     it "does n" do
       query_on_entries('overridden_costs', 'n').size.should == Entry.all.select { |e| e.overridden_costs == nil }.count
     end
