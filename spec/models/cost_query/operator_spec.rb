@@ -39,6 +39,17 @@ describe CostQuery do
       query('projects', 'id', '=', 1, 2).size.should == 2
     end
 
+    it "does = for no values" do
+      sql = CostQuery::SqlStatement.new 'projects'
+      "=".to_operator.modify sql, 'id'
+      count = ActiveRecord::Base.connection.select_all sql.to_s
+      count.should == 0
+    end
+
+    it "does = for nil" do
+      query('projects', 'id', '=', nil).size.should == 0
+    end
+
     it "does <=" do
       query('projects', 'id', '<=', Project.count - 1).size.should == Project.count - 1
     end
