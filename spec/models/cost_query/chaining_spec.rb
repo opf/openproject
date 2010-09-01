@@ -85,14 +85,14 @@ describe CostQuery do
       @query.chain.top.should be_a(CostQuery::GroupBy::Base)
       @query.chain.top.type.should == :column
     end
-    
+
     it "should return all filters, including the NoFilter" do
       @query.filter :project_id
       @query.group_by :project_id
       @query.filters.size.should == 2
       @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
     end
-    
+
     it "should return all group_bys" do
       @query.filter :project_id
       @query.group_by :project_id
@@ -125,7 +125,7 @@ describe CostQuery do
         end
       end
     end
-    
+
     describe :inherited_attribute do
       before do
         @a = Class.new CostQuery::Chainable
@@ -134,31 +134,31 @@ describe CostQuery do
         @c = Class.new @a
         @d = Class.new @b
       end
-      
+
       it 'takes default argument' do
         @a.foo.should == 42
         @b.foo.should == 42
         @c.foo.should == 42
         @d.foo.should == 42
       end
-      
+
       it 'inherits values' do
         @a.foo 1337
         @d.foo.should == 1337
       end
-      
+
       it 'does not change values of parents and akin' do
         @b.foo 1337
         @a.foo.should_not == 1337
         @c.foo.should_not == 1337
       end
-      
+
       it 'is able to map values' do
         @a.inherited_attribute :bar, :map => proc { |x| x*2 }
         @a.bar 21
         @a.bar.should == 42
       end
-      
+
       describe :list do
         it "merges lists" do
           @a.inherited_attribute :bar, :list => true
@@ -168,7 +168,7 @@ describe CostQuery do
           @c.bar.sort.should == [1]
           @d.bar.sort.should == [1, 2, 3, 4]
         end
-        
+
         it "is able to map lists" do
           @a.inherited_attribute :bar, :list => true, :map => :to_s
           @a.bar 1; @b.bar 1; @d.bar 1
@@ -177,7 +177,7 @@ describe CostQuery do
           @c.bar.should == %w[1]
           @d.bar.should == %w[1 1 1]
         end
-        
+
         it "is able to produce uniq lists" do
           @a.inherited_attribute :bar, :list => true, :uniq => true
           @a.bar 1, 1, 2
@@ -191,6 +191,50 @@ describe CostQuery do
           @a.bar 2
           @a.bar.sort.should == [1, 2]
         end
+      end
+    end
+
+    describe :display do
+      it "should give display? == false when a filter says dont_display!" do
+        class TestFilter < CostQuery::Filter::Base
+          dont_display!
+        end
+        TestFilter.display?.should be false
+      end
+
+      it "should give display? == true when a filter doesn't specify it's visibility" do
+        class TestFilter < CostQuery::Filter::Base
+        end
+        TestFilter.display?.should be true
+      end
+
+      it "should give display? == true when a filter says display!" do
+        class TestFilter < CostQuery::Filter::Base
+          display!
+        end
+        TestFilter.display?.should be true
+      end
+    end
+
+    describe :selectable do
+      it "should give selectable? == false when a filter says not_selectable!" do
+        class TestFilter < CostQuery::Filter::Base
+          not_selectable!
+        end
+        TestFilter.selectable?.should be false
+      end
+
+      it "should give selectable? == true when a filter doesn't specify it's selectability" do
+        class TestFilter < CostQuery::Filter::Base
+        end
+        TestFilter.selectable?.should be true
+      end
+
+      it "should give selectable? == true when a filter says selectable!" do
+        class TestFilter < CostQuery::Filter::Base
+          selectable!
+        end
+        TestFilter.selectable?.should be true
       end
     end
   end
