@@ -47,7 +47,6 @@ Feature: Product Owner
       And I want to update the story with subject Story 4
       And I set the status of the story to Closed
      When I update the story
-     Then show me the page
      Then the status of the story should be set as closed
 
   Scenario: Move a story to the top
