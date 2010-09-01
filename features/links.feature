@@ -67,12 +67,6 @@ Feature: Cost Reporting Linkage
 
   Scenario: Going from an Issue to the cost report should set the filter on this issue
     Given there is a standard cost control project named "Standard Project"
-    And the role "Manager" may have the following rights:
-      | view_own_hourly_rate |
-      | view_issues |
-      | view_own_time_entries |
-      | view_own_cost_entries |
-      | view_cost_rates |
     And there is 1 cost type with the following:
       | name      | word |
       | cost rate | 10   |
