@@ -1,11 +1,11 @@
-Feature: Product Owner
+Feature: Common
   As a user
   I want to do stuff
   So that I can do my job
 
   Background:
     Given the ecookbook project has the backlogs plugin enabled
-      And I am a member of the project
+      And I am a team member of the project
 
   Scenario: View the product backlog
     Given I am viewing the master backlog

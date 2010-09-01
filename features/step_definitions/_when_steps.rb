@@ -59,7 +59,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 end
 
 When /^I request the server_variables resource$/ do
-  visit url_for(:controller => 'server_variables', :action => 'index', :project_id => @project.id)
+  visit url_for(:controller => :rb_server_variables, :action => :show, :id => @project.id)
 end
 
 When /^I update the sprint$/ do

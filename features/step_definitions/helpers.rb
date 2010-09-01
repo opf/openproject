@@ -20,14 +20,6 @@ def initialize_task_params(story_id)
   params
 end
 
-def login_as_member
-  visit url_for(:controller => 'account', :action=>'login')
-  fill_in 'username', :with => 'jsmith'
-  fill_in 'password', :with => 'jsmith'
-  click_button 'Login »'
-  @user = User.find(:first, :conditions => "login='jsmith'")
-end
-
 def login_as_product_owner
   visit url_for(:controller => 'account', :action=>'login')
   fill_in 'username', :with => 'jsmith'
@@ -51,3 +43,11 @@ def login_as_team_member
   click_button 'Login »'
   @user = User.find(:first, :conditions => "login='jsmith'")
 end
+
+def login_as_admin
+  visit url_for(:controller => 'account', :action=>'login')
+  fill_in 'username', :with => 'admin'
+  fill_in 'password', :with => 'admin'
+  click_button 'Login »'
+  @user = User.find(:first, :conditions => "login='admin'")
+end  

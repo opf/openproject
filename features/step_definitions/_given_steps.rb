@@ -1,35 +1,27 @@
-Given /^I am a member of the project$/ do
-  role = Role.find(:first, :conditions => "name='Manager'")
-  role.permissions << :manage_backlog
-  role.save!
-  login_as_member
-end
-
 Given /^I am a product owner of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
-  role.permissions << :manage_backlog
+  role.permissions << :view_master_backlog
   role.save!
   login_as_product_owner
 end
 
 Given /^I am a scrum master of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
-  role.permissions << :manage_backlog
-  role.permissions << :view_backlog
+  role.permissions << :view_master_backlog
+  role.permissions << :view_sprints
   role.save!
   login_as_scrum_master
 end
 
 Given /^I am a team member of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
-  role.permissions << :manage_backlog
-  role.permissions << :view_backlog
+  role.permissions << :view_master_backlog
   role.save!
   login_as_team_member
 end
 
 Given /^I am viewing the master backlog$/ do
-  visit url_for(:controller => 'backlogs', :action=>'index', :project_id => @project)
+  visit url_for(:controller => :rb_master_backlogs, :action => :show, :id => @project)
   page.driver.response.status.should == 200
 end
 
