@@ -17,15 +17,15 @@ Feature: Cost Reporting Calculations
     And the project "Cost Project" has 1 time entry with the following:
       | hours    | 10            |
       | user     | manager       |
-      | spent on | 0.5 years ago |
+      | spent on | 6 months ago |
     And the project "Cost Project" has 1 time entry with the following:
       | hours    | 10            |
       | user     | manager       |
-      | spent on | 1.5 years ago |
+      | spent on | 18 months ago |
     And the project "Cost Project" has 1 time entry with the following:
-      | hours    | 10            | 
+      | hours    | 10            |
       | user     | manager       |
-      | spent on | 2.5 years ago |
+      | spent on | 30 months ago |
     And I am logged in as "manager"
     And I am on the cost reports page for the project called "Cost Project"
     Then I should see "10.00" # 1 EUR x 10 (hours)
