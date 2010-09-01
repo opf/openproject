@@ -201,11 +201,12 @@ class CostQuery < ActiveRecord::Base
       end
     end
 
-    inherited_attributes :db_field, :display
+    inherited_attribute :db_field
     def self.field
       db_field || name[/[^:]+$/].underscore
     end
 
+    inherited_attribute :display, :default => true
     def self.display!
       display true
     end
