@@ -95,15 +95,17 @@ When /^I download the task board cards$/ do
   visit url_for(:controller => 'backlogs', :action => 'taskboard_cards', :sprint_id => @sprint.id, :project_id => @project.id)
 end
 
-When /^I have selected card label stock "(.+)"$/ do |stock|
+When /^I have selected card label stock "([^"]+)"$/ do |stock|
   Setting.plugin_redmine_backlogs[:card_spec] = stock
 end
 
 When /^I view the sprint notes$/ do
   visit url_for(:controller => 'backlogs', :action => 'wiki_page', :sprint_id => @sprint.id, :project_id => @project.id)
+  page.driver.response.status.should == 200
 end
 
 When /^I edit the sprint notes$/ do
   visit url_for(:controller => 'backlogs', :action => 'wiki_page_edit', :sprint_id => @sprint.id, :project_id => @project.id)
+  page.driver.response.status.should == 200
 end
 

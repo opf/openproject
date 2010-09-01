@@ -112,3 +112,11 @@ end
 Then /^I can fetch the newest label specifications$/ do
   Cards::TaskboardCards.fetch_labels
 end
+
+Then /^the wiki page "([^"]+)" should contain "([^"]+)"$/ do |title, content|
+  title = Wiki.titleize(title)
+  page = @project.wiki.find_page(title)
+  page.should_not be_nil
+
+  raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/) 
+end

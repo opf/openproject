@@ -156,3 +156,20 @@ Given /^I have set my API access key$/ do
   @user.reload
   @user.api_key.should_not be_nil
 end
+
+Given /^I have set the content for wiki page "([^"]+)" to "([^"]+)"$/ do |title, content|
+  title = Wiki.titleize(title)
+  page = @project.wiki.find_page(title)
+  if ! page
+    page = WikiPage.new(:wiki => @project.wiki, :title => title)
+    page.content = WikiContent.new
+    page.save
+  end
+
+  page.content.text = content
+  page.save
+end
+
+Given /^I have made "([^"]+)" the template page for sprint notes/ do |title|
+  Setting.plugin_redmine_backlogs[:wiki_template] = Wiki.titleize(title)
+end

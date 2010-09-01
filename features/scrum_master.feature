@@ -70,11 +70,15 @@ Feature: Scrum Master
      Then I can fetch the newest label specifications
 
   Scenario: view the sprint notes
-    Given I am viewing the taskboard for Sprint 001
-    When I view the sprint notes
-    Then the request should complete successfully
+    Given I have set the content for wiki page "Sprint Template" to "Sprint Template"
+      And I have made "Sprint Template" the template page for sprint notes
+      And I am viewing the taskboard for Sprint 001
+     When I view the sprint notes
+    Then the wiki page "Sprint 001" should contain "Sprint Template"
 
   Scenario: edit the sprint notes
-    Given I am viewing the taskboard for Sprint 001
+    Given I have set the content for wiki page "Sprint Template" to "Sprint Template"
+      And I have made "Sprint Template" the template page for sprint notes
+      And I am viewing the taskboard for Sprint 001
      When I edit the sprint notes
-    Then the request should complete successfully
+    Then the wiki page "Sprint 001" should contain "Sprint Template"
