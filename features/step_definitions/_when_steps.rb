@@ -1,12 +1,6 @@
-When /^I close (.+)$/ do |subject|
-  @story = Story.find(:first, :conditions => "subject='#{subject}'")
-  @story.should_not be_nil
-  @story.update_attributes :status_id => IssueStatus.find(:first, :conditions => "name='Closed'").id
-end
-
 When /^I create the story$/ do
   page.driver.process :post, 
-                      url_for(:controller => 'stories', :action => 'create'),
+                      url_for(:controller => :rb_stories, :action => :create),
                       @story_params
 end
 
@@ -52,8 +46,8 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
          end
 
   page.driver.process :post, 
-                      url_for(:controller => 'stories', :action => 'update'),
-                      {:id => story.text, :prev => (prev.nil? ? '' : prev.text), :project_id => @project.id}
+                      url_for(:controller => :rb_stories, :action => :update, :id => story.text),
+                      {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
 
   @story = Story.find(story.text.to_i)
 end
@@ -70,8 +64,9 @@ end
 
 When /^I update the story$/ do
   page.driver.process :post,
-                      url_for(:controller => 'stories', :action => 'update'),
+                      url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
                       @story_params
+  page.driver.response.status.should == 200
 end
 
 When /^I download the calendar feed$/ do

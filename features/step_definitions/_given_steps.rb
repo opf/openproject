@@ -1,6 +1,8 @@
 Given /^I am a product owner of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :view_master_backlog
+  role.permissions << :create_stories
+  role.permissions << :update_stories
   role.save!
   login_as_product_owner
 end
@@ -41,6 +43,9 @@ Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
   if attribute=="tracker"
     attribute="tracker_id"
     value = Tracker.find(:first, :conditions => "name='#{value}'").id
+  elsif attribute=="status"
+    attribute="status_id"
+    value = IssueStatus.find(:first, :conditions => "name='#{value}'").id
   end
   @story_params[attribute] = value
 end
