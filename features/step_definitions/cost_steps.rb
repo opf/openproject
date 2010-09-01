@@ -25,6 +25,24 @@ Given /^there is 1 cost type with the following:$/ do |table|
     end})
 end
 
+Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ do |num, is_default, table|
+  if is_default
+    hr = DefaultHourlyRate.spawn
+  else
+    hr = HourlyRate.spawn
+  end
+  send_table_to_object(hr, table, {
+    :user => Proc.new do |rate, value|
+      rate.update_attribute :user_id, User.find_by_login(value).id
+    end,
+    :valid_from => Proc.new do |rate, value|
+      # This works for definitions like "2 years ago"
+      number, time_unit, tempus = value.split
+      time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
+      rate.update_attribute :valid_from, time
+    end})
+end
+
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|  
   u = User.find_by_login user
   p = u.projects.last
