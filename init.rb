@@ -6,6 +6,9 @@ require "hwia_rails"
 require 'big_decimal_patch'
 require 'to_date_patch'
 
+# Hooks
+require 'view_projects_show_sidebar_bottom_hook'
+
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'
   author 'Konstantin Haase, Philipp Tessenow @ finnlabs'
