@@ -1,0 +1,89 @@
+# German strings go here for Rails i18n
+
+de:
+  backlogs_story_tracker: "Story Tracker"
+  backlogs_task_tracker: "Aufgaben Tracker"
+  backlogs_card_specification: "Etikettenart für den Kartendruck"
+  backlogs_sprints: "Sprints"
+  field_story_points: "Story Punkte"
+  field_remaining_hours: "Verbleibende Stunden"
+  button_edit_wiki: "Wiki Seite bearbeiten"
+  field_backlogs_issue_type: "Backlog Typ"
+  backlogs_story: Story
+  backlogs_task: Aufgabe
+  backlogs_any: beliebig
+  backlogs_points_burn_direction: "Burnup/-down Punkte"
+  label_points_burn_up: Hoch
+  label_points_burn_down: Runter
+  field_position: Position
+  backlogs_product_backlog: "Produkt Backlog"
+  backlogs_wiki_template: "Vorlage für das Sprint-Wiki"
+  points_committed: "Punkte abgeschlossen"
+  required_burn_rate_points: "benötigte Burn-Rate (Punkte)"
+  required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"
+  points_to_accept: "Nicht akzeptierte Punkte"
+  points_accepted: "Akzeptierte Punkte"
+  ideal: "Ideal"
+  points_to_resolve: "Nicht beschlossene Punkte"
+  points_resolved: "Beschlossene Punkte"
+  remaining_hours: "Verbleibende Stunden"
+  field_velocity_based_estimate: "Geschwindigkeitsbasierende Abschätzung"
+
+  backlogs_active: aktiv
+
+  label_task_board: "Aufgabenliste"
+  label_stories_tasks: "Stories/Aufgaben"
+  label_stories: "Stories"
+  label_burndown: "Burndown"
+  label_printable_cards: "Karten drucken"
+  label_select_all: "Alle auswählen"
+
+  label_back_to_project: "Zurück zur Projektseite"
+  label_sprint_name: "Sprint \"{{name}}\""
+  label_backlogs: Backlogs
+  label_scrum_statistics: "Scrum Statistiken"
+
+  label_sprint_backlog: "Sprint Backlog"
+  label_product_backlog: "Produkt Backlog"
+  label_Product_backlog: "Produkt Backlog"
+
+  backlogs_sizing_inconsistent: "Story Aufwand weicht von den Schätzwerten ab"
+  
+  backlogs_velocity_missing: "Es konnte keine Geschwindigkeit für dieses Projekt berechnet werden"
+  backlogs_product_backlog_is_empty: "Produkt Backlog ist leer"
+  backlogs_inactive: "Projekt zeigt keine Aktivität"
+  
+  backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgeschätzten Stories"
+  backlogs_sprint_notes_missing: "Geschlossene Sprints ohne Closed sprints without Retrospective-/Besprechungsnotizen"
+  backlogs_product_backlog_unsized: "Die Spitze des Produkt Backlogs hat Stories ohne Aufwandsangaben"
+
+  backlogs_velocity_varies: "Die Geschwindigkeit variiert stark zwischen den Sprints"
+  backlogs_sprint_unsized: "Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten"
+  label_hours: Stunden
+  label_points: Punkte
+  label_not_prioritized: "nicht priorisiert"
+  
+  label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf {{administration}} > {{plugins}}, klicken Sie dann auf den {{configure}} Link für dieses Plugin. Kommen Sie hierher zurück, sobald sie die Felder konfiguriert haben."
+  label_sprint_velocity: "Geschwindigkeit {{velocity}}, basiert auf {{sprints}} Sprints mit einem Durchschnitt von {{days}} Tagen"
+
+  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
+  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+
+  label_chart_options: "Chart-Optionen"
+
+  error_intro_singular: "Der folgende Fehler ist aufgetreten:"
+  error_intro_plural: "Die folgenden Fehler sind aufgetreten:"
+  error_outro: "Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken."
+
+  label_sprint_impediments: "Sprint Blockaden"
+
+  subject: "Thema"
+  blank: "ist leer"
+
+  label_blocks: "Blocks"
+  error_must_have_comma_delimited_list: "muss eine Kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten"
+
+  tracker_id: Tracker ID
+  inclusion: "ist nicht in der Liste enthalten"
