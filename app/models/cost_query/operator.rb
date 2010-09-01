@@ -53,7 +53,9 @@ class CostQuery::Operator
 
     new "!" do
       def modify(query, field, *values)
-        query.where "(#{field} IS NULL OR #{field} NOT IN #{collection(*values)})"
+        where_clause = "(#{field} IS NULL"
+        where_clause += " OR #{field} NOT IN #{collection(*values)})" unless values.empty?
+        query.where where_clause
         query
       end
     end
@@ -91,7 +93,11 @@ class CostQuery::Operator
 
     new "=" do
       def modify(query, field, *values)
-        query.where "#{field} IN #{collection(*values)}"
+        if values.empty?
+          query.where "1=0"
+        else
+          query.where "#{field} IN #{collection(*values)}"
+        end
         query
       end
     end
