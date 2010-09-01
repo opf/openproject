@@ -18,7 +18,6 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
-  menu_item :files, :only => [:add_file]
   menu_item :settings, :only => :settings
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy ]
@@ -237,21 +236,6 @@ class ProjectsController < ApplicationController
     end
     # hide project in layout
     @project = nil
-  end
-
-  def add_file
-    if request.post?
-      container = (params[:version_id].blank? ? @project : @project.versions.find_by_id(params[:version_id]))
-      attachments = Attachment.attach_files(container, params[:attachments])
-      render_attachment_warning_if_needed(container)
-
-      if !attachments.empty? && Setting.notified_events.include?('file_added')
-        Mailer.deliver_attachments_added(attachments[:files])
-      end
-      redirect_to :controller => 'files', :action => 'index', :id => @project
-      return
-    end
-    @versions = @project.versions.sort
   end
 
   def save_activities

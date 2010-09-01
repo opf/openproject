@@ -182,7 +182,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id.:format', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /destroy|settings/
       project_views.connect 'projects/:id/files', :controller => 'files', :action => 'index'
-      project_views.connect 'projects/:id/files/new', :action => 'add_file'
+      project_views.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
     end
@@ -199,7 +199,7 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects', :action => 'add'
       project_actions.connect 'projects.:format', :action => 'add', :format => /xml/
       project_actions.connect 'projects/:id/:action', :action => /edit|destroy|archive|unarchive/
-      project_actions.connect 'projects/:id/files/new', :action => 'add_file'
+      project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
     end
 
