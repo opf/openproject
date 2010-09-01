@@ -93,3 +93,19 @@ Feature: Cost Reporting Linkage
     Then I should see "100.00" # 10 EUR x 10 (words)
     And I should not see "50.00" # 10 EUR x 5 (words)
     And I should not see "150.00"
+
+  Scenario: Reporting on the project page should be accessible from the spent time
+    Given there is a standard cost control project named "Standard Project"
+    And the project "Standard Project" has 1 issue with the following:
+      | subject  | test_issue |
+    And the issue "test_issue" has 1 time entry with the following:
+      | hours | 1.00    |
+      | user  | manager |
+    And I am logged in as "manager"
+    When I am on the page for the project "Standard Project"
+    Then I should see "Spent time" within "sidebar"
+    And I should see "1.00 hours" within "sidebar"
+    And I should not see "Details" within "sidebar"
+    And I should not see "Report" within "div[@id='sidebar']"
+    When I follow "1.00 hours"
+    Then I should be on "/projects/Standard%20Project/cost_reports"
