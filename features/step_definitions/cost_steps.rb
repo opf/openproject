@@ -43,11 +43,11 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
     end})
 end
 
-Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|  
+Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|
   u = User.find_by_login user
   p = u.projects.last
   i = Issue.generate_for_project!(p)
-  as_admin count do    
+  as_admin count do
     ce = CostEntry.spawn
     ce.user = u
     ce.project = p
