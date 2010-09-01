@@ -33,15 +33,14 @@ Redmine::Plugin.register :redmine_backlogs do
 
   project_module :backlogs do
     # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
-    
-    permission :get_server_variables, { :rb_server_variables => :show }, :public => true
-    
+        
     # Master backlog permissions
     permission :view_master_backlog, { 
                                        :rb_master_backlogs  => :show,
                                        :rb_stories          => [:index, :show],
                                        :rb_calendars        => :show,
-                                       :rb_queries          => :show
+                                       :rb_queries          => :show,
+                                       :rb_server_variables => :show
                                      }
     
     # Sprint permissions
@@ -49,7 +48,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_sprints         => :show,
                                        :rb_tasks           => [:index, :show],
                                        :rb_impediments     => [:index, :show],
-                                       :rb_burndown_charts => :show
+                                       :rb_server_variables => :show
                                      }
     permission :update_sprints,      { 
                                         :rb_sprints => [:edit, :update],
