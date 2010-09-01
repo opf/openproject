@@ -200,12 +200,14 @@ describe CostQuery do
           dont_display!
         end
         TestFilter.display?.should be false
+        Object.send(:remove_const, :TestFilter)
       end
 
       it "should give display? == true when a filter doesn't specify it's visibility" do
         class TestFilter < CostQuery::Filter::Base
         end
         TestFilter.display?.should be true
+        Object.send(:remove_const, :TestFilter)
       end
 
       it "should give display? == true when a filter says display!" do
@@ -213,6 +215,7 @@ describe CostQuery do
           display!
         end
         TestFilter.display?.should be true
+        Object.send(:remove_const, :TestFilter)
       end
     end
 
@@ -222,12 +225,14 @@ describe CostQuery do
           not_selectable!
         end
         TestFilter.selectable?.should be false
+        Object.send(:remove_const, :TestFilter)
       end
 
       it "should give selectable? == true when a filter doesn't specify it's selectability" do
         class TestFilter < CostQuery::Filter::Base
         end
         TestFilter.selectable?.should be true
+        Object.send(:remove_const, :TestFilter)
       end
 
       it "should give selectable? == true when a filter says selectable!" do
@@ -235,6 +240,7 @@ describe CostQuery do
           selectable!
         end
         TestFilter.selectable?.should be true
+        Object.send(:remove_const, :TestFilter)
       end
     end
   end
