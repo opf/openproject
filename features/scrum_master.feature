@@ -66,9 +66,6 @@ Feature: Scrum Master
      When I download the task board cards
      Then the request should complete successfully
 
-  Scenario: Refresh the label specifications
-     Then I can fetch the newest label specifications
-
   Scenario: view the sprint notes
     Given I have set the content for wiki page "Sprint Template" to "Sprint Template"
       And I have made "Sprint Template" the template page for sprint notes

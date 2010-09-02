@@ -109,10 +109,6 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story[attribute].should == value
 end
 
-Then /^I can fetch the newest label specifications$/ do
-  Cards::TaskboardCards.fetch_labels
-end
-
 Then /^the wiki page "([^"]+)" should contain "([^"]+)"$/ do |title, content|
   title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
