@@ -13,3 +13,6 @@ en:
   label_money: "Money"
 
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+
+  label_count: Count
+  label_sum: Sum
