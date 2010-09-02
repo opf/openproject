@@ -6,7 +6,7 @@ end
 
 When /^I create the task$/ do
   page.driver.process :post, 
-                      url_for(:controller => 'tasks', :action => 'create'),
+                      url_for(:controller => :rb_tasks),
                       @task_params
 end
 
@@ -73,13 +73,13 @@ When /^I download the calendar feed$/ do
   visit url_for({ :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project.id })
 end
 
-When /^I view the stories in (.+) in the issues tab/ do |sprint_name|
+When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> sprint.project_id, :sprint_id => sprint.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :id => sprint.project_id, :sprint_id => sprint.id)
 end
 
 When /^I view the stories in the issues tab/ do
-  visit url_for(:controller => 'backlogs', :action => 'select_issues', :project_id=> @project.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :id=> @project.id)
 end
 
 When /^I download the product backlog cards$/ do

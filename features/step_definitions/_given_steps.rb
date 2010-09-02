@@ -18,6 +18,11 @@ end
 Given /^I am a team member of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :view_master_backlog
+  role.permissions << :view_sprints
+  role.permissions << :create_tasks
+  # role.permissions << :update_tasks
+  # role.permissions << :create_impediments
+  # role.permissions << :update_impediments
   role.save!
   login_as_team_member
 end
@@ -29,13 +34,13 @@ end
 
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  visit url_for(:controller => 'backlogs', :action=>'burndown', :id => @sprint.id)
+  visit url_for(:controller => :rb_burndown_charts, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  visit url_for(:controller => 'backlogs', :action=>'show', :id => @sprint.id)
+  visit url_for(:controller => :rb_sprints, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
