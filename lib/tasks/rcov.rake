@@ -2,7 +2,7 @@ begin
   require 'cucumber/rake/task' #I have to add this
   
   namespace :redmine do
-    namespace :backlogs_plugin do 
+    namespace :backlogs do 
   
   
       desc "Generate RCov report for Redmine Backlogs"
@@ -17,7 +17,7 @@ begin
         
         task :all do |t|
           rm "coverage.data" if File.exist?("coverage.data")
-          Rake::Task["redmine:backlogs_plugin:rcov:cucumber"].invoke
+          Rake::Task["redmine:backlogs:rcov:cucumber"].invoke
         end
       end
     end

@@ -3,7 +3,7 @@ desc 'Update translation files'
 require 'yaml'
 
 namespace :redmine do
-    namespace :backlogs_plugin do
+    namespace :backlogs do
         task :update_translations => :environment do
             langdir = File.dirname(File.dirname(File.dirname(__FILE__))) + '/config/locales'
             template_file = "#{langdir}/en.yml"

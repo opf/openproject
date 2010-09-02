@@ -1,7 +1,7 @@
 desc 'Create YAML files in features/fixtures'
 
 namespace :redmine do
-  namespace :backlogs_plugin do
+  namespace :backlogs do
     task :extract_fixtures => :environment do
       ENV["RAILS_ENV"] ||= "development"
       sql = "SELECT * FROM %s"

@@ -165,7 +165,7 @@ end
 
 
 namespace :redmine do
-  namespace :backlogs_plugin do
+  namespace :backlogs do
     task :anonymize => :environment do
       puts "This will anonymize ALL YOUR DATA"
       puts "ARE YOU VERY, VERY SURE?"

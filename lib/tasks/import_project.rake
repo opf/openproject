@@ -318,7 +318,7 @@ class Importer
 end
 
 namespace :redmine do
-    namespace :backlogs_plugin do
+    namespace :backlogs do
         task :import_project => :environment do
             raise "usage: rake redmine:backlogs_plugin:import_project project=<...> config=<...> mode=[commit|verify]" unless ENV['project'] and ENV['config']
             importer = Importer.new(YAML::load_file(ENV['project']), YAML::load_file(ENV['config']), ENV['mode'] == 'commit')

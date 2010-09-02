@@ -1,7 +1,7 @@
 desc 'Fix trackers after migration 011'
 
 namespace :redmine do
-  namespace :backlogs_plugin do
+  namespace :backlogs do
     task :fixup_trackers => :environment do
       story_trackers = Story.trackers
       story_tracker_id = story_trackers[0]
