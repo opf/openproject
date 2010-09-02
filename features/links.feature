@@ -103,3 +103,12 @@ Feature: Cost Reporting Linkage
     And I should not see "Report" within "#sidebar"
     When I follow "1.00 hour"
     Then I should be on "/projects/Standard%20Project/cost_reports"
+
+  Scenario: Jump to project from the cost report jumps to the cost report of the selected project
+    Given there is a standard cost control project named "First Project"
+    And there is a standard cost control project named "Second Project"
+    And I am logged in as "controller"
+    And I am on the Cost Reports page for the project called "First Project"
+    And I jump to project "Second Project"
+    Then I should see "Second Project"
+    And I should not see "First Project"
