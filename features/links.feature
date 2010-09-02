@@ -25,16 +25,14 @@ Feature: Cost Reporting Linkage
       | hours | 10      |
     And there is 1 cost type with the following:
       | name      | word |
-      | cost rate | 10   |
+      | cost rate | 1.01 |
     And the issue "manager issue" has 1 cost entry with the following:
-      | units     | 5       |
+      | units     | 7       |
       | user      | manager |
       | cost type | word    |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "Standard Project"
-    Then I should see "50.00" # 5 (units) x 10 EUR
-    And I should see "100.00" # 10 (hours) x 10 EUR
-    And I should see "150.00" # 100 EUR + 50 EUR
+    Then I should see "107.07" # 100 EUR (labour cost) + 7.07 EUR (words)
     And I should not see "No data to display"
 
   Scenario: Going from an Issue to the cost report should set the filter on this issue
