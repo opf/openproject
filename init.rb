@@ -72,7 +72,8 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,      { :rb_impediments => [:new, :create]  }
     permission :update_impediments,      { :rb_impediments => [:edit, :update] }
 
-    permission :view_statistics, { :rb_statistics => :show }    
+    permission :view_statistics, { :rb_statistics => :show }   
+    permission :view_calendar,   { :rb_calendars  => :show } 
   end
 
   menu :project_menu, :backlogs, { :controller => :rb_master_backlogs, :action => :show }, :caption => :label_backlogs, :after => :issues, :params => :project_id

@@ -11,6 +11,13 @@ Given /^I am a scrum master of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :view_master_backlog
   role.permissions << :view_sprints
+  role.permissions << :update_sprints
+  role.permissions << :update_stories
+  role.permissions << :view_calendars
+  role.permissions << :edit_wiki_pages
+  role.permissions << :view_wiki_pages
+  role.permissions << :view_wiki
+  role.permissions << :manage_wiki
   role.save!
   login_as_scrum_master
 end
@@ -153,6 +160,10 @@ Given /^I am viewing the issues list$/ do
   page.driver.response.status.should == 200
 end
 
+Given /^I have selected card label stock (.+)$/ do |stock|
+  Setting.plugin_redmine_backlogs[:card_spec] = stock
+end
+
 Given /^I have set my API access key$/ do
   Setting[:rest_api_enabled] = 1
   @user.reload
@@ -172,6 +183,6 @@ Given /^I have set the content for wiki page "([^"]+)" to "([^"]+)"$/ do |title,
   page.save
 end
 
-Given /^I have made "([^"]+)" the template page for sprint notes/ do |title|
+Given /^I have made (.+) the template page for sprint notes/ do |title|
   Setting.plugin_redmine_backlogs[:wiki_template] = Wiki.titleize(title)
 end

@@ -26,8 +26,8 @@ Feature: Scrum Master
       And I want to set the sprint_start_date of the sprint to 2010-03-01
       And I want to set the effective_date of the sprint to 2010-03-20
      When I update the sprint
-     Then the sprint should be updated accordingly
-      And the request should complete successfully
+     Then the request should complete successfully
+      And the sprint should be updated accordingly
 
   Scenario: Update sprint with no name
     Given I am viewing the master backlog
@@ -39,7 +39,8 @@ Feature: Scrum Master
   Scenario: Move a story from product backlog to sprint backlog
     Given I am viewing the master backlog
      When I move the story named Story 1 to the 1st position of the sprint named Sprint 001
-      And I move the story named Story 4 to the 2nd position of the sprint named Sprint 001
+     Then the request should complete successfully
+     When I move the story named Story 4 to the 2nd position of the sprint named Sprint 001
       And I move the story named Story 2 to the 1st position of the sprint named Sprint 002
       And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
       And Story 4 should be in the 1st position of the sprint named Sprint 001
@@ -54,13 +55,13 @@ Feature: Scrum Master
      Then the request should complete successfully
      
   Scenario: Download printable cards for the product backlog
-    Given I have selected card label stock "Avery C32015"
+    Given I have selected card label stock Avery 7169
       And I am viewing the issues list
      When I download the product backlog cards
      Then the request should complete successfully
 
   Scenario: Download printable cards for the task board
-    Given I have selected card label stock "Avery C32015"
+    Given I have selected card label stock Avery 7169
       And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
       And I am viewing the taskboard for Sprint 001
      When I download the task board cards

@@ -87,7 +87,7 @@ namespace :redmine do
         settings[:task_tracker] = create_new_tracker
       end
 
-      Setting.plugin_redmine_backlogs = settings
+      Setting.plugin_redmine_backlogs = {:points_burn_direction=>"down", :wiki_template=>"", :card_spec=>"APLI 01293"}.merge(settings)
       puts "Story and task trackers are now set."
       
       print "Migrating the database..."

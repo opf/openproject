@@ -14,6 +14,6 @@ Autotest.add_hook :initialize do |at|
 end
 
 Autotest.add_hook :all_good do |at|
-  system "rake redmine:backlogs_plugin:rcov"
+  system "rake redmine:backlogs:rcov"
   false
 end

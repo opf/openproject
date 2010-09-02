@@ -25,8 +25,8 @@ When /^I move the story named (.+) to the (\d+)(?:st|nd|rd|th) position of the s
                       end
 
   page.driver.process :post,
-                      url_for(:controller => 'stories', :action => 'update'),
-                      attributes
+                      url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
+                      attributes.merge({ "_method" => "put" })
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
@@ -58,19 +58,18 @@ end
 
 When /^I update the sprint$/ do
   page.driver.process :post,
-                      url_for(:controller => 'backlogs', :action => 'update'),
-                      @sprint_params
+                      url_for(:controller => 'rb_sprints', :action => "update", :id => @sprint_params['id']),
+                      @sprint_params.merge({ "_method" => "put" })
 end
 
 When /^I update the story$/ do
   page.driver.process :post,
                       url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
                       @story_params
-  page.driver.response.status.should == 200
 end
 
 When /^I download the calendar feed$/ do
-  visit url_for({ :key => @user.api_key, :controller => 'backlogs', :action => 'calendar', :format => 'xml', :project_id => @project.id })
+  visit url_for({ :key => @user.api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :id => @project.id })
 end
 
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
@@ -83,24 +82,18 @@ When /^I view the stories in the issues tab/ do
 end
 
 When /^I download the product backlog cards$/ do
-  visit url_for(:controller => 'backlogs', :action => 'product_backlog_cards', :project_id => @project.id)
+  visit url_for(:controller => 'rb_stories', :action => 'index', :format => 'pdf', :project_id => @project.id)
 end
 
 When /^I download the task board cards$/ do
-  visit url_for(:controller => 'backlogs', :action => 'taskboard_cards', :sprint_id => @sprint.id, :project_id => @project.id)
-end
-
-When /^I have selected card label stock "([^"]+)"$/ do |stock|
-  Setting.plugin_redmine_backlogs[:card_spec] = stock
+  visit url_for(:controller => 'rb_stories', :action => 'index', :format => 'pdf', :sprint_id => @sprint.id, :project_id => @project.id)
 end
 
 When /^I view the sprint notes$/ do
-  visit url_for(:controller => 'backlogs', :action => 'wiki_page', :sprint_id => @sprint.id, :project_id => @project.id)
-  page.driver.response.status.should == 200
+  visit url_for(:controller => 'rb_wikis', :action => 'show', :id => @sprint.id)
 end
 
 When /^I edit the sprint notes$/ do
-  visit url_for(:controller => 'backlogs', :action => 'wiki_page_edit', :sprint_id => @sprint.id, :project_id => @project.id)
-  page.driver.response.status.should == 200
+  visit url_for(:controller => 'rb_wikis', :action => 'edit', :id => @sprint.id)
 end
 
