@@ -4,6 +4,5 @@ rule /^redmine:backlogs_plugin/ do |t|
   puts "*".ljust(notice.length, "*")
   puts notice
   puts "*".ljust(notice.length, "*")
-  # exec "rake redmine:backlogs:#{task_name}"
   Rake::Task["redmine:backlogs:#{task_name}"].invoke
 end
