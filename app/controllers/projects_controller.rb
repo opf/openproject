@@ -238,19 +238,6 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-  def save_activities
-    if request.post? && params[:enumerations]
-      Project.transaction do
-        params[:enumerations].each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
-        end
-      end
-      flash[:notice] = l(:notice_successful_update)
-    end
-    
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'activities', :id => @project
-  end
-
   def reset_activities
     @project.time_entry_activities.each do |time_entry_activity|
       time_entry_activity.destroy(time_entry_activity.parent)

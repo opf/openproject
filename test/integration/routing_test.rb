@@ -185,7 +185,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'
     should_route :post, "/projects/64/archive", :controller => 'projects', :action => 'archive', :id => '64'
     should_route :post, "/projects/64/unarchive", :controller => 'projects', :action => 'unarchive', :id => '64'
-    should_route :post, "/projects/64/activities/save", :controller => 'projects', :action => 'save_activities', :id => '64'
+    should_route :post, "/projects/64/activities/save", :controller => 'project_enumerations', :action => 'save', :id => '64'
 
     should_route :put, "/projects/1.xml", :controller => 'projects', :action => 'edit', :id => '1', :format => 'xml'
 

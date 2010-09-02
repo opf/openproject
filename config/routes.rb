@@ -200,7 +200,7 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects.:format', :action => 'add', :format => /xml/
       project_actions.connect 'projects/:id/:action', :action => /edit|destroy|archive|unarchive/
       project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
-      project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
+      project_actions.connect 'projects/:id/activities/save', :controller => 'project_enumerations', :action => 'save'
     end
 
     projects.with_options :conditions => {:method => :put} do |project_actions|
