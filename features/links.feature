@@ -86,6 +86,7 @@ Feature: Cost Reporting Linkage
     And I should not see "50.00" # 10 EUR x 5 (words)
     And I should not see "150.00"
 
+  @javascript
   Scenario: Reporting on the project page should be accessible from the spent time
     Given there is a standard cost control project named "Standard Project"
     And the project "Standard Project" has 1 issue with the following:
