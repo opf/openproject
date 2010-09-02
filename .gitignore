@@ -2,4 +2,5 @@
 _site
 _posts
 assets/styles
+lib/labels.yaml
 graph.dot

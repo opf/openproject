@@ -9,8 +9,13 @@ require 'yaml'
 module Cards
     class TaskboardCards
         include Redmine::I18n
-        LABELS = YAML::load_file(File.dirname(__FILE__) + '/labels.yaml')
-    
+        
+        begin
+          LABELS = YAML::load_file(File.dirname(__FILE__) + '/labels.yaml')
+        rescue
+          LABELS = {}
+        end
+        
         def self.selected_label
             return nil if not Setting.plugin_redmine_backlogs[:card_spec]
             return LABELS[Setting.plugin_redmine_backlogs[:card_spec]]
