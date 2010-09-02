@@ -5,7 +5,7 @@ class RbCalendarsController < RbApplicationController
 
   def show
     respond_to do |format|
-      format.ics { send_data(generate_ical, :filename => "#{@project.identifier}.ics", :disposition => 'attachment', :type => 'text/calendar') }
+      format.xml { send_data(generate_ical, :filename => "#{@project.identifier}.ics", :disposition => 'attachment', :type => 'text/calendar') }
     end
   end
 

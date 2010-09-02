@@ -23,7 +23,7 @@ module BacklogsPlugin
                 end
 
                 return context[:controller].send(:render_to_string, {
-                        :partial => 'backlogs/view_issues_sidebar',
+                        :partial => 'shared/view_issues_sidebar',
                         :locals => locals
                     })
             end

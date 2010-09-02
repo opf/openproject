@@ -27,12 +27,13 @@
 
     <% if Setting.rest_api_enabled? && key %>
       <a href="<%= url_for({
-                    :key => key,
-                    :controller => 'backlogs',
-                    :only_path => false,
-                    :protocol => webcal,
-                    :action => 'calendar',
-                    :format => 'xml' }) %>"><%= l(:label_calendar) %></a><br>
+                    :only_path  => false,
+                    :protocol   => webcal,
+                    :controller => :rb_calendars,
+                    :action     => :show,
+                    :id         => project,
+                    :format     => 'xml',
+                    :key        => key }) %>"><%= l(:label_calendar) %></a><br>
     <% end %>
 
     <% if sprint && sprint.has_burndown %>
@@ -70,6 +71,6 @@
         <% end %>
 
         <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-left:0px; margin-top:20px; width:250px; height:192px;"></div>
-        <%= render :partial => "charts/burndown", :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
+        <%= render :partial => "rb_charts/burndown", :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
     <% end %>
 </div>
