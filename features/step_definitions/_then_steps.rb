@@ -93,11 +93,11 @@ Then /^the server should return (\d+) updated (.+)$/ do |count, object_type|
   page.all("##{object_type.pluralize} .#{object_type.singularize}").length.should == count.to_i
 end
 
-Then /^the sprint named (.+) should have (\d+) impediment named (.+)$/ do |sprint_name, count, impediment_subject|
+Then /^the sprint named (.+) should have (\d+) impediments? named (.+)$/ do |sprint_name, count, impediment_subject|
   sprints = Sprint.find(:all, :conditions => { :name => sprint_name })
   sprints.length.should == 1
   
-  sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == 1
+  sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == count.to_i
 end
 
 Then /^the sprint should be updated accordingly$/ do

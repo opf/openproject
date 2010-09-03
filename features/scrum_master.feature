@@ -33,7 +33,7 @@ Feature: Scrum Master
       And I want to indicate that the impediment blocks Story B
      When I create the impediment
      Then the request should complete successfully
-      And the sprint named Sprint 001 should have 1 impediment named Bad Impediment
+      And the sprint named Sprint 001 should have 2 impediments named Bad Impediment
 
   Scenario: Update an impediment
     Given I am viewing the taskboard for Sprint 001
