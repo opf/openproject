@@ -39,4 +39,11 @@ module JournalsHelper
     onclick = "new Ajax.Request('#{url_for(url)}', {asynchronous:true, evalScripts:true, method:'get'}); return false;"
     link_to text, '#', options.merge(:onclick => onclick)
   end
+  
+  def css_journal_classes(journal)
+    s = 'journal'
+    s << ' has-notes' unless journal.notes.blank?
+    s << ' has-details' unless journal.details.blank?
+    s
+  end
 end
