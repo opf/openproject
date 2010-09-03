@@ -16,23 +16,21 @@ module RbMasterBacklogsHelper
 
   def backlog_menu(is_sprint, items = [])
     html = %{
-      <ul class="actions pureCssMenu pureCssMenum">
-          <li class="pureCssMenui">
-              <a class="pureCssMenui" href="#"><span class="ui-icon ui-icon-triangle-1-s"></span></a>
-              <ul class="pureCssMenum">
+      <div class="menu">
+        <div class="icon ui-icon ui-icon-carat-1-s"></div>
+        <ul class="items">
     }
     items.each do |item|
       item[:condition] = true if item[:condition].nil?
       if item[:condition] && ( (is_sprint && item[:for] == :sprint) ||
                                (!is_sprint && item[:for] == :product) ||
                                (item[:for] == :both) )
-        html += %{ <li class="menu_item pureCssMenui">#{item[:item]}</li> }
+        html += %{ <li class="item">#{item[:item]}</li> }
       end
     end
     html += %{
-              </ul>
-          </li>
-      </ul>
+        </ul>
+      </div>
     }
   end
   

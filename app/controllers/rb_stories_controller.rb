@@ -33,7 +33,6 @@ class RbStoriesController < RbApplicationController
     result = story.update_and_position!(params)
     story.reload
     status = (result ? 200 : 400)
-    @include_meta = true
     
     respond_to do |format|
       format.html { render :partial => "story", :object => story, :status => status }

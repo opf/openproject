@@ -10,7 +10,7 @@ class RbTaskboardsController < RbApplicationController
                               :conditions => ["parent_id in (?)", @story_ids],
                               :order      => "updated_on DESC")
     respond_to do |format|
-      format.html { render :layout => "backlogs" }
+      format.html { render :layout => "rb" }
     end
   end
   

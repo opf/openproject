@@ -1,6 +1,7 @@
-<% content_for :header_tags do %>
+<!-- TASKBOARD VIEW -->
+<% content_for :head_tags do %>
   <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
-  <%= stylesheet_link_tag 'show', 'taskboard', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
+  <%= theme_stylesheet_link_tag 'taskboard.css' %>
   <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
@@ -8,7 +9,7 @@
 <%= link_to @project.name, :controller => "rb_master_backlogs", :action => "show", :project_id => @project %> : <%= @sprint.name %>
 <% end %>
 
-<%- content_for :page_specific_links do %>
+<%- content_for :view_specific_links do %>
   <% if @sprint.has_burndown %>
     <a id='show_charts'><%= l(:label_burndown) %></a>
   <% end %>
@@ -17,6 +18,7 @@
   <a id="refresh">Refresh</a>
 <%- end %>
 
+<%- content_for :main do %>
 <div id="taskboard">
   <table id="board_header" cellspacing="0">
     <tr>
@@ -58,25 +60,27 @@
     <%- end %>
   </table>
 </div>
+<%- end %>
 
-<!-- templates -->
-<select class="assigned_to_id template" id="assigned_to_id_options">
-  <option value=""> </option>
-  <%- @project.members.each do |member| %>
-  <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>"><%= member.name %></option>
-  <%- end %>
-</select>
-<div id="task_template">
-  <%= render :partial => "rb_tasks/task", :object => Task.new %>
-</div>
-<div id="impediment_template">
-  <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
-</div>
-<!-- end of templates -->
-<div id="issue_editor"> </div>
-<div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.now : @last_updated.updated_on) )  %></div>
-<div id="charts"> </div>
-<div id="preloader">
-  <div id="spinner"> </div>
-  <div id="warning"> </div>
-</div>
+<%- content_for :helpers do %>
+  <select class="assigned_to_id template" id="assigned_to_id_options">
+    <option value=""> </option>
+    <%- @project.members.each do |member| %>
+    <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>"><%= member.name %></option>
+    <%- end %>
+  </select>
+  <div id="task_template">
+    <%= render :partial => "rb_tasks/task", :object => Task.new %>
+  </div>
+  <div id="impediment_template">
+    <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
+  </div>
+  <!-- end of templates -->
+  <div id="issue_editor"> </div>
+  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.now : @last_updated.updated_on) )  %></div>
+  <div id="charts"> </div>
+  <div id="preloader">
+    <div id="spinner"> </div>
+    <div id="warning"> </div>
+  </div>
+<%- end %>

@@ -14,7 +14,7 @@ class RbSprintsController < RbApplicationController
     status  = (result ? 200 : 400)
     
     respond_to do |format|
-      format.html { render :text => status, :status => status }
+      format.html { render :partial => "sprint", :status => status }
     end
   end
   

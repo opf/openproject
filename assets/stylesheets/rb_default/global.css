@@ -1,0 +1,82 @@
+/* GLOBAL */
+body{
+  background-color:#FFFFFF;
+  font-family:Verdana, Arial, sans-serif;
+  font-size:1em;
+  height:100%;
+  margin:0;
+  width:100%;
+}
+a{
+  color:#CC0000;
+  text-decoration:none;
+}
+a:hover{
+  text-decoration:underline;
+}
+/* TOOLBAR */
+#toolbar{
+  background-color:#CCCCCC;
+  display:block;
+  height:30px;
+  overflow:hidden;
+  position:relative;
+  width:100%;
+}
+#toolbar .breadcrumbs{
+  bottom:5px;
+  display:block;
+  font-size:0.8em;
+  left:10px;
+  position:absolute;
+}
+#toolbar .breadcrumbs .home{
+  font-size:1.2em;
+}
+#toolbar .breadcrumbs .separator{
+  bottom:2px;
+  color: #999999;
+  font-size:0.7em;
+  font-weight:bold;
+  position:relative;
+}
+#toolbar .links{
+  bottom:5px;
+  display:block;
+  font-size:0.7em;
+  right:10px;
+  position:absolute;
+}
+#toolbar .links a{
+  cursor:pointer;
+  padding-left:5px;
+}
+body.loading #refresh{
+  background-image:url('images/bouncer.gif');
+  background-repeat:no-repeat;
+  background-position:-6px 1px;
+  padding-top:5px;
+}
+/* MAIN */
+#main{
+  display:block;
+  height:100%;
+  width:100%;
+}
+.meta{
+  display:none;
+}
+#helpers{
+  display:none;
+}
+/* 
+  .editor is the classname for field editors of sprint,
+  story, task, impediment. These field editors get created
+  at runtime whenever any of the above models are edited.
+*/
+.editors{
+  display:none;
+}
+.ui-dialog .editor{
+  display:block;
+}

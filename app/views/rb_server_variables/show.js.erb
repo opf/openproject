@@ -14,8 +14,16 @@ RB.buildImageTag = function(name){
   return "<img src='<%= Engines::RailsExtensions::AssetHelpers.plugin_asset_path('redmine_backlogs', 'images', nil) %>" + name + "'/>"
 }
 
-RB.urlFor = {
-  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
+RB.urlFor = function(route_name, options){
+  route = RB.routes[route_name];
+  if(options != null && options['id'] != null){
+    route = route.replace(":id", options['id']);
+  }
+  return route;
+}
+
+RB.routes = {
+  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :id => ":id") %>',
   
   create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
   update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',

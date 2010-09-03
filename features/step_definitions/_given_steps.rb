@@ -39,7 +39,7 @@ end
 
 Given /^I am viewing the master backlog$/ do
   visit url_for(:controller => :projects, :action => :show, :id => @project)
-  click_link('Backlogs')
+  click_link("Backlog")
   page.driver.response.status.should == 200
 end
 

@@ -28,13 +28,10 @@ RB.Factory = RB.Object.create({
   
 });
 
-// Common methods for models
-RB.Model = RB.Object.create({});
-
 // Utilities
 RB.Dialog = RB.Object.create({
   msg: function(msg){
-    dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('#content') : $('#msgBox');
+    dialog = $('#msgBox').size()==0 ? $(document.createElement('div')).attr('id', 'msgBox').appendTo('body') : $('#msgBox');
     dialog.html(msg);
     dialog.dialog({ title: 'Backlogs Plugin',
                     buttons: { "OK": function() { $(this).dialog("close"); } },

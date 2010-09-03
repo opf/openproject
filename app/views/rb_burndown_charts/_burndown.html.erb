@@ -1,7 +1,7 @@
 <%- charts = (burndown.is_a?(Array) ? burndown : [burndown]) %>
 <%- dataseries = charts[0].series(:all).collect{|series| series.name } %>
 
-  <%= stylesheet_link_tag 'jquery.jqplot.min.css', :plugin => 'redmine_backlogs' %>
+  <%= theme_stylesheet_link_tag 'jqplot.css' %>
 
   <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
   <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->

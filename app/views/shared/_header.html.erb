@@ -1,9 +1,0 @@
-<div id="header">
-  <div class="breadcrumbs">
-  <%= yield :breadcrumbs -%>
-  </div>
-  <div class="links">
-    <%= yield :page_specific_links -%>
-    <%= link_to l(:label_back_to_project), :controller => :projects, :action => 'show', :project_id => @project %>
-  </div>
-</div>

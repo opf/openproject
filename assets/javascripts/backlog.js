@@ -1,8 +1,16 @@
-/***************************************
+/******************************************
   BACKLOG
-***************************************/
+  A backlog is a visual representation of
+  a sprint and its stories. It's is not a
+  sprint. Imagine it this way: a sprint is
+  a start and end date, and a set of 
+  objectives. A backlog is something you
+  would draw up on the board or a spread-
+  sheet (or in Redmine Backlogs!) to 
+  visualize the sprint.
+******************************************/
 
-RB.Backlog = RB.Object.create(RB.Model, {
+RB.Backlog = RB.Object.create({
     
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.
@@ -27,30 +35,34 @@ RB.Backlog = RB.Object.create(RB.Model, {
 
     // Observe menu items
     j.find('.new_story').bind('mouseup', this.handleMenuClick);
-    j.find('.select_all').bind('mouseup', this.handleSelectAll);
-    j.find('.unselect_all').bind('mouseup', this.handleSelectAll);
-    j.find('.unselect_all').hide();
-    j.find('.show_charts').bind('click', function(ev){ self.showCharts(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
+    j.find('.show_burndown_chart').bind('click', function(ev){ self.showBurndownChart(ev) }); // capture 'click' instead of 'mouseup' so we can preventDefault();
+
+    if(this.isSprintBacklog()){
+      sprint = RB.Factory.initialize(RB.Sprint, this.getSprint());
+    }
 
     // Initialize each item in the backlog
     this.getStories().each(function(index){
       story = RB.Factory.initialize(RB.Story, this); // 'this' refers to an element with class="story"
     });
-
-    // Observe click events in certain fields
-    if(this.isSprint()){
-      j.find('.header').first().find('.editable').bind('mouseup', this.handleMouseup);
-    }
+    
+    if (this.isSprintBacklog()) this.recalcVelocity();
+    
+    // Handle New Story clicks
+    j.find('.add_new_story').bind('mouseup', self.handleNewStoryClick);
   },
   
   dragComplete: function(event, ui) {
-    var isDropTarget = (ui.sender==null); // Handler is triggered for source and target. Thus the need to check.
+    var isDropTarget = (ui.sender==null);
 
+    // jQuery triggers dragComplete of source and target. 
+    // Thus we have to check here. Otherwise, the story
+    // would be saved twice.
     if(isDropTarget){
       ui.item.data('this').saveDragResult();
     }
 
-    this.recalcPoints();
+    this.recalcVelocity();
   },
   
   dragStart: function(event, ui){ 
@@ -61,63 +73,10 @@ RB.Backlog = RB.Object.create(RB.Model, {
     ui.item.removeClass("dragging");  
   },
   
-  edit: function(){
-    var j = this.$;
-    var field, fieldType, fieldName, input, value;
-      
-    j.addClass('editing');
+  getSprint: function(){
+    return $(this.el).children(".sprint").first();
+  },
     
-    j.find('.header').first().find('.editable').each(function(index){
-      field = $(this);
-      fieldType = field.attr('fieldtype')!=null ? field.attr('fieldtype') : 'input';
-      fieldName = field.attr('fieldname');
-      input = j.find(fieldType + '.' + fieldName);
-      
-      // Create the input element for the field if it does not yet exist
-      if(input.size()==0){
-        input = fieldType=='select' ? $('#' + fieldName + '_options').clone(true) : $(document.createElement(fieldType));
-        input.removeAttr('id');
-        input.attr('name', fieldName);
-        input.addClass(fieldName);
-        if(field.hasClass('datepicker')) input.addClass('datepicker');
-        input.addClass('editor');
-        input.appendTo(j.find('.header'));
-        input.bind('keyup', j.data('this').handleKeyup);
-      } else {
-        input = input.first();
-      }
-      
-      // Copy the value in the field to the input element
-      value = ( fieldType=='select' ? field.children('.v').first().text() : field.text() );
-      input.val(value);
-    });
-    
-    // Show the datepicker for date fields
-    j.find('.header').find('input.datepicker').each(function(index){
-      $(this).datepicker({ changeMonth: true,
-      			               changeYear: true,
-      			               closeText: 'Close',
-                           dateFormat: 'yy-mm-dd', 
-                           firstDay: 1,
-                           onClose: function(){ $(this).focus() },
-                           selectOtherMonths: true,
-                           showAnim:'',
-                           showButtonPanel: true,
-                           showOtherMonths: true
-                        });
-      // So that we won't need a datepicker button to re-show it
-      $(this).bind('mouseup', function(event){ $(this).datepicker("show") });
-    });
-  },
-  
-  endEdit: function(){
-    this.$.removeClass('editing');
-  },
-  
-  getID: function(){
-    return this.isSprint() ? this.$.attr('id').split('_')[1] : this.$.attr('id');
-  },
-  
   getStories: function(){
     return this.getList().children(".story");
   },
@@ -125,131 +84,41 @@ RB.Backlog = RB.Object.create(RB.Model, {
   getList: function(){
     return $(this.el).children(".stories").first();
   },
-  
-  handleKeyup: function(event){
-    var j = $(this).parents('.backlog').first();
-    var that = j.data('this');
 
-    switch(event.which){
-      case 13   : that.saveEdits();   // Enter
-                  break;
-      case 27   : that.endEdit();     // ESC
-                  break;
-      default   : return true;
-    }
-  },
-  
-  handleMouseup: function(event){
-    // Get the backlog since what was clicked was a field
-    var j = $(this).parents('.backlog').first();
-    
-    if( !j.hasClass('editing') ){
-      j.data('this').edit();
-      
-      // Focus on the input corresponding to the field clicked
-      j.find( '.' + $(event.currentTarget).attr('fieldname') + '.editor' ).focus();
-    }
+  handleNewStoryClick: function(event){
+    event.preventDefault();
+    $(this).parents('.backlog').data('this').newStory();
   },
 
-  handleMenuClick: function(event){
-    item = $(this);
-    if(item.hasClass('new_story')){
-      $(this).parents('.backlog').data('this').newStory();
-    }
-  },
-  
-  handleSelectAll: function(event){
-    var t = $(event.target);
-    var b = $(this).parents('.backlog').first();
-    var select = t.hasClass('select_all');
-
-    // This is in the name of modularization and abstraction. But I'm not too
-    // happy about code readability. 
-    b.find('.story').each(function(index){ $(this).data('this').setSelection(select) });
-
-    b.find('.select_all').toggle();
-    b.find('.unselect_all').toggle();
-  },
-
-  isSprint: function(){
-    return $(this.el).hasClass('sprint');
-  },
-
-  loadStoryTemplate: function(){
-    RB.ajax({
-        type: "GET",
-        async: false,
-        url: RB.urlFor['new_story'] + "?project_id=" + RB.constants.project_id,
-        complete: function(xhr, textStatus){ $(xhr.responseText).removeClass("story").appendTo("#content").wrap("<div id='story_template'/>") } // removeClass() ensures that $(".story") will not include this node
-    });
-  },
-
-  markError: function(){
-    this.$.addClass('error');
-  },
-
-  markSaving: function(){
-    this.$.addClass('saving');
+  isSprintBacklog: function(){
+    return $(this.el).children('.sprint').length == 1; // return true if backlog has an element with class="sprint"
   },
     
   newStory: function(){
-    if($('#story_template').size()==0){
-      this.loadStoryTemplate();
-    }
-
     var story = $('#story_template').children().first().clone();
     
     this.getList().prepend(story);
-    o = RB.Factory.initialize(RB.Story, story[0]); // 'this' refers to an element with class="story"
+    o = RB.Factory.initialize(RB.Story, story[0]);
     o.edit();
-
-    //Focus on the input corresponding to the field clicked
     story.find('.editor' ).first().focus();
   },
   
-  recalcPoints: function(){
+  recalcVelocity: function(){
+    if( !this.isSprintBacklog() ) return true;
     total = 0;
     this.getStories().each(function(index){
       total += $(this).data('this').getPoints();
     });
-    this.$.children('.header').children('.points').text(total);
+    this.$.children('.header').children('.velocity').text(total);
   },
-    
-  saveEdits: function(){
-    var j = this.$.find('.header').first();
-    var me = this.$.data('this');
-    var editors = j.find('.editor');
-    var editor, fieldName;
-    
-    editors.each(function(index){
-      editor = $(this);
-      fieldName = editor.attr('name');
-      if(this.type.match(/select/)){
-        j.children('div.' + fieldName).children('.v').text(editor.val())
-        j.children('div.' + fieldName).children('.t').text(editor.children(':selected').text());
-      } else if(this.type.match(/textarea/)){
-      //   this.setValue('div.' + fieldName + ' .textile', editors[ii].value);
-      //   this.setValue('div.' + fieldName + ' .html', '-- will be displayed after save --');
-      } else {
-        j.find('div.' + fieldName).text(editor.val());
-      }
-    });
 
-    RB.ajax({
-      type: "POST",
-      url: RB.urlFor['update_sprint'].replace(":id", j.find('.id').text()),
-      data: editors.serialize() + "&_method=put",
-      beforeSend: function(xhr){ me.unmarkError(); me.markSaving() },
-      success: function(d,t,x){ me.unmarkSaving(); me.unmarkError() },
-      error: function(x,t,e){ RB.Dialog.msg(x.responseText); me.markError() }
-    });
-    me.endEdit();
-  },
-  
-  showCharts: function(event){
+  showBurndownChart: function(event){
     event.preventDefault();
-    $('#charts').html("<div class='loading'>Loading data...</div>");
-    $('#charts').load( RB.urlFor['show_burndown_chart'].replace(":id", this.getID()) );
+    if($("#charts").length==0){
+      $( document.createElement("div") ).attr('id', "charts").appendTo("body");
+    }
+    $('#charts').html( "<div class='loading'>Loading data...</div>");
+    $('#charts').load( RB.urlFor('show_burndown_chart', { id: this.getSprint().data('this').getID() }) );
     $('#charts').dialog({ 
                           buttons: { "Close": function() { $(this).dialog("close") } },
                           height: 790,
@@ -257,13 +126,5 @@ RB.Backlog = RB.Object.create(RB.Model, {
                           title: 'Charts', 
                           width: 710 
                        });
-  },
-
-  unmarkError: function(){
-    this.$.removeClass('error');
-  },
-  
-  unmarkSaving: function(){
-    this.$.removeClass('saving');
   }
 });

@@ -39,7 +39,7 @@ en:
 
   label_back_to_project: "Back to project page"
   label_sprint_name: "Sprint \"{{name}}\""
-  label_backlogs: Backlogs
+  label_backlogs: Backlog
   label_scrum_statistics: "Scrum statistics"
 
   label_sprint_backlog: "sprint backlog"
@@ -77,13 +77,19 @@ en:
 
   label_sprint_impediments: "Sprint Impediments"
 
-  subject: "Subject"
-  blank: "is blank"
+  field_subject: "Subject"
 
-  label_blocks: "Blocks"
+  field_blocks: "Blocks"
   error_must_have_comma_delimited_list: "must have a comma delimited list of story or task IDs"
 
-  tracker_id: Tracker ID
+  field_tracker_id: Tracker ID
   inclusion: "is not included in the list"
   
   label_webcal: Webcal Feed
+  label_master_backlog: Master Backlog
+
+  # Version fields
+  field_name: "Name"
+  
+  # Error messages
+  error_blank: "cannot be blank"

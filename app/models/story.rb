@@ -50,19 +50,8 @@ class Story < Issue
     end
 
     def self.find_all_updated_since(since, project_id)
-      # different databases do date-to-string comparisons in different
-      # ways
-      if ! (since.is_a?(Date) || since.is_a?(DateTime))
-        since = since.to_s
-        if since.match(/:/)
-          since = DateTime.strptime(since, '%Y-%m-%d %H:%M:%S')
-        else
-          since = Date.strptime(since, '%Y-%m-%d')
-        end
-      end
-
       find(:all,
-           :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?)", project_id, since, trackers],
+           :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?)", project_id, Time.parse(since), trackers],
            :order => "updated_on ASC")
     end
 
@@ -149,7 +138,7 @@ class Story < Issue
     def update_and_position!(params)
       attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
-      result = journalized_update_attributes! attribs
+      result = journalized_update_attributes attribs
       if result and params[:prev]
         move_after(params[:prev])
       end

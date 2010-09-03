@@ -50,7 +50,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
-  @story_ids = page.all(:css, "#product_backlog .stories .story .id")
+  @story_ids = page.all(:css, "#product_backlog_container .stories .story .id")
 
   story = @story_ids[old_pos.to_i-1]
   story.should_not == nil
@@ -135,5 +135,6 @@ end
 
 When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type, how_many, period, direction|
   date = eval("#{ how_many }.#{ period }.#{ direction=='from now' ? 'from_now' : 'ago' }")
-  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project.id, :only => object_type, :since => date.strftime("%Y-%m-%d %H:%M:%S"))
+  date = date.strftime("%B %d, %Y %H:%M:%S") + '.' + (date.to_f % 1 + 0.001).to_s.split('.')[1]
+  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project.id, :only => object_type, :since => date)
 end

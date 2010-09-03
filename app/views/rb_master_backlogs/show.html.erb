@@ -1,65 +1,32 @@
-<%- content_for :header_tags do %>
-  <%= stylesheet_link_tag 'index', 'story', :plugin => 'redmine_backlogs' %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :format => :js) %>"></script>
-  <%= javascript_include_tag 'board_updater', 'master_backlogs_updater', 'index_main', 'backlog', 'story', :plugin => 'redmine_backlogs' %>
+<!-- MASTER BACKLOG VIEW -->
+<%- content_for :head_tags do %>
+  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :id => @project.id, :format => :js) %>"></script>
+  <%= javascript_include_tag    'master_backlog', 'backlog', 'model', 'sprint', 'issue', 'story', 'board_updater', 'master_backlog_updater', :plugin => 'redmine_backlogs' %>
+  <%= theme_stylesheet_link_tag 'jqplot.css', 'master_backlog.css' %>
 <%- end %>
 
 <%- content_for :breadcrumbs do %>
-  <%= @project.name %>
+  <%= l(:label_master_backlog) %>
 <%- end %>
 
-<%- content_for :page_specific_links do %>
+<%- content_for :view_specific_links do %>
   <a id="project_info">Info<a>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
 <%- end %>
 
-<!-- sprint backlogs -->
-<div id="sprints">
-  <%= render :partial => "backlog", :collection => @sprints %>
-</div>
+<%- content_for :main do %>
+  <div id="backlogs_container">
+    <div id="product_backlog_container">
+      <%= render :partial => 'backlog', :object => @product_backlog %>
+    </div>
+    <div id="sprint_backlogs_container">
+      <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+    </div>
+  </div>
+<%- end %>
 
-<!-- product backlog -->
-<%= render :partial => "backlog", :object => { :name => l(:backlogs_product_backlog), :stories => @product_backlog_stories }%>
-
-<div class="meta" id="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
-
-<!-- form field templates -->
-<select class="status_id template" id="status_id_options">
-  <%- IssueStatus.find(:all, :order => "position ASC").each do |status| %>
-  <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>"><%= status.name %></option>
-  <%- end %>
-</select>
-
-<select class="tracker_id template" id="tracker_id_options">
-  <%-  Tracker.find_all_by_id(Setting.plugin_redmine_backlogs[:story_trackers]).each do |tracker| %>
-  <option value="<%= tracker.id %>"><%= tracker.name %></option>
-  <%- end %>
-</select>
-<!-- end of form field templates -->
-
-<div id="story_template">
-  <%= render :partial => 'rb_stories/story', :object => Story.new %>
-</div>
-
-<%
-  scores = @project.scrum_statistics.scores
-  info = @project.scrum_statistics.info
-%>
-<div id="velocity">
-  <% if !scores[:velocity_missing] %>
-  <table>
-    <tr><td>Velocity</td><td><%= info[:velocity] %></td></tr>
-    <tr><td>Based on</td><td><%= info[:closed_sprints].length %> sprints</td></tr>
-    <tr><td>Sprint average</td><td><%= info[:average_days_per_sprint] %> days</td></tr>
-    <tr><td>Sprints</td><td>
-    <% (info[:closed_sprints]).each do |sprint| %>
-        <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => @project, :sprint_id => sprint.id }) %><br/>
-    <% end %></td></tr></table>
-  <% else %>
-    No velocity
-  <% end %>
-</div>
-
-<div id="charts">
-</div>
+<%- content_for :helpers do %>
+<%= render :partial => "rb_stories/helpers" %>
+<div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
+<%- end %>

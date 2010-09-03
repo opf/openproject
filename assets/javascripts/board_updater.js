@@ -32,7 +32,7 @@ RB.BoardUpdater = RB.Object.create({
 
     RB.ajax({
       type      : "GET",
-      url       : RB.urlFor['show_updated_items'].replace(":id", RB.constants.project_id) + '?' + self.params,
+      url       : RB.urlFor('show_updated_items', { id: RB.constants.project_id} ) + '?' + self.params,
       data      : { 
                     since : $('#last_updated').text()
                   },
