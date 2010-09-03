@@ -13,8 +13,8 @@ class ContextMenusController < ApplicationController
         memo & s
       end
     end
-    projects = @issues.collect(&:project).compact.uniq
-    @project = projects.first if projects.size == 1
+    @projects = @issues.collect(&:project).compact.uniq
+    @project = @projects.first if @projects.size == 1
 
     @can = {:edit => (@project && User.current.allowed_to?(:edit_issues, @project)),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),

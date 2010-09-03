@@ -32,6 +32,8 @@
 		</ul>
 	</li>
 	<% end %>
+
+  <% if @projects.size == 1 %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
@@ -41,6 +43,8 @@
 		<% end -%>
 		</ul>
 	</li>
+  <% end %>
+
 	<% unless @project.nil? || @project.shared_versions.open.empty? -%>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
@@ -80,7 +84,8 @@
 		</ul>
 	</li>
 	<% end -%>
-  <% if Issue.use_field_for_done_ratio? %>
+
+  <% if Issue.use_field_for_done_ratio? && @projects.size == 1 %>
 	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
 		<ul>
@@ -91,6 +96,7 @@
 		</ul>
 	</li>
   <% end %>
+
 <% if !@issue.nil? %>
 	<% if @can[:log_time] -%>
 	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
