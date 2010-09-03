@@ -43,10 +43,7 @@ RB.BacklogsUpdater = RB.Object.create(RB.BoardUpdater, {
   },
 
   start: function(){
-    this.itemType   = 'story';
     this.params     = 'only=stories';
-    this.objectType = RB.Story;
-    
     this.initialize();
   }
 

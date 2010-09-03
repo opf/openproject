@@ -21,14 +21,14 @@ class RbUpdatedItemsController < RbApplicationController
     if only.include? :tasks
       @items[:tasks] = Task.find_all_updated_since(params[:since], @project.id)
       if @items[:tasks].length > 0
-        latest_updates = @items[:tasks].sort{ |a,b| a.updated_on <=> b.updated_on }.first
+        latest_updates << @items[:tasks].sort{ |a,b| a.updated_on <=> b.updated_on }.first
       end
     end
 
     if only.include? :impediments
       @items[:impediments] = Task.find_all_updated_since(params[:since], @project.id, true)
       if @items[:impediments].length > 0
-        latest_updates = @items[:impediments].sort{ |a,b| a.updated_on <=> b.updated_on }.first
+        latest_updates << @items[:impediments].sort{ |a,b| a.updated_on <=> b.updated_on }.first
       end
     end
     

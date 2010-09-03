@@ -4,13 +4,13 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
     var self = this;
     
     // Process tasks
-    var items = $(data).children('.task');
+    var items = $(data).find('.task');
     items.each(function(i, v){
       self.processItem(v, false);
     });
 
     // Process impediments
-    var items = $(data).children('.impediment');
+    var items = $(data).find('.impediment');
     items.each(function(i, v){
       self.processItem(v, true);
     });
@@ -43,9 +43,7 @@ RB.TaskboardUpdater = RB.Object.create(RB.BoardUpdater, {
   },
   
   start: function(){
-    this.urlFor     = 'list_tasks';
-    this.params     = 'sprint_id=' + RB.constants.sprint_id + '&include_impediments=true';  // RB.constants is defined in backlogs/jsvariables.js.erb
-    
+    this.params = 'only=tasks,impediments';    
     this.initialize();
   }
 

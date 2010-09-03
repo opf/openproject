@@ -12,7 +12,6 @@
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
     <div class="status_id"><%= impediment.status_id %></div>
-    <div class="previous"><%= impediment.right_sibling.nil? ? '' : impediment.right_sibling.id %></div>
     <div class="errors">
       <%- impediment.errors.each_error do |a, err| %>
       <div><%= "#{l(a)} #{l(err.type)}" %></div>
