@@ -75,7 +75,7 @@ Feature: Scrum Master
   Scenario: Request the project calendar feed
     Given I have set my API access key
       And I move the story named Story 4 to the 1st position of the sprint named Sprint 004
-      And I am viewing the issues list
+      And I am logged out
      When I download the calendar feed
      Then the request should complete successfully
      

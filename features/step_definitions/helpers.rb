@@ -61,3 +61,8 @@ def login_as_admin
   click_button 'Login »'
   @user = User.find(:first, :conditions => "login='admin'")
 end  
+
+def logout
+  visit url_for(:controller => 'account', :action=>'logout')
+  @user = nil
+end
