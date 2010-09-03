@@ -29,9 +29,7 @@ Redmine::Plugin.register :redmine_reporting do
   end
 
   # register additional permissions for the time log
-  project_module :time_tracking do
-    permission :view_own_time_entries, {:cost_reports => [:index]}, :granular_for => :view_time_entries
-  end
+  Redmine::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/index"
 
   #menu extensions
   menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index'},

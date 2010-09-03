@@ -92,6 +92,7 @@ Feature: Permissions
       | view_own_time_entries |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    And I start debugging
     Then I should not see "No data to display"
     And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
     And I should not see "30.30" # EUR 20.20 + 10.10 (manager + developer words)
