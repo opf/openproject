@@ -101,7 +101,7 @@ Feature: Cost Reporting Linkage
     And I should not see "Details" within "#sidebar"
     And I should not see "Report" within "#sidebar"
     When I follow "1.00 hour"
-    Then I should be on "/projects/Standard%20Project/cost_reports"
+    Then I should be on the Cost Reports page for the project called "Standard Project"
 
   @javascript
   Scenario: Jump to project from the cost report jumps to the cost report of the selected project
