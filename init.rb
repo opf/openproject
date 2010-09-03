@@ -37,8 +37,8 @@ Redmine::Plugin.register :redmine_reporting do
   menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index'},
     :caption => :cost_reports_title,
     :if => Proc.new {
-      ( User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
-        User.current.allowed_to?(:edit_cost_objects, nil, :global => true)
+      ( User.current.allowed_to?(:view_cost_entries, nil, :global => true) ||
+        User.current.allowed_to?(:view_time_entries, nil, :global => true)
       )
     }
 
