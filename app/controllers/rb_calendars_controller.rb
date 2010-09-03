@@ -2,7 +2,9 @@ require 'icalendar'
 
 class RbCalendarsController < RbApplicationController
   unloadable
-
+  
+  accept_key_auth :show
+  
   def show
     respond_to do |format|
       format.xml { send_data(generate_ical, :disposition => 'attachment') }

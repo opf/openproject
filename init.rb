@@ -60,24 +60,23 @@ Redmine::Plugin.register :redmine_backlogs do
     
     # Story permissions
     # :show_stories and :list_stories are implicit in :view_master_backlog permission
-    permission :create_stories,      { :rb_stories => :create  }
-    permission :update_stories,      { :rb_stories => :update }
+    permission :create_stories,         { :rb_stories => :create }
+    permission :update_stories,         { :rb_stories => :update }
     
     # Task permissions
     # :show_tasks and :list_tasks are implicit in :view_sprints
-    permission :create_tasks,      { :rb_tasks => [:new, :create]  }
-    permission :update_tasks,      { :rb_tasks => [:edit, :update] }
+    permission :create_tasks,           { :rb_tasks => [:new, :create]  }
+    permission :update_tasks,           { :rb_tasks => [:edit, :update] }
     
     # Impediment permissions
     # :show_impediments and :list_impediments are implicit in :view_sprints
-    permission :create_impediments,      { :rb_impediments => [:new, :create]  }
-    permission :update_impediments,      { :rb_impediments => [:edit, :update] }
+    permission :create_impediments,     { :rb_impediments => [:new, :create]  }
+    permission :update_impediments,     { :rb_impediments => [:edit, :update] }
 
-    permission :view_statistics, { :rb_statistics => :show }
-    permission :view_calendar,   { :rb_calendars  => :show }
+    permission :view_scrum_statistics,  { :rb_statistics => :show }
     
     # Let Redmine wiki permissions take care of this since rb_wiki just does a redirect
-    permission :view_wiki,       { :rb_wikis      => :all  }, :public => true
+    permission :view_sprint_wiki,       { :rb_wikis      => :all  }, :public => true
   end
 
   menu :project_menu, :backlogs, { :controller => :rb_master_backlogs, :action => :show }, :caption => :label_backlogs, :after => :issues, :params => :project_id

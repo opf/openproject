@@ -101,7 +101,7 @@ When /^I update the task$/ do
 end
 
 When /^I download the calendar feed$/ do
-  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :id => @project.id })
+  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :id => @project })
 end
 
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
