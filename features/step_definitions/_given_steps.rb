@@ -200,7 +200,7 @@ end
 Given /^the project has the following impediments:$/ do |table|
   table.hashes.each do |impediment|
     sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
-    blocks = Story.find(:all, :conditions => { :name => impediment['blocks'].split(', ')  }).map{ |s| s.id }
+    blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
     params = initialize_impediment_params(sprint.id)
     params['subject'] = impediment['subject']
     params['blocks']  = blocks.join(',')
@@ -226,6 +226,11 @@ Given /^I have set my API access key$/ do
   @user.reload
   @user.api_key.should_not be_nil
   @api_key = @user.api_key
+end
+
+Given /^I have guessed an API access key$/ do
+  Setting[:rest_api_enabled] = 1
+  @api_key = 'guess'
 end
 
 Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
