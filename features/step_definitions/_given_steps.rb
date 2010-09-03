@@ -32,6 +32,10 @@ Given /^I am a team member of the project$/ do
   login_as_team_member
 end
 
+Given /^I am logged out$/ do
+  logout
+end
+
 Given /^I am viewing the master backlog$/ do
   visit url_for(:controller => :rb_master_backlogs, :action => :show, :id => @project)
   page.driver.response.status.should == 200
@@ -221,6 +225,7 @@ Given /^I have set my API access key$/ do
   Setting[:rest_api_enabled] = 1
   @user.reload
   @user.api_key.should_not be_nil
+  @api_key = @user.api_key
 end
 
 Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
