@@ -219,6 +219,19 @@ class CostQuery < ActiveRecord::Base
       display false
     end
 
+    inherited_attribute :selectable, :default => true
+    def self.selectable!
+      selectable true
+    end
+
+    def self.selectable?
+      !!selectable
+    end
+
+    def self.not_selectable!
+      selectable false
+    end
+
     def self.last_table
       @last_table ||= 'entries'
     end

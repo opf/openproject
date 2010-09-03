@@ -35,6 +35,7 @@
       <% grouped_filters.each do |label, filter_ary| %>
         <optgroup label="<%= l(label) %>">
         <% filter_ary.sort_by { |f| l(f.label)}.each do |filter| %>
+          <% next unless filter.selectable? %>
           <option value="<%= filter.underscore_name %>"><%= l(filter.label) %></option>
         <% end %>
         </optgroup>
