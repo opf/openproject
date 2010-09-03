@@ -5,7 +5,6 @@
 %>
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-<% active_filters = query.filters.select {|f| f.class.display? } %>
 <% grouped_filters = CostQuery::Filter.all_grouped.sort_by { |label, group_by_ary| l(label) } %>
 
 <table width="100%">
@@ -15,12 +14,13 @@
     <% grouped_filters.each do |label, filter_ary| %>
       <tr id="tr_<%= label.to_s %>" style="display:none"><td><h3><%= l(label) %></h3></td></tr>
       <% filter_ary.sort_by { |f| l(f.label)}.each do |filter| %>
+        <% next unless filter.display? %>
         <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none" data-label="tr_<%= label.to_s %>">
         <% html_elements(filter).each do |element| %>
           <%=
             partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters')
-            render :partial => File.join(partial_prefix, element[:name].to_s), 
-            :locals => {:element => element, :f => f, :filter => (active_filters.detect {|f| f.class == filter})}
+            render :partial => File.join(partial_prefix, element[:name].to_s),
+            :locals => {:element => element, :f => f, :filter => filter}
           %>
         <% end %>
         </tr>

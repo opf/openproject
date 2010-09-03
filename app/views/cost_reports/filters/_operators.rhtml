@@ -17,9 +17,7 @@
           id="operators_<%= element[:filter_name] %>"
           class="select-small">
     <% element[:operators].each do |operator| %>
-      <option value="<%= h(operator.to_s) %>"
-              data-arity="<%= operator.arity %>"
-              <%= 'selected="selected"' if filter and (filter.operator.to_s == operator.to_s) %>>
+      <option value="<%= h(operator.to_s) %>" data-arity="<%= operator.arity %>">
         <%= h(l(operator.label)) %>
       </option>
     <% end %>
