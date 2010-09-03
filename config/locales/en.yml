@@ -85,3 +85,5 @@ en:
 
   tracker_id: Tracker ID
   inclusion: "is not included in the list"
+  
+  label_webcal: Webcal Feed

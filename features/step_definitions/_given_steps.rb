@@ -13,7 +13,7 @@ Given /^I am a scrum master of the project$/ do
   role.permissions << :view_sprints
   role.permissions << :update_sprints
   role.permissions << :update_stories
-  role.permissions << :view_calendars
+  role.permissions << :subscribe_to_calendar
   role.permissions << :edit_wiki_pages
   role.permissions << :view_wiki_pages
   role.permissions << :create_impediments

@@ -73,6 +73,7 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,     { :rb_impediments => [:new, :create]  }
     permission :update_impediments,     { :rb_impediments => [:edit, :update] }
 
+    permission :subscribe_to_calendar,  { :rb_calendars  => :show }
     permission :view_scrum_statistics,  { :rb_statistics => :show }
     
     # Let Redmine wiki permissions take care of this since rb_wiki just does a redirect
