@@ -60,13 +60,14 @@ Then /^(.+) should be the higher item of (.+)$/ do |higher_subject, lower_subjec
   lower.length.should == 1
   
   lower.first.higher_item.id.should == higher.first.id
-  
-  # puts page.find(".story .meta .previous").content
-  pending
 end
 
 Then /^the request should complete successfully$/ do
   page.driver.response.status.should == 200
+end
+
+Then /^the request should fail$/ do
+  page.driver.response.status.should == 401
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story should be (.+)$/ do |position, subject|
