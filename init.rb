@@ -41,7 +41,8 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_calendars        => :show,
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
-                                       :rb_burndown_charts  => :show
+                                       :rb_burndown_charts  => :show,
+                                       :rb_updated_items    => :show
                                      }
     
     # Sprint permissions
@@ -50,7 +51,8 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_tasks            => [:index, :show],
                                        :rb_impediments      => [:index, :show],
                                        :rb_server_variables => :show,
-                                       :rb_burndown_charts  => :show
+                                       :rb_burndown_charts  => :show,
+                                       :rb_updated_items    => :show
                                      }
     permission :update_sprints,      { 
                                         :rb_sprints => [:edit, :update],

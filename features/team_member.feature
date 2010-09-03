@@ -21,7 +21,11 @@ Feature: Team Member
       And the project has the following tasks:
         | subject | parent  |
         | Task 1  | Story 1 |
-
+      And the project has the following impediments:
+        | subject      | sprint     | blocks  |
+        | Impediment 1 | Sprint 001 | Story 1 |
+        | Impediment 2 | Sprint 001 | Story 2 | 
+        
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
       And I want to create a task for Story 1
@@ -55,4 +59,28 @@ Feature: Team Member
     Given I am viewing the master backlog
      When I view the stories in the issues tab
      Then I should see the Issues page
-     
+
+  Scenario: Fetch the updated stories
+    Given I am viewing the master backlog
+     When the browser fetches stories updated since 1 week ago
+     Then the request should complete successfully
+      And the server should return 4 updated stories
+
+  Scenario: Fetch the updated tasks
+    Given I am viewing the taskboard for Sprint 001
+     When the browser fetches tasks updated since 1 week ago
+     Then the request should complete successfully
+      And the server should return 1 updated task
+
+  Scenario: Fetch the updated impediments
+    Given I am viewing the taskboard for Sprint 001
+     When the browser fetches impediments updated since 1 week ago
+     Then the request should complete successfully
+      And the server should return 2 updated impediments
+
+  Scenario: Fetch zero updated impediments 
+    Given I am viewing the taskboard for Sprint 001
+     When the browser fetches impediments updated since 1 week from now
+     Then the request should complete successfully
+      And the server should return 0 updated impediments
+      

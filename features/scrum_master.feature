@@ -107,3 +107,4 @@ Feature: Scrum Master
      When I edit the sprint notes
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
+

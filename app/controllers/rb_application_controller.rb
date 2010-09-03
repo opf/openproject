@@ -17,7 +17,8 @@ class RbApplicationController < ApplicationController
                elsif ['rb_queries',
                       'rb_master_backlogs',
                       'rb_calendars',
-                      'rb_server_variables'].include? params[:controller]
+                      'rb_server_variables',
+                      'rb_updated_items'].include? params[:controller]
                  Project.find(params[:id])
                
                elsif params[:project_id]

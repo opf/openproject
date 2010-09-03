@@ -1,0 +1,9 @@
+<div id="stories">
+<%= render :partial => "rb_stories/story", :collection => @items[:stories] %>
+</div>
+<div id="tasks">
+<%= render :partial => "rb_tasks/task", :collection => @items[:tasks] %>
+</div>
+<div id="impediments">
+<%= render :partial => "rb_impediments/impediment", :collection => @items[:impediments] %>
+</div>

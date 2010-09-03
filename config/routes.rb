@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   # Use rb/ as a URL 'namespace.' We're using a slightly different URL pattern
   # From Redmine so namespacing avoids any further problems down the line
   map.resource :rb, :only => :none do |rb|
+    rb.resources :updated_items,    :only => :sghow,              :controller => :rb_updated_items
     rb.resources :queries,          :only => :show,               :controller => :rb_queries
     rb.resources :wikis,            :only => [:show, :edit],      :controller => :rb_wikis
     rb.resources :statistics,       :only => :show,               :controller => :rb_statistics

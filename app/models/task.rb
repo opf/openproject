@@ -30,6 +30,12 @@ class Task < Issue
     return task
   end
 
+  def self.find_all_updated_since(since, project_id, find_impediments = false)
+    find(:all,
+         :conditions => ["project_id=(?) AND updated_on > ? AND tracker_id in (?) and parent_id IS #{ find_impediments ? '' : 'NOT' } NULL", project_id, since, tracker],
+         :order => "updated_on ASC")
+  end
+
   def update_with_relationships(params, is_impediment = false)
     attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?

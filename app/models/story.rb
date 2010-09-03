@@ -33,6 +33,12 @@ class Story < Issue
       return s
     end
 
+    def self.find_all_updated_since(since, project_id)
+      find(:all,
+           :conditions => ["project_id=(?) AND updated_on > ? AND tracker_id in (?)", project_id, since, trackers],
+           :order => "updated_on ASC")
+    end
+
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
         return [] if trackers == '' or trackers.nil?
