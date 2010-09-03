@@ -125,3 +125,34 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
 		And the user "reporter" is a "Reporter" in the project "#{name}"
   }
 end
+
+Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"]*)" with:$/ do |cost_type, issue, table|
+  i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
+  raise "No such issue: #{issue}" unless i
+
+  table.rows_hash.collect do |k,v|
+    user = k.split.first
+    if k.end_with? "hours"
+      steps %Q{
+        And the issue "#{issue}" has 1 time entry with the following:
+          | hours     | #{v}    |
+          | user      | #{user} |
+      }
+    elsif k.end_with? "units"
+      steps %Q{
+        And the issue "#{issue}" has 1 cost entry with the following:
+        | units     | #{v}         |
+        | user      | #{user}      |
+        | cost type | #{cost_type} |
+      }
+    elsif k.end_with? "rate"
+      steps %Q{
+        And the user "#{user}" has:
+          | default rate | #{v} |
+      }
+    else
+      "Don't know what to do with #{k} => #{v}. Use | <username> (hours|rate|units) | <x> | as."
+      next
+    end
+  end
+end
