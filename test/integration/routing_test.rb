@@ -190,7 +190,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :put, "/projects/1.xml", :controller => 'projects', :action => 'edit', :id => '1', :format => 'xml'
 
     should_route :delete, "/projects/1.xml", :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml'
-    should_route :delete, "/projects/64/reset_activities", :controller => 'projects', :action => 'reset_activities', :id => '64'
+    should_route :delete, "/projects/64/reset_activities", :controller => 'project_enumerations', :action => 'destroy', :id => '64'
   end
 
   context "repositories" do

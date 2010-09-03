@@ -381,52 +381,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
-  def test_reset_activities
-    @request.session[:user_id] = 2 # manager
-    project_activity = TimeEntryActivity.new({
-                                               :name => 'Project Specific',
-                                               :parent => TimeEntryActivity.find(:first),
-                                               :project => Project.find(1),
-                                               :active => true
-                                             })
-    assert project_activity.save
-    project_activity_two = TimeEntryActivity.new({
-                                                   :name => 'Project Specific Two',
-                                                   :parent => TimeEntryActivity.find(:last),
-                                                   :project => Project.find(1),
-                                                   :active => true
-                                                 })
-    assert project_activity_two.save
-
-    delete :reset_activities, :id => 1
-    assert_response :redirect
-    assert_redirected_to 'projects/ecookbook/settings/activities'
-
-    assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_nil TimeEntryActivity.find_by_id(project_activity_two.id)
-  end
-  
-  def test_reset_activities_should_reassign_time_entries_back_to_the_system_activity
-    @request.session[:user_id] = 2 # manager
-    project_activity = TimeEntryActivity.new({
-                                               :name => 'Project Specific Design',
-                                               :parent => TimeEntryActivity.find(9),
-                                               :project => Project.find(1),
-                                               :active => true
-                                             })
-    assert project_activity.save
-    assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ["project_id = ? AND activity_id = ?", 1, 9])
-    assert 3, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size
-    
-    delete :reset_activities, :id => 1
-    assert_response :redirect
-    assert_redirected_to 'projects/ecookbook/settings/activities'
-
-    assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_equal 0, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size, "TimeEntries still assigned to project specific activity"
-    assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size, "TimeEntries still assigned to project specific activity"
-  end
-  
   # A hook that is manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)

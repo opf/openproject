@@ -32,7 +32,7 @@
 </table>
 
 <div class="contextual">
-<%= link_to(l(:button_reset), {:controller => 'projects', :action => 'reset_activities', :id => @project},
+<%= link_to(l(:button_reset), {:controller => 'project_enumerations', :action => 'destroy', :id => @project},
 						:method => :delete,
 						:confirm => l(:text_are_you_sure),
             :class => 'icon icon-del') %>

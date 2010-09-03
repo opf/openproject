@@ -209,7 +209,7 @@ ActionController::Routing::Routes.draw do |map|
 
     projects.with_options :conditions => {:method => :delete} do |project_actions|
       project_actions.conditions 'projects/:id.:format', :action => 'destroy', :format => /xml/
-      project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
+      project_actions.conditions 'projects/:id/reset_activities', :controller => 'project_enumerations', :action => 'destroy'
     end
   end
   
