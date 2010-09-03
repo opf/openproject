@@ -355,6 +355,49 @@ class UserTest < ActiveSupport::TestCase
 
   end
   
+  context "#allowed_to?" do
+    context "with a unique project" do
+      should "return false if project is archived" do
+        project = Project.find(1)
+        Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
+        assert ! @admin.allowed_to?(:view_issues, Project.find(1))
+      end
+      
+      should "return false if related module is disabled" do
+        project = Project.find(1)
+        project.enabled_module_names = ["issue_tracking"]
+        assert @admin.allowed_to?(:add_issues, project)
+        assert ! @admin.allowed_to?(:view_wiki_pages, project)
+      end
+      
+      should "authorize nearly everything for admin users" do
+        project = Project.find(1)
+        assert ! @admin.member_of?(project)
+        %w(edit_issues delete_issues manage_news manage_documents manage_wiki).each do |p|
+          assert @admin.allowed_to?(p.to_sym, project)
+        end
+      end
+      
+      should "authorize normal users depending on their roles" do
+        project = Project.find(1)
+        assert @jsmith.allowed_to?(:delete_messages, project)    #Manager
+        assert ! @dlopper.allowed_to?(:delete_messages, project) #Developper
+      end
+    end
+    
+    context "with options[:global]" do
+      should "authorize if user has at least one role that has this permission" do
+        @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+        @anonymous = User.find(6)
+        assert @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert ! @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
+        assert @dlopper2.allowed_to?(:add_issues, nil, :global => true)
+        assert ! @anonymous.allowed_to?(:add_issues, nil, :global => true)
+        assert @anonymous.allowed_to?(:view_issues, nil, :global => true)
+      end
+    end
+  end
+  
   if Object.const_defined?(:OpenID)
     
   def test_setting_identity_url
