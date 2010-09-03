@@ -1,3 +1,9 @@
+When /^I create the impediment$/ do
+  page.driver.process :post, 
+                      url_for(:controller => :rb_impediments, :action => :create),
+                      @impediment_params
+end
+
 When /^I create the story$/ do
   page.driver.process :post, 
                       url_for(:controller => :rb_stories, :action => :create),
@@ -6,7 +12,7 @@ end
 
 When /^I create the task$/ do
   page.driver.process :post, 
-                      url_for(:controller => :rb_tasks),
+                      url_for(:controller => :rb_tasks, :action => :create),
                       @task_params
 end
 
@@ -56,6 +62,12 @@ When /^I request the server_variables resource$/ do
   visit url_for(:controller => :rb_server_variables, :action => :show, :id => @project.id)
 end
 
+When /^I update the impediment$/ do
+  page.driver.process :post, 
+                      url_for(:controller => :rb_impediments, :action => :update),
+                      @impediment_params.merge({ "_method" => "put" })
+end
+
 When /^I update the sprint$/ do
   page.driver.process :post,
                       url_for(:controller => 'rb_sprints', :action => "update", :id => @sprint_params['id']),
@@ -65,7 +77,13 @@ end
 When /^I update the story$/ do
   page.driver.process :post,
                       url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
-                      @story_params
+                      @story_params.merge({ "_method" => "put" })
+end
+
+When /^I update the task$/ do
+  page.driver.process :post,
+                      url_for(:controller => :rb_tasks, :action => :update, :id => @task_params[:id]),
+                      @task_params.merge({ "_method" => "put" })
 end
 
 When /^I download the calendar feed$/ do

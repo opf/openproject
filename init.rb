@@ -74,6 +74,9 @@ Redmine::Plugin.register :redmine_backlogs do
 
     permission :view_statistics, { :rb_statistics => :show }   
     permission :view_calendar,   { :rb_calendars  => :show } 
+    
+    # Let Redmine wiki permissions take care of this since rb_wiki just does a redirect
+    permission :view_wiki,       { :rb_wikis      => :all  }, :public => true
   end
 
   menu :project_menu, :backlogs, { :controller => :rb_master_backlogs, :action => :show }, :caption => :label_backlogs, :after => :issues, :params => :project_id

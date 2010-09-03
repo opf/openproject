@@ -18,6 +18,31 @@ Feature: Scrum Master
         | 2        | Story 2 |
         | 3        | Story 3 |
         | 4        | Story 4 |
+      And the project has the following stories in the following sprints:
+        | position | subject | sprint     |
+        | 5        | Story A | Sprint 001 |
+        | 6        | Story B | Sprint 001 |
+      And the project has the following impediments:
+        | subject      | sprint     | blocks  |
+        | Impediment 1 | Sprint 001 | Story A | 
+
+  Scenario: Create an impediment
+    Given I am viewing the taskboard for Sprint 001
+      And I want to create an impediment for Sprint 001
+      And I want to set the subject of the impediment to Bad Impediment
+      And I want to indicate that the impediment blocks Story B
+     When I create the impediment
+     Then the request should complete successfully
+      And the sprint named Sprint 001 should have 1 impediment named Bad Impediment
+
+  Scenario: Update an impediment
+    Given I am viewing the taskboard for Sprint 001
+      And I want to edit the impediment named Impediment 1
+      And I want to set the subject of the impediment to Good Impediment
+      And I want to indicate that the impediment blocks Story B
+     When I update the impediment
+     Then the request should complete successfully
+      And the sprint named Sprint 001 should have 1 impediment named Good Impediment
 
   Scenario: Update sprint details
     Given I am viewing the master backlog
@@ -68,15 +93,17 @@ Feature: Scrum Master
      Then the request should complete successfully
 
   Scenario: view the sprint notes
-    Given I have set the content for wiki page "Sprint Template" to "Sprint Template"
-      And I have made "Sprint Template" the template page for sprint notes
+    Given I have set the content for wiki page Sprint Template to Sprint Template
+      And I have made Sprint Template the template page for sprint notes
       And I am viewing the taskboard for Sprint 001
      When I view the sprint notes
-    Then the wiki page "Sprint 001" should contain "Sprint Template"
+     Then the request should complete successfully
+    Then the wiki page Sprint 001 should contain Sprint Template
 
   Scenario: edit the sprint notes
-    Given I have set the content for wiki page "Sprint Template" to "Sprint Template"
-      And I have made "Sprint Template" the template page for sprint notes
+    Given I have set the content for wiki page Sprint Template to Sprint Template
+      And I have made Sprint Template the template page for sprint notes
       And I am viewing the taskboard for Sprint 001
      When I edit the sprint notes
-    Then the wiki page "Sprint 001" should contain "Sprint Template"
+     Then the request should complete successfully
+     Then the wiki page Sprint 001 should contain Sprint Template

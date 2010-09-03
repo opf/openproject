@@ -34,7 +34,7 @@ Feature: Product Owner
 
   Scenario: Update a story
     Given I am viewing the master backlog
-      And I want to update the story with subject Story 3
+      And I want to edit the story with subject Story 3
       And I set the subject of the story to Relaxdiego was here
       And I set the tracker of the story to Bug
      When I update the story
@@ -44,7 +44,7 @@ Feature: Product Owner
 
   Scenario: Close a story
     Given I am viewing the master backlog
-      And I want to update the story with subject Story 4
+      And I want to edit the story with subject Story 4
       And I set the status of the story to Closed
      When I update the story
      Then the status of the story should be set as closed

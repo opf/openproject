@@ -18,6 +18,9 @@ Feature: Team Member
         | 2        | Story 2 | Sprint 001 |
         | 3        | Story 3 | Sprint 001 |
         | 4        | Story 4 | Sprint 002 |
+      And the project has the following tasks:
+        | subject | parent  |
+        | Task 1  | Story 1 |
 
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
@@ -26,6 +29,14 @@ Feature: Team Member
      When I create the task
      Then the request should complete successfully
       And the 1st task for Story 1 should be A Whole New Task
+
+  Scenario: Update a task for a story
+    Given I am viewing the taskboard for Sprint 001
+      And I want to edit the task named Task 1
+      And I set the subject of the task to Whoa there, Sparky
+     When I update the task
+     Then the request should complete successfully
+      And the story named Story 1 should have 1 task named Whoa there, Sparky
 
   Scenario: View a taskboard
     Given I am viewing the taskboard for Sprint 001

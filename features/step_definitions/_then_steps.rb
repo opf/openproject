@@ -75,6 +75,13 @@ Then /^the server should return an update error$/ do
   page.driver.response.status.should == 400
 end
 
+Then /^the sprint named (.+) should have (\d+) impediment named (.+)$/ do |sprint_name, count, impediment_subject|
+  sprints = Sprint.find(:all, :conditions => { :name => sprint_name })
+  sprints.length.should == 1
+  
+  sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == 1
+end
+
 Then /^the sprint should be updated accordingly$/ do
   sprint = Sprint.find(@sprint_params['id'])
   
@@ -88,6 +95,16 @@ end
 Then /^the status of the story should be set as (.+)$/ do |status|
   @story.reload
   @story.status.name.downcase.should == status
+end
+
+Then /^the story named (.+) should have (\d+) task named (.+)$/ do |story_subject, count, task_subject|
+  stories = Story.find(:all, :conditions => { :subject => story_subject })
+  stories.length.should == 1
+  
+  tasks = Task.find(:all, :conditions => { :parent_id => stories.first.id })
+  tasks.length.should == 1
+  
+  tasks.first.subject.should == task_subject
 end
 
 Then /^the story should be at the (top|bottom)$/ do |position|
@@ -109,7 +126,7 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story[attribute].should == value
 end
 
-Then /^the wiki page "([^"]+)" should contain "([^"]+)"$/ do |title, content|
+Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
   title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
   page.should_not be_nil

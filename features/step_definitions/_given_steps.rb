@@ -16,8 +16,8 @@ Given /^I am a scrum master of the project$/ do
   role.permissions << :view_calendars
   role.permissions << :edit_wiki_pages
   role.permissions << :view_wiki_pages
-  role.permissions << :view_wiki
-  role.permissions << :manage_wiki
+  role.permissions << :create_impediments
+  role.permissions << :update_impediments
   role.save!
   login_as_scrum_master
 end
@@ -27,9 +27,7 @@ Given /^I am a team member of the project$/ do
   role.permissions << :view_master_backlog
   role.permissions << :view_sprints
   role.permissions << :create_tasks
-  # role.permissions << :update_tasks
-  # role.permissions << :create_impediments
-  # role.permissions << :update_impediments
+  role.permissions << :update_tasks
   role.save!
   login_as_team_member
 end
@@ -76,10 +74,32 @@ Given /^I want to create a task for (.+)$/ do |story_subject|
   @task_params = initialize_task_params(story.id)
 end
 
+Given /^I want to create an impediment for (.+)$/ do |sprint_subject|
+  sprint = Sprint.find(:first, :conditions => { :name => sprint_subject })
+  @impediment_params = initialize_impediment_params(sprint.id)
+end
+
+Given /^I want to edit the task named (.+)$/ do |task_subject|
+  task = Task.find(:first, :conditions => { :subject => task_subject })
+  task.should_not be_nil
+  @task_params = HashWithIndifferentAccess.new(task.attributes)
+end
+
+Given /^I want to edit the impediment named (.+)$/ do |impediment_subject|
+  impediment = Task.find(:first, :conditions => { :subject => impediment_subject })
+  impediment.should_not be_nil
+  @impediment_params = HashWithIndifferentAccess.new(impediment.attributes)
+end
+
 Given /^I want to edit the sprint named (.+)$/ do |name|
   sprint = Sprint.find(:first, :conditions => "name='#{name}'")
   sprint.should_not be_nil
-  @sprint_params = sprint.attributes
+  @sprint_params = HashWithIndifferentAccess.new(sprint.attributes)
+end
+
+Given /^I want to indicate that the impediment blocks (.+)$/ do |blocks_csv|
+  blocks_csv = Story.find(:all, :conditions => { :subject => blocks_csv.split(', ') }).map{ |s| s.id }.join(',')
+  @impediment_params[:blocks] = blocks_csv
 end
 
 Given /^I want to set the (.+) of the sprint to (.+)$/ do |attribute, value|
@@ -87,10 +107,15 @@ Given /^I want to set the (.+) of the sprint to (.+)$/ do |attribute, value|
   @sprint_params[attribute] = value
 end
 
-Given /^I want to update the story with subject (.+)$/ do |subject|
+Given /^I want to set the (.+) of the impediment to (.+)$/ do |attribute, value|
+  value = '' if value == "an empty string"
+  @impediment_params[attribute] = value
+end
+
+Given /^I want to edit the story with subject (.+)$/ do |subject|
   @story = Story.find(:first, :conditions => "subject='#{subject}'")
   @story.should_not be_nil
-  @story_params = @story.attributes
+  @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
 
 Given /^the (.*) project has the backlogs plugin enabled$/ do |project_id|
@@ -155,6 +180,34 @@ Given /^the project has the following stories in the following sprints:$/ do |ta
   end
 end
 
+Given /^the project has the following tasks:$/ do |table|
+  table.hashes.each do |task|
+    story = Story.find(:first, :conditions => { :subject => task['parent'] })
+    params = initialize_task_params(story.id)
+    params['subject'] = task['subject']
+
+    # NOTE: We're bypassing the controller here because we're just
+    # setting up the database for the actual tests. The actual tests,
+    # however, should NOT bypass the controller
+    Task.create_with_relationships(params, @user.id, @project.id)
+  end
+end
+
+Given /^the project has the following impediments:$/ do |table|
+  table.hashes.each do |impediment|
+    sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
+    blocks = Story.find(:all, :conditions => { :name => impediment['blocks'].split(', ')  }).map{ |s| s.id }
+    params = initialize_impediment_params(sprint.id)
+    params['subject'] = impediment['subject']
+    params['blocks']  = blocks.join(',')
+
+    # NOTE: We're bypassing the controller here because we're just
+    # setting up the database for the actual tests. The actual tests,
+    # however, should NOT bypass the controller
+    Task.create_with_relationships(params, @user.id, @project.id)
+  end
+end
+
 Given /^I am viewing the issues list$/ do
   visit url_for(:controller => 'issues', :action=>'index', :project_id => @project)
   page.driver.response.status.should == 200
@@ -170,7 +223,7 @@ Given /^I have set my API access key$/ do
   @user.api_key.should_not be_nil
 end
 
-Given /^I have set the content for wiki page "([^"]+)" to "([^"]+)"$/ do |title, content|
+Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
   title = Wiki.titleize(title)
   page = @project.wiki.find_page(title)
   if ! page
@@ -180,9 +233,9 @@ Given /^I have set the content for wiki page "([^"]+)" to "([^"]+)"$/ do |title,
   end
 
   page.content.text = content
-  page.save
+  page.save.should be_true
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_redmine_backlogs[:wiki_template] = Wiki.titleize(title)
+  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge({:wiki_template => Wiki.titleize(title)})
 end
