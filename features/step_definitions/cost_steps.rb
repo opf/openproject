@@ -92,6 +92,8 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     Given there is 1 project with the following:
       | Name | #{name} |
     And the project "#{name}" has 1 subproject
+    And the project "#{name}" has 1 issue with:
+      | subject | #{name}issue |
     And the role "Manager" may have the following rights:
       | view_own_hourly_rate |
       | view_issues |
