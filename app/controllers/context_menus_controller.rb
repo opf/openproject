@@ -6,6 +6,12 @@ class ContextMenusController < ApplicationController
     if (@issues.size == 1)
       @issue = @issues.first
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+    else
+      @allowed_statuses = @issues.map do |i|
+        i.new_statuses_allowed_to(User.current)
+      end.inject do |memo,s|
+        memo & s
+      end
     end
     projects = @issues.collect(&:project).compact.uniq
     @project = projects.first if projects.size == 1
