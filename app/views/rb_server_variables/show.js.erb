@@ -24,7 +24,9 @@ RB.urlFor = {
   update_task: '<%= url_for(:controller => 'rb_tasks', :action => 'update', :id => ":id") %>',
 
   create_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'create') %>',
-  update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>'
+  update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>',
+
+  show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :id => ":id") %>'
 }
 
 if(typeof console != "undefined" && console != null) console.log('*** server variables loaded ***');

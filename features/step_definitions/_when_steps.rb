@@ -16,18 +16,32 @@ When /^I create the task$/ do
                       @task_params
 end
 
-When /^I move the story named (.+) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
+When /^I move the story named (.+) below (.+)$/ do |story_subject, prev_subject|
+  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  prev  = Story.find(:first, :conditions => "subject='#{prev_subject}'")
+  
+  attributes = story.attributes
+  attributes[:prev]             = prev.id
+  attributes[:fixed_version_id] = prev.fixed_version_id
+
+  page.driver.process :post,
+                      url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
+                      attributes.merge({ "_method" => "put" })
+end
+
+When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, direction, position, sprint_name|
   position = position.to_i
   story = Story.find(:first, :conditions => "subject='#{story_subject}'")
   sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
   story.fixed_version = sprint
-
+  
   attributes = story.attributes
   attributes[:prev] = if position == 1
                         ''
                       else
-                        stories = Story.find(:all, :conditions => "fixed_version_id=#{sprint.id}", :order => "position ASC")
-                        stories[position-2].id
+                        stories = Story.find(:all, :conditions => "fixed_version_id=#{sprint.id} AND tracker_id IN (#{Story.trackers.join(',')})", :order => "position ASC")
+                        raise "You indicated an invalid position (#{position}) in a sprint with #{stories.length} stories" if 0 > position or position > stories.length
+                        stories[position - (direction=="up" ? 2 : 1)].id
                       end
 
   page.driver.process :post,

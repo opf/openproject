@@ -3,7 +3,7 @@ RB.BacklogsUpdater = RB.Object.create(RB.BoardUpdater, {
     var self = this;
 
     // Process all stories
-    var items = $(data).children('.story');
+    var items = $(data).find('.story');
     items.each(function(i, v){
       self.processItem(v, false);
     });
@@ -44,8 +44,7 @@ RB.BacklogsUpdater = RB.Object.create(RB.BoardUpdater, {
 
   start: function(){
     this.itemType   = 'story';
-    this.urlFor     = 'list_stories';
-    this.params     = '';
+    this.params     = 'only=stories';
     this.objectType = RB.Story;
     
     this.initialize();

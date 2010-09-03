@@ -66,6 +66,7 @@ module RbCommonHelper
   end
 
   def date_string_with_milliseconds(d, add=0)
+    return '' if d.nil?
     d.strftime("%B %d, %Y %H:%M:%S") + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
 

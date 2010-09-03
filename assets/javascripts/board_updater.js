@@ -29,12 +29,12 @@ RB.BoardUpdater = RB.Object.create({
 
   getData: function(){
     var self = this;
+
     RB.ajax({
       type      : "GET",
-      url       : RB.urlFor[self.urlFor] + '?' + self.params,
+      url       : RB.urlFor['show_updated_items'].replace(":id", RB.constants.project_id) + '?' + self.params,
       data      : { 
-                    after     : $('#last_updated').text(),
-                    project_id: RB.constants.project_id
+                    since : $('#last_updated').text()
                   },
       beforeSend: function(){ $('body').addClass('loading')  },
       success   : function(d,t,x){ self.processData(d,t,x)  },
@@ -84,8 +84,8 @@ RB.BoardUpdater = RB.Object.create({
     var self = this;
 
     $('body').removeClass('loading');
-    
-    var latest_update = $(data).children('#last_updated').text();
+
+    var latest_update = $(data).find('#last_updated').text();
     if(latest_update.length > 0) $('#last_updated').text(latest_update);
 
     self.processAllItems(data);

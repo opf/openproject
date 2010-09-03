@@ -16,7 +16,6 @@
   <div class="meta">
     <div class="sprint"><%= story.fixed_version_id %></div>
     <div class="previous"><%= story.higher_item.nil? ? '' : story.higher_item.id %></div>
-    <div class="last_updated"><%= updated_on_with_milliseconds(@last_updated) %></div>
   </div>
   <%- end %>
 </li>

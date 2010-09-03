@@ -63,18 +63,25 @@ Feature: Scrum Master
 
   Scenario: Move a story from product backlog to sprint backlog
     Given I am viewing the master backlog
-     When I move the story named Story 1 to the 1st position of the sprint named Sprint 001
+     When I move the story named Story 1 up to the 1st position of the sprint named Sprint 001
      Then the request should complete successfully
-     When I move the story named Story 4 to the 2nd position of the sprint named Sprint 001
-      And I move the story named Story 2 to the 1st position of the sprint named Sprint 002
-      And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
+     When I move the story named Story 4 up to the 2nd position of the sprint named Sprint 001
+      And I move the story named Story 2 up to the 1st position of the sprint named Sprint 002
+      And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
       And Story 4 should be in the 1st position of the sprint named Sprint 001
      Then Story 1 should be in the 2nd position of the sprint named Sprint 001
       And Story 2 should be in the 1st position of the sprint named Sprint 002
+  
+  Scenario: Move a story down in a sprint
+    Given I am viewing the master backlog
+     When I move the story named Story A below Story B
+     Then the request should complete successfully
+      And Story A should be in the 2nd position of the sprint named Sprint 001
+      And Story B should be the higher item of Story A
      
   Scenario: Request the project calendar feed
     Given I have set my API access key
-      And I move the story named Story 4 to the 1st position of the sprint named Sprint 004
+      And I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
       And I am viewing the issues list
      When I download the calendar feed
      Then the request should complete successfully
@@ -87,7 +94,7 @@ Feature: Scrum Master
 
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 7169
-      And I move the story named Story 4 to the 1st position of the sprint named Sprint 001
+      And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
       And I am viewing the taskboard for Sprint 001
      When I download the task board cards
      Then the request should complete successfully
