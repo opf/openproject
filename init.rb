@@ -19,10 +19,10 @@ end
 require_dependency 'backlogs_hooks'
 
 Redmine::Plugin.register :redmine_backlogs do
-  name 'Redmine Backlogs Plugin'
+  name 'Redmine Backlogs'
   author 'relaxdiego, friflaj'
-  description 'A plugin for scrum/agile teams'
-  version '0.2.x maintenance branch'
+  description 'A plugin for agile teams'
+  version 'master branch (unstable)'
 
   settings :default => { 
                          :story_trackers  => nil, 
@@ -38,7 +38,6 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :view_master_backlog, { 
                                        :rb_master_backlogs  => :show,
                                        :rb_stories          => [:index, :show],
-                                       :rb_calendars        => :show,
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
                                        :rb_burndown_charts  => :show,
@@ -74,8 +73,8 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,      { :rb_impediments => [:new, :create]  }
     permission :update_impediments,      { :rb_impediments => [:edit, :update] }
 
-    permission :view_statistics, { :rb_statistics => :show }   
-    permission :view_calendar,   { :rb_calendars  => :show } 
+    permission :view_statistics, { :rb_statistics => :show }
+    permission :view_calendar,   { :rb_calendars  => :show }
     
     # Let Redmine wiki permissions take care of this since rb_wiki just does a redirect
     permission :view_wiki,       { :rb_wikis      => :all  }, :public => true
