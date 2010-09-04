@@ -3,7 +3,7 @@ class Story < Issue
 
     acts_as_list :scope => :project
 
-    def self.backlog(project, sprint, limit=nil)
+    def self.backlog(project, sprint, options={})
       stories = []
       Story.find(:all,
             # this forces NULLS-LAST ordering
@@ -21,7 +21,7 @@ class Story < Issue
                 ],
             :include => :status,
             :joins => :status,
-            :limit => limit).each_with_index {|story, i|
+            :limit => options[:limit]).each_with_index {|story, i|
         story.rank = i + 1
         stories << story
       }
@@ -30,11 +30,11 @@ class Story < Issue
     end
 
     def self.product_backlog(project, limit=nil)
-      return Story.backlog(project, nil, limit)
+      return Story.backlog(project, nil, :limit => limit)
     end
 
-    def self.sprint_backlog(sprint)
-      return Story.backlog(sprint.project, sprint.id)
+    def self.sprint_backlog(sprint, options={})
+      return Story.backlog(sprint.project, sprint.id, options)
     end
 
     def self.create_and_position(params)
