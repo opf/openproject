@@ -7,7 +7,7 @@ class Story < Issue
       stories = []
       Story.find(:all,
             # this forces NULLS-LAST ordering
-            :order => 'case when position is null then 1 else 0 end ASC, case when position is NULL then id else position end ASC',
+            :order => 'case when issues.position is null then 1 else 0 end ASC, case when issues.position is NULL then issues.id else issues.position end ASC',
             :conditions => [
                 "parent_id is NULL
                   and project_id = ?
@@ -19,7 +19,8 @@ class Story < Issue
                 sprint, sprint,
                 false, sprint
                 ],
-            :include => :issue_status,
+            :include => :status,
+            :joins => :status,
             :limit => limit).each_with_index {|story, i|
         story.rank = i + 1
         stories << story
@@ -33,7 +34,7 @@ class Story < Issue
     end
 
     def self.sprint_backlog(sprint)
-      return Story.backlog(story.project, sprint.id)
+      return Story.backlog(sprint.project, sprint.id)
     end
 
     def self.create_and_position(params)
