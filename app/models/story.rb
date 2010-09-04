@@ -45,8 +45,19 @@ class Story < Issue
     end
 
     def self.find_all_updated_since(since, project_id)
+      # different databases do date-to-string comparisons in different
+      # ways
+      if ! (since.is_a?(Date) || since.is_a?(DateTime))
+        since = since.to_s
+        if since.match(/:/)
+          since = DateTime.strptime(since, '%Y-%m-%d %H:%M:%S')
+        else
+          since = Date.strptime(since, '%Y-%m-%d')
+        end
+      end
+
       find(:all,
-           :conditions => ["project_id=(?) AND updated_on > ? AND tracker_id in (?)", project_id, since, trackers],
+           :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?)", project_id, since, trackers],
            :order => "updated_on ASC")
     end
 

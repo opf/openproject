@@ -1,3 +1,5 @@
+require 'date'
+
 class Task < Issue
   unloadable
 
@@ -30,9 +32,22 @@ class Task < Issue
     return task
   end
 
+  # TODO: there's an assumption here that impediments always have the
+  # task-tracker as their tracker.
   def self.find_all_updated_since(since, project_id, find_impediments = false)
+    # different databases do date-to-string comparisons in different
+    # ways
+    if ! (since.is_a?(Date) || since.is_a?(DateTime))
+      since = since.to_s
+      if since.match(/:/)
+        since = DateTime.strptime(since, '%Y-%m-%d %H:%M:%S')
+      else
+        since = Date.strptime(since, '%Y-%m-%d')
+      end
+    end
+
     find(:all,
-         :conditions => ["project_id=(?) AND updated_on > ? AND tracker_id in (?) and parent_id IS #{ find_impediments ? '' : 'NOT' } NULL", project_id, since, tracker],
+         :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?) and parent_id IS #{ find_impediments ? '' : 'NOT' } NULL", project_id, since, tracker],
          :order => "updated_on ASC")
   end
 
