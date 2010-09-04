@@ -42,13 +42,13 @@ Given /^I am viewing the master backlog$/ do
 end
 
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
-  @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => :rb_burndown_charts, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
-  @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
+  @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => :rb_taskboards, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
@@ -56,10 +56,10 @@ end
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
   if attribute=="tracker"
     attribute="tracker_id"
-    value = Tracker.find(:first, :conditions => "name='#{value}'").id
+    value = Tracker.find(:first, :conditions => ["name=?", value]).id
   elsif attribute=="status"
     attribute="status_id"
-    value = IssueStatus.find(:first, :conditions => "name='#{value}'").id
+    value = IssueStatus.find(:first, :conditions => ["name=?", value]).id
   end
   @story_params[attribute] = value
 end
@@ -74,7 +74,7 @@ Given /^I want to create a story$/ do
 end
 
 Given /^I want to create a task for (.+)$/ do |story_subject|
-  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  story = Story.find(:first, :conditions => ["subject=?", story_subject])
   @task_params = initialize_task_params(story.id)
 end
 
@@ -96,7 +96,7 @@ Given /^I want to edit the impediment named (.+)$/ do |impediment_subject|
 end
 
 Given /^I want to edit the sprint named (.+)$/ do |name|
-  sprint = Sprint.find(:first, :conditions => "name='#{name}'")
+  sprint = Sprint.find(:first, :conditions => ["name=?", name])
   sprint.should_not be_nil
   @sprint_params = HashWithIndifferentAccess.new(sprint.attributes)
 end
@@ -117,7 +117,7 @@ Given /^I want to set the (.+) of the impediment to (.+)$/ do |attribute, value|
 end
 
 Given /^I want to edit the story with subject (.+)$/ do |subject|
-  @story = Story.find(:first, :conditions => "subject='#{subject}'")
+  @story = Story.find(:first, :conditions => ["subject=?", subject])
   @story.should_not be_nil
   @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
@@ -174,7 +174,7 @@ Given /^the project has the following stories in the following sprints:$/ do |ta
     params = initialize_story_params
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
-    params['fixed_version_id'] = (Sprint.find(:first, :conditions => "name='#{story['sprint']}'") || Sprint.new).id
+    params['fixed_version_id'] = (Sprint.find(:first, :conditions => ["name=?", story['sprint']]) || Sprint.new).id
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,

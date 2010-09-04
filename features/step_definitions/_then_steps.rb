@@ -26,7 +26,7 @@ Then /^I should see the product backlog$/ do
 end
 
 Then /^show me the list of sprints$/ do
-  sprints = Sprint.find(:all, :conditions => "project_id=#{@project.id}")
+  sprints = Sprint.find(:all, :conditions => ["project_id=?", @project.id])
 
   puts "\n"
   puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'sprint_start_date'.ljust(18)} | #{'effective_date'.ljust(18)} | #{'updated_on'.ljust(20)}"
@@ -69,17 +69,17 @@ Then /^the request should fail$/ do
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) story should be (.+)$/ do |position, subject|
-  story = Story.find(:first, :conditions => "position=#{position}")
+  story = Story.find(:first, :conditions => ["position=?", position])
   story.should_not be_nil
   story.subject.should == subject
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) position should be unique$/ do |position|
-  Story.find(:all, :conditions => "position=#{position}").length.should == 1
+  Story.find(:all, :conditions => ["position=?", position]).length.should == 1
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
-  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
+  story = Story.find(:first, :conditions => ["subject=?", story_subject])
   story.children[position.to_i - 1].subject.should == task_subject
 end
 
@@ -135,7 +135,7 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   @story.reload
   if attribute=="tracker"
     attribute="tracker_id"
-    value = Tracker.find(:first, :conditions => "name='#{value}'").id
+    value = Tracker.find(:first, :conditions => ["name=?", value]).id
   elsif attribute=="position"
     value = value.to_i
   end
