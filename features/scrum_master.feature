@@ -68,8 +68,8 @@ Feature: Scrum Master
      When I move the story named Story 4 up to the 2nd position of the sprint named Sprint 001
       And I move the story named Story 2 up to the 1st position of the sprint named Sprint 002
       And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-      And Story 4 should be in the 1st position of the sprint named Sprint 001
-     Then Story 1 should be in the 2nd position of the sprint named Sprint 001
+     Then Story 4 should be in the 1st position of the sprint named Sprint 001
+      And Story 1 should be in the 2nd position of the sprint named Sprint 001
       And Story 2 should be in the 1st position of the sprint named Sprint 002
   
   Scenario: Move a story down in a sprint

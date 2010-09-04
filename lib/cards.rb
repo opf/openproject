@@ -24,8 +24,9 @@ module Cards
         def initialize(lang)
             set_language_if_valid lang
 
+            raise "No label stock selected" unless Setting.plugin_redmine_backlogs[:card_spec]
             label = TaskboardCards.selected_label
-            raise "No label spec selected" if label.nil?
+            raise "Label stock \"#{Setting.plugin_redmine_backlogs[:card_spec]}\" not found" unless label
 
             label['papersize'].upcase!
     
@@ -80,7 +81,7 @@ module Cards
                     label = nil
     
                     papersize = specs.attributes['size']
-                    papersize = 'Letter' if papersize = 'US-Letter'
+                    papersize = 'Letter' if papersize == 'US-Letter'
     
                     specs.elements.each('Label-rectangle') do |geom|
                         margin = nil

@@ -1,9 +1,7 @@
 Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
   position = position.to_i
-  story = Story.find(:first, :conditions => "subject='#{story_subject}'")
-  sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  stories = Story.find(:all, :conditions => "fixed_version_id=#{sprint.id}", :order => "position ASC")
-  stories[position-1].should == story
+  story = Story.find(:first, :conditions => ["subject=? and name=?", story_subject, sprint_name], :joins => :fixed_version)
+  story_position(story).should == position.to_i
 end
 
 Then /^I should see (\d+) sprint backlogs$/ do |count|
@@ -45,9 +43,9 @@ Then /^show me the list of stories$/ do
   sprint_max = (sprints.map{|s| s.name} << "sprint").sort{|a,b| a.length <=> b.length}.last.length
 
   puts "\n"
-  puts "\t| #{'id'.ljust(3)} | #{'position'.ljust(8)} | #{'status'.ljust(12)} | #{'assignee'.ljust(12)} | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
+  puts "\t| #{'id'.ljust(4)} | #{'position'.ljust(8)} | #{'status'.ljust(12)} | #{'assignee'.ljust(12)} | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
   stories.each do |story|
-    puts "\t| #{story.id.to_s.ljust(3)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0,12].ljust(12)} | #{story.assigned_to.to_s[0,12].ljust(12)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
+    puts "\t| #{story.id.to_s.ljust(4)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0,12].ljust(12)} | #{story.assigned_to.to_s[0,12].ljust(12)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
   end
   puts "\n\n"
 end

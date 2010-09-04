@@ -19,7 +19,6 @@ class Story < Issue
                 sprint, sprint,
                 false, sprint
                 ],
-            :include => :status,
             :joins => :status,
             :limit => options[:limit]).each_with_index {|story, i|
         story.rank = i + 1
@@ -153,9 +152,9 @@ class Story < Issue
                                 and (fixed_version_id = ? or ? is NULL)
                                 and (is_closed = ? or not ? is NULL)
                                 and (
-                                  (? is NULL and ((position is NULL and id <= ?) or not position is NULL))
+                                  (? is NULL and ((issues.position is NULL and issues.id <= ?) or not issues.position is NULL))
                                   or
-                                  (not ? is NULL and not position is NULL and position <= ?)
+                                  (not ? is NULL and not issues.position is NULL and issues.position <= ?)
                                 )
                                 ", 
                               self.project.id,
@@ -163,29 +162,29 @@ class Story < Issue
                               self.fixed_version_id, self.fixed_version_id,
                               false, self.fixed_version_id,
 
-                              self.position, self,id,
+                              self.position, self.id,
                               self.position, self.position
                               ],
-                          :include => :issue_status)
+                          :joins => :status)
 
     return @rank
   end
 
   def self.at_rank(project_id, sprint_id, rank)
     return Story.find(:first,
-                      :order => 'case when position is null then 1 else 0 end ASC, case when position is NULL then id else position end ASC',
+                      :order => 'case when issues.position is null then 1 else 0 end ASC, case when issues.position is NULL then issues.id else issues.position end ASC',
                       :conditions => [
                           "parent_id is NULL
                             and project_id = ?
                             and tracker_id in (?)
                             and (fixed_version_id = ? or ? is NULL)
                             and (is_closed = ? or not ? is NULL)", 
-                          project.id,
+                          project_id,
                           Story.trackers,
-                          sprint, sprint,
-                          false, sprint
+                          sprint_id, sprint_id,
+                          false, sprint_id
                           ],
-                      :include => :issue_status,
+                      :joins => :status,
                       :limit => 1,
                       :offset => rank - 1)
   end
