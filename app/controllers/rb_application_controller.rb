@@ -10,9 +10,11 @@ class RbApplicationController < ApplicationController
   # determine if User.current has permission to invoke the method in question.
   def load_project
     @project = if ['rb_sprints',
+                   'rb_taskboards',
                    'rb_burndown_charts',
                    'rb_wikis'].include? params[:controller]
-                 Sprint.find(params[:id]).project
+                 load_sprint
+                 @sprint.project
                
                elsif ['rb_queries',
                       'rb_master_backlogs',
@@ -34,5 +36,8 @@ class RbApplicationController < ApplicationController
       end
     end
   end
-  
+
+  def load_sprint
+    @sprint = Sprint.find(params[:id])
+  end  
 end

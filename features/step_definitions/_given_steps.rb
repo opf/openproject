@@ -10,14 +10,14 @@ end
 Given /^I am a scrum master of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :view_master_backlog
-  role.permissions << :view_sprints
+  role.permissions << :view_taskboards
   role.permissions << :update_sprints
   role.permissions << :update_stories
-  role.permissions << :subscribe_to_calendar
-  role.permissions << :edit_wiki_pages
-  role.permissions << :view_wiki_pages
   role.permissions << :create_impediments
   role.permissions << :update_impediments
+  role.permissions << :subscribe_to_calendars
+  role.permissions << :view_wiki_pages        # NOTE: This is a Redmine core permission
+  role.permissions << :edit_wiki_pages        # NOTE: This is a Redmine core permission
   role.save!
   login_as_scrum_master
 end
@@ -25,7 +25,7 @@ end
 Given /^I am a team member of the project$/ do
   role = Role.find(:first, :conditions => "name='Manager'")
   role.permissions << :view_master_backlog
-  role.permissions << :view_sprints
+  role.permissions << :view_taskboards
   role.permissions << :create_tasks
   role.permissions << :update_tasks
   role.save!
@@ -49,7 +49,7 @@ end
 
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => "name='#{sprint_name}'")
-  visit url_for(:controller => :rb_sprints, :action => :show, :id => @sprint.id)
+  visit url_for(:controller => :rb_taskboards, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
 

@@ -37,6 +37,8 @@ Redmine::Plugin.register :redmine_backlogs do
     # Master backlog permissions
     permission :view_master_backlog, { 
                                        :rb_master_backlogs  => :show,
+                                       :rb_sprints          => [:index, :show],
+                                       :rb_wikis            => :show,
                                        :rb_stories          => [:index, :show],
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
@@ -44,19 +46,24 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_updated_items    => :show
                                      }
     
-    # Sprint permissions
-    permission :view_sprints,        { 
+    permission :view_taskboards,     { 
+                                       :rb_taskboards       => :show,
                                        :rb_sprints          => :show,
+                                       :rb_stories          => [:index, :show],
                                        :rb_tasks            => [:index, :show],
                                        :rb_impediments      => [:index, :show],
+                                       :rb_wikis            => :show,
                                        :rb_server_variables => :show,
                                        :rb_burndown_charts  => :show,
                                        :rb_updated_items    => :show
                                      }
+
+    # Sprint permissions
+    # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
     permission :update_sprints,      { 
                                         :rb_sprints => [:edit, :update],
-                                        :rb_wikis   => [:show, :edit]
-                                     }
+                                        :rb_wikis   => [:edit, :update]
+                                      }
     
     # Story permissions
     # :show_stories and :list_stories are implicit in :view_master_backlog permission
@@ -73,11 +80,8 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,     { :rb_impediments => [:new, :create]  }
     permission :update_impediments,     { :rb_impediments => [:edit, :update] }
 
-    permission :subscribe_to_calendar,  { :rb_calendars  => :show }
-    permission :view_scrum_statistics,  { :rb_statistics => :show }
-    
-    # Let Redmine wiki permissions take care of this since rb_wiki just does a redirect
-    permission :view_sprint_wiki,       { :rb_wikis      => :all  }, :public => true
+    permission :subscribe_to_calendars,  { :rb_calendars  => :show }
+    permission :view_scrum_statistics,   { :rb_statistics => :show }
   end
 
   menu :project_menu, :backlogs, { :controller => :rb_master_backlogs, :action => :show }, :caption => :label_backlogs, :after => :issues, :params => :project_id
