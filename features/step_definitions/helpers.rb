@@ -62,6 +62,22 @@ def login_as_admin
   @user = User.find(:first, :conditions => "login='admin'")
 end  
 
+def task_position(task)
+  p1 = task.story.tasks.select{|t| t.id == task.id}[0].rank
+  p2 = task.rank
+  p1.should == p2
+  return p1
+end
+
+def story_position(story)
+  p1 = Story.backlog(story.project, story.fixed_version_id).select{|s| s.id == story.id}[0].rank
+  p2 = story.rank
+  p1.should == p2
+
+  Story.at_rank(story.project_id, story.fixed_version_id, p1).id.should == story.id
+  return p1
+end
+
 def logout
   visit url_for(:controller => 'account', :action=>'logout')
   @user = nil

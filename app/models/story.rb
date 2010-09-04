@@ -3,27 +3,38 @@ class Story < Issue
 
     acts_as_list :scope => :project
 
-    def self.product_backlog(project, limit=nil)
-      return Story.find(:all,
+    def self.backlog(project, sprint, limit=nil)
+      stories = []
+      Story.find(:all,
             # this forces NULLS-LAST ordering
-            :order => 'case when position is null then 1 else 0 end ASC, position ASC',
+            :order => 'case when position is null then 1 else 0 end ASC, case when position is NULL then id else position end ASC',
             :conditions => [
-                "parent_id is NULL and project_id = ? and tracker_id in (?) and fixed_version_id is NULL", #and status_id in (?)",
-                project.id, Story.trackers #, IssueStatus.find(:all, :conditions => ["is_closed = ?", false]).collect {|s| "#{s.id}" }
+                "parent_id is NULL
+                  and project_id = ?
+                  and tracker_id in (?)
+                  and (fixed_version_id = ? or ? is NULL)
+                  and (is_closed = ? or not ? is NULL)", 
+                project.id,
+                Story.trackers,
+                sprint, sprint,
+                false, sprint
                 ],
-            :limit => limit)
+            :include => :issue_status,
+            :limit => limit).each_with_index {|story, i|
+        story.rank = i + 1
+        stories << story
+      }
+
+      return stories
     end
 
-    named_scope :sprint_backlog, lambda { |sprint|
-        {
-            # this forces NULLS-LAST ordering
-            :order => 'case when position is null then 1 else 0 end ASC, position ASC',
-            :conditions => [
-                "parent_id is NULL and tracker_id in (?) and fixed_version_id = ?",
-                Story.trackers, sprint.id
-                ]
-        }
-    }
+    def self.product_backlog(project, limit=nil)
+      return Story.backlog(project, nil, limit)
+    end
+
+    def self.sprint_backlog(sprint)
+      return Story.backlog(story.project, sprint.id)
+    end
 
     def self.create_and_position(params)
       attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
@@ -44,6 +55,10 @@ class Story < Issue
         return [] if trackers == '' or trackers.nil?
 
         return trackers.map { |tracker| Integer(tracker) }
+    end
+
+    def tasks
+      return Task.tasks_for(self.id)
     end
 
     def move_after(prev_id)
@@ -124,4 +139,53 @@ class Story < Issue
       end
       result
     end
+
+  def rank=(r)
+    @rank = r
+  end
+
+  def rank
+    @rank ||= Issue.count(:conditions => [
+                              "parent_id is NULL
+                                and project_id = ?
+                                and tracker_id in (?)
+                                and (fixed_version_id = ? or ? is NULL)
+                                and (is_closed = ? or not ? is NULL)
+                                and (
+                                  (? is NULL and ((position is NULL and id <= ?) or not position is NULL))
+                                  or
+                                  (not ? is NULL and not position is NULL and position <= ?)
+                                )
+                                ", 
+                              self.project.id,
+                              Story.trackers,
+                              self.fixed_version_id, self.fixed_version_id,
+                              false, self.fixed_version_id,
+
+                              self.position, self,id,
+                              self.position, self.position
+                              ],
+                          :include => :issue_status)
+
+    return @rank
+  end
+
+  def self.at_rank(project_id, sprint_id, rank)
+    return Story.find(:first,
+                      :order => 'case when position is null then 1 else 0 end ASC, case when position is NULL then id else position end ASC',
+                      :conditions => [
+                          "parent_id is NULL
+                            and project_id = ?
+                            and tracker_id in (?)
+                            and (fixed_version_id = ? or ? is NULL)
+                            and (is_closed = ? or not ? is NULL)", 
+                          project.id,
+                          Story.trackers,
+                          sprint, sprint,
+                          false, sprint
+                          ],
+                      :include => :issue_status,
+                      :limit => 1,
+                      :offset => rank - 1)
+  end
 end

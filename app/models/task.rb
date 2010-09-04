@@ -36,6 +36,18 @@ class Task < Issue
          :order => "updated_on ASC")
   end
 
+  def self.tasks_for(story_id)
+    tasks = []
+    Task.find(:all,
+              :conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ?', Task.tracker, story_id],
+              :order => :lft
+              ).each_with_index {|task, i|
+      task.rank = i + 1
+      tasks << task
+    }
+    return tasks
+  end
+
   def update_with_relationships(params, is_impediment = false)
     attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
@@ -90,5 +102,14 @@ class Task < Issue
     else
       move_to_right_of id
     end
+  end
+
+  def rank=(r)
+    @rank = r
+  end
+
+  def rank
+    @rank ||= Issue.count(:conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.tracker, story_id, self.lft])
+    return @rank
   end
 end
