@@ -126,6 +126,7 @@ it:
         greater_than_start_date: "deve essere maggiore della data di partenza"
         not_same_project: "non appartiene allo stesso progetto"
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Scegli
   

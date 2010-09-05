@@ -143,6 +143,7 @@
         greater_than_start_date: "nagyobbnak kell lennie, mint az indítás dátuma"
         not_same_project: "nem azonos projekthez tartozik"
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményez"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Kérem válasszon
   

@@ -147,7 +147,7 @@ fi:
         greater_than_start_date: "tulee olla aloituspäivän jälkeinen"
         not_same_project: "ei kuulu samaan projektiin"
         circular_dependency: "Tämä suhde loisi kehän."
-
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
   
   actionview_instancetag_blank_option: Valitse, ole hyvä
   

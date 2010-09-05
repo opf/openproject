@@ -129,6 +129,7 @@ pl:
         greater_than_start_date: "musi być większe niż początkowa data"
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć kołową zależność"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
       
   support:
     array:

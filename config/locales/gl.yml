@@ -150,6 +150,7 @@ gl:
         greater_than_start_date: "debe ser posterior á data de comezo"
         not_same_project: "non pertence ao mesmo proxecto"
         circular_dependency: "Esta relación podería crear unha dependencia circular"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Por favor seleccione
   

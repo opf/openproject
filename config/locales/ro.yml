@@ -110,6 +110,7 @@ ro:
         greater_than_start_date: "trebuie să fie după data de început"
         not_same_project: "trebuie să aparțină aceluiași proiect"
         circular_dependency: "Această relație ar crea o dependență circulară"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Selectați
   

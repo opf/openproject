@@ -119,6 +119,7 @@ id:
         greater_than_start_date: "harus lebih besar dari tanggal mulai"
         not_same_project: "tidak tergabung dalam proyek yang sama"
         circular_dependency: "kaitan ini akan menghasilkan circular dependency"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Silakan pilih
   

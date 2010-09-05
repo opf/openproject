@@ -113,6 +113,7 @@ lv:
         greater_than_start_date: "jābūt vēlākam par sākuma datumu"
         not_same_project: "nepieder pie tā paša projekta"
         circular_dependency: "Šī relācija radītu ciklisku atkarību"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Izvēlieties
   

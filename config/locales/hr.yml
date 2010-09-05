@@ -117,6 +117,7 @@ hr:
         greater_than_start_date: "mora biti veci nego pocetni datum"
         not_same_project: "ne pripada istom projektu"
         circular_dependency: "Ovaj relacija stvara kružnu ovisnost"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Molimo odaberite
   

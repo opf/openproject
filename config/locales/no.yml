@@ -111,6 +111,7 @@
         greater_than_start_date: "må være større enn startdato"
         not_same_project: "hører ikke til samme prosjekt"
         circular_dependency: "Denne relasjonen ville lagd en sirkulær avhengighet"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   
   actionview_instancetag_blank_option: Vennligst velg

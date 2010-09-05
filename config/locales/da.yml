@@ -130,6 +130,7 @@ da:
         greater_than_start_date: "skal være senere end startdatoen"
         not_same_project: "hører ikke til samme projekt"
         circular_dependency: "Denne relation vil skabe et afhængighedsforhold"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
       template:
         header:

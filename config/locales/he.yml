@@ -123,6 +123,7 @@ he:
         greater_than_start_date: "חייב להיות מאוחר יותר מתאריך ההתחלה"
         not_same_project: "לא שייך לאותו הפרויקט"
         circular_dependency: "הקשר הזה יצור תלות מעגלית"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: בחר בבקשה
 

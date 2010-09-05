@@ -137,6 +137,7 @@ zh:
         greater_than_start_date: "必须在起始日期之后"
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: 请选择
   

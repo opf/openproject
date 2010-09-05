@@ -116,6 +116,7 @@ cs:
         greater_than_start_date: "musí být větší než počáteční datum"
         not_same_project: "nepatří stejnému projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   # Updated by Josef Liška <jl@chl.cz>
   # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
