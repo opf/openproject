@@ -3,20 +3,22 @@ ActionController::Routing::Routes.draw do |map|
   # Use rb/ as a URL 'namespace.' We're using a slightly different URL pattern
   # From Redmine so namespacing avoids any further problems down the line
   map.resource :rb, :only => :none do |rb|
-    rb.resources :updated_items,    :only => :sghow,              :controller => :rb_updated_items
-    rb.resources :queries,          :only => :show,               :controller => :rb_queries
-    rb.resources :wikis,            :only => [:show, :edit],      :controller => :rb_wikis
-    rb.resources :statistics,       :only => :show,               :controller => :rb_statistics
-    rb.resources :calendars,        :only => :show,               :controller => :rb_calendars
-    rb.resources :burndown_charts,  :only => :show,               :controller => :rb_burndown_charts
-    rb.resources :impediments,      :except => :destroy,          :controller => :rb_impediments
-    rb.resources :tasks,            :except => :destroy,          :controller => :rb_tasks
-    rb.resources :stories,          :only => [:create, :update],  :controller => :rb_stories
-    rb.resources :stories,          :only => :index,              :controller => :rb_stories, :as => "stories/:project_id"
-    rb.resources :sprints,          :only => [:show, :update],    :controller => :rb_sprints
-    rb.resources :server_variables, :only => :show,               :controller => :rb_server_variables
-    rb.resources :taskboards,       :only => :show,               :controller => :rb_taskboards
-    rb.resources :master_backlogs,  :only => :show,               :controller => :rb_master_backlogs
+    rb.resource   :updated_items,    :only => :show,               :controller => :rb_updated_items,    :as => "updated_items/:project_id"
+    rb.resource   :query,            :only => :show,               :controller => :rb_queries,          :as => "queries/:project_id"
+    rb.resource   :wiki,             :only => [:show, :edit],      :controller => :rb_wikis,            :as => "wikis/:sprint_id"
+    rb.resource   :statistics,       :only => :show,               :controller => :rb_statistics
+    rb.resource   :calendars,        :only => :show,               :controller => :rb_calendars,        :as => "calendars/:project_id"
+    rb.resource   :burndown_chart,   :only => :show,               :controller => :rb_burndown_charts,  :as => "burndown_charts/:sprint_id"
+    rb.resource   :impediment,       :except => :index,            :controller => :rb_impediments,      :as => "impediments/:id"
+    rb.resources  :impediments,      :only => :index,              :controller => :rb_impediments,      :as => "impediments/:sprint_id"
+    rb.resource   :task,             :except => :index,            :controller => :rb_tasks,            :as => "tasks/:id"
+    rb.resources  :tasks,            :only => :index,              :controller => :rb_tasks,            :as => "tasks/:story_id"
+    rb.resource   :story,            :except => :index,            :controller => :rb_stories,          :as => "stories/:id"
+    rb.resources  :stories,          :only => :index,              :controller => :rb_stories,          :as => "stories/:project_id"
+    rb.resource   :sprint,           :only => [:show, :update],    :controller => :rb_sprints,          :as => "sprints/:sprint_id"
+    rb.resource   :server_variables, :only => :show,               :controller => :rb_server_variables, :as => "server_variables/:project_id"
+    rb.resource   :taskboard,        :only => :show,               :controller => :rb_taskboards,       :as => "taskboards/:sprint_id"
+    rb.resource   :master_backlog,   :only => :show,               :controller => :rb_master_backlogs,  :as => "master_backlogs/:project_id"
   end
 
 end

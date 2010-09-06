@@ -9,22 +9,13 @@ class RbApplicationController < ApplicationController
   # Loads the project to be used by the authorize filter to
   # determine if User.current has permission to invoke the method in question.
   def load_project
-    @project = if ['rb_sprints',
-                   'rb_taskboards',
-                   'rb_burndown_charts',
-                   'rb_wikis'].include? params[:controller]
+    @project = if params[:sprint_id]
                  load_sprint
                  @sprint.project
-               
-               elsif ['rb_queries',
-                      'rb_master_backlogs',
-                      'rb_calendars',
-                      'rb_server_variables',
-                      'rb_updated_items'].include? params[:controller]
-                 Project.find(params[:id])
-               
                elsif params[:project_id]
                  Project.find(params[:project_id])
+               else
+                 raise "Cannot determine project"
                end
   end
 
