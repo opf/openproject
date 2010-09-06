@@ -195,7 +195,7 @@ module CostQuery::Result
 
     def sum_for(field)
       @sum_for ||= {}
-      @sum_for[field] ||= sum { |v| v.send(field) }
+      @sum_for[field] ||= sum { |v| v.send(field) || 0 }
     end
 
     def recursive_each_with_level(level = 0, depth_first = true, &block)
