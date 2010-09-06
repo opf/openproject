@@ -47,9 +47,9 @@ Then /^show me the list of stories$/ do
   sprint_max = (sprints.map{|s| s.name} << "sprint").sort{|a,b| a.length <=> b.length}.last.length
 
   puts "\n"
-  puts "\t| #{'id'.ljust(4)} | #{'position'.ljust(8)} | #{'status'.ljust(12)} | #{'assignee'.ljust(12)} | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
+  puts "\t| #{'id'.ljust(5)} | #{'position'.ljust(8)} | #{'status'.ljust(12)} | #{'rank'.ljust(4)} | #{'subject'.ljust(subject_max)} | #{'sprint'.ljust(sprint_max)} |"
   stories.each do |story|
-    puts "\t| #{story.id.to_s.ljust(4)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0,12].ljust(12)} | #{story.assigned_to.to_s[0,12].ljust(12)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
+    puts "\t| #{story.id.to_s.ljust(5)} | #{story.position.to_s.ljust(8)} | #{story.status.name[0,12].ljust(12)} | #{story.rank.to_s.ljust(4)} | #{story.subject.ljust(subject_max)} | #{(story.fixed_version_id.nil? ? Sprint.new : Sprint.find(story.fixed_version_id)).name.ljust(sprint_max)} |"
   end
   puts "\n\n"
 end
@@ -129,10 +129,14 @@ end
 
 Then /^the story should be at the (top|bottom)$/ do |position|
   if position == 'top'
-    @story.position.should == 1
+    story_position(@story).should == 1
   else
-    @story.position.should == @story_ids.length
+    story_position(@story).should == @story_ids.length
   end
+end
+
+Then /^the story should be at position (.+)$/ do |position|
+  story_position(@story).should == position.to_i
 end
 
 Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
@@ -140,8 +144,6 @@ Then /^the story should have a (.+) of (.+)$/ do |attribute, value|
   if attribute=="tracker"
     attribute="tracker_id"
     value = Tracker.find(:first, :conditions => ["name=?", value]).id
-  elsif attribute=="position"
-    value = value.to_i
   end
   @story[attribute].should == value
 end

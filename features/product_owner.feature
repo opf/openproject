@@ -45,7 +45,7 @@ Feature: Product Owner
      When I update the story
      Then the story should have a subject of Relaxdiego was here
       And the story should have a tracker of Bug
-      And the story should have a position of 3
+      And the story should be at position 3
 
   Scenario: Close a story
     Given I am viewing the master backlog

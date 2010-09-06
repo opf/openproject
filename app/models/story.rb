@@ -165,7 +165,11 @@ class Story < Issue
                               "parent_id is NULL
                                 and project_id = ?
                                 and tracker_id in (?)
-                                and (fixed_version_id = ? or ? is NULL)
+                                and (
+                                  (fixed_version_id is NULL and ? is NULL)
+                                  or
+                                  (fixed_version_id = ? and not ? is NULL)
+                                  )
                                 and (is_closed = ? or not ? is NULL)
                                 and (
                                   (? is NULL and ((issues.position is NULL and issues.id <= ?) or not issues.position is NULL))
@@ -175,6 +179,7 @@ class Story < Issue
                                 ", 
                               self.project.id,
                               Story.trackers,
+                              self.fixed_version_id,
                               self.fixed_version_id, self.fixed_version_id,
                               false, self.fixed_version_id,
 
