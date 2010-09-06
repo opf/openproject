@@ -15,7 +15,7 @@ class RbApplicationController < ApplicationController
                elsif params[:project_id]
                  Project.find(params[:project_id])
                else
-                 raise "Cannot determine project"
+                 raise "Cannot determine project (#{params.inspect})"
                end
   end
 
