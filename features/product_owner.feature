@@ -34,8 +34,8 @@ Feature: Product Owner
       And I want to create a story
       And I set the subject of the story to A Whole New Story
      When I create the story
-     Then the 1st story should be A Whole New Story
-      And the 1st position should be unique
+     Then the 1st story in the product backlog should be A Whole New Story
+      And all positions should be unique
 
   Scenario: Update a story
     Given I am viewing the master backlog
@@ -57,24 +57,24 @@ Feature: Product Owner
   Scenario: Move a story to the top
     Given I am viewing the master backlog
      When I move the 3rd story to the 1st position
-     Then the 1st story should be Story 3
+     Then the 1st story in the product backlog should be Story 3
 
   Scenario: Move a story to the bottom
     Given I am viewing the master backlog
      When I move the 2nd story to the last position
-     Then the 4th story should be Story 2
+     Then the 4th story in the product backlog should be Story 2
 
   Scenario: Move a story down
     Given I am viewing the master backlog
      When I move the 2nd story to the 3rd position
-     Then the 2nd story should be Story 3
-      And the 3rd story should be Story 2
-      And the 4th story should be Story 4
+     Then the 2nd story in the product backlog should be Story 3
+      And the 3rd story in the product backlog should be Story 2
+      And the 4th story in the product backlog should be Story 4
 
   Scenario: Move a story up
     Given I am viewing the master backlog
      When I move the 4th story to the 2nd position
-     Then the 2nd story should be Story 4
-      And the 3rd story should be Story 2
-      And the 4th story should be Story 3
+     Then the 2nd story in the product backlog should be Story 4
+      And the 3rd story in the product backlog should be Story 2
+      And the 4th story in the product backlog should be Story 3
 

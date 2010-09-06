@@ -72,14 +72,15 @@ Then /^the request should fail$/ do
   page.driver.response.status.should == 401
 end
 
-Then /^the (\d+)(?:st|nd|rd|th) story should be (.+)$/ do |position, subject|
-  story = Story.find(:first, :conditions => ["position=?", position])
+Then /^the (\d+)(?:st|nd|rd|th) story in (.+) should be (.+)$/ do |position, backlog, subject|
+  sprint = (backlog == 'the product backlog' ? nil : Version.find_by_name(backlog).id)
+  story = Story.at_rank(@project.id, sprint, position.to_i)
   story.should_not be_nil
   story.subject.should == subject
 end
 
-Then /^the (\d+)(?:st|nd|rd|th) position should be unique$/ do |position|
-  Story.find(:all, :conditions => ["position=?", position]).length.should == 1
+Then /^all positions should be unique$/ do
+  Story.find_by_sql("select project_id, position, count(*) as dups from issues where not position is NULL group by project_id, position having count(*) > 1").length.should == 0
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
