@@ -30,6 +30,35 @@ class ApplicationHelperTest < ActionView::TestCase
   def setup
     super
   end
+
+  context "#link_to_if_authorized" do
+    context "authorized user" do
+      should "be tested"
+    end
+    
+    context "unauthorized user" do
+      should "be tested"
+    end
+    
+    should "allow using the :controller and :action for the target link" do
+      User.current = User.find_by_login('admin')
+
+      @project = Issue.first.project # Used by helper
+      response = link_to_if_authorized("By controller/action",
+                                       {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
+      assert_match /href/, response
+    end
+    
+    should "allow using the url for the target link" do
+      User.current = User.find_by_login('admin')
+
+      @project = Issue.first.project # Used by helper
+      response = link_to_if_authorized("By url",
+                                       new_issue_move_path(:id => Issue.first.id))
+      assert_match /href/, response
+    end
+
+  end
   
   def test_auto_links
     to_test = {
