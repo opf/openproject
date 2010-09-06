@@ -24,6 +24,7 @@ module CostQuery::Filter
       CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId,
       #CostQuery::Filter::Week,
+      CostQuery::Filter::PermissionFilter
     ]
   end
 
