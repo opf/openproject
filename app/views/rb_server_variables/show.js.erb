@@ -15,7 +15,7 @@ RB.buildImageTag = function(name){
 }
 
 RB.urlFor = {
-  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :id => ":id") %>',
+  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
   
   create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
   update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
@@ -26,8 +26,8 @@ RB.urlFor = {
   create_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'create') %>',
   update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>',
 
-  show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :id => ":id") %>',
-  show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :id => ":id") %>'
+  show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :project_id => ":id") %>',
+  show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id") %>'
 }
 
 if(typeof console != "undefined" && console != null) console.log('*** server variables loaded ***');
