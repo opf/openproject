@@ -127,7 +127,7 @@ Feature: Permissions
       | manager units   | 20   |
       | developer units | 10   |
     And the role "Manager" may have the following rights:
-      | view_spent_time |
+      | view_time_entries |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
