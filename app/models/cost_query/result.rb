@@ -104,6 +104,10 @@ module CostQuery::Result
     def set_key(index = [])
       self.key = index.map { |k| map_field(k, fields[k]) }
     end
+
+    def display_costs?
+      display_costs > 0
+    end
   end
 
   class DirectResult < Base
@@ -111,6 +115,10 @@ module CostQuery::Result
 
     def has_children?
       false
+    end
+
+    def display_costs
+      self["display_costs"].to_i
     end
 
     def count
@@ -122,7 +130,7 @@ module CostQuery::Result
     end
 
     def real_costs
-      (self["real_costs"] || 0).to_d # FIXME: default value here?
+      (self["real_costs"] || 0).to_d if display_costs? # FIXME: default value here?
     end
 
     ##
@@ -173,12 +181,16 @@ module CostQuery::Result
       sum_for :count
     end
 
+    def display_costs
+      sum_for :display_costs
+    end
+
     def units
       sum_for :units
     end
 
     def real_costs
-      sum_for :real_costs
+      sum_for :real_costs if display_costs?
     end
 
     def sum_for(field)
