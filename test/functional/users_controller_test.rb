@@ -143,6 +143,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [u.mail], mail.bcc
     assert mail.body.include?('newpass')
   end
+
+  test "POST :edit with a password change to an AuthSource user switching to Internal authentication" do
+    # Configure as auth source
+    u = User.find(2)
+    u.auth_source = AuthSource.find(1)
+    u.save!
+
+    post :edit, :id => u.id, :user => {:auth_source_id => ''}, :password => 'newpass', :password_confirmation => 'newpass'
+
+    assert_equal nil, u.reload.auth_source
+    assert_equal User.hash_password('newpass'), u.reload.hashed_password
+  end
   
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
