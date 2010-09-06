@@ -60,6 +60,15 @@ class CostQuery < ActiveRecord::Base
       name.demodulize.underscore
     end
 
+    ##
+    # The given block is called when a new chain is created for a cost_query.
+    # The query will be given to the block as a parameter.
+    # Example:
+    # initialize_query_with { |query| query.filter CostQuery::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
+    def self.initialize_query_with(&block)
+      CostQuery.chain_initializer.push block
+    end
+
     inherited_attribute :label
     inherited_attribute :properties, :list => true
 

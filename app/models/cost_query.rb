@@ -12,6 +12,10 @@ class CostQuery < ActiveRecord::Base
     @accepted_properties ||= []
   end
 
+  def self.chain_initializer
+    return @chain_initializer ||= []
+  end
+
   def available_filters
     CostQuery::Filter.all
   end
@@ -19,7 +23,7 @@ class CostQuery < ActiveRecord::Base
   def transformer
     @transformer ||= CostQuery::Transformer.new self
   end
-  
+
   def walker
     @walker ||= CostQuery::Walker.new self
   end
@@ -31,10 +35,18 @@ class CostQuery < ActiveRecord::Base
   end
 
   def chain(klass = nil, options = {})
-    @chain ||= Filter::NoFilter.new
+    build_new_chain unless @chain
     @chain = klass.new @chain, options if klass
     @chain = @chain.parent until @chain.top?
     @chain
+  end
+
+  def build_new_chain
+    #FIXME: is there a better way to load all filter and groups?
+    Filter.all && GroupBy.all
+
+    @chain = Filter::NoFilter.new
+    self.class.chain_initializer.each { |block| block.call self }
   end
 
   def filter(name, options = {})
