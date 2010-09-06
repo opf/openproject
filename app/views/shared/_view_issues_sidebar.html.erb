@@ -31,7 +31,7 @@
                     :protocol   => webcal,
                     :controller => :rb_calendars,
                     :action     => :show,
-                    :id         => project,
+                    :project_id => project,
                     :format     => 'xml',
                     :key        => key }) %>"><%= l(:label_webcal) %></a><br>
     <% end %>
@@ -41,7 +41,7 @@
         <%= link_to(l(:label_task_board), {
                 :controller => 'backlogs',
                 :action => 'show',
-                :id => sprint.id
+                :sprint_id => sprint.id
                 })
         %><br/>
 

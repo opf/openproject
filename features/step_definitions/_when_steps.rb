@@ -73,7 +73,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 end
 
 When /^I request the server_variables resource$/ do
-  visit url_for(:controller => :rb_server_variables, :action => :show, :id => @project.id)
+  visit url_for(:controller => :rb_server_variables, :action => :show, :project_id => @project.id)
 end
 
 When /^I update the impediment$/ do
@@ -84,7 +84,7 @@ end
 
 When /^I update the sprint$/ do
   page.driver.process :post,
-                      url_for(:controller => 'rb_sprints', :action => "update", :id => @sprint_params['id']),
+                      url_for(:controller => 'rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
                       @sprint_params.merge({ "_method" => "put" })
 end
 
@@ -101,16 +101,16 @@ When /^I update the task$/ do
 end
 
 When /^I download the calendar feed$/ do
-  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :id => @project })
+  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :project_id => @project })
 end
 
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_queries, :action => :show, :id => sprint.project_id, :sprint_id => sprint.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :project_id => sprint.project_id, :sprint_id => sprint.id)
 end
 
 When /^I view the stories in the issues tab/ do
-  visit url_for(:controller => :rb_queries, :action => :show, :id=> @project.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :project_id=> @project.id)
 end
 
 When /^I download the product backlog cards$/ do
@@ -122,14 +122,14 @@ When /^I download the task board cards$/ do
 end
 
 When /^I view the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'show', :id => @sprint.id)
+  visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint.id)
 end
 
 When /^I edit the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'edit', :id => @sprint.id)
+  visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint.id)
 end
 
 When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type, how_many, period, direction|
   date = eval("#{ how_many }.#{ period }.#{ direction=='from now' ? 'from_now' : 'ago' }")
-  visit url_for(:controller => 'rb_updated_items', :action => :show, :id => @project.id, :only => object_type, :since => date.strftime("%Y-%m-%d %H:%M:%S"))
+  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project.id, :only => object_type, :since => date.strftime("%Y-%m-%d %H:%M:%S"))
 end

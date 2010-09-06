@@ -29,6 +29,6 @@ class RbApplicationController < ApplicationController
   end
 
   def load_sprint
-    @sprint = Sprint.find(params[:id])
+    @sprint = Sprint.find(params[:sprint_id])
   end  
 end

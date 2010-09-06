@@ -1,11 +1,11 @@
 <% content_for :header_tags do %>
   <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
   <%= stylesheet_link_tag 'show', 'taskboard', :plugin => 'redmine_backlogs', :media => 'screen, print' %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :id => @project.id, :sprint_id => @sprint.id) %>"></script>
+  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
 <% content_for :breadcrumbs do %>
-<%= link_to @project.name, :controller => "rb_master_backlogs", :action => "show", :id => @project %> : <%= @sprint.name %>
+<%= link_to @project.name, :controller => "rb_master_backlogs", :action => "show", :project_id => @project %> : <%= @sprint.name %>
 <% end %>
 
 <%- content_for :page_specific_links do %>

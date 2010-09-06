@@ -37,19 +37,19 @@ Given /^I am logged out$/ do
 end
 
 Given /^I am viewing the master backlog$/ do
-  visit url_for(:controller => :rb_master_backlogs, :action => :show, :id => @project)
+  visit url_for(:controller => :rb_master_backlogs, :action => :show, :project_id => @project)
   page.driver.response.status.should == 200
 end
 
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_burndown_charts, :action => :show, :id => @sprint.id)
+  visit url_for(:controller => :rb_burndown_charts, :action => :show, :sprint_id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_taskboards, :action => :show, :id => @sprint.id)
+  visit url_for(:controller => :rb_taskboards, :action => :show, :sprint_id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
