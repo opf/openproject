@@ -14,7 +14,7 @@ $(function() {
 RB.showCharts = function(event){
   event.preventDefault();
   $('#charts').html("<div class='loading'>Loading data...</div>");
-  $('#charts').load(RB.urlFor['show_charts'] + '?project_id=' + RB.constants['project_id'] + '&sprint_id=' + RB.constants.sprint_id);
+  $('#charts').load( RB.urlFor['show_burndown_chart'].replace(":id", RB.constants.sprint_id) );
   $('#charts').dialog({ 
                         buttons: { "Close": function() { $(this).dialog("close") } },
                         height: 790,

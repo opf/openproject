@@ -249,7 +249,7 @@ RB.Backlog = RB.Object.create(RB.Model, {
   showCharts: function(event){
     event.preventDefault();
     $('#charts').html("<div class='loading'>Loading data...</div>");
-    $('#charts').load(RB.urlFor['show_charts'] + '?project_id=' + RB.constants['project_id'] + '&sprint_id=' + $(event.target).attr('href'));
+    $('#charts').load( RB.urlFor['show_burndown_chart'].replace(":id", this.getID()) );
     $('#charts').dialog({ 
                           buttons: { "Close": function() { $(this).dialog("close") } },
                           height: 790,

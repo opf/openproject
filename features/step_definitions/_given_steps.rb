@@ -43,7 +43,7 @@ end
 
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_burndown_charts, :action => :show, :sprint_id => @sprint.id)
+  visit url_for(:controller => :rb_burndown_charts, :action => :show, :id => @sprint.id)
   page.driver.response.status.should == 200
 end
 
