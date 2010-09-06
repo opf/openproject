@@ -145,3 +145,202 @@ Feature: Permissions
     And I should see "16.00" # Hours developer + manager
     And I should see "5.00" # Hours manager
 
+  Scenario: User who has all rights should see everything
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+      | view_time_entries     |
+      | view_cost_entries     |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+#     | view_hourly_rates     |
+#     | view_cost_rates       |
+#     | view_own_hourly_rate  |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should not see "No data to display"
+    And I should see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should see "50.50" # EUR manager hours
+    And I should see "112.20" # EUR developer hours
+    And I should see "20.20" # EUR manager words
+    And I should see "10.10" # EUR developer words
+    And I should see "20.0" # Units manager words
+    And I should see "10.0" # Units developer words
+    And I should see "11.00" # Hours developer
+    And I should see "5.00" # Hours manager
+
+  Scenario: User who has no rights should see nothing
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+      | no_rights |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should see "403" # "You are not authorized to access this page."
+    And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should not see "50.50" # EUR manager hours
+    And I should not see "112.20" # EUR developer hours
+    And I should not see "20.20" # EUR manager words
+    And I should not see "10.10" # EUR developer words
+    And I should not see "20.0" # Units manager words
+    And I should not see "10.0" # Units developer words
+    And I should not see "11.00" # Hours developer
+    And I should not see "5.00" # Hours manager
+
+  Scenario: User who has only rights to see his own times (and to see all costs) should actually just do so
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+#     | view_time_entries     |
+      | view_cost_entries     |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+#     | view_hourly_rates     |
+#     | view_cost_rates       |
+#     | view_own_hourly_rate  |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should not see "No data to display"
+    And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should see "50.50" # EUR manager hours
+    And I should not see "112.20" # EUR developer hours
+    And I should see "20.20" # EUR manager words
+    And I should see "10.10" # EUR developer words
+    And I should see "20.0" # Units manager words
+    And I should see "10.0" # Units developer words
+    And I should not see "11.00" # Hours developer
+    And I should see "5.00" # Hours manager
+    And I should see "80.80" # Sum of the costs (manager hours (50.50) + manager words (20.20) + developer words (10.10))
+
+  Scenario: User who has only rights to see costs should actually just do so
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+#     | view_time_entries     |
+      | view_cost_entries     |
+#     | view_own_time_entries |
+      | view_own_cost_entries |
+#     | view_hourly_rates     |
+#     | view_cost_rates       |
+#     | view_own_hourly_rate  |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should not see "No data to display"
+    And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should not see "50.50" # EUR manager hours
+    And I should not see "112.20" # EUR developer hours
+    And I should see "20.20" # EUR manager words
+    And I should see "10.10" # EUR developer words
+    And I should see "20.0" # Units manager words
+    And I should see "10.0" # Units developer words
+    And I should not see "11.00" # Hours developer
+    And I should not see "5.00" # Hours manager
+    And I should see "30.30" # Sum of the costs (manager words (20.20) + developer words (10.10))
+
+  Scenario: User who has only rights to see time and own costs should actually just do so
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+      | view_time_entries     |
+#     | view_cost_entries     |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+#     | view_hourly_rates     |
+#     | view_cost_rates       |
+#     | view_own_hourly_rate  |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should not see "No data to display"
+    And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should see "50.50" # EUR manager hours
+    And I should see "112.20" # EUR developer hours
+    And I should see "20.20" # EUR manager words
+    And I should not see "10.10" # EUR developer words
+    And I should see "20.0" # Units manager words
+    And I should not see "10.0" # Units developer words
+    And I should see "11.00" # Hours developer
+    And I should see "5.00" # Hours manager
+#########
+# ab hier wirds falsch
+# aber vorher sind die dinge, die mit rates zu tun haben auch schon falsch (oder es muss mindestens überprüft werden)
+#########
+    And I should see "30.30" # Sum of the costs (manager words (20.20) + developer words (10.10))
+
+  Scenario: User who has only rights to see own costs and own times should actually just do so
+    Given there is a standard cost control project named "testproject"
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And users have times and the cost type "word" logged on the issue "testprojectissue" with:
+      | manager rate    | 10.1 |
+      | developer rate  | 10.2 |
+      | manager hours   | 5    |
+      | developer hours | 11   |
+      | manager units   | 20   |
+      | developer units | 10   |
+    And the role "Manager" may have the following rights:
+#     | view_time_entries     |
+#     | view_cost_entries     |
+      | view_own_time_entries |
+      | view_own_cost_entries |
+#     | view_hourly_rates     |
+#     | view_cost_rates       |
+#     | view_own_hourly_rate  |
+    And I am logged in as "manager"
+    And I am on the Cost Reports page for the project called "testproject" without filters or groups
+    Then I should not see "No data to display"
+    And I should not see "193.00" # EUR 50.50 + 112.20 (manager + developer hours) + 20.20 + 10.10 (manager + developer words)
+    And I should see "50.50" # EUR manager hours
+    And I should not see "112.20" # EUR developer hours
+    And I should see "20.20" # EUR manager words
+    And I should not see "10.10" # EUR developer words
+    And I should see "20.0" # Units manager words
+    And I should not see "10.0" # Units developer words
+    And I should not see "11.00" # Hours developer
+    And I should see "5.00" # Hours manager
+    And I should see "30.30" # Sum of the costs (manager words (20.20) + developer words (10.10))
