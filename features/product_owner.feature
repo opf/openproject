@@ -8,10 +8,10 @@ Feature: Product Owner
       And I am a product owner of the project
       And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
-        | sprint 001 | 2010-01-01        | 2010-01-31     |
-        | sprint 002 | 2010-02-01        | 2010-02-28     |
-        | sprint 003 | 2010-03-01        | 2010-03-31     |
-        | sprint 004 | 2010-03-01        | 2010-03-31     |
+        | Sprint 001 | 2010-01-01        | 2010-01-31     |
+        | Sprint 002 | 2010-02-01        | 2010-02-28     |
+        | Sprint 003 | 2010-03-01        | 2010-03-31     |
+        | Sprint 004 | 2010-03-01        | 2010-03-31     |
       And the project has the following stories in the product backlog:
         | position | subject |
         | 1        | Story 1 |
