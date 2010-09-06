@@ -100,7 +100,7 @@ module CostQuery::Filter
         arity   = operator.method(:modify).arity - 2
         values  = self.values || []
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
-        operator.modify(query, field, *values)
+        operator.modify(query, field, *values) unless field.empty?
       end
     end
   end
