@@ -25,6 +25,10 @@ Then /^I should see the product backlog$/ do
   page.should have_css('#product_backlog')
 end
 
+Then /^I should see (\d+) stories in the product backlog$/ do |count|
+  page.all(:css, "#product_backlog .story").length.should == count.to_i
+end
+
 Then /^show me the list of sprints$/ do
   sprints = Sprint.find(:all, :conditions => ["project_id=?", @project.id])
 

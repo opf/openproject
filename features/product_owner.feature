@@ -18,10 +18,15 @@ Feature: Product Owner
         | 2        | Story 2 |
         | 3        | Story 3 |
         | 4        | Story 4 |
+      And the project has the following stories in the following sprints:
+        | position | subject | sprint     |
+        | 5        | Story A | Sprint 001 |
+        | 6        | Story B | Sprint 001 |
 
   Scenario: View the product backlog
     Given I am viewing the master backlog
      Then I should see the product backlog
+      And I should see 4 stories in the product backlog
       And I should see 4 sprint backlogs
 
   Scenario: Create a new story

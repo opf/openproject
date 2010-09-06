@@ -12,10 +12,15 @@ class Story < Issue
                 "parent_id is NULL
                   and project_id = ?
                   and tracker_id in (?)
-                  and (fixed_version_id = ? or ? is NULL)
+                  and (
+                    (fixed_version_id is NULL and ? is NULL)
+                    or
+                    (fixed_version_id = ? and not ? is NULL)
+                    )
                   and (is_closed = ? or not ? is NULL)", 
                 project.id,
                 Story.trackers,
+                sprint,
                 sprint, sprint,
                 false, sprint
                 ],
@@ -188,10 +193,15 @@ class Story < Issue
                           "parent_id is NULL
                             and project_id = ?
                             and tracker_id in (?)
-                            and (fixed_version_id = ? or ? is NULL)
+                            and (
+                              (fixed_version_id is NULL and ? is NULL)
+                              or
+                              (fixed_version_id = ? and not ? is NULL)
+                              )
                             and (is_closed = ? or not ? is NULL)", 
                           project_id,
                           Story.trackers,
+                          sprint_id,
                           sprint_id, sprint_id,
                           false, sprint_id
                           ],
