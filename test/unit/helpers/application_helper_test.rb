@@ -17,10 +17,7 @@
 
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class ApplicationHelperTest < HelperTestCase
-  include ApplicationHelper
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::DateHelper
+class ApplicationHelperTest < ActionView::TestCase
   
   fixtures :projects, :roles, :enabled_modules, :users,
                       :repositories, :changesets, 
