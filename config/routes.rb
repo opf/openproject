@@ -195,9 +195,9 @@ ActionController::Routing::Routes.draw do |map|
     end
     
     projects.with_options :conditions => {:method => :post} do |project_actions|
-      project_actions.connect 'projects/new', :action => 'add'
-      project_actions.connect 'projects', :action => 'add'
-      project_actions.connect 'projects.:format', :action => 'add', :format => /xml/
+      project_actions.connect 'projects/new', :action => 'create'
+      project_actions.connect 'projects', :action => 'create'
+      project_actions.connect 'projects.:format', :action => 'create', :format => /xml/
       project_actions.connect 'projects/:id/:action', :action => /edit|destroy|archive|unarchive/
       project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_actions.connect 'projects/:id/activities/save', :controller => 'project_enumerations', :action => 'save'

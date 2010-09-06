@@ -178,8 +178,8 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/33/activity", :controller => 'activities', :action => 'index', :id => '33'
     should_route :get, "/projects/33/activity.atom", :controller => 'activities', :action => 'index', :id => '33', :format => 'atom'
     
-    should_route :post, "/projects/new", :controller => 'projects', :action => 'add'
-    should_route :post, "/projects.xml", :controller => 'projects', :action => 'add', :format => 'xml'
+    should_route :post, "/projects/new", :controller => 'projects', :action => 'create'
+    should_route :post, "/projects.xml", :controller => 'projects', :action => 'create', :format => 'xml'
     should_route :post, "/projects/4223/edit", :controller => 'projects', :action => 'edit', :id => '4223'
     should_route :post, "/projects/64/destroy", :controller => 'projects', :action => 'destroy', :id => '64'
     should_route :post, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'

@@ -20,13 +20,13 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
   
-  before_filter :find_project, :except => [ :index, :list, :add, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy]
-  before_filter :authorize_global, :only => :add
+  before_filter :find_project, :except => [ :index, :list, :add, :create, :copy ]
+  before_filter :authorize, :except => [ :index, :list, :add, :create, :copy, :archive, :unarchive, :destroy]
+  before_filter :authorize_global, :only => [:add, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :index
   
-  after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
+  after_filter :only => [:create, :edit, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
       controller.send :expire_action, :controller => 'welcome', :action => 'robots.txt'
     end
@@ -65,35 +65,41 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new(params[:project])
-    if request.get?
-      @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-      @project.trackers = Tracker.all
-      @project.is_public = Setting.default_projects_public?
-      @project.enabled_module_names = Setting.default_projects_modules
-    else
-      @project.enabled_module_names = params[:enabled_modules]
-      if validate_parent_id && @project.save
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        # Add current user as a project member if he is not admin
-        unless User.current.admin?
-          r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-          m = Member.new(:user => User.current, :roles => [r])
-          @project.members << m
-        end
-        respond_to do |format|
-          format.html { 
-            flash[:notice] = l(:notice_successful_create)
-            redirect_to :controller => 'projects', :action => 'settings', :id => @project
-          }
-          format.xml  { head :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
-        end
-      else
-        respond_to do |format|
-          format.html
-          format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-        end
+
+    @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+    @project.trackers = Tracker.all
+    @project.is_public = Setting.default_projects_public?
+    @project.enabled_module_names = Setting.default_projects_modules
+  end
+
+  def create
+    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @trackers = Tracker.all
+    @project = Project.new(params[:project])
+
+    @project.enabled_module_names = params[:enabled_modules]
+    if validate_parent_id && @project.save
+      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      # Add current user as a project member if he is not admin
+      unless User.current.admin?
+        r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+        m = Member.new(:user => User.current, :roles => [r])
+        @project.members << m
       end
-    end	
+      respond_to do |format|
+        format.html { 
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to :controller => 'projects', :action => 'settings', :id => @project
+        }
+        format.xml  { head :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+      end
+    else
+      respond_to do |format|
+        format.html { render :action => 'add' }
+        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+      end
+    end
+    
   end
   
   def copy

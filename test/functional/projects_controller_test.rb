@@ -98,9 +98,53 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'add'
       end
+
+    end
+
+    context "by non-admin user with add_project permission" do
+      setup do
+        Role.non_member.add_permission! :add_project
+        @request.session[:user_id] = 9
+      end
+
+      should "accept get" do
+        get :add
+        assert_response :success
+        assert_template 'add'
+        assert_no_tag :select, :attributes => {:name => 'project[parent_id]'}
+      end
+    end
+
+    context "by non-admin user with add_subprojects permission" do
+      setup do
+        Role.find(1).remove_permission! :add_project
+        Role.find(1).add_permission! :add_subprojects
+        @request.session[:user_id] = 2
+      end
       
-      should "accept post" do
-        post :add, :project => { :name => "blog", 
+      should "accept get" do
+        get :add, :parent_id => 'ecookbook'
+        assert_response :success
+        assert_template 'add'
+        # parent project selected
+        assert_tag :select, :attributes => {:name => 'project[parent_id]'},
+                            :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
+        # no empty value
+        assert_no_tag :select, :attributes => {:name => 'project[parent_id]'},
+                               :child => {:tag => 'option', :attributes => {:value => ''}}
+      end
+    end
+    
+  end
+
+  context "POST :create" do
+    context "by admin user" do
+      setup do
+        @request.session[:user_id] = 1
+      end
+      
+      should "create a new project" do
+        post :create, :project => { :name => "blog", 
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -115,8 +159,8 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_nil project.parent
       end
       
-      should "accept post with parent" do
-        post :add, :project => { :name => "blog", 
+      should "create a new subproject" do
+        post :create, :project => { :name => "blog", 
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -137,15 +181,8 @@ class ProjectsControllerTest < ActionController::TestCase
         @request.session[:user_id] = 9
       end
       
-      should "accept get" do
-        get :add
-        assert_response :success
-        assert_template 'add'
-        assert_no_tag :select, :attributes => {:name => 'project[parent_id]'}
-      end
-      
-      should "accept post" do
-        post :add, :project => { :name => "blog", 
+      should "accept create a Project" do
+        post :create, :project => { :name => "blog", 
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -166,7 +203,7 @@ class ProjectsControllerTest < ActionController::TestCase
       
       should "fail with parent_id" do
         assert_no_difference 'Project.count' do
-          post :add, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog", 
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
@@ -188,20 +225,8 @@ class ProjectsControllerTest < ActionController::TestCase
         @request.session[:user_id] = 2
       end
       
-      should "accept get" do
-        get :add, :parent_id => 'ecookbook'
-        assert_response :success
-        assert_template 'add'
-        # parent project selected
-        assert_tag :select, :attributes => {:name => 'project[parent_id]'},
-                            :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
-        # no empty value
-        assert_no_tag :select, :attributes => {:name => 'project[parent_id]'},
-                               :child => {:tag => 'option', :attributes => {:value => ''}}
-      end
-      
-      should "accept post with parent_id" do
-        post :add, :project => { :name => "blog", 
+      should "create a project with a parent_id" do
+        post :create, :project => { :name => "blog", 
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -214,7 +239,7 @@ class ProjectsControllerTest < ActionController::TestCase
       
       should "fail without parent_id" do
         assert_no_difference 'Project.count' do
-          post :add, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog", 
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
@@ -230,7 +255,7 @@ class ProjectsControllerTest < ActionController::TestCase
       should "fail with unauthorized parent_id" do
         assert !User.find(2).member_of?(Project.find(6))
         assert_no_difference 'Project.count' do
-          post :add, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog", 
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
