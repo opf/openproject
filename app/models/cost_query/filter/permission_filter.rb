@@ -17,10 +17,14 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
 
   def sql_statement
     super.tap do |query|
-      query.where permission_for('time')
-      query.where permission_for('cost')
-      query.select :display_costs => "(#{permission_statement :view_hourly_rates} " \
-        "AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
+      if User.current.admin?
+        query.select :display_costs => '1'
+      else
+        query.where permission_for('time')
+        query.where permission_for('cost')
+        query.select :display_costs => "(#{permission_statement :view_hourly_rates} " \
+          "AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
+      end
     end
   end
 end
