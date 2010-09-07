@@ -23,7 +23,7 @@ RB.urlFor = function(route_name, options){
 }
 
 RB.routes = {
-  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :id => ":id") %>',
+  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
   
   create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
   update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
