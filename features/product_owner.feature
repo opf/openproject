@@ -29,6 +29,10 @@ Feature: Product Owner
       And I should see 4 stories in the product backlog
       And I should see 4 sprint backlogs
 
+  Scenario: View scrum statistics
+     When I visit the scrum statistics page
+     Then the request should complete successfully
+
   Scenario: Create a new story
     Given I am viewing the master backlog
       And I want to create a story

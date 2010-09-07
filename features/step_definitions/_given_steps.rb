@@ -3,6 +3,7 @@ Given /^I am a product owner of the project$/ do
   role.permissions << :view_master_backlog
   role.permissions << :create_stories
   role.permissions << :update_stories
+  role.permissions << :view_scrum_statistics
   role.save!
   login_as_product_owner
 end
