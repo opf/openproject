@@ -8,12 +8,19 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
   def permission_statement(permission)
     User.current.allowed_for(permission).gsub(/(user|project)s?\.id/, 'entries.\1_id')
   end
+  
+  def permission_for(type)
+    "(entries.type != '#{type.capitalize}Entry' " \
+    "OR #{permission_statement :"view_own_#{type}_entries"} " \
+    "OR #{permission_statement :"view_#{type}_entries"})"
+  end
 
   def sql_statement
     super.tap do |query|
-      query.where "(entries.type != 'TimeEntry' OR #{permission_statement :view_own_time_entries} OR #{permission_statement :view_time_entries})"
-      query.where "(entries.type != 'CostEntry' OR #{permission_statement :view_own_cost_entries} OR #{permission_statement :view_cost_entries})"
-      query.select :display_costs => "(#{permission_statement :view_hourly_rates} AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
+      query.where permission_for('time')
+      query.where permission_for('cost')
+      query.select :display_costs => "(#{permission_statement :view_hourly_rates} " \
+        "AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
     end
   end
 end
