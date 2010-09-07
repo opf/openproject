@@ -92,7 +92,7 @@ Feature: Scrum Master
   Scenario: Download printable cards for the product backlog
     Given I have selected card label stock Avery 7169
       And I am viewing the issues list
-     When I download the product backlog cards
+     When I follow "Printable cards"
      Then the request should complete successfully
 
   Scenario: Download printable cards for the task board
