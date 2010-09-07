@@ -177,7 +177,7 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :conditions => {:method => :get} do |project_views|
       project_views.connect 'projects', :action => 'index'
       project_views.connect 'projects.:format', :action => 'index'
-      project_views.connect 'projects/new', :action => 'add'
+      project_views.connect 'projects/new', :action => 'new'
       project_views.connect 'projects/:id', :action => 'show'
       project_views.connect 'projects/:id.:format', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /destroy|settings/

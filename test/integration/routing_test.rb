@@ -166,7 +166,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects", :controller => 'projects', :action => 'index'
     should_route :get, "/projects.atom", :controller => 'projects', :action => 'index', :format => 'atom'
     should_route :get, "/projects.xml", :controller => 'projects', :action => 'index', :format => 'xml'
-    should_route :get, "/projects/new", :controller => 'projects', :action => 'add'
+    should_route :get, "/projects/new", :controller => 'projects', :action => 'new'
     should_route :get, "/projects/test", :controller => 'projects', :action => 'show', :id => 'test'
     should_route :get, "/projects/1.xml", :controller => 'projects', :action => 'show', :id => '1', :format => 'xml'
     should_route :get, "/projects/4223/settings", :controller => 'projects', :action => 'settings', :id => '4223'

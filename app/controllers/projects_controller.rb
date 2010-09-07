@@ -20,9 +20,9 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
   
-  before_filter :find_project, :except => [ :index, :list, :add, :create, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :add, :create, :copy, :archive, :unarchive, :destroy]
-  before_filter :authorize_global, :only => [:add, :create]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :index
   
@@ -60,8 +60,7 @@ class ProjectsController < ApplicationController
     end
   end
   
-  # Add a new project
-  def add
+  def new
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new(params[:project])
@@ -95,7 +94,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'add' }
+        format.html { render :action => 'new' }
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
       end
     end

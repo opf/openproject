@@ -87,16 +87,16 @@ class ProjectsControllerTest < ActionController::TestCase
     end 
   end
   
-  context "#add" do
+  context "#new" do
     context "by admin user" do
       setup do
         @request.session[:user_id] = 1
       end
       
       should "accept get" do
-        get :add
+        get :new
         assert_response :success
-        assert_template 'add'
+        assert_template 'new'
       end
 
     end
@@ -108,9 +108,9 @@ class ProjectsControllerTest < ActionController::TestCase
       end
 
       should "accept get" do
-        get :add
+        get :new
         assert_response :success
-        assert_template 'add'
+        assert_template 'new'
         assert_no_tag :select, :attributes => {:name => 'project[parent_id]'}
       end
     end
@@ -123,9 +123,9 @@ class ProjectsControllerTest < ActionController::TestCase
       end
       
       should "accept get" do
-        get :add, :parent_id => 'ecookbook'
+        get :new, :parent_id => 'ecookbook'
         assert_response :success
-        assert_template 'add'
+        assert_template 'new'
         # parent project selected
         assert_tag :select, :attributes => {:name => 'project[parent_id]'},
                             :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
