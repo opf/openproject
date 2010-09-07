@@ -123,7 +123,6 @@ RB.Model = RB.Object.create({
 
     editor.find(".editor").first().focus();
     this.editorDialogDisplayed(editor);
-    // editor.parents('.ui-dialog').css('background-color', self.$.css('background-color'));
   },
   
   // Override this method to change the dialog title

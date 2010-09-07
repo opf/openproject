@@ -250,49 +250,49 @@ See RB.Taskboard.initialize()
 
 /* dialog */
 
-.issue_editor_dialog.ui-dialog .ui-dialog-titlebar-close{
+.ui-dialog .ui-dialog-titlebar-close{
   display:none;
 }
-.issue_editor_dialog.ui-dialog .ui-widget-header{
+.ui-dialog .ui-widget-header{
   background:none;
   background-color:#FFFFFF;
   opacity:0.5;
 }
-.issue_editor_dialog.ui-dialog .ui-dialog-title{
+.ui-dialog .ui-dialog-title{
   float:right;
   margin-right:0;
 }
-.issue_editor_dialog.ui-dialog.ui-widget-content{
+.ui-dialog.ui-widget-content{
   -moz-box-shadow: 2px 2px 5px #777777;
   -webkit-box-shadow: 2px 2px 5px #777777;
   box-shadow: 2px 2px 5px #777777;
   background:none;
   border:none;
 }
-.issue_editor_dialog .ui-dialog-buttonpane.ui-widget-content{
+.ui-dialog .ui-dialog-buttonpane.ui-widget-content{
   background:none;
   background-color:none;
   border:none;
 }
 
 /* item editor */
-#issue_editor label{
+#task_editor label{
   display:block;
   font-size:11px;
   text-transform:capitalize;
   width:100%;
 }
-#issue_editor .editor{
+#task_editor .editor{
   font-size:11px;
   margin-bottom:10px;
   width:100%;
 }
-#issue_editor .subject{
+#task_editor .subject{
   height:65px;
   width:272px;
 }
-#issue_editor .remaining_hours,
-#issue_editor .blocks{
+#task_editor .remaining_hours,
+#task_editor .blocks{
   width:268px;
 }
 

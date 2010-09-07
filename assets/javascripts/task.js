@@ -22,6 +22,10 @@ RB.Task = RB.Object.create(RB.Issue, {
     var c = this.$.find('select.assigned_to_id').children(':selected').attr('color');
     this.$.css('background-color', c);
   },
+  
+  editorDialogDisplayed: function(dialog){
+    dialog.parents('.ui-dialog').css('background-color', this.$.css('background-color'));
+  },
 
   getType: function(){
     return "Task";
