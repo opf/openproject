@@ -11,10 +11,9 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
 
   def sql_statement
     super.tap do |query|
-      query.where "(entries.type != \"TimeEntry\" OR #{permission_statement :view_own_time_entries} OR #{permission_statement :view_time_entries})"
-      query.where "(entries.type != \"CostEntry\" OR #{permission_statement :view_own_cost_entries} OR #{permission_statement :view_cost_entries})"
-      query.select "*"
-      query.select :display_costs => "(#{permission_statement :view_hourly_rates} AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate}))"
+      query.where "(entries.type != 'TimeEntry' OR #{permission_statement :view_own_time_entries} OR #{permission_statement :view_time_entries})"
+      query.where "(entries.type != 'CostEntry' OR #{permission_statement :view_own_cost_entries} OR #{permission_statement :view_cost_entries})"
+      query.select :display_costs => "(#{permission_statement :view_hourly_rates} AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
     end
   end
 end
