@@ -1,12 +1,12 @@
 class CostlogController < ApplicationController
   unloadable
-  
+
   menu_item :issues
   before_filter :find_project, :authorize, :only => [:edit, :destroy]
   before_filter :find_optional_project, :only => [:report, :details]
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
-  
+
   helper :sort
   include SortHelper
   helper :issues
@@ -53,7 +53,7 @@ class CostlogController < ApplicationController
                 'cost_type' => 'cost_type_id',
                 'units' => 'units',
                 'costs' => 'costs'
-    
+
 
     cond = ARCondition.new
     if @project.nil?
@@ -63,13 +63,13 @@ class CostlogController < ApplicationController
     else
       cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
     end
-    
+
     cond << User.current.allowed_for(:view_cost_entries, @project)
-    
+
     if @cost_type
       cond << ["#{CostEntry.table_name}.cost_type_id = ?", @cost_type.id ]
     end
-    
+
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
@@ -79,13 +79,13 @@ class CostlogController < ApplicationController
           # Paginate results
           @entry_count = CostEntry.count(:include => [:project, :user], :conditions => cond.conditions)
           @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = CostEntry.find(:all, 
+          @entries = CostEntry.find(:all,
                                     :include => [:project, :cost_type, :user, {:issue => :tracker}],
                                     :conditions => cond.conditions,
                                     :order => sort_clause,
                                     :limit  =>  @entry_pages.items_per_page,
                                     :offset =>  @entry_pages.current.offset)
-          
+
           render :layout => !request.xhr?
         }
         format.atom {
@@ -98,7 +98,7 @@ class CostlogController < ApplicationController
         }
         format.csv {
           # Export all entries
-          @entries = CostEntry.find(:all, 
+          @entries = CostEntry.find(:all,
                                     :include => [:project, :cost_type, :user, {:issue => [:tracker, :assigned_to, :priority]}],
                                     :conditions => cond.conditions,
                                     :order => sort_clause)
@@ -107,7 +107,7 @@ class CostlogController < ApplicationController
       end
     end
   end
-  
+
   def edit
     render_403 and return if @cost_entry && !@cost_entry.editable_by?(User.current)
     if !@cost_entry
@@ -116,13 +116,13 @@ class CostlogController < ApplicationController
         # we have a new CostEntry in our request
         new_user = User.find_by_id(params[:cost_entry][:user_id]) rescue nil
         new_user ||= User.current
-        
+
         unless User.current.allowed_to?(:log_own_costs, @project, :for => new_user)
           render_403
           return
         end
       end
-      
+
       new_user ||= User.current
       @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
     end
@@ -132,14 +132,14 @@ class CostlogController < ApplicationController
     end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default
-    
+
     if request.post? and @cost_entry.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
       return
     end
   end
-  
+
   def destroy
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)
@@ -152,12 +152,12 @@ class CostlogController < ApplicationController
 
   def get_cost_type_unit_plural
     @cost_type = CostType.find(params[:cost_type_id]) unless params[:cost_type_id].empty?
-    
+
     if request.xhr?
       render :partial => "cost_type_unit_plural", :layout => false
     end
   end
-  
+
 private
   def find_project
     # copied from timelog_controller.rb
@@ -176,7 +176,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_project
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
@@ -184,12 +184,12 @@ private
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
-    
+
     if !params[:cost_type_id].blank?
       @cost_type = CostType.find(params[:cost_type_id])
     end
   end
-  
+
   def retrieve_date_range
     # Mostly copied from timelog_controller.rb
     @free_period = false
@@ -230,10 +230,10 @@ private
     else
       # default
     end
-    
+
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (CostEntry.minimum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today) - 1
     @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today)
   end
-  
+
 end
