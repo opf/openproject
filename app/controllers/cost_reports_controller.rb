@@ -9,7 +9,7 @@ class CostReportsController < ApplicationController
     set_cost_type
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
-    elsif @query.depth_of(:column) == 0 or @query.depth_of(:row) == 0
+    elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
       @table_partial = "simple_cost_report_table"
     else
       @table_partial = "cost_report_table"
