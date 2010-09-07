@@ -37,7 +37,8 @@ Given /^I am logged out$/ do
 end
 
 Given /^I am viewing the master backlog$/ do
-  visit url_for(:controller => :rb_master_backlogs, :action => :show, :project_id => @project)
+  visit url_for(:controller => :projects, :action => :show, :id => @project)
+  click_link('Backlogs')
   page.driver.response.status.should == 200
 end
 
