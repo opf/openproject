@@ -106,7 +106,7 @@ module CostQuery::Result
     end
 
     def display_costs?
-      display_costs > 0
+      display_costs >= count
     end
   end
 
