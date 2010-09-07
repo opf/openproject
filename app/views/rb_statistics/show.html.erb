@@ -27,19 +27,19 @@
                 <%= l(:label_sprint_velocity, { :velocity => info[:velocity], :sprints => info[:closed_sprints].length, :days => info[:average_days_per_sprint]}) %><br/>
             <% end %>
             <h4><%= l(:backlogs_product_backlog) %></h4>
-            <%= link_to(l(:backlogs_product_backlog), { :controller => 'backlogs', :action => 'select_issues', :project_id => project }) %><br/>
+            <%= link_to(l(:backlogs_product_backlog), { :controller => 'rb_queries', :action => 'show', :project_id => project }) %><br/>
             <% if info[:active_sprint] || info[:closed_sprints] %>
                 <h4><%= l(:backlogs_sprints) %></h4>
                 <% if info[:active_sprint] %>
                     <%= link_to(info[:active_sprint].name, {
-                        :controller => 'backlogs',
-                        :action => 'select_issues',
+                        :controller => 'rb_queries',
+                        :action => 'show',
                         :project_id => project,
                         :sprint_id => info[:active_sprint].id }) %> (<%= l(:backlogs_active) %>)<br/>
                 <% end %>
                 <% if info[:closed_sprints] %>
                     <% info[:closed_sprints].each do |sprint| %>
-                        <%= link_to(sprint.name, { :controller => 'backlogs', :action => 'select_issues', :project_id => project, :sprint_id => sprint.id }) %><br/>
+                        <%= link_to(sprint.name, { :controller => 'rb_queries', :action => 'show', :project_id => project, :sprint_id => sprint.id }) %><br/>
                     <% end %>
                 <% end %>
             <% end %>

@@ -3,8 +3,8 @@
         <h3><%= l(:backlogs_sprints) %></h3>
         <% sprints.each do |sprint| %>
             <%= link_to(sprint.name, {
-                    :controller => 'backlogs',
-                    :action => 'select_issues',
+                    :controller => 'rb_queries',
+                    :action => 'show',
                     :project_id => project.id,
                     :sprint_id => sprint.id
                     }) %><br/>
@@ -14,14 +14,15 @@
     <% if project %>
       <h3><%= project.name %></h3>
       <%= link_to(l(:backlogs_product_backlog), {
-              :controller => 'backlogs',
-              :action => 'select_issues',
+              :controller => 'rb_queries',
+              :action => 'show',
               :project_id => project.id
               }) %><br/>
       <%= link_to(l(:label_printable_cards), {
-              :controller => 'backlogs',
-              :action => 'product_backlog_cards',
-              :project_id => project.id
+              :controller => 'rb_stories',
+              :action => 'index',
+              :project_id => project.id,
+              :format => 'pdf'
               }) %><br/>
     <% end %>
 
@@ -39,31 +40,32 @@
     <% if sprint && sprint.has_burndown %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
         <%= link_to(l(:label_task_board), {
-                :controller => 'backlogs',
+                :controller => 'rb_taskboards',
                 :action => 'show',
                 :sprint_id => sprint.id
                 })
         %><br/>
 
         <%= link_to(l(:label_burndown), {
-                :controller => 'backlogs',
-                :action => 'burndown',
+                :controller => 'rb_burndown_charts',
+                :action => 'show',
                 :project_id => project.id,
                 :sprint_id => sprint.id
                 })
         %><br/>
 
         <%= link_to(l(:label_printable_cards), {
-                :controller => 'backlogs',
-                :action => 'taskboard_cards',
+                :controller => 'rb_stories',
+                :action => 'index',
                 :project_id => project.id,
-                :sprint_id => sprint.id
+                :sprint_id => sprint.id,
+                :format => 'pdf'
                 })
         %><br/>
         <% if project.enabled_modules.any? {|m| m.name=="wiki"} %>
             <%= link_to(l(:label_wiki), {
-                    :controller => 'backlogs',
-                    :action => 'wiki_page',
+                    :controller => 'rb_wikis',
+                    :action => 'show',
                     :project_id => project.id,
                     :sprint_id => sprint.id
                     })

@@ -117,14 +117,6 @@ When /^I view the stories in the issues tab/ do
   visit url_for(:controller => :rb_queries, :action => :show, :project_id=> @project.id)
 end
 
-When /^I download the product backlog cards$/ do
-  visit url_for(:controller => 'rb_stories', :action => 'index', :format => 'pdf', :project_id => @project.id)
-end
-
-When /^I download the task board cards$/ do
-  visit url_for(:controller => 'rb_stories', :action => 'index', :format => 'pdf', :sprint_id => @sprint.id, :project_id => @project.id)
-end
-
 When /^I view the sprint notes$/ do
   visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint.id)
 end

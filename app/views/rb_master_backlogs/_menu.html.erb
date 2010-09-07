@@ -17,16 +17,16 @@
       },
       {
         :item => menu_link(l(:label_stories_tasks), {
-                           :controller => 'backlogs',
-                           :action => 'select_issues',
+                           :controller => 'rb_queries',
+                           :action => 'show',
                            :project_id => @project,
                            :sprint_id => backlog[:sprint] }),
         :for => :sprint
       },
       {
         :item => menu_link(l(:label_stories), {
-                           :controller => 'backlogs',
-                           :action => 'select_issues',
+                           :controller => 'rb_queries',
+                           :action => 'show',
                            :project_id => @project }),
         :for => :product
       },

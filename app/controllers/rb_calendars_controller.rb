@@ -23,9 +23,9 @@ class RbCalendarsController < RbApplicationController
                             :summary => sprint.name,
                             :description => sprint.description,
                             :url => url_for({
-                              :controller => 'backlogs',
+                              :controller => 'rb_queries',
                               :only_path => false,
-                              :action => 'select_issues',
+                              :action => 'show',
                               :project_id => @project.id,
                               :sprint_id => sprint.id
                               })
