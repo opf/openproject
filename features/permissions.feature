@@ -162,9 +162,6 @@ Feature: Permissions
       | view_cost_entries     |
       | view_own_time_entries |
       | view_own_cost_entries |
-#     | view_hourly_rates     |
-#     | view_cost_rates       |
-#     | view_own_hourly_rate  |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
@@ -218,13 +215,9 @@ Feature: Permissions
       | manager units   | 20   |
       | developer units | 10   |
     And the role "Manager" may have the following rights:
-#     | view_time_entries     |
       | view_cost_entries     |
       | view_own_time_entries |
       | view_own_cost_entries |
-#     | view_hourly_rates     |
-#     | view_cost_rates       |
-#     | view_own_hourly_rate  |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
@@ -252,13 +245,8 @@ Feature: Permissions
       | manager units   | 20   |
       | developer units | 10   |
     And the role "Manager" may have the following rights:
-#     | view_time_entries     |
       | view_cost_entries     |
-#     | view_own_time_entries |
       | view_own_cost_entries |
-#     | view_hourly_rates     |
-#     | view_cost_rates       |
-#     | view_own_hourly_rate  |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
@@ -287,12 +275,8 @@ Feature: Permissions
       | developer units | 10   |
     And the role "Manager" may have the following rights:
       | view_time_entries     |
-#     | view_cost_entries     |
       | view_own_time_entries |
       | view_own_cost_entries |
-#     | view_hourly_rates     |
-#     | view_cost_rates       |
-#     | view_own_hourly_rate  |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
@@ -324,13 +308,8 @@ Feature: Permissions
       | manager units   | 20   |
       | developer units | 10   |
     And the role "Manager" may have the following rights:
-#     | view_time_entries     |
-#     | view_cost_entries     |
       | view_own_time_entries |
       | view_own_cost_entries |
-#     | view_hourly_rates     |
-#     | view_cost_rates       |
-#     | view_own_hourly_rate  |
     And I am logged in as "manager"
     And I am on the Cost Reports page for the project called "testproject" without filters or groups
     Then I should not see "No data to display"
