@@ -127,8 +127,8 @@ class CostlogController < ApplicationController
       @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
     end
 
-    if params[:cost_entry].is_a?(Hash) 
-      params[:cost_entry][:overridden_costs] = CostRate.clean_currency(params[:cost_entry][:overridden_costs])
+    if params[:cost_entry].is_a?(Hash)
+      params[:cost_entry]["overridden_costs"] = CostRate.clean_currency(params[:cost_entry]["overridden_costs"])
     end
     @cost_entry.attributes = params[:cost_entry]
     @cost_entry.cost_type ||= CostType.default
