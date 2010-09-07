@@ -1,4 +1,24 @@
 class CostQuery::SqlStatement
+  class Union
+    attr_accessor :first, :second, :as
+    def initialize(first, second, as = nil)
+      @first, @second, @as = first, second, as
+    end
+
+    def to_s
+      "((#{first}) UNION (#{second}))#{" AS #{as}" if as}"
+    end
+
+    def each_subselect
+      yield first
+      yield second
+    end
+
+    def gsub(*args, &block)
+      to_s.gsub(*args, &block)
+    end
+  end
+
   include CostQuery::QueryUtils
 
   COMMON_FIELDS = %w[
@@ -94,7 +114,7 @@ class CostQuery::SqlStatement
   # @param [CostQuery::SqlStatement] other Second part of the union
   # @return [String] The sql query.
   def union(other, as = nil)
-    "((#{self}) UNION (#{other}))#{" AS #{as}" if as}"
+    Union.new(self, other, as)
   end
 
   ##
