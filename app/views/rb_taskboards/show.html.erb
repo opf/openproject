@@ -1,12 +1,14 @@
 <!-- TASKBOARD VIEW -->
 <% content_for :head_tags do %>
-  <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'model', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
   <%= theme_stylesheet_link_tag 'taskboard.css' %>
   <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
 <% content_for :breadcrumbs do %>
-<%= link_to @project.name, :controller => "rb_master_backlogs", :action => "show", :project_id => @project %> : <%= @sprint.name %>
+  <%= link_to l(:label_master_backlog), :controller => "rb_master_backlogs", :action => "show", :project_id => @project %>
+  <%= breadcrumb_separator %>
+  <%= @sprint.name %>
 <% end %>
 
 <%- content_for :view_specific_links do %>

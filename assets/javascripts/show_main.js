@@ -13,8 +13,11 @@ $(function() {
 
 RB.showCharts = function(event){
   event.preventDefault();
-  $('#charts').html("<div class='loading'>Loading data...</div>");
-  $('#charts').load( RB.urlFor['show_burndown_chart'].replace(":id", RB.constants.sprint_id) );
+  if($("#charts").length==0){
+    $( document.createElement("div") ).attr('id', "charts").appendTo("body");
+  }
+  $('#charts').html( "<div class='loading'>Loading data...</div>");
+  $('#charts').load( RB.urlFor('show_burndown_chart', { id: RB.constants.sprint_id }) );
   $('#charts').dialog({ 
                         buttons: { "Close": function() { $(this).dialog("close") } },
                         height: 790,

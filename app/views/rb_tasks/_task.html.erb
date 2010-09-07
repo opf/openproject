@@ -1,5 +1,8 @@
 <div class="issue task <%= mark_if_closed(task) %>" id="issue_<%= task.id %>" <%= build_inline_style(task) %>>
-  <div class="id"><%= issue_link_or_empty(task) %></div>
+  <div class="id">
+    <div class="t"><%= issue_link_or_empty(task) %></div>
+    <div class="v"><%= id_or_empty(task) %></div>
+  </div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= task.subject %></div>
   <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
     <div class="t"><%= assignee_name_or_empty(task) %></div>
@@ -7,16 +10,10 @@
   </div>
   <div class="remaining_hours editable" fieldname="remaining_hours"><%= remaining_hours(task) %></div>
   <div class="indicator"> </div>
-  <%- if @include_meta -%>
   <div class="meta">
     <div class="story_id"><%= task.parent_id %></div>
     <div class="status_id"><%= task.status_id %></div>
     <div class="previous"><%= task.right_sibling.nil? ? '' : task.right_sibling.id %></div>
-    <div class="errors">
-      <%- task.errors.each_error do |a, err| %>
-      <div><%= "#{l(a)} #{l(err.type)}" %></div>
-      <%- end %>
-    </div>
+    <%= render :partial => "shared/model_errors", :object => task.errors %>  
   </div>
-  <%- end %>
 </div>

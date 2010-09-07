@@ -1,5 +1,8 @@
 <div class="issue impediment <%= mark_if_closed(impediment) %>" id="issue_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
-  <div class="id"><%= issue_link_or_empty(impediment) %></div>
+  <div class="id">
+    <div class="t"><%= issue_link_or_empty(impediment) %></div>
+    <div class="v"><%= id_or_empty(impediment) %></div>
+  </div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= impediment.subject %></div>
   <div class="blocks editable" fieldname="blocks"><%= blocked_ids(impediment.blocks) %></div>
   <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
@@ -8,15 +11,9 @@
   </div>
   <div class="remaining_hours editable" fieldname="remaining_hours"><%= remaining_hours(impediment) %></div>
   <div class="indicator"> </div>
-  <%- if @include_meta -%>
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
     <div class="status_id"><%= impediment.status_id %></div>
-    <div class="errors">
-      <%- impediment.errors.each_error do |a, err| %>
-      <div><%= "#{l(a)} #{l(err.type)}" %></div>
-      <%- end %>
-    </div>
+    <%= render :partial => "shared/model_errors", :object => impediment.errors %>
   </div>
-  <%- end %>
 </div>

@@ -235,11 +235,11 @@ See RB.Taskboard.initialize()
   width:16px;
 }
 .issue.saving .indicator{
-  background-image:url('../images/indicator.gif');
+  background-image:url('images/indicator.gif');
   display:block;
 }
 .issue.error .indicator{
-  background-image:url('../images/warning.png');
+  background-image:url('images/warning.png');
   background-position:2px 0;
   border-color:#CC0000;
   display:block;
@@ -329,8 +329,8 @@ See RB.Taskboard.initialize()
   position:absolute;
 }
 #spinner{
-  background-image:url('../images/indicator.gif');
+  background-image:url('images/indicator.gif');
 }
 #warning{
-  background-image:url('../images/warning.png');
+  background-image:url('images/warning.png');
 }

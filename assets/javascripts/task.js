@@ -11,10 +11,10 @@ RB.Task = RB.Object.create(RB.Issue, {
     this.el = el;
     
     j.addClass("task"); // If node is based on #task_template, it doesn't have the story class yet
-
+    
     // Associate this object with the element for later retrieval
     j.data('this', this);
-
+    
     j.bind('mouseup', this.handleClick);
   },
 
@@ -47,9 +47,9 @@ RB.Task = RB.Object.create(RB.Issue, {
                (this.isNew() ? "" : "&id=" + j.children('.id').text());
 
     if( this.isNew() ){
-      var url = RB.urlFor['create_task']
+      var url = RB.urlFor( 'create_task' );
     } else {
-      var url = RB.urlFor['update_task'].replace(":id", j.children('.id').text())
+      var url = RB.urlFor( 'update_task', { id: this.getID() } );
       data += "&_method=put"
     }
     
