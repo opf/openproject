@@ -14,7 +14,9 @@ class CostReportsController < ApplicationController
     else
       @table_partial = "cost_report_table"
     end
-    render :layout => !request.xhr?
+    respond_to do |format|
+      format.html { render :layout => !request.xhr? }
+    end
   end
 
   ##
