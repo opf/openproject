@@ -157,7 +157,6 @@ if require_dependency 'cost_reports_controller'
           headers = []
           header  = []
           walker.headers do |list, first, first_in_col, last_in_col|
-            debugger
             if first_in_col # Open a new header row
               header = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
             end
@@ -176,7 +175,6 @@ if require_dependency 'cost_reports_controller'
           footers = []
           footer  = []
           walker.reverse_headers do |list, first, first_in_col, last_in_col|
-            debugger
             if first_in_col # Open a new footer row
               footer = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
             end
@@ -208,8 +206,6 @@ if require_dependency 'cost_reports_controller'
               rows << line
             end
           end
-          # Question: what is rows
-          debugger
 
           label = "#{l(:caption_cost_type)}: "
           label += (case @unit_id
