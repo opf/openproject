@@ -60,6 +60,11 @@ module Cards
             @cards = 0
         end
     
+        def self.measurement(x)
+          x = "#{x}pt" if x =~ /[0-9]$/
+          return x
+        end
+
         def self.fetch_labels
             ['avery-iso-templates.xml',
              'avery-other-templates.xml',
@@ -92,15 +97,15 @@ module Cards
     
                         geom.elements.each('Layout') do |layout|
                             label = {
-                                'inner_margin' => margin,
+                                'inner_margin' => TaskboardCards.measurement(margin),
                                 'across' => Integer(layout.attributes['nx']),
                                 'down' => Integer(layout.attributes['ny']),
-                                'top_margin' => layout.attributes['y0'],
-                                'height' => geom.attributes['height'],
-                                'vertical_pitch' => layout.attributes['dx'],
-                                'left_margin' => layout.attributes['x0'],
-                                'width' => geom.attributes['width'],
-                                'horizontal_pitch' => layout.attributes['dy'],
+                                'top_margin' => TaskboardCards.measurement(layout.attributes['y0']),
+                                'height' => TaskboardCards.measurement(geom.attributes['height']),
+                                'vertical_pitch' => TaskboardCards.measurement(layout.attributes['dx']),
+                                'left_margin' => TaskboardCards.measurement(layout.attributes['x0']),
+                                'width' => TaskboardCards.measurement(geom.attributes['width']),
+                                'horizontal_pitch' => TaskboardCards.measurement(layout.attributes['dy']),
                                 'papersize' => papersize,
                                 'source' => 'glabel'
                             }
