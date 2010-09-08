@@ -55,26 +55,28 @@ module ReportingHelper
 
   def show_field(key, value)
     @show_row ||= Hash.new { |h,k| h[k] = {}}
-    @show_row[key][value] ||= begin
-      return l(:label_none) if value.blank?
-      case key.to_sym
-      when :activity_id               then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
-      when :project_id                then link_to_project Project.find(value.to_i)
-      when :user_id, :assigned_to_id  then link_to_user User.find(value.to_i)
-      when :tyear, :units             then value
-      when :tweek                     then "#{l(:label_week)} ##{value}"
-      when :tmonth                    then month_name(value.to_i)
-      when :category_id               then IssueCategory.find(value.to_i).name
-      when :cost_type_id              then mapped value, CostType, l(:caption_labor)
-      when :cost_object               then CostObject.find(value.to_i).subject
-      when :issue_id                  then link_to_issue Issue.find(value.to_i)
-      when :spent_on                  then format_date(value.to_date)
-      when :tracker_id                then Tracker.find(value.to_i)
-      when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-      when :priority_id               then IssuePriority.find(value.to_i).name
-      when :fixed_version_id          then Version.find(value.to_i).name
-      else value.inspect
-      end
+    @show_row[key][value] ||= field_representation_map(key, value)
+  end
+
+  def field_representation_map(key, value)
+    return l(:label_none) if value.blank?
+    case key.to_sym
+    when :activity_id               then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
+    when :project_id                then link_to_project Project.find(value.to_i)
+    when :user_id, :assigned_to_id  then link_to_user User.find(value.to_i)
+    when :tyear, :units             then value
+    when :tweek                     then "#{l(:label_week)} ##{value}"
+    when :tmonth                    then month_name(value.to_i)
+    when :category_id               then IssueCategory.find(value.to_i).name
+    when :cost_type_id              then mapped value, CostType, l(:caption_labor)
+    when :cost_object               then CostObject.find(value.to_i).subject
+    when :issue_id                  then link_to_issue Issue.find(value.to_i)
+    when :spent_on                  then format_date(value.to_date)
+    when :tracker_id                then Tracker.find(value.to_i)
+    when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
+    when :priority_id               then IssuePriority.find(value.to_i).name
+    when :fixed_version_id          then Version.find(value.to_i).name
+    else value.inspect
     end
   end
 
