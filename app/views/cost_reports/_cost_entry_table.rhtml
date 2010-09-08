@@ -1,6 +1,6 @@
 <% list = [:project_id, :issue_id, :spent_on, :user_id, :activity_id] %>
 
-<table class="list">
+<table class="list report">
   <thead>
     <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
     <th><%= l(:field_costs) %></th>
@@ -8,7 +8,8 @@
     <th></th>
   </thead>
   <tfoot>
-    <th colspan='<%= list.size + 3 %>'><%= show_result @query %></th>
+    <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
+    <th></th>
   </tfoot>
   <tbody>
     <% @query.each_direct_result do |result| %>
