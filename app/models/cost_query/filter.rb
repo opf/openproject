@@ -21,9 +21,10 @@ module CostQuery::Filter
       CostQuery::Filter::Subject,
       CostQuery::Filter::TrackerId,
       CostQuery::Filter::Tweek,
+      CostQuery::Filter::Tmonth,
+      CostQuery::Filter::Tyear,
       CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId,
-      #CostQuery::Filter::Week,
       CostQuery::Filter::PermissionFilter
     ]
   end
