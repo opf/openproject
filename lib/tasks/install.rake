@@ -4,6 +4,13 @@ namespace :redmine do
     desc "Install and configure Redmine Backlogs"
     task :install => :environment do |t|
       ENV["RAILS_ENV"] ||= "development"
+
+      # Necessary because adding key-value pairs one by one doesn't seem to work
+      settings = Setting.plugin_redmine_backlogs
+      settings[:points_burn_direction] ||= 'down'
+      settings[:wiki_template]         ||= ''
+      settings[:card_spec]             ||= 'APLI 01293'
+
       puts "\n"
       puts "====================================================="
       puts "             Redmine Backlogs Installer"
@@ -11,8 +18,12 @@ namespace :redmine do
       puts "Installing to the #{ENV['RAILS_ENV']} environment."
       print "Fetching card labels from http://git.gnome.org..."
       STDOUT.flush
-      Cards::TaskboardCards.fetch_labels
-      print "done!\n"
+      begin
+        Cards::TaskboardCards.fetch_labels
+        print "done!\n"
+      rescue
+        print "\nCard labels could not be fetched. Please try again later. Proceeding anyway...\n"
+      end
       
       trackers = Tracker.find(:all)
 
@@ -50,7 +61,7 @@ namespace :redmine do
           end
         end
 
-        Setting.plugin_redmine_backlogs[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
+        settings[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
       end
 
       
@@ -88,13 +99,13 @@ namespace :redmine do
           end
         else
           # If there's none, ask to create one
-          Setting.plugin_redmine_backlogs[:task_tracker] = create_new_tracker
+          settings[:task_tracker] = create_new_tracker
         end
       end
 
-      Setting.plugin_redmine_backlogs[:points_burn_direction] ||= 'down'
-      Setting.plugin_redmine_backlogs[:wiki_template] ||= ''
-      Setting.plugin_redmine_backlogs[:card_spec] ||= 'APLI 01293'
+      # Necessary because adding key-value pairs one by one doesn't seem to work
+      Setting.plugin_redmine_backlogs = settings
+      
       puts "Story and task trackers are now set."
       
       print "Migrating the database..."
