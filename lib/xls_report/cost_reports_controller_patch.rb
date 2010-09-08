@@ -158,36 +158,43 @@ if require_dependency 'cost_reports_controller'
           header  = []
           walker.headers do |list, first, first_in_col, last_in_col|
             debugger
-            header = [] if first_in_col # Open a new header row
-            header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+            if first_in_col # Open a new header row
+              header = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+            end
 
             list.each do |column|
               header << show_row(column)
               header += [""] * (column.final_number(:column) - 1)
             end
 
-            header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
-            headers << header if last_in_col # Finish this header row
+            if last_in_col # Finish this header row
+              header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+              headers << header
+            end
           end
 
           footers = []
           footer  = []
           walker.reverse_headers do |list, first, first_in_col, last_in_col|
-            footer = [] if first_in_col # Open a new footer row
-            footer += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+            debugger
+            if first_in_col # Open a new footer row
+              footer = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+            end
 
             list.each do |column|
               footer << show_result(column)
               footer += [""] * (column.final_number(:column) - 1)
             end
 
-            if last_in_col && first
-              footer << show_result(query)
-              footer += [""] * (query.depth_of(:row) - 1) # TODO: add rowspan=query.depth_of(:column)
-            else
-              footer += [""] * query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
+            if last_in_col # Finish this footer row
+              if first
+                footer << show_result(query)
+                footer += [""] * (query.depth_of(:row) - 1) # TODO: add rowspan=query.depth_of(:column)
+              else
+                footer += [""] * query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
+              end
+              footers << footer
             end
-            footers << footer if last_in_col # Finish this footer row
           end
 
           row_length = headers.first.length
