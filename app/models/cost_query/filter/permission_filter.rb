@@ -16,7 +16,10 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
 
   def display_costs
     "(#{permission_statement :view_hourly_rates} " \
-    "AND #{permission_statement :view_cost_rates}) OR (#{permission_statement :view_own_hourly_rate})"
+    "AND #{permission_statement :view_cost_rates}) " \
+    "OR " \
+    "(#{permission_statement :view_own_hourly_rate} " \
+    "AND type = 'TimeEntry')"
   end
 
   def sql_statement
