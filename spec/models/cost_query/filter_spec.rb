@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery do
-  before { @query = CostQuery.new }
+  minimal_query
 
   fixtures :users
   fixtures :cost_types
@@ -147,7 +147,7 @@ describe CostQuery do
       @query.filter :priority_id, :operator => '=', :value => IssuePriority.all.first.id
       @query.result.count.should == Entry.all.select { |e| e.issue.priority == IssuePriority.all.first}.count
     end
-  
+
     it "filters assigned to" do
       @query.filter :assigned_to_id, :operator => '=', :value => User.all.first.id
       @query.result.count.should == Entry.all.select { |e| e.issue.assigned_to ? e.issue.assigned_to == User.all.first : false }.count
@@ -177,7 +177,7 @@ describe CostQuery do
       @query.filter :due_date, :operator => '=d', :value => Issue.all.first.due_date
       @query.result.count.should == Entry.all.select { |e| e.issue.due_date == Issue.all.first.due_date }.count
     end
-    
+
     it "raises an error if operator is not supported" do
       proc { @query.filter :spent_on, :operator => 'c' }.should raise_error(ArgumentError)
     end

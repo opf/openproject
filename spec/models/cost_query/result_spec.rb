@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery do
-  before { @query = CostQuery.new }
+  minimal_query
 
   fixtures :users
   fixtures :cost_types
@@ -50,7 +50,7 @@ describe CostQuery do
       w.recursive_each_with_level 0, false do |level, result|
         #width first, so we should get only deeper into the hole without ever coming up again
         previous_depth.should <= level
-        previous_depth=level          
+        previous_depth=level
       end
     end
 
@@ -62,8 +62,8 @@ describe CostQuery do
 
       count = 0
       w.recursive_each_with_level 0, false do |level, result|
-        #width first       
-        count = count + 1 if result.is_a? CostQuery::Result::DirectResult        
+        #width first
+        count = count + 1 if result.is_a? CostQuery::Result::DirectResult
       end
       w.count.should ==  count
     end
@@ -77,7 +77,7 @@ describe CostQuery do
       count = 0
       w.recursive_each_with_level do |level, result|
         #depth first
-          count = count + 1 if result.is_a? CostQuery::Result::DirectResult        
+          count = count + 1 if result.is_a? CostQuery::Result::DirectResult
         end
       w.count.should ==  count
     end

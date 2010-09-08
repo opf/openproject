@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery do
-  before { @query = CostQuery.new }
+  minimal_query
 
   fixtures :users
   fixtures :cost_types
