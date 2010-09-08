@@ -3,14 +3,14 @@ list = @query.collect {|r| r.important_fields }.flatten.uniq
 show_units = list.include? "cost_type_id"
 %>
 
-<table class="list report">
+<table class="report">
   <thead>
-  <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-  <th><%= label_for(:label_count) %></th>
+  <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
+  <th class="right"><%= label_for(:label_count) %></th>
   <% if show_units %>
-    <th><%= label_for(:field_units) %></th>
+    <th class="right"><%= label_for(:field_units) %></th>
   <% end %>
-  <th><%= label_for(:label_sum) %></th>
+  <th class="right"><%= label_for(:label_sum) %></th>
   </thead>
   <tfoot>
     <th class="result inner" colspan='<%= list.size %>'></th>
