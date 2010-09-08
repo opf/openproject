@@ -98,6 +98,8 @@ class SpreadsheetBuilder
     arr.each_with_index do |c,i|
       value = if ['Time', 'Date', 'Fixnum', 'Float', 'Integer'].include?(c.class.name)
         c
+      elsif c.class == BigDecimal
+        c.to_f
       else
         c.to_s.gsub('_', ' ').gsub("\r\n", "\n").gsub("\r", "\n")
       end
