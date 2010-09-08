@@ -1,7 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery do
-  before { @query = CostQuery.new }
+  before do 
+    @query = CostQuery.new
+    @query.send(:minimal_chain!)
+  end
+
 
   fixtures :users
   fixtures :cost_types
@@ -104,7 +108,7 @@ describe CostQuery do
       end
       sql_sizes.sort.should == ruby_sizes.sort
     end
-    
+
     it "should compute multiple group_by with joins" do
       @query.group_by :project_id
       @query.group_by :tracker_id
@@ -138,7 +142,7 @@ describe CostQuery do
       @query.group_by :tracker_id
       @query.group_by :tmonth
       @query.group_by :tyear
-      
+
       sql_result = @query.result
       sql_result.count.should == Entry.all.size
     end
