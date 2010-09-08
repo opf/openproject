@@ -3,8 +3,8 @@
 <table class="list report">
   <thead>
     <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-    <th><%= l(:field_costs) %></th>
     <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+    <th><%= l(:field_costs) %></th>
     <th></th>
   </thead>
   <tfoot>
@@ -15,8 +15,8 @@
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
-        <td class="currency"><%= show_result(result) %></td>
         <td class="units"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td class="currency"><%= show_result(result) %></td>
         <td style="width: 40px">
           <%= link_to image_tag('edit.png'),    action_for(result, :action => 'edit'), :title => l(:button_edit) %>
           <%= link_to image_tag('delete.png'),  action_for(result, :action => 'destroy'),
