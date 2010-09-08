@@ -1,3 +1,5 @@
+include RbCommonHelper
+
 class RbUpdatedItemsController < RbApplicationController
   unloadable
   
