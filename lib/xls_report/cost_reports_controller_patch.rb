@@ -38,7 +38,7 @@ if require_dependency 'cost_reports_controller'
 
           debugger
           sb = SpreadsheetBuilder.new
-          sb.add_title("#{@project.name} >> #{l(:cost_reports_title)} (#{format_date(Date.today)})")
+          sb.add_title("#{@project.name + " >> " if @project}#{l(:cost_reports_title)} (#{format_date(Date.today)})")
 
           if @query.group_bys.empty?
             sb = xls_cost_entry_table(sb, @query, @cost_type)
