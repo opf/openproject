@@ -91,66 +91,66 @@ describe CostQuery do
     it "does w (this week)" do
       #somehow this test doesn't work on sundays
       n = query('projects', 'created_on', 'w').size
-      Project.generate! :created_on => Time.now
+      Project.mock! :created_on => Time.now
       query('projects', 'created_on', 'w').size.should == n + 1
-      Project.generate! :created_on => Date.today + 7
-      Project.generate! :created_on => Date.today - 7
+      Project.mock! :created_on => Date.today + 7
+      Project.mock! :created_on => Date.today - 7
       query('projects', 'created_on', 'w').size.should == n + 1
     end
 
     it "does t (today)" do
       s = query('projects', 'created_on', 't').size
-      Project.generate! :created_on => Date.yesterday
+      Project.mock! :created_on => Date.yesterday
       query('projects', 'created_on', 't').size.should == s
-      Project.generate! :created_on => Time.now
+      Project.mock! :created_on => Time.now
       query('projects', 'created_on', 't').size.should == s + 1
     end
 
     it "does <t+ (before the day which is n days in the future)" do
       n = query('projects', 'created_on', '<t+', 2).size
-      Project.generate! :created_on => Date.tomorrow + 1
+      Project.mock! :created_on => Date.tomorrow + 1
       query('projects', 'created_on', '<t+', 2).size.should == n + 1
-      Project.generate! :created_on => Date.tomorrow + 2
+      Project.mock! :created_on => Date.tomorrow + 2
       query('projects', 'created_on', '<t+', 2).size.should == n + 1
     end
 
     it "does t+ (n days in the future)" do
       n = query('projects', 'created_on', 't+', 1).size
-      Project.generate! :created_on => Date.tomorrow
+      Project.mock! :created_on => Date.tomorrow
       query('projects', 'created_on', 't+', 1).size.should == n + 1
-      Project.generate! :created_on => Date.tomorrow + 2
+      Project.mock! :created_on => Date.tomorrow + 2
       query('projects', 'created_on', 't+', 1).size.should == n + 1
     end
 
     it "does >t+ (after the day which is n days in the furure)" do
       n = query('projects', 'created_on', '>t+', 1).size
-      Project.generate! :created_on => Time.now
+      Project.mock! :created_on => Time.now
       query('projects', 'created_on', '>t+', 1).size.should == n
-      Project.generate! :created_on => Date.tomorrow + 1
+      Project.mock! :created_on => Date.tomorrow + 1
       query('projects', 'created_on', '>t+', 1).size.should == n + 1
     end
 
     it "does >t- (after the day which is n days ago)" do
       n = query('projects', 'created_on', '>t-', 1).size
-      Project.generate! :created_on => Date.today
+      Project.mock! :created_on => Date.today
       query('projects', 'created_on', '>t-', 1).size.should == n + 1
-      Project.generate! :created_on => Date.yesterday - 1
+      Project.mock! :created_on => Date.yesterday - 1
       query('projects', 'created_on', '>t-', 1).size.should == n + 1
     end
 
     it "does t- (n days ago)" do
       n = query('projects', 'created_on', 't-', 1).size
-      Project.generate! :created_on => Date.yesterday
+      Project.mock! :created_on => Date.yesterday
       query('projects', 'created_on', 't-', 1).size.should == n + 1
-      Project.generate! :created_on => Date.yesterday - 2
+      Project.mock! :created_on => Date.yesterday - 2
       query('projects', 'created_on', 't-', 1).size.should == n + 1
     end
 
     it "does <t- (before the day which is n days ago)" do
       n = query('projects', 'created_on', '<t-', 1).size
-      Project.generate! :created_on => Date.today
+      Project.mock! :created_on => Date.today
       query('projects', 'created_on', '<t-', 1).size.should == n
-      Project.generate! :created_on => Date.yesterday - 1
+      Project.mock! :created_on => Date.yesterday - 1
       query('projects', 'created_on', '<t-', 1).size.should == n + 1
     end
 
