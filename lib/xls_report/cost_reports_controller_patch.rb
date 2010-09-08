@@ -58,7 +58,7 @@ if require_dependency 'cost_reports_controller'
           elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
             sb = xls_simple_cost_report_table(sb, @query, @cost_type)
           else
-            # @table_partial = "cost_report_table"
+            sb = xls_cost_report_table(sb, @query, @cost_type)
           end
           sb.xls
         end
@@ -107,6 +107,98 @@ if require_dependency 'cost_reports_controller'
           sb
         end
 
+        def xls_cost_report_table(sb, query, cost_type)
+          walker = query.walker
+          walker.for_final_row do |final_row, cells|
+            row = [show_row final_row]
+            row += cells
+            row << show_result(final_row)
+          end
+
+          walker.for_row do |row, subrows|
+            unless row.fields.empty?
+              # Here we get the border setting, vertically. The rowspan #{subrows.size} need be
+              # converted to a proper Excel bordering
+              subrows = subrows.inject([]) do |array, subrow|
+                if subrow.flatten == subrow
+                  array << subrow
+                else
+                  array += subrow.collect(&:flatten)
+                end
+              end
+              subrows.each_with_index do |subrow, idx|
+                if idx == 0
+                  subrow.insert(0, show_row(row))
+                  subrow << show_result(row)
+                else
+                  subrow.unshift("")
+                  subrow << ""
+                end
+              end
+            end
+            subrows
+          end
+
+          walker.for_empty_cell { "" }
+
+          walker.for_cell do |result|
+            show_result result
+          end
+
+          headers = []
+          header  = []
+          walker.headers do |list, first, first_in_col, last_in_col|
+            debugger
+            header = [] if first_in_col # Open a new header row
+            header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+
+            list.each do |column|
+              header << show_row(column)
+              header += [""] * (column.final_number(:column) - 1)
+            end
+
+            header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+            headers << header if last_in_col # Finish this header row
+          end
+
+          footers = []
+          footer  = []
+          walker.reverse_headers do |list, first, first_in_col, last_in_col|
+            footer = [] if first_in_col # Open a new footer row
+            footer += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+
+            list.each do |column|
+              footer << show_result(column)
+              footer += [""] * (column.final_number(:column) - 1)
+            end
+
+            if last_in_col && first
+              footer << show_result(query)
+              footer += [""] * (query.depth_of(:row) - 1) # TODO: add rowspan=query.depth_of(:column)
+            else
+              footer += [""] * query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
+            end
+            footers << footer if last_in_col # Finish this footer row
+          end
+
+          row_length = headers.first.length
+          rows = []
+          walker.body do |line|
+            # Question: what is line
+            if line.respond_to? :to_ary
+              # We're dealing with a list of lines
+              rows += line.flatten
+            else
+              rows << line
+            end
+          end
+          # Question: what is rows
+          debugger
+          headers.each {|head| sb.add_headers(head, sb.current_row) }
+          rows.in_groups_of(row_length).each {|body| sb.add_row(body) }
+          footers.each {|foot| sb.add_headers(foot, sb.current_row) }
+          sb
+        end
       end
     end
   end
