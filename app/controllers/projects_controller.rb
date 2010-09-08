@@ -25,13 +25,16 @@ class ProjectsController < ApplicationController
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :index
-  
-  after_filter :only => [:create, :edit, :archive, :unarchive, :destroy] do |controller|
+
+  after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
       controller.send :expire_action, :controller => 'welcome', :action => 'robots.txt'
     end
   end
-  
+
+  # TODO: convert to PUT only
+  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+
   helper :sort
   include SortHelper
   helper :custom_fields
@@ -179,28 +182,27 @@ class ProjectsController < ApplicationController
     @wiki ||= @project.wiki
   end
   
-  # Edit @project
   def edit
-    if request.get?
+  end
+
+  def update
+    @project.attributes = params[:project]
+    if validate_parent_id && @project.save
+      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      respond_to do |format|
+        format.html { 
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to :action => 'settings', :id => @project
+        }
+        format.xml  { head :ok }
+      end
     else
-      @project.attributes = params[:project]
-      if validate_parent_id && @project.save
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        respond_to do |format|
-          format.html { 
-            flash[:notice] = l(:notice_successful_update)
-            redirect_to :action => 'settings', :id => @project
-          }
-          format.xml  { head :ok }
-        end
-      else
-        respond_to do |format|
-          format.html { 
-            settings
-            render :action => 'settings'
-          }
-          format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-        end
+      respond_to do |format|
+        format.html { 
+          settings
+          render :action => 'settings'
+        }
+        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
       end
     end
   end

@@ -318,9 +318,9 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'settings'
   end
   
-  def test_edit
+  def test_update
     @request.session[:user_id] = 2 # manager
-    post :edit, :id => 1, :project => {:name => 'Test changed name',
+    post :update, :id => 1, :project => {:name => 'Test changed name',
                                        :issue_custom_field_ids => ['']}
     assert_redirected_to 'projects/ecookbook/settings'
     project = Project.find(1)

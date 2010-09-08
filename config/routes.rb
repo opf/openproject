@@ -198,13 +198,14 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/new', :action => 'create'
       project_actions.connect 'projects', :action => 'create'
       project_actions.connect 'projects.:format', :action => 'create', :format => /xml/
-      project_actions.connect 'projects/:id/:action', :action => /edit|destroy|archive|unarchive/
+      project_actions.connect 'projects/:id/edit', :action => 'update'
+      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
       project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_actions.connect 'projects/:id/activities/save', :controller => 'project_enumerations', :action => 'save'
     end
 
     projects.with_options :conditions => {:method => :put} do |project_actions|
-      project_actions.conditions 'projects/:id.:format', :action => 'edit', :format => /xml/
+      project_actions.conditions 'projects/:id.:format', :action => 'update', :format => /xml/
     end
 
     projects.with_options :conditions => {:method => :delete} do |project_actions|
