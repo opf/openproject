@@ -14,7 +14,7 @@ rescue LoadError => error
 
     You need to install rspec in your Redmine project.
     Please execute the following code:
-    
+
       gem install rspec-rails
       script/generate rspec
 
@@ -25,3 +25,4 @@ end
 Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
 require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
 Dir.glob(File.expand_path("#{__FILE__}/../../../redmine_costs/test/exemplars/*.rb")) { |e| require e }
+Dir.glob(File.expand_path("#{__FILE__}/../models/helpers/*_helper.rb")) { |e| require e }
