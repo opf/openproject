@@ -210,6 +210,15 @@ if require_dependency 'cost_reports_controller'
           end
           # Question: what is rows
           debugger
+
+          label = "#{l(:caption_cost_type)}: "
+          label += (case @unit_id
+          when -1 then l(:field_hours)
+          when 0  then "EUR"
+          else @cost_type.unit_plural
+          end)
+
+          sb.add_headers([label])
           headers.each {|head| sb.add_headers(head, sb.current_row) }
           rows.in_groups_of(row_length).each {|body| sb.add_row(body) }
           footers.each {|foot| sb.add_headers(foot, sb.current_row) }
