@@ -24,7 +24,6 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
 
   def sql_statement
     super.tap do |query|
-      query.default_select :display_costs => 'sum(display_costs)'
       query.from.each_subselect do |sub|
         sub.where permission_for(sub == query.from.first ? 'time' : 'cost')
         sub.default_select :display_costs => switch(display_costs => '1', :else => 0)

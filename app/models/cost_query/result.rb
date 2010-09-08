@@ -106,7 +106,7 @@ module CostQuery::Result
     end
 
     def display_costs?
-      display_costs >= count
+      display_costs > 0
     end
   end
 
@@ -182,7 +182,7 @@ module CostQuery::Result
     end
 
     def display_costs
-      sum_for :display_costs
+      (sum_for :display_costs) >= 1 ? 1 : 0
     end
 
     def units
