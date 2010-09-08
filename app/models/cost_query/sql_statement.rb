@@ -24,7 +24,7 @@ class CostQuery::SqlStatement
   COMMON_FIELDS = %w[
     user_id project_id issue_id rate_id
     comments spent_on created_on updated_on tyear tmonth tweek
-    costs overridden_costs
+    costs overridden_costs type
   ]
 
   ##
@@ -72,10 +72,12 @@ class CostQuery::SqlStatement
     new(table).tap do |query|
       query.select COMMON_FIELDS
       query.select({
-        :type => "'#{model.model_name}'", :count => 1, :id => [model, :id],
+        :count => 1, :id => [model, :id],
         :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
         :week => iso_year_week(:spent_on, model)
       })
+      #FIXME: build this subquery from a sql_statement
+      query.from "(SELECT *, '#{model.model_name}' AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
     end
   end
