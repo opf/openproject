@@ -1,4 +1,5 @@
 class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
+  dont_display!
   label :field_cost_type
 
   def self.available_values
