@@ -1,15 +1,15 @@
 /*global $, selectAllOptions, moveOptions */
 
 function toggle_filter(field) {
-    var remove, to_toggle;
-    remove = $('rm_' + field);
-    to_toggle = remove.up().siblings();
-
-    if (remove.display) {
-        to_toggle.invoke('hide');
+    var check_box, to_toggle;
+    check_box = $('cb_' + field);
+    to_toggle = check_box.up().siblings();
+    
+    if (check_box.checked) {
+        to_toggle.invoke('show');
     }
     else {
-        to_toggle.invoke('show');
+        to_toggle.invoke('hide');
     }
 }
 
@@ -62,9 +62,11 @@ function display_category(tr_field) {
 }
 
 function show_filter(field) {
-    var field_el = $('tr_' +  field);
+    var field_el = $('tr_' +  field), check_box = null;
     if (field_el !== null) {
         field_el.show();
+        check_box = $('cb_' + field);
+        check_box.checked = true;
         toggle_filter(field);
         operator_changed(field, $("operators_" + field));
         display_category(field_el);
@@ -72,9 +74,11 @@ function show_filter(field) {
 }
 
 function hide_filter(field) {
-    var field_el = $('tr_' +  field)
+    var field_el = $('tr_' +  field), check_box = null;
     if (field_el !== null) {
         field_el.hide();
+        check_box = $('cb_' + field);
+        check_box.checked = false;
         toggle_filter(field);
         operator_changed(field, $("operators_" + field));
     }
@@ -104,13 +108,6 @@ function add_filter(select) {
     show_filter(field);
     select.selectedIndex = 0;
     disable_select_option(select, field);
-}
-
-function removed_filter(field) {
-    var select, field;
-    select = $("add_filter_select");
-    hide_filter(field);
-    enable_select_option(select, field)
 }
 
 function show_group_by(group_by, target) {

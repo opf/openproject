@@ -8,6 +8,7 @@
 %>
 
 <td width="<%= element[:width] || 200 %>">
-  <a href="#" id="rm_<%= element[:filter_name] %>" onclick="removed_filter('<%= element[:filter_name]%>'); return false;" class="icon icon-filterdel"></a>
-  <label><%= element[:label] %></label>
+  <input id="cb_<%= element[:filter_name] %>" name="fields[]" onclick="toggle_filter('<%= element[:filter_name] %>');"
+         type="checkbox" value="<%= element[:filter_name] %>" />
+  <label for="cb_<%= element[:filter_name] %>"><%= element[:label] %></label>
 </td>
