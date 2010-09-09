@@ -275,6 +275,7 @@ class CostQuery::SqlStatement
           @group_by << field_name_for(e)
         end
       end
+      @group_by.uniq!
     end
   end
 
