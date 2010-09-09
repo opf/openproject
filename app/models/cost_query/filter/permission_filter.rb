@@ -26,6 +26,7 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
     super.tap do |query|
       query.from.each_subselect do |sub|
         sub.where permission_for(sub == query.from.first ? 'time' : 'cost')
+        sub.select.delete_if { |f| f.end_with? "display_costs" }
         sub.default_select :display_costs => switch(display_costs => '1', :else => 0)
       end
     end

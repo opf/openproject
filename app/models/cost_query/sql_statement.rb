@@ -72,7 +72,7 @@ class CostQuery::SqlStatement
     new(table).tap do |query|
       query.select COMMON_FIELDS
       query.select({
-        :count => 1, :id => [model, :id],
+        :count => 1, :id => [model, :id], :display_costs => 1,
         :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
         :week => iso_year_week(:spent_on, model)
       })
