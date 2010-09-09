@@ -226,6 +226,7 @@ class CostQuery < ActiveRecord::Base
 
     def self.dont_display!
       display false
+      not_selectable!
     end
 
     inherited_attribute :selectable, :default => true
