@@ -27,11 +27,6 @@ class CostlogController < ApplicationController
         filters[:values][:issue_id] = issue_ids
       end
 
-      if @cost_type
-        filters[:operators][:cost_type_id] = "="
-        filters[:values][:cost_type_id] = [@cost_type.id.to_s]
-      end
-
       filters[:operators][:project_id] = "="
       filters[:values][:project_id] = [@project.id.to_s]
 
@@ -39,7 +34,11 @@ class CostlogController < ApplicationController
         format.html {
           session[:cost_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
-          redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
+          if @cost_type
+            redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id
+          else
+            redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
+          end
           return
         }
       end
