@@ -8,7 +8,12 @@
     <th></th>
   </thead>
   <tfoot>
-    <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
+    <% if show_result(@query, 0) != show_result(@query) %>
+      <th class="result inner" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+      <th class="result right"><%= show_result @query, 0 %></th>
+    <% else %>
+      <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
+    <% end %>
     <th></th>
   </tfoot>
   <tbody>
@@ -16,7 +21,7 @@
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
         <td class="units"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
-        <td class="currency"><%= show_result(result) %></td>
+        <td class="currency"><%= show_result(result, 0) %></td>
         <td style="width: 40px">
           <%= link_to image_tag('edit.png'),    action_for(result, :action => 'edit'), :title => l(:button_edit) %>
           <%= link_to image_tag('delete.png'),  action_for(result, :action => 'destroy'),
