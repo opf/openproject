@@ -47,7 +47,7 @@ module CostQuery::Filter
       super
     end
 
-    def self.available_values(project)
+    def self.available_values(user)
       raise NotImplementedError, "subclass responsibility"
     end
 

@@ -3,7 +3,7 @@ class CostQuery::Filter::PriorityId < CostQuery::Filter::Base
   applies_for :label_issue_attributes
   label :field_priority
 
-  def self.available_values
+  def self.available_values(user)
     IssuePriority.find(:all, :order => 'position DESC').map { |i| [i.name, i.id] }
   end
 end

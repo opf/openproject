@@ -1,7 +1,7 @@
 class CostQuery::Filter::UserId < CostQuery::Filter::Base
   label :field_user
 
-  def self.available_values
+  def self.available_values(user)
     values = User.all.map { |u| [u.name, u.id] }
     values.delete_if { |u| (u.first.include? "Redmine Admin") || (u.first.include? "Anonymous")}
     values.sort!

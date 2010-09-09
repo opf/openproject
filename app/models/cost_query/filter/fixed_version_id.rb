@@ -4,7 +4,7 @@ class CostQuery::Filter::FixedVersionId < CostQuery::Filter::Base
   applies_for :label_issue_attributes
   label :field_fixed_version
 
-  def self.available_values(param={})
+  def self.available_values(user)
     Version.find(:all, :order => 'name').map { |a| [a.name, a.id] }
   end
 end
