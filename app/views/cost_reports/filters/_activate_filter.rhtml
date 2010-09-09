@@ -1,14 +1,13 @@
-<%#
-  This partial requires the following locals:
-    element   a Hash containing the following keys:
-      - :name => :activate_filter
-      - :filter_name => String: The name of a filter (e.g. activity_id)
-      - :label => String: A text which is shown to the user as a label for this filter
-      - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
+<%=
+  #This partial requires the following locals:
+  #  element   a Hash containing the following keys:
+  #    - :name => :activate_filter
+  #    - :filter_name => String: The name of a filter (e.g. activity_id)
+  #    - :label => String: A text which is shown to the user as a label for this filter
+  #    - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
 %>
 
 <td width="<%= element[:width] || 200 %>">
-  <input id="cb_<%= element[:filter_name] %>" name="fields[]" onclick="toggle_filter('<%= element[:filter_name] %>');"
-         type="checkbox" value="<%= element[:filter_name] %>" />
-  <label for="cb_<%= element[:filter_name] %>"><%= element[:label] %></label>
+  <a href="#" id="rm_<%= element[:filter_name] %>" onclick="removed_filter('<%= element[:filter_name]%>'); return false;" class="icon icon-filterdel"></a>
+  <label><%= element[:label] %></label>
 </td>
