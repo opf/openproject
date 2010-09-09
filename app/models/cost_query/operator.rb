@@ -93,7 +93,7 @@ class CostQuery::Operator
 
     new "=" do
       def modify(query, field, *values)
-        if values.empty?
+        if values.compact.empty?
           query.where "1=0"
         else
           query.where "#{field} IN #{collection(*values)}"
