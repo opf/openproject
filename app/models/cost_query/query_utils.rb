@@ -120,7 +120,7 @@ module CostQuery::QueryUtils
 
   def typed(type, value, escape = true)
     value = "'#{quote_string value}'" if escape
-    return value unless adapter_name == :postgresql
+    return value unless postgresql?
     "#{value}::#{type}"
   end
 
@@ -192,6 +192,18 @@ module CostQuery::QueryUtils
 
   def cache
     CostQuery::QueryUtils.cache
+  end
+
+  def mysql?
+    adapter_name == :mysql
+  end
+
+  def sqlite?
+    adapter_name == :sqlite
+  end
+
+  def postgresql?
+    adapter_name == :postgresql
   end
 
   def self.cache
