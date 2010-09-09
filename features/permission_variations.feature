@@ -6,12 +6,19 @@ Feature: Permissions
 # see_time_entries: none, own, all
 # see_rates: none, own, all
 
-  Scenario: Anonymous can not access the cost reports page
+  Scenario: Anonymous can not access the project specific cost reports page
+    Given there is a standard permission test project named "Permission_Test"
+    And I am not logged in
+    And I am on the Cost Reports page for the project called "Permission_Test" without filters or groups
+    Then I should see "Login:"
+    And I should see "Password:"
+
+  Scenario: Anonymous can not access the overall cost reports page as there are no other public projects
     Given there is a standard permission test project named "Permission_Test"
     And I am not logged in
     And I am on the overall Cost Reports page without filters or groups
-    Then I should see "403" # access denied
-    But I should not see "Cost Report" within "#content"
+    Then I should see "Login:"
+    And I should see "Password:"
 
   Scenario: Admin sees everything
     Given there is a standard permission test project named "Permission_Test"
@@ -59,17 +66,7 @@ Feature: Permissions
       | none                     |
     And I am logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
-    Then I should see "Cost Report" within "#content"
-    And I should see "No data to display"
-    # Costs
-    And I should not see "11.11 EUR" within ".result" # costs (0.01 [own, time] + 0.10 [other, time] + 1.00 [own, cost] + 11.00 [other, cost])
-    And I should see "-" within ".result"
-    # TimeEntries
-    And I should not see "1.00 hour" # own
-    And I should not see "2.00 hour" # other
-    # CostEntries
-    And I should not see "1.0 one"   # own
-    And I should not see "1.0 ten"   # other
+    Then I should see "403" # permission denied
 
   Scenario: User who may only see own cost entries, only sees his own cost entries without costs
     Given there is a standard permission test project named "Permission_Test"
@@ -225,8 +222,7 @@ Feature: Permissions
       | view_own_hourly_rate     |
     And I am logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
-    Then I should see "Cost Report" within "#content"
-    And I should see "No data to display"
+    Then I should see "403" # access denied
 
   Scenario: User who may see own costs and own cost entries, sees them with costs
     Given there is a standard permission test project named "Permission_Test"
@@ -392,8 +388,7 @@ Feature: Permissions
       | view_cost_rates          |
     And I am logged in as "testuser"
     And I am on the overall Cost Reports page without filters or groups
-    Then I should not see "Cost Report" within "#content"
-    And I should see "No data to display"
+    Then I should see "403" #access denied
 
   Scenario: User wh can see all costs and his own cost entries, only sees own cost entries with costs
     Given there is a standard permission test project named "Permission_Test"
