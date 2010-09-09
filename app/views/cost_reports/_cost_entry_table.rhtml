@@ -9,7 +9,7 @@
   </thead>
   <tfoot>
     <% if show_result(@query, 0) != show_result(@query) %>
-      <th class="result inner" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+      <th class="inner right" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
       <th class="result right"><%= show_result @query, 0 %></th>
     <% else %>
       <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
