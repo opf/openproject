@@ -69,7 +69,7 @@ module ReportingHelper
     when :tmonth                    then month_name(value.to_i)
     when :category_id               then IssueCategory.find(value.to_i).name
     when :cost_type_id              then mapped value, CostType, l(:caption_labor)
-    when :cost_object               then CostObject.find(value.to_i).subject
+    when :cost_object_id            then link_to_cost_object CostObject.find(value.to_i)
     when :issue_id                  then link_to_issue Issue.find(value.to_i)
     when :spent_on                  then format_date(value.to_date)
     when :tracker_id                then Tracker.find(value.to_i)
