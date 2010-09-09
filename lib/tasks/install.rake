@@ -68,15 +68,15 @@ namespace :redmine do
       if !Task.tracker
         # Check if there is at least one tracker available
         puts "-----------------------------------------------------"
-        if Setting.plugin_redmine_backlogs[:story_trackers].length < trackers.length
+        if settings[:story_trackers].length < trackers.length
           invalid = true
           while invalid
             # If there's at least one, ask the user to pick one
             puts "Which tracker do you want to use for your tasks?"
-            available_trackers = trackers.select{|t| !Setting.plugin_redmine_backlogs[:story_trackers].include? t.id}
+            available_trackers = trackers.select{|t| !settings[:task_tracker].include? t.id}
             j = 0
             available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
-            puts "  #{ j + 1 }. <<new>>"
+            # puts "  #{ j + 1 }. <<new>>"
             print "Choose one from above (or choose none to create a new tracker): "
             STDOUT.flush
             selection = (STDIN.gets.chomp!).split(/\D+/)
@@ -86,20 +86,25 @@ namespace :redmine do
               print "You selected #{available_trackers[selection.first.to_i-1].name}. Is this correct? (y/n) "
               STDOUT.flush
               if (STDIN.gets.chomp!).match("y")
-                Setting.plugin_redmine_backlogs[:task_tracker] = available_trackers[selection.first.to_i-1].id
+                settings[:task_tracker] = available_trackers[selection.first.to_i-1].id
                 invalid = false
               end
-            elsif selection.length == 0 or selection.first.to_i == j + 1
-              # If the user chose to create a new one, then ask for the name
-              Setting.plugin_redmine_backlogs[:task_tracker] = create_new_tracker
-              invalid = false
+            # elsif selection.length == 0 or selection.first.to_i == j + 1
+            #   # If the user chose to create a new one, then ask for the name
+            #   settings[:task_tracker] = create_new_tracker
+            #   invalid = false
             else
               puts "Oooops! That's not a valid selection. Please try again."
             end
           end
         else
           # If there's none, ask to create one
-          settings[:task_tracker] = create_new_tracker
+          # settings[:task_tracker] = create_new_tracker
+          puts "You don't have any trackers available for use with tasks."
+          puts "Please create a new tracker via the Redmine admin interface,"
+          puts "then re-run this installer. Press any key to continue."
+          STDOUT.flush
+          STDIN.gets
         end
       end
 
