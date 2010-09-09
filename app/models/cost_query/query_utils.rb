@@ -112,7 +112,8 @@ module CostQuery::QueryUtils
   def switch(options)
     options = options.with_indifferent_access
     else_part = options.delete :else
-    "CASE #{options.map { |k,v| "WHEN #{field_name_for k} THEN #{field_name_for v}" }} ELSE #{field_name_for else_part} END"
+    "CASE #{options.map { |k,v| "\n\t\tWHEN #{field_name_for k}\n\t\t" \
+    "THEN #{field_name_for v}" }}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
   def typed(type, value, escape = true)
@@ -127,7 +128,9 @@ module CostQuery::QueryUtils
     when :mysql
       "yearweek(#{field}, 1)"
     when :postgresql
-      "EXTRACT(isoyear from #{field})*100 + EXTRACT(week from #{field} - (EXTRACT(dow FROM #{field})::int+6)%7)"
+      "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
+      "EXTRACT(week from #{field} - \n\t\t" \
+      "(EXTRACT(dow FROM #{field})::int+6)%7))"
     when :sqlite
       # enjoy
       <<-EOS
