@@ -4,6 +4,13 @@ namespace :redmine do
     desc "Install and configure Redmine Backlogs"
     task :install => :environment do |t|
       ENV["RAILS_ENV"] ||= "development"
+
+      # Necessary because adding key-value pairs one by one doesn't seem to work
+      settings = Setting.plugin_redmine_backlogs
+      settings[:points_burn_direction] ||= 'down'
+      settings[:wiki_template]         ||= ''
+      settings[:card_spec]             ||= 'APLI 01293'
+
       puts "\n"
       puts "====================================================="
       puts "             Redmine Backlogs Installer"
@@ -11,8 +18,12 @@ namespace :redmine do
       puts "Installing to the #{ENV['RAILS_ENV']} environment."
       print "Fetching card labels from http://git.gnome.org..."
       STDOUT.flush
-      Cards::TaskboardCards.fetch_labels
-      print "done!\n"
+      begin
+        Cards::TaskboardCards.fetch_labels
+        print "done!\n"
+      rescue
+        print "\nCard labels could not be fetched. Please try again later. Proceeding anyway...\n"
+      end
       
       trackers = Tracker.find(:all)
 
@@ -50,22 +61,22 @@ namespace :redmine do
           end
         end
 
-        Setting.plugin_redmine_backlogs[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
+        settings[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
       end
 
       
       if !Task.tracker
         # Check if there is at least one tracker available
         puts "-----------------------------------------------------"
-        if Setting.plugin_redmine_backlogs[:story_trackers].length < trackers.length
+        if settings[:story_trackers].length < trackers.length
           invalid = true
           while invalid
             # If there's at least one, ask the user to pick one
             puts "Which tracker do you want to use for your tasks?"
-            available_trackers = trackers.select{|t| !Setting.plugin_redmine_backlogs[:story_trackers].include? t.id}
+            available_trackers = trackers.select{|t| !settings[:task_tracker].include? t.id}
             j = 0
             available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
-            puts "  #{ j + 1 }. <<new>>"
+            # puts "  #{ j + 1 }. <<new>>"
             print "Choose one from above (or choose none to create a new tracker): "
             STDOUT.flush
             selection = (STDIN.gets.chomp!).split(/\D+/)
@@ -75,26 +86,31 @@ namespace :redmine do
               print "You selected #{available_trackers[selection.first.to_i-1].name}. Is this correct? (y/n) "
               STDOUT.flush
               if (STDIN.gets.chomp!).match("y")
-                Setting.plugin_redmine_backlogs[:task_tracker] = available_trackers[selection.first.to_i-1].id
+                settings[:task_tracker] = available_trackers[selection.first.to_i-1].id
                 invalid = false
               end
-            elsif selection.length == 0 or selection.first.to_i == j + 1
-              # If the user chose to create a new one, then ask for the name
-              Setting.plugin_redmine_backlogs[:task_tracker] = create_new_tracker
-              invalid = false
+            # elsif selection.length == 0 or selection.first.to_i == j + 1
+            #   # If the user chose to create a new one, then ask for the name
+            #   settings[:task_tracker] = create_new_tracker
+            #   invalid = false
             else
               puts "Oooops! That's not a valid selection. Please try again."
             end
           end
         else
           # If there's none, ask to create one
-          Setting.plugin_redmine_backlogs[:task_tracker] = create_new_tracker
+          # settings[:task_tracker] = create_new_tracker
+          puts "You don't have any trackers available for use with tasks."
+          puts "Please create a new tracker via the Redmine admin interface,"
+          puts "then re-run this installer. Press any key to continue."
+          STDOUT.flush
+          STDIN.gets
         end
       end
 
-      Setting.plugin_redmine_backlogs[:points_burn_direction] ||= 'down'
-      Setting.plugin_redmine_backlogs[:wiki_template] ||= ''
-      Setting.plugin_redmine_backlogs[:card_spec] ||= 'APLI 01293'
+      # Necessary because adding key-value pairs one by one doesn't seem to work
+      Setting.plugin_redmine_backlogs = settings
+      
       puts "Story and task trackers are now set."
       
       print "Migrating the database..."

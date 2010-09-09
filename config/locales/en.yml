@@ -39,7 +39,7 @@ en:
 
   label_back_to_project: "Back to project page"
   label_sprint_name: "Sprint \"{{name}}\""
-  label_backlogs: Backlog
+  label_backlogs: Backlogs
   label_scrum_statistics: "Scrum statistics"
 
   label_sprint_backlog: "sprint backlog"
@@ -93,3 +93,4 @@ en:
   
   # Error messages
   error_blank: "cannot be blank"
+  error_greater_than_start_date: "cannot be earlier than Start Date"

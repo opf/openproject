@@ -40,7 +40,7 @@ de:
 
   label_back_to_project: "Zurück zur Projektseite"
   label_sprint_name: "Sprint \"{{name}}\""
-  label_backlogs: Backlog
+  label_backlogs: Backlogs
   label_scrum_statistics: "Scrum Statistiken"
 
   label_sprint_backlog: "Sprint Backlog"

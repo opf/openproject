@@ -40,7 +40,7 @@ nl:
   label_scrum_statistics: Scrum statistieken
   required_burn_rate_points: benodigde burn rate (points)
   points_to_accept: points niet geaccepteerd
-  label_backlogs: Backlog
+  label_backlogs: Backlogs
   label_back_to_project: Terug naar het project
   backlogs_points_burn_direction: Points burn omhoog/omlaag
   backlogs_product_backlog_unsized: De top van de product backlog heeft stories zonder size
