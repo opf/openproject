@@ -222,14 +222,6 @@ class CostQuery::SqlStatement
     end
   end
 
-  def default_select(*fields)
-    return(@default_select || []) if fields.empty?
-    @default_select ||= []
-    @select, select_was = @default_select, @select
-    select(*fields)
-    @select = select_was
-  end
-
   ##
   # @overload select
   #   @return [Array<String>] All fields/statements for select part
@@ -245,7 +237,7 @@ class CostQuery::SqlStatement
   #   @param [Array, Hash, String, Symbol, SqlStatement] fields Fields to add to select part
   #   @return [Array<String>] All fields/statements for select part
   def select(*fields)
-    return (@select || ["*"]) + default_select if fields.empty?
+    return(@select || ["*"]) if fields.empty?
     returning(@select ||= []) do
       @sql = nil
       fields.each do |f|
