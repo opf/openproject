@@ -93,3 +93,4 @@ en:
   
   # Error messages
   error_blank: "cannot be blank"
+  error_greater_than_start_date: "cannot be earlier than Start Date"
