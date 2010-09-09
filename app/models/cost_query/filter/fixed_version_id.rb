@@ -5,7 +5,7 @@ class CostQuery::Filter::FixedVersionId < CostQuery::Filter::Base
   label :field_fixed_version
 
   def self.available_values(user)
-    versions = Version.find :all, :order => 'name', :conditions => {:project_id => Project.visible.map{|p| p.id}}
-    versions.map { |a| ["#{a.name} (#{a.project.name})", a.id] }
+    versions = Version.find :all, :conditions => {:project_id => Project.visible.map{|p| p.id}}
+    versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
 end

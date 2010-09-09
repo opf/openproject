@@ -5,7 +5,7 @@ class CostQuery::Filter::CategoryId < CostQuery::Filter::Base
   label :field_category
 
   def self.available_values(user)
-    categories = IssueCategory.find :all, :order => 'name', :conditions => {:project_id => Project.visible.map{|p| p.id}}
-    categories.map { |c| ["#{c.name} (#{c.project.name})", c.id] }
+    categories = IssueCategory.find :all, :conditions => {:project_id => Project.visible.map{|p| p.id}}
+    categories.map { |c| ["#{c.project.name} - #{c.name} ", c.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end
 end
