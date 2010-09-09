@@ -77,7 +77,7 @@ class CostQuery::SqlStatement
         :week => iso_year_week(:spent_on, model)
       })
       #FIXME: build this subquery from a sql_statement
-      query.from "(SELECT *, '#{model.model_name}' AS type FROM #{table}) AS #{table}"
+      query.from "(SELECT *, '#{model.model_name}'::text AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
     end
   end
