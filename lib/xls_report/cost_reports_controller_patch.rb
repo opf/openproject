@@ -41,7 +41,7 @@ if require_dependency 'cost_reports_controller'
           when :issue_id
             return l(:label_none) if value.to_i == 0
             issue = Issue.find(value.to_i)
-            "#{issue.project + " - " if @project}#{issue.tracker} ##{issue.id}: #{issue.subject}"
+            "#{issue.project.name + " - " if @project}#{issue.tracker} ##{issue.id}: #{issue.subject}"
           else super(key, value)
           end
         end
