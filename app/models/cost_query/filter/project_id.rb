@@ -10,7 +10,7 @@ class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
   def self.available_values(user)
     map = []
     ancestors = []
-    user.projects.all.sort_by(&:lft).each do |project|
+    Project.visible.sort_by(&:lft).each do |project|
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
