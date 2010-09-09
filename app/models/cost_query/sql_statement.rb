@@ -6,7 +6,8 @@ class CostQuery::SqlStatement
     end
 
     def to_s
-      "((#{first}) UNION (#{second}))#{" AS #{as}" if as}"
+      "((\n#{first.gsub("\n", "\n\t")}\n) UNION (\n" \
+      "#{second.gsub("\n", "\n\t")}\n))#{" AS #{as}" if as}\n"
     end
 
     def each_subselect
@@ -20,6 +21,7 @@ class CostQuery::SqlStatement
   end
 
   include CostQuery::QueryUtils
+  attr_accessor :desc
 
   COMMON_FIELDS = %w[
     user_id project_id issue_id rate_id
@@ -71,6 +73,7 @@ class CostQuery::SqlStatement
     table = table_name_for model
     new(table).tap do |query|
       query.select COMMON_FIELDS
+      query.desc = "Subquery for #{table}"
       query.select({
         :count => 1, :id => [model, :id], :display_costs => 1,
         :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
@@ -148,11 +151,13 @@ class CostQuery::SqlStatement
   def to_s
     # FIXME I'm ugly
     @sql ||= begin
-      sql = "\nSELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
+      sql = "\n--- BEGIN #{desc}\n" \
+      "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
       "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
       "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
       "\nWHERE #{where.join " AND "}\n"
       sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
+      sql << "--- END #{desc}\n"
       sql # << " LIMIT 100"
     end
   end
@@ -287,6 +292,10 @@ class CostQuery::SqlStatement
 
   def inspect
     "#<SqlStatement: #{to_s.inspect}>"
+  end
+
+  def gsub(*args, &block)
+    to_s.gsub(*args, &block)
   end
 
 end
