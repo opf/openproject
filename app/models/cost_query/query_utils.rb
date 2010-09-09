@@ -115,6 +115,12 @@ module CostQuery::QueryUtils
     "CASE #{options.map { |k,v| "WHEN #{field_name_for k} THEN #{field_name_for v}" }} ELSE #{field_name_for else_part} END"
   end
 
+  def typed(type, value, escape = true)
+    value = "'#{quote_string value}'" if escape
+    return value unless adapter_name == :postgresql
+    "#{value}::#{type}"
+  end
+
   def iso_year_week(field, default_table = nil)
     field = field_name_for(field, default_table)
     case adapter_name
