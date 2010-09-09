@@ -172,48 +172,45 @@ ActionController::Routing::Routes.draw do |map|
       user_actions.connect 'users/:id/memberships/:membership_id/destroy', :action => 'destroy_membership'
     end
   end
-  
-  map.with_options :controller => 'projects' do |projects|
-    projects.with_options :conditions => {:method => :get} do |project_views|
-      project_views.connect 'projects', :action => 'index'
-      project_views.connect 'projects.:format', :action => 'index'
-      project_views.connect 'projects/new', :action => 'new'
-      project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id.:format', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /destroy|settings/
+
+  map.resources :projects, :member => {
+    :copy => [:get, :post],
+    :settings => :get,
+    :modules => :post,
+    :archive => :post,
+    :unarchive => :post
+  }
+
+  # Destroy uses a get request to prompt the user before the actual DELETE request
+  map.project_destroy_confirm 'projects/:id/destroy', :controller => 'projects', :action => 'destroy', :conditions => {:method => :get}
+
+  # TODO: port to be part of the resources route(s)
+  map.with_options :controller => 'projects' do |project_mapper|
+    project_mapper.with_options :conditions => {:method => :get} do |project_views|
       project_views.connect 'projects/:id/files', :controller => 'files', :action => 'index'
       project_views.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
-      project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
+      project_views.connect 'projects/:id/settings/:tab', :controller => 'projects', :action => 'settings'
       project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
     end
 
-    projects.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|
-      activity.connect 'projects/:id/activity'
-      activity.connect 'projects/:id/activity.:format'
-      activity.connect 'activity', :id => nil
-      activity.connect 'activity.:format', :id => nil
-    end
-    
-    projects.with_options :conditions => {:method => :post} do |project_actions|
-      project_actions.connect 'projects/new', :action => 'create'
-      project_actions.connect 'projects', :action => 'create'
-      project_actions.connect 'projects.:format', :action => 'create', :format => /xml/
-      project_actions.connect 'projects/:id/edit', :action => 'update'
-      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
+    project_mapper.with_options :conditions => {:method => :post} do |project_actions|
       project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_actions.connect 'projects/:id/activities/save', :controller => 'project_enumerations', :action => 'save'
     end
 
-    projects.with_options :conditions => {:method => :put} do |project_actions|
-      project_actions.conditions 'projects/:id.:format', :action => 'update', :format => /xml/
-    end
-
-    projects.with_options :conditions => {:method => :delete} do |project_actions|
-      project_actions.conditions 'projects/:id.:format', :action => 'destroy', :format => /xml/
+    project_mapper.with_options :conditions => {:method => :delete} do |project_actions|
       project_actions.conditions 'projects/:id/reset_activities', :controller => 'project_enumerations', :action => 'destroy'
     end
+
   end
   
+  map.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|
+    activity.connect 'projects/:id/activity'
+    activity.connect 'projects/:id/activity.:format'
+    activity.connect 'activity', :id => nil
+    activity.connect 'activity.:format', :id => nil
+  end
+    
   map.with_options :controller => 'versions' do |versions|
     versions.connect 'projects/:project_id/versions/new', :action => 'new'
     versions.connect 'projects/:project_id/roadmap', :action => 'index'

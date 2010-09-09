@@ -171,24 +171,23 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/1.xml", :controller => 'projects', :action => 'show', :id => '1', :format => 'xml'
     should_route :get, "/projects/4223/settings", :controller => 'projects', :action => 'settings', :id => '4223'
     should_route :get, "/projects/4223/settings/members", :controller => 'projects', :action => 'settings', :id => '4223', :tab => 'members'
-    should_route :get, "/projects/567/destroy", :controller => 'projects', :action => 'destroy', :id => '567'
     should_route :get, "/projects/33/files", :controller => 'files', :action => 'index', :id => '33'
     should_route :get, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'
     should_route :get, "/projects/33/roadmap", :controller => 'versions', :action => 'index', :project_id => '33'
     should_route :get, "/projects/33/activity", :controller => 'activities', :action => 'index', :id => '33'
     should_route :get, "/projects/33/activity.atom", :controller => 'activities', :action => 'index', :id => '33', :format => 'atom'
     
-    should_route :post, "/projects/new", :controller => 'projects', :action => 'create'
+    should_route :post, "/projects", :controller => 'projects', :action => 'create'
     should_route :post, "/projects.xml", :controller => 'projects', :action => 'create', :format => 'xml'
-    should_route :post, "/projects/4223/edit", :controller => 'projects', :action => 'update', :id => '4223'
-    should_route :post, "/projects/64/destroy", :controller => 'projects', :action => 'destroy', :id => '64'
     should_route :post, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'
     should_route :post, "/projects/64/archive", :controller => 'projects', :action => 'archive', :id => '64'
     should_route :post, "/projects/64/unarchive", :controller => 'projects', :action => 'unarchive', :id => '64'
     should_route :post, "/projects/64/activities/save", :controller => 'project_enumerations', :action => 'save', :id => '64'
 
+    should_route :put, "/projects/4223", :controller => 'projects', :action => 'update', :id => '4223'
     should_route :put, "/projects/1.xml", :controller => 'projects', :action => 'update', :id => '1', :format => 'xml'
 
+    should_route :delete, "/projects/64", :controller => 'projects', :action => 'destroy', :id => '64'
     should_route :delete, "/projects/1.xml", :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml'
     should_route :delete, "/projects/64/reset_activities", :controller => 'project_enumerations', :action => 'destroy', :id => '64'
   end
