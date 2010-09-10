@@ -182,14 +182,14 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'
     should_route :post, "/projects/64/archive", :controller => 'projects', :action => 'archive', :id => '64'
     should_route :post, "/projects/64/unarchive", :controller => 'projects', :action => 'unarchive', :id => '64'
-    should_route :post, "/projects/64/activities/save", :controller => 'project_enumerations', :action => 'save', :id => '64'
 
+    should_route :put, "/projects/64/enumerations", :controller => 'project_enumerations', :action => 'update', :project_id => '64'
     should_route :put, "/projects/4223", :controller => 'projects', :action => 'update', :id => '4223'
     should_route :put, "/projects/1.xml", :controller => 'projects', :action => 'update', :id => '1', :format => 'xml'
 
     should_route :delete, "/projects/64", :controller => 'projects', :action => 'destroy', :id => '64'
     should_route :delete, "/projects/1.xml", :controller => 'projects', :action => 'destroy', :id => '1', :format => 'xml'
-    should_route :delete, "/projects/64/reset_activities", :controller => 'project_enumerations', :action => 'destroy', :id => '64'
+    should_route :delete, "/projects/64/enumerations", :controller => 'project_enumerations', :action => 'destroy', :project_id => '64'
   end
 
   context "repositories" do

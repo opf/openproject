@@ -179,7 +179,9 @@ ActionController::Routing::Routes.draw do |map|
     :modules => :post,
     :archive => :post,
     :unarchive => :post
-  }
+  } do |project|
+    project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
+  end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request
   map.project_destroy_confirm 'projects/:id/destroy', :controller => 'projects', :action => 'destroy', :conditions => {:method => :get}
@@ -195,13 +197,7 @@ ActionController::Routing::Routes.draw do |map|
 
     project_mapper.with_options :conditions => {:method => :post} do |project_actions|
       project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
-      project_actions.connect 'projects/:id/activities/save', :controller => 'project_enumerations', :action => 'save'
     end
-
-    project_mapper.with_options :conditions => {:method => :delete} do |project_actions|
-      project_actions.conditions 'projects/:id/reset_activities', :controller => 'project_enumerations', :action => 'destroy'
-    end
-
   end
   
   map.with_options :controller => 'activities', :action => 'index', :conditions => {:method => :get} do |activity|

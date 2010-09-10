@@ -8,11 +8,11 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
-  def test_save_to_override_system_activities
+  def test_update_to_override_system_activities
     @request.session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name("Billable")
 
-    post :save, :id => 1, :enumerations => {
+    put :update, :project_id => 1, :enumerations => {
       "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design, De-activate
       "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"}, # Development, Change custom value
       "14"=>{"parent_id"=>"14", "custom_field_values"=>{"7"=>"1"}, "active"=>"1"}, # Inactive Activity, Activate with custom value
@@ -58,7 +58,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal nil, project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
   end
 
-  def test_save_will_update_project_specific_activities
+  def test_update_will_update_project_specific_activities
     @request.session[:user_id] = 2 # manager
 
     project_activity = TimeEntryActivity.new({
@@ -77,7 +77,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert project_activity_two.save
 
     
-    post :save, :id => 1, :enumerations => {
+    put :update, :project_id => 1, :enumerations => {
       project_activity.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # De-activate
       project_activity_two.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"} # De-activate
     }
@@ -100,11 +100,11 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert !activity_two.active?
   end
 
-  def test_save_when_creating_new_activities_will_convert_existing_data
+  def test_update_when_creating_new_activities_will_convert_existing_data
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     
     @request.session[:user_id] = 2 # manager
-    post :save, :id => 1, :enumerations => {
+    put :update, :project_id => 1, :enumerations => {
       "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"} # Design, De-activate
     }
     assert_response :redirect
@@ -116,7 +116,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(project_specific_activity.id, 1).size, "No Time Entries assigned to the project activity"
   end
 
-  def test_save_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
+  def test_update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a dupicate
@@ -128,7 +128,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
     
     @request.session[:user_id] = 2 # manager
-    post :save, :id => 1, :enumerations => {
+    put :update, :project_id => 1, :enumerations => {
       "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design
       "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"} # Development, Change custom value
     }
@@ -140,7 +140,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size, "Time Entries are not assigned to system activities"
   end
 
-    def test_destroy
+  def test_destroy
     @request.session[:user_id] = 2 # manager
     project_activity = TimeEntryActivity.new({
                                                :name => 'Project Specific',
@@ -157,7 +157,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
                                                  })
     assert project_activity_two.save
 
-    delete :destroy, :id => 1
+    delete :destroy, :project_id => 1
     assert_response :redirect
     assert_redirected_to 'projects/ecookbook/settings/activities'
 
@@ -177,7 +177,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert TimeEntry.update_all("activity_id = '#{project_activity.id}'", ["project_id = ? AND activity_id = ?", 1, 9])
     assert 3, TimeEntry.find_all_by_activity_id_and_project_id(project_activity.id, 1).size
     
-    delete :destroy, :id => 1
+    delete :destroy, :project_id => 1
     assert_response :redirect
     assert_redirected_to 'projects/ecookbook/settings/activities'
 

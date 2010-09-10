@@ -1,9 +1,9 @@
 class ProjectEnumerationsController < ApplicationController
-  before_filter :find_project
+  before_filter :find_project_by_project_id
   before_filter :authorize
   
-  def save
-    if request.post? && params[:enumerations]
+  def update
+    if request.put? && params[:enumerations]
       Project.transaction do
         params[:enumerations].each do |id, activity|
           @project.update_or_create_time_entry_activity(id, activity)

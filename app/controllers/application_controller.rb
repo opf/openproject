@@ -169,6 +169,13 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  # Find project of id params[:project_id]
+  def find_project_by_project_id
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   # Find a project based on params[:project_id]
   # TODO: some subclasses override this, see about merging their logic
   def find_optional_project
