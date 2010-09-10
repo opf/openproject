@@ -26,7 +26,7 @@
   </tr></thead>
   <tbody>
 <% project_tree(@projects) do |project, level| %>
-  <tr class="<%= cycle("odd", "even") %> <%= css_project_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
 	<td class="name"><%= link_to_project(project, :action => 'settings') %></td>
 	<td><%= textilizable project.short_description, :project => project %></td>
 	<td align="center"><%= checked_image project.is_public? %></td>
