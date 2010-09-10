@@ -33,7 +33,11 @@ class Principal < ActiveRecord::Base
   }
   
   before_create :set_default_empty_values
-  
+
+  def name(formatter = nil)
+    to_s
+  end
+
   def <=>(principal)
     if self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase
