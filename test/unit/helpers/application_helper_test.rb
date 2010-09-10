@@ -601,7 +601,7 @@ EXPECTED
     
     # turn off avatars
     Setting.gravatar_enabled = '0'
-    assert_nil avatar(User.find_by_mail('jsmith@somenet.foo'))
+    assert_equal '', avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
   
   def test_link_to_user

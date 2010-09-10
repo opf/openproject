@@ -412,6 +412,50 @@ class Project < ActiveRecord::Base
   def short_description(length = 255)
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
+
+  # The earliest start date of a project, based on it's issues and versions
+  def start_date
+    if module_enabled?(:issue_tracking)
+      [
+       issues.minimum('start_date'),
+       shared_versions.collect(&:effective_date),
+       shared_versions.collect {|v| v.fixed_issues.minimum('start_date')}
+      ].flatten.compact.min
+    end
+  end
+
+  # The latest due date of an issue or version
+  def due_date
+    if module_enabled?(:issue_tracking)
+      [
+       issues.maximum('due_date'),
+       shared_versions.collect(&:effective_date),
+       shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
+      ].flatten.compact.max
+    end
+  end
+
+  def overdue?
+    active? && !due_date.nil? && (due_date < Date.today)
+  end
+
+  # Returns the percent completed for this project, based on the
+  # progress on it's versions.
+  def completed_percent(options={:include_subprojects => false})
+    if options.delete(:include_subprojects)
+      total = self_and_descendants.collect(&:completed_percent).sum
+
+      total / self_and_descendants.count
+    else
+      if versions.count > 0
+        total = versions.collect(&:completed_pourcent).sum
+
+        total / versions.count
+      else
+        100
+      end
+    end
+  end
   
   # Return true if this project is allowed to do the specified action.
   # action can be:

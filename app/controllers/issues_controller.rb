@@ -47,6 +47,7 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   helper :timelog
+  helper :gantt
   include Redmine::Export::PDF
 
   verify :method => [:post, :delete],

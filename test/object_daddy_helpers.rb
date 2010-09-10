@@ -25,8 +25,9 @@ module ObjectDaddyHelpers
   def Issue.generate_for_project!(project, attributes={})
     issue = Issue.spawn(attributes) do |issue|
       issue.project = project
+      issue.tracker = project.trackers.first unless project.trackers.empty?
+      yield issue if block_given?
     end
-    issue.tracker = project.trackers.first unless project.trackers.empty?
     issue.save!
     issue
   end

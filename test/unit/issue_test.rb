@@ -510,6 +510,28 @@ class IssueTest < ActiveSupport::TestCase
     assert !Issue.new(:due_date => nil).overdue?
     assert !Issue.new(:due_date => 1.day.ago.to_date, :status => IssueStatus.find(:first, :conditions => {:is_closed => true})).overdue?
   end
+
+  context "#behind_schedule?" do
+    should "be false if the issue has no start_date" do
+      assert !Issue.new(:start_date => nil, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
+    end
+
+    should "be false if the issue has no end_date" do
+      assert !Issue.new(:start_date => 1.day.from_now.to_date, :due_date => nil, :done_ratio => 0).behind_schedule?
+    end
+
+    should "be false if the issue has more done than it's calendar time" do
+      assert !Issue.new(:start_date => 50.days.ago.to_date, :due_date => 50.days.from_now.to_date, :done_ratio => 90).behind_schedule?
+    end
+
+    should "be true if the issue hasn't been started at all" do
+      assert Issue.new(:start_date => 1.day.ago.to_date, :due_date => 1.day.from_now.to_date, :done_ratio => 0).behind_schedule?
+    end
+
+    should "be true if the issue has used more calendar time than it's done ratio" do
+      assert Issue.new(:start_date => 100.days.ago.to_date, :due_date => Date.today, :done_ratio => 90).behind_schedule?
+    end
+  end
   
   def test_assignable_users
     assert_kind_of User, Issue.find(1).assignable_users.first
