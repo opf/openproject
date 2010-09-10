@@ -85,17 +85,17 @@ function hide_filter(field) {
         field_el.hide();
         toggle_filter(field);
         operator_changed(field, $("operators_" + field));
-        if (!occupied_categories()) {
+        if (!occupied_category(field_el)) {
             hide_category(field_el);
         }
     }
 }
 
-function occupied_categories() {
-    var i, hit = false;
+function occupied_category(tr_field) {
+    var i, hit = false, data_label = tr_field.getAttribute("data-label");
     filters = document.getElementsByClassName('filter');
     for (i = 0; i < filters.length; i++) {
-        if (filters[i].visible()) {
+        if (filters[i].visible() && filters[i].getAttribute("data-label") == data_label) {
             return hit = true;
         }
     }
