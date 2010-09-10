@@ -399,13 +399,13 @@ module Redmine
           options[:image].fill('black')
           options[:image].stroke('transparent')
           options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, version.name)
+          options[:image].text(options[:indent], options[:top] + 2, version.to_s_with_project)
         when :pdf
           options[:pdf].SetY(options[:top])
           options[:pdf].SetX(15)
           
           char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{version.name}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{version.to_s_with_project}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
         
           options[:pdf].SetY(options[:top])
           options[:pdf].SetX(options[:subject_width])

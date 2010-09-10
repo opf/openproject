@@ -135,6 +135,10 @@ class Version < ActiveRecord::Base
   end
   
   def to_s; name end
+
+  def to_s_with_project
+    "#{project} - #{name}"
+  end
   
   # Versions are sorted by effective_date and "Project Name - Version name"
   # Those with no effective_date are at the end, sorted by "Project Name - Version name"
