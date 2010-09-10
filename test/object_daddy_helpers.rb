@@ -13,6 +13,11 @@ module ObjectDaddyHelpers
     User.spawn(attributes)
   end
 
+  def User.add_to_project(user, project, roles)
+    roles = [roles] unless roles.is_a?(Array)
+    Member.generate!(:principal => user, :project => project, :roles => roles)
+  end
+
   # Generate the default Query
   def Query.generate_default!(attributes={})
     query = Query.spawn(attributes)

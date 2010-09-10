@@ -198,6 +198,9 @@ class Query < ActiveRecord::Base
 
     group_values = Group.all.collect {|g| [g.name, g.id] }
     @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values } unless group_values.empty?
+
+    role_values = Role.givable.collect {|r| [r.name, r.id] }
+    @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values } unless role_values.empty?
     
     if User.current.logged?
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => [["<< #{l(:label_me)} >>", "me"]] }
@@ -451,6 +454,26 @@ class Query < ActiveRecord::Base
         
         sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
 
+      elsif field == "assigned_to_role" # named field
+        if operator == "*" # Any Role
+          roles = Role.givable
+          operator = '=' # Override the operator since we want to find by assigned_to
+        elsif operator == "!*" # No role
+          roles = Role.givable
+          operator = '!' # Override the operator since we want to find by assigned_to
+        else
+          roles = Role.givable.find_all_by_id(v)
+        end
+        roles ||= []
+        
+        members_of_roles = roles.inject([]) {|user_ids, role|
+          if role && role.members
+            user_ids << role.members.collect(&:user_id)
+          end
+          user_ids.flatten.uniq.compact
+        }.sort.collect(&:to_s)
+        
+        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
       else
         # regular field
         db_table = Issue.table_name

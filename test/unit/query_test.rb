@@ -404,7 +404,29 @@ class QueryTest < ActiveSupport::TestCase
       end
 
     end
-    
+
+    context "'assigned_to_role' filter" do
+      should "be present" do
+        assert @query.available_filters.keys.include?("assigned_to_role")
+      end
+      
+      should "be an optional list" do
+        assert_equal :list_optional, @query.available_filters["assigned_to_role"][:type]
+      end
+      
+      should "have a list of the Roles as values" do
+        assert @query.available_filters["assigned_to_role"][:values].include?(['Manager',1])
+        assert @query.available_filters["assigned_to_role"][:values].include?(['Developer',2])
+        assert @query.available_filters["assigned_to_role"][:values].include?(['Reporter',3])
+      end
+
+      should "not include the built in Roles as values" do
+        assert ! @query.available_filters["assigned_to_role"][:values].include?(['Non member',4])
+        assert ! @query.available_filters["assigned_to_role"][:values].include?(['Anonymous',5])
+      end
+
+    end
+
   end
 
   context "#statement" do
@@ -451,6 +473,50 @@ class QueryTest < ActiveSupport::TestCase
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
 
+      end
+    end
+
+    context "with 'assigned_to_role' filter" do
+      setup do
+        # No fixtures
+        MemberRole.delete_all
+        Member.delete_all
+        Role.delete_all
+        
+        @manager_role = Role.generate!(:name => 'Manager')
+        @developer_role = Role.generate!(:name => 'Developer')
+
+        @project = Project.generate!
+        @manager = User.generate!
+        @developer = User.generate!
+        @boss = User.generate!
+        User.add_to_project(@manager, @project, @manager_role)
+        User.add_to_project(@developer, @project, @developer_role)
+        User.add_to_project(@boss, @project, [@manager_role, @developer_role])
+      end
+      
+      should "search assigned to for users with the Role" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
+
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@boss.id}')"
+        assert_find_issues_with_query_is_successful @query
+      end
+
+      should "search assigned to for users not assigned to any Role (none)" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '!*', [''])
+
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_find_issues_with_query_is_successful @query
+      end
+
+      should "search assigned to for users assigned to any Role (all)" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '*', [''])
+
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_find_issues_with_query_is_successful @query
       end
     end
   end
