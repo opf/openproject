@@ -37,7 +37,8 @@
                            :project_id => @project,
                            :sprint_id => backlog[:sprint],
                            :format => :pdf }),
-        :for => :sprint
+        :for => :sprint,
+        :condition => Cards::TaskboardCards.selected_label
       },
       {
         :item => menu_link(l(:label_printable_cards), {

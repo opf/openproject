@@ -18,12 +18,14 @@
               :action => 'show',
               :project_id => project.id
               }) %><br/>
-      <%= link_to(l(:label_printable_cards), {
-              :controller => 'rb_stories',
-              :action => 'index',
-              :project_id => project.id,
-              :format => 'pdf'
-              }) %><br/>
+      <% if Cards::TaskboardCards.selected_label %>
+        <%= link_to(l(:label_printable_cards), {
+                :controller => 'rb_stories',
+                :action => 'index',
+                :project_id => project.id,
+                :format => 'pdf'
+                }) %><br/>
+      <% end %>
     <% end %>
 
     <% if Setting.rest_api_enabled? && key %>
@@ -54,14 +56,16 @@
                 })
         %><br/>
 
-        <%= link_to(l(:label_printable_cards), {
-                :controller => 'rb_stories',
-                :action => 'index',
-                :project_id => project.id,
-                :sprint_id => sprint.id,
-                :format => 'pdf'
-                })
-        %><br/>
+        <% if Cards::TaskboardCards.selected_label %>
+          <%= link_to(l(:label_printable_cards), {
+                  :controller => 'rb_stories',
+                  :action => 'index',
+                  :project_id => project.id,
+                  :sprint_id => sprint.id,
+                  :format => 'pdf'
+                  })
+          %><br/>
+        <% end %>
         <% if project.enabled_modules.any? {|m| m.name=="wiki"} %>
             <%= link_to(l(:label_wiki), {
                     :controller => 'rb_wikis',
