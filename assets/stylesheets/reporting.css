@@ -9,7 +9,7 @@
 
 .report {
   text-align:       center;
-  border-collapse:  collapse;  
+  border-collapse:  collapse;
   border:           solid 1px #ccc !important;
   width:            auto !important;
 }
@@ -135,7 +135,7 @@
 
 .moveLeft {
   margin-left: 0px;
-  margin-right: 0px;  
+  margin-right: 0px;
   background-image: url(../images/arrow_D_left.gif);
 }
 
@@ -155,5 +155,19 @@
   margin-left: 0px;
   margin-right: 0px;
   background-image: url(../images/arrow_B_down.gif);
+}
+
+.filter_rem {
+  overflow: hidden;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  cursor: pointer;
+  background-image: url(../images/filter_rem.png);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 50%;
+  height: 16px;
+  width: 16px;
+  border-style: none;
 }
 
