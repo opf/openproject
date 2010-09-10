@@ -245,7 +245,7 @@ module IssuesHelper
     when :in
       if gantt.zoom < 4
         link_to_remote(l(:text_zoom_in) + image_tag('zoom_in.png', img_attributes.merge(:alt => l(:text_zoom_in))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :update => 'content'},
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
                        {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1)))})
       else
         l(:text_zoom_in) +
@@ -255,7 +255,7 @@ module IssuesHelper
     when :out
       if gantt.zoom > 1
         link_to_remote(l(:text_zoom_out) + image_tag('zoom_out.png', img_attributes.merge(:alt => l(:text_zoom_out))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :update => 'content'},
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
                        {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1)))})
       else
         l(:text_zoom_out) +

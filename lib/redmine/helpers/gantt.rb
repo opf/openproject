@@ -68,17 +68,21 @@ module Redmine
         @date_from = Date.civil(@year_from, @month_from, 1)
         @date_to = (@date_from >> @months) - 1
       end
+
+      def common_params
+        { :controller => 'gantts', :action => 'show', :project_id => @project }
+      end
       
       def params
-        { :zoom => zoom, :year => year_from, :month => month_from, :months => months }
+        common_params.merge({  :zoom => zoom, :year => year_from, :month => month_from, :months => months })
       end
       
       def params_previous
-        { :year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months }
+        common_params.merge({:year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months })
       end
       
       def params_next
-        { :year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months }
+        common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months })
       end
 
             ### Extracted from the HTML view/helpers
