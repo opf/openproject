@@ -48,6 +48,16 @@ class QueryTest < ActiveSupport::TestCase
       :conditions => query.statement
   end
 
+  def assert_find_issues_with_query_is_successful(query)
+    assert_nothing_raised do
+      find_issues_with_query(query)
+    end
+  end
+
+  def assert_query_statement_includes(query, condition)
+    assert query.statement.include?(condition), "Query statement condition not found in: #{query.statement}"
+  end
+
   def test_query_should_allow_shared_versions_for_a_project_query
     subproject_version = Version.find(4)
     query = Query.new(:project => Project.find(1), :name => '_')
@@ -362,11 +372,87 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   context "#available_filters" do
+    setup do
+      @query = Query.new(:name => "_")
+    end
+    
     should "include users of visible projects in cross-project view" do
-      query = Query.new(:name => "_")
-      users = query.available_filters["assigned_to_id"]
+      users = @query.available_filters["assigned_to_id"]
       assert_not_nil users
       assert users[:values].map{|u|u[1]}.include?("3")
     end
+
+    context "'member_of_group' filter" do
+      should "be present" do
+        assert @query.available_filters.keys.include?("member_of_group")
+      end
+      
+      should "be an optional list" do
+        assert_equal :list_optional, @query.available_filters["member_of_group"][:type]
+      end
+      
+      should "have a list of the groups as values" do
+        Group.destroy_all # No fixtures
+        group1 = Group.generate!.reload
+        group2 = Group.generate!.reload
+
+        expected_group_list = [
+                               [group1.name, group1.id],
+                               [group2.name, group2.id]
+                              ]
+        assert_equal expected_group_list, @query.available_filters["member_of_group"][:values]
+      end
+
+    end
+    
   end
+
+  context "#statement" do
+    context "with 'member_of_group' filter" do
+      setup do
+        Group.destroy_all # No fixtures
+        @user_in_group = User.generate!
+        @second_user_in_group = User.generate!
+        @user_in_group2 = User.generate!
+        @user_not_in_group = User.generate!
+        
+        @group = Group.generate!.reload
+        @group.users << @user_in_group
+        @group.users << @second_user_in_group
+        
+        @group2 = Group.generate!.reload
+        @group2.users << @user_in_group2
+        
+      end
+      
+      should "search assigned to for users in the group" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '=', [@group.id.to_s])
+
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
+        assert_find_issues_with_query_is_successful @query
+      end
+
+      should "search not assigned to any group member (none)" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '!*', [''])
+
+        # Users not in a group
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_find_issues_with_query_is_successful @query
+
+      end
+
+      should "search assigned to any group member (all)" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '*', [''])
+
+        # Only users in a group
+        assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
+        assert_find_issues_with_query_is_successful @query
+
+      end
+    end
+  end
+  
 end

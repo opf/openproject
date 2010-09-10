@@ -293,6 +293,7 @@ en:
   field_group_by: Group results by
   field_sharing: Sharing
   field_parent_issue: Parent task
+  field_member_of_group: Member of Group
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
