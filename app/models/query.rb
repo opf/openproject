@@ -441,16 +441,21 @@ class Query < ActiveRecord::Base
       elsif field == "member_of_group" # named field
         if operator == '*' # Any group
           groups = Group.all
-          members_of_groups = groups.collect(&:user_ids).flatten.compact.collect(&:to_s)
           operator = '=' # Override the operator since we want to find by assigned_to
         elsif operator == "!*"
           groups = Group.all
-          members_of_groups = groups.collect(&:user_ids).flatten.compact.collect(&:to_s)
           operator = '!' # Override the operator since we want to find by assigned_to
         else
           groups = Group.find_all_by_id(v)
-          members_of_groups = groups.collect(&:user_ids).flatten.compact.collect(&:to_s)
         end
+        groups ||= []
+
+        members_of_groups = groups.inject([]) {|user_ids, group|
+          if group && group.user_ids.present?
+            user_ids << group.user_ids
+          end
+          user_ids.flatten.uniq.compact
+        }.sort.collect(&:to_s)
         
         sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
 
