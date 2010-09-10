@@ -39,7 +39,7 @@ end
 
 Given /^I am viewing the master backlog$/ do
   visit url_for(:controller => :projects, :action => :show, :id => @project)
-  click_link("Backlog")
+  click_link("Backlogs")
   page.driver.response.status.should == 200
 end
 
@@ -250,4 +250,8 @@ end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge({:wiki_template => Wiki.titleize(title)})
+end
+
+Given /^there are no stories in the project$/ do
+  @project.issues.delete_all
 end

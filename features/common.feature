@@ -11,3 +11,8 @@ Feature: Common
     Given I am viewing the master backlog
      When I request the server_variables resource
      Then the request should complete successfully
+     
+  Scenario: View the product backlog without any stories
+    Given there are no stories in the project
+     When I view the master backlog
+     Then the request should complete successfully

@@ -108,6 +108,11 @@ When /^I download the calendar feed$/ do
   visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :project_id => @project })
 end
 
+When /^I view the master backlog$/ do
+  visit url_for(:controller => :projects, :action => :show, :id => @project)
+  click_link("Backlogs")
+end
+
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => :rb_queries, :action => :show, :project_id => sprint.project_id, :sprint_id => sprint.id)
