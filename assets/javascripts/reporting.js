@@ -60,6 +60,13 @@ function display_category(tr_field) {
     }
 }
 
+function hide_category(tr_field) {
+    var label = $(tr_field.getAttribute("data-label"));
+    if (label !== null) {
+        label.hide();
+    }
+}
+
 function show_filter(field) {
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
@@ -78,7 +85,21 @@ function hide_filter(field) {
         field_el.hide();
         toggle_filter(field);
         operator_changed(field, $("operators_" + field));
+        if (!occupied_categories()) {
+            hide_category(field_el);
+        }
     }
+}
+
+function occupied_categories() {
+    var i, hit = false;
+    filters = document.getElementsByClassName('filter');
+    for (i = 0; i < filters.length; i++) {
+        if (filters[i].visible()) {
+            return hit = true;
+        }
+    }
+    return hit;
 }
 
 function disable_select_option(select, field) {
@@ -229,3 +250,25 @@ function disable_all_group_bys() {
         moveOptions(origin, destination);
     });
 }
+
+function defineElementGetter() {
+    if (document.getElementsByClassName == undefined) {
+        document.getElementsByClassName = function(className)
+        {
+            var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
+            var allElements = document.getElementsByTagName("*");
+            var results = [];
+
+            var element;
+            for (var i = 0; (element = allElements[i]) != null; i++) {
+                var elementClass = element.className;
+                if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
+                results.push(element);
+            }
+
+            return results;
+        }
+    }
+}
+
+defineElementGetter();
