@@ -39,6 +39,7 @@
     #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
   %>
   <% end %>
+  <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-cancel' %>
   </p>
 </div>
 <% end %>
