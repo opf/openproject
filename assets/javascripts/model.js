@@ -40,7 +40,7 @@ RB.Model = RB.Object.create({
   },
 
   cancelEdit: function(){
-    this.$.removeClass('editing');
+    this.endEdit();
     if(this.isNew()){
       this.$.hide('blind');
     }
@@ -57,15 +57,27 @@ RB.Model = RB.Object.create({
     this.saveEdits();
   },
 
+  displayEditor: function(editor){
+    var pos = this.$.offset();
+    var self = this;
+    
+    editor.dialog({
+      buttons: {
+        "Cancel" : function(){ self.cancelEdit(); $(this).dialog("close") },
+        "OK" : function(){ self.copyFromDialog(); $(this).dialog("close") }
+      },
+      close: function(event, ui){ if(event.which==27) self.cancelEdit() },
+      dialogClass: self.getType().toLowerCase() + '_editor_dialog',
+      modal: true,
+      position: [pos.left - $(document).scrollLeft(), pos.top - $(document).scrollTop()],
+      resizable: false,
+      title: (this.isNew() ? this.newDialogTitle() : this.editDialogTitle())
+    });
+    editor.find(".editor").first().focus();
+  },
+
   edit: function(){
-    // Create the model editor if it does not yet exist
-    var editor_id = this.getType().toLowerCase() + "_editor";
-    var editor = $("#" + editor_id).html("");
-    if(editor.length==0){
-      editor = $( document.createElement("div") )
-                 .attr('id', editor_id)
-                 .appendTo("body");
-    }
+    var editor = this.getEditor();
     
     // 'this' can change below depending on the context.
     var self = this;
@@ -83,8 +95,7 @@ RB.Model = RB.Object.create({
       input.addClass(fieldName);
       input.addClass('editor');
       input.removeClass('template');
-      input.appendTo(editor);
-
+      input.removeClass('helper');
       // Add a date picker if field is a date field
       if (field.hasClass("date")){
         input.datepicker({ changeMonth: true,
@@ -105,24 +116,19 @@ RB.Model = RB.Object.create({
       // Copy the value in the field to the input element
       value = ( fieldType=='select' ? field.children('.v').first().text() : field.text() );
       input.val(value);
+      
+      // Record in the model's root element which input field had the last focus. We will
+      // use this information inside RB.Model.refresh() to determine where to return the
+      // focus after the element has been refreshed with info from the server.
+      input.focus( function(){ self.$.data('focus', $(this).attr('name')) } )
+            .blur( function(){ self.$.data('focus', '') } );
+      
+      input.appendTo(editor);
     });
 
-    var pos = this.$.offset();
-    editor.dialog({
-      buttons: {
-        "Cancel" : function(){ self.cancelEdit(); $(this).dialog("close") },
-        "OK" : function(){ self.copyFromDialog(); $(this).dialog("close") }
-      },
-      close: function(event, ui){ if(event.which==27) self.cancelEdit() },
-      dialogClass: self.getType().toLowerCase() + '_editor_dialog',
-      modal: true,
-      position: [pos.left - $(document).scrollLeft(), pos.top - $(document).scrollTop()],
-      resizable: false,
-      title: (this.isNew() ? this.newDialogTitle() : this.editDialogTitle())
-    });
-
-    editor.find(".editor").first().focus();
-    this.editorDialogDisplayed(editor);
+    this.displayEditor(editor);
+    this.editorDisplayed(editor);
+    return editor;
   },
   
   // Override this method to change the dialog title
@@ -130,7 +136,7 @@ RB.Model = RB.Object.create({
     return "Edit " + this.getType()
   },
   
-  editorDialogDisplayed: function(editor){
+  editorDisplayed: function(editor){
     // Do nothing. Child objects may override this.
   },
   
@@ -144,6 +150,18 @@ RB.Model = RB.Object.create({
     this.processError(xhr, textStatus, error);
   },
   
+  getEditor: function(){
+    // Create the model editor if it does not yet exist
+    var editor_id = this.getType().toLowerCase() + "_editor";
+    var editor = $("#" + editor_id).html("");
+    if(editor.length==0){
+      editor = $( document.createElement("div") )
+                 .attr('id', editor_id)
+                 .appendTo("body");
+    }
+    return editor;
+  },
+  
   getID: function(){
     return this.$.children('.id').children('.v').text();
   },
@@ -153,22 +171,12 @@ RB.Model = RB.Object.create({
   },
     
   handleClick: function(event){
-    var j = $(this);
+    var field = $(this);
+    var model = field.parents('.model').first().data('this');
+    var j = model.$;
     if(!j.hasClass('editing') && !j.hasClass('dragging') && !$(event.target).hasClass('prevent_edit')){
-      j.data('this').edit();
-    }
-  },
-  
-  handleKeyup: function(event){
-    j = $(this).parents('.issue').first();
-    that = j.data('this');
-
-    switch(event.which){
-      case 13   : that.saveEdits();   // Enter
-                  break;
-      case 27   : that.cancelEdit();     // ESC
-                  break;
-      default   : return true;
+      var editor = model.edit();
+      editor.find('.' + $(event.currentTarget).attr('fieldname') + '.editor').focus();
     }
   },
 
@@ -270,15 +278,6 @@ RB.Model = RB.Object.create({
       error     : function(x,t,e){ self.error(x,t,e) }
     });
     self.endEdit();
-  },
-  
-  triggerEdit: function(event){
-    // Get the issue since what was clicked was a field
-    var j = $(this).parents('.issue').first();
-    
-    if(!j.hasClass('editing') && !j.hasClass('dragging')){
-      j.data('this').edit();
-    }
   },
   
   unmarkError: function(){

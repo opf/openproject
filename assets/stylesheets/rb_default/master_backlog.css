@@ -346,6 +346,56 @@
   height:65px;
 }
 
+#backlogs_container .stories .story.editing .id{
+  display:none;
+}
+#backlogs_container .stories .story.editing .editors{
+  display:block;
+  position:absolute;
+  top:0;
+}
+#backlogs_container .stories .story.editing .editors label{
+  display:none;
+}
+#backlogs_container .stories .story.editing .editor{
+  font-family:Verdana, Arial, sans-serif;
+  position:absolute;
+}
+#backlogs_container .stories .story.editing .tracker_id.editor{
+  display:block;
+  left:10px;
+  margin:0;
+  top:4px;
+  width:55px;
+}
+#backlogs_container .stories .story.editing .subject.editor{
+  display:block;
+  height:10px;
+  left:67px;
+  margin:0;
+  top:1px;
+}
+#backlogs_container .stories .story.editing .status_id.editor{
+  display:block;
+  height:10px;
+  left:456px;
+  margin:0;
+  top:4px;
+}
+#backlogs_container .stories .story.editing .story_points.editor{
+  display:block;
+  height:10px;
+  left:540px;
+  margin:0;
+  top:1px;
+}
+#backlogs_container .stories .story.editing .editors .status_id.editor{
+/*  display:block;
+  left:10px;
+  position:absolute;
+  top:0;*/
+}
+
 #helpers{
   display:none;
 }

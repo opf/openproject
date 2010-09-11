@@ -82,7 +82,7 @@ RB.Backlog = RB.Object.create({
   },
 
   getList: function(){
-    return $(this.el).children(".stories").first();
+    return this.$.children(".stories").first();
   },
 
   handleNewStoryClick: function(event){
