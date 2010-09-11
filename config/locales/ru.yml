@@ -294,6 +294,7 @@ ru:
   field_admin: Администратор
   field_assignable: Задача может быть назначена этой роли
   field_assigned_to: Назначена
+  field_assigned_to_role: Роль участника
   field_attr_firstname: Имя
   field_attr_lastname: Фамилия
   field_attr_login: Атрибут Регистрация
@@ -343,6 +344,7 @@ ru:
   field_mail: Email
   field_mail_notification: Уведомления по email
   field_max_length: Максимальная длина
+  field_member_of_group: Группа участника
   field_min_length: Минимальная длина
   field_name: Имя
   field_new_password: Новый пароль

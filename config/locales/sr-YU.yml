@@ -68,7 +68,7 @@ sr-YU:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: ""
       precision: 3
     human:
@@ -910,6 +910,8 @@ sr-YU:
   enumeration_activities: Aktivnosti (praćenje vremena)
   enumeration_system_activity: Sistemska aktivnost
   
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
+  field_time_entries: Vreme evidencije
+  project_module_gantt: Gantov dijagram
+  project_module_calendar: Kalendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

@@ -958,3 +958,5 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

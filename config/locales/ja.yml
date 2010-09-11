@@ -144,7 +144,7 @@ ja:
         greater_than_start_date: "を開始日より後にしてください"
         not_same_project: "同じプロジェクトに属していません"
         circular_dependency: "この関係では、循環依存になります"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
 
   actionview_instancetag_blank_option: 選んでください
   
@@ -319,6 +319,8 @@ ja:
   field_group_by: グループ条件
   field_sharing: 共有
   field_parent_issue: 親チケット
+  field_member_of_group: 担当者のグループ
+  field_assigned_to_role: 担当者のロール
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル

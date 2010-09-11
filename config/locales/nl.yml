@@ -895,3 +895,5 @@ nl:
   field_time_entries: Log tijd
   project_module_gantt: Gantt
   project_module_calendar: Kalender
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

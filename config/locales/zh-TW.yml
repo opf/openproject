@@ -177,7 +177,7 @@
         greater_than_start_date: "必須在起始日期之後"
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "項目無法被連結至自己的子項目"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -998,3 +998,5 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

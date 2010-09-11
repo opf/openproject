@@ -143,7 +143,7 @@ pt-BR:
         greater_than_start_date: "deve ser maior que a data inicial"
         not_same_project: "não pertence ao mesmo projeto"
         circular_dependency: "Esta relação geraria uma dependência circular"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relaciona a uma de suas subtarefas"
 
   actionview_instancetag_blank_option: Selecione
 
@@ -937,3 +937,5 @@ pt-BR:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

@@ -932,3 +932,5 @@ de:
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
 
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role

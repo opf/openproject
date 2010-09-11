@@ -68,7 +68,7 @@ sr:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: ""
       precision: 3
     human:
@@ -910,6 +910,9 @@ sr:
   enumeration_activities: Активности (праћење времена)
   enumeration_system_activity: Системска активност
   
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
+  field_time_entries: Време евиденције
+  project_module_gantt: Гантов дијаграм
+  project_module_calendar: Календар
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+

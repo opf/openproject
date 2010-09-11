@@ -2,7 +2,7 @@
 # by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
 # by John Hwang (jhwang@tavon.org),http://github.com/tavon
 # by Yonghwan SO(please insert your email), last update at 2009-09-11
-# last update at 2010-01-23 by Kihyun Yoon
+# last update at 2010-09-06 by Kihyun Yoon
 ko:
   direction: ltr
   date:
@@ -959,13 +959,15 @@ ko:
   error_unable_to_connect: 연결할 수 없습니다(({{value}})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
   error_can_not_delete_tracker: 이 유형의 일감들이 있에서 삭제할 수 없습니다.
-  field_principal: Principal
-  label_my_page_block: My page block
+  field_principal: 신원
+  label_my_page_block: 내 페이지 출력화면
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
+  text_zoom_out: 더 작게
+  text_zoom_in: 더 크게
+  notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
+  label_overall_spent_time: 총 소요시간
+  field_time_entries: 기록된 시간
+  project_module_gantt: Gantt 챠트
+  project_module_calendar: 달력
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
