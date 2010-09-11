@@ -187,7 +187,7 @@
   height:28px;
   line-height:31px;
   position:absolute;
-  top:1px;
+  top:2px;
 }
 #backlogs_container .backlog .sprint .sprint_start_date{
   left:370px;
@@ -345,7 +345,54 @@
 #sprint_editor .description{
   height:65px;
 }
-
+/* In-place Sprint Editor */
+#backlogs_container .sprint.editing .editors{
+  display:block;
+  position:absolute;
+  top:0;
+}
+#backlogs_container .sprint.editing .editor{
+  display:block;
+  font-family:Verdana, Arial, sans-serif;
+  position:absolute;
+}
+#backlogs_container .sprint.editing label,
+#backlogs_container .sprint.editing .id.editor{
+  display:none;
+}
+#backlogs_container .backlog .sprint.editing .name.editor{
+  display:block;
+  height:21px;
+  left:31px;
+  line-height:15px;
+  margin:0;
+  top:2px;
+  width:320px;
+}
+#backlogs_container .backlog .sprint.editing .sprint_start_date.editor{
+  display:block;
+  height:23px;
+  left:367px;
+  line-height:27px;
+  margin:0;
+  padding:0;
+  top:2px;
+  width:75px;
+}
+#backlogs_container .backlog .sprint.editing .effective_date.editor{
+  display:block;
+  height:23px;
+  left:457px;
+  line-height:27px;
+  margin:0;
+  padding:0;
+  top:2px;
+  width:75px;
+}
+#backlogs_container .backlog .sprint.editing .description.editor{
+  display:none;
+}
+/* In-place Story Editor */
 #backlogs_container .stories .story.editing .id{
   display:none;
 }
@@ -389,12 +436,7 @@
   margin:0;
   top:1px;
 }
-#backlogs_container .stories .story.editing .editors .status_id.editor{
-/*  display:block;
-  left:10px;
-  position:absolute;
-  top:0;*/
-}
+
 
 #helpers{
   display:none;

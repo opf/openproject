@@ -2,7 +2,7 @@
   SPRINT
 ***************************************/
 
-RB.Sprint = RB.Object.create(RB.Model, {
+RB.Sprint = RB.Object.create(RB.Model, RB.EditableInplace, {
 
   initialize: function(el){
     var j;  // This ensures that we use a local 'j' variable, not a global one.
@@ -14,7 +14,7 @@ RB.Sprint = RB.Object.create(RB.Model, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
 
-    j.bind('mouseup', this.handleClick);
+    j.find(".editable").bind('mouseup', this.handleClick);
   },
 
   beforeSave: function(){
@@ -27,6 +27,11 @@ RB.Sprint = RB.Object.create(RB.Model, {
 
   markIfClosed: function(){
     // Do nothing
+  },
+  
+  refreshed: function(){
+    // We have to do this since .live() does not work for some reason
+    j.find(".editable").bind('mouseup', this.handleClick);
   },
 
   saveDirectives: function(){

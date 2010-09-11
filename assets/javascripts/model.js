@@ -234,6 +234,11 @@ RB.Model = RB.Object.create({
     } else {
       this.open();
     }
+    this.refreshed();
+  },
+  
+  refreshed: function(){
+    // Override as needed
   },
 
   saveDirectives: function(){
