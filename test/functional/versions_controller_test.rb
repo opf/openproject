@@ -40,6 +40,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert assigns(:versions).include?(Version.find(3))
     # Completed version doesn't appear
     assert !assigns(:versions).include?(Version.find(1))
+    # Context menu on issues
+    assert_select "script", :text => Regexp.new(Regexp.escape("new ContextMenu('/issues/context_menu')"))
   end
   
   def test_index_with_completed_versions
