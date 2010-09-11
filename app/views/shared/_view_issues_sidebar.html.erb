@@ -19,7 +19,7 @@
               :project_id => project.id
               }) %><br/>
       <% if Cards::TaskboardCards.selected_label %>
-        <%= link_to(l(:label_printable_cards), {
+        <%= link_to(l(:label_product_cards), {
                 :controller => 'rb_stories',
                 :action => 'index',
                 :project_id => project.id,
@@ -57,7 +57,7 @@
         %><br/>
 
         <% if Cards::TaskboardCards.selected_label %>
-          <%= link_to(l(:label_printable_cards), {
+          <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',
                   :project_id => project.id,
