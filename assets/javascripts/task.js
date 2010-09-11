@@ -15,7 +15,7 @@ RB.Task = RB.Object.create(RB.Issue, {
     // Associate this object with the element for later retrieval
     j.data('this', this);
     
-    j.bind('mouseup', this.handleClick);
+    j.find(".editable").live('mouseup', this.handleClick);
   },
 
   beforeSave: function(){
@@ -23,7 +23,7 @@ RB.Task = RB.Object.create(RB.Issue, {
     this.$.css('background-color', c);
   },
   
-  editorDialogDisplayed: function(dialog){
+  editorDisplayed: function(dialog){
     dialog.parents('.ui-dialog').css('background-color', this.$.css('background-color'));
   },
 

@@ -23,8 +23,8 @@ RB.Story = RB.Object.create(RB.Issue, RB.EditableInplace, {
     return "Story #" + this.getID();
   },
 
-  editorDialogDisplayed: function(editor){
-    editor.dialog("option", "position", "center");
+  editorDisplayed: function(editor){
+    // editor.dialog("option", "position", "center");
   },
   
   getPoints: function(){
