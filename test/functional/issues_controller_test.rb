@@ -405,7 +405,8 @@ class IssuesControllerTest < ActionController::TestCase
                           :subject => 'This is first issue',
                           :priority_id => 5},
                :continue => ''
-    assert_redirected_to :controller => 'issues', :action => 'new', :issue => {:tracker_id => 3}
+    assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook',
+                         :issue => {:tracker_id => 3}
   end
   
   def test_post_create_without_custom_fields_param
