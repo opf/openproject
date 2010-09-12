@@ -31,7 +31,7 @@
         :for => :product
       },
       {
-        :item => menu_link(l(:label_printable_cards), {
+        :item => menu_link(l(:label_sprint_cards), {
                            :controller => 'rb_stories',
                            :action => 'index',
                            :project_id => @project,
@@ -41,7 +41,7 @@
         :condition => Cards::TaskboardCards.selected_label
       },
       {
-        :item => menu_link(l(:label_printable_cards), {
+        :item => menu_link(l(:label_product_cards), {
                            :controller => 'rb_stories',
                            :action => 'index',
                            :project_id => @project,
