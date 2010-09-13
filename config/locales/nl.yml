@@ -1,17 +1,20 @@
 --- 
 nl: 
+  label_webcal: "Agenda"
   event_sprint_summary: "{{project}}: {{summary}}"
   field_backlogs_issue_type: Backlog type
   error_intro_singular: "De volgende fout is opgetreden:"
   field_remaining_hours: Resterende uren
   button_edit_wiki: Wijzig wiki page
+  label_sprint_cards: "Sprint kaarten"
   label_points_burn_up: Omhoog
   label_not_prioritized: geen prioriteit
   points_resolved: points opgelost
+  field_tracker_id: "Tracker ID"
+  field_name: "Naam"
   error_must_have_comma_delimited_list: moet een komma-gescheiden lijst van story of taak IDs hebben
   label_stories: Stories
   todo_issue_summary: "{{type}}: {{summary}}"
-  label_blocks: Blokken
   label_product_backlog: product backlog
   required_burn_rate_hours: benodigde burn rate (hours)
   backlogs_velocity_missing: De velocity voor dit project kan niet worden berekend
@@ -23,26 +26,29 @@ nl:
   backlogs_sprints: Sprints
   field_position: Positie
   backlogs_active: lopend
+  inclusion: "is geen onderdeel van de lijst"
   backlogs_product_backlog_is_empty: Product backlog is leeg
   backlogs_task_tracker: Task tracker
   backlogs_inactive: Project lijkt inactief
   field_story_points: Story points
-  subject: Onderwerp
   label_Product_backlog: Product backlog
-  backlogs_sprint_unsized: "Er zijn stories in de active of recent afgesloten sprints zonder sizes"
+  backlogs_sprint_unsized: Er zijn stories in de active of recent afgesloten sprints zonder sizes
   backlogs_task: Task
   points_committed: points toegezegd
-  label_printable_cards: Print kaarten
   label_sprint_impediments: Sprint Impediments
+  field_blocks: "Blokkeert"
+  label_master_backlog: "Master Backlog"
   points_to_resolve: points niet opgelost
   label_select_all: Selecteer alles
   backlogs_sprint_unestimated: Gesloten of actieve sprints bevatten stories zonder tijdschattingen
   label_scrum_statistics: Scrum statistieken
   required_burn_rate_points: benodigde burn rate (points)
+  error_blank: "mag niet leeg zijn"
   points_to_accept: points niet geaccepteerd
   label_backlogs: Backlogs
   label_back_to_project: Terug naar het project
   backlogs_points_burn_direction: Points burn omhoog/omlaag
+  field_subject: "Onderwerp"
   backlogs_product_backlog_unsized: De top van de product backlog heeft stories zonder size
   points_accepted: points geaccepteerd
   label_sprint_velocity: Velocity {{velocity}}, berekend over {{sprints}} sprints met gemiddeld {{days}} dagen
@@ -50,11 +56,12 @@ nl:
   backlogs_story: Story
   label_sprint_backlog: sprint backlog
   backlogs_wiki_template: Template voor sprint wiki pagina
-  backlogs_velocity_varies: "Velocity varieert per sprint"
   ideal: ideaal
   label_points: points
   backlogs_sizing_inconsistent: Story sizes varieren ten opzichte van hun tijdsschattingen
   error_intro_plural: "De volgende fouten zijn opgetreden:"
+  backlogs_velocity_varies: Velocity varieert per sprint
+  error_greater_than_start_date: "mag niet voor Start Datum liggen"
   label_hours: uren
   label_points_burn_down: Omlaag
   backlogs_card_specification: Label type voor kaartjes
@@ -63,12 +70,12 @@ nl:
     {{summary}}: {{url}}
     {{description}}
   label_burndown: Burndown
+  label_product_cards: "Product backlog kaarten"
   field_velocity_based_estimate: Schatting obv velocity
   label_chart_options: Grafiek Opties
   todo_issue_description: |-
     {{summary}}: {{url}}
     {{description}}
-  blank: is leeg
-  backlogs_product_backlog: Product backlog
-  remaining_hours: resterende uren
   error_outro: Verbeter a.u.b de eerdergenoemde problemen voordat u nogmaals verzend.
+  remaining_hours: resterende uren
+  backlogs_product_backlog: Product backlog
