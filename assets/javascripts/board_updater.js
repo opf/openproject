@@ -20,7 +20,7 @@ RB.BoardUpdater = RB.Object.create({
   adjustPollWait: function(itemsReceived){
     itemsReceived = (itemsReceived==null) ? 0 : itemsReceived;
     
-    if(itemsReceived==0 && this.pollWait < 60000 && !$('body').hasClass('no_autorefresh')){
+    if(itemsReceived==0 && this.pollWait < 300000 && !$('body').hasClass('no_autorefresh')){
       this.pollWait += 250;
     } else {
       this.pollWait = 1000;
