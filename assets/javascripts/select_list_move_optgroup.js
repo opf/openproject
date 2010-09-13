@@ -69,6 +69,7 @@ function moveOptions(theSelFrom, theSelTo)
       deleteOption(theSelFrom, i);
     }
 
+  if(has_optgroups(theSelTo)) sortOptions(theSelTo);
   if(NS4) history.go(0);
 }
 
@@ -90,11 +91,54 @@ function moveOptionDown(theSel) {
   }
 }
 
-function selectAllOptions(id)
+function selectAllOptions(select)
 {
-  var select = $(id);
+  select = $(select);
   for (var i=0; i<select.options.length; i++) {
     select.options[i].selected = true;
   }
 }
 
+// Returns true if the given select-box has optgroups.
+// We assume that a possibly present optgroup is the first child element of the select-box.
+function has_optgroups(theSel) {
+  theSel = $(theSel);
+  return (theSel.childElements().length > 0) && (theSel.down(0).tagName == "OPTGROUP");
+}
+
+// Compares two option elements (return -1 if a < b, if not return 1).
+// If those elements have a 'data-sort_by' attribute, we compare that attribute.
+// If this is not the case we just compare their labels.
+function compareOptions(a,b) {
+  var a_cmp, b_cmp;
+  a_cmp = a.getAttribute("data-sort_by") ? a.getAttribute("data-sort_by") : a.text.toLowerCase();
+  b_cmp = b.getAttribute("data-sort_by") ? b.getAttribute("data-sort_by") : b.text.toLowerCase();
+  return (a_cmp < b_cmp ) ? -1 : 1;
+}
+
+// Sorts all elements of the given select-box.
+// If that select-box contains optgroups, the options are sorted for each optgroup separately.
+function sortOptions(theSel) {
+  theSel = $(theSel);
+  if (has_optgroups(theSel)) {
+    // handle each optgroup separately
+    theSel.childElements().each(function(group){
+      var sorted_elements;
+      // get all elements of this optgroup and sort them
+      sorted_elements = $A(group.childElements()).sort(compareOptions);
+      // make optgroup empty
+      $A(group.childElements()).each(function(o){$(o).remove()});
+      // insert sorted elements into opgroup
+      sorted_elements.each(function(o){
+        $(group).insert({'bottom' : o});
+      });
+    });
+  }
+  else {
+    // there is no optgroup, so just sort the options
+    $A(theSel.options).sort(compareOptions).each(
+      function(o,i){
+        theSel.options[i] = o;
+    });
+  }
+}
