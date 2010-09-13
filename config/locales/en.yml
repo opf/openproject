@@ -13,6 +13,7 @@ en:
   label_money: "Money"
 
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
 
   label_count: Count
   label_sum: Sum

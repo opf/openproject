@@ -55,7 +55,10 @@
 
 <% if @query.result.count > 0 %>
   <%= render :partial => @table_partial, :locals => {:query => @query, :walker => @query.walker} %>
-  <p class="footnote"><%= l(:text_costs_are_rounded_note) %></p>
+  <p class="footnote">
+    <%= l(:text_costs_are_rounded_note) %>
+    <%= "<br />#{l(:information_restricted_depending_on_permission)}" if !User.current.admin?%>
+  </p>
   <%= call_hook(:view_cost_report_table_bottom) %>
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
