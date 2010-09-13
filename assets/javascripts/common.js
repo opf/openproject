@@ -5,18 +5,20 @@ if(RB==null){
 RB.Object = {
   // Douglas Crockford's technique for object extension
   // http://javascript.crockford.com/prototypal.html
-  create: function(o, methods, more_methods){  
-      function F(){}
-      F.prototype = o;
-      obj = new F();
-      if(typeof methods == 'object'){
+  create: function(){
+    function F(){}
+    F.prototype = arguments[0];
+    obj = new F();
+
+    // Add all the other arguments as mixins that
+    // 'write over' any existing methods
+    for (var i=1; i<arguments.length; i++) {
+      var methods = arguments[i];
+      if (typeof methods == 'object'){
         for(methodName in methods) obj[methodName] = methods[methodName];
       }
-      // TODO: Dude, this is embarrasing, I know, but I don't have time to research
-      if(typeof more_methods == 'object'){
-        for(methodName in more_methods) obj[methodName] = more_methods[methodName];
-      }
-      return obj;
+    }
+    return obj;
   }  
 }
 
