@@ -11,7 +11,7 @@ function createOption(theText, theValue, theCategory) {
 function addOption(theSel, newOpt, theCategory)
 {
   var theCategory = newOpt.getAttribute("data-category");
-  Element.extend(theSel);
+  theSel = $(theSel);
   if (theCategory && (theSel.childElements().length > 0) && theSel.down(0).tagName == "OPTGROUP") { // add the opt to the given category
     opt_groups = theSel.childElements();
     for (var i=0; i<opt_groups.length; i++)
@@ -27,7 +27,7 @@ function addOption(theSel, newOpt, theCategory)
 
 function swapOptions(theSel, index1, index2)
 {
-  Element.extend(theSel);
+  theSel = $(theSel);
   var text, value;
   text = theSel.options[index1].text;
   value = theSel.options[index1].value;
@@ -42,7 +42,7 @@ function swapOptions(theSel, index1, index2)
 
 function deleteOption(theSel, theIndex)
 {
-  Element.extend(theSel);
+  theSel = $(theSel);
   var selLength = theSel.length;
   if(selLength>0)
   {
@@ -52,8 +52,8 @@ function deleteOption(theSel, theIndex)
 
 function moveOptions(theSelFrom, theSelTo)
 {
-  Element.extend(theSelFrom);
-  Element.extend(theSelTo);
+  theSelFrom = $(theSelFrom);
+  theSelTo = $(theSelTo);
   var selLength = theSelFrom.length;
   var selectedText = new Array();
   var selectedValues = new Array();
@@ -73,7 +73,7 @@ function moveOptions(theSelFrom, theSelTo)
 }
 
 function moveOptionUp(theSel) {
-  Element.extend(theSel);
+  theSel = $(theSel);
   var index = theSel.selectedIndex;
   if (index > 0) {
     swapOptions(theSel, index-1, index);
@@ -82,7 +82,7 @@ function moveOptionUp(theSel) {
 }
 
 function moveOptionDown(theSel) {
-  Element.extend(theSel);
+  theSel = $(theSel);
   var index = theSel.selectedIndex;
   if (index < theSel.length - 1) {
     swapOptions(theSel, index, index+1);
