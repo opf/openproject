@@ -102,7 +102,7 @@ Redmine::AccessControl.map do |map|
   end
   
   map.project_module :files do |map|
-    map.permission :manage_files, {:files => :new}, :require => :loggedin
+    map.permission :manage_files, {:files => [:new, :create]}, :require => :loggedin
     map.permission :view_files, :files => :index, :versions => :download
   end
     

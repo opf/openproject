@@ -26,14 +26,14 @@ class FilesControllerTest < ActionController::TestCase
                    :attributes => { :href => '/attachments/download/9/version_file.zip' }
   end
 
-  def test_add_file
+  def test_create_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     Setting.notified_events = ['file_added']
     ActionMailer::Base.deliveries.clear
     
     assert_difference 'Attachment.count' do
-      post :new, :id => 1, :version_id => '',
+      post :create, :id => 1, :version_id => '',
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       assert_response :redirect
     end
@@ -48,13 +48,13 @@ class FilesControllerTest < ActionController::TestCase
     assert mail.body.include?('testfile.txt')
   end
   
-  def test_add_version_file
+  def test_create_version_file
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     Setting.notified_events = ['file_added']
     
     assert_difference 'Attachment.count' do
-      post :new, :id => 1, :version_id => '2',
+      post :create, :id => 1, :version_id => '2',
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       assert_response :redirect
     end

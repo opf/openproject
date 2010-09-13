@@ -196,7 +196,7 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     project_mapper.with_options :conditions => {:method => :post} do |project_actions|
-      project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
+      project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'create'
     end
   end
   
