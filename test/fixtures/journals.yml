@@ -195,4 +195,13 @@ journals_016:
   version: 1
   user_id: 2
   notes: "A message journal"
+  versioned_id: 2
+journals_017:
+  id: 17
+  type: "MessageJournal"
+  activity_type: "messages"
+  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  version: 1
+  user_id: 2
+  notes: "A message journal"
   versioned_id: 3
