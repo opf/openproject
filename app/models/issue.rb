@@ -42,7 +42,8 @@ class Issue < ActiveRecord::Base
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
       'priority_id', 'category_id', 'fixed_version_id')
-  register_on_journal_formatter(:fraction, 'estimated_hours', 'done_ratio')
+  register_on_journal_formatter(:fraction, 'estimated_hours')
+  register_on_journal_formatter(:decimal, 'done_ratio')
   register_on_journal_formatter(:datetime, 'due_date', 'start_date')
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
