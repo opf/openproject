@@ -91,7 +91,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal [101], fixed_issue.changeset_ids
     
     # issue change
-    journal = fixed_issue.journals.find(:first, :order => 'created_on desc')
+    journal = fixed_issue.journals.find(:first, :order => 'created_at desc')
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
     
