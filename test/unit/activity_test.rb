@@ -82,13 +82,13 @@ class ActivityTest < ActiveSupport::TestCase
     assert_equal [Attachment], events.collect(&:class).uniq
     assert_equal %w(Project Version), events.collect(&:container_type).uniq.sort
   end
-  
+
   private
 
   def find_events(user, options={})
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
-    events.group_by(&:versioned).keys
+    events.group_by(&:journaled).keys
   end
 end

@@ -72,9 +72,9 @@ class WikiContentTest < ActiveSupport::TestCase
   end
 
   def test_fetch_history
-    assert !@page.content.versions.empty?
-    @page.content.versions.each do |version|
-      assert_kind_of String, version.text
+    assert !@page.content.journals.empty?
+    @page.content.journals.each do |journal|
+      assert_kind_of String, journal.text
     end
   end
 

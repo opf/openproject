@@ -44,27 +44,31 @@ class IssuesHelperTest < HelperTestCase
     @request ||= ActionController::TestRequest.new
   end
 
+  def show_detail(journal, html = true)
+    journal.render_detail(journal.details.first)
+  end
+
   context "IssuesHelper#show_detail" do
     context "with no_html" do
       should 'show a changing attribute' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '40', :value => '100', :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [40, 100]}, :journaled => Issue.last)
         assert_equal "% Done changed from 40 to 100", show_detail(@detail, true)
       end
 
       should 'show a new attribute' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => nil, :value => '100', :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [nil, 100]}, :journaled => Issue.last)
         assert_equal "% Done set to 100", show_detail(@detail, true)
       end
 
       should 'show a deleted attribute' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '50', :value => nil, :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [50, nil]}, :journaled => Issue.last)
         assert_equal "% Done deleted (50)", show_detail(@detail, true)
       end
     end
 
     context "with html" do
       should 'show a changing attribute with HTML highlights' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '40', :value => '100', :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [40, 100]}, :journaled => Issue.last)
         @response.body = show_detail(@detail, false)
 
         assert_select 'strong', :text => '% Done'
@@ -73,7 +77,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a new attribute with HTML highlights' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => nil, :value => '100', :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [nil, 100]}, :journaled => Issue.last)
         @response.body = show_detail(@detail, false)
 
         assert_select 'strong', :text => '% Done'
@@ -81,7 +85,7 @@ class IssuesHelperTest < HelperTestCase
       end
 
       should 'show a deleted attribute with HTML highlights' do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '50', :value => nil, :prop_key => 'done_ratio')
+        @detail = IssueJournal.generate!(:changes => {"done_ratio" => [50, nil]}, :journaled => Issue.last)
         @response.body = show_detail(@detail, false)
 
         assert_select 'strong', :text => '% Done'
@@ -93,24 +97,24 @@ class IssuesHelperTest < HelperTestCase
 
     context "with a start_date attribute" do
       should "format the current date" do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'start_date')
+        @detail = IssueJournal.generate!(:changes => {"start_date" => ['2010-01-01', '2010-01-31']}, :journaled => Issue.last)
         assert_match "01/31/2010", show_detail(@detail, true)
       end
 
       should "format the old date" do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'start_date')
+        @detail = IssueJournal.generate!(:changes => {"start_date" => ['2010-01-01', '2010-01-31']}, :journaled => Issue.last)
         assert_match "01/01/2010", show_detail(@detail, true)
       end
     end
 
     context "with a due_date attribute" do
       should "format the current date" do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'due_date')
+        @detail = IssueJournal.generate!(:changes => {"due_date" => ['2010-01-01', '2010-01-31']}, :journaled => Issue.last)
         assert_match "01/31/2010", show_detail(@detail, true)
       end
 
       should "format the old date" do
-        @detail = JournalDetail.generate!(:property => 'attr', :old_value => '2010-01-01', :value => '2010-01-31', :prop_key => 'due_date')
+        @detail = IssueJournal.generate!(:changes => {"due_date" => ['2010-01-01', '2010-01-31']}, :journaled => Issue.last)
         assert_match "01/01/2010", show_detail(@detail, true)
       end
     end

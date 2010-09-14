@@ -56,7 +56,7 @@ class Mailer < ActionMailer::Base
   #   issue_edit(journal) => tmail object
   #   Mailer.deliver_issue_edit(journal) => sends an email to issue recipients
   def issue_edit(journal)
-    issue = journal.versioned.reload
+    issue = journal.journaled.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
@@ -162,11 +162,11 @@ class Mailer < ActionMailer::Base
     cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
-         :message_url => url_for(message.event_url)
+         :message_url => url_for(message.last_journal.event_url)
     render_multipart('message_posted', body)
   end
-  
-  # Builds a tmail object used to email the recipients of a project of the specified wiki content was added. 
+
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was added.
   #
   # Example:
   #   wiki_content_added(wiki_content) => tmail object

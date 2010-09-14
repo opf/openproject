@@ -154,14 +154,14 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @detail = IssueJournal.generate(:version => 1)
+        @detail = IssueJournal.generate(:version => 1, :journaled => Issue.last)
         @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
 
         assert_match @new_value.name, @detail.render_detail(prop_key, true)
       end
 
       should "use the old value's name" do
-        @detail = IssueJournal.generate(:version => 1)
+        @detail = IssueJournal.generate(:version => 1, :journaled => Issue.last)
         @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
 
         assert_match @old_value.name, @detail.render_detail(prop_key, true)

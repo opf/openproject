@@ -7,7 +7,7 @@ journals_001:
   version: 1
   user_id: 1
   notes: "Journal notes"
-  versioned_id: 1
+  journaled_id: 1
   changes: |
     ---
     status_id:
@@ -24,7 +24,7 @@ journals_002:
   version: 2
   user_id: 2
   notes: "Some notes with Redmine links: #2, r2."
-  versioned_id: 1
+  journaled_id: 1
   changes: "--- {}"
 journals_003:
   id: 3
@@ -34,7 +34,7 @@ journals_003:
   version: 1
   user_id: 2
   notes: "A comment with inline image: !picture.jpg!"
-  versioned_id: 2
+  journaled_id: 2
   changes: "--- {}"
 journals_004:
   id: 4
@@ -44,7 +44,7 @@ journals_004:
   version: 1
   user_id: 2
   notes: "A comment with a private version."
-  versioned_id: 6
+  journaled_id: 6
   changes: |
     ---
     fixed_version_id:
@@ -58,7 +58,7 @@ journals_005:
   version: 0
   user_id: 1
   notes:
-  versioned_id: 5
+  journaled_id: 5
   changes: "--- {}"
 journals_006:
   id: 6
@@ -68,7 +68,7 @@ journals_006:
   version: 1
   user_id: 2
   notes: Page creation
-  versioned_id: 1
+  journaled_id: 1
   changes: |
     ---
     compression: ""
@@ -86,7 +86,7 @@ journals_007:
   version: 2
   user_id: 1
   notes: Small update
-  versioned_id: 1
+  journaled_id: 1
   changes: |
     ---
     compression: ""
@@ -104,7 +104,7 @@ journals_008:
   version: 3
   user_id: 1
   notes: ""
-  versioned_id: 1
+  journaled_id: 1
   changes: |
     ---
     compression: ""
@@ -119,7 +119,7 @@ journals_009:
   version: 1
   user_id: 1
   notes:
-  versioned_id: 2
+  journaled_id: 2
   changes: |
     ---
     data: |-
@@ -136,7 +136,7 @@ journals_010:
   version: 1
   user_id: 1
   notes:
-  versioned_id: 5
+  journaled_id: 5
   changes: --- {}
 journals_011:
   id: 11
@@ -146,7 +146,7 @@ journals_011:
   version: 1
   user_id: 2
   notes: "An attachment on a version"
-  versioned_id: 9
+  journaled_id: 9
   changes: --- {}
 journals_012:
   id: 12
@@ -156,7 +156,7 @@ journals_012:
   version: 1
   user_id: 2
   notes: "An attachment on a project"
-  versioned_id: 8
+  journaled_id: 8
   changes: --- {}
 journals_013:
   id: 13
@@ -166,7 +166,7 @@ journals_013:
   version: 1
   user_id: 2
   notes: "An attachment on an issue"
-  versioned_id: 7
+  journaled_id: 7
   changes: --- {}
 journals_014:
   id: 14
@@ -176,7 +176,7 @@ journals_014:
   version: 1
   user_id: 2
   notes: "An attachment on a document"
-  versioned_id: 2
+  journaled_id: 2
   changes: --- {}
 journals_015:
   id: 15
@@ -186,7 +186,7 @@ journals_015:
   version: 1
   user_id: 2
   notes: "A message journal"
-  versioned_id: 1
+  journaled_id: 1
 journals_016:
   id: 16
   type: "MessageJournal"
@@ -195,7 +195,7 @@ journals_016:
   version: 1
   user_id: 2
   notes: "A message journal"
-  versioned_id: 2
+  journaled_id: 2
 journals_017:
   id: 17
   type: "MessageJournal"
@@ -204,4 +204,4 @@ journals_017:
   version: 1
   user_id: 2
   notes: "A message journal"
-  versioned_id: 3
+  journaled_id: 3

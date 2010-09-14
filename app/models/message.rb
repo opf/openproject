@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
                   if o.parent_id.nil?
                     {:id => o.id}
                   else
-                    {:id => o.parent_id, :r => o.versioned.id, :anchor => "message-#{o.versioned.id}"}
+                    {:id => o.parent_id, :r => o.journaled.id, :anchor => "message-#{o.journaled.id}"}
                   end.reverse_merge :controller => 'messages', :action => 'show', :board_id => o.board_id
                 end),
                 :activity_find_options => { :include => { :board => :project } }

@@ -61,7 +61,7 @@ class WikiContent < ActiveRecord::Base
     # Wiki Content might be large and the data should possibly be compressed
     def compress_version_text
       self.text = changes["text"].last if changes["text"]
-      self.text ||= self.versioned.text
+      self.text ||= self.journaled.text
     end
 
     def text=(plain)
@@ -97,7 +97,26 @@ class WikiContent < ActiveRecord::Base
 
     # Returns the previous version or nil
     def previous
-      @previous ||= versioned.journals.at(version - 1)
+      @previous ||= journaled.journals.at(version - 1)
+    end
+
+    # FIXME: Deprecate
+    def versioned
+      journaled
+    end
+
+    # FIXME: Deprecate
+    def versions
+      journals
+    end
+
+    def version
+      unless last_journal
+        # FIXME: This is code that caters for a case that should never happen in the normal code paths!!
+        update_journal
+        last_journal.update_attribute(:created_at, updated_on)
+      end
+      last_journal.version
     end
   end
 end
