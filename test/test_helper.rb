@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -47,7 +47,7 @@ class ActiveSupport::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
-  
+
   def log_user(login, password)
     User.anonymous
     get "/login"
@@ -57,7 +57,7 @@ class ActiveSupport::TestCase
     post "/login", :username => login, :password => password
     assert_equal login, User.find(session[:user_id]).login
   end
-  
+
   def uploaded_test_file(name, mime)
     ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)
   end
@@ -82,7 +82,7 @@ class ActiveSupport::TestCase
     Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
     Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
-  
+
   def with_settings(options, &block)
     saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}
@@ -103,12 +103,12 @@ class ActiveSupport::TestCase
     # LDAP is not listening
     return nil
   end
-  
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
   end
-  
+
   # Returns true if the +vendor+ test repository is configured
   def self.repository_configured?(vendor)
     File.directory?(repository_path(vendor))
@@ -154,21 +154,17 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @detail = JournalDetail.generate!(:property => 'attr',
-                                          :old_value => @old_value.id,
-                                          :value => @new_value.id,
-                                          :prop_key => prop_key)
-        
-        assert_match @new_value.name, show_detail(@detail, true)
+        @detail = IssueJournal.generate(:version => 1)
+        @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
+
+        assert_match @new_value.name, @detail.render_detail(prop_key, true)
       end
 
       should "use the old value's name" do
-        @detail = JournalDetail.generate!(:property => 'attr',
-                                          :old_value => @old_value.id,
-                                          :value => @new_value.id,
-                                          :prop_key => prop_key)
-        
-        assert_match @old_value.name, show_detail(@detail, true)
+        @detail = IssueJournal.generate(:version => 1)
+        @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
+
+        assert_match @old_value.name, @detail.render_detail(prop_key, true)
       end
     end
   end

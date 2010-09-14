@@ -23,20 +23,18 @@ class Changeset < ActiveRecord::Base
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :issues
 
-  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
-                :description => :long_comments,
-                :datetime => :committed_on,
-                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.revision}}
-                
+  acts_as_journalized :event_title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+                :event_description => :long_comments,
+                :event_datetime => :committed_on,
+                :event_url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.revision}},
+                :activity_timestamp => "#{table_name}.committed_on",
+                :activity_find_options => {:include => [:user, {:repository => :project}]}
+
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
-                     
-  acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
-                            :author_key => :user_id,
-                            :find_options => {:include => [:user, {:repository => :project}]}
-  
+
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true

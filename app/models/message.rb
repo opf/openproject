@@ -21,21 +21,26 @@ class Message < ActiveRecord::Base
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
   acts_as_attachable
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
-  
+
+   acts_as_journalized :event_title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+                :event_description => :content,
+                :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+                :event_url => (Proc.new do |o|
+                  if o.parent_id.nil?
+                    {:id => o.id}
+                  else
+                    {:id => o.parent_id, :r => o.versioned.id, :anchor => "message-#{o.versioned.id}"}
+                  end.reverse_merge :controller => 'messages', :action => 'show', :board_id => o.board_id
+                end),
+                :activity_find_options => { :include => { :board => :project } }
+
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},
                      :project_key => 'project_id',
                      :date_column => "#{table_name}.created_on"
-  acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
-                :description => :content,
-                :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} : 
-                                                                                                                                       {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"})}
 
-  acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
-                            :author_key => :author_id
   acts_as_watchable
-    
+
   attr_protected :locked, :sticky
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255

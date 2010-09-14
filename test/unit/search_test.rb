@@ -27,7 +27,6 @@ class SearchTest < ActiveSupport::TestCase
            :issues,
            :trackers,
            :journals,
-           :journal_details,
            :repositories,
            :changesets
 

@@ -22,18 +22,14 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
-  
+
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_event :title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
-                :url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project, :issue_id => o.issue}},
-                :author => :user,
-                :description => :comments
-
-  acts_as_activity_provider :timestamp => "#{table_name}.created_on",
-                            :author_key => :user_id,
-                            :find_options => {:include => :project} 
+  acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).current_journal.event_title})"},
+                :event_url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project, :issue_id => o.issue}},
+                :event_author => :user,
+                :event_description => :comments
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid

@@ -19,6 +19,7 @@ class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
   helper :issues
+  helper :journals
   helper :custom_fields
 
   include ActionController::UrlWriter
@@ -55,7 +56,7 @@ class Mailer < ActionMailer::Base
   #   issue_edit(journal) => tmail object
   #   Mailer.deliver_issue_edit(journal) => sends an email to issue recipients
   def issue_edit(journal)
-    issue = journal.journalized.reload
+    issue = journal.versioned.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
@@ -67,7 +68,7 @@ class Mailer < ActionMailer::Base
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
+    s << "(#{issue.status.name}) " if journal.details['status_id']
     s << issue.subject
     subject s
     body :issue => issue,

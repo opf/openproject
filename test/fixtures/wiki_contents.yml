@@ -9,10 +9,10 @@ wiki_contents_001:
   updated_on: 2007-03-07 00:10:51 +01:00
   page_id: 1
   id: 1
-  version: 3
+  lock_version: 3
   author_id: 1
   comments: Gzip compression activated
-wiki_contents_002: 
+wiki_contents_002:
   text: |-
     h1. Another page
     
@@ -22,10 +22,10 @@ wiki_contents_002:
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 2
   id: 2
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_003: 
+  comments:
+wiki_contents_003:
   text: |-
     h1. Start page
     
@@ -33,10 +33,10 @@ wiki_contents_003:
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 3
   id: 3
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_004: 
+  comments:
+wiki_contents_004:
   text: |-
     h1. Page with an inline image
     
@@ -46,10 +46,10 @@ wiki_contents_004:
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 4
   id: 4
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_005: 
+  comments:
+wiki_contents_005:
   text: |-
     h1. Child page 1
     
@@ -57,10 +57,10 @@ wiki_contents_005:
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 5
   id: 5
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_006: 
+  comments:
+wiki_contents_006:
   text: |-
     h1. Child page 2
     
@@ -68,31 +68,30 @@ wiki_contents_006:
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 6
   id: 6
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_007: 
+  comments:
+wiki_contents_007:
   text: This is a child page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 7
   id: 7
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_008: 
+  comments:
+wiki_contents_008:
   text: This is a parent page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 8
   id: 8
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-wiki_contents_009: 
+  comments:
+wiki_contents_009:
   text: This is a child page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 9
   id: 9
-  version: 1
+  lock_version: 1
   author_id: 1
-  comments: 
-  
+  comments:

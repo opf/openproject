@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -18,21 +18,23 @@
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => [:new, :create]
   default_search_scope :issues
-  
+
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :move, :perform_move, :destroy]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index, :changes]
+
   before_filter :find_optional_project, :only => [:index, :changes]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :changes
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
-  
+
   helper :journals
+  include JournalsHelper
   helper :projects
-  include ProjectsHelper   
+  include ProjectsHelper
   helper :custom_fields
   include CustomFieldsHelper
   helper :issue_relations
@@ -55,12 +57,12 @@ class IssuesController < ApplicationController
 
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
-  
+
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
-    
+
     if @query.valid?
       limit = case params[:format]
       when 'csv', 'pdf'
@@ -70,15 +72,15 @@ class IssuesController < ApplicationController
       else
         per_page_option
       end
-      
+
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-                              :order => sort_clause, 
-                              :offset => @issue_pages.current.offset, 
+                              :order => sort_clause,
+                              :offset => @issue_pages.current.offset,
                               :limit => limit)
       @issue_count_by_group = @query.issue_count_by_group
-      
+
       respond_to do |format|
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
         format.xml  { render :layout => false }
@@ -94,14 +96,14 @@ class IssuesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def changes
     retrieve_query
     sort_init 'id', 'desc'
     sort_update(@query.sortable_columns)
-    
+
     if @query.valid?
-      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC",
                                   :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
@@ -109,10 +111,9 @@ class IssuesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def show
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @journals.each_with_index {|j,i| j.indice = i+1}
+    @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -162,12 +163,13 @@ class IssuesController < ApplicationController
       end
     end
   end
-  
+
   # Attributes that can be updated on workflow transition (without :edit permission)
   # TODO: make it configurable (at least per role)
   UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
-  
+
   def edit
+    return render_reply(@journal) if @journal
     update_issue_from_params
 
     @journal = @issue.current_journal
@@ -183,7 +185,7 @@ class IssuesController < ApplicationController
 
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
@@ -192,7 +194,7 @@ class IssuesController < ApplicationController
       end
     else
       render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
       @journal = @issue.current_journal
 
       respond_to do |format|
@@ -210,7 +212,7 @@ class IssuesController < ApplicationController
       attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
       attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
       attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
-      
+
       unsaved_issue_ids = []
       @issues.each do |issue|
         issue.reload
@@ -229,7 +231,7 @@ class IssuesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
     @custom_fields = @project.all_issue_custom_fields
   end
-  
+
   def destroy
     @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
     if @hours > 0
@@ -268,14 +270,14 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_project
     project_id = (params[:issue] && params[:issue][:project_id]) || params[:project_id]
     @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Used by #edit and #update to set some common instance variables
   # from the params
   # TODO: Refactor, not everything in here is needed by #edit
@@ -284,7 +286,7 @@ private
     @priorities = IssuePriority.all
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new
-    
+
     @notes = params[:notes]
     @issue.init_journal(User.current, @notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
@@ -294,7 +296,7 @@ private
       attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
       @issue.safe_attributes = attrs
     end
-
+    @journal = @issue.current_journal
   end
 
   # TODO: Refactor, lots of extra code in here
@@ -306,7 +308,7 @@ private
     else
       @issue = @project.issues.visible.find(params[:id])
     end
-    
+
     @issue.project = @project
     # Tracker must be set before custom field values
     @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
