@@ -5,7 +5,8 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="Redmine Backlogs" />
 <meta name="keywords" content="issue,bug,tracker,scrum,agile,plugin" />
-<%= theme_stylesheet_link_tag 'global.css', 'jquery-ui.css' %>
+<%= theme_stylesheet_link_tag 'global.css', 'jquery-ui.css', :media => 'print,screen' %>
+<%= theme_stylesheet_link_tag 'global_print.css', :media => 'print' %>
 <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery-ui-1.8rc3.custom.min.js', 'jquery.jeditable.mini.js', 'jquery.cookie.js', 'common.js', :plugin => 'redmine_backlogs' %>
 
 <!-- looks like we don't need this anymore -->
