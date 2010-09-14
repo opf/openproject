@@ -160,6 +160,11 @@ module IssuesHelper
     export
   end
 
+  # FIXME: This is not working as before
+  def show_detail(journal, html = true)
+    journal.render_detail(journal.details.first, html)
+  end
+
   def gantt_zoom_link(gantt, in_or_out)
     img_attributes = {:style => 'height:1.4em; width:1.4em; margin-left: 3px;'} # em for accessibility
 
