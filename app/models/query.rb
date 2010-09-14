@@ -490,7 +490,7 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def journals(options={})
-    Journal.find :all, :include => [:user, {:issue => [:project, :author, :tracker, :status]}],
+    Journal.find :all, :include => [:user, :journaled],
                        :conditions => statement,
                        :order => options[:order],
                        :limit => options[:limit],

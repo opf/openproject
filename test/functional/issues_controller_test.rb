@@ -996,7 +996,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
     assert_equal '125', journal.details.first.old_value
