@@ -53,6 +53,20 @@ class WikiContent < ActiveRecord::Base
     notified.collect(&:mail)
   end
 
+  # FIXME: Deprecate
+  def versions
+    journals
+  end
+
+  def version
+    unless last_journal
+      # FIXME: This is code that caters for a case that should never happen in the normal code paths!!
+      create_journal
+      last_journal.update_attribute(:created_at, updated_on)
+    end
+    last_journal.version
+  end
+
   # FIXME: This is for backwards compatibility only. Remove once we decide it is not needed anymore
   WikiContentJournal.class_eval do
     attr_protected :data
@@ -103,20 +117,6 @@ class WikiContent < ActiveRecord::Base
     # FIXME: Deprecate
     def versioned
       journaled
-    end
-
-    # FIXME: Deprecate
-    def versions
-      journals
-    end
-
-    def version
-      unless last_journal
-        # FIXME: This is code that caters for a case that should never happen in the normal code paths!!
-        update_journal
-        last_journal.update_attribute(:created_at, updated_on)
-      end
-      last_journal.version
     end
   end
 end
