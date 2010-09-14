@@ -85,10 +85,12 @@ module RbCommonHelper
     'rb_default'
   end
 
-  def theme_stylesheet_link_tag(*sources)
-    theme_sources = sources.map{ |s| "#{theme_name}/#{s}"}
-    theme_sources << {:plugin => 'redmine_backlogs', :media => 'screen,print'}
-    stylesheet_link_tag *theme_sources
+  def theme_stylesheet_link_tag(*args)
+    themed_args = args.select{ |a| a.class!=Hash }.map{ |s| "#{theme_name}/#{s.to_s}"}
+    options = args.select{ |a| a.class==Hash}.first || { }
+    options[:plugin] = 'redmine_backlogs'
+    themed_args << options
+    stylesheet_link_tag *themed_args
   end
 
   def tracker_id_or_empty(story)
