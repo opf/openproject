@@ -260,8 +260,8 @@ private
     end
     
     @from, @to = @to, @from if @from && @to && @from > @to
-    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
-    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
+    @from ||= (TimeEntry.earilest_date_for_project || Date.today) - 1
+    @to   ||= (TimeEntry.latest_date_for_project || Date.today)
   end
 
   def load_available_criterias

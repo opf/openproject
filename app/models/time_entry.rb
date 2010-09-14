@@ -81,4 +81,12 @@ class TimeEntry < ActiveRecord::Base
       yield
     end
   end
+
+  def self.earilest_date_for_project
+    TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries))
+  end
+
+  def self.latest_date_for_project
+    TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries))
+  end
 end

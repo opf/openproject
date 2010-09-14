@@ -48,4 +48,19 @@ class TimeEntryTest < ActiveSupport::TestCase
   def test_hours_should_default_to_nil
     assert_nil TimeEntry.new.hours
   end
+
+  context "#earilest_date_for_project" do
+    should "return the lowest spent_on value that is visible to the current user" do
+      User.current = nil
+      assert_equal "2007-03-12", TimeEntry.earilest_date_for_project.to_s
+    end
+  end
+
+  context "#latest_date_for_project" do
+    should "return the highest spent_on value that is visible to the current user" do
+      User.current = nil
+      assert_equal "2007-04-22", TimeEntry.latest_date_for_project.to_s
+    end
+  end
+  
 end
