@@ -16,7 +16,7 @@
   top:0;
   width:590px;
 }
-#product_backlog_container .add_new_story {
+#product_backlog_container .backlog .header > .add_new_story {
   font-size:11px;
   height:28px;
   line-height:31px;
