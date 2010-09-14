@@ -678,7 +678,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert Issue.current_journal.changes.has_key? "subject"
     assert Issue.current_journal.changes.has_key? "priority_id"
-    assert !Issue.current_journal.changes.has_key? "category_id"
+    assert !Issue.current_journal.changes.has_key?("category_id")
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -706,7 +706,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert Issue.current_journal.changes.has_key? "subject"
     assert Issue.current_journal.changes.has_key? "priority_id"
-    assert !Issue.current_journal.changes.has_key? "category_id"
+    assert !Issue.current_journal.changes.has_key?("category_id")
     assert Issue.current_journal.changes.has_key? "2"
 
     assert_redirected_to :action => 'show', :id => '1'
