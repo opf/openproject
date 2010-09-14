@@ -44,10 +44,6 @@ class IssuesHelperTest < HelperTestCase
     @request ||= ActionController::TestRequest.new
   end
 
-  def show_detail(journal, html = true)
-    journal.render_detail(journal.details.first)
-  end
-
   context "IssuesHelper#show_detail" do
     context "with no_html" do
       should 'show a changing attribute' do
