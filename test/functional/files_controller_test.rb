@@ -12,7 +12,7 @@ class FilesControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :id => 1
+    get :index, :project_id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:containers)
@@ -33,7 +33,7 @@ class FilesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     
     assert_difference 'Attachment.count' do
-      post :create, :id => 1, :version_id => '',
+      post :create, :project_id => 1, :version_id => '',
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       assert_response :redirect
     end
@@ -54,7 +54,7 @@ class FilesControllerTest < ActionController::TestCase
     Setting.notified_events = ['file_added']
     
     assert_difference 'Attachment.count' do
-      post :create, :id => 1, :version_id => '2',
+      post :create, :project_id => 1, :version_id => '2',
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       assert_response :redirect
     end

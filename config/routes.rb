@@ -181,6 +181,7 @@ ActionController::Routing::Routes.draw do |map|
     :unarchive => :post
   } do |project|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
+    project.resources :files, :only => [:index, :new, :create]
   end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request
@@ -189,14 +190,8 @@ ActionController::Routing::Routes.draw do |map|
   # TODO: port to be part of the resources route(s)
   map.with_options :controller => 'projects' do |project_mapper|
     project_mapper.with_options :conditions => {:method => :get} do |project_views|
-      project_views.connect 'projects/:id/files', :controller => 'files', :action => 'index'
-      project_views.connect 'projects/:id/files/new', :controller => 'files', :action => 'new'
       project_views.connect 'projects/:id/settings/:tab', :controller => 'projects', :action => 'settings'
       project_views.connect 'projects/:project_id/issues/:copy_from/copy', :controller => 'issues', :action => 'new'
-    end
-
-    project_mapper.with_options :conditions => {:method => :post} do |project_actions|
-      project_actions.connect 'projects/:id/files/new', :controller => 'files', :action => 'create'
     end
   end
   

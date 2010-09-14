@@ -1,7 +1,7 @@
 class FilesController < ApplicationController
   menu_item :files
 
-  before_filter :find_project
+  before_filter :find_project_by_project_id
   before_filter :authorize
 
   helper :sort
@@ -31,6 +31,6 @@ class FilesController < ApplicationController
     if !attachments.empty? && Setting.notified_events.include?('file_added')
       Mailer.deliver_attachments_added(attachments[:files])
     end
-    redirect_to :controller => 'files', :action => 'index', :id => @project
+    redirect_to project_files_path(@project)
   end
 end

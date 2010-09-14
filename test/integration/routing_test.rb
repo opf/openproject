@@ -171,15 +171,15 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/1.xml", :controller => 'projects', :action => 'show', :id => '1', :format => 'xml'
     should_route :get, "/projects/4223/settings", :controller => 'projects', :action => 'settings', :id => '4223'
     should_route :get, "/projects/4223/settings/members", :controller => 'projects', :action => 'settings', :id => '4223', :tab => 'members'
-    should_route :get, "/projects/33/files", :controller => 'files', :action => 'index', :id => '33'
-    should_route :get, "/projects/33/files/new", :controller => 'files', :action => 'new', :id => '33'
+    should_route :get, "/projects/33/files", :controller => 'files', :action => 'index', :project_id => '33'
+    should_route :get, "/projects/33/files/new", :controller => 'files', :action => 'new', :project_id => '33'
     should_route :get, "/projects/33/roadmap", :controller => 'versions', :action => 'index', :project_id => '33'
     should_route :get, "/projects/33/activity", :controller => 'activities', :action => 'index', :id => '33'
     should_route :get, "/projects/33/activity.atom", :controller => 'activities', :action => 'index', :id => '33', :format => 'atom'
     
     should_route :post, "/projects", :controller => 'projects', :action => 'create'
     should_route :post, "/projects.xml", :controller => 'projects', :action => 'create', :format => 'xml'
-    should_route :post, "/projects/33/files/new", :controller => 'files', :action => 'create', :id => '33'
+    should_route :post, "/projects/33/files", :controller => 'files', :action => 'create', :project_id => '33'
     should_route :post, "/projects/64/archive", :controller => 'projects', :action => 'archive', :id => '64'
     should_route :post, "/projects/64/unarchive", :controller => 'projects', :action => 'unarchive', :id => '64'
 
