@@ -676,9 +676,9 @@ class IssuesControllerTest < ActionController::TestCase
         :category_id => '1' # no change
       }
     end
-    assert Issue.current_journal.changes.has_key? "subject"
-    assert Issue.current_journal.changes.has_key? "priority_id"
-    assert !Issue.current_journal.changes.has_key?("category_id")
+    assert issue.current_journal.changes.has_key? "subject"
+    assert issue.current_journal.changes.has_key? "priority_id"
+    assert !issue.current_journal.changes.has_key?("category_id")
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -704,10 +704,10 @@ class IssuesControllerTest < ActionController::TestCase
         :custom_field_values => { '2' => 'New custom value' }
       }
     end
-    assert Issue.current_journal.changes.has_key? "subject"
-    assert Issue.current_journal.changes.has_key? "priority_id"
-    assert !Issue.current_journal.changes.has_key?("category_id")
-    assert Issue.current_journal.changes.has_key? "2"
+    assert issue.current_journal.changes.has_key? "subject"
+    assert issue.current_journal.changes.has_key? "priority_id"
+    assert !issue.current_journal.changes.has_key?("category_id")
+    assert issue.current_journal.changes.has_key? "2"
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -797,7 +797,7 @@ class IssuesControllerTest < ActionController::TestCase
     j = Issue.find(1).journals.find(:first, :order => 'id DESC')
     assert j.notes.blank?
     assert_equal 1, j.details.size
-    assert_equal 'testfile.txt', j.details.first.value
+    assert_equal 'testfile.txt', j.details.first.last
     assert_equal User.anonymous, j.user
 
     mail = ActionMailer::Base.deliveries.last
@@ -948,7 +948,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size

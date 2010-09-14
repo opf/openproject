@@ -84,7 +84,7 @@ class WikiControllerTest < ActionController::TestCase
                 :page => 'New page',
                 :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page",
-                             :version => 0}
+                             :lock_version => 0}
     assert_redirected_to :action => 'index', :id => 'ecookbook', :page => 'New_page'
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?
@@ -100,7 +100,7 @@ class WikiControllerTest < ActionController::TestCase
                     :page => 'New page',
                     :content => {:comments => 'Created the page',
                                  :text => "h1. New page\n\nThis is a new page",
-                                 :version => 0},
+                                 :lock_version => 0},
                     :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end

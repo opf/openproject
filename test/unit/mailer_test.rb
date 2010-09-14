@@ -171,7 +171,7 @@ class MailerTest < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(journal), mail.message_id
-    assert_equal Mailer.message_id_for(journal.versioned), mail.references.first.to_s
+    assert_equal Mailer.message_id_for(journal.journaled), mail.references.first.to_s
   end
   
   def test_message_posted_message_id
