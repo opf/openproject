@@ -87,7 +87,7 @@ module RbCommonHelper
 
   def theme_stylesheet_link_tag(*sources)
     theme_sources = sources.map{ |s| "#{theme_name}/#{s}"}
-    theme_sources << {:plugin => 'redmine_backlogs'}
+    theme_sources << {:plugin => 'redmine_backlogs', :media => 'screen,print'}
     stylesheet_link_tag *theme_sources
   end
 
