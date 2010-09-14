@@ -179,7 +179,7 @@ class MailHandler < ActionMailer::Base
     end
 
     # add the note
-    journal = issue.init_journal(user, cleaned_up_text_body)
+    issue.init_journal(user, cleaned_up_text_body)
     add_attachments(issue)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -191,7 +191,7 @@ class MailHandler < ActionMailer::Base
 
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
-    journal
+    issue.last_journal
   end
 
   # Reply will be added to the issue

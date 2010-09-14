@@ -110,7 +110,7 @@ class Changeset < ActiveRecord::Base
           if self.scmid && (! (csettext =~ /^r[0-9]+$/))
             csettext = "commit:\"#{self.scmid}\""
           end
-          journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, csettext))
+          issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, csettext))
           issue.status = fix_status
           unless Setting.commit_fix_done_ratio.blank?
             issue.done_ratio = Setting.commit_fix_done_ratio.to_i
