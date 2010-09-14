@@ -750,8 +750,8 @@ class Issue < ActiveRecord::Base
         # Implicitely creates a new journal
         duplicate.update_attribute :status, self.status
         # Same user and notes
-        duplicate.versions.last.user = current_journal.user
-        duplicate.versions.last.notes = current_journal.notes
+        duplicate.journals.last.user = current_journal.user
+        duplicate.journals.last.notes = current_journal.notes
       end
     end
   end
