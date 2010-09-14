@@ -1,17 +1,23 @@
 require 'set'
 
 module CostQuery::InheritedAttribute
-  def inherited_attribute(*attributes, &block)
+  def inherited_attribute(*attributes)
       options = attributes.extract_options!
       list    = options[:list]
+      merge   = options.include?(:merge) ? options[:merge] : options[:list]
       default = options[:default]
       uniq    = options[:uniq]
       map     = options[:map] || proc { |e| e }
       default ||= [] if list
       attributes.each do |name|
         define_singleton_method(name) do |*values|
+          # FIXME: I'm ugly
           return get_inherited_attribute(name, default, list, uniq) if values.empty?
-          return set_inherited_attribute(name, values.map(&map) + (instance_variable_get("@#{name}") || [])) if list
+          if list
+            old = instance_variable_get("@#{name}") if merge
+            old ||= []
+            return set_inherited_attribute(name, values.map(&map) + old)
+          end
           raise ArgumentError, "wrong number of arguments (#{values.size} for 1)" if values.size > 1
           set_inherited_attribute name, map.call(values.first)
         end
@@ -19,10 +25,12 @@ module CostQuery::InheritedAttribute
       end
     end
 
+    alias singleton_class metaclass unless respond_to? :singleton_class
+
     def define_singleton_method(name, &block)
       attr_writer name
-      metaclass.class_eval { define_method(name, &block) }
-      define_method(name) { instance_variable_get("@#{name}") or metaclass.send(name) }
+      singleton_class.class_eval { define_method(name, &block) }
+      define_method(name) { instance_variable_get("@#{name}") or singleton_class.send(name) }
     end
 
     def get_inherited_attribute(name, default = nil, list = false, uniq = false)

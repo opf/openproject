@@ -151,14 +151,14 @@ class CostQuery::SqlStatement
   def to_s
     # FIXME I'm ugly
     @sql ||= begin
-      sql = "\n--- BEGIN #{desc}\n" \
+      sql = "\n-- BEGIN #{desc}\n" \
       "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
       "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
       "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
       "\nWHERE #{where.join " AND "}\n"
       sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
-      sql << "--- END #{desc}\n"
-      sql.gsub!('---', '#') if mysql?
+      sql << "-- END #{desc}\n"
+      sql.gsub!('--', '#') if mysql?
       sql # << " LIMIT 100"
     end
   end
@@ -220,6 +220,7 @@ class CostQuery::SqlStatement
     list.each do |e|
       case e
       when Class          then joins << (join_syntax % [table_name_for(e), e.model_name.underscore])
+      when / /            then joins << e
       when Symbol, String then joins << (join_syntax % [table_name_for(e), e])
       when Hash           then e.each { |k,v| joins << (join_syntax % [table_name_for(k), field_name_for(v)]) }
       when Array          then join(*e)

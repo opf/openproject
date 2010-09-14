@@ -212,7 +212,7 @@ class CostQuery < ActiveRecord::Base
 
     inherited_attribute :db_field
     def self.field
-      db_field || name[/[^:]+$/].underscore
+      db_field || (name[/[^:]+$/] || name).to_s.underscore
     end
 
     inherited_attribute :display, :default => true
@@ -246,12 +246,17 @@ class CostQuery < ActiveRecord::Base
       @last_table ||= 'entries'
     end
 
-    def last_table
-      self.class.last_table
+    def self.table_name(value = nil)
+      @table_name = table_name_for(value) if value
+      @table_name || last_table
+    end
+
+    def table_name
+      self.class.table_name
     end
 
     def with_table(fields)
-      fields.map { |f| field_name_for f, last_table }
+      fields.map { |f| field_name_for f, self }
     end
 
     def field

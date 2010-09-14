@@ -1,6 +1,11 @@
 module ReportingHelper
   include QueriesHelper
 
+  def l(value)
+    return value if value.respond_to? :to_str
+    super
+  end
+
   ##
   # For a given CostQuery::Filter filter, return an array of hashes, that contain
   # the partials that should be rendered (:name) for that filter and necessary
@@ -76,7 +81,7 @@ module ReportingHelper
     when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id               then IssuePriority.find(value.to_i).name
     when :fixed_version_id          then Version.find(value.to_i).name
-    else value.inspect
+    else value.to_s
     end
   end
 

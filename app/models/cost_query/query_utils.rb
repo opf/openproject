@@ -113,7 +113,7 @@ module CostQuery::QueryUtils
     desc = "#{__method__} #{options.inspect[1..-2]}".gsub(/(Cost|Time)Entry\([^\)]*\)/, '\1Entry')
     options = options.with_indifferent_access
     else_part = options.delete :else
-    "--- #{desc}\n\t" \
+    "-- #{desc}\n\t" \
     "CASE #{options.map { |k,v| "\n\t\tWHEN #{field_name_for k}\n\t\t" \
     "THEN #{field_name_for v}" }}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
@@ -126,7 +126,7 @@ module CostQuery::QueryUtils
 
   def iso_year_week(field, default_table = nil)
     field = field_name_for(field, default_table)
-    "--- code specific for #{adapter_name}\n\t" << \
+    "-- code specific for #{adapter_name}\n\t" << \
     case adapter_name
     when :mysql
       "yearweek(#{field}, 1)"
@@ -181,6 +181,7 @@ module CostQuery::QueryUtils
     when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
     when "week"                             then value.to_i.divmod(100)
     when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
+    when /^custom_field/                    then value.to_s
     else fail "add mapping for  #{key}"
     end
   end

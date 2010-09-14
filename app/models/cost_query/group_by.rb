@@ -16,9 +16,13 @@ module CostQuery::GroupBy
       #CostQuery::GroupBy::Tweek,
       CostQuery::GroupBy::Tyear,
       CostQuery::GroupBy::UserId,
-      CostQuery::GroupBy::Week
+      CostQuery::GroupBy::Week,
+      *CostQuery::GroupBy::CustomField.all
     ]
   end
+
+  # trigger eager loading
+  all
 
   def self.all_grouped
     all.group_by { |g| g.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }

@@ -1,6 +1,6 @@
 module CostQuery::GroupBy
   class Base < CostQuery::Chainable
-    inherited_attributes :group_fields, :list => true
+    inherited_attributes :group_fields, :list => true, :merge => false
 
     def self.inherited(klass)
       klass.group_fields klass.field
