@@ -1,5 +1,4 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "select_list_move_optgroup", :plugin => "redmine_reporting" %>
   <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
   <%= stylesheet_link_tag 'reporting', :plugin => 'redmine_reporting' %>
 <% end %>
@@ -27,9 +26,8 @@
   <p class="buttons">
   <%= link_to_remote l(:button_apply),
                      { :url => { :set_filter => 1 },
-                       :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
                        :update => "content",
-                       :with => "Form.serialize('query_form')",
+                       :with => "serialize_filter_and_group_by()",
                        :eval_scripts => true
                      }, :class => 'icon icon-checked' %>
 

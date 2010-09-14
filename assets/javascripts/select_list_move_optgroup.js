@@ -94,6 +94,7 @@ function moveOptionDown(theSel) {
 function selectAllOptions(select)
 {
   select = $(select);
+  if (select === null) { return }
   for (var i=0; i<select.options.length; i++) {
     select.options[i].selected = true;
   }
