@@ -30,14 +30,12 @@
                        :with => "serialize_filter_and_group_by()",
                        :eval_scripts => true
                      }, :class => 'icon icon-checked' %>
-
-  <%= link_to_function l(:button_reset), "restore_query_inputs();", :class => 'icon icon-cancel'  %>
+  <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
   <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
   <%
     #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
   %>
   <% end %>
-  <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
   </p>
 </div>
 <% end %>
