@@ -493,6 +493,15 @@ class Project < ActiveRecord::Base
       enabled_modules.clear
     end
   end
+
+  # Returns an array of projects that are in this project's hierarchy
+  #
+  # Example: parents, children, siblings
+  def hierarchy
+    parents = project.self_and_ancestors || []
+    descendants = project.descendants || []
+    project_hierarchy = parents | descendants # Set union
+  end
   
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier

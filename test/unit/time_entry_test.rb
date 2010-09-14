@@ -50,17 +50,50 @@ class TimeEntryTest < ActiveSupport::TestCase
   end
 
   context "#earilest_date_for_project" do
-    should "return the lowest spent_on value that is visible to the current user" do
+    setup do
       User.current = nil
-      assert_equal "2007-03-12", TimeEntry.earilest_date_for_project.to_s
+      @public_project = Project.generate!(:is_public => true)
+      @issue = Issue.generate_for_project!(@public_project)
+      TimeEntry.generate!(:spent_on => '2010-01-01',
+                          :issue => @issue,
+                          :project => @public_project)
     end
+    
+    context "without a project" do
+      should "return the lowest spent_on value that is visible to the current user" do
+        assert_equal "2007-03-12", TimeEntry.earilest_date_for_project.to_s
+      end
+    end
+
+    context "with a project" do
+      should "return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
+        assert_equal "2010-01-01", TimeEntry.earilest_date_for_project(@public_project).to_s
+      end
+    end
+      
   end
 
   context "#latest_date_for_project" do
-    should "return the highest spent_on value that is visible to the current user" do
+    setup do
       User.current = nil
-      assert_equal "2007-04-22", TimeEntry.latest_date_for_project.to_s
+      @public_project = Project.generate!(:is_public => true)
+      @issue = Issue.generate_for_project!(@public_project)
+      TimeEntry.generate!(:spent_on => '2010-01-01',
+                          :issue => @issue,
+                          :project => @public_project)
     end
-  end
-  
+
+    context "without a project" do
+      should "return the highest spent_on value that is visible to the current user" do
+        assert_equal "2010-01-01", TimeEntry.latest_date_for_project.to_s
+      end
+    end
+
+    context "with a project" do
+      should "return the highest spent_on value that is visible to the current user for that project and it's subprojects only" do
+        project = Project.find(1)
+        assert_equal "2007-04-22", TimeEntry.latest_date_for_project(project).to_s
+      end
+    end
+  end  
 end
