@@ -21,7 +21,7 @@ class Document < ActiveRecord::Base
   acts_as_attachable :delete_permission => :manage_documents
 
   acts_as_journalized :event_title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
-      :event_url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.versioned_id}},
+      :event_url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.journaled_id}},
       :event_author => (Proc.new do |o|
         o.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC").try(:author)
       end)

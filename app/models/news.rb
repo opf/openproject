@@ -24,7 +24,7 @@ class News < ActiveRecord::Base
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
 
-  acts_as_journalized :event_url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.versioned_id} }
+  acts_as_journalized :event_url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.journaled_id} }
   acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"], :include => :project
 
   def visible?(user=User.current)
