@@ -26,11 +26,12 @@ class Message < ActiveRecord::Base
                 :event_description => :content,
                 :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
                 :event_url => (Proc.new do |o|
-                  if o.parent_id.nil?
-                    {:id => o.id}
+                  msg = o.journaled
+                  if msg.parent_id.nil?
+                    {:id => msg.id}
                   else
-                    {:id => o.parent_id, :r => o.journaled.id, :anchor => "message-#{o.journaled.id}"}
-                  end.reverse_merge :controller => 'messages', :action => 'show', :board_id => o.board_id
+                    {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
+                  end.reverse_merge :controller => 'messages', :action => 'show', :board_id => msg.board_id
                 end),
                 :activity_find_options => { :include => { :board => :project } }
 
