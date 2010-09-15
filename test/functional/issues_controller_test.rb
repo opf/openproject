@@ -1077,4 +1077,12 @@ class IssuesControllerTest < ActionController::TestCase
                      :child => {:tag => 'form',
                                 :child => {:tag => 'input', :attributes => {:name => 'issues', :type => 'hidden', :value => '1'}}}
   end
+
+  def test_reply_to_note
+    @request.session[:user_id] = 2
+    get :edit, :id => 1, :journal_id => 1
+    assert_response :success
+    assert_select_rjs :show, "update"
+  end
+
 end
