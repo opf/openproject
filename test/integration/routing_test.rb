@@ -251,10 +251,16 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/users/567/memberships/12/destroy", :controller => 'users', :action => 'destroy_membership', :id => '567', :membership_id => '12'
   end
 
+  # TODO: should they all be scoped under /projects/:project_id ?
   context "versions" do
     should_route :get, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
+    should_route :get, "/versions/show/1", :controller => 'versions', :action => 'show', :id => '1'
+    should_route :get, "/versions/edit/1", :controller => 'versions', :action => 'edit', :id => '1'
 
     should_route :post, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
+    should_route :post, "/versions/update/1", :controller => 'versions', :action => 'update', :id => '1'
+
+    should_route :delete, "/versions/destroy/1", :controller => 'versions', :action => 'destroy', :id => '1'
   end
 
   context "wiki (singular, project's pages)" do

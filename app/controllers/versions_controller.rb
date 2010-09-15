@@ -87,8 +87,11 @@ class VersionsController < ApplicationController
       end
     end
   end
-  
+
   def edit
+  end
+  
+  def update
     if request.post? && params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])

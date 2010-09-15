@@ -205,7 +205,10 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'versions' do |versions|
     versions.connect 'projects/:project_id/versions/new', :action => 'new'
     versions.connect 'projects/:project_id/roadmap', :action => 'index'
+    versions.connect 'versions/:action/:id', :conditions => {:method => :get}
+    
     versions.with_options :conditions => {:method => :post} do |version_actions|
+      version_actions.connect 'versions/update/:id', :action => 'update'
       version_actions.connect 'projects/:project_id/versions/close_completed', :action => 'close_completed'
     end
   end

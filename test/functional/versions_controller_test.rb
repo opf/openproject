@@ -113,9 +113,9 @@ class VersionsControllerTest < ActionController::TestCase
     assert_not_nil Version.find_by_status('closed')
   end
   
-  def test_post_edit
+  def test_post_update
     @request.session[:user_id] = 2
-    post :edit, :id => 2, 
+    post :update, :id => 2, 
                 :version => { :name => 'New version name', 
                               :effective_date => Date.today.strftime("%Y-%m-%d")}
     assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'

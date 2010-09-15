@@ -50,7 +50,7 @@ Redmine::AccessControl.map do |map|
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
-  map.permission :manage_versions, {:projects => :settings, :versions => [:new, :edit, :close_completed, :destroy]}, :require => :member
+  map.permission :manage_versions, {:projects => :settings, :versions => [:new, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
   
   map.project_module :issue_tracking do |map|
