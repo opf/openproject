@@ -236,7 +236,7 @@ module Cards
             return Float(m[0..-3]).cm if m =~ /cm$/
             return Float(m[0..-3]).in if m =~ /in$/
             return Float(m[0..-3]).pt if m =~ /pt$/
-            return Float(m)
+            return Float(m).pt
         end
     
         def top_left(row, col)
