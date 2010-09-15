@@ -315,6 +315,13 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Callback on attachment deletion
+  def attachment_removed(obj)
+    init_journal(User.current)
+    create_journal
+    last_journal.update_attribute(:changes, {obj.id => [obj.filename, nil]}.to_yaml)
+  end
+
   # Return true if the issue is closed, otherwise false
   def closed?
     self.status.is_closed?
