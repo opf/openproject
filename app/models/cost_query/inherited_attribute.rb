@@ -28,7 +28,7 @@ module CostQuery::InheritedAttribute
     alias singleton_class metaclass unless respond_to? :singleton_class
 
     def define_singleton_method(name, &block)
-      attr_writer name
+      singleton_class.send :attr_writer, name
       singleton_class.class_eval { define_method(name, &block) }
       define_method(name) { instance_variable_get("@#{name}") or singleton_class.send(name) }
     end

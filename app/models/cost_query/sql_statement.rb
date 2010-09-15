@@ -154,7 +154,7 @@ class CostQuery::SqlStatement
       sql = "\n-- BEGIN #{desc}\n" \
       "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
       "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
-      "\n#{joins.map { |e| "\t#{e}" }.join "\n"}" \
+      "\n\t#{joins.map { |e| e.gsub("\n", "\n\t") }.join "\n\t"}" \
       "\nWHERE #{where.join " AND "}\n"
       sql << "GROUP BY #{group_by.join ', '}\nORDER BY #{group_by.join ', '}\n" if group_by?
       sql << "-- END #{desc}\n"

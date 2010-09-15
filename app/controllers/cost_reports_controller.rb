@@ -1,6 +1,7 @@
 class CostReportsController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
   before_filter :generate_query, :only => [:index]
+  before_filter :load_all
 
   helper :reporting
   include ReportingHelper
@@ -115,6 +116,11 @@ class CostReportsController < ApplicationController
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
+  end
+
+  def load_all
+    CostQuery::GroupBy.all
+    CostQuery::Filter.all
   end
 
   private

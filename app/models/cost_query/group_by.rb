@@ -21,9 +21,6 @@ module CostQuery::GroupBy
     ]
   end
 
-  # trigger eager loading
-  all
-
   def self.all_grouped
     all.group_by { |g| g.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }
   end
