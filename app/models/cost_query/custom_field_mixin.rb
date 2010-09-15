@@ -1,4 +1,6 @@
 module CostQuery::CustomFieldMixin
+  attr_reader :custom_field
+
   def self.extended(base)
     base.inherited_attribute :factory
     base.factory = base
@@ -17,16 +19,24 @@ module CostQuery::CustomFieldMixin
     end
   end
 
+  def factory?
+    factory == self
+  end
+
   def on_prepare(&block)
+    return factory.on_prepare unless factory?
     @on_prepare = block if block
+    @on_prepare ||= proc { }
     @on_prepare
   end
 
   def prepare(field, class_name)
+    @custom_field = field
     label field.name
     table_name(class_name.demodulize.underscore.tableize)
     dont_inherit :group_fields
-    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name]).gsub(/^    /, "\t")
+    db_field table_name
+    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name]).gsub(/^    /, "")
     -- BEGIN Custom Field Join: "%4$s"
     LEFT OUTER JOIN (
     \tSELECT
@@ -42,12 +52,12 @@ module CostQuery::CustomFieldMixin
     AND %2$s.customized_id = entries.issue_id
     -- END Custom Field Join: "%4$s"
     SQL
-    instance_eval(&factory.on_prepare)
+    instance_eval(&on_prepare)
     self
   end
 
   def new(*)
-    fail "Only subclasses of #{self} should be instanciated." unless self < factory
+    fail "Only subclasses of #{self} should be instanciated." if factory?
     super
   end
 

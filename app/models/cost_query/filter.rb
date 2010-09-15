@@ -25,7 +25,8 @@ module CostQuery::Filter
       CostQuery::Filter::Tyear,
       CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId,
-      CostQuery::Filter::PermissionFilter
+      CostQuery::Filter::PermissionFilter,
+      *CostQuery::Filter::CustomField.all
     ]
   end
 
