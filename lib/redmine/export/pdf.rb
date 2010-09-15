@@ -286,7 +286,7 @@ module Redmine
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
-            pdf.Cell(190,5, "- " + show_detail(detail, true))
+            pdf.Cell(190,5, "- " + show_detail(journal, detail, true))
             pdf.Ln
           end
           if journal.notes?

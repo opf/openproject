@@ -160,9 +160,8 @@ module IssuesHelper
     export
   end
 
-  # FIXME: This is not working as before
-  def show_detail(journal, html = true)
-    journal.render_detail(journal.details.first, html)
+  def show_detail(journal, detail, html = true)
+    journal.render_detail(detail, html)
   end
 
   def gantt_zoom_link(gantt, in_or_out)
