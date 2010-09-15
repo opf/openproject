@@ -772,7 +772,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     # Delete all fixtured journals, a race condition can occur causing the wrong
     # journal to get fetched in the next find.
-    Journal.delete_all
+    IssueJournal.delete_all
 
     # anonymous user
     put :update,
@@ -780,7 +780,7 @@ class IssuesControllerTest < ActionController::TestCase
          :notes => '',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     assert_redirected_to :action => 'show', :id => '1'
-    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    j = Issue.find(1).last_journal
     assert j.notes.blank?
     assert_equal 1, j.details.size
     assert_equal 'testfile.txt', j.details.first.last
@@ -985,8 +985,8 @@ class IssuesControllerTest < ActionController::TestCase
     journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
-    assert_equal '125', journal.details.first.old_value
-    assert_equal '777', journal.details.first.value
+    assert_equal '125', journal.details.first.first
+    assert_equal '777', journal.details.first.last
   end
 
   def test_bulk_unassign
