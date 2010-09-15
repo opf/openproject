@@ -1,12 +1,12 @@
 <div>
     <% if sprints && sprints.size > 0 %>
         <h3><%= l(:backlogs_sprints) %></h3>
-        <% sprints.each do |sprint| %>
-            <%= link_to(sprint.name, {
+        <% sprints.each do |sp| %>
+            <%= link_to(sp.name, {
                     :controller => 'rb_queries',
                     :action => 'show',
                     :project_id => project.id,
-                    :sprint_id => sprint.id
+                    :sprint_id => sp.id
                     }) %><br/>
         <% end %>
     <% end %>
