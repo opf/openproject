@@ -73,7 +73,7 @@ namespace :redmine do
           while invalid
             # If there's at least one, ask the user to pick one
             puts "Which tracker do you want to use for your tasks?"
-            available_trackers = trackers.select{|t| !settings[:task_tracker].include? t.id}
+            available_trackers = trackers.select{|t| !settings[:story_trackers].include? t.id}
             j = 0
             available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
             # puts "  #{ j + 1 }. <<new>>"
