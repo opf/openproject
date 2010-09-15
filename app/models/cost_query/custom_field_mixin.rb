@@ -1,5 +1,10 @@
 module CostQuery::CustomFieldMixin
   attr_reader :custom_field
+  SQL_TYPES = {
+    'string'  => 'varchar',       'text'  => 'text',
+    'list'    => 'varchar',       'date'  => 'date',
+    'int'     => 'decimal(60,3)', 'float' => 'decimal(60,3)',
+    'bool'    => 'boolean' }
 
   def self.extended(base)
     base.inherited_attribute :factory
@@ -36,11 +41,11 @@ module CostQuery::CustomFieldMixin
     table_name(class_name.demodulize.underscore.tableize)
     dont_inherit :group_fields
     db_field table_name
-    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name]).gsub(/^    /, "")
+    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, "")
     -- BEGIN Custom Field Join: "%4$s"
     LEFT OUTER JOIN (
     \tSELECT
-    \t\tvalue AS %2$s,
+    \t\tCAST(value AS %5$s) AS %2$s,
     \t\tcustomized_type,
     \t\tcustom_field_id,
     \t\tcustomized_id

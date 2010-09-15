@@ -10,7 +10,7 @@ module CostQuery::Filter
       when 'date'           then use :time_operators
       when 'int', 'float'   then use :integer_operators
       when 'bool'
-        @possible_values = [['true', 1], ['false', 0]]
+        @possible_values = [['true', 't'], ['false', 'f']]
         use :null_operators
       else
         fail "cannot handle #{custom_field.field_format.inspect}"
