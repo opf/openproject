@@ -53,6 +53,18 @@ function toggle_multi_select(field) {
         select.multiple = true;
     }
 }
+
+function apply_filters_observer() {
+  $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
+    if(e.keyCode == Event.KEY_RETURN) {
+      <%= remote_function(:url => { :set_filter => 1},
+                          :update => "content",
+                          :with => "Form.serialize('query_form')",
+                          :complete => "e.stop(); apply_filters_observer()") %>
+    }
+  });
+}
+Event.observe(document,"dom:loaded", apply_filters_observer);
 //]]>
 </script>
 

@@ -39,6 +39,7 @@
                        { :url => { :set_filter => 1 },
                          :before => 'selectAllOptions("selected_columns");',
                          :update => "content",
+                         :complete => "apply_filters_observer()",
                          :with => "Form.serialize('query_form')"
                        }, :class => 'icon icon-checked' %>
                        
