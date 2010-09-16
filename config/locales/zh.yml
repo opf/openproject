@@ -1,0 +1,89 @@
+# Chinese strings go here for Rails i18n
+zh:
+  backlogs_story_tracker: "故事跟踪"
+  backlogs_task_tracker: "任务跟踪"
+  backlogs_card_specification: "打印卡片的标签类型"
+  backlogs_sprints: "冲刺"
+  field_story_points: "故事点数"
+  field_remaining_hours: "剩余小时数"
+  button_edit_wiki: "编辑wiki页面"
+  field_backlogs_issue_type: "Backlog类型"
+  backlogs_story: "故事"
+  backlogs_task: "任务"
+  backlogs_any: "所有"
+  backlogs_points_burn_direction: "点数消耗 燃起/燃尽"
+  label_points_burn_up: "燃起"
+  label_points_burn_down: "燃尽"
+  field_position: "位置"
+  backlogs_product_backlog: "产品backlog"
+  backlogs_wiki_template: "冲刺的wiki页面的模板"
+  points_committed: "已提交点数"
+  required_burn_rate_points: "必要燃烧率 (点数)"
+  required_burn_rate_hours: "必要燃烧率 (小时)"
+  points_to_accept: "未接受点数"
+  points_accepted: "已接受点数"
+  ideal: "理想"
+  points_to_resolve: "未解决点数"
+  points_resolved: "已解决点数"
+  remaining_hours: "剩余小时数"
+  field_velocity_based_estimate: "速度计量单位"
+
+  backlogs_active: "活跃"
+
+  label_task_board: "任务板"
+  label_stories_tasks: "故事/任务"
+  label_stories: "任务"
+  label_burndown: "燃尽"
+  label_printable_cards: "可打印卡片"
+  label_select_all: "全选"
+
+  label_back_to_project: "返回项目页"
+  label_sprint_name: "冲刺 \"{{name}}\""
+  label_backlogs: "Backlogs"
+  label_scrum_statistics: "Scrum 统计"
+
+  label_sprint_backlog: "冲刺 backlog"
+  label_product_backlog: "产品 backlog"
+  label_Product_backlog: "产品 backlog"
+
+  backlogs_sizing_inconsistent: "故事的点数与它们的预期时间相冲突"
+  backlogs_velocity_missing: "这个项目的速度无法计算"
+  backlogs_product_backlog_is_empty: "产品backlog是空的"
+  backlogs_inactive: "项目尚未有活动进行"
+  backlogs_sprint_unestimated: "已关闭了的（或活跃的）冲刺里存在未估量的故事"
+  backlogs_sprint_notes_missing: "已关闭的冲刺没有 回顾/评审 的备忘录"
+  backlogs_product_backlog_unsized: "产品Backlog中有未确定点数的故事"
+  backlogs_velocity_varies: "冲刺中的重要速度变化"
+  backlogs_sprint_unsized: "项目还有正处于活跃的故事或者最近关闭了未确定点数的冲刺"
+
+  label_hours: "小时"
+  label_points: "点"
+  label_not_prioritized: "未授予优先级"
+
+  label_backlogs_unconfigured: "您尚未设置Bcaklogs，请到{{administration}} > {{plugins}},然后点击这个插件的{{configure}}设置连接。当您完成设置后，返回此页，开始使用这个工具。"
+
+  label_sprint_velocity: "速度 {{velocity}}, 基于 {{sprints}} 冲刺的平均天数为{{days}}天"
+
+  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
+  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+
+  label_chart_options: "表单选项"
+
+  error_intro_singular: "遇到了这个错误:"
+  error_intro_plural: "遇到了这些错误:"
+  error_outro: "在再次提交之前，请先更正以上的错误。"
+
+  label_sprint_impediments: "冲刺障碍"
+
+  subject: "主题"
+  blank: "是空的"
+
+  label_blocks: "障碍"
+  error_must_have_comma_delimited_list: "多个任务(或故事)的ID间，必须使用逗号进行分隔"
+
+  tracker_id: "跟踪ID"
+  inclusion: "未包含于当前列表"
+
+  label_master_backlog: "Backlog控制板"
