@@ -846,7 +846,7 @@ class Issue < ActiveRecord::Base
                                                 j.id as #{select_field},
                                                 count(i.id) as total 
                                               from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} as j
+                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} j
                                               where 
                                                 i.status_id=s.id 
                                                 and #{where}
