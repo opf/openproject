@@ -257,7 +257,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/versions/show/1", :controller => 'versions', :action => 'show', :id => '1'
     should_route :get, "/versions/edit/1", :controller => 'versions', :action => 'edit', :id => '1'
 
-    should_route :post, "/projects/foo/versions/new", :controller => 'versions', :action => 'new', :project_id => 'foo'
+    should_route :post, "/projects/foo/versions", :controller => 'versions', :action => 'create', :project_id => 'foo'
     should_route :post, "/versions/update/1", :controller => 'versions', :action => 'update', :id => '1'
 
     should_route :delete, "/versions/destroy/1", :controller => 'versions', :action => 'destroy', :id => '1'

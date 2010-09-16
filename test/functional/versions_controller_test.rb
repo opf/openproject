@@ -75,10 +75,10 @@ class VersionsControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :content => /1.0/
   end
   
-  def test_new
+  def test_create
     @request.session[:user_id] = 2 # manager
     assert_difference 'Version.count' do
-      post :new, :project_id => '1', :version => {:name => 'test_add_version'}
+      post :create, :project_id => '1', :version => {:name => 'test_add_version'}
     end
     assert_redirected_to '/projects/ecookbook/settings/versions'
     version = Version.find_by_name('test_add_version')
@@ -86,10 +86,10 @@ class VersionsControllerTest < ActionController::TestCase
     assert_equal 1, version.project_id
   end
   
-  def test_new_from_issue_form
+  def test_create_from_issue_form
     @request.session[:user_id] = 2 # manager
     assert_difference 'Version.count' do
-      xhr :post, :new, :project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}
+      xhr :post, :create, :project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}
     end
     assert_response :success
     assert_select_rjs :replace, 'issue_fixed_version_id'

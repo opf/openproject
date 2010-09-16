@@ -208,6 +208,7 @@ ActionController::Routing::Routes.draw do |map|
     versions.connect 'versions/:action/:id', :conditions => {:method => :get}
     
     versions.with_options :conditions => {:method => :post} do |version_actions|
+      version_actions.connect 'projects/:project_id/versions', :action => 'create'
       version_actions.connect 'versions/update/:id', :action => 'update'
       version_actions.connect 'projects/:project_id/versions/close_completed', :action => 'close_completed'
     end
