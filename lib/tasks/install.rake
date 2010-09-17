@@ -21,8 +21,8 @@ namespace :redmine do
       begin
         Cards::TaskboardCards.fetch_labels
         print "done!\n"
-      rescue
-        print "\nCard labels could not be fetched. Please try again later. Proceeding anyway...\n"
+      rescue Exception => fetch_error
+        print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
       end
       
       trackers = Tracker.find(:all)
