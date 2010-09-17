@@ -185,7 +185,7 @@ ActionController::Routing::Routes.draw do |map|
   } do |project|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
     project.resources :files, :only => [:index, :new, :create]
-    project.resources :versions, :collection => {:close_completed => :put}
+    project.resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
   end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request
