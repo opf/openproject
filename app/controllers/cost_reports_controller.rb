@@ -2,12 +2,12 @@ class CostReportsController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
   before_filter :generate_query, :only => [:index]
   before_filter :load_all
+  before_filter :set_cost_type, :only => [:index]
 
   helper :reporting
   include ReportingHelper
 
   def index
-    set_cost_type
     if @query.group_bys.empty?
       @table_partial = "cost_entry_table"
     elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
