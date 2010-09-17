@@ -21,7 +21,7 @@
     <td class="buttons">
     	<% if version.project == @project %>
     		<%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>
-    		<%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    		<%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
     	<% end %>
    	</td>
     </tr>
@@ -34,7 +34,7 @@
 
 <div class="contextual">
 <% if @project.versions.any? %>
-	<%= link_to l(:label_close_versions), {:controller => 'versions', :action => 'close_completed', :project_id => @project}, :method => :post %>
+	<%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
 <% end %>
 </div>
 
