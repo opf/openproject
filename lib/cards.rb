@@ -56,6 +56,18 @@ module Cards
                 :top_margin => 0,
                 :bottom_margin => 0,
                 :page_size => label['papersize'])
+
+            fontdir = File.dirname(__FILE__) + '/ttf'
+            @pdf.font_families.update(
+              "DejaVuSans" => {
+                :bold         => "#{fontdir}/DejaVuSans-Bold.ttf",
+                :italic       => "#{fontdir}/DejaVuSans-Oblique.ttf",
+                :bold_italic  => "#{fontdir}/DejaVuSans-BoldOblique.ttf",
+                :normal       => "#{fontdir}/DejaVuSans.ttf"
+              }
+            )
+            @pdf.font "DejaVuSans"
+
     
             @cards = 0
         end
