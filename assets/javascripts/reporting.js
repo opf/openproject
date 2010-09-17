@@ -2,12 +2,12 @@
 
 function toggle_filter(field) {
     var remove, to_toggle;
-    remove = $('rm_' + field);
-    to_toggle = remove.up().siblings();
-    if (remove.visible()) {
+    label = $('label_' + field);
+    to_toggle = label.up().siblings();
+    if (label.visible()) {
         to_toggle.invoke('show');
-    }
-    else {
+        $('rm_' + field).hide();
+    } else {
         to_toggle.invoke('hide');
     }
 }
@@ -67,8 +67,27 @@ function hide_category(tr_field) {
     }
 }
 
+function register_remove_hover(field) {
+    table = $('tr_' +  field);
+    Event.observe(table, 'mouseover', function(event) { set_remove_button_visibility(field, true) });
+    Event.observe(table, 'mouseout', function(event) { set_remove_button_visibility(field, false) });
+}
+
+
+function set_remove_button_visibility(field, value) {
+    remove = $('rm_' + field);
+    if (remove !== null) {
+        if (value == true) {
+            remove.show();
+        } else {
+            remove.hide();
+        }
+    }
+}
+
 function show_filter(field) {
     var field_el = $('tr_' +  field);
+    register_remove_hover(field);
     if (field_el !== null) {
         field_el.show();
         toggle_filter(field);

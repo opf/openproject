@@ -21,21 +21,24 @@ module ReportingHelper
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :multi_values, :filter_name => filter.underscore_name, :values => filter.available_values(User.current)}]
+      {:name => :multi_values, :filter_name => filter.underscore_name, :values => filter.available_values(User.current)},
+      {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
   def date_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :date, :filter_name => filter.underscore_name}]
+      {:name => :date, :filter_name => filter.underscore_name},
+      {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
   def text_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :text_box, :filter_name => filter.underscore_name}]
+      {:name => :text_box, :filter_name => filter.underscore_name},
+      {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
   def link_to_project(project)

@@ -2,13 +2,10 @@
   This partial requires the following locals:
     element   a Hash containing the following keys:
       - :name => :activate_filter
-      - :filter_name => String: The name of a filter (e.g. activity_id)
       - :label => String: A text which is shown to the user as a label for this filter
       - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
 %>
 
-<td width="<%= element[:width] || 200 %>">
-  <input id= "rm_<%= element[:filter_name] %>" name="fields[]" onclick="remove_filter('<%= element[:filter_name] %>');"
-         type="button" value="" class="icon filter_rem icon-del"/>
-  <label><%= element[:label] %></label>
+<td width="<%= element[:width] || 150 %>">
+  <label id="label_<%= element[:filter_name]%>"><%= element[:label] %></label>
 </td>

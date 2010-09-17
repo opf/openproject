@@ -110,6 +110,17 @@
   border-style: none;
 }
 
+.icon-filter-rem {
+  background-image: url(../images/remove.png);
+}
+
+.filter {
+  border: 2px solid #CCC;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border--radius: 5px;
+}
+
 .drag_element {
   cursor: move;
   background-color: #60D8FB;
@@ -133,5 +144,5 @@
 
 .drag_container_accept {
   background-color: #F5F5C5;
-  boder: 1px solid #BBBBBB;
+  border: 1px solid #BBBBBB;
 }
