@@ -4,9 +4,14 @@
 # Code is not reloaded between requests
 config.cache_classes = true
 
+#####
+# Customize the default logger (http://ruby-doc.org/core/classes/Logger.html)
+#
 # Use a different logger for distributed setups
 # config.logger        = SyslogLogger.new
-
+#
+# Rotate logs bigger than 1MB, keeps no more than 7 rotated logs around.
+# config.logger = Logger.new(config.log_path, 7, 1048576)
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
