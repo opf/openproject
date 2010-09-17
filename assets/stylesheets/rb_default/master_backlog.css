@@ -284,7 +284,7 @@
   position:absolute;
   top:4px;
 }
-#backlogs_container .stories .story .status_id {
+#backlogs_container .stories .story .status_id.editable {
   display:block;
   height:15px;
   left:455px;
@@ -427,6 +427,7 @@
   left:456px;
   margin:0;
   top:4px;
+  width:68px;
 }
 #backlogs_container .stories .story.editing .story_points.editor{
   display:block;
