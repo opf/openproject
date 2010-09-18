@@ -786,6 +786,7 @@ en:
   button_create_and_continue: Create and continue
   button_test: Test
   button_edit: Edit
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   button_add: Add
   button_change: Change
   button_apply: Apply

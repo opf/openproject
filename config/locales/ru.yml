@@ -1032,3 +1032,4 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"

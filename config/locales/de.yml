@@ -803,6 +803,7 @@ de:
   button_create_and_continue: Anlegen + nächstes Ticket
   button_test: Testen
   button_edit: Bearbeiten
+  button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: {{page_title}}"
   button_add: Hinzufügen
   button_change: Wechseln
   button_apply: Anwenden

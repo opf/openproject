@@ -933,3 +933,4 @@ fr:
   project_module_calendar: Calendar
   field_member_of_group: Member of Group
   field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Modifier la page de Wiki associée: {{page_title}}"
