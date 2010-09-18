@@ -1,3 +1,5 @@
+require 'fileutils'
+
 namespace :redmine do
   namespace :backlogs do 
 
@@ -9,7 +11,6 @@ namespace :redmine do
       settings = Setting.plugin_redmine_backlogs
       settings[:points_burn_direction] ||= 'down'
       settings[:wiki_template]         ||= ''
-      settings[:card_spec]             ||= 'APLI 01293'
 
       puts "\n"
       puts "====================================================="
@@ -26,7 +27,13 @@ namespace :redmine do
         rescue Exception => fetch_error
           print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
         end
+      else
+        if ! File.exist?(File.dirname(__FILE__) + '/../labels.yaml')
+          print "Default labels installed\n"
+          FileUtils.cp(File.dirname(__FILE__) + '/../labels.yaml.default', File.dirname(__FILE__) + '/../labels.yaml')
+        end
       end
+      settings[:card_spec] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
 
       trackers = Tracker.find(:all)
 
