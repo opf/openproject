@@ -16,15 +16,18 @@ namespace :redmine do
       puts "             Redmine Backlogs Installer"
       puts "====================================================="
       puts "Installing to the #{ENV['RAILS_ENV']} environment."
-      print "Fetching card labels from http://git.gnome.org..."
-      STDOUT.flush
-      begin
-        Cards::TaskboardCards.fetch_labels
-        print "done!\n"
-      rescue Exception => fetch_error
-        print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
+
+      if ! ['no', 'false'].include?("#{ENV['labels']}".downcase)
+        print "Fetching card labels from http://git.gnome.org..."
+        STDOUT.flush
+        begin
+          Cards::TaskboardCards.fetch_labels
+          print "done!\n"
+        rescue Exception => fetch_error
+          print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
+        end
       end
-      
+
       trackers = Tracker.find(:all)
 
       if Story.trackers.length == 0
