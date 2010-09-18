@@ -21,7 +21,7 @@ class RbApplicationController < ApplicationController
 
   def check_if_plugin_is_configured
     settings = Setting.plugin_redmine_backlogs
-    if settings[:story_trackers].nil? || settings[:task_tracker].nil?
+    if settings[:story_trackers].blank? || settings[:task_tracker].blank?
       respond_to do |format|
         format.html { render :file => "rb_common/not_configured" }
       end

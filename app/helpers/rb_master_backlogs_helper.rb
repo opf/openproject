@@ -21,7 +21,7 @@ module RbMasterBacklogsHelper
         <ul class="items">
     }
     items.each do |item|
-      item[:condition] = true if item[:condition].nil?
+      item[:condition] = true if item[:condition].blank?
       if item[:condition] && ( (is_sprint && item[:for] == :sprint) ||
                                (!is_sprint && item[:for] == :product) ||
                                (item[:for] == :both) )
@@ -35,7 +35,7 @@ module RbMasterBacklogsHelper
   end
   
   def date_or_nil(date)
-    date.nil? ? '' : date.strftime('%Y-%m-%d')
+    date.blank? ? '' : date.strftime('%Y-%m-%d')
   end
   
   def editable_if_sprint(backlog)

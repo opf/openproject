@@ -50,7 +50,7 @@ module Backlogs
         def available_filters_with_backlogs_issue_type
             @available_filters = available_filters_without_backlogs_issue_type
   
-            if Story.trackers.length == 0 or Task.tracker.nil?
+            if Story.trackers.length == 0 or Task.tracker.blank?
                 backlogs_filters = { }
             else
                 backlogs_filters = {

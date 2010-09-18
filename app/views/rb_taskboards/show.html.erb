@@ -81,7 +81,7 @@
   </div>
   <!-- end of templates -->
   <div id="issue_editor"> </div>
-  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.now : @last_updated.updated_on) )  %></div>
+  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_on) )  %></div>
   <div id="charts"> </div>
   <div id="preloader">
     <div id="spinner"> </div>

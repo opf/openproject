@@ -13,7 +13,7 @@
   <div class="meta">
     <div class="story_id"><%= task.parent_id %></div>
     <div class="status_id"><%= task.status_id %></div>
-    <div class="previous"><%= task.right_sibling.nil? ? '' : task.right_sibling.id %></div>
+    <div class="previous"><%= task.right_sibling.blank? ? '' : task.right_sibling.id %></div>
     <%= render :partial => "shared/model_errors", :object => task.errors %>  
   </div>
 </div>

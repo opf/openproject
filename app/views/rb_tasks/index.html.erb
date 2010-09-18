@@ -1,5 +1,5 @@
 <div>
-  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.nil? ? Time.parse(params[:after]) : @last_updated.updated_on), 0.001 )  %></div>
+  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.parse(params[:after]) : @last_updated.updated_on), 0.001 )  %></div>
   <%= render :partial => "task", :collection => @tasks, :locals => { :include_meta => @include_meta } %>
   <%- if @impediments %>
   <%= render :partial => "impediment", :collection => @impediments, :locals => { :include_meta => @include_meta }%>

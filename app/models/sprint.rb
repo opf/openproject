@@ -192,7 +192,7 @@ class Sprint < Version
     end
    
     def has_wiki_page
-        return false if wiki_page_title.nil? || wiki_page_title.blank?
+        return false if wiki_page_title.blank?
 
         page = project.wiki.find_page(self.wiki_page_title)
         return false if !page
@@ -208,9 +208,7 @@ class Sprint < Version
             return ''
         end
 
-        if wiki_page_title.nil? || wiki_page_title.blank?
-            self.update_attribute(:wiki_page_title, Wiki.titleize(self.name))
-        end
+        self.update_attribute(:wiki_page_title, Wiki.titleize(self.name)) if wiki_page_title.blank?
 
         page = project.wiki.find_page(self.wiki_page_title)
         template = project.wiki.find_page(Setting.plugin_redmine_backlogs[:wiki_template])

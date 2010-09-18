@@ -116,7 +116,7 @@ module Cards
                         geom.elements.each('Markup-margin') do |m|
                             margin = m.attributes['size']
                         end
-                        margin = "1mm" if margin.nil?
+                        margin = "1mm" if margin.blank?
     
                         geom.elements.each('Layout') do |layout|
                             label = {

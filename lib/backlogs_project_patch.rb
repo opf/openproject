@@ -31,16 +31,16 @@ module Backlogs
 
       case cat
         when :error
-          if subkey.nil?
+          if subkey.blank?
             raise "Already reported #{key.inspect}" if @errors.include?(key)
-            @errors[key] = value.nil? ? nil : (!!value)
+            @errors[key] = value.blank? ? nil : (!!value)
 
           else
             raise "Already reported #{key.inspect}" if @errors.include?(key) && ! @errors[key].is_a?(Hash)
             @errors[key] ||= {}
 
             raise "Already errors #{key.inspect}/#{subkey.inspect}" if @errors[key].include?(subkey)
-            @errors[key][subkey] = value.nil? ? nil : (!!value)
+            @errors[key][subkey] = value.blank? ? nil : (!!value)
           end
 
         when :info
@@ -53,9 +53,9 @@ module Backlogs
       score = {}
       @errors.each_pair{ |k, v|
         if v.is_a? Hash
-          score[k] = v.values.select{|elt| !elt.nil? }.inject(true){|all, elt| all && elt}
+          score[k] = v.values.select{|elt| !elt.blank? }.inject(true){|all, elt| all && elt}
         else
-          score[k] = v if !v.nil?
+          score[k] = v if !v.blank?
         end
       }
       return ((score.values.select{|v| v}.size * 10) / score.size)
@@ -66,10 +66,10 @@ module Backlogs
       @errors.each_pair{|k, v|
         if v.is_a? Hash
           v.each_pair {|sk, rv|
-            score["#{prefix}#{k}_#{sk}".intern] = rv if !rv.nil?
+            score["#{prefix}#{k}_#{sk}".intern] = rv if !rv.blank?
           }
         else
-          score["#{prefix}#{k}".intern] = v if !v.nil?
+          score["#{prefix}#{k}".intern] = v if !v.blank?
         end
       }
       return score
@@ -124,7 +124,7 @@ module Backlogs
         @scrum_statistics[:info, :closed_sprints] = closed_sprints
   
         @scrum_statistics[:error, :product_backlog, :is_empty] = (self.status == Project::STATUS_ACTIVE && backlog.length == 0)
-        @scrum_statistics[:error, :product_backlog, :unsized] = backlog.inject(false) {|unsized, story| unsized || story.story_points.nil? }
+        @scrum_statistics[:error, :product_backlog, :unsized] = backlog.inject(false) {|unsized, story| unsized || story.story_points.blank? }
   
         @scrum_statistics[:error, :sprint, :unsized] = Issue.exists?(["story_points is null and parent_id is null and fixed_version_id in (?) and tracker_id in (?)", all_sprints.collect{|s| s.id}, Story.trackers])
         @scrum_statistics[:error, :sprint, :unestimated] = Issue.exists?(["estimated_hours is null and not parent_id is null and fixed_version_id in (?) and tracker_id = ?", all_sprints.collect{|s| s.id}, Task.tracker])

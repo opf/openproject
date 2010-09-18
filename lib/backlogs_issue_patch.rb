@@ -116,7 +116,7 @@ module Backlogs
         elsif not Task.tracker.nil?
           begin
             story = self.story
-            if not story.nil?
+            if not story.blank?
               connection.execute "update issues set tracker_id = #{connection.quote(Task.tracker)}, fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
               touched_sprint = story.fixed_version
             end

@@ -5,7 +5,7 @@ class Task < Issue
 
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
-    return nil if task_tracker.nil? or task_tracker == ''
+    return nil if task_tracker.blank?
     return Integer(task_tracker)
   end
 
@@ -99,7 +99,7 @@ class Task < Issue
   
   # assumes the task is already under the same story as 'id'
   def move_after(id)
-    id = nil if id.respond_to?('empty?') && id.empty?
+    id = nil if id.respond_to?('blank?') && id.blank?
     if id.nil?
       sib = self.siblings
       move_to_left_of sib[0].id if sib.any?

@@ -57,7 +57,7 @@ class Story < Issue
 
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
-        return [] if trackers == '' or trackers.nil?
+        return [] if trackers.blank?
 
         return trackers.map { |tracker| Integer(tracker) }
     end
@@ -77,7 +77,7 @@ class Story < Issue
       end
 
       # if it's the first story, move it to the 1st position
-      if prev.nil?
+      if prev.blank?
         insert_at
         move_to_top
 
@@ -96,7 +96,7 @@ class Story < Issue
     def set_points(p)
         self.init_journal(User.current)
 
-        if p.nil? || p == '' || p == '-'
+        if p.blank? || p == '-'
             self.update_attribute(:story_points, nil)
             return
         end
@@ -117,7 +117,7 @@ class Story < Issue
         # For reasons I have yet to uncover, activerecord will
         # sometimes return numbers as Fixnums that lack the nil?
         # method. Comparing to nil should be safe.
-        return notsized if story_points == nil
+        return notsized if story_points == nil || story_points.blank?
         return 'S' if story_points == 0
         return story_points.to_s
     end

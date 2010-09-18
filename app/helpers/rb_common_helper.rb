@@ -6,7 +6,7 @@ module RbCommonHelper
   end
 
   def assignee_name_or_empty(story)
-    story.nil? || story.assigned_to.nil? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
+    story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
   end
 
   def blocked_ids(blocked)
@@ -14,7 +14,7 @@ module RbCommonHelper
   end
 
   def build_inline_style(task)
-    task.nil? || task.assigned_to.nil? ? '' : "style='background-color:#{task.assigned_to.backlogs_preference(:task_color)}'"
+    task.blank? || task.assigned_to.blank? ? '' : "style='background-color:#{task.assigned_to.backlogs_preference(:task_color)}'"
   end
 
   def breadcrumb_separator
@@ -46,7 +46,7 @@ module RbCommonHelper
   end
 
   def story_points_or_empty(story)
-    story.story_points.nil? ? "" : story.story_points
+    story.story_points.blank? ? "" : story.story_points
   end
 
   def record_id_or_empty(story)
@@ -102,15 +102,15 @@ module RbCommonHelper
   end
   
   def updated_on_with_milliseconds(story)
-    date_string_with_milliseconds(story.updated_on, 0.001) unless story.nil?
+    date_string_with_milliseconds(story.updated_on, 0.001) unless story.blank?
   end
 
   def date_string_with_milliseconds(d, add=0)
-    return '' if d.nil?
+    return '' if d.blank?
     d.strftime("%B %d, %Y %H:%M:%S") + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
 
   def remaining_hours(item)
-    item.remaining_hours.nil? || item.remaining_hours==0 ? "" : item.remaining_hours
+    item.remaining_hours.blank? || item.remaining_hours==0 ? "" : item.remaining_hours
   end
 end
