@@ -11,6 +11,7 @@ module Backlogs
 
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
+        before_validation :backlogs_before_validation
         after_save  :backlogs_after_save
       end
     end
@@ -91,6 +92,13 @@ module Backlogs
         end
       end
   
+      def backlogs_before_validation
+        if self.tracker_id == Task.tracker
+          self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
+          self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
+        end
+      end
+
       def backlogs_after_save
         ## automatically sets the tracker to the task tracker for
         ## any descendant of story, and follow the version_id

@@ -156,3 +156,8 @@ Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
 
   raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/) 
 end
+
+Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
+  issue = Issue.find_by_subject(subject)
+  "#{@story[attribute]}".should == value
+end
