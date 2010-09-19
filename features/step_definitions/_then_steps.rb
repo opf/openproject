@@ -159,5 +159,5 @@ end
 
 Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
   issue = Issue.find_by_subject(subject)
-  "#{@story[attribute]}".should == value
+  issue[attribute].should == value.to_i
 end
