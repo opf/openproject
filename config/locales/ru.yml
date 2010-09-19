@@ -230,6 +230,7 @@ ru:
   button_delete: Удалить
   button_download: Загрузить
   button_edit: Редактировать
+  button_edit_associated_wikipage: "Редактировать связанную wiki-страницу: {{page_title}}"
   button_list: Список
   button_lock: Заблокировать
   button_login: Вход
@@ -1032,4 +1033,3 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"

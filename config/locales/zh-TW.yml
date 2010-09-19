@@ -366,6 +366,7 @@
   field_redirect_existing_links: 重新導向現有連結
   field_estimated_hours: 預估工時
   field_column_names: 欄位
+  field_time_entries: 耗用工時
   field_time_zone: 時區
   field_searchable: 可用做搜尋條件
   field_default_value: 預設值
@@ -378,8 +379,9 @@
   field_group_by: 結果分組方式
   field_sharing: 共用
   field_parent_issue: 父工作項目
-  field_time_entries: 耗用工時
-    
+  field_member_of_group: 所屬群組
+  field_assigned_to_role: 所屬角色
+  
   setting_app_title: 標題
   setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
@@ -870,6 +872,7 @@
   button_create_and_continue: 繼續建立
   button_test: 測試
   button_edit: 編輯
+  button_edit_associated_wikipage: "編輯相關 Wiki 頁面: {{page_title}}"
   button_add: 新增
   button_change: 修改
   button_apply: 套用
@@ -998,6 +1001,4 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+
