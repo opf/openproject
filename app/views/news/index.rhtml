@@ -45,6 +45,7 @@
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
+  <%= stylesheet_link_tag 'scm' %>
 <% end %>
 
 <% html_title(l(:label_news_plural)) -%>
