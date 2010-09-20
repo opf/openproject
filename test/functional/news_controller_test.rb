@@ -65,12 +65,12 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
   
-  def test_post_new
+  def test_post_create
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'news_added'
 
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, :news => { :title => 'NewsControllerTest',
+    post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
                                             :description => 'This is the description',
                                             :summary => '' }
     assert_redirected_to 'projects/ecookbook/news'
@@ -98,9 +98,9 @@ class NewsControllerTest < ActionController::TestCase
     assert_equal 'Description changed by test_post_edit', news.description
   end
 
-  def test_post_new_with_validation_failure
+  def test_post_create_with_validation_failure
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, :news => { :title => '',
+    post :create, :project_id => 1, :news => { :title => '',
                                             :description => 'This is the description',
                                             :summary => '' }
     assert_response :success

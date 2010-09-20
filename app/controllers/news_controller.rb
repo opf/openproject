@@ -18,9 +18,9 @@
 class NewsController < ApplicationController
   default_search_scope :news
   model_object News
-  before_filter :find_model_object, :except => [:new, :index, :preview]
-  before_filter :find_project_from_association, :except => [:new, :index, :preview]
-  before_filter :find_project, :only => [:new, :preview]
+  before_filter :find_model_object, :except => [:new, :create, :index, :preview]
+  before_filter :find_project_from_association, :except => [:new, :create, :index, :preview]
+  before_filter :find_project, :only => [:new, :create, :preview]
   before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
@@ -46,11 +46,17 @@ class NewsController < ApplicationController
 
   def new
     @news = News.new(:project => @project, :author => User.current)
+  end
+
+  def create
+    @news = News.new(:project => @project, :author => User.current)
     if request.post?
       @news.attributes = params[:news]
       if @news.save
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'news', :action => 'index', :project_id => @project
+      else
+        render :action => 'new'
       end
     end
   end
