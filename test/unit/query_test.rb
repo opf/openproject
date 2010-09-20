@@ -400,7 +400,7 @@ class QueryTest < ActiveSupport::TestCase
                                [group1.name, group1.id],
                                [group2.name, group2.id]
                               ]
-        assert_equal expected_group_list, @query.available_filters["member_of_group"][:values]
+        assert_equal expected_group_list.sort, @query.available_filters["member_of_group"][:values].sort
       end
 
     end
