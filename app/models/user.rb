@@ -352,6 +352,12 @@ class User < Principal
       false
     end
   end
+
+  # Is the user allowed to do the specified action on any project?
+  # See allowed_to? for the actions and valid options.
+  def allowed_to_globally?(action, options)
+    allowed_to?(action, nil, options.reverse_merge(:global => true))
+  end
   
   def self.current=(user)
     @current_user = user
