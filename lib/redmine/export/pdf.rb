@@ -154,7 +154,7 @@ module Redmine
           if query.grouped? && (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
             pdf.Cell(277, row_height, 
-              (group.blank? ? 'None' : group.to_s) + " (#{@issue_count_by_group[group]})",
+              (group.blank? ? 'None' : group.to_s) + " (#{query.issue_count_by_group[group]})",
               1, 1, 'L')
             pdf.SetFontStyle('',8)
             previous_group = group
@@ -255,7 +255,7 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
-        pdf.MultiCell(155,5, @issue.description,"BR")
+        pdf.MultiCell(155,5, issue.description,"BR")
         
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
