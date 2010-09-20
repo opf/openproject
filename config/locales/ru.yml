@@ -1033,3 +1033,4 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
+  text_are_you_sure_with_children: Delete issue and all child issues?

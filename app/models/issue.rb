@@ -382,6 +382,11 @@ class Issue < ActiveRecord::Base
     done_date = start_date + ((due_date - start_date+1)* done_ratio/100).floor
     return done_date <= Date.today
   end
+
+  # Does this issue have children?
+  def children?
+    !leaf?
+  end
   
   # Users the issue can be assigned to
   def assignable_users

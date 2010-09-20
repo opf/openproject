@@ -941,3 +941,4 @@ ja:
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?

@@ -980,3 +980,4 @@ lt:
   field_member_of_group: Member of Group
   field_assigned_to_role: Member of Role
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
