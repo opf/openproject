@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'ar_condition'
+
 class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
@@ -306,13 +308,16 @@ class Mailer < ActionMailer::Base
   # * :days     => how many days in the future to remind about (defaults to 7)
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
+  # * :users    => array of user ids who should be reminded
   def self.reminders(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
+    user_ids = options[:users]
 
     s = ARCondition.new ["#{IssueStatus.table_name}.is_closed = ? AND #{Issue.table_name}.due_date <= ?", false, days.day.from_now.to_date]
     s << "#{Issue.table_name}.assigned_to_id IS NOT NULL"
+    s << ["#{Issue.table_name}.assigned_to_id IN (?)", user_ids] if user_ids.present?
     s << "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
     s << "#{Issue.table_name}.project_id = #{project.id}" if project
     s << "#{Issue.table_name}.tracker_id = #{tracker.id}" if tracker
