@@ -1,10 +1,13 @@
 module CostQuery::CustomFieldMixin
+  include CostQuery::QueryUtils
+
   attr_reader :custom_field
   SQL_TYPES = {
-    'string'  => 'varchar',       'text'  => 'text',
-    'list'    => 'varchar',       'date'  => 'date',
-    'int'     => 'decimal(60,3)', 'float' => 'decimal(60,3)',
-    'bool'    => 'boolean' }
+    'string' => mysql? ? 'char' : 'varchar',
+    'list'   => mysql? ? 'char' : 'varchar',
+    'text'  => 'text',          'date'  => 'date',
+    'int'   => 'decimal(60,3)', 'float' => 'decimal(60,3)',
+    'bool'  => 'boolean' }
 
   def self.extended(base)
     base.inherited_attribute :factory
