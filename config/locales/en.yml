@@ -17,7 +17,3 @@ en:
 
   label_count: Count
   label_sum: Sum
-
-  label_rows: Rows
-  label_columns: Columns
-  label_available_group_bys: Available Group By&#39s

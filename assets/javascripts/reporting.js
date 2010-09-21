@@ -152,6 +152,26 @@ function remove_filter(field) {
     enable_select_option($("add_filter_select"), field);
 }
 
+function show_group_by(group_by, target) {
+    var source, group_option, i;
+    source = $("group_by_container");
+    group_option = null;
+    // find group_by option-tag in target select-box
+    for (i = 0; i < source.options.length; i++) {
+        if (source.options[i].value == group_by) {
+            group_option = source.options[i];
+            source.options[i] = null;
+            break;
+        }
+    }
+    // die if the appropriate option-tag can not be found
+    if (group_option === null) {
+        return;
+    }
+    // move the option-tag to the taget select-box while keepings its data
+    target.options[target.length] = group_option;
+}
+
 function select_operator(field, operator) {
     var select, i;
     select = $("operators_" + field);
@@ -218,21 +238,12 @@ function restore_filter(field, operator, values) {
     }
 }
 
-function move_group_by(group_by, target) {
-    group_by = $(group_by);
-    target = $(target);
-    if (group_by === null || target === null) {
-        return;
-    }
-    target.insert({ bottom: group_by.remove() });
+function show_group_by_column(group_by) {
+    show_group_by(group_by, $('group_by_columns'));
 }
 
-function group_by_as_column(group_by) {
-    move_group_by(group_by, $('groups[columns]'));
-}
-
-function group_by_as_row(group_by) {
-    move_group_by(group_by, $('groups[rows]'));
+function show_group_by_row(group_by) {
+    show_group_by(group_by, $('group_by_rows'));
 }
 
 function disable_all_filters() {
@@ -251,40 +262,12 @@ function disable_all_filters() {
 }
 
 function disable_all_group_bys() {
-    [$('groups[columns]'), $('groups[rows]')].each(function(o) {
-        o.childElements().each(function(group_by){
-            move_group_by(group_by, $('available_groups'));
-        });
+    var destination;
+    destination = $('group_by_container');
+    [$('group_by_columns'), $('group_by_rows')].each(function (origin) {
+        selectAllOptions(origin);
+        moveOptions(origin, destination);
     });
-}
-
-function serialize_filter_and_group_by() {
-    var ret_str = Form.serialize('query_form');
-    var rows = Sortable.serialize('groups[rows]');
-    var columns = Sortable.serialize('groups[columns]');
-    if (rows !== null && rows != "") {
-        ret_str += "&" + rows;
-    }
-    if(columns !== null && columns != "") {
-        ret_str += "&" + columns;
-    }
-    return ret_str;
-}
-
-function init_group_bys() {
-    var options = {
-        tag:'span',
-        overlap:'horizontal',
-        constraint:'horizontal',
-        containment: ['groups[columns]','groups[rows]','available_groups'],
-        only: "group_by",
-        dropOnEmpty: true,
-        format: /^(.*)$/,
-        hoverclass: 'drag_container_accept'
-    };
-    Sortable.create('groups[columns]', options);
-    Sortable.create('groups[rows]', options);
-    Sortable.create('available_groups', options);
 }
 
 function defineElementGetter() {

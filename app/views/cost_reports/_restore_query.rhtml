@@ -13,13 +13,12 @@ set_filters = function() {
 set_group_bys = function() {
   // Activate recent group_bys on loading
   <% query.group_bys.each do |group_by| %>
-    <%= "group_by_as_column('#{group_by.class.underscore_name}');" if group_by.column? %>
-    <%= "group_by_as_row('#{group_by.class.underscore_name}');" if group_by.row? %>
+    <%= "show_group_by_column('#{group_by.class.underscore_name}');" if group_by.column? %>
+    <%= "show_group_by_row('#{group_by.class.underscore_name}');" if group_by.row? %>
   <% end %>
 }
 
 restore_query_inputs = function() {
-  init_group_bys();
   disable_all_filters();
   disable_all_group_bys();
   set_filters();

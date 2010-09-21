@@ -97,6 +97,66 @@
   border: none;
 }
 
+.group_by {
+  background-color: transparent;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: 1px solid #900;
+  height: 10px;
+  width: 10px;
+  margin: 1px;
+}
+
+.group_by:hover {
+  background-color: #EEE;
+}
+
+.move {
+  height: 25px;
+  width: 25px;
+}
+
+.sort {
+  height: 15px;
+  width: 15px;
+}
+
+.moveUp {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_up.gif);
+}
+
+.moveDown {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_down.gif);
+}
+
+.moveLeft {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_left.gif);
+}
+
+.moveRight {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_right.gif);
+}
+
+.sortUp {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_up.gif);
+}
+
+.sortDown {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_down.gif);
+}
+
 .filter_rem {
   overflow: hidden;
   font-size: 0 !important;
@@ -119,30 +179,4 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border--radius: 5px;
-}
-
-.drag_element {
-  cursor: move;
-  background-color: #60D8FB;
-  padding: 2px 5px;
-  margin: 2px;
-  border: 1px solid #333333;
-  white-space: nowrap;
-}
-
-.drag_container {
-  padding: 10px;
-  background-color: #E3E3E3;
-  border: 1px dotted #CCCCCC;
-  margin-bottom: 4px;
-}
-
-.drag_target {
-  width: 250px;
-  min-height: 10px;
-}
-
-.drag_container_accept {
-  background-color: #F5F5C5;
-  border: 1px solid #BBBBBB;
 }
