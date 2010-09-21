@@ -156,10 +156,12 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/news/2", :controller => 'news', :action => 'show', :id => '2'
     should_route :get, "/projects/567/news/new", :controller => 'news', :action => 'new', :project_id => '567'
     should_route :get, "/news/234", :controller => 'news', :action => 'show', :id => '234'
+    should_route :get, "/news/567/edit", :controller => 'news', :action => 'edit', :id => '567'
 
     should_route :post, "/projects/567/news", :controller => 'news', :action => 'create', :project_id => '567'
-    should_route :post, "/news/567/edit", :controller => 'news', :action => 'edit', :id => '567'
     should_route :post, "/news/567/destroy", :controller => 'news', :action => 'destroy', :id => '567'
+
+    should_route :put, "/news/567/edit", :controller => 'news', :action => 'update', :id => '567'
   end
 
   context "projects" do

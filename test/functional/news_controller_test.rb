@@ -90,9 +90,9 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
   
-  def test_post_edit
+  def test_put_update
     @request.session[:user_id] = 2
-    post :edit, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
+    put :update, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
     assert_redirected_to 'news/1'
     news = News.find(1)
     assert_equal 'Description changed by test_post_edit', news.description
