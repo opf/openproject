@@ -73,18 +73,6 @@ class NewsController < ApplicationController
     end
   end
 
-  def add_comment
-    @comment = Comment.new(params[:comment])
-    @comment.author = User.current
-    if @news.comments << @comment
-      flash[:notice] = l(:label_comment_added)
-      redirect_to :action => 'show', :id => @news
-    else
-      show
-      render :action => 'show'
-    end
-  end
-
   def destroy_comment
     @news.comments.find(params[:comment_id]).destroy
     redirect_to :action => 'show', :id => @news

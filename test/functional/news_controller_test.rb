@@ -111,26 +111,6 @@ class NewsControllerTest < ActionController::TestCase
                               :content => /1 error/
   end
   
-  def test_add_comment
-    @request.session[:user_id] = 2
-    post :add_comment, :id => 1, :comment => { :comments => 'This is a NewsControllerTest comment' }
-    assert_redirected_to 'news/1'
-    
-    comment = News.find(1).comments.find(:first, :order => 'created_on DESC')
-    assert_not_nil comment
-    assert_equal 'This is a NewsControllerTest comment', comment.comments
-    assert_equal User.find(2), comment.author
-  end
-  
-  def test_empty_comment_should_not_be_added
-    @request.session[:user_id] = 2
-    assert_no_difference 'Comment.count' do
-      post :add_comment, :id => 1, :comment => { :comments => '' }
-      assert_response :success
-      assert_template 'show'
-    end
-  end
-  
   def test_destroy_comment
     comments_count = News.find(1).comments.size
     @request.session[:user_id] = 2
