@@ -113,7 +113,7 @@ class CostReportsController < ApplicationController
     @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
     session[:unit_id] = @unit_id
     if @unit_id != 0
-      @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
+      @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
   end
