@@ -116,7 +116,7 @@ class CostReportsController < ApplicationController
   #   set the @cost_types -> this is used to determine which tabs to display
   #   possibly set the @cost_type -> this is used to select the proper units for display
   def set_cost_types(value = nil)
-    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].collect(&:to_i) || (-1..CostType.count)
+    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i) || (-1..CostType.count)
     @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
     @unit_id = 0 unless @cost_types.include? @unit_id
     session[:unit_id] = @unit_id
