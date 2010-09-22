@@ -52,8 +52,8 @@ class CostReportsController < ApplicationController
 
   def http_group_parameters
     if params[:groups]
-      rows = params[:groups][:rows]
-      columns = params[:groups][:columns]
+      rows = params[:groups][:rows].reject { |gb| gb.empty? }
+      columns = params[:groups][:columns].reject { |gb| gb.empty? }
     end
     {:rows => (rows || []), :columns => (columns || [])}
   end
@@ -94,7 +94,6 @@ class CostReportsController < ApplicationController
     CostQuery::QueryUtils.cache.clear
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
-
     session[:cost_query] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
     @query.tap do |q|

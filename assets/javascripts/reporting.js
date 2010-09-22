@@ -152,24 +152,15 @@ function remove_filter(field) {
     enable_select_option($("add_filter_select"), field);
 }
 
-function show_group_by(group_by, target) {
-    var source, group_option, i;
-    source = $("group_by_container");
-    group_option = null;
-    // find group_by option-tag in target select-box
+function show_group_by(group_by, source) {
+    // find group_by option-tag in source select-box
     for (i = 0; i < source.options.length; i++) {
         if (source.options[i].value == group_by) {
-            group_option = source.options[i];
-            source.options[i] = null;
+            source.value = group_by;
+            add_group_by(source);
             break;
         }
     }
-    // die if the appropriate option-tag can not be found
-    if (group_option === null) {
-        return;
-    }
-    // move the option-tag to the taget select-box while keepings its data
-    target.options[target.length] = group_option;
 }
 
 function select_operator(field, operator) {
@@ -198,6 +189,24 @@ function restore_select_values(select, values) {
             }
         }
     }
+}
+
+function select_active_group_bys() {
+    [$('group_by_columns'), $('group_by_rows')].each(function(select) {
+        select.multiple = true;
+        for (var i = 0; i < select.options.length; i++) {
+            if ($(select.options[i].value + "_" + select.id) !== null) {
+                select.options[i].selected = true;
+            }
+        }
+    });
+}
+
+function reset_group_by_selects() {
+    [$('group_by_columns'), $('group_by_rows')].each(function(select) {
+        select.multiple = false;
+        select.options[0].selected = true;
+    });
 }
 
 function find_arguments(field) {
@@ -238,12 +247,161 @@ function restore_filter(field, operator, values) {
     }
 }
 
-function show_group_by_column(group_by) {
-    show_group_by(group_by, $('group_by_columns'));
+function add_group_by(select) {
+    field = select.value;
+    group_by = init_group_by(field + "_" + select.id);
+    group_by.setAttribute('value', field);
+    select.up().appendChild(group_by);
+    label = init_label(group_by);
+    label.innerHTML = sanitized_selected(select);
+    select.value = "";
+    group_by.appendChild(label);
+    group_by.appendChild(init_arrow(group_by));
+    if (!(first_in_row(group_by))) {
+        update_arrow(group_by.previous());
+    }
+    disable_select_option($('group_by_columns'), field);
+    disable_select_option($('group_by_rows'), field);
+}
+
+function remove_group_by(arrow) {
+    group_by = arrow.up();
+    prev = group_by.previous();
+    enable_select_option($('group_by_columns'), group_by.getAttribute('value'));
+    enable_select_option($('group_by_rows'), group_by.getAttribute('value'));
+    group_by.remove();
+    if (prev !== null) {
+        update_arrow(prev);
+    }
+}
+
+function init_arrow(group_by) {
+    arrow = document.createElement('img');
+    arrow.setAttribute('id', group_by.id + '_arrow');
+    arrow.setAttribute('class', 'arrow in_row arrow_left');
+    init_arrow_hover_effects(arrow);
+    return arrow;
+}
+
+function init_arrow_hover_effects(arrow) {
+    Event.observe(arrow, 'mouseover', function() { arrow_start_removal_hover(arrow) });
+    Event.observe(arrow, 'mouseout', function() { arrow_end_removal_hover(arrow) });
+    Event.observe(arrow, 'mousedown', function() { remove_group_by(arrow) });
+}
+
+function arrow_start_removal_hover(arrow) {
+    arrow.className = arrow.className + "_remove";
+}
+
+function arrow_end_removal_hover(arrow) {
+    arrow.className = arrow.className.replace(/\_remove/g, "");
+}
+
+function update_arrow(group_by) {
+    if (last_in_row(group_by)) {
+        $(group_by.id + "_arrow").className = "arrow in_row arrow_left";
+    } else {
+        $(group_by.id + "_arrow").className = "arrow in_row arrow_both";
+    }
+}
+
+function init_label(group_by) {
+    group_by_label = document.createElement('label');
+    group_by_label.setAttribute('for', group_by.id);
+    group_by_label.setAttribute('class', 'in_row group_by_label');
+    group_by_label.setAttribute('id', group_by.id + '_label');
+    init_group_by_hover_effects(group_by_label);
+    return group_by_label;
+}
+
+function sanitized_selected(select) {
+    return select.descendants().select(function(e) { return e.value == select.value }).first().innerHTML.strip().replace(/(&(\w+;)|\W)/g, "");
+}
+
+function init_group_by(field) {
+    group_by = document.createElement('span');
+    group_by.className = 'in_row drag_element group_by';
+    group_by.id = field;
+    return group_by;
+}
+
+function init_group_by_hover_effects(group_by_label) {
+    Event.observe(group_by_label, 'mouseover', function(event) {
+        if (checked_event_target(group_by_label, event)) {
+            group_by_start_hover(group_by_label);
+        }
+    });
+    Event.observe(group_by_label, 'mouseout', function(event) {
+        group_by_end_hover(group_by_label);
+    });
+}
+
+function checked_event_target(event_target, event) {
+    var target = event_target;
+    var mouse_over_element;
+    //So let's check to see what the mouse is now over, and assign it to mouse_over_element...
+    if(event.toElement) {
+       mouse_over_element = event.toElement;
+    }
+    else if(event.relatedTarget) {
+      mouse_over_element = event.relatedTarget;
+    }
+    //In the event that the mouse is over something outside the DOM (like an alert window)...
+    if(mouse_over_element == null) {
+       return;
+    }
+    return event_target == mouse_over_element;
+}
+
+function group_by_start_hover(group_by_label) {
+    group_by = group_by_label.up();
+    arrow = $(group_by.id + '_arrow');
+    if (last_in_row(group_by)) {
+        arrow.className = 'arrow in_row arrow_left_hover';
+    } else {
+        arrow.className = 'arrow in_row arrow_both_hover_left';
+    }
+    if (!(first_in_row(group_by))) {
+        $(group_by.previous().id + '_arrow').className = 'arrow in_row arrow_both_hover_right';
+    }
+}
+
+function group_by_end_hover(group_by_label) {
+    group_by = group_by_label.up();
+    arrow = $(group_by.id + '_arrow');
+    if (last_in_row(group_by)) {
+        arrow.className = 'arrow in_row arrow_left';
+    } else {
+        arrow.className = 'arrow in_row arrow_both';
+    }
+    if (!(first_in_row(group_by))) {
+        $(group_by.previous().id + '_arrow').className = 'arrow in_row arrow_both';
+    }
+}
+
+function first_in_row(group_by) {
+    return ((group_by.previous() == null) || (!(group_by.previous().className.include('group_by'))));
+}
+
+function last_in_row(group_by) {
+    return ((group_by.next() == null) || (!(group_by.next().className.include('group_by'))));
+}
+
+function move_group_by(group_by, target) {
+    group_by = $(group_by);
+    target = $(target);
+    if (group_by === null || target === null) {
+        return;
+    }
+    target.insert({ bottom: group_by.remove() });
 }
 
 function show_group_by_row(group_by) {
     show_group_by(group_by, $('group_by_rows'));
+}
+
+function show_group_by_column(group_by) {
+    show_group_by(group_by, $('group_by_columns'));
 }
 
 function disable_all_filters() {
@@ -262,12 +420,41 @@ function disable_all_filters() {
 }
 
 function disable_all_group_bys() {
-    var destination;
-    destination = $('group_by_container');
-    [$('group_by_columns'), $('group_by_rows')].each(function (origin) {
-        selectAllOptions(origin);
-        moveOptions(origin, destination);
+    [$('group_by_columns'), $('group_by_rows')].each(function(origin) {
+        origin.up().siblings().each(function(sibling) {
+            if (sibling !== origin && sibling.className.include('group_by')) {
+                sibling.remove();
+            }
+        });
     });
+}
+
+function serialize_filter_and_group_by() {
+    var ret_str = Form.serialize('query_form');
+    var rows = Sortable.serialize('group_rows');
+    var columns = Sortable.serialize('group_columns');
+    if (rows !== null && rows != "") {
+        ret_str += "&" + rows;
+    }
+    if(columns !== null && columns != "") {
+        ret_str += "&" + columns;
+    }
+    return ret_str;
+}
+
+function init_group_bys() {
+    var options = {
+        tag:'span',
+        overlap:'horizontal',
+        constraint:'horizontal',
+        containment: ['group_columns','group_rows'],
+        only: "group_by",
+        dropOnEmpty: true,
+        format: /^(.*)$/,
+        hoverclass: 'drag_container_accept'
+    };
+    Sortable.create('group_columns', options);
+    Sortable.create('group_rows', options);
 }
 
 function defineElementGetter() {

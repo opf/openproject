@@ -91,8 +91,7 @@ function moveOptionDown(theSel) {
   }
 }
 
-function selectAllOptions(select)
-{
+function selectAllOptions(select) {
   select = $(select);
   for (var i=0; i<select.options.length; i++) {
     select.options[i].selected = true;
