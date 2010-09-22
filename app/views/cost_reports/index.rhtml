@@ -45,8 +45,10 @@
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
   <a href="?unit=0" class="<%= 'active' if @unit_id == 0 %>"><%= l(:label_money) %></a>
-  &bull; <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:caption_labor) %></a>
-  <% CostType.all.each do |t| %>
+  <% if @cost_types.include? -1 %>
+    &bull; <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:caption_labor) %></a>
+  <% end %>
+  <% CostType.find(:all).select {|t| @cost_types.include? t.id }.each do |t| %>
     &bull; <a href="?unit=<%= t.id%>" class="<%= 'active' if @unit_id == t.id %>"><%= t.unit_plural %></a>
   <% end %>
 </div>
