@@ -3,6 +3,6 @@ class CostQuery::Filter::Tweek < CostQuery::Filter::Base
   label :label_week_reporting
 
   def self.available_values(user)
-    1.upto(53).map {|i| [ l(label) + ' #' + i.to_s,i ]}
+    1.upto(53).map {|i| [ i.to_s, i ]}
   end
 end
