@@ -1,6 +1,7 @@
 ---
 en:
   units: Units
+  label_entry: "Cost Entry"
   label_less: "<"
   label_greater: ">"
   label_cost_entry_attributes: "Cost Entry Attributes"
@@ -11,6 +12,8 @@ en:
   label_year_reporting: "Year (Spent)"
   label_report: "Report"
   label_money: "Money"
+  label_columns: "Columns"
+  label_rows: "Rows"
 
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."

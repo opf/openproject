@@ -12,6 +12,8 @@ de:
   label_year_reporting: "Jahr der Buchung"
   label_report: "Report"
   label_money: "Geld"
+  label_columns: "Spalten"
+  label_rows: "Zeilen"
 
   text_costs_are_rounded_note: "Die angezeigten Werte sind gerunded. Alle Berechnungen basieren auf ungerundete Werte."
   information_restricted_depending_on_permission: "Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein."
