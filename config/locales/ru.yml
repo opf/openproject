@@ -900,7 +900,8 @@ ru:
   status_active: активен
   status_locked: заблокирован
   status_registered: зарегистрирован
-
+  
+  text_are_you_sure_with_children: Удалить задачу и все ее подзадачи?
   text_are_you_sure: Подтвердите
   text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту
   text_caracters_maximum: "Максимум {{count}} символов(а)."
@@ -1034,4 +1035,3 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
-  text_are_you_sure_with_children: Delete issue and all child issues?
