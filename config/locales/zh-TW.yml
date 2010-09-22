@@ -924,6 +924,7 @@
   text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
+  text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
   text_journal_changed: "{{label}} 從 {{old}} 變更為 {{new}}"
   text_journal_set_to: "{{label}} 設定為 {{value}}"
   text_journal_deleted: "{{label}} 已刪除 ({{old}})"
@@ -1001,5 +1002,4 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-
-  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field

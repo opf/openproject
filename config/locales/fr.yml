@@ -935,3 +935,4 @@ fr:
   field_assigned_to_role: Member of Role
   button_edit_associated_wikipage: "Modifier la page de Wiki associée: {{page_title}}"
   text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field

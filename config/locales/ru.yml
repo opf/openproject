@@ -371,6 +371,7 @@ ru:
   field_subject: Тема
   field_subproject: Подпроект
   field_summary: Сводка
+  field_text: Текстовое поле
   field_time_entries: Затраченное время
   field_time_zone: Часовой пояс
   field_title: Название
