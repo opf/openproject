@@ -87,7 +87,13 @@
 
 /* Aligning filter elements at the top. */
 .new_cost_query fieldset#filters table td {
-  vertical-align:top;
+  vertical-align: top;
+}
+
+.new_cost_query fieldset#filters table td > label {
+  left: 3px;
+  top: 3px;
+  position: relative;
 }
 
 /* Overwriting styling for headlines within the query. */
@@ -172,11 +178,23 @@
 
 .icon-filter-rem {
   background-image: url(../images/remove.png);
+  margin-top: -9px;
+  margin-left: 18px;
+  position: absolute;
 }
 
 .filter {
-  border: 2px solid #CCC;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border--radius: 5px;
+  border-radius: 5px;
+}
+
+.new_cost_query fieldset#filters table tr.filter:hover {
+  color: #000;
+  outline: #ccc 1px solid;
+  outline-offset: 1px;
+  background: #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
