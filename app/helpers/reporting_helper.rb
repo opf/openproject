@@ -1,8 +1,8 @@
 module ReportingHelper
   include QueriesHelper
 
-  def l(value)
-    return value if value.respond_to? :to_str
+  def l(*values)
+    return values.first if values.size == 1 and values.first.respond_to? :to_str
     super
   end
 
