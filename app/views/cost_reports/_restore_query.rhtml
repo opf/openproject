@@ -3,7 +3,7 @@
 
 set_filters = function() {
   // Activate recent filters on loading
-  <% query.filters.select {|f| f.class.display? }.each do |f| %>
+  <% query.filters.select {|f| f.display? }.each do |f| %>
     restore_filter("<%= f.class.underscore_name %>",
                    "<%= f.operator.to_s %>"<%= "," if f.values %>
                     <%= f.values.to_json if f.values  %>);

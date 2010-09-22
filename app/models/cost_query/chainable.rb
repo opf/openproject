@@ -251,6 +251,10 @@ class CostQuery < ActiveRecord::Base
       @table_name || last_table
     end
 
+    def display?
+      self.class.display?
+    end
+
     def table_name
       self.class.table_name
     end
