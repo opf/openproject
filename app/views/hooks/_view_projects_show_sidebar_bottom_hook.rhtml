@@ -7,7 +7,11 @@ remove_old_sidebar = function() {
     $("sidebar").down().siblings()[1].remove();
     // Make the hours a link, which are in the first para
     reporting_link = "<%= link_to('PLACEHOLDER', {
-      :controller => 'cost_reports', :project_id => project }).gsub('"', "'") %>";
+      :controller => 'cost_reports', :project_id => project,
+      :unit => -1, :set_filter => 1,
+      :values => {:project_id => [project.id]},
+      :operators => {:project_id => '='},
+      :fields => [:project_id] }).gsub('"', "'") %>";
     old_html = $("sidebar").down().siblings().first().innerHTML;
     $("sidebar").down().siblings().first().innerHTML = reporting_link.replace("PLACEHOLDER", old_html)
   }
