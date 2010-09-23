@@ -276,9 +276,10 @@ function remove_group_by(arrow) {
 }
 
 function init_arrow(group_by) {
-    arrow = document.createElement('img');
+    arrow = document.createElement('div');
     arrow.setAttribute('id', group_by.id + '_arrow');
     arrow.setAttribute('class', 'arrow in_row arrow_left');
+    arrow.src = "/plugin_assets/redmine_reporting/images/arrow_left.png";
     init_arrow_hover_effects(arrow);
     return arrow;
 }
