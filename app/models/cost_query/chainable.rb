@@ -47,6 +47,7 @@ class CostQuery < ActiveRecord::Base
     end
 
     def self.table_from(value)
+      return value.table_name if value.respond_to? :table_name
       return value unless value.respond_to? :to_ary or value.respond_to? :to_hash
       table_from value.to_a.first
     end
