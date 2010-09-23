@@ -150,14 +150,13 @@
 }
 
 .drag_element {
-  cursor: move;
+  /*cursor: move;*/
 }
 
 .in_row {
   float: left;
   display: block;
   list-style: none;
-  cursor: move;
   border-width: 0px;
 }
 

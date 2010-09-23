@@ -448,7 +448,7 @@ function init_group_bys() {
         overlap:'horizontal',
         constraint:'horizontal',
         containment: ['group_columns','group_rows'],
-        only: "group_by",
+        //only: "group_by",
         dropOnEmpty: true,
         format: /^(.*)$/,
         hoverclass: 'drag_container_accept'
