@@ -321,6 +321,7 @@ ja:
   field_parent_issue: 親チケット
   field_member_of_group: 担当者のグループ
   field_assigned_to_role: 担当者のロール
+  field_text: テキスト
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -942,4 +943,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  field_text: Text field
