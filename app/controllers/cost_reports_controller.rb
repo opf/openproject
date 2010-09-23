@@ -1,7 +1,7 @@
 class CostReportsController < ApplicationController
+  before_filter :load_all
   before_filter :find_optional_project, :only => [:index]
   before_filter :generate_query, :only => [:index]
-  before_filter :load_all
   before_filter :set_cost_types, :only => [:index]
 
   helper :reporting

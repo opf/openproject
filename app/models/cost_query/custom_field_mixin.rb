@@ -22,7 +22,7 @@ module CostQuery::CustomFieldMixin
   def generate_subclasses
     IssueCustomField.all.map do |field|
       class_name = class_name_for field.name
-      parent.send(:remove_const, class_name) if CostQuery::GroupBy.const_defined? class_name
+      parent.send(:remove_const, class_name) if parent.const_defined? class_name
       parent.const_set class_name, Class.new(self).prepare(field, class_name)
     end
   end
