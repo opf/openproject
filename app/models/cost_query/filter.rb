@@ -31,7 +31,7 @@ module CostQuery::Filter
   end
 
   def self.all_grouped
-    CostQuery::Filter.all.group_by { |f| f.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }
+    all.group_by { |f| f.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }
   end
 
   def self.from_hash
