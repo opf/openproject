@@ -326,9 +326,7 @@ function init_group_by(field) {
 
 function init_group_by_hover_effects(group_by_label) {
     Event.observe(group_by_label, 'mouseover', function(event) {
-        if (checked_event_target(group_by_label, event)) {
-            group_by_start_hover(group_by_label);
-        }
+        group_by_start_hover(group_by_label);
     });
     Event.observe(group_by_label, 'mouseout', function(event) {
         group_by_end_hover(group_by_label);
@@ -339,11 +337,15 @@ function checked_event_target(event_target, event) {
     var target = event_target;
     var mouse_over_element;
     //So let's check to see what the mouse is now over, and assign it to mouse_over_element...
+    console.log(event_target)
+    console.log(event.toElement);
     if(event.toElement) {
        mouse_over_element = event.toElement;
-    }
-    else if(event.relatedTarget) {
-      mouse_over_element = event.relatedTarget;
+    } else {
+        console.log(event.relatedTarget);
+        if(event.relatedTarget) {
+            mouse_over_element = event.relatedTarget;
+        }
     }
     //In the event that the mouse is over something outside the DOM (like an alert window)...
     if(mouse_over_element == null) {
