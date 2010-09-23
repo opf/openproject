@@ -182,6 +182,7 @@ module CostQuery::QueryUtils
     when "week"                             then value.to_i.divmod(100)
     when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
     when /^custom_field/                    then value.to_s
+    when "singleton_value"                  then value.to_i
     else fail "add mapping for  #{key}"
     end
   end

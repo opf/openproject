@@ -77,7 +77,8 @@ class CostQuery::SqlStatement
       query.select({
         :count => 1, :id => [model, :id], :display_costs => 1,
         :real_costs => switch("#{table}.overridden_costs IS NULL" => [model, :costs], :else => [model, :overridden_costs]),
-        :week => iso_year_week(:spent_on, model)
+        :week => iso_year_week(:spent_on, model),
+        :singleton_value => 1
       })
       #FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name} AS type FROM #{table}) AS #{table}"

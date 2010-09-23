@@ -84,6 +84,7 @@ module ReportingHelper
     when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id               then IssuePriority.find(value.to_i).name
     when :fixed_version_id          then Version.find(value.to_i).name
+    when :singleton_value           then ""
     else value.to_s
     end
   end
