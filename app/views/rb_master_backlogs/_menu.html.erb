@@ -13,7 +13,8 @@
       },
       {
         :item => "<a href='#' class='show_burndown_chart'>Burndown chart</a>",
-        :for  => :sprint
+        :for  => :sprint,
+        :condition => backlog[:sprint] && backlog[:sprint].has_burndown
       },
       {
         :item => menu_link(l(:label_stories_tasks), {
