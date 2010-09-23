@@ -111,15 +111,6 @@ class NewsControllerTest < ActionController::TestCase
                               :content => /1 error/
   end
   
-  def test_destroy_comment
-    comments_count = News.find(1).comments.size
-    @request.session[:user_id] = 2
-    post :destroy_comment, :id => 1, :comment_id => 2
-    assert_redirected_to 'news/1'
-    assert_nil Comment.find_by_id(2)
-    assert_equal comments_count - 1, News.find(1).comments.size
-  end
-  
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1

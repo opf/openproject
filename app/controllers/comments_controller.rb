@@ -16,6 +16,12 @@ class CommentsController < ApplicationController
     redirect_to :controller => 'news', :action => 'show', :id => @news
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
+  def destroy
+    @news.comments.find(params[:comment_id]).destroy
+    redirect_to :controller => 'news', :action => 'show', :id => @news
+  end
+
   private
 
   # ApplicationController's find_model_object sets it based on the controller

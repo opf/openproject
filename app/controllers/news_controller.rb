@@ -73,11 +73,6 @@ class NewsController < ApplicationController
     end
   end
 
-  def destroy_comment
-    @news.comments.find(params[:comment_id]).destroy
-    redirect_to :action => 'show', :id => @news
-  end
-
   def destroy
     @news.destroy
     redirect_to :action => 'index', :project_id => @project
