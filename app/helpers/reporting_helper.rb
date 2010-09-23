@@ -66,6 +66,15 @@ module ReportingHelper
     @show_row[key][value] ||= field_representation_map(key, value)
   end
 
+  def cost_object_link(cost_object_id)
+    co = CostObject.find(cost_object_id)
+    if User.current.allowed_to_with_inheritance?(:view_cost_objects, co.project)
+      link_to_cost_object(co)
+    else
+      co.subject
+    end
+  end
+
   def field_representation_map(key, value)
     return l(:label_none) if value.blank?
     case key.to_sym
@@ -77,7 +86,7 @@ module ReportingHelper
     when :tmonth                    then month_name(value.to_i)
     when :category_id               then IssueCategory.find(value.to_i).name
     when :cost_type_id              then mapped value, CostType, l(:caption_labor)
-    when :cost_object_id            then link_to_cost_object CostObject.find(value.to_i)
+    when :cost_object_id            then cost_object_link value
     when :issue_id                  then link_to_issue Issue.find(value.to_i)
     when :spent_on                  then format_date(value.to_date)
     when :tracker_id                then Tracker.find(value.to_i)
