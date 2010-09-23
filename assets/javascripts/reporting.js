@@ -266,13 +266,12 @@ function add_group_by(select) {
 
 function remove_group_by(arrow) {
     group_by = arrow.up();
-    prev = group_by.previous();
     enable_select_option($('group_by_columns'), group_by.getAttribute('value'));
     enable_select_option($('group_by_rows'), group_by.getAttribute('value'));
-    group_by.remove();
-    if (prev !== null) {
+    if (!first_in_row(group_by)) {
         update_arrow(prev);
     }
+    group_by.remove();
 }
 
 function init_arrow(group_by) {
