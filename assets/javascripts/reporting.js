@@ -69,8 +69,8 @@ function hide_category(tr_field) {
 
 function register_remove_hover(field) {
     table = $('tr_' +  field);
-    Event.observe(table, 'mouseover', function(event) { set_remove_button_visibility(field, true) });
-    Event.observe(table, 'mouseout', function(event) { set_remove_button_visibility(field, false) });
+    Event.observe(table, 'mouseover', function() { set_remove_button_visibility(field, true) });
+    Event.observe(table, 'mouseout', function() { set_remove_button_visibility(field, false) });
 }
 
 
@@ -268,10 +268,11 @@ function remove_group_by(arrow) {
     group_by = arrow.up();
     enable_select_option($('group_by_columns'), group_by.getAttribute('value'));
     enable_select_option($('group_by_rows'), group_by.getAttribute('value'));
-    if (!first_in_row(group_by)) {
-        update_arrow(prev);
-    }
+    previous = group_by.previous();
     group_by.remove();
+    if (previous !== null) {
+        update_arrow(previous);
+    }
 }
 
 function init_arrow(group_by) {
@@ -285,22 +286,27 @@ function init_arrow(group_by) {
 function init_arrow_hover_effects(arrow) {
     Event.observe(arrow, 'mouseover', function() { arrow_start_removal_hover(arrow) });
     Event.observe(arrow, 'mouseout', function() { arrow_end_removal_hover(arrow) });
-    Event.observe(arrow, 'mousedown', function() { remove_group_by(arrow) });
+    Event.observe(arrow, 'click', function() { remove_group_by(arrow) });
 }
 
 function arrow_start_removal_hover(arrow) {
+    group_by_start_hover(arrow.up());
+    update_arrow(arrow.up());
     arrow.className = arrow.className + "_remove";
 }
 
 function arrow_end_removal_hover(arrow) {
-    arrow.className = arrow.className.replace(/\_remove/g, "");
+    group_by_end_hover(arrow.up());
+    arrow.className = arrow.className.replace(/\_remove/, "");
 }
 
 function update_arrow(group_by) {
+    arrow = $(group_by.id + "_arrow");
+    if (arrow == null) return;
     if (last_in_row(group_by)) {
-        $(group_by.id + "_arrow").className = "arrow in_row arrow_left";
+        arrow.className = "arrow in_row arrow_left";
     } else {
-        $(group_by.id + "_arrow").className = "arrow in_row arrow_both";
+        arrow.className = "arrow in_row arrow_both";
     }
 }
 
@@ -325,37 +331,15 @@ function init_group_by(field) {
 }
 
 function init_group_by_hover_effects(group_by_label) {
-    Event.observe(group_by_label, 'mouseover', function(event) {
-        group_by_start_hover(group_by_label);
+    Event.observe(group_by_label, 'mouseover', function() {
+        group_by_start_hover(group_by_label.up());
     });
-    Event.observe(group_by_label, 'mouseout', function(event) {
-        group_by_end_hover(group_by_label);
+    Event.observe(group_by_label, 'mouseout', function() {
+        group_by_end_hover(group_by_label.up());
     });
 }
 
-function checked_event_target(event_target, event) {
-    var target = event_target;
-    var mouse_over_element;
-    //So let's check to see what the mouse is now over, and assign it to mouse_over_element...
-    console.log(event_target)
-    console.log(event.toElement);
-    if(event.toElement) {
-       mouse_over_element = event.toElement;
-    } else {
-        console.log(event.relatedTarget);
-        if(event.relatedTarget) {
-            mouse_over_element = event.relatedTarget;
-        }
-    }
-    //In the event that the mouse is over something outside the DOM (like an alert window)...
-    if(mouse_over_element == null) {
-       return;
-    }
-    return event_target == mouse_over_element;
-}
-
-function group_by_start_hover(group_by_label) {
-    group_by = group_by_label.up();
+function group_by_start_hover(group_by) {
     arrow = $(group_by.id + '_arrow');
     if (last_in_row(group_by)) {
         arrow.className = 'arrow in_row arrow_left_hover';
@@ -367,13 +351,14 @@ function group_by_start_hover(group_by_label) {
     }
 }
 
-function group_by_end_hover(group_by_label) {
-    group_by = group_by_label.up();
+function group_by_end_hover(group_by) {
     arrow = $(group_by.id + '_arrow');
-    if (last_in_row(group_by)) {
-        arrow.className = 'arrow in_row arrow_left';
-    } else {
-        arrow.className = 'arrow in_row arrow_both';
+    if (arrow !== null) {
+        if (last_in_row(group_by)) {
+            arrow.className = 'arrow in_row arrow_left';
+        } else {
+            arrow.className = 'arrow in_row arrow_both';
+        }
     }
     if (!(first_in_row(group_by))) {
         $(group_by.previous().id + '_arrow').className = 'arrow in_row arrow_both';
