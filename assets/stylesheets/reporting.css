@@ -162,8 +162,12 @@
 
 .group_by_label {
   margin: 0px;
-  height: 19px !important;
+  height: 14px !important;
+  min-width: 60px;
+  text-align: center;
   white-space: nowrap;
+  padding: 2px 5px 0 5px;
+  color: #fff;
 }
 
 img.arrow {
@@ -204,10 +208,16 @@ img.arrow {
 }
 
 .drag_container {
-  padding: 10px;
-  background-color: #E3E3E3;
-  /*border: 1px dotted #CCCCCC;*/
+  padding: 5px 0 3px 10px;
+  background-color: #ededed;
+  border: 1px dotted #CCCCCC;
   margin-bottom: 4px;
+  height: 23px;
+}
+
+.drag_container select {
+    float: right;
+    margin-right: 20px;
 }
 
 .drag_target {
