@@ -342,6 +342,7 @@ function init_group_by_hover_effects(group_by_label) {
 
 function group_by_start_hover(group_by) {
     arrow = $(group_by.id + '_arrow');
+    group_by.className = group_by.className.replace(/group\_by/, 'group_by_hover');
     if (last_in_row(group_by)) {
         arrow.className = 'arrow in_row arrow_left_hover';
     } else {
@@ -354,6 +355,7 @@ function group_by_start_hover(group_by) {
 
 function group_by_end_hover(group_by) {
     arrow = $(group_by.id + '_arrow');
+    group_by.className = group_by.className.replace(/\_hover/, '');
     if (arrow !== null) {
         if (last_in_row(group_by)) {
             arrow.className = 'arrow in_row arrow_left';
