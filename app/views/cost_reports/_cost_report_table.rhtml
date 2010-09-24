@@ -23,7 +23,7 @@ end
 walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>" }
 
 walker.for_cell do |result|
-  "<td class='normal'>#{show_result result}#{debug_fields(result)}</td>"
+  "<td class='normal'>#{link_to_details(result)}#{show_result result}#{debug_fields(result)}</td>"
 end
 %>
 

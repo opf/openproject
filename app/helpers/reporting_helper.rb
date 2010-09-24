@@ -108,6 +108,31 @@ module ReportingHelper
     end
   end
 
+  def set_filter_options(struct, key, value)
+    struct[:operators][key] = "="
+    struct[:values][key]    = value.to_s
+  end
+
+  def link_to_details(result)
+    return '' unless result.respond_to? :fields
+    filters = result.fields.inject session[:cost_query][:filters].dup do |struct, (key, value)|
+      key = key.to_sym
+      case key
+      when :week
+        set_filter_options struct, :tweek, value.to_i.modulo(100)
+        set_filter_options struct, :tyear, value.to_i / 100
+      when :month, :year
+        set_filter_options struct, :"t#{key}", value
+      when :count, :units, :costs, :display_costs, :sum, :real_costs
+      else
+        set_filter_options struct, key, value
+      end
+      struct
+    end
+    options = { :fields => filters[:operators].keys, :set_filter => 1, :action => :drill_down }
+    link_to '+', filters.merge(options), :class => 'drill_down'
+  end
+
   def action_for(result, options = {})
     options.merge :controller => result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', :id => result.fields['id'].to_i
   end
@@ -116,6 +141,6 @@ module ReportingHelper
   # For a given row, determine how to render it's contents according to usability and
   # localization rules
   def show_row(row)
-    row.render { |k,v| show_field(k,v) }
+    link_to_details(row) << row.render { |k,v| show_field(k,v) }
   end
 end
