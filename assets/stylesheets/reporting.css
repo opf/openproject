@@ -279,10 +279,15 @@
   /*border: 1px solid #BBBBBB;*/
 }
 
-.drill_down {
-  font-size: 7px;
+td .drill_down, th .drill_down {
+  font-size: 8px;
   display: block;
   float: right;
-  margin-left: 5px;
+  font-weight: bold;
+  visibility: hidden;
+}
+
+td:hover .drill_down, th:hover .drill_down {
+  visibility: visible;
 }
 
