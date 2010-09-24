@@ -138,6 +138,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'news' do |news_routes|
+    news_routes.connect 'news/:id/preview', :controller => 'previews', :action => 'news'
+    news_routes.connect 'news/preview', :controller => 'previews', :action => 'news'
+
     news_routes.with_options :conditions => {:method => :get} do |news_views|
       news_views.connect 'news', :action => 'index'
       news_views.connect 'projects/:project_id/news', :action => 'index'

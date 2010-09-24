@@ -18,10 +18,10 @@
 class NewsController < ApplicationController
   default_search_scope :news
   model_object News
-  before_filter :find_model_object, :except => [:new, :create, :index, :preview]
-  before_filter :find_project_from_association, :except => [:new, :create, :index, :preview]
-  before_filter :find_project, :only => [:new, :create, :preview]
-  before_filter :authorize, :except => [:index, :preview]
+  before_filter :find_model_object, :except => [:new, :create, :index]
+  before_filter :find_project_from_association, :except => [:new, :create, :index]
+  before_filter :find_project, :only => [:new, :create]
+  before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
   
@@ -76,11 +76,6 @@ class NewsController < ApplicationController
   def destroy
     @news.destroy
     redirect_to :action => 'index', :project_id => @project
-  end
-  
-  def preview
-    @text = (params[:news] ? params[:news][:description] : nil)
-    render :partial => 'common/preview'
   end
   
 private
