@@ -228,3 +228,10 @@
   background-color: #F5F5C5;
   /*border: 1px solid #BBBBBB;*/
 }
+
+.drill_down {
+  font-size: 7px;
+  display: block;
+  float: right;
+  margin-left: 5px;
+}

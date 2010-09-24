@@ -1,8 +1,8 @@
 class CostReportsController < ApplicationController
   before_filter :load_all
-  before_filter :find_optional_project, :only => [:index]
-  before_filter :generate_query, :only => [:index]
-  before_filter :set_cost_types, :only => [:index]
+  before_filter :find_optional_project, :only => [:index, :drill_down]
+  before_filter :generate_query,        :only => [:index, :drill_down]
+  before_filter :set_cost_types,        :only => [:index, :drill_down]
 
   helper :reporting
   include ReportingHelper
@@ -21,6 +21,10 @@ class CostReportsController < ApplicationController
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
     end
+  end
+
+  def drill_down
+    redirect_to :action => :index
   end
 
   ##
