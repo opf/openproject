@@ -338,7 +338,7 @@ function init_label(group_by) {
 }
 
 function sanitized_selected(select) {
-    return select.descendants().select(function(e) { return e.value == select.value }).first().innerHTML.strip().replace(/(&(\w+;)|\W)/g, "");
+    return select.descendants().select(function(e) { return e.value == select.value }).first().innerHTML.strip();
 }
 
 function init_group_by(field) {
