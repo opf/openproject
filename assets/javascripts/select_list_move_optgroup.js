@@ -101,8 +101,15 @@ function selectAllOptions(select) {
 // Returns true if the given select-box has optgroups.
 // We assume that a possibly present optgroup is the first child element of the select-box.
 function has_optgroups(theSel) {
-  theSel = $(theSel);
-  return (theSel.childElements().length > 0) && (theSel.down(0).tagName == "OPTGROUP");
+    theSel = $(theSel);
+    var hit;
+    for (var i = 0; i < theSel.childNodes.length; i++) {
+        if (theSel.childNodes.item(i).tagName == "OPTGROUP") {
+            hit = true;
+            break;
+        }
+    }
+    return (hit) && (theSel.childElements().length > 0);
 }
 
 // Compares two option elements (return -1 if a < b, if not return 1).

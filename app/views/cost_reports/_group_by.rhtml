@@ -13,8 +13,8 @@
       <option value=""></option>
       <% grouped_gbs.each do |label , group_by_ary| %>
         <optgroup label="<%= l(label) %>">
-          <% group_by_ary.select(&:display?).sort_by {|gb| l(gb.label)}.each do |group_by| %>
-          <option value="<%= group_by.underscore_name %>"><%= l(group_by.label)%></option>
+          <% group_by_ary.select(&:display?).sort_by {|gb| l(gb.label)}.each_with_index do |group_by, ix| %>
+          <option data-sort_by="<%= ix %>" value="<%= group_by.underscore_name %>"><%= l(group_by.label)%></option>
           <% end %>
         </optgroup>
       <% end %>
@@ -26,8 +26,8 @@
       <option value=""></option>
       <% grouped_gbs.each do |label , group_by_ary| %>
         <optgroup label="<%= l(label) %>">
-          <% group_by_ary.select(&:display?).sort_by {|gb| l(gb.label)}.each do |group_by| %>
-          <option value="<%= group_by.underscore_name %>"><%= l(group_by.label)%></option>
+          <% group_by_ary.select(&:display?).sort_by {|gb| l(gb.label)}.each_with_index do |group_by, ix| %>
+          <option data-sort_by="<%= ix %>" value="<%= group_by.underscore_name %>"><%= l(group_by.label)%></option>
           <% end %>
         </optgroup>
       <% end %>
