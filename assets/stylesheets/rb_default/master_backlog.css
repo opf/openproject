@@ -67,7 +67,6 @@
   position:relative;
   top:0;
   width:29px;
-  z-index:500;
 }
 .backlog .header .menu:hover{
   -moz-box-shadow: 2px 2px 3px #999999;
@@ -76,7 +75,7 @@
   background-color:#EFEFEF;
   border-right:none;
   width:30px;
-  z-index:10000; /* This ensures that it overlaps all other menus in the vicinity */
+  z-index:1000;
 }
 .backlog .header .menu .icon{
   left:7px;
@@ -98,7 +97,6 @@
   padding:0;
   position:absolute;
   top:30px;
-  z-index:10000;
 }
 .backlog .header .menu .item{
   display: block;
@@ -109,7 +107,6 @@
   vertical-align: middle;
   white-space: nowrap;
   width:160px;
-  z-index:10000;
 }
 .backlog .header .menu .item:hover{
   background-color:#CC0000;
@@ -120,7 +117,6 @@
   height:100%;
   padding:6px;
   width:100%;
-  z-index:10000;
 }
 .backlog .header .menu .item:hover a{
   color:#FFFFFF;
@@ -153,10 +149,10 @@
   cursor:pointer;
   display:block;
   height:30px;
-  left:0;
+  left:30px;
   position:absolute;
   top:0;
-  width:100%;
+  width:560px;
 }
 #backlogs_container .backlog .sprint.saving{
   background-image:url('images/ajax.gif');
@@ -177,7 +173,7 @@
   font-size:15px;
   font-weight:bold;
   height:28px;
-  left:35px;
+  left:5px;
   line-height:28px;
   overflow:hidden;
   position:absolute;
@@ -193,10 +189,10 @@
   top:2px;
 }
 #backlogs_container .backlog .sprint .sprint_start_date{
-  left:370px;
+  left:340px;
 }
 #backlogs_container .backlog .sprint .effective_date{
-  left:460px;
+  left:430px;
 }
 #backlogs_container .backlog .stories{
   list-style:none;
