@@ -8,9 +8,11 @@ $(function() {
   RB.BacklogsUpdater.start();
 
   // Workaround for IE7
-  var z = 2000;
-  $('.backlog, .header').each(function(){
-    $(this).css('z-index', z);
-    z--;
-  });
+  if($.browser.msie && $.browser.version <= 7){
+    var z = 2000;
+    $('.backlog, .header').each(function(){
+      $(this).css('z-index', z);
+      z--;
+    });
+  }
 });
