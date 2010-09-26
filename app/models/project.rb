@@ -432,14 +432,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # The latest due date of an issue or version, otherwise today
+  # The latest due date of an issue or version
   def due_date
     if module_enabled?(:issue_tracking)
       [
        issues.maximum('due_date'),
        shared_versions.collect(&:effective_date),
-       shared_versions.collect {|v| v.fixed_issues.maximum('due_date')},
-       Date.today
+       shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
       ].flatten.compact.max
     end
   end
