@@ -78,3 +78,17 @@ module AsynchronousMailer
 end
 
 ActionMailer::Base.send :include, AsynchronousMailer
+
+# TODO: Hack to support i18n 4.x on Rails 2.3.5.  Remove post 2.3.6.
+# See http://www.redmine.org/issues/6428 and http://www.redmine.org/issues/5608
+module I18n
+  module Backend
+    module Base
+      def warn_syntax_deprecation!
+        return if @skip_syntax_deprecation
+        warn "The {{key}} interpolation syntax in I18n messages is deprecated. Please use %{key} instead.\nDowngrade your i18n gem to 0.3.7 (everything above must be deinstalled) to remove this warning, see http://www.redmine.org/issues/5608 for more information."
+        @skip_syntax_deprecation = true
+      end
+    end
+  end
+end
