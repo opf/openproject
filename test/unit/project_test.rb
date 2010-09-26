@@ -860,6 +860,8 @@ class ProjectTest < ActiveSupport::TestCase
       
       assert_nil @project.start_date
     end
+    
+    should "be tested when issues have no start date"
 
     should "be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
@@ -889,6 +891,8 @@ class ProjectTest < ActiveSupport::TestCase
       
       assert_nil @project.due_date
     end
+    
+    should "be tested when issues have no due date"
 
     should "be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
