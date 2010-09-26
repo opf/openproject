@@ -4,6 +4,62 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2010-09-26 v1.0.2
+
+* #2285: issue-refinement: pressing enter should result to an "apply"
+* #3411: Allow mass status update trough context menu
+* #5929: https-enabled gravatars when called over https
+* #6189: Japanese Translation for r4011
+* #6197: Traditional Chinese language file (to r4036)
+* #6198: Updated german translation
+* #6208: Macedonian translation
+* #6210: Swedish Translation for r4039
+* #6248: nl translation update for r4050
+* #6263: Catalan translation update
+* #6275: After submitting a related issue, the Issue field should be re-focused
+* #6289: Checkboxes in issues list shouldn't be displayed when printing
+* #6290: Make journals theming easier
+* #6291: User#allowed_to? is not tested
+* #6306: Traditional Chinese language file (to r4061)
+* #6307: Korean translation update for 4066(4061)
+* #6316: pt_BR update
+* #6339: SERBIAN Updated
+* #6358: Updated Polish translation
+* #6363: Japanese Translation for r4080
+* #6365: Traditional Chinese language file (to r4081)
+* #6382: Issue PDF export variable usage
+* #6428: Interim solution for i18n >= 0.4
+* #6441: Japanese Translation for r4162
+* #6451: Traditional Chinese language file (to r4167)
+* #6465: Japanese Translation for r4171
+* #6466: Traditional Chinese language file (to r4171)
+* #6490: pt-BR translation for 1.0.2
+* Fixed #3935: stylesheet_link_tag with plugin doesn't take into account relative_url_root
+* Fixed #4998: Global issue list's context menu has enabled options for parent menus but there are no valid selections
+* Fixed #5170: Done ratio can not revert to 0% if status is used for done ratio
+* Fixed #5608: broken with i18n 0.4.0
+* Fixed #6054: Error 500 on filenames with whitespace in git reposities
+* Fixed #6135: Default logger configuration grows without bound.
+* Fixed #6191: Deletion of a main task deletes all subtasks
+* Fixed #6195: Missing move issues between projects
+* Fixed #6242: can't switch between inline and side-by-side diff
+* Fixed #6249: Create and continue returns 404
+* Fixed #6267: changing the authentication mode from ldap to internal with setting the password
+* Fixed #6270: diff coderay malformed in the "news" page
+* Fixed #6278: missing "cant_link_an_issue_with_a_descendant"from locale files
+* Fixed #6333: Create and continue results in a 404 Error
+* Fixed #6346: Age column on repository view is skewed for git, probably CVS too
+* Fixed #6351: Context menu on roadmap broken
+* Fixed #6388: New Subproject leads to a 404
+* Fixed #6392: Updated/Created links to activity broken
+* Fixed #6413: Error in SQL
+* Fixed #6443: Redirect to project settings after Copying a Project
+* Fixed #6448: Saving a wiki page with no content has a translation missing
+* Fixed #6452: Unhandled exception on creating File
+* Fixed #6471: Typo in label_report in Czech translation
+* Fixed #6479: Changing tracker type will lose watchers
+* Fixed #6499: Files with leading or trailing whitespace are not shown in git.
+
 == 2010-08-22 v1.0.1
 
 * #819: Add a body ID and class to all pages
