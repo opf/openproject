@@ -13,7 +13,7 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_getting_all_revisions
-      assert_equal 14, @adapter.revisions('',nil,nil,:all => true).length
+      assert_equal 15, @adapter.revisions('',nil,nil,:all => true).length
     end
     
     def test_getting_certain_revisions
@@ -22,6 +22,14 @@ class GitAdapterTest < ActiveSupport::TestCase
     
     def test_getting_revisions_with_spaces_in_filename
       assert_equal 1, @adapter.revisions("filemane with spaces.txt", nil, nil, :all => true).length
+    end
+    
+    def test_getting_revisions_with_leading_and_trailing_spaces_in_filename
+      assert_equal " filename with a leading space.txt ", @adapter.revisions(" filename with a leading space.txt ", nil, nil, :all => true)[0].paths[0][:path]
+    end
+    
+    def test_getting_entries_with_leading_and_trailing_spaces_in_filename
+      assert_equal " filename with a leading space.txt ", @adapter.entries('', '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')[3].name
     end
     
     def test_annotate

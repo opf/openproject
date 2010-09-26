@@ -65,7 +65,7 @@ module Redmine
           shellout(cmd)  do |io|
             io.each_line do |line|
               e = line.chomp.to_s
-              if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\s+(.+)$/
+              if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
                 type = $1
                 sha = $2
                 size = $3
@@ -165,13 +165,13 @@ module Redmine
                 parsing_descr = 1
                 changeset[:description] = ""
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\s+(.+)$/
+              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
                 fileaction = $1
                 filepath = $2
                 files << {:action => fileaction, :path => filepath}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\s+(.+)$/
+              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction = $1
                 filepath = $3
