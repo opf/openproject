@@ -284,6 +284,7 @@ private
   end
 
   # TODO: Refactor, lots of extra code in here
+  # TODO: Changing tracker on an existing issue should not trigger this
   def build_new_issue_from_params
     if params[:id].blank?
       @issue = Issue.new
@@ -302,7 +303,9 @@ private
     end
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
-      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
+        @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
+      end
     end
     @issue.author = User.current
     @issue.start_date ||= Date.today
