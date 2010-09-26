@@ -86,7 +86,7 @@ module Redmine
 
         def lastrev(path,rev)
           return nil if path.nil?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --pretty=fuller --no-merges -n 1 "
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
           cmd <<  "-- #{path} " unless path.empty?
           shellout(cmd) do |io|
@@ -94,7 +94,7 @@ module Redmine
               id = io.gets.split[1]
               author = io.gets.match('Author:\s+(.*)$')[1]
               2.times { io.gets }
-              time = io.gets.match('CommitDate:\s+(.*)$')[1]
+              time = Time.parse(io.gets.match('CommitDate:\s+(.*)$')[1]).localtime
 
               Revision.new({
                 :identifier => id,
