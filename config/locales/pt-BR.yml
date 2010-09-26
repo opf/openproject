@@ -917,7 +917,7 @@ pt-BR:
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Realizar cache de texto formatado
   permission_manage_project_activities: Gerenciar atividades do projeto
-  error_unable_delete_issue_status: Impossível excluir situação da tarefa
+  error_unable_delete_issue_status: Não foi possível excluir situação da tarefa
   label_profile: Perfil
   permission_manage_subtasks: Gerenciar subtarefas
   field_parent_issue: Tarefa pai
@@ -936,9 +936,9 @@ pt-BR:
   label_overall_spent_time: Tempo gasto geral
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
+  project_module_calendar: Calendário
+  field_member_of_group: Mebro do grupo
+  field_assigned_to_role: Membro com o papel
+  button_edit_associated_wikipage: "Editar páginas wiki relacionadas: {{page_title}}"
+  text_are_you_sure_with_children: Excluir a tarefa e suas subtarefas?
+  field_text: Campo de texto
