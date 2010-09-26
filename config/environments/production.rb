@@ -11,7 +11,10 @@ config.cache_classes = true
 # config.logger        = SyslogLogger.new
 #
 # Rotate logs bigger than 1MB, keeps no more than 7 rotated logs around.
+# When setting a new Logger, make sure to set it's log level too.
+#
 # config.logger = Logger.new(config.log_path, 7, 1048576)
+# config.logger.level = Logger::INFO
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
