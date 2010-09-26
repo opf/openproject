@@ -125,13 +125,13 @@ class ProjectsController < ApplicationController
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'admin', :action => 'projects'
+          redirect_to :controller => 'projects', :action => 'settings'
         elsif !@project.new_record?
           # Project was created
           # But some objects were not copied due to validation failures
           # (eg. issues from disabled trackers)
           # TODO: inform about that
-          redirect_to :controller => 'admin', :action => 'projects'
+          redirect_to :controller => 'projects', :action => 'settings'
         end
       end
     end

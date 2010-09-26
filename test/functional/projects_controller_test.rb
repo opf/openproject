@@ -389,6 +389,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'admin', :action => 'projects'
   end
 
+  context "POST :copy" do
+    should "TODO: test the rest of the method"
+
+    should "redirect to the project settings when successful" do
+      @request.session[:user_id] = 1 # admin
+      post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
+      assert_response :redirect
+      assert_redirected_to :controller => 'projects', :action => 'settings'
+    end
+  end
+
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'issues'
     assert_redirected_to 'projects/ecookbook/issues'
