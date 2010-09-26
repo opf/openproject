@@ -13,11 +13,15 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_getting_all_revisions
-      assert_equal 13, @adapter.revisions('',nil,nil,:all => true).length
+      assert_equal 14, @adapter.revisions('',nil,nil,:all => true).length
     end
     
     def test_getting_certain_revisions
       assert_equal 1, @adapter.revisions('','899a15d^','899a15d').length
+    end
+    
+    def test_getting_revisions_with_spaces_in_filename
+      assert_equal 1, @adapter.revisions("filemane with spaces.txt", nil, nil, :all => true).length
     end
     
     def test_annotate
@@ -29,6 +33,12 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "jsmith", annotate.revisions[4].author
     end
     
+    def test_annotate_moved_file
+      annotate = @adapter.annotate('renamed_test.txt')
+      assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
+      assert_equal 2, annotate.lines.size
+    end
+    
     def test_last_rev
       last_rev = @adapter.lastrev("README", "4f26664364207fa8b1af9f8722647ab2d4ac5d43")
       assert_equal "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8", last_rev.scmid
@@ -37,10 +47,12 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "2009-06-24 05:27:38".to_time, last_rev.time
     end
     
-    def test_annotate_moved_file
-      annotate = @adapter.annotate('renamed_test.txt')
-      assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
-      assert_equal 2, annotate.lines.size
+    def test_last_rev_with_spaces_in_filename
+      last_rev = @adapter.lastrev("filemane with spaces.txt", "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
+      assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
+      assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
+      assert_equal "Felix Schäfer <felix@fachschaften.org>", last_rev.author
+      assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"

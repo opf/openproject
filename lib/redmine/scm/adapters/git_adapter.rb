@@ -88,7 +88,7 @@ module Redmine
           return nil if path.nil?
           cmd = "#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
-          cmd <<  "-- #{path} " unless path.empty?
+          cmd <<  "-- #{shell_quote path} " unless path.empty?
           shellout(cmd) do |io|
             begin
               id = io.gets.split[1]
@@ -121,7 +121,7 @@ module Redmine
           cmd << "#{shell_quote(identifier_from + '..')}" if identifier_from
           cmd << "#{shell_quote identifier_to}" if identifier_to
           cmd << " --since=#{shell_quote(options[:since].strftime("%Y-%m-%d %H:%M:%S"))}" if options[:since]
-          cmd << " -- #{path}" if path && !path.empty?
+          cmd << " -- #{shell_quote path}" if path && !path.empty?
 
           shellout(cmd) do |io|
             files=[]
