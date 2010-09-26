@@ -263,7 +263,7 @@ class Issue < ActiveRecord::Base
   end
   
   def done_ratio
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
+    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio
     else
       read_attribute(:done_ratio)
@@ -326,7 +326,7 @@ class Issue < ActiveRecord::Base
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
+    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
       self.done_ratio = status.default_done_ratio
     end
   end
@@ -714,7 +714,7 @@ class Issue < ActiveRecord::Base
       end
       
       # done ratio = weighted average ratio of leaves
-      unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio?
+      unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
         leaves_count = p.leaves.count
         if leaves_count > 0
           average = p.leaves.average(:estimated_hours).to_f

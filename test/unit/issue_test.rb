@@ -593,6 +593,9 @@ class IssueTest < ActiveSupport::TestCase
       @issue = Issue.find(1)
       @issue_status = IssueStatus.find(1)
       @issue_status.update_attribute(:default_done_ratio, 50)
+      @issue2 = Issue.find(2)
+      @issue_status2 = IssueStatus.find(2)
+      @issue_status2.update_attribute(:default_done_ratio, 0)
     end
     
     context "with Setting.issue_done_ratio using the issue_field" do
@@ -602,6 +605,7 @@ class IssueTest < ActiveSupport::TestCase
       
       should "read the issue's field" do
         assert_equal 0, @issue.done_ratio
+        assert_equal 30, @issue2.done_ratio
       end
     end
 
@@ -612,6 +616,7 @@ class IssueTest < ActiveSupport::TestCase
       
       should "read the Issue Status's default done ratio" do
         assert_equal 50, @issue.done_ratio
+        assert_equal 0, @issue2.done_ratio
       end
     end
   end
@@ -621,6 +626,9 @@ class IssueTest < ActiveSupport::TestCase
       @issue = Issue.find(1)
       @issue_status = IssueStatus.find(1)
       @issue_status.update_attribute(:default_done_ratio, 50)
+      @issue2 = Issue.find(2)
+      @issue_status2 = IssueStatus.find(2)
+      @issue_status2.update_attribute(:default_done_ratio, 0)
     end
     
     context "with Setting.issue_done_ratio using the issue_field" do
@@ -630,8 +638,10 @@ class IssueTest < ActiveSupport::TestCase
       
       should "not change the issue" do
         @issue.update_done_ratio_from_issue_status
+        @issue2.update_done_ratio_from_issue_status
 
-        assert_equal 0, @issue.done_ratio
+        assert_equal 0, @issue.read_attribute(:done_ratio)
+        assert_equal 30, @issue2.read_attribute(:done_ratio)
       end
     end
 
@@ -640,10 +650,12 @@ class IssueTest < ActiveSupport::TestCase
         Setting.issue_done_ratio = 'issue_status'
       end
       
-      should "not change the issue's done ratio" do
+      should "change the issue's done ratio" do
         @issue.update_done_ratio_from_issue_status
+        @issue2.update_done_ratio_from_issue_status
 
-        assert_equal 50, @issue.done_ratio
+        assert_equal 50, @issue.read_attribute(:done_ratio)
+        assert_equal 0, @issue2.read_attribute(:done_ratio)
       end
     end
   end
