@@ -64,7 +64,7 @@
   height:30px;
   left:0;
   overflow:visible;
-  position:relative;
+  position:absolute;
   top:0;
   width:29px;
 }
@@ -363,7 +363,7 @@
 #backlogs_container .backlog .sprint.editing .name.editor{
   display:block;
   height:21px;
-  left:31px;
+  left:1px;
   line-height:15px;
   margin:0;
   top:2px;
@@ -372,7 +372,7 @@
 #backlogs_container .backlog .sprint.editing .sprint_start_date.editor{
   display:block;
   height:23px;
-  left:367px;
+  left:338px;
   line-height:27px;
   margin:0;
   padding:0;
@@ -382,7 +382,7 @@
 #backlogs_container .backlog .sprint.editing .effective_date.editor{
   display:block;
   height:23px;
-  left:457px;
+  left:428px;
   line-height:27px;
   margin:0;
   padding:0;

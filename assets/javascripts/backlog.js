@@ -74,7 +74,7 @@ RB.Backlog = RB.Object.create({
   },
   
   getSprint: function(){
-    return $(this.el).children(".sprint").first();
+    return $(this.el).find(".model.sprint").first();
   },
     
   getStories: function(){
@@ -91,7 +91,7 @@ RB.Backlog = RB.Object.create({
   },
 
   isSprintBacklog: function(){
-    return $(this.el).children('.sprint').length == 1; // return true if backlog has an element with class="sprint"
+    return $(this.el).find('.sprint').length == 1; // return true if backlog has an element with class="sprint"
   },
     
   newStory: function(){
