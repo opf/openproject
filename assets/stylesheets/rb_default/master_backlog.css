@@ -64,10 +64,9 @@
   height:30px;
   left:0;
   overflow:visible;
-  position:relative;
+  position:absolute;
   top:0;
   width:29px;
-  z-index:500;
 }
 .backlog .header .menu:hover{
   -moz-box-shadow: 2px 2px 3px #999999;
@@ -76,7 +75,7 @@
   background-color:#EFEFEF;
   border-right:none;
   width:30px;
-  z-index:600; /* This ensures that it overlaps all other menus in the vicinity */
+  z-index:1000;
 }
 .backlog .header .menu .icon{
   left:7px;
@@ -150,10 +149,10 @@
   cursor:pointer;
   display:block;
   height:30px;
-  left:0;
+  left:30px;
   position:absolute;
   top:0;
-  width:100%;
+  width:560px;
 }
 #backlogs_container .backlog .sprint.saving{
   background-image:url('images/ajax.gif');
@@ -174,7 +173,7 @@
   font-size:15px;
   font-weight:bold;
   height:28px;
-  left:35px;
+  left:5px;
   line-height:28px;
   overflow:hidden;
   position:absolute;
@@ -190,16 +189,17 @@
   top:2px;
 }
 #backlogs_container .backlog .sprint .sprint_start_date{
-  left:370px;
+  left:340px;
 }
 #backlogs_container .backlog .sprint .effective_date{
-  left:460px;
+  left:430px;
 }
 #backlogs_container .backlog .stories{
   list-style:none;
   min-height:26px;
   margin:0;
   padding:0 0 0px 0;
+  z-index:500;
 }
 #backlogs_container .stories .story{
   background-color:#FFFFF6;
@@ -363,7 +363,7 @@
 #backlogs_container .backlog .sprint.editing .name.editor{
   display:block;
   height:21px;
-  left:31px;
+  left:1px;
   line-height:15px;
   margin:0;
   top:2px;
@@ -372,7 +372,7 @@
 #backlogs_container .backlog .sprint.editing .sprint_start_date.editor{
   display:block;
   height:23px;
-  left:367px;
+  left:338px;
   line-height:27px;
   margin:0;
   padding:0;
@@ -382,7 +382,7 @@
 #backlogs_container .backlog .sprint.editing .effective_date.editor{
   display:block;
   height:23px;
-  left:457px;
+  left:428px;
   line-height:27px;
   margin:0;
   padding:0;
