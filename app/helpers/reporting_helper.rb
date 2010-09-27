@@ -115,7 +115,8 @@ module ReportingHelper
 
   def link_to_details(result)
     return '' unless result.respond_to? :fields
-    filters = result.fields.inject session[:cost_query][:filters].clone do |struct, (key, value)|
+    session_filter = {:operators => session[:cost_query][:filters][:operators].dup, :values => session[:cost_query][:filters][:values].dup }
+    filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
       case key
       when :week
