@@ -130,7 +130,7 @@ module ReportingHelper
       struct
     end
     options = { :fields => filters[:operators].keys, :set_filter => 1, :action => :drill_down }
-    link_to '+', filters.merge(options), :class => 'drill_down'
+    link_to '[+]', filters.merge(options), :class => 'drill_down', :title => l(:description_drill_down)
   end
 
   def action_for(result, options = {})
