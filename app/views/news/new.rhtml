@@ -1,11 +1,11 @@
 <h2><%=l(:label_news_new)%></h2>
 
-<% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'create', :project_id => @project },
+<% labelled_tabular_form_for :news, @news, :url => project_news_index_path(@project),
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
 <%= link_to_remote l(:label_preview), 
-                   { :url => { :controller => 'previews', :action => 'news', :project_id => @project },
+                   { :url => preview_news_path(:project_id => @project),
                      :method => 'get',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"

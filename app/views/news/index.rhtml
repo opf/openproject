@@ -1,18 +1,18 @@
 <div class="contextual">
 <%= link_to_if_authorized(l(:label_news_new),
-                          {:controller => 'news', :action => 'new', :project_id => @project},
+                          new_project_news_path(@project),
                           :class => 'icon icon-add',
                           :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project %>
 </div>
 
 <div id="add-news" style="display:none;">
 <h2><%=l(:label_news_new)%></h2>
-<% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'create', :project_id => @project },
+<% labelled_tabular_form_for :news, @news, :url => project_news_index_path(@project),
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
 <%= link_to_remote l(:label_preview), 
-                   { :url => { :controller => 'previews', :action => 'news', :project_id => @project },
+                   { :url => preview_news_path(:project_id => @project),
                      :method => 'get',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
@@ -29,7 +29,7 @@
 <% else %>
 <% @newss.each do |news| %>
     <h3><%= link_to_project(news.project) + ': ' unless news.project == @project %>
-    <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+    <%= link_to h(news.title), news_path(news) %>
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">

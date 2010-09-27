@@ -136,30 +136,7 @@ ActionController::Routing::Routes.draw do |map|
     relations.connect 'issues/:issue_id/relations/:id', :action => 'new'
     relations.connect 'issues/:issue_id/relations/:id/destroy', :action => 'destroy'
   end
-  
-  map.with_options :controller => 'news' do |news_routes|
-    news_routes.connect 'news/:id/preview', :controller => 'previews', :action => 'news'
-    news_routes.connect 'news/preview', :controller => 'previews', :action => 'news'
 
-    news_routes.with_options :conditions => {:method => :get} do |news_views|
-      news_views.connect 'news', :action => 'index'
-      news_views.connect 'projects/:project_id/news', :action => 'index'
-      news_views.connect 'projects/:project_id/news.:format', :action => 'index'
-      news_views.connect 'news.:format', :action => 'index'
-      news_views.connect 'projects/:project_id/news/new', :action => 'new'
-      news_views.connect 'news/:id', :action => 'show'
-      news_views.connect 'news/:id/edit', :action => 'edit'
-    end
-    news_routes.with_options do |news_actions|
-      news_actions.connect 'projects/:project_id/news', :action => 'create', :conditions => {:method => :post}
-      news_actions.connect 'news/:id/destroy', :action => 'destroy'
-    end
-    news_routes.connect 'news/:id/edit', :action => 'update', :conditions => {:method => :put}
-
-    news_routes.connect 'news/:id/comments', :controller => 'comments', :action => 'create', :conditions => {:method => :post}
-    news_routes.connect 'news/:id/comments/:comment_id', :controller => 'comments', :action => 'destroy', :conditions => {:method => :delete}
-  end
-  
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
   
   map.with_options :controller => 'users' do |users|
@@ -182,6 +159,12 @@ ActionController::Routing::Routes.draw do |map|
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'
 
+  map.all_news 'news', :controller => 'news', :action => 'index'
+  map.formatted_all_news 'news.:format', :controller => 'news', :action => 'index'
+  map.preview_news '/news/preview', :controller => 'previews', :action => 'news'
+  map.connect 'news/:id/comments', :controller => 'comments', :action => 'create', :conditions => {:method => :post}
+  map.connect 'news/:id/comments/:comment_id', :controller => 'comments', :action => 'destroy', :conditions => {:method => :delete}
+
   map.resources :projects, :member => {
     :copy => [:get, :post],
     :settings => :get,
@@ -192,6 +175,7 @@ ActionController::Routing::Routes.draw do |map|
     project.resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
     project.resources :files, :only => [:index, :new, :create]
     project.resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
+    project.resources :news, :shallow => true
   end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request

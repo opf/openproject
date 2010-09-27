@@ -1,5 +1,5 @@
 <p><%= link_to_project(news.project) + ': ' unless @project %>
-<%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+<%= link_to h(news.title), news_path(news) %>
 <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
 <br />
 <% unless news.summary.blank? %><span class="summary"><%=h news.summary %></span><br /><% end %>
