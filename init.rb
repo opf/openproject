@@ -32,7 +32,7 @@ Redmine::Plugin.register :redmine_reporting do
   Redmine::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/index"
 
   #menu extensions
-  menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index'},
+  menu :top_menu, :cost_reports_global, {:controller => 'cost_reports', :action => 'index', :project_id => nil},
     :caption => :cost_reports_title,
     :if => Proc.new {
       ( User.current.allowed_to?(:view_cost_entries, nil, :global => true, :for => User.current ) ||
