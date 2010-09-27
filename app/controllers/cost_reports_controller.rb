@@ -95,12 +95,26 @@ class CostReportsController < ApplicationController
   end
 
   ##
+  # We apply a project filter, except when we are just applying a brand new query
+  def ensure_project_scope(filters)
+    return if set_filter?
+    if @project
+      filters[:operators].merge! :project_id => "="
+      filters[:values].merge! :project_id => @project.id.to_s
+    else
+      filters[:operators].delete :project_id
+      filters[:values].delete :project_id
+    end
+  end
+
+  ##
   # Build the query from the current request and save it to
   # the session.
   def generate_query
     CostQuery::QueryUtils.cache.clear
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
+    ensure_project_scope filters
 
     session[:cost_query] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
