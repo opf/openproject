@@ -30,10 +30,11 @@ class CostReportsController < ApplicationController
   def available_values
     filter = filter_class(params[:filter_name].to_s)
     render_404 unless filter
+    can_answer = filter.respond_to? :available_values
     @available_values = filter.available_values
 
     respond_to do |format|
-      format.html { render :layout => !request.xhr? }
+      format.html { can_answer ? render(:layout => !request.xhr?) : "" }
     end
   end
 
