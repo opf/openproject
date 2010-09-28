@@ -240,6 +240,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_should_send_email_notification
+    Setting.notified_events = ['issue_added']
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')

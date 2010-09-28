@@ -3,6 +3,9 @@ module Redmine
     CoreNotifications = [
                          'issue_added',
                          'issue_updated',
+                         'issue_note_added',
+                         'issue_status_updated',
+                         'issue_priority_updated',
                          'news_added',
                          'document_added',
                          'file_added',

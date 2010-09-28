@@ -22,10 +22,10 @@ class Redmine::NotifiableTest < ActiveSupport::TestCase
   end
 
   def test_included_core_notifications
-    assert_equal 8, Redmine::Notifiable::CoreNotifications.length
+    assert_equal 11, Redmine::Notifiable::CoreNotifications.length
     Redmine::Notifiable::CoreNotifications.length
 
-    %w(issue_added issue_updated news_added document_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
+    %w(issue_added issue_updated issue_note_added issue_status_updated issue_priority_updated news_added document_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
       assert Redmine::Notifiable::CoreNotifications.include?(notifiable), "missing #{notifiable}"
     end
   end
