@@ -86,10 +86,15 @@ function set_remove_button_visibility(field, value) {
 }
 
 function show_filter(field) {
+    show_filter_callback(field, function(){;});
+}
+
+function show_filter_callback(field, callback_func) {
     var field_el = $('tr_' +  field);
     register_remove_hover(field);
     if (field_el !== null) {
-        load_available_values_for_filter(field);
+        load_available_values_for_filter(field, callback_func);
+        // the following command might be included into the callback_function (which is called after the ajax request) later
         field_el.show();
         toggle_filter(field);
         $('rm_' + field).value = field;
@@ -233,10 +238,11 @@ function restore_values(field, values) {
 function restore_filter(field, operator, values) {
     select_operator(field, operator);
     disable_select_option($("add_filter_select"), field);
-    show_filter(field);
-    if (typeof(values) != "undefined") {
-        restore_values(field, values);
-    }
+    show_filter_callback(field, function() {
+        if (typeof(values) != "undefined") {
+            restore_values(field, values);
+        }
+    });
 }
 
 function show_group_by_column(group_by) {
@@ -299,7 +305,7 @@ function init_group_bys() {
     Sortable.create('group_rows', options);
 }
 
-function load_available_values_for_filter(filter_name) {
+function load_available_values_for_filter(filter_name, callback_func) {
   var select;
   select = $('' + filter_name + '_arg_1_val');
   if (select.readAttribute('data-loading') == "ajax" && select.childElements().length == 0) {
@@ -314,6 +320,7 @@ function load_available_values_for_filter(filter_name) {
       onComplete: function (a,b) {
         $('operators_' + filter_name).enable();
         $('' + filter_name + '_arg_1_val').enable();
+        callback_func();
       }
     });
   }
