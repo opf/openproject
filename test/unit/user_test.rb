@@ -285,7 +285,7 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_mail_notification_all
-    @jsmith.mail_notification = true
+    @jsmith.mail_notification = 'all'
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload
@@ -293,15 +293,15 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_mail_notification_selected
-    @jsmith.mail_notification = false
+    @jsmith.mail_notification = 'selected'
     @jsmith.notified_project_ids = [1]
     @jsmith.save
     @jsmith.reload
     assert Project.find(1).recipients.include?(@jsmith.mail)
   end
   
-  def test_mail_notification_none
-    @jsmith.mail_notification = false
+  def test_mail_notification_only_my_events
+    @jsmith.mail_notification = 'only_my_events'
     @jsmith.notified_project_ids = []
     @jsmith.save
     @jsmith.reload

@@ -12,7 +12,7 @@ users_004:
   firstname: Robert
   id: 4
   auth_source_id: 
-  mail_notification: true
+  mail_notification: all
   login: rhill
   type: User
 users_001: 
@@ -28,7 +28,7 @@ users_001:
   firstname: redMine
   id: 1
   auth_source_id: 
-  mail_notification: true
+  mail_notification: all
   login: admin
   type: User
 users_002: 
@@ -44,7 +44,7 @@ users_002:
   firstname: John
   id: 2
   auth_source_id: 
-  mail_notification: true
+  mail_notification: all
   login: jsmith
   type: User
 users_003: 
@@ -60,7 +60,7 @@ users_003:
   firstname: Dave
   id: 3
   auth_source_id: 
-  mail_notification: true
+  mail_notification: all
   login: dlopper
   type: User
 users_005: 
@@ -77,7 +77,7 @@ users_005:
   lastname: Lopper2
   firstname: Dave2
   auth_source_id: 
-  mail_notification: true
+  mail_notification: all
   login: dlopper2
   type: User
 users_006: 
@@ -93,7 +93,7 @@ users_006:
   lastname: Anonymous
   firstname: ''
   auth_source_id: 
-  mail_notification: false
+  mail_notification: only_my_events
   login: ''
   type: AnonymousUser
 users_007: 
@@ -109,7 +109,7 @@ users_007:
   lastname: One
   firstname: Some
   auth_source_id: 
-  mail_notification: false
+  mail_notification: only_my_events
   login: someone
   type: User
 users_008: 
@@ -125,7 +125,7 @@ users_008:
   lastname: Misc
   firstname: User
   auth_source_id: 
-  mail_notification: false
+  mail_notification: only_my_events
   login: miscuser8
   type: User
 users_009: 
@@ -141,7 +141,7 @@ users_009:
   lastname: Misc
   firstname: User
   auth_source_id: 
-  mail_notification: false
+  mail_notification: only_my_events
   login: miscuser9
   type: User
 groups_010: 
