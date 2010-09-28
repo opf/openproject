@@ -60,6 +60,18 @@ class UserTest < ActiveSupport::TestCase
     user.password, user.password_confirmation = "password", "password"
     assert user.save
   end
+
+  context "User#before_create" do
+    should "set the mail_notification to the default Setting" do
+      @user1 = User.generate_with_protected!
+      assert_equal 'only_my_events', @user1.mail_notification
+
+      with_settings :default_notification_option => 'all' do
+        @user2 = User.generate_with_protected!
+        assert_equal 'all', @user2.mail_notification
+      end
+    end
+  end
   
   context "User.login" do
     should "be case-insensitive." do

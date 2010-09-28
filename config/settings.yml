@@ -184,3 +184,5 @@ start_of_week:
   default: ''
 rest_api_enabled:
   default: 0
+default_notification_option:
+  default: 'only_my_events'

@@ -350,6 +350,7 @@ en:
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
+  setting_default_notification_option: Default notification option
   
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

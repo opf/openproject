@@ -74,7 +74,7 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
 
   def before_create
-    self.mail_notification = 'only_my_events'
+    self.mail_notification = Setting.default_notification_option
     true
   end
   
