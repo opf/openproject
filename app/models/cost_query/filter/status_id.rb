@@ -4,7 +4,7 @@ class CostQuery::Filter::StatusId < CostQuery::Filter::Base
   applies_for :label_issue_attributes
   label :field_status
 
-  def self.available_values(user)
+  def self.available_values(*)
     IssueStatus.find(:all, :order => 'name').map { |i| [i.name, i.id] }
   end
 end

@@ -11,7 +11,7 @@ class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
     @display
   end
 
-  def self.available_values(user)
+  def self.available_values(*)
     ([[l(:caption_labor), -1]] + CostType.find(:all, :order => 'name').map { |t| [t.name, t.id] })
   end
 end

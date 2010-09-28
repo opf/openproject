@@ -5,7 +5,7 @@ class CostQuery::Filter::OverriddenCosts < CostQuery::Filter::Base
     ['y', 'n'].map { |s| s.to_operator }
   end
 
-  def self.available_values(user)
+  def self.available_values(*)
     []
   end
 end
