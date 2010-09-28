@@ -24,7 +24,7 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
   
-  fixtures :users, :projects, :members, :member_roles, :roles
+  fixtures :users, :projects, :members, :member_roles, :roles, :auth_sources
   
   def setup
     @controller = UsersController.new
@@ -105,6 +105,46 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_nil memberships
     project_ids = memberships.map(&:project_id)
     assert project_ids.include?(2) #private project admin can see
+  end
+
+  context "GET :add" do
+    setup do
+      get :add
+    end
+
+    should_assign_to :user
+    should_respond_with :success
+    should_render_template :add
+  end
+
+  context "POST :create" do
+    context "when successful" do
+      setup do
+        post :create, :user => {
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :login => 'jdoe',
+          :password => 'test',
+          :password_confirmation => 'test',
+          :mail => 'jdoe@gmail.com'
+        }
+      end
+
+      should_assign_to :user
+      should_respond_with :redirect
+      should_redirect_to('user edit') { {:controller => 'users', :action => 'edit', :id => User.find_by_login('jdoe')}}
+    end
+
+    context "when unsuccessful" do
+      setup do
+        post :create, :user => {}
+      end
+
+      should_assign_to :user
+      should_respond_with :success
+      should_render_template :add
+    end
+
   end
 
   def test_edit
