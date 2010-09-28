@@ -89,6 +89,7 @@ function show_filter(field) {
     var field_el = $('tr_' +  field);
     register_remove_hover(field);
     if (field_el !== null) {
+        load_available_values_for_filter(field);
         field_el.show();
         toggle_filter(field);
         $('rm_' + field).value = field;
@@ -461,6 +462,26 @@ function init_group_bys() {
     };
     Sortable.create('group_columns', options);
     Sortable.create('group_rows', options);
+}
+
+function load_available_values_for_filter(filter_name) {
+  var select;
+  select = $('' + filter_name + '_arg_1_val');
+  if (select.childElements().length == 0) {
+    new Ajax.Updater({ success: select }, '/cost_reports/available_values', {
+      parameters: { filter_name: filter_name },
+      insertion: 'bottom',
+      evalScripts: false,
+      onCreate: function (a,b) {
+        $('operators_' + filter_name).disable();
+        $('' + filter_name + '_arg_1_val').disable();
+      },
+      onComplete: function (a,b) {
+        $('operators_' + filter_name).enable();
+        $('' + filter_name + '_arg_1_val').enable();
+      }
+    });
+  }
 }
 
 function defineElementGetter() {

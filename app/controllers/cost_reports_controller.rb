@@ -27,6 +27,16 @@ class CostReportsController < ApplicationController
     redirect_to :action => :index
   end
 
+  def available_values
+    filter = filter_class(params[:filter_name].to_s)
+    render_404 unless filter
+    @available_values = filter.available_values
+
+    respond_to do |format|
+      format.html { render :layout => !request.xhr? }
+    end
+  end
+
   ##
   # Determines if the request contains filters to set
   def set_filter? #FIXME: rename to set_query?

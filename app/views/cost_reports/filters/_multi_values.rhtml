@@ -14,13 +14,7 @@
             id="<%= element[:filter_name] %>_arg_1_val"
             class="select-small"
             multiple="multiple"> <%# multiple will be disabled/enabled later by JavaScript anyhow. We need to specify multiple here because of a IE6-bug. %>
-      <% element[:values].each do |name, id, *args| %>
-        <% level = args.first #nesting_level is optional for values %>
-        <% name_prefix = ((level && level > 0) ? ('&nbsp;' * 2 * level + '&#187; ') : '') %>
-        <option value="<%= id %>">
-          <%= name_prefix + h(name) %>
-        </option>
-      <% end %>
+            <%# content will be inserted on filter activation %>
     </select>
     <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select($('#{element[:filter_name]}_arg_1_val'));", :style => "vertical-align: bottom;" %>
   </div>

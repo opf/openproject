@@ -1,0 +1,11 @@
+<%#
+  This partial requires the following locals:
+    name  String:  The displayed name of the option
+    id    Integer: The id the option refers to
+    level Integer: The indendation level of this option
+%>
+
+<% name_prefix = ((level && level > 0) ? ('&nbsp;' * 2 * level + '&#187; ') : '') %>
+<option value="<%= id %>">
+  <%= name_prefix + h(name) %>
+</option>
