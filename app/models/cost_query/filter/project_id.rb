@@ -7,7 +7,7 @@ class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
   # Gives a map of [project_name, project_id, nesting_level_of_project].
   # The map is sorted such that projects appear in alphabetical order within a nesting level
   # and so that descendant projects appear after their ancestors.
-  def self.available_values(user)
+  def self.available_values(*)
     map = []
     ancestors = []
     Project.visible.sort_by(&:lft).each do |project|

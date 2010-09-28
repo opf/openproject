@@ -4,7 +4,7 @@ class CostQuery::Filter::AssignedToId < CostQuery::Filter::Base
   applies_for :label_issue_attributes
   label :field_assigned_to
 
-  def self.available_values(user)
-    CostQuery::Filter::UserId.available_values user
+  def self.available_values(*)
+    CostQuery::Filter::UserId.available_values
   end
 end
