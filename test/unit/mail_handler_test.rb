@@ -152,7 +152,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
-    assert_equal 1, issue.watchers.size
+    assert_equal 1, issue.watcher_user_ids.size
   end
   
   def test_add_issue_by_unknown_user

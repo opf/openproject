@@ -3,7 +3,7 @@ class User < Principal
   generator_for :mail, :method => :next_email
   generator_for :firstname, :method => :next_firstname
   generator_for :lastname, :method => :next_lastname
-
+  
   def self.next_login
     @gen_login ||= 'user1'
     @gen_login.succ!

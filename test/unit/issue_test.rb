@@ -742,7 +742,9 @@ class IssueTest < ActiveSupport::TestCase
   context "Issue#recipients" do
     setup do
       @project = Project.find(1)
-      @issue = Issue.generate_for_project!(@project, :assigned_to => User.generate_with_protected!)
+      @author = User.generate_with_protected!
+      @assignee = User.generate_with_protected!
+      @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
     end
     
     should "include project recipients" do
@@ -761,5 +763,24 @@ class IssueTest < ActiveSupport::TestCase
       assert @issue.assigned_to, "No assigned_to set for Issue"
       assert @issue.recipients.include?(@issue.assigned_to.mail)
     end
+
+    should "not include users who opt out of all email" do
+      @author.update_attribute(:mail_notification, :none)
+
+      assert !@issue.recipients.include?(@issue.author.mail)
+    end
+
+    should "not include the issue author if they are only notified of assigned issues" do
+      @author.update_attribute(:mail_notification, :only_assigned)
+
+      assert !@issue.recipients.include?(@issue.author.mail)
+    end
+
+    should "not include the assigned user if they are only notified of owned issues" do
+      @assignee.update_attribute(:mail_notification, :only_owner)
+
+      assert !@issue.recipients.include?(@issue.assigned_to.mail)
+    end
+
   end
 end

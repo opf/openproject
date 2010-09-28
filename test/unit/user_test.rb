@@ -398,6 +398,72 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
+  context "User#notify_about?" do
+    context "Issues" do
+      setup do
+        @project = Project.find(1)
+        @author = User.generate_with_protected!
+        @assignee = User.generate_with_protected!
+        @issue = Issue.generate_for_project!(@project, :assigned_to => @assignee, :author => @author)
+      end
+
+      should "be true for a user with :all" do
+        @author.update_attribute(:mail_notification, :all)
+        assert @author.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :none" do
+        @author.update_attribute(:mail_notification, :none)
+        assert ! @author.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
+        @user = User.generate_with_protected!(:mail_notification => :only_my_events)
+        assert ! @user.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :only_my_events and is the author" do
+        @author.update_attribute(:mail_notification, :only_my_events)
+        assert @author.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :only_my_events and is the assignee" do
+        @assignee.update_attribute(:mail_notification, :only_my_events)
+        assert @assignee.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :only_assigned and is the assignee" do
+        @assignee.update_attribute(:mail_notification, :only_assigned)
+        assert @assignee.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :only_assigned and is not the assignee" do
+        @author.update_attribute(:mail_notification, :only_assigned)
+        assert ! @author.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :only_owner and is the author" do
+        @author.update_attribute(:mail_notification, :only_owner)
+        assert @author.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :only_owner and is not the author" do
+        @assignee.update_attribute(:mail_notification, :only_owner)
+        assert ! @assignee.notify_about?(@issue)
+      end
+      
+      should "be false if the mail_notification is anything else" do
+        @assignee.update_attribute(:mail_notification, :somthing_else)
+        assert ! @assignee.notify_about?(@issue)
+      end
+      
+    end
+
+    context "other events" do
+      should 'be added and tested'
+    end
+  end
+  
   if Object.const_defined?(:OpenID)
     
   def test_setting_identity_url
