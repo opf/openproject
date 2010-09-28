@@ -12,6 +12,7 @@
             name="values[<%= element[:filter_name] %>][]"
             id="<%= element[:filter_name] %>_arg_1_val"
             class="select-small"
+            data-loading="ajax"
             multiple="multiple"> <%# multiple will be disabled/enabled later by JavaScript anyhow. We need to specify multiple here because of a IE6-bug. %>
             <%# content will be inserted on filter activation %>
     </select>
