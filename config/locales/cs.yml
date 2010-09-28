@@ -918,3 +918,7 @@ cs:
   button_edit_associated_wikipage: "Upravit přiřazenou Wiki stránku: {{page_title}}"
   text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
   field_text: Textové pole
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to
