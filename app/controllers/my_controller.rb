@@ -66,13 +66,7 @@ class MyController < ApplicationController
         return
       end
     end
-    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
-    # Only users that belong to more than 1 project can select projects for which they are notified
-    # Note that @user.membership.size would fail since AR ignores
-    # :include association option when doing a count
-    if @user.memberships.length < 1
-      @notification_options.delete_if {|option| option.first == :selected}
-    end
+    @notification_options = @user.valid_notification_options
     @notification_option = @user.mail_notification #? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
   end
 

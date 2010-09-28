@@ -77,14 +77,6 @@ class UsersController < ApplicationController
 
     @user = User.new(:language => Setting.default_language)
     @auth_sources = AuthSource.find(:all)
-
-    # TODO: Similar to My#account
-    # Only users that belong to more than 1 project can select projects for which they are notified
-    # Note that @user.membership.size would fail since AR ignores
-    # :include association option when doing a count
-    if @user.memberships.length < 1
-      @notification_options.delete_if {|option| option.first == :selected}
-    end
   end
   
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
@@ -121,14 +113,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    # TODO: Similar to My#account
-    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
-    # Only users that belong to more than 1 project can select projects for which they are notified
-    # Note that @user.membership.size would fail since AR ignores
-    # :include association option when doing a count
-    if @user.memberships.length < 1
-      @notification_options.delete_if {|option| option.first == :selected}
-    end
+    @notification_options = @user.valid_notification_options
     @notification_option = @user.mail_notification
 
     if request.post?

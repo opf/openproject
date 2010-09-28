@@ -259,6 +259,17 @@ class User < Principal
     notified_projects_ids
   end
 
+  # Only users that belong to more than 1 project can select projects for which they are notified
+  def valid_notification_options
+    # Note that @user.membership.size would fail since AR ignores
+    # :include association option when doing a count
+    if memberships.length < 1
+      MAIL_NOTIFICATION_OPTIONS.delete_if {|option| option.first == :selected}
+    else
+      MAIL_NOTIFICATION_OPTIONS
+    end
+  end
+
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
