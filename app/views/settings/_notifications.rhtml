@@ -12,11 +12,13 @@
 
 </div>
 
-<fieldset class="box settings" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
-	<%= setting_multiselect(:notified_events, 
-        @notifiables.collect {|notifiable| [l_or_humanize(notifiable, :prefix => 'label_'), notifiable]}, :label => false) %>
-
-	<p><%= check_all_links('notified_events') %></p>
+<fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+<%= hidden_field_tag 'settings[notified_events][]', '' %>
+<% @notifiables.each do |notifiable| %>
+<%= notification_field notifiable %>
+<br />
+<% end %>
+<p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>

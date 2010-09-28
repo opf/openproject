@@ -71,4 +71,14 @@ module SettingsHelper
     label = options.delete(:label)
     label != false ? content_tag("label", l(label || "setting_#{setting}")) : ''
   end
+
+  # Renders a notification field for a Redmine::Notifiable option
+  def notification_field(notifiable)
+    return content_tag(:label,
+                       check_box_tag('settings[notified_events][]',
+                                     notifiable.name,
+                                     Setting.notified_events.include?(notifiable.name)) +
+                         l_or_humanize(notifiable.name, :prefix => 'label_'),
+                       :class => notifiable.parent.present? ? "parent" : '')
+  end
 end
