@@ -21,7 +21,7 @@ module ReportingHelper
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :multi_values, :filter_name => filter.underscore_name, :values => filter.available_values},
+      {:name => :multi_values, :filter_name => filter.underscore_name},
       {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
