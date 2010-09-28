@@ -1,0 +1,12 @@
+<p>
+<%= select_tag 'notification_option', options_for_select(@notification_options.collect {|o| [l(o.last), o.first]}, @notification_option.to_sym),
+                                      :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
+</p>
+<% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>
+<p><% @user.projects.each do |project| %>
+    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
+<% end %></p>
+<p><em><%= l(:text_user_mail_option) %></em></p>
+<% end %>
+<p><label><%= l(:label_user_mail_no_self_notified) %></label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></p>
+

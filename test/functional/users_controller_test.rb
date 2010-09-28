@@ -127,12 +127,18 @@ class UsersControllerTest < ActionController::TestCase
           :password => 'test',
           :password_confirmation => 'test',
           :mail => 'jdoe@gmail.com'
-        }
+        },
+        :notification_option => 'none'
       end
 
       should_assign_to :user
       should_respond_with :redirect
       should_redirect_to('user edit') { {:controller => 'users', :action => 'edit', :id => User.find_by_login('jdoe')}}
+
+      should 'set the users mail notification' do
+        user = User.last
+        assert_equal 'none', user.mail_notification
+      end
     end
 
     context "when unsuccessful" do
@@ -149,8 +155,13 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_edit
     ActionMailer::Base.deliveries.clear
-    post :edit, :id => 2, :user => {:firstname => 'Changed'}
-    assert_equal 'Changed', User.find(2).firstname
+    post :edit, :id => 2, :user => {:firstname => 'Changed'}, :notification_option => 'all', :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
+
+    user = User.find(2)
+    assert_equal 'Changed', user.firstname
+    assert_equal 'all', user.mail_notification
+    assert_equal true, user.pref[:hide_mail]
+    assert_equal 'desc', user.pref[:comments_sorting]
     assert ActionMailer::Base.deliveries.empty?
   end
   

@@ -74,7 +74,7 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
 
   def before_create
-    self.mail_notification = Setting.default_notification_option
+    self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
     true
   end
   

@@ -32,24 +32,12 @@
 <div class="splitcontentright">
 <h3><%=l(:field_mail_notification)%></h3>
 <div class="box">
-<%= select_tag 'notification_option', options_for_select(@notification_options.collect {|o| [l(o.last), o.first]}, @notification_option.to_sym),
-                                      :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
-<% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>
-<p><% User.current.projects.each do |project| %>
-    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
-<% end %></p>
-<p><em><%= l(:text_user_mail_option) %></em></p>
-<% end %>
-<p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
+<%= render :partial => 'users/mail_notifications' %>
 </div>
 
 <h3><%=l(:label_preferences)%></h3>
 <div class="box tabular">
-<% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
-<p><%= pref_fields.check_box :hide_mail %></p>
-<p><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
-<p><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p>
-<% end %>
+<%= render :partial => 'users/preferences' %>
 </div>
 
 </div>
