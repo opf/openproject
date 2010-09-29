@@ -22,9 +22,9 @@ class AdminTest < ActionController::IntegrationTest
 
   def test_add_user
     log_user("admin", "admin")
-    get "/users/add"
+    get "/users/new"
     assert_response :success
-    assert_template "users/add"
+    assert_template "users/new"
     post "/users/create", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.foo", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
     
     user = User.find_by_login("psmith")

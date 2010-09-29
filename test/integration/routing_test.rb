@@ -246,7 +246,7 @@ class RoutingTest < ActionController::IntegrationTest
   context "users" do
     should_route :get, "/users", :controller => 'users', :action => 'index'
     should_route :get, "/users/44", :controller => 'users', :action => 'show', :id => '44'
-    should_route :get, "/users/new", :controller => 'users', :action => 'add'
+    should_route :get, "/users/new", :controller => 'users', :action => 'new'
     should_route :get, "/users/444/edit", :controller => 'users', :action => 'edit', :id => '444'
     should_route :get, "/users/222/edit/membership", :controller => 'users', :action => 'edit', :id => '222', :tab => 'membership'
 

@@ -107,14 +107,14 @@ class UsersControllerTest < ActionController::TestCase
     assert project_ids.include?(2) #private project admin can see
   end
 
-  context "GET :add" do
+  context "GET :new" do
     setup do
-      get :add
+      get :new
     end
 
     should_assign_to :user
     should_respond_with :success
-    should_render_template :add
+    should_render_template :new
   end
 
   context "POST :create" do
@@ -148,7 +148,7 @@ class UsersControllerTest < ActionController::TestCase
 
       should_assign_to :user
       should_respond_with :success
-      should_render_template :add
+      should_render_template :new
     end
 
   end

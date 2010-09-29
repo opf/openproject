@@ -143,11 +143,10 @@ ActionController::Routing::Routes.draw do |map|
     users.with_options :conditions => {:method => :get} do |user_views|
       user_views.connect 'users', :action => 'index'
       user_views.connect 'users/:id', :action => 'show', :id => /\d+/
-      user_views.connect 'users/new', :action => 'add'
+      user_views.connect 'users/new', :action => 'new'
       user_views.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil
     end
     users.with_options :conditions => {:method => :post} do |user_actions|
-      user_actions.connect 'users', :action => 'add'
       user_actions.connect 'users/new', :action => 'create'
       user_actions.connect 'users/:id/edit', :action => 'edit'
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'

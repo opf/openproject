@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     render_404
   end
 
-  def add
+  def new
     @notification_options = User::MAIL_NOTIFICATION_OPTIONS
     @notification_option = Setting.default_notification_option
 
@@ -100,14 +100,14 @@ class UsersController < ApplicationController
 
       Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
       flash[:notice] = l(:notice_successful_create)
-      redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
+      redirect_to(params[:continue] ? {:controller => 'users', :action => 'new'} : 
                                       {:controller => 'users', :action => 'edit', :id => @user})
       return
     else
       @auth_sources = AuthSource.find(:all)
       @notification_option = @user.mail_notification
 
-      render :action => 'add'
+      render :action => 'new'
     end
   end
 
