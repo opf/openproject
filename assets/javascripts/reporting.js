@@ -222,11 +222,10 @@ function restore_values(field, values) {
     op_select = $("operators_" + field);
     op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
     args = find_arguments(field);
-
     if (!Object.isArray(values)) {
         values = [values];
     }
-    if (op_arity < 0) {
+    if (op_arity < 0 && !(args[0].type.empty()) && args[0].type.include('select')) {
         restore_select_values(args[0], values);
     } else {
         for (i = 0; i < values.length && i < args.length; i++) {
@@ -261,7 +260,7 @@ function disable_all_filters() {
             field = e.id.gsub('tr_', '');
             hide_filter(field);
             possible_select = $(field + '_arg_1_val');
-            if (possible_select !== null && possible_select.type.include('select')) {
+            if (possible_select !== null && possible_select.type && possible_select.type.include('select')) {
                 make_select_accept_single_value(possible_select);
             }
         }
