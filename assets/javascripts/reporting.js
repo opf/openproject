@@ -433,12 +433,13 @@ function disable_all_filters() {
 }
 
 function disable_all_group_bys() {
-    [$('group_by_columns'), $('group_by_rows')].each(function(origin) {
-        origin.up().siblings().each(function(sibling) {
-            if (sibling !== origin && sibling.className.include('group_by')) {
-                sibling.remove();
+    [$('group_columns'), $('group_rows')].each(function(origin) {
+        children = origin.childNodes;
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].className.include('group_by')) {
+                children[i].remove();
             }
-        });
+        }
     });
 }
 
