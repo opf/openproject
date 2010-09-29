@@ -50,15 +50,16 @@ module Backlogs
     end
 
     def score
-      score = {}
+      scoring = {}
       @errors.each_pair{ |k, v|
         if v.is_a? Hash
-          score[k] = v.values.select{|elt| !elt.blank? }.inject(true){|all, elt| all && elt}
+          v = v.values.select{|s| !s.nil?}
+          scoring[k] = v.select{|s| s}.size == 0 if v.size != 0
         else
-          score[k] = v if !v.blank?
+          scoring[k] = !v unless v.nil?
         end
       }
-      return ((score.values.select{|v| v}.size * 10) / score.size)
+      return ((scoring.values.select{|v| v}.size * 10) / scoring.size)
     end
 
     def scores(prefix='')
