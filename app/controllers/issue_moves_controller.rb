@@ -1,6 +1,6 @@
 class IssueMovesController < ApplicationController
   default_search_scope :issues
-  before_filter :find_issues
+  before_filter :find_issues, :check_project_uniqueness
   before_filter :authorize
   
   def new

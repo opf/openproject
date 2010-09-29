@@ -21,6 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
+  before_filter :check_project_uniqueness, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
