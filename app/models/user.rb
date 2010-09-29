@@ -344,12 +344,17 @@ class User < Principal
     !roles_for_project(project).detect {|role| role.member?}.nil?
   end
   
-  # Return true if the user is allowed to do the specified action on project
-  # action can be:
+  # Return true if the user is allowed to do the specified action on a specific context
+  # Action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
+  # Context can be:
+  # * a project : returns true if user is allowed to do the specified action on this project
+  # * a group of projects : returns true if user is allowed on every project
+  # * nil with options[:global] set : check if user has at least one role allowed for this action, 
+  #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def allowed_to?(action, project, options={})
-    if project
+    if project && project.is_a?(Project)
       # No action allowed on archived projects
       return false unless project.active?
       # No action allowed on disabled modules
@@ -361,6 +366,11 @@ class User < Principal
       return false unless roles
       roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action)}
       
+    elsif project && project.is_a?(Array)
+      # Authorize if user is authorized on every element of the array
+      project.inject do |memo,p|
+        memo && allowed_to?(action,p,options)
+      end
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
