@@ -31,16 +31,16 @@ module Backlogs
 
       case cat
         when :error
-          if subkey.blank?
+          if subkey.nil?
             raise "Already reported #{key.inspect}" if @errors.include?(key)
-            @errors[key] = value.blank? ? nil : (!!value)
+            @errors[key] = value.nil? ? nil : (!!value)
 
           else
             raise "Already reported #{key.inspect}" if @errors.include?(key) && ! @errors[key].is_a?(Hash)
             @errors[key] ||= {}
 
             raise "Already errors #{key.inspect}/#{subkey.inspect}" if @errors[key].include?(subkey)
-            @errors[key][subkey] = value.blank? ? nil : (!!value)
+            @errors[key][subkey] = value.nil? ? nil : (!!value)
           end
 
         when :info
