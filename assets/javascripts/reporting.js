@@ -216,7 +216,7 @@ function select_active_group_bys() {
 function sort_group_bys(select, group_bys) {
     for (var k = 0; k < group_bys.length; k++) {
         for (var i = 0; i < select.options.length; i++) {
-            if (group_bys[k].getAttribute('value') == select.options[i].value) {
+            if (group_bys[k].getAttribute('data-backref') == select.options[i].value) {
                 select.options[i].setAttribute('data-sort_by', k);
                 select.options[i].selected = true;
                 sortOptions(select);
@@ -274,7 +274,7 @@ function restore_filter(field, operator, values) {
 function add_group_by(select) {
     field = select.value;
     group_by = init_group_by(field + "_" + select.id);
-    group_by.setAttribute('value', field);
+    group_by.setAttribute('data-backref', field);
     select.up().appendChild(group_by);
     label = init_label(group_by);
     label.innerHTML = sanitized_selected(select);
@@ -290,8 +290,8 @@ function add_group_by(select) {
 
 function remove_group_by(arrow) {
     group_by = arrow.up();
-    enable_select_option($('group_by_columns'), group_by.getAttribute('value'));
-    enable_select_option($('group_by_rows'), group_by.getAttribute('value'));
+    enable_select_option($('group_by_columns'), group_by.getAttribute('data-backref'));
+    enable_select_option($('group_by_rows'), group_by.getAttribute('data-backref'));
     previous = group_by.previous();
     group_by.remove();
     if (previous !== null) {
