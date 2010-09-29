@@ -41,6 +41,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   
   def setup
     ActionMailer::Base.deliveries.clear
+    Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
   end
   
   def test_add_issue
