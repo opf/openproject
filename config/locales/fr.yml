@@ -1,0 +1,98 @@
+# French strings go here for Rails i18n
+# Used this document as main reference : http://www.scrum.org/storage/scrumguides/Scrum%20Guide%20-%20FR.pdf
+fr:
+  backlogs_story_tracker: "Tracker d'histoires"
+  backlogs_task_tracker: "Tracker de tâches"
+  backlogs_card_specification: "Types d'étiquettes pour impression de cartes"
+  backlogs_sprints: "Sprints"
+  field_story_points: "Points d'histoire"
+  field_remaining_hours: "Heures restantes"
+  button_edit_wiki: "Modifier la page wiki"
+  field_backlogs_issue_type: "Type de carnet"
+  backlogs_story: Histoire
+  backlogs_task: Tâche
+  backlogs_any: tous
+  backlogs_points_burn_direction: "progression des points"
+  label_points_burn_up: Haut
+  label_points_burn_down: Bas
+  field_position: Position
+  backlogs_product_backlog: "Carnet de produit"
+  backlogs_wiki_template: "Maquette pour page wiki d'histoire"
+  points_committed: "points commis"
+  required_burn_rate_points: "taux de progression requis (points)"
+  required_burn_rate_hours: "taux progression requis (hours)"
+  points_to_accept: "points non-acceptés"
+  points_accepted: "points acceptés"
+  ideal: "idéal"
+  points_to_resolve: "points non-résolus"
+  points_resolved: "points résolus"
+  remaining_hours: "heures restantes"
+  field_velocity_based_estimate: "Estimé basé sur la vélocité"
+
+  backlogs_active: actif
+
+  label_task_board: "Tableau des tâches"
+  label_stories_tasks: "Histoires/Tâches"
+  label_stories: "Histoires"
+  label_burndown: "Progression"
+  label_product_cards: "Cartes de carnet du produit"
+  label_sprint_cards: "Cartes de sprint"
+  label_select_all: "Sélectionner tout"
+
+  label_back_to_project: "Retour à la page produit"
+  label_sprint_name: "Sprint \"{{name}}\""
+  label_backlogs: Carnets
+  label_scrum_statistics: "Statistiques du Scrum"
+
+  label_sprint_backlog: "carnet du sprint"
+  label_product_backlog: "carnet du produit"
+  label_Product_backlog: "Carnet du produit"
+
+  backlogs_sizing_inconsistent: "Les tailles des histoires varient par rapport à leurs estimations"
+  backlogs_velocity_missing: "Aucune vélocité n'a pu être calculée pour ce projet"
+  backlogs_product_backlog_is_empty: "Le carnet de produit est vide"
+  backlogs_inactive: "Le projet ne montre aucune activité"
+  backlogs_sprint_unestimated: "Sprints fermés ou actifs avec histoires non-estimés"
+  backlogs_sprint_notes_missing: "Sprints fermés sans notes de rétrospective/revue"
+  backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des histoires qui n'ont pas de taille définie"
+  backlogs_velocity_varies: "La vélocité varie de façon significative à travers les différents sprints"
+  backlogs_sprint_unsized: "Le projet a des histoires sur des sprints actifs ou récemment fermés qui n'ont pas de taille définie"
+
+  label_hours: heures
+  label_points: points
+  label_not_prioritized: "non priorisé"
+
+  label_backlogs_unconfigured: "Vous n'avez pas encore configuré les Carnets. Veuillez aller à {{administration}} > {{plugins}}, et cliquez sur le lien {{configure}} pour ce plugin. Une fois que vous aurez défini ces champs, revenez à cette page pour utiliser l'outil"
+
+  label_sprint_velocity: "Vélocité {{velocity}}, basée sur  les sprints {{sprints}} avec une moyenne de {{days}} jours"
+
+  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
+  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+
+  label_chart_options: "Options du graphique"
+
+  error_intro_singular: "L'erreur suivante a été rencontrée:"
+  error_intro_plural: "Les erreurs suivantes ont été rencontrées:"
+  error_outro: "Veuillez corriger les erreurs ci-dessus avant de soumettre à nouveau."
+
+  label_sprint_impediments: "Bloquants du Sprint"
+
+  field_subject: "Sujet"
+
+  field_blocks: "Blocks"
+  error_must_have_comma_delimited_list: "doit avoir une liste d'histoires ou numéros de tâches séparées de virgules"
+
+  field_tracker_id: Tracker ID
+  inclusion: "n'est pas inclut dans la liste"
+  
+  label_webcal: Webcal Feed
+  label_master_backlog: Carnet Maître
+
+  # Version fields
+  field_name: "Nom"
+  
+  # Error messages
+  error_blank: "ne peut être vide"
+  error_greater_than_start_date: "ne peut pas être plus tôt que la date de début"
