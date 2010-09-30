@@ -33,7 +33,10 @@ class MigrateLegacy < ActiveRecord::Migration
     rescue
       legacy = false
     end
-    ActiveRecord::Base.connection.commit_db_transaction
+
+    adapter = ActiveRecord::Base.connection.instance_variable_get("@config")[:adapter].downcase
+
+    ActiveRecord::Base.connection.commit_db_transaction unless adapter.include?('sqlite')
 
     if legacy
       Story.reset_column_information
@@ -66,7 +69,7 @@ class MigrateLegacy < ActiveRecord::Migration
       }
 
       # close existing transactions and turn on autocommit
-      ActiveRecord::Base.connection.commit_db_transaction
+      ActiveRecord::Base.connection.commit_db_transaction unless adapter.include?('sqlite')
 
       say_with_time "Migrating Backlogs data..." do
         bottom = 0
@@ -157,7 +160,7 @@ class MigrateLegacy < ActiveRecord::Migration
         from backlogs
         join backlog_chart_data on backlogs.id = backlog_id
         }
-      ActiveRecord::Base.connection.commit_db_transaction
+      ActiveRecord::Base.connection.commit_db_transaction unless adapter.include?('sqlite')
 
       drop_table :backlogs
       drop_table :items
