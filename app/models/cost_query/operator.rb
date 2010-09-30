@@ -162,18 +162,21 @@ class CostQuery::Operator
 
     new "<d", :label => :label_less_or_equal do
       def modify(query, field, value)
+        return query if value.to_s.empty?
         "<".to_operator.modify query, field, quoted_date(value)
       end
     end
 
     new ">d", :label => :label_greater_or_equal do
       def modify(query, field, value)
+        return query if value.to_s.empty?
         ">".to_operator.modify query, field, quoted_date(value)
       end
     end
 
     new "<>d", :label => :label_between do
       def modify(query, field, from, to)
+        return query if from.to_s.empty? || to.to_s.empty?
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
       end
@@ -181,6 +184,7 @@ class CostQuery::Operator
 
     new "=d", :label => :label_date_on do
       def modify(query, field, value)
+        return query if value.to_s.empty?
         "=".to_operator.modify query, field, quoted_date(value)
       end
     end
