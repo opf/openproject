@@ -323,6 +323,9 @@ function load_available_values_for_filter(filter_name, callback_func) {
       }
     });
   }
+  else {
+    callback_func();
+  }
 }
 
 function defineElementGetter() {
