@@ -148,11 +148,11 @@ ActionController::Routing::Routes.draw do |map|
     end
     users.with_options :conditions => {:method => :post} do |user_actions|
       user_actions.connect 'users/new', :action => 'create'
-      user_actions.connect 'users/:id/edit', :action => 'edit'
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id/destroy', :action => 'destroy_membership'
     end
+    users.connect 'users/:id/edit', :action => 'update', :conditions => {:method => :put}
   end
 
   # For nice "roadmap" in the url for the index action

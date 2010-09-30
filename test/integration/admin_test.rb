@@ -35,7 +35,7 @@ class AdminTest < ActionController::IntegrationTest
     assert_kind_of User, logged_user
     assert_equal "Paul", logged_user.firstname
     
-    post "users/edit", :id => user.id, :user => { :status => User::STATUS_LOCKED }
+    put "users/#{user.id}/edit", :id => user.id, :user => { :status => User::STATUS_LOCKED }
     assert_redirected_to "/users/#{ user.id }/edit"
     locked_user = User.try_to_login("psmith", "psmith09")
     assert_equal nil, locked_user
