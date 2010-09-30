@@ -38,10 +38,14 @@ module CostQuery::CustomFieldMixin
     @on_prepare
   end
 
+  def table_name
+    @class_name.demodulize.underscore.tableize.singularize
+  end
+
   def prepare(field, class_name)
     @custom_field = field
     label field.name
-    table_name(class_name.demodulize.underscore.tableize)
+    @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
     join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, "")
