@@ -97,7 +97,7 @@ module CostQuery::Filter
 
     def sql_statement
       super.tap do |query|
-        arity   = operator.method(:modify).arity - 2
+        arity   = operator.arity
         values  = self.values || []
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
         operator.modify(query, field, *values) unless field.empty?
