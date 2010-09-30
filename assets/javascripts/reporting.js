@@ -471,27 +471,27 @@ function init_group_bys() {
 }
 
 function load_available_values_for_filter(filter_name, callback_func) {
-  var select;
-  select = $('' + filter_name + '_arg_1_val');
-  if (select.readAttribute('data-loading') == "ajax" && select.childElements().length == 0) {
-    new Ajax.Updater({ success: select }, '/cost_reports/available_values', {
-      parameters: { filter_name: filter_name },
-      insertion: 'bottom',
-      evalScripts: false,
-      onCreate: function (a,b) {
-        $('operators_' + filter_name).disable();
-        $('' + filter_name + '_arg_1_val').disable();
-      },
-      onComplete: function (a,b) {
-        $('operators_' + filter_name).enable();
-        $('' + filter_name + '_arg_1_val').enable();
+    var select;
+    select = $('' + filter_name + '_arg_1_val');
+    if (select.readAttribute('data-loading') == "ajax" && select.childElements().length == 0) {
+        new Ajax.Updater({ success: select }, '/cost_reports/available_values', {
+            parameters: { filter_name: filter_name },
+            insertion: 'bottom',
+            evalScripts: false,
+            onCreate: function (a,b) {
+                $('operators_' + filter_name).disable();
+                $('' + filter_name + '_arg_1_val').disable();
+            },
+            onComplete: function (a,b) {
+                $('operators_' + filter_name).enable();
+                $('' + filter_name + '_arg_1_val').enable();
+                callback_func();
+            }
+        });
+    }
+    else {
         callback_func();
-      }
-    });
-  }
-  else {
-    callback_func();
-  }
+    }
 }
 
 function defineElementGetter() {
