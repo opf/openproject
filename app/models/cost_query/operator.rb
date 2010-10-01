@@ -15,6 +15,10 @@ class CostQuery::Operator
         "%s %s '%s'"
       end
 
+      def validate(*values)
+        true
+      end
+
       def modify(query, field, *values)
         query.where [where_clause, field, sql_operator, *values]
         query
@@ -165,12 +169,38 @@ class CostQuery::Operator
         return query if value.to_s.empty?
         "<".to_operator.modify query, field, quoted_date(value)
       end
+
+      def validate(*values)
+        values.all? do |vals|
+          vals = vals.is_a?(Array) ? vals : [vals]
+          vals.all? do |val|
+            begin
+              !!val.to_dateish
+            rescue ArgumentError
+              false
+            end
+          end
+        end
+      end
     end
 
     new ">d", :label => :label_greater_or_equal do
       def modify(query, field, value)
         return query if value.to_s.empty?
         ">".to_operator.modify query, field, quoted_date(value)
+      end
+
+      def validate(*values)
+        values.all? do |vals|
+          vals = vals.is_a?(Array) ? vals : [vals]
+          vals.all? do |val|
+            begin
+              !!val.to_dateish
+            rescue ArgumentError
+              false
+            end
+          end
+        end
       end
     end
 
@@ -180,12 +210,38 @@ class CostQuery::Operator
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
       end
+
+      def validate(*values)
+        values.all? do |vals|
+          vals = vals.is_a?(Array) ? vals : [vals]
+          vals.all? do |val|
+            begin
+              !!val.to_dateish
+            rescue ArgumentError
+              false
+            end
+          end
+        end
+      end
     end
 
     new "=d", :label => :label_date_on do
       def modify(query, field, value)
         return query if value.to_s.empty?
         "=".to_operator.modify query, field, quoted_date(value)
+      end
+
+      def validate(*values)
+        values.all? do |vals|
+          vals = vals.is_a?(Array) ? vals : [vals]
+          vals.all? do |val|
+            begin
+              !!val.to_dateish
+            rescue ArgumentError
+              false
+            end
+          end
+        end
       end
     end
 
