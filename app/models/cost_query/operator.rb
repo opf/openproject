@@ -1,5 +1,6 @@
 class CostQuery::Operator
   include CostQuery::QueryUtils
+  include CostQuery::Validation
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
@@ -165,22 +166,8 @@ class CostQuery::Operator
         return query if value.to_s.empty?
         "<".to_operator.modify query, field, quoted_date(value)
       end
-
-      def validate(*values)
-        @errors.clear
-        values.all? do |vals|
-          vals = vals.is_a?(Array) ? vals : [vals]
-          vals.all? do |val|
-            begin
-              !!val.to_dateish
-            rescue ArgumentError
-              validate(vals - [val])
-              @errors << "\'#{val}\' is not a valid date!"
-              false
-            end
-          end
-        end
-      end
+      
+      include CostQuery::Validation::DateValidation
     end
 
     new ">d", :label => :label_greater_or_equal do
@@ -189,21 +176,7 @@ class CostQuery::Operator
         ">".to_operator.modify query, field, quoted_date(value)
       end
 
-      def validate(*values)
-        @errors.clear
-        values.all? do |vals|
-          vals = vals.is_a?(Array) ? vals : [vals]
-          vals.all? do |val|
-            begin
-              !!val.to_dateish
-            rescue ArgumentError
-              validate(vals - [val])
-              @errors << "\'#{val}\' is not a valid date!"
-              false
-            end
-          end
-        end
-      end
+      include CostQuery::Validation::DateValidation
     end
 
     new "<>d", :label => :label_between do
@@ -213,21 +186,7 @@ class CostQuery::Operator
         query
       end
 
-      def validate(*values)
-        @errors.clear
-        values.all? do |vals|
-          vals = vals.is_a?(Array) ? vals : [vals]
-          vals.all? do |val|
-            begin
-              !!val.to_dateish
-            rescue ArgumentError
-              validate(vals - [val])
-              @errors << "\'#{val}\' is not a valid date!"
-              false
-            end
-          end
-        end
-      end
+      include CostQuery::Validation::DateValidation
     end
 
     new "=d", :label => :label_date_on do
@@ -236,21 +195,7 @@ class CostQuery::Operator
         "=".to_operator.modify query, field, quoted_date(value)
       end
 
-      def validate(*values)
-        @errors.clear
-        values.all? do |vals|
-          vals = vals.is_a?(Array) ? vals : [vals]
-          vals.all? do |val|
-            begin
-              !!val.to_dateish
-            rescue ArgumentError
-              validate(vals - [val])
-              @errors << "\'#{val}\' is not a valid date!"
-              false
-            end
-          end
-        end
-      end
+      include CostQuery::Validation::DateValidation
     end
 
     new "=_child_projects", :label => :label_is_project_with_subprojects do
@@ -332,19 +277,13 @@ class CostQuery::Operator
   end
 
   attr_reader :name
-  attr_reader :errors
 
   def initialize(name, values = {}, &block)
     @name = name.to_s
-    @errors = []
     values.each do |key, value|
       metaclass.class_eval { define_method(key) { value } }
     end
     metaclass.class_eval(&block) if block
-  end
-
-  def validate(*values)
-    true
   end
 
   def to_operator
