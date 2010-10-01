@@ -174,6 +174,7 @@ class CostQuery::Operator
             begin
               !!val.to_dateish
             rescue ArgumentError
+              validate(vals.reject{|v| v == val})
               @errors << "\'#{val}\' is not a valid date!"
               false
             end
@@ -196,6 +197,7 @@ class CostQuery::Operator
             begin
               !!val.to_dateish
             rescue ArgumentError
+              validate(vals.reject{|v| v == val})
               @errors << "\'#{val}\' is not a valid date!"
               false
             end
@@ -219,6 +221,7 @@ class CostQuery::Operator
             begin
               !!val.to_dateish
             rescue ArgumentError
+              validate(vals.reject{|v| v == val})
               @errors << "\'#{val}\' is not a valid date!"
               false
             end
@@ -241,6 +244,7 @@ class CostQuery::Operator
             begin
               !!val.to_dateish
             rescue ArgumentError
+              validate(vals.reject{|v| v == val})
               @errors << "\'#{val}\' is not a valid date!"
               false
             end
