@@ -67,6 +67,10 @@ module CostQuery::Filter
       @operator ? @operator.validate(values) : true
     end
 
+    def errors
+      @operator ? @operator.errors : []
+    end
+
     def group_by_fields
       []
     end

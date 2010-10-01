@@ -148,7 +148,7 @@ class CostReportsController < ApplicationController
     return true unless @query
     errornous = @query.filters ? @query.filters.select { |f| !f.valid? } : []
     @custom_error = errornous.map do |err|
-      "Filter #{l(err.label)} with value(s) #{err.values.reject{|val| val.empty?}.join(', ')} seems to be invalid"
+      "Filter #{l(err.label)}: #{err.errors.join(", ")}"
     end
     errornous.empty?
   end
