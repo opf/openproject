@@ -1,31 +1,38 @@
 module CostQuery::Validation
-  module CostQuery::Validation::DateValidation
-    include CostQuery::Validation
-
-    def validate(*values)
-      errors.clear
-      values.all? do |vals|
-        vals = vals.is_a?(Array) ? vals : [vals]
-        vals.all? do |val|
-          begin
-            !!val.to_dateish
-          rescue ArgumentError
-            validate(vals - [val])
-            errors << "\'#{val}\' is not a valid date!"
-            false
-          end
+  def register_validations(validation_methods)
+    validation_methods.each do |val_method|
+      const_name = val_method.to_s.camelize
+      begin
+        val_module = CostQuery::Validation.const_get const_name
+        metaclass.send(:include, val_module)
+        val_method = "validate_" + val_method.to_s
+        if method(val_method)
+          validations << val_method
+        else
+          warn "#{val_module.name} does not define #{val_method}"
         end
+      rescue NameError
+        warn "No Module CostQuery::Validation::#{const_name} found to validate #{val_method}"
       end
     end
   end
-
-  def validate(*values)
-    true
-  end
-
+  
   def errors
     @errors ||= []
     @errors
+  end
+
+  def validations
+    @validations ||= []
+    @validations
+  end
+
+  def validate(values = [])
+    errors.clear
+    return true if validations.empty?
+    validations.all? do |validation|
+      send(validation, values) unless values.empty?
+    end
   end
 
 end

@@ -161,41 +161,33 @@ class CostQuery::Operator
     new "y", :label => :label_yes, :arity => 0, :where_clause => "%s IS NOT NULL"
     new "n", :label => :label_no, :arity => 0, :where_clause => "%s IS NULL"
 
-    new "<d", :label => :label_less_or_equal do
+    new "<d", :label => :label_less_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
         "<".to_operator.modify query, field, quoted_date(value)
       end
-      
-      include CostQuery::Validation::DateValidation
     end
 
-    new ">d", :label => :label_greater_or_equal do
+    new ">d", :label => :label_greater_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
         ">".to_operator.modify query, field, quoted_date(value)
       end
-
-      include CostQuery::Validation::DateValidation
     end
 
-    new "<>d", :label => :label_between do
+    new "<>d", :label => :label_between, :validate => :dates do
       def modify(query, field, from, to)
         return query if from.to_s.empty? || to.to_s.empty?
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
       end
-
-      include CostQuery::Validation::DateValidation
     end
 
-    new "=d", :label => :label_date_on do
+    new "=d", :label => :label_date_on, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
         "=".to_operator.modify query, field, quoted_date(value)
       end
-
-      include CostQuery::Validation::DateValidation
     end
 
     new "=_child_projects", :label => :label_is_project_with_subprojects do
@@ -280,6 +272,8 @@ class CostQuery::Operator
 
   def initialize(name, values = {}, &block)
     @name = name.to_s
+    validation_methods = values.delete(:validate).to_a || []
+    register_validations(validation_methods) unless validation_methods.empty?
     values.each do |key, value|
       metaclass.class_eval { define_method(key) { value } }
     end
