@@ -1,6 +1,7 @@
 class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
   db_field "entries.project_id"
   label :field_project
+  use "=_child_projects", "!_child_projects"
 
   ##
   # Calculates the available values for this filter.
