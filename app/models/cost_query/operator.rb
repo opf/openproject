@@ -15,10 +15,6 @@ class CostQuery::Operator
         "%s %s '%s'"
       end
 
-      def validate(*values)
-        true
-      end
-
       def modify(query, field, *values)
         query.where [where_clause, field, sql_operator, *values]
         query
@@ -171,12 +167,14 @@ class CostQuery::Operator
       end
 
       def validate(*values)
+        @errors.clear
         values.all? do |vals|
           vals = vals.is_a?(Array) ? vals : [vals]
           vals.all? do |val|
             begin
               !!val.to_dateish
             rescue ArgumentError
+              @errors << "\'#{val}\' is not a valid date!"
               false
             end
           end
@@ -191,12 +189,14 @@ class CostQuery::Operator
       end
 
       def validate(*values)
+        @errors.clear
         values.all? do |vals|
           vals = vals.is_a?(Array) ? vals : [vals]
           vals.all? do |val|
             begin
               !!val.to_dateish
             rescue ArgumentError
+              @errors << "\'#{val}\' is not a valid date!"
               false
             end
           end
@@ -212,12 +212,14 @@ class CostQuery::Operator
       end
 
       def validate(*values)
+        @errors.clear
         values.all? do |vals|
           vals = vals.is_a?(Array) ? vals : [vals]
           vals.all? do |val|
             begin
               !!val.to_dateish
             rescue ArgumentError
+              @errors << "\'#{val}\' is not a valid date!"
               false
             end
           end
@@ -232,12 +234,14 @@ class CostQuery::Operator
       end
 
       def validate(*values)
+        @errors.clear
         values.all? do |vals|
           vals = vals.is_a?(Array) ? vals : [vals]
           vals.all? do |val|
             begin
               !!val.to_dateish
             rescue ArgumentError
+              @errors << "\'#{val}\' is not a valid date!"
               false
             end
           end
@@ -304,13 +308,19 @@ class CostQuery::Operator
   end
 
   attr_reader :name
+  attr_reader :errors
 
   def initialize(name, values = {}, &block)
     @name = name.to_s
+    @errors = []
     values.each do |key, value|
       metaclass.class_eval { define_method(key) { value } }
     end
     metaclass.class_eval(&block) if block
+  end
+
+  def validate(*values)
+    true
   end
 
   def to_operator
