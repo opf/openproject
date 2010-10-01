@@ -5,6 +5,7 @@ require 'net/http'
 require 'rexml/document'
 
 require 'yaml'
+require 'uri/common'
 
 module Cards
     class TaskboardCards
@@ -101,8 +102,36 @@ module Cards
              'pearl-iso-templates.xml',  
              'uline-us-templates.xml',
              'worldlabel-us-templates.xml',
-             'zweckform-iso-templates.xml'].each {|url|
-                labels = Net::HTTP.get_response(URI.parse("http://git.gnome.org/browse/glabels/plain/templates/#{url}")).body
+             'zweckform-iso-templates.xml'].each {|filename|
+                uri = URI.parse("http://git.gnome.org/browse/glabels/plain/templates/#{filename}")
+                labels = nil
+
+                if ! ENV['http_proxy'].blank?
+                  begin
+                    proxy = URI.parse(ENV['http_proxy'])
+                    if proxy.userinfo
+                      user, pass = proxy.userinfo.split(/:/)
+                    else
+                      user = pass = nil
+                    end
+                    labels = Net::HTTP::Proxy(proxy.host, proxy.port, user, pass).start(uri.host) {|http| http.get(uri.path)}.body
+                  rescue URI::Error => e
+                    puts "Setup proxy failed: #{e}"
+                    labels = nil
+                  end
+                end
+
+                begin
+                  labels = Net::HTTP.get_response(uri).body if labels.nil?
+                rescue
+                  labels = nil
+                end
+
+                if labels.nil?
+                  puts "Could not fetch #{filename}"
+                  next
+                end
+
                 doc = REXML::Document.new(labels)
     
                 doc.elements.each('Glabels-templates/Template') do |specs|
@@ -140,7 +169,7 @@ module Cards
                     key = "#{specs.attributes['brand']} #{specs.attributes['part']}"
 
                     if TaskboardCards.malformed(label)
-                      puts "Skipping malformed label '#{key}' from #{url}"
+                      puts "Skipping malformed label '#{key}' from #{filename}"
                     else
                       LABELS[key] = label if not LABELS[key] or LABELS[key]['source'] == 'glabel'
     
