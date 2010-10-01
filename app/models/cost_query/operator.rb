@@ -54,7 +54,7 @@ class CostQuery::Operator
     new "!" do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
-        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.empty?
+        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
         where_clause += ")"
         query.where where_clause
         query
