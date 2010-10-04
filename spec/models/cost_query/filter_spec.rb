@@ -184,7 +184,6 @@ describe CostQuery do
 
     #filter for specific objects, which can't be null
     [
-      CostQuery::Filter::ProjectId,
       CostQuery::Filter::UserId,
       CostQuery::Filter::CostTypeId,
       CostQuery::Filter::IssueId,
