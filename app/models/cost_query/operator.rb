@@ -272,8 +272,8 @@ class CostQuery::Operator
 
   def initialize(name, values = {}, &block)
     @name = name.to_s
-    validation_methods = values.delete(:validate).to_a || []
-    register_validations(validation_methods) unless validation_methods.empty?
+    validation_methods = values.delete(:validate)
+    register_validations(Array(validation_methods)) unless validation_methods.nil?
     values.each do |key, value|
       metaclass.class_eval { define_method(key) { value } }
     end
