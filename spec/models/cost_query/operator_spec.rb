@@ -193,7 +193,7 @@ describe CostQuery do
     end
 
     describe 'arity' do
-      arities = {'t' => 0}
+      arities = {'t' => 0, 'w' => 0, '<>d' => 2, '>d' => 1}
       arities.each do |o,a|
         it("#{o} should take #{a} values") { o.to_operator.arity.should == a }
       end
