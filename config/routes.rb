@@ -138,22 +138,22 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
-  
+
   map.with_options :controller => 'users' do |users|
-    users.with_options :conditions => {:method => :get} do |user_views|
-      user_views.connect 'users', :action => 'index'
-      user_views.connect 'users/:id', :action => 'show', :id => /\d+/
-      user_views.connect 'users/new', :action => 'new'
-      user_views.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil
-    end
+    users.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil, :conditions => {:method => :get}
+    
     users.with_options :conditions => {:method => :post} do |user_actions|
-      user_actions.connect 'users/new', :action => 'create'
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id/destroy', :action => 'destroy_membership'
     end
-    users.connect 'users/:id/edit', :action => 'update', :conditions => {:method => :put}
   end
+
+  map.resources :users, :member => {
+    :edit_membership => :post,
+    :destroy_membership => :post
+  },
+  :except => [:destroy]
 
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'
