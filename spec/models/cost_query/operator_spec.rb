@@ -98,10 +98,11 @@ describe CostQuery do
     it "does w (this week)" do
       #somehow this test doesn't work on sundays
       n = query('projects', 'created_on', 'w').size
-      Project.mock! :created_on => Time.now
+      day_in_this_week = Time.now.at_beginning_of_week + 1.day
+      Project.mock! :created_on => day_in_this_week
       query('projects', 'created_on', 'w').size.should == n + 1
-      Project.mock! :created_on => Date.today + 7
-      Project.mock! :created_on => Date.today - 7
+      Project.mock! :created_on => day_in_this_week + 7.days
+      Project.mock! :created_on => day_in_this_week - 7.days
       query('projects', 'created_on', 'w').size.should == n + 1
     end
 
