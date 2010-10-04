@@ -162,6 +162,69 @@ describe CostQuery do
     end
 
     #Our own operators
+    it "does =_child_projects" do
+      n = query('projects', 'id', '=_child_projects', 1).size
+      p = Project.find(1)
+      n.should == 1 + p.children.size
+      p_c1 = create_project :parent => p
+      query('projects', 'id', '=_child_projects', 1).size.should == n + 1
+      create_project :parent => p_c1
+      query('projects', 'id', '=_child_projects', 1).size.should == n + 2
+      p.send(:destroy_children)
+      query('projects', 'id', '=_child_projects', 1).size.should == 1
+    end
+
+    it "does =_child_projects on multiple projects" do
+      p1 = create_project
+      p2 = create_project
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 2
+      p1_c1 = create_project :parent => p1
+      p2_c1 = create_project :parent => p2
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 4
+      p1_c1_c1 = create_project :parent => p1_c1
+      create_project :parent => p1_c1_c1
+      create_project :parent => p2_c1
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 7
+      p1_c1.send(:destroy_children)
+      p2_c1.send(:destroy_children)
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 4
+    end
+
+    it "does !_child_projects" do
+      p = create_project
+      n = query('projects', 'id', '!_child_projects', p.id).size
+      n.should == Project.all.size - 1
+      p_c1 = create_project :parent => p
+      query('projects', 'id', '!_child_projects', p.id).size.should == n
+      create_project :parent => p
+      create_project :parent => p_c1
+      query('projects', 'id', '!_child_projects', p.id).size.should == n
+      create_project
+      query('projects', 'id', '!_child_projects', p.id).size.should == n + 1
+      p.send(:destroy_children)
+      query('projects', 'id', '!_child_projects', p.id).size.should == n + 1
+    end
+
+    it "does !_child_projects on multiple projects" do
+      n = Project.all.size
+      p1 = create_project
+      p2 = create_project
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n
+      p1_c1 = create_project :parent => p1
+      p2_c1 = create_project :parent => p2
+      create_project
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n + 1
+      p1_c1_c1 = create_project :parent => p1_c1
+      create_project :parent => p1_c1_c1
+      create_project :parent => p2_c1
+      create_project
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n + 2
+      p1_c1.send(:destroy_children)
+      p2_c1.send(:destroy_children)
+      create_project
+      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n + 3
+    end
+
     it "does =n" do
       # we have a time_entry with costs==4.2 and a cost_entry with costs==2.3 in our fixtures
       query_on_entries('costs', '=n', 4.2).size.should == Entry.all.select { |e| e.costs == 4.2 }.count
