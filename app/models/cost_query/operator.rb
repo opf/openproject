@@ -190,20 +190,16 @@ class CostQuery::Operator
       end
     end
 
-    new "=_child_projects", :label => :label_is_project_with_subprojects do
+    new "=_child_projects", :validate => :integers, :label => :label_is_project_with_subprojects do
       def modify(query, field, value)
-        # ensure value is an integer
-        return query unless value.to_i.to_s == value.to_s
         "=".to_operator.modify query, field, [value, *Project.find(value).children.map{ |p| p.id }]
       rescue ActiveRecord::RecordNotFound
         query
       end
     end
 
-    new "!_child_projects", :label => :label_is_not_project_with_subprojects do
+    new "!_child_projects", :validate => :integers, :label => :label_is_not_project_with_subprojects do
       def modify(query, field, value)
-        # ensure value is an integer
-        return query unless value.to_i.to_s == value.to_s
         "!".to_operator.modify query, field, [value, *Project.find(value).children.map{ |p| p.id }]
       rescue ActiveRecord::RecordNotFound
         query
