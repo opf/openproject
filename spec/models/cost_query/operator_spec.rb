@@ -165,13 +165,11 @@ describe CostQuery do
     it "does =_child_projects" do
       n = query('projects', 'id', '=_child_projects', 1).size
       p = Project.find(1)
-      n.should == 1 + p.children.size
+      n.should == 1 + p.descendants.size
       p_c1 = create_project :parent => p
       query('projects', 'id', '=_child_projects', 1).size.should == n + 1
       create_project :parent => p_c1
       query('projects', 'id', '=_child_projects', 1).size.should == n + 2
-      p.send(:destroy_children)
-      query('projects', 'id', '=_child_projects', 1).size.should == 1
     end
 
     it "does =_child_projects on multiple projects" do
@@ -185,9 +183,6 @@ describe CostQuery do
       create_project :parent => p1_c1_c1
       create_project :parent => p2_c1
       query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 7
-      p1_c1.send(:destroy_children)
-      p2_c1.send(:destroy_children)
-      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == 4
     end
 
     it "does !_child_projects" do
@@ -200,8 +195,6 @@ describe CostQuery do
       create_project :parent => p_c1
       query('projects', 'id', '!_child_projects', p.id).size.should == n
       create_project
-      query('projects', 'id', '!_child_projects', p.id).size.should == n + 1
-      p.send(:destroy_children)
       query('projects', 'id', '!_child_projects', p.id).size.should == n + 1
     end
 
@@ -219,10 +212,6 @@ describe CostQuery do
       create_project :parent => p2_c1
       create_project
       query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n + 2
-      p1_c1.send(:destroy_children)
-      p2_c1.send(:destroy_children)
-      create_project
-      query('projects', 'id', '=_child_projects', [p1.id, p2.id]).size.should == n + 3
     end
 
     it "does =n" do
