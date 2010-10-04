@@ -31,6 +31,13 @@ describe CostQuery do
       result = ActiveRecord::Base.connection.select_all sql.to_s
     end
 
+    def create_project(options = {})
+      parent = options.delete :parent
+      p = Project.mock! options
+      p.set_parent! parent if parent
+      p
+    end
+
     it "does =" do
       query('projects', 'id', '=', 1).size.should == 1
     end
