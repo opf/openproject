@@ -30,8 +30,8 @@ ActionController::Routing::Routes.draw do |map|
       time_details.connect 'projects/:project_id/issues/:issue_id/time_entries'
       time_details.connect 'projects/:project_id/issues/:issue_id/time_entries.:format'
     end
-    timelog.connect 'projects/:project_id/time_entries/report', :action => 'report'
-    timelog.with_options :action => 'report',:conditions => {:method => :get} do |time_report|
+    timelog.connect 'projects/:project_id/time_entries/report', :controller => 'time_entry_reports', :action => 'report'
+    timelog.with_options :controller => 'time_entry_reports', :action => 'report',:conditions => {:method => :get} do |time_report|
       time_report.connect 'time_entries/report'
       time_report.connect 'time_entries/report.:format'
       time_report.connect 'projects/:project_id/time_entries/report.:format'

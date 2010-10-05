@@ -226,9 +226,15 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/ecookbook/time_entries/new", :controller => 'timelog', :action => 'edit', :project_id => 'ecookbook'
     should_route :get, "/projects/ecookbook/issues/567/time_entries/new", :controller => 'timelog', :action => 'edit', :project_id => 'ecookbook', :issue_id => '567'
     should_route :get, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
-    should_route :get, "/time_entries/report", :controller => 'timelog', :action => 'report'
-    should_route :get, "/projects/567/time_entries/report", :controller => 'timelog', :action => 'report', :project_id => '567'
-    should_route :get, "/projects/567/time_entries/report.csv", :controller => 'timelog', :action => 'report', :project_id => '567', :format => 'csv'
+
+    should_route :post, "/time_entries/55/destroy", :controller => 'timelog', :action => 'destroy', :id => '55'
+  end
+
+  context "time_entry_reports" do
+    should_route :get, "/time_entries/report", :controller => 'time_entry_reports', :action => 'report'
+    should_route :get, "/projects/567/time_entries/report", :controller => 'time_entry_reports', :action => 'report', :project_id => '567'
+    should_route :get, "/projects/567/time_entries/report.csv", :controller => 'time_entry_reports', :action => 'report', :project_id => '567', :format => 'csv'
+    
     should_route :get, "/time_entries", :controller => 'timelog', :action => 'details'
     should_route :get, "/time_entries.csv", :controller => 'timelog', :action => 'details', :format => 'csv'
     should_route :get, "/time_entries.atom", :controller => 'timelog', :action => 'details', :format => 'atom'
@@ -240,7 +246,6 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/234/time_entries.atom", :controller => 'timelog', :action => 'details', :issue_id => '234', :format => 'atom'
     should_route :get, "/projects/ecookbook/issues/123/time_entries", :controller => 'timelog', :action => 'details', :project_id => 'ecookbook', :issue_id => '123'
 
-    should_route :post, "/time_entries/55/destroy", :controller => 'timelog', :action => 'destroy', :id => '55'
   end
 
   context "users" do
