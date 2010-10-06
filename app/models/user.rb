@@ -353,25 +353,25 @@ class User < Principal
   # * a group of projects : returns true if user is allowed on every project
   # * nil with options[:global] set : check if user has at least one role allowed for this action, 
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def allowed_to?(action, project, options={})
-    if project && project.is_a?(Project)
+  def allowed_to?(action, context, options={})
+    if context && context.is_a?(Project)
       # No action allowed on archived projects
-      return false unless project.active?
+      return false unless context.active?
       # No action allowed on disabled modules
-      return false unless project.allows_to?(action)
+      return false unless context.allows_to?(action)
       # Admin users are authorized for anything else
       return true if admin?
       
-      roles = roles_for_project(project)
+      roles = roles_for_project(context)
       return false unless roles
-      roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action)}
+      roles.detect {|role| (context.is_public? || role.member?) && role.allowed_to?(action)}
       
-    elsif project && project.is_a?(Array)
+    elsif context && context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
-      project.map do |p|
-        allowed_to?(action,p,options)
-      end.inject do |memo,p|
-        memo && p
+      context.map do |project|
+        allowed_to?(action,project,options)
+      end.inject do |memo,allowed|
+        memo && allowed
       end
     elsif options[:global]
       # Admin users are always authorized
