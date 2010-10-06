@@ -120,12 +120,15 @@ module CostsUserPatch
     end
     
     def allowed_for(permission, projects = nil)
-      unless projects.blank?
+      unless projects.nil? or projects.blank?
         projects = [projects] unless projects.is_a? Array
         projects, ids = projects.partition{|p| p.is_a?(Project)}
         projects += Project.find_all_by_id(ids)
       else
-        projects = Project.find(:all, :conditions => Project.visible_by(self), :include => [:enabled_modules])
+        vis_projects = Project.find(:all, :conditions => Project.visible_by(self), :include => [:enabled_modules])
+        projects = vis_projects + (projects.nil? ? [] : projects)
+        # In case there is no Project, we assume that an admin still has all the permissions
+        return (self.admin? ? "(1=1)" : "(1=0)") if projects.blank?
       end
       
       return "(#{Project.table_name}.id in (#{projects.collect(&:id).join(", ")}))" if self.admin?
@@ -163,7 +166,6 @@ module CostsUserPatch
       end
       "(#{cond.join " OR "})"
     end
-    
     
     def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)
