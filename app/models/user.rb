@@ -368,8 +368,10 @@ class User < Principal
       
     elsif project && project.is_a?(Array)
       # Authorize if user is authorized on every element of the array
-      project.inject do |memo,p|
-        memo && allowed_to?(action,p,options)
+      project.map do |p|
+        allowed_to?(action,p,options)
+      end.inject do |memo,p|
+        memo && p
       end
     elsif options[:global]
       # Admin users are always authorized

@@ -408,6 +408,10 @@ class UserTest < ActiveSupport::TestCase
         assert @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
         assert ! @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
       end
+      
+      should "behave correctly with arrays of 1 project" do
+        assert ! User.anonymous.allowed_to?(:delete_issues, [Project.first])
+      end
     end
     
     context "with options[:global]" do
