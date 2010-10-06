@@ -433,9 +433,12 @@ function disable_all_filters() {
 
 function disable_all_group_bys() {
     [$('group_columns'), $('group_rows')].each(function(origin) {
-        children = origin.childNodes;
+        children = origin.childElements();
         for (var i = 0; i < children.length; i++) {
             if (children[i].className.include('group_by')) {
+                [$('group_by_columns'), $('group_by_rows')].each(function (sel) {
+                    enable_select_option(sel, children[i].getAttribute('data-backref'));
+                });
                 children[i].remove();
             }
         }
