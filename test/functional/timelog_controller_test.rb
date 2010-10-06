@@ -83,7 +83,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :spent_on => '2008-03-14',
                                 :issue_id => '1',
                                 :hours => '7.3'}
-    assert_redirected_to :action => 'details', :project_id => 'ecookbook'
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     
     i = Issue.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
@@ -104,7 +104,7 @@ class TimelogControllerTest < ActionController::TestCase
     post :edit, :id => 1,
                 :time_entry => {:issue_id => '2',
                                 :hours => '8'}
-    assert_redirected_to :action => 'details', :project_id => 'ecookbook'
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     entry.reload
     
     assert_equal 8, entry.hours
@@ -115,7 +115,7 @@ class TimelogControllerTest < ActionController::TestCase
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1
-    assert_redirected_to :action => 'details', :project_id => 'ecookbook'
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
     assert_nil TimeEntry.find_by_id(1)
   end
@@ -129,7 +129,7 @@ class TimelogControllerTest < ActionController::TestCase
 
     @request.session[:user_id] = 2
     post :destroy, :id => 1
-    assert_redirected_to :action => 'details', :project_id => 'ecookbook'
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
     assert_not_nil TimeEntry.find_by_id(1)
 
@@ -137,18 +137,18 @@ class TimelogControllerTest < ActionController::TestCase
     TimeEntry.before_destroy.reject! {|callback| callback.method == :stop_callback_chain }
   end
   
-  def test_details_all_projects
-    get :details
+  def test_index_all_projects
+    get :index
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
   
-  def test_details_at_project_level
-    get :details, :project_id => 1
+  def test_index_at_project_level
+    get :index, :project_id => 1
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_equal 4, assigns(:entries).size
     # project and subproject
@@ -160,10 +160,10 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal '2007-04-22'.to_date, assigns(:to)
   end
   
-  def test_details_at_project_level_with_date_range
-    get :details, :project_id => 1, :from => '2007-03-20', :to => '2007-04-30'
+  def test_index_at_project_level_with_date_range
+    get :index, :project_id => 1, :from => '2007-03-20', :to => '2007-04-30'
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
@@ -172,28 +172,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal '2007-04-30'.to_date, assigns(:to)
   end
 
-  def test_details_at_project_level_with_period
-    get :details, :project_id => 1, :period => '7_days'
+  def test_index_at_project_level_with_period
+    get :index, :project_id => 1, :period => '7_days'
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
   end
 
-  def test_details_one_day
-    get :details, :project_id => 1, :from => "2007-03-23", :to => "2007-03-23"
+  def test_index_one_day
+    get :index, :project_id => 1, :from => "2007-03-23", :to => "2007-03-23"
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "4.25", "%.2f" % assigns(:total_hours)
   end
   
-  def test_details_at_issue_level
-    get :details, :issue_id => 1
+  def test_index_at_issue_level
+    get :index, :issue_id => 1
     assert_response :success
-    assert_template 'details'
+    assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_equal 2, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
@@ -203,26 +203,26 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal '2007-04-22'.to_date, assigns(:to)
   end
   
-  def test_details_atom_feed
-    get :details, :project_id => 1, :format => 'atom'
+  def test_index_atom_feed
+    get :index, :project_id => 1, :format => 'atom'
     assert_response :success
     assert_equal 'application/atom+xml', @response.content_type
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
   
-  def test_details_all_projects_csv_export
+  def test_index_all_projects_csv_export
     Setting.date_format = '%m/%d/%Y'
-    get :details, :format => 'csv'
+    get :index, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
   
-  def test_details_csv_export
+  def test_index_csv_export
     Setting.date_format = '%m/%d/%Y'
-    get :details, :project_id => 1, :format => 'csv'
+    get :index, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_equal 'text/csv', @response.content_type
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")

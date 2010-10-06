@@ -85,7 +85,7 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :time_tracking do |map|
     map.permission :log_time, {:timelog => :edit}, :require => :loggedin
-    map.permission :view_time_entries, :timelog => [:details], :time_entry_reports => [:report]
+    map.permission :view_time_entries, :timelog => [:index], :time_entry_reports => [:report]
     map.permission :edit_time_entries, {:timelog => [:edit, :destroy]}, :require => :member
     map.permission :edit_own_time_entries, {:timelog => [:edit, :destroy]}, :require => :loggedin
     map.permission :manage_project_activities, {:project_enumerations => [:update, :destroy]}, :require => :member

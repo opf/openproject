@@ -18,9 +18,9 @@
 class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :authorize, :only => [:edit, :destroy]
-  before_filter :find_optional_project, :only => [:details]
+  before_filter :find_optional_project, :only => [:index]
 
-  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
+  verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
   
   helper :sort
   include SortHelper
@@ -29,7 +29,7 @@ class TimelogController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
   
-  def details
+  def index
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',
@@ -95,7 +95,7 @@ class TimelogController < ApplicationController
     
     if request.post? and @time_entry.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :action => 'details', :project_id => @time_entry.project
+      redirect_back_or_default :action => 'index', :project_id => @time_entry.project
       return
     end    
   end
@@ -110,7 +110,7 @@ class TimelogController < ApplicationController
     end
     redirect_to :back
   rescue ::ActionController::RedirectBackError
-    redirect_to :action => 'details', :project_id => @time_entry.project
+    redirect_to :action => 'index', :project_id => @time_entry.project
   end
 
 private

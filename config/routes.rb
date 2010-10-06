@@ -19,9 +19,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/issues/:issue_id/time_entries/new', :action => 'edit', :controller => 'timelog'
   
   map.with_options :controller => 'timelog' do |timelog|
-    timelog.connect 'projects/:project_id/time_entries', :action => 'details'
+    timelog.connect 'projects/:project_id/time_entries', :action => 'index'
     
-    timelog.with_options :action => 'details', :conditions => {:method => :get}  do |time_details|
+    timelog.with_options :action => 'index', :conditions => {:method => :get}  do |time_details|
       time_details.connect 'time_entries'
       time_details.connect 'time_entries.:format'
       time_details.connect 'issues/:issue_id/time_entries'
