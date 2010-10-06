@@ -259,6 +259,7 @@ function disable_all_filters() {
         if (e.readAttribute('class') == 'filter') {
             field = e.id.gsub('tr_', '');
             hide_filter(field);
+            enable_select_option($('add_filter_select'), field);
             possible_select = $(field + '_arg_1_val');
             if (possible_select !== null && possible_select.type && possible_select.type.include('select')) {
                 make_select_accept_single_value(possible_select);
