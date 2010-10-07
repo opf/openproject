@@ -705,6 +705,9 @@ ru:
   label_user_mail_option_all: "О всех событиях во всех моих проектах"
   label_user_mail_option_none: "Только о тех событиях, которые я отслеживаю или в которых я участвую"
   label_user_mail_option_selected: "О всех событиях только в выбранном проекте..."
+  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
+  label_user_mail_option_only_my_events: Только для объектов, которые я отслеживаю или в которых участвую
+  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
   label_user_new: Новый пользователь
   label_user_plural: Пользователи
   label_version: Версия
@@ -867,6 +870,7 @@ ru:
   setting_cross_project_issue_relations: Разрешить пересечение задач по проектам
   setting_date_format: Формат даты
   setting_default_language: Язык по умолчанию
+  setting_default_notification_option: Способ оповещения по умолчанию
   setting_default_projects_public: Новые проекты являются общедоступными
   setting_diff_max_lines_displayed: Максимальное число строк для diff
   setting_display_subprojects_issues: Отображение подпроектов по умолчанию
@@ -1035,7 +1039,3 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to

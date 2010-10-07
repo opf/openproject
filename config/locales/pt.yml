@@ -128,7 +128,7 @@ pt:
         greater_than_start_date: "deve ser maior que a data inicial"
         not_same_project: "não pertence ao mesmo projecto"
         circular_dependency: "Esta relação iria criar uma dependência circular"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
 
   ## Translated by: Pedro Araújo <phcrva19@hotmail.com>
   actionview_instancetag_blank_option: Seleccione
@@ -152,7 +152,7 @@ pt:
   notice_account_unknown_email: Utilizador desconhecido.
   notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a palavra-chave.
   notice_account_lost_email_sent: Foi-lhe enviado um e-mail com as instruções para escolher uma nova palavra-chave.
-  notice_account_activated: A sua conta foi activada. Já pode autenticar-se.
+  notice_account_activated: A sua conta foi activada. É agora possível autenticar-se.
   notice_successful_create: Criado com sucesso.
   notice_successful_update: Alterado com sucesso.
   notice_successful_delete: Apagado com sucesso.
@@ -176,9 +176,9 @@ pt:
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projecto.'
   
   mail_subject_lost_password: "Palavra-chave de {{value}}"
-  mail_body_lost_password: 'Para mudar a sua palavra-chave, clique no link abaixo:'
+  mail_body_lost_password: 'Para mudar a sua palavra-chave, clique na ligação abaixo:'
   mail_subject_register: "Activação de conta de {{value}}"
-  mail_body_register: 'Para activar a sua conta, clique no link abaixo:'
+  mail_body_register: 'Para activar a sua conta, clique na ligação abaixo:'
   mail_body_account_information_external: "Pode utilizar a conta {{value}} para autenticar-se."
   mail_body_account_information: Informação da sua conta
   mail_subject_account_activation_request: "Pedido de activação da conta {{value}}"
@@ -224,7 +224,7 @@ pt:
   field_priority: Prioridade
   field_fixed_version: Versão
   field_user: Utilizador
-  field_role: Papel
+  field_role: Função
   field_homepage: Página
   field_is_public: Público
   field_parent: Sub-projecto de
@@ -264,8 +264,8 @@ pt:
   field_is_filter: Usado como filtro
   field_issue_to: Tarefa relacionada
   field_delay: Atraso
-  field_assignable: As tarefas podem ser associados a este papel
-  field_redirect_existing_links: Redireccionar links existentes
+  field_assignable: As tarefas podem ser associados a esta função
+  field_redirect_existing_links: Redireccionar ligações existentes
   field_estimated_hours: Tempo estimado
   field_column_names: Colunas
   field_time_zone: Fuso horário
@@ -343,17 +343,17 @@ pt:
   label_document_new: Novo documento
   label_document_plural: Documentos
   label_document_added: Documento adicionado
-  label_role: Papel
-  label_role_plural: Papéis
-  label_role_new: Novo papel
-  label_role_and_permissions: Papéis e permissões
+  label_role: Função
+  label_role_plural: Funções
+  label_role_new: Nova função
+  label_role_and_permissions: Funções e permissões
   label_member: Membro
   label_member_new: Novo membro
   label_member_plural: Membros
   label_tracker: Tipo
   label_tracker_plural: Tipos
   label_tracker_new: Novo tipo
-  label_workflow: Workflow
+  label_workflow: Fluxo de trabalho
   label_issue_status: Estado da tarefa
   label_issue_status_plural: Estados da tarefa
   label_issue_status_new: Novo estado
@@ -553,7 +553,7 @@ pt:
   label_diff_inline: inline
   label_diff_side_by_side: lado a lado
   label_options: Opções
-  label_copy_workflow_from: Copiar workflow de
+  label_copy_workflow_from: Copiar fluxo de trabalho de
   label_permissions_report: Relatório de permissões
   label_watched_issues: Tarefas observadas
   label_related_issues: Tarefas relacionadas
@@ -681,7 +681,7 @@ pt:
   text_min_max_length_info: 0 siginifica sem restrição
   text_project_destroy_confirmation: Tem a certeza que deseja apagar o projecto e todos os dados relacionados?
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): {{value}} também será/serão apagado(s)."
-  text_workflow_edit: Seleccione um papel e um tipo de tarefa para editar o workflow
+  text_workflow_edit: Seleccione uma função e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Tem a certeza?
   text_tip_task_begin_day: tarefa a começar neste dia
   text_tip_task_end_day: tarefa a acabar neste dia
@@ -690,7 +690,7 @@ pt:
   text_caracters_maximum: "máximo {{count}} caracteres."
   text_caracters_minimum: "Deve ter pelo menos {{count}} caracteres."
   text_length_between: "Deve ter entre {{min}} e {{max}} caracteres."
-  text_tracker_no_workflow: Sem workflow definido para este tipo de tarefa.
+  text_tracker_no_workflow: Sem fluxo de trabalho definido para este tipo de tarefa.
   text_unallowed_characters: Caracteres não permitidos
   text_comma_separated: Permitidos múltiplos valores (separados por vírgula).
   text_issues_ref_in_commit_messages: Referenciando e fechando tarefas em mensagens de commit
@@ -701,7 +701,7 @@ pt:
   text_issue_category_destroy_assignments: Remover as atribuições à categoria
   text_issue_category_reassign_to: Re-atribuir as tarefas para esta categoria
   text_user_mail_option: "Para projectos não seleccionados, apenas receberá notificações acerca de coisas que está a observar ou está envolvido (ex. tarefas das quais foi o criador ou lhes foram atribuídas)."
-  text_no_configuration_data: "Papeis, tipos de tarefas, estados das tarefas e workflows ainda não foram configurados.\nÉ extremamente recomendado carregar as configurações padrão. Será capaz de as modificar depois de estarem carregadas."
+  text_no_configuration_data: "Perfis, tipos de tarefas, estados das tarefas e workflows ainda não foram configurados.\nÉ extremamente recomendado carregar as configurações padrão. Será capaz de as modificar depois de estarem carregadas."
   text_load_default_configuration: Carregar as configurações padrão
   text_status_changed_by_changeset: "Aplicado no changeset {{value}}."
   text_issues_destroy_confirmation: 'Tem a certeza que deseja apagar a(s) tarefa(s) seleccionada(s)?'
@@ -725,7 +725,7 @@ pt:
   default_tracker_feature: Funcionalidade
   default_tracker_support: Suporte
   default_issue_status_new: Novo
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Em curso
   default_issue_status_resolved: Resolvido
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Fechado
@@ -790,7 +790,7 @@ pt:
   permission_rename_wiki_pages: Renomear páginas de wiki
   permission_edit_time_entries: Editar entradas de tempo
   permission_edit_own_issue_notes: Editar as prórpias notas
-  setting_gravatar_enabled: Utilizar icons Gravatar
+  setting_gravatar_enabled: Utilizar ícones Gravatar
   label_example: Exemplo
   text_repository_usernames_mapping: "Seleccionar ou actualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou email no Redmine e no repositório são mapeados automaticamente."
   permission_edit_own_messages: Editar as próprias mensagens
@@ -799,132 +799,132 @@ pt:
   label_updated_time_by: "Actualizado por {{author}} há {{age}}"
   text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado.'
   setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  text_plugin_assets_writable: Escrita na pasta de activos dos módulos de extensão possível
+  warning_attachments_not_saved: "Não foi possível gravar {{count}} ficheiro(s) ."
+  button_create_and_continue: Criar e continuar
+  text_custom_field_possible_values_info: 'Uma linha para cada valor'
+  label_display: Mostrar
+  field_editable: Editável
+  setting_repository_log_display_limit: Número máximo de revisões exibido no relatório de ficheiro
+  setting_file_max_size_displayed: Tamanho máximo dos ficheiros de texto exibidos inline
+  field_watcher: Observador
+  setting_openid: Permitir início de sessão e registo com OpenID
+  field_identity_url: URL do OpenID
+  label_login_with_open_id_option: ou início de sessão com OpenID
+  field_content: Conteúdo
+  label_descending: Descendente
+  label_sort: Ordenar
+  label_ascending: Ascendente
+  label_date_from_to: De {{start}} a {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  text_wiki_page_destroy_question: Esta página tem {{descendants}} página(s) subordinada(s) e descendente(s). O que deseja fazer?
+  text_wiki_page_reassign_children: Reatribuir páginas subordinadas a esta página principal
+  text_wiki_page_nullify_children: Manter páginas subordinadas como páginas raíz
+  text_wiki_page_destroy_children: Apagar as páginas subordinadas e todos os seus descendentes
+  setting_password_min_length: Tamanho mínimo de palavra-chave
+  field_group_by: Agrupar resultados por
+  mail_subject_wiki_content_updated: "A página Wiki '{{page}}' foi actualizada"
+  label_wiki_content_added: Página Wiki adicionada
+  mail_subject_wiki_content_added: "A página Wiki '{{page}}' foi adicionada"
+  mail_body_wiki_content_added: A página Wiki '{{page}}' foi adicionada por {{author}}.
+  label_wiki_content_updated: Página Wiki actualizada
+  mail_body_wiki_content_updated: A página Wiki '{{page}}' foi actualizada por {{author}}.
+  permission_add_project: Criar projecto
+  setting_new_project_user_role_id: Função atribuída a um utilizador não-administrador que cria um projecto
+  label_view_all_revisions: Ver todas as revisões
+  label_tag: Etiqueta
+  label_branch: Ramo
+  error_no_tracker_in_project: Este projecto não tem associado nenhum tipo de tarefas. Verifique as definições do projecto.
+  error_no_default_issue_status: Não está definido um estado padrão para as tarefas. Verifique a sua configuração (dirija-se a "Administração -> Estados da tarefa").
+  label_group_plural: Grupos
+  label_group: Grupo
+  label_group_new: Novo grupo
+  label_time_entry_plural: Tempo registado
+  text_journal_changed: "{{label}} alterado de {{old}} para {{new}}"
+  text_journal_set_to: "{{label}} configurado como {{value}}"
+  text_journal_deleted: "{{label}} apagou ({{old}})"
+  text_journal_added: "{{label}} {{value}} adicionado"
+  field_active: Activo
+  enumeration_system_activity: Actividade de sistema
+  permission_delete_issue_watchers: Apagar observadores
+  version_status_closed: fechado
+  version_status_locked: protegido
+  version_status_open: aberto
+  error_can_not_reopen_issue_on_closed_version: Não é possível voltar a abrir uma tarefa atribuída a uma versão fechada
+  label_user_anonymous: Anónimo
+  button_move_and_follow: Mover e seguir
+  setting_default_projects_modules: Módulos activos por predefinição para novos projectos
+  setting_gravatar_default: Imagem Gravatar predefinida
+  field_sharing: Partilha
+  label_version_sharing_hierarchy: Com hierarquia do projecto
+  label_version_sharing_system: Com todos os projectos
+  label_version_sharing_descendants: Com os sub-projectos
+  label_version_sharing_tree: Com árvore do projecto
+  label_version_sharing_none: Não partilhado
+  error_can_not_archive_project: Não é possível arquivar este projecto
+  button_duplicate: Duplicar
+  button_copy_and_follow: Copiar e seguir
+  label_copy_source: Origem
+  setting_issue_done_ratio: Calcular a percentagem de progresso da tarefa 
+  setting_issue_done_ratio_issue_status: Através do estado da tarefa
+  error_issue_done_ratios_not_updated: Percentagens de progresso da tarefa não foram actualizadas.
+  error_workflow_copy_target: Seleccione os tipos de tarefas e funções desejadas
+  setting_issue_done_ratio_issue_field: Através do campo da tarefa
+  label_copy_same_as_target: Mesmo que o alvo
+  label_copy_target: Alvo
+  notice_issue_done_ratios_updated: Percentagens de progresso da tarefa actualizadas.
+  error_workflow_copy_source: Seleccione um tipo de tarefa ou função de origem
+  label_update_issue_done_ratios: Actualizar percentagens de progresso da tarefa
+  setting_start_of_week: Iniciar calendários a
+  permission_view_issues: Ver tarefas
+  label_display_used_statuses_only: Só exibir estados empregues por este tipo de tarefa
+  label_revision_id: Revisão {{value}}
+  label_api_access_key: Chave de acesso API
+  label_api_access_key_created_on: Chave de acesso API criada há {{value}}
+  label_feeds_access_key: Chave de acesso RSS
+  notice_api_access_key_reseted: A sua chave de acesso API foi reinicializada.
+  setting_rest_api_enabled: Activar serviço Web REST
+  label_missing_api_access_key: Chave de acesso API em falta
+  label_missing_feeds_access_key: Chave de acesso RSS em falta
+  button_show: Mostrar
+  text_line_separated: Vários valores permitidos (uma linha para cada valor).
+  setting_mail_handler_body_delimiters: Truncar mensagens de correio electrónico após uma destas linhas
+  permission_add_subprojects: Criar sub-projectos
+  label_subproject_new: Novo sub-projecto
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+    Está prestes a eliminar parcial ou totalmente as suas permissões. É possível que não possa editar o projecto após esta acção.
+    Tem a certeza de que deseja continuar?
+  label_close_versions: Fechar versões completas
+  label_board_sticky: Fixar mensagem
+  label_board_locked: Proteger
+  permission_export_wiki_pages: Exportar páginas Wiki
+  setting_cache_formatted_text: Colocar formatação do texto na memória cache
+  permission_manage_project_activities: Gerir actividades do projecto
+  error_unable_delete_issue_status: Não foi possível apagar o estado da tarefa
+  label_profile: Perfil
+  permission_manage_subtasks: Gerir sub-tarefas
+  field_parent_issue: Tarefa principal
+  label_subtask_plural: Sub-tarefa
+  label_project_copy_notifications: Enviar notificações por e-mail durante a cópia do projecto
+  error_can_not_delete_custom_field: Não foi possível apagar o campo personalizado
+  error_unable_to_connect: Não foi possível ligar ({{value}})
+  error_can_not_remove_role: Esta função está actualmente em uso e não pode ser apagada.
+  error_can_not_delete_tracker: Existem ainda tarefas nesta categoria. Não é possível apagar este tipo de tarefa.
   field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  label_my_page_block: Bloco da minha página
+  notice_failed_to_save_members: "Erro ao guardar o(s) membro(s): {{errors}}."
+  text_zoom_out: Ampliar
+  text_zoom_in: Reduzir
+  notice_unable_delete_time_entry: Não foi possível apagar a entrada de tempo registado.
+  label_overall_spent_time: Total de tempo registado
+  field_time_entries: Tempo registado
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
+  project_module_calendar: Calendário
+  field_member_of_group: Membro do Grupo
+  field_assigned_to_role: Membro do Perfil
+  button_edit_associated_wikipage: "Editar página Wiki associada: {{page_title}}"
+  text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
   setting_default_notification_option: Default notification option

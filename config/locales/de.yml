@@ -800,7 +800,7 @@ de:
   button_uncheck_all: Alles abwählen
   button_delete: Löschen
   button_create: Anlegen
-  button_create_and_continue: Anlegen + nächstes Ticket
+  button_create_and_continue: Anlegen und weiter
   button_test: Testen
   button_edit: Bearbeiten
   button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: {{page_title}}"

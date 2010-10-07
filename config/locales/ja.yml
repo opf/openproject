@@ -376,6 +376,7 @@ ja:
   setting_issue_done_ratio_issue_status: チケットのステータスを使用する
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
+  setting_default_notification_option: デフォルトのメール通知オプション
   
   permission_add_project: プロジェクトの追加
   permission_add_subprojects: サブプロジェクトの追加
@@ -701,7 +702,7 @@ ja:
   label_relation_delete: 関連の削除
   label_relates_to: 関係している
   label_duplicates: 重複している
-  label_duplicated_by: 重複している
+  label_duplicated_by: 重複されている
   label_blocks: ブロックしている
   label_blocked_by: ブロックされている
   label_precedes: 先行する
@@ -752,7 +753,10 @@ ja:
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
   label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
-  label_user_mail_option_none: "ウォッチまたは関係している事柄のみ"
+  label_user_mail_option_none: "通知しない"
+  label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
+  label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
+  label_user_mail_option_only_owner: "自分が作成した事柄のみ"
   label_user_mail_no_self_notified: 自分自身による変更の通知は不要
   label_registration_activation_by_email: メールでアカウントを有効化
   label_registration_manual_activation: 手動でアカウントを有効化
@@ -943,7 +947,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
