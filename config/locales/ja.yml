@@ -874,9 +874,9 @@ ja:
   text_journal_set_to: "{{label}} を {{value}} にセット"
   text_journal_deleted: "{{label}} を削除 ({{old}})"
   text_journal_added: "{{label}} {{value}} を追加"
-  text_tip_task_begin_day: この日に開始するタスク
-  text_tip_task_end_day: この日に終了するタスク
-  text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
+  text_tip_issue_begin_day: この日に開始するタスク
+  text_tip_issue_end_day: この日に終了するタスク
+  text_tip_issue_begin_end_day: この日のうちに開始して終了するタスク
   text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'
   text_caracters_maximum: "最大{{count}}文字です。"
   text_caracters_minimum: "最低{{count}}文字の長さが必要です"

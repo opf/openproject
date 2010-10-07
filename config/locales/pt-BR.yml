@@ -696,9 +696,9 @@ pt-BR:
   text_subprojects_destroy_warning: "Seu(s) subprojeto(s): {{value}} também serão excluídos."
   text_workflow_edit: Selecione um papel e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Você tem certeza?
-  text_tip_task_begin_day: tarefa inicia neste dia
-  text_tip_task_end_day: tarefa termina neste dia
-  text_tip_task_begin_end_day: tarefa inicia e termina neste dia
+  text_tip_issue_begin_day: tarefa inicia neste dia
+  text_tip_issue_end_day: tarefa termina neste dia
+  text_tip_issue_begin_end_day: tarefa inicia e termina neste dia
   text_project_identifier_info: 'Letras minúsculas (a-z), números e hífens permitidos.<br />Uma vez salvo, o identificador não poderá ser alterado.'
   text_caracters_maximum: "máximo {{count}} caracteres"
   text_caracters_minimum: "deve ter ao menos {{count}} caracteres."

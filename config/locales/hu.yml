@@ -682,9 +682,9 @@
   text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek."
   text_workflow_edit: Válasszon egy szerepkört, és egy feladat típust a workflow szerkesztéséhez
   text_are_you_sure: Biztos benne ?
-  text_tip_task_begin_day: a feladat ezen a napon kezdődik
-  text_tip_task_end_day: a feladat ezen a napon ér véget
-  text_tip_task_begin_end_day: a feladat ezen a napon kezdődik és ér véget
+  text_tip_issue_begin_day: a feladat ezen a napon kezdődik
+  text_tip_issue_end_day: a feladat ezen a napon ér véget
+  text_tip_issue_begin_end_day: a feladat ezen a napon kezdődik és ér véget
   text_project_identifier_info: 'Kis betűk (a-z), számok és kötőjel megengedett.<br />Mentés után az azonosítót megváltoztatni nem lehet.'
   text_caracters_maximum: "maximum {{count}} karakter."
   text_caracters_minimum: "Legkevesebb {{count}} karakter hosszúnek kell lennie."

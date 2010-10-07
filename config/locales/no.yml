@@ -654,9 +654,9 @@
   text_subprojects_destroy_warning: "Underprojekt(ene): {{value}} vil også bli slettet."
   text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
   text_are_you_sure: Er du sikker ?
-  text_tip_task_begin_day: oppgaven starter denne dagen
-  text_tip_task_end_day: oppgaven avsluttes denne dagen
-  text_tip_task_begin_end_day: oppgaven starter og avsluttes denne dagen
+  text_tip_issue_begin_day: oppgaven starter denne dagen
+  text_tip_issue_end_day: oppgaven avsluttes denne dagen
+  text_tip_issue_begin_end_day: oppgaven starter og avsluttes denne dagen
   text_project_identifier_info: 'Små bokstaver (a-z), nummer og bindestrek tillatt.<br />Identifikatoren kan ikke endres etter den er lagret.'
   text_caracters_maximum: "{{count}} tegn maksimum."
   text_caracters_minimum: "Må være minst {{count}} tegn langt."

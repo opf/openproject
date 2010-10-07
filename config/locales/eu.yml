@@ -821,9 +821,9 @@ eu:
   text_journal_set_to: "{{label}}-k {{value}} balioa hartu du"
   text_journal_deleted: "{{label}} ezabatuta ({{old}})"
   text_journal_added: "{{label}} {{value}} gehituta"
-  text_tip_task_begin_day: gaur hasten diren atazak
-  text_tip_task_end_day: gaur bukatzen diren atazak
-  text_tip_task_begin_end_day: gaur hasi eta bukatzen diren atazak
+  text_tip_issue_begin_day: gaur hasten diren atazak
+  text_tip_issue_end_day: gaur bukatzen diren atazak
+  text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren atazak
   text_project_identifier_info: 'Letra xeheak (a-z), zenbakiak eta marrak erabil daitezke bakarrik.<br />Gorde eta gero identifikadorea ezin da aldatu.'
   text_caracters_maximum: "{{count}} karaktere gehienez."
   text_caracters_minimum: "Gutxienez {{count}} karaktereetako luzerakoa izan behar du."

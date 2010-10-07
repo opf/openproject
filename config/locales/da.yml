@@ -657,9 +657,9 @@ da:
   text_project_destroy_confirmation: Er du sikker på at du vil slette dette projekt og alle relaterede data?
   text_workflow_edit: Vælg en rolle samt en type, for at redigere arbejdsgangen
   text_are_you_sure: Er du sikker?
-  text_tip_task_begin_day: opgaven begynder denne dag
-  text_tip_task_end_day: opaven slutter denne dag
-  text_tip_task_begin_end_day: opgaven begynder og slutter denne dag
+  text_tip_issue_begin_day: opgaven begynder denne dag
+  text_tip_issue_end_day: opaven slutter denne dag
+  text_tip_issue_begin_end_day: opgaven begynder og slutter denne dag
   text_project_identifier_info: 'Små bogstaver (a-z), numre og bindestreg er tilladt.<br />Denne er en unik identifikation for projektet, og kan defor ikke rettes senere.'
   text_caracters_maximum: "max {{count}} karakterer."
   text_caracters_minimum: "Skal være mindst {{count}} karakterer lang."

@@ -761,9 +761,9 @@ el:
   text_subprojects_destroy_warning: "Επίσης το(α) επιμέρους έργο(α): {{value}}  θα διαγραφούν."
   text_workflow_edit: Επιλέξτε ένα ρόλο και έναν ανιχνευτή για να επεξεργαστείτε  τη ροή εργασίας
   text_are_you_sure: Είστε σίγουρος ;
-  text_tip_task_begin_day: καθήκοντα που ξεκινάνε σήμερα
-  text_tip_task_end_day: καθήκοντα που τελειώνουν σήμερα
-  text_tip_task_begin_end_day: καθήκοντα που ξεκινάνε και τελειώνουν σήμερα
+  text_tip_issue_begin_day: καθήκοντα που ξεκινάνε σήμερα
+  text_tip_issue_end_day: καθήκοντα που τελειώνουν σήμερα
+  text_tip_issue_begin_end_day: καθήκοντα που ξεκινάνε και τελειώνουν σήμερα
   text_project_identifier_info: 'Επιτρέπονται μόνο μικρά πεζά γράμματα (a-z), αριθμοί και παύλες. <br /> Μετά την αποθήκευση, το αναγνωριστικό δεν μπορεί να αλλάξει.'
   text_caracters_maximum: "μέγιστος αριθμός {{count}} χαρακτήρες."
   text_caracters_minimum: "Πρέπει να περιέχει τουλάχιστον {{count}} χαρακτήρες."

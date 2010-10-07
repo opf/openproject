@@ -859,9 +859,9 @@ de:
   text_journal_set_to: "{{label}} wurde auf {{value}} gesetzt"
   text_journal_deleted: "{{label}} {{old}} wurde gelöscht"
   text_journal_added: "{{label}} {{value}} wurde hinzugefügt"
-  text_tip_task_begin_day: Aufgabe, die an diesem Tag beginnt
-  text_tip_task_end_day: Aufgabe, die an diesem Tag endet
-  text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
+  text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
+  text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
+  text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern und Bindestriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_caracters_maximum: "Max. {{count}} Zeichen."
   text_caracters_minimum: "Muss mindestens {{count}} Zeichen lang sein."

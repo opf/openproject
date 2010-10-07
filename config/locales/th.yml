@@ -655,9 +655,9 @@ th:
   text_subprojects_destroy_warning: "โครงการย่อย: {{value}} จะถูกลบด้วย."
   text_workflow_edit: เลือกบทบาทและการติดตาม เพื่อแก้ไขลำดับงาน
   text_are_you_sure: คุณแน่ใจไหม ?
-  text_tip_task_begin_day: งานที่เริ่มวันนี้
-  text_tip_task_end_day: งานที่จบวันนี้
-  text_tip_task_begin_end_day: งานที่เริ่มและจบวันนี้
+  text_tip_issue_begin_day: งานที่เริ่มวันนี้
+  text_tip_issue_end_day: งานที่จบวันนี้
+  text_tip_issue_begin_end_day: งานที่เริ่มและจบวันนี้
   text_project_identifier_info: 'ภาษาอังกฤษตัวเล็ก(a-z), ตัวเลข(0-9) และขีด (-) เท่านั้น.<br />เมื่อจัดเก็บแล้ว, ชื่อเฉพาะไม่สามารถเปลี่ยนแปลงได้'
   text_caracters_maximum: "สูงสุด {{count}} ตัวอักษร."
   text_caracters_minimum: "ต้องยาวอย่างน้อย {{count}} ตัวอักษร."

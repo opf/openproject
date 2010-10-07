@@ -765,9 +765,9 @@ nl:
   text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
   text_status_changed_by_changeset: "Toegepast in changeset {{value}}."
   text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden."
-  text_tip_task_begin_day: taak die op deze dag begint
-  text_tip_task_begin_end_day: taak die op deze dag begint en eindigt
-  text_tip_task_end_day: taak die op deze dag eindigt
+  text_tip_issue_begin_day: issue die op deze dag begint
+  text_tip_issue_begin_end_day: issue die op deze dag begint en eindigt
+  text_tip_issue_end_day: issue die op deze dag eindigt
   text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
   text_unallowed_characters: Niet toegestane tekens
   text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."

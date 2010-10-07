@@ -683,9 +683,9 @@ pt:
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): {{value}} também será/serão apagado(s)."
   text_workflow_edit: Seleccione uma função e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Tem a certeza?
-  text_tip_task_begin_day: tarefa a começar neste dia
-  text_tip_task_end_day: tarefa a acabar neste dia
-  text_tip_task_begin_end_day: tarefa a começar e acabar neste dia
+  text_tip_issue_begin_day: tarefa a começar neste dia
+  text_tip_issue_end_day: tarefa a acabar neste dia
+  text_tip_issue_begin_end_day: tarefa a começar e acabar neste dia
   text_project_identifier_info: 'Apenas são permitidos letras minúsculas (a-z), números e hífens.<br />Uma vez guardado, o identificador não poderá ser alterado.'
   text_caracters_maximum: "máximo {{count}} caracteres."
   text_caracters_minimum: "Deve ter pelo menos {{count}} caracteres."

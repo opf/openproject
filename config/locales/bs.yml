@@ -750,9 +750,9 @@ bs:
   text_subprojects_destroy_warning: "Podprojekt(i): {{value}} će takođe biti izbrisani."
   text_workflow_edit: Odaberite ulogu i područje aktivnosti za ispravku toka promjena na aktivnosti
   text_are_you_sure: Da li ste sigurni ?
-  text_tip_task_begin_day: zadatak počinje danas
-  text_tip_task_end_day: zadatak završava danas
-  text_tip_task_begin_end_day: zadatak započinje i završava danas
+  text_tip_issue_begin_day: zadatak počinje danas
+  text_tip_issue_end_day: zadatak završava danas
+  text_tip_issue_begin_end_day: zadatak započinje i završava danas
   text_project_identifier_info: 'Samo mala slova (a-z), brojevi i crtice su dozvoljeni.<br />Nakon snimanja, identifikator se ne može mijenjati.'
   text_caracters_maximum: "maksimum {{count}} karaktera."
   text_caracters_minimum: "Dužina mora biti najmanje {{count}} znakova."

@@ -815,9 +815,9 @@ hr:
   text_journal_set_to: "{{label}} postavi na {{value}}"
   text_journal_deleted: "{{label}} izbrisano ({{old}})"
   text_journal_added: "{{label}} {{value}} added"  
-  text_tip_task_begin_day: Zadaci koji počinju ovog dana
-  text_tip_task_end_day: zadaci koji se završavaju ovog dana
-  text_tip_task_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
+  text_tip_issue_begin_day: Zadaci koji počinju ovog dana
+  text_tip_issue_end_day: zadaci koji se završavaju ovog dana
+  text_tip_issue_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
   text_project_identifier_info: 'mala slova (a-z), brojevi i crtice su dozvoljeni.<br />Jednom snimljen identifikator se ne može mijenjati!'
   text_caracters_maximum: "Najviše {{count}} znakova."
   text_caracters_minimum: "Mora biti dugačko najmanje {{count}} znakova."

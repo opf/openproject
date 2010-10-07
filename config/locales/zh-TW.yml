@@ -934,9 +934,9 @@
   text_journal_set_to: "{{label}} 設定為 {{value}}"
   text_journal_deleted: "{{label}} 已刪除 ({{old}})"
   text_journal_added: "{{label}} {{value}} 已新增"
-  text_tip_task_begin_day: 今天起始的工作
-  text_tip_task_end_day: 今天截止的的工作
-  text_tip_task_begin_end_day: 今天起始與截止的工作
+  text_tip_issue_begin_day: 今天起始的工作
+  text_tip_issue_end_day: 今天截止的的工作
+  text_tip_issue_begin_end_day: 今天起始與截止的工作
   text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
   text_caracters_maximum: "最多 {{count}} 個字元."
   text_caracters_minimum: "長度必須大於 {{count}} 個字元."

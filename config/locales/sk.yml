@@ -649,9 +649,9 @@ sk:
   text_project_destroy_confirmation: Ste si istý, že chcete odstránit tento projekt a všetky súvisiace dáta ?
   text_workflow_edit: Vyberte rolu a frontu k úprave workflow
   text_are_you_sure: Ste si istý?
-  text_tip_task_begin_day: úloha začína v tento deň
-  text_tip_task_end_day: úloha končí v tento deň
-  text_tip_task_begin_end_day: úloha začína a končí v tento deň
+  text_tip_issue_begin_day: úloha začína v tento deň
+  text_tip_issue_end_day: úloha končí v tento deň
+  text_tip_issue_begin_end_day: úloha začína a končí v tento deň
   text_project_identifier_info: 'Povolené znaky sú malé písmena (a-z), čísla a pomlčka.<br />Po uložení už nieje možné identifikátor zmeniť.'
   text_caracters_maximum: "{{count}} znakov maximálne."
   text_caracters_minimum: "Musí byť aspoň {{count}} znaky/ov dlhé."

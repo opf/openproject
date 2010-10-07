@@ -842,9 +842,9 @@ ca:
   text_journal_set_to: "{{label}} s'ha establert a {{value}}"
   text_journal_deleted: "{{label}} s'ha suprimit ({{old}})"
   text_journal_added: "S'ha afegit {{label}} {{value}}"
-  text_tip_task_begin_day: "tasca que s'inicia aquest dia"
-  text_tip_task_end_day: tasca que finalitza aquest dia
-  text_tip_task_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
+  text_tip_issue_begin_day: "tasca que s'inicia aquest dia"
+  text_tip_issue_end_day: tasca que finalitza aquest dia
+  text_tip_issue_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
   text_project_identifier_info: "Es permeten lletres en minúscules (a-z), números i guions.<br />Un cop desat, l'identificador no es pot modificar."
   text_caracters_maximum: "{{count}} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir {{count}} caràcters."

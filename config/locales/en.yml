@@ -848,9 +848,9 @@ en:
   text_journal_set_to: "{{label}} set to {{value}}"
   text_journal_deleted: "{{label}} deleted ({{old}})"
   text_journal_added: "{{label}} {{value}} added"
-  text_tip_task_begin_day: task beginning this day
-  text_tip_task_end_day: task ending this day
-  text_tip_task_begin_end_day: task beginning and ending this day
+  text_tip_issue_begin_day: issue beginning this day
+  text_tip_issue_end_day: issue ending this day
+  text_tip_issue_begin_end_day: issue beginning and ending this day
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "{{count}} characters maximum."
   text_caracters_minimum: "Must be at least {{count}} characters long."

@@ -836,9 +836,9 @@ sr:
   text_journal_set_to: "{{label}} постављен у {{value}}"
   text_journal_deleted: "{{label}} избрисано ({{old}})"
   text_journal_added: "{{label}} {{value}} додато"
-  text_tip_task_begin_day: задатак почиње овог дана
-  text_tip_task_end_day: задатак се завршава овог дана
-  text_tip_task_begin_end_day: задатак почиње и завршава овог дана
+  text_tip_issue_begin_day: задатак почиње овог дана
+  text_tip_issue_end_day: задатак се завршава овог дана
+  text_tip_issue_begin_end_day: задатак почиње и завршава овог дана
   text_project_identifier_info: 'Дозвољена су само мала слова (a-ш), бројеви и цртице.<br />Једном снимљен идентификатор више се не може променити.'
   text_caracters_maximum: "Највише {{count}} знак(ова)."
   text_caracters_minimum: "Број знакова мора бити најмање {{count}}."

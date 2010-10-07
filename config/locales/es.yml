@@ -821,9 +821,9 @@ es:
   text_select_project_modules: 'Seleccione los módulos a activar para este proyecto:'
   text_status_changed_by_changeset: "Aplicado en los cambios {{value}}"
   text_subprojects_destroy_warning: "Los proyectos secundarios: {{value}} también se eliminarán"
-  text_tip_task_begin_day: tarea que comienza este día
-  text_tip_task_begin_end_day: tarea que comienza y termina este día
-  text_tip_task_end_day: tarea que termina este día
+  text_tip_issue_begin_day: tarea que comienza este día
+  text_tip_issue_begin_end_day: tarea que comienza y termina este día
+  text_tip_issue_end_day: tarea que termina este día
   text_tracker_no_workflow: No hay ningún flujo de trabajo definido para este tipo de petición
   text_unallowed_characters: Caracteres no permitidos
   text_user_mail_option: "De los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, peticiones de las que usted sea autor o asignadas a usted)."

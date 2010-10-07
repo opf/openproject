@@ -821,9 +821,9 @@ mn:
   text_journal_set_to: "{{label}} {{value}} болгож өөрчиллөө"
   text_journal_deleted: "{{label}} устсан ({{old}})"
   text_journal_added: "{{label}} {{value}} нэмэгдсэн"
-  text_tip_task_begin_day: энэ өдөр эхлэх ажил
-  text_tip_task_end_day: энэ өдөр дуусах ажил
-  text_tip_task_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
+  text_tip_issue_begin_day: энэ өдөр эхлэх ажил
+  text_tip_issue_end_day: энэ өдөр дуусах ажил
+  text_tip_issue_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
   text_project_identifier_info: 'Зөвхөн жижиг үсгүүд болон (a-z), тоо and дундуур зураас ашиглаж болно.<br />Нэгэнт хадгалсан хойно, төслийн глобал нэрийг өөрлчөх боломжгүй.'
   text_caracters_maximum: "дээд тал нь {{count}} үсэг."
   text_caracters_minimum: "Хамгийн багадаа ядаж {{count}} тэмдэгт байх."

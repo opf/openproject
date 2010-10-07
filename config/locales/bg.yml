@@ -562,9 +562,9 @@ bg:
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_tip_task_begin_day: задача започваща този ден
-  text_tip_task_end_day: задача завършваща този ден
-  text_tip_task_begin_end_day: задача започваща и завършваща този ден
+  text_tip_issue_begin_day: задача започваща този ден
+  text_tip_issue_end_day: задача завършваща този ден
+  text_tip_issue_begin_end_day: задача започваща и завършваща този ден
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
   text_caracters_maximum: "До {{count}} символа."
   text_length_between: "От {{min}} до {{max}} символа."

@@ -737,9 +737,9 @@ ro:
   text_subprojects_destroy_warning: "Se vor șterge și sub-proiectele: {{value}}."
   text_workflow_edit: Selectați un rol și un tip de tichet pentru a edita modul de lucru
   text_are_you_sure: Sunteți sigur(ă)?
-  text_tip_task_begin_day: sarcină care începe în această zi
-  text_tip_task_end_day: sarcină care se termină în această zi
-  text_tip_task_begin_end_day: sarcină care începe și se termină în această zi
+  text_tip_issue_begin_day: sarcină care începe în această zi
+  text_tip_issue_end_day: sarcină care se termină în această zi
+  text_tip_issue_begin_end_day: sarcină care începe și se termină în această zi
   text_project_identifier_info: 'Sunt permise doar litere mici (a-z), numere și cratime.<br />Odată salvat, identificatorul nu mai poate fi modificat.'
   text_caracters_maximum: "maxim {{count}} caractere."
   text_caracters_minimum: "Trebuie să fie minim {{count}} caractere."

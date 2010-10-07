@@ -885,9 +885,9 @@ sv:
   text_journal_set_to: "{{label}} satt till {{value}}"
   text_journal_deleted: "{{label}} borttagen ({{old}})"
   text_journal_added: "{{label}} {{value}} tillagd"
-  text_tip_task_begin_day: arbetsuppgift som börjar denna dag
-  text_tip_task_end_day: arbetsuppgift som slutar denna dag
-  text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
+  text_tip_issue_begin_day: arbetsuppgift som börjar denna dag
+  text_tip_issue_end_day: arbetsuppgift som slutar denna dag
+  text_tip_issue_begin_end_day: arbetsuppgift börjar och slutar denna dag
   text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
   text_caracters_maximum: "max {{count}} tecken."
   text_caracters_minimum: "Måste vara minst {{count}} tecken lång."

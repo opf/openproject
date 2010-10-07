@@ -852,9 +852,9 @@ lt:
   text_journal_set_to: "{{label}} pakeista į {{value}}"
   text_journal_deleted: "{{label}} ištrintas ({{old}})"
   text_journal_added: "{{label}} {{value}} pridėtas"
-  text_tip_task_begin_day: užduotis, prasidedanti šią dieną
-  text_tip_task_end_day: užduotis, pasibaigianti šią dieną
-  text_tip_task_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
+  text_tip_issue_begin_day: užduotis, prasidedanti šią dieną
+  text_tip_issue_end_day: užduotis, pasibaigianti šią dieną
+  text_tip_issue_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
   text_project_identifier_info: 'Mažosios raidės (a-z), skaičiai ir brūkšniai galimi.<br/>Išsaugojus, identifikuotojas negali būti keičiamas.'
   text_caracters_maximum: "{{count}} simbolių maksimumas."
   text_caracters_minimum: "Turi būti mažiausiai {{count}} simbolių ilgio."

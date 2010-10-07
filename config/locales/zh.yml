@@ -835,9 +835,9 @@ zh:
   text_journal_set_to: "{{label}} 被设置为 {{value}}"
   text_journal_deleted: "{{label}} 已删除 ({{old}})"
   text_journal_added: "{{label}} {{value}} 已添加"
-  text_tip_task_begin_day: 今天开始的任务
-  text_tip_task_end_day: 今天结束的任务
-  text_tip_task_begin_end_day: 今天开始并结束的任务
+  text_tip_issue_begin_day: 今天开始的任务
+  text_tip_issue_end_day: 今天结束的任务
+  text_tip_issue_begin_end_day: 今天开始并结束的任务
   text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
   text_caracters_maximum: "最多 {{count}} 个字符。"
   text_caracters_minimum: "至少需要 {{count}} 个字符。"

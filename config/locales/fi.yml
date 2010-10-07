@@ -636,9 +636,9 @@ fi:
   text_project_destroy_confirmation: Oletko varma että haluat poistaa tämän projektin ja kaikki siihen kuuluvat tiedot?
   text_workflow_edit: Valitse rooli ja tapahtuma muokataksesi työnkulkua
   text_are_you_sure: Oletko varma?
-  text_tip_task_begin_day: tehtävä joka alkaa tänä päivänä
-  text_tip_task_end_day: tehtävä joka loppuu tänä päivänä
-  text_tip_task_begin_end_day: tehtävä joka alkaa ja loppuu tänä päivänä
+  text_tip_issue_begin_day: tehtävä joka alkaa tänä päivänä
+  text_tip_issue_end_day: tehtävä joka loppuu tänä päivänä
+  text_tip_issue_begin_end_day: tehtävä joka alkaa ja loppuu tänä päivänä
   text_project_identifier_info: 'Pienet kirjaimet (a-z), numerot ja viivat ovat sallittu.<br />Tallentamisen jälkeen tunnistetta ei voi muuttaa.'
   text_caracters_maximum: "{{count}} merkkiä enintään."
   text_caracters_minimum: "Täytyy olla vähintään {{count}} merkkiä pitkä."

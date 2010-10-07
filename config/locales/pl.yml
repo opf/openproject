@@ -797,9 +797,9 @@ pl:
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_status_changed_by_changeset: "Zastosowane w zmianach {{value}}."
   text_subprojects_destroy_warning: "Podprojekt(y): {{value}} zostaną także usunięte."
-  text_tip_task_begin_day: zadanie zaczynające się dzisiaj
-  text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
-  text_tip_task_end_day: zadanie kończące się dzisiaj
+  text_tip_issue_begin_day: zadanie zaczynające się dzisiaj
+  text_tip_issue_begin_end_day: zadanie zaczynające i kończące się dzisiaj
+  text_tip_issue_end_day: zadanie kończące się dzisiaj
   text_tracker_no_workflow: Brak przepływu zdefiniowanego dla tego typu zagadnienia
   text_unallowed_characters: Niedozwolone znaki
   text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnień, które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."

@@ -945,9 +945,9 @@ ru:
   text_select_project_modules: 'Выберите модули, которые будут использованы в проекте:'
   text_status_changed_by_changeset: "Реализовано в {{value}} редакции."
   text_subprojects_destroy_warning: "Подпроекты: {{value}} также будут удалены."
-  text_tip_task_begin_day: дата начала задачи
-  text_tip_task_begin_end_day: начало задачи и окончание ее в этот день
-  text_tip_task_end_day: дата завершения задачи
+  text_tip_issue_begin_day: дата начала задачи
+  text_tip_issue_begin_end_day: начало задачи и окончание ее в этот день
+  text_tip_issue_end_day: дата завершения задачи
   text_tracker_no_workflow: Для этого трекера последовательность действий не определена
   text_unallowed_characters: Запрещенные символы
   text_user_mail_option: "Для невыбранных проектов, Вы будете получать уведомления только о том что просматриваете или в чем участвуете (например, вопросы, автором которых Вы являетесь или которые Вам назначены)."

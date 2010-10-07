@@ -852,9 +852,9 @@ he:
   text_journal_set_to: "{{label}} נקבע ל{{value}}"
   text_journal_deleted: "{{label}} נמחק ({{old}})"
   text_journal_added: "{{label}} {{value}} נוסף"
-  text_tip_task_begin_day: מטלה המתחילה היום
-  text_tip_task_end_day: מטלה המסתיימת היום
-  text_tip_task_begin_end_day: מטלה המתחילה ומסתיימת היום
+  text_tip_issue_begin_day: מטלה המתחילה היום
+  text_tip_issue_end_day: מטלה המסתיימת היום
+  text_tip_issue_begin_end_day: מטלה המתחילה ומסתיימת היום
   text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
   text_caracters_maximum: "מקסימום {{count}} תווים."
   text_caracters_minimum: "חייב להיות לפחות באורך של {{count}} תווים."

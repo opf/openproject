@@ -725,9 +725,9 @@ sl:
   text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): {{value}} bodo prav tako izbrisani."
   text_workflow_edit: Izberite vlogo in zahtevek za urejanje poteka dela
   text_are_you_sure: Ali ste prepričani?
-  text_tip_task_begin_day: naloga z začetkom na ta dan
-  text_tip_task_end_day: naloga z zaključkom na ta dan
-  text_tip_task_begin_end_day: naloga ki se začne in konča ta dan
+  text_tip_issue_begin_day: naloga z začetkom na ta dan
+  text_tip_issue_end_day: naloga z zaključkom na ta dan
+  text_tip_issue_begin_end_day: naloga ki se začne in konča ta dan
   text_project_identifier_info: 'Dovoljene so samo male črke (a-z), številke in vezaji.<br />Enkrat shranjen identifikator ne more biti spremenjen.'
   text_caracters_maximum: "največ {{count}} znakov."
   text_caracters_minimum: "Mora biti vsaj dolg vsaj {{count}} znakov."
