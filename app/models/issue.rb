@@ -390,7 +390,9 @@ class Issue < ActiveRecord::Base
   
   # Users the issue can be assigned to
   def assignable_users
-    project.assignable_users
+    users = project.assignable_users
+    users << author if author
+    users.sort
   end
   
   # Versions that the issue can be assigned to
