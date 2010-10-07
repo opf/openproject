@@ -545,6 +545,15 @@ class IssueTest < ActiveSupport::TestCase
 
       assert issue.assignable_users.include?(non_project_member)
     end
+
+    should "not show the issue author twice" do
+      assignable_user_ids = Issue.find(1).assignable_users.collect(&:id)
+      assert_equal 2, assignable_user_ids.length
+      
+      assignable_user_ids.each do |user_id|
+        assert_equal 1, assignable_user_ids.count(user_id), "User #{user_id} appears more or less than once"
+      end
+    end
   end
   
   def test_create_should_send_email_notification
