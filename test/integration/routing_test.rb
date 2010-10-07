@@ -233,11 +233,12 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/issues/234/time_entries.atom", :controller => 'timelog', :action => 'index', :issue_id => '234', :format => 'atom'
     should_route :get, "/projects/ecookbook/issues/123/time_entries", :controller => 'timelog', :action => 'index', :project_id => 'ecookbook', :issue_id => '123'
 
-    should_route :get, "/issues/567/time_entries/new", :controller => 'timelog', :action => 'edit', :issue_id => '567'
-    should_route :get, "/projects/ecookbook/time_entries/new", :controller => 'timelog', :action => 'edit', :project_id => 'ecookbook'
-    should_route :get, "/projects/ecookbook/issues/567/time_entries/new", :controller => 'timelog', :action => 'edit', :project_id => 'ecookbook', :issue_id => '567'
+    should_route :get, "/issues/567/time_entries/new", :controller => 'timelog', :action => 'new', :issue_id => '567'
+    should_route :get, "/projects/ecookbook/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => 'ecookbook'
+    should_route :get, "/projects/ecookbook/issues/567/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => 'ecookbook', :issue_id => '567'
     should_route :get, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
 
+    should_route :post, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
     should_route :post, "/time_entries/55/destroy", :controller => 'timelog', :action => 'destroy', :id => '55'
   end
 

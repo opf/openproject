@@ -15,8 +15,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'help/:ctrl/:page', :controller => 'help'
   
   map.connect 'time_entries/:id/edit', :action => 'edit', :controller => 'timelog'
-  map.connect 'projects/:project_id/time_entries/new', :action => 'edit', :controller => 'timelog'
-  map.connect 'projects/:project_id/issues/:issue_id/time_entries/new', :action => 'edit', :controller => 'timelog'
+  map.connect 'projects/:project_id/time_entries/new', :action => 'new', :controller => 'timelog'
+  map.connect 'projects/:project_id/issues/:issue_id/time_entries/new', :action => 'new', :controller => 'timelog'
   
   map.with_options :controller => 'timelog' do |timelog|
     timelog.connect 'projects/:project_id/time_entries', :action => 'index'
@@ -37,7 +37,7 @@ ActionController::Routing::Routes.draw do |map|
       time_report.connect 'projects/:project_id/time_entries/report.:format'
     end
 
-    timelog.with_options :action => 'edit', :conditions => {:method => :get} do |time_edit|
+    timelog.with_options :action => 'new', :conditions => {:method => :get} do |time_edit|
       time_edit.connect 'issues/:issue_id/time_entries/new'
     end
       
