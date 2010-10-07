@@ -385,11 +385,11 @@ function group_by_end_hover(group_by) {
 }
 
 function first_in_row(group_by) {
-    return ((group_by.previous() == null) || (!(group_by.previous().className.include('group_by'))));
+    return ((group_by.previous() == null) || (!group_by.previous().hasClassName('group_by')));
 }
 
 function last_in_row(group_by) {
-    return ((group_by.next() == null) || (!(group_by.next().className.include('group_by'))));
+    return ((group_by.next() == null) || (!group_by.next().hasClassName('group_by')));
 }
 
 function move_group_by(group_by, target) {
@@ -429,7 +429,7 @@ function disable_all_group_bys() {
     [$('group_columns'), $('group_rows')].each(function(origin) {
         children = origin.childElements();
         for (var i = 0; i < children.length; i++) {
-            if (children[i].className.include('group_by')) {
+            if (children[i].hasClassName('group_by')) {
                 [$('group_by_columns'), $('group_by_rows')].each(function (sel) {
                     enable_select_option(sel, children[i].getAttribute('data-backref'));
                 });
