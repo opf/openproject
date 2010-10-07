@@ -115,7 +115,7 @@
 	                        :class => 'icon-copy', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_move), new_issue_move_path(:ids => @issues.collect(&:id)),
 	                        :class => 'icon-move', :disabled => !@can[:move]  %></li>
-  <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
+  <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id), :back_url => @back},
                             :method => :post, :confirm => l(:text_issues_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %></li>
 
   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>

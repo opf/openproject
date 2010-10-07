@@ -21,7 +21,7 @@ class ContextMenusController < ApplicationController
             :update => (@project && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && @allowed_statuses && !@allowed_statuses.empty?))),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
-            :delete => (@project && User.current.allowed_to?(:delete_issues, @project))
+            :delete => User.current.allowed_to?(:delete_issues, @projects)
             }
     if @project
       @assignables = @project.assignable_users

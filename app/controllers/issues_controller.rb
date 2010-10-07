@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
-  before_filter :check_project_uniqueness, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
+  before_filter :check_project_uniqueness, :only => [:bulk_edit, :bulk_update, :move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
@@ -242,7 +242,7 @@ class IssuesController < ApplicationController
     end
     @issues.each(&:destroy)
     respond_to do |format|
-      format.html { redirect_to :action => 'index', :project_id => @project }
+      format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
       format.xml  { head :ok }
       format.json  { head :ok }
     end

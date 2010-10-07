@@ -1061,6 +1061,13 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, TimeEntry.find(2).issue_id
   end
   
+  def test_destroy_issues_from_different_projects
+    @request.session[:user_id] = 2
+    post :destroy, :ids => [1, 2, 6], :todo => 'destroy'
+    assert_redirected_to :controller => 'issues', :action => 'index'
+    assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
+  end
+  
   def test_default_search_scope
     get :index
     assert_tag :div, :attributes => {:id => 'quick-search'},
