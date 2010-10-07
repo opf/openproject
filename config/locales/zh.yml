@@ -1,89 +1,219 @@
-# Chinese strings go here for Rails i18n
-zh:
-  backlogs_story_tracker: "故事跟踪"
-  backlogs_task_tracker: "任务跟踪"
-  backlogs_card_specification: "打印卡片的标签类型"
-  backlogs_sprints: "冲刺"
-  field_story_points: "故事点数"
-  field_remaining_hours: "剩余小时数"
-  button_edit_wiki: "编辑wiki页面"
-  field_backlogs_issue_type: "Backlog类型"
-  backlogs_story: "故事"
-  backlogs_task: "任务"
-  backlogs_any: "所有"
-  backlogs_points_burn_direction: "点数消耗 燃起/燃尽"
-  label_points_burn_up: "燃起"
-  label_points_burn_down: "燃尽"
-  field_position: "位置"
-  backlogs_product_backlog: "产品backlog"
-  backlogs_wiki_template: "冲刺的wiki页面的模板"
-  points_committed: "已提交点数"
-  required_burn_rate_points: "必要燃烧率 (点数)"
-  required_burn_rate_hours: "必要燃烧率 (小时)"
-  points_to_accept: "未接受点数"
-  points_accepted: "已接受点数"
-  ideal: "理想"
-  points_to_resolve: "未解决点数"
-  points_resolved: "已解决点数"
-  remaining_hours: "剩余小时数"
-  field_velocity_based_estimate: "速度计量单位"
-
-  backlogs_active: "活跃"
-
-  label_task_board: "任务板"
-  label_stories_tasks: "故事/任务"
-  label_stories: "任务"
-  label_burndown: "燃尽"
-  label_printable_cards: "可打印卡片"
-  label_select_all: "全选"
-
-  label_back_to_project: "返回项目页"
-  label_sprint_name: "冲刺 \"{{name}}\""
-  label_backlogs: "Backlogs"
-  label_scrum_statistics: "Scrum 统计"
-
-  label_sprint_backlog: "冲刺 backlog"
-  label_product_backlog: "产品 backlog"
-  label_Product_backlog: "产品 backlog"
-
-  backlogs_sizing_inconsistent: "故事的点数与它们的预期时间相冲突"
-  backlogs_velocity_missing: "这个项目的速度无法计算"
-  backlogs_product_backlog_is_empty: "产品backlog是空的"
-  backlogs_inactive: "项目尚未有活动进行"
-  backlogs_sprint_unestimated: "已关闭了的（或活跃的）冲刺里存在未估量的故事"
-  backlogs_sprint_notes_missing: "已关闭的冲刺没有 回顾/评审 的备忘录"
-  backlogs_product_backlog_unsized: "产品Backlog中有未确定点数的故事"
-  backlogs_velocity_varies: "冲刺中的重要速度变化"
-  backlogs_sprint_unsized: "项目还有正处于活跃的故事或者最近关闭了未确定点数的冲刺"
-
-  label_hours: "小时"
-  label_points: "点"
-  label_not_prioritized: "未授予优先级"
-
-  label_backlogs_unconfigured: "您尚未设置Bcaklogs，请到{{administration}} > {{plugins}},然后点击这个插件的{{configure}}设置连接。当您完成设置后，返回此页，开始使用这个工具。"
-
-  label_sprint_velocity: "速度 {{velocity}}, 基于 {{sprints}} 冲刺的平均天数为{{days}}天"
-
+--- 
+zh: 
+  label_webcal: "[[Webcal Feed]]"
+  rb_label_copy_tasks_open: "[[Open]]"
   event_sprint_summary: "{{project}}: {{summary}}"
-  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
+  field_backlogs_issue_type: !binary |
+    QmFja2xvZ+exu+Weiw==
+
+  field_remaining_hours: !binary |
+    5Ymp5L2Z5bCP5pe25pWw
+
+  error_intro_singular: !binary |
+    6YGH5Yiw5LqG6L+Z5Liq6ZSZ6K+vOg==
+
+  button_edit_wiki: !binary |
+    57yW6L6Rd2lraemhtemdog==
+
+  label_sprint_cards: "[[Sprint cards]]"
+  label_points_burn_up: !binary |
+    54eD6LW3
+
+  label_not_prioritized: !binary |
+    5pyq5o6I5LqI5LyY5YWI57qn
+
+  points_resolved: !binary |
+    5bey6Kej5Yaz54K55pWw
+
+  field_tracker_id: "[[Tracker ID]]"
+  field_name: "[[Name]]"
+  error_must_have_comma_delimited_list: !binary |
+    5aSa5Liq5Lu75YqhKOaIluaVheS6iynnmoRJROmXtO+8jOW/hemhu+S9v+eU
+    qOmAl+WPt+i/m+ihjOWIhumalA==
+
+  label_stories: !binary |
+    5Lu75Yqh
+
   todo_issue_summary: "{{type}}: {{summary}}"
-  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+  label_product_backlog: !binary |
+    5Lqn5ZOBIGJhY2tsb2c=
 
-  label_chart_options: "表单选项"
+  required_burn_rate_hours: !binary |
+    5b+F6KaB54eD54On546HICjlsI/ml7Yp
 
-  error_intro_singular: "遇到了这个错误:"
-  error_intro_plural: "遇到了这些错误:"
-  error_outro: "在再次提交之前，请先更正以上的错误。"
+  backlogs_velocity_missing: !binary |
+    6L+Z5Liq6aG555uu55qE6YCf5bqm5peg5rOV6K6h566X
 
-  label_sprint_impediments: "冲刺障碍"
+  label_sprint_name: !binary |
+    5Yay5Yi6ICJ7e25hbWV9fSI=
 
-  subject: "主题"
-  blank: "是空的"
+  backlogs_any: !binary |
+    5omA5pyJ
 
-  label_blocks: "障碍"
-  error_must_have_comma_delimited_list: "多个任务(或故事)的ID间，必须使用逗号进行分隔"
+  label_stories_tasks: !binary |
+    5pWF5LqLL+S7u+WKoQ==
 
-  tracker_id: "跟踪ID"
-  inclusion: "未包含于当前列表"
+  label_task_board: !binary |
+    5Lu75Yqh5p2/
 
-  label_master_backlog: "Backlog控制板"
+  label_backlogs_unconfigured: !binary |
+    5oKo5bCa5pyq6K6+572uQmNha2xvZ3PvvIzor7fliLB7e2FkbWluaXN0cmF0
+    aW9ufX0gPiB7e3BsdWdpbnN9fSznhLblkI7ngrnlh7vov5nkuKrmj5Lku7bn
+    moR7e2NvbmZpZ3VyZX196K6+572u6L+e5o6l44CC5b2T5oKo5a6M5oiQ6K6+
+    572u5ZCO77yM6L+U5Zue5q2k6aG177yM5byA5aeL5L2/55So6L+Z5Liq5bel
+    5YW344CC
+
+  backlogs_sprints: !binary |
+    5Yay5Yi6
+
+  field_position: !binary |
+    5L2N572u
+
+  backlogs_active: !binary |
+    5rS76LeD
+
+  inclusion: !binary |
+    5pyq5YyF5ZCr5LqO5b2T5YmN5YiX6KGo
+
+  backlogs_product_backlog_is_empty: !binary |
+    5Lqn5ZOBYmFja2xvZ+aYr+epuueahA==
+
+  backlogs_task_tracker: !binary |
+    5Lu75Yqh6Lef6Liq
+
+  backlogs_inactive: !binary |
+    6aG555uu5bCa5pyq5pyJ5rS75Yqo6L+b6KGM
+
+  field_story_points: !binary |
+    5pWF5LqL54K55pWw
+
+  label_Product_backlog: !binary |
+    5Lqn5ZOBIGJhY2tsb2c=
+
+  rb_label_copy_tasks_none: "[[None]]"
+  backlogs_task: !binary |
+    5Lu75Yqh
+
+  backlogs_sprint_unsized: !binary |
+    6aG555uu6L+Y5pyJ5q2j5aSE5LqO5rS76LeD55qE5pWF5LqL5oiW6ICF5pyA
+    6L+R5YWz6Zet5LqG5pyq56Gu5a6a54K55pWw55qE5Yay5Yi6
+
+  points_committed: !binary |
+    5bey5o+Q5Lqk54K55pWw
+
+  label_sprint_impediments: !binary |
+    5Yay5Yi66Zqc56KN
+
+  field_blocks: "[[Blocks]]"
+  label_master_backlog: !binary |
+    QmFja2xvZ+aOp+WItuadvw==
+
+  points_to_resolve: !binary |
+    5pyq6Kej5Yaz54K55pWw
+
+  label_select_all: !binary |
+    5YWo6YCJ
+
+  backlogs_sprint_unestimated: !binary |
+    5bey5YWz6Zet5LqG55qE77yI5oiW5rS76LeD55qE77yJ5Yay5Yi66YeM5a2Y
+    5Zyo5pyq5Lyw6YeP55qE5pWF5LqL
+
+  label_scrum_statistics: !binary |
+    U2NydW0g57uf6K6h
+
+  required_burn_rate_points: !binary |
+    5b+F6KaB54eD54On546HICjngrnmlbAp
+
+  error_blank: "[[cannot be blank]]"
+  points_to_accept: !binary |
+    5pyq5o6l5Y+X54K55pWw
+
+  label_backlogs: Backlogs
+  label_back_to_project: !binary |
+    6L+U5Zue6aG555uu6aG1
+
+  backlogs_points_burn_direction: !binary |
+    54K55pWw5raI6ICXIOeHg+i1ty/nh4PlsL0=
+
+  field_subject: "[[Subject]]"
+  rb_label_link_to_original: "[[Include link to original story]]"
+  backlogs_product_backlog_unsized: !binary |
+    5Lqn5ZOBQmFja2xvZ+S4reacieacquehruWumueCueaVsOeahOaVheS6iw==
+
+  points_accepted: !binary |
+    5bey5o6l5Y+X54K55pWw
+
+  backlogs_sprint_notes_missing: !binary |
+    5bey5YWz6Zet55qE5Yay5Yi65rKh5pyJIOWbnumhvi/or4TlrqEg55qE5aSH
+    5b+Y5b2V
+
+  label_sprint_velocity: !binary |
+    6YCf5bqmIHt7dmVsb2NpdHl9fSwg5Z+65LqOIHt7c3ByaW50c319IOWGsuWI
+    uueahOW5s+Wdh+WkqeaVsOS4unt7ZGF5c3195aSp
+
+  backlogs_story: !binary |
+    5pWF5LqL
+
+  label_sprint_backlog: !binary |
+    5Yay5Yi6IGJhY2tsb2c=
+
+  backlogs_wiki_template: !binary |
+    5Yay5Yi655qEd2lraemhtemdoueahOaooeadvw==
+
+  ideal: !binary |
+    55CG5oOz
+
+  label_points: !binary |
+    54K5
+
+  backlogs_sizing_inconsistent: !binary |
+    5pWF5LqL55qE54K55pWw5LiO5a6D5Lus55qE6aKE5pyf5pe26Ze055u45Yay
+    56qB
+
+  error_intro_plural: !binary |
+    6YGH5Yiw5LqG6L+Z5Lqb6ZSZ6K+vOg==
+
+  backlogs_velocity_varies: !binary |
+    5Yay5Yi65Lit55qE6YeN6KaB6YCf5bqm5Y+Y5YyW
+
+  error_greater_than_start_date: "[[cannot be earlier than Start Date]]"
+  rb_label_copy_tasks: "[[Copy tasks]]"
+  label_hours: !binary |
+    5bCP5pe2
+
+  label_points_burn_down: !binary |
+    54eD5bC9
+
+  backlogs_card_specification: !binary |
+    5omT5Y2w5Y2h54mH55qE5qCH562+57G75Z6L
+
+  backlogs_story_tracker: !binary |
+    5pWF5LqL6Lef6Liq
+
+  event_sprint_description: |-
+    {{summary}}: {{url}}
+    {{description}}
+  label_burndown: !binary |
+    54eD5bC9
+
+  label_product_cards: "[[Product backlog cards]]"
+  rb_label_copy_tasks_all: "[[All]]"
+  field_velocity_based_estimate: !binary |
+    6YCf5bqm6K6h6YeP5Y2V5L2N
+
+  todo_issue_description: |-
+    {{summary}}: {{url}}
+    {{description}}
+  label_chart_options: !binary |
+    6KGo5Y2V6YCJ6aG5
+
+  backlogs_product_backlog: !binary |
+    5Lqn5ZOBYmFja2xvZw==
+
+  remaining_hours: !binary |
+    5Ymp5L2Z5bCP5pe25pWw
+
+  error_outro: !binary |
+    5Zyo5YaN5qyh5o+Q5Lqk5LmL5YmN77yM6K+35YWI5pu05q2j5Lul5LiK55qE
+    6ZSZ6K+v44CC
+

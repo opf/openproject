@@ -95,3 +95,9 @@ en:
   # Error messages
   error_blank: "cannot be blank"
   error_greater_than_start_date: "cannot be earlier than Start Date"
+
+  rb_label_link_to_original: "Include link to original story"
+  rb_label_copy_tasks: "Copy tasks"
+  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_all: "All"
+  rb_label_copy_tasks_open: "Open"

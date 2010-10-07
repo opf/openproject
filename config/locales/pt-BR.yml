@@ -1,87 +1,88 @@
-# English strings go here for Rails i18n
-pt-BR:
-  backlogs_story_tracker: "Seqüência da estória"
-  backlogs_task_tracker: "Seqüência da tarefa"
-  backlogs_card_specification: "Tipo de rótulo para impressão no cartão"
-  backlogs_sprints: "Sprints"
-  field_story_points: "Pontos de estória"
-  field_remaining_hours: "Horas restantes"
-  button_edit_wiki: "Editar a página no wiki"
-  field_backlogs_issue_type: "Tipo de backlog"
-  backlogs_story: Estória
-  backlogs_task: Tarefas
-  backlogs_any: Nenhum
-  backlogs_points_burn_direction: "Pontos usados subir/descer"
+--- 
+pt-BR: 
+  label_webcal: "[[Webcal Feed]]"
+  rb_label_copy_tasks_open: "[[Open]]"
+  event_sprint_summary: "{{project}}: {{summary}}"
+  field_backlogs_issue_type: Tipo de backlog
+  field_remaining_hours: Horas restantes
+  error_intro_singular: "O seguinte erro foi encontrado:"
+  button_edit_wiki: "Editar a p\xC3\xA1gina no wiki"
+  label_sprint_cards: "[[Sprint cards]]"
   label_points_burn_up: Subir
-  label_points_burn_down: Descer
-  field_position: Posição  
-  backlogs_product_backlog: "Product backlog"
-  backlogs_wiki_template: "Template for sprint wiki page"
-  points_committed: "points committed"
-  required_burn_rate_points: "Taxa pontos necessária"
-  required_burn_rate_hours: "Taxa de horas necessárias"
-  points_to_accept: "Pontos não aceitos"
-  points_accepted: "Pontos aceitos"
-  ideal: "Ideal"
-  points_to_resolve: "Pontos não resolvidos"
-  points_resolved: "Pontos resolvidos"
-  remaining_hours: "Horas restantes"
-  field_velocity_based_estimate: "Velocidade estimada"
+  label_not_prioritized: "N\xC3\xA3o priorizadas"
+  points_resolved: Pontos resolvidos
+  field_tracker_id: "[[Tracker ID]]"
+  field_name: "[[Name]]"
+  error_must_have_comma_delimited_list: "Deve haver uma lista separada por v\xC3\xADrgulas de est\xC3\xB3rias ou dos IDs das tarefas."
+  label_stories: "Est\xC3\xB3rias"
+  todo_issue_summary: "{{type}}: {{summary}}"
+  label_product_backlog: Product backlog
+  required_burn_rate_hours: "Taxa de horas necess\xC3\xA1rias"
+  backlogs_velocity_missing: "A velocidade n\xC3\xA3o pode ser calculada para este projeto."
+  label_sprint_name: Sprint "{{name}}"
+  backlogs_any: Nenhum
+  label_stories_tasks: "Est\xC3\xB3rias/Tarefas"
+  label_task_board: Quadro de tarefas
+  label_backlogs_unconfigured: "Voc\xC3\xAA n\xC3\xA3o configurou os Backlogs ainda. Por Favor v\xC3\xA1 em, {{administration}} > {{plugins}}, e selecione {{configure}}. Uma vez definidos os campos, retorne para esta p\xC3\xA1gina para come\xC3\xA7ar a usar a ferramenta."
+  backlogs_sprints: Sprints
+  field_position: !binary |
+    UG9zacOnw6Nv
 
   backlogs_active: Ativo
-  
-  label_task_board: "Quadro de tarefas"
-  label_stories_tasks: "Estórias/Tarefas"
-  label_stories: "Estórias"
-  label_burndown: "Burndown"
-  label_printable_cards: "Cartões de impressão"
-  label_select_all: "Selecinar Todos"
-
-  label_back_to_project: "Voltar à página do projeto"
-  label_sprint_name: "Sprint \"{{name}}\""
+  inclusion: "N\xC3\xA3o esta inclu\xC3\xADda na lista."
+  backlogs_product_backlog_is_empty: Product backlog esta vazio
+  backlogs_task_tracker: "Seq\xC3\xBC\xC3\xAAncia da tarefa"
+  backlogs_inactive: Mostrar projetos inativos
+  field_story_points: "Pontos de est\xC3\xB3ria"
+  label_Product_backlog: Product backlog
+  rb_label_copy_tasks_none: "[[None]]"
+  backlogs_task: Tarefas
+  backlogs_sprint_unsized: "Projeto possui est\xC3\xB3rias ativas ou recentemente fechadas durante o Sprint sem estimativas"
+  points_committed: points committed
+  label_sprint_impediments: Impendimentos do sprint
+  field_blocks: "[[Blocks]]"
+  label_master_backlog: "[[Master Backlog]]"
+  points_to_resolve: "Pontos n\xC3\xA3o resolvidos"
+  label_select_all: Selecinar Todos
+  backlogs_sprint_unestimated: "Ativar ou desativar sprints com est\xC3\xB3rias sem estimativas"
+  label_scrum_statistics: "Estat\xC3\xADsticas do scrum"
+  required_burn_rate_points: "Taxa pontos necess\xC3\xA1ria"
+  error_blank: "[[cannot be blank]]"
+  points_to_accept: "Pontos n\xC3\xA3o aceitos"
   label_backlogs: Backlogs
-  label_scrum_statistics: "Estatísticas do scrum"
-
-  label_sprint_backlog: "Sprint backlog"
-  label_product_backlog: "Product backlog"
-  label_Product_backlog: "Product backlog"
-
-  backlogs_sizing_inconsistent: "Tamanho das estórias muda de acordo com suas estimativas"
-  backlogs_velocity_missing: "A velocidade não pode ser calculada para este projeto."
-  backlogs_product_backlog_is_empty: "Product backlog esta vazio"
-  backlogs_inactive: "Mostrar projetos inativos"
-  backlogs_sprint_unestimated: "Ativar ou desativar sprints com estórias sem estimativas"
-  backlogs_sprint_notes_missing: "Sprints fechados sem notas de retrospectiva"
-  backlogs_product_backlog_unsized: "O topo do Product Backlog possui estórias sem estimativas."
-  backlogs_velocity_varies: "Variação Significativa da Velocidade durante as Sprints"
-  backlogs_sprint_unsized: "Projeto possui estórias ativas ou recentemente fechadas durante o Sprint sem estimativas"
-
-  label_hours: Horas
+  label_back_to_project: "Voltar \xC3\xA0 p\xC3\xA1gina do projeto"
+  backlogs_points_burn_direction: Pontos usados subir/descer
+  field_subject: "[[Subject]]"
+  rb_label_link_to_original: "[[Include link to original story]]"
+  backlogs_product_backlog_unsized: "O topo do Product Backlog possui est\xC3\xB3rias sem estimativas."
+  points_accepted: Pontos aceitos
+  backlogs_sprint_notes_missing: Sprints fechados sem notas de retrospectiva
+  label_sprint_velocity: "Velocidade {{velocity}}, baseada no {{sprints}} com a m\xC3\xA9dia de {{days}} Dias"
+  backlogs_story: "Est\xC3\xB3ria"
+  label_sprint_backlog: Sprint backlog
+  backlogs_wiki_template: Template for sprint wiki page
+  ideal: Ideal
   label_points: Pontos
-  label_not_prioritized: "Não priorizadas"
-
-  label_backlogs_unconfigured: "Você não configurou os Backlogs ainda. Por Favor vá em, {{administration}} > {{plugins}}, e selecione {{configure}}. Uma vez definidos os campos, retorne para esta página para começar a usar a ferramenta."
-
-  label_sprint_velocity: "Velocidade {{velocity}}, baseada no {{sprints}} com a média de {{days}} Dias"
-
-  event_sprint_summary: "{{project}}: {{summary}}"
-  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
-  todo_issue_summary: "{{type}}: {{summary}}"
-  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
-
-  label_chart_options: "Opções do gráfico"
-
-  error_intro_singular: "O seguinte erro foi encontrado:"
+  backlogs_sizing_inconsistent: "Tamanho das est\xC3\xB3rias muda de acordo com suas estimativas"
   error_intro_plural: "Os seguintes erros foram encontrados:"
-  error_outro: "Por favor corriga os erros antes de enviar novamente."
-
-  label_sprint_impediments: "Impendimentos do sprint"
-
-  subject: "Assunto"
-  blank: "Esta em branco"
-
-  label_blocks: "Bloqueadas"
-  error_must_have_comma_delimited_list: "Deve haver uma lista separada por vírgulas de estórias ou dos IDs das tarefas."
-
-  tracker_id: Tracker ID
-  inclusion: "Não esta incluída na lista."
+  backlogs_velocity_varies: "Varia\xC3\xA7\xC3\xA3o Significativa da Velocidade durante as Sprints"
+  error_greater_than_start_date: "[[cannot be earlier than Start Date]]"
+  rb_label_copy_tasks: "[[Copy tasks]]"
+  label_hours: Horas
+  label_points_burn_down: Descer
+  backlogs_card_specification: "Tipo de r\xC3\xB3tulo para impress\xC3\xA3o no cart\xC3\xA3o"
+  backlogs_story_tracker: "Seq\xC3\xBC\xC3\xAAncia da est\xC3\xB3ria"
+  event_sprint_description: |-
+    {{summary}}: {{url}}
+    {{description}}
+  label_burndown: Burndown
+  label_product_cards: "[[Product backlog cards]]"
+  rb_label_copy_tasks_all: "[[All]]"
+  field_velocity_based_estimate: Velocidade estimada
+  todo_issue_description: |-
+    {{summary}}: {{url}}
+    {{description}}
+  label_chart_options: "Op\xC3\xA7\xC3\xB5es do gr\xC3\xA1fico"
+  backlogs_product_backlog: Product backlog
+  remaining_hours: Horas restantes
+  error_outro: Por favor corriga os erros antes de enviar novamente.
