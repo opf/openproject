@@ -106,7 +106,7 @@ module Backlogs
         ## care of this, but appearantly neither root_id nor
         ## parent_id are set at that point
   
-        touched_sprint = nil
+        touched_sprints = []
   
         if self.is_story?
           # raw sql here because it's efficient and not
@@ -119,22 +119,24 @@ module Backlogs
               connection.execute("update issues set tracker_id=#{connection.quote(Task.tracker)}, fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
             end
           end
-          touched_sprint = self.fixed_version
+
+          touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact.uniq
+          touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}.compact
   
         elsif not Task.tracker.nil?
           begin
             story = self.story
             if not story.blank?
               connection.execute "update issues set tracker_id = #{connection.quote(Task.tracker)}, fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
-              touched_sprint = story.fixed_version
             end
+
+            touched_sprints = [self.root_id, self.root_id_was].compact.uniq.collect{|s| Story.find(s).fixed_version}.compact
           end
         end
   
-        if not touched_sprint.nil?
-          touched_sprint.touch_burndown
-        end
-
+        touched_sprints.each {|sprint|
+          sprint.touch_burndown
+        }
       end
 
     end

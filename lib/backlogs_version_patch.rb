@@ -12,10 +12,12 @@ module Backlogs
   
     module InstanceMethods
       def touch_burndown
-        today = connection.quote(Date.today)
-        tomorrow = connection.quote(Date.today + 1)
-        # not the same as between
-        connection.execute "delete from burndown_days where created_at >= #{today} and created_at < #{tomorrow}"
+        BurndownDay.find(:all,
+          :joins => :version,
+          :conditions => ['burndown_days.version_id = ? and (burndown_days.created_at >= ? or burndown_days.created_at >= versions.effective_date)', self.id, Date.today]
+        ).each {|bdd|
+          BurndownDay.destroy(bdd.id)
+        }
       end
   
       def burndown
