@@ -198,19 +198,10 @@ function restore_select_values(select, values) {
 }
 
 function select_active_group_bys() {
-    selects = [$('group_by_columns'), $('group_by_rows')];
-    for (var j = 0; j < selects.length; j++) {
-        select = selects[j];
-        select.multiple = true;
-        var group_bys = new Array();
-        children = select.up().childNodes;
-        for (var i = 0; i < children.length; i++) {
-            if (children.item(i).className.include('group_by')) {
-                group_bys.push(children.item(i));
-            }
-        }
-        sort_group_bys(select, group_bys);
-    }
+    [$('group_by_columns'), $('group_by_rows')].each(function (sel) {
+        sel.multiple = true;
+        sort_group_bys(sel, sel.siblings());
+    });
 }
 
 function sort_group_bys(select, group_bys) {
@@ -219,15 +210,17 @@ function sort_group_bys(select, group_bys) {
             if (group_bys[k].getAttribute('data-backref') == select.options[i].value) {
                 select.options[i].setAttribute('data-sort_by', k);
                 select.options[i].selected = true;
-                sortOptions(select);
             }
         }
     }
+    moveOptionsToTopLevel(select);
+    sortOptions(select.id);
 }
 
 function reset_group_by_selects() {
     [$('group_by_columns'), $('group_by_rows')].each(function(select) {
         select.multiple = false;
+        putOptionsIntoOpgroups(select);
         select.options[0].selected = true;
     });
 }

@@ -98,19 +98,29 @@ function selectAllOptions(select) {
   }
 }
 
-// Returns true if the given select-box has optgroups.
+// Returns true if the given select-box has optgroups
 // We assume that a possibly present optgroup is the first child element of the select-box.
 function has_optgroups(theSel) {
-    theSel = $(theSel);
-    var hit;
-    for (var i = 0; i < theSel.childNodes.length; i++) {
-        if (theSel.childNodes.item(i).tagName == "OPTGROUP") {
-            hit = true;
-            break;
-        }
-    }
-    return (hit) && (theSel.childElements().length > 0);
+  theSel = $(theSel);
+  groups = theSel.select('optgroup');
+  return (groups.size() > 0);
 }
+
+// Returns true if the given select-box has optgroups and at least one of those contains a child
+// We assume that a possibly present optgroup is the first child element of the select-box.
+function filled_optgroups(theSel) {
+  if (!has_optgroups(theSel)) return false;
+  groups = theSel.select('optgroup');
+  hit = false;
+  for (var i = 0; i < groups.length; i++) {
+    if (groups[i].childElements().size() > 0) {
+      hit = true;
+      break;
+    }
+  }
+  return hit;
+}
+
 
 // Compares two option elements (return -1 if a < b, if not return 1).
 // If those elements have a 'data-sort_by' attribute, we compare that attribute.
@@ -126,7 +136,7 @@ function compareOptions(a,b) {
 // If that select-box contains optgroups, the options are sorted for each optgroup separately.
 function sortOptions(theSel) {
   theSel = $(theSel);
-  if (has_optgroups(theSel)) {
+  if (filled_optgroups(theSel)) {
     // handle each optgroup separately
     theSel.childElements().each(function(group){
       var sorted_elements;
@@ -140,11 +150,42 @@ function sortOptions(theSel) {
       });
     });
   }
-  else {
-    // there is no optgroup, so just sort the options
-    $A(theSel.options).sort(compareOptions).each(
-      function(o,i){
-        theSel.options[i] = o;
+  // there is no optgroup so just sort the options
+  $A(theSel.options).sort(compareOptions).each(function(o,i) {
+    theSel.options[i] = o;
+  });
+}
+
+// Clears any filled optgroup and puts those Elements to the Select Box Toplevel.
+// A Backreference to the previous optgroups' label is held in the attribute 'data-optgroup'.
+// Note that any Optgroups will still be present after moving the options
+function moveOptionsToTopLevel(theSel) {
+  if (!(filled_optgroups(theSel))) return;
+  theSel.childElements().each(function(group) {
+    $A(group.childElements()).each(function(o) {
+      tmp = o;
+      o.remove();
+      $(theSel).insert({'bottom' : tmp});
+      tmp.setAttribute('data-optgroup', group.getAttribute('label'))
     });
-  }
+  });
+}
+
+// Moves any options in the Select Box to the optgroup with a label that equals the options'
+// 'data-optgroup' field. That is reset after moving the respective option.
+// Note that the Optgroup has to be present before calling this function, as it will not be
+// created in the process
+function putOptionsIntoOpgroups(theSel) {
+  if (!has_optgroups(theSel)) return;
+  groups = theSel.select('optgroup');
+  theSel.select('option').each(function (option) {
+    for (var i = 0; i < groups.length; i++) {
+      if (option.getAttribute('data-optgroup') == groups[i].getAttribute('label')) {
+        tmp = option;
+        option.remove();
+        groups[i].insert({'bottom' : tmp});
+        tmp.setAttribute('data-optgroup', '');
+      }
+    }
+  });
 }
