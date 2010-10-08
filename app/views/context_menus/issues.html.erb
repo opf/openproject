@@ -33,7 +33,6 @@
 	</li>
 	<% end %>
 
-  <% if @projects.size == 1 %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
@@ -43,8 +42,8 @@
 		<% end -%>
 		</ul>
 	</li>
-  <% end %>
 
+  <% #TODO: allow editing versions when multiple projects %>
 	<% unless @project.nil? || @project.shared_versions.open.empty? -%>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
@@ -85,7 +84,7 @@
 	</li>
 	<% end -%>
 
-  <% if Issue.use_field_for_done_ratio? && @projects.size == 1 %>
+  <% if Issue.use_field_for_done_ratio? %>
 	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
 		<ul>

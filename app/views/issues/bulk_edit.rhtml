@@ -11,7 +11,7 @@
 <div class="splitcontentleft">
 <p>
 	<label><%= l(:field_tracker) %></label>
-	<%= select_tag('issue[tracker_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@project.trackers, :id, :name)) %>
+	<%= select_tag('issue[tracker_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, :id, :name)) %>
 </p>
 <% if @available_statuses.any? %>
 <p>
@@ -27,20 +27,25 @@
 	<label><%= l(:field_assigned_to) %></label> 
 	<%= select_tag('issue[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                  content_tag('option', l(:label_nobody), :value => 'none') +
-                                 options_from_collection_for_select(@project.assignable_users, :id, :name)) %>
+                                 options_from_collection_for_select(@assignables, :id, :name)) %>
 </p>
+<% if @project %>
 <p>
 	<label><%= l(:field_category) %></label> 
 	<%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none') +
                                 options_from_collection_for_select(@project.issue_categories, :id, :name)) %>
 </p>
+<% end %>
+<% #TODO: allow editing versions when multiple projects %>
+<% if @project %>
 <p>
 	<label><%= l(:field_fixed_version) %></label> 
 	<%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_none), :value => 'none') +
                                    version_options_for_select(@project.shared_versions.open)) %>
 </p>
+<% end %>
 
 <% @custom_fields.each do |custom_field| %>
 	<p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('issue', custom_field) %></p>

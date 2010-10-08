@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
   
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
-  before_filter :check_project_uniqueness, :only => [:bulk_edit, :bulk_update, :move, :perform_move]
+  before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
@@ -194,8 +194,10 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     @issues.sort!
-    @available_statuses = Workflow.available_statuses(@project)
-    @custom_fields = @project.all_issue_custom_fields
+    @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
+    @custom_fields = @projects.map{|p|p.all_issue_custom_fields}.inject{|memo,c|memo & c}
+    @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
+    @trackers = @projects.map(&:trackers).inject{|memo,t| memo & t}
   end
 
   def bulk_update
