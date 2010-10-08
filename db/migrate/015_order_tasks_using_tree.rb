@@ -3,7 +3,12 @@ class OrderTasksUsingTree < ActiveRecord::Migration
     last_task = {}
     ActiveRecord::Base.transaction do
       Task.find(:all, :conditions => "not parent_id is NULL", :order => "project_id ASC, parent_id ASC, position ASC").each do |t|
-        t.move_after last_task[t.parent_id] if last_task[t.parent_id]
+        begin
+          t.move_after last_task[t.parent_id] if last_task[t.parent_id]
+        rescue
+          # nested tasks break this migrations. Task order not that
+          # big a deal, proceed
+        end
 
         last_task[t.parent_id] = t.id
       end
