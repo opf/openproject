@@ -24,3 +24,5 @@ de:
   label_sum: Summe
 
   description_drill_down: Details anzeigen
+
+  validation_failure_date: "ist kein gültiges Datum"
