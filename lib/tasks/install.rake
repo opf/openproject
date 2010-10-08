@@ -7,6 +7,14 @@ namespace :redmine do
     task :install => :environment do |t|
       ENV["RAILS_ENV"] ||= "development"
 
+      ['holidays', 'icalendar', 'prawn'].each{|gem|
+        begin
+          require gem
+        rescue LoadError
+          raise "You are missing the '#{gem}' gem"
+        end
+      }
+
       # Necessary because adding key-value pairs one by one doesn't seem to work
       settings = Setting.plugin_redmine_backlogs
       settings[:points_burn_direction] ||= 'down'
