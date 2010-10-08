@@ -6,7 +6,7 @@ module CostQuery::Validation
           !!val.to_dateish
         rescue ArgumentError
           validate_dates(values - [val])
-          errors << "\'#{val}\' is not a valid date!"
+          errors << "\'#{val}\' " + l(:validation_failure_date)
           false
         end
       end
