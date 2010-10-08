@@ -40,7 +40,8 @@ ActionController::Routing::Routes.draw do |map|
     timelog.with_options :action => 'new', :conditions => {:method => :get} do |time_edit|
       time_edit.connect 'issues/:issue_id/time_entries/new'
     end
-      
+
+    timelog.connect 'projects/:project_id/timelog/edit', :action => 'create', :conditions => {:method => :post}
     timelog.connect 'time_entries/:id/destroy', :action => 'destroy', :conditions => {:method => :post}
   end
   

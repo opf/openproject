@@ -72,11 +72,11 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :tag => 'option', :content => '--- Please select ---'
   end
   
-  def test_post_edit
+  def test_post_create
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
     @request.session[:user_id] = 3
-    post :edit, :project_id => 1,
+    post :create, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
                                 # Not the default activity
                                 :activity_id => '11',
