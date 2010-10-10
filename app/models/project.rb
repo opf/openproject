@@ -382,12 +382,13 @@ class Project < ActiveRecord::Base
   
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
-    members.select {|m| m.mail_notification? || m.user.mail_notification == 'all'}.collect {|m| m.user.mail}
+    notified_users.collect {|user| user.mail}
   end
   
   # Returns the users that should be notified on project events
   def notified_users
-    members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
+    # TODO: User part should be extracted to User#notify_about?
+    members.select {|m| m.mail_notification? || m.user.mail_notification == 'all'}.collect {|m| m.user}
   end
   
   # Returns an array of all custom fields enabled for project issues

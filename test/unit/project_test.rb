@@ -964,4 +964,54 @@ class ProjectTest < ActiveSupport::TestCase
 
     end
   end
+
+  context "#notified_users" do
+    setup do
+      @project = Project.generate!
+      @role = Role.generate!
+      
+      @user_with_membership_notification = User.generate!(:mail_notification => 'selected')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @user_with_membership_notification, :mail_notification => true)
+
+      @all_events_user = User.generate!(:mail_notification => 'all')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @all_events_user)
+
+      @no_events_user = User.generate!(:mail_notification => 'none')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @no_events_user)
+
+      @only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @only_my_events_user)
+
+      @only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @only_assigned_user)
+
+      @only_owned_user = User.generate!(:mail_notification => 'only_owner')
+      Member.generate!(:project => @project, :roles => [@role], :principal => @only_owned_user)
+    end
+    
+    should "include members with a mail notification" do
+      assert @project.notified_users.include?(@user_with_membership_notification)
+    end
+    
+    should "include users with the 'all' notification option" do
+      assert @project.notified_users.include?(@all_events_user)
+    end
+    
+    should "not include users with the 'none' notification option" do
+      assert !@project.notified_users.include?(@no_events_user)
+    end
+    
+    should "not include users with the 'only_my_events' notification option" do
+      assert !@project.notified_users.include?(@only_my_events_user)
+    end
+    
+    should "not include users with the 'only_assigned' notification option" do
+      assert !@project.notified_users.include?(@only_assigned_user)
+    end
+    
+    should "not include users with the 'only_owner' notification option" do
+      assert !@project.notified_users.include?(@only_owned_user)
+    end
+  end
+  
 end
