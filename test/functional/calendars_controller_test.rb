@@ -16,6 +16,16 @@ class CalendarsControllerTest < ActionController::TestCase
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
   end
+
+  context "GET :show" do
+    should "run custom queries" do
+      @query = Query.generate_default!
+      
+      get :show, :query_id => @query.id
+      assert_response :success
+    end
+    
+  end
   
   def test_week_number_calculation
     Setting.start_of_week = 7

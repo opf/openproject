@@ -8,6 +8,8 @@ class CalendarsController < ApplicationController
   helper :projects
   helper :queries
   include QueriesHelper
+  helper :sort
+  include SortHelper
 
   def show
     if params[:year] and params[:year].to_i > 1900
