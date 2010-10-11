@@ -17,7 +17,7 @@
 
 class TimelogController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :authorize, :only => [:new, :create, :edit, :destroy]
+  before_filter :find_project, :authorize, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :find_optional_project, :only => [:index]
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
@@ -111,18 +111,26 @@ class TimelogController < ApplicationController
   
   def edit
     (render_403; return) if @time_entry && !@time_entry.editable_by?(User.current)
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry.attributes = params[:time_entry]
+    
+    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+  end
+
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  def update
+    (render_403; return) if @time_entry && !@time_entry.editable_by?(User.current)
     @time_entry.attributes = params[:time_entry]
     
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     
-    if request.post? and @time_entry.save
+    if @time_entry.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default :action => 'index', :project_id => @time_entry.project
-      return
+    else
+      render :action => 'edit'
     end    
   end
-  
+
   def destroy
     (render_404; return) unless @time_entry
     (render_403; return) unless @time_entry.editable_by?(User.current)

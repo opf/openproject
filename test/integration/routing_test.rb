@@ -239,8 +239,9 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
 
     should_route :post, "/projects/ecookbook/timelog/edit", :controller => 'timelog', :action => 'create', :project_id => 'ecookbook'
-    should_route :post, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
     should_route :post, "/time_entries/55/destroy", :controller => 'timelog', :action => 'destroy', :id => '55'
+
+    should_route :put, "/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22'
   end
 
   context "time_entry_reports" do

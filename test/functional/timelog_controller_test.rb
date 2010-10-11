@@ -56,7 +56,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/edit/2' }
+    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/update/2' }
   end
   
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
@@ -101,7 +101,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, entry.user_id
     
     @request.session[:user_id] = 1
-    post :edit, :id => 1,
+    put :update, :id => 1,
                 :time_entry => {:issue_id => '2',
                                 :hours => '8'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'

@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'help/:ctrl/:page', :controller => 'help'
   
   map.connect 'time_entries/:id/edit', :action => 'edit', :controller => 'timelog'
+  map.connect 'time_entries/:id', :action => 'update', :controller => 'timelog', :conditions => {:method => :put}
   map.connect 'projects/:project_id/time_entries/new', :action => 'new', :controller => 'timelog'
   map.connect 'projects/:project_id/issues/:issue_id/time_entries/new', :action => 'new', :controller => 'timelog'
   
