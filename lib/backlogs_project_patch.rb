@@ -163,11 +163,19 @@ module Backlogs
         end
         @scrum_statistics[:info, :velocity] = velocity
   
-        begin
-          dps = (all_sprints.inject(0){|d, s| d + s.days.size} / all_sprints.size)
-          @scrum_statistics[:info, :average_days_per_sprint] = dps
-          @scrum_statistics[:info, :average_days_per_point] = (velocity ? dps.to_f / velocity : nil)
-        rescue ZeroDivisionError
+        if all_sprints.size != 0 && velocity && velocity != 0
+          begin
+            dps = (all_sprints.inject(0){|d, s| d + s.days.size} / all_sprints.size)
+            @scrum_statistics[:info, :average_days_per_sprint] = dps
+            @scrum_statistics[:info, :average_days_per_point] = (velocity ? (dps.to_f / velocity) : nil)
+          rescue ZeroDivisionError
+            dps = nil
+          end
+        else
+          dps = nil
+        end
+
+        if dps.nil?
           @scrum_statistics[:info, :average_days_per_sprint] = nil
           @scrum_statistics[:info, :average_days_per_point] = nil
         end
