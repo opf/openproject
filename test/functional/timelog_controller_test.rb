@@ -56,7 +56,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/update/2' }
+    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/time_entries/2' }
   end
   
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
@@ -114,7 +114,7 @@ class TimelogControllerTest < ActionController::TestCase
   
   def test_destroy
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
     assert_nil TimeEntry.find_by_id(1)
@@ -128,7 +128,7 @@ class TimelogControllerTest < ActionController::TestCase
     end
 
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
     assert_not_nil TimeEntry.find_by_id(1)

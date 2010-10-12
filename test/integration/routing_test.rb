@@ -221,27 +221,60 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/redmine/repository/edit", :controller => 'repositories', :action => 'edit', :id => 'redmine'
   end
 
-  context "timelogs" do
+  context "timelogs (global)" do
     should_route :get, "/time_entries", :controller => 'timelog', :action => 'index'
     should_route :get, "/time_entries.csv", :controller => 'timelog', :action => 'index', :format => 'csv'
     should_route :get, "/time_entries.atom", :controller => 'timelog', :action => 'index', :format => 'atom'
+    should_route :get, "/time_entries/new", :controller => 'timelog', :action => 'new'
+    should_route :get, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
+
+    should_route :post, "/time_entries", :controller => 'timelog', :action => 'create'
+
+    should_route :put, "/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22'
+
+    should_route :delete, "/time_entries/55", :controller => 'timelog', :action => 'destroy', :id => '55'
+  end
+
+  context "timelogs (scoped under project)" do
     should_route :get, "/projects/567/time_entries", :controller => 'timelog', :action => 'index', :project_id => '567'
     should_route :get, "/projects/567/time_entries.csv", :controller => 'timelog', :action => 'index', :project_id => '567', :format => 'csv'
     should_route :get, "/projects/567/time_entries.atom", :controller => 'timelog', :action => 'index', :project_id => '567', :format => 'atom'
+    should_route :get, "/projects/567/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => '567'
+    should_route :get, "/projects/567/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22', :project_id => '567'
+
+    should_route :post, "/projects/567/time_entries", :controller => 'timelog', :action => 'create', :project_id => '567'
+
+    should_route :put, "/projects/567/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22', :project_id => '567'
+
+    should_route :delete, "/projects/567/time_entries/55", :controller => 'timelog', :action => 'destroy', :id => '55', :project_id => '567'
+  end
+
+  context "timelogs (scoped under issues)" do
     should_route :get, "/issues/234/time_entries", :controller => 'timelog', :action => 'index', :issue_id => '234'
     should_route :get, "/issues/234/time_entries.csv", :controller => 'timelog', :action => 'index', :issue_id => '234', :format => 'csv'
     should_route :get, "/issues/234/time_entries.atom", :controller => 'timelog', :action => 'index', :issue_id => '234', :format => 'atom'
-    should_route :get, "/projects/ecookbook/issues/123/time_entries", :controller => 'timelog', :action => 'index', :project_id => 'ecookbook', :issue_id => '123'
+    should_route :get, "/issues/234/time_entries/new", :controller => 'timelog', :action => 'new', :issue_id => '234'
+    should_route :get, "/issues/234/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22', :issue_id => '234'
 
-    should_route :get, "/issues/567/time_entries/new", :controller => 'timelog', :action => 'new', :issue_id => '567'
-    should_route :get, "/projects/ecookbook/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => 'ecookbook'
-    should_route :get, "/projects/ecookbook/issues/567/time_entries/new", :controller => 'timelog', :action => 'new', :project_id => 'ecookbook', :issue_id => '567'
-    should_route :get, "/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22'
+    should_route :post, "/issues/234/time_entries", :controller => 'timelog', :action => 'create', :issue_id => '234'
 
-    should_route :post, "/projects/ecookbook/timelog/edit", :controller => 'timelog', :action => 'create', :project_id => 'ecookbook'
-    should_route :post, "/time_entries/55/destroy", :controller => 'timelog', :action => 'destroy', :id => '55'
+    should_route :put, "/issues/234/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22', :issue_id => '234'
 
-    should_route :put, "/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22'
+    should_route :delete, "/issues/234/time_entries/55", :controller => 'timelog', :action => 'destroy', :id => '55', :issue_id => '234'
+  end
+
+  context "timelogs (scoped under project and issues)" do
+    should_route :get, "/projects/ecookbook/issues/234/time_entries", :controller => 'timelog', :action => 'index', :issue_id => '234', :project_id => 'ecookbook'
+    should_route :get, "/projects/ecookbook/issues/234/time_entries.csv", :controller => 'timelog', :action => 'index', :issue_id => '234', :project_id => 'ecookbook', :format => 'csv'
+    should_route :get, "/projects/ecookbook/issues/234/time_entries.atom", :controller => 'timelog', :action => 'index', :issue_id => '234', :project_id => 'ecookbook', :format => 'atom'
+    should_route :get, "/projects/ecookbook/issues/234/time_entries/new", :controller => 'timelog', :action => 'new', :issue_id => '234', :project_id => 'ecookbook'
+    should_route :get, "/projects/ecookbook/issues/234/time_entries/22/edit", :controller => 'timelog', :action => 'edit', :id => '22', :issue_id => '234', :project_id => 'ecookbook'
+
+    should_route :post, "/projects/ecookbook/issues/234/time_entries", :controller => 'timelog', :action => 'create', :issue_id => '234', :project_id => 'ecookbook'
+
+    should_route :put, "/projects/ecookbook/issues/234/time_entries/22", :controller => 'timelog', :action => 'update', :id => '22', :issue_id => '234', :project_id => 'ecookbook'
+
+    should_route :delete, "/projects/ecookbook/issues/234/time_entries/55", :controller => 'timelog', :action => 'destroy', :id => '55', :issue_id => '234', :project_id => 'ecookbook'
   end
 
   context "time_entry_reports" do

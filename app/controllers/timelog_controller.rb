@@ -20,8 +20,6 @@ class TimelogController < ApplicationController
   before_filter :find_project, :authorize, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :find_optional_project, :only => [:index]
 
-  verify :method => :post, :only => :destroy, :redirect_to => { :action => :index }
-  
   helper :sort
   include SortHelper
   helper :issues
@@ -131,6 +129,7 @@ class TimelogController < ApplicationController
     end    
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     (render_404; return) unless @time_entry
     (render_403; return) unless @time_entry.editable_by?(User.current)

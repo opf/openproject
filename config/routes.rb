@@ -13,38 +13,16 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help'
-  
-  map.connect 'time_entries/:id/edit', :action => 'edit', :controller => 'timelog'
-  map.connect 'time_entries/:id', :action => 'update', :controller => 'timelog', :conditions => {:method => :put}
-  map.connect 'projects/:project_id/time_entries/new', :action => 'new', :controller => 'timelog'
-  map.connect 'projects/:project_id/issues/:issue_id/time_entries/new', :action => 'new', :controller => 'timelog'
-  
-  map.with_options :controller => 'timelog' do |timelog|
-    timelog.connect 'projects/:project_id/time_entries', :action => 'index'
-    
-    timelog.with_options :action => 'index', :conditions => {:method => :get}  do |time_details|
-      time_details.connect 'time_entries'
-      time_details.connect 'time_entries.:format'
-      time_details.connect 'issues/:issue_id/time_entries'
-      time_details.connect 'issues/:issue_id/time_entries.:format'
-      time_details.connect 'projects/:project_id/time_entries.:format'
-      time_details.connect 'projects/:project_id/issues/:issue_id/time_entries'
-      time_details.connect 'projects/:project_id/issues/:issue_id/time_entries.:format'
-    end
-    timelog.connect 'projects/:project_id/time_entries/report', :controller => 'time_entry_reports', :action => 'report'
-    timelog.with_options :controller => 'time_entry_reports', :action => 'report',:conditions => {:method => :get} do |time_report|
-      time_report.connect 'time_entries/report'
-      time_report.connect 'time_entries/report.:format'
-      time_report.connect 'projects/:project_id/time_entries/report.:format'
-    end
 
-    timelog.with_options :action => 'new', :conditions => {:method => :get} do |time_edit|
-      time_edit.connect 'issues/:issue_id/time_entries/new'
-    end
-
-    timelog.connect 'projects/:project_id/timelog/edit', :action => 'create', :conditions => {:method => :post}
-    timelog.connect 'time_entries/:id/destroy', :action => 'destroy', :conditions => {:method => :post}
+  map.connect 'projects/:project_id/time_entries/report', :controller => 'time_entry_reports', :action => 'report'
+  map.with_options :controller => 'time_entry_reports', :action => 'report',:conditions => {:method => :get} do |time_report|
+    time_report.connect 'time_entries/report'
+    time_report.connect 'time_entries/report.:format'
+    time_report.connect 'projects/:project_id/time_entries/report.:format'
   end
+
+  # TODO: wasteful since this is also nested under issues, projects, and projects/issues
+  map.resources :time_entries, :controller => 'timelog'
   
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :get}
@@ -131,8 +109,13 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/issues', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
   map.connect '/issues/create', :controller => 'issues', :action => 'index', :conditions => { :method => :post }
   
-  map.resources :issues, :member => { :edit => :post }, :collection => {}
-  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post }
+  map.resources :issues, :member => { :edit => :post }, :collection => {} do |issues|
+    issues.resources :time_entries, :controller => 'timelog'
+  end
+  
+  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|
+    issues.resources :time_entries, :controller => 'timelog'
+  end
 
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
     relations.connect 'issues/:issue_id/relations/:id', :action => 'new'
@@ -177,6 +160,9 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :files, :only => [:index, :new, :create]
     project.resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
     project.resources :news, :shallow => true
+    project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
+
+    
   end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request
