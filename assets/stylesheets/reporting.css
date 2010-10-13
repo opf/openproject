@@ -85,6 +85,12 @@
   padding-right: 5px;
 }
 
+/* Details view*/
+
+.detail-report td {
+  text-align: left;
+}
+
 /* Aligning filter elements at the top. */
 .new_cost_query fieldset#filters table td {
   vertical-align: top;

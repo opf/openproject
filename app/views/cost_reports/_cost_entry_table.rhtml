@@ -1,10 +1,10 @@
 <% list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id] %>
 
-<table class="list report">
+<table class="report detail-report">
   <thead>
-    <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
+    <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
+    <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
     <th class="right"><%= l(:field_costs) %></th>
-    <th class="right"><%= @cost_type.try(:unit_plural) || l(:units) %></th>
     <th></th>
   </thead>
   <tfoot>
@@ -20,8 +20,8 @@
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
-        <td class="units"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
-        <td class="currency"><%= show_result(result, 0) %></td>
+        <td><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td class="right"><%= show_result(result, 0) %></td>
         <td style="width: 40px">
           <%= link_to_if_authorized image_tag('edit.png'),
             action_for(result, :action => 'edit'), :title => l(:button_edit) %>
