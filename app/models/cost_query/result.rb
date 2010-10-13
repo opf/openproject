@@ -8,7 +8,7 @@ module CostQuery::Result
     include CostQuery::QueryUtils
 
     def initialize(value)
-      @important_fields ||=
+      @important_fields ||= []
       @type = :direct
       @value = value
     end
