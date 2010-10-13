@@ -66,6 +66,11 @@ module ReportingHelper
     @show_row[key][value] ||= field_representation_map(key, value)
   end
 
+  def raw_field(key, value)
+    @raw_row ||= Hash.new { |h,k| h[k] = {}}
+    @raw_row[key][value] ||= field_sort_map(key, value)
+  end
+
   def cost_object_link(cost_object_id)
     co = CostObject.find(cost_object_id)
     if User.current.allowed_to_with_inheritance?(:view_cost_objects, co.project)
@@ -95,6 +100,15 @@ module ReportingHelper
     when :fixed_version_id          then Version.find(value.to_i).name
     when :singleton_value           then ""
     else value.to_s
+    end
+  end
+
+  def field_sort_map(key, value)
+    return "" if value.blank?
+    case key.to_sym
+    when :issue_id, :tweek, :tmonth, :week  then value.to_i
+    when :spent_on                          then value.to_date.mjd
+    else field_representation_map(key, value)
     end
   end
 
