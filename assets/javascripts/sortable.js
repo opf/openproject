@@ -97,15 +97,18 @@ function ts_resortTable(lnk, clid) {
 	for (var ci=0;ci<lnk.childNodes.length;ci++) {
 		if (lnk.childNodes[ci].tagName && lnk.childNodes[ci].tagName.toLowerCase() == 'span') span = lnk.childNodes[ci];
 	}
-	var spantext = ts_getInnerText(span);
 	var td = lnk.parentNode;
 	var column = clid || td.cellIndex;
 	var t = getParent(td,'TABLE');
-	// Work out a type for the column
+
+	// Do not sort single a row
 	if (t.rows.length <= 1) return;
-	var itm = "";
+
+	// Determine if all rows are equal
+	var first = ts_getInnerText(t.tBodies[0].rows[0].cells[column]);
+	var itm = first;
 	var i = 0;
-	while (itm == "" && i < t.tBodies[0].rows.length) {
+	while (itm == first && i < t.tBodies[0].rows.length) {
 		var itm = ts_getInnerText(t.tBodies[0].rows[i].cells[column]);
 		itm = trim(itm);
 		if (itm.substr(0,4) == "<!--" || itm.length == 0) {
@@ -113,12 +116,20 @@ function ts_resortTable(lnk, clid) {
 		}
 		i++;
 	}
-	if (itm == "") return;
+	if (itm == first) return;
+
+	// Determine the sort type. You can set numeric=true on the header to force numeric sorting
 	sortfn = ts_sort_caseinsensitive;
-	if (itm.match(/^\d\d[\/\.-][a-zA-z][a-zA-Z][a-zA-Z][\/\.-]\d\d\d\d$/)) sortfn = ts_sort_date;
-	if (itm.match(/^\d\d[\/\.-]\d\d[\/\.-]\d\d\d{2}?$/)) sortfn = ts_sort_date;
-	if (itm.match(/^-?[�$�ۢ�]\d/)) sortfn = ts_sort_numeric;
-	if (itm.match(/^-?(\d+[,\.]?)+(E[-+][\d]+)?%?$/)) sortfn = ts_sort_numeric;
+	if (thead) {
+		if (itm.match(/^-?\d+\.?d*/)) sortfn = ts_sort_numeric; // Normal number
+		if (itm.match(/#\d+:/)) sortfn = ts_sort_numeric; // Issue number
+		var numeric_flag = t.tHead.rows[0].cells[column].getAttribute("numeric")
+		if (numeric_flag == "true") {
+			sortfn = ts_sort_numeric;
+		}
+	}
+
+	// Do the sorting
 	SORT_COLUMN_INDEX = column;
 	var firstRow = new Array();
 	var newRows = new Array();
@@ -184,74 +195,23 @@ function getParent(el, pTagName) {
 	}
 }
 
-function sort_date(date) {
-	// y2k notes: two digit years less than 50 are treated as 20XX, greater than 50 are treated as 19XX
-	dt = "00000000";
-	if (date.length == 11) {
-		mtstr = date.substr(3,3);
-		mtstr = mtstr.toLowerCase();
-		switch(mtstr) {
-			case "jan": var mt = "01"; break;
-			case "feb": var mt = "02"; break;
-			case "mar": var mt = "03"; break;
-			case "apr": var mt = "04"; break;
-			case "may": var mt = "05"; break;
-			case "jun": var mt = "06"; break;
-			case "jul": var mt = "07"; break;
-			case "aug": var mt = "08"; break;
-			case "sep": var mt = "09"; break;
-			case "oct": var mt = "10"; break;
-			case "nov": var mt = "11"; break;
-			case "dec": var mt = "12"; break;
-			// default: var mt = "00";
-		}
-		dt = date.substr(7,4)+mt+date.substr(0,2);
-		return dt;
-	} else if (date.length == 10) {
-		if (europeandate == false) {
-			dt = date.substr(6,4)+date.substr(0,2)+date.substr(3,2);
-			return dt;
-		} else {
-			dt = date.substr(6,4)+date.substr(3,2)+date.substr(0,2);
-			return dt;
-		}
-	} else if (date.length == 8) {
-		yr = date.substr(6,2);
-		if (parseInt(yr) < 50) {
-			yr = '20'+yr;
-		} else {
-			yr = '19'+yr;
-		}
-		if (europeandate == true) {
-			dt = yr+date.substr(3,2)+date.substr(0,2);
-			return dt;
-		} else {
-			dt = yr+date.substr(0,2)+date.substr(3,2);
-			return dt;
-		}
+function ts_get_cell_data(a, b) {
+	acell = a.cells[SORT_COLUMN_INDEX]
+	bcell = b.cells[SORT_COLUMN_INDEX]
+	if ((aa = acell.getAttribute("raw-data")) == null) {
+		aa = ts_getInnerText(acell).toLowerCase();
 	}
-	return dt;
+	if ((bb = bcell.getAttribute("raw-data")) == null) {
+		bb = ts_getInnerText(bcell).toLowerCase();
+	}
+	return [aa, bb]
 }
 
-function ts_sort_date(a,b) {
-	dt1 = sort_date(ts_getInnerText(a.cells[SORT_COLUMN_INDEX]));
-	dt2 = sort_date(ts_getInnerText(b.cells[SORT_COLUMN_INDEX]));
-
-	if (dt1==dt2) {
-		return 0;
-	}
-	if (dt1<dt2) {
-		return -1;
-	}
-	return 1;
-}
 function ts_sort_numeric(a,b) {
-	var aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-	aa = clean_num(aa);
-	var bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
-	bb = clean_num(bb);
-	return compare_numeric(aa,bb);
+	var cells = ts_get_cell_data(a, b);
+	return compare_numeric(cells[0], cells[1]);
 }
+
 function compare_numeric(a,b) {
 	var a = parseFloat(a);
 	a = (isNaN(a) ? 0 : a);
@@ -259,34 +219,20 @@ function compare_numeric(a,b) {
 	b = (isNaN(b) ? 0 : b);
 	return a - b;
 }
+
 function ts_sort_caseinsensitive(a,b) {
-	aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]).toLowerCase();
-	bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]).toLowerCase();
-	if (aa==bb) {
-		return 0;
-	}
-	if (aa<bb) {
-		return -1;
-	}
+	var cells = ts_get_cell_data(a, b);
+	if (cells[0] == cells[1]) return 0;
+	if (cells[0] < cells[1]) return -1;
 	return 1;
 }
-function ts_sort_default(a,b) {
-	aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-	bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
-	if (aa==bb) {
-		return 0;
-	}
-	if (aa<bb) {
-		return -1;
-	}
-	return 1;
-}
+
 function addEvent(elm, evType, fn, useCapture)
 // addEvent and removeEvent
 // cross-browser event handling for IE5+,	NS6 and Mozilla
 // By Scott Andrew
 {
-	if (elm.addEventListener){
+	if (elm.addEventListener) {
 		elm.addEventListener(evType, fn, useCapture);
 		return true;
 	} else if (elm.attachEvent){
@@ -297,7 +243,8 @@ function addEvent(elm, evType, fn, useCapture)
 	}
 }
 function clean_num(str) {
-	str = str.replace(new RegExp(/[^-?0-9.]/g),"");
+	str = str.replace(/^[^-?\d]+/, "");
+	str.replace(/(\d),(\d)/g, "$1$2")
 	return str;
 }
 function trim(s) {
