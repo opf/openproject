@@ -31,9 +31,9 @@ show_units = list.include? "cost_type_id"
         <td><%= show_row result %></td>
         <td><%= result.count %></td>
         <% if show_units %>
-          <td><%= show_result result, result.fields[:cost_type_id].to_i %></td>
+          <td raw-data=<%= result.units %>><%= show_result result, result.fields[:cost_type_id].to_i %></td>
         <% end %>
-        <td><%= show_result result %></td>
+        <td raw-data=<%= result.real_costs %>><%= show_result result %></td>
       </tr>
       <% if params[:debug] %>
         <tr>
