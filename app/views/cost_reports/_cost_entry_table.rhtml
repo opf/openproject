@@ -23,9 +23,13 @@
   <tbody>
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
-        <% list.each do |field| %><td><%= show_field field, result.fields[field.to_s] %></td><% end %>
-        <td raw-data=<%= result.units %>><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
-        <td class="right currency" raw-data=<%= result.real_costs %>><%= show_result(result, 0) %></td>
+        <% list.each do |field| %>
+            <td raw-data=<%= raw_field field, result.fields[field.to_s] %>>
+            <%= show_field field, result.fields[field.to_s] %>
+          </td>
+        <% end %>
+        <td class="units" raw-data=<%= result.units %>><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td class="currency" raw-data=<%= result.real_costs %>><%= show_result(result, 0) %></td>
         <td style="width: 40px">
           <%= link_to_if_authorized image_tag('edit.png'),
             action_for(result, :action => 'edit'), :title => l(:button_edit) %>
