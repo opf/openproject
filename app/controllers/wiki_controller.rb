@@ -181,22 +181,26 @@ class WikiController < ApplicationController
                                       :order => 'title'
       @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
       @pages_by_parent_id = @pages.group_by(&:parent_id)
-    # export wiki to a single html file
     when 'export'
-      if User.current.allowed_to?(:export_wiki_pages, @project)
-        @pages = @wiki.pages.find :all, :order => 'title'
-        export = render_to_string :action => 'export_multiple', :layout => false
-        send_data(export, :type => 'text/html', :filename => "wiki.html")
-      else
-        redirect_to :action => 'index', :id => @project, :page => nil
-      end
-      return      
+      redirect_to :action => 'export', :id => @project # Compatibility stub while refactoring
+      return
     else
       # requested special page doesn't exist, redirect to default page
       redirect_to :action => 'index', :id => @project, :page => nil
       return
     end
     render :action => "special_#{page_title}"
+  end
+
+  # Export wiki to a single html file
+  def export
+    if User.current.allowed_to?(:export_wiki_pages, @project)
+      @pages = @wiki.pages.find :all, :order => 'title'
+      export = render_to_string :action => 'export_multiple', :layout => false
+      send_data(export, :type => 'text/html', :filename => "wiki.html")
+    else
+      redirect_to :action => 'index', :id => @project, :page => nil
+    end
   end
   
   def preview

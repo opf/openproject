@@ -24,7 +24,7 @@
 <% unless @pages.empty? %>
 <% other_formats_links do |f| %>
 	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
-	<%= f.link_to('HTML', :url => {:action => 'special', :page => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+	<%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
 <% end %>
 <% end %>
 

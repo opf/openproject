@@ -256,6 +256,34 @@ class WikiControllerTest < ActionController::TestCase
                     :child => { :tag => 'li', :child => { :tag => 'a', :attributes => { :href => '/projects/ecookbook/wiki/Another_page' },
                                                                        :content => 'Another page' } }
   end
+
+  context "GET :export" do
+    context "with an authorized user to export the wiki" do
+      setup do
+        @request.session[:user_id] = 2
+        get :export, :id => 'ecookbook'
+      end
+      
+      should_respond_with :success
+      should_assign_to :pages
+      should_respond_with_content_type "text/html"
+      should "export all of the wiki pages to a single html file" do
+        assert_select "a[name=?]", "CookBook_documentation"
+        assert_select "a[name=?]", "Another_page"
+        assert_select "a[name=?]", "Page_with_an_inline_image"
+      end
+      
+    end
+
+    context "with an unauthorized user" do
+      setup do
+        get :export, :id => 'ecookbook'
+
+        should_respond_with :redirect
+        should_redirect_to('wiki index') { {:action => 'index', :id => @project, :page => nil} }
+      end
+    end
+  end
   
   def test_not_found
     get :index, :id => 999
