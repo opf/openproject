@@ -195,7 +195,7 @@ function getParent(el, pTagName) {
 }
 
 function ts_get_cell_data(a, idx) {
-	if typeof idx == "undefined" {
+	if ((typeof idx) == "undefined") {
 		acell = a.cells[SORT_COLUMN_INDEX]
 	} else {
 		acell = a.cells[idx]

@@ -28,7 +28,7 @@ show_units = list.include? "cost_type_id"
   <tbody>
     <% @query.each do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
-        <td raw-data="<%= raw_field(result.fields.first, result.fields.first.last) -%>">
+        <td raw-data="<%= raw_field(*result.fields.first) -%>">
           <%= show_row result %>
         </td>
         <td><%= result.count %></td>
