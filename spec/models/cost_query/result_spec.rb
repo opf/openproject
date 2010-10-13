@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery do
+  before { User.current = users(:admin) }
   minimal_query
 
   fixtures :users
@@ -108,7 +109,7 @@ describe CostQuery do
 
     it "should compute real_costs for DirectResults" do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
-      [TimeEntry, CostEntry].each do |type|
+      [CostEntry].each do |type|
         result = id_sorted.select { |r| r[:type]==type.to_s }.first
         first = type.all.first
         result.real_costs.should == (first.overridden_costs || first.costs)
