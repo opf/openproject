@@ -1,20 +1,24 @@
 <% list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id] %>
 
-<table class="report detail-report">
+<table class="list report" id="sortable-table">
   <thead>
-    <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-    <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
-    <th class="right"><%= l(:field_costs) %></th>
-    <th></th>
+    <tr>
+      <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
+      <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+      <th class="right"><%= l(:field_costs) %></th>
+      <th></th>
+    </tr>
   </thead>
   <tfoot>
-    <% if show_result(@query, 0) != show_result(@query) %>
-      <th class="inner right" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
-      <th class="result right"><%= show_result @query, 0 %></th>
-    <% else %>
-      <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
-    <% end %>
-    <th></th>
+    <tr>
+      <% if show_result(@query, 0) != show_result(@query) %>
+        <th class="inner right" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+        <th class="result right"><%= show_result @query, 0 %></th>
+      <% else %>
+        <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
+      <% end %>
+      <th class="unsortable"></th>
+    </tr>
   </tfoot>
   <tbody>
     <% @query.each_direct_result do |result| %>
@@ -40,3 +44,9 @@
     <% end %>
   </tbody>
 </table>
+
+<script type="text/javascript">
+//<![CDATA[
+sortables_init();
+//]]>
+</script>

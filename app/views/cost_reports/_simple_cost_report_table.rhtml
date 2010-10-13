@@ -3,23 +3,27 @@ list = @query.collect {|r| r.important_fields }.flatten.uniq
 show_units = list.include? "cost_type_id"
 %>
 
-<table class="report">
+<table class="report" id="sortable-table">
   <thead>
-  <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
-  <th class="right"><%= label_for(:label_count) %></th>
-  <% if show_units %>
-    <th class="right"><%= label_for(:field_units) %></th>
-  <% end %>
-  <th class="right"><%= label_for(:label_sum) %></th>
+    <tr>
+      <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
+      <th class="right"><%= label_for(:label_count) %></th>
+      <% if show_units %>
+        <th class="right"><%= label_for(:field_units) %></th>
+      <% end %>
+      <th class="right"><%= label_for(:label_sum) %></th>
+    </tr>
   </thead>
   <tfoot>
-    <th class="result inner" colspan='<%= list.size %>'></th>
-    <th class="result inner">
-      <%= @query.count %>
-    </th>
-    <th class="result right" <%= "colspan='2'" if show_units %>>
-      <%= show_result @query %>
-    </th>
+    <tr>
+      <th class="result inner" colspan='<%= list.size %>'></th>
+      <th class="result inner">
+        <%= @query.count %>
+      </th>
+      <th class="result right" <%= "colspan='2'" if show_units %>>
+        <%= show_result @query %>
+      </th>
+    </tr>
   </tfoot>
   <tbody>
     <% @query.each do |result| %>
@@ -41,3 +45,9 @@ show_units = list.include? "cost_type_id"
     <% end %>
   </tbody>
 </table>
+
+<script type="text/javascript">
+//<![CDATA[
+sortables_init();
+//]]>
+</script>
