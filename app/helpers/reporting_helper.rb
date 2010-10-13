@@ -108,7 +108,7 @@ module ReportingHelper
     case key.to_sym
     when :issue_id, :tweek, :tmonth, :week  then value.to_i
     when :spent_on                          then value.to_date.mjd
-    else field_representation_map(key, value)
+    else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ""))
     end
   end
 
