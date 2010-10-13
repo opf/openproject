@@ -2,9 +2,9 @@
 
 <table class="list report">
   <thead>
-    <% list.each do |field| %><th  class="right"><%= label_for(field) %></th class="right"><% end %>
-    <th class="right"><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+    <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
     <th class="right"><%= l(:field_costs) %></th>
+    <th class="right"><%= @cost_type.try(:unit_plural) || l(:units) %></th>
     <th></th>
   </thead>
   <tfoot>
