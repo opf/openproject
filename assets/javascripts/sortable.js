@@ -105,11 +105,11 @@ function ts_resortTable(lnk, clid) {
 	if (t.rows.length <= 1) return;
 
 	// Determine if all rows are equal
-	var first = ts_getInnerText(t.tBodies[0].rows[0].cells[column]);
+	var first = ts_get_cell_data(t.tBodies[0].rows[0], 0);
 	var itm = first;
 	var i = 0;
 	while (itm == first && i < t.tBodies[0].rows.length) {
-		var itm = ts_getInnerText(t.tBodies[0].rows[i].cells[column]);
+		var itm = ts_get_cell_data(t.tBodies[0].rows[i], column);
 		itm = trim(itm);
 		if (itm.substr(0,4) == "<!--" || itm.length == 0) {
 			itm = "";
@@ -121,8 +121,7 @@ function ts_resortTable(lnk, clid) {
 	// Determine the sort type. You can set numeric=true on the header to force numeric sorting
 	sortfn = ts_sort_caseinsensitive;
 	if (thead) {
-		if (itm.match(/^-?\d+\.?d*/)) sortfn = ts_sort_numeric; // Normal number
-		if (itm.match(/#\d+:/)) sortfn = ts_sort_numeric; // Issue number
+		if (itm.match(/-?\d+(?:\.\d+)?/)) sortfn = ts_sort_numeric; // Normal number
 		var numeric_flag = t.tHead.rows[0].cells[column].getAttribute("numeric")
 		if (numeric_flag == "true") {
 			sortfn = ts_sort_numeric;
@@ -195,20 +194,20 @@ function getParent(el, pTagName) {
 	}
 }
 
-function ts_get_cell_data(a, b) {
-	acell = a.cells[SORT_COLUMN_INDEX]
-	bcell = b.cells[SORT_COLUMN_INDEX]
+function ts_get_cell_data(a, idx) {
+	if typeof idx == "undefined" {
+		acell = a.cells[SORT_COLUMN_INDEX]
+	} else {
+		acell = a.cells[idx]
+	}
 	if ((aa = acell.getAttribute("raw-data")) == null) {
 		aa = ts_getInnerText(acell).toLowerCase();
 	}
-	if ((bb = bcell.getAttribute("raw-data")) == null) {
-		bb = ts_getInnerText(bcell).toLowerCase();
-	}
-	return [aa, bb]
+	return aa
 }
 
 function ts_sort_numeric(a,b) {
-	var cells = ts_get_cell_data(a, b);
+	var cells = [ts_get_cell_data(a), ts_get_cell_data(b)];
 	return compare_numeric(cells[0], cells[1]);
 }
 
@@ -221,7 +220,7 @@ function compare_numeric(a,b) {
 }
 
 function ts_sort_caseinsensitive(a,b) {
-	var cells = ts_get_cell_data(a, b);
+	var cells = [ts_get_cell_data(a), ts_get_cell_data(b)];
 	if (cells[0] == cells[1]) return 0;
 	if (cells[0] < cells[1]) return -1;
 	return 1;
