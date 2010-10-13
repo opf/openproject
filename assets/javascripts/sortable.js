@@ -27,10 +27,6 @@ Version 1.5.7
 */
 
 /* You can change these values */
-var image_path = "";
-var image_up = "arrowup.gif";
-var image_down = "arrowdown.gif";
-var image_none = "arrownone.gif";
 var europeandate = true;
 var alternate_row_colors = true;
 
@@ -63,7 +59,7 @@ function ts_makeSortable(t) {
 		var cell = firstRow.cells[i];
 		var txt = ts_getInnerText(cell);
 		if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
-			cell.innerHTML = '<a href="#" class="sortheader" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
+			cell.innerHTML = '<a href="#" class="sortheader sort" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'</a>';
 		}
 	}
 	if (alternate_row_colors) {
@@ -94,9 +90,6 @@ function ts_getInnerText(el) {
 
 function ts_resortTable(lnk, clid) {
 	var span;
-	for (var ci=0;ci<lnk.childNodes.length;ci++) {
-		if (lnk.childNodes[ci].tagName && lnk.childNodes[ci].tagName.toLowerCase() == 'span') span = lnk.childNodes[ci];
-	}
 	var td = lnk.parentNode;
 	var column = clid || td.cellIndex;
 	var t = getParent(td,'TABLE');
@@ -128,6 +121,14 @@ function ts_resortTable(lnk, clid) {
 		}
 	}
 
+	// Delete any other arrows there may be showing
+	var all_sort_links = $$("a.sortheader.sort")
+	for (var ci = 0; ci < all_sort_links.length; ci++) {
+		if (getParent(all_sort_links[ci],"table") == getParent(lnk,"table")) { // in the same table as us?
+			all_sort_links[ci].className = all_sort_links[ci].className.replace(" desc", "").replace(" asc", "");
+		}
+	}
+
 	// Do the sorting
 	SORT_COLUMN_INDEX = column;
 	var firstRow = new Array();
@@ -151,13 +152,13 @@ function ts_resortTable(lnk, clid) {
 		}
 	}
 	newRows.sort(sortfn);
-	if (span.getAttribute("sortdir") == 'down') {
-			ARROW = '&nbsp;&nbsp;<img src="'+ image_path + image_down + '" alt="&darr;"/>';
-			newRows.reverse();
-			span.setAttribute('sortdir','up');
+	if (lnk.getAttribute("sortdir") == 'down') {
+			lnk.setAttribute('sortdir','up');
+			lnk.className += " asc";
 	} else {
-			ARROW = '&nbsp;&nbsp;<img src="'+ image_path + image_up + '" alt="&uarr;"/>';
-			span.setAttribute('sortdir','down');
+			newRows.reverse();
+			lnk.setAttribute('sortdir','down');
+			lnk.className += " desc";
 	}
     // We appendChild rows that already exist to the tbody, so it moves them rather than creating new ones
     // don't do sortbottom rows
@@ -171,16 +172,6 @@ function ts_resortTable(lnk, clid) {
 		if (newRows[i].className && (newRows[i].className.indexOf('sortbottom') != -1))
 			t.tBodies[0].appendChild(newRows[i]);
 	}
-	// Delete any other arrows there may be showing
-	var allspans = document.getElementsByTagName("span");
-	for (var ci=0;ci<allspans.length;ci++) {
-		if (allspans[ci].className == 'sortarrow') {
-			if (getParent(allspans[ci],"table") == getParent(lnk,"table")) { // in the same table as us?
-				allspans[ci].innerHTML = '&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/>';
-			}
-		}
-	}
-	span.innerHTML = ARROW;
 	alternate(t);
 }
 
