@@ -485,6 +485,7 @@ function load_available_values_for_filter(filter_name, callback_func) {
                 callback_func();
             }
         });
+        make_select_accept_single_value(select);
     }
     else {
         callback_func();
