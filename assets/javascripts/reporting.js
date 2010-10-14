@@ -6,7 +6,6 @@ function toggle_filter(field) {
     to_toggle = label.up().siblings();
     if (label.visible()) {
         to_toggle.invoke('show');
-        $('rm_' + field).hide();
     } else {
         to_toggle.invoke('hide');
     }
@@ -67,13 +66,6 @@ function hide_category(tr_field) {
     }
 }
 
-function register_remove_hover(field) {
-    table = $('tr_' +  field);
-    Event.observe(table, 'mouseover', function(event) { set_remove_button_visibility(field, true) });
-    Event.observe(table, 'mouseout', function(event) { set_remove_button_visibility(field, false) });
-}
-
-
 function set_remove_button_visibility(field, value) {
     remove = $('rm_' + field);
     if (remove !== null) {
@@ -91,7 +83,6 @@ function show_filter(field) {
 
 function show_filter_callback(field, callback_func) {
     var field_el = $('tr_' +  field);
-    register_remove_hover(field);
     if (field_el !== null) {
         load_available_values_for_filter(field, callback_func);
         // the following command might be included into the callback_function (which is called after the ajax request) later
