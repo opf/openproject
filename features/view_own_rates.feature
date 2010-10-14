@@ -45,9 +45,10 @@ Feature: Permission View Own hourly and cost rates
 		And I should not see "43.00 EUR" # labour costs of me and Manager
 		And I should not see "49.00 EUR" # material costs of me and Manager
 		And I am on the issues page for the project called "Standard Project"
-		And I select to see column "Overall costs"
-    And I select to see column "Labor costs"
-    And I select to see column "Material costs"
+		And I select to see columns
+      | Overall costs  |
+      | Labor costs    |
+      | Material costs |
 		Then I should see "24.00 EUR"
     And I should see "10.00 EUR"
     And I should see "14.00 EUR"
