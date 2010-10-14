@@ -48,6 +48,12 @@ class CostReportsController < ApplicationController
   end
 
   ##
+  # Determines if the request sets a unit type
+  def set_unit?
+    params[:unit]
+  end
+
+  ##
   # Find a query to search on and put it in the session
   def filter_params
     filters = http_filter_parameters if set_filter?
@@ -111,7 +117,7 @@ class CostReportsController < ApplicationController
   ##
   # We apply a project filter, except when we are just applying a brand new query
   def ensure_project_scope(filters)
-    return if set_filter?
+    return if set_filter? or set_unit?
     if @project
       filters[:operators].merge! :project_id => "="
       filters[:values].merge! :project_id => @project.id.to_s
