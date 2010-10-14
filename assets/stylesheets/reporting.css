@@ -99,6 +99,10 @@
 /* Aligning filter elements at the top. */
 .new_cost_query fieldset#filters table td {
   vertical-align: top;
+  border-spacing: 5px 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 0px 0px;
 }
 
 .new_cost_query fieldset#filters table td > label {
@@ -139,8 +143,8 @@
 
 .icon-filter-rem {
   background-image: url(../images/remove.png);
-  margin-top: -9px;
-  margin-left: 18px;
+  margin-top: 3px;
+  margin-right: 3px;
   position: absolute;
 }
 
@@ -151,14 +155,19 @@
 }
 
 .new_cost_query fieldset#filters table tr.filter:hover {
+  opacity: 1.0;
+  background: #aaa;
+}
+
+.new_cost_query fieldset#filters table tr.filter {
   color: #000;
-  outline: #ccc 1px solid;
-  outline-offset: 1px;
-  background: #ccc;
+  background: #ddd;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  opacity: 0.5;
 }
+
 
 .drag_element {
   /*cursor: move;*/

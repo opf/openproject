@@ -4,7 +4,7 @@
       - :filter_name => String: The name of a filter (e.g. activity_id)
       - :hide => Boolean (optional, default = true): whether the content of this partial is initially hidden or not
 %>
-<td width="<%= element[:width] || 30 %>" <%= style="display:none" if element[:hide] %>>
+<td width="25px">
   <input id= "rm_<%= element[:filter_name] %>" name="fields[]" onclick="remove_filter('<%= element[:filter_name] %>');"
      type="button" value="" class="icon filter_rem icon-filter-rem"/>
 </td>
