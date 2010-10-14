@@ -1,5 +1,6 @@
 Feature: Cost Reporting Linkage
 
+  @javascript
   Scenario: Coming to the cost report for the first time, I should see no entries that are not my own
     Given there is a standard cost control project named "Some Project"
     And there is 1 cost type with the following:
