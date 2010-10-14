@@ -16,6 +16,8 @@ describe CostQuery do
   fixtures :roles
   fixtures :issue_categories
   fixtures :versions
+  fixtures :custom_fields
+  fixtures :custom_values
 
   describe CostQuery::Filter do
     it "shows all entries when no filter is applied" do
@@ -218,6 +220,37 @@ describe CostQuery do
     ].each do |filter|
       it "should only allow time operators for #{filter}" do
         filter.new.available_operators.uniq.sort.should == CostQuery::Operator.time_operators.sort
+      end
+    end
+
+    describe CostQuery::Filter::CustomField do
+      before do
+        CostQuery::Filter.all.merge CostQuery::Filter::CustomField.all
+      end
+      
+      it "should create classes for custom fields" do
+        # Would raise a name error
+        CostQuery::Filter::CustomFieldSearchableField
+      end
+      
+      it "includes custom fields classes in CustomField.all" do
+        CostQuery::Filter::CustomField.all.
+          should include(CostQuery::Filter::CustomFieldSearchableField)
+      end
+
+      it "includes custom fields classes in Filter.all" do
+        CostQuery::Filter::CustomField.all.
+          should include(CostQuery::Filter::CustomFieldSearchableField)
+      end
+
+      it "is usable as filter" do
+        @query.filter :custom_field_searchable_field, :operator => '=', :value => "125"
+        @query.result.count.should == 8 # see fixtures
+      end
+
+      it "is usable as filter #2" do
+        @query.filter :custom_field_searchable_field, :operator => '=', :value => "finnlabs"
+        @query.result.count.should == 0 # see fixtures
       end
     end
   end
