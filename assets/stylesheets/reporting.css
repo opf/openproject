@@ -26,6 +26,11 @@
   padding-right: 5px;
 }
 
+.report tbody th, .report tbody td, .inner {
+  max-width: 300px;
+  white-space: normal !important;
+}
+
 .report td:hover {
   color: #000;
   outline: #ccc 1px solid;
