@@ -1,6 +1,6 @@
 <% list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id] %>
 
-<table class="list report" id="sortable-table">
+<table class="report detail-report" id="sortable-table">
   <thead>
     <tr>
       <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
