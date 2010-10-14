@@ -7,7 +7,6 @@ show_units = list.include? "cost_type_id"
   <thead>
     <tr>
       <% list.each do |field| %><th class="right"><%= label_for(field) %></th><% end %>
-      <th class="right"><%= label_for(:label_count) %></th>
       <% if show_units %>
         <th class="right"><%= label_for(:field_units) %></th>
       <% end %>
@@ -17,9 +16,6 @@ show_units = list.include? "cost_type_id"
   <tfoot>
     <tr>
       <th class="result inner" colspan='<%= list.size %>'></th>
-      <th class="result inner">
-        <%= @query.count %>
-      </th>
       <th class="result right" <%= "colspan='2'" if show_units %>>
         <%= show_result @query %>
       </th>
@@ -31,7 +27,6 @@ show_units = list.include? "cost_type_id"
         <td raw-data="<%= raw_field(*result.fields.first) -%>">
           <%= show_row result %>
         </td>
-        <td><%= result.count %></td>
         <% if show_units %>
           <td raw-data="<%= result.units -%>"><%= show_result result, result.fields[:cost_type_id].to_i %></td>
         <% end %>
