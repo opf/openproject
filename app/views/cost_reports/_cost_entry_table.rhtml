@@ -53,8 +53,4 @@
   </tbody>
 </table>
 
-<script type="text/javascript">
-//<![CDATA[
-sortables_init();
-//]]>
-</script>
+<%= render :partial => 'sortable_init', :locals => {:sort_first_row => true } %>
