@@ -26,8 +26,8 @@ Feature: Cost Reporting Calculations
       | hours    | 10            |
       | user     | manager       |
       | spent on | 30 months ago |
-    And I am logged in as "manager"
-    And I am on the cost reports page for the project called "Cost Project"
+    And I am admin
+    And I am on the Cost Reports page for the project called "Cost Project" without filters or groups
     Then I should see "10.00" # 1 EUR x 10 (hours)
     And I should see "50.00"  # 5 EUR x 10 (hours)
     And I should see "100.00" # 10 EUR x 10 (hours)
