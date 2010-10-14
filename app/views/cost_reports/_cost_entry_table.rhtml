@@ -31,11 +31,13 @@
         <td class="units" raw-data="<%= result.units -%>"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
         <td class="currency" raw-data="<%= result.real_costs -%>"><%= show_result(result, 0) %></td>
         <td style="width: 40px">
-          <%= link_to_if_authorized image_tag('edit.png'),
-            action_for(result, :action => 'edit'), :title => l(:button_edit) %>
-          <%= link_to_if_authorized image_tag('delete.png'),  action_for(result, :action => 'destroy'),
-            :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
-            :method => :post,           :title    => l(:button_delete) %>
+          <% with_project(result.fields['project_id']) do %>
+            <%= link_to_if_authorized image_tag('edit.png'),
+              action_for(result, :action => 'edit'), :title => l(:button_edit) %>
+            <%= link_to_if_authorized image_tag('delete.png'),  action_for(result, :action => 'destroy'),
+              :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
+              :method => :post,           :title    => l(:button_delete) %>
+          <% end %>
         </td>
       </tr>
       <% if params[:debug] %>
