@@ -57,7 +57,7 @@ if require_dependency 'cost_reports_controller'
         def report_to_xls
           find_optional_project
           generate_query
-          set_cost_type
+          set_cost_types
 
           sb = SpreadsheetBuilder.new
           sb.add_title("#{@project.name + " >> " if @project}#{l(:cost_reports_title)} (#{format_date(Date.today)})")
