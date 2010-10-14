@@ -33,14 +33,23 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
   end
   send_table_to_object(hr, table, {
     :user => Proc.new do |rate, value|
+      # I am sorry, but it didn't seem to work with any less saving!
+      rate.save!
+      rate.reload.save!
+      unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
+        rate.save!
+        rate.update_attribute :project_id, User.find_by_login(value).projects.last.id
+        rate.reload.save!
+      end
       rate.update_attribute :user_id, User.find_by_login(value).id
+      rate.reload.save!
     end,
     :valid_from => Proc.new do |rate, value|
       # This works for definitions like "2 years ago"
       number, time_unit, tempus = value.split
       time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
       rate.update_attribute :valid_from, time
-    end})
+    end })
 end
 
 Given /^the [Uu]ser "([^\"]*)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |user, count|
