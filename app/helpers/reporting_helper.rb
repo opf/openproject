@@ -17,6 +17,13 @@ module ReportingHelper
     object_elements filter
   end
 
+  def with_project(project)
+    project = Project.find(project) unless project.is_a? Project
+    project_was, @project = @project, project
+    yield
+    @project = project_was
+  end
+
   def object_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
