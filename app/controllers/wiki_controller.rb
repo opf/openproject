@@ -175,12 +175,7 @@ class WikiController < ApplicationController
     case page_title
     # show pages index, sorted by title
     when 'page_index', 'date_index'
-      # eager load information about last updates, without loading text
-      @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-                                      :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
-                                      :order => 'title'
-      @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
-      @pages_by_parent_id = @pages.group_by(&:parent_id)
+      load_pages_grouped_by_date_without_content
     when 'export'
       redirect_to :action => 'export', :id => @project # Compatibility stub while refactoring
       return
@@ -249,4 +244,14 @@ private
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
+
+  # eager load information about last updates, without loading text
+  def load_pages_grouped_by_date_without_content
+    @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+                                    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
+                                    :order => 'title'
+    @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+    @pages_by_parent_id = @pages.group_by(&:parent_id)
+  end
+  
 end
