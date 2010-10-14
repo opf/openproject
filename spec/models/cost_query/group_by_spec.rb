@@ -16,6 +16,8 @@ describe CostQuery do
   fixtures :roles
   fixtures :issue_categories
   fixtures :versions
+  fixtures :custom_fields
+  fixtures :custom_values
 
   describe CostQuery::GroupBy do
     it "should compute group_by on projects" do
@@ -199,6 +201,32 @@ describe CostQuery do
 
       sql_sizes.sort.should == ruby_sizes.sort
       sub_sql_sizes.sort.should == sub_ruby_sizes.sort
+    end
+
+    describe CostQuery::GroupBy::CustomField do
+      before do
+        CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomField.all
+      end
+      
+      it "should create classes for custom fields" do
+        # Would raise a name error
+        CostQuery::GroupBy::CustomFieldSearchableField
+      end
+      
+      it "includes custom fields classes in CustomField.all" do
+        CostQuery::GroupBy::CustomField.all.
+          should include(CostQuery::GroupBy::CustomFieldSearchableField)
+      end
+
+      it "includes custom fields classes in GroupBy.all" do
+        CostQuery::GroupBy::CustomField.all.
+          should include(CostQuery::GroupBy::CustomFieldSearchableField)
+      end
+
+      it "is usable as filter" do
+        @query.group_by :custom_field_searchable_field
+        @query.result.first.count.should == 1 # see fixtures
+      end
     end
   end
 end
