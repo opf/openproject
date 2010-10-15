@@ -4,7 +4,7 @@
 <% replace_watcher ||= 'watcher' %>
 <%= watcher_tag(@issue, User.current, {:id => replace_watcher, :replace => ['watcher','watcher2']}) %>
 <%= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %>
-<%= link_to_if_authorized l(:button_copy), new_issue_move_path(:id => @issue, :copy_options => {:copy => 't'}), :class => 'icon icon-copy' %>
-<%= link_to_if_authorized l(:button_move), new_issue_move_path(:id => @issue), :class => 'icon icon-move' %>
+<%= link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy' %>
+<%= link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => (@issue.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)), :method => :post, :class => 'icon icon-del' %>
 </div>
