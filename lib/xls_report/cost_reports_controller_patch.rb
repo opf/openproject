@@ -15,6 +15,8 @@ if require_dependency 'cost_reports_controller'
       module InstanceMethods
         include Redmine::I18n
         include ActionView::Helpers::NumberHelper
+        include ApplicationHelper
+        include ReportingHelper
 
         # If the index action is called, hook the xls format into the cost report
         def respond_to
@@ -22,7 +24,8 @@ if require_dependency 'cost_reports_controller'
             super do |format|
               yield format
               format.xls do
-                send_data(report_to_xls, :type => :xls, :filename => 'export.xls')
+                report = report_to_xls
+                send_data(report, :type => :xls, :filename => 'export.xls') if report
               end
             end
           else
@@ -66,29 +69,39 @@ if require_dependency 'cost_reports_controller'
             sb = xls_cost_entry_table(sb, @query, @cost_type)
           elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
             sb = xls_simple_cost_report_table(sb, @query, @cost_type)
-          else
+          elsif @query.depth_of(:column) > 0 and @query.depth_of(:row) > 0
             sb = xls_cost_report_table(sb, @query, @cost_type)
+          else
+            nil
           end
           sb.xls
         end
 
         def xls_cost_entry_table(sb, query, cost_type)
-          list = [:project_id, :issue_id, :spent_on, :user_id, :activity_id]
+          list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
           headers = list.collect {|field| label_for(field) }
-          headers << l(:field_costs)
           headers << cost_type.try(:unit_plural) || l(:units)
+          headers << l(:field_costs)
           sb.add_headers(headers)
 
-          sb.add_format_option_to_column(headers.length - 2, :number_format => number_to_currency(0.00))
-          sb.add_format_option_to_column(headers.length - 1, :number_format => "0.0")
+          sb.add_format_option_to_column(headers.length - 1, :number_format => number_to_currency(0.00))
+          sb.add_format_option_to_column(headers.length - 2, :number_format => "0.0")
 
           query.each_direct_result do |result|
             row = list.collect {|field| show_field field, result.fields[field.to_s] }
-            row << show_result(result) # currency
             row << show_result(result, result.fields['cost_type_id'].to_i) # units
+            row << show_result(result) # currency
             sb.add_row(row)
           end
-          sb.add_row([show_result query]) # footer
+
+          footer = [''] * list.size
+          if show_result(@query, 0) != show_result(@query)
+            footer += [show_result(@query), show_result(@query, 0)]
+          else
+            footer += ['', show_result(@query)]
+          end
+          sb.add_row(footer) # footer
+
           sb
         end
 
@@ -165,7 +178,7 @@ if require_dependency 'cost_reports_controller'
 
             list.each do |column|
               header << show_row(column)
-              header += [""] * (column.final_number(:column) - 1)
+              header += [""] * (column.final_number(:column) - 1).abs
             end
 
             if last_in_col # Finish this header row
@@ -183,13 +196,13 @@ if require_dependency 'cost_reports_controller'
 
             list.each do |column|
               footer << show_result(column)
-              footer += [""] * (column.final_number(:column) - 1)
+              footer += [""] * (column.final_number(:column) - 1).abs
             end
 
             if last_in_col # Finish this footer row
               if first
                 footer << show_result(query)
-                footer += [""] * (query.depth_of(:row) - 1) # TODO: add rowspan=query.depth_of(:column)
+                footer += [""] * (query.depth_of(:row) - 1).abs # TODO: add rowspan=query.depth_of(:column)
               else
                 footer += [""] * query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
               end
