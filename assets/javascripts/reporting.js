@@ -462,31 +462,6 @@ function init_group_bys() {
     Sortable.create('group_rows', options);
 }
 
-function load_available_values_for_filter(filter_name, callback_func) {
-    var select;
-    select = $('' + filter_name + '_arg_1_val');
-    if (select.readAttribute('data-loading') == "ajax" && select.childElements().length == 0) {
-        new Ajax.Updater({ success: select }, '/cost_reports/available_values', {
-            parameters: { filter_name: filter_name },
-            insertion: 'bottom',
-            evalScripts: false,
-            onCreate: function (a,b) {
-                $('operators_' + filter_name).disable();
-                $('' + filter_name + '_arg_1_val').disable();
-            },
-            onComplete: function (a,b) {
-                $('operators_' + filter_name).enable();
-                $('' + filter_name + '_arg_1_val').enable();
-                callback_func();
-            }
-        });
-        make_select_accept_single_value(select);
-    }
-    else {
-        callback_func();
-    }
-}
-
 function defineElementGetter() {
     if (document.getElementsByClassName == undefined) {
         document.getElementsByClassName = function(className)
