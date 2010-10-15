@@ -711,7 +711,7 @@ en-GB:
   label_search_titles_only: Search titles only
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
-  label_user_mail_option_none: "Only for things I watch or I'm involved in"
+  label_user_mail_option_none: "No events"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation

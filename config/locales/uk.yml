@@ -544,7 +544,6 @@ uk:
   label_search_titles_only: Шукати тільки в назвах
   label_user_mail_option_all: "Для всіх подій у всіх моїх проектах"
   label_user_mail_option_selected: "Для всіх подій тільки у вибраному проекті..."
-  label_user_mail_option_none: "Тільки для того, що я проглядаю або в чому я беру участь"
   label_user_mail_no_self_notified: "Не сповіщати про зміни, які я зробив сам"
   label_registration_activation_by_email: активація облікового запису електронною поштою
   label_registration_manual_activation: ручна активація облікового запису

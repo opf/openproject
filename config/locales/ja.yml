@@ -753,7 +753,6 @@ ja:
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
   label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
-  label_user_mail_option_none: "通知しない"
   label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
   label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
   label_user_mail_option_only_owner: "自分が作成した事柄のみ"

@@ -609,7 +609,6 @@ pt:
   label_search_titles_only: Procurar apenas em títulos
   label_user_mail_option_all: "Para qualquer evento em todos os meus projectos"
   label_user_mail_option_selected: "Para qualquer evento apenas nos projectos seleccionados..."
-  label_user_mail_option_none: "Apenas para coisas que esteja a observar ou esteja envolvido"
   label_user_mail_no_self_notified: "Não quero ser notificado de alterações feitas por mim"
   label_registration_activation_by_email: Activação da conta por e-mail
   label_registration_manual_activation: Activação manual da conta

@@ -612,7 +612,6 @@
   label_search_titles_only: Keresés csak a címekben
   label_user_mail_option_all: "Minden eseményről minden saját projektemben"
   label_user_mail_option_selected: "Minden eseményről a kiválasztott projektekben..."
-  label_user_mail_option_none: "Csak a megfigyelt dolgokról, vagy, amiben részt veszek"
   label_user_mail_no_self_notified: "Nem kérek értesítést az általam végzett módosításokról"
   label_registration_activation_by_email: Fiók aktiválása e-mailben
   label_registration_manual_activation: Manuális fiók aktiválás

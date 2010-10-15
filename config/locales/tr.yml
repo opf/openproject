@@ -610,7 +610,6 @@ tr:
   label_search_titles_only: Sadece başlıkları ara
   label_user_mail_option_all: "Tüm projelerimdeki herhangi bir olay için"
   label_user_mail_option_selected: "Sadece seçili projelerdeki herhangi bir olay için..."
-  label_user_mail_option_none: "Sadece dahil olduğum ya da izlediklerim için"
   label_user_mail_no_self_notified: "Kendi yaptığım değişikliklerden haberdar olmak istemiyorum"
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_manual_activation: Elle hesap etkinleştirme

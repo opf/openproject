@@ -581,7 +581,6 @@ sk:
   label_search_titles_only: Vyhľadávať iba v názvoch
   label_user_mail_option_all: "Pre všetky události všetkých mojích projektov"
   label_user_mail_option_selected: "Pre všetky události vybraných projektov"
-  label_user_mail_option_none: "Len pre události, ktoré sledujem alebo sa ma týkajú"
   label_user_mail_no_self_notified: "Nezasielať informácie o mnou vytvorených zmenách"
   label_registration_activation_by_email: aktivácia účtu emailom
   label_registration_manual_activation: manuálna aktivácia účtu

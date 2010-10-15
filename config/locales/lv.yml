@@ -702,7 +702,6 @@ lv:
   label_search_titles_only: Meklēt tikai nosaukumos
   label_user_mail_option_all: "Par visiem notikumiem visos manos projektos"
   label_user_mail_option_selected: "Par visiem notikumiem tikai izvēlētajos projektos..."
-  label_user_mail_option_none: "Tikai par lietām, kuras es vēroju un kurās esmu iesaistīts"
   label_user_mail_no_self_notified: "Neziņot man par izmaiņām, kuras veicu es pats"
   label_registration_activation_by_email: "konta aktivizācija caur e-pastu"
   label_registration_manual_activation: manuālā konta aktivizācija

@@ -632,7 +632,6 @@ it:
   text_user_mail_option: "Per i progetti non selezionati, riceverai solo le notifiche riguardanti le cose che osservi o nelle quali sei coinvolto (per esempio segnalazioni che hai creato o che ti sono state assegnate)."
   label_user_mail_option_selected: "Solo per gli eventi relativi ai progetti selezionati..."
   label_user_mail_option_all: "Per ogni evento relativo ad uno dei miei progetti"
-  label_user_mail_option_none: "Solo per argomenti che osservo o che mi riguardano"
   setting_emails_footer: Piè di pagina email
   label_float: Decimale
   button_copy: Copia

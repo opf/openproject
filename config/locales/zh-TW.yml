@@ -812,7 +812,6 @@
   label_search_titles_only: 僅搜尋標題
   label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
-  label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
   label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
   label_user_mail_option_only_assigned: "只提醒我被指派的事物"
   label_user_mail_option_only_owner: "只提醒我作為擁有者的事物"

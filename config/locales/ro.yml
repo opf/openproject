@@ -654,7 +654,6 @@ ro:
   label_search_titles_only: Caută numai în titluri
   label_user_mail_option_all: "Pentru orice eveniment, în toate proiectele mele"
   label_user_mail_option_selected: " Pentru orice eveniment, în proiectele selectate..."
-  label_user_mail_option_none: "Doar cele urmărite sau cele în care sunt implicat"
   label_user_mail_no_self_notified: "Nu trimite notificări pentru modificările mele"
   label_registration_activation_by_email: activare cont prin email
   label_registration_manual_activation: activare manuală a contului

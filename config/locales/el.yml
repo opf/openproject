@@ -678,7 +678,6 @@ el:
   label_search_titles_only: Αναζήτηση τίτλων μόνο
   label_user_mail_option_all: "Για όλες τις εξελίξεις σε όλα τα έργα μου"
   label_user_mail_option_selected: "Για όλες τις εξελίξεις μόνο στα επιλεγμένα έργα..."
-  label_user_mail_option_none: "Μόνο για πράγματα που παρακολουθώ ή συμμετέχω ενεργά"
   label_user_mail_no_self_notified: "Δεν θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
   label_registration_activation_by_email: ενεργοποίηση λογαριασμού με email
   label_registration_manual_activation: χειροκίνητη ενεργοποίηση λογαριασμού

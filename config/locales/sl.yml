@@ -650,7 +650,6 @@ sl:
   label_search_titles_only: Preišči samo naslove
   label_user_mail_option_all: "Za vsak dogodek v vseh mojih projektih"
   label_user_mail_option_selected: "Za vsak dogodek samo na izbranih projektih..."
-  label_user_mail_option_none: "Samo za zadeve ki jih spremljam ali sem v njih udeležen(a)"
   label_user_mail_no_self_notified: "Ne želim biti opozorjen(a) na spremembe, ki jih naredim sam(a)"
   label_registration_activation_by_email: aktivacija računa po e-pošti
   label_registration_manual_activation: ročna aktivacija računa

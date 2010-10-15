@@ -654,7 +654,6 @@ vi:
   label_search_titles_only: Chỉ tìm trong tựa đề
   label_user_mail_option_all: "Mọi sự kiện trên mọi dự án của bạn"
   label_user_mail_option_selected: "Mọi sự kiện trên các dự án được chọn..."
-  label_user_mail_option_none: "Chỉ những vấn đề bạn theo dõi hoặc được gán"
   label_user_mail_no_self_notified: "Đừng gửi email về các thay đổi do chính bạn thực hiện"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation

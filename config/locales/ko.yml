@@ -727,7 +727,6 @@ ko:
   label_search_titles_only: 제목에서만 찾기
   label_user_mail_option_all: "내가 속한 프로젝트로들부터 모든 메일 받기"
   label_user_mail_option_selected: "선택한 프로젝트들로부터 모든 메일 받기.."
-  label_user_mail_option_none: "내가 속하거나 감시 중인 사항에 대해서만"
   label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림메일을 받지 않습니다."
   label_registration_activation_by_email: 메일로 계정을 활성화하기
   label_registration_automatic_activation: 자동 계정 활성화

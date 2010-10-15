@@ -707,7 +707,6 @@ eu:
   label_search_titles_only: Izenburuetan bakarrik bilatu
   label_user_mail_option_all: "Nire proiektu guztietako gertakari guztientzat"
   label_user_mail_option_selected: "Hautatutako proiektuetako edozein gertakarientzat..."
-  label_user_mail_option_none: "Nik behatu edo parte hartze dudan gauzetarako bakarrik"
   label_user_mail_no_self_notified: "Ez dut nik egiten ditudan aldeketen jakinarazpenik jaso nahi"
   label_registration_activation_by_email: kontuak epostaz gaitu
   label_registration_manual_activation: kontuak eskuz gaitu

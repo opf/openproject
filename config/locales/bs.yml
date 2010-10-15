@@ -676,7 +676,6 @@ bs:
   label_search_titles_only: Pretraži samo naslove
   label_user_mail_option_all: "Za bilo koji događaj na svim mojim projektima"
   label_user_mail_option_selected: "Za bilo koji događaj na odabranim projektima..."
-  label_user_mail_option_none: "Samo za stvari koje ja gledam ili sam u njih uključen"
   label_user_mail_no_self_notified: "Ne želim notifikaciju za promjene koje sam ja napravio"
   label_registration_activation_by_email: aktivacija korisničkog računa email-om
   label_registration_manual_activation: ručna aktivacija korisničkog računa

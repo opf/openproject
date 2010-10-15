@@ -622,7 +622,6 @@ pt-BR:
   label_search_titles_only: Pesquisar somente títulos
   label_user_mail_option_all: "Para qualquer evento em todos os meus projetos"
   label_user_mail_option_selected: "Para qualquer evento somente no(s) projeto(s) selecionado(s)..."
-  label_user_mail_option_none: "Somente tarefas que eu acompanho ou estou envolvido"
   label_user_mail_no_self_notified: "Eu não quero ser notificado de minhas próprias modificações"
   label_registration_activation_by_email: ativação de conta por e-mail
   label_registration_manual_activation: ativação manual de conta

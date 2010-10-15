@@ -719,7 +719,6 @@ sr:
   label_search_titles_only: Претражуј само наслове
   label_user_mail_option_all: "За било који догађај на свим мојим пројектима"
   label_user_mail_option_selected: "За било који догађај на само одабраним пројектима..."
-  label_user_mail_option_none: "Само за ствари које пратим или у које сам укључен"
   label_user_mail_no_self_notified: "Не желим бити обавештаван за промене које сам правим"
   label_registration_activation_by_email: активација налога путем е-поруке
   label_registration_manual_activation: ручна активација налога

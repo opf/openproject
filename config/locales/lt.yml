@@ -742,7 +742,6 @@ lt:
   label_search_titles_only: Ieškoti pavadinimų tiktai
   label_user_mail_option_all: "Bet kokiam įvykiui visuose mano projektuose"
   label_user_mail_option_selected: "Bet kokiam įvykiui tiktai pasirinktuose projektuose ..."
-  label_user_mail_option_none: "Tiktai dalykai kuriuos aš stebiu ar aš esu įtrauktas į"
   label_user_mail_no_self_notified: "Nenoriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
   label_registration_activation_by_email: "paskyros aktyvacija per e-paštą"
   label_registration_manual_activation: "rankinė paskyros aktyvacija"

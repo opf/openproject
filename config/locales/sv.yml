@@ -768,7 +768,6 @@ sv:
   label_search_titles_only: Sök endast i titlar
   label_user_mail_option_all: "För alla händelser i mina projekt"
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
-  label_user_mail_option_none: "Endast för saker jag bevakar eller är involverad i"
   label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering

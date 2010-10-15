@@ -585,7 +585,6 @@ th:
   label_search_titles_only: ค้นหาจากชื่อเรื่องเท่านั้น
   label_user_mail_option_all: "ทุกๆ เหตุการณ์ในโครงการของฉัน"
   label_user_mail_option_selected: "ทุกๆ เหตุการณ์ในโครงการที่เลือก..."
-  label_user_mail_option_none: "เฉพาะสิ่งที่ฉันเลือกหรือมีส่วนเกี่ยวข้อง"
   label_user_mail_no_self_notified: "ฉันไม่ต้องการได้รับการแจ้งเตือนในสิ่งที่ฉันทำเอง"
   label_registration_activation_by_email: เปิดบัญชีผ่านอีเมล์
   label_registration_manual_activation: อนุมัติโดยผู้บริหารจัดการ

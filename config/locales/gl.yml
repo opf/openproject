@@ -613,7 +613,6 @@ gl:
   label_user_activity: "Actividade de {{value}}"
   label_user_mail_no_self_notified: "Non quero ser avisado de cambios feitos por min"
   label_user_mail_option_all: "Para calquera evento en tódolos proxectos"
-  label_user_mail_option_none: "Só para elementos monitorizados ou relacionados comigo"
   label_user_mail_option_selected: "Para calquera evento dos proxectos seleccionados..."
   label_user_new: Novo usuario
   label_user_plural: Usuarios

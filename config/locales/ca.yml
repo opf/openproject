@@ -725,7 +725,6 @@ ca:
   label_search_titles_only: Cerca només en els títols
   label_user_mail_option_all: "Per qualsevol esdeveniment en tots els meus projectes"
   label_user_mail_option_selected: "Per qualsevol esdeveniment en els projectes seleccionats..."
-  label_user_mail_option_none: "Només per les coses que vigilo o hi estic implicat"
   label_user_mail_no_self_notified: "No vull ser notificat pels canvis que faig jo mateix"
   label_registration_activation_by_email: activació del compte per correu electrònic
   label_registration_manual_activation: activació del compte manual

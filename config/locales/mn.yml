@@ -707,7 +707,6 @@ mn:
   label_search_titles_only: Зөвхөн гарчиг хайх
   label_user_mail_option_all: "Миний бүх төсөл дээрх бүх үзэгдлүүдийн хувьд"
   label_user_mail_option_selected: "Сонгогдсон төслүүдийн хувьд бүх үзэгдэл дээр..."
-  label_user_mail_option_none: "Зөвхөн миний ажиглаж байгаа зүйлс юмуу надад хамаатай бол"
   label_user_mail_no_self_notified: "Миний өөрийн хийсэн өөрчлөлтүүдийн тухай надад мэдэгдэх хэрэггүй"
   label_registration_activation_by_email: дансыг имэйлээр идэвхжүүлэх
   label_registration_manual_activation: дансыг гараар идэвхжүүлэх

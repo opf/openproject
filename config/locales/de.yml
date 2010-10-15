@@ -741,7 +741,6 @@ de:
   label_search_titles_only: Nur Titel durchsuchen
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
-  label_user_mail_option_none: "Nur für Dinge, die ich beobachte oder an denen ich beteiligt bin"
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
   label_registration_activation_by_email: Kontoaktivierung durch E-Mail
   label_registration_manual_activation: Manuelle Kontoaktivierung

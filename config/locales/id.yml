@@ -688,7 +688,6 @@ id:
   label_search_titles_only: Cari judul saja
   label_user_mail_option_all: "Untuk semua kejadian pada semua proyek saya"
   label_user_mail_option_selected: "Hanya untuk semua kejadian pada proyek yang saya pilih ..."
-  label_user_mail_option_none: "Hanya pada hal-hal yang saya pantau atau saya terlibat di dalamnya"
   label_user_mail_no_self_notified: "Saya tak ingin diberitahu untuk perubahan yang saya buat sendiri"
   label_user_mail_assigned_only_mail_notification: "Kirim email hanya bila saya ditugaskan untuk masalah terkait"
   label_user_mail_block_mail_notification: "Saya tidak ingin menerima email. Terima kasih."  

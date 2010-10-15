@@ -721,7 +721,6 @@ zh:
   label_search_titles_only: 仅在标题中搜索
   label_user_mail_option_all: "收取我的项目的所有通知"
   label_user_mail_option_selected: "收取选中项目的所有通知..."
-  label_user_mail_option_none: "只收取我跟踪或参与的项目的通知"
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号

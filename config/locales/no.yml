@@ -584,7 +584,6 @@
   label_search_titles_only: Søk bare i titler
   label_user_mail_option_all: "For alle hendelser på mine prosjekter"
   label_user_mail_option_selected: "For alle hendelser på valgte prosjekt..."
-  label_user_mail_option_none: "Bare for ting jeg overvåker eller er involvert i"
   label_user_mail_no_self_notified: "Jeg vil ikke bli varslet om endringer jeg selv gjør"
   label_registration_activation_by_email: kontoaktivering pr. e-post
   label_registration_manual_activation: manuell kontoaktivering

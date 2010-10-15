@@ -579,7 +579,6 @@ fi:
   label_search_titles_only: Hae vain otsikot
   label_user_mail_option_all: "Kaikista tapahtumista kaikissa projekteistani"
   label_user_mail_option_selected: "Kaikista tapahtumista vain valitsemistani projekteista..."
-  label_user_mail_option_none: "Vain tapahtumista joita valvon tai olen mukana"
   label_user_mail_no_self_notified: "En halua muistutusta muutoksista joita itse teen"
   label_registration_activation_by_email: tilin aktivointi sähköpostitse
   label_registration_manual_activation: tilin aktivointi käsin

@@ -703,7 +703,6 @@ ru:
   label_user_activity: "Активность пользователя {{value}}"
   label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
   label_user_mail_option_all: "О всех событиях во всех моих проектах"
-  label_user_mail_option_none: "Только о тех событиях, которые я отслеживаю или в которых я участвую"
   label_user_mail_option_selected: "О всех событиях только в выбранном проекте..."
   label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
   label_user_mail_option_only_my_events: Только для объектов, которые я отслеживаю или в которых участвую

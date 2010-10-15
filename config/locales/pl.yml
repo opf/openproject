@@ -614,7 +614,6 @@ pl:
   label_user: Użytkownik
   label_user_mail_no_self_notified: "Nie chcę powiadomień o zmianach, które sam wprowadzam."
   label_user_mail_option_all: "Dla każdego zdarzenia w każdym moim projekcie"
-  label_user_mail_option_none: "Tylko to co obserwuje lub w czym biorę udział"
   label_user_mail_option_selected: "Tylko dla każdego zdarzenia w wybranych projektach..."
   label_user_new: Nowy użytkownik
   label_user_plural: Użytkownicy

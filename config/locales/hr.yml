@@ -701,7 +701,6 @@ hr:
   label_search_titles_only: Pretraživanje samo naslova
   label_user_mail_option_all: "Za bilo koji događaj na svim mojim projektima"
   label_user_mail_option_selected: "Za bilo koji događaj samo za izabrane projekte..."
-  label_user_mail_option_none: "Samo za stvari koje pratim ili u kojima sudjelujem"
   label_user_mail_no_self_notified: "Ne želim primati obavijesti o promjenama koje sam napravim"
   label_registration_activation_by_email: aktivacija putem e-pošte
   label_registration_manual_activation: ručna aktivacija
