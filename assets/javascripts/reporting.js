@@ -217,7 +217,11 @@ function restore_select_values(select, values) {
     for (i = 0; i < values.length; i += 1) {
         for (j = 0; j < select.options.length; j += 1) {
             if (select.options[j].value === values[i]) {
-                select.options[j].selected = true;
+                try {
+                    select.options[j].selected = true;
+                } catch(e) {
+                    window.setTimeout('$("' + select.id + '").childElements()[' + j + '].selected = true;', 1);
+                }
             }
         }
     }
