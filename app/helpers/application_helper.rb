@@ -34,25 +34,11 @@ module ApplicationHelper
   # Display a link if user is authorized
   #
   # @param [String] name Anchor text (passed to link_to)
-  # @param [Hash, String] options Hash params or url for the link target (passed to link_to).
-  #        This will checked by authorize_for to see if the user is authorized
+  # @param [Hash] options Hash params. This will checked by authorize_for to see if the user is authorized
   # @param [optional, Hash] html_options Options passed to link_to
   # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    if options.is_a?(String)
-      begin
-        route = ActionController::Routing::Routes.recognize_path(options.gsub(/\?.*/,''), :method => options[:method] || :get)
-        link_controller = route[:controller]
-        link_action = route[:action]
-      rescue ActionController::RoutingError # Parse failed, not a route
-        link_controller, link_action = nil, nil
-      end
-    else
-      link_controller = options[:controller] || params[:controller]
-      link_action = options[:action]
-    end
-
-    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(link_controller, link_action)
+    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
   # Display a link to remote if user is authorized

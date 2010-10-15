@@ -49,15 +49,6 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_match /href/, response
     end
     
-    should "allow using the url for the target link" do
-      User.current = User.find_by_login('admin')
-
-      @project = Issue.first.project # Used by helper
-      response = link_to_if_authorized("By url",
-                                       new_issue_move_path(:id => Issue.first.id))
-      assert_match /href/, response
-    end
-
   end
   
   def test_auto_links
