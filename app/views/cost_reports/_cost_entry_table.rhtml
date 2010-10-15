@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
-      <th><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+      <th class='right'><%= @cost_type.try(:unit_plural) || l(:units) %></th>
       <th class="right"><%= l(:field_costs) %></th>
       <th></th>
     </tr>
@@ -12,7 +12,9 @@
   <tfoot>
     <tr>
       <% if show_result(@query, 0) != show_result(@query) %>
-        <th class="inner right" colspan='<%= list.size + 1 %>'><%= show_result @query %></th>
+        <th class="inner right" colspan='<%= list.size + 1 %>'>
+          <%= show_result @query %>
+        </th>
         <th class="result right"><%= show_result @query, 0 %></th>
       <% else %>
         <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
@@ -24,12 +26,14 @@
     <% @query.each_direct_result do |result| %>
       <tr class='<%= cycle("odd", "even") %>'>
         <% list.each do |field| %>
-          <td raw-data="<%= raw_field(field, result.fields[field.to_s]) -%>">
+          <td
+            raw-data="<%= raw_field(field, result.fields[field.to_s]) -%>"
+            class="left">
             <%= show_field field, result.fields[field.to_s] %>
           </td>
         <% end %>
-        <td class="units" raw-data="<%= result.units -%>"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
-        <td class="currency" raw-data="<%= result.real_costs -%>"><%= show_result(result, 0) %></td>
+        <td class="units right" raw-data="<%= result.units -%>"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td class="currency right" raw-data="<%= result.real_costs -%>"><%= show_result(result, 0) %></td>
         <td style="width: 40px">
           <% with_project(result.fields['project_id']) do %>
             <%= link_to_if_authorized image_tag('edit.png'),
