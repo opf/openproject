@@ -318,8 +318,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1", :controller => 'wiki', :action => 'diff', :id => '1', :page => 'CookBook_documentation', :version => '2', :version_from => '1'
     should_route :get, "/projects/1/wiki/CookBook_documentation/annotate/2", :controller => 'wiki', :action => 'annotate', :id => '1', :page => 'CookBook_documentation', :version => '2'
     should_route :get, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :id => '22', :page => 'ladida'
-    should_route :get, "/projects/567/wiki/page_index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'page_index'
-    should_route :get, "/projects/567/wiki/Page_Index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'Page_Index'
+    should_route :get, "/projects/567/wiki/page_index", :controller => 'wiki', :action => 'page_index', :id => '567'
     should_route :get, "/projects/567/wiki/date_index", :controller => 'wiki', :action => 'special', :id => '567', :page => 'date_index'
     should_route :get, "/projects/567/wiki/export", :controller => 'wiki', :action => 'export', :id => '567'
     

@@ -197,7 +197,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_destroy_child
     @request.session[:user_id] = 2
     post :destroy, :id => 1, :page => 'Child_1'
-    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_redirected_to :action => 'page_index', :id => 'ecookbook'
   end
   
   def test_destroy_parent
@@ -214,7 +214,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       post :destroy, :id => 1, :page => 'Another_page', :todo => 'nullify'
     end
-    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_redirected_to :action => 'page_index', :id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
   end
   
@@ -223,7 +223,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -3) do
       post :destroy, :id => 1, :page => 'Another_page', :todo => 'destroy'
     end
-    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_redirected_to :action => 'page_index', :id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
     assert_nil WikiPage.find_by_id(5)
   end
@@ -233,15 +233,15 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       post :destroy, :id => 1, :page => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
     end
-    assert_redirected_to :action => 'special', :id => 'ecookbook', :page => 'Page_index'
+    assert_redirected_to :action => 'page_index', :id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
     assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
   end
   
   def test_page_index
-    get :special, :id => 'ecookbook', :page => 'Page_index'
+    get :page_index, :id => 'ecookbook'
     assert_response :success
-    assert_template 'special_page_index'
+    assert_template 'page_index'
     pages = assigns(:pages)
     assert_not_nil pages
     assert_equal Project.find(1).wiki.pages.size, pages.size

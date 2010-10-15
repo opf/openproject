@@ -166,7 +166,7 @@ class WikiController < ApplicationController
       end
     end
     @page.destroy
-    redirect_to :action => 'special', :id => @project, :page => 'Page_index'
+    redirect_to :action => 'page_index', :id => @project
   end
 
   # display special pages
@@ -174,7 +174,7 @@ class WikiController < ApplicationController
     page_title = params[:page].downcase
     case page_title
     # show pages index, sorted by title
-    when 'page_index', 'date_index'
+    when 'date_index'
       load_pages_grouped_by_date_without_content
     when 'export'
       redirect_to :action => 'export', :id => @project # Compatibility stub while refactoring
@@ -196,6 +196,10 @@ class WikiController < ApplicationController
     else
       redirect_to :action => 'index', :id => @project, :page => nil
     end
+  end
+
+  def page_index
+    load_pages_grouped_by_date_without_content
   end
   
   def preview
