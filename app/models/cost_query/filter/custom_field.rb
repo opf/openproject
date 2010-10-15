@@ -3,6 +3,7 @@ module CostQuery::Filter
     extend CostQuery::CustomFieldMixin
 
     on_prepare do
+      applies_for :label_issue_attributes
       # redmine internals just suck
       case custom_field.field_format
       when 'string', 'text' then use :string_operators
