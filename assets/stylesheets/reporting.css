@@ -94,6 +94,7 @@
 
 .detail-report td {
   text-align: left;
+  vertical-align: top;
 }
 
 /* Aligning filter elements at the top. */
@@ -313,3 +314,46 @@ td:hover .drill_down, th:hover .drill_down {
   visibility: visible;
 }
 
+/*Buttons*/
+
+.button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  overflow: visible;
+  padding-left: 3px;
+  text-align: center;
+  white-space: nowrap;
+}
+.button span {
+  background: transparent url(../images/button_normal.png) repeat scroll 100% 0px;
+  background-position: 100% 0px;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px 10px 0px 0px;
+}
+
+.button em {
+  background: transparent url(../images/button_normal.png) repeat scroll 0% 0px;
+  background-position: 0% 0px;
+  color: white;
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 17px;
+  margin: 0px 0px 0px -3px;
+  padding: 0px 0px 0px 10px;
+}
+.button span:hover {
+  background: transparent url(../images/button_hover.png) repeat scroll 100% 0px;
+  background-position: 100% 0px;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px 10px 0px 0px;
+}
+
+.button em:hover {
+  background: transparent url(../images/button_hover.png) repeat scroll 0% 
+}
