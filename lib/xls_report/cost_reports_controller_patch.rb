@@ -96,7 +96,6 @@ if require_dependency 'cost_reports_controller'
           list = query.collect {|r| r.important_fields }.flatten.uniq
           show_units = list.include? "cost_type_id"
           headers = list.collect {|field| label_for(field) }
-          headers << label_for(:label_count)
           headers << label_for(:field_units) if show_units
           headers << label_for(:label_sum)
           sb.add_headers(headers)
@@ -112,7 +111,10 @@ if require_dependency 'cost_reports_controller'
             row << show_result(result)
             sb.add_row(row)
           end
-          sb.add_row([show_result query]) # footer
+
+          footer = [''] * (list.size + 1)
+          footer += [''] if show_units
+          sb.add_row(footer + [show_result query]) # footer
           sb
         end
 
