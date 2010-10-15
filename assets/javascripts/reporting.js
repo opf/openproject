@@ -179,10 +179,14 @@ function restore_select_values(select, values) {
     } else {
         make_select_accept_single_value(select);
     }
-    for (i = 0; i < values.length; i++) {
-        for (j = 0; j < select.options.length; j++) {
-            if (select.options[j].value == values[i]) {
-                select.options[j].selected = true;
+    for (i = 0; i < values.length; i += 1) {
+        for (j = 0; j < select.options.length; j += 1) {
+            if (select.options[j].value === values[i]) {
+                try {
+                    select.options[j].selected = true;
+                } catch(e) {
+                    window.setTimeout('$("' + select.id + '").childElements()[' + j + '].selected = true;', 1);
+                }
             }
         }
     }
