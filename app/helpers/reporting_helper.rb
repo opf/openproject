@@ -155,8 +155,17 @@ module ReportingHelper
     link_to '[+]', filters.merge(options), :class => 'drill_down', :title => l(:description_drill_down)
   end
 
+  ##
+  # Create the appropriate action for an entry with the type of log to use
   def action_for(result, options = {})
     options.merge :controller => result.fields['type'] == 'TimeEntry' ? 'timelog' : 'costlog', :id => result.fields['id'].to_i
+  end
+
+  ##
+  # Create the appropriate action for an entry with the type of log to use
+  def entry_for(result)
+    type = result.fields['type'] == 'TimeEntry' ? TimeEntry : CostEntry
+    type.find(result.fields['id'].to_i)
   end
 
   ##
