@@ -31,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
     wiki_routes.with_options :conditions => {:method => :get} do |wiki_views|
       wiki_views.connect 'projects/:id/wiki/export', :action => 'export'
       wiki_views.connect 'projects/:id/wiki/page_index', :action => 'page_index'
-      wiki_views.connect 'projects/:id/wiki/:page', :action => 'special', :page => /date_index/i
+      wiki_views.connect 'projects/:id/wiki/date_index', :action => 'date_index'
       wiki_views.connect 'projects/:id/wiki/:page', :action => 'index', :page => nil
       wiki_views.connect 'projects/:id/wiki/:page/edit', :action => 'edit'
       wiki_views.connect 'projects/:id/wiki/:page/rename', :action => 'rename'

@@ -284,6 +284,18 @@ class WikiControllerTest < ActionController::TestCase
       end
     end
   end
+
+  context "GET :date_index" do
+    setup do
+      get :date_index, :id => 'ecookbook'
+    end
+
+    should_respond_with :success
+    should_assign_to :pages
+    should_assign_to :pages_by_date
+    should_render_template 'wiki/date_index'
+    
+  end
   
   def test_not_found
     get :index, :id => 999

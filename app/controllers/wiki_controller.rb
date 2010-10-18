@@ -173,9 +173,6 @@ class WikiController < ApplicationController
   def special
     page_title = params[:page].downcase
     case page_title
-    # show pages index, sorted by title
-    when 'date_index'
-      load_pages_grouped_by_date_without_content
     when 'export'
       redirect_to :action => 'export', :id => @project # Compatibility stub while refactoring
       return
@@ -199,6 +196,10 @@ class WikiController < ApplicationController
   end
 
   def page_index
+    load_pages_grouped_by_date_without_content
+  end
+
+  def date_index
     load_pages_grouped_by_date_without_content
   end
   
