@@ -503,6 +503,17 @@ class IssueTest < ActiveSupport::TestCase
     assert !closed_statuses.empty?
   end
   
+  def test_rescheduling_an_issue_should_reschedule_following_issue
+    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :subject => '-', :start_date => Date.today, :due_date => Date.today + 2)
+    issue2 = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :status_id => 1, :subject => '-', :start_date => Date.today, :due_date => Date.today + 2)
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert_equal issue1.due_date + 1, issue2.reload.start_date
+    
+    issue1.due_date = Date.today + 5
+    issue1.save!
+    assert_equal issue1.due_date + 1, issue2.reload.start_date
+  end
+  
   def test_overdue
     assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
     assert !Issue.new(:due_date => Date.today).overdue?
