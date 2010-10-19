@@ -98,7 +98,7 @@
 }
 
 /* Aligning filter elements at the top. */
-.new_cost_query fieldset#filters table td {
+table#filter_table td {
   vertical-align: top;
   border-spacing: 5px 5px;
   border-color: white;
@@ -106,7 +106,7 @@
   border-width: 2px 0px 0px;
 }
 
-.new_cost_query fieldset#filters table td > label {
+table#filter_table td > label {
   left: 3px;
   top: 3px;
   position: relative;
@@ -159,18 +159,26 @@
   margin-top: 6px;
 }
 
-.new_cost_query fieldset#filters table tr.filter:hover {
+div#query_settings h1 {
+  margin-top: 15px;
+}
+
+
+table#filter_table {
+  border-spacing: 0px 0px;
+}
+
+table#filter_table tr.filter:hover {
   background: #aaa;
 }
 
-.new_cost_query fieldset#filters table tr.filter {
+table#filter_table tr.filter {
   color: #000;
-  background: #ededed;
+  background-color: #ededed;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-
 
 .drag_element {
   /*cursor: move;*/

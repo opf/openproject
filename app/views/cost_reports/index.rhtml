@@ -16,14 +16,14 @@
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
 <div id="query_form_content">
-  <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
-  </fieldset>
-
-  <fieldset id="group-by" class="collapsible <%= "collapsed" unless @query.new_record? %>">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
+  <fieldset id="query_fieldset" class="collapsible <%= "collapsed" unless @query.new_record? %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_query) %></legend>
+    <div id="query_settings">
+      <h1><%= l(:label_filter_plural) %></h1>
+      <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
+      <h1><%= l(:label_group_by) %></h1>
+      <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
+    </div>
   </fieldset>
 
   <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
