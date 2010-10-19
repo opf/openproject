@@ -124,7 +124,7 @@ class CostQuery < ActiveRecord::Base
       @options = options
       options.each do |key, value|
         raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
-        send "#{key}=", value
+        send "#{key}=", value if value
       end
       self.child, child.parent = child, self if child
       move_down until correct_position?

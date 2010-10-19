@@ -30,6 +30,7 @@
   <p class="buttons">
   <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
                      { :url => { :set_filter => 1 },
+                       :condition => 'Ajax.activeRequestCount === 0',
                        :before => 'select_active_group_bys();',
                        :after => 'reset_group_by_selects();',
                        :update => "content",
