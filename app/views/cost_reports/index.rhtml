@@ -45,18 +45,27 @@
   <% end %>
   </p>
 </div>
-<% end %>
 
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
-  <a href="?unit=0" class="<%= 'active' if @unit_id == 0 %>"><%= l(:label_money) %></a>
-  <% if @cost_types.include? -1 %>
-    &bull; <a href="?unit=-1" class="<%= 'active' if @unit_id == -1 %>"><%= l(:caption_labor) %></a>
-  <% end %>
-  <% CostType.find(:all).select {|t| @cost_types.include? t.id }.each do |t| %>
-    &bull; <a href="?unit=<%= t.id%>" class="<%= 'active' if @unit_id == t.id %>"><%= t.unit_plural %></a>
+  <% @avaialble_cost_types.each do |id, label| %>
+    <%=
+      if id != @unit_id
+        link_to_remote label, {
+          :url => { :set_filter => 1, :unit => id },
+          :before => 'select_active_group_bys();',
+          :after => 'reset_group_by_selects();',
+          :update => "content",
+          :with => "Form.serialize('query_form')",
+          :eval_scripts => true }
+      else
+        "<b>#{label}</b>"
+      end
+    %>
   <% end %>
 </div>
+
+<% end %>
 
 <% if @valid and @query.result.count > 0 %>
   <%= render :partial => @table_partial, :locals => {:query => @query, :walker => @query.walker} %>

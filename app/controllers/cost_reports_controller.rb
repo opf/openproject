@@ -160,7 +160,7 @@ class CostReportsController < ApplicationController
   end
 
   ##
-  # FIXME: Split
+  # FIXME: Split, also ugly
   # This method does three things:
   #   set the @unit_id -> this is used in the index for determining the active unit tab
   #   set the @cost_types -> this is used to determine which tabs to display
@@ -173,6 +173,16 @@ class CostReportsController < ApplicationController
     if @unit_id != 0
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
+    end
+    @avaialble_cost_types = @cost_types.to_a
+    @avaialble_cost_types.delete 0 
+    @avaialble_cost_types.unshift 0
+    @avaialble_cost_types.map! do |id|
+      case id
+      when 0  then [0,  l(:label_money)]
+      when -1 then [-1, l(:caption_labor)]
+      else [id, CostType.find(id).unit_plural ]
+      end
     end
   end
 
