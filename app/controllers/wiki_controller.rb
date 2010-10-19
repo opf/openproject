@@ -169,21 +169,6 @@ class WikiController < ApplicationController
     redirect_to :action => 'page_index', :id => @project
   end
 
-  # display special pages
-  def special
-    page_title = params[:page].downcase
-    case page_title
-    when 'export'
-      redirect_to :action => 'export', :id => @project # Compatibility stub while refactoring
-      return
-    else
-      # requested special page doesn't exist, redirect to default page
-      redirect_to :action => 'index', :id => @project, :page => nil
-      return
-    end
-    render :action => "special_#{page_title}"
-  end
-
   # Export wiki to a single html file
   def export
     if User.current.allowed_to?(:export_wiki_pages, @project)
