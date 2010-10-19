@@ -154,6 +154,10 @@
   border-radius: 5px;
 }
 
+#add_filter_block {
+  margin-top: 6px;
+}
+
 .new_cost_query fieldset#filters table tr.filter:hover {
   background: #aaa;
 }
