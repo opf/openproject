@@ -155,17 +155,15 @@
 }
 
 .new_cost_query fieldset#filters table tr.filter:hover {
-  opacity: 1.0;
   background: #aaa;
 }
 
 .new_cost_query fieldset#filters table tr.filter {
   color: #000;
-  background: #ddd;
+  background: #ededed;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  opacity: 0.5;
 }
 
 
