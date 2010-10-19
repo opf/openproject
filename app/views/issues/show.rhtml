@@ -44,18 +44,19 @@
 <%= render_custom_fields_rows(@issue) %>
 <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
-<hr />
 
+<% if @issue.description? || @issue.attachments.any? -%>
+<hr />
 <div class="contextual">
-<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') unless @issue.description.blank? %>
+<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') if @issue.description? %>
 </div>
                               
-<p><strong><%=l(:field_description)%></strong></p>
 <div class="wiki">
 <%= textilizable @issue, :description, :attachments => @issue.attachments %>
 </div>
 
 <%= link_to_attachments @issue %>
+<% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
 
