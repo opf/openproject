@@ -10,7 +10,7 @@
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
+                       { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :page => @page.title },
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",

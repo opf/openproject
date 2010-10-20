@@ -18,7 +18,7 @@
 <% @annotate.lines.each do |line| -%>
 <tr class="bloc-<%= colors[line[0]] %>">
     <th class="line-num"><%= line_num %></th>
-    <td class="revision"><%= link_to line[0], :controller => 'wiki', :action => 'index', :id => @project, :page => @page.title, :version => line[0] %></td>
+    <td class="revision"><%= link_to line[0], :controller => 'wiki', :action => 'index', :project_id => @project, :page => @page.title, :version => line[0] %></td>
     <td class="author"><%= h(line[1]) %></td>
     <td class="line-code"><pre><%=h line[2] %></pre></td>
 </tr>

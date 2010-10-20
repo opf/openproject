@@ -79,7 +79,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         # don't save if text wasn't changed
-        redirect_to :action => 'index', :id => @project, :page => @page.title
+        redirect_to :action => 'index', :project_id => @project, :page => @page.title
         return
       end
       #@content.text = params[:content][:text]
@@ -91,7 +91,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-        redirect_to :action => 'index', :id => @project, :page => @page.title
+        redirect_to :action => 'index', :project_id => @project, :page => @page.title
       end
     end
   rescue ActiveRecord::StaleObjectError
@@ -107,13 +107,13 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index', :id => @project, :page => @page.title
+      redirect_to :action => 'index', :project_id => @project, :page => @page.title
     end
   end
   
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'index', :id => @project, :page => @page.title
+    redirect_to :action => 'index', :project_id => @project, :page => @page.title
   end
 
   # show page history
@@ -166,7 +166,7 @@ class WikiController < ApplicationController
       end
     end
     @page.destroy
-    redirect_to :action => 'page_index', :id => @project
+    redirect_to :action => 'page_index', :project_id => @project
   end
 
   # Export wiki to a single html file
@@ -176,7 +176,7 @@ class WikiController < ApplicationController
       export = render_to_string :action => 'export_multiple', :layout => false
       send_data(export, :type => 'text/html', :filename => "wiki.html")
     else
-      redirect_to :action => 'index', :id => @project, :page => nil
+      redirect_to :action => 'index', :project_id => @project, :page => nil
     end
   end
 
@@ -210,7 +210,7 @@ class WikiController < ApplicationController
 private
   
   def find_wiki
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
     @wiki = @project.wiki
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
