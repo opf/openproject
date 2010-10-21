@@ -65,7 +65,7 @@ module ReportingHelper
   end
 
   def debug_fields(result, prefix = ", ")
-    prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
+    #prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
   end
 
   def show_field(key, value)
