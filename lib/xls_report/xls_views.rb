@@ -3,6 +3,7 @@ class XlsViews
   include ActionView::Helpers::NumberHelper
   include ApplicationHelper
   include ReportingHelper
+  attr_accessor :spreadsheet, :query, :cost_type, :unit_id
 
   # Overwrite a few mappings.
   def field_representation_map(key, value)
@@ -28,12 +29,12 @@ class XlsViews
   end
 
   def self.generate(opts)
-    sb = opts[:spreadsheet]
-    query = opts[:query]
-    cost_type = opts[:cost_type]
-    unit_id = opts[:unit_id]
-
-    self.new.generate(sb, query, cost_type, unit_id)
+    self.new.tap do |obj|
+      obj.query = opts[:query]
+      obj.cost_type = opts[:cost_type]
+      obj.unit_id = opts[:unit_id]
+      obj.spreadsheet = opts[:spreadsheet]
+    end.generate
   end
 end
 

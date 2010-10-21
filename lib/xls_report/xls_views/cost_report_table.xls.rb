@@ -37,7 +37,7 @@ class CostReportTable < XlsViews
 
   def headers(list, first, first_in_col, last_in_col)
     if first_in_col # Open a new header row
-      @header = [""] * @query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+      @header = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
     end
 
     list.each do |column|
@@ -46,14 +46,14 @@ class CostReportTable < XlsViews
     end
 
     if last_in_col # Finish this header row
-      @header += [""] * @query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+      @header += [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
       @headers << @header
     end
   end
 
   def footers(list, first, first_in_col, last_in_col)
     if first_in_col # Open a new footer row
-      @footer = [""] * @query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
+      @footer = [""] * query.depth_of(:row) # TODO: needs borders: rowspan=query.depth_of(:column)
     end
 
     list.each do |column|
@@ -63,10 +63,10 @@ class CostReportTable < XlsViews
 
     if last_in_col # Finish this footer row
       if first
-        @footer << show_result(@query)
-        @footer += [""] * (@query.depth_of(:row) - 1).abs # TODO: add rowspan=query.depth_of(:column)
+        @footer << show_result(query)
+        @footer += [""] * (query.depth_of(:row) - 1).abs # TODO: add rowspan=query.depth_of(:column)
       else
-        @footer += [""] * @query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
+        @footer += [""] * query.depth_of(:row) # TODO: add rowspan=query.depth_of(:column)
       end
       @footers << @footer
     end
@@ -76,8 +76,7 @@ class CostReportTable < XlsViews
     @rows += line.flatten
   end
 
-  def generate(sb, query, cost_type, unit_id)
-    @query = query
+  def generate
     walker = query.walker
 
     walker.for_final_row &method(:final_row)
@@ -96,19 +95,19 @@ class CostReportTable < XlsViews
     @rows = []
     walker.body &method(:body)
 
-    build_spreadsheet(sb, cost_type, unit_id)
+    build_spreadsheet
   end
 
-  def build_spreadsheet(sb, cost_type, unit_id)
-    sb.add_headers [label(cost_type, unit_id)]
+  def build_spreadsheet
+    spreadsheet.add_headers [label]
     row_length = @headers.first.length
-    @headers.each {|head| sb.add_headers(head, sb.current_row) }
-    @rows.in_groups_of(row_length).each {|body| sb.add_row(body) }
-    @footers.each {|foot| sb.add_headers(foot, sb.current_row) }
-    sb
+    @headers.each {|head| spreadsheet.add_headers(head, spreadsheet.current_row) }
+    @rows.in_groups_of(row_length).each {|body| spreadsheet.add_row(body) }
+    @footers.each {|foot| spreadsheet.add_headers(foot, spreadsheet.current_row) }
+    spreadsheet
   end
 
-  def label(cost_type, unit_id)
+  def label
     "#{l(:caption_cost_type)}: " + case unit_id
     when -1 then l(:field_hours)
     when 0  then "EUR"
