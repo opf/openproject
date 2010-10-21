@@ -34,7 +34,7 @@
                        :update => "content",
                        :with => "Form.serialize('query_form')",
                        :eval_scripts => true
-                     }, :class => 'button' %>
+                     }, :class => 'button apply' %>
   <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
   <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
   <%
