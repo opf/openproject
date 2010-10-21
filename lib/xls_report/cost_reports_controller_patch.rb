@@ -80,7 +80,7 @@ if require_dependency 'cost_reports_controller'
         def xls_cost_entry_table(sb, query, cost_type)
           list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
           headers = list.collect {|field| label_for(field) }
-          headers << cost_type.try(:unit_plural) || l(:units)
+          headers << (cost_type.try(:unit_plural) || l(:units))
           headers << l(:field_costs)
           sb.add_headers(headers)
 
