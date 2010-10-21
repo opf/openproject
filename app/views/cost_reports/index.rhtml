@@ -47,7 +47,7 @@
 
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
-  <% @avaialble_cost_types.each do |id, label| %>
+  <% @available_cost_types.each do |id, label| %>
     <%=
       if id != @unit_id
         link_to_remote label, {
