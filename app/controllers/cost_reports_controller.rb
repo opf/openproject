@@ -159,28 +159,34 @@ class CostReportsController < ApplicationController
   end
 
   ##
-  # FIXME: Split, also ugly
-  # This method does three things:
-  #   set the @unit_id -> this is used in the index for determining the active unit tab
-  #   set the @cost_types -> this is used to determine which tabs to display
-  #   possibly set the @cost_type -> this is used to select the proper units for display
-  def set_cost_types(value = nil)
-    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i) || (-1..CostType.count)
+  # Determine active cost types, the currently selected unit and corresponding cost type
+  def set_cost_types
+    set_active_cost_types
     set_unit
     set_cost_type
   end
 
+  # Determine the currently active unit from the parameters or session
+  #   sets the @unit_id -> this is used in the index for determining the active unit tab
   def set_unit
-    @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
+    @unit_id = params[:unit].try(:to_i) || session[:unit_id].to_i
     @unit_id = 0 unless @cost_types.include? @unit_id
     session[:unit_id] = @unit_id
   end
 
+  # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
+  #   sets the @cost_type -> this is used to select the proper units for display
   def set_cost_type
     if @unit_id != 0
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
+  end
+
+  #   set the @cost_types -> this is used to determine which tabs to display
+  def set_active_cost_types
+    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i)
+    @cost_types ||= (-1..CostType.count)
   end
 
   def load_all
