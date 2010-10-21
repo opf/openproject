@@ -149,6 +149,10 @@ table#filter_table td > label {
   position: absolute;
 }
 
+.icon-filter-rem:hover {
+  background-image: url(../images/remove_hover.png);
+}
+
 .filter {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
