@@ -12,7 +12,7 @@
 <h3><%= format_date(date) %></h3>
 <ul>
 <% @pages_by_date[date].each do |page| %>
-    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %></li>
+    <li><%= link_to page.pretty_title, :action => 'show', :page => page.title %></li>
 <% end %>
 </ul>
 <% end %>
@@ -23,11 +23,11 @@
 
 <% unless @pages.empty? %>
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
+	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'show', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
 	<%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
 <% end %>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
+<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'show', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
 <% end %>

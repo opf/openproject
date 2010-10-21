@@ -311,8 +311,8 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "wiki (singular, project's pages)" do
-    should_route :get, "/projects/567/wiki", :controller => 'wiki', :action => 'index', :project_id => '567'
-    should_route :get, "/projects/567/wiki/lalala", :controller => 'wiki', :action => 'index', :project_id => '567', :page => 'lalala'
+    should_route :get, "/projects/567/wiki", :controller => 'wiki', :action => 'show', :project_id => '567'
+    should_route :get, "/projects/567/wiki/lalala", :controller => 'wiki', :action => 'show', :project_id => '567', :page => 'lalala'
     should_route :get, "/projects/567/wiki/my_page/edit", :controller => 'wiki', :action => 'edit', :project_id => '567', :page => 'my_page'
     should_route :get, "/projects/1/wiki/CookBook_documentation/history", :controller => 'wiki', :action => 'history', :project_id => '1', :page => 'CookBook_documentation'
     should_route :get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1", :controller => 'wiki', :action => 'diff', :project_id => '1', :page => 'CookBook_documentation', :version => '2', :version_from => '1'

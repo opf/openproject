@@ -15,5 +15,5 @@
 </div>
 
 <%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), :controller => 'wiki', :action => 'index', :project_id => @project, :page => @page.title %>
+<%= link_to l(:button_cancel), :controller => 'wiki', :action => 'show', :project_id => @project, :page => @page.title %>
 <% end %>

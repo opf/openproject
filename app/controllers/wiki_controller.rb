@@ -22,14 +22,14 @@ class WikiController < ApplicationController
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
   
-  verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :index }
+  verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :show }
 
   helper :attachments
   include AttachmentsHelper   
   helper :watchers
-  
+
   # display a page (in editing mode if it doesn't exist)
-  def index
+  def show
     page_title = params[:page]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
@@ -79,7 +79,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         # don't save if text wasn't changed
-        redirect_to :action => 'index', :project_id => @project, :page => @page.title
+        redirect_to :action => 'show', :project_id => @project, :page => @page.title
         return
       end
       #@content.text = params[:content][:text]
@@ -91,7 +91,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-        redirect_to :action => 'index', :project_id => @project, :page => @page.title
+        redirect_to :action => 'show', :project_id => @project, :page => @page.title
       end
     end
   rescue ActiveRecord::StaleObjectError
@@ -107,13 +107,13 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index', :project_id => @project, :page => @page.title
+      redirect_to :action => 'show', :project_id => @project, :page => @page.title
     end
   end
   
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'index', :project_id => @project, :page => @page.title
+    redirect_to :action => 'show', :project_id => @project, :page => @page.title
   end
 
   # show page history
@@ -176,7 +176,7 @@ class WikiController < ApplicationController
       export = render_to_string :action => 'export_multiple', :layout => false
       send_data(export, :type => 'text/html', :filename => "wiki.html")
     else
-      redirect_to :action => 'index', :project_id => @project, :page => nil
+      redirect_to :action => 'show', :project_id => @project, :page => nil
     end
   end
 
@@ -204,7 +204,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
-    redirect_to :action => 'index', :page => @page.title
+    redirect_to :action => 'show', :page => @page.title
   end
 
 private
