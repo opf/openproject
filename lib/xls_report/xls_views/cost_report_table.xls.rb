@@ -77,6 +77,11 @@ class CostReportTable < XlsViews
   end
 
   def generate
+    run_walker
+    build_spreadsheet
+  end
+
+  def run_walker
     walker = query.walker
 
     walker.for_final_row &method(:final_row)
@@ -94,8 +99,6 @@ class CostReportTable < XlsViews
 
     @rows = []
     walker.body &method(:body)
-
-    build_spreadsheet
   end
 
   def build_spreadsheet
