@@ -31,6 +31,7 @@
   <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
                      { :url => { :set_filter => 1 },
                        :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+                       :condition => 'Ajax.activeRequestCount === 0',
                        :update => "content",
                        :with => "Form.serialize('query_form')",
                        :eval_scripts => true
