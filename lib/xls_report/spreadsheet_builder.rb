@@ -4,13 +4,36 @@ require 'spreadsheet'
 # gem's functionality. It's designed to build spreadsheets incrementally
 # by adding row after row, but can be used for random access to the
 # rows as well
+#
+# Multiple Worksheets are possible, the currently active worksheet and it's
+# associated column widths are always accessible through the @sheet and @column_widths
+# instance variables, the other worksheets are accessible through the #worksheet method.
+# If a worksheet with an index larger than the number of worksheets is requested,
+# a new worksheet is created.
+#
 class SpreadsheetBuilder
 
-  def initialize
+  Worksheet = Struct.new(:sheet, :column_widths)
+
+  def initialize(name = nil)
     Spreadsheet.client_encoding = 'UTF-8'
     @xls = Spreadsheet::Workbook.new
-    @sheet = @xls.create_worksheet
-    @column_widths = []
+    @worksheets = []
+    worksheet(0, name)
+  end
+
+  # Retrieve or create the worksheet at index x
+  def worksheet(idx, name = nil)
+    name ||= "Worksheet #{@worksheets.length + 1}"
+    if @worksheets[idx].nil?
+      @worksheets[idx] = Worksheet.new.tap do |wb|
+        wb.sheet = @xls.create_worksheet(:name => name)
+        wb.column_widths = []
+      end
+    end
+
+    @sheet = @worksheets[idx].sheet
+    @column_widths = @worksheets[idx].column_widths
   end
 
   # Update column widths and wrap text if neccessary
@@ -129,7 +152,10 @@ class SpreadsheetBuilder
 
   # Return the xls file as a string
   def xls
-    update_sheet_widths
+    @worksheets.length.times do |i|
+      worksheet(i)
+      update_sheet_widths
+    end
     io = StringIO.new
     @xls.write(io)
     io.rewind
