@@ -134,6 +134,19 @@ module ReportingHelper
     struct[:values][key]    = value.to_s
   end
 
+  def available_cost_type_tabs(cost_types)
+    tabs = cost_types.to_a
+    tabs.delete 0 # remove money from list
+    tabs.unshift 0 # add money as first tab
+    tabs.map do |id|
+      case id
+      when -1 then [-1, l(:caption_labor)]
+      when 0  then [0,  l(:label_money)]
+      else [id, CostType.find(id).unit_plural ]
+      end
+    end
+  end
+
   def link_to_details(result)
     return '' # unless result.respond_to? :fields # uncomment to display
     session_filter = {:operators => session[:cost_query][:filters][:operators].dup, :values => session[:cost_query][:filters][:values].dup }

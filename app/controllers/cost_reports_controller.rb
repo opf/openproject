@@ -12,8 +12,6 @@ class CostReportsController < ApplicationController
     if @valid
       if @query.group_bys.empty?
         @table_partial = "cost_entry_table"
-      # elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
-      #   @table_partial = "simple_cost_report_table"
       else
         if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
           @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
@@ -168,22 +166,20 @@ class CostReportsController < ApplicationController
   #   possibly set the @cost_type -> this is used to select the proper units for display
   def set_cost_types(value = nil)
     @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i) || (-1..CostType.count)
+    set_unit
+    set_cost_type
+  end
+
+  def set_unit
     @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
     @unit_id = 0 unless @cost_types.include? @unit_id
     session[:unit_id] = @unit_id
+  end
+
+  def set_cost_type
     if @unit_id != 0
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
-    end
-    @available_cost_types = @cost_types.to_a
-    @available_cost_types.delete 0 
-    @available_cost_types.unshift 0
-    @available_cost_types.map! do |id|
-      case id
-      when 0  then [0,  l(:label_money)]
-      when -1 then [-1, l(:caption_labor)]
-      else [id, CostType.find(id).unit_plural ]
-      end
     end
   end
 
