@@ -123,8 +123,10 @@ class CostQuery < ActiveRecord::Base
     def initialize(child = nil, options = {})
       @options = options
       options.each do |key, value|
-        raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
-        send "#{key}=", value if value
+        unless self.class.extra_options.include? key
+          raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
+          send "#{key}=", value if value
+        end
       end
       self.child, child.parent = child, self if child
       move_down until correct_position?
@@ -245,6 +247,12 @@ class CostQuery < ActiveRecord::Base
 
     def self.not_selectable!
       selectable false
+    end
+
+    # Extra options this chainable accepts that are not defined in accepted_properties
+    def self.extra_options(*symbols)
+      @extra_option ||= []
+      @extra_option += symbols
     end
 
     def self.last_table
