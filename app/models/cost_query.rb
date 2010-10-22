@@ -16,6 +16,17 @@ class CostQuery < ActiveRecord::Base
     return @chain_initializer ||= []
   end
 
+  def self.deserialize(hash)
+    self.new.tap do |q|
+      hash[:filters].each {|name, opts| q.filter(name, opts) }
+      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
+    end
+  end
+
+  def serialize
+    { :filters => filters.collect(&:serialize), :group_bys => group_bys.collect(&:serialize) }
+  end
+
   def available_filters
     CostQuery::Filter.all
   end
@@ -76,7 +87,6 @@ class CostQuery < ActiveRecord::Base
   def filters
     chain.select { |c| c.filter? }
   end
-  
 
   def depth_of(name)
     @depths ||= {}

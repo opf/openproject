@@ -143,6 +143,10 @@ class CostQuery < ActiveRecord::Base
       URI.escape to_a.map(&:join).join(',')
     end
 
+    def serialize
+      [self.class.to_s.demodulize, @options]
+    end
+
     def move_down
       reorder parent, child, self, child.child
     end
