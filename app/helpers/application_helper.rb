@@ -107,11 +107,6 @@ module ApplicationHelper
 
     link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
   end
-  
-  def link_to_project(project, options={})
-    options[:class] ||= 'project'
-    link_to(h(project), {:controller => 'projects', :action => 'show', :id => project}, :class => options[:class])
-  end
 
   # Generates a link to a project if active
   # Examples:
