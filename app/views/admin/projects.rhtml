@@ -19,7 +19,6 @@
 <table class="list">
   <thead><tr>
 	<th><%=l(:label_project)%></th>
-	<th><%=l(:field_description)%></th>
 	<th><%=l(:field_is_public)%></th>
 	<th><%=l(:field_created_on)%></th>
   <th></th>
@@ -27,8 +26,7 @@
   <tbody>
 <% project_tree(@projects) do |project, level| %>
   <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-	<td class="name"><%= link_to_project(project, :action => 'settings') %></td>
-	<td><%= textilizable project.short_description, :project => project %></td>
+	<td class="name"><%= link_to_project(project, {:action => 'settings'}, :title => project.short_description) %></td>
 	<td align="center"><%= checked_image project.is_public? %></td>
 	<td align="center"><%= format_date(project.created_on) %></td>
   <td class="buttons">
