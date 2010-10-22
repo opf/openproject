@@ -41,8 +41,10 @@ ActionController::Routing::Routes.draw do |map|
     end
     
     wiki_routes.connect 'projects/:project_id/wiki/:page/:action', 
-      :action => /edit|rename|destroy|preview|protect/,
+      :action => /rename|destroy|preview|protect/,
       :conditions => {:method => :post}
+
+    wiki_routes.connect 'projects/:project_id/wiki/:page/edit', :action => 'update', :conditions => {:method => :post}
   end
   
   map.with_options :controller => 'messages' do |messages_routes|

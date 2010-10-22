@@ -71,34 +71,48 @@ class WikiController < ApplicationController
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
-    if request.get?
-      # To prevent StaleObjectError exception when reverting to a previous version
-      @content.version = @page.content.version
-    else
-      if !@page.new_record? && @content.text == params[:content][:text]
-        attachments = Attachment.attach_files(@page, params[:attachments])
-        render_attachment_warning_if_needed(@page)
-        # don't save if text wasn't changed
-        redirect_to :action => 'show', :project_id => @project, :page => @page.title
-        return
-      end
-      #@content.text = params[:content][:text]
-      #@content.comments = params[:content][:comments]
-      @content.attributes = params[:content]
-      @content.author = User.current
-      # if page is new @page.save will also save content, but not if page isn't a new record
-      if (@page.new_record? ? @page.save : @content.save)
-        attachments = Attachment.attach_files(@page, params[:attachments])
-        render_attachment_warning_if_needed(@page)
-        call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-        redirect_to :action => 'show', :project_id => @project, :page => @page.title
-      end
-    end
+
+    # To prevent StaleObjectError exception when reverting to a previous version
+    @content.version = @page.content.version
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash[:error] = l(:notice_locking_conflict)
   end
-  
+
+  verify :method => :post, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  # Creates a new page or updates an existing one
+  def update
+    @page = @wiki.find_or_new_page(params[:page])    
+    return render_403 unless editable?
+    @page.content = WikiContent.new(:page => @page) if @page.new_record?
+    
+    @content = @page.content_for_version(params[:version])
+    @content.text = initial_page_content(@page) if @content.text.blank?
+    # don't keep previous comment
+    @content.comments = nil
+
+    if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
+      attachments = Attachment.attach_files(@page, params[:attachments])
+      render_attachment_warning_if_needed(@page)
+      # don't save if text wasn't changed
+      redirect_to :action => 'show', :project_id => @project, :page => @page.title
+      return
+    end
+    @content.attributes = params[:content]
+    @content.author = User.current
+    # if page is new @page.save will also save content, but not if page isn't a new record
+    if (@page.new_record? ? @page.save : @content.save)
+      attachments = Attachment.attach_files(@page, params[:attachments])
+      render_attachment_warning_if_needed(@page)
+      call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
+      redirect_to :action => 'show', :project_id => @project, :page => @page.title
+    end
+
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash[:error] = l(:notice_locking_conflict)
+  end
+
   # rename a page
   def rename
     return render_403 unless editable?
