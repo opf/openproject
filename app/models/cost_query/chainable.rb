@@ -255,6 +255,16 @@ class CostQuery < ActiveRecord::Base
       @extra_option += symbols
     end
 
+    # This chainable type can only ever occur once in a chain
+    def self.singleton
+      class << self
+        def new(chain = nil, options = {})
+          return chain if chain and chain.collect(&:class).include? self
+          super
+        end
+      end
+    end
+
     def self.last_table
       @last_table ||= 'entries'
     end

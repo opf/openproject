@@ -2,6 +2,7 @@ class CostQuery::Filter::PermissionFilter < CostQuery::Filter::Base
   dont_display!
   not_selectable!
   db_field ""
+  singleton
 
   initialize_query_with { |query| query.filter self.to_s.demodulize.to_sym }
 
