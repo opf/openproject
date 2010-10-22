@@ -2,6 +2,9 @@ require_dependency 'xls_report/xls_views'
 
 class SimpleCostReportTable < XlsViews
   def generate
+    spreadsheet = SpreadsheetBuilder.new
+    spreadsheet.add_title("#{@project.name + " >> " if @project}#{l(:cost_reports_title)} (#{format_date(Date.today)})")
+
     list = query.collect {|r| r.important_fields }.flatten.uniq
     show_units = list.include? "cost_type_id"
     headers = list.collect {|field| label_for(field) }

@@ -77,20 +77,24 @@ class CostReportTable < XlsViews
   end
 
   def generate
-    available_cost_type_tabs(options[:cost_type]).each_with_index do |ary|
-      qry = Query.new(query.serialize)
-      unit_id = ary.first
+    @spreadsheet ||= SpreadsheetBuilder.new(l(:label_money))
+
+    available_cost_type_tabs(options[:cost_types]).each_with_index do |ary, idx|
+      qry = CostQuery.deserialize(query.serialize)
+      @unit_id = ary.first
       name = ary.last
 
-      if unit_id != 0
-        qry.filter :cost_type_id, :operator => '=', :value => unit_id.to_s, :display => false
-        cost_type = CostType.find(unit_id) if unit_id > 0
+
+      if @unit_id != 0
+        qry.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
+        @cost_type = CostType.find(unit_id) if unit_id > 0
       end
 
-      sb.worksheet(idx, name)
+      spreadsheet.worksheet(idx, name)
       run_walker
       build_spreadsheet
     end
+    spreadsheet
   end
 
   def run_walker
@@ -114,6 +118,7 @@ class CostReportTable < XlsViews
   end
 
   def build_spreadsheet
+    spreadsheet.add_title("#{@project.name + " >> " if @project}#{l(:cost_reports_title)} (#{format_date(Date.today)})")
     spreadsheet.add_headers [label]
     row_length = @headers.first.length
     @headers.each {|head| spreadsheet.add_headers(head, spreadsheet.current_row) }

@@ -2,6 +2,9 @@ require_dependency 'xls_report/xls_views'
 
 class CostEntryTable < XlsViews
   def generate
+    spreadsheet = SpreadsheetBuilder.new
+    spreadsheet.add_title("#{@project.name + " >> " if @project}#{l(:cost_reports_title)} (#{format_date(Date.today)})")
+
     list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
     headers = list.collect {|field| label_for(field) }
     headers << (cost_type.try(:unit_plural) || l(:units))

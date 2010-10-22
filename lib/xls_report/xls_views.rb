@@ -33,7 +33,6 @@ class XlsViews
       obj.query = opts[:query]
       obj.cost_type = opts[:cost_type]
       obj.unit_id = opts[:unit_id]
-      obj.spreadsheet = opts[:spreadsheet]
       obj.options = opts
     end.generate
   end
