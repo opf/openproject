@@ -238,15 +238,10 @@ module ApplicationHelper
   end
   
   # Yields the given block for each project with its level in the tree
+  #
+  # Wrapper for Project#project_tree
   def project_tree(projects, &block)
-    ancestors = []
-    projects.sort_by(&:lft).each do |project|
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
-        ancestors.pop
-      end
-      yield project, ancestors.size
-      ancestors << project
-    end
+    Project.project_tree(projects, &block)
   end
   
   def project_nested_ul(projects, &block)

@@ -565,6 +565,18 @@ class Project < ActiveRecord::Base
       return nil
     end
   end
+
+  # Yields the given block for each project with its level in the tree
+  def self.project_tree(projects, &block)
+    ancestors = []
+    projects.sort_by(&:lft).each do |project|
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+      yield project, ancestors.size
+      ancestors << project
+    end
+  end
   
   private
   
