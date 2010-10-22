@@ -327,6 +327,7 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :post, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :project_id => '22', :page => 'ladida'
     should_route :post, "/projects/22/wiki/ladida/destroy", :controller => 'wiki', :action => 'destroy', :project_id => '22', :page => 'ladida'
     should_route :post, "/projects/22/wiki/ladida/protect", :controller => 'wiki', :action => 'protect', :project_id => '22', :page => 'ladida'
+    should_route :post, "/projects/22/wiki/ladida/add_attachment", :controller => 'wiki', :action => 'add_attachment', :project_id => '22', :page => 'ladida'
   end
 
   context "wikis (plural, admin setup)" do

@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     
     wiki_routes.connect 'projects/:project_id/wiki/:page/:action', 
-      :action => /rename|destroy|preview|protect/,
+      :action => /rename|destroy|preview|protect|add_attachment/,
       :conditions => {:method => :post}
 
     wiki_routes.connect 'projects/:project_id/wiki/:page/edit', :action => 'update', :conditions => {:method => :post}
