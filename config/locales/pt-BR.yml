@@ -936,8 +936,6 @@ pt-BR:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendário
-  field_member_of_group: Membro do grupo
-  field_assigned_to_role: Membro com o papel
   button_edit_associated_wikipage: "Editar página wiki relacionada: {{page_title}}"
   text_are_you_sure_with_children: Excluir a tarefa e suas subtarefas?
   field_text: Campo de texto
@@ -945,3 +943,6 @@ pt-BR:
   setting_default_notification_option: Opção padrão de notificação
   label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
   label_user_mail_option_only_assigned: Somente para as coisas que estejam atribuídas a mim
+  label_user_mail_option_none: No events
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role

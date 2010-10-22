@@ -920,8 +920,6 @@ pt:
   field_time_entries: Tempo registado
   project_module_gantt: Gantt
   project_module_calendar: Calendário
-  field_member_of_group: Membro do Grupo
-  field_assigned_to_role: Membro do Perfil
   button_edit_associated_wikipage: "Editar página Wiki associada: {{page_title}}"
   text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
   field_text: Text field
@@ -929,3 +927,6 @@ pt:
   setting_default_notification_option: Default notification option
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_assigned: Only for things I am assigned to
+  label_user_mail_option_none: No events
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role

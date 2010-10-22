@@ -319,8 +319,6 @@ ja:
   field_group_by: グループ条件
   field_sharing: 共有
   field_parent_issue: 親チケット
-  field_member_of_group: 担当者のグループ
-  field_assigned_to_role: 担当者のロール
   field_text: テキスト
   
   setting_app_title: アプリケーションのタイトル
@@ -946,3 +944,6 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
+  label_user_mail_option_none: No events
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role
