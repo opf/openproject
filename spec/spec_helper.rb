@@ -22,6 +22,10 @@ rescue LoadError => error
   raise error
 end
 
+def l(*args)
+  I18n.t(*args)
+end
+
 Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
 require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
 Dir.glob(File.expand_path("#{__FILE__}/../../../redmine_costs/test/exemplars/*.rb")) { |e| require e }
