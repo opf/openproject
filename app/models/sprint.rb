@@ -49,7 +49,7 @@ class Burndown
       backlog ||= sprint.stories
       _series[0] = [
         backlog.inject(0) {|sum, story| sum + story.story_points.to_f }, # committed
-        (assume ? 0 : backlog.select {|s| s.done_ratio == 100 }.inject(0) {|sum, story| sum + story.story_points.to_f }),
+        (assume ? 0 : backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0 }.inject(0) {|sum, story| sum + story.story_points.to_f }),
         (assume ? 0 : backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f }),
         backlog.inject(0) {|sum, story| sum + story.estimated_hours.to_f } # remaining
       ]
@@ -61,9 +61,9 @@ class Burndown
       backlog ||= sprint.stories
       _series[-1] = [
         backlog.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| s.done_ratio == 100 }.inject(0) {|sum, story| sum + story.story_points.to_f },
+        backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0}.inject(0) {|sum, story| sum + story.story_points.to_f },
         backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| not s.closed? && s.done_ratio != 100 }.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
+        backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
       ]
       cache(days[-1], _series[-1])
     end
