@@ -219,7 +219,7 @@ describe CostQuery do
       end
 
       it "includes custom fields classes in GroupBy.all" do
-        CostQuery::GroupBy::CustomField.all.
+        CostQuery::GroupBy.all.
           should include(CostQuery::GroupBy::CustomFieldSearchableField)
       end
 
