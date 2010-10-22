@@ -77,8 +77,20 @@ class CostReportTable < XlsViews
   end
 
   def generate
-    run_walker
-    build_spreadsheet
+    available_cost_type_tabs(options[:cost_type]).each_with_index do |ary|
+      qry = Query.new(query.serialize)
+      unit_id = ary.first
+      name = ary.last
+
+      if unit_id != 0
+        qry.filter :cost_type_id, :operator => '=', :value => unit_id.to_s, :display => false
+        cost_type = CostType.find(unit_id) if unit_id > 0
+      end
+
+      sb.worksheet(idx, name)
+      run_walker
+      build_spreadsheet
+    end
   end
 
   def run_walker
