@@ -21,7 +21,7 @@ class GanttsControllerTest < ActionController::TestCase
       assert_select "div a.issue", /##{i.id}/
     end
     
-    should "work without issue due dates" do
+    should_eventually "work without issue due dates" do
       Issue.update_all("due_date = NULL")
       
       get :show, :project_id => 1
