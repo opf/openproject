@@ -1,8 +1,8 @@
 <div class="contextual">
-<%= link_to_if_authorized(l(:label_news_new),
-                          new_project_news_path(@project),
-                          :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project %>
+<%= link_to(l(:label_news_new),
+            new_project_news_path(@project),
+            :class => 'icon icon-add',
+            :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
 <div id="add-news" style="display:none;">
