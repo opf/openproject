@@ -20,6 +20,15 @@ class GanttsControllerTest < ActionController::TestCase
       i = Issue.find(2)
       assert_select "div a.issue", /##{i.id}/
     end
+    
+    should "work without issue due dates" do
+      Issue.update_all("due_date = NULL")
+      
+      get :show, :project_id => 1
+      assert_response :success
+      assert_template 'show.html.erb'
+      assert_not_nil assigns(:gantt)
+    end
 
     should "work cross project" do
       get :show
