@@ -102,6 +102,7 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook.reload
     
     assert !@ecookbook.active?
+    assert @ecookbook.archived?
     assert !user.projects.include?(@ecookbook)
     # Subproject are also archived
     assert !@ecookbook.children.empty?
@@ -129,6 +130,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert @ecookbook.unarchive
     @ecookbook.reload
     assert @ecookbook.active?
+    assert !@ecookbook.archived?
     assert user.projects.include?(@ecookbook)
     # Subproject can now be unarchived
     @ecookbook_sub1.reload

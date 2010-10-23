@@ -929,3 +929,4 @@ hr:
   label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.

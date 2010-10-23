@@ -169,6 +169,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
   notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
+  notice_not_authorized_archived_project: Le projet auquel vous tentez d'accéder a été archivé.
   notice_email_sent: "Un email a été envoyé à {{value}}"
   notice_email_error: "Erreur lors de l'envoi de l'email ({{value}})"
   notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."

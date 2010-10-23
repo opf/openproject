@@ -154,7 +154,15 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project || @projects, :global => global)
-    allowed ? true : deny_access
+    if allowed
+      true
+    else
+      if @project && @project.archived?
+        render_403 :message => :notice_not_authorized_archived_project
+      else
+        deny_access
+      end
+    end
   end
 
   # Authorize the user for the requested action outside a project
@@ -265,8 +273,10 @@ class ApplicationController < ActionController::Base
     redirect_to default
   end
   
-  def render_403
+  def render_403(options={})
     @project = nil
+    @message = options[:message] || :notice_not_authorized
+    @message = l(@message) if @message.is_a?(Symbol)
     respond_to do |format|
       format.html { render :template => "common/403", :layout => use_layout, :status => 403 }
       format.atom { head 403 }

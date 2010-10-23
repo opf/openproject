@@ -926,3 +926,4 @@ en-GB:
   setting_default_notification_option: Default notification option
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_assigned: Only for things I am assigned to
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.

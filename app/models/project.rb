@@ -220,6 +220,10 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
+  def archived?
+    self.status == STATUS_ARCHIVED
+  end
+  
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
