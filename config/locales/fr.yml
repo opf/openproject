@@ -929,14 +929,14 @@ fr:
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Modifier la page de Wiki associée: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
+  project_module_calendar: Calendrier
+  button_edit_associated_wikipage: "Modifier la page wiki associée: {{page_title}}"
+  text_are_you_sure_with_children: Supprimer la demande et toutes ses sous-demandes ?
+  field_text: Champ texte
+  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
+  setting_default_notification_option: Option de notification par défaut
+  label_user_mail_option_only_my_events: Seulement pour ce que je surveille
+  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
+  label_user_mail_option_none: Aucune notification
+  field_member_of_group: Groupe de l'assigné
+  field_assigned_to_role: Rôle de l'assigné
