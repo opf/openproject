@@ -18,27 +18,25 @@
 module GanttHelper
 
   def gantt_zoom_link(gantt, in_or_out)
-    img_attributes = {:style => 'height:1.4em; width:1.4em; margin-left: 3px;'} # em for accessibility
-
     case in_or_out
     when :in
       if gantt.zoom < 4
-        link_to_remote(l(:text_zoom_in) + image_tag('zoom_in.png', img_attributes.merge(:alt => l(:text_zoom_in))),
+        link_to_remote(l(:text_zoom_in),
                        {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1)))})
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1))),
+                        :class => 'icon icon-zoom-in'})
       else
-        l(:text_zoom_in) +
-          image_tag('zoom_in_g.png', img_attributes.merge(:alt => l(:text_zoom_in)))
+        content_tag('span', l(:text_zoom_in), :class => 'icon icon-zoom-in')
       end
       
     when :out
       if gantt.zoom > 1
-        link_to_remote(l(:text_zoom_out) + image_tag('zoom_out.png', img_attributes.merge(:alt => l(:text_zoom_out))),
+        link_to_remote(l(:text_zoom_out),
                        {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1)))})
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1))),
+                        :class => 'icon icon-zoom-out'})
       else
-        l(:text_zoom_out) +
-          image_tag('zoom_out_g.png', img_attributes.merge(:alt => l(:text_zoom_out)))
+        content_tag('span', l(:text_zoom_out), :class => 'icon icon-zoom-out')
       end
     end
   end

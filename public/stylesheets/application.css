@@ -854,6 +854,8 @@ padding-bottom: 3px;
 .icon-summary  { background-image: url(../images/lightning.png); }
 .icon-server-authentication { background-image: url(../images/server_key.png); }
 .icon-issue { background-image: url(../images/ticket.png); }
+.icon-zoom-in { background-image: url(../images/zoom_in.png); }
+.icon-zoom-out { background-image: url(../images/zoom_out.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
