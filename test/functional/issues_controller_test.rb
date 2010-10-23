@@ -340,9 +340,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     get :new, :project_id => 1
     assert_response 500
-    assert_not_nil flash[:error]
-    assert_tag :tag => 'div', :attributes => { :class => /error/ },
-                              :content => /No default issue/
+    assert_error_tag :content => /No default issue/
   end
   
   def test_get_new_with_no_tracker_should_display_an_error
@@ -351,9 +349,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     get :new, :project_id => 1
     assert_response 500
-    assert_not_nil flash[:error]
-    assert_tag :tag => 'div', :attributes => { :class => /error/ },
-                              :content => /No tracker/
+    assert_error_tag :content => /No tracker/
   end
   
   def test_update_new_form

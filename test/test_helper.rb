@@ -113,11 +113,15 @@ class ActiveSupport::TestCase
   def self.repository_configured?(vendor)
     File.directory?(repository_path(vendor))
   end
+  
+  def assert_error_tag(options={})
+    assert_tag({:tag => 'p', :attributes => { :id => 'errorExplanation' }}.merge(options))
+  end
 
   # Shoulda macros
   def self.should_render_404
     should_respond_with :not_found
-    should_render_template 'common/404'
+    should_render_template 'common/error'
   end
 
   def self.should_have_before_filter(expected_method, options = {})
