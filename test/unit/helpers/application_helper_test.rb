@@ -79,6 +79,8 @@ class ApplicationHelperTest < ActionView::TestCase
       'http://example.net/path!602815048C7B5C20!302.html' => '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">http://example.net/path!602815048C7B5C20!302.html</a>',
       # escaping
       'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
+      # wrap in angle brackets
+      '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;'
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
