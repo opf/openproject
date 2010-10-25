@@ -17,6 +17,20 @@
 
 require 'diff'
 
+# The WikiController follows the Rails REST controller pattern but with
+# a few differences
+#
+# * index - shows a list of WikiPages grouped by page or date
+# * new - not used
+# * create - not used
+# * show - will also show the form for creating a new wiki page
+# * edit - used to edit an existing or new page
+# * update - used to save a wiki page update to the database, including new pages
+# * destroy - normal
+#
+# Other member and collection methods are also used
+#
+# TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
@@ -27,6 +41,11 @@ class WikiController < ApplicationController
   helper :attachments
   include AttachmentsHelper   
   helper :watchers
+
+  # List of pages, sorted alphabetically and by parent (hierarchy)
+  def index
+    load_pages_grouped_by_date_without_content
+  end
 
   # display a page (in editing mode if it doesn't exist)
   def show
@@ -180,7 +199,7 @@ class WikiController < ApplicationController
       end
     end
     @page.destroy
-    redirect_to :action => 'page_index', :project_id => @project
+    redirect_to :action => 'index', :project_id => @project
   end
 
   # Export wiki to a single html file
@@ -192,10 +211,6 @@ class WikiController < ApplicationController
     else
       redirect_to :action => 'show', :project_id => @project, :page => nil
     end
-  end
-
-  def page_index
-    load_pages_grouped_by_date_without_content
   end
 
   def date_index
