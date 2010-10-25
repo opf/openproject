@@ -89,6 +89,13 @@ module Redmine #:nodoc:
     def self.clear
       @registered_plugins = {}
     end
+
+    # Checks if a plugin is installed
+    #
+    # @param [String] id name of the plugin
+    def self.installed?(id)
+      registered_plugins[id.to_sym].present?
+    end
     
     def initialize(id)
       @id = id.to_sym
