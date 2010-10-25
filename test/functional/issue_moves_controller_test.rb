@@ -40,6 +40,19 @@ class IssueMovesControllerTest < ActionController::TestCase
     assert_equal 2, Issue.find(2).tracker_id
   end
 
+  context "#create via bulk move" do
+    should "allow changing the issue priority" do
+      @request.session[:user_id] = 2
+      post :create, :ids => [1, 2], :priority_id => 6
+
+      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+      assert_equal 6, Issue.find(1).priority_id
+      assert_equal 6, Issue.find(2).priority_id
+
+    end
+    
+  end
+
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do

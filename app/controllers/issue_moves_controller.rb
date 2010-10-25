@@ -54,7 +54,7 @@ class IssueMovesController < ApplicationController
 
   def extract_changed_attributes_for_move(params)
     changed_attributes = {}
-    [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
+    [:assigned_to_id, :status_id, :start_date, :due_date, :priority_id].each do |valid_attribute|
       unless params[valid_attribute].blank?
         changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
       end
