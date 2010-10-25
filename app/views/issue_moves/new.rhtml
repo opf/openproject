@@ -48,6 +48,11 @@
   <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
 </p>
 
+<fieldset><legend><%= l(:field_notes) %></legend>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'notes' %>
+</fieldset>
+
 <%= call_hook(:view_issues_move_bottom, :issues => @issues, :target_project => @target_project, :copy => !!@copy) %>
 </div>
 

@@ -41,13 +41,25 @@ class IssueMovesControllerTest < ActionController::TestCase
   end
 
   context "#create via bulk move" do
-    should "allow changing the issue priority" do
+    setup do
       @request.session[:user_id] = 2
+    end
+    
+    should "allow changing the issue priority" do
       post :create, :ids => [1, 2], :priority_id => 6
 
       assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
       assert_equal 6, Issue.find(1).priority_id
       assert_equal 6, Issue.find(2).priority_id
+
+    end
+
+    should "allow adding a note when moving" do
+      post :create, :ids => [1, 2], :notes => 'Moving two issues'
+
+      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+      assert_equal 'Moving two issues', Issue.find(1).journals.last.notes
+      assert_equal 'Moving two issues', Issue.find(2).journals.last.notes
 
     end
     
