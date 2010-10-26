@@ -220,6 +220,10 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
+  def archived?
+    self.status == STATUS_ARCHIVED
+  end
+  
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
@@ -563,6 +567,18 @@ class Project < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordNotFound
       return nil
+    end
+  end
+
+  # Yields the given block for each project with its level in the tree
+  def self.project_tree(projects, &block)
+    ancestors = []
+    projects.sort_by(&:lft).each do |project|
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+      yield project, ancestors.size
+      ancestors << project
     end
   end
   

@@ -16,6 +16,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module GanttHelper
+
+  def gantt_zoom_link(gantt, in_or_out)
+    case in_or_out
+    when :in
+      if gantt.zoom < 4
+        link_to_remote(l(:text_zoom_in),
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1))),
+                        :class => 'icon icon-zoom-in'})
+      else
+        content_tag('span', l(:text_zoom_in), :class => 'icon icon-zoom-in')
+      end
+      
+    when :out
+      if gantt.zoom > 1
+        link_to_remote(l(:text_zoom_out),
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
+                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1))),
+                        :class => 'icon icon-zoom-out'})
+      else
+        content_tag('span', l(:text_zoom_out), :class => 'icon icon-zoom-out')
+      end
+    end
+  end
+  
   def number_of_issues_on_versions(gantt)
     versions = gantt.events.collect {|event| (event.is_a? Version) ? event : nil}.compact
 

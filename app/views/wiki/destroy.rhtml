@@ -1,6 +1,6 @@
 <h2><%=h @page.pretty_title %></h2>
 
-<% form_tag({}) do %>
+<% form_tag({}, :method => :delete) do %>
 <div class="box">
 <p><strong><%= l(:text_wiki_page_destroy_question, :descendants => @descendants_count) %></strong></p>
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_wiki_page_nullify_children) %></label><br />
@@ -15,5 +15,5 @@
 </div>
 
 <%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), :controller => 'wiki', :action => 'index', :project_id => @project, :page => @page.title %>
+<%= link_to l(:button_cancel), :controller => 'wiki', :action => 'show', :project_id => @project, :page => @page.title %>
 <% end %>

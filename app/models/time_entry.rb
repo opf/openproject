@@ -27,7 +27,7 @@ class TimeEntry < ActiveRecord::Base
 
   acts_as_customizable
   acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
-                :event_url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project, :issue_id => o.issue}},
+                :event_url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
                 :event_author => :user,
                 :event_description => :comments
 

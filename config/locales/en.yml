@@ -150,6 +150,7 @@ en:
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorized to access this page.
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to {{value}}"
   notice_email_error: "An error occurred while sending mail ({{value}})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
@@ -293,8 +294,8 @@ en:
   field_group_by: Group results by
   field_sharing: Sharing
   field_parent_issue: Parent task
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
+  field_member_of_group: "Assignee's group"
+  field_assigned_to_role: "Assignee's role"
   field_text: Text field
   
   setting_app_title: Application title

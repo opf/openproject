@@ -121,7 +121,7 @@ module Redmine
                           (\S+?)                   # url
                           (\/)?                    # slash
                         )
-                        ([^\w\=\/;\(\)]*?)               # post
+                        ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
                         (?=<|\s|$)
                        }x unless const_defined?(:AUTO_LINK_RE)
   

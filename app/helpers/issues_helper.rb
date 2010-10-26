@@ -170,34 +170,4 @@ module IssuesHelper
     end
     export
   end
-
-  def show_detail(journal, detail, html = true)
-    journal.render_detail(detail, html)
-  end
-
-  def gantt_zoom_link(gantt, in_or_out)
-    img_attributes = {:style => 'height:1.4em; width:1.4em; margin-left: 3px;'} # em for accessibility
-
-    case in_or_out
-    when :in
-      if gantt.zoom < 4
-        link_to_remote(l(:text_zoom_in) + image_tag('zoom_in.png', img_attributes.merge(:alt => l(:text_zoom_in))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1)))})
-      else
-        l(:text_zoom_in) +
-          image_tag('zoom_in_g.png', img_attributes.merge(:alt => l(:text_zoom_in)))
-      end
-      
-    when :out
-      if gantt.zoom > 1
-        link_to_remote(l(:text_zoom_out) + image_tag('zoom_out.png', img_attributes.merge(:alt => l(:text_zoom_out))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
-                       {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1)))})
-      else
-        l(:text_zoom_out) +
-          image_tag('zoom_out_g.png', img_attributes.merge(:alt => l(:text_zoom_out)))
-      end
-    end
-  end
 end

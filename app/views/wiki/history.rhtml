@@ -19,7 +19,7 @@
 <% line_num = 1 %>
 <% @versions.each do |ver| %>
 <tr class="<%= cycle("odd", "even") %>">
-    <td class="id"><%= link_to ver.version, :action => 'index', :page => @page.title, :version => ver.version %></td>
+    <td class="id"><%= link_to ver.version, :action => 'show', :page => @page.title, :version => ver.version %></td>
     <td class="checkbox"><%= radio_button_tag('version', ver.version, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < @versions.size) %></td>
     <td class="checkbox"><%= radio_button_tag('version_from', ver.version, (line_num==2), :id => "cbto-#{line_num}") if show_diff && (line_num > 1) %></td>
     <td align="center"><%= format_time(ver.created_at) %></td>

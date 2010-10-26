@@ -28,7 +28,7 @@ class WikiPage < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
-                :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project, :page => o.title}}
+                :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :page => o.title}}
 
   acts_as_searchable :columns => ['title', 'text'],
                      :include => [{:wiki => :project}, :content],

@@ -169,6 +169,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
   notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
+  notice_not_authorized_archived_project: Le projet auquel vous tentez d'accéder a été archivé.
   notice_email_sent: "Un email a été envoyé à {{value}}"
   notice_email_error: "Erreur lors de l'envoi de l'email ({{value}})"
   notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
@@ -929,13 +930,14 @@ fr:
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Modifier la page de Wiki associée: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
+  project_module_calendar: Calendrier
+  button_edit_associated_wikipage: "Modifier la page wiki associée: {{page_title}}"
+  text_are_you_sure_with_children: Supprimer la demande et toutes ses sous-demandes ?
+  field_text: Champ texte
+  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
+  setting_default_notification_option: Option de notification par défaut
+  label_user_mail_option_only_my_events: Seulement pour ce que je surveille
+  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
+  label_user_mail_option_none: Aucune notification
+  field_member_of_group: Groupe de l'assigné
+  field_assigned_to_role: Rôle de l'assigné

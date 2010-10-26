@@ -297,8 +297,6 @@ he:
   field_group_by: קבץ את התוצאות לפי
   field_sharing: שיתוף
   field_parent_issue: משימת אב
-  field_member_of_group: חבר בקבוצה
-  field_assigned_to_role: בעל תפקיד
   field_text: שדה טקסט
 
   setting_app_title: כותרת ישום
@@ -926,3 +924,7 @@ he:
   enumeration_doc_categories: קטגוריות מסמכים
   enumeration_activities: פעילויות (מעקב אחר זמנים)
   enumeration_system_activity: פעילות מערכת
+  label_user_mail_option_none: No events
+  field_member_of_group: Assignee's group
+  field_assigned_to_role: Assignee's role
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.

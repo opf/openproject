@@ -1,0 +1,40 @@
+= Contributing to Redmine with git and github
+
+(This is a beta document. If you can improve it, fork it and send a patch/pull request.)
+
+The official repository is at http://github.com/edavis10/redmine
+
+Official branches:
+
+* master - is automatically mirrored to svn trunk. DO NOT COMMIT OR MERGE INTO THIS BRANCH
+* [0.6, 0.7, 0.8, 0.9, 1.0,...]-stable - is automatically mirrored to svn release branches. DO NOT COMMIT OR MERGE INTO THIS BRANCH
+* integration-to-svn-trunk - this branch is a git-only branch that will track master (trunk). Any code in here will be eventually merged into master but it may be rebased as any time (git-svn needs to rebase to commit to svn)
+* integration-to-svn-stable-1.0 - this branch is a git-only branch that will track the 1.0-stable branch in svn.  Any code in here will be eventually merged into master and 1.0-stable but it may be rebased as any time (git-svn needs to rebase to commit to svn)
+
+I (edavis10) might have some other branches on the repository for work in progress.
+
+== Branch naming standards
+
+Redmine has two kinds of development:
+
+* bug fixes
+* new feature development
+
+Both bug fixes and new feature development should be done in a branch named after the issue number on Redmine.org.  So if you are fixing Issue #6244 your branch should be named:
+
+* 6244
+* 6244-sort-people-by-display-name (optional description)
+* issue/6244 (optional "issue" prefix)
+* issue/6244-sort-people-by-display-name (optional prefix and description)
+
+That way when the branch is merged into the Redmine core, the correct issue can be updated.
+
+Longer term feature development might require multiple branches.  Just your best judgment and try to keep the issue id in the name.
+
+If you don't have an issue for your patch, create an issue on redmine.org and say it's a placeholder issue for your work. Better yet, add a brief overview of what you are working on to the issue and you might get some help with it.
+
+== Coding Standards
+
+Follow the coding standards on the Redmine wiki: http://www.redmine.org/wiki/redmine/Coding_Standards#Commits.  Make sure you commit logs conform to the standards, otherwise someone else will have to rewrite them for you and you might lose attribution during the conversion to svn.
+
+

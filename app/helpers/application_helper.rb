@@ -107,11 +107,6 @@ module ApplicationHelper
 
     link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
   end
-  
-  def link_to_project(project, options={})
-    options[:class] ||= 'project'
-    link_to(h(project), {:controller => 'projects', :action => 'show', :id => project}, :class => options[:class])
-  end
 
   # Generates a link to a project if active
   # Examples:
@@ -199,7 +194,7 @@ module ApplicationHelper
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
         content << "<li>"
-        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'index', :project_id => page.project, :page => page.title},
+        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'show', :project_id => page.project, :page => page.title},
                            :title => (page.respond_to?(:updated_on) ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id) if pages[page.id]
         content << "</li>\n"
@@ -260,15 +255,10 @@ module ApplicationHelper
   end
   
   # Yields the given block for each project with its level in the tree
+  #
+  # Wrapper for Project#project_tree
   def project_tree(projects, &block)
-    ancestors = []
-    projects.sort_by(&:lft).each do |project|
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
-        ancestors.pop
-      end
-      yield project, ancestors.size
-      ancestors << project
-    end
+    Project.project_tree(projects, &block)
   end
   
   def project_nested_ul(projects, &block)
@@ -568,7 +558,7 @@ module ApplicationHelper
             when :local; "#{title}.html"
             when :anchor; "##{title}"   # used for single-file wiki export
             else
-              url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :project_id => link_project, :page => Wiki.titleize(page), :anchor => anchor)
+              url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :page => Wiki.titleize(page), :anchor => anchor)
             end
           link_to((title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else

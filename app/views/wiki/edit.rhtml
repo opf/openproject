@@ -1,7 +1,7 @@
 <h2><%=h @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:multipart => true, :id => 'wiki_form'} do |f| %>
-<%= f.hidden_field :lock_version %>
+<% form_for :content, @content, :url => {:action => 'update', :page => @page.title}, :html => {:multipart => true, :id => 'wiki_form'} do |f| %>
+<%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>

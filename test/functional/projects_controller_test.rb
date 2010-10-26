@@ -296,6 +296,16 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
   end
   
+  def show_archived_project_should_be_denied
+    project = Project.find_by_identifier('ecookbook')
+    project.archive!
+    
+    get :show, :id => 'ecookbook'
+    assert_response 403
+    assert_nil assigns(:project)
+    assert_tag :tag => 'p', :content => /archived/
+  end
+  
   def test_private_subprojects_hidden
     get :show, :id => 'ecookbook'
     assert_response :success

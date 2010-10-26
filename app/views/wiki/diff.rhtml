@@ -5,10 +5,10 @@
 <h2><%= @page.pretty_title %></h2>
 
 <p>
-<%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'index', :page => @page.title, :version => @diff.content_from.version %>
+<%= l(:label_version) %> <%= link_to @diff.content_from.version, :action => 'show', :page => @page.title, :version => @diff.content_from.version %>
 <em>(<%= @diff.content_from.author ? @diff.content_from.author.name : "anonyme" %>, <%= format_time(@diff.content_from.updated_on) %>)</em>
 &#8594;
-<%= l(:label_version) %> <%= link_to @diff.content_to.version, :action => 'index', :page => @page.title, :version => @diff.content_to.version %>/<%= @page.content.version %>
+<%= l(:label_version) %> <%= link_to @diff.content_to.version, :action => 'show', :page => @page.title, :version => @diff.content_to.version %>/<%= @page.content.version %>
 <em>(<%= @diff.content_to.author ? @diff.content_to.author.name : "anonyme" %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
 </p>
 
