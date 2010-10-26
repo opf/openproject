@@ -43,6 +43,10 @@ class IssuesHelperTest < HelperTestCase
   def request
     @request ||= ActionController::TestRequest.new
   end
+  
+  def show_detail(journal, detail, html = true)
+    journal.render_detail(detail, html)
+  end
 
   context "IssuesHelper#show_detail" do
     context "with no_html" do
