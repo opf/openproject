@@ -5,7 +5,7 @@ module CostQuery::Validation
       return true if values.empty?
       values.flatten.all? do |val|
         if val.to_i.to_s != val.to_s
-          errors << "\'#{val}\' is not a valid number!"
+          errors << "\'#{val}\'" + l(:validation_failure_integer)
           validate_integers(values - [val])
           false
         else
