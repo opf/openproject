@@ -132,6 +132,7 @@ es:
         greater_than_start_date: "debe ser posterior a la fecha de comienzo"
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -635,7 +636,6 @@ es:
   label_user_activity: "Actividad de {{value}}"
   label_user_mail_no_self_notified: "No quiero ser avisado de cambios hechos por mí"
   label_user_mail_option_all: "Para cualquier evento en todos mis proyectos"
-  label_user_mail_option_none: "Sólo para elementos monitorizados o relacionados conmigo"
   label_user_mail_option_selected: "Para cualquier evento de los proyectos seleccionados..."
   label_user_new: Nuevo usuario
   label_user_plural: Usuarios
@@ -820,9 +820,9 @@ es:
   text_select_project_modules: 'Seleccione los módulos a activar para este proyecto:'
   text_status_changed_by_changeset: "Aplicado en los cambios {{value}}"
   text_subprojects_destroy_warning: "Los proyectos secundarios: {{value}} también se eliminarán"
-  text_tip_task_begin_day: tarea que comienza este día
-  text_tip_task_begin_end_day: tarea que comienza y termina este día
-  text_tip_task_end_day: tarea que termina este día
+  text_tip_issue_begin_day: tarea que comienza este día
+  text_tip_issue_begin_end_day: tarea que comienza y termina este día
+  text_tip_issue_end_day: tarea que termina este día
   text_tracker_no_workflow: No hay ningún flujo de trabajo definido para este tipo de petición
   text_unallowed_characters: Caracteres no permitidos
   text_user_mail_option: "De los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, peticiones de las que usted sea autor o asignadas a usted)."
@@ -950,3 +950,14 @@ es:
   notice_unable_delete_time_entry: Fue imposible eliminar la entrada de tiempo dedicado.
   label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

@@ -28,15 +28,26 @@ module IssuesHelper
       ancestors << issue unless issue.leaf?
     end
   end
-  
+
+  # Renders a HTML/CSS tooltip
+  #
+  # To use, a trigger div is needed.  This is a div with the class of "tooltip"
+  # that contains this method wrapped in a span with the class of "tip"
+  #
+  #    <div class="tooltip"><%= link_to_issue(issue) %>
+  #      <span class="tip"><%= render_issue_tooltip(issue) %></span>
+  #    </div>
+  #
   def render_issue_tooltip(issue)
     @cached_label_status ||= l(:field_status)
     @cached_label_start_date ||= l(:field_start_date)
     @cached_label_due_date ||= l(:field_due_date)
     @cached_label_assigned_to ||= l(:field_assigned_to)
     @cached_label_priority ||= l(:field_priority)
-    
+    @cached_label_project ||= l(:field_project)
+
     link_to_issue(issue) + "<br /><br />" +
+      "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />" +
       "<strong>#{@cached_label_status}</strong>: #{issue.status.name}<br />" +
       "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />" +
       "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
@@ -171,7 +182,7 @@ module IssuesHelper
     when :in
       if gantt.zoom < 4
         link_to_remote(l(:text_zoom_in) + image_tag('zoom_in.png', img_attributes.merge(:alt => l(:text_zoom_in))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :update => 'content'},
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom+1)), :method => :get, :update => 'content'},
                        {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom+1)))})
       else
         l(:text_zoom_in) +
@@ -181,7 +192,7 @@ module IssuesHelper
     when :out
       if gantt.zoom > 1
         link_to_remote(l(:text_zoom_out) + image_tag('zoom_out.png', img_attributes.merge(:alt => l(:text_zoom_out))),
-                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :update => 'content'},
+                       {:url => gantt.params.merge(:zoom => (gantt.zoom-1)), :method => :get, :update => 'content'},
                        {:href => url_for(gantt.params.merge(:zoom => (gantt.zoom-1)))})
       else
         l(:text_zoom_out) +

@@ -111,6 +111,7 @@
         greater_than_start_date: "må være større enn startdato"
         not_same_project: "hører ikke til samme prosjekt"
         circular_dependency: "Denne relasjonen ville lagd en sirkulær avhengighet"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   
   actionview_instancetag_blank_option: Vennligst velg
@@ -583,7 +584,6 @@
   label_search_titles_only: Søk bare i titler
   label_user_mail_option_all: "For alle hendelser på mine prosjekter"
   label_user_mail_option_selected: "For alle hendelser på valgte prosjekt..."
-  label_user_mail_option_none: "Bare for ting jeg overvåker eller er involvert i"
   label_user_mail_no_self_notified: "Jeg vil ikke bli varslet om endringer jeg selv gjør"
   label_registration_activation_by_email: kontoaktivering pr. e-post
   label_registration_manual_activation: manuell kontoaktivering
@@ -653,9 +653,9 @@
   text_subprojects_destroy_warning: "Underprojekt(ene): {{value}} vil også bli slettet."
   text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
   text_are_you_sure: Er du sikker ?
-  text_tip_task_begin_day: oppgaven starter denne dagen
-  text_tip_task_end_day: oppgaven avsluttes denne dagen
-  text_tip_task_begin_end_day: oppgaven starter og avsluttes denne dagen
+  text_tip_issue_begin_day: oppgaven starter denne dagen
+  text_tip_issue_end_day: oppgaven avsluttes denne dagen
+  text_tip_issue_begin_end_day: oppgaven starter og avsluttes denne dagen
   text_project_identifier_info: 'Små bokstaver (a-z), nummer og bindestrek tillatt.<br />Identifikatoren kan ikke endres etter den er lagret.'
   text_caracters_maximum: "{{count}} tegn maksimum."
   text_caracters_minimum: "Må være minst {{count}} tegn langt."
@@ -901,3 +901,14 @@
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

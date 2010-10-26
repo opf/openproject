@@ -177,6 +177,7 @@
         greater_than_start_date: "必須在起始日期之後"
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
+        cant_link_an_issue_with_a_descendant: "項目無法被連結至自己的子項目"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -365,6 +366,7 @@
   field_redirect_existing_links: 重新導向現有連結
   field_estimated_hours: 預估工時
   field_column_names: 欄位
+  field_time_entries: 耗用工時
   field_time_zone: 時區
   field_searchable: 可用做搜尋條件
   field_default_value: 預設值
@@ -377,8 +379,10 @@
   field_group_by: 結果分組方式
   field_sharing: 共用
   field_parent_issue: 父工作項目
-  field_time_entries: 耗用工時
-    
+  field_member_of_group: 所屬群組
+  field_assigned_to_role: 所屬角色
+  field_text: 內容文字
+  
   setting_app_title: 標題
   setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
@@ -432,7 +436,8 @@
   setting_start_of_week: 週的第一天
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
   setting_cache_formatted_text: 快取已格式化文字
-
+  setting_default_notification_option: 預設通知選項
+  
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_edit_project: 編輯專案
@@ -497,6 +502,8 @@
   project_module_wiki: Wiki
   project_module_repository: 版本控管
   project_module_boards: 討論區
+  project_module_calendar: 日曆
+  project_module_gantt: 甘特圖
   
   label_user: 用戶
   label_user_plural: 用戶清單
@@ -514,7 +521,7 @@
   label_issue: 項目
   label_issue_new: 建立新項目
   label_issue_plural: 項目清單
-  label_issue_view_all: 檢視全部的項目
+  label_issue_view_all: 檢視所有項目
   label_issues_by: "項目按 {{value}} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
@@ -564,7 +571,7 @@
   label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
-  label_overall_activity: 檢視整體活動
+  label_overall_activity: 整體活動
   label_user_activity: "{{value}} 的活動"
   label_new: 建立新的...
   label_logged_as: 目前登入
@@ -805,7 +812,9 @@
   label_search_titles_only: 僅搜尋標題
   label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
-  label_user_mail_option_none: "只提醒我觀察中或參與中的事件"
+  label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
+  label_user_mail_option_only_assigned: "只提醒我被指派的事物"
+  label_user_mail_option_only_owner: "只提醒我作為擁有者的事物"
   label_user_mail_no_self_notified: "不提醒我自己所做的變更"
   label_registration_activation_by_email: 透過電子郵件啟用帳戶
   label_registration_manual_activation: 手動啟用帳戶
@@ -867,6 +876,7 @@
   button_create_and_continue: 繼續建立
   button_test: 測試
   button_edit: 編輯
+  button_edit_associated_wikipage: "編輯相關 Wiki 頁面: {{page_title}}"
   button_add: 新增
   button_change: 修改
   button_apply: 套用
@@ -918,13 +928,14 @@
   text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
+  text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
   text_journal_changed: "{{label}} 從 {{old}} 變更為 {{new}}"
   text_journal_set_to: "{{label}} 設定為 {{value}}"
   text_journal_deleted: "{{label}} 已刪除 ({{old}})"
   text_journal_added: "{{label}} {{value}} 已新增"
-  text_tip_task_begin_day: 今天起始的工作
-  text_tip_task_end_day: 今天截止的的工作
-  text_tip_task_begin_end_day: 今天起始與截止的工作
+  text_tip_issue_begin_day: 今天起始的工作
+  text_tip_issue_end_day: 今天截止的的工作
+  text_tip_issue_begin_end_day: 今天起始與截止的工作
   text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
   text_caracters_maximum: "最多 {{count}} 個字元."
   text_caracters_minimum: "長度必須大於 {{count}} 個字元."

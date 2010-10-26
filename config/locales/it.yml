@@ -126,6 +126,7 @@ it:
         greater_than_start_date: "deve essere maggiore della data di partenza"
         not_same_project: "non appartiene allo stesso progetto"
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Scegli
   
@@ -571,9 +572,9 @@ it:
   text_project_destroy_confirmation: Sei sicuro di voler eliminare il progetto e tutti i dati ad esso collegati?
   text_workflow_edit: Seleziona un ruolo ed un tracker per modificare il workflow
   text_are_you_sure: Sei sicuro ?
-  text_tip_task_begin_day: attività che iniziano in questa giornata
-  text_tip_task_end_day: attività che terminano in questa giornata
-  text_tip_task_begin_end_day: attività che iniziano e terminano in questa giornata
+  text_tip_issue_begin_day: attività che iniziano in questa giornata
+  text_tip_issue_end_day: attività che terminano in questa giornata
+  text_tip_issue_begin_end_day: attività che iniziano e terminano in questa giornata
   text_project_identifier_info: "Lettere minuscole (a-z), numeri e trattini permessi.<br />Una volta salvato, l'identificativo non può essere modificato."
   text_caracters_maximum: "massimo {{count}} caratteri."
   text_length_between: "Lunghezza compresa tra {{min}} e {{max}} caratteri."
@@ -631,7 +632,6 @@ it:
   text_user_mail_option: "Per i progetti non selezionati, riceverai solo le notifiche riguardanti le cose che osservi o nelle quali sei coinvolto (per esempio segnalazioni che hai creato o che ti sono state assegnate)."
   label_user_mail_option_selected: "Solo per gli eventi relativi ai progetti selezionati..."
   label_user_mail_option_all: "Per ogni evento relativo ad uno dei miei progetti"
-  label_user_mail_option_none: "Solo per argomenti che osservo o che mi riguardano"
   setting_emails_footer: Piè di pagina email
   label_float: Decimale
   button_copy: Copia
@@ -914,3 +914,14 @@ it:
   notice_unable_delete_time_entry: Impossibile eliminare il valore time log.
   label_overall_spent_time: Totale tempo impiegato
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

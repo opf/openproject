@@ -113,6 +113,7 @@ lv:
         greater_than_start_date: "jābūt vēlākam par sākuma datumu"
         not_same_project: "nepieder pie tā paša projekta"
         circular_dependency: "Šī relācija radītu ciklisku atkarību"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Izvēlieties
   
@@ -701,7 +702,6 @@ lv:
   label_search_titles_only: Meklēt tikai nosaukumos
   label_user_mail_option_all: "Par visiem notikumiem visos manos projektos"
   label_user_mail_option_selected: "Par visiem notikumiem tikai izvēlētajos projektos..."
-  label_user_mail_option_none: "Tikai par lietām, kuras es vēroju un kurās esmu iesaistīts"
   label_user_mail_no_self_notified: "Neziņot man par izmaiņām, kuras veicu es pats"
   label_registration_activation_by_email: "konta aktivizācija caur e-pastu"
   label_registration_manual_activation: manuālā konta aktivizācija
@@ -815,9 +815,9 @@ lv:
   text_journal_set_to: "{{label}} iestatīts uz {{value}}"
   text_journal_deleted: "{{label}} dzēsts ({{old}})"
   text_journal_added: "{{label}} {{value}} pievienots"
-  text_tip_task_begin_day: uzdevums sākas šodien
-  text_tip_task_end_day: uzdevums beidzas šodien
-  text_tip_task_begin_end_day: uzdevums sākas un beidzas šodien
+  text_tip_issue_begin_day: uzdevums sākas šodien
+  text_tip_issue_end_day: uzdevums beidzas šodien
+  text_tip_issue_begin_end_day: uzdevums sākas un beidzas šodien
   text_project_identifier_info: 'Tikai mazie burti (a-z), cipari un domuzīmes ir atļauti.<br />Kad saglabāts, identifikators nevar tikt mainīts.'
   text_caracters_maximum: "{{count}} simboli maksimāli."
   text_caracters_minimum: "Jābūt vismaz {{count}} simbolu garumā."
@@ -905,3 +905,14 @@ lv:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

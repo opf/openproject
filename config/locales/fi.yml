@@ -147,7 +147,7 @@ fi:
         greater_than_start_date: "tulee olla aloituspäivän jälkeinen"
         not_same_project: "ei kuulu samaan projektiin"
         circular_dependency: "Tämä suhde loisi kehän."
-
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
   
   actionview_instancetag_blank_option: Valitse, ole hyvä
   
@@ -579,7 +579,6 @@ fi:
   label_search_titles_only: Hae vain otsikot
   label_user_mail_option_all: "Kaikista tapahtumista kaikissa projekteistani"
   label_user_mail_option_selected: "Kaikista tapahtumista vain valitsemistani projekteista..."
-  label_user_mail_option_none: "Vain tapahtumista joita valvon tai olen mukana"
   label_user_mail_no_self_notified: "En halua muistutusta muutoksista joita itse teen"
   label_registration_activation_by_email: tilin aktivointi sähköpostitse
   label_registration_manual_activation: tilin aktivointi käsin
@@ -636,9 +635,9 @@ fi:
   text_project_destroy_confirmation: Oletko varma että haluat poistaa tämän projektin ja kaikki siihen kuuluvat tiedot?
   text_workflow_edit: Valitse rooli ja tapahtuma muokataksesi työnkulkua
   text_are_you_sure: Oletko varma?
-  text_tip_task_begin_day: tehtävä joka alkaa tänä päivänä
-  text_tip_task_end_day: tehtävä joka loppuu tänä päivänä
-  text_tip_task_begin_end_day: tehtävä joka alkaa ja loppuu tänä päivänä
+  text_tip_issue_begin_day: tehtävä joka alkaa tänä päivänä
+  text_tip_issue_end_day: tehtävä joka loppuu tänä päivänä
+  text_tip_issue_begin_end_day: tehtävä joka alkaa ja loppuu tänä päivänä
   text_project_identifier_info: 'Pienet kirjaimet (a-z), numerot ja viivat ovat sallittu.<br />Tallentamisen jälkeen tunnistetta ei voi muuttaa.'
   text_caracters_maximum: "{{count}} merkkiä enintään."
   text_caracters_minimum: "Täytyy olla vähintään {{count}} merkkiä pitkä."
@@ -936,3 +935,14 @@ fi:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

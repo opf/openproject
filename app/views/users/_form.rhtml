@@ -32,4 +32,14 @@
 <%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
 </div>
 </div>
+
+<div class="box">
+<h3><%=l(:field_mail_notification)%></h3>
+<%= render :partial => 'users/mail_notifications' %>
+</div>
+
+<div class="box tabular">
+<h3><%=l(:label_preferences)%></h3>
+<%= render :partial => 'users/preferences' %>
+</div>
 <!--[eoform:user]-->

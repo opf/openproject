@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_user_new), {:action => 'add'}, :class => 'icon icon-add' %>
+<%= link_to l(:label_user_new), {:action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_user_plural)%></h2>
@@ -30,7 +30,7 @@
   <tbody>
 <% for user in @users -%>
   <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
-	<td class="username"><%= avatar(user, :size => "14") %><%= link_to h(user.login), :action => 'edit', :id => user %></td>
+	<td class="username"><%= avatar(user, :size => "14") %><%= link_to h(user.login), edit_user_path(user) %></td>
 	<td class="firstname"><%= h(user.firstname) %></td>
 	<td class="lastname"><%= h(user.lastname) %></td>
 	<td class="email"><%= mail_to(h(user.mail)) %></td>

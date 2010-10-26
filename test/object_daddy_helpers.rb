@@ -13,6 +13,11 @@ module ObjectDaddyHelpers
     User.spawn(attributes)
   end
 
+  def User.add_to_project(user, project, roles)
+    roles = [roles] unless roles.is_a?(Array)
+    Member.generate!(:principal => user, :project => project, :roles => roles)
+  end
+
   # Generate the default Query
   def Query.generate_default!(attributes={})
     query = Query.spawn(attributes)
@@ -25,8 +30,9 @@ module ObjectDaddyHelpers
   def Issue.generate_for_project!(project, attributes={})
     issue = Issue.spawn(attributes) do |issue|
       issue.project = project
+      issue.tracker = project.trackers.first unless project.trackers.empty?
+      yield issue if block_given?
     end
-    issue.tracker = project.trackers.first unless project.trackers.empty?
     issue.save!
     issue
   end

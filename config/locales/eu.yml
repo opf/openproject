@@ -121,6 +121,7 @@ eu:
         greater_than_start_date: "hasiera data baino handiagoa izan behar du"
         not_same_project: "ez dago proiektu berdinean"
         circular_dependency: "Erlazio honek mendekotasun zirkular bat sortuko luke"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Hautatu mesedez
   
@@ -706,7 +707,6 @@ eu:
   label_search_titles_only: Izenburuetan bakarrik bilatu
   label_user_mail_option_all: "Nire proiektu guztietako gertakari guztientzat"
   label_user_mail_option_selected: "Hautatutako proiektuetako edozein gertakarientzat..."
-  label_user_mail_option_none: "Nik behatu edo parte hartze dudan gauzetarako bakarrik"
   label_user_mail_no_self_notified: "Ez dut nik egiten ditudan aldeketen jakinarazpenik jaso nahi"
   label_registration_activation_by_email: kontuak epostaz gaitu
   label_registration_manual_activation: kontuak eskuz gaitu
@@ -820,9 +820,9 @@ eu:
   text_journal_set_to: "{{label}}-k {{value}} balioa hartu du"
   text_journal_deleted: "{{label}} ezabatuta ({{old}})"
   text_journal_added: "{{label}} {{value}} gehituta"
-  text_tip_task_begin_day: gaur hasten diren atazak
-  text_tip_task_end_day: gaur bukatzen diren atazak
-  text_tip_task_begin_end_day: gaur hasi eta bukatzen diren atazak
+  text_tip_issue_begin_day: gaur hasten diren atazak
+  text_tip_issue_end_day: gaur bukatzen diren atazak
+  text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren atazak
   text_project_identifier_info: 'Letra xeheak (a-z), zenbakiak eta marrak erabil daitezke bakarrik.<br />Gorde eta gero identifikadorea ezin da aldatu.'
   text_caracters_maximum: "{{count}} karaktere gehienez."
   text_caracters_minimum: "Gutxienez {{count}} karaktereetako luzerakoa izan behar du."
@@ -914,3 +914,14 @@ eu:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

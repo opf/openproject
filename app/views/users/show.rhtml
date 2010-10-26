@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to(l(:button_edit), {:controller => 'users', :action => 'edit', :id => @user}, :class => 'icon icon-edit') if User.current.admin? %>
+<%= link_to(l(:button_edit), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? %>
 </div>
 
 <h2><%= avatar @user, :size => "50" %> <%=h @user.name %></h2>
@@ -35,7 +35,7 @@
 <div class="splitcontentright">
 
 <% unless @events_by_day.empty? %>
-<h3><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
+<h3><%= link_to l(:label_activity), :controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
 
 <p>
 <%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
@@ -57,11 +57,11 @@
 </div>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
+	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-		<%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
+		<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
 <% end %>
 <% end %>
 <%= call_hook :view_account_right_bottom, :user => @user %>

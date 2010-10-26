@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'icon icon-add' %>
+<%= link_to_if_authorized l(:label_attachment_new), new_project_file_path(@project), :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_attachment_plural)%></h2>

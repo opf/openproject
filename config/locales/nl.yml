@@ -116,6 +116,7 @@ nl:
         greater_than_start_date: "moet na de startdatum liggen"
         not_same_project: "hoort niet bij hetzelfde project"
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Selecteer
   
@@ -578,7 +579,6 @@ nl:
   label_user_activity: "{{value}}'s activiteit"
   label_user_mail_no_self_notified: "Ik wil niet op de hoogte gehouden worden van wijzigingen die ik zelf maak."
   label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
-  label_user_mail_option_none: "Alleen in de dingen die ik monitor of in betrokken ben"
   label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
   label_user_new: Nieuwe gebruiker
   label_user_plural: Gebruikers
@@ -701,7 +701,7 @@ nl:
   setting_date_format: Datumformaat
   setting_default_language: Standaard taal
   setting_default_projects_public: Nieuwe projecten zijn standaard publiek
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_diff_max_lines_displayed: Max aantal diff regels weer te geven
   setting_display_subprojects_issues: Standaard issues van subproject tonen
   setting_emails_footer: E-mails footer
   setting_enabled_scm: SCM ingeschakeld
@@ -709,7 +709,7 @@ nl:
   setting_gravatar_enabled: Gebruik Gravatar gebruikersiconen
   setting_host_name: Hostnaam
   setting_issue_list_default_columns: Standaardkolommen getoond op de lijst met issues
-  setting_issues_export_limit: Limiet export issues
+  setting_issues_export_limit: Max aantal te exporteren issues 
   setting_login_required: Authenticatie vereist
   setting_mail_from: Afzender e-mail adres
   setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
@@ -727,7 +727,7 @@ nl:
   setting_welcome_text: Welkomsttekst
   setting_wiki_compression: Wikigeschiedenis comprimeren
   status_active: actief
-  status_locked: gelockt
+  status_locked: vergrendeld
   status_registered: geregistreerd
   text_are_you_sure: Weet u het zeker?
   text_assign_time_entries_to_project: Gerapporteerde uren toevoegen aan dit project
@@ -753,7 +753,7 @@ nl:
   text_load_default_configuration: Laad de standaardconfiguratie
   text_min_max_length_info: 0 betekent geen restrictie
   text_no_configuration_data: "Rollen, trackers, issue statussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaard configuratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: Plugin assets directory beschrijfbaar
   text_project_destroy_confirmation: Weet u zeker dat u dit project en alle gerelateerde gegevens wilt verwijderen?
   text_project_identifier_info: 'kleine letters (a-z), cijfers en liggende streepjes toegestaan.<br />Eenmaal bewaard kan de identificatiecode niet meer worden gewijzigd.'
   text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'
@@ -764,9 +764,9 @@ nl:
   text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
   text_status_changed_by_changeset: "Toegepast in changeset {{value}}."
   text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden."
-  text_tip_task_begin_day: taak die op deze dag begint
-  text_tip_task_begin_end_day: taak die op deze dag begint en eindigt
-  text_tip_task_end_day: taak die op deze dag eindigt
+  text_tip_issue_begin_day: issue die op deze dag begint
+  text_tip_issue_begin_end_day: issue die op deze dag begint en eindigt
+  text_tip_issue_end_day: issue die op deze dag eindigt
   text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
   text_unallowed_characters: Niet toegestane tekens
   text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
@@ -778,7 +778,7 @@ nl:
   text_custom_field_possible_values_info: 'Per lijn een waarde'
   label_display: Toon
   field_editable: Bewerkbaar
-  setting_repository_log_display_limit: Maximum hoeveelheid van revisies zichbaar 
+  setting_repository_log_display_limit: Max aantal revisies zichbaar 
   setting_file_max_size_displayed: Max grootte van tekst bestanden inline zichtbaar
   field_watcher: Watcher
   setting_openid: Sta OpenID login en registratie toe
@@ -824,7 +824,7 @@ nl:
   version_status_closed: gesloten
   version_status_locked: vergrendeld
   version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
+  error_can_not_reopen_issue_on_closed_version: Een issue toegewezen aan een gesloten versie kan niet heropend worden
   label_user_anonymous: Anoniem
   button_move_and_follow: Verplaats en volg
   setting_default_projects_modules: Standaard geactiveerde modules voor nieuwe projecten
@@ -833,36 +833,36 @@ nl:
   label_version_sharing_hierarchy: Met project hiërarchie
   label_version_sharing_system: Met alle projecten
   label_version_sharing_descendants: Met subprojecten
-  label_version_sharing_tree: With project tree
+  label_version_sharing_tree: Met project boom
   label_version_sharing_none: Niet gedeeld
   error_can_not_archive_project: Dit project kan niet worden gearchiveerd
   button_duplicate: Dupliceer
   button_copy_and_follow: Kopiëer en volg
   label_copy_source: Bron
-  setting_issue_done_ratio: Bereken issue done ratio met
+  setting_issue_done_ratio: Bereken issue percentage voldaan met
   setting_issue_done_ratio_issue_status: Gebruik de issue status
-  error_issue_done_ratios_not_updated: Issue done ratios niet geupdate.
+  error_issue_done_ratios_not_updated: Issue percentage voldaan niet geupdate.
   error_workflow_copy_target: Selecteer tracker(s) en rol(len)
   setting_issue_done_ratio_issue_field: Gebruik het issue veld
   label_copy_same_as_target: Zelfde als doel
   label_copy_target: Doel
-  notice_issue_done_ratios_updated: Issue done ratios updated.
+  notice_issue_done_ratios_updated: Issue percentage voldaan geupdate.
   error_workflow_copy_source: Selecteer een bron tracker of rol
-  label_update_issue_done_ratios: Update issue done ratios
+  label_update_issue_done_ratios: Update issue percentage voldaan
   setting_start_of_week: Week begint op
   permission_view_issues: Bekijk Issues
   label_display_used_statuses_only: Laat alleen statussen zien die gebruikt worden door deze tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revisie {{value}}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key gemaakt {{value}} geleden
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Uw API access key was gereset.
-  setting_rest_api_enabled: Enable REST web service
+  setting_rest_api_enabled: Activeer REST web service
   label_missing_api_access_key: Geen API access key
   label_missing_feeds_access_key: Geen RSS access key
   button_show: Laat zien
   text_line_separated: Meerdere waarden toegestaan (elke regel is een waarde).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  setting_mail_handler_body_delimiters: Breek email verwerking af na een van deze regels
   permission_add_subprojects: Maak subprojecten
   label_subproject_new: Nieuw subproject
   text_own_membership_delete_confirmation: |-
@@ -873,10 +873,10 @@ nl:
   label_board_locked: Vergrendeld
   permission_export_wiki_pages: Exporteer wiki pagina's
   setting_cache_formatted_text: Cache opgemaakte tekst
-  permission_manage_project_activities: Manage project activities
+  permission_manage_project_activities: Beheer project activiteiten
   error_unable_delete_issue_status: Verwijderen van issue status niet gelukt
   label_profile: Profiel
-  permission_manage_subtasks: Manage subtasks
+  permission_manage_subtasks: Beheer subtasks
   field_parent_issue: Parent task
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Stuur email notificaties voor de project kopie
@@ -891,4 +891,15 @@ nl:
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
   label_overall_spent_time: Totaal bestede tijd
-  field_time_entries: Log time
+  field_time_entries: Log tijd
+  project_module_gantt: Gantt
+  project_module_calendar: Kalender
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

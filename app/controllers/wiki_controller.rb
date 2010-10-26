@@ -79,7 +79,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         # don't save if text wasn't changed
-        redirect_to :action => 'index', :id => @project, :page => @page.title
+        redirect_to :action => 'index', :project_id => @project, :page => @page.title
         return
       end
       #@content.text = params[:content][:text]
@@ -92,7 +92,7 @@ class WikiController < ApplicationController
         attachments = Attachment.attach_files(@page, params[:attachments])
         render_attachment_warning_if_needed(@page)
         call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-        redirect_to :action => 'index', :id => @project, :page => @page.title
+        redirect_to :action => 'index', :project_id => @project, :page => @page.title
       end
     end
   rescue ActiveRecord::StaleObjectError
@@ -108,13 +108,13 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index', :id => @project, :page => @page.title
+      redirect_to :action => 'index', :project_id => @project, :page => @page.title
     end
   end
   
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'index', :id => @project, :page => @page.title
+    redirect_to :action => 'index', :project_id => @project, :page => @page.title
   end
 
   # show page history
@@ -167,37 +167,26 @@ class WikiController < ApplicationController
       end
     end
     @page.destroy
-    redirect_to :action => 'special', :id => @project, :page => 'Page_index'
+    redirect_to :action => 'page_index', :project_id => @project
   end
 
-  # display special pages
-  def special
-    page_title = params[:page].downcase
-    case page_title
-    # show pages index, sorted by title
-    when 'page_index', 'date_index'
-      # eager load information about last updates, without loading text
-      @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-                                      :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
-                                      :order => 'title'
-      @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
-      @pages_by_parent_id = @pages.group_by(&:parent_id)
-    # export wiki to a single html file
-    when 'export'
-      if User.current.allowed_to?(:export_wiki_pages, @project)
-        @pages = @wiki.pages.find :all, :order => 'title'
-        export = render_to_string :action => 'export_multiple', :layout => false
-        send_data(export, :type => 'text/html', :filename => "wiki.html")
-      else
-        redirect_to :action => 'index', :id => @project, :page => nil
-      end
-      return      
+  # Export wiki to a single html file
+  def export
+    if User.current.allowed_to?(:export_wiki_pages, @project)
+      @pages = @wiki.pages.find :all, :order => 'title'
+      export = render_to_string :action => 'export_multiple', :layout => false
+      send_data(export, :type => 'text/html', :filename => "wiki.html")
     else
-      # requested special page doesn't exist, redirect to default page
-      redirect_to :action => 'index', :id => @project, :page => nil
-      return
+      redirect_to :action => 'index', :project_id => @project, :page => nil
     end
-    render :action => "special_#{page_title}"
+  end
+
+  def page_index
+    load_pages_grouped_by_date_without_content
+  end
+
+  def date_index
+    load_pages_grouped_by_date_without_content
   end
   
   def preview
@@ -222,7 +211,7 @@ class WikiController < ApplicationController
 private
   
   def find_wiki
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
     @wiki = @project.wiki
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
@@ -246,4 +235,14 @@ private
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
+
+  # eager load information about last updates, without loading text
+  def load_pages_grouped_by_date_without_content
+    @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+                                    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
+                                    :order => 'title'
+    @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+    @pages_by_parent_id = @pages.group_by(&:parent_id)
+  end
+  
 end

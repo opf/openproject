@@ -68,7 +68,7 @@ sr-YU:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: ""
       precision: 3
     human:
@@ -719,7 +719,6 @@ sr-YU:
   label_search_titles_only: Pretražuj samo naslove
   label_user_mail_option_all: "Za bilo koji događaj na svim mojim projektima"
   label_user_mail_option_selected: "Za bilo koji događaj na samo odabranim projektima..."
-  label_user_mail_option_none: "Samo za stvari koje pratim ili u koje sam uključen"
   label_user_mail_no_self_notified: "Ne želim biti obaveštavan za promene koje sam pravim"
   label_registration_activation_by_email: aktivacija naloga putem e-poruke
   label_registration_manual_activation: ručna aktivacija naloga
@@ -836,9 +835,9 @@ sr-YU:
   text_journal_set_to: "{{label}} postavljen u {{value}}"
   text_journal_deleted: "{{label}} izbrisano ({{old}})"
   text_journal_added: "{{label}} {{value}} dodato"
-  text_tip_task_begin_day: zadatak počinje ovog dana
-  text_tip_task_end_day: zadatak se završava ovog dana
-  text_tip_task_begin_end_day: zadatak počinje i završava ovog dana
+  text_tip_issue_begin_day: zadatak počinje ovog dana
+  text_tip_issue_end_day: zadatak se završava ovog dana
+  text_tip_issue_begin_end_day: zadatak počinje i završava ovog dana
   text_project_identifier_info: 'Dozvoljena su samo mala slova (a-š), brojevi i crtice.<br />Jednom snimljen identifikator više se ne može promeniti.'
   text_caracters_maximum: "Najviše {{count}} znak(ova)."
   text_caracters_minimum: "Broj znakova mora biti najmanje {{count}}."
@@ -910,4 +909,15 @@ sr-YU:
   enumeration_activities: Aktivnosti (praćenje vremena)
   enumeration_system_activity: Sistemska aktivnost
   
-  field_time_entries: Log time
+  field_time_entries: Vreme evidencije
+  project_module_gantt: Gantov dijagram
+  project_module_calendar: Kalendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

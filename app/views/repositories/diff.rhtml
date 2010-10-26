@@ -1,7 +1,7 @@
 <h2><%= l(:label_revision) %> <%= format_revision(@rev_to) + ':' if @rev_to %><%= format_revision(@rev) %> <%=h @path %></h2>
 
 <!-- Choose view type -->
-<% form_tag({:path => @path}, :method => 'get') do %>
+<% form_tag({:path => to_path_param(@path)}, :method => 'get') do %>
   <%= hidden_field_tag('rev', params[:rev]) if params[:rev] %>
   <%= hidden_field_tag('rev_to', params[:rev_to]) if params[:rev_to] %>
   <p><label><%= l(:label_view_diff) %></label>

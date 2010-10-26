@@ -122,6 +122,7 @@ en-GB:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Please select
   
@@ -227,7 +228,7 @@ en-GB:
   field_tracker: Tracker
   field_subject: Subject
   field_due_date: Due date
-  field_assigned_to: Assigned to
+  field_assigned_to: Assignee
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
@@ -710,7 +711,7 @@ en-GB:
   label_search_titles_only: Search titles only
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
-  label_user_mail_option_none: "Only for things I watch or I'm involved in"
+  label_user_mail_option_none: "No events"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -824,9 +825,9 @@ en-GB:
   text_journal_set_to: "{{label}} set to {{value}}"
   text_journal_deleted: "{{label}} deleted ({{old}})"
   text_journal_added: "{{label}} {{value}} added"
-  text_tip_task_begin_day: task beginning this day
-  text_tip_task_end_day: task ending this day
-  text_tip_task_begin_end_day: task beginning and ending this day
+  text_tip_issue_begin_day: task beginning this day
+  text_tip_issue_end_day: task ending this day
+  text_tip_issue_begin_end_day: task beginning and ending this day
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "{{count}} characters maximum."
   text_caracters_minimum: "Must be at least {{count}} characters long."
@@ -914,3 +915,14 @@ en-GB:
   notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
   label_project_copy_notifications: Send email notifications during the project copy
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

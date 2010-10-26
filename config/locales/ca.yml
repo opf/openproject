@@ -1,4 +1,8 @@
+# Redmine catalan translation:
+# by Joan Duran
+
 ca:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
     formats:
@@ -8,10 +12,10 @@ ca:
       default: "%d-%m-%Y"
       short: "%e de %b"
       long: "%a, %e de %b de %Y"
-      
+
     day_names: [Diumenge, Dilluns, Dimarts, Dimecres, Dijous, Divendres, Dissabte]
     abbr_day_names: [dg, dl, dt, dc, dj, dv, ds]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Gener, Febrer, Març, Abril, Maig, Juny, Juliol, Agost, Setembre, Octubre, Novembre, Desembre]
     abbr_month_names: [~, Gen, Feb, Mar, Abr, Mai, Jun, Jul, Ago, Set, Oct, Nov, Des]
@@ -26,7 +30,7 @@ ca:
       long: "%a, %e de %b de %Y, %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "mig minut"
@@ -65,6 +69,7 @@ ca:
         other: "almost {{count}} years"
 
   number:
+    # Default format for numbers
     format:
       separator: "."
       delimiter: ""
@@ -83,13 +88,14 @@ ca:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-        
+
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       messages:
@@ -116,9 +122,10 @@ ca:
         greater_than_start_date: "ha de ser superior que la data inicial"
         not_same_project: "no pertany al mateix projecte"
         circular_dependency: "Aquesta relació crearia una dependència circular"
+        cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
 
   actionview_instancetag_blank_option: Seleccioneu
-  
+
   general_text_No: 'No'
   general_text_Yes: 'Si'
   general_text_no: 'no'
@@ -129,7 +136,7 @@ ca:
   general_csv_encoding: ISO-8859-15
   general_pdf_encoding: ISO-8859-15
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: "El compte s'ha actualitzat correctament."
   notice_account_invalid_creditentials: Usuari o contrasenya invàlid
   notice_account_password_updated: "La contrasenya s'ha modificat correctament."
@@ -149,20 +156,35 @@ ca:
   notice_email_sent: "S'ha enviat un correu electrònic a {{value}}"
   notice_email_error: "S'ha produït un error en enviar el correu ({{value}})"
   notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del RSS."
+  notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
   notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de {{count}} seleccionats: {{ids}}."
+  notice_failed_to_save_members: "No s'han pogut desar els membres: {{errors}}."
   notice_no_issue_selected: "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
   notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."
   notice_unable_delete_version: "No s'ha pogut suprimir la versió."
-  
+  notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
+  notice_issue_done_ratios_updated: "S'ha actualitzat el tant per cent dels assumptes."
+
   error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: {{value}} "
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el dipòsit."
   error_scm_command_failed: "S'ha produït un error en intentar accedir al dipòsit: {{value}}"
   error_scm_annotate: "L'entrada no existeix o no s'ha pogut anotar."
   error_issue_not_found_in_project: "No s'ha trobat l'assumpte o no pertany a aquest projecte"
-
+  error_no_tracker_in_project: "Aquest projecte no té seguidor associat. Comproveu els paràmetres del projecte."
+  error_no_default_issue_status: "No s'ha definit cap estat d'assumpte predeterminat. Comproveu la configuració (aneu a «Administració -> Estats de l'assumpte»)."
+  error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
+  error_can_not_delete_tracker: "Aquest seguidor conté assumptes i no es pot suprimir."
+  error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
+  error_can_not_reopen_issue_on_closed_version: "Un assumpte assignat a una versió tancada no es pot tornar a obrir"
+  error_can_not_archive_project: "Aquest projecte no es pot arxivar"
+  error_issue_done_ratios_not_updated: "No s'ha actualitza el tant per cent dels assumptes."
+  error_workflow_copy_source: "Seleccioneu un seguidor o rol font"
+  error_workflow_copy_target: "Seleccioneu seguidors i rols objectiu"
+  error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte"
+  error_unable_to_connect: "No s'ha pogut connectar ({{value}})"
   warning_attachments_not_saved: "No s'han pogut desar {{count}} fitxers."
-  
+
   mail_subject_lost_password: "Contrasenya de {{value}}"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
   mail_subject_register: "Activació del compte de {{value}}"
@@ -173,17 +195,21 @@ ca:
   mail_body_account_activation_request: "S'ha registrat un usuari nou ({{value}}). El seu compte està pendent d'aprovació:"
   mail_subject_reminder: "{{count}} assumptes venceran els següents {{days}} dies"
   mail_body_reminder: "{{count}} assumptes que teniu assignades venceran els següents {{days}} dies:"
-  
+  mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «{{page}}»"
+  mail_body_wiki_content_added: "En {{author}} ha afegit la pàgina wiki «{{page}}»."
+  mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «{{page}}»"
+  mail_body_wiki_content_updated: "En {{author}} ha actualitzat la pàgina wiki «{{page}}»."
+
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
-  
+
   field_name: Nom
   field_description: Descripció
   field_summary: Resum
   field_is_required: Necessari
   field_firstname: Nom
   field_lastname: Cognom
-  field_mail: Correu electrònic 
+  field_mail: Correu electrònic
   field_filename: Fitxer
   field_filesize: Mida
   field_downloads: Baixades
@@ -212,6 +238,7 @@ ca:
   field_priority: Prioritat
   field_fixed_version: Versió objectiu
   field_user: Usuari
+  field_principal: Principal
   field_role: Rol
   field_homepage: Pàgina web
   field_is_public: Públic
@@ -256,6 +283,7 @@ ca:
   field_redirect_existing_links: Redirigeix els enllaços existents
   field_estimated_hours: Temps previst
   field_column_names: Columnes
+  field_time_entries: "Registre de temps"
   field_time_zone: Zona horària
   field_searchable: Es pot cercar
   field_default_value: Valor predeterminat
@@ -265,7 +293,10 @@ ca:
   field_watcher: Vigilància
   field_identity_url: URL OpenID
   field_content: Contingut
-  
+  field_group_by: "Agrupa els resultats per"
+  field_sharing: Compartició
+  field_parent_issue: "Tasca pare"
+
   setting_app_title: "Títol de l'aplicació"
   setting_app_subtitle: "Subtítol de l'aplicació"
   setting_welcome_text: Text de benvinguda
@@ -300,20 +331,35 @@ ca:
   setting_activity_days_default: "Dies a mostrar l'activitat del projecte"
   setting_display_subprojects_issues: "Mostra els assumptes d'un subprojecte en el projecte pare per defecte"
   setting_enabled_scm: "Habilita l'SCM"
+  setting_mail_handler_body_delimiters: "Trunca els correus electrònics després d'una d'aquestes línies"
   setting_mail_handler_api_enabled: "Habilita el WS per correus electrònics d'entrada"
   setting_mail_handler_api_key: Clau API
   setting_sequential_project_identifiers: Genera identificadors de projecte seqüencials
   setting_gravatar_enabled: "Utilitza les icones d'usuari Gravatar"
+  setting_gravatar_default: "Imatge Gravatar predeterminada"
   setting_diff_max_lines_displayed: Número màxim de línies amb diferències mostrades
   setting_file_max_size_displayed: Mida màxima dels fitxers de text mostrats en línia
   setting_repository_log_display_limit: Número màxim de revisions que es mostren al registre de fitxers
   setting_openid: "Permet entrar i registrar-se amb l'OpenID"
+  setting_password_min_length: "Longitud mínima de la contrasenya"
+  setting_new_project_user_role_id: "Aquest rol es dóna a un usuari no administrador per a crear projectes"
+  setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
+  setting_issue_done_ratio: "Calcula tant per cent realitzat de l'assumpte amb"
+  setting_issue_done_ratio_issue_status: "Utilitza l'estat de l'assumpte"
+  setting_issue_done_ratio_issue_field: "Utilitza el camp de l'assumpte"
+  setting_start_of_week: "Inicia les setmanes en"
+  setting_rest_api_enabled: "Habilita el servei web REST"
+  setting_cache_formatted_text: Cache formatted text
 
+  permission_add_project: "Crea projectes"
+  permission_add_subprojects: "Crea subprojectes"
   permission_edit_project: Edita el projecte
   permission_select_project_modules: Selecciona els mòduls del projecte
   permission_manage_members: Gestiona els membres
+  permission_manage_project_activities: "Gestiona les activitats del projecte"
   permission_manage_versions: Gestiona les versions
   permission_manage_categories: Gestiona les categories dels assumptes
+  permission_view_issues: "Visualitza els assumptes"
   permission_add_issues: Afegeix assumptes
   permission_edit_issues: Edita els assumptes
   permission_manage_issue_relations: Gestiona les relacions dels assumptes
@@ -328,6 +374,7 @@ ca:
   permission_view_calendar: Visualitza el calendari
   permission_view_issue_watchers: Visualitza la llista de vigilàncies
   permission_add_issue_watchers: Afegeix vigilàncies
+  permission_delete_issue_watchers: Suprimeix els vigilants
   permission_log_time: Registra el temps invertit
   permission_view_time_entries: Visualitza el temps invertit
   permission_edit_time_entries: Edita els registres de temps
@@ -357,7 +404,9 @@ ca:
   permission_edit_own_messages: Edita els missatges propis
   permission_delete_messages: Suprimeix els missatges
   permission_delete_own_messages: Suprimeix els missatges propis
-  
+  permission_export_wiki_pages: "Exporta les pàgines wiki"
+  permission_manage_subtasks: "Gestiona subtasques"
+
   project_module_issue_tracking: "Seguidor d'assumptes"
   project_module_time_tracking: Seguidor de temps
   project_module_news: Noticies
@@ -366,10 +415,13 @@ ca:
   project_module_wiki: Wiki
   project_module_repository: Dipòsit
   project_module_boards: Taulers
-  
+  project_module_calendar: Calendari
+  project_module_gantt: Gantt
+
   label_user: Usuari
   label_user_plural: Usuaris
   label_user_new: Usuari nou
+  label_user_anonymous: Anònim
   label_project: Projecte
   label_project_new: Projecte nou
   label_project_plural: Projectes
@@ -416,12 +468,13 @@ ca:
   label_information_plural: Informació
   label_please_login: Entreu
   label_register: Registre
-  label_login_with_open_id_option: o entra amb l'OpenID
+  label_login_with_open_id_option: "o entra amb l'OpenID"
   label_password_lost: Contrasenya perduda
   label_home: Inici
   label_my_page: La meva pàgina
   label_my_account: El meu compte
   label_my_projects: Els meus projectes
+  label_my_page_block: "Els meus blocs de pàgina"
   label_administration: Administració
   label_login: Entra
   label_logout: Surt
@@ -441,6 +494,7 @@ ca:
   label_auth_source_new: "Mode d'autenticació nou"
   label_auth_source_plural: "Modes d'autenticació"
   label_subproject_plural: Subprojectes
+  label_subproject_new: "Subprojecte nou"
   label_and_its_subprojects: "{{value}} i els seus subprojectes"
   label_min_max_length: Longitud mín - max
   label_list: Llist
@@ -475,8 +529,9 @@ ca:
   label_version: Versió
   label_version_new: Versió nova
   label_version_plural: Versions
+  label_close_versions: "Tanca les versions completades"
   label_confirmation: Confirmació
-  label_export_to: 'També disponible a:'
+  label_export_to: "També disponible a:"
   label_read: Llegeix...
   label_public_projects: Projectes públics
   label_open_issues: obert
@@ -533,6 +588,8 @@ ca:
   label_not_equals: no és
   label_in_less_than: en menys de
   label_in_more_than: en més de
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=
   label_in: en
   label_today: avui
   label_all_time: tot el temps
@@ -545,7 +602,7 @@ ca:
   label_this_year: aquest any
   label_date_range: Abast de les dates
   label_less_than_ago: fa menys de
-  label_more_than_ago: fa més de 
+  label_more_than_ago: fa més de
   label_ago: fa
   label_contains: conté
   label_not_contains: no conté
@@ -555,17 +612,21 @@ ca:
   label_browse: Navega
   label_modification: "{{count}} canvi"
   label_modification_plural: "{{count}} canvis"
+  label_branch: Branca
+  label_tag: Etiqueta
   label_revision: Revisió
   label_revision_plural: Revisions
+  label_revision_id: "Revisió {{value}}"
   label_associated_revisions: Revisions associades
   label_added: afegit
   label_modified: modificat
-  label_renamed: reanomenat
   label_copied: copiat
+  label_renamed: reanomenat
   label_deleted: suprimit
   label_latest_revision: Última revisió
   label_latest_revision_plural: Últimes revisions
   label_view_revisions: Visualitza les revisions
+  label_view_all_revisions: "Visualitza totes les revisions"
   label_max_size: Mida màxima
   label_sort_highest: Mou a la part superior
   label_sort_higher: Mou cap amunt
@@ -591,6 +652,7 @@ ca:
   label_changes_details: Detalls de tots els canvis
   label_issue_tracking: "Seguiment d'assumptes"
   label_spent_time: Temps invertit
+  label_overall_spent_time: "Temps total invertit"
   label_f_hour: "{{value}} hora"
   label_f_hour_plural: "{{value}} hores"
   label_time_tracking: Temps de seguiment
@@ -628,6 +690,8 @@ ca:
   label_board: Fòrum
   label_board_new: Fòrum nou
   label_board_plural: Fòrums
+  label_board_locked: Bloquejat
+  label_board_sticky: Sticky
   label_topic_plural: Temes
   label_message_plural: Missatges
   label_message_last: Últim missatge
@@ -643,6 +707,8 @@ ca:
   label_language_based: "Basat en l'idioma de l'usuari"
   label_sort_by: "Ordena per {{value}}"
   label_send_test_email: Envia un correu electrònic de prova
+  label_feeds_access_key: "Clau d'accés del RSS"
+  label_missing_feeds_access_key: "Falta una clau d'accés del RSS"
   label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa {{value}}"
   label_module_plural: Mòduls
   label_added_time_by: "Afegit per {{author}} fa {{age}}"
@@ -659,7 +725,6 @@ ca:
   label_search_titles_only: Cerca només en els títols
   label_user_mail_option_all: "Per qualsevol esdeveniment en tots els meus projectes"
   label_user_mail_option_selected: "Per qualsevol esdeveniment en els projectes seleccionats..."
-  label_user_mail_option_none: "Només per les coses que vigilo o hi estic implicat"
   label_user_mail_no_self_notified: "No vull ser notificat pels canvis que faig jo mateix"
   label_registration_activation_by_email: activació del compte per correu electrònic
   label_registration_manual_activation: activació del compte manual
@@ -688,7 +753,29 @@ ca:
   label_ascending: Ascendent
   label_descending: Descendent
   label_date_from_to: Des de {{start}} a {{end}}
-  
+  label_wiki_content_added: "S'ha afegit la pàgina wiki"
+  label_wiki_content_updated: "S'ha actualitzat la pàgina wiki"
+  label_group: Grup
+  label_group_plural: Grups
+  label_group_new: Grup nou
+  label_time_entry_plural: Temps invertit
+  label_version_sharing_hierarchy: "Amb la jerarquia del projecte"
+  label_version_sharing_system: "Amb tots els projectes"
+  label_version_sharing_descendants: "Amb tots els subprojectes"
+  label_version_sharing_tree: "Amb l'arbre del projecte"
+  label_version_sharing_none: "Sense compartir"
+  label_update_issue_done_ratios: "Actualitza el tant per cent dels assumptes realitzats"
+  label_copy_source: Font
+  label_copy_target: Objectiu
+  label_copy_same_as_target: "El mateix que l'objectiu"
+  label_display_used_statuses_only: "Mostra només els estats que utilitza aquest seguidor"
+  label_api_access_key: "Clau d'accés a l'API"
+  label_missing_api_access_key: "Falta una clau d'accés de l'API"
+  label_api_access_key_created_on: "Clau d'accés de l'API creada fa {{value}}"
+  label_profile: Perfil
+  label_subtask_plural: Subtasques
+  label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
+
   button_login: Entra
   button_submit: Tramet
   button_save: Desa
@@ -709,11 +796,12 @@ ca:
   button_list: Llista
   button_view: Visualitza
   button_move: Mou
+  button_move_and_follow: "Mou i segueix"
   button_back: Enrere
   button_cancel: Cancel·la
   button_activate: Activa
   button_sort: Ordena
-  button_log_time: "Hora d'entrada"
+  button_log_time: "Registre de temps"
   button_rollback: Torna a aquesta versió
   button_watch: Vigila
   button_unwatch: No vigilis
@@ -724,15 +812,24 @@ ca:
   button_rename: Reanomena
   button_change_password: Canvia la contrasenya
   button_copy: Copia
+  button_copy_and_follow: "Copia i segueix"
   button_annotate: Anota
   button_update: Actualitza
   button_configure: Configura
   button_quote: Cita
-  
+  button_duplicate: Duplica
+  button_show: Mostra
+
   status_active: actiu
   status_registered: informat
   status_locked: bloquejat
-  
+
+  version_status_open: oberta
+  version_status_locked: bloquejada
+  version_status_closed: tancada
+
+  field_active: Actiu
+
   text_select_mail_notifications: "Seleccioneu les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 significa sense restricció
@@ -740,9 +837,13 @@ ca:
   text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: {{value}}."
   text_workflow_edit: Seleccioneu un rol i un seguidor per a editar el flux de treball
   text_are_you_sure: Segur?
-  text_tip_task_begin_day: "tasca que s'inicia aquest dia"
-  text_tip_task_end_day: tasca que finalitza aquest dia
-  text_tip_task_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
+  text_journal_changed: "{{label}} ha canviat de {{old}} a {{new}}"
+  text_journal_set_to: "{{label}} s'ha establert a {{value}}"
+  text_journal_deleted: "{{label}} s'ha suprimit ({{old}})"
+  text_journal_added: "S'ha afegit {{label}} {{value}}"
+  text_tip_issue_begin_day: "tasca que s'inicia aquest dia"
+  text_tip_issue_end_day: tasca que finalitza aquest dia
+  text_tip_issue_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
   text_project_identifier_info: "Es permeten lletres en minúscules (a-z), números i guions.<br />Un cop desat, l'identificador no es pot modificar."
   text_caracters_maximum: "{{count}} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir {{count}} caràcters."
@@ -750,6 +851,7 @@ ca:
   text_tracker_no_workflow: "No s'ha definit cap flux de treball per a aquest seguidor"
   text_unallowed_characters: Caràcters no permesos
   text_comma_separated: Es permeten valors múltiples (separats per una coma).
+  text_line_separated: "Es permeten diversos valors (una línia per cada valor)."
   text_issues_ref_in_commit_messages: Referència i soluciona els assumptes en els missatges publicats
   text_issue_added: "L'assumpte {{id}} ha sigut informat per {{author}}."
   text_issue_updated: "L'assumpte {{id}} ha sigut actualitzat per {{author}}."
@@ -770,15 +872,22 @@ ca:
   text_destroy_time_entries_question: "S'han informat {{hours}} hores en els assumptes que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: Suprimeix les hores informades
   text_assign_time_entries_to_project: Assigna les hores informades al projecte
-  text_reassign_time_entries: 'Torna a assignar les hores informades a aquest assumpte:'
+  text_reassign_time_entries: "Torna a assignar les hores informades a aquest assumpte:"
   text_user_wrote: "{{value}} va escriure:"
   text_enumeration_destroy_question: "{{count}} objectes estan assignats a aquest valor."
-  text_enumeration_category_reassign_to: 'Torna a assignar-los a aquest valor:'
+  text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/email.yml i reinicieu l'aplicació per habilitar-lo."
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del Redmine i cada nom d'usuari trobat al dipòsit.\nEls usuaris amb el mateix nom d'usuari o correu del Redmine i del dipòsit s'assignaran automàticament."
   text_diff_truncated: "... Aquestes diferències s'han trucat perquè excedeixen la mida màxima que es pot mostrar."
-  text_custom_field_possible_values_info: 'Una línia per a cada valor'
-  
+  text_custom_field_possible_values_info: "Una línia per a cada valor"
+  text_wiki_page_destroy_question: "Aquesta pàgina té {{descendants}} pàgines fill i descendents. Què voleu fer?"
+  text_wiki_page_nullify_children: "Deixa les pàgines fill com a pàgines arrel"
+  text_wiki_page_destroy_children: "Suprimeix les pàgines fill i tots els seus descendents"
+  text_wiki_page_reassign_children: "Reasigna les pàgines fill a aquesta pàgina pare"
+  text_own_membership_delete_confirmation: "Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.\nSegur que voleu continuar?"
+  text_zoom_in: Redueix
+  text_zoom_out: Amplia
+
   default_role_manager: Gestor
   default_role_developer: Desenvolupador
   default_role_reporter: Informador
@@ -800,110 +909,18 @@ ca:
   default_priority_immediate: Immediata
   default_activity_design: Disseny
   default_activity_development: Desenvolupament
-  
+
   enumeration_issue_priorities: Prioritat dels assumptes
   enumeration_doc_categories: Categories del document
   enumeration_activities: Activitats (seguidor de temps)
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
-  text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  enumeration_system_activity: Activitat del sistema
+
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

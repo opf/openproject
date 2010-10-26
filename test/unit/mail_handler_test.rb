@@ -41,6 +41,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   
   def setup
     ActionMailer::Base.deliveries.clear
+    Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
   end
   
   def test_add_issue
@@ -152,7 +153,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.new_record?
     issue.reload
     assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
-    assert_equal 1, issue.watchers.size
+    assert_equal 1, issue.watcher_user_ids.size
   end
   
   def test_add_issue_by_unknown_user
@@ -240,6 +241,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_should_send_email_notification
+    Setting.notified_events = ['issue_added']
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')

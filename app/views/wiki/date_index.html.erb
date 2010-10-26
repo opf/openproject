@@ -23,11 +23,11 @@
 
 <% unless @pages.empty? %>
 <% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
-	<%= f.link_to('HTML', :url => {:action => 'special', :page => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
+	<%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
 <% end %>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
+<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
 <% end %>

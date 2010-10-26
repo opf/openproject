@@ -109,7 +109,7 @@ module Engines::RailsExtensions::AssetHelpers
   # Returns the publicly-addressable relative URI for the given asset, type and plugin
   def self.plugin_asset_path(plugin_name, type, asset)
     raise "No plugin called '#{plugin_name}' - please use the full name of a loaded plugin." if Engines.plugins[plugin_name].nil?
-    "/#{Engines.plugins[plugin_name].public_asset_directory}/#{type}/#{asset}"
+    "#{ActionController::Base.relative_url_root}/#{Engines.plugins[plugin_name].public_asset_directory}/#{type}/#{asset}"
   end
   
 end

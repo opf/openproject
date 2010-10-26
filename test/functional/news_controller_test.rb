@@ -65,12 +65,12 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
   end
   
-  def test_post_new
+  def test_post_create
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'news_added'
 
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, :news => { :title => 'NewsControllerTest',
+    post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
                                             :description => 'This is the description',
                                             :summary => '' }
     assert_redirected_to 'projects/ecookbook/news'
@@ -90,17 +90,17 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
   
-  def test_post_edit
+  def test_put_update
     @request.session[:user_id] = 2
-    post :edit, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
+    put :update, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
     assert_redirected_to 'news/1'
     news = News.find(1)
     assert_equal 'Description changed by test_post_edit', news.description
   end
 
-  def test_post_new_with_validation_failure
+  def test_post_create_with_validation_failure
     @request.session[:user_id] = 2
-    post :new, :project_id => 1, :news => { :title => '',
+    post :create, :project_id => 1, :news => { :title => '',
                                             :description => 'This is the description',
                                             :summary => '' }
     assert_response :success
@@ -111,50 +111,10 @@ class NewsControllerTest < ActionController::TestCase
                               :content => /1 error/
   end
   
-  def test_add_comment
-    @request.session[:user_id] = 2
-    post :add_comment, :id => 1, :comment => { :comments => 'This is a NewsControllerTest comment' }
-    assert_redirected_to 'news/1'
-    
-    comment = News.find(1).comments.find(:first, :order => 'created_on DESC')
-    assert_not_nil comment
-    assert_equal 'This is a NewsControllerTest comment', comment.comments
-    assert_equal User.find(2), comment.author
-  end
-  
-  def test_empty_comment_should_not_be_added
-    @request.session[:user_id] = 2
-    assert_no_difference 'Comment.count' do
-      post :add_comment, :id => 1, :comment => { :comments => '' }
-      assert_response :success
-      assert_template 'show'
-    end
-  end
-  
-  def test_destroy_comment
-    comments_count = News.find(1).comments.size
-    @request.session[:user_id] = 2
-    post :destroy_comment, :id => 1, :comment_id => 2
-    assert_redirected_to 'news/1'
-    assert_nil Comment.find_by_id(2)
-    assert_equal comments_count - 1, News.find(1).comments.size
-  end
-  
   def test_destroy
     @request.session[:user_id] = 2
-    post :destroy, :id => 1
+    delete :destroy, :id => 1
     assert_redirected_to 'projects/ecookbook/news'
     assert_nil News.find_by_id(1)
-  end
-  
-  def test_preview
-    get :preview, :project_id => 1,
-                  :news => {:title => '',
-                            :description => 'News description',
-                            :summary => ''}
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
-                                   :content => /News description/
   end
 end

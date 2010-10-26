@@ -195,6 +195,12 @@ class Query < ActiveRecord::Base
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
+
+    group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
+    @available_filters["member_of_group"] = { :type => :list_optional, :order => 6, :values => group_values } unless group_values.empty?
+
+    role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
+    @available_filters["assigned_to_role"] = { :type => :list_optional, :order => 7, :values => role_values } unless role_values.empty?
     
     if User.current.logged?
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => [["<< #{l(:label_me)} >>", "me"]] }
@@ -432,6 +438,47 @@ class Query < ActiveRecord::Base
         db_field = 'user_id'
         sql << "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND "
         sql << sql_for_field(field, '=', v, db_table, db_field) + ')'
+      elsif field == "member_of_group" # named field
+        if operator == '*' # Any group
+          groups = Group.all
+          operator = '=' # Override the operator since we want to find by assigned_to
+        elsif operator == "!*"
+          groups = Group.all
+          operator = '!' # Override the operator since we want to find by assigned_to
+        else
+          groups = Group.find_all_by_id(v)
+        end
+        groups ||= []
+
+        members_of_groups = groups.inject([]) {|user_ids, group|
+          if group && group.user_ids.present?
+            user_ids << group.user_ids
+          end
+          user_ids.flatten.uniq.compact
+        }.sort.collect(&:to_s)
+        
+        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
+
+      elsif field == "assigned_to_role" # named field
+        if operator == "*" # Any Role
+          roles = Role.givable
+          operator = '=' # Override the operator since we want to find by assigned_to
+        elsif operator == "!*" # No role
+          roles = Role.givable
+          operator = '!' # Override the operator since we want to find by assigned_to
+        else
+          roles = Role.givable.find_all_by_id(v)
+        end
+        roles ||= []
+        
+        members_of_roles = roles.inject([]) {|user_ids, role|
+          if role && role.members
+            user_ids << role.members.collect(&:user_id)
+          end
+          user_ids.flatten.uniq.compact
+        }.sort.collect(&:to_s)
+        
+        sql << '(' + sql_for_field("assigned_to_id", operator, members_of_roles, Issue.table_name, "assigned_to_id", false) + ')'
       else
         # regular field
         db_table = Issue.table_name

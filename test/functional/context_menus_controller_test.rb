@@ -12,7 +12,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/issues/1/edit',
                                              :class => 'icon-edit' }
     assert_tag :tag => 'a', :content => 'Closed',
-                            :attributes => { :href => '/issues/1/edit?issue%5Bstatus_id%5D=5',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5',
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8',
@@ -59,6 +59,9 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2',
                                              :class => 'icon-edit' }
+    assert_tag :tag => 'a', :content => 'Closed',
+                            :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bstatus_id%5D=5',
+                                             :class => '' }
     assert_tag :tag => 'a', :content => 'Immediate',
                             :attributes => { :href => '/issues/bulk_edit?ids%5B%5D=1&amp;ids%5B%5D=2&amp;issue%5Bpriority_id%5D=8',
                                              :class => '' }
@@ -76,14 +79,27 @@ class ContextMenusControllerTest < ActionController::TestCase
                                              :class => 'icon-del' }
   end
 
-  def test_context_menu_multiple_issues_of_different_project
+  def test_context_menu_multiple_issues_of_different_projects
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2, 4]
+    get :issues, :ids => [1, 2, 6]
     assert_response :success
     assert_template 'context_menu'
+    ids = "ids%5B%5D=1&amp;ids%5B%5D=2&amp;ids%5B%5D=6"
+    assert_tag :tag => 'a', :content => 'Edit',
+                            :attributes => { :href => "/issues/bulk_edit?#{ids}",
+                                             :class => 'icon-edit' }
+    assert_tag :tag => 'a', :content => 'Closed',
+                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bstatus_id%5D=5",
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'Immediate',
+                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bpriority_id%5D=8",
+                                             :class => '' }
+    assert_tag :tag => 'a', :content => 'John Smith',
+                            :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
+                                             :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => '#',
-                                             :class => 'icon-del disabled' }
+                            :attributes => { :href => "/issues/destroy?#{ids}",
+                                             :class => 'icon-del' }
   end
   
 end

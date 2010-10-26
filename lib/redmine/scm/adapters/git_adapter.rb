@@ -65,7 +65,7 @@ module Redmine
           shellout(cmd)  do |io|
             io.each_line do |line|
               e = line.chomp.to_s
-              if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\s+(.+)$/
+              if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
                 type = $1
                 sha = $2
                 size = $3
@@ -86,15 +86,15 @@ module Redmine
 
         def lastrev(path,rev)
           return nil if path.nil?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --pretty=fuller --no-merges -n 1 "
+          cmd = "#{GIT_BIN} --git-dir #{target('')} log --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
-          cmd <<  "-- #{path} " unless path.empty?
+          cmd <<  "-- #{shell_quote path} " unless path.empty?
           shellout(cmd) do |io|
             begin
               id = io.gets.split[1]
               author = io.gets.match('Author:\s+(.*)$')[1]
               2.times { io.gets }
-              time = io.gets.match('CommitDate:\s+(.*)$')[1]
+              time = Time.parse(io.gets.match('CommitDate:\s+(.*)$')[1]).localtime
 
               Revision.new({
                 :identifier => id,
@@ -121,7 +121,7 @@ module Redmine
           cmd << "#{shell_quote(identifier_from + '..')}" if identifier_from
           cmd << "#{shell_quote identifier_to}" if identifier_to
           cmd << " --since=#{shell_quote(options[:since].strftime("%Y-%m-%d %H:%M:%S"))}" if options[:since]
-          cmd << " -- #{path}" if path && !path.empty?
+          cmd << " -- #{shell_quote path}" if path && !path.empty?
 
           shellout(cmd) do |io|
             files=[]
@@ -165,13 +165,13 @@ module Redmine
                 parsing_descr = 1
                 changeset[:description] = ""
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\s+(.+)$/
+              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
                 fileaction = $1
                 filepath = $2
                 files << {:action => fileaction, :path => filepath}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\s+(.+)$/
+              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction = $1
                 filepath = $3

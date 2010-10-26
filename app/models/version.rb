@@ -74,6 +74,18 @@ class Version < ActiveRecord::Base
   def completed?
     effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
   end
+
+  def behind_schedule?
+    if completed_pourcent == 100
+      return false
+    elsif due_date && fixed_issues.present? && fixed_issues.minimum('start_date') # TODO: should use #start_date but that method is wrong...
+      start_date = fixed_issues.minimum('start_date')
+      done_date = start_date + ((due_date - start_date+1)* completed_pourcent/100).floor
+      return done_date <= Date.today
+    else
+      false # No issues so it's not late
+    end
+  end
   
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
@@ -124,6 +136,10 @@ class Version < ActiveRecord::Base
   end
   
   def to_s; name end
+
+  def to_s_with_project
+    "#{project} - #{name}"
+  end
   
   # Versions are sorted by effective_date and "Project Name - Version name"
   # Those with no effective_date are at the end, sorted by "Project Name - Version name"

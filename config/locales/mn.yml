@@ -117,6 +117,7 @@ mn:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "нэг ижил төсөлд хамаарахгүй байна"
         circular_dependency: "Энэ харьцаа нь гинжин(рекурсив) харьцаа үүсгэх юм байна"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Сонгоно уу
   
@@ -706,7 +707,6 @@ mn:
   label_search_titles_only: Зөвхөн гарчиг хайх
   label_user_mail_option_all: "Миний бүх төсөл дээрх бүх үзэгдлүүдийн хувьд"
   label_user_mail_option_selected: "Сонгогдсон төслүүдийн хувьд бүх үзэгдэл дээр..."
-  label_user_mail_option_none: "Зөвхөн миний ажиглаж байгаа зүйлс юмуу надад хамаатай бол"
   label_user_mail_no_self_notified: "Миний өөрийн хийсэн өөрчлөлтүүдийн тухай надад мэдэгдэх хэрэггүй"
   label_registration_activation_by_email: дансыг имэйлээр идэвхжүүлэх
   label_registration_manual_activation: дансыг гараар идэвхжүүлэх
@@ -820,9 +820,9 @@ mn:
   text_journal_set_to: "{{label}} {{value}} болгож өөрчиллөө"
   text_journal_deleted: "{{label}} устсан ({{old}})"
   text_journal_added: "{{label}} {{value}} нэмэгдсэн"
-  text_tip_task_begin_day: энэ өдөр эхлэх ажил
-  text_tip_task_end_day: энэ өдөр дуусах ажил
-  text_tip_task_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
+  text_tip_issue_begin_day: энэ өдөр эхлэх ажил
+  text_tip_issue_end_day: энэ өдөр дуусах ажил
+  text_tip_issue_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
   text_project_identifier_info: 'Зөвхөн жижиг үсгүүд болон (a-z), тоо and дундуур зураас ашиглаж болно.<br />Нэгэнт хадгалсан хойно, төслийн глобал нэрийг өөрлчөх боломжгүй.'
   text_caracters_maximum: "дээд тал нь {{count}} үсэг."
   text_caracters_minimum: "Хамгийн багадаа ядаж {{count}} тэмдэгт байх."
@@ -911,3 +911,14 @@ mn:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

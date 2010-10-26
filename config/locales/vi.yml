@@ -139,6 +139,7 @@ vi:
         greater_than_start_date: "phải đi sau ngày bắt đầu"
         not_same_project: "không thuộc cùng dự án"
         circular_dependency: "quan hệ có thể gây ra lặp vô tận"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   direction: ltr
   date:
@@ -653,7 +654,6 @@ vi:
   label_search_titles_only: Chỉ tìm trong tựa đề
   label_user_mail_option_all: "Mọi sự kiện trên mọi dự án của bạn"
   label_user_mail_option_selected: "Mọi sự kiện trên các dự án được chọn..."
-  label_user_mail_option_none: "Chỉ những vấn đề bạn theo dõi hoặc được gán"
   label_user_mail_no_self_notified: "Đừng gửi email về các thay đổi do chính bạn thực hiện"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -727,9 +727,9 @@ vi:
   text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Bạn chắc chứ?
-  text_tip_task_begin_day: ngày bắt đầu
-  text_tip_task_end_day: ngày kết thúc
-  text_tip_task_begin_end_day: bắt đầu và kết thúc cùng ngày
+  text_tip_issue_begin_day: ngày bắt đầu
+  text_tip_issue_end_day: ngày kết thúc
+  text_tip_issue_begin_end_day: bắt đầu và kết thúc cùng ngày
   text_project_identifier_info: 'Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.'
   text_caracters_maximum: "Tối đa {{count}} ký tự."
   text_caracters_minimum: "Phải gồm ít nhất {{count}} ký tự."
@@ -965,3 +965,14 @@ vi:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

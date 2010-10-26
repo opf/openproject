@@ -23,7 +23,7 @@
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                      l(:label_version_new),
                      'version[name]', 
-                     {:controller => 'versions', :action => 'new', :project_id => @project},
+                     {:controller => 'versions', :action => 'create', :project_id => @project},
                      :title => l(:label_version_new), 
                      :tabindex => 200) if authorize_for('versions', 'new') %>
 </p>
@@ -40,6 +40,6 @@
 </div>
 
 <div style="clear:both;"> </div>
-<%= render :partial => 'form_custom_fields' %>
+<%= render :partial => 'issues/form_custom_fields' %>
 
 <% end %>

@@ -39,6 +39,7 @@
                        { :url => { :set_filter => 1 },
                          :before => 'selectAllOptions("selected_columns");',
                          :update => "content",
+                         :complete => "apply_filters_observer()",
                          :with => "Form.serialize('query_form')"
                        }, :class => 'icon icon-checked' %>
                        
@@ -78,7 +79,7 @@
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
-    <%= auto_discovery_link_tag(:atom, {:action => 'changes', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
+    <%= auto_discovery_link_tag(:atom, {:controller => 'journals', :action => 'index', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
 <% end %>
 
 <%= context_menu issues_context_menu_path %>

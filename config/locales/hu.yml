@@ -143,6 +143,7 @@
         greater_than_start_date: "nagyobbnak kell lennie, mint az indítás dátuma"
         not_same_project: "nem azonos projekthez tartozik"
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményez"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Kérem válasszon
   
@@ -611,7 +612,6 @@
   label_search_titles_only: Keresés csak a címekben
   label_user_mail_option_all: "Minden eseményről minden saját projektemben"
   label_user_mail_option_selected: "Minden eseményről a kiválasztott projektekben..."
-  label_user_mail_option_none: "Csak a megfigyelt dolgokról, vagy, amiben részt veszek"
   label_user_mail_no_self_notified: "Nem kérek értesítést az általam végzett módosításokról"
   label_registration_activation_by_email: Fiók aktiválása e-mailben
   label_registration_manual_activation: Manuális fiók aktiválás
@@ -681,9 +681,9 @@
   text_subprojects_destroy_warning: "Az alprojekt(ek): {{value}} szintén törlésre kerülnek."
   text_workflow_edit: Válasszon egy szerepkört, és egy feladat típust a workflow szerkesztéséhez
   text_are_you_sure: Biztos benne ?
-  text_tip_task_begin_day: a feladat ezen a napon kezdődik
-  text_tip_task_end_day: a feladat ezen a napon ér véget
-  text_tip_task_begin_end_day: a feladat ezen a napon kezdődik és ér véget
+  text_tip_issue_begin_day: a feladat ezen a napon kezdődik
+  text_tip_issue_end_day: a feladat ezen a napon ér véget
+  text_tip_issue_begin_end_day: a feladat ezen a napon kezdődik és ér véget
   text_project_identifier_info: 'Kis betűk (a-z), számok és kötőjel megengedett.<br />Mentés után az azonosítót megváltoztatni nem lehet.'
   text_caracters_maximum: "maximum {{count}} karakter."
   text_caracters_minimum: "Legkevesebb {{count}} karakter hosszúnek kell lennie."
@@ -933,3 +933,14 @@
   notice_unable_delete_time_entry: Az időrögzítés nem törölhető
   label_overall_spent_time: Összes rászánt idő
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

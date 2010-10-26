@@ -116,6 +116,7 @@ sl:
         greater_than_start_date: "mora biti kasnejši kot začeten datum"
         not_same_project: "ne pripada istemu projektu"
         circular_dependency: "Ta odnos bi povzročil krožno odvisnost"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Prosimo izberite
   
@@ -649,7 +650,6 @@ sl:
   label_search_titles_only: Preišči samo naslove
   label_user_mail_option_all: "Za vsak dogodek v vseh mojih projektih"
   label_user_mail_option_selected: "Za vsak dogodek samo na izbranih projektih..."
-  label_user_mail_option_none: "Samo za zadeve ki jih spremljam ali sem v njih udeležen(a)"
   label_user_mail_no_self_notified: "Ne želim biti opozorjen(a) na spremembe, ki jih naredim sam(a)"
   label_registration_activation_by_email: aktivacija računa po e-pošti
   label_registration_manual_activation: ročna aktivacija računa
@@ -724,9 +724,9 @@ sl:
   text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): {{value}} bodo prav tako izbrisani."
   text_workflow_edit: Izberite vlogo in zahtevek za urejanje poteka dela
   text_are_you_sure: Ali ste prepričani?
-  text_tip_task_begin_day: naloga z začetkom na ta dan
-  text_tip_task_end_day: naloga z zaključkom na ta dan
-  text_tip_task_begin_end_day: naloga ki se začne in konča ta dan
+  text_tip_issue_begin_day: naloga z začetkom na ta dan
+  text_tip_issue_end_day: naloga z zaključkom na ta dan
+  text_tip_issue_begin_end_day: naloga ki se začne in konča ta dan
   text_project_identifier_info: 'Dovoljene so samo male črke (a-z), številke in vezaji.<br />Enkrat shranjen identifikator ne more biti spremenjen.'
   text_caracters_maximum: "največ {{count}} znakov."
   text_caracters_minimum: "Mora biti vsaj dolg vsaj {{count}} znakov."
@@ -906,3 +906,14 @@ sl:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

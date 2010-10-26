@@ -1,6 +1,6 @@
 <div class="contextual">
 	<% if User.current.allowed_to?(:add_subprojects, @project) %>
-		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => 'icon icon-add' %>
+		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
 	<% end %>
 </div>
 
@@ -67,14 +67,14 @@
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
-    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
-    <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
+    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => @project}) %> |
+    <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => @project}) %></p>
     <% end %>
     <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
 
 <% html_title(l(:label_overview)) -%>

@@ -130,6 +130,7 @@ sv:
         greater_than_start_date: "måste vara senare än startdatumet"
         not_same_project: "tillhör inte samma projekt"
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   direction: ltr
   date:
@@ -325,6 +326,7 @@ sv:
   field_redirect_existing_links: Omdirigera existerande länkar
   field_estimated_hours: Estimerad tid
   field_column_names: Kolumner
+  field_time_entries: Spenderad tid
   field_time_zone: Tidszon
   field_searchable: Sökbar
   field_default_value: Standardvärde
@@ -456,6 +458,8 @@ sv:
   project_module_wiki: Wiki
   project_module_repository: Versionsarkiv
   project_module_boards: Forum
+  project_module_calendar: Kalender
+  project_module_gantt: Gantt
   
   label_user: Användare
   label_user_plural: Användare
@@ -564,7 +568,7 @@ sv:
   label_news_view_all: Visa alla nyheter
   label_news_added: Nyhet tillagd
   label_settings: Inställningar
-  label_overview: Överblick
+  label_overview: Översikt
   label_version: Version
   label_version_new: Ny version
   label_version_plural: Versioner
@@ -764,7 +768,6 @@ sv:
   label_search_titles_only: Sök endast i titlar
   label_user_mail_option_all: "För alla händelser i mina projekt"
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
-  label_user_mail_option_none: "Endast för saker jag bevakar eller är involverad i"
   label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering
@@ -857,7 +860,7 @@ sv:
   button_update: Uppdatera
   button_configure: Konfigurera
   button_quote: Citera
-  button_duplicate: Duplisera
+  button_duplicate: Duplicera
   button_show: Visa
   
   status_active: aktiv
@@ -881,9 +884,9 @@ sv:
   text_journal_set_to: "{{label}} satt till {{value}}"
   text_journal_deleted: "{{label}} borttagen ({{old}})"
   text_journal_added: "{{label}} {{value}} tillagd"
-  text_tip_task_begin_day: arbetsuppgift som börjar denna dag
-  text_tip_task_end_day: arbetsuppgift som slutar denna dag
-  text_tip_task_begin_end_day: arbetsuppgift börjar och slutar denna dag
+  text_tip_issue_begin_day: arbetsuppgift som börjar denna dag
+  text_tip_issue_end_day: arbetsuppgift som slutar denna dag
+  text_tip_issue_begin_end_day: arbetsuppgift börjar och slutar denna dag
   text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
   text_caracters_maximum: "max {{count}} tecken."
   text_caracters_minimum: "Måste vara minst {{count}} tecken lång."
@@ -954,4 +957,12 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_time_entries: Log time
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

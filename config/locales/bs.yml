@@ -16,7 +16,7 @@ bs:
     month_names: [~, Januar, Februar, Mart, April, Maj, Jun, Jul, Avgust, Septembar, Oktobar, Novembar, Decembar]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Maj, Jun, Jul, Avg, Sep, Okt, Nov, Dec]
     order: [ :day, :month, :year ]
-  
+
   time:
     formats:
       default: "%A, %e. %B %Y, %H:%M"
@@ -26,7 +26,7 @@ bs:
 
     am: "prijepodne"
     pm: "poslijepodne"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pola minute"
@@ -97,13 +97,13 @@ bs:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       messages:
@@ -130,9 +130,10 @@ bs:
         greater_than_start_date: "mora biti veći nego početni datum"
         not_same_project: "ne pripada istom projektu"
         circular_dependency: "Ova relacija stvar cirkularnu zavisnost"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Molimo odaberite
-  
+
   general_text_No: 'Da'
   general_text_Yes: 'Ne'
   general_text_no: 'ne'
@@ -143,7 +144,7 @@ bs:
   general_csv_encoding: utf8
   general_pdf_encoding: utf8
   general_first_day_of_week: '7'
-  
+
   notice_account_activated: Vaš nalog je aktiviran. Možete se prijaviti.
   notice_account_invalid_creditentials: Pogrešan korisnik ili lozinka
   notice_account_lost_email_sent: Email sa uputstvima o izboru nove šifre je poslat na vašu adresu.
@@ -174,9 +175,9 @@ bs:
 
   error_scm_annotate: "Ova stavka ne postoji ili nije označena."
   error_issue_not_found_in_project: 'Aktivnost nije nađena ili ne pripada ovom projektu'
-  
+
   warning_attachments_not_saved: "{{count}} fajl(ovi) ne mogu biti snimljen(i)."
-  
+
   mail_subject_lost_password: "Vaša {{value}} lozinka"
   mail_body_lost_password: 'Za promjenu lozinke, kliknite na sljedeći link:'
   mail_subject_register: "Aktivirajte {{value}} vaš korisnički račun"
@@ -187,10 +188,10 @@ bs:
   mail_body_account_activation_request: "Novi korisnik ({{value}}) se registrovao. Korisnički račun čeka vaše odobrenje za aktivaciju:"
   mail_subject_reminder: "{{count}} aktivnost(i) u kašnjenju u narednim {{days}} danima"
   mail_body_reminder: "{{count}} aktivnost(i) koje su dodjeljenje vama u narednim {{days}} danima:"
-  
+
   gui_validation_error: 1 greška
   gui_validation_error_plural: "{{count}} grešaka"
-  
+
   field_name: Ime
   field_description: Opis
   field_summary: Pojašnjenje
@@ -279,7 +280,7 @@ bs:
   field_watcher: Posmatrač
   field_identity_url: OpenID URL
   field_content: Sadržaj
-  
+
   setting_app_title: Naslov aplikacije
   setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
@@ -323,7 +324,7 @@ bs:
   setting_file_max_size_displayed: Maksimalna veličina fajla kod prikaza razlika unutar fajla (inline)
   setting_repository_log_display_limit: Maksimalna veličina revizija prikazanih na log fajlu
   setting_openid: Omogući OpenID prijavu i registraciju
-  
+
   permission_edit_project: Ispravke projekta
   permission_select_project_modules: Odaberi module projekta
   permission_manage_members: Upravljanje članovima
@@ -372,7 +373,7 @@ bs:
   permission_edit_own_messages: Ispravka sopstvenih poruka
   permission_delete_messages: Prisanje poruka
   permission_delete_own_messages: Brisanje sopstvenih poruka
-  
+
   project_module_issue_tracking: Praćenje aktivnosti
   project_module_time_tracking: Praćenje vremena
   project_module_news: Novosti
@@ -381,7 +382,7 @@ bs:
   project_module_wiki: Wiki stranice
   project_module_repository: Repozitorij
   project_module_boards: Forumi
-  
+
   label_user: Korisnik
   label_user_plural: Korisnici
   label_user_new: Novi korisnik
@@ -675,7 +676,6 @@ bs:
   label_search_titles_only: Pretraži samo naslove
   label_user_mail_option_all: "Za bilo koji događaj na svim mojim projektima"
   label_user_mail_option_selected: "Za bilo koji događaj na odabranim projektima..."
-  label_user_mail_option_none: "Samo za stvari koje ja gledam ili sam u njih uključen"
   label_user_mail_no_self_notified: "Ne želim notifikaciju za promjene koje sam ja napravio"
   label_registration_activation_by_email: aktivacija korisničkog računa email-om
   label_registration_manual_activation: ručna aktivacija korisničkog računa
@@ -697,7 +697,7 @@ bs:
   label_planning: Planiranje
   label_incoming_emails: Dolazni email-ovi
   label_generate_key: Generiši ključ
-  label_issue_watchers: Praćeno od 
+  label_issue_watchers: Praćeno od
   label_example: Primjer
   label_display: Prikaz
 
@@ -737,11 +737,11 @@ bs:
   button_watch: Notifikacija
   button_configure: Konfiguracija
   button_quote: Citat
-  
+
   status_active: aktivan
   status_registered: registrovan
   status_locked: zaključan
-  
+
   text_select_mail_notifications: Odaberi događaje za koje će se slati email notifikacija.
   text_regexp_info: npr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znači bez restrikcije
@@ -749,9 +749,9 @@ bs:
   text_subprojects_destroy_warning: "Podprojekt(i): {{value}} će takođe biti izbrisani."
   text_workflow_edit: Odaberite ulogu i područje aktivnosti za ispravku toka promjena na aktivnosti
   text_are_you_sure: Da li ste sigurni ?
-  text_tip_task_begin_day: zadatak počinje danas
-  text_tip_task_end_day: zadatak završava danas
-  text_tip_task_begin_end_day: zadatak započinje i završava danas
+  text_tip_issue_begin_day: zadatak počinje danas
+  text_tip_issue_end_day: zadatak završava danas
+  text_tip_issue_begin_end_day: zadatak započinje i završava danas
   text_project_identifier_info: 'Samo mala slova (a-z), brojevi i crtice su dozvoljeni.<br />Nakon snimanja, identifikator se ne može mijenjati.'
   text_caracters_maximum: "maksimum {{count}} karaktera."
   text_caracters_minimum: "Dužina mora biti najmanje {{count}} znakova."
@@ -787,7 +787,7 @@ bs:
   text_repository_usernames_mapping: "Odaberi ili ispravi redmine korisnika mapiranog za svako korisničko ima nađeno u logu repozitorija.\nKorisnici sa istim imenom u redmineu i u repozitoruju se automatski mapiraju."
   text_diff_truncated: '... Ovaj prikaz razlike je odsječen pošto premašuje maksimalnu veličinu za prikaz'
   text_custom_field_possible_values_info: 'Jedna linija za svaku vrijednost'
-  
+
   default_role_manager: Menadžer
   default_role_developer: Programer
   default_role_reporter: Reporter
@@ -809,7 +809,7 @@ bs:
   default_priority_immediate: Odmah
   default_activity_design: Dizajn
   default_activity_development: Programiranje
-  
+
   enumeration_issue_priorities: Prioritet aktivnosti
   enumeration_doc_categories: Kategorije dokumenata
   enumeration_activities: Operacije (utrošak vremena)
@@ -924,3 +924,14 @@ bs:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

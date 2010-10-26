@@ -5,20 +5,20 @@ class GanttsControllerTest < ActionController::TestCase
 
   context "#gantt" do
     should "work" do
+      i2 = Issue.find(2)
+      i2.update_attribute(:due_date, 1.month.from_now)
+      
       get :show, :project_id => 1
       assert_response :success
       assert_template 'show.html.erb'
       assert_not_nil assigns(:gantt)
-      events = assigns(:gantt).events
-      assert_not_nil events
       # Issue with start and due dates
       i = Issue.find(1)
       assert_not_nil i.due_date
-      assert events.include?(Issue.find(1))
-      # Issue with without due date but targeted to a version with date
+      assert_select "div a.issue", /##{i.id}/
+      # Issue with on a targeted version should not be in the events but loaded in the html
       i = Issue.find(2)
-      assert_nil i.due_date
-      assert events.include?(i)
+      assert_select "div a.issue", /##{i.id}/
     end
 
     should "work cross project" do
@@ -26,8 +26,8 @@ class GanttsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'show.html.erb'
       assert_not_nil assigns(:gantt)
-      events = assigns(:gantt).events
-      assert_not_nil events
+      assert_not_nil assigns(:gantt).query
+      assert_nil assigns(:gantt).project
     end
 
     should "export to pdf" do

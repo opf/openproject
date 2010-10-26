@@ -4,6 +4,62 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2010-09-26 v1.0.2
+
+* #2285: issue-refinement: pressing enter should result to an "apply"
+* #3411: Allow mass status update trough context menu
+* #5929: https-enabled gravatars when called over https
+* #6189: Japanese Translation for r4011
+* #6197: Traditional Chinese language file (to r4036)
+* #6198: Updated german translation
+* #6208: Macedonian translation
+* #6210: Swedish Translation for r4039
+* #6248: nl translation update for r4050
+* #6263: Catalan translation update
+* #6275: After submitting a related issue, the Issue field should be re-focused
+* #6289: Checkboxes in issues list shouldn't be displayed when printing
+* #6290: Make journals theming easier
+* #6291: User#allowed_to? is not tested
+* #6306: Traditional Chinese language file (to r4061)
+* #6307: Korean translation update for 4066(4061)
+* #6316: pt_BR update
+* #6339: SERBIAN Updated
+* #6358: Updated Polish translation
+* #6363: Japanese Translation for r4080
+* #6365: Traditional Chinese language file (to r4081)
+* #6382: Issue PDF export variable usage
+* #6428: Interim solution for i18n >= 0.4
+* #6441: Japanese Translation for r4162
+* #6451: Traditional Chinese language file (to r4167)
+* #6465: Japanese Translation for r4171
+* #6466: Traditional Chinese language file (to r4171)
+* #6490: pt-BR translation for 1.0.2
+* Fixed #3935: stylesheet_link_tag with plugin doesn't take into account relative_url_root
+* Fixed #4998: Global issue list's context menu has enabled options for parent menus but there are no valid selections
+* Fixed #5170: Done ratio can not revert to 0% if status is used for done ratio
+* Fixed #5608: broken with i18n 0.4.0
+* Fixed #6054: Error 500 on filenames with whitespace in git reposities
+* Fixed #6135: Default logger configuration grows without bound.
+* Fixed #6191: Deletion of a main task deletes all subtasks
+* Fixed #6195: Missing move issues between projects
+* Fixed #6242: can't switch between inline and side-by-side diff
+* Fixed #6249: Create and continue returns 404
+* Fixed #6267: changing the authentication mode from ldap to internal with setting the password
+* Fixed #6270: diff coderay malformed in the "news" page
+* Fixed #6278: missing "cant_link_an_issue_with_a_descendant"from locale files
+* Fixed #6333: Create and continue results in a 404 Error
+* Fixed #6346: Age column on repository view is skewed for git, probably CVS too
+* Fixed #6351: Context menu on roadmap broken
+* Fixed #6388: New Subproject leads to a 404
+* Fixed #6392: Updated/Created links to activity broken
+* Fixed #6413: Error in SQL
+* Fixed #6443: Redirect to project settings after Copying a Project
+* Fixed #6448: Saving a wiki page with no content has a translation missing
+* Fixed #6452: Unhandled exception on creating File
+* Fixed #6471: Typo in label_report in Czech translation
+* Fixed #6479: Changing tracker type will lose watchers
+* Fixed #6499: Files with leading or trailing whitespace are not shown in git.
+
 == 2010-08-22 v1.0.1
 
 * #819: Add a body ID and class to all pages
@@ -1018,7 +1074,7 @@ http://www.redmine.org/
 * Search engines now supports pagination. Results are sorted in reverse chronological order
 * Added "Estimated hours" attribute on issues
 * A category with assigned issue can now be deleted. 2 options are proposed: remove assignments or reassign issues to another category
-* Forum notifications are now also sent to the authors of the thread, even if they don’t watch the board
+* Forum notifications are now also sent to the authors of the thread, even if they donï¿½t watch the board
 * Added an application setting to specify the application protocol (http or https) used to generate urls in emails
 * Gantt chart: now starts at the current month by default
 * Gantt chart: month count and zoom factor are automatically saved as user preferences
@@ -1026,7 +1082,7 @@ http://www.redmine.org/
 * Added wiki index by date
 * Added preview on add/edit issue form
 * Emails footer can now be customized from the admin interface (Admin -> Email notifications)
-* Default encodings for repository files can now be set in application settings (used to convert files content and diff to UTF-8 so that they’re properly displayed)
+* Default encodings for repository files can now be set in application settings (used to convert files content and diff to UTF-8 so that theyï¿½re properly displayed)
 * Calendar: first day of week can now be set in lang files
 * Automatic closing of duplicate issues
 * Added a cross-project issue list
@@ -1038,7 +1094,7 @@ http://www.redmine.org/
 * Added some accesskeys
 * Added "Float" as a custom field format
 * Added basic Theme support
-* Added the ability to set the “done ratio” of issues fixed by commit (Nikolay Solakov)
+* Added the ability to set the ï¿½done ratioï¿½ of issues fixed by commit (Nikolay Solakov)
 * Added custom fields in issue related mail notifications
 * Email notifications are now sent in plain text and html
 * Gantt chart can now be exported to a graphic file (png). This functionality is only available if RMagick is installed.
@@ -1071,7 +1127,7 @@ http://www.redmine.org/
 * Added Korean translation (Choi Jong Yoon)
 * Fixed: the link to delete issue relations is displayed even if the user is not authorized to delete relations
 * Performance improvement on calendar and gantt
-* Fixed: wiki preview doesn’t work on long entries
+* Fixed: wiki preview doesnï¿½t work on long entries
 * Fixed: queries with multiple custom fields return no result
 * Fixed: Can not authenticate user against LDAP if its DN contains non-ascii characters
 * Fixed: URL with ~ broken in wiki formatting
@@ -1082,7 +1138,7 @@ http://www.redmine.org/
 
 * per project forums added
 * added the ability to archive projects
-* added “Watch” functionality on issues. It allows users to receive notifications about issue changes
+* added ï¿½Watchï¿½ functionality on issues. It allows users to receive notifications about issue changes
 * custom fields for issues can now be used as filters on issue list
 * added per user custom queries
 * commit messages are now scanned for referenced or fixed issue IDs (keywords defined in Admin -> Settings)
@@ -1123,7 +1179,7 @@ http://www.redmine.org/
 * added swedish translation (Thomas Habets)
 * italian translation update (Alessio Spadaro)
 * japanese translation update (Satoru Kurashiki)
-* fixed: error on history atom feed when there’s no notes on an issue change
+* fixed: error on history atom feed when thereï¿½s no notes on an issue change
 * fixed: error in journalizing an issue with longtext custom fields (Postgresql)
 * fixed: creation of Oracle schema
 * fixed: last day of the month not included in project activity

@@ -32,6 +32,11 @@ module ApplicationHelper
   end
 
   # Display a link if user is authorized
+  #
+  # @param [String] name Anchor text (passed to link_to)
+  # @param [Hash] options Hash params. This will checked by authorize_for to see if the user is authorized
+  # @param [optional, Hash] html_options Options passed to link_to
+  # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
   def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
@@ -101,6 +106,28 @@ module ApplicationHelper
     text = options.delete(:text) || format_revision(revision)
 
     link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
+  end
+  
+  def link_to_project(project, options={})
+    options[:class] ||= 'project'
+    link_to(h(project), {:controller => 'projects', :action => 'show', :id => project}, :class => options[:class])
+  end
+
+  # Generates a link to a project if active
+  # Examples:
+  # 
+  #   link_to_project(project)                          # => link to the specified project overview
+  #   link_to_project(project, :action=>'settings')     # => link to project settings
+  #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
+  #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
+  #
+  def link_to_project(project, options={}, html_options = nil)
+    if project.active?
+      url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
+      link_to(h(project), url, html_options)
+    else
+      h(project)
+    end
   end
 
   # Generates a link to a project if active
@@ -172,7 +199,7 @@ module ApplicationHelper
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
         content << "<li>"
-        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'index', :id => page.project, :page => page.title},
+        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'index', :project_id => page.project, :page => page.title},
                            :title => (page.respond_to?(:updated_on) ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id) if pages[page.id]
         content << "</li>\n"
@@ -302,7 +329,7 @@ module ApplicationHelper
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project
-      link_to(text, {:controller => 'projects', :action => 'activity', :id => @project, :from => time.to_date}, :title => format_time(time))
+      link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
     else
       content_tag('acronym', text, :title => format_time(time))
     end
@@ -541,7 +568,7 @@ module ApplicationHelper
             when :local; "#{title}.html"
             when :anchor; "##{title}"   # used for single-file wiki export
             else
-              url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :id => link_project, :page => Wiki.titleize(page), :anchor => anchor)
+              url_for(:only_path => only_path, :controller => 'wiki', :action => 'index', :project_id => link_project, :page => Wiki.titleize(page), :anchor => anchor)
             end
           link_to((title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else
@@ -805,7 +832,7 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
-      options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
+      options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
         email = user.mail
@@ -813,6 +840,8 @@ module ApplicationHelper
         email = $1
       end
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
+    else
+      ''
     end
   end
 

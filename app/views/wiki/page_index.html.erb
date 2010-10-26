@@ -1,0 +1,26 @@
+<div class="contextual">
+<%= watcher_tag(@wiki, User.current) %>
+</div>
+
+<h2><%= l(:label_index_by_title) %></h2>
+
+<% if @pages.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<%= render_page_hierarchy(@pages_by_parent_id) %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'sidebar' %>
+<% end %>
+
+<% unless @pages.empty? %>
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
+	<%= f.link_to('HTML', :url => {:action => 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+<% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
+<% end %>

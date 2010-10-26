@@ -137,6 +137,7 @@ zh:
         greater_than_start_date: "必须在起始日期之后"
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: 请选择
   
@@ -720,7 +721,6 @@ zh:
   label_search_titles_only: 仅在标题中搜索
   label_user_mail_option_all: "收取我的项目的所有通知"
   label_user_mail_option_selected: "收取选中项目的所有通知..."
-  label_user_mail_option_none: "只收取我跟踪或参与的项目的通知"
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
@@ -834,9 +834,9 @@ zh:
   text_journal_set_to: "{{label}} 被设置为 {{value}}"
   text_journal_deleted: "{{label}} 已删除 ({{old}})"
   text_journal_added: "{{label}} {{value}} 已添加"
-  text_tip_task_begin_day: 今天开始的任务
-  text_tip_task_end_day: 今天结束的任务
-  text_tip_task_begin_end_day: 今天开始并结束的任务
+  text_tip_issue_begin_day: 今天开始的任务
+  text_tip_issue_end_day: 今天结束的任务
+  text_tip_issue_begin_end_day: 今天开始并结束的任务
   text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
   text_caracters_maximum: "最多 {{count}} 个字符。"
   text_caracters_minimum: "至少需要 {{count}} 个字符。"
@@ -908,7 +908,7 @@ zh:
   label_board_sticky: 置顶
   label_board_locked: 锁定
   permission_export_wiki_pages: 导出 wiki 页面
-  setting_cache_formatted_text: 缓存已格式化文字
+  setting_cache_formatted_text: 缓存格式化文本
   permission_manage_project_activities: 管理项目活动
   error_unable_delete_issue_status: 无法删除问题状态
   label_profile: 简介
@@ -928,3 +928,14 @@ zh:
   notice_unable_delete_time_entry: 无法删除工时记录。
   label_overall_spent_time: 所有项目耗用工时
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

@@ -71,51 +71,96 @@ class UsersController < ApplicationController
     render_404
   end
 
-  def add
-    if request.get?
-      @user = User.new(:language => Setting.default_language)
-    else
-      @user = User.new(params[:user])
-      @user.admin = params[:user][:admin] || false
-      @user.login = params[:user][:login]
-      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
-      if @user.save
-        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
-                                        {:controller => 'users', :action => 'edit', :id => @user})
-        return
-      end
-    end
+  def new
+    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
+    @notification_option = Setting.default_notification_option
+
+    @user = User.new(:language => Setting.default_language)
     @auth_sources = AuthSource.find(:all)
+  end
+  
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
+  def create
+    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
+    @notification_option = Setting.default_notification_option
+
+    @user = User.new(params[:user])
+    @user.admin = params[:user][:admin] || false
+    @user.login = params[:user][:login]
+    @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
+
+    # TODO: Similar to My#account
+    @user.mail_notification = params[:notification_option] || 'only_my_events'
+    @user.pref.attributes = params[:pref]
+    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+
+    if @user.save
+      @user.pref.save
+      @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
+
+      Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to(params[:continue] ? {:controller => 'users', :action => 'new'} : 
+                                      {:controller => 'users', :action => 'edit', :id => @user})
+      return
+    else
+      @auth_sources = AuthSource.find(:all)
+      @notification_option = @user.mail_notification
+
+      render :action => 'new'
+    end
   end
 
   def edit
     @user = User.find(params[:id])
-    if request.post?
-      @user.admin = params[:user][:admin] if params[:user][:admin]
-      @user.login = params[:user][:login] if params[:user][:login]
-      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
-      @user.group_ids = params[:user][:group_ids] if params[:user][:group_ids]
-      @user.attributes = params[:user]
-      # Was the account actived ? (do it before User#save clears the change)
-      was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
-      if @user.save
-        if was_activated
-          Mailer.deliver_account_activated(@user)
-        elsif @user.active? && params[:send_information] && !params[:password].blank? && @user.auth_source_id.nil?
-          Mailer.deliver_account_information(@user, params[:password])
-        end
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to :back
-      end
-    end
+    @notification_options = @user.valid_notification_options
+    @notification_option = @user.mail_notification
+
     @auth_sources = AuthSource.find(:all)
     @membership ||= Member.new
+  end
+  
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  def update
+    @user = User.find(params[:id])
+    @notification_options = @user.valid_notification_options
+    @notification_option = @user.mail_notification
+
+    @user.admin = params[:user][:admin] if params[:user][:admin]
+    @user.login = params[:user][:login] if params[:user][:login]
+    if params[:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
+      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+    end
+    @user.group_ids = params[:user][:group_ids] if params[:user][:group_ids]
+    @user.attributes = params[:user]
+    # Was the account actived ? (do it before User#save clears the change)
+    was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
+    # TODO: Similar to My#account
+    @user.mail_notification = params[:notification_option] || 'only_my_events'
+    @user.pref.attributes = params[:pref]
+    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+
+    if @user.save
+      @user.pref.save
+      @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
+
+      if was_activated
+        Mailer.deliver_account_activated(@user)
+      elsif @user.active? && params[:send_information] && !params[:password].blank? && @user.auth_source_id.nil?
+        Mailer.deliver_account_information(@user, params[:password])
+      end
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :back
+    else
+      @auth_sources = AuthSource.find(:all)
+      @membership ||= Member.new
+
+      render :action => :edit
+    end
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
-  
+
   def edit_membership
     @user = User.find(params[:id])
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)

@@ -31,7 +31,7 @@
                                        :title => l(:button_edit) %>
     <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry, :project_id => nil},
                                          :confirm => l(:text_are_you_sure),
-                                         :method => :post,
+                                         :method => :delete,
                                          :title => l(:button_delete) %>
 <% end -%>
 </td>

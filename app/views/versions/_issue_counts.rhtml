@@ -5,7 +5,7 @@
        select_tag('status_by',
                    status_by_options_for_select(criteria),
                    :id => 'status_by_select',
-                   :onchange => remote_function(:url => { :action => :status_by, :id => version },
+                   :onchange => remote_function(:url => status_by_project_version_path(version.project, version),
                                                 :with => "Form.serialize('status_by_form')"))) %>
 </legend>
 <% if counts.empty? %>

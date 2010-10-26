@@ -96,8 +96,8 @@ pl:
         few:   "ponad {{count}} lata"
         other: "ponad {{count}} lat"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "prawie rok"
+        other: "prawie {{count}} lata"
 
   activerecord:
     errors:
@@ -122,13 +122,14 @@ pl:
         greater_than: "musi być większe niż {{count}}"
         greater_than_or_equal_to: "musi być większe lub równe {{count}}"
         equal_to: "musi być równe {{count}}"
-        less_than: "musie być mniejsze niż {{count}}"
+        less_than: "musi być mniejsze niż {{count}}"
         less_than_or_equal_to: "musi być mniejsze lub równe {{count}}"
         odd: "musi być nieparzyste"
         even: "musi być parzyste"
         greater_than_start_date: "musi być większe niż początkowa data"
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć kołową zależność"
+        cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
       
   support:
     array:
@@ -159,19 +160,19 @@ pl:
   button_edit: Edytuj
   button_list: Lista
   button_lock: Zablokuj
-  button_log_time: Log czasu
+  button_log_time: Dziennik
   button_login: Login
   button_move: Przenieś
   button_quote: Cytuj
   button_rename: Zmień nazwę
   button_reply: Odpowiedz
   button_reset: Resetuj
-  button_rollback: Przywróc do tej wersji
+  button_rollback: Przywróć do tej wersji
   button_save: Zapisz
   button_sort: Sortuj
   button_submit: Wyślij
   button_test: Testuj
-  button_unarchive: Przywróc z archiwum
+  button_unarchive: Przywróć z archiwum
   button_uncheck_all: Odznacz wszystko
   button_unlock: Odblokuj
   button_unwatch: Nie obserwuj
@@ -538,12 +539,12 @@ pl:
   label_project_latest: Ostatnie projekty
   label_project_new: Nowy projekt
   label_project_plural234: Projekty
-  label_project_plural5: Projekty
+  label_project_plural5: Projektów
   label_project_plural: Projekty
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  brak projektów
+    one:   jeden projekt
+    other: "{{count}} projektów"
   label_public_projects: Projekty publiczne
   label_query: Kwerenda
   label_query_new: Nowa kwerenda
@@ -589,7 +590,7 @@ pl:
   label_sort_highest: Przesuń na górę
   label_sort_lower: Do dołu
   label_sort_lowest: Przesuń na dół
-  label_spent_time: Spędzony czas
+  label_spent_time: Przepracowany czas
   label_start_to_end: początek do końca
   label_start_to_start: początek do początku
   label_statistics: Statystyki
@@ -601,7 +602,7 @@ pl:
   label_this_month: ten miesiąc
   label_this_week: ten tydzień
   label_this_year: ten rok
-  label_time_tracking: Śledzenie czasu
+  label_time_tracking: Śledzenie czasu pracy
   label_today: dzisiaj
   label_topic_plural: Tematy
   label_total: Ogółem
@@ -613,7 +614,6 @@ pl:
   label_user: Użytkownik
   label_user_mail_no_self_notified: "Nie chcę powiadomień o zmianach, które sam wprowadzam."
   label_user_mail_option_all: "Dla każdego zdarzenia w każdym moim projekcie"
-  label_user_mail_option_none: "Tylko to co obserwuje lub w czym biorę udział"
   label_user_mail_option_selected: "Tylko dla każdego zdarzenia w wybranych projektach..."
   label_user_new: Nowy użytkownik
   label_user_plural: Użytkownicy
@@ -683,11 +683,11 @@ pl:
   permission_edit_messages: Edycja wiadomości
   permission_edit_own_issue_notes: Edycja własnych notatek
   permission_edit_own_messages: Edycja własnych wiadomości
-  permission_edit_own_time_entries: Edycja własnego logu czasu
+  permission_edit_own_time_entries: Edycja własnego dziennika
   permission_edit_project: Edycja projektów
-  permission_edit_time_entries: Edycja logów czasu
+  permission_edit_time_entries: Edycja wpisów dziennika
   permission_edit_wiki_pages: Edycja stron wiki
-  permission_log_time: Zapisywanie spędzonego czasu
+  permission_log_time: Zapisywanie przepracowanego czasu
   permission_manage_boards: Zarządzanie forami
   permission_manage_categories: Zarządzanie kategoriami zaganień
   permission_manage_documents: Zarządzanie dokumentami
@@ -711,7 +711,7 @@ pl:
   permission_view_gantt: Podgląd diagramu Gantta
   permission_view_issue_watchers: Podgląd listy obserwatorów
   permission_view_messages: Podgląd wiadomości
-  permission_view_time_entries: Podgląd spędzonego czasu
+  permission_view_time_entries: Podgląd przepracowanego czasu
   permission_view_wiki_edits: Podgląd historii wiki
   permission_view_wiki_pages: Podgląd wiki
   project_module_boards: Fora
@@ -720,7 +720,7 @@ pl:
   project_module_issue_tracking: Śledzenie zagadnień
   project_module_news: Komunikaty
   project_module_repository: Repozytorium
-  project_module_time_tracking: Śledzenie czasu
+  project_module_time_tracking: Śledzenie czasu pracy
   project_module_wiki: Wiki
   setting_activity_days_default: Dni wyświetlane w aktywności projektu
   setting_app_subtitle: Podtytuł aplikacji
@@ -742,7 +742,7 @@ pl:
   setting_feeds_limit: Limit danych RSS
   setting_gravatar_enabled: Używaj ikon użytkowników Gravatar
   setting_host_name: Nazwa hosta i ścieżka
-  setting_issue_list_default_columns: Domyślne kolumny wiświetlane na liście zagadnień
+  setting_issue_list_default_columns: Domyślne kolumny wyświetlane na liście zagadnień
   setting_issues_export_limit: Limit eksportu zagadnień
   setting_login_required: Identyfikacja wymagana
   setting_mail_from: Adres email wysyłki
@@ -764,20 +764,20 @@ pl:
   status_locked: zablokowany
   status_registered: zarejestrowany
   text_are_you_sure: Jesteś pewien ?
-  text_assign_time_entries_to_project: Przypisz logowany czas do projektu
+  text_assign_time_entries_to_project: Przypisz wpisy dziennika do projektu
   text_caracters_maximum: "{{count}} znaków maksymalnie."
   text_caracters_minimum: "Musi być nie krótsze niż {{count}} znaków."
   text_comma_separated: Wielokrotne wartości dozwolone (rozdzielone przecinkami).
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
-  text_destroy_time_entries: Usuń zalogowany czas
-  text_destroy_time_entries_question: Zalogowano {{hours}} godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
+  text_destroy_time_entries: Usuń wpisy dziennika
+  text_destroy_time_entries_question: Przepracowano {{hours}} godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
   text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/email.yml  a następnie zrestartuj aplikację i uaktywnij to."
   text_enumeration_category_reassign_to: 'Zmień przypisanie na tą wartość:'
   text_enumeration_destroy_question: "{{count}} obiektów jest przypisana do tej wartości."
   text_file_repository_writable: Zapisywalne repozytorium plików
   text_issue_added: "Zagadnienie {{id}} zostało wprowadzone (by {{author}})."
   text_issue_category_destroy_assignments: Usuń przydziały kategorii
-  text_issue_category_destroy_question: "Zagadnienia ({{count}}) są przypisane do tej kategorii. Co chcesz uczynić?"
+  text_issue_category_destroy_question: "Zagadnienia ({{count}}) są przypisane do tej kategorii. Co chcesz zrobić?"
   text_issue_category_reassign_to: Przydziel zagadnienie do tej kategorii
   text_issue_updated: "Zagadnienie {{id}} zostało zaktualizowane (by {{author}})."
   text_issues_destroy_confirmation: 'Czy jestes pewien, że chcesz usunąć wskazane zagadnienia?'
@@ -786,9 +786,9 @@ pl:
   text_load_default_configuration: Załaduj domyślną konfigurację
   text_min_max_length_info: 0 oznacza brak restrykcji
   text_no_configuration_data: "Role użytkowników, typy zagadnień, statusy zagadnień oraz przepływ pracy nie zostały jeszcze skonfigurowane.\nJest wysoce rekomendowane by załadować domyślną konfigurację. Po załadowaniu będzie możliwość edycji tych danych."
-  text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszyskie powiązane dane?
+  text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszystkie powiązane dane?
   text_project_identifier_info: 'Małe litery (a-z), liczby i myślniki dozwolone.<br />Raz zapisany, identyfikator nie może być zmieniony.'
-  text_reassign_time_entries: 'Przepnij zalogowany czas do tego zagadnienia:'
+  text_reassign_time_entries: 'Przepnij przepracowany czas do tego zagadnienia:'
   text_regexp_info: np. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Wybierz lub uaktualnij przyporządkowanie użytkowników Redmine do użytkowników repozytorium.\nUżytkownicy z taką samą nazwą lub adresem email są przyporządkowani automatycznie."
   text_rmagick_available: RMagick dostępne (opcjonalnie)
@@ -796,12 +796,12 @@ pl:
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_status_changed_by_changeset: "Zastosowane w zmianach {{value}}."
   text_subprojects_destroy_warning: "Podprojekt(y): {{value}} zostaną także usunięte."
-  text_tip_task_begin_day: zadanie zaczynające się dzisiaj
-  text_tip_task_begin_end_day: zadanie zaczynające i kończące się dzisiaj
-  text_tip_task_end_day: zadanie kończące się dzisiaj
-  text_tracker_no_workflow: Brak przepływu zefiniowanego dla tego typu zagadnienia
+  text_tip_issue_begin_day: zadanie zaczynające się dzisiaj
+  text_tip_issue_begin_end_day: zadanie zaczynające i kończące się dzisiaj
+  text_tip_issue_end_day: zadanie kończące się dzisiaj
+  text_tracker_no_workflow: Brak przepływu zdefiniowanego dla tego typu zagadnienia
   text_unallowed_characters: Niedozwolone znaki
-  text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnien, które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."
+  text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnień, które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."
   text_user_wrote: "{{value}} napisał:"
   text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
@@ -817,7 +817,7 @@ pl:
   button_create_and_continue: Stwórz i dodaj kolejne
   text_custom_field_possible_values_info: 'Każda wartość w osobnej linii'
   setting_repository_log_display_limit: Maksymalna liczba rewizji pokazywanych w logu pliku
-  setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych zagnieżdżanych w stronie
+  setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych osadzanych w stronie
   field_watcher: Obserwator
   setting_openid: Logowanie i rejestracja przy użyciu OpenID
   field_identity_url: Identyfikator OpenID (URL)
@@ -829,10 +829,10 @@ pl:
   label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
+  text_wiki_page_destroy_question: Ta strona posiada podstrony ({{descendants}}). Co chcesz zrobić?
+  text_wiki_page_reassign_children: Podepnij je do strony nadrzędnej względem usuwanej
+  text_wiki_page_nullify_children: Przesuń je na szczyt hierarchii
+  text_wiki_page_destroy_children: Usuń wszystkie podstrony
   setting_password_min_length: Minimalna długość hasła
   field_group_by: Grupuj wyniki wg
   mail_subject_wiki_content_updated: "Strona wiki '{{page}}' została uaktualniona"
@@ -844,7 +844,7 @@ pl:
   permission_add_project: Tworzenie projektu
   setting_new_project_user_role_id: Rola nadawana twórcom projektów, którzy nie posiadają uprawnień administatora
   label_view_all_revisions: Pokaż wszystkie rewizje
-  label_tag: Tag
+  label_tag: Słowo kluczowe
   label_branch: Gałąź
   error_no_tracker_in_project: Projekt nie posiada powiązanych typów zagadnień. Sprawdź ustawienia projektu.
   error_no_default_issue_status: Nie zdefiniowano domyślnego statusu zagadnień. Sprawdź konfigurację (Przejdź do "Administracja -> Statusy zagadnień).
@@ -854,7 +854,7 @@ pl:
   label_group_plural: Grupy
   label_group: Grupa
   label_group_new: Nowa grupa
-  label_time_entry_plural: Spędzony czas
+  label_time_entry_plural: Przepracowany czas
   text_journal_added: "Dodano {{label}} {{value}}"
   field_active: Aktywne
   enumeration_system_activity: Aktywność Systemowa
@@ -912,22 +912,33 @@ pl:
   label_board_locked: Zamknięta
   permission_export_wiki_pages: Eksport stron wiki
   permission_manage_project_activities: Zarządzanie aktywnościami projektu
-  setting_cache_formatted_text: Cache formatted text
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  setting_cache_formatted_text: Buforuj sformatowany tekst
+  error_unable_delete_issue_status: Nie można usunąć statusu zagadnienia
+  label_profile: Profil
+  permission_manage_subtasks: Zarządzanie podzagadnieniami
+  field_parent_issue: Zagadnienie nadrzędne
+  label_subtask_plural: Podzagadnienia
+  label_project_copy_notifications: Wyślij powiadomienia mailowe przy kopiowaniu projektu
+  error_can_not_delete_custom_field: Nie można usunąć tego pola
+  error_unable_to_connect: Nie można połączyć ({{value}})
+  error_can_not_remove_role: Ta rola przypisana jest niektórym użytkownikom i nie może zostać usunięta.
+  error_can_not_delete_tracker: Ten typ przypisany jest do części zagadnień i nie może zostać usunięty.
+  field_principal: Przełożony
+  label_my_page_block: Elementy
+  notice_failed_to_save_members: "Nie można zapisać uczestników: {{errors}}."
+  text_zoom_out: Zmniejsz czcionkę
+  text_zoom_in: Powiększ czcionkę
+  notice_unable_delete_time_entry: Nie można usunąć wpisu z dziennika.
+  label_overall_spent_time: Przepracowany czas
+  field_time_entries: Dziennik
+  project_module_gantt: Diagram Gantta
+  project_module_calendar: Kalendarz
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

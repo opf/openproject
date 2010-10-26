@@ -143,7 +143,7 @@ lt:
           other:  "Išsaugant objektą {{model}} rastos {{count}} klaidos"
         body: "Šiuose laukuose yra klaidų:"
 
-      pranešimus:
+      messages:
         inclusion: "nenumatyta reikšmė"
         exclusion: "užimtas"
         invalid: "neteisingas"
@@ -179,6 +179,7 @@ lt:
         greater_than_start_date: "turi būti didesnė negu pradžios data"
         not_same_project: "nepriklauso tam pačiam projektui"
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
     
   actionview_instancetag_blank_option: prašom parinkti
   
@@ -741,7 +742,6 @@ lt:
   label_search_titles_only: Ieškoti pavadinimų tiktai
   label_user_mail_option_all: "Bet kokiam įvykiui visuose mano projektuose"
   label_user_mail_option_selected: "Bet kokiam įvykiui tiktai pasirinktuose projektuose ..."
-  label_user_mail_option_none: "Tiktai dalykai kuriuos aš stebiu ar aš esu įtrauktas į"
   label_user_mail_no_self_notified: "Nenoriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
   label_registration_activation_by_email: "paskyros aktyvacija per e-paštą"
   label_registration_manual_activation: "rankinė paskyros aktyvacija"
@@ -851,9 +851,9 @@ lt:
   text_journal_set_to: "{{label}} pakeista į {{value}}"
   text_journal_deleted: "{{label}} ištrintas ({{old}})"
   text_journal_added: "{{label}} {{value}} pridėtas"
-  text_tip_task_begin_day: užduotis, prasidedanti šią dieną
-  text_tip_task_end_day: užduotis, pasibaigianti šią dieną
-  text_tip_task_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
+  text_tip_issue_begin_day: užduotis, prasidedanti šią dieną
+  text_tip_issue_end_day: užduotis, pasibaigianti šią dieną
+  text_tip_issue_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
   text_project_identifier_info: 'Mažosios raidės (a-z), skaičiai ir brūkšniai galimi.<br/>Išsaugojus, identifikuotojas negali būti keičiamas.'
   text_caracters_maximum: "{{count}} simbolių maksimumas."
   text_caracters_minimum: "Turi būti mažiausiai {{count}} simbolių ilgio."
@@ -974,3 +974,14 @@ lt:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

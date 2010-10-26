@@ -68,10 +68,11 @@ de:
         other: "fast {{count}} Jahren"
 
   number:
+    # Default format for numbers
     format:
-      precision: 2
       separator: ','
       delimiter: '.'
+      precision: 2
     currency:
       format:
         unit: '€'
@@ -252,7 +253,7 @@ de:
   field_priority: Priorität
   field_fixed_version: Zielversion
   field_user: Benutzer
-  field_principal: Principal
+  field_principal: Auftraggeber
   field_role: Rolle
   field_homepage: Projekt-Homepage
   field_is_public: Öffentlich
@@ -297,6 +298,7 @@ de:
   field_redirect_existing_links: Existierende Links umleiten
   field_estimated_hours: Geschätzter Aufwand
   field_column_names: Spalten
+  field_time_entries: Logzeit
   field_time_zone: Zeitzone
   field_searchable: Durchsuchbar
   field_default_value: Standardwert
@@ -428,6 +430,8 @@ de:
   project_module_wiki: Wiki
   project_module_repository: Projektarchiv
   project_module_boards: Foren
+  project_module_calendar: Kalender
+  project_module_gantt: Gantt
   
   label_user: Benutzer
   label_user_plural: Benutzer
@@ -485,7 +489,7 @@ de:
   label_my_page: Meine Seite
   label_my_account: Mein Konto
   label_my_projects: Meine Projekte
-  label_my_page_block: My page block
+  label_my_page_block: Bereich "Meine Seite"
   label_administration: Administration
   label_login: Anmelden
   label_logout: Abmelden
@@ -499,7 +503,7 @@ de:
   label_user_activity: "Aktivität von {{value}}"
   label_new: Neu
   label_logged_as: Angemeldet als
-  label_environment: Environment
+  label_environment: Umgebung
   label_authentication: Authentifizierung
   label_auth_source: Authentifizierungs-Modus
   label_auth_source_new: Neuer Authentifizierungs-Modus
@@ -736,7 +740,6 @@ de:
   label_search_titles_only: Nur Titel durchsuchen
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten..."
-  label_user_mail_option_none: "Nur für Dinge, die ich beobachte oder an denen ich beteiligt bin"
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
   label_registration_activation_by_email: Kontoaktivierung durch E-Mail
   label_registration_manual_activation: Manuelle Kontoaktivierung
@@ -795,9 +798,10 @@ de:
   button_uncheck_all: Alles abwählen
   button_delete: Löschen
   button_create: Anlegen
-  button_create_and_continue: Anlegen + nächstes Ticket
+  button_create_and_continue: Anlegen und weiter
   button_test: Testen
   button_edit: Bearbeiten
+  button_edit_associated_wikipage: "Zugehörige Wikiseite bearbeiten: {{page_title}}"
   button_add: Hinzufügen
   button_change: Wechseln
   button_apply: Anwenden
@@ -831,7 +835,7 @@ de:
   button_quote: Zitieren
   button_duplicate: Duplizieren
   button_show: Anzeigen
-
+  
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
@@ -853,9 +857,9 @@ de:
   text_journal_set_to: "{{label}} wurde auf {{value}} gesetzt"
   text_journal_deleted: "{{label}} {{old}} wurde gelöscht"
   text_journal_added: "{{label}} {{value}} wurde hinzugefügt"
-  text_tip_task_begin_day: Aufgabe, die an diesem Tag beginnt
-  text_tip_task_end_day: Aufgabe, die an diesem Tag endet
-  text_tip_task_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
+  text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
+  text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
+  text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern und Bindestriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_caracters_maximum: "Max. {{count}} Zeichen."
   text_caracters_minimum: "Muss mindestens {{count}} Zeichen lang sein."
@@ -927,4 +931,11 @@ de:
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
 
-  field_time_entries: Log time
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

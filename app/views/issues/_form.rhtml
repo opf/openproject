@@ -1,3 +1,5 @@
+<%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
+
 <div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
 <%= observe_field :issue_tracker_id, :url => { :action => :new, :project_id => @project, :id => @issue },
@@ -20,7 +22,7 @@
 </div>
 
 <div id="attributes" class="attributes">
-	<%= render :partial => 'attributes' %>
+	<%= render :partial => 'issues/attributes' %>
 </div>
 
 <% if @issue.new_record? %>

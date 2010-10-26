@@ -1,6 +1,6 @@
 <h2><%= link_to l(:label_user_plural), :controller => 'users', :action => 'index' %> &#187; <%=l(:label_user_new)%></h2>
 
-<% labelled_tabular_form_for :user, @user, :url => { :action => "add" }, :html => { :class => nil } do |f| %>
+<% labelled_tabular_form_for :user, @user, :url => { :action => "create" }, :html => { :class => nil } do |f| %>
 	<%= render :partial => 'form', :locals => { :f => f } %>
 	<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
 	<p>

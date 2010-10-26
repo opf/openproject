@@ -1,4 +1,4 @@
-<% form_for(:user, :url => { :action => 'edit' }) do %>
+<% form_for(:user, :url => { :action => 'update' }, :html => {:method => :put}) do %>
 <div class="box">
 <% Group.all.sort.each do |group| %>
 <label><%= check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %> <%=h group %></label><br />

@@ -28,6 +28,7 @@
 <% remote_form_for(:relation, @relation, 
                  :url => {:controller => 'issue_relations', :action => 'new', :issue_id => @issue},
                  :method => :post,
+                 :complete => "Form.Element.focus('relation_issue_to_id');",
                  :html => {:id => 'new-relation-form', :style => (@relation ? '' : 'display: none;')}) do |f| %>
 <%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
 <% end %>

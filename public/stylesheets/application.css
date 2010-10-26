@@ -419,6 +419,7 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings textarea { width: 99%; }
 
 fieldset.settings label { display: block; }
+.parent { padding-left: 20px; }
 
 .required {color: #bb0000;}
 .summary {font-style: italic;}
@@ -787,8 +788,10 @@ background-image:url('../images/close_hl.png');
   white-space:nowrap;
 }
 
+.task.label {width:100%;}
+
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
-.task_done { background:#66f url(../images/task_done.png); border: 1px solid #66f; }  
+.task_done { background:#00c600 url(../images/task_done.png); border: 1px solid #00c600; }  
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 
 .task_todo.parent { background: #888; border: 1px solid #888; height: 6px;}
@@ -796,7 +799,17 @@ background-image:url('../images/close_hl.png');
 .task_todo.parent .left  { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -5px; left: 0px; top: -1px;}
 .task_todo.parent .right { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-right: -5px; right: 0px; top: -1px;}
 
-.milestone { background-image:url(../images/milestone.png); background-repeat: no-repeat; border: 0; }
+.milestone { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; }
+.milestone_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.milestone_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.milestone_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.project-line { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; }
+.project_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.project_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.project_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+
+.version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
+.version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
 
 /***** Icons *****/
 .icon {
@@ -840,6 +853,7 @@ padding-bottom: 3px;
 .icon-comment  { background-image: url(../images/comment.png); }
 .icon-summary  { background-image: url(../images/lightning.png); }
 .icon-server-authentication { background-image: url(../images/server_key.png); }
+.icon-issue { background-image: url(../images/ticket.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -896,6 +910,12 @@ td.username img.gravatar {
 #activity dt img.gravatar {
 	float: left;
 	margin: 0 1em 1em 0;
+}
+
+/* Used on 12px Gravatar img tags without the icon background */
+.icon-gravatar {
+  float: left;
+  margin-right: 4px;
 }
 
 #activity dt,

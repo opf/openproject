@@ -1,6 +1,8 @@
+<% @gantt.view = self %>
 <h2><%= l(:label_gantt) %></h2>
 
-<% form_tag(params.merge(:month => nil, :year => nil, :months => nil), :id => 'query_form') do %>
+<% form_tag(gantt_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :put, :id => 'query_form') do %>
+  <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="collapsible">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
 	<div>
@@ -27,7 +29,8 @@
                    }, :class => 'icon icon-checked' %>
                    
 <%= link_to_remote l(:button_clear),
-                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   	 :method => :put,
                      :update => "content",
                    }, :class => 'icon icon-reload' if @query.new_record? %>
 </p>
@@ -54,11 +57,12 @@ if @gantt.zoom >1
     end
 end
 
+# Width of the entire chart    
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
-g_height = [(20 * @gantt.events.length + 6)+150, 206].max
+# Collect the number of issues on Versions
+g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
 %>
-
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">
@@ -66,26 +70,10 @@ t_height = g_height + headers_height
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
-<%
-#
-# Tasks subjects
-#
-top = headers_height + 8
-@gantt.events.each do |i|
-left = 4 + (i.is_a?(Issue) ? i.level * 16 : 0)
- %>
-    <div style="position: absolute;line-height:1.2em;height:16px;top:<%= top %>px;left:<%= left %>px;overflow:hidden;"><small>    
-    <% if i.is_a? Issue %>
-      	<%= h("#{i.project} -") unless @project && @project == i.project %>
-      	<%= link_to_issue i %>
-  	<% else %>
-		<span class="icon icon-package">
-	      	<%= link_to_version i %>
-		</span>
-  	<% end %>  	
-  	</small></div>
-    <% top = top + 20
-end %>
+<% top = headers_height + 8 %>
+
+<%= @gantt.subjects(:headers_height => headers_height, :top => top, :g_width => g_width) %>
+
 </div>
 </td>
 <td>
@@ -163,53 +151,9 @@ if show_days
 	end
 end %>
 
-<%
-#
-# Tasks
-#
-top = headers_height + 10
-@gantt.events.each do |i| 
-  if i.is_a? Issue 
-	i_start_date = (i.start_date >= @gantt.date_from ? i.start_date : @gantt.date_from )
-	i_end_date = (i.due_before <= @gantt.date_to ? i.due_before : @gantt.date_to )
-	
-	i_done_date = i.start_date + ((i.due_before - i.start_date+1)*i.done_ratio/100).floor
-	i_done_date = (i_done_date <= @gantt.date_from ? @gantt.date_from : i_done_date )
-	i_done_date = (i_done_date >= @gantt.date_to ? @gantt.date_to : i_done_date )
-	
-	i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-	
-	i_left = ((i_start_date - @gantt.date_from)*zoom).floor 	
-	i_width = ((i_end_date - i_start_date + 1)*zoom).floor - 2                  # total width of the issue (- 2 for left and right borders)
-	d_width = ((i_done_date - i_start_date)*zoom).floor - 2                     # done width
-	l_width = i_late_date ? ((i_late_date - i_start_date+1)*zoom).floor - 2 : 0 # delay width
-  css = "task " + (i.leaf? ? 'leaf' : 'parent')
-	%>
-	<div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;" class="<%= css %> task_todo"><div class="left"></div>&nbsp;<div class="right"></div></div>
-	<% if l_width > 0 %>
-	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= l_width %>px;" class="<%= css %> task_late">&nbsp;</div>
-	<% end %>
-	<% if d_width > 0 %>
-	    <div style="top:<%= top %>px;left:<%= i_left %>px;width:<%= d_width %>px;" class="<%= css %> task_done">&nbsp;</div>
-	<% end %>
-	<div style="top:<%= top %>px;left:<%= i_left + i_width + 8 %>px;background:#fff;" class="<%= css %>">
-	<%= i.status.name %>
-	<%= (i.done_ratio).to_i %>%
-	</div>
-	<div class="tooltip" style="position: absolute;top:<%= top %>px;left:<%= i_left %>px;width:<%= i_width %>px;height:12px;">
-	<span class="tip">
-    <%= render_issue_tooltip i %>
-	</span></div>
-<% else 
-    i_left = ((i.start_date - @gantt.date_from)*zoom).floor
-    %>
-    <div style="top:<%= top %>px;left:<%= i_left %>px;width:15px;" class="task milestone">&nbsp;</div>
-	<div style="top:<%= top %>px;left:<%= i_left + 12 %>px;background:#fff;" class="task">
-		<strong><%= format_version_name i %></strong>
-	</div>
-<% end %>
-	<% top = top + 20
-end %>
+<% top = headers_height + 10 %>
+
+<%= @gantt.lines(:top => top, :zoom => zoom, :g_width => g_width ) %>
 
 <%
 #
@@ -226,8 +170,8 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 
 <table width="100%">
 <tr>
-<td align="left"><%= link_to_remote ('&#171; ' + l(:label_previous)), {:url => @gantt.params_previous, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_previous)} %></td>
-<td align="right"><%= link_to_remote (l(:label_next) + ' &#187;'), {:url => @gantt.params_next, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_next)} %></td>
+<td align="left"><%= link_to_remote ('&#171; ' + l(:label_previous)), {:url => @gantt.params_previous, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_previous)} %></td>
+<td align="right"><%= link_to_remote (l(:label_next) + ' &#187;'), {:url => @gantt.params_next, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_next)} %></td>
 </tr>
 </table>
 

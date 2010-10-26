@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
+<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
 </div>
 
 <%= render_timelog_breadcrumb %>
@@ -13,7 +13,7 @@
   <%# TODO: get rid of the project_id field, that should already be in the URL %>
   <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
   <%= hidden_field_tag('issue_id', params[:issue_id]) if @issue %>
-  <%= render :partial => 'date_range' %>
+  <%= render :partial => 'timelog/date_range' %>
 
   <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],

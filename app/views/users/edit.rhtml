@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_profile), {:controller => 'users', :action => 'show', :id => @user}, :class => 'icon icon-user' %>
+<%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user' %>
 <%= change_status_link(@user) %>
 </div>
 

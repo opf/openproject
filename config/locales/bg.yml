@@ -8,10 +8,10 @@ bg:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
@@ -26,7 +26,7 @@ bg:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-    
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -69,27 +69,27 @@ bg:
       separator: "."
       delimiter: ""
       precision: 3
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
-          byte: 
+        units:
+          byte:
             one: Byte
             other: Bytes
           kb: "KB"
           mb: "MB"
           gb: "GB"
           tb: "TB"
-      
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       messages:
@@ -116,9 +116,10 @@ bg:
         greater_than_start_date: "трябва да е след началната дата"
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Изберете
-  
+
   general_text_No: 'Не'
   general_text_Yes: 'Да'
   general_text_no: 'не'
@@ -129,7 +130,7 @@ bg:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Профилът е обновен успешно.
   notice_account_invalid_creditentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
@@ -149,18 +150,18 @@ bg:
   notice_email_sent: "Изпратен e-mail на {{value}}"
   notice_email_error: "Грешка при изпращане на e-mail ({{value}})"
   notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
-  
+
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: {{value}}"
-  
+
   mail_subject_lost_password: "Вашата парола ({{value}})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
   mail_subject_register: "Активация на профил ({{value}})"
   mail_body_register: 'За да активирате профила си използвайте следния линк:'
-  
+
   gui_validation_error: 1 грешка
   gui_validation_error_plural: "{{count}} грешки"
-  
+
   field_name: Име
   field_description: Описание
   field_summary: Групиран изглед
@@ -240,7 +241,7 @@ bg:
   field_redirect_existing_links: Пренасочване на съществуващи линкове
   field_estimated_hours: Изчислено време
   field_default_value: Стойност по подразбиране
-  
+
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
@@ -261,7 +262,7 @@ bg:
   setting_autologin: Автоматичен вход
   setting_date_format: Формат на датата
   setting_cross_project_issue_relations: Релации на задачи между проекти
-  
+
   label_user: Потребител
   label_user_plural: Потребители
   label_user_new: Нов потребител
@@ -517,7 +518,7 @@ bg:
   label_added_time_by: "Публикувана от {{author}} преди {{age}}"
   label_updated_time: "Обновена преди {{value}}"
   label_jump_to_a_project: Проект...
-  
+
   button_login: Вход
   button_submit: Прикачване
   button_save: Запис
@@ -550,20 +551,20 @@ bg:
   button_unarchive: Разархивиране
   button_reset: Генериране наново
   button_rename: Преименуване
-  
+
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
-  
+
   text_select_mail_notifications: Изберете събития за изпращане на e-mail.
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_min_max_length_info: 0 - без ограничения
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_tip_task_begin_day: задача започваща този ден
-  text_tip_task_end_day: задача завършваща този ден
-  text_tip_task_begin_end_day: задача започваща и завършваща този ден
+  text_tip_issue_begin_day: задача започваща този ден
+  text_tip_issue_end_day: задача завършваща този ден
+  text_tip_issue_begin_end_day: задача започваща и завършваща този ден
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
   text_caracters_maximum: "До {{count}} символа."
   text_length_between: "От {{min}} до {{max}} символа."
@@ -577,7 +578,7 @@ bg:
   text_issue_category_destroy_question: "Има задачи ({{count}}) обвързани с тази категория. Какво ще изберете?"
   text_issue_category_destroy_assignments: Премахване на връзките с категорията
   text_issue_category_reassign_to: Преобвързване с категория
-  
+
   default_role_manager: Мениджър
   default_role_developer: Разработчик
   default_role_reporter: Публикуващ
@@ -599,7 +600,7 @@ bg:
   default_priority_immediate: Веднага
   default_activity_design: Дизайн
   default_activity_development: Разработка
-  
+
   enumeration_issue_priorities: Приоритети на задачи
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
@@ -621,7 +622,6 @@ bg:
   text_user_mail_option: "За неизбраните проекти, ще получавате известия само за наблюдавани дейности или в които участвате (т.е. автор или назначени на мен)."
   label_user_mail_option_selected: "За всички събития само в избраните проекти..."
   label_user_mail_option_all: "За всяко събитие в проектите, в които участвам"
-  label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
   setting_emails_footer: Подтекст за e-mail
   label_float: Дробно
   button_copy: Копиране
@@ -904,3 +904,14 @@ bg:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

@@ -718,7 +718,6 @@ fr:
   label_search_titles_only: Uniquement dans les titres
   label_user_mail_option_all: "Pour tous les événements de tous mes projets"
   label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
-  label_user_mail_option_none: "Seulement pour ce que je surveille ou à quoi je participe"
   label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
   label_registration_activation_by_email: activation du compte par email
   label_registration_manual_activation: activation manuelle du compte
@@ -833,9 +832,9 @@ fr:
   text_subprojects_destroy_warning: "Ses sous-projets : {{value}} seront également supprimés."
   text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
   text_are_you_sure: Êtes-vous sûr ?
-  text_tip_task_begin_day: tâche commençant ce jour
-  text_tip_task_end_day: tâche finissant ce jour
-  text_tip_task_begin_end_day: tâche commençant et finissant ce jour
+  text_tip_issue_begin_day: tâche commençant ce jour
+  text_tip_issue_end_day: tâche finissant ce jour
+  text_tip_issue_begin_end_day: tâche commençant et finissant ce jour
   text_project_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres et tirets sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
   text_caracters_maximum: "{{count}} caractères maximum."
   text_caracters_minimum: "{{count}} caractères minimum."
@@ -917,11 +916,11 @@ fr:
   enumeration_system_activity: Activité système
   label_board_sticky: Sticky
   label_board_locked: Verrouillé
-  error_unable_delete_issue_status: Unable to delete issue status
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  error_unable_delete_issue_status: Impossible de supprimer le statut de demande
+  error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
+  error_unable_to_connect: Connexion impossible ({{value}})
+  error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
+  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
   field_principal: Principal
   notice_failed_to_save_members: "Erreur lors de la sauvegarde des membres: {{errors}}."
   text_zoom_out: Zoom arrière
@@ -929,4 +928,14 @@ fr:
   notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   label_overall_spent_time: Temps passé global
   field_time_entries: Log time
-
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Modifier la page de Wiki associée: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

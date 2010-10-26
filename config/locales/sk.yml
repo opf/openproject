@@ -112,6 +112,7 @@ sk:
         greater_than_start_date: "musí byť neskôr ako počiatočný dátum"
         not_same_project: "nepatrí rovnakému projektu"
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť"
+        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   # SK translation by Stanislav Pach | stano.pach@seznam.cz
   
@@ -580,7 +581,6 @@ sk:
   label_search_titles_only: Vyhľadávať iba v názvoch
   label_user_mail_option_all: "Pre všetky události všetkých mojích projektov"
   label_user_mail_option_selected: "Pre všetky události vybraných projektov"
-  label_user_mail_option_none: "Len pre události, ktoré sledujem alebo sa ma týkajú"
   label_user_mail_no_self_notified: "Nezasielať informácie o mnou vytvorených zmenách"
   label_registration_activation_by_email: aktivácia účtu emailom
   label_registration_manual_activation: manuálna aktivácia účtu
@@ -648,9 +648,9 @@ sk:
   text_project_destroy_confirmation: Ste si istý, že chcete odstránit tento projekt a všetky súvisiace dáta ?
   text_workflow_edit: Vyberte rolu a frontu k úprave workflow
   text_are_you_sure: Ste si istý?
-  text_tip_task_begin_day: úloha začína v tento deň
-  text_tip_task_end_day: úloha končí v tento deň
-  text_tip_task_begin_end_day: úloha začína a končí v tento deň
+  text_tip_issue_begin_day: úloha začína v tento deň
+  text_tip_issue_end_day: úloha končí v tento deň
+  text_tip_issue_begin_end_day: úloha začína a končí v tento deň
   text_project_identifier_info: 'Povolené znaky sú malé písmena (a-z), čísla a pomlčka.<br />Po uložení už nieje možné identifikátor zmeniť.'
   text_caracters_maximum: "{{count}} znakov maximálne."
   text_caracters_minimum: "Musí byť aspoň {{count}} znaky/ov dlhé."
@@ -905,3 +905,14 @@ sk:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   label_overall_spent_time: Overall spent time
   field_time_entries: Log time
+  project_module_gantt: Gantt
+  project_module_calendar: Calendar
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

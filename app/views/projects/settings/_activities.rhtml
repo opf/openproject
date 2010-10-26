@@ -1,4 +1,4 @@
-<% form_tag({:controller => 'projects', :action => 'save_activities', :id => @project}, :class => "tabular") do %>
+<% form_tag(project_project_enumerations_path(@project), :method => :put, :class => "tabular") do %>
 
 <table class="list">
   <thead><tr>
@@ -32,7 +32,7 @@
 </table>
 
 <div class="contextual">
-<%= link_to(l(:button_reset), {:controller => 'projects', :action => 'reset_activities', :id => @project},
+<%= link_to(l(:button_reset), project_project_enumerations_path(@project),
 						:method => :delete,
 						:confirm => l(:text_are_you_sure),
             :class => 'icon icon-del') %>

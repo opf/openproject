@@ -197,7 +197,7 @@ class IssuesApiTest < ActionController::IntegrationTest
     setup do
       @issue_count = Issue.count
       @journal_count = Journal.count
-      @attributes = {:subject => 'API update'}
+      @attributes = {:subject => 'API update', :notes => 'A new note'}
 
       put '/issues/1.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
     end
@@ -213,10 +213,15 @@ class IssuesApiTest < ActionController::IntegrationTest
       assert_equal Journal.count, @journal_count + 1
     end
 
+    should "add the note to the journal" do
+      journal = Journal.last
+      assert_equal "A new note", journal.notes
+    end
+
     should "update the issue" do
       issue = Issue.find(1)
       @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute)
+        assert_equal value, issue.send(attribute) unless attribute == :notes
       end
     end
     
@@ -251,7 +256,7 @@ class IssuesApiTest < ActionController::IntegrationTest
     setup do
       @issue_count = Issue.count
       @journal_count = Journal.count
-      @attributes = {:subject => 'API update'}
+      @attributes = {:subject => 'API update', :notes => 'A new note'}
 
       put '/issues/1.json', {:issue => @attributes}, :authorization => credentials('jsmith')
     end
@@ -267,13 +272,18 @@ class IssuesApiTest < ActionController::IntegrationTest
       assert_equal Journal.count, @journal_count + 1
     end
 
+    should "add the note to the journal" do
+      journal = Journal.last
+      assert_equal "A new note", journal.notes
+    end
+
     should "update the issue" do
       issue = Issue.find(1)
       @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute)
+        assert_equal value, issue.send(attribute) unless attribute == :notes
       end
     end
-    
+
   end
   
   context "PUT /issues/1.json with failed update" do

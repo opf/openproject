@@ -231,7 +231,7 @@ en:
   field_tracker: Tracker
   field_subject: Subject
   field_due_date: Due date
-  field_assigned_to: Assigned to
+  field_assigned_to: Assignee
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
@@ -293,6 +293,9 @@ en:
   field_group_by: Group results by
   field_sharing: Sharing
   field_parent_issue: Parent task
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+  field_text: Text field
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -347,6 +350,7 @@ en:
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
+  setting_default_notification_option: Default notification option
   
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -412,6 +416,8 @@ en:
   project_module_wiki: Wiki
   project_module_repository: Repository
   project_module_boards: Boards
+  project_module_calendar: Calendar
+  project_module_gantt: Gantt
   
   label_user: User
   label_user_plural: Users
@@ -720,7 +726,10 @@ en:
   label_search_titles_only: Search titles only
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
-  label_user_mail_option_none: "Only for things I watch or I'm involved in"
+  label_user_mail_option_none: "No events"
+  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
+  label_user_mail_option_only_assigned: "Only for things I am assigned to"
+  label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -782,6 +791,7 @@ en:
   button_create_and_continue: Create and continue
   button_test: Test
   button_edit: Edit
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   button_add: Add
   button_change: Change
   button_apply: Apply
@@ -833,13 +843,14 @@ en:
   text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure ?
+  text_are_you_sure_with_children: "Delete issue and all child issues?"
   text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
   text_journal_set_to: "{{label}} set to {{value}}"
   text_journal_deleted: "{{label}} deleted ({{old}})"
   text_journal_added: "{{label}} {{value}} added"
-  text_tip_task_begin_day: task beginning this day
-  text_tip_task_end_day: task ending this day
-  text_tip_task_begin_end_day: task beginning and ending this day
+  text_tip_issue_begin_day: issue beginning this day
+  text_tip_issue_end_day: issue ending this day
+  text_tip_issue_begin_end_day: issue beginning and ending this day
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "{{count}} characters maximum."
   text_caracters_minimum: "Must be at least {{count}} characters long."

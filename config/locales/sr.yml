@@ -68,7 +68,7 @@ sr:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: ""
       precision: 3
     human:
@@ -719,7 +719,6 @@ sr:
   label_search_titles_only: Претражуј само наслове
   label_user_mail_option_all: "За било који догађај на свим мојим пројектима"
   label_user_mail_option_selected: "За било који догађај на само одабраним пројектима..."
-  label_user_mail_option_none: "Само за ствари које пратим или у које сам укључен"
   label_user_mail_no_self_notified: "Не желим бити обавештаван за промене које сам правим"
   label_registration_activation_by_email: активација налога путем е-поруке
   label_registration_manual_activation: ручна активација налога
@@ -836,9 +835,9 @@ sr:
   text_journal_set_to: "{{label}} постављен у {{value}}"
   text_journal_deleted: "{{label}} избрисано ({{old}})"
   text_journal_added: "{{label}} {{value}} додато"
-  text_tip_task_begin_day: задатак почиње овог дана
-  text_tip_task_end_day: задатак се завршава овог дана
-  text_tip_task_begin_end_day: задатак почиње и завршава овог дана
+  text_tip_issue_begin_day: задатак почиње овог дана
+  text_tip_issue_end_day: задатак се завршава овог дана
+  text_tip_issue_begin_end_day: задатак почиње и завршава овог дана
   text_project_identifier_info: 'Дозвољена су само мала слова (a-ш), бројеви и цртице.<br />Једном снимљен идентификатор више се не може променити.'
   text_caracters_maximum: "Највише {{count}} знак(ова)."
   text_caracters_minimum: "Број знакова мора бити најмање {{count}}."
@@ -910,4 +909,16 @@ sr:
   enumeration_activities: Активности (праћење времена)
   enumeration_system_activity: Системска активност
   
-  field_time_entries: Log time
+  field_time_entries: Време евиденције
+  project_module_gantt: Гантов дијаграм
+  project_module_calendar: Календар
+  field_member_of_group: Member of Group
+  field_assigned_to_role: Member of Role
+
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  field_text: Text field
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

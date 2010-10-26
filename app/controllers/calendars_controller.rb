@@ -8,6 +8,8 @@ class CalendarsController < ApplicationController
   helper :projects
   helper :queries
   include QueriesHelper
+  helper :sort
+  include SortHelper
 
   def show
     if params[:year] and params[:year].to_i > 1900
@@ -32,8 +34,11 @@ class CalendarsController < ApplicationController
       @calendar.events = events
     end
     
-    render :layout => false if request.xhr?
+    render :action => 'show', :layout => false if request.xhr?
   end
   
+  def update
+    show
+  end
 
 end

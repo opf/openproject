@@ -8,10 +8,10 @@ cs:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Neděle, Pondělí, Úterý, Středa, Čtvrtek, Pátek, Sobota]
     abbr_day_names: [Ne, Po, Út, St, Čt, Pá, So]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
     abbr_month_names: [~, Led, Úno, Bře, Dub, Kvě, Čer, Čec, Srp, Zář, Říj, Lis, Pro]
@@ -24,9 +24,9 @@ cs:
       time: "%H:%M"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
-    am: "am"
-    pm: "pm"
-    
+    am: "dop."
+    pm: "odp."
+
   datetime:
     distance_in_words:
       half_a_minute: "půl minuty"
@@ -61,35 +61,35 @@ cs:
         one:   "více než 1 rok"
         other: "více než {{count}} roky"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "témeř 1 rok"
+        other: "téměř {{count}} roky"
 
   number:
     format:
       separator: "."
       delimiter: ""
       precision: 3
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
+        units:
           kb: KB
           tb: TB
           gb: GB
-          byte: 
+          byte:
             one: Byte
             other: Bytes
           mb: MB
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "a"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       messages:
@@ -116,13 +116,14 @@ cs:
         greater_than_start_date: "musí být větší než počáteční datum"
         not_same_project: "nepatří stejnému projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
+        cant_link_an_issue_with_a_descendant: "Úkol nemůže být spojen s jedním z jeho dílčích úkolů"
 
   # Updated by Josef Liška <jl@chl.cz>
   # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
   # Based on original CZ translation by Jan Kadleček
-  
+
   actionview_instancetag_blank_option: Prosím vyberte
-  
+
   general_text_No: 'Ne'
   general_text_Yes: 'Ano'
   general_text_no: 'ne'
@@ -133,7 +134,7 @@ cs:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Účet byl úspěšně změněn.
   notice_account_invalid_creditentials: Chybné jméno nebo heslo
   notice_account_password_updated: Heslo bylo úspěšně změněno.
@@ -149,21 +150,21 @@ cs:
   notice_successful_connection: Úspěšné připojení.
   notice_file_not_found: Stránka na kterou se snažíte zobrazit neexistuje nebo byla smazána.
   notice_locking_conflict: Údaje byly změněny jiným uživatelem.
-  notice_scm_error: Entry and/or revision doesn't exist in the repository.
+  notice_scm_error: Záznam a/nebo revize neexistuje v repozitáři.
   notice_not_authorized: Nemáte dostatečná práva pro zobrazení této stránky.
   notice_email_sent: "Na adresu {{value}} byl odeslán email"
   notice_email_error: "Při odesílání emailu nastala chyba ({{value}})"
   notice_feeds_access_key_reseted: Váš klíč pro přístup k RSS byl resetován.
-  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
+  notice_failed_to_save_issues: "Chyba při uložení {{count}} úkolu(ů) z {{total}} vybraných: {{ids}}."
   notice_no_issue_selected: "Nebyl zvolen žádný úkol. Prosím, zvolte úkoly, které chcete editovat"
   notice_account_pending: "Váš účet byl vytvořen, nyní čeká na schválení administrátorem."
   notice_default_data_loaded: Výchozí konfigurace úspěšně nahrána.
-  
+
   error_can_t_load_default_data: "Výchozí konfigurace nebyla nahrána: {{value}}"
-  error_scm_not_found: "Položka a/nebo revize neexistují v repository."
-  error_scm_command_failed: "Při pokusu o přístup k repository došlo k chybě: {{value}}"
+  error_scm_not_found: "Položka a/nebo revize neexistují v repozitáři."
+  error_scm_command_failed: "Při pokusu o přístup k repozitáři došlo k chybě: {{value}}"
   error_issue_not_found_in_project: 'Úkol nebyl nalezen nebo nepatří k tomuto projektu'
-  
+
   mail_subject_lost_password: "Vaše heslo ({{value}})"
   mail_body_lost_password: 'Pro změnu vašeho hesla klikněte na následující odkaz:'
   mail_subject_register: "Aktivace účtu ({{value}})"
@@ -172,10 +173,10 @@ cs:
   mail_body_account_information: Informace o vašem účtu
   mail_subject_account_activation_request: "Aktivace {{value}} účtu"
   mail_body_account_activation_request: "Byl zaregistrován nový uživatel {{value}}. Aktivace jeho účtu závisí na vašem potvrzení."
-  
+
   gui_validation_error: 1 chyba
   gui_validation_error_plural: "{{count}} chyb(y)"
-  
+
   field_name: Název
   field_description: Popis
   field_summary: Přehled
@@ -209,10 +210,10 @@ cs:
   field_due_date: Uzavřít do
   field_assigned_to: Přiřazeno
   field_priority: Priorita
-  field_fixed_version: Přiřazeno k verzi
+  field_fixed_version: Cílová verze
   field_user: Uživatel
   field_role: Role
-  field_homepage: Homepage
+  field_homepage: Domovská stránka
   field_is_public: Veřejný
   field_parent: Nadřazený projekt
   field_is_in_roadmap: Úkoly zobrazené v plánu
@@ -259,23 +260,23 @@ cs:
   field_searchable: Umožnit vyhledávání
   field_default_value: Výchozí hodnota
   field_comments_sorting: Zobrazit komentáře
-  
+
   setting_app_title: Název aplikace
   setting_app_subtitle: Podtitulek aplikace
   setting_welcome_text: Uvítací text
   setting_default_language: Výchozí jazyk
-  setting_login_required: Auten. vyžadována
+  setting_login_required: Autentifikace vyžadována
   setting_self_registration: Povolena automatická registrace
   setting_attachment_max_size: Maximální velikost přílohy
   setting_issues_export_limit: Limit pro export úkolů
   setting_mail_from: Odesílat emaily z adresy
   setting_bcc_recipients: Příjemci skryté kopie (bcc)
-  setting_host_name: Host name
+  setting_host_name: Jméno serveru
   setting_text_formatting: Formátování textu
-  setting_wiki_compression: Komperese historie Wiki
-  setting_feeds_limit: Feed content limit
+  setting_wiki_compression: Komprese historie Wiki
+  setting_feeds_limit: Limit obsahu příspěvků
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
-  setting_autofetch_changesets: Autofetch commits
+  setting_autofetch_changesets: Automaticky stahovat commity
   setting_sys_api_enabled: Povolit WS pro správu repozitory
   setting_commit_ref_keywords: Klíčová slova pro odkazy
   setting_commit_fix_keywords: Klíčová slova pro uzavření
@@ -284,23 +285,23 @@ cs:
   setting_time_format: Formát času
   setting_cross_project_issue_relations: Povolit vazby úkolů napříč projekty
   setting_issue_list_default_columns: Výchozí sloupce zobrazené v seznamu úkolů
-  setting_repositories_encodings: Kódování 
+  setting_repositories_encodings: Kódování
   setting_emails_footer: Patička emailů
   setting_protocol: Protokol
   setting_per_page_options: Povolené počty řádků na stránce
   setting_user_format: Formát zobrazení uživatele
-  setting_activity_days_default: Days displayed on project activity
-  setting_display_subprojects_issues: Display subprojects issues on main projects by default
-  
+  setting_activity_days_default: Dny zobrazené v činnosti projektu
+  setting_display_subprojects_issues: Automaticky zobrazit úkoly podprojektu v hlavním projektu
+
   project_module_issue_tracking: Sledování úkolů
   project_module_time_tracking: Sledování času
   project_module_news: Novinky
   project_module_documents: Dokumenty
   project_module_files: Soubory
   project_module_wiki: Wiki
-  project_module_repository: Repository
+  project_module_repository: Repozitář
   project_module_boards: Diskuse
-  
+
   label_user: Uživatel
   label_user_plural: Uživatelé
   label_user_new: Nový uživatel
@@ -308,16 +309,16 @@ cs:
   label_project_new: Nový projekt
   label_project_plural: Projekty
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  žádné projekty
+    one:   1 projekt
+    other: "{{count}} projekty(ů)"
   label_project_all: Všechny projekty
   label_project_latest: Poslední projekty
   label_issue: Úkol
   label_issue_new: Nový úkol
   label_issue_plural: Úkoly
   label_issue_view_all: Všechny úkoly
-  label_issues_by: "Úkoly od uživatele {{value}}"
+  label_issues_by: "Úkoly podle {{value}}"
   label_issue_added: Úkol přidán
   label_issue_updated: Úkol aktualizován
   label_document: Dokument
@@ -334,7 +335,7 @@ cs:
   label_tracker: Fronta
   label_tracker_plural: Fronty
   label_tracker_new: Nová fronta
-  label_workflow: Workflow
+  label_workflow: Průběh práce
   label_issue_status: Stav úkolu
   label_issue_status_plural: Stavy úkolů
   label_issue_status_new: Nový stav
@@ -377,14 +378,14 @@ cs:
   label_list: Seznam
   label_date: Datum
   label_integer: Celé číslo
-  label_float: Desetiné číslo
+  label_float: Desetinné číslo
   label_boolean: Ano/Ne
   label_string: Text
   label_text: Dlouhý text
   label_attribute: Atribut
   label_attribute_plural: Atributy
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "{{count}} stažení"
+  label_download_plural: "{{count}} stažení"
   label_no_data: Žádné položky
   label_change_status: Změnit stav
   label_history: Historie
@@ -393,7 +394,7 @@ cs:
   label_attachment_delete: Odstranit soubor
   label_attachment_plural: Soubory
   label_file_added: Soubor přidán
-  label_report: Přeheled
+  label_report: Přehled
   label_report_plural: Přehledy
   label_news: Novinky
   label_news_new: Přidat novinku
@@ -415,17 +416,17 @@ cs:
   label_closed_issues: uzavřený
   label_closed_issues_plural: uzavřené
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 otevřených / {{total}}
+    one:   1 otevřený / {{total}}
+    other: "{{count}} otevřených / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 otevřených
+    one:   1 otevřený
+    other: "{{count}} otevřených"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 uzavřených
+    one:   1 uzavřený
+    other: "{{count}} uzavřených"
   label_total: Celkem
   label_permissions: Práva
   label_current_status: Aktuální stav
@@ -449,9 +450,9 @@ cs:
   label_comment: Komentář
   label_comment_plural: Komentáře
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: žádné komentáře
+    one: 1 komentář
+    other: "{{count}} komentářů"
   label_comment_add: Přidat komentáře
   label_comment_added: Komentář přidán
   label_comment_delete: Odstranit komentář
@@ -481,8 +482,8 @@ cs:
   label_contains: obsahuje
   label_not_contains: neobsahuje
   label_day_plural: dny
-  label_repository: Repository
-  label_repository_plural: Repository
+  label_repository: Repozitář
+  label_repository_plural: Repozitáře
   label_browse: Procházet
   label_modification: "{{count}} změna"
   label_modification_plural: "{{count}} změn"
@@ -531,7 +532,7 @@ cs:
   label_diff_inline: uvnitř
   label_diff_side_by_side: vedle sebe
   label_options: Nastavení
-  label_copy_workflow_from: Kopírovat workflow z
+  label_copy_workflow_from: Kopírovat průběh práce z
   label_permissions_report: Přehled práv
   label_watched_issues: Sledované úkoly
   label_related_issues: Související úkoly
@@ -552,7 +553,7 @@ cs:
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
   label_show_completed_versions: Ukázat dokončené verze
-  label_me: mě
+  label_me: já
   label_board: Fórum
   label_board_new: Nové fórum
   label_board_plural: Fóra
@@ -575,18 +576,17 @@ cs:
   label_module_plural: Moduly
   label_added_time_by: "Přidáno uživatelem {{author}} před {{age}}"
   label_updated_time: "Aktualizováno před {{value}}"
-  label_jump_to_a_project: Zvolit projekt...
+  label_jump_to_a_project: Vyberte projekt...
   label_file_plural: Soubory
   label_changeset_plural: Changesety
   label_default_columns: Výchozí sloupce
   label_no_change_option: (beze změny)
-  label_bulk_edit_selected_issues: Bulk edit selected issues
+  label_bulk_edit_selected_issues: Hromadná úprava vybraných úkolů
   label_theme: Téma
   label_default: Výchozí
   label_search_titles_only: Vyhledávat pouze v názvech
   label_user_mail_option_all: "Pro všechny události všech mých projektů"
   label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
-  label_user_mail_option_none: "Pouze pro události které sleduji nebo které se mne týkají"
   label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
@@ -599,13 +599,13 @@ cs:
   label_scm: SCM
   label_plugins: Doplňky
   label_ldap_authentication: Autentifikace LDAP
-  label_downloads_abbr: D/L
+  label_downloads_abbr: Staž.
   label_optional_description: Volitelný popis
   label_add_another_file: Přidat další soubor
   label_preferences: Nastavení
   label_chronological_order: V chronologickém pořadí
   label_reverse_chronological_order: V obrácaném chronologickém pořadí
-  
+
   button_login: Přihlásit
   button_submit: Potvrdit
   button_save: Uložit
@@ -643,48 +643,48 @@ cs:
   button_annotate: Komentovat
   button_update: Aktualizovat
   button_configure: Konfigurovat
-  
+
   status_active: aktivní
   status_registered: registrovaný
   status_locked: uzamčený
-  
+
   text_select_mail_notifications: Vyberte akci při které bude zasláno upozornění emailem.
   text_regexp_info: např. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znamená bez limitu
   text_project_destroy_confirmation: Jste si jisti, že chcete odstranit tento projekt a všechna související data ?
-  text_workflow_edit: Vyberte roli a frontu k editaci workflow
+  text_workflow_edit: Vyberte roli a frontu k editaci průběhu práce
   text_are_you_sure: Jste si jisti?
-  text_tip_task_begin_day: úkol začíná v tento den
-  text_tip_task_end_day: úkol končí v tento den
-  text_tip_task_begin_end_day: úkol začíná a končí v tento den
+  text_tip_issue_begin_day: úkol začíná v tento den
+  text_tip_issue_end_day: úkol končí v tento den
+  text_tip_issue_begin_end_day: úkol začíná a končí v tento den
   text_project_identifier_info: 'Jsou povolena malá písmena (a-z), čísla a pomlčky.<br />Po uložení již není možné identifikátor změnit.'
   text_caracters_maximum: "{{count}} znaků maximálně."
   text_caracters_minimum: "Musí být alespoň {{count}} znaků dlouhé."
   text_length_between: "Délka mezi {{min}} a {{max}} znaky."
-  text_tracker_no_workflow: Pro tuto frontu není definován žádný workflow
+  text_tracker_no_workflow: Pro tuto frontu není definován žádný průběh práce
   text_unallowed_characters: Nepovolené znaky
   text_comma_separated: Povoleno více hodnot (oddělěné čárkou).
-  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
+  text_issues_ref_in_commit_messages: Odkazování a opravování úkolů ve zprávách commitů
   text_issue_added: "Úkol {{id}} byl vytvořen uživatelem {{author}}."
   text_issue_updated: "Úkol {{id}} byl aktualizován uživatelem {{author}}."
-  text_wiki_destroy_confirmation: Opravdu si přejete odstranit tuto WIKI a celý její obsah?
+  text_wiki_destroy_confirmation: Opravdu si přejete odstranit tuto Wiki a celý její obsah?
   text_issue_category_destroy_question: "Některé úkoly ({{count}}) jsou přiřazeny k této kategorii. Co s nimi chtete udělat?"
   text_issue_category_destroy_assignments: Zrušit přiřazení ke kategorii
   text_issue_category_reassign_to: Přiřadit úkoly do této kategorie
   text_user_mail_option: "U projektů, které nebyly vybrány, budete dostávat oznámení pouze o vašich či o sledovaných položkách (např. o položkách jejichž jste autor nebo ke kterým jste přiřazen(a))."
-  text_no_configuration_data: "Role, fronty, stavy úkolů ani workflow nebyly zatím nakonfigurovány.\nVelice doporučujeme nahrát výchozí konfiguraci.Po té si můžete vše upravit"
+  text_no_configuration_data: "Role, fronty, stavy úkolů ani průběh práce nebyly zatím nakonfigurovány.\nVelice doporučujeme nahrát výchozí konfiguraci. Po té si můžete vše upravit"
   text_load_default_configuration: Nahrát výchozí konfiguraci
   text_status_changed_by_changeset: "Použito v changesetu {{value}}."
   text_issues_destroy_confirmation: 'Opravdu si přejete odstranit všechny zvolené úkoly?'
   text_select_project_modules: 'Aktivní moduly v tomto projektu:'
   text_default_administrator_account_changed: Výchozí nastavení administrátorského účtu změněno
-  text_file_repository_writable: Povolen zápis do repository
+  text_file_repository_writable: Povolen zápis do adresáře ukládání souborů
   text_rmagick_available: RMagick k dispozici (volitelné)
   text_destroy_time_entries_question: "U úkolů, které chcete odstranit je evidováno {{hours}} práce. Co chete udělat?"
   text_destroy_time_entries: Odstranit evidované hodiny.
   text_assign_time_entries_to_project: Přiřadit evidované hodiny projektu
   text_reassign_time_entries: 'Přeřadit evidované hodiny k tomuto úkolu:'
-  
+
   default_role_manager: Manažer
   default_role_developer: Vývojář
   default_role_reporter: Reportér
@@ -692,7 +692,7 @@ cs:
   default_tracker_feature: Požadavek
   default_tracker_support: Podpora
   default_issue_status_new: Nový
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Ve vývoji
   default_issue_status_resolved: Vyřešený
   default_issue_status_feedback: Čeká se
   default_issue_status_closed: Uzavřený
@@ -704,9 +704,9 @@ cs:
   default_priority_high: Vysoká
   default_priority_urgent: Urgentní
   default_priority_immediate: Okamžitá
-  default_activity_design: Design
+  default_activity_design: Návhr
   default_activity_development: Vývoj
-  
+
   enumeration_issue_priorities: Priority úkolů
   enumeration_doc_categories: Kategorie dokumentů
   enumeration_activities: Aktivity (sledování času)
@@ -717,8 +717,8 @@ cs:
   mail_body_reminder: "{{count}} úkol(ů), které máte přiřazeny má termín během několik dní ({{days}}):"
   mail_subject_reminder: "{{count}} úkol(ů) má termín během několik dní ({{days}})"
   text_user_wrote: "{{value}} napsal:"
-  label_duplicated_by: duplicated by
-  setting_enabled_scm: Povoleno SCM
+  label_duplicated_by: duplikováno od
+  setting_enabled_scm: Povolené SCM
   text_enumeration_category_reassign_to: 'Přeřadit je do této:'
   text_enumeration_destroy_question: "Několik ({{count}}) objektů je přiřazeno k této hodnotě."
   label_incoming_emails: Příchozí e-maily
@@ -744,22 +744,22 @@ cs:
   permission_view_changesets: Zobrazování sady změn
   permission_view_time_entries: Zobrazení stráveného času
   permission_manage_versions: Spravování verzí
-  permission_manage_wiki: Spravování wiki
+  permission_manage_wiki: Spravování Wiki
   permission_manage_categories: Spravování kategorií úkolů
-  permission_protect_wiki_pages: Zabezpečení wiki stránek
+  permission_protect_wiki_pages: Zabezpečení Wiki stránek
   permission_comment_news: Komentování novinek
   permission_delete_messages: Mazání zpráv
   permission_select_project_modules: Výběr modulů projektu
   permission_manage_documents: Správa dokumentů
-  permission_edit_wiki_pages: Upravování stránek wiki
+  permission_edit_wiki_pages: Upravování stránek Wiki
   permission_add_issue_watchers: Přidání sledujících uživatelů
   permission_view_gantt: Zobrazené Ganttova diagramu
   permission_move_issues: Přesouvání úkolů
   permission_manage_issue_relations: Spravování vztahů mezi úkoly
-  permission_delete_wiki_pages: Mazání stránek na wiki
+  permission_delete_wiki_pages: Mazání stránek na Wiki
   permission_manage_boards: Správa diskusních fór
   permission_delete_wiki_pages_attachments: Mazání příloh
-  permission_view_wiki_edits: Prohlížení historie wiki
+  permission_view_wiki_edits: Prohlížení historie Wiki
   permission_add_messages: Posílání zpráv
   permission_view_messages: Prohlížení zpráv
   permission_manage_files: Spravování souborů
@@ -771,26 +771,26 @@ cs:
   permission_delete_issues: Mazání úkolů
   permission_view_issue_watchers: Zobrazení seznamu sledujícíh uživatelů
   permission_manage_repository: Spravování repozitáře
-  permission_commit_access: Commit access
+  permission_commit_access: Commit přístup
   permission_browse_repository: Procházení repozitáře
   permission_view_documents: Prohlížení dokumentů
   permission_edit_project: Úprava projektů
   permission_add_issue_notes: Přidávání poznámek
   permission_save_queries: Ukládání dotazů
-  permission_view_wiki_pages: Prohlížení wiki
-  permission_rename_wiki_pages: Přejmenovávání wiki stránek
+  permission_view_wiki_pages: Prohlížení Wiki
+  permission_rename_wiki_pages: Přejmenovávání Wiki stránek
   permission_edit_time_entries: Upravování záznamů o stráveném času
   permission_edit_own_issue_notes: Upravování vlastních poznámek
   setting_gravatar_enabled: Použít uživatelské ikony Gravatar
   label_example: Příklad
-  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi Redmine uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé  se shodným Redmine uživateslkým jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
+  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi Redmine uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé se shodným Redmine uživatelským jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
   permission_edit_own_messages: Upravit vlastní zprávy
   permission_delete_own_messages: Smazat vlastní zprávy
   label_user_activity: "Aktivita uživatele: {{value}}"
   label_updated_time_by: "Akutualizováno: {{author}} před: {{age}}"
   text_diff_truncated: '... Rozdílový soubor je zkrácen, protože jeho délka přesahuje max. limit.'
   setting_diff_max_lines_displayed: Maximální počet zobrazenách řádků rozdílů
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: Možnost zápisu do adresáře plugin assets
   warning_attachments_not_saved: "{{count}} soubor(ů) nebylo možné uložit."
   button_create_and_continue: Vytvořit a pokračovat
   text_custom_field_possible_values_info: 'Každá hodnota na novém řádku'
@@ -809,104 +809,115 @@ cs:
   label_date_from_to: Od {{start}} do {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{page}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{page}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
+  text_wiki_page_destroy_question: Tato stránka má {{descendants}} podstránek a potomků. Co chcete udělat?
+  text_wiki_page_reassign_children: Přiřadit podstránky k tomuto rodiči
+  text_wiki_page_nullify_children: Ponechat podstránky jako kořenové stránky
+  text_wiki_page_destroy_children: Smazat podstránky a všechny jejich potomky
+  setting_password_min_length: Minimální délka hesla
+  field_group_by: Seskupovat výsledky podle
+  mail_subject_wiki_content_updated: "'{{page}}' Wiki stránka byla aktualizována"
+  label_wiki_content_added: Wiki stránka přidána
+  mail_subject_wiki_content_added: "'{{page}}' Wiki stránka byla přidána"
+  mail_body_wiki_content_added: "'{{page}}' Wiki stránka byla přidána od {{author}}."
+  label_wiki_content_updated: Wiki stránka aktualizována
+  mail_body_wiki_content_updated: "'{{page}}' Wiki stránka byla aktualizována od {{author}}."
+  permission_add_project: Vytvořit projekt
+  setting_new_project_user_role_id: Role přiřazená uživateli bez práv administrátora, který projekt vytvořil
+  label_view_all_revisions: Zobrazit všechny revize
   label_tag: Tag
   label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  error_no_tracker_in_project: Žádná fronta nebyla přiřazena tomuto projektu. Prosím zkontroluje nastavení projektu.
+  error_no_default_issue_status: Není nastaven výchozí stav úkolu. Prosím zkontrolujte nastavení ("Administrace -> Stavy úkolů").
+  text_journal_changed: "{{label}} změněn z {{old}} na {{new}}"
+  text_journal_set_to: "{{label}} nastaven na {{value}}"
+  text_journal_deleted: "{{label}} smazán ({{old}})"
+  label_group_plural: Skupiny
+  label_group: Skupina
+  label_group_new: Nová skupina
+  label_time_entry_plural: Strávený čas
+  text_journal_added: "{{label}} {{value}} přidán"
+  field_active: Aktivní
+  enumeration_system_activity: Systémová aktivita
+  permission_delete_issue_watchers: Smazat přihlížející
+  version_status_closed: zavřený
+  version_status_locked: uzamčený
+  version_status_open: otevřený
+  error_can_not_reopen_issue_on_closed_version: Úkol přiřazený k uzavřené verzi nemůže být znovu otevřen
+  label_user_anonymous: Anonymní
+  button_move_and_follow: Přesunout a následovat
+  setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
+  setting_gravatar_default: Výchozí Gravatar
+  field_sharing: Sdílení
+  label_version_sharing_hierarchy: S hierarchií projektu
+  label_version_sharing_system: Se všemi projekty
+  label_version_sharing_descendants: S podprojekty
+  label_version_sharing_tree: Se stromem projektu
+  label_version_sharing_none: Nesdíleno
+  error_can_not_archive_project: Tento projekt nemůže být archivován
+  button_duplicate: Duplikát
+  button_copy_and_follow: Kopírovat a následovat
+  label_copy_source: Zdroj
+  setting_issue_done_ratio: Spočítat koeficient dokončení úkolu s
+  setting_issue_done_ratio_issue_status: Použít stav úkolu
+  error_issue_done_ratios_not_updated: Koeficient dokončení úkolu nebyl aktualizován.
+  error_workflow_copy_target: Prosím vyberte cílovou frontu(y) a roly(e)
+  setting_issue_done_ratio_issue_field: Použít pole úkolu
+  label_copy_same_as_target: Stejný jako cíl
+  label_copy_target: Cíl
+  notice_issue_done_ratios_updated: Koeficienty dokončení úkolu byly aktualizovány.
+  error_workflow_copy_source: Prosím vyberte zdrojovou frontu nebo roly
+  label_update_issue_done_ratios: Aktualizovat koeficienty dokončení úkolů
+  setting_start_of_week: Začínat kalendáře
+  permission_view_issues: Zobrazit úkoly
+  label_display_used_statuses_only: Zobrazit pouze stavy které jsou použité touto frontou
+  label_revision_id: Revize {{value}}
+  label_api_access_key: API přístupový klíč
+  label_api_access_key_created_on: API přístupový klíč vytvořen {{value}}
+  label_feeds_access_key: RSS přístupový klíč
+  notice_api_access_key_reseted: Váš API přístupový klíč byl resetován.
+  setting_rest_api_enabled: Zapnout službu REST
+  label_missing_api_access_key: Chybějící přístupový klíč API
+  label_missing_feeds_access_key: Chybějící přístupový klíč RSS
+  button_show: Zobrazit
+  text_line_separated: Více hodnot povoleno (jeden řádek pro každou hodnotu).
+  setting_mail_handler_body_delimiters: Zkrátit e-maily po jednom z těchto řádků
+  permission_add_subprojects: Vytvořit podprojekty
+  label_subproject_new: Nový podprojekt
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
-  label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+    Chystáte se odebrat si některá nebo všechny svá oprávnění a potom již nemusíte být schopni upravit tento projekt.
+    Opravdu chcete pokračovat?
+  label_close_versions: Zavřít dokončené verze
+  label_board_sticky: Nálepka
+  label_board_locked: Uzamčeno
+  permission_export_wiki_pages: Exportovat Wiki stránky
+  setting_cache_formatted_text: Ukládat formátovaný text do vyrovnávací paměti
+  permission_manage_project_activities: Spravovat aktivity projektu
+  error_unable_delete_issue_status: Nelze smazat stavy úkolů
+  label_profile: Profil
+  permission_manage_subtasks: Spravovat podúkoly
+  field_parent_issue: Rodičovský úkol
+  label_subtask_plural: Podúkol
+  label_project_copy_notifications: Odeslat email oznámení v průběhu kopie projektu
+  error_can_not_delete_custom_field: Nelze smazat volitelné pole
+  error_unable_to_connect: Nelze se připojit ({{value}})
+  error_can_not_remove_role: Tato role je právě používaná a nelze ji smazat.
+  error_can_not_delete_tracker: Tato fronta obsahuje úkoly a nemůže být smazán.
+  field_principal: Hlavní
+  label_my_page_block: Bloky na mé stránce
+  notice_failed_to_save_members: "Nepodařilo se uložit člena(y): {{errors}}."
+  text_zoom_out: Oddálit
+  text_zoom_in: Přiblížit
+  notice_unable_delete_time_entry: Nelze smazat čas ze záznamu.
+  label_overall_spent_time: Celkově strávený čas
+  field_time_entries: Zaznamenaný čas
+  project_module_gantt: Gantt
+  project_module_calendar: Kalendář
+  field_member_of_group: Člen skupiny
+  field_assigned_to_role: Člen role
+  button_edit_associated_wikipage: "Upravit přiřazenou Wiki stránku: {{page_title}}"
+  text_are_you_sure_with_children: Smazat úkol včetně všech podúkolů?
+  field_text: Textové pole
+  label_user_mail_option_only_owner: Only for things I am the owner of
+  setting_default_notification_option: Default notification option
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  label_user_mail_option_only_assigned: Only for things I am assigned to

@@ -144,6 +144,7 @@ ja:
         greater_than_start_date: "を開始日より後にしてください"
         not_same_project: "同じプロジェクトに属していません"
         circular_dependency: "この関係では、循環依存になります"
+        cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
 
   actionview_instancetag_blank_option: 選んでください
   
@@ -305,6 +306,7 @@ ja:
   field_redirect_existing_links: 既存のリンクをリダイレクトする
   field_estimated_hours: 予定工数
   field_column_names: 項目
+  field_time_entries: 時間を記録
   field_time_zone: タイムゾーン
   field_searchable: 検索条件に設定可能とする
   field_default_value: デフォルト値
@@ -317,6 +319,9 @@ ja:
   field_group_by: グループ条件
   field_sharing: 共有
   field_parent_issue: 親チケット
+  field_member_of_group: 担当者のグループ
+  field_assigned_to_role: 担当者のロール
+  field_text: テキスト
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -371,6 +376,7 @@ ja:
   setting_issue_done_ratio_issue_status: チケットのステータスを使用する
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
+  setting_default_notification_option: デフォルトのメール通知オプション
   
   permission_add_project: プロジェクトの追加
   permission_add_subprojects: サブプロジェクトの追加
@@ -436,6 +442,8 @@ ja:
   project_module_wiki: Wiki
   project_module_repository: リポジトリ
   project_module_boards: フォーラム
+  project_module_gantt: ガントチャート
+  project_module_calendar: カレンダー
   
   label_user: ユーザ
   label_user_plural: ユーザ
@@ -694,7 +702,7 @@ ja:
   label_relation_delete: 関連の削除
   label_relates_to: 関係している
   label_duplicates: 重複している
-  label_duplicated_by: 重複している
+  label_duplicated_by: 重複されている
   label_blocks: ブロックしている
   label_blocked_by: ブロックされている
   label_precedes: 先行する
@@ -745,7 +753,9 @@ ja:
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
   label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
-  label_user_mail_option_none: "ウォッチまたは関係している事柄のみ"
+  label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
+  label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
+  label_user_mail_option_only_owner: "自分が作成した事柄のみ"
   label_user_mail_no_self_notified: 自分自身による変更の通知は不要
   label_registration_activation_by_email: メールでアカウントを有効化
   label_registration_manual_activation: 手動でアカウントを有効化
@@ -806,6 +816,7 @@ ja:
   button_create_and_continue: 連続作成
   button_test: テスト
   button_edit: 編集
+  button_edit_associated_wikipage: "関連するWikiページを編集: {{page_title}}"
   button_add: 追加
   button_change: 変更
   button_apply: 適用
@@ -857,13 +868,14 @@ ja:
   text_subprojects_destroy_warning: "サブプロジェクト {{value}} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
+  text_are_you_sure_with_children: チケットとその子チケット全てを削除しますか?
   text_journal_changed: "{{label}} を {{old}} から {{new}} に変更"
   text_journal_set_to: "{{label}} を {{value}} にセット"
   text_journal_deleted: "{{label}} を削除 ({{old}})"
   text_journal_added: "{{label}} {{value}} を追加"
-  text_tip_task_begin_day: この日に開始するタスク
-  text_tip_task_end_day: この日に終了するタスク
-  text_tip_task_begin_end_day: この日のうちに開始して終了するタスク
+  text_tip_issue_begin_day: この日に開始するタスク
+  text_tip_issue_end_day: この日に終了するタスク
+  text_tip_issue_begin_end_day: この日のうちに開始して終了するタスク
   text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'
   text_caracters_maximum: "最大{{count}}文字です。"
   text_caracters_minimum: "最低{{count}}文字の長さが必要です"
