@@ -99,6 +99,15 @@ describe CostQuery do
       @query.group_bys.size.should == 1
       @query.group_bys.collect {|g| g.class.underscore_name}.should include "project_id"
     end
+
+    it "should initialize the chain with a given block" do
+      class TestFilter < CostQuery::Filter::Base
+        initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
+      end
+      @query.build_new_chain
+      @query.filters.size.should == 3
+      @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
+    end
   end
 
   describe CostQuery::Chainable do
