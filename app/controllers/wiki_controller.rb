@@ -36,7 +36,7 @@ class WikiController < ApplicationController
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
   
-  verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :show }
+  verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
 
   helper :attachments
   include AttachmentsHelper   
@@ -172,7 +172,8 @@ class WikiController < ApplicationController
     @annotate = @page.annotate(params[:version])
     render_404 unless @annotate
   end
-  
+
+  verify :method => :delete, :only => [:destroy], :redirect_to => { :action => :show }
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy

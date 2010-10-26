@@ -196,14 +196,14 @@ class WikiControllerTest < ActionController::TestCase
   
   def test_destroy_child
     @request.session[:user_id] = 2
-    post :destroy, :project_id => 1, :page => 'Child_1'
+    delete :destroy, :project_id => 1, :page => 'Child_1'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
   end
   
   def test_destroy_parent
     @request.session[:user_id] = 2
     assert_no_difference('WikiPage.count') do
-      post :destroy, :project_id => 1, :page => 'Another_page'
+      delete :destroy, :project_id => 1, :page => 'Another_page'
     end
     assert_response :success
     assert_template 'destroy'
@@ -212,7 +212,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_destroy_parent_with_nullify
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      post :destroy, :project_id => 1, :page => 'Another_page', :todo => 'nullify'
+      delete :destroy, :project_id => 1, :page => 'Another_page', :todo => 'nullify'
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
@@ -221,7 +221,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_destroy_parent_with_cascade
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -3) do
-      post :destroy, :project_id => 1, :page => 'Another_page', :todo => 'destroy'
+      delete :destroy, :project_id => 1, :page => 'Another_page', :todo => 'destroy'
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
@@ -231,7 +231,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_destroy_parent_with_reassign
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      post :destroy, :project_id => 1, :page => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
+      delete :destroy, :project_id => 1, :page => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)

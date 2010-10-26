@@ -5,7 +5,7 @@
 <%= link_to_if_authorized(l(:button_lock), {:action => 'protect', :page => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock') if !@page.protected? %>
 <%= link_to_if_authorized(l(:button_unlock), {:action => 'protect', :page => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock') if @page.protected? %>
 <%= link_to_if_authorized(l(:button_rename), {:action => 'rename', :page => @page.title}, :class => 'icon icon-move') if @content.version == @page.content.version %>
-<%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
+<%= link_to_if_authorized(l(:button_delete), {:action => 'destroy', :page => @page.title}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') %>
 <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :page => @page.title, :version => @content.version }, :class => 'icon icon-cancel') if @content.version < @page.content.version %>
 <% end %>
 <%= link_to_if_authorized(l(:label_history), {:action => 'history', :page => @page.title}, :class => 'icon icon-history') %>
