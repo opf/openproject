@@ -108,6 +108,20 @@ describe CostQuery do
       @query.filters.size.should == 3
       @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
     end
+
+    it "should serialize the chain correctly" do
+      @query.filter :project_id, :value => Project.all.first.id
+      @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
+      @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
+      @query.group_by :activity_id
+      @query.group_by :cost_object_id
+      @query.group_by :cost_type_id
+      [:filters, :group_bys].each do |type|
+        @query.send(type).each do |chainable|
+          @query.serialize[type].collect{|c| c[0]}.should include chainable.class.name.demodulize
+        end
+      end
+    end
   end
 
   describe CostQuery::Chainable do
