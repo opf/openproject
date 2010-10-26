@@ -77,6 +77,10 @@ describe CostQuery do
       query('cost_entries', 'project_id', '!*', []).size.should == 0
     end
 
+    it "does ~ (contains)" do
+      query('projects', 'name', '~', 'o').size.should == Project.all.select { |p| p.name =~ /o/ }.count
+    end
+
     it "does !~ (not contains)" do
       query('projects', 'name', '!~', 'o').size.should == Project.all.select { |p| p.name !~ /o/ }.count
     end
