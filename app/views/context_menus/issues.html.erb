@@ -9,7 +9,7 @@
 	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
 <% end %>
 
-  <% unless @allowed_statuses.empty? %>
+  <% if @allowed_statuses.present? %>
 	<li class="folder">			
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
@@ -57,7 +57,7 @@
 		</ul>
 	</li>
 	<% end %>
-	<% unless @assignables.nil? || @assignables.empty? -%>
+	<% if @assignables.present? -%>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
