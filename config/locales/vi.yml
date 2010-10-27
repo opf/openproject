@@ -294,7 +294,6 @@ vi:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
-  field_start_date: Bắt đầu
   field_done_ratio: Tiến độ
   field_auth_source: Authentication mode
   field_hide_mail: Không làm lộ email của bạn
@@ -978,3 +977,4 @@ vi:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

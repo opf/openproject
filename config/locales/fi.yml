@@ -262,7 +262,6 @@ fi:
   field_attr_lastname: Sukunimenmääre
   field_attr_mail: Sähköpostinmääre
   field_onthefly: Automaattinen käyttäjien luonti
-  field_start_date: Alku
   field_done_ratio: % Tehty
   field_auth_source: Varmennusmuoto
   field_hide_mail: Piiloita sähköpostiosoitteeni
@@ -948,3 +947,4 @@ fi:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

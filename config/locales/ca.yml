@@ -264,7 +264,6 @@ ca:
   field_attr_lastname: Atribut del cognom
   field_attr_mail: Atribut del correu electrònic
   field_onthefly: "Creació de l'usuari «al vol»"
-  field_start_date: Inici
   field_done_ratio: % realitzat
   field_auth_source: "Mode d'autenticació"
   field_hide_mail: "Oculta l'adreça de correu electrònic"
@@ -926,3 +925,4 @@ ca:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

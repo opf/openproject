@@ -233,7 +233,6 @@ th:
   field_attr_lastname: นามสกุล attribute
   field_attr_mail: อีเมล์ attribute
   field_onthefly: สร้างผู้ใช้ทันที
-  field_start_date: เริ่ม
   field_done_ratio: % สำเร็จ
   field_auth_source: วิธีการยืนยันตัวตน
   field_hide_mail: ซ่อนอีเมล์ของฉัน
@@ -920,3 +919,4 @@ th:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

@@ -253,7 +253,6 @@ hr:
   field_attr_lastname: Atribut prezimena
   field_attr_mail: Atribut e-pošte
   field_onthefly: "Izrada korisnika \"u hodu\""
-  field_start_date: Pocetak
   field_done_ratio: % Učinjeno
   field_auth_source: Vrsta prijavljivanja
   field_hide_mail: Sakrij moju adresu e-pošte
@@ -930,3 +929,4 @@ hr:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

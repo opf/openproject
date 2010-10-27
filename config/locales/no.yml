@@ -231,7 +231,6 @@
   field_attr_lastname: Etternavnsattributt
   field_attr_mail: E-post-attributt
   field_onthefly: On-the-fly brukeropprettelse
-  field_start_date: Start
   field_done_ratio: % Ferdig
   field_auth_source: Autentifikasjonsmodus
   field_hide_mail: Skjul min e-post-adresse
@@ -914,3 +913,4 @@
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

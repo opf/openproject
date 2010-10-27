@@ -308,7 +308,6 @@ sv:
   field_attr_lastname: Efternamnsattribut
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
-  field_start_date: Start
   field_done_ratio: % Klart
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
@@ -968,3 +967,4 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
+  field_start_date: Start date

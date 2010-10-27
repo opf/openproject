@@ -299,7 +299,6 @@ ko:
   field_attr_lastname: 성 속성
   field_attr_mail: 메일 속성
   field_onthefly: 동적 사용자 생성
-  field_start_date: 시작시간
   field_done_ratio: 진척도
   field_auth_source: 인증 공급자
   field_hide_mail: 메일 주소 숨기기
@@ -979,3 +978,4 @@ ko:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

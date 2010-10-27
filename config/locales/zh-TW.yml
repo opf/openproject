@@ -348,7 +348,6 @@
   field_attr_lastname: 姓氏屬性
   field_attr_mail: 電子郵件信箱屬性
   field_onthefly: 即時建立使用者
-  field_start_date: 開始日期
   field_done_ratio: 完成百分比
   field_auth_source: 認證模式
   field_hide_mail: 隱藏我的電子郵件
@@ -1008,3 +1007,4 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
+  field_start_date: Start date

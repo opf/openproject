@@ -310,7 +310,6 @@ lt:
   field_attr_lastname: Pavardės priskiria
   field_attr_mail: Elektroninio pašto požymis
   field_onthefly: Automatinis vartotojų registravimas
-  field_start_date: Pradėti
   field_done_ratio: % atlikta
   field_auth_source: Autentiškumo nustatymo būdas
   field_hide_mail: Paslėpkite mano elektroninio pašto adresą
@@ -987,3 +986,4 @@ lt:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

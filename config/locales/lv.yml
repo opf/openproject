@@ -248,7 +248,6 @@ lv:
   field_attr_lastname: Uzvārda atribūts
   field_attr_mail: "E-pasta atribūts"
   field_onthefly: "Lietotāja izveidošana on-the-fly"
-  field_start_date: Sākuma datums
   field_done_ratio: % padarīti
   field_auth_source: Pilnvarošanas režīms
   field_hide_mail: "Paslēpt manu e-pasta adresi"
@@ -918,3 +917,4 @@ lv:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

@@ -252,7 +252,6 @@ mn:
   field_attr_lastname: Овог аттрибут
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
-  field_start_date: Эхлэл
   field_done_ratio: %% Гүйцэтгэсэн
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
@@ -924,3 +923,4 @@ mn:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

@@ -264,7 +264,6 @@ pt-BR:
   field_attr_lastname: Atributo para sobrenome
   field_attr_mail: Atributo para e-mail
   field_onthefly: Criar usuários dinamicamente ("on-the-fly")
-  field_start_date: Início
   field_done_ratio: % Terminado
   field_auth_source: Modo de autenticação
   field_hide_mail: Ocultar meu e-mail
@@ -947,3 +946,4 @@ pt-BR:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

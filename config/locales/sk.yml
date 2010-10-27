@@ -231,7 +231,6 @@ sk:
   field_attr_lastname: Priezvisko (atribut)
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváranie užívateľov
-  field_start_date: Začiatok
   field_done_ratio: % hotovo
   field_auth_source: Autentifikačný mód
   field_hide_mail: Nezobrazovať môj email
@@ -918,3 +917,4 @@ sk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

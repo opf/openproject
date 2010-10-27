@@ -265,7 +265,6 @@ he:
   field_attr_lastname: תכונת שם משפחה
   field_attr_mail: תכונת דוא"ל
   field_onthefly: יצירת משתמשים זריזה
-  field_start_date: תאריך התחלה
   field_done_ratio: % גמור
   field_auth_source: מקור הזדהות
   field_hide_mail: החבא את כתובת הדוא"ל שלי
@@ -928,3 +927,4 @@ he:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

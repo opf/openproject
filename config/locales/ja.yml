@@ -288,7 +288,6 @@ ja:
   field_attr_lastname: 苗字属性
   field_attr_mail: メール属性
   field_onthefly: あわせてユーザを作成
-  field_start_date: 開始日
   field_done_ratio: 進捗 %
   field_auth_source: 認証方式
   field_hide_mail: メールアドレスを隠す
@@ -948,3 +947,4 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
+  field_start_date: Start date

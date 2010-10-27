@@ -313,7 +313,6 @@ es:
   field_role: Perfil
   field_searchable: Incluir en las búsquedas
   field_spent_on: Fecha
-  field_start_date: Fecha de inicio
   field_start_page: Página principal
   field_status: Estado
   field_subject: Tema
@@ -963,3 +962,4 @@ es:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

@@ -249,7 +249,6 @@ pt:
   field_attr_lastname: Atributo último nome
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
-  field_start_date: Início
   field_done_ratio: % Completo
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
@@ -931,3 +930,4 @@ pt:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date

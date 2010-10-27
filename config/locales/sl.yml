@@ -236,7 +236,6 @@ sl:
   field_attr_lastname: Oznaka za priimek
   field_attr_mail: Oznaka za e-naslov
   field_onthefly: Sprotna izdelava uporabnikov
-  field_start_date: Začetek
   field_done_ratio: % Narejeno
   field_auth_source: Način overovljanja
   field_hide_mail: Skrij moj e-naslov
@@ -919,3 +918,4 @@ sl:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
