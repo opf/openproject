@@ -142,12 +142,14 @@ module ReportingHelper
     tabs = cost_types.to_a
     tabs.delete 0 # remove money from list
     tabs.unshift 0 # add money as first tab
-    tabs.map do |id|
-      case id
-      when -1 then [-1, l(:caption_labor)]
-      when 0  then [0,  l(:label_money)]
-      else [id, CostType.find(id).unit_plural ]
-      end
+    tabs.map {|id| [id, cost_type_label(id)] }
+  end
+
+  def cost_type_label(id)
+    case id
+    when -1 then l(:caption_labor)
+    when 0  then l(:label_money)
+    else CostType.find(id).unit_plural
     end
   end
 
