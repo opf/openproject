@@ -9,7 +9,7 @@ class XlsViews
   def field_representation_map(key, value)
     case key.to_sym
     when :units                     then value.to_i
-    when :spent_on                  then value.to_dateish
+    when :spent_on                  then value
     when :activity_id               then mapped value, Enumeration, l(:caption_material_costs)
     when :project_id                then (l(:label_none) if value.to_i == 0) or Project.find(value.to_i).name
     when :user_id, :assigned_to_id  then (l(:label_none) if value.to_i == 0) or User.find(value.to_i).name
