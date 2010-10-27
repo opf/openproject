@@ -57,7 +57,7 @@
       <td class="add_new">+</td>
       <%- @statuses.each do |status| %>
       <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-        <%= render :partial => "rb_tasks/task", :collection => story.children.select{|task| task.status.id==status.id} %>
+        <%= render :partial => "rb_tasks/task", :collection => story.descendants.select{|task| task.status.id==status.id} %>
       </td>
       <%- end %>
     </tr>
