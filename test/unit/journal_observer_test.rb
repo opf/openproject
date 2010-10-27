@@ -30,9 +30,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_updated']
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
+    issue.init_journal(user)
 
-    assert journal.save
+    assert issue.send(:create_journal)
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
@@ -40,9 +40,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = []
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
+    issue.init_journal(user)
 
-    assert journal.save
+    assert issue.save
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
@@ -51,10 +51,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_note_added']
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
-    journal.notes = 'This update has a note'
+    issue.init_journal(user, 'This update has a note')
 
-    assert journal.save
+    assert issue.save
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
@@ -62,10 +61,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = []
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
-    journal.notes = 'This update has a note'
+    issue.init_journal(user, 'This update has a note')
     
-    assert journal.save
+    assert issue.save
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
@@ -74,7 +72,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_status_updated']
     issue = Issue.find(:first)
     user = User.find(:first)
-    issue.init_journal(user, issue)
+    issue.init_journal(user)
     issue.status = IssueStatus.last
 
     assert issue.save
@@ -85,7 +83,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = []
     issue = Issue.find(:first)
     user = User.find(:first)
-    issue.init_journal(user, issue)
+    issue.init_journal(user)
     issue.status = IssueStatus.last
     
     assert issue.save
@@ -97,7 +95,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = ['issue_priority_updated']
     issue = Issue.find(:first)
     user = User.find(:first)
-    issue.init_journal(user, issue)
+    issue.init_journal(user)
     issue.priority = IssuePriority.last
 
     assert issue.save
@@ -108,7 +106,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     Setting.notified_events = []
     issue = Issue.find(:first)
     user = User.find(:first)
-    issue.init_journal(user, issue)
+    issue.init_journal(user)
     issue.priority = IssuePriority.last
     
     assert issue.save
