@@ -235,6 +235,7 @@
   notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
   notice_locking_conflict: 資料已被其他使用者更新。
   notice_not_authorized: 你未被授權存取此頁面。
+  notice_not_authorized_archived_project: 您欲存取的專案已經被歸檔封存。
   notice_email_sent: "郵件已經成功寄送至以下收件者： {{value}}"
   notice_email_error: "寄送郵件的過程中發生錯誤 ({{value}})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
@@ -379,6 +380,8 @@
   field_group_by: 結果分組方式
   field_sharing: 共用
   field_parent_issue: 父工作項目
+  field_member_of_group: "被指派者的群組"
+  field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
   
   setting_app_title: 標題
@@ -810,6 +813,7 @@
   label_search_titles_only: 僅搜尋標題
   label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
+  label_user_mail_option_none: "取消提醒"
   label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
   label_user_mail_option_only_assigned: "只提醒我被指派的事物"
   label_user_mail_option_only_owner: "只提醒我作為擁有者的事物"
@@ -1004,8 +1008,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.

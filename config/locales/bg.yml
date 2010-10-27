@@ -9,12 +9,12 @@ bg:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Неделя, Понеделник, Вторник, Сряда, Четвъртък, Петък, Събота]
+    abbr_day_names: [Нед, Пон, Вто, Сря, Чет, Пет, Съб]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Януари, Февруари, Март, Април, Май, Юни, Юли, Август, Септември, Октомври, Ноември, Декември]
+    abbr_month_names: [~, Яну, Фев, Мар, Апр, Май, Юни, Юли, Авг, Сеп, Окт, Ное, Дек]
     # Used in date_select and datime_select.
     order: [ :year, :month, :day ]
 
@@ -31,38 +31,38 @@ bg:
     distance_in_words:
       half_a_minute: "half a minute"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "по-малко от 1 секунда"
+        other: "по-малко от {{count}} секунди"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 секунда"
+        other: "{{count}} секунди"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "по-малко от 1 минута"
+        other: "по-малко от {{count}} минути"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 минута"
+        other: "{{count}} минути"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "около 1 час"
+        other: "около {{count}} часа"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 ден"
+        other: "{{count}} дена"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "около 1 месец"
+        other: "около {{count}} месеца"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 месец"
+        other: "{{count}} месеца"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "около 1 година"
+        other: "около {{count}} години"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "над 1 година"
+        other: "над {{count}} години"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost {{count}} years"
+        one:   "почти 1 година"
+        other: "почти {{count}} години"
 
   number:
     format:
@@ -87,7 +87,7 @@ bg:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "и"
       skip_last_comma: false
       
   activerecord:
@@ -106,17 +106,16 @@ bg:
         taken: "вече съществува"
         not_a_number: "не е число"
         not_a_date: "е невалидна дата"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
+        greater_than: "трябва да бъде по-голям[a/о] от {{count}}"
+        greater_than_or_equal_to: "трябва да бъде по-голям[a/о] от или равен[a/o] на {{count}}"
+        equal_to: "трябва да бъде равен[a/o] на {{count}}"
+        less_than: "трябва да бъде по-малък[a/o] от {{count}}"
+        less_than_or_equal_to: "трябва да бъде по-малък[a/o] от или равен[a/o] на {{count}}"
+        odd: "трябва да бъде нечетен[a/o]"
+        even: "трябва да бъде четен[a/o]"
         greater_than_start_date: "трябва да е след началната дата"
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Изберете
   
@@ -171,7 +170,7 @@ bg:
   field_mail: Email
   field_filename: Файл
   field_filesize: Големина
-  field_downloads: Downloads
+  field_downloads: Изтеглени файлове
   field_author: Автор
   field_created_on: От дата
   field_updated_on: Обновена
@@ -186,10 +185,10 @@ bg:
   field_title: Заглавие
   field_project: Проект
   field_issue: Задача
-  field_status: Статус
+  field_status: Състояние
   field_notes: Бележка
   field_is_closed: Затворена задача
-  field_is_default: Статус по подразбиране
+  field_is_default: Състояние по подразбиране
   field_tracker: Тракер
   field_subject: Относно
   field_due_date: Крайна дата
@@ -217,10 +216,10 @@ bg:
   field_port: Порт
   field_account: Профил
   field_base_dn: Base DN
-  field_attr_login: Login attribute
-  field_attr_firstname: Firstname attribute
-  field_attr_lastname: Lastname attribute
-  field_attr_mail: Email attribute
+  field_attr_login: Атрибут Login 
+  field_attr_firstname: Атрибут Първо име (Firstname)
+  field_attr_lastname: Атрибут Фамилия (Lastname)
+  field_attr_mail: Атрибут Email
   field_onthefly: Динамично създаване на потребител
   field_start_date: Начална дата
   field_done_ratio: % Прогрес
@@ -249,12 +248,12 @@ bg:
   setting_login_required: Изискване за вход в системата
   setting_self_registration: Регистрация от потребители
   setting_attachment_max_size: Максимална големина на прикачен файл
-  setting_issues_export_limit: Лимит за експорт на задачи
+  setting_issues_export_limit: Максимален брой задачи за експорт
   setting_mail_from: E-mail адрес за емисии
   setting_host_name: Хост
   setting_text_formatting: Форматиране на текста
   setting_wiki_compression: Wiki компресиране на историята
-  setting_feeds_limit: Лимит на Feeds
+  setting_feeds_limit: Максимален брой за емисии
   setting_autofetch_changesets: Автоматично обработване на ревизиите
   setting_sys_api_enabled: Разрешаване на WS за управление
   setting_commit_ref_keywords: Отбелязващи ключови думи
@@ -270,9 +269,9 @@ bg:
   label_project_new: Нов проект
   label_project_plural: Проекти
   label_x_projects:
-    zero:  no projects
-    one:   1 project
-    other: "{{count}} projects"
+    zero:  0 проекти
+    one:   1 проект
+    other: "{{count}} проекта"
   label_project_all: Всички проекти
   label_project_latest: Последни проекти
   label_issue: Задача
@@ -293,9 +292,9 @@ bg:
   label_tracker_plural: Тракери
   label_tracker_new: Нов тракер
   label_workflow: Работен процес
-  label_issue_status: Статус на задача
-  label_issue_status_plural: Статуси на задачи
-  label_issue_status_new: Нов статус
+  label_issue_status: Състояние на задача
+  label_issue_status_plural: Състояния на задачи
+  label_issue_status_new: Ново състояние
   label_issue_category: Категория задача
   label_issue_category_plural: Категории задачи
   label_issue_category_new: Нова категория
@@ -323,14 +322,14 @@ bg:
   label_registered_on: Регистрация
   label_activity: Дейност
   label_new: Нов
-  label_logged_as: Логнат като
+  label_logged_as: Влязъл като
   label_environment: Среда
   label_authentication: Оторизация
   label_auth_source: Начин на оторозация
   label_auth_source_new: Нов начин на оторизация
   label_auth_source_plural: Начини на оторизация
   label_subproject_plural: Подпроекти
-  label_min_max_length: Мин. - Макс. дължина
+  label_min_max_length: Минимална - максимална дължина
   label_list: Списък
   label_date: Дата
   label_integer: Целочислен
@@ -339,10 +338,10 @@ bg:
   label_text: Дълъг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "{{count}} изтегляне"
+  label_download_plural: "{{count}} изтегляния"
   label_no_data: Няма изходни данни
-  label_change_status: Промяна на статуса
+  label_change_status: Промяна на състоянието
   label_history: История
   label_attachment: Файл
   label_attachment_new: Нов файл
@@ -369,21 +368,21 @@ bg:
   label_closed_issues: затворена
   label_closed_issues_plural: затворени
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 отворени / {{total}}
+    one:   1 отворена / {{total}}
+    other: "{{count}} отворени / {{total}}"
   label_x_open_issues_abbr:
-    zero:  0 open
-    one:   1 open
-    other: "{{count}} open"
+    zero:  0 отворени
+    one:   1 отворена
+    other: "{{count}} отворени"
   label_x_closed_issues_abbr:
-    zero:  0 closed
-    one:   1 closed
-    other: "{{count}} closed"
+    zero:  0 затворени
+    one:   1 затворена
+    other: "{{count}} затворени"
   label_total: Общо
   label_permissions: Права
-  label_current_status: Текущ статус
-  label_new_statuses_allowed: Позволени статуси
+  label_current_status: Текущо състояние
+  label_new_statuses_allowed: Позволени състояния
   label_all: всички
   label_none: никакви
   label_next: Следващ
@@ -394,7 +393,7 @@ bg:
   label_per_page: На страница
   label_calendar: Календар
   label_months_from: месеца от
-  label_gantt: Gantt
+  label_gantt: Мрежов график
   label_internal: Вътрешен
   label_last_changes: "последни {{count}} промени"
   label_change_view_all: Виж всички промени
@@ -402,9 +401,9 @@ bg:
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:
-    zero: no comments
-    one: 1 comment
-    other: "{{count}} comments"
+    zero: 0 коментари
+    one: 1 коментар
+    other: "{{count}} коментари"
   label_comment_add: Добавяне на коментар
   label_comment_added: Добавен коментар
   label_comment_delete: Изтриване на коментари
@@ -453,13 +452,13 @@ bg:
   label_wiki: Wiki
   label_wiki_edit: Wiki редакция
   label_wiki_edit_plural: Wiki редакции
-  label_wiki_page: Wiki page
-  label_wiki_page_plural: Wiki pages
+  label_wiki_page: Wiki страница
+  label_wiki_page_plural: Wiki страници
   label_index_by_title: Индекс
   label_index_by_date: Индекс по дата
   label_current_version: Текуща версия
   label_preview: Преглед
-  label_feed_plural: Feeds
+  label_feed_plural: Емисии
   label_changes_details: Подробни промени
   label_issue_tracking: Тракинг
   label_spent_time: Отделено време
@@ -478,7 +477,7 @@ bg:
   label_permissions_report: Справка за права
   label_watched_issues: Наблюдавани задачи
   label_related_issues: Свързани задачи
-  label_applied_status: Промени статуса на
+  label_applied_status: Установено състояние
   label_loading: Зареждане...
   label_relation_new: Нова релация
   label_relation_delete: Изтриване на релация
@@ -488,10 +487,10 @@ bg:
   label_blocked_by: блокирана от
   label_precedes: предшества
   label_follows: изпълнява се след
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
+  label_end_to_start: край към начало
+  label_end_to_end: край към край
+  label_start_to_start: начало към начало
+  label_start_to_end: начало към край
   label_stay_logged_in: Запомни ме
   label_disabled: забранено
   label_show_completed_versions: Показване на реализирани версии
@@ -534,7 +533,7 @@ bg:
   button_clear: Изчисти
   button_lock: Заключване
   button_unlock: Отключване
-  button_download: Download
+  button_download: Изтегляне
   button_list: Списък
   button_view: Преглед
   button_move: Преместване
@@ -544,8 +543,8 @@ bg:
   button_sort: Сортиране
   button_log_time: Отделяне на време
   button_rollback: Върни се към тази ревизия
-  button_watch: Наблюдавай
-  button_unwatch: Спри наблюдението
+  button_watch: Наблюдаване
+  button_unwatch: Край на наблюдението
   button_reply: Отговор
   button_archive: Архивиране
   button_unarchive: Разархивиране
@@ -562,9 +561,9 @@ bg:
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_tip_issue_begin_day: задача започваща този ден
-  text_tip_issue_end_day: задача завършваща този ден
-  text_tip_issue_begin_end_day: задача започваща и завършваща този ден
+  text_tip_task_begin_day: задача започваща този ден
+  text_tip_task_end_day: задача завършваща този ден
+  text_tip_task_begin_end_day: задача започваща и завършваща този ден
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
   text_caracters_maximum: "До {{count}} символа."
   text_length_between: "От {{min}} до {{max}} символа."
@@ -582,11 +581,11 @@ bg:
   default_role_manager: Мениджър
   default_role_developer: Разработчик
   default_role_reporter: Публикуващ
-  default_tracker_bug: Бъг
+  default_tracker_bug: Грешка
   default_tracker_feature: Функционалност
   default_tracker_support: Поддръжка
   default_issue_status_new: Нова
-  default_issue_status_in_progress: In Progress
+  default_issue_status_in_progress: Изпълнение
   default_issue_status_resolved: Приключена
   default_issue_status_feedback: Обратна връзка
   default_issue_status_closed: Затворена
@@ -622,6 +621,7 @@ bg:
   text_user_mail_option: "За неизбраните проекти, ще получавате известия само за наблюдавани дейности или в които участвате (т.е. автор или назначени на мен)."
   label_user_mail_option_selected: "За всички събития само в избраните проекти..."
   label_user_mail_option_all: "За всяко събитие в проектите, в които участвам"
+  label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
   setting_emails_footer: Подтекст за e-mail
   label_float: Дробно
   button_copy: Копиране
@@ -647,7 +647,7 @@ bg:
   label_age: Възраст
   notice_default_data_loaded: Примерната информацията е успешно заредена.
   text_load_default_configuration: Зареждане на примерна информация
-  text_no_configuration_data: "Все още не са конфигурирани Роли, тракери, статуси на задачи и работен процес.\nСтрого се препоръчва зареждането на примерната информация. Веднъж заредена ще имате възможност да я редактирате."
+  text_no_configuration_data: "Все още не са конфигурирани Роли, тракери, състояния на задачи и работен процес.\nСтрого се препоръчва зареждането на примерната информация. Веднъж заредена ще имате възможност да я редактирате."
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: {{value}}"
   button_update: Обновяване
   label_change_properties: Промяна на настройки
@@ -706,214 +706,216 @@ bg:
   setting_default_projects_public: Новите проекти са публични по подразбиране
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
   label_planning: Планиране
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
-  text_user_wrote: "{{value}} wrote:"
-  label_duplicated_by: duplicated by
-  setting_enabled_scm: Enabled SCM
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
-  label_incoming_emails: Incoming emails
-  label_generate_key: Generate a key
-  setting_mail_handler_api_enabled: Enable WS for incoming emails
-  setting_mail_handler_api_key: API key
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-  field_parent_title: Parent page
-  label_issue_watchers: Watchers
-  setting_commit_logs_encoding: Commit messages encoding
-  button_quote: Quote
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  notice_unable_delete_version: Unable to delete version
-  label_renamed: renamed
-  label_copied: copied
-  setting_plain_text_mail: plain text only (no HTML)
-  permission_view_files: View files
-  permission_edit_issues: Edit issues
-  permission_edit_own_time_entries: Edit own time logs
-  permission_manage_public_queries: Manage public queries
-  permission_add_issues: Add issues
+  text_subprojects_destroy_warning: "Неговите подпроекти: {{value}} също ще бъдат изтрити."
+  label_and_its_subprojects: "{{value}} и неговите подпроекти"
+  mail_body_reminder: "{{count}} задачи, назначени на вас са с краен срок в следващите {{days}} дни:"
+  mail_subject_reminder: "{{count}} задачи с краен срок с следващите {{days}} дни"
+  text_user_wrote: "{{value}} написа:"
+  label_duplicated_by: дублирана от
+  setting_enabled_scm: Разрешена SCM
+  text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
+  text_enumeration_destroy_question: "{{count}} обекта са свързани с тази стойност."
+  label_incoming_emails: Входящи e-mail-и
+  label_generate_key: Генериране на ключ
+  setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
+  setting_mail_handler_api_key: API ключ
+  text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/email.yml и рестартирайте Redmine, за да ги разрешите."
+  field_parent_title: Родителска страница
+  label_issue_watchers: Наблюдатели
+  setting_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
+  button_quote: Цитат
+  setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
+  notice_unable_delete_version: Невъзможност за изтриване на версия
+  label_renamed: преименуван
+  label_copied: копиран
+  setting_plain_text_mail: само чист текст (без HTML)
+  permission_view_files: Разглеждане на файлове
+  permission_edit_issues: Редактиране на задачи
+  permission_edit_own_time_entries: Редактиране на собствените time logs
+  permission_manage_public_queries: Управление на публичните заявки
+  permission_add_issues: Добавяне на задачи
   permission_log_time: Log spent time
-  permission_view_changesets: View changesets
-  permission_view_time_entries: View spent time
-  permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
-  permission_manage_categories: Manage issue categories
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_comment_news: Comment news
-  permission_delete_messages: Delete messages
-  permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_add_issue_watchers: Add watchers
-  permission_view_gantt: View gantt chart
-  permission_move_issues: Move issues
-  permission_manage_issue_relations: Manage issue relations
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_manage_boards: Manage boards
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_view_wiki_edits: View wiki history
-  permission_add_messages: Post messages
-  permission_view_messages: View messages
-  permission_manage_files: Manage files
-  permission_edit_issue_notes: Edit notes
-  permission_manage_news: Manage news
-  permission_view_calendar: View calendrier
-  permission_manage_members: Manage members
-  permission_edit_messages: Edit messages
-  permission_delete_issues: Delete issues
-  permission_view_issue_watchers: View watchers list
-  permission_manage_repository: Manage repository
-  permission_commit_access: Commit access
-  permission_browse_repository: Browse repository
-  permission_view_documents: View documents
-  permission_edit_project: Edit project
-  permission_add_issue_notes: Add notes
-  permission_save_queries: Save queries
-  permission_view_wiki_pages: View wiki
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_edit_time_entries: Edit time logs
-  permission_edit_own_issue_notes: Edit own notes
-  setting_gravatar_enabled: Use Gravatar user icons
-  label_example: Example
+  permission_view_changesets: Разглеждане на changesets
+  permission_view_time_entries: Разглеждане на изразходваното време
+  permission_manage_versions: Управление на версиите
+  permission_manage_wiki: Управление на wiki
+  permission_manage_categories: Управление на категориите задачи
+  permission_protect_wiki_pages: Заключване на wiki страници
+  permission_comment_news: Коментиране на новини
+  permission_delete_messages: Изтриване на съобщения
+  permission_select_project_modules: Избор на проектни модули
+  permission_manage_documents: Управление на документи
+  permission_edit_wiki_pages: Редактиране на wiki страници
+  permission_add_issue_watchers: Добавяне на наблюдатели
+  permission_view_gantt: Разглеждане на мрежов график
+  permission_move_issues: Преместване на задачи
+  permission_manage_issue_relations: Управление на връзките между задачите
+  permission_delete_wiki_pages: Изтриване на wiki страници
+  permission_manage_boards: Управление на boards
+  permission_delete_wiki_pages_attachments: Изтриване на прикачени файлове
+  permission_view_wiki_edits: Разглеждане на wiki история
+  permission_add_messages: Публикуване на съобщения
+  permission_view_messages: Разглеждане на съобщения
+  permission_manage_files: Управление на файлове
+  permission_edit_issue_notes: Редактиране на бележки
+  permission_manage_news: Управление на новини
+  permission_view_calendar: Разглеждане на календари
+  permission_manage_members: Управление на членовете (на екип)
+  permission_edit_messages: Редактиране на съобщения
+  permission_delete_issues: Изтриване на задачи
+  permission_view_issue_watchers: Разглеждане на списък с наблюдатели
+  permission_manage_repository: Управление на хранилища
+  permission_commit_access: Поверяване
+  permission_browse_repository: Разглеждане на хранилища
+  permission_view_documents: Разглеждане на документи
+  permission_edit_project: Редактиране на проект
+  permission_add_issue_notes: Добаване на бележки
+  permission_save_queries: Запис на запитвания (queries)
+  permission_view_wiki_pages: Разглеждане на wiki
+  permission_rename_wiki_pages: Преименуване на wiki страници
+  permission_edit_time_entries: Редактиране на time logs
+  permission_edit_own_issue_notes: Редактиране на собствени бележки
+  setting_gravatar_enabled: Използване на портребителски икони от Gravatar
+  label_example: Пример
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_own_messages: Edit own messages
-  permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
-  text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
-  button_create_and_continue: Create and continue
-  text_custom_field_possible_values_info: 'One line for each value'
+  permission_edit_own_messages: Редактиране на собствени съобщения
+  permission_delete_own_messages: Изтриване на собствени съобщения
+  label_user_activity: "Активност на {{value}}"
+  label_updated_time_by: "Обновена от {{author}} преди {{age}}"
+  text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
+  setting_diff_max_lines_displayed: Максимален брой показани diff редове
+  text_plugin_assets_writable: Папката на приставките е разрешена за запис
+  warning_attachments_not_saved: "{{count}} файла не бяха записани."
+  button_create_and_continue: Създаване и продължаване
+  text_custom_field_possible_values_info: 'Една стойност на ред'
   label_display: Display
   field_editable: Editable
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_file_max_size_displayed: Max size of text files displayed inline
-  field_watcher: Watcher
-  setting_openid: Allow OpenID login and registration
+  setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
+  setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
+  field_watcher: Наблюдател
+  setting_openid: Рарешаване на OpenID вход и регистрация
   field_identity_url: OpenID URL
-  label_login_with_open_id_option: or login with OpenID
-  field_content: Content
-  label_descending: Descending
-  label_sort: Sort
-  label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_login_with_open_id_option: или вход чрез OpenID
+  field_content: Съдържание
+  label_descending: Намаляващ
+  label_sort: Сортиране
+  label_ascending: Нарастващ
+  label_date_from_to: От {{start}} до {{end}}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  setting_password_min_length: Minimum password length
-  field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
-  label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
-  label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
-  permission_add_project: Create project
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  label_view_all_revisions: View all revisions
-  label_tag: Tag
-  label_branch: Branch
-  error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
-  error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  label_group_plural: Groups
-  label_group: Group
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
-  field_active: Active
-  enumeration_system_activity: System Activity
-  permission_delete_issue_watchers: Delete watchers
-  version_status_closed: closed
-  version_status_locked: locked
-  version_status_open: open
-  error_can_not_reopen_issue_on_closed_version: An issue assigned to a closed version can not be reopened
-  label_user_anonymous: Anonymous
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_gravatar_default: Default Gravatar image
+  text_wiki_page_destroy_question: Тази страница има {{descendants}} страници деца и descendant(s). Какво желаете да правите?
+  text_wiki_page_reassign_children: Преназначаване на страниците деца на тази родителска страница
+  text_wiki_page_nullify_children: Запазване на тези страници като коренни страници
+  text_wiki_page_destroy_children: Изтриване на страниците деца и всички техни descendants
+  setting_password_min_length: Минимална дължина на парола
+  field_group_by: Групиране на резултатите по
+  mail_subject_wiki_content_updated: "Wiki страницата '{{id}}' не беше обновена"
+  label_wiki_content_added: Wiki страница беше добавена
+  mail_subject_wiki_content_added: "Wiki страницата '{{id}}' беше добавена"
+  mail_body_wiki_content_added: Wiki страницата '{{id}}' беше добавена от {{author}}.
+  label_wiki_content_updated: Wiki страница беше обновена
+  mail_body_wiki_content_updated: Wiki страницата '{{id}}' беше обновена от {{author}}.
+  permission_add_project: Създаване на проект
+  setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
+  label_view_all_revisions: Разглеждане на всички ревизии
+  label_tag: Версия
+  label_branch: работен вариант
+  error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
+  error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
+  text_journal_changed: "{{label}} променен от {{old}} на {{new}}"
+  text_journal_set_to: "{{label}} установен на {{value}}"
+  text_journal_deleted: "{{label}} изтрит ({{old}})"
+  label_group_plural: Групи
+  label_group: Група
+  label_group_new: Нова група
+  label_time_entry_plural: Използвано време
+  text_journal_added: "Добавено {{label}} {{value}}"
+  field_active: Активен
+  enumeration_system_activity: Системна активност
+  permission_delete_issue_watchers: Изтриване на наблюдатели
+  version_status_closed: затворена
+  version_status_locked: заключена
+  version_status_open: отворена
+  error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
+  label_user_anonymous: Анонимен
+  button_move_and_follow: Преместване и продължаване
+  setting_default_projects_modules: Активирани модули по подразбиране за нов проект
+  setting_gravatar_default: Подразбиращо се изображение от Gravatar
   field_sharing: Sharing
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_system: With all projects
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_tree: With project tree
-  label_version_sharing_none: Not shared
-  error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
-  button_copy_and_follow: Copy and follow
-  label_copy_source: Source
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_status: Use the issue status
-  error_issue_done_ratios_not_updated: Issue done ratios not updated.
-  error_workflow_copy_target: Please select target tracker(s) and role(s)
-  setting_issue_done_ratio_issue_field: Use the issue field
-  label_copy_same_as_target: Same as target
-  label_copy_target: Target
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  error_workflow_copy_source: Please select a source tracker or role
-  label_update_issue_done_ratios: Update issue done ratios
-  setting_start_of_week: Start calendars on
-  permission_view_issues: View Issues
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
-  label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
-  label_feeds_access_key: RSS access key
-  notice_api_access_key_reseted: Your API access key was reset.
-  setting_rest_api_enabled: Enable REST web service
-  label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  button_show: Show
-  text_line_separated: Multiple values allowed (one line for each value).
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  permission_add_subprojects: Create subprojects
-  label_subproject_new: New subproject
+  label_version_sharing_hierarchy: С проектна йерархия
+  label_version_sharing_system: С всички проекти
+  label_version_sharing_descendants: С подпроекти
+  label_version_sharing_tree: С дърво на проектите
+  label_version_sharing_none: Не споделен
+  error_can_not_archive_project: Този проект не може да бъде архивиран
+  button_duplicate: Дублиране
+  button_copy_and_follow: Копиране и продължаване
+  label_copy_source: Източник
+  setting_issue_done_ratio: Изчисление на процента на готово задачи с
+  setting_issue_done_ratio_issue_status: Използване на състояниетона задачите
+  error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
+  error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
+  setting_issue_done_ratio_issue_field: Използване на поле 'задача'
+  label_copy_same_as_target: Също като целта
+  label_copy_target: Цел
+  notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
+  error_workflow_copy_source: Моля изберете source тракер или роля
+  label_update_issue_done_ratios: Обновяване на процента на завършените задачи
+  setting_start_of_week: Първи ден на седмицата
+  permission_view_issues: Разглеждане на задачите
+  label_display_used_statuses_only: Показване само на състоянията, използвани от този тракер
+  label_revision_id: Ревизия {{value}}
+  label_api_access_key: API ключ за достъп
+  label_api_access_key_created_on: API ключ за достъп е създаден преди {{value}}
+  label_feeds_access_key: RSS access ключ
+  notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
+  setting_rest_api_enabled: Разрешаване на REST web сървис
+  label_missing_api_access_key: Липсващ API ключ
+  label_missing_feeds_access_key: Липсващ RSS ключ за достъп
+  button_show: Показване
+  text_line_separated: Позволени са много стойности (по едно на ред).
+  setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
+  permission_add_subprojects: Създаване на подпроекти
+  label_subproject_new: Нов подпроект
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  label_close_versions: Close completed versions
+    Вие сте на път да премахнете някои или всички ваши разрешения и е възможно след това на да не можете да редатирате този проект.
+    Сигурен ли сте, че искате да продължите?
+  label_close_versions: Затваряне на завършените версии
   label_board_sticky: Sticky
-  label_board_locked: Locked
-  permission_export_wiki_pages: Export wiki pages
+  label_board_locked: Заключена
+  permission_export_wiki_pages: Експорт на wiki страници
   setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Manage project activities
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_profile: Profile
-  permission_manage_subtasks: Manage subtasks
-  field_parent_issue: Parent task
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  permission_manage_project_activities: Управление на дейностите на проекта
+  error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
+  label_profile: Профил
+  permission_manage_subtasks: Управление на подзадачите
+  field_parent_issue: Родителска задача
+  label_subtask_plural: Подзадачи
+  label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
+  error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
+  error_unable_to_connect: Невъзможност за свързване с ({{value}})
+  error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
+  error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
+  notice_failed_to_save_members: "Невъзможност за запис на член(ове): {{errors}}."
+  text_zoom_out: Намаляване
+  text_zoom_in: Увеличаване
+  notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
+  label_overall_spent_time: Общо употребено време
   field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  text_tip_issue_end_day: issue ending this day
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
+  project_module_gantt: Gantt
+  text_are_you_sure_with_children: Delete issue and all child issues?
+  text_tip_issue_begin_end_day: issue beginning and ending this day
+  setting_default_notification_option: Default notification option
+  project_module_calendar: Calendar
+  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
+  text_tip_issue_begin_day: issue beginning this day
+  label_user_mail_option_only_assigned: Only for things I am assigned to
+  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
