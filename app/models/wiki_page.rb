@@ -28,7 +28,7 @@ class WikiPage < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
-                :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :page => o.title}}
+                :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
 
   acts_as_searchable :columns => ['title', 'text'],
                      :include => [{:wiki => :project}, :content],
@@ -139,7 +139,7 @@ class WikiPage < ActiveRecord::Base
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
   end
-  
+
   protected
   
   def validate

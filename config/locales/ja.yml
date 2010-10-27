@@ -218,10 +218,10 @@ ja:
   mail_body_account_activation_request: "新しいユーザ {{value}} が登録されました。このアカウントはあなたの承認待ちです："
   mail_subject_reminder: "{{count}}件のチケットの期日が{{days}}日以内に到来します"
   mail_body_reminder: "{{count}}件の担当チケットの期日が{{days}}日以内に到来します:"
-  mail_subject_wiki_content_added: "Wikiページ {{page}} が追加されました"
-  mail_body_wiki_content_added: "{{author}} によってWikiページ {{page}} が追加されました。"
-  mail_subject_wiki_content_updated: "Wikiページ {{page}} が更新されました"
-  mail_body_wiki_content_updated: "{{author}} によってWikiページ {{page}} が更新されました。"
+  mail_subject_wiki_content_added: "Wikiページ {{id}} が追加されました"
+  mail_body_wiki_content_added: "{{author}} によってWikiページ {{id}} が追加されました。"
+  mail_subject_wiki_content_updated: "Wikiページ {{id}} が更新されました"
+  mail_body_wiki_content_updated: "{{author}} によってWikiページ {{id}} が更新されました。"
   
   gui_validation_error: 1件のエラー
   gui_validation_error_plural: "{{count}}件のエラー"

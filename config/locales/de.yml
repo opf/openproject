@@ -211,10 +211,10 @@ de:
   mail_body_account_activation_request: "Ein neuer Benutzer ({{value}}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_subject_reminder: "{{count}} Tickets müssen in den nächsten {{days}} Tagen abgegeben werden"
   mail_body_reminder: "{{count}} Tickets, die Ihnen zugewiesen sind, müssen in den nächsten {{days}} Tagen abgegeben werden:"
-  mail_subject_wiki_content_added: "Wiki-Seite '{{page}}' hinzugefügt"
-  mail_body_wiki_content_added: "Die Wiki-Seite '{{page}}' wurde von {{author}} hinzugefügt."
-  mail_subject_wiki_content_updated: "Wiki-Seite '{{page}}' erfolgreich aktualisiert"
-  mail_body_wiki_content_updated: "Die Wiki-Seite '{{page}}' wurde von {{author}} aktualisiert."
+  mail_subject_wiki_content_added: "Wiki-Seite '{{id}}' hinzugefügt"
+  mail_body_wiki_content_added: "Die Wiki-Seite '{{id}}' wurde von {{author}} hinzugefügt."
+  mail_subject_wiki_content_updated: "Wiki-Seite '{{id}}' erfolgreich aktualisiert"
+  mail_body_wiki_content_updated: "Die Wiki-Seite '{{id}}' wurde von {{author}} aktualisiert."
 
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "{{count}} Fehler"

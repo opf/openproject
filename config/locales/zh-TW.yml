@@ -277,10 +277,10 @@
   mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核："
   mail_subject_reminder: "您有 {{count}} 個項目即將到期 ({{days}})"
   mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
-  mail_subject_wiki_content_added: "'{{page}}' wiki 頁面已被新增"
-  mail_body_wiki_content_added: "The '{{page}}' wiki 頁面已被 {{author}} 新增。"
-  mail_subject_wiki_content_updated: "'{{page}}' wiki 頁面已被更新"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki 頁面已被 {{author}} 更新。"
+  mail_subject_wiki_content_added: "'{{id}}' wiki 頁面已被新增"
+  mail_body_wiki_content_added: "The '{{id}}' wiki 頁面已被 {{author}} 新增。"
+  mail_subject_wiki_content_updated: "'{{id}}' wiki 頁面已被更新"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki 頁面已被 {{author}} 更新。"
   
   gui_validation_error: 1 個錯誤
   gui_validation_error_plural: "{{count}} 個錯誤"

@@ -184,10 +184,10 @@ hr:
   mail_body_account_activation_request: "Novi korisnik ({{value}}) je registriran. Njegov korisnički račun čeka vaše odobrenje:"
   mail_subject_reminder: "{{count}} predmet(a) dospijeva sljedećih {{days}} dana"
   mail_body_reminder: "{{count}} vama dodijeljen(ih) predmet(a) dospijeva u sljedećih {{days}} dana:"
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
   
   gui_validation_error: 1 pogreška
   gui_validation_error_plural: "{{count}} pogrešaka"

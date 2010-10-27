@@ -204,10 +204,10 @@ zh:
   mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核："
   mail_subject_reminder: "{{count}} 个问题需要尽快解决 ({{days}})"
   mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
-  mail_subject_wiki_content_added: "'{{page}}' wiki页面已添加"
-  mail_body_wiki_content_added: "'{{page}}' wiki页面已由 {{author}} 添加。"
-  mail_subject_wiki_content_updated: "'{{page}}' wiki页面已更新"
-  mail_body_wiki_content_updated: "'{{page}}' wiki页面已由 {{author}} 更新。"
+  mail_subject_wiki_content_added: "'{{id}}' wiki页面已添加"
+  mail_body_wiki_content_added: "'{{id}}' wiki页面已由 {{author}} 添加。"
+  mail_subject_wiki_content_updated: "'{{id}}' wiki页面已更新"
+  mail_body_wiki_content_updated: "'{{id}}' wiki页面已由 {{author}} 更新。"
 
   gui_validation_error: 1 个错误
   gui_validation_error_plural: "{{count}} 个错误"

@@ -959,12 +959,12 @@ ru:
   text_wiki_page_destroy_children: Удалить дочерние страницы и всех их потомков
   setting_password_min_length: Минимальная длина пароля
   field_group_by: Группировать результаты по
-  mail_subject_wiki_content_updated: "Wiki-страница '{{page}}' была обновлена"
+  mail_subject_wiki_content_updated: "Wiki-страница '{{id}}' была обновлена"
   label_wiki_content_added: Добавлена wiki-страница
-  mail_subject_wiki_content_added: "Wiki-страница  '{{page}}' была добавлена"
-  mail_body_wiki_content_added: "{{author}} добавил(а) wiki-страницу '{{page}}'."
+  mail_subject_wiki_content_added: "Wiki-страница  '{{id}}' была добавлена"
+  mail_body_wiki_content_added: "{{author}} добавил(а) wiki-страницу '{{id}}'."
   label_wiki_content_updated: Обновлена wiki-страница
-  mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{page}}'."
+  mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{id}}'."
   permission_add_project: Создание проекта
   setting_new_project_user_role_id: Роль, назначаемая пользователю, создавшему проект
   label_view_all_revisions: Показать все ревизии

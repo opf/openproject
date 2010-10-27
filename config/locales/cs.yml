@@ -815,12 +815,12 @@ cs:
   text_wiki_page_destroy_children: Smazat podstránky a všechny jejich potomky
   setting_password_min_length: Minimální délka hesla
   field_group_by: Seskupovat výsledky podle
-  mail_subject_wiki_content_updated: "'{{page}}' Wiki stránka byla aktualizována"
+  mail_subject_wiki_content_updated: "'{{id}}' Wiki stránka byla aktualizována"
   label_wiki_content_added: Wiki stránka přidána
-  mail_subject_wiki_content_added: "'{{page}}' Wiki stránka byla přidána"
-  mail_body_wiki_content_added: "'{{page}}' Wiki stránka byla přidána od {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' Wiki stránka byla přidána"
+  mail_body_wiki_content_added: "'{{id}}' Wiki stránka byla přidána od {{author}}."
   label_wiki_content_updated: Wiki stránka aktualizována
-  mail_body_wiki_content_updated: "'{{page}}' Wiki stránka byla aktualizována od {{author}}."
+  mail_body_wiki_content_updated: "'{{id}}' Wiki stránka byla aktualizována od {{author}}."
   permission_add_project: Vytvořit projekt
   setting_new_project_user_role_id: Role přiřazená uživateli bez práv administrátora, který projekt vytvořil
   label_view_all_revisions: Zobrazit všechny revize

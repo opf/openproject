@@ -241,10 +241,10 @@ lt:
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas ({{value}}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_subject_reminder: "{{count}} darbas(ai) po kelių {{days}} dienų"
   mail_body_reminder: "{{count}} darbas(ai), kurie yra jums priskirti, baigiasi po {{days}} dienų(os):"
-  mail_subject_wiki_content_added: "'{{page}}' pridėtas wiki puslapis"
-  mail_body_wiki_content_added: "The '{{page}}' wiki puslapi pridėjo {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' atnaujintas wiki puslapis"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki puslapį atnaujino {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' pridėtas wiki puslapis"
+  mail_body_wiki_content_added: "The '{{id}}' wiki puslapi pridėjo {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' atnaujintas wiki puslapis"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki puslapį atnaujino {{author}}."
 
   gui_validation_error: 1 klaida
   gui_validation_error_plural: "{{count}} klaidų(os)"

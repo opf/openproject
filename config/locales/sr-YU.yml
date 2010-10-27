@@ -192,10 +192,10 @@ sr-YU:
   mail_body_account_activation_request: "Novi korisnik ({{value}}) je registrovan. Nalog čeka na vaše odobrenje:"
   mail_subject_reminder: "{{count}} problema dospeva narednih {{days}} dana"
   mail_body_reminder: "{{count}} problema dodeljenih vama dospeva u narednih {{days}} dana:"
-  mail_subject_wiki_content_added: "Wiki stranica '{{page}}' je dodata"
-  mail_body_wiki_content_added: "{{author}} je dodao wiki stranicu '{{page}}'."
-  mail_subject_wiki_content_updated: "Wiki stranica '{{page}}' je ažurirana"
-  mail_body_wiki_content_updated: "{{author}} je ažurirao wiki stranicu '{{page}}'."
+  mail_subject_wiki_content_added: "Wiki stranica '{{id}}' je dodata"
+  mail_body_wiki_content_added: "{{author}} je dodao wiki stranicu '{{id}}'."
+  mail_subject_wiki_content_updated: "Wiki stranica '{{id}}' je ažurirana"
+  mail_body_wiki_content_updated: "{{author}} je ažurirao wiki stranicu '{{id}}'."
   
   gui_validation_error: jedna greška
   gui_validation_error_plural: "{{count}} grešaka"

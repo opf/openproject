@@ -238,10 +238,10 @@ sv:
   mail_body_account_activation_request: "En ny användare ({{value}}) har registrerat sig och avvaktar ditt godkännande:"
   mail_subject_reminder: "{{count}} ärende(n) har deadline under de kommande {{days}} dagarna"
   mail_body_reminder: "{{count}} ärende(n) som är tilldelat dig har deadline under de {{days}} dagarna:"
-  mail_subject_wiki_content_added: "'{{page}}' wikisida has lagts till"
-  mail_body_wiki_content_added: The '{{page}}' wikisida has lagts till av {{author}}.
-  mail_subject_wiki_content_updated: "'{{page}}' wikisida har uppdaterats"
-  mail_body_wiki_content_updated: The '{{page}}' wikisida har uppdaterats av {{author}}.
+  mail_subject_wiki_content_added: "'{{id}}' wikisida has lagts till"
+  mail_body_wiki_content_added: The '{{id}}' wikisida has lagts till av {{author}}.
+  mail_subject_wiki_content_updated: "'{{id}}' wikisida har uppdaterats"
+  mail_body_wiki_content_updated: The '{{id}}' wikisida har uppdaterats av {{author}}.
   
   gui_validation_error: 1 fel
   gui_validation_error_plural: "{{count}} fel"

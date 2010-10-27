@@ -204,10 +204,10 @@ fr:
   mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation :"
   mail_subject_reminder: "{{count}} demande(s) arrivent à échéance ({{days}})"
   mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours :"
-  mail_subject_wiki_content_added: "Page wiki '{{page}}' ajoutée"
-  mail_body_wiki_content_added: "La page wiki '{{page}}' a été ajoutée par {{author}}."
-  mail_subject_wiki_content_updated: "Page wiki '{{page}}' mise à jour"
-  mail_body_wiki_content_updated: "La page wiki '{{page}}' a été mise à jour par {{author}}."
+  mail_subject_wiki_content_added: "Page wiki '{{id}}' ajoutée"
+  mail_body_wiki_content_added: "La page wiki '{{id}}' a été ajoutée par {{author}}."
+  mail_subject_wiki_content_updated: "Page wiki '{{id}}' mise à jour"
+  mail_body_wiki_content_updated: "La page wiki '{{id}}' a été mise à jour par {{author}}."
   
   gui_validation_error: 1 erreur
   gui_validation_error_plural: "{{count}} erreurs"

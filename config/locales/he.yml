@@ -196,10 +196,10 @@ he:
   mail_body_account_activation_request: "משתמש חדש ({{value}}) נרשם. החשבון שלו מחכה לאישור שלך:"
   mail_subject_reminder: "{{count}} נושאים מיועדים להגשה בימים הקרובים ({{days}})"
   mail_body_reminder: "{{count}} נושאים שמיועדים אליך מיועדים להגשה בתוך {{days}} ימים:"
-  mail_subject_wiki_content_added: "דף ה־wiki ‏'{{page}}' נוסף"
-  mail_body_wiki_content_added: דף ה־wiki ‏'{{page}}' נוסף ע"י {{author}}.
-  mail_subject_wiki_content_updated: "דף ה־wiki ‏'{{page}}' עודכן"
-  mail_body_wiki_content_updated: דף ה־wiki ‏'{{page}}' עודכן ע"י {{author}}.
+  mail_subject_wiki_content_added: "דף ה־wiki ‏'{{id}}' נוסף"
+  mail_body_wiki_content_added: דף ה־wiki ‏'{{id}}' נוסף ע"י {{author}}.
+  mail_subject_wiki_content_updated: "דף ה־wiki ‏'{{id}}' עודכן"
+  mail_body_wiki_content_updated: דף ה־wiki ‏'{{id}}' עודכן ע"י {{author}}.
 
   gui_validation_error: שגיאה 1
   gui_validation_error_plural: "{{count}} שגיאות"

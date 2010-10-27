@@ -854,12 +854,12 @@ es:
   text_wiki_page_destroy_children: Eliminar páginas hijas y todos sus descendientes
   setting_password_min_length: Longitud mínima de la contraseña
   field_group_by: Agrupar resultados por
-  mail_subject_wiki_content_updated: "La página wiki '{{page}}' ha sido actualizada"
+  mail_subject_wiki_content_updated: "La página wiki '{{id}}' ha sido actualizada"
   label_wiki_content_added: Página wiki añadida
-  mail_subject_wiki_content_added: "Se ha añadido la página wiki '{{page}}'."
-  mail_body_wiki_content_added: "{{author}} ha añadido la página wiki '{{page}}'."
+  mail_subject_wiki_content_added: "Se ha añadido la página wiki '{{id}}'."
+  mail_body_wiki_content_added: "{{author}} ha añadido la página wiki '{{id}}'."
   label_wiki_content_updated: Página wiki actualizada
-  mail_body_wiki_content_updated: La página wiki '{{page}}' ha sido actualizada por {{author}}.
+  mail_body_wiki_content_updated: La página wiki '{{id}}' ha sido actualizada por {{author}}.
   permission_add_project: Crear proyecto
   setting_new_project_user_role_id: Permiso asignado a un usuario no-administrador para crear proyectos
   label_view_all_revisions: Ver todas las revisiones

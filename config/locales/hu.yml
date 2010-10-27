@@ -838,12 +838,12 @@
   text_wiki_page_destroy_children: Minden aloldal és leszármazottjának törlése
   setting_password_min_length: Minimum jelszó hosszúság
   field_group_by: Szerint csoportosítva
-  mail_subject_wiki_content_updated: "'{{page}}' wiki oldal frissítve"
+  mail_subject_wiki_content_updated: "'{{id}}' wiki oldal frissítve"
   label_wiki_content_added: Wiki oldal hozzáadva
-  mail_subject_wiki_content_added: "Új wiki oldal: '{{page}}'"
-  mail_body_wiki_content_added: A '{{page}}' wiki oldalt {{author}} hozta létre.
+  mail_subject_wiki_content_added: "Új wiki oldal: '{{id}}'"
+  mail_body_wiki_content_added: A '{{id}}' wiki oldalt {{author}} hozta létre.
   label_wiki_content_updated: Wiki oldal frissítve
-  mail_body_wiki_content_updated: A '{{page}}' wiki oldalt {{author}} frissítette.
+  mail_body_wiki_content_updated: A '{{id}}' wiki oldalt {{author}} frissítette.
   permission_add_project: Projekt létrehozása
   setting_new_project_user_role_id: Projekt létrehozási jog nem adminisztrátor felhasználóknak
   label_view_all_revisions: Minden revízió megtekintése

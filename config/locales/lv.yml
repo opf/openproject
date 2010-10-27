@@ -180,10 +180,10 @@ lv:
   mail_body_account_activation_request: "Jauns lietotājs ({{value}}) ir reģistrēts. Lietotāja konts gaida Jūsu apstiprinājumu:"
   mail_subject_reminder: "{{count}} uzdevums(i) sagaidāms(i) tuvākajās {{days}} dienās"
   mail_body_reminder: "{{count}} uzdevums(i), kurš(i) ir nozīmēts(i) Jums, sagaidāms(i) tuvākajās {{days}} dienās:"
-  mail_subject_wiki_content_added: "'{{page}}' Wiki lapa pievienota"
-  mail_body_wiki_content_added: "The '{{page}}' Wiki lapu pievienojis {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' Wiki lapa atjaunota"
-  mail_body_wiki_content_updated: "The '{{page}}' Wiki lapu atjaunojis {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' Wiki lapa pievienota"
+  mail_body_wiki_content_added: "The '{{id}}' Wiki lapu pievienojis {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' Wiki lapa atjaunota"
+  mail_body_wiki_content_updated: "The '{{id}}' Wiki lapu atjaunojis {{author}}."
   
   gui_validation_error: 1 kļūda
   gui_validation_error_plural: "{{count}} kļūdas"

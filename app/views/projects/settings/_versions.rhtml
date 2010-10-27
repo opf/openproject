@@ -17,7 +17,7 @@
     <td class="description"><%=h version.description %></td>
     <td class="status"><%= l("version_status_#{version.status}") %></td>
     <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
-    <td><%= link_to(h(version.wiki_page_title), :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
+    <td><%= link_to(h(version.wiki_page_title), :controller => 'wiki', :id => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
     <td class="buttons">
     	<% if version.project == @project %>
     		<%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %>

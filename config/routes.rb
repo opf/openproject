@@ -32,21 +32,21 @@ ActionController::Routing::Routes.draw do |map|
       wiki_views.connect 'projects/:project_id/wiki/export', :action => 'export'
       wiki_views.connect 'projects/:project_id/wiki/index', :action => 'index'
       wiki_views.connect 'projects/:project_id/wiki/date_index', :action => 'date_index'
-      wiki_views.connect 'projects/:project_id/wiki/:page', :action => 'show', :page => nil
-      wiki_views.connect 'projects/:project_id/wiki/:page/edit', :action => 'edit'
-      wiki_views.connect 'projects/:project_id/wiki/:page/rename', :action => 'rename'
-      wiki_views.connect 'projects/:project_id/wiki/:page/history', :action => 'history'
-      wiki_views.connect 'projects/:project_id/wiki/:page/diff/:version/vs/:version_from', :action => 'diff'
-      wiki_views.connect 'projects/:project_id/wiki/:page/annotate/:version', :action => 'annotate'
+      wiki_views.connect 'projects/:project_id/wiki/:id', :action => 'show', :id => nil
+      wiki_views.connect 'projects/:project_id/wiki/:id/edit', :action => 'edit'
+      wiki_views.connect 'projects/:project_id/wiki/:id/rename', :action => 'rename'
+      wiki_views.connect 'projects/:project_id/wiki/:id/history', :action => 'history'
+      wiki_views.connect 'projects/:project_id/wiki/:id/diff/:version/vs/:version_from', :action => 'diff'
+      wiki_views.connect 'projects/:project_id/wiki/:id/annotate/:version', :action => 'annotate'
     end
     
-    wiki_routes.connect 'projects/:project_id/wiki/:page/:action', 
+    wiki_routes.connect 'projects/:project_id/wiki/:id/:action', 
       :action => /rename|preview|protect|add_attachment/,
       :conditions => {:method => :post}
 
-    wiki_routes.connect 'projects/:project_id/wiki/:page/edit', :action => 'update', :conditions => {:method => :post}
+    wiki_routes.connect 'projects/:project_id/wiki/:id/edit', :action => 'update', :conditions => {:method => :post}
 
-    wiki_routes.connect 'projects/:project_id/wiki/:page', :action => 'destroy', :conditions => {:method => :delete}
+    wiki_routes.connect 'projects/:project_id/wiki/:id', :action => 'destroy', :conditions => {:method => :delete}
   end
   
   map.with_options :controller => 'messages' do |messages_routes|

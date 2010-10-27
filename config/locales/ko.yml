@@ -231,10 +231,10 @@ ko:
   mail_body_account_activation_request: "새 사용자({{value}})가 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:"
   mail_body_reminder: "당신이 맡고 있는 일감 {{count}}개의 완료 기한이 {{days}}일 후 입니다."
   mail_subject_reminder: "내일이 만기인 일감 {{count}}개 ({{days}})"
-  mail_subject_wiki_content_added: "위키페이지 '{{page}}'이(가) 추가되었습니다."
-  mail_subject_wiki_content_updated: "'위키페이지 {{page}}'이(가) 수정되었습니다."
-  mail_body_wiki_content_added: "{{author}}이(가) 위키페이지 '{{page}}'을(를) 추가하였습니다."
-  mail_body_wiki_content_updated: "{{author}}이(가) 위키페이지 '{{page}}'을(를) 수정하였습니다."
+  mail_subject_wiki_content_added: "위키페이지 '{{id}}'이(가) 추가되었습니다."
+  mail_subject_wiki_content_updated: "'위키페이지 {{id}}'이(가) 수정되었습니다."
+  mail_body_wiki_content_added: "{{author}}이(가) 위키페이지 '{{id}}'을(를) 추가하였습니다."
+  mail_body_wiki_content_updated: "{{author}}이(가) 위키페이지 '{{id}}'을(를) 수정하였습니다."
   
   gui_validation_error: 에러
   gui_validation_error_plural: "{{count}}개 에러"

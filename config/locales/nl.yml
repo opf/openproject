@@ -797,12 +797,12 @@ nl:
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
   setting_password_min_length: Minimum wachtwoord lengte
   field_group_by: Groepeer resultaten per
-  mail_subject_wiki_content_updated: "'{{page}}' wiki pagina is bijgewerkt"
+  mail_subject_wiki_content_updated: "'{{id}}' wiki pagina is bijgewerkt"
   label_wiki_content_added: Wiki pagina toegevoegd
-  mail_subject_wiki_content_added: "'{{page}}' wiki pagina is toegevoegd"
-  mail_body_wiki_content_added: The '{{page}}' wiki pagina is toegevoegd door {{author}}.
+  mail_subject_wiki_content_added: "'{{id}}' wiki pagina is toegevoegd"
+  mail_body_wiki_content_added: The '{{id}}' wiki pagina is toegevoegd door {{author}}.
   label_wiki_content_updated: Wiki pagina bijgewerkt
-  mail_body_wiki_content_updated: The '{{page}}' wiki pagina is bijgewerkt door {{author}}.
+  mail_body_wiki_content_updated: The '{{id}}' wiki pagina is bijgewerkt door {{author}}.
   permission_add_project: Maak project
   setting_new_project_user_role_id: Rol van gebruiker die een project maakt
   label_view_all_revisions: Bekijk alle revisies
