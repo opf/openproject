@@ -35,18 +35,18 @@ if require_dependency 'cost_reports_controller'
         def report_to_xls
           find_optional_project
           generate_query
+          set_active_cost_types
 
-          options = { :query => @query, :cost_type => @cost_type, :unit_id => @unit_id }
+          options = { :query => @query, :project => @project, :cost_types => @cost_types }
 
           if @query.group_bys.empty?
             set_cost_types # honor the selected tab in detail table, because it's shorter
-            sb = CostEntryTable.generate(options)
+            sb = CostEntryTable.generate(options.merge :cost_type => @cost_type, :unit_id => @unit_id)
           else
-            set_active_cost_types
             if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
               @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
             end
-            sb = CostReportTable.generate(options.merge({:cost_types => @cost_types}))
+            sb = CostReportTable.generate(options)
           end
           sb.xls
         end

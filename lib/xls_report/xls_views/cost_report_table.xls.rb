@@ -78,15 +78,15 @@ class CostReportTable < XlsViews
 
   def generate
     @spreadsheet ||= SpreadsheetBuilder.new(l(:label_money))
+    default_query = @query.serialize
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |ary, idx|
-      qry = CostQuery.deserialize(query.serialize)
+      @query = CostQuery.deserialize(default_query)
       @unit_id = ary.first
       name = ary.last
 
-
       if @unit_id != 0
-        qry.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
+        @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s
         @cost_type = CostType.find(unit_id) if unit_id > 0
       end
 
@@ -99,7 +99,6 @@ class CostReportTable < XlsViews
 
   def run_walker
     walker = query.walker
-
     walker.for_final_row &method(:final_row)
     walker.for_row &method(:row)
     walker.for_empty_cell { "" }
