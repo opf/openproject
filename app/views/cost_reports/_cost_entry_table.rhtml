@@ -46,7 +46,7 @@
           <% end %>
         </td>
       </tr>
-      <% if params[:debug] %>
+      <% if debug? %>
         <tr>
           <td colspan='<%= list.size + 3 %>'>
             <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
