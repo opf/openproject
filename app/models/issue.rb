@@ -824,17 +824,6 @@ class Issue < ActiveRecord::Base
   end
 
   IssueJournal.class_eval do
-    after_create :notify_of_updates
-
-    def notify_of_updates
-      return if self.version == 1
-      if Setting.notified_events.include?('issue_updated')
-        Mailer.deliver_issue_edit(self)
-      elsif Setting.notified_events.include?('issue_note_added') and !self.notes.blank?
-        Mailer.deliver_issue_edit(self)
-      end
-    end
-
     # Shortcut
     def new_status
       if details.keys.include? 'status_id'
