@@ -39,8 +39,7 @@ if require_dependency 'cost_reports_controller'
           options = { :query => @query, :project => @project, :cost_types => @cost_types }
 
           if @query.group_bys.empty?
-            set_cost_types # honor the selected tab in detail table, because it's shorter
-            sb = CostEntryTable.generate(options.merge :cost_type => @cost_type, :unit_id => @unit_id)
+            sb = CostEntryTable.generate(options)
           else
             if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
               @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
