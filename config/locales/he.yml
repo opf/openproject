@@ -154,6 +154,7 @@ he:
   notice_file_not_found: הדף שאתה מנסה לגשת אליו אינו קיים או שהוסר.
   notice_locking_conflict: המידע עודכן על ידי משתמש אחר.
   notice_not_authorized: אינך מורשה לראות דף זה.
+  notice_not_authorized_archived_project: הפרויקט שאתה מנסה לגשת אליו נמצא בארכיון.
   notice_email_sent: "דואל נשלח לכתובת {{value}}"
   notice_email_error: "ארעה שגיאה בעת שליחת הדואל ({{value}})"
   notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
@@ -926,5 +927,4 @@ he:
   label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
   field_start_date: Start date
