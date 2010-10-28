@@ -24,10 +24,6 @@ module ReportingHelper
     @project = project_was
   end
 
-  def debug?
-    (!!params[:debug]) and !Rails.env.production?
-  end
-
   def object_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
@@ -69,7 +65,7 @@ module ReportingHelper
   end
 
   def debug_fields(result, prefix = ", ")
-    prefix << result.fields.inspect << ", " << result.key.inspect if debug?
+    #prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
   end
 
   def show_field(key, value)

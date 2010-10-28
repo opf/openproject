@@ -32,7 +32,7 @@ show_units = list.include? "cost_type_id"
         <% end %>
         <td raw-data="<%= result.real_costs -%>"><%= show_result result %></td>
       </tr>
-      <% if debug? %>
+      <% if params[:debug] %>
         <tr>
           <td colspan='<%= list.size + 3 %>'>
             <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
