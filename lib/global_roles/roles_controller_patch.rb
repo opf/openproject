@@ -6,7 +6,6 @@ module GlobalRoles
       base.class_eval do
         alias_method_chain :new, :global_roles
         alias_method_chain :index, :global_roles
-        alias_method_chain :destroy, :global_roles
         alias_method_chain :list, :global_roles
       end
     end
@@ -17,17 +16,17 @@ module GlobalRoles
           create_global_role
         else
           new
-          @global_role = GlobalRole.new
-          standard_member_and_global_assigns
+
+          @member_permissions = (@role.setable_permissions || @permissions)
+          @global_permissions = GlobalRole.setable_permissions
         end
       end
 
       def new_with_global_roles
         new_without_global_roles
 
-        @member_role = @role
-        @global_role = GlobalRole.new
-        standard_member_and_global_assigns
+        @member_permissions = (@role.setable_permissions || @permissions)
+        @global_permissions = GlobalRole.setable_permissions
       end
 
       def index_with_global_roles
@@ -42,36 +41,27 @@ module GlobalRoles
         index_with_global_roles
       end
 
-      def destroy_with_global_roles
-        if params[:class] == GlobalRole.to_s
-          destroy_global_role
-        else
-          destroy_without_global_roles
-        end
+      def update
+        edit
       end
 
       private
 
       def create_global_role
-        @global_role = GlobalRole.new params[:role]
-        if @global_role.save
+        @role = GlobalRole.new params[:role]
+        if @role.save
           flash[:notice] = l(:notice_successful_create)
           redirect_to :action => 'index'
         else
-          @member_role = Role.new
-          standard_member_and_global_assigns
+          @roles = Role.all :order => 'builtin, position'
+          @member_permissions = Role.new.setable_permissions
+          @global_permissions = GlobalRole.setable_permissions
         end
-      end
-
-      def destroy_global_role
-        role = GlobalRole.find params[:id]
-        role.destroy
-        redirect_to :action => 'index'
       end
 
       def standard_member_and_global_assigns
         @member_permissions = (@member_role.setable_permissions || @permissions)
-        @global_permissions = @global_role.setable_permissions
+        @global_permissions = GlobalRole.setable_permissions
         @global_roles = GlobalRole.all
         @member_roles = (Role.all || @roles)
       end

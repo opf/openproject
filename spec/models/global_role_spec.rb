@@ -19,7 +19,20 @@ describe GlobalRole do
     it {should respond_to :position}
   end
 
-  describe "methods" do
+  describe "class methods" do
+    describe "WITH available global permissions defined" do
+      before (:each) do
+        @permission_options = [:perm1, :perm2, :perm3]
+        Redmine::AccessControl.stub!(:global_permissions).and_return(@permission_options)
+      end
+
+      describe :setable_permissions do
+        it {GlobalRole.setable_permissions.should eql @permission_options}
+      end
+    end
+  end
+
+  describe "instance methods" do
     describe "WITH no attributes set" do
       before {@role = GlobalRole.new}
       describe :permissions do
@@ -96,7 +109,7 @@ describe GlobalRole do
       end
 
       describe :setable_permissions do
-        it {@role.setable_permissions.should eql [:perm1, :perm2, :perm3]}
+        it {@role.setable_permissions.should eql @permission_options}
       end
     end
 

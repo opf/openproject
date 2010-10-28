@@ -1,21 +1,28 @@
-<%= error_messages_for 'member_role' %>
-<%= error_messages_for 'global_role' %>
+<%= roles ||= nil %>
+
+<%= error_messages_for 'role' %>
 
 <div class="box">
 <p><%= f.text_field :name, :required => true %></p>
-<p><label for='global_role'>Global role</label><%= check_box_tag "global_role"%></p>
-<div id="member_attributes">
-<%= render :partial => "member_attributes", :locals => { :f => f, :role => member_role, :roles => member_roles }%>
-</div>
+<p><label for='global_role'><%= l(:label_global_role)%></label><%= check_box_tag "global_role", "1", role.is_a?(GlobalRole), :disabled => !role.new_record?%></p>
+<% if role.is_a?(GlobalRole)%>
 <div id="global_attributes" style="display:none">
-<%= render :partial => "global_attributes", :locals => { :f => f, :role => global_role, :roles => global_roles }%>
+<%= render :partial => "global_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
 </div>
+<% else %>
+<div id="member_attributes">
+<%= render :partial => "member_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
+</div>
+<% end %>
 </div>
 
 <h3><%= l(:label_permissions) %></h3>
-<div id="member_permissions">
-<%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => member_role }%>
-</div>
+<% if role.is_a?(GlobalRole) %>
 <div id="global_permissions" style="display:none">
-<%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => global_role }%>
+<%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role }%>
 </div>
+<% else %>
+<div id="member_permissions">
+<%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role }%>
+</div>
+<% end%>

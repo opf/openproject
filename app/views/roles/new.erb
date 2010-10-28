@@ -5,6 +5,6 @@
 <h2><%= link_to l(:label_role_plural), :controller => 'roles', :action => 'index' %> &#187; <%=l(:label_role_new)%></h2>
 
 <% labelled_tabular_form_for :role, @role, :url => { :action => 'create' }, :html => {:id => 'role_form'} do |f| %>
-<%= render :partial => 'form', :locals => { :f => f , :member_role => @member_role, :global_role => @global_role, :member_roles => @member_roles, :global_roles => @global_roles,  :member_permissions => @member_permissions, :global_permissions => @global_permissions} %>
+<%= render :partial => 'form', :locals => { :f => f , :member_role => @member_role, :global_role => @global_role, :roles => @roles,  :member_permissions => @member_permissions, :global_permissions => @global_permissions} %>
 <%= submit_tag l(:button_create) %>
 <% end %>
