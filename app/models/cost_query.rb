@@ -19,7 +19,8 @@ class CostQuery < ActiveRecord::Base
   def self.deserialize(hash)
     self.new.tap do |q|
       hash[:filters].each {|name, opts| q.filter(name, opts) }
-      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
+      # have to take the reverse to regain the original order
+      hash[:group_bys].reverse.each {|name, opts| q.group_by(name, opts) }
     end
   end
 
