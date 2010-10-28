@@ -10,14 +10,24 @@ if require_dependency 'cost_reports_controller'
 
         base.class_eval do
           unloadable
+
+          alias_method_chain :ensure_project_scope?, :excel_export
         end
       end
 
       module InstanceMethods
 
+        def excel_export?
+          params["action"] == "index" && params["format"] == "xls"
+        end
+
+        def ensure_project_scope_with_excel_export?
+          !excel_export? && ensure_project_scope_without_excel_export?
+        end
+
         # If the index action is called, hook the xls format into the cost report
         def respond_to
-          if (params["action"] == "index" && params["format"] == "xls")
+          if excel_export?
             super do |format|
               yield format
               format.xls do
