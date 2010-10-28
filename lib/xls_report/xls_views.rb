@@ -21,7 +21,8 @@ class XlsViews
     end
   end
 
-  def show_result(row, unit_id = @unit_id)
+  def show_result(row, unit_id = @unit_id, as_text = false)
+    return super(row, unit_id) if as_text
     case unit_id
     when 0 then row.real_costs ? row.real_costs : '-'
     else row.units

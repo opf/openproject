@@ -16,7 +16,7 @@ class CostEntryTable < XlsViews
 
     query.each_direct_result do |result|
       row = list.collect {|field| show_field field, result.fields[field.to_s] }
-      row << show_result(result, result.fields['cost_type_id'].to_i) # units
+      row << show_result(result, result.fields['cost_type_id'].to_i, true)
       row << show_result(result, 0) # currency
       spreadsheet.add_row(row)
     end
