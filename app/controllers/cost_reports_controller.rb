@@ -4,6 +4,11 @@ class CostReportsController < ApplicationController
   before_filter :generate_query,        :only => [:index, :drill_down]
   before_filter :set_cost_types,        :only => [:index, :drill_down]
 
+  rescue_from Exception do |exception|
+    session.delete[:cost_query]
+    raise exception
+  end
+
   helper :reporting
   include ReportingHelper
 
