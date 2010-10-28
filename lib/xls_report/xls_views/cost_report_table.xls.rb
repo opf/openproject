@@ -92,7 +92,7 @@ class CostReportTable < XlsViews
 
       spreadsheet.worksheet(idx, name)
       run_walker
-      build_spreadsheet
+      build_spreadsheet unless (@headers + @footers).empty?
     end
     spreadsheet
   end
