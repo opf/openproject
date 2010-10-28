@@ -18,4 +18,8 @@ class GlobalRole < Role
   def self.setable_permissions
     Redmine::AccessControl.global_permissions
   end
+
+  def to_s #Why is this not inherited?
+    name
+  end
 end
