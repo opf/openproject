@@ -115,8 +115,8 @@ class CostReportsController < ApplicationController
 
   ##
   # We apply a project filter, except when we are just applying a brand new query
-  def ensure_project_scope(filters)
-    return if set_filter? or set_unit?
+  def ensure_project_scope!(filters)
+    return unless ensure_project_scope?
     if @project
       filters[:operators].merge! :project_id => "="
       filters[:values].merge! :project_id => @project.id.to_s
@@ -126,6 +126,10 @@ class CostReportsController < ApplicationController
     end
   end
 
+  def ensure_project_scope?
+    !(set_filter? or set_unit?)
+  end
+
   ##
   # Build the query from the current request and save it to
   # the session.
@@ -133,7 +137,7 @@ class CostReportsController < ApplicationController
     CostQuery::QueryUtils.cache.clear
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
-    ensure_project_scope filters
+    ensure_project_scope! filters
 
     session[:cost_query] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
