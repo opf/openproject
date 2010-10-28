@@ -34,11 +34,13 @@ describe RolesController do
   end
 
   def mock_member_role_find
-    @member_role1 = mock_model Role
-    @member_role2 = mock_model Role
-    @member_roles = [@member_role1, @member_role2]
-    Role.stub!(:find).and_return(@member_roles)
-    Role.stub!(:all).and_return(@member_roles)
+    @role1 = mock_model Role
+    @role2 = mock_model Role
+    @global_role1 = mock_model GlobalRole
+    @global_role2 = mock_model GlobalRole
+    @roles = [@role1, @global_role2, @role2, @global_role1]
+    Role.stub!(:find).and_return(@roles)
+    Role.stub!(:all).and_return(@roles)
   end
 
   def mock_global_role_find
@@ -67,14 +69,14 @@ describe RolesController do
 
   shared_examples_for "index" do
     it {response.should be_success}
-    it {assigns(:roles).should eql(@member_roles + @global_roles)}
-    it {assigns(:role_pages).should be_nil}
+    it {assigns(:roles).should eql(@roles)}
+    it {assigns(:role_pages).should be_a ActionController::Pagination::Paginator}
     it {response.should render_template "roles/index.erb"}
   end
 
   shared_examples_for "member assigns" do
     it {assigns(:member_permissions).should eql @member_role.setable_permissions}
-    it {assigns(:member_roles).should eql @member_roles}
+    it {assigns(:member_roles).should eql @roles}
     it {assigns(:member_role).should eql @member_role}
   end
 

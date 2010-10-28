@@ -4,7 +4,7 @@ describe GlobalRole do
   before {GlobalRole.create :name => "globalrole", :permissions => ["permissions"]} # for validate_uniqueness_of
 
   it {should have_many :principals}
-  it {should have_many :principal_global_roles}
+  it {should have_many :principal_roles}
   it {should validate_presence_of :name}
   it {should validate_uniqueness_of :name}
   it {should ensure_length_of(:name).is_at_most(30)}
@@ -106,6 +106,12 @@ describe GlobalRole do
       describe :to_s do
         it {@role.to_s.should eql("name")}
       end
+    end
+
+    describe :destroy do
+      before {@role = GlobalRole.create :name => "global"}
+
+      it {@role.destroy}
     end
   end
 

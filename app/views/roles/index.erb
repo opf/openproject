@@ -14,12 +14,12 @@
   <tbody>
 <% for role in @roles %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= content_tag(role.is_a?(Role) && role.builtin? ? 'em' : 'span', link_to(role.name, :action => 'edit', :id => role)) %></td>
+  <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(role.name, :action => 'edit', :id => role)) %></td>
 	<td align="center" style="width:15%;">
 		<%= image_tag('true.png') if role.is_a?(GlobalRole) %>
 	</td>
 	<td align="center" style="width:15%;">
-  <% unless role.is_a?(Role) && role.builtin? %>
+  <% unless role.builtin? %>
     <%= reorder_links('role', {:action => 'edit', :id => role}) %>
   <% end %>
   </td>
@@ -27,12 +27,14 @@
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => role, :class => role.class },
     															:method => :post,
     															:confirm => l(:text_are_you_sure),
-    															:class => 'icon icon-del') unless role.is_a?(Role) && role.builtin? %>
+    															:class => 'icon icon-del') unless role.builtin? %>
   </td>
   </tr>
 <% end %>
   </tbody>
 </table>
+
+<p class="pagination"><%= pagination_links_full @role_pages %></p>
 
 <p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
 

@@ -4,7 +4,7 @@
     <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
     <% perms_by_module[mod].each do |permission| %>
         <label class="floating">
-        <%= check_box_tag 'role[permissions][]', permission.name, (role.permissions.include? permission.name) %>
+        <%= check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
         <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </label>
     <% end %>

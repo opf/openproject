@@ -31,7 +31,7 @@ module GlobalRoles
       end
 
       def index_with_global_roles
-        @roles = Role.all + GlobalRole.all
+        @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
         respond_to do |format|
           format.html {render :action => 'index'}
           format.js {render :action => 'index', :layout => false}
