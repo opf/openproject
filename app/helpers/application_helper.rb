@@ -541,7 +541,8 @@ module ApplicationHelper
             when :local; "#{title}.html"
             when :anchor; "##{title}"   # used for single-file wiki export
             else
-              url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :id => Wiki.titleize(page), :anchor => anchor)
+              wiki_page_id = page.present? ? Wiki.titleize(page) : nil
+              url_for(:only_path => only_path, :controller => 'wiki', :action => 'show', :project_id => link_project, :id => wiki_page_id, :anchor => anchor)
             end
           link_to((title || page), url, :class => ('wiki-page' + (wiki_page ? '' : ' new')))
         else

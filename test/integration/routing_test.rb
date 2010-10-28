@@ -322,11 +322,12 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/567/wiki/date_index", :controller => 'wiki', :action => 'date_index', :project_id => '567'
     should_route :get, "/projects/567/wiki/export", :controller => 'wiki', :action => 'export', :project_id => '567'
     
-    should_route :post, "/projects/567/wiki/my_page/edit", :controller => 'wiki', :action => 'update', :project_id => '567', :id => 'my_page'
     should_route :post, "/projects/567/wiki/CookBook_documentation/preview", :controller => 'wiki', :action => 'preview', :project_id => '567', :id => 'CookBook_documentation'
     should_route :post, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :project_id => '22', :id => 'ladida'
     should_route :post, "/projects/22/wiki/ladida/protect", :controller => 'wiki', :action => 'protect', :project_id => '22', :id => 'ladida'
     should_route :post, "/projects/22/wiki/ladida/add_attachment", :controller => 'wiki', :action => 'add_attachment', :project_id => '22', :id => 'ladida'
+
+    should_route :put, "/projects/567/wiki/my_page", :controller => 'wiki', :action => 'update', :project_id => '567', :id => 'my_page'
 
     should_route :delete, "/projects/22/wiki/ladida", :controller => 'wiki', :action => 'destroy', :project_id => '22', :id => 'ladida'
   end

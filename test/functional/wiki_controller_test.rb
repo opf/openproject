@@ -80,7 +80,7 @@ class WikiControllerTest < ActionController::TestCase
   
   def test_create_page
     @request.session[:user_id] = 2
-    post :update, :project_id => 1,
+    put :update, :project_id => 1,
                 :id => 'New page',
                 :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page",
@@ -96,7 +96,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
-        post :update, :project_id => 1,
+        put :update, :project_id => 1,
                     :id => 'New page',
                     :content => {:comments => 'Created the page',
                                  :text => "h1. New page\n\nThis is a new page",

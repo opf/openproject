@@ -98,7 +98,7 @@ class WikiController < ApplicationController
     flash[:error] = l(:notice_locking_conflict)
   end
 
-  verify :method => :post, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
     @page = @wiki.find_or_new_page(params[:id])    
@@ -234,7 +234,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
-    redirect_to :action => 'show', :id => @page.title
+    redirect_to :action => 'show', :id => @page.title, :project_id => @project
   end
 
 private
