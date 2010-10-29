@@ -39,15 +39,15 @@ class SpreadsheetBuilder
   # Update column widths and wrap text if neccessary
   def update_sheet_widths
     @column_widths.count.times do |idx|
-      @sheet.column(idx).width = @column_widths[idx]
       if @column_widths[idx] > 60
         @sheet.column(idx).width = 60
-        fmt = @sheet.column(idx).default_format
-        fmt.text_wrap = true if @column_widths[idx] > 60
-        @sheet.column(idx).default_format = fmt
         @sheet.rows.each do |row|
-          row.set_format(idx,fmt)
+          fmt = row.formats[idx] || @sheet.column(idx).default_format
+          fmt.text_wrap = true
+          row.set_format(idx, fmt)
         end
+      else
+        @sheet.column(idx).width = @column_widths[idx]
       end
     end
   end
