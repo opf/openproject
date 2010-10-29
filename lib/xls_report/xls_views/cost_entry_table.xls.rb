@@ -7,6 +7,7 @@ class CostEntryTable < XlsViews
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |ary, idx|
       @query = CostQuery.deserialize(default_query)
+      @cost_type = nil
       @unit_id = ary.first
       name = ary.last
 
@@ -38,12 +39,9 @@ class CostEntryTable < XlsViews
       row = list.collect {|field| show_field field, result.fields[field.to_s] }
       current_cost_type_id = result.fields['cost_type_id'].to_i
 
-      units = show_result(result, current_cost_type_id, true).split
-      units_digit = units.first == "-" ? units.first : units.first.to_i
-      row << units_digit
-      row << units[1..-1].join
-
-      row << show_result(result, 0) # currency
+      row << show_result(result, current_cost_type_id) # units
+      row << cost_type_label(current_cost_type_id, @cost_type) # cost type
+      row << show_result(result, 0) # costs/currency
 
       spreadsheet.add_row(row)
     end
