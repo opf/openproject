@@ -26,7 +26,8 @@ class CostEntryTable < XlsViews
 
     list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id]
     headers = list.collect {|field| label_for(field) }
-    headers << (cost_type.try(:unit_plural) || (@unit_id == -1 ? l(:caption_labor) : l(:units)))
+    headers << l(:units)
+    headers << l(:field_cost_type)
     headers << l(:field_costs)
     spreadsheet.add_headers(headers)
 
@@ -36,16 +37,22 @@ class CostEntryTable < XlsViews
     query.each_direct_result do |result|
       row = list.collect {|field| show_field field, result.fields[field.to_s] }
       current_cost_type_id = result.fields['cost_type_id'].to_i
-      row << show_result(result, current_cost_type_id, current_cost_type_id != @unit_id)
+
+      units = show_result(result, current_cost_type_id, true).split
+      units_digit = units.first == "-" ? units.first : units.first.to_i
+      row << units_digit
+      row << units[1..-1].join
+
       row << show_result(result, 0) # currency
+
       spreadsheet.add_row(row)
     end
 
     footer = [''] * list.size
     if show_result(query, 0) != show_result(query)
-      footer += [show_result(query), show_result(query, 0)]
+      footer += [show_result(query), '', show_result(query, 0)]
     else
-      footer += ['', show_result(query)]
+      footer += ['', '', show_result(query)]
     end
     spreadsheet.add_row(footer) # footer
 
