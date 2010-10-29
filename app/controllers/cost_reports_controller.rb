@@ -199,7 +199,7 @@ class CostReportsController < ApplicationController
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
     @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i)
-    @cost_types ||= (-1..CostType.count)
+    @cost_types ||= [-1, 0, *CostType.find(:all, :select => "id").collect(&:id)]
   end
 
   def load_all
