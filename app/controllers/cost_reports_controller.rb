@@ -19,6 +19,8 @@ class CostReportsController < ApplicationController
     if @valid
       if @query.group_bys.empty?
         @table_partial = "cost_entry_table"
+      elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
+        @table_partial = "simple_cost_report_table"
       else
         if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
           @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
