@@ -66,7 +66,7 @@
 
         <p>Wiki links are displayed in red if the page doesn't exist yet, eg: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
 
-        <p>Links to others resources (0.7):</p>
+        <p>Links to other resources:</p>
 
         <ul>
             <li>Documents:
@@ -74,6 +74,7 @@
                     <li><strong>document#17</strong> (link to document with id 17)</li>
                     <li><strong>document:Greetings</strong> (link to the document with title "Greetings")</li>
                     <li><strong>document:"Some document"</strong> (double quotes can be used when document title contains spaces)</li>
+                    <li><strong>document:some_project:"Some document"</strong> (link to a document with title "Some document" in other project "some_project")
                 </ul></li>
         </ul>
 
@@ -95,17 +96,34 @@
         </ul>
 
         <ul>
-             <li>Repository files
+             <li>Repository files:
                 <ul>
-                    <li><strong>source:some/file</strong>          -- Link to the file located at /some/file in the project's repository</li>
-                    <li><strong>source:some/file@52</strong>       -- Link to the file's revision 52</li>
-                    <li><strong>source:some/file#L120</strong>     -- Link to line 120 of the file</li>
-                    <li><strong>source:some/file@52#L120</strong>  -- Link to line 120 of the file's revision 52</li>
-                    <li><strong>export:some/file</strong>          -- Force the download of the file</li>
-            </ul></li>
+                    <li><strong>source:some/file</strong>           (link to the file located at /some/file in the project's repository)</li>
+                    <li><strong>source:some/file@52</strong>        (link to the file's revision 52)</li>
+                    <li><strong>source:some/file#L120</strong>      (link to line 120 of the file)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (link to line 120 of the file's revision 52)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (use double quotes when the URL contains spaces</li>
+                    <li><strong>export:some/file</strong>           (force the download of the file)</li>
+                </ul></li>
         </ul>
-        
-        <p>Escaping (0.7):</p>
+
+        <ul>
+            <li>Forum messages:
+                <ul>
+                    <li><strong>message#1218</strong> (link to message with id 1218)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Projects:
+                <ul>
+                    <li><strong>project#3</strong> (link to project with id 3)</li>
+                    <li><strong>project:someproject</strong> (link to project named "someproject")</li>
+                </ul></li>
+        </ul>
+
+
+        <p>Escaping:</p>
 
         <ul>
             <li>You can prevent Redmine links from being parsed by preceding them with an exclamation mark: !</li>
@@ -219,7 +237,7 @@ To go live, all you need to add is a database and a web server.
 
     <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
 
-    <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, html, javascript, rhtml, ruby, scheme, xml languages.</p>
+    <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
 
     <p>You can highlight code in your wiki page using this syntax:</p>
 
