@@ -125,7 +125,7 @@ module ReportingHelper
     when -1 then l_hours(row.units)
     when 0  then row.real_costs ? number_to_currency(row.real_costs) : '-'
     else
-      current_cost_type = @cost_type || CostType.find(id)
+      current_cost_type = @cost_type || CostType.find(unit_id)
       pluralize(row.units, current_cost_type.unit, current_cost_type.unit_plural)
     end
   end
@@ -139,14 +139,14 @@ module ReportingHelper
     tabs = cost_types.to_a
     tabs.delete 0 # remove money from list
     tabs.unshift 0 # add money as first tab
-    tabs.map {|id| [id, cost_type_label(id)] }
+    tabs.map {|cost_type_id| [cost_type_id, cost_type_label(cost_type_id)] }
   end
 
-  def cost_type_label(id, cost_type_inst = nil, plural = true)
-    case id
+  def cost_type_label(cost_type_id, cost_type_inst = nil, plural = true)
+    case cost_type_id
     when -1 then l(:caption_labor)
     when 0  then l(:label_money)
-    else (cost_type_inst || CostType.find(id)).name
+    else (cost_type_inst || CostType.find(cost_type_id)).name
     end
   end
 
