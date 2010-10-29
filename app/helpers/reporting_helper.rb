@@ -124,8 +124,7 @@ module ReportingHelper
     when -1 then l_hours(row.units)
     when 0  then row.real_costs ? number_to_currency(row.real_costs) : '-'
     else
-      cost_type = @cost_type || CostType.find(unit_id)
-      "#{row.units} #{row.units != 1 ? cost_type.unit_plural : cost_type.unit}"
+      "#{row.units} #{cost_type_label(unit_id, @cost_type, row.units != 1)}"
     end
   end
 
@@ -141,11 +140,13 @@ module ReportingHelper
     tabs.map {|id| [id, cost_type_label(id)] }
   end
 
-  def cost_type_label(id)
+  def cost_type_label(id, cost_type_inst = nil,  plural = true)
     case id
     when -1 then l(:caption_labor)
     when 0  then l(:label_money)
-    else CostType.find(id).unit_plural
+    else
+      cost_type_inst ||= CostType.find(id)
+      plural ? cost_type_inst.unit_plural : cost_type_inst.unit
     end
   end
 
