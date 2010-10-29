@@ -79,10 +79,14 @@ describe CostQuery do
 
     it "does ~ (contains)" do
       query('projects', 'name', '~', 'o').size.should == Project.all.select { |p| p.name =~ /o/ }.count
+      query('projects', 'name', '~', 'test').size.should == Project.all.select { |p| p.name =~ /test/ }.count
+      query('projects', 'name', '~', 'child').size.should == Project.all.select { |p| p.name =~ /child/ }.count
     end
 
     it "does !~ (not contains)" do
       query('projects', 'name', '!~', 'o').size.should == Project.all.select { |p| p.name !~ /o/ }.count
+      query('projects', 'name', '!~', 'test').size.should == Project.all.select { |p| p.name !~ /test/ }.count
+      query('projects', 'name', '!~', 'child').size.should == Project.all.select { |p| p.name !~ /child/ }.count
     end
 
     it "does c (closed issue)" do
