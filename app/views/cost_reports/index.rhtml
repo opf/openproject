@@ -5,7 +5,7 @@
   <%= stylesheet_link_tag 'reporting', :plugin => 'redmine_reporting' %>
 <% end %>
 
-<% if @custom_errors && !@custom_errors.empty? %>
+<% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
     <div class="flash error"><%= err %></div>
   <% end %>

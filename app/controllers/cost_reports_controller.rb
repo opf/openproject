@@ -5,8 +5,10 @@ class CostReportsController < ApplicationController
   before_filter :set_cost_types,        :only => [:index, :drill_down]
 
   rescue_from Exception do |exception|
-    session.delete[:cost_query]
-    raise exception
+    session.delete(:cost_query)
+    @custom_errors ||= []
+    @custom_errors << l(:error_generic)
+    render :layout => !request.xhr?
   end
 
   helper :reporting
