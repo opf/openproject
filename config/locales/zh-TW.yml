@@ -1009,3 +1009,5 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

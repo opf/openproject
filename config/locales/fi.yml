@@ -948,3 +948,5 @@ fi:
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

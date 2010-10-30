@@ -968,3 +968,5 @@ sv:
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
   field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

@@ -1041,3 +1041,5 @@ ru:
   field_assigned_to_role: Роль назначенного
   notice_not_authorized_archived_project: Запрашиваемый проект был архивирован.
 
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

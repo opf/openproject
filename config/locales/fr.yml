@@ -772,6 +772,8 @@ fr:
   label_profile: Profil
   label_subtask_plural: Sous-tâches
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
+  label_principal_search: "Rechercher un utilisateur ou un groupe :"
+  label_user_search: "Rechercher un utilisateur :"
   
   button_login: Connexion
   button_submit: Soumettre

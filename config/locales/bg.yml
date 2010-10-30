@@ -919,3 +919,5 @@ bg:
   button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
   field_assigned_to_role: Assignee's role
   field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

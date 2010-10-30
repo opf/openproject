@@ -790,6 +790,8 @@ de:
   label_profile: Profil
   label_subtask_plural: Unteraufgaben
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
+  label_principal_search: "Nach Benutzer oder Gruppe suchen:"
+  label_user_search: "Nach Benutzer suchen:"
   
   button_login: Anmelden
   button_submit: OK

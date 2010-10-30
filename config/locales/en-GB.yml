@@ -927,3 +927,5 @@ en-GB:
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_assigned: Only for things I am assigned to
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

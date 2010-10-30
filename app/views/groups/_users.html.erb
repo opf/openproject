@@ -29,7 +29,7 @@
   <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
     
-		<p><%= text_field_tag 'user_search', nil %></p>
+		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
