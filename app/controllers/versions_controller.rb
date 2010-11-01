@@ -109,6 +109,10 @@ class VersionsController < ApplicationController
       if @version.update_attributes(attributes)
         flash[:notice] = l(:notice_successful_update)
         redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      else
+        respond_to do |format|
+          format.html { render :action => 'edit' }
+        end
       end
     end
   end

@@ -123,6 +123,15 @@ class VersionsControllerTest < ActionController::TestCase
     assert_equal 'New version name', version.name
     assert_equal Date.today, version.effective_date
   end
+  
+  def test_post_update_with_validation_failure
+    @request.session[:user_id] = 2
+    put :update, :id => 2, 
+                 :version => { :name => '', 
+                               :effective_date => Date.today.strftime("%Y-%m-%d")}
+    assert_response :success
+    assert_template 'edit'
+  end
 
   def test_destroy
     @request.session[:user_id] = 2
