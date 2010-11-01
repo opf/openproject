@@ -186,3 +186,7 @@ class ActiveSupport::TestCase
     end
   end
 end
+
+# Simple module to "namespace" all of the API tests
+module ApiTest
+end
