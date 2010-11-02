@@ -3,7 +3,7 @@ function addRate(date_field) {
   var date_elements = $(RatesForm.parentElement).select('input.date');
   
   var highest_date = null;
-  for each (var e in date_elements) {
+  for (var e in date_elements) {
     if (e.value > my_date) {
       highest_date = e;
     } else {
