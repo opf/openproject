@@ -14,6 +14,8 @@ function toggle_filter(field) {
 function make_select_accept_multiple_values(select) {
     select.multiple = true;
     select.size = 4;
+    // first option just got selected, because THAT'S the kind of world we live in
+    select.options[0].selected = false;
 }
 
 function make_select_accept_single_value(select) {
