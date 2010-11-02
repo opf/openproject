@@ -47,20 +47,20 @@
 
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
-  <% available_cost_type_tabs(@cost_types).each do |id, label| %>
-    <%=
+  <%= delimit(
+    available_cost_type_tabs(@cost_types).map do |id, label|
       if id != @unit_id
-        link_to_remote label, {
-          :url => { :set_filter => 1, :unit => id },
-          :update => "content",
-          :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-          :with => "Form.serialize('query_form')",
-          :eval_scripts => true }
-      else
-        "<b>#{label}</b>"
-      end
-    %>
-  <% end %>
+          link_to_remote label, {
+            :url => { :set_filter => 1, :unit => id },
+            :update => "content",
+            :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+            :with => "Form.serialize('query_form')",
+            :eval_scripts => true }
+        else
+          "<b>#{label}</b>"
+        end
+    end)
+  %>
 </div>
 
 <% end %>

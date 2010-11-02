@@ -191,6 +191,20 @@ module ReportingHelper
     link_to_details(row) << row.render { |k,v| show_field(k,v) }
   end
 
+  def delimit(items, options = {})
+    options[:step] ||= 1
+    options[:delim] ||= '&bull;'
+    delimited = []
+    items.each_with_index do |item, ix|
+      if ix != 0 and ix % options[:step] == 0
+        delimited << "<b> #{options[:delim]} </b>" + item
+      else
+        delimited << item
+      end
+    end
+    delimited
+  end
+
   ##
   # Finds the Filter-Class for as specific filter name while being careful with the filter_name parameter as it is user input.
   def filter_class(filter_name)
