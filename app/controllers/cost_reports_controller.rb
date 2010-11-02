@@ -204,7 +204,7 @@ class CostReportsController < ApplicationController
   def set_active_cost_types
     @cost_types = @query.result.cost_type_ids.to_a
     if [[], [0]].include? @cost_types
-      @cost_types = CostType.find(:all, :select => "id").select { |t| t.cost_entries.count > 0 }.collect(&:id).sort
+      @cost_types = [-1] + CostType.find(:all, :select => "id").select { |t| t.cost_entries.count > 0 }.collect(&:id).sort
     end
     @cost_types.unshift 0
   end
