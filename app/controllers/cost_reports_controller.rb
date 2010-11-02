@@ -8,6 +8,10 @@ class CostReportsController < ApplicationController
     session.delete(:cost_query)
     @custom_errors ||= []
     @custom_errors << l(:error_generic)
+    $stderr.puts <<-ERROR
+      ! #{exception.class}: #{exception.message}
+      !   #{exception.backtrace.join("\n      !   ")}
+    ERROR
     render :layout => !request.xhr?
   end
 
@@ -198,8 +202,11 @@ class CostReportsController < ApplicationController
 
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
-    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i)
-    @cost_types ||= [-1, 0, *CostType.find(:all, :select => "id").collect(&:id)]
+    @cost_types = @query.result.cost_type_ids.to_a
+    if [[], [0]].include? @cost_types
+      @cost_types = CostType.find(:all, :select => "id").select { |t| t.cost_entries.count > 0 }.collect(&:id).sort
+    end
+    @cost_types.unshift 0
   end
 
   def load_all
