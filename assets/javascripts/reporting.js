@@ -1,16 +1,5 @@
 /*global $, selectAllOptions, moveOptions */
 
-function toggle_filter(field) {
-    var to_toggle, label;
-    label = $('label_' + field);
-    to_toggle = label.up().siblings();
-    if (label.visible()) {
-        to_toggle.invoke('show');
-    } else {
-        to_toggle.invoke('hide');
-    }
-}
-
 function make_select_accept_multiple_values(select) {
     select.multiple = true;
     select.size = 4;
