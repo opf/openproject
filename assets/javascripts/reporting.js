@@ -93,24 +93,21 @@ function load_available_values_for_filter(filter_name, callback_func) {
     }
 }
 
-function show_filter_callback(field, slowly, callback_func) {
+function show_filter_callback(field, callback_func) {
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
         load_available_values_for_filter(field, callback_func);
         // the following command might be included into the callback_function (which is called after the ajax request) later
+        field_el.show();
+        toggle_filter(field);
         $('rm_' + field).value = field;
-        if (slowly) {
-            new Effect.Appear(field_el);
-        } else {
-            field_el.show();
-        }
         operator_changed(field, $("operators_" + field));
         display_category(field_el);
     }
 }
 
 function show_filter(field) {
-    show_filter_callback(field, true, function () {});
+    show_filter_callback(field, function () {});
 }
 
 function occupied_category(tr_field) {
@@ -125,15 +122,12 @@ function occupied_category(tr_field) {
     return false; //not hit
 }
 
-function hide_filter(field, slowly) {
+function hide_filter(field) {
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
         $('rm_' + field).value = "";
-        if (slowly) {
-            new Effect.Fade(field_el);
-        } else {
-            field_el.hide();
-        }
+        field_el.hide();
+        toggle_filter(field);
         operator_changed(field, $("operators_" + field));
         if (!occupied_category(field_el)) {
             hide_category(field_el);
@@ -168,7 +162,7 @@ function add_filter(select) {
 }
 
 function remove_filter(field) {
-    hide_filter(field, true);
+    hide_filter(field);
     enable_select_option($("add_filter_select"), field);
 }
 
@@ -256,7 +250,7 @@ function restore_values(field, values) {
 function restore_filter(field, operator, values) {
     select_operator(field, operator);
     disable_select_option($("add_filter_select"), field);
-    show_filter_callback(field, true, function () {
+    show_filter_callback(field, function () {
         if (typeof(values) !== "undefined") {
             restore_values(field, values);
         }
@@ -277,7 +271,7 @@ function disable_all_filters() {
         e.hide();
         if (e.readAttribute('class') === 'filter') {
             field = e.id.gsub('tr_', '');
-            hide_filter(field, false);
+            hide_filter(field);
             enable_select_option($('add_filter_select'), field);
             possible_select = $(field + '_arg_1_val');
             if (possible_select !== null && possible_select.type && possible_select.type.include('select')) {
