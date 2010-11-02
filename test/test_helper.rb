@@ -186,12 +186,62 @@ class ActiveSupport::TestCase
     end
   end
 
+  # Test that a request allows the username and password for HTTP BASIC
+  #
+  # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
+  # @param [String] url the request url
+  # @param [optional, Hash] parameters additional request parameters
+  def self.should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters={})
+    context "should allow http basic auth using a username and password for #{http_method} #{url}" do
+      context "with a valid HTTP authentication" do
+        setup do
+          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
+          send(http_method, url, parameters, {:authorization => @authorization})
+        end
+        
+        should_respond_with :success
+        should_respond_with_content_type_based_on_url(url)
+        should "login as the user" do
+          assert_equal @user, User.current
+        end
+      end
+
+      context "with an invalid HTTP authentication" do
+        setup do
+          @user = User.generate_with_protected!
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
+          send(http_method, url, parameters, {:authorization => @authorization})
+        end
+        
+        should_respond_with :unauthorized
+        should_respond_with_content_type_based_on_url(url)
+        should "not login as the user" do
+          assert_equal User.anonymous, User.current
+        end
+      end
+      
+      context "without credentials" do
+        setup do
+          send(http_method, url, parameters, {:authorization => ''})
+        end
+
+        should_respond_with :unauthorized
+        should_respond_with_content_type_based_on_url(url)
+        should "include_www_authenticate_header" do
+          assert @controller.response.headers.has_key?('WWW-Authenticate')
+        end
+      end
+    end
+
+  end
+
   # Test that a request allows full key authentication
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url, without the key=ZXY parameter
   def self.should_allow_key_based_auth(http_method, url)
-    context "should allow key based auth using key=X for #{url}" do
+    context "should allow key based auth using key=X for #{http_method} #{url}" do
       context "with a valid api token" do
         setup do
           @user = User.generate_with_protected!
