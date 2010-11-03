@@ -17,7 +17,7 @@
     <tr id="tr_<%= filter.underscore_name %>" class="filter" style="display:none" data-label="tr_<%= label.to_s %>">
     <% html_elements(filter).each do |element| %>
       <%= render :partial => File.join(partial_prefix, element[:name].to_s),
-        :locals => {:element => element, :f => f, :filter => filter} %>
+        :locals => {:element => element, :f => f, :filter => filter, :query => query} %>
     <% end %>
     </tr>
   <% end %>

@@ -14,6 +14,7 @@ module ReportingHelper
   def html_elements(filter)
     return text_elements filter if CostQuery::Operator.string_operators.all? { |o| filter.available_operators.include? o }
     return date_elements filter if CostQuery::Operator.time_operators.all?   { |o| filter.available_operators.include? o }
+    return heavy_object_elements filter if filter.heavy?
     object_elements filter
   end
 
@@ -29,6 +30,14 @@ module ReportingHelper
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
       {:name => :multi_values, :filter_name => filter.underscore_name},
+      {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  end
+
+  def heavy_object_elements(filter)
+    [
+      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+      {:name => :text, :text => l(:label_equals)},
+      {:name => :heavy_values, :filter_name => filter.underscore_name, :disable_controls => true},
       {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 

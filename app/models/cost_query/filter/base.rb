@@ -14,6 +14,13 @@ module CostQuery::Filter
 
     attr_accessor :values
 
+    ##
+    # A Filter is 'heavy' if it possibly returns a _hughe_ number of available_values.
+    # In that case the UI-guys should think twice about displaying all the values.
+    def self.heavy?
+      false
+    end
+
     def value=(val)
       self.values = [val]
     end

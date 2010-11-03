@@ -38,6 +38,9 @@ function change_argument_visibility(field, arg_nr) {
 
 function operator_changed(field, select) {
     var option_tag, arity;
+    if (select === null) {
+        return;
+    }
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     change_argument_visibility(field, arity);
@@ -71,7 +74,7 @@ function set_remove_button_visibility(field, value) {
 function load_available_values_for_filter(filter_name, callback_func) {
     var select;
     select = $('' + filter_name + '_arg_1_val');
-    if (select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
+    if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
         new Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
             parameters: { filter_name: filter_name },
             insertion: 'bottom',
@@ -126,7 +129,8 @@ function occupied_category(tr_field) {
 }
 
 function hide_filter(field, slowly) {
-    var field_el = $('tr_' +  field);
+    var field_el, operator_select;
+    field_el = $('tr_' +  field);
     if (field_el !== null) {
         $('rm_' + field).value = "";
         if (slowly) {
@@ -134,7 +138,11 @@ function hide_filter(field, slowly) {
         } else {
             field_el.hide();
         }
-        operator_changed(field, $("operators_" + field));
+        operator_select = $("operators_" + field);
+        if (operator_select !== null) {
+            // in case the filter doesn't have an operator select field'
+            operator_changed(field, $("operators_" + field));
+        }
         if (!occupied_category(field_el)) {
             hide_category(field_el);
         }
@@ -195,6 +203,9 @@ function show_group_by(group_by, target) {
 function select_operator(field, operator) {
     var select, i;
     select = $("operators_" + field);
+    if (select === null) {
+        return; // there is no such operator select field
+    }
     for (i = 0; i < select.options.length; i += 1) {
         if (select.options[i].value === operator) {
             select.selectedIndex = i;
@@ -239,8 +250,16 @@ function find_arguments(field) {
 function restore_values(field, values) {
     var op_select, op_arity, args, i;
     op_select = $("operators_" + field);
-    op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
+    if (op_select !== null) {
+        op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
+    }
+    else {
+        op_arity = 0;
+    }
     args = find_arguments(field);
+    if (args.size() === 0) {
+        return; // there are no values to set
+    }
     if (!Object.isArray(values)) {
         values = [values];
     }
