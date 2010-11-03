@@ -3,7 +3,7 @@ journals_001:
   id: 1
   type: "IssueJournal"
   activity_type: "issues"
-  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
   version: 1
   user_id: 1
   notes: "Journal notes"
@@ -54,7 +54,7 @@ journals_005:
   id: 5
   type: "IssueJournal"
   activity_type: "issues"
-  created_at: <%= 1.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
   version: 0
   user_id: 1
   notes:
@@ -205,3 +205,13 @@ journals_017:
   user_id: 2
   notes: "A message journal"
   journaled_id: 3
+journals_005:
+  id: 18
+  type: "IssueJournal"
+  activity_type: "issues"
+  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  version: 0
+  user_id: 2
+  notes:
+  journaled_id: 11
+  changes: "--- {}"
