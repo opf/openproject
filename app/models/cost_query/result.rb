@@ -133,10 +133,6 @@ module CostQuery::Result
       (self["real_costs"] || 0).to_d if display_costs? # FIXME: default value here?
     end
 
-    def cost_type_ids
-      Set.new [self["cost_type_id"].to_i].compact
-    end
-
     ##
     # @return [Integer] Number of child results
     def size
@@ -195,10 +191,6 @@ module CostQuery::Result
 
     def real_costs
       sum_for :real_costs if display_costs?
-    end
-
-    def cost_type_ids
-      inject(Set.new) { |s,o| s.merge o.cost_type_ids }
     end
 
     def sum_for(field)
