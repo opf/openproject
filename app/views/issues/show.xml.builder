@@ -53,7 +53,8 @@ xml.issue do
   			xml.notes journal.notes
   			xml.details do
   				journal.details.each do |detail|
-  					xml.detail :property => detail.property, :name => detail.prop_key, :old => detail.old_value, :new => detail.value
+  					xml.detail :property => journal.property(detail), :name => journal.prop_key(detail),
+  						:old => journal.old_value(detail), :new => journal.value(detail)
   				end
   			end
   		end
