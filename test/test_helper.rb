@@ -236,6 +236,45 @@ class ActiveSupport::TestCase
 
   end
 
+  # Test that a request allows the API key with HTTP BASIC
+  #
+  # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
+  # @param [String] url the request url
+  # @param [optional, Hash] parameters additional request parameters
+  def self.should_allow_http_basic_auth_with_key(http_method, url, parameters={})
+    context "should allow http basic auth with a key for #{http_method} #{url}" do
+      context "with a valid HTTP authentication using the API token" do
+        setup do
+          @user = User.generate_with_protected!
+          @token = Token.generate!(:user => @user, :action => 'api')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
+          send(http_method, url, parameters, {:authorization => @authorization})
+        end
+        
+        should_respond_with :success
+        should_respond_with_content_type_based_on_url(url)
+        should "login as the user" do
+          assert_equal @user, User.current
+        end
+      end
+
+      context "with an invalid HTTP authentication" do
+        setup do
+          @user = User.generate_with_protected!
+          @token = Token.generate!(:user => @user, :action => 'feeds')
+          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
+          send(http_method, url, parameters, {:authorization => @authorization})
+        end
+
+        should_respond_with :unauthorized
+        should_respond_with_content_type_based_on_url(url)
+        should "not login as the user" do
+          assert_equal User.anonymous, User.current
+        end
+      end
+    end
+  end
+  
   # Test that a request allows full key authentication
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
