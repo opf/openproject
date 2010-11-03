@@ -49,7 +49,7 @@ class WikiController < ApplicationController
 
   # display a page (in editing mode if it doesn't exist)
   def show
-    page_title = params[:page]
+    page_title = params[:id]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
@@ -82,7 +82,7 @@ class WikiController < ApplicationController
   
   # edit an existing page or a new one
   def edit
-    @page = @wiki.find_or_new_page(params[:page])    
+    @page = @wiki.find_or_new_page(params[:id])    
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     
@@ -129,10 +129,10 @@ class WikiController < ApplicationController
     flash[:error] = l(:notice_locking_conflict)
   end
 
-  verify :method => :post, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
-    @page = @wiki.find_or_new_page(params[:page])    
+    @page = @wiki.find_or_new_page(params[:id])    
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
     
@@ -145,7 +145,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       # don't save if text wasn't changed
-      redirect_to :action => 'show', :project_id => @project, :page => @page.title
+      redirect_to :action => 'show', :project_id => @project, :id => @page.title
       return
     end
     @content.attributes = params[:content]
@@ -155,7 +155,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-      redirect_to :action => 'show', :project_id => @project, :page => @page.title
+      redirect_to :action => 'show', :project_id => @project, :id => @page.title
     end
 
   rescue ActiveRecord::StaleObjectError
@@ -171,13 +171,13 @@ class WikiController < ApplicationController
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :project_id => @project, :page => @page.title
+      redirect_to :action => 'show', :project_id => @project, :id => @page.title
     end
   end
   
   def protect
     @page.update_attribute :protected, params[:protected]
-    redirect_to :action => 'show', :project_id => @project, :page => @page.title
+    redirect_to :action => 'show', :project_id => @project, :id => @page.title
   end
 
   # show page history
@@ -241,7 +241,7 @@ class WikiController < ApplicationController
       export = render_to_string :action => 'export_multiple', :layout => false
       send_data(export, :type => 'text/html', :filename => "wiki.html")
     else
-      redirect_to :action => 'show', :project_id => @project, :page => nil
+      redirect_to :action => 'show', :project_id => @project, :id => nil
     end
   end
 
@@ -250,7 +250,7 @@ class WikiController < ApplicationController
   end
   
   def preview
-    page = @wiki.find_page(params[:page])
+    page = @wiki.find_page(params[:id])
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
     if page
@@ -265,7 +265,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
-    redirect_to :action => 'show', :page => @page.title
+    redirect_to :action => 'show', :id => @page.title, :project_id => @project
   end
 
 private
@@ -280,7 +280,7 @@ private
   
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
-    @page = @wiki.find_page(params[:page])
+    @page = @wiki.find_page(params[:id])
     render_404 if @page.nil?
   end
   

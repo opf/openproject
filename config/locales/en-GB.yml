@@ -84,7 +84,7 @@ en-GB:
           byte:
             one: "Byte"
             other: "Bytes"
-          kb: "KB"
+          kb: "kB"
           mb: "MB"
           gb: "GB"
           tb: "TB"
@@ -189,10 +189,10 @@ en-GB:
   mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
   mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
   
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
@@ -257,7 +257,7 @@ en-GB:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
-  field_start_date: Start
+  field_start_date: Start date
   field_done_ratio: % Done
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
@@ -927,3 +927,5 @@ en-GB:
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_assigned: Only for things I am assigned to
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

@@ -188,10 +188,10 @@ eu:
   mail_body_account_activation_request: "Erabiltzaile berri bat ({{value}}) erregistratu da. Kontua zure onarpenaren zain dago:"
   mail_subject_reminder: "{{count}} arazo hurrengo {{days}} egunetan amaitzen d(ir)a"
   mail_body_reminder: "Zuri esleituta dauden {{count}} arazo hurrengo {{days}} egunetan amaitzen d(ir)a:"
-  mail_subject_wiki_content_added: "'{{page}}' wiki orria gehitu da"
-  mail_body_wiki_content_added: "{{author}}-(e)k '{{page}}' wiki orria gehitu du."
-  mail_subject_wiki_content_updated: "'{{page}}' wiki orria eguneratu da"
-  mail_body_wiki_content_updated: "{{author}}-(e)k '{{page}}' wiki orria eguneratu du."
+  mail_subject_wiki_content_added: "'{{id}}' wiki orria gehitu da"
+  mail_body_wiki_content_added: "{{author}}-(e)k '{{id}}' wiki orria gehitu du."
+  mail_subject_wiki_content_updated: "'{{id}}' wiki orria eguneratu da"
+  mail_body_wiki_content_updated: "{{author}}-(e)k '{{id}}' wiki orria eguneratu du."
   
   gui_validation_error: akats 1
   gui_validation_error_plural: "{{count}} akats"
@@ -257,7 +257,6 @@ eu:
   field_attr_lastname: Abizenak atributua
   field_attr_mail: Eposta atributua
   field_onthefly: Zuzeneko erabiltzaile sorrera
-  field_start_date: Hasiera
   field_done_ratio: Egindako %
   field_auth_source: Autentikazio modua
   field_hide_mail: Nire eposta helbidea ezkutatu
@@ -927,3 +926,6 @@ eu:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

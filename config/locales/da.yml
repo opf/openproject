@@ -250,7 +250,6 @@ da:
   field_attr_lastname: Efternavn attribut
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
-  field_start_date: Start
   field_done_ratio: % Færdig
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
@@ -831,12 +830,12 @@ da:
   text_wiki_page_destroy_children: Slet undersider ogalle deres afledte sider.
   setting_password_min_length: Mindste længde på kodeord
   field_group_by: Gruppér resultater efter
-  mail_subject_wiki_content_updated: "'{{page}}' wikisiden er blevet opdateret"
+  mail_subject_wiki_content_updated: "'{{id}}' wikisiden er blevet opdateret"
   label_wiki_content_added: Wiki side tilføjet
-  mail_subject_wiki_content_added: "'{{page}}' wikisiden er blevet tilføjet"
-  mail_body_wiki_content_added: The '{{page}}' wikiside er blevet tilføjet af {{author}}.
+  mail_subject_wiki_content_added: "'{{id}}' wikisiden er blevet tilføjet"
+  mail_body_wiki_content_added: The '{{id}}' wikiside er blevet tilføjet af {{author}}.
   label_wiki_content_updated: Wikiside opdateret
-  mail_body_wiki_content_updated: Wikisiden '{{page}}' er blevet opdateret af {{author}}.
+  mail_body_wiki_content_updated: Wikisiden '{{id}}' er blevet opdateret af {{author}}.
   permission_add_project: Opret projekt
   setting_new_project_user_role_id: Denne rolle gives til en bruger, som ikke er administrator, og som opretter et projekt
   label_view_all_revisions: Se alle revisioner
@@ -939,3 +938,6 @@ da:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

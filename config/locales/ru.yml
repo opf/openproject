@@ -313,6 +313,7 @@ ru:
   field_description: Описание
   field_done_ratio: Готовность в %
   field_downloads: Загрузки
+  field_start_date: Дата начала
   field_due_date: Дата выполнения
   field_editable: Редактируемый
   field_effective_date: Дата
@@ -363,7 +364,6 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
-  field_start_date: Начата
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
@@ -959,12 +959,12 @@ ru:
   text_wiki_page_destroy_children: Удалить дочерние страницы и всех их потомков
   setting_password_min_length: Минимальная длина пароля
   field_group_by: Группировать результаты по
-  mail_subject_wiki_content_updated: "Wiki-страница '{{page}}' была обновлена"
+  mail_subject_wiki_content_updated: "Wiki-страница '{{id}}' была обновлена"
   label_wiki_content_added: Добавлена wiki-страница
-  mail_subject_wiki_content_added: "Wiki-страница  '{{page}}' была добавлена"
-  mail_body_wiki_content_added: "{{author}} добавил(а) wiki-страницу '{{page}}'."
+  mail_subject_wiki_content_added: "Wiki-страница  '{{id}}' была добавлена"
+  mail_body_wiki_content_added: "{{author}} добавил(а) wiki-страницу '{{id}}'."
   label_wiki_content_updated: Обновлена wiki-страница
-  mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{page}}'."
+  mail_body_wiki_content_updated: "{{author}} обновил(а) wiki-страницу '{{id}}'."
   permission_add_project: Создание проекта
   setting_new_project_user_role_id: Роль, назначаемая пользователю, создавшему проект
   label_view_all_revisions: Показать все ревизии
@@ -1036,7 +1036,10 @@ ru:
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
 
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_user_mail_option_none: Нет событий
+  field_member_of_group: Группа назначенного
+  field_assigned_to_role: Роль назначенного
+  notice_not_authorized_archived_project: Запрашиваемый проект был архивирован.
+
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

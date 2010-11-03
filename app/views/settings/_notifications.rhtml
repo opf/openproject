@@ -21,6 +21,10 @@
 <p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
+<fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
+<%= setting_text_area :emails_header, :label => false, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+
 <fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
 <%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
 </fieldset>

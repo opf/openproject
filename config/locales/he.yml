@@ -154,6 +154,7 @@ he:
   notice_file_not_found: הדף שאתה מנסה לגשת אליו אינו קיים או שהוסר.
   notice_locking_conflict: המידע עודכן על ידי משתמש אחר.
   notice_not_authorized: אינך מורשה לראות דף זה.
+  notice_not_authorized_archived_project: הפרויקט שאתה מנסה לגשת אליו נמצא בארכיון.
   notice_email_sent: "דואל נשלח לכתובת {{value}}"
   notice_email_error: "ארעה שגיאה בעת שליחת הדואל ({{value}})"
   notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
@@ -196,10 +197,10 @@ he:
   mail_body_account_activation_request: "משתמש חדש ({{value}}) נרשם. החשבון שלו מחכה לאישור שלך:"
   mail_subject_reminder: "{{count}} נושאים מיועדים להגשה בימים הקרובים ({{days}})"
   mail_body_reminder: "{{count}} נושאים שמיועדים אליך מיועדים להגשה בתוך {{days}} ימים:"
-  mail_subject_wiki_content_added: "דף ה־wiki ‏'{{page}}' נוסף"
-  mail_body_wiki_content_added: דף ה־wiki ‏'{{page}}' נוסף ע"י {{author}}.
-  mail_subject_wiki_content_updated: "דף ה־wiki ‏'{{page}}' עודכן"
-  mail_body_wiki_content_updated: דף ה־wiki ‏'{{page}}' עודכן ע"י {{author}}.
+  mail_subject_wiki_content_added: "דף ה־wiki ‏'{{id}}' נוסף"
+  mail_body_wiki_content_added: דף ה־wiki ‏'{{id}}' נוסף ע"י {{author}}.
+  mail_subject_wiki_content_updated: "דף ה־wiki ‏'{{id}}' עודכן"
+  mail_body_wiki_content_updated: דף ה־wiki ‏'{{id}}' עודכן ע"י {{author}}.
 
   gui_validation_error: שגיאה 1
   gui_validation_error_plural: "{{count}} שגיאות"
@@ -265,7 +266,6 @@ he:
   field_attr_lastname: תכונת שם משפחה
   field_attr_mail: תכונת דוא"ל
   field_onthefly: יצירת משתמשים זריזה
-  field_start_date: תאריך התחלה
   field_done_ratio: % גמור
   field_auth_source: מקור הזדהות
   field_hide_mail: החבא את כתובת הדוא"ל שלי
@@ -927,4 +927,6 @@ he:
   label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

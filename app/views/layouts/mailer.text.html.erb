@@ -25,6 +25,7 @@ hr {
 </style>
 </head>
 <body>
+<span class="header"><%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_header) %></span>
 <%= yield %>
 <hr />
 <span class="footer"><%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_footer) %></span>

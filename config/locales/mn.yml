@@ -184,10 +184,10 @@ mn:
   mail_body_account_activation_request: "Шинэ хэрэглэгч ({{value}}) бүртгүүлсэн байна. Таны баталгаажуулахыг хүлээж байна:"
   mail_subject_reminder: "Дараагийн өдрүүдэд {{count}} асуудлыг шийдэх хэрэгтэй ({{days}})"
   mail_body_reminder: "Танд оноогдсон {{count}} асуудлуудыг дараагийн {{days}} өдрүүдэд шийдэх хэрэгтэй:"
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
   
   gui_validation_error: 1 алдаа
   gui_validation_error_plural: "{{count}} алдаа"
@@ -252,7 +252,6 @@ mn:
   field_attr_lastname: Овог аттрибут
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
-  field_start_date: Эхлэл
   field_done_ratio: %% Гүйцэтгэсэн
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
@@ -924,3 +923,6 @@ mn:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

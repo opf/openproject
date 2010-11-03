@@ -264,7 +264,6 @@ pt-BR:
   field_attr_lastname: Atributo para sobrenome
   field_attr_mail: Atributo para e-mail
   field_onthefly: Criar usuários dinamicamente ("on-the-fly")
-  field_start_date: Início
   field_done_ratio: % Terminado
   field_auth_source: Modo de autenticação
   field_hide_mail: Ocultar meu e-mail
@@ -839,12 +838,12 @@ pt-BR:
   text_wiki_page_destroy_children: Excluir páginas filhas e todas suas descendentes
   setting_password_min_length: Comprimento mínimo para senhas
   field_group_by: Agrupar por
-  mail_subject_wiki_content_updated: "A página wiki '{{page}}' foi atualizada"
+  mail_subject_wiki_content_updated: "A página wiki '{{id}}' foi atualizada"
   label_wiki_content_added: Página wiki adicionada
-  mail_subject_wiki_content_added: "A página wiki '{{page}}' foi adicionada"
-  mail_body_wiki_content_added: A página wiki '{{page}}' foi adicionada por {{author}}.
+  mail_subject_wiki_content_added: "A página wiki '{{id}}' foi adicionada"
+  mail_body_wiki_content_added: A página wiki '{{id}}' foi adicionada por {{author}}.
   label_wiki_content_updated: Página wiki atualizada
-  mail_body_wiki_content_updated: A página wiki '{{page}}' foi atualizada por {{author}}.
+  mail_body_wiki_content_updated: A página wiki '{{id}}' foi atualizada por {{author}}.
   permission_add_project: Criar projeto
   setting_new_project_user_role_id: Papel atribuído a um usuário não-administrador que cria um projeto
   label_view_all_revisions: Ver todas as revisões
@@ -947,3 +946,6 @@ pt-BR:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

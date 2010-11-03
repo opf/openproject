@@ -232,7 +232,6 @@ ro:
   field_attr_lastname: Atribut nume
   field_attr_mail: Atribut email
   field_onthefly: Creare utilizator pe loc
-  field_start_date: Data începerii
   field_done_ratio: Realizat (%)
   field_auth_source: Mod autentificare
   field_hide_mail: Nu se afișează adresa de email
@@ -808,12 +807,12 @@ ro:
   text_wiki_page_destroy_children: Șterge paginile și descendenții
   setting_password_min_length: Lungime minimă parolă
   field_group_by: Grupează după
-  mail_subject_wiki_content_updated: "Pagina wiki '{{page}}' a fost actualizată"
+  mail_subject_wiki_content_updated: "Pagina wiki '{{id}}' a fost actualizată"
   label_wiki_content_added: Adăugat
-  mail_subject_wiki_content_added: "Pagina wiki '{{page}}' a fost adăugată"
-  mail_body_wiki_content_added: Pagina wiki '{{page}}' a fost adăugată de {{author}}.
+  mail_subject_wiki_content_added: "Pagina wiki '{{id}}' a fost adăugată"
+  mail_body_wiki_content_added: Pagina wiki '{{id}}' a fost adăugată de {{author}}.
   label_wiki_content_updated: Actualizat
-  mail_body_wiki_content_updated: Pagina wiki '{{page}}' a fost actualizată de {{author}}.
+  mail_body_wiki_content_updated: Pagina wiki '{{id}}' a fost actualizată de {{author}}.
   permission_add_project: Crează proiect
   setting_new_project_user_role_id: Rol atribuit utilizatorului non-admin care crează un proiect.
   label_view_all_revisions: Arată toate reviziile
@@ -916,3 +915,6 @@ ro:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

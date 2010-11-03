@@ -4,6 +4,44 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2010-10-31 v1.0.3
+
+* #4065: Redmine.pm doesn't work with LDAPS and a non-standard port
+* #4416: Link from version details page to edit the wiki.
+* #5484: Add new issue as subtask to an existing ticket
+* #5948: Update help/wiki_syntax_detailed.html with more link options
+* #6494: Typo in pt_BR translation for 1.0.2
+* #6508: Japanese translation update
+* #6509: Localization pt-PT (new strings)
+* #6511: Rake task to test email
+* #6525: Traditional Chinese language file (to r4225)
+* #6536: Patch for swedish translation
+* #6548: Rake tasks to add/remove i18n strings
+* #6569: Updated Hebrew translation
+* #6570: Japanese Translation for r4231
+* #6596: pt-BR translation updates
+* #6629: Change field-name of issues start date
+* #6669: Bulgarian translation
+* #6731: Macedonian translation fix
+* #6732: Japanese Translation for r4287
+* #6735: Add user-agent to reposman
+* #6736: Traditional Chinese language file (to r4288)
+* #6739: Swedish Translation for r4288
+* #6765: Traditional Chinese language file (to r4302)
+* Fixed #5324: Git not working if color.ui is enabled
+* Fixed #5652: Bad URL parsing in the wiki when it ends with right-angle-bracket(greater-than mark).
+* Fixed #5803: Precedes/Follows Relationships Broke
+* Fixed #6435: Links to wikipages bound to versions do not respect version-sharing in Settings -> Versions
+* Fixed #6438: Autologin cannot be disabled again once it's enabled
+* Fixed #6513: "Move" and "Copy" are not displayed when deployed in subdirectory
+* Fixed #6521: Tooltip/label for user "search-refinment" field on group/project member list
+* Fixed #6563: i18n-issues on calendar view
+* Fixed #6598: Wrong caption for button_create_and_continue in German language file
+* Fixed #6607: Unclear caption for german button_update
+* Fixed #6612: SortHelper missing from CalendarsController
+* Fixed #6740: Max attachment size, incorrect usage of 'KB'
+* Fixed #6750: ActionView::TemplateError (undefined method `empty?' for nil:NilClass) on line #12 of app/views/context_menus/issues.html.erb:
+
 == 2010-09-26 v1.0.2
 
 * #2285: issue-refinement: pressing enter should result to an "apply"

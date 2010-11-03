@@ -3,7 +3,7 @@
 <div class="box tabular settings">
 <p><%= setting_check_box :login_required %></p>
 
-<p><%= setting_select :autologin, [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]}, :blank => :label_disabled %></p>
+<p><%= setting_select :autologin, [[l(:label_disabled), 0]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %></p>
 
 <p><%= setting_select :self_registration, [[l(:label_disabled), "0"],
 							                             [l(:label_registration_activation_by_email), "1"],

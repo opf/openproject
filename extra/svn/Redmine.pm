@@ -331,7 +331,7 @@ sub is_member {
           $sthldap->execute($auth_source_id);
           while (my @rowldap = $sthldap->fetchrow_array) {
             my $ldap = Authen::Simple::LDAP->new(
-                host    =>      ($rowldap[2] eq "1" || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]" : $rowldap[0],
+                host    =>      ($rowldap[2] eq "1" || $rowldap[2] eq "t") ? "ldaps://$rowldap[0]:$rowldap[1]" : $rowldap[0],
                 port    =>      $rowldap[1],
                 basedn  =>      $rowldap[5],
                 binddn  =>      $rowldap[3] ? $rowldap[3] : "",

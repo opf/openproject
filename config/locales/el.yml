@@ -179,10 +179,10 @@ el:
   mail_body_account_activation_request: "'Ένας νέος χρήστης ({{value}}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_subject_reminder: "{{count}} θέμα(τα) με προθεσμία στις επόμενες {{days}} ημέρες"
   mail_body_reminder: "{{count}}θέμα(τα)  που έχουν ανατεθεί σε σας, με προθεσμία στις επόμενες {{days}} ημέρες:"
-  mail_subject_wiki_content_added: "'προστέθηκε η σελίδα wiki {{page}}' "
-  mail_body_wiki_content_added: "Η σελίδα wiki '{{page}}' προστέθηκε από τον {{author}}."
-  mail_subject_wiki_content_updated: "'ενημερώθηκε η σελίδα wiki {{page}}' "
-  mail_body_wiki_content_updated: "Η σελίδα wiki  '{{page}}' ενημερώθηκε από τον {{author}}."
+  mail_subject_wiki_content_added: "'προστέθηκε η σελίδα wiki {{id}}' "
+  mail_body_wiki_content_added: "Η σελίδα wiki '{{id}}' προστέθηκε από τον {{author}}."
+  mail_subject_wiki_content_updated: "'ενημερώθηκε η σελίδα wiki {{id}}' "
+  mail_body_wiki_content_updated: "Η σελίδα wiki  '{{id}}' ενημερώθηκε από τον {{author}}."
   
   gui_validation_error: 1 σφάλμα
   gui_validation_error_plural: "{{count}} σφάλματα"
@@ -247,7 +247,6 @@ el:
   field_attr_lastname:  Ιδιότητα επωνύμου
   field_attr_mail: Ιδιότητα email
   field_onthefly: Άμεση δημιουργία χρήστη
-  field_start_date: Εκκίνηση
   field_done_ratio: % επιτεύχθη
   field_auth_source: Τρόπος πιστοποίησης
   field_hide_mail: Απόκρυψη διεύθυνσης email
@@ -923,3 +922,6 @@ el:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

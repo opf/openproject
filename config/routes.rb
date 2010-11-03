@@ -27,27 +27,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :get}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :post}
-  map.with_options :controller => 'wiki' do |wiki_routes|
-    wiki_routes.with_options :conditions => {:method => :get} do |wiki_views|
-      wiki_views.connect 'projects/:project_id/wiki/export', :action => 'export'
-      wiki_views.connect 'projects/:project_id/wiki/index', :action => 'index'
-      wiki_views.connect 'projects/:project_id/wiki/date_index', :action => 'date_index'
-      wiki_views.connect 'projects/:project_id/wiki/:page', :action => 'show', :page => nil
-      wiki_views.connect 'projects/:project_id/wiki/:page/edit', :action => 'edit'
-      wiki_views.connect 'projects/:project_id/wiki/:page/rename', :action => 'rename'
-      wiki_views.connect 'projects/:project_id/wiki/:page/history', :action => 'history'
-      wiki_views.connect 'projects/:project_id/wiki/:page/diff/:version/vs/:version_from', :action => 'diff'
-      wiki_views.connect 'projects/:project_id/wiki/:page/annotate/:version', :action => 'annotate'
-    end
-    
-    wiki_routes.connect 'projects/:project_id/wiki/:page/:action', 
-      :action => /rename|preview|protect|add_attachment/,
-      :conditions => {:method => :post}
-
-    wiki_routes.connect 'projects/:project_id/wiki/:page/edit', :action => 'update', :conditions => {:method => :post}
-
-    wiki_routes.connect 'projects/:project_id/wiki/:page', :action => 'destroy', :conditions => {:method => :delete}
-  end
   
   map.with_options :controller => 'messages' do |messages_routes|
     messages_routes.with_options :conditions => {:method => :get} do |messages_views|
@@ -168,7 +147,21 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :news, :shallow => true
     project.resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
 
-    
+    project.wiki_start_page 'wiki', :controller => 'wiki', :action => 'show', :conditions => {:method => :get}
+    project.wiki_index 'wiki/index', :controller => 'wiki', :action => 'index', :conditions => {:method => :get}
+    project.wiki_diff 'wiki/:id/diff/:version/vs/:version_from', :controller => 'wiki', :action => 'diff'
+    project.wiki_annotate 'wiki/:id/annotate/:version', :controller => 'wiki', :action => 'annotate'
+    project.resources :wiki, :except => [:new, :create], :member => {
+      :rename => [:get, :post],
+      :history => :get,
+      :preview => :any,
+      :protect => :post,
+      :add_attachment => :post
+    }, :collection => {
+      :export => :get,
+      :date_index => :get
+    }
+
   end
 
   # Destroy uses a get request to prompt the user before the actual DELETE request

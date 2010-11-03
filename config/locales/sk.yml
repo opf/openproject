@@ -231,7 +231,6 @@ sk:
   field_attr_lastname: Priezvisko (atribut)
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváranie užívateľov
-  field_start_date: Začiatok
   field_done_ratio: % hotovo
   field_auth_source: Autentifikačný mód
   field_hide_mail: Nezobrazovať môj email
@@ -809,13 +808,13 @@ sk:
   text_wiki_page_destroy_children: Vymazať podstránky a všetkých ich potomkov
   setting_password_min_length: Minimálna dĺžka hesla
   field_group_by: Skupinové výsledky podľa
-  mail_subject_wiki_content_updated: "'{{page}}' Wiki stránka bola aktualizovaná"
+  mail_subject_wiki_content_updated: "'{{id}}' Wiki stránka bola aktualizovaná"
   label_wiki_content_added: Wiki stránka pridaná
-  mail_subject_wiki_content_added: "'{{page}}' Wiki stránka bola pridaná"
-  mail_body_wiki_content_added: The '{{page}}' Wiki stránka bola pridaná užívateľom {{author}}.
+  mail_subject_wiki_content_added: "'{{id}}' Wiki stránka bola pridaná"
+  mail_body_wiki_content_added: The '{{id}}' Wiki stránka bola pridaná užívateľom {{author}}.
   permission_add_project: Vytvorenie projektu
   label_wiki_content_updated: Wiki stránka aktualizovaná
-  mail_body_wiki_content_updated: Wiki stránka '{{page}}' bola aktualizovaná užívateľom {{author}}.
+  mail_body_wiki_content_updated: Wiki stránka '{{id}}' bola aktualizovaná užívateľom {{author}}.
   setting_repositories_encodings: Kódovanie repozitára
   setting_new_project_user_role_id: Rola dána non-admin užívateľovi, ktorý vytvorí projekt
   label_view_all_revisions: Zobraziť všetkz revízie
@@ -918,3 +917,6 @@ sk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

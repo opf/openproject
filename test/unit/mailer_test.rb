@@ -393,4 +393,21 @@ class MailerTest < ActiveSupport::TestCase
     # should restore perform_deliveries
     assert ActionMailer::Base.perform_deliveries
   end
+
+  context "layout" do
+    should "include the emails_header" do
+      with_settings(:emails_header => "*Header content*") do
+        assert Mailer.deliver_test(User.find(1))
+
+        assert_select_email do
+          assert_select ".header" do
+            assert_select "strong", :text => "Header content"
+          end
+        end
+      end
+      
+    end
+    
+  end
+  
 end

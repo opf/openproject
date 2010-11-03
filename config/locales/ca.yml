@@ -195,11 +195,11 @@ ca:
   mail_body_account_activation_request: "S'ha registrat un usuari nou ({{value}}). El seu compte està pendent d'aprovació:"
   mail_subject_reminder: "{{count}} assumptes venceran els següents {{days}} dies"
   mail_body_reminder: "{{count}} assumptes que teniu assignades venceran els següents {{days}} dies:"
-  mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «{{page}}»"
-  mail_body_wiki_content_added: "En {{author}} ha afegit la pàgina wiki «{{page}}»."
-  mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «{{page}}»"
-  mail_body_wiki_content_updated: "En {{author}} ha actualitzat la pàgina wiki «{{page}}»."
-
+  mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «{{id}}»"
+  mail_body_wiki_content_added: "En {{author}} ha afegit la pàgina wiki «{{id}}»."
+  mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «{{id}}»"
+  mail_body_wiki_content_updated: "En {{author}} ha actualitzat la pàgina wiki «{{id}}»."
+  
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
 
@@ -264,7 +264,6 @@ ca:
   field_attr_lastname: Atribut del cognom
   field_attr_mail: Atribut del correu electrònic
   field_onthefly: "Creació de l'usuari «al vol»"
-  field_start_date: Inici
   field_done_ratio: % realitzat
   field_auth_source: "Mode d'autenticació"
   field_hide_mail: "Oculta l'adreça de correu electrònic"
@@ -926,3 +925,6 @@ ca:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

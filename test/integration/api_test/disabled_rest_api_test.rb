@@ -1,6 +1,6 @@
-require "#{File.dirname(__FILE__)}/../test_helper"
+require "#{File.dirname(__FILE__)}/../../test_helper"
 
-class DisabledRestApi < ActionController::IntegrationTest
+class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
   fixtures :all
 
   def setup

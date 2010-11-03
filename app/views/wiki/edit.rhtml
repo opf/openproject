@@ -1,6 +1,6 @@
 <h2><%=h @page.pretty_title %></h2>
 
-<% form_for :content, @content, :url => {:action => 'update', :page => @page.title}, :html => {:multipart => true, :id => 'wiki_form'} do |f| %>
+<% form_for :content, @content, :url => {:action => 'update', :id => @page.title}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
 
@@ -10,8 +10,8 @@
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :page => @page.title },
-                         :method => 'post',
+                       { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title },
+                         :method => :post,
                          :update => 'preview',
                          :with => "Form.serialize('wiki_form')",
                          :complete => "Element.scrollTo('preview')"

@@ -192,10 +192,10 @@ sr:
   mail_body_account_activation_request: "Нови корисник ({{value}}) је регистрован. Налог чека на ваше одобрење:"
   mail_subject_reminder: "{{count}} проблема доспева наредних {{days}} дана"
   mail_body_reminder: "{{count}} проблема додељених вама доспева у наредних {{days}} дана:"
-  mail_subject_wiki_content_added: "Wiki страница '{{page}}' је додата"
-  mail_body_wiki_content_added: "{{author}} је додао wiki страницу '{{page}}'."
-  mail_subject_wiki_content_updated: "Wiki страница '{{page}}' је ажурирана"
-  mail_body_wiki_content_updated: "{{author}} је ажурирао wiki страницу '{{page}}'."
+  mail_subject_wiki_content_added: "Wiki страница '{{id}}' је додата"
+  mail_body_wiki_content_added: "{{author}} је додао wiki страницу '{{id}}'."
+  mail_subject_wiki_content_updated: "Wiki страница '{{id}}' је ажурирана"
+  mail_body_wiki_content_updated: "{{author}} је ажурирао wiki страницу '{{id}}'."
   
   gui_validation_error: једна грешка
   gui_validation_error_plural: "{{count}} грешака"
@@ -261,7 +261,6 @@ sr:
   field_attr_lastname: Атрибут презимена
   field_attr_mail: Атрибут е-адресе
   field_onthefly: Креирање корисника у току рада
-  field_start_date: Почетак
   field_done_ratio: % урађено
   field_auth_source: Режим потврде идентитета
   field_hide_mail: Сакриј моју е-адресу
@@ -924,3 +923,6 @@ sr:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

@@ -174,7 +174,7 @@
         odd: "必須是奇數"
         even: "必須是偶數"
         # Append your own errors here or at the model/attributes scope.
-        greater_than_start_date: "必須在起始日期之後"
+        greater_than_start_date: "必須在開始日期之後"
         not_same_project: "不屬於同一個專案"
         circular_dependency: "這個關聯會導致環狀相依"
         cant_link_an_issue_with_a_descendant: "項目無法被連結至自己的子項目"
@@ -235,6 +235,7 @@
   notice_file_not_found: 您想要存取的頁面已經不存在或被搬移至其他位置。
   notice_locking_conflict: 資料已被其他使用者更新。
   notice_not_authorized: 你未被授權存取此頁面。
+  notice_not_authorized_archived_project: 您欲存取的專案已經被歸檔封存。
   notice_email_sent: "郵件已經成功寄送至以下收件者： {{value}}"
   notice_email_error: "寄送郵件的過程中發生錯誤 ({{value}})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
@@ -277,10 +278,10 @@
   mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核："
   mail_subject_reminder: "您有 {{count}} 個項目即將到期 ({{days}})"
   mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
-  mail_subject_wiki_content_added: "'{{page}}' wiki 頁面已被新增"
-  mail_body_wiki_content_added: "The '{{page}}' wiki 頁面已被 {{author}} 新增。"
-  mail_subject_wiki_content_updated: "'{{page}}' wiki 頁面已被更新"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki 頁面已被 {{author}} 更新。"
+  mail_subject_wiki_content_added: "'{{id}}' wiki 頁面已被新增"
+  mail_body_wiki_content_added: "The '{{id}}' wiki 頁面已被 {{author}} 新增。"
+  mail_subject_wiki_content_updated: "'{{id}}' wiki 頁面已被更新"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki 頁面已被 {{author}} 更新。"
   
   gui_validation_error: 1 個錯誤
   gui_validation_error_plural: "{{count}} 個錯誤"
@@ -379,6 +380,8 @@
   field_group_by: 結果分組方式
   field_sharing: 共用
   field_parent_issue: 父工作項目
+  field_member_of_group: "被指派者的群組"
+  field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
   
   setting_app_title: 標題
@@ -810,6 +813,7 @@
   label_search_titles_only: 僅搜尋標題
   label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
+  label_user_mail_option_none: "取消提醒"
   label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
   label_user_mail_option_only_assigned: "只提醒我被指派的事物"
   label_user_mail_option_only_owner: "只提醒我作為擁有者的事物"
@@ -1005,7 +1009,5 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

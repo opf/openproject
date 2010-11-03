@@ -180,10 +180,10 @@ lv:
   mail_body_account_activation_request: "Jauns lietotājs ({{value}}) ir reģistrēts. Lietotāja konts gaida Jūsu apstiprinājumu:"
   mail_subject_reminder: "{{count}} uzdevums(i) sagaidāms(i) tuvākajās {{days}} dienās"
   mail_body_reminder: "{{count}} uzdevums(i), kurš(i) ir nozīmēts(i) Jums, sagaidāms(i) tuvākajās {{days}} dienās:"
-  mail_subject_wiki_content_added: "'{{page}}' Wiki lapa pievienota"
-  mail_body_wiki_content_added: "The '{{page}}' Wiki lapu pievienojis {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' Wiki lapa atjaunota"
-  mail_body_wiki_content_updated: "The '{{page}}' Wiki lapu atjaunojis {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' Wiki lapa pievienota"
+  mail_body_wiki_content_added: "The '{{id}}' Wiki lapu pievienojis {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' Wiki lapa atjaunota"
+  mail_body_wiki_content_updated: "The '{{id}}' Wiki lapu atjaunojis {{author}}."
   
   gui_validation_error: 1 kļūda
   gui_validation_error_plural: "{{count}} kļūdas"
@@ -248,7 +248,6 @@ lv:
   field_attr_lastname: Uzvārda atribūts
   field_attr_mail: "E-pasta atribūts"
   field_onthefly: "Lietotāja izveidošana on-the-fly"
-  field_start_date: Sākuma datums
   field_done_ratio: % padarīti
   field_auth_source: Pilnvarošanas režīms
   field_hide_mail: "Paslēpt manu e-pasta adresi"
@@ -918,3 +917,6 @@ lv:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

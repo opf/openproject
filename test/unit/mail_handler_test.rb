@@ -335,6 +335,38 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
 
+    context "with a single quoted reply (e.g. reply to a Redmine email notification)" do
+      setup do
+        Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
+      end
+
+      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
+        journal = submit_email('issue_update_with_quoted_reply_above.eml')
+        assert journal.is_a?(Journal)
+        assert journal.notes.include?('An update to the issue by the sender.')
+        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+        assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
+
+      end
+
+    end
+    
+    context "with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)" do
+      setup do
+        Setting.mail_handler_body_delimiters = '--- Reply above. Do not remove this line. ---'
+      end
+
+      should "truncate the email at the delimiter with the quoted reply symbols (>)" do
+        journal = submit_email('issue_update_with_multiple_quoted_reply_above.eml')
+        assert journal.is_a?(Journal)
+        assert journal.notes.include?('An update to the issue by the sender.')
+        assert !journal.notes.match(Regexp.escape("--- Reply above. Do not remove this line. ---"))
+        assert !journal.notes.include?('Looks like the JSON api for projects was missed.')
+
+      end
+
+    end
+
     context "with multiple strings" do
       setup do
         Setting.mail_handler_body_delimiters = "---\nBREAK"

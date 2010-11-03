@@ -1,7 +1,7 @@
 <h2><%=l(:label_issue_new)%></h2>
 
 <% labelled_tabular_form_for :issue, @issue, :url => {:controller => 'issues', :action => 'create', :project_id => @project},
-                             :html => {:multipart => true, :id => 'issue-form'} do |f| %>
+                             :html => {:multipart => true, :id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
     <%= error_messages_for 'issue' %>
     <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>

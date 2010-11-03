@@ -204,10 +204,10 @@ fr:
   mail_body_account_activation_request: "Un nouvel utilisateur ({{value}}) s'est inscrit. Son compte nécessite votre approbation :"
   mail_subject_reminder: "{{count}} demande(s) arrivent à échéance ({{days}})"
   mail_body_reminder: "{{count}} demande(s) qui vous sont assignées arrivent à échéance dans les {{days}} prochains jours :"
-  mail_subject_wiki_content_added: "Page wiki '{{page}}' ajoutée"
-  mail_body_wiki_content_added: "La page wiki '{{page}}' a été ajoutée par {{author}}."
-  mail_subject_wiki_content_updated: "Page wiki '{{page}}' mise à jour"
-  mail_body_wiki_content_updated: "La page wiki '{{page}}' a été mise à jour par {{author}}."
+  mail_subject_wiki_content_added: "Page wiki '{{id}}' ajoutée"
+  mail_body_wiki_content_added: "La page wiki '{{id}}' a été ajoutée par {{author}}."
+  mail_subject_wiki_content_updated: "Page wiki '{{id}}' mise à jour"
+  mail_body_wiki_content_updated: "La page wiki '{{id}}' a été mise à jour par {{author}}."
   
   gui_validation_error: 1 erreur
   gui_validation_error_plural: "{{count}} erreurs"
@@ -272,7 +272,6 @@ fr:
   field_attr_lastname: Attribut Nom
   field_attr_mail: Attribut Email
   field_onthefly: Création des utilisateurs à la volée
-  field_start_date: Début
   field_done_ratio: % réalisé
   field_auth_source: Mode d'authentification
   field_hide_mail: Cacher mon adresse mail
@@ -773,6 +772,8 @@ fr:
   label_profile: Profil
   label_subtask_plural: Sous-tâches
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
+  label_principal_search: "Rechercher un utilisateur ou un groupe :"
+  label_user_search: "Rechercher un utilisateur :"
   
   button_login: Connexion
   button_submit: Soumettre
@@ -941,3 +942,4 @@ fr:
   label_user_mail_option_none: Aucune notification
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
+  field_start_date: Start date

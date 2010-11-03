@@ -39,7 +39,7 @@ module SearchHelper
   end
   
   def type_label(t)
-    l("label_#{t.singularize}_plural")
+    l("label_#{t.singularize}_plural", :default => t.to_s.humanize)
   end
   
   def project_select_tag

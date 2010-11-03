@@ -175,6 +175,7 @@ ja:
   notice_file_not_found: アクセスしようとしたページは存在しないか削除されています。
   notice_locking_conflict: 別のユーザがデータを更新しています。
   notice_not_authorized: このページにアクセスするには認証が必要です。
+  notice_not_authorized_archived_project: プロジェクトは書庫に保存されています。
   notice_email_sent: "{{value}} 宛にメールを送信しました。"
   notice_email_error: "メール送信中にエラーが発生しました ({{value}})"
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
@@ -218,10 +219,10 @@ ja:
   mail_body_account_activation_request: "新しいユーザ {{value}} が登録されました。このアカウントはあなたの承認待ちです："
   mail_subject_reminder: "{{count}}件のチケットの期日が{{days}}日以内に到来します"
   mail_body_reminder: "{{count}}件の担当チケットの期日が{{days}}日以内に到来します:"
-  mail_subject_wiki_content_added: "Wikiページ {{page}} が追加されました"
-  mail_body_wiki_content_added: "{{author}} によってWikiページ {{page}} が追加されました。"
-  mail_subject_wiki_content_updated: "Wikiページ {{page}} が更新されました"
-  mail_body_wiki_content_updated: "{{author}} によってWikiページ {{page}} が更新されました。"
+  mail_subject_wiki_content_added: "Wikiページ {{id}} が追加されました"
+  mail_body_wiki_content_added: "{{author}} によってWikiページ {{id}} が追加されました。"
+  mail_subject_wiki_content_updated: "Wikiページ {{id}} が更新されました"
+  mail_body_wiki_content_updated: "{{author}} によってWikiページ {{id}} が更新されました。"
   
   gui_validation_error: 1件のエラー
   gui_validation_error_plural: "{{count}}件のエラー"
@@ -287,7 +288,6 @@ ja:
   field_attr_lastname: 苗字属性
   field_attr_mail: メール属性
   field_onthefly: あわせてユーザを作成
-  field_start_date: 開始日
   field_done_ratio: 進捗 %
   field_auth_source: 認証方式
   field_hide_mail: メールアドレスを隠す
@@ -319,6 +319,8 @@ ja:
   field_group_by: グループ条件
   field_sharing: 共有
   field_parent_issue: 親チケット
+  field_member_of_group: 担当者のグループ
+  field_assigned_to_role: 担当者のロール
   field_text: テキスト
   
   setting_app_title: アプリケーションのタイトル
@@ -751,6 +753,7 @@ ja:
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトの全ての通知"
   label_user_mail_option_selected: "選択したプロジェクトの全ての通知..."
+  label_user_mail_option_none: "通知しない"
   label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
   label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
   label_user_mail_option_only_owner: "自分が作成した事柄のみ"
@@ -944,7 +947,6 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"

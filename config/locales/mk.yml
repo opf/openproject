@@ -192,10 +192,10 @@ mk:
   mail_body_account_activation_request: "Нов корисник ({{value}}) е регистриран. The account is pending your approval:"
   mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
   mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
+  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
+  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
 
   gui_validation_error: 1 грешка
   gui_validation_error_plural: "{{count}} грешки"
@@ -261,7 +261,6 @@ mk:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: Моментално (On-the-fly) креирање на корисници
-  field_start_date: Почеток
   field_done_ratio: % Завршено
   field_auth_source: Режим на автентикација
   field_hide_mail: Криј ја мојата адреса на е-пошта
@@ -851,7 +850,7 @@ mk:
   text_line_separated: Дозволени се повеќе вредности (една линија за секоја вредност).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
   text_issue_added: "Задачата {{id}} е пријавена од {{author}}."
-  text_issue_updated: "Зачата {{id}} е ажурирана од {{author}}."
+  text_issue_updated: "Задачата {{id}} е ажурирана од {{author}}."
   text_wiki_destroy_confirmation: Дали сте сигурни дека сакате да го избришете ова вики и целата негова содржина?
   text_issue_category_destroy_question: "Некои задачи ({{count}}) се доделени на оваа категорија. Што сакате да правите?"
   text_issue_category_destroy_assignments: Remove category assignments
@@ -923,3 +922,6 @@ mk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
+  field_start_date: Start date
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"
