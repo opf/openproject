@@ -683,7 +683,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert issue.current_journal.changes.has_key? "subject"
     assert issue.current_journal.changes.has_key? "priority_id"
     assert !issue.current_journal.changes.has_key?("category_id")
-    assert issue.current_journal.changes.has_key? "2"
+    assert issue.current_journal.changes.has_key? 2
 
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -956,7 +956,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
     
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -1018,7 +1018,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_at DESC')
+    journal = issue.journals.last
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
     assert_equal '125', journal.details.first.first
