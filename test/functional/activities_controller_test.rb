@@ -10,10 +10,10 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:events_by_day)
     
     assert_tag :tag => "h3", 
-               :content => /#{2.days.ago.to_date.day}/,
+               :content => /#{1.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
-                   :attributes => { :class => /issue-edit/ },
+                   :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
                      :content => /(#{IssueStatus.find(2).name})/,
                    }
@@ -46,12 +46,12 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:events_by_day)
     
     assert_tag :tag => "h3", 
-               :content => /#{5.day.ago.to_date.day}/,
+               :content => /#{3.day.ago.to_date.day}/,
                :sibling => { :tag => "dl",
                  :child => { :tag => "dt",
                    :attributes => { :class => /issue/ },
                    :child => { :tag => "a",
-                     :content => /#{Issue.find(5).subject}/,
+                     :content => /#{Issue.find(1).subject}/,
                    }
                  }
                }

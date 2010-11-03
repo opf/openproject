@@ -30,7 +30,7 @@ journals_003:
   id: 3
   type: "IssueJournal"
   activity_type: "issues"
-  created_at: <%= 1.days.ago.to_date.to_s(:db) %>
+  created_at: <%= 2.days.ago.to_date.to_s(:db) %>
   version: 1
   user_id: 2
   notes: "A comment with inline image: !picture.jpg!"
