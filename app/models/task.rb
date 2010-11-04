@@ -90,7 +90,7 @@ class Task < Issue
   
   def validate_blocks_list(list)
     if list.split(/\D+/).length==0
-      errors.add :label_blocks, :error_must_have_comma_delimited_list
+      errors.add :blocks, :error_must_have_comma_delimited_list
       false
     else
       true
