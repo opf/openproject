@@ -186,6 +186,21 @@ class ActiveSupport::TestCase
     end
   end
 
+  # Test that a request allows the three types of API authentication
+  #
+  # * HTTP Basic with username and password
+  # * HTTP Basic with an api key for the username
+  # * Key based with the key=X parameter
+  #
+  # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
+  # @param [String] url the request url
+  # @param [optional, Hash] parameters additional request parameters
+  def self.should_allow_api_authentication(http_method, url, parameters={})
+    should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters)
+    should_allow_http_basic_auth_with_key(http_method, url, parameters)
+    should_allow_key_based_auth(http_method, url, parameters)
+  end
+
   # Test that a request allows the username and password for HTTP BASIC
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
@@ -245,7 +260,7 @@ class ActiveSupport::TestCase
     context "should allow http basic auth with a key for #{http_method} #{url}" do
       context "with a valid HTTP authentication using the API token" do
         setup do
-          @user = User.generate_with_protected!
+          @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
           send(http_method, url, parameters, {:authorization => @authorization})
@@ -253,6 +268,7 @@ class ActiveSupport::TestCase
         
         should_respond_with :success
         should_respond_with_content_type_based_on_url(url)
+        should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
         end
@@ -279,17 +295,25 @@ class ActiveSupport::TestCase
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url, without the key=ZXY parameter
-  def self.should_allow_key_based_auth(http_method, url)
+  # @param [optional, Hash] parameters additional request parameters
+  def self.should_allow_key_based_auth(http_method, url, parameters={})
     context "should allow key based auth using key=X for #{http_method} #{url}" do
       context "with a valid api token" do
         setup do
-          @user = User.generate_with_protected!
+          @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
-          send(http_method, url + "?key=#{@token.value}")
+          # Simple url parse to add on ?key= or &key=
+          request_url = if url.match(/\?/)
+                          url + "&key=#{@token.value}"
+                        else
+                          url + "?key=#{@token.value}"
+                        end
+          send(http_method, request_url, parameters)
         end
         
         should_respond_with :success
         should_respond_with_content_type_based_on_url(url)
+        should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
         end
@@ -329,6 +353,39 @@ class ActiveSupport::TestCase
     end
     
   end
+
+  # Uses the url to assert which format the response should be in
+  #
+  # '/project/issues.xml' => should_be_a_valid_xml_string
+  # '/project/issues.json' => should_be_a_valid_json_string
+  #
+  # @param [String] url Request
+  def self.should_be_a_valid_response_string_based_on_url(url)
+    case
+    when url.match(/xml/i)
+      should_be_a_valid_xml_string
+    when url.match(/json/i)
+      should_be_a_valid_json_string
+    else
+      raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"
+    end
+    
+  end
+  
+  # Checks that the response is a valid JSON string
+  def self.should_be_a_valid_json_string
+    should "be a valid JSON string" do
+      assert ActiveSupport::JSON.decode(response.body)
+    end
+  end
+
+  # Checks that the response is a valid XML string
+  def self.should_be_a_valid_xml_string
+    should "be a valid XML string" do
+      assert REXML::Document.new(response.body)
+    end
+  end
+  
 end
 
 # Simple module to "namespace" all of the API tests
