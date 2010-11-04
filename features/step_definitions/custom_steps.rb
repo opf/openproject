@@ -47,3 +47,12 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
       | cost type    | ten       |
   }
 end
+
+Given /^I set the filter "([^"]*)" to "([^"]*)" with the operator "([^"]*)"$/ do |filter, value, operator|
+  locate :xpath, "//body"
+  page.evaluate_script("restore_filter(\"#{filter}\", \"#{operator}\", \"#{value}\")")
+end
+
+When /^I send the query$/ do
+  find(:xpath, '//p[@class="buttons"]/a[@class="button apply"]').click
+end

@@ -24,3 +24,23 @@ Feature: Filter
     And I am on the Cost Reports page for the project called "First Project"
     And I jump to project "Second Project"
     Then "Second Project" should be selected for "project_id_arg_1_val"
+
+  @javascript
+  Scenario: A set filter is getting restored after reload
+    Given there is a standard cost control project named "First Project"
+    And I am logged in as "controller"
+    And I am on the Cost Reports page for the project called "First Project"
+    And I set the filter "user_id" to "2" with the operator "!"
+    When I send the query
+    And "2" should be selected for "user_id_arg_1_val"
+    And "!" should be selected for "operators_user_id"
+
+  @javascript
+  Scenario: Setting a Filter disables the option in the Add-Filter-Selectbox
+    Given there is a standard cost control project named "First Project"
+    And I am logged in as "controller"
+    And I am on the Cost Reports page for the project called "First Project"
+    And I set the filter "user_id" to "2" with the operator "!"
+    Then "user_id" should not be selectable from "add_filter_select"
+    When I send the query
+    Then "user_id" should not be selectable from "add_filter_select"
