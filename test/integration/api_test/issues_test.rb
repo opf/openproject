@@ -301,32 +301,32 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
 
   context "DELETE /issues/1.xml" do
-    setup do
-      @issue_count = Issue.count
-      delete '/issues/1.xml', {}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :ok
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:delete,
+                                    '/issues/6.xml',
+                                    {},
+                                    {:success_code => :ok})
 
     should "delete the issue" do
-      assert_equal Issue.count, @issue_count -1
-      assert_nil Issue.find_by_id(1)
+      assert_difference('Issue.count',-1) do
+        delete '/issues/6.xml', {}, :authorization => credentials('jsmith')
+      end
+      
+      assert_nil Issue.find_by_id(6)
     end
   end
 
   context "DELETE /issues/1.json" do
-    setup do
-      @issue_count = Issue.count
-      delete '/issues/1.json', {}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :ok
-    should_respond_with_content_type 'application/json'
+    should_allow_api_authentication(:delete,
+                                    '/issues/6.json',
+                                    {},
+                                    {:success_code => :ok})
 
     should "delete the issue" do
-      assert_equal Issue.count, @issue_count -1
-      assert_nil Issue.find_by_id(1)
+      assert_difference('Issue.count',-1) do
+        delete '/issues/6.json', {}, :authorization => credentials('jsmith')
+      end
+      
+      assert_nil Issue.find_by_id(6)
     end
   end
 
