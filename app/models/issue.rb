@@ -37,7 +37,8 @@ class Issue < ActiveRecord::Base
   acts_as_watchable
 
   acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.journaled_id} (#{o.status}): #{o.subject}"},
-                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
+                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') },
+                      :except => [:description]
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
