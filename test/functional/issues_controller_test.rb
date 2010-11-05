@@ -671,6 +671,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_put_update_with_custom_field_change
     @request.session[:user_id] = 2
     issue = Issue.find(1)
+    ActionMailer::Base.deliveries.clear
     assert_equal '125', issue.custom_value_for(2).value
 
     assert_difference('Journal.count') do
