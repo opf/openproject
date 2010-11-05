@@ -45,6 +45,7 @@ class Issue < ActiveRecord::Base
   register_on_journal_formatter(:fraction, 'estimated_hours')
   register_on_journal_formatter(:decimal, 'done_ratio')
   register_on_journal_formatter(:datetime, 'due_date', 'start_date')
+  register_on_journal_formatter(:plaintext, 'subject')
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
                      :include => [:project, :journals],
