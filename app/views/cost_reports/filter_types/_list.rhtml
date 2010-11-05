@@ -1,2 +1,0 @@
-<%= f.select :values, filter.available_values, {}, {:multiple => (filter.values && filter.values.length > 1), :index => "#{@line_index}[]", :name => "#{name_prefix}[values][]" } %>
-<%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select($('#{id_prefix}'));", :style => "vertical-align: bottom;" %>

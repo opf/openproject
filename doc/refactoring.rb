@@ -45,13 +45,13 @@ class Filter
   def self.operators(*operators)
     # Does it make sense to just store the names here and perform Operator.find
     # if needed?
-    
+
     operators.each do |o|
       o = Operator.find(o) unless o.is_a? Operator
       @operators << o
     end
   end
-  
+
   # Store the default operator
   # NOTE: this should be implemented explictly
   cattr_accessor :default_operator
@@ -63,54 +63,54 @@ class Filter
 
     # ...
   end
-  
+
   def to_hash
     # serialize self to a hash suitable for later deserialization with
     # Filter.from_hash
     # This can be used to save the filter to a database or to create a part of
     # the query string in the view
-    
+
     # ...
   end
-  
+
   attr_accessor :operator
-  
+
   def sql_select
     # returns the default select part of a query
     # This might be overwritten in child classes
     # NOTE: this might be changed to an item of the :include array of an ActiveRecord::Base.find
-    
+
     "#{model.table_name}.#{db_field} as #{self.class.name.underscore}"
   end
-  
-  
+
+
   def sql_where()
     # returns the default where part of a query
     # This might be overwritten in child classes to provide special logic besides
     # standard operators.
     #
     # NOTE: This should be suitable to be used in :conditions in an ActiveRecord::Base.find
-    
+
     Operator.find(operator).sql_where()
   end
-  
+
   # self.model
   # self.db_field
-  # available_values(project)
+  # available_values(user)
 
-  
+
   def sql_joins(otiginal_table)
     # returns an array of all needed joins
     # original_table is thw name of the original table of the join (e.g. time_entries or cost_entries)
     # NOTE: this might be used to generate :include items
     ["JOIN issues ON #{table}.issue_id = issues.id", "JOIN users on #{table}.user_id = user.id"]
   end
-  
+
 end
 
 class FooFilter < FilterColumn
   # This is an example definition of a folter column class
-  
+
   operators :=, :!=, :<=, :>=, :<&>
   column :foo
   model :issues
@@ -147,20 +147,20 @@ class ReportGroupOfGroups < Array
   def sum
     @sum ||= inject(0) { |e| e.sum }
   end
-  
+
   def count
     @count ||= inject(0) { |e| e.cont }
   end
-  
+
   def has_children?
     true
   end
-  
+
   def drill_down_filter
     # this uses the parent pointer of the GroupBy instance
     # ...
   end
-  
+
   def recursive_each(level = 0, &block)
     block.call(level, self)
     each { |child| child.recursive_each(level + 1, &block) }
@@ -184,7 +184,7 @@ end
 
 class GroupBy
   # This provides the stared functionality of a group-by columnh
-  
+
   module BasicGroupBy
     # Module to be used, if this instance is the group-by with the finest
     # granularity (or the single one)
@@ -205,9 +205,9 @@ class GroupBy
       [filter_for_group] << @based_on.filters
     end
   end
-  
+
   attr_accessor :parent
-  
+
   def initialize(based_on)
     # NOTE: based_on should actually be an array of filters
     if based_on.is_a? Filter
@@ -218,17 +218,17 @@ class GroupBy
       based_on.parent = self
     end
   end
-  
+
   def filter_for_group
     # create filter from group by from drill down
     # NOTE: this does not make sense here (???)
     # ...
   end
-  
+
 end
 
 class GroupByName < GroupBy
-  
+
   def results(columns)
     columns.delete :dont_like
     super

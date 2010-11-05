@@ -3,7 +3,6 @@ group_by_others: "In keiner der Gruppen"
 project_module_costs_module: "Controlling"
 cost_types_title: "Kostenarten"
 cost_objects_title: "Controlling"
-cost_reports_title: "Reports"
 
 currency_delimiter: "."
 currency_separator: ","

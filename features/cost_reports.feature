@@ -1,4 +1,4 @@
-Feature: Cost Reports
+Feature: Cost Control
 
   Scenario: Anonymous user sees no costs
     Given I am not logged in
@@ -77,10 +77,10 @@ Feature: Cost Reports
     And the project "CostProject" has 1 cost entry with the following:
       | units | 1234.0 |
     And I am admin
-    When I am on the Cost Reports page for the project called "CostProject"
+    And I am on the overall Cost Reports page without filters or groups
     When I click on "Edit"
     When I fill in "4321.0" for "cost_entry_units"
     When I click on "Save"
     Then I should see "4321.0"
     And I should not see "1234.0"
-    
+
