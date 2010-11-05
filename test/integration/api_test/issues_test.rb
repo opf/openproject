@@ -160,120 +160,141 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     end
   end
 
-  context "PUT /issues/1.xml" do
+  # Issue 6 is on a private project
+  context "PUT /issues/6.xml" do
     setup do
-      @issue_count = Issue.count
-      @journal_count = Journal.count
-      @attributes = {:subject => 'API update', :notes => 'A new note'}
-
-      put '/issues/1.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
+      @parameters = {:issue => {:subject => 'API update', :notes => 'A new note'}}
+      @headers = { :authorization => credentials('jsmith') }
     end
     
-    should_respond_with :ok
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:put,
+                                    '/issues/6.xml',
+                                    {:issue => {:subject => 'API update', :notes => 'A new note'}},
+                                    {:success_code => :ok})
 
     should "not create a new issue" do
-      assert_equal Issue.count, @issue_count
+      assert_no_difference('Issue.count') do
+        put '/issues/6.xml', @parameters, @headers
+      end
     end
 
     should "create a new journal" do
-      assert_equal Journal.count, @journal_count + 1
+      assert_difference('Journal.count') do
+        put '/issues/6.xml', @parameters, @headers
+      end
     end
 
     should "add the note to the journal" do
+      put '/issues/6.xml', @parameters, @headers
+      
       journal = Journal.last
       assert_equal "A new note", journal.notes
     end
 
     should "update the issue" do
-      issue = Issue.find(1)
-      @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute) unless attribute == :notes
-      end
+      put '/issues/6.xml', @parameters, @headers
+      
+      issue = Issue.find(6)
+      assert_equal "API update", issue.subject
     end
     
   end
   
-  context "PUT /issues/1.xml with failed update" do
+  context "PUT /issues/6.xml with failed update" do
     setup do
-      @attributes = {:subject => ''}
-      @issue_count = Issue.count
-      @journal_count = Journal.count
-
-      put '/issues/1.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
+      @parameters = {:issue => {:subject => ''}}
+      @headers = { :authorization => credentials('jsmith') }
     end
-    
-    should_respond_with :unprocessable_entity
-    should_respond_with_content_type 'application/xml'
-  
+
+    should_allow_api_authentication(:put,
+                                    '/issues/6.xml',
+                                    {:issue => {:subject => ''}}, # Missing subject should fail
+                                    {:success_code => :unprocessable_entity})
+
     should "not create a new issue" do
-      assert_equal Issue.count, @issue_count
+      assert_no_difference('Issue.count') do
+        put '/issues/6.xml', @parameters, @headers
+      end
     end
 
     should "not create a new journal" do
-      assert_equal Journal.count, @journal_count
+      assert_no_difference('Journal.count') do
+        put '/issues/6.xml', @parameters, @headers
+      end
     end
 
     should "have an errors tag" do
+      put '/issues/6.xml', @parameters, @headers
+
       assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
     end
   end
 
-  context "PUT /issues/1.json" do
+  context "PUT /issues/6.json" do
     setup do
-      @issue_count = Issue.count
-      @journal_count = Journal.count
-      @attributes = {:subject => 'API update', :notes => 'A new note'}
-
-      put '/issues/1.json', {:issue => @attributes}, :authorization => credentials('jsmith')
+      @parameters = {:issue => {:subject => 'API update', :notes => 'A new note'}}
+      @headers = { :authorization => credentials('jsmith') }
     end
     
-    should_respond_with :ok
-    should_respond_with_content_type 'application/json'
+    should_allow_api_authentication(:put,
+                                    '/issues/6.json',
+                                    {:issue => {:subject => 'API update', :notes => 'A new note'}},
+                                    {:success_code => :ok})
 
     should "not create a new issue" do
-      assert_equal Issue.count, @issue_count
+      assert_no_difference('Issue.count') do
+        put '/issues/6.json', @parameters, @headers
+      end
     end
 
     should "create a new journal" do
-      assert_equal Journal.count, @journal_count + 1
+      assert_difference('Journal.count') do
+        put '/issues/6.json', @parameters, @headers
+      end
     end
 
     should "add the note to the journal" do
+      put '/issues/6.json', @parameters, @headers
+      
       journal = Journal.last
       assert_equal "A new note", journal.notes
     end
 
     should "update the issue" do
-      issue = Issue.find(1)
-      @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute) unless attribute == :notes
+      put '/issues/6.json', @parameters, @headers
+      
+      issue = Issue.find(6)
+      assert_equal "API update", issue.subject
+    end
+    
+  end
+  
+  context "PUT /issues/6.json with failed update" do
+    setup do
+      @parameters = {:issue => {:subject => ''}}
+      @headers = { :authorization => credentials('jsmith') }
+    end
+
+    should_allow_api_authentication(:put,
+                                    '/issues/6.json',
+                                    {:issue => {:subject => ''}}, # Missing subject should fail
+                                    {:success_code => :unprocessable_entity})
+
+    should "not create a new issue" do
+      assert_no_difference('Issue.count') do
+        put '/issues/6.json', @parameters, @headers
       end
     end
 
-  end
-  
-  context "PUT /issues/1.json with failed update" do
-    setup do
-      @attributes = {:subject => ''}
-      @issue_count = Issue.count
-      @journal_count = Journal.count
-
-      put '/issues/1.json', {:issue => @attributes}, :authorization => credentials('jsmith')
-    end
-    
-    should_respond_with :unprocessable_entity
-    should_respond_with_content_type 'application/json'
-  
-    should "not create a new issue" do
-      assert_equal Issue.count, @issue_count
-    end
-
     should "not create a new journal" do
-      assert_equal Journal.count, @journal_count
+      assert_no_difference('Journal.count') do
+        put '/issues/6.json', @parameters, @headers
+      end
     end
 
     should "have an errors attribute" do
+      put '/issues/6.json', @parameters, @headers
+
       json = ActiveSupport::JSON.decode(response.body)
       assert_equal "can't be blank", json.first['subject']
     end

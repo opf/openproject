@@ -401,8 +401,8 @@ class ActiveSupport::TestCase
   
   # Checks that the response is a valid JSON string
   def self.should_be_a_valid_json_string
-    should "be a valid JSON string" do
-      assert ActiveSupport::JSON.decode(response.body)
+    should "be a valid JSON string (or empty)" do
+      assert (response.body.blank? || ActiveSupport::JSON.decode(response.body))
     end
   end
 
