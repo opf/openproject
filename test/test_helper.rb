@@ -191,10 +191,13 @@ class ActiveSupport::TestCase
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url
   # @param [optional, Hash] parameters additional request parameters
-  def self.should_allow_api_authentication(http_method, url, parameters={})
-    should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters)
-    should_allow_http_basic_auth_with_key(http_method, url, parameters)
-    should_allow_key_based_auth(http_method, url, parameters)
+  # @param [optional, Hash] options additional options
+  # @option options [Symbol] :success_code Successful response code (:success)
+  # @option options [Symbol] :failure_code Failure response code (:unauthorized)
+  def self.should_allow_api_authentication(http_method, url, parameters={}, options={})
+    should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters, options)
+    should_allow_http_basic_auth_with_key(http_method, url, parameters, options)
+    should_allow_key_based_auth(http_method, url, parameters, options)
   end
 
   # Test that a request allows the username and password for HTTP BASIC
@@ -202,7 +205,13 @@ class ActiveSupport::TestCase
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url
   # @param [optional, Hash] parameters additional request parameters
-  def self.should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters={})
+  # @param [optional, Hash] options additional options
+  # @option options [Symbol] :success_code Successful response code (:success)
+  # @option options [Symbol] :failure_code Failure response code (:unauthorized)
+  def self.should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters={}, options={})
+    success_code = options[:success_code] || :success
+    failure_code = options[:failure_code] || :unauthorized
+    
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
@@ -211,7 +220,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
         
-        should_respond_with :success
+        should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
@@ -225,7 +234,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
         
-        should_respond_with :unauthorized
+        should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -237,7 +246,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => ''})
         end
 
-        should_respond_with :unauthorized
+        should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "include_www_authenticate_header" do
           assert @controller.response.headers.has_key?('WWW-Authenticate')
@@ -252,7 +261,13 @@ class ActiveSupport::TestCase
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url
   # @param [optional, Hash] parameters additional request parameters
-  def self.should_allow_http_basic_auth_with_key(http_method, url, parameters={})
+  # @param [optional, Hash] options additional options
+  # @option options [Symbol] :success_code Successful response code (:success)
+  # @option options [Symbol] :failure_code Failure response code (:unauthorized)
+  def self.should_allow_http_basic_auth_with_key(http_method, url, parameters={}, options={})
+    success_code = options[:success_code] || :success
+    failure_code = options[:failure_code] || :unauthorized
+
     context "should allow http basic auth with a key for #{http_method} #{url}" do
       context "with a valid HTTP authentication using the API token" do
         setup do
@@ -262,7 +277,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
         
-        should_respond_with :success
+        should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -278,7 +293,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
 
-        should_respond_with :unauthorized
+        should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -292,7 +307,13 @@ class ActiveSupport::TestCase
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url, without the key=ZXY parameter
   # @param [optional, Hash] parameters additional request parameters
-  def self.should_allow_key_based_auth(http_method, url, parameters={})
+  # @param [optional, Hash] options additional options
+  # @option options [Symbol] :success_code Successful response code (:success)
+  # @option options [Symbol] :failure_code Failure response code (:unauthorized)
+  def self.should_allow_key_based_auth(http_method, url, parameters={}, options={})
+    success_code = options[:success_code] || :success
+    failure_code = options[:failure_code] || :unauthorized
+
     context "should allow key based auth using key=X for #{http_method} #{url}" do
       context "with a valid api token" do
         setup do
@@ -307,7 +328,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
         
-        should_respond_with :success
+        should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -319,10 +340,16 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'feeds')
-          send(http_method, url + "?key=#{@token.value}")
+          # Simple url parse to add on ?key= or &key=
+          request_url = if url.match(/\?/)
+                          url + "&key=#{@token.value}"
+                        else
+                          url + "?key=#{@token.value}"
+                        end
+          send(http_method, request_url, parameters)
         end
         
-        should_respond_with :unauthorized
+        should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current

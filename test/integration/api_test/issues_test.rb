@@ -90,69 +90,70 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
 
   context "POST /issues.xml" do
-    setup do
-      @issue_count = Issue.count
-      @attributes = {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}
-      post '/issues.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :created
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:post,
+                                    '/issues.xml',
+                                    {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}},
+                                    {:success_code => :created})
 
     should "create an issue with the attributes" do
-      assert_equal Issue.count, @issue_count + 1
-
-      issue = Issue.first(:order => 'id DESC')
-      @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute)
+      assert_difference('Issue.count') do
+        post '/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, :authorization => credentials('jsmith')
       end
+        
+      issue = Issue.first(:order => 'id DESC')
+      assert_equal 1, issue.project_id
+      assert_equal 2, issue.tracker_id
+      assert_equal 3, issue.status_id
+      assert_equal 'API test', issue.subject
     end
   end
   
   context "POST /issues.xml with failure" do
-    setup do
-      @attributes = {:project_id => 1}
-      post '/issues.xml', {:issue => @attributes}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :unprocessable_entity
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:post,
+                                    '/issues.xml',
+                                    {:issue => {:project_id => 1}},
+                                    {:success_code => :unprocessable_entity})
 
     should "have an errors tag" do
+      assert_no_difference('Issue.count') do
+        post '/issues.xml', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
+      end
+
       assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
     end
   end
 
   context "POST /issues.json" do
-    setup do
-      @issue_count = Issue.count
-      @attributes = {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}
-      post '/issues.json', {:issue => @attributes}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :created
-    should_respond_with_content_type 'application/json'
+    should_allow_api_authentication(:post,
+                                    '/issues.json',
+                                    {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}},
+                                    {:success_code => :created})
 
     should "create an issue with the attributes" do
-      assert_equal Issue.count, @issue_count + 1
-
-      issue = Issue.first(:order => 'id DESC')
-      @attributes.each do |attribute, value|
-        assert_equal value, issue.send(attribute)
+      assert_difference('Issue.count') do
+        post '/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, :authorization => credentials('jsmith')
       end
+        
+      issue = Issue.first(:order => 'id DESC')
+      assert_equal 1, issue.project_id
+      assert_equal 2, issue.tracker_id
+      assert_equal 3, issue.status_id
+      assert_equal 'API test', issue.subject
     end
+    
   end
   
   context "POST /issues.json with failure" do
-    setup do
-      @attributes = {:project_id => 1}
-      post '/issues.json', {:issue => @attributes}, :authorization => credentials('jsmith')
-    end
-
-    should_respond_with :unprocessable_entity
-    should_respond_with_content_type 'application/json'
+    should_allow_api_authentication(:post,
+                                    '/issues.json',
+                                    {:issue => {:project_id => 1}},
+                                    {:success_code => :unprocessable_entity})
 
     should "have an errors element" do
+      assert_no_difference('Issue.count') do
+        post '/issues.json', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
+      end
+
       json = ActiveSupport::JSON.decode(response.body)
       assert_equal "can't be blank", json.first['subject']
     end
