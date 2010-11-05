@@ -23,6 +23,10 @@ class JournalObserverTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     @journal = Journal.find 1
+    if (i = Issue.find(:first)).journals.empty?
+      i.init_journal(User.current, 'Creation') # Make sure the initial journal is created
+      i.save
+    end
   end
 
   # context: issue_updated notified_events
