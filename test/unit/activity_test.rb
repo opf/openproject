@@ -23,6 +23,11 @@ class ActivityTest < ActiveSupport::TestCase
 
   def setup
     @project = Project.find(1)
+    [1,4,5,6].each do |issue_id|
+      i = Issue.find(issue_id)
+      i.init_journal(User.current, "A journal to find")
+      i.save!
+    end
   end
   
   def test_activity_without_subprojects
