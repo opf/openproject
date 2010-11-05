@@ -40,6 +40,10 @@ class JournalTest < ActiveSupport::TestCase
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
+    if issue.journals.empty?
+      issue.init_journal(User.current, "This journal represents the creational journal version 1")
+      issue.save
+    end
     user = User.find(:first)
 
     assert_equal 0, ActionMailer::Base.deliveries.size
