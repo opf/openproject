@@ -83,8 +83,7 @@ class WikiControllerTest < ActionController::TestCase
     put :update, :project_id => 1,
                 :id => 'New page',
                 :content => {:comments => 'Created the page',
-                             :text => "h1. New page\n\nThis is a new page",
-                             :version => 0}
+                             :text => "h1. New page\n\nThis is a new page" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?

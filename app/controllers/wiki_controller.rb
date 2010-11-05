@@ -90,40 +90,9 @@ class WikiController < ApplicationController
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
-    if request.get?
-      # To prevent StaleObjectError exception when reverting to a previous version
-      @content.lock_version = @page.content.lock_version
-    else
-      if !@page.new_record? && @content.text == params[:content][:text]
-        attachments = Attachment.attach_files(@page, params[:attachments])
-        render_attachment_warning_if_needed(@page)
-        # don't save if text wasn't changed
-        redirect_to :action => 'index', :project_id => @project, :page => @page.title
-        return
-      end
-      #@content.text = params[:content][:text]
-      #@content.comments = params[:content][:comments]
-      @content.init_journal(User.current, params[:content][:comments])
-      @content.attributes = params[:content]
-      @content.author = User.current
-      # if page is new @page.save will also save content, but not if page isn't a new record
-      if (@page.new_record? ? @page.save : @content.save)
-        attachments = Attachment.attach_files(@page, params[:attachments])
-        render_attachment_warning_if_needed(@page)
-        call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-        redirect_to :action => 'index', :project_id => @project, :page => @page.title
-      end
-    end
-    @content.attributes = params[:content]
-    @content.author = User.current
-    # if page is new @page.save will also save content, but not if page isn't a new record
-    if (@page.new_record? ? @page.save : @content.save)
-      attachments = Attachment.attach_files(@page, params[:attachments])
-      render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
-      redirect_to :action => 'show', :project_id => @project, :page => @page.title
-    end
-
+    # To prevent StaleObjectError exception when reverting to a previous version
+    @content.lock_version = @page.content.lock_version
+    
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash[:error] = l(:notice_locking_conflict)
@@ -148,6 +117,7 @@ class WikiController < ApplicationController
       redirect_to :action => 'show', :project_id => @project, :id => @page.title
       return
     end
+    params[:content].delete(:version) # The version count is automatically increased
     @content.attributes = params[:content]
     @content.author = User.current
     # if page is new @page.save will also save content, but not if page isn't a new record
