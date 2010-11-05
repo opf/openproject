@@ -1,9 +1,0 @@
-<% if @grouped_entries %>
-  <%= render :partial => "list_group_by" %>
-<% else %>
-  <%= render :partial => "list_items" %>
-<% end %>
-
-<% other_formats_links do |f| %>
-  <%= call_hook :view_cost_report_other_formats, :f => f %>
-<% end %>

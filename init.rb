@@ -98,9 +98,6 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
-    permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]}
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index, :get_filter]},
-      :granular_for => :view_cost_entries
     permission :block_tickets, {}, :require => :member
 
     permission :view_cost_objects, {:cost_objects => [:index, :show]},
@@ -108,13 +105,12 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_cost_objects, {:cost_objects => [:index, :show, :edit, :destroy, :new]},
       :inherits => :view_cost_objects
   end
-  
+
   # register additional permissions for the time log
   project_module :time_tracking do
-    permission :view_own_time_entries, {:timelog => [:details, :report], :cost_reports => [:index, :get_filter]},
-      :granular_for => :view_time_entries
+    permission :view_own_time_entries, {:timelog => [:details, :report]}, :granular_for => :view_time_entries
   end
-  
+
   view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
   view_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   view_time_entries.actions << "cost_reports/index"
@@ -129,20 +125,10 @@ Redmine::Plugin.register :redmine_costs do
   # Menu extensions
   menu :top_menu, :cost_types, {:controller => 'cost_types', :action => 'index'},
     :caption => :cost_types_title, :if => Proc.new { User.current.admin? }
-#  menu :top_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
-#    :caption => :cost_reports_title,
-#    :if => Proc.new {
-#      ( User.current.allowed_to?(:view_cost_objects, nil, :global => true) ||
-#        User.current.allowed_to?(:edit_cost_objects, nil, :global => true)
-#      )
-#    }
 
   menu :project_menu, :cost_objects, {:controller => 'cost_objects', :action => 'index'},
     :param => :project_id, :after => :new_issue, :caption => :cost_objects_title
 
-  menu :project_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
-    :param => :project_id, :after => :cost_objects, :caption => :cost_reports_title
-  
   # Activities
   activity_provider :cost_objects
 end

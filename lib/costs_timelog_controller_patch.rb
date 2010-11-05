@@ -15,6 +15,7 @@ module CostsTimelogControllerPatch
     def details_with_reports_view
       # we handle single project reporting currently
       return details_without_reports_view if @project.nil?
+      filters = {:operators => {}, :values => {}}
 
       if @issue
         if @issue.respond_to?("lft")
@@ -23,25 +24,17 @@ module CostsTimelogControllerPatch
           issue_ids = [@issue.id.to_s]
         end
 
-        filters = [{
-          :column_name => "issue_id",
-          :enabled => "1",
-          :operator => "=",
-          :scope => "costs",
-          :values => issue_ids
-        }]
+        filters[:operators][:issue_id] = "="
+        filters[:values][:issue_id] = [issue_ids]
       end
-    
+
+      filters[:operators][:project_id] = "="
+      filters[:values][:project_id] = [@project.id.to_s]
       respond_to do |format|
         format.html {
-          session[:cost_query] = {:project_id => @project.id,
-                                  :filters => (filters || {}),
-                                  :group_by => {},
-                                  :display_cost_entries => "0",
-                                  :display_time_entries => "1"
-                                 }
-          
-          redirect_to :controller => "cost_reports", :action => "index", :project_id => @project
+          session[:cost_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+
+          redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
         format.all {
           details_without_report_view
