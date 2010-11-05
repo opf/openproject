@@ -45,36 +45,21 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
+  # Use a private project to make sure auth is really working and not just
+  # only showing public issues.
   context "/index.xml" do
-    setup do
-      get '/issues.xml'
-    end
-
-    should_respond_with :success
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:get, "/projects/private-child/issues.xml")
   end
 
   context "/index.json" do
-    setup do
-      get '/issues.json'
-    end
-
-    should_respond_with :success
-    should_respond_with_content_type 'application/json'
-
-    should 'return a valid JSON string' do
-      assert ActiveSupport::JSON.decode(response.body)
-    end
+    should_allow_api_authentication(:get, "/projects/private-child/issues.json")
   end
 
   context "/index.xml with filter" do
-    setup do
-      get '/issues.xml?status_id=5'
-    end
-    
-    should_respond_with :success
-    should_respond_with_content_type 'application/xml'
+    should_allow_api_authentication(:get, "/projects/private-child/issues.xml?status_id=5")
+
     should "show only issues with the status_id" do
+      get '/issues.xml?status_id=5'
       assert_tag :tag => 'issues',
                  :children => { :count => Issue.visible.count(:conditions => {:status_id => 5}), 
                                 :only => { :tag => 'issue' } }
@@ -82,18 +67,11 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
 
   context "/index.json with filter" do
-    setup do
-      get '/issues.json?status_id=5'
-    end
-
-    should_respond_with :success
-    should_respond_with_content_type 'application/json'
-
-    should 'return a valid JSON string' do
-      assert ActiveSupport::JSON.decode(response.body)
-    end
+    should_allow_api_authentication(:get, "/projects/private-child/issues.json?status_id=5")
 
     should "show only issues with the status_id" do
+      get '/issues.json?status_id=5'
+
       json = ActiveSupport::JSON.decode(response.body)
       status_ids_used = json.collect {|j| j['status_id'] }
       assert_equal 3, status_ids_used.length
@@ -102,26 +80,13 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
   end
 
-  context "/issues/1.xml" do
-    setup do
-      get '/issues/1.xml'
-    end
-    
-    should_respond_with :success
-    should_respond_with_content_type 'application/xml'
+  # Issue 6 is on a private project
+  context "/issues/6.xml" do
+    should_allow_api_authentication(:get, "/issues/6.xml")
   end
 
-  context "/issues/1.json" do
-    setup do
-      get '/issues/1.json'
-    end
-    
-    should_respond_with :success
-    should_respond_with_content_type 'application/json'
-
-    should 'return a valid JSON string' do
-      assert ActiveSupport::JSON.decode(response.body)
-    end
+  context "/issues/6.json" do
+    should_allow_api_authentication(:get, "/issues/6.json")
   end
 
   context "POST /issues.xml" do
