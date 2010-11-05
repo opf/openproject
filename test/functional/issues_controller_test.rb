@@ -808,7 +808,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'show', :id => '1'
 
     issue.reload
-    assert issue.journals.empty?
     # No email should be sent
     assert ActionMailer::Base.deliveries.empty?
   end

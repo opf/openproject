@@ -38,7 +38,7 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Changeset.find(101))
     assert_tag :dt, :attributes => { :class => /issue/ },
                     :child => { :tag => 'a',  :content => /Add ingredients categories/ },
-                    :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
+                    :sibling => { :tag => 'dd', :content => /A comment with inline image: !picture.jpg!/ }
     
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']

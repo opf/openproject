@@ -17,8 +17,7 @@ class IssueMovesController < ApplicationController
       moved_issues = []
       @issues.each do |issue|
         issue.reload
-        issue.init_journal(User.current)
-        issue.current_journal.notes = @notes if @notes.present?
+        issue.init_journal(User.current, @notes || "")
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
         if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
           moved_issues << r
