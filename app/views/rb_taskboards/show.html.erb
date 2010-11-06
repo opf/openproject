@@ -35,7 +35,7 @@
 
   <table id="impediments" class="board" cellspacing="0">
     <tr>
-      <td<div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+      <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
       <td class="add_new">+</td>
       <%- @statuses.each do |status| %>
       <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
