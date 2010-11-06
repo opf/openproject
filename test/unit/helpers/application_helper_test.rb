@@ -423,25 +423,38 @@ h2. Subtitle with [[Wiki|another Wiki]] link
 
 h2. Subtitle with %{color:red}red text%
     
-h2. Subtitle with *some* _modifiers_
+h3. Subtitle with *some* _modifiers_
 
 h1. Another title
 
-h2. An "Internet link":http://www.redmine.org/ inside subtitle
+h3. An "Internet link":http://www.redmine.org/ inside subtitle
 
 h2. "Project Name !/attachments/1234/logo_small.gif! !/attachments/5678/logo_2.png!":/projects/projectname/issues
 
 RAW
 
-    expected = '<ul class="toc">' +
-               '<li class="heading1"><a href="#Title">Title</a></li>' +
-               '<li class="heading2"><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' + 
-               '<li class="heading2"><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' + 
-               '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
-               '<li class="heading2"><a href="#Subtitle-with-some-modifiers">Subtitle with some modifiers</a></li>' +
-               '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
-               '<li class="heading2"><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
-               '<li class="heading2"><a href="#Project-Name">Project Name</a></li>' +
+    expected =  '<ul class="toc">' +
+                  '<li><a href="#Title">Title</a>' +
+                    '<ul>' +
+                      '<li><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' + 
+                      '<li><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' + 
+                      '<li><a href="#Subtitle-with-red-text">Subtitle with red text</a>' +
+                        '<ul>' +
+                          '<li><a href="#Subtitle-with-some-modifiers">Subtitle with some modifiers</a></li>' +
+                        '</ul>' +
+                      '</li>' +
+                    '</ul>' +
+                  '</li>' +
+                  '<li><a href="#Another-title">Another title</a>' +
+                    '<ul>' +
+                      '<li>' +
+                        '<ul>' +
+                          '<li><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
+                        '</ul>' +
+                      '</li>' +
+                      '<li><a href="#Project-Name">Project Name</a></li>' +
+                    '</ul>' +
+                  '</li>' +
                '</ul>'
 
     @project = Project.find(1)
@@ -458,8 +471,8 @@ h1. Included
 RAW
 
     expected = '<ul class="toc">' +
-               '<li class="heading1"><a href="#Included">Included</a></li>' +
-               '<li class="heading1"><a href="#Child-page-1">Child page 1</a></li>' + 
+               '<li><a href="#Included">Included</a></li>' +
+               '<li><a href="#Child-page-1">Child page 1</a></li>' + 
                '</ul>'
 
     @project = Project.find(1)

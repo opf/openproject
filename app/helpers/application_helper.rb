@@ -682,7 +682,7 @@ module ApplicationHelper
   def parse_headings(text, project, obj, attr, only_path, options)
     headings = []
     text.gsub!(HEADING_RE) do
-      level, attrs, content = $1, $2, $3
+      level, attrs, content = $1.to_i, $2, $3
       item = strip_tags(content).strip
       anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
       headings << [level, anchor, item]
@@ -696,12 +696,24 @@ module ApplicationHelper
         div_class = 'toc'
         div_class << ' right' if $1 == '>'
         div_class << ' left' if $1 == '<'
-        out = "<ul class=\"#{div_class}\">"
+        out = "<ul class=\"#{div_class}\"><li>"
+        root = headings.map(&:first).min
+        current = root
+        started = false
         headings.each do |level, anchor, item|
-          out << "<li class=\"heading#{level}\"><a href=\"##{anchor}\">#{item}</a></li>\n"
+          if level > current
+            out << '<ul><li>' * (level - current)
+          elsif level < current
+            out << "</li></ul>\n" * (current - level) + "</li><li>"
+          elsif started
+            out << '</li><li>'
+          end
+          out << "<a href=\"##{anchor}\">#{item}</a>"
+          current = level
+          started = true
         end
-        out << '</ul>'
-        out
+        out << '</li></ul>' * (current - root)
+        out << '</li></ul>'
       end
     end
   end
