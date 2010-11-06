@@ -170,6 +170,38 @@ class WikiControllerTest < ActionController::TestCase
                              :child => { :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/ },
                              :child => { :tag => 'td', :content => /Some updated \[\[documentation\]\] here/ }
   end
+
+  def test_get_rename
+    @request.session[:user_id] = 2
+    get :rename, :project_id => 1, :id => 'Another_page'
+    assert_response :success
+    assert_template 'rename'
+    assert_tag 'option',
+      :attributes => {:value => ''},
+      :content => '',
+      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
+    assert_no_tag 'option',
+      :attributes => {:selected => 'selected'},
+      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
+  end
+  
+  def test_get_rename_child_page
+    @request.session[:user_id] = 2
+    get :rename, :project_id => 1, :id => 'Child_1'
+    assert_response :success
+    assert_template 'rename'
+    assert_tag 'option',
+      :attributes => {:value => ''},
+      :content => '',
+      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
+    assert_tag 'option',
+      :attributes => {:value => '2', :selected => 'selected'},
+      :content => /Another page/,
+      :parent => {
+        :tag => 'select',
+        :attributes => {:name => 'wiki_page[parent_id]'}
+      }
+  end
   
   def test_rename_with_redirect
     @request.session[:user_id] = 2
@@ -192,6 +224,22 @@ class WikiControllerTest < ActionController::TestCase
     wiki = Project.find(1).wiki
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
+  end
+  
+  def test_rename_with_parent_assignment
+    @request.session[:user_id] = 2
+    post :rename, :project_id => 1, :id => 'Another_page',
+      :wiki_page => { :title => 'Another page', :redirect_existing_links => "0", :parent_id => '4' }
+    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_page'
+    assert_equal WikiPage.find(4), WikiPage.find_by_title('Another_page').parent
+  end
+
+  def test_rename_with_parent_unassignment
+    @request.session[:user_id] = 2
+    post :rename, :project_id => 1, :id => 'Child_1',
+      :wiki_page => { :title => 'Child 1', :redirect_existing_links => "0", :parent_id => '' }
+    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Child_1'
+    assert_nil WikiPage.find_by_title('Child_1').parent
   end
   
   def test_destroy_child

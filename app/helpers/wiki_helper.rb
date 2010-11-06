@@ -24,7 +24,7 @@ module WikiHelper
       attrs << " selected='selected'" if selected == page
       indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : nil
       
-      s << "<option value='#{page.id}'>#{indent}#{h page.pretty_title}</option>\n" + 
+      s << "<option #{attrs}>#{indent}#{h page.pretty_title}</option>\n" + 
              wiki_page_options_for_select(pages, selected, page, level + 1)
     end
     s
