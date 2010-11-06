@@ -55,7 +55,9 @@
 
 <div class="splitcontentright">
 <% if roles.any? && principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
+  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post,
+									   :loading => "$('member-add-submit').disable()",
+									   :complete => "$('member-add-submit').enable()") do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
     
 		<p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
@@ -75,7 +77,7 @@
     	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
    	<% end %></p>
    	
-    <p><%= submit_tag l(:button_add) %></p>
+    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
 		</fieldset>
   <% end %>
 <% end %>
