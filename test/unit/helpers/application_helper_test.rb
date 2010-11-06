@@ -116,15 +116,6 @@ RAW
     assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
   end
   
-  def test_acronyms
-    to_test = {
-      'this is an acronym: GPL(General Public License)' => 'this is an acronym: <acronym title="General Public License">GPL</acronym>',
-      'GPL(This is a double-quoted "title")' => '<acronym title="This is a double-quoted &quot;title&quot;">GPL</acronym>',
-    }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-    
-  end
-  
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
@@ -399,11 +390,6 @@ EXPECTED
   def test_wiki_horizontal_rule
     assert_equal '<hr />', textilizable('---')
     assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
-  end
-  
-  def test_acronym
-    assert_equal '<p>This is an acronym: <acronym title="American Civil Liberties Union">ACLU</acronym>.</p>',
-                 textilizable('This is an acronym: ACLU(American Civil Liberties Union).')
   end
   
   def test_footnotes

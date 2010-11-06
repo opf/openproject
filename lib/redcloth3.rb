@@ -456,7 +456,7 @@ class RedCloth3 < String
         #    next if tog and method( tog ).call
         #    text.gsub! re, resub
         #end
-        text.gsub!(/\b([A-Z][A-Z0-9]{2,})\b(?:[(]([^)]*)[)])/) do |m|
+        text.gsub!(/\b([A-Z][A-Z0-9]{1,})\b(?:[(]([^)]*)[)])/) do |m|
           "<acronym title=\"#{htmlesc $2}\">#{$1}</acronym>"
         end
     end
