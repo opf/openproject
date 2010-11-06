@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -422,6 +422,8 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 h2. Subtitle with [[Wiki|another Wiki]] link
 
 h2. Subtitle with %{color:red}red text%
+    
+h2. Subtitle with *some* _modifiers_
 
 h1. Another title
 
@@ -436,11 +438,31 @@ RAW
                '<li class="heading2"><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' + 
                '<li class="heading2"><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' + 
                '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
+               '<li class="heading2"><a href="#Subtitle-with-some-modifiers">Subtitle with some modifiers</a></li>' +
                '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
                '<li class="heading2"><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
                '<li class="heading2"><a href="#Project-Name">Project Name</a></li>' +
                '</ul>'
 
+    @project = Project.find(1)
+    assert textilizable(raw).gsub("\n", "").include?(expected)
+  end
+  
+  def test_table_of_content_should_contain_included_page_headings
+    raw = <<-RAW
+{{toc}}
+
+h1. Included
+
+{{include(Child_1)}}
+RAW
+
+    expected = '<ul class="toc">' +
+               '<li class="heading1"><a href="#Included">Included</a></li>' +
+               '<li class="heading1"><a href="#Child-page-1">Child page 1</a></li>' + 
+               '</ul>'
+
+    @project = Project.find(1)
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
   

@@ -20,6 +20,9 @@ require File.dirname(__FILE__) + '/../../../../test_helper'
 class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::SanitizeHelper
+  extend ActionView::Helpers::SanitizeHelper::ClassMethods
+  
   fixtures :projects, :roles, :enabled_modules, :users,
                       :repositories, :changesets, 
                       :trackers, :issue_statuses, :issues,

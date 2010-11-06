@@ -112,7 +112,7 @@ module Redmine
         @included_wiki_pages ||= []
         raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
         @included_wiki_pages << page.title
-        out = textilizable(page.content, :text, :attachments => page.attachments)
+        out = textilizable(page.content, :text, :attachments => page.attachments, :headings => false)
         @included_wiki_pages.pop
         out
       end

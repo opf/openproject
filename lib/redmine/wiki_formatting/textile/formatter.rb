@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ module Redmine
         include ActionView::Helpers::TagHelper
         
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
-        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc]
+        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto]
         
         def initialize(*args)
           super
@@ -58,51 +58,6 @@ module Redmine
               end
               content
             end
-          end
-        end
-        
-        # Patch to add 'table of content' support to RedCloth
-        def textile_p_withtoc(tag, atts, cite, content)
-          # removes wiki links from the item
-          toc_item = content.gsub(/(\[\[([^\]\|]*)(\|([^\]]*))?\]\])/) { $4 || $2 }
-          # sanitizes titles from links
-          # see redcloth3.rb, same as "#{pre}#{text}#{post}"
-          toc_item.gsub!(LINK_RE) { [$2, $4, $9].join }
-          # sanitizes image links from titles
-          toc_item.gsub!(IMAGE_RE) { [$5].join }
-          # removes styles
-          # eg. %{color:red}Triggers% => Triggers
-          toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
-          
-          # replaces non word caracters by dashes
-          anchor = toc_item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-  
-          unless anchor.blank?
-            if tag =~ /^h(\d)$/
-              @toc << [$1.to_i, anchor, toc_item]
-            end
-            atts << " id=\"#{anchor}\""
-            content = content + "<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a>"
-          end
-          textile_p(tag, atts, cite, content)
-        end
-  
-        alias :textile_h1 :textile_p_withtoc
-        alias :textile_h2 :textile_p_withtoc
-        alias :textile_h3 :textile_p_withtoc
-        
-        def inline_toc(text)
-          text.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i) do
-            div_class = 'toc'
-            div_class << ' right' if $1 == '>'
-            div_class << ' left' if $1 == '<'
-            out = "<ul class=\"#{div_class}\">"
-            @toc.each do |heading|
-              level, anchor, toc_item = heading
-              out << "<li class=\"heading#{level}\"><a href=\"##{anchor}\">#{toc_item}</a></li>\n"
-            end
-            out << '</ul>'
-            out
           end
         end
         

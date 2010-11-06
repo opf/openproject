@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -451,7 +451,7 @@ module ApplicationHelper
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
       
     parse_non_pre_blocks(text) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -671,6 +671,38 @@ module ApplicationHelper
         end
       end
       leading + (link || "#{prefix}#{sep}#{identifier}")
+    end
+  end
+  
+  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
+  HEADING_RE = /<h(1|2|3)( [^>]+)?>(.+?)<\/h(1|2|3)>/i unless const_defined?(:HEADING_RE)
+  
+  # Headings and TOC
+  # Adds ids and links to headings and renders the TOC if needed unless options[:headings] is set to false
+  def parse_headings(text, project, obj, attr, only_path, options)
+    headings = []
+    text.gsub!(HEADING_RE) do
+      level, attrs, content = $1, $2, $3
+      item = strip_tags(content).strip
+      anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
+      headings << [level, anchor, item]
+      "<h#{level} #{attrs} id=\"#{anchor}\">#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
+    end unless options[:headings] == false
+    
+    text.gsub!(TOC_RE) do
+      if headings.empty?
+        ''
+      else
+        div_class = 'toc'
+        div_class << ' right' if $1 == '>'
+        div_class << ' left' if $1 == '<'
+        out = "<ul class=\"#{div_class}\">"
+        headings.each do |level, anchor, item|
+          out << "<li class=\"heading#{level}\"><a href=\"##{anchor}\">#{item}</a></li>\n"
+        end
+        out << '</ul>'
+        out
+      end
     end
   end
 
