@@ -1,6 +1,7 @@
 class AddUniqueIndexOnMembers < ActiveRecord::Migration
   def self.up
-    # Reassign MemberRole rows if needed
+    # Clean and reassign MemberRole rows if needed
+    MemberRole.delete_all("member_id NOT IN (SELECT id FROM #{Member.table_name})")
     MemberRole.update_all("member_id =" +
       " (SELECT min(m2.id) FROM #{Member.table_name} m1, #{Member.table_name} m2" +
       " WHERE m1.user_id = m2.user_id AND m1.project_id = m2.project_id" +
