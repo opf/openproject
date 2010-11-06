@@ -1,22 +1,9 @@
 # Patch the data from a boolean change.
 class UpdateMailNotificationValues < ActiveRecord::Migration
   def self.up
-    User.record_timestamps = false
-    User.all.each do |u|
-      u.mail_notification = if u.mail_notification =~ /\A(1|t)\z/
-                              # User set for all email (t is for sqlite)
-                              'all'
-                            else
-                              # User wants to recieve notifications on specific projects?
-                              if u.memberships.count(:conditions => {:mail_notification => true}) > 0
-                                'selected'
-                              else
-                                'only_my_events'
-                              end
-                            end
-      u.save!
-    end
-    User.record_timestamps = true
+    User.update_all("mail_notification = 'all'", "mail_notification IN ('1', 't')")
+    User.update_all("mail_notification = 'selected'", "EXISTS (SELECT 1 FROM #{Member.table_name} WHERE #{Member.table_name}.mail_notification = #{connection.quoted_true} AND #{Member.table_name}.user_id = #{User.table_name}.id)")
+    User.update_all("mail_notification = 'only_my_events'", "mail_notification NOT IN ('all', 'selected')")
   end
 
   def self.down
