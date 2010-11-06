@@ -315,6 +315,8 @@ class RoutingTest < ActionController::IntegrationTest
     should_route :get, "/projects/567/wiki/lalala", :controller => 'wiki', :action => 'show', :project_id => '567', :id => 'lalala'
     should_route :get, "/projects/567/wiki/my_page/edit", :controller => 'wiki', :action => 'edit', :project_id => '567', :id => 'my_page'
     should_route :get, "/projects/1/wiki/CookBook_documentation/history", :controller => 'wiki', :action => 'history', :project_id => '1', :id => 'CookBook_documentation'
+    should_route :get, "/projects/1/wiki/CookBook_documentation/diff", :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation'
+    should_route :get, "/projects/1/wiki/CookBook_documentation/diff/2", :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation', :version => '2'
     should_route :get, "/projects/1/wiki/CookBook_documentation/diff/2/vs/1", :controller => 'wiki', :action => 'diff', :project_id => '1', :id => 'CookBook_documentation', :version => '2', :version_from => '1'
     should_route :get, "/projects/1/wiki/CookBook_documentation/annotate/2", :controller => 'wiki', :action => 'annotate', :project_id => '1', :id => 'CookBook_documentation', :version => '2'
     should_route :get, "/projects/22/wiki/ladida/rename", :controller => 'wiki', :action => 'rename', :project_id => '22', :id => 'ladida'
