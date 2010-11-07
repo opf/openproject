@@ -5,77 +5,77 @@ fr:
   event_sprint_summary: "{{project}}: {{summary}}"
   field_backlogs_issue_type: Type de carnet
   field_remaining_hours: Heures restantes
-  error_intro_singular: "L'erreur suivante a \xE9t\xE9 rencontr\xE9e:"
+  error_intro_singular: "L'erreur suivante a été rencontrée:"
   button_edit_wiki: Modifier la page wiki
   label_points_burn_up: Haut
-  label_not_prioritized: "non prioris\xE9"
+  label_not_prioritized: "non priorisés"
   label_sprint_cards: Cartes de sprint
-  points_resolved: "points r\xE9solus"
+  points_resolved: "points résolus"
   field_name: Nom
   field_tracker_id: Tracker ID
-  error_must_have_comma_delimited_list: "doit avoir une liste d'histoires ou num\xE9ros de t\xE2ches s\xE9par\xE9es de virgules"
+  error_must_have_comma_delimited_list: "doit avoir une liste d'histoires ou numéros de tâches séparées de virgules"
   label_stories: Histoires
   todo_issue_summary: "{{type}}: {{summary}}"
   label_product_backlog: carnet du produit
   required_burn_rate_hours: taux progression requis (hours)
-  backlogs_velocity_missing: "Aucune v\xE9locit\xE9 n'a pu \xEAtre calcul\xE9e pour ce projet"
+  backlogs_velocity_missing: "Aucune vélocité n'a pu être calcuée pour ce projet"
   label_sprint_name: Sprint "{{name}}"
   backlogs_any: tous
-  label_stories_tasks: "Histoires/T\xE2ches"
-  label_task_board: "Tableau des t\xE2ches"
-  label_backlogs_unconfigured: "Vous n'avez pas encore configur\xE9 les Carnets. Veuillez aller \xE0 {{administration}} > {{plugins}}, et cliquez sur le lien {{configure}} pour ce plugin. Une fois que vous aurez d\xE9fini ces champs, revenez \xE0 cette page pour utiliser l'outil"
+  label_stories_tasks: "Histoires/Tâches"
+  label_task_board: "Tableau des tâches"
+  label_backlogs_unconfigured: "Vous n'avez pas encore configuré les Carnets. Veuillez aller à {{administration}} > {{plugins}}, et cliquez sur le lien {{configure}} pour ce plugin. Une fois que vous aurez défini ces champs, revenez à cette page pour utiliser l'outil"
   backlogs_sprints: Sprints
   field_position: Position
   backlogs_active: actif
   inclusion: n'est pas inclut dans la liste
   backlogs_product_backlog_is_empty: Le carnet de produit est vide
-  backlogs_task_tracker: "Tracker de t\xE2ches"
-  backlogs_inactive: "Le projet ne montre aucune activit\xE9"
+  backlogs_task_tracker: "Tracker de tâches"
+  backlogs_inactive: "Le projet ne montre aucune activité"
   field_story_points: Points d'histoire
   label_Product_backlog: Carnet du produit
   rb_label_copy_tasks_none: "[[None]]"
-  backlogs_task: "T\xE2che"
-  backlogs_sprint_unsized: "Le projet a des histoires sur des sprints actifs ou r\xE9cemment ferm\xE9s qui n'ont pas de taille d\xE9finie"
+  backlogs_task: "Tâche"
+  backlogs_sprint_unsized: "Le projet a des histoires sur des sprints actifs ou récemment fermés qui n'ont pas de taille définie"
   points_committed: points commis
   label_sprint_impediments: Bloquants du Sprint
-  label_master_backlog: "Carnet Ma\xEEtre"
+  label_master_backlog: "Carnet Maître"
   field_blocks: Blocks
-  points_to_resolve: "points non-r\xE9solus"
-  label_select_all: "S\xE9lectionner tout"
-  backlogs_sprint_unestimated: "Sprints ferm\xE9s ou actifs avec histoires non-estim\xE9s"
+  points_to_resolve: "points non-résolus"
+  label_select_all: "Sélectionner tout"
+  backlogs_sprint_unestimated: "Sprints fermés ou actifs avec histoires non-estimé9s"
   label_scrum_statistics: Statistiques du Scrum
   required_burn_rate_points: taux de progression requis (points)
-  error_blank: "ne peut \xEAtre vide"
-  points_to_accept: "points non-accept\xE9s"
+  error_blank: "ne peut être vide"
+  points_to_accept: "points non-acceptés"
   label_backlogs: Carnets
-  label_back_to_project: "Retour \xE0 la page produit"
+  label_back_to_project: "Retour à la page produit"
   backlogs_points_burn_direction: progression des points
   rb_label_link_to_original: "[[Include link to original story]]"
-  backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des histoires qui n'ont pas de taille d\xE9finie"
-  points_accepted: "points accept\xE9s"
-  backlogs_sprint_notes_missing: "Sprints ferm\xE9s sans notes de r\xE9trospective/revue"
-  label_sprint_velocity: "V\xE9locit\xE9 {{velocity}}, bas\xE9e sur  les sprints {{sprints}} avec une moyenne de {{days}} jours"
+  backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des histoires qui n'ont pas de taille définie"
+  points_accepted: "points acceptés"
+  backlogs_sprint_notes_missing: "Sprints fermés sans notes de rétrospective/revue"
+  label_sprint_velocity: "Vélocité {{velocity}}, basée sur  les sprints {{sprints}} avec une moyenne de {{days}} jours"
   field_subject: Sujet
   backlogs_story: Histoire
   label_sprint_backlog: carnet du sprint
   backlogs_wiki_template: Maquette pour page wiki d'histoire
-  ideal: "id\xE9al"
+  ideal: "idéal"
   label_points: points
-  backlogs_sizing_inconsistent: "Les tailles des histoires varient par rapport \xE0 leurs estimations"
-  error_intro_plural: "Les erreurs suivantes ont \xE9t\xE9 rencontr\xE9es:"
-  backlogs_velocity_varies: "La v\xE9locit\xE9 varie de fa\xE7on significative \xE0 travers les diff\xE9rents sprints"
+  backlogs_sizing_inconsistent: "Les tailles des histoires varient par rapport à leurs estimations"
+  error_intro_plural: "Les erreurs suivantes ont été rencontrées:"
+  backlogs_velocity_varies: "La vélocité varie de façon significative à travers les différents sprints"
   rb_label_copy_tasks: "[[Copy tasks]]"
-  error_greater_than_start_date: "ne peut pas \xEAtre plus t\xF4t que la date de d\xE9but"
+  error_greater_than_start_date: "ne peut pas être plus tôt que la date de début"
   label_hours: heures
   label_points_burn_down: Bas
-  backlogs_card_specification: "Types d'\xE9tiquettes pour impression de cartes"
+  backlogs_card_specification: "Types d'étiquettes pour impression de cartes"
   backlogs_story_tracker: Tracker d'histoires
   event_sprint_description: |-
     {{summary}}: {{url}}
     {{description}}
   label_burndown: Progression
   rb_label_copy_tasks_all: "[[All]]"
-  field_velocity_based_estimate: "Estim\xE9 bas\xE9 sur la v\xE9locit\xE9"
+  field_velocity_based_estimate: "Estimé basé sur la vélocité"
   label_product_cards: Cartes de carnet du produit
   todo_issue_description: |-
     {{summary}}: {{url}}
@@ -83,4 +83,4 @@ fr:
   label_chart_options: Options du graphique
   backlogs_product_backlog: Carnet de produit
   remaining_hours: heures restantes
-  error_outro: "Veuillez corriger les erreurs ci-dessus avant de soumettre \xE0 nouveau."
+  error_outro: "Veuillez corriger les erreurs ci-dessus avant de soumettre à nouveau."
