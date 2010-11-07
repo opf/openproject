@@ -675,7 +675,7 @@ module ApplicationHelper
   end
   
   TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
-  HEADING_RE = /<h(1|2|3)( [^>]+)?>(.+?)<\/h(1|2|3)>/i unless const_defined?(:HEADING_RE)
+  HEADING_RE = /<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>/i unless const_defined?(:HEADING_RE)
   
   # Headings and TOC
   # Adds ids and links to headings and renders the TOC if needed unless options[:headings] is set to false
