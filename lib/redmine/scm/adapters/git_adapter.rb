@@ -211,7 +211,7 @@ module Redmine
           if identifier_to
             cmd = "#{GIT_BIN} --git-dir #{target('')} diff --no-color #{shell_quote identifier_to} #{shell_quote identifier_from}" 
           else
-            cmd = "#{GIT_BIN} --git-dir #{target('')} show #{shell_quote identifier_from}"
+            cmd = "#{GIT_BIN} --git-dir #{target('')} show --no-color #{shell_quote identifier_from}"
           end
 
           cmd << " -- #{shell_quote path}" unless path.empty?
@@ -255,7 +255,7 @@ module Redmine
           if identifier.nil?
             identifier = 'HEAD'
           end
-          cmd = "#{GIT_BIN} --git-dir #{target('')} show #{shell_quote(identifier + ':' + path)}"
+          cmd = "#{GIT_BIN} --git-dir #{target('')} show --no-color #{shell_quote(identifier + ':' + path)}"
           cat = nil
           shellout(cmd) do |io|
             io.binmode
