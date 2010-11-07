@@ -929,3 +929,5 @@ en-GB:
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
+  field_visible: Visible
+  setting_emails_header: Emails header
