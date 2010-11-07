@@ -125,11 +125,42 @@ class IssuesControllerTest < ActionController::TestCase
     assert_tag :tag => 'a', :content => /Issue of a private subproject/
   end
   
-  def test_index_with_project_and_filter
+  def test_index_with_project_and_default_filter
     get :index, :project_id => 1, :set_filter => 1
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
+    
+    query = assigns(:query)
+    assert_not_nil query
+    # default filter
+    assert_equal({'status_id' => {:operator => 'o', :values => ['']}}, query.filters)
+  end
+  
+  def test_index_with_project_and_filter
+    get :index, :project_id => 1, :set_filter => 1, 
+      :fields => ['tracker_id'],
+      :operators => {'tracker_id' => '='},
+      :values => {'tracker_id' => ['1']} 
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    
+    query = assigns(:query)
+    assert_not_nil query
+    assert_equal({'tracker_id' => {:operator => '=', :values => ['1']}}, query.filters)
+  end
+  
+  def test_index_with_project_and_empty_filters
+    get :index, :project_id => 1, :set_filter => 1, :fields => ['']
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    
+    query = assigns(:query)
+    assert_not_nil query
+    # no filter
+    assert_equal({}, query.filters)
   end
   
   def test_index_with_query
