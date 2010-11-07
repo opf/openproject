@@ -28,7 +28,7 @@ custom_values_003:
   custom_field_id: 4
   customized_id: 2
   id: 3
-  value: ""
+  value: "01 42 50 00 00"
 custom_values_004: 
   customized_type: Issue
   custom_field_id: 2

@@ -16,7 +16,7 @@
  	<li><%=l(:label_subproject_plural)%>:
 	    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></li>
   <% end %>
-	<% @project.custom_values.each do |custom_value| %>
+	<% @project.visible_custom_field_values.each do |custom_value| %>
 	<% if !custom_value.value.blank? %>
 	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
 	<% end %>

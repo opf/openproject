@@ -51,7 +51,6 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @custom_values = @user.custom_values
     
     # show projects based on current user visibility
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))

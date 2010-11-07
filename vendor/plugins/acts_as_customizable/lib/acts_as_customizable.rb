@@ -62,6 +62,10 @@ module Redmine
           @custom_field_values ||= available_custom_fields.collect { |x| custom_values.detect { |v| v.custom_field == x } || custom_values.build(:custom_field => x, :value => nil) }
         end
         
+        def visible_custom_field_values
+          custom_field_values.select(&:visible?)
+        end
+        
         def custom_field_values_changed?
           @custom_field_values_changed == true
         end

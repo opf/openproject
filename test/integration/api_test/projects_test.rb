@@ -36,6 +36,15 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     get '/projects/1.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
+    assert_tag 'custom_field', :attributes => {:name => 'Development status'}, :content => 'Stable'
+  end
+    
+  def test_show_should_not_display_hidden_custom_fields
+    ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
+    get '/projects/1.xml'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_no_tag 'custom_field', :attributes => {:name => 'Development status'}
   end
     
   def test_create

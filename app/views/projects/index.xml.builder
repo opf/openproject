@@ -8,7 +8,7 @@ xml.projects :type => 'array' do
       xml.description project.description
       xml.parent(:id => project.parent_id, :name => project.parent.name) unless project.parent.nil?
       xml.custom_fields do
-        project.custom_field_values.each do |custom_value|
+        project.visible_custom_field_values.each do |custom_value|
           xml.custom_field custom_value.value, :id => custom_value.custom_field_id, :name => custom_value.custom_field.name
         end
       end unless project.custom_field_values.empty?

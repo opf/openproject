@@ -24,7 +24,7 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
   
-  fixtures :users, :projects, :members, :member_roles, :roles, :auth_sources
+  fixtures :users, :projects, :members, :member_roles, :roles, :auth_sources, :custom_fields, :custom_values
   
   def setup
     @controller = UsersController.new
@@ -65,6 +65,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:user)
+    
+    assert_tag 'li', :content => /Phone number/
+  end
+  
+  def test_show_should_not_display_hidden_custom_fields
+    @request.session[:user_id] = nil
+    UserCustomField.find_by_name('Phone number').update_attribute :visible, false
+    get :show, :id => 2
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:user)
+    
+    assert_no_tag 'li', :content => /Phone number/
   end
 
   def test_show_should_not_fail_when_custom_values_are_nil

@@ -297,6 +297,7 @@ en:
   field_member_of_group: "Assignee's group"
   field_assigned_to_role: "Assignee's role"
   field_text: Text field
+  field_visible: Visible
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

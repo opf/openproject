@@ -284,6 +284,18 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:project)
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
+    
+    assert_tag 'li', :content => /Development status/
+  end
+
+  def test_show_should_not_display_hidden_custom_fields
+    ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
+    get :show, :id => 'ecookbook'
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:project)
+    
+    assert_no_tag 'li', :content => /Development status/
   end
   
   def test_show_should_not_fail_when_custom_values_are_nil

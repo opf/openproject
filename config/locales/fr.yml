@@ -303,6 +303,7 @@ fr:
   field_sharing: Partage
   field_active: Actif
   field_parent_issue: Tâche parente
+  field_visible: Visible
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -943,3 +944,4 @@ fr:
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
   field_start_date: Start date
+  setting_emails_header: Emails header

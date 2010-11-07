@@ -86,10 +86,12 @@ when "IssueCustomField" %>
     
 <% when "UserCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :visible %></p>
     <p><%= f.check_box :editable %></p>
 
 <% when "ProjectCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :visible %></p>
     <p><%= f.check_box :searchable %></p>
 
 <% when "TimeEntryCustomField" %>
