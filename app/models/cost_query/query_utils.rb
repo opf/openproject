@@ -128,7 +128,7 @@ module CostQuery::QueryUtils
     field = field_name_for(field, default_table)
     "-- code specific for #{adapter_name}\n\t" << \
     case adapter_name
-    when :mysql
+    when :mysql, :mysql2
       "yearweek(#{field}, 1)"
     when :postgresql
       "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
