@@ -90,6 +90,8 @@ module Cards
               end
             }
 
+            malformed_labels = {}
+
             ['avery-iso-templates.xml',
              'avery-other-templates.xml',
              'avery-us-templates.xml',
@@ -170,6 +172,7 @@ module Cards
 
                     if TaskboardCards.malformed(label)
                       puts "Skipping malformed label '#{key}' from #{filename}"
+                      malformed_labels[key] = label
                     else
                       LABELS[key] = label if not LABELS[key] or LABELS[key]['source'] == 'glabel'
     
@@ -183,6 +186,9 @@ module Cards
     
             File.open(File.dirname(__FILE__) + '/labels.yaml', 'w') do |dump|
                 YAML.dump(LABELS, dump)
+            end
+            File.open(File.dirname(__FILE__) + '/labels-malformed.yaml', 'w') do |dump|
+                YAML.dump(malformed_labels, dump)
             end
 
             if Setting.plugin_redmine_backlogs[:card_spec] && ! TaskboardCards.selected_label && LABELS.size != 0
