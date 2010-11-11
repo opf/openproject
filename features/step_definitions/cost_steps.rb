@@ -104,15 +104,11 @@ Given /^there is a standard cost control project named "([^\"]*)"$/ do |name|
     And the project "#{name}" has 1 issue with:
       | subject | #{name}issue |
     And the role "Manager" may have the following rights:
-<<<<<<< HEAD
-      | View own cost entries |
-=======
       | view_own_hourly_rate |
       | view_issues |
       | view_own_time_entries |
       | view_own_cost_entries |
       | view_cost_rates |
->>>>>>> 58884c4a8beda1bf98322e0225e41dc10e27d87d
     And there is a role "Controller"
     And the role "Controller" may have the following rights:
       | View own cost entries |
