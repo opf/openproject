@@ -524,7 +524,7 @@ module ApplicationHelper
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
         if page =~ /^([^\:]+)\:(.*)$/
-          link_project = Project.find_by_name($1) || Project.find_by_identifier($1)
+          link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
           page = $2
           title ||= $1 if page.blank?
         end

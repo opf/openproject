@@ -64,7 +64,7 @@ class Project < ActiveRecord::Base
   attr_protected :status, :enabled_module_names
   
   validates_presence_of :name, :identifier
-  validates_uniqueness_of :name, :identifier
+  validates_uniqueness_of :identifier
   validates_associated :repository, :wiki
   validates_length_of :name, :maximum => 30
   validates_length_of :homepage, :maximum => 255
