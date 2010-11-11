@@ -1,0 +1,102 @@
+<%
+
+walker.for_final_row do |row, cells|
+  html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
+  html << cells.join
+  html << "<th class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
+end
+
+walker.for_row do |row, subrows|
+  subrows.flatten!
+  unless row.fields.empty?
+    subrows[0] = <<-HTML
+    <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+    #{subrows[0].gsub("class='normal", "class='top")}
+    <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row )}</th>
+    HTML
+  end
+  subrows.last.gsub!("class='normal", "class='bottom")
+  subrows.last.gsub!("class='top", "class='bottom top")
+  subrows
+end
+
+walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>" }
+
+walker.for_cell do |result|
+  "<td class='normal'>#{link_to_details(result)}#{show_result result}#{debug_fields(result)}</td>"
+end
+%>
+
+<table class='report'>
+  <thead>
+    <% walker.headers do |list, first, first_in_col, last_in_col| %>
+      <%= '<tr>' if first_in_col %>
+        <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
+        <% list.each do |column| %>
+          <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if column.final? :column %>">
+            <%= show_row column %>
+          </th>
+        <% end %>
+        <%= "<th rowspan='#{@query.depth_of(:column)}' colspan='#{query.depth_of(:row)}'></th>" if first %>
+      <%= '</tr>' if last_in_col %>
+    <% end %>
+  </thead>
+
+  <tfoot>
+    <% walker.reverse_headers do |list, first, first_in_col, last_in_col| %>
+      <% if first_in_col %>
+        <tr>
+        <%= "<th rowspan='#{query.depth_of(:column)}' colspan='#{query.depth_of(:row)}' class='top'>&nbsp;</th>" if first %>
+      <% end %>
+      <% list.each do |column| %>
+        <th colspan="<%= column.final_number(:column) %>" class="<%= "inner" if first %>">
+          <%= show_result column %><%= debug_fields(column) %>
+        </th>
+      <% end %>
+      <% if last_in_col %>
+        <% if first %>
+          <th rowspan='<%= @query.depth_of(:column) %>' colspan='<%= query.depth_of(:row) %>' class='top result'>
+            <%= show_result query %>
+          </th>
+        <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tfoot>
+
+  <tbody>
+    <% first = true %>
+    <% walker.body do |line| %>
+      <%
+        if first
+          line.gsub!("class='normal", "class='top")
+          first = false
+        end
+      %>
+      <tr class='<%= cycle("odd", "even") %>'><%= line %></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if false or params[:debug] %>
+  <pre>
+  
+    [ Query ]
+    <% query.chain.each do |child| %>
+      - <%= h child.class.inspect %>, <%= h child.type %>
+    <% end %>
+  
+    [ RESULT ]
+    <% query.result.recursive_each_with_level do |level, result| %>
+      <%= ">>> " * (level+1) %><%= h result.inspect %>,
+         <%= "   " * (level+1) %><%= h result.type.inspect %>,
+         <%= "   " * (level+1) %><%= h result.fields.inspect %>
+    <% end %>
+
+    [ HEADER STACK ]
+    <% walker.header_stack.each do |l| %>
+      <%= ">>> #{l.inspect}" %>
+    <% end %>
+    
+  </pre>
+<% end %>

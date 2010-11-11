@@ -1,0 +1,74 @@
+<%#
+  This partial requires the following locals:
+    f       An ActionView::Helpers::FormBuilder
+    query   A CostQuery object
+%>
+
+<%#TODO: replace me with a drag&drop group_by selector %>
+
+<table style="border-collapse: collapse; border: 0pt none;" id="group_by_table">
+  <tbody>
+    <tr>
+      <td colspan="2" rowspan="2">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><h3>Columns</h3><td>
+    </tr>
+    <tr>
+    <td align="center" valign="top">
+      <input type="button" class="buttons group_by sort sortUp" onclick="moveOptionUp(this.form.group_by_columns);"/><br />
+      <input type="button" class="buttons group_by sort sortDown" onclick="moveOptionDown(this.form.group_by_columns);"/>
+    </td>
+    <td>
+      <select style="width: 180px;" size="4" name="groups[columns][]" multiple="multiple" id="group_by_columns">
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td valign="bottom" style="padding-bottom: 0;">
+      <h3>Rows</h3>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td align="left" valign="top">
+      <input type="button" class="buttons group_by move moveUp" onclick="moveOptions(this.form.group_by_container, this.form.group_by_columns);"/>
+      <input type="button" class="buttons group_by move moveDown" onclick="moveOptions(this.form.group_by_columns, this.form.group_by_container);"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <input type="button" class="buttons group_by sort sortUp" onclick="moveOptionUp(this.form.group_by_rows);" /><br />
+      <input type="button" class="buttons group_by sort sortDown" onclick="moveOptionDown(this.form.group_by_rows);"/>
+    </td>
+    <td style="padding-left: 0pt;" valign="top">
+      <select style="width: 180px;" size="4" name="groups[rows][]" multiple="multiple" id="group_by_rows">
+      </select>
+    </td>  
+    <td align="center" valign="top">
+      <input type="button" class="buttons group_by move moveLeft" onclick="moveOptions(this.form.group_by_container, this.form.group_by_rows);"/><br />
+      <input type="button" class="buttons group_by move moveRight" onclick="moveOptions(this.form.group_by_rows, this.form.group_by_container);"/>
+    </td>
+    <td>
+      <select style="width: 180px;" size="9" multiple="multiple" id="group_by_container">
+      <% CostQuery::GroupBy.all_grouped.sort_by { |label, group_by_ary| l(label) }.each do |label, group_by_ary| %>
+        <optgroup label="<%= l(label) %>" data-category="<%= label.to_s %>">
+        <% group_by_ary.sort_by { |g| l(g.label)}.each do |group_by| %>
+          <% next unless group_by.selectable? %>
+          <option value="<%= group_by.underscore_name %>" data-category="<%= label.to_s %>"><%= l(group_by.label) %></option>
+        <% end %>
+        </optgroup>
+      <% end %>
+      </select>
+    </td>
+  </tr></tbody>
+</table>
+
+<%#
+up     &#8593;
+down   &#8595;
+left   &#8592;
+right  &#8594;
+%>

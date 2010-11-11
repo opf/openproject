@@ -1,0 +1,131 @@
+--- 
+custom_fields_001: 
+  name: Database
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  is_filter: true
+  type: IssueCustomField
+  max_length: 0
+  possible_values: 
+  - MySQL
+  - PostgreSQL
+  - Oracle
+  id: 1
+  is_required: false
+  field_format: list
+  default_value: ""
+  editable: true
+custom_fields_002: 
+  name: Searchable field
+  min_length: 1
+  regexp: ""
+  is_for_all: true
+  type: IssueCustomField
+  max_length: 100
+  possible_values: ""
+  id: 2
+  is_required: false
+  field_format: string
+  searchable: true
+  default_value: "Default string"
+  editable: true
+custom_fields_003: 
+  name: Development status
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: ProjectCustomField
+  max_length: 0
+  possible_values: 
+  - Stable
+  - Beta
+  - Alpha
+  - Planning
+  id: 3
+  is_required: false
+  field_format: list
+  default_value: ""
+  editable: true
+custom_fields_004: 
+  name: Phone number
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  type: UserCustomField
+  max_length: 0
+  possible_values: ""
+  id: 4
+  is_required: false
+  field_format: string
+  default_value: ""
+  editable: true
+custom_fields_005: 
+  name: Money
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  type: UserCustomField
+  max_length: 0
+  possible_values: ""
+  id: 5
+  is_required: false
+  field_format: float
+  default_value: ""
+  editable: true
+custom_fields_006: 
+  name: Float field
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 6
+  is_required: false
+  field_format: float
+  default_value: ""
+  editable: true
+custom_fields_007: 
+  name: Billable
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: TimeEntryActivityCustomField
+  max_length: 0
+  possible_values: ""
+  id: 7
+  is_required: false
+  field_format: bool
+  default_value: ""
+  editable: true
+custom_fields_008: 
+  name: Custom date
+  min_length: 0
+  regexp: ""
+  is_for_all: true
+  is_filter: false
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 8
+  is_required: false
+  field_format: date
+  default_value: ""
+  editable: true
+custom_fields_009: 
+  name: Project 1 cf
+  min_length: 0
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: IssueCustomField
+  max_length: 0
+  possible_values: ""
+  id: 9
+  is_required: false
+  field_format: date
+  default_value: ""
+  editable: true

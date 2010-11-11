@@ -1,0 +1,60 @@
+<% list = [:spent_on, :user_id, :activity_id, :issue_id, :comments, :project_id] %>
+
+<table class="report detail-report" id="sortable-table">
+  <thead>
+    <tr>
+      <% list.each do |field| %><th><%= label_for(field) %></th><% end %>
+      <th class='right'><%= @cost_type.try(:unit_plural) || l(:units) %></th>
+      <th class="right"><%= l(:field_costs) %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <% if show_result(@query, 0) != show_result(@query) %>
+        <th class="inner right" colspan='<%= list.size + 1 %>'>
+          <%= show_result @query %>
+        </th>
+        <th class="result right"><%= show_result @query, 0 %></th>
+      <% else %>
+        <th class="result right" colspan='<%= list.size + 2 %>'><%= show_result @query %></th>
+      <% end %>
+      <th class="unsortable"></th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <% @query.each_direct_result do |result| %>
+      <tr class='<%= cycle("odd", "even") %>'>
+        <% list.each do |field| %>
+          <td
+            raw-data="<%= raw_field(field, result.fields[field.to_s]) -%>"
+            class="left">
+            <%= show_field field, result.fields[field.to_s] %>
+          </td>
+        <% end %>
+        <td class="units right" raw-data="<%= result.units -%>"><%= show_result(result, result.fields['cost_type_id'].to_i) %></td>
+        <td class="currency right" raw-data="<%= result.real_costs -%>"><%= show_result(result, 0) %></td>
+        <td style="width: 40px">
+          <% with_project(result.fields['project_id']) do %>
+            <% if entry_for(result).editable_by? User.current %>
+              <%= link_to image_tag('edit.png'),
+                action_for(result, :action => 'edit'), :title => l(:button_edit) %>
+              <%= link_to image_tag('delete.png'), action_for(result, :action => 'destroy'),
+                :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
+                :method => :post,           :title    => l(:button_delete) %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <% if params[:debug] %>
+        <tr>
+          <td colspan='<%= list.size + 3 %>'>
+            <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render :partial => 'sortable_init', :locals => { :sort_first_row => true } %>

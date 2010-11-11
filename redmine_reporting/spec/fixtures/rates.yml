@@ -1,0 +1,68 @@
+cheap_five:
+  id: 1
+  valid_from: <%= 6.days.ago.to_date.to_s :db  %>
+  rate: 5.0
+  type: CostRate
+  cost_type_id: 1
+
+cheap_three:
+  id: 2
+  valid_from: <%= 4.days.ago.to_date.to_s :db  %>
+  rate: 15.0
+  type: CostRate
+  cost_type_id: 1
+
+cheap_one:
+  id: 3
+  valid_from: <%= 2.days.ago.to_date.to_s :db  %>
+  rate: 50.0
+  type: CostRate
+  cost_type_id: 1
+
+hourly_one:
+  id: 4
+  valid_from: <%= 2.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 1
+  project_id: 1
+  type: HourlyRate
+
+hourly_three:
+  id: 5
+  valid_from: <%= 4.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 1
+  project_id: 1
+  type: HourlyRate
+
+hourly_five:
+  id: 6
+  valid_from: <%= 6.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 1
+  project_id: 1
+  type: HourlyRate
+  
+default_hourly_one:
+  id: 7
+  valid_from: <%= 2.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate
+
+default_hourly_three:
+  id: 8
+  valid_from: <%= 4.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate
+
+default_hourly_five:
+  id: 9
+  valid_from: <%= 6.days.ago.to_date.to_s :db %>
+  rate: 42.0
+  user_id: 2
+  project_id: 1
+  type: DefaultHourlyRate    

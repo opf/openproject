@@ -1,0 +1,22 @@
+<%#
+  This partial requires the following locals:
+    element   a Hash containing the following keys:
+      - :name => :date
+      - :filter_name => String: The name of a filter (e.g. activity_id)
+      - :hide => Boolean (optional, default = true): whether the content of this partial is initially hidden or not
+%>
+<% name      = "values[#{element[:filter_name]}][]"
+   id_prefix = "#{element[:filter_name]}_" %>
+
+<td <%= style="display:none" if element[:hide] %>>
+  <div style="" id="<%= id_prefix %>arg_1" class="filter_values">
+    <%= text_field_tag "#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}arg_1_val"%>
+    <%= calendar_for("#{id_prefix}arg_1_val") %>
+    <span id="<%= id_prefix %>arg_2" class="between_tags">
+    <%=
+      text_field_tag("#{name}", "", :size => 10, :class => "select-small", :id => "#{id_prefix}arg_2_val") + " " +
+      calendar_for("#{id_prefix}arg_2_val")
+    %>
+    </span>
+  </div>
+</td>
