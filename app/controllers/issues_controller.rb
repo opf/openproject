@@ -150,11 +150,7 @@ class IssuesController < ApplicationController
       end
     end
   end
-  
-  # Attributes that can be updated on workflow transition (without :edit permission)
-  # TODO: make it configurable (at least per role)
-  UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
-  
+    
   def edit
     update_issue_from_params
 
@@ -276,14 +272,7 @@ private
     
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
     @issue.init_journal(User.current, @notes)
-    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-    if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
-      attrs = params[:issue].dup
-      attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
-      attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-      @issue.safe_attributes = attrs
-    end
-
+    @issue.safe_attributes = params[:issue]
   end
 
   # TODO: Refactor, lots of extra code in here

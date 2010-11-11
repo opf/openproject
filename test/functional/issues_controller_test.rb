@@ -580,7 +580,7 @@ class IssuesControllerTest < ActionController::TestCase
   context "without workflow privilege" do
     setup do
       Workflow.delete_all(["role_id = ?", Role.anonymous.id])
-      Role.anonymous.add_permission! :add_issues
+      Role.anonymous.add_permission! :add_issues, :add_issue_notes
     end
     
     context "#new" do
@@ -605,6 +605,17 @@ class IssuesControllerTest < ActionController::TestCase
         assert_equal IssueStatus.default, issue.status
       end
       
+      should "accept default status" do
+        assert_difference 'Issue.count' do
+          post :create, :project_id => 1, 
+                     :issue => {:tracker_id => 1,
+                                :subject => 'This is an issue',
+                                :status_id => 1}
+        end
+        issue = Issue.last(:order => 'id')
+        assert_equal IssueStatus.default, issue.status
+      end
+      
       should "ignore unauthorized status" do
         assert_difference 'Issue.count' do
           post :create, :project_id => 1, 
@@ -614,6 +625,94 @@ class IssuesControllerTest < ActionController::TestCase
         end
         issue = Issue.last(:order => 'id')
         assert_equal IssueStatus.default, issue.status
+      end
+    end
+    
+    context "#update" do
+      should "ignore status change" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+        end
+        assert_equal 1, Issue.find(1).status_id
+      end
+      
+      should "ignore attributes changes" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
+        end
+        issue = Issue.find(1)
+        assert_equal "Can't print recipes", issue.subject
+        assert_nil issue.assigned_to
+      end
+    end
+  end
+  
+  context "with workflow privilege" do
+    setup do
+      Workflow.delete_all(["role_id = ?", Role.anonymous.id])
+      Workflow.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+      Workflow.create!(:role => Role.anonymous, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+      Role.anonymous.add_permission! :add_issues, :add_issue_notes
+    end
+    
+    context "#update" do
+      should "accept authorized status" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+        end
+        assert_equal 3, Issue.find(1).status_id
+      end
+      
+      should "ignore unauthorized status" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
+        end
+        assert_equal 1, Issue.find(1).status_id
+      end
+      
+      should "accept authorized attributes changes" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:assigned_to_id => 2}
+        end
+        issue = Issue.find(1)
+        assert_equal 2, issue.assigned_to_id
+      end
+      
+      should "ignore unauthorized attributes changes" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed'}
+        end
+        issue = Issue.find(1)
+        assert_equal "Can't print recipes", issue.subject
+      end
+    end
+    
+    context "and :edit_issues permission" do
+      setup do
+        Role.anonymous.add_permission! :add_issues, :edit_issues
+      end
+
+      should "accept authorized status" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
+        end
+        assert_equal 3, Issue.find(1).status_id
+      end
+      
+      should "ignore unauthorized status" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
+        end
+        assert_equal 1, Issue.find(1).status_id
+      end
+      
+      should "accept authorized attributes changes" do
+        assert_difference 'Journal.count' do
+          put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
+        end
+        issue = Issue.find(1)
+        assert_equal "changed", issue.subject
+        assert_equal 2, issue.assigned_to_id
       end
     end
   end

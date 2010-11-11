@@ -233,16 +233,34 @@ class Issue < ActiveRecord::Base
     lock_version
   ) unless const_defined?(:SAFE_ATTRIBUTES)
   
+  SAFE_ATTRIBUTES_ON_TRANSITION = %w(
+    status_id
+    assigned_to_id
+    fixed_version_id
+    done_ratio
+  ) unless const_defined?(:SAFE_ATTRIBUTES_ON_TRANSITION)
+
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
   # attr_accessible is too rough because we still want things like
   # Issue.new(:project => foo) to work
   # TODO: move workflow/permission checks from controllers to here
   def safe_attributes=(attrs, user=User.current)
-    return if attrs.nil?
-    attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES.include?(k)}
+    return unless attrs.is_a?(Hash)
+    
+    new_statuses_allowed = new_statuses_allowed_to(user)
+    
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    if new_record? || user.allowed_to?(:edit_issues, project)
+      attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES.include?(k)}
+    elsif new_statuses_allowed.any?
+      attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES_ON_TRANSITION.include?(k)}
+    else
+      return
+    end
+    
     if attrs['status_id']
-      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
+      unless new_statuses_allowed.collect(&:id).include?(attrs['status_id'].to_i)
         attrs.delete('status_id')
       end
     end
