@@ -536,8 +536,6 @@ module Redmine
             end
             output << "<span class='#{css_classes.join(' ')}'>"
             output << view.link_to_issue(issue)
-            output << ":"
-            output << h(issue.subject)
             output << '</span>'
           else
             ActiveRecord::Base.logger.debug "Gantt#subject_for_issue was not given an issue"
