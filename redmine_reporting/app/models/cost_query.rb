@@ -1,12 +1,18 @@
 require_dependency "entry"
 require 'forwardable'
+require 'yaml'
 
 class CostQuery < ActiveRecord::Base
   extend Forwardable
   include Enumerable
-  #belongs_to :user
-  #belongs_to :project
+  belongs_to :user
+
+  before_save :yamlize!
   #attr_protected :user_id, :project_id, :created_at, :updated_at
+
+  def self.load(yaml)
+    deserialize(YAML::load(yaml))
+  end
 
   def self.accepted_properties
     @accepted_properties ||= []
@@ -26,6 +32,10 @@ class CostQuery < ActiveRecord::Base
 
   def serialize
     { :filters => filters.collect(&:serialize), :group_bys => group_bys.collect(&:serialize) }
+  end
+
+  def yamlize!
+    self.yamlized = serialize.to_yaml
   end
 
   def available_filters
@@ -107,9 +117,9 @@ class CostQuery < ActiveRecord::Base
   def to_s
     chain.to_s
   end
-  
+
   private
-  
+
   def minimal_chain!
     @chain = Filter::NoFilter.new
   end
