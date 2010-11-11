@@ -3,6 +3,7 @@ class CostReportsController < ApplicationController
   before_filter :find_optional_project, :only => [:index, :drill_down]
   before_filter :generate_query,        :only => [:index, :drill_down]
   before_filter :set_cost_types,        :only => [:index, :drill_down]
+  before_filter :save_query,            :only => [:index, :drill_down]
 
   rescue_from Exception do |exception|
     session.delete(:cost_query)
@@ -15,8 +16,7 @@ class CostReportsController < ApplicationController
   include ReportingHelper
 
   def index
-    @valid = valid_query?
-    if @valid
+    if @valid = valid_query?
       if @query.group_bys.empty?
         @table_partial = "cost_entry_table"
       elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
@@ -204,6 +204,14 @@ class CostReportsController < ApplicationController
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
     end
+  end
+
+  def save_query
+    return unless params[:save_query].to_i == 1 || !User.current.allowed_to?(:save_queries, @project, :global => true)
+    # TODO render some form instead of just guessing values!
+    @query.name ||= @query.hash
+    @query.user_id ||= User.current.id
+    @query.save!
   end
 
   def load_all

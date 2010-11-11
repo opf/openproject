@@ -29,18 +29,21 @@
   <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
   <p class="buttons">
   <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
-                     { :url => { :set_filter => 1 },
-                       :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-                       :condition => 'Ajax.activeRequestCount === 0',
-                       :update => "content",
-                       :with => "Form.serialize('query_form')",
-                       :eval_scripts => true
-                     }, :class => 'button apply' %>
+                    { :url => { :set_filter => 1 },
+                      :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+                      :condition => 'Ajax.activeRequestCount === 0',
+                      :update => "content",
+                      :with => "Form.serialize('query_form')",
+                      :eval_scripts => true
+                    }, :class => 'button apply' %>
   <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
-  <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-  <%
-    #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
-  %>
+  <% if User.current.allowed_to?(:save_queries, @project, :global => true) && @valid %>
+    <%= link_to_remote l(:button_save),
+                    { :url => { :save_query => 1 },
+                      :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+                      :with => "Form.serialize('query_form')",
+                      :eval_scripts => true
+                    }, :class => 'icon icon-save' %>
   <% end %>
   </p>
 </div>
