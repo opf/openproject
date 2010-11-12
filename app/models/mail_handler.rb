@@ -218,7 +218,7 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && (v = extract_keyword!(plain_text_body, attr))
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && (v = extract_keyword!(plain_text_body, attr, options[:format]))
           v
         elsif !@@handler_options[:issue][attr].blank?
           @@handler_options[:issue][attr]
@@ -229,7 +229,7 @@ class MailHandler < ActionMailer::Base
   
   # Destructively extracts the value for +attr+ in +text+
   # Returns nil if no matching keyword found
-  def extract_keyword!(text, attr)
+  def extract_keyword!(text, attr, format=nil)
     keys = [attr.to_s.humanize]
     if attr.is_a?(Symbol)
       keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user
@@ -237,7 +237,8 @@ class MailHandler < ActionMailer::Base
     end
     keys.reject! {|k| k.blank?}
     keys.collect! {|k| Regexp.escape(k)}
-    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(.+)\s*$/i, '')
+    format ||= '.+'
+    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip
   end
 
@@ -259,10 +260,10 @@ class MailHandler < ActionMailer::Base
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
       'assigned_to_id' => (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k).try(:id),
       'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.find_by_name(k).try(:id),
-      'start_date' => get_keyword(:start_date, :override => true),
-      'due_date' => get_keyword(:due_date, :override => true),
+      'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
+      'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
-      'done_ratio' => get_keyword(:done_ratio, :override => true),
+      'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
   end
   

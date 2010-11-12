@@ -229,6 +229,18 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
+  def test_add_issue_with_invalid_attributes
+    issue = submit_email('ticket_with_invalid_attributes.eml', :allow_override => 'tracker,category,priority')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_nil issue.start_date
+    assert_nil issue.due_date
+    assert_equal 0, issue.done_ratio
+    assert_equal 'Normal', issue.priority.to_s
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
+
   def test_add_issue_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
     issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'tracker,category,priority')
