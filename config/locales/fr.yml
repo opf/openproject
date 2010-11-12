@@ -1,7 +1,7 @@
 --- 
 fr: 
   rb_label_copy_tasks_open: "[[Open]]"
-  label_webcal: Webcal Feed
+  label_webcal: Fil Calendrier Web
   event_sprint_summary: "{{project}}: {{summary}}"
   field_backlogs_issue_type: Type de carnet
   field_remaining_hours: Heures restantes
@@ -13,15 +13,15 @@ fr:
   points_resolved: "points résolus"
   field_name: Nom
   field_tracker_id: Tracker ID
-  error_must_have_comma_delimited_list: "doit avoir une liste d'histoires ou numéros de tâches séparées de virgules"
-  label_stories: Histoires
+  error_must_have_comma_delimited_list: "doit avoir une liste de scénarios ou numéros de tâches séparées de virgules"
+  label_stories: Scénarios
   todo_issue_summary: "{{type}}: {{summary}}"
   label_product_backlog: carnet du produit
   required_burn_rate_hours: taux progression requis (hours)
   backlogs_velocity_missing: "Aucune vélocité n'a pu être calcuée pour ce projet"
   label_sprint_name: Sprint "{{name}}"
   backlogs_any: tous
-  label_stories_tasks: "Histoires/Tâches"
+  label_stories_tasks: "Scénarios/Tâches"
   label_task_board: "Tableau des tâches"
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré les Carnets. Veuillez aller à {{administration}} > {{plugins}}, et cliquez sur le lien {{configure}} pour ce plugin. Une fois que vous aurez défini ces champs, revenez à cette page pour utiliser l'outil"
   backlogs_sprints: Sprints
@@ -31,18 +31,18 @@ fr:
   backlogs_product_backlog_is_empty: Le carnet de produit est vide
   backlogs_task_tracker: "Tracker de tâches"
   backlogs_inactive: "Le projet ne montre aucune activité"
-  field_story_points: Points d'histoire
+  field_story_points: Points de scénarios
   label_Product_backlog: Carnet du produit
   rb_label_copy_tasks_none: "[[None]]"
   backlogs_task: "Tâche"
-  backlogs_sprint_unsized: "Le projet a des histoires sur des sprints actifs ou récemment fermés qui n'ont pas de taille définie"
+  backlogs_sprint_unsized: "Le projet a des scénarios sur des sprints actifs ou récemment fermés qui n'ont pas de taille définie"
   points_committed: points commis
   label_sprint_impediments: Bloquants du Sprint
   label_master_backlog: "Carnet Maître"
   field_blocks: Blocks
   points_to_resolve: "points non-résolus"
   label_select_all: "Sélectionner tout"
-  backlogs_sprint_unestimated: "Sprints fermés ou actifs avec histoires non-estimé9s"
+  backlogs_sprint_unestimated: "Sprints fermés ou actifs avec scénarios non-estimés"
   label_scrum_statistics: Statistiques du Scrum
   required_burn_rate_points: taux de progression requis (points)
   error_blank: "ne peut être vide"
@@ -51,17 +51,17 @@ fr:
   label_back_to_project: "Retour à la page produit"
   backlogs_points_burn_direction: progression des points
   rb_label_link_to_original: "[[Include link to original story]]"
-  backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des histoires qui n'ont pas de taille définie"
+  backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des scénarios qui n'ont pas de taille définie"
   points_accepted: "points acceptés"
   backlogs_sprint_notes_missing: "Sprints fermés sans notes de rétrospective/revue"
   label_sprint_velocity: "Vélocité {{velocity}}, basée sur  les sprints {{sprints}} avec une moyenne de {{days}} jours"
   field_subject: Sujet
-  backlogs_story: Histoire
+  backlogs_story: Scéanario
   label_sprint_backlog: carnet du sprint
-  backlogs_wiki_template: Maquette pour page wiki d'histoire
+  backlogs_wiki_template: Maquette pour page wiki de scéanario
   ideal: "idéal"
   label_points: points
-  backlogs_sizing_inconsistent: "Les tailles des histoires varient par rapport à leurs estimations"
+  backlogs_sizing_inconsistent: "Les tailles des scénarios varient par rapport à leurs estimations"
   error_intro_plural: "Les erreurs suivantes ont été rencontrées:"
   backlogs_velocity_varies: "La vélocité varie de façon significative à travers les différents sprints"
   rb_label_copy_tasks: "[[Copy tasks]]"
@@ -69,7 +69,7 @@ fr:
   label_hours: heures
   label_points_burn_down: Bas
   backlogs_card_specification: "Types d'étiquettes pour impression de cartes"
-  backlogs_story_tracker: Tracker d'histoires
+  backlogs_story_tracker: Tracker de scénarios
   event_sprint_description: |-
     {{summary}}: {{url}}
     {{description}}
