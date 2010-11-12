@@ -116,36 +116,20 @@ class MailHandler < ActionMailer::Base
   # Creates a new issue
   def receive_issue
     project = target_project
-    tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
-    category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
-    priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
-    status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
-    assigned_to = (get_keyword(:assigned_to, :override => true) && find_user_from_keyword(get_keyword(:assigned_to, :override => true)))
-    due_date = get_keyword(:due_date, :override => true)
-    start_date = get_keyword(:start_date, :override => true)
-
     # check permission
     unless @@handler_options[:no_permission_check]
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
 
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority, :due_date => due_date, :start_date => start_date, :assigned_to => assigned_to)
-    # check workflow
-    if status && issue.new_statuses_allowed_to(user).include?(status)
-      issue.status = status
-    end
-    issue.subject = email.subject.chomp[0,255]
+    issue = Issue.new(:author => user, :project => project)
+    issue.safe_attributes = issue_attributes_from_keywords(issue)
+    issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
+    issue.subject = email.subject.to_s.chomp[0,255]
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
-    # custom fields
-    issue.custom_field_values = issue.available_custom_fields.inject({}) do |h, c|
-      if value = get_keyword(c.name, :override => true)
-        h[c.id] = value
-      end
-      h
-    end
     issue.description = cleaned_up_text_body
+    
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
     issue.save!
@@ -154,41 +138,19 @@ class MailHandler < ActionMailer::Base
     issue
   end
   
-  def target_project
-    # TODO: other ways to specify project:
-    # * parse the email To field
-    # * specific project (eg. Setting.mail_handler_target_project)
-    target = Project.find_by_identifier(get_keyword(:project))
-    raise MissingInformation.new('Unable to determine target project') if target.nil?
-    target
-  end
-  
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
-    status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
-    due_date = get_keyword(:due_date, :override => true)
-    start_date = get_keyword(:start_date, :override => true)
-    assigned_to = (get_keyword(:assigned_to, :override => true) && find_user_from_keyword(get_keyword(:assigned_to, :override => true)))
-    
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
-      raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
     end
-
-    # add the note
-    journal = issue.init_journal(user, cleaned_up_text_body)
-    add_attachments(issue)
-    # check workflow
-    if status && issue.new_statuses_allowed_to(user).include?(status)
-      issue.status = status
-    end
-    issue.start_date = start_date if start_date
-    issue.due_date = due_date if due_date
-    issue.assigned_to = assigned_to if assigned_to
     
+    journal = issue.init_journal(user, cleaned_up_text_body)
+    issue.safe_attributes = issue_attributes_from_keywords(issue)
+    issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
+    add_attachments(issue)
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     journal
@@ -261,6 +223,41 @@ class MailHandler < ActionMailer::Base
           @@handler_options[:issue][attr]
         end
       end
+    end
+  end
+
+  def target_project
+    # TODO: other ways to specify project:
+    # * parse the email To field
+    # * specific project (eg. Setting.mail_handler_target_project)
+    target = Project.find_by_identifier(get_keyword(:project))
+    raise MissingInformation.new('Unable to determine target project') if target.nil?
+    target
+  end
+  
+  # Returns a Hash of issue attributes extracted from keywords in the email body
+  def issue_attributes_from_keywords(issue)
+    {
+      'tracker_id' => ((k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id)) || issue.project.trackers.find(:first).try(:id),
+      'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
+      'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
+      'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
+      'assigned_to_id' => (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.find_by_name(k).try(:id),
+      'start_date' => get_keyword(:start_date, :override => true),
+      'due_date' => get_keyword(:due_date, :override => true),
+      'estimated_hours' => get_keyword(:estimated_hours, :override => true),
+      'done_ratio' => get_keyword(:done_ratio, :override => true),
+    }.delete_if {|k, v| v.blank? }
+  end
+  
+  # Returns a Hash of issue custom field values extracted from keywords in the email body
+  def custom_field_values_from_keywords(customized)  
+    customized.custom_field_values.inject({}) do |h, v|
+      if value = get_keyword(v.custom_field.name, :override => true)
+        h[v.custom_field.id.to_s] = value
+      end
+      h
     end
   end
   

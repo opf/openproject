@@ -30,6 +30,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                    :workflows,
                    :trackers,
                    :projects_trackers,
+                   :versions,
                    :enumerations,
                    :issue_categories,
                    :custom_fields,
@@ -59,6 +60,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
+    assert_equal Version.find_by_name('alpha'), issue.fixed_version
+    assert_equal 2.5, issue.estimated_hours
+    assert_equal 30, issue.done_ratio
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -269,6 +273,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
+    assert_equal 'Updated custom value', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
   end
 
   def test_add_issue_note_should_send_email_notification

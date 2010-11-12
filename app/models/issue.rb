@@ -248,19 +248,22 @@ class Issue < ActiveRecord::Base
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
     
-    new_statuses_allowed = new_statuses_allowed_to(user)
-    
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if new_record? || user.allowed_to?(:edit_issues, project)
       attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES.include?(k)}
-    elsif new_statuses_allowed.any?
+    elsif new_statuses_allowed_to(user).any?
       attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES_ON_TRANSITION.include?(k)}
     else
       return
     end
     
+    # Tracker must be set before since new_statuses_allowed_to depends on it.
+    if t = attrs.delete('tracker_id')
+      self.tracker_id = t
+    end
+    
     if attrs['status_id']
-      unless new_statuses_allowed.collect(&:id).include?(attrs['status_id'].to_i)
+      unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
         attrs.delete('status_id')
       end
     end
