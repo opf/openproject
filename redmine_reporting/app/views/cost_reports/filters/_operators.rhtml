@@ -1,0 +1,25 @@
+<%#
+  This partial requires the following locals:
+    element   a Hash containing the following keys:
+      - :name => :operators
+      - :filter_name => String: The name of a filter (e.g. activity_id)
+      - :operators => Array<CostQuery::Operator>, operators available for the user
+      - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
+      - :hide => Boolean (optional, default = true): whether the content of this partial is initially  hidden or not
+
+   #TODO: javascrpt to update elements depending on which operator is selected
+%>
+
+<td width="<%= element[:width] || 100 %>" <%= style="display:none" if element[:hide] %>>
+  <select style="vertical-align: top;"
+          onchange="operator_changed('<%= element[:filter_name] %>', this);"
+          name="operators[<%= element[:filter_name] %>]"
+          id="operators_<%= element[:filter_name] %>"
+          class="select-small">
+    <% element[:operators].each do |operator| %>
+      <option value="<%= h(operator.to_s) %>" data-arity="<%= operator.arity %>">
+        <%= h(l(operator.label)) %>
+      </option>
+    <% end %>
+  </select>
+</td>

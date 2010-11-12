@@ -1,0 +1,70 @@
+--- 
+costs_module:
+  name: costs_module
+  project_id: 1
+  id: 1000
+enabled_modules_001: 
+  name: issue_tracking
+  project_id: 1
+  id: 1
+enabled_modules_002: 
+  name: time_tracking
+  project_id: 1
+  id: 2
+enabled_modules_003: 
+  name: news
+  project_id: 1
+  id: 3
+enabled_modules_004: 
+  name: documents
+  project_id: 1
+  id: 4
+enabled_modules_005: 
+  name: files
+  project_id: 1
+  id: 5
+enabled_modules_006: 
+  name: wiki
+  project_id: 1
+  id: 6
+enabled_modules_007: 
+  name: repository
+  project_id: 1
+  id: 7
+enabled_modules_008: 
+  name: boards
+  project_id: 1
+  id: 8
+enabled_modules_009: 
+  name: repository
+  project_id: 3
+  id: 9
+enabled_modules_010: 
+  name: wiki
+  project_id: 3
+  id: 10
+enabled_modules_011: 
+  name: issue_tracking
+  project_id: 2
+  id: 11
+enabled_modules_012: 
+  name: time_tracking
+  project_id: 3
+  id: 12
+enabled_modules_013: 
+  name: issue_tracking
+  project_id: 3
+  id: 13
+enabled_modules_014: 
+  name: issue_tracking
+  project_id: 5
+  id: 14
+enabled_modules_015: 
+  name: wiki
+  project_id: 2
+  id: 15
+enabled_modules_016: 
+  name: boards
+  project_id: 2
+  id: 16
+  

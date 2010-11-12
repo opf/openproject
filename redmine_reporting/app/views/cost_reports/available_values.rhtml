@@ -1,0 +1,5 @@
+<% @available_values.each do |name, id, *args| %>
+  <%= render :partial => 'cost_reports/filters/available_value',
+             :locals => { :name => name, :id => id, :level => args.first },
+             :layout => !request.xhr? %>
+<% end %>

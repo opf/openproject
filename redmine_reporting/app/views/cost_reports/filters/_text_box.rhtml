@@ -1,0 +1,17 @@
+<%#
+  This partial requires the following locals:
+    element   a Hash containing the following keys:
+      - :name => :text_box
+      - :filter_name => String: The name of a filter (e.g. activity_id)
+      - :size => Integer, the size of the textboxt
+      - :hide => Boolean (optional, default = true): whether the content of this partial is initially hidden or not
+%>
+
+<td <%= style="display:none" if element[:hide] %>>
+  <div style="" id="<%= element[:filter_name] %>_arg_1" class="filter_values">
+    <%= text_field_tag("values[#{element[:filter_name]}]", "",
+        :size => element[:size],
+        :class => "select-small",
+        :id => "#{element[:filter_name]}_arg_1_val") %>
+  </div>
+</td>

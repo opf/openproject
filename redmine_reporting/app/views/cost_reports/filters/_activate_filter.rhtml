@@ -1,0 +1,11 @@
+<%#
+  This partial requires the following locals:
+    element   a Hash containing the following keys:
+      - :name => :activate_filter
+      - :label => String: A text which is shown to the user as a label for this filter
+      - :width => Integer (optional): The width this partial may consume. If not given, a standard width will be applied
+%>
+
+<td width="<%= element[:width] || 150 %>">
+  <label id="label_<%= element[:filter_name]%>"><%= element[:label] %></label>
+</td>
