@@ -18,3 +18,5 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  comments: "Comment"
