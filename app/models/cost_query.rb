@@ -1,4 +1,3 @@
-require_dependency "entry"
 require 'forwardable'
 
 class CostQuery < ActiveRecord::Base
