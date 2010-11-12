@@ -13,7 +13,19 @@ class CostQuery < ActiveRecord::Base
   end
 
   def self.chain_initializer
-    return @chain_initializer ||= []
+    @chain_initializer ||= []
+  end
+
+  def self.deserialize(hash)
+    self.new.tap do |q|
+      # have to take the reverse to regain the original order
+      hash[:filters].reverse.each {|name, opts| q.filter(name, opts) }
+      hash[:group_bys].reverse.each {|name, opts| q.group_by(name, opts) }
+    end
+  end
+
+  def serialize
+    { :filters => filters.collect(&:serialize), :group_bys => group_bys.collect(&:serialize) }
   end
 
   def available_filters
@@ -76,7 +88,6 @@ class CostQuery < ActiveRecord::Base
   def filters
     chain.select { |c| c.filter? }
   end
-  
 
   def depth_of(name)
     @depths ||= {}

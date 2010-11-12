@@ -18,6 +18,10 @@ describe CostQuery do
   fixtures :versions
 
   describe :chain do
+    before do
+      CostQuery.chain_initializer.clear
+    end
+
     it "should contain NoFilter" do
       @query.chain.should be_a(CostQuery::Filter::NoFilter)
     end
@@ -98,6 +102,53 @@ describe CostQuery do
       @query.group_by :project_id
       @query.group_bys.size.should == 1
       @query.group_bys.collect {|g| g.class.underscore_name}.should include "project_id"
+    end
+
+    it "should initialize the chain through a block" do
+      class TestFilter < CostQuery::Filter::Base
+        initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
+      end
+      @query.build_new_chain
+      @query.filters.size.should == 2
+      @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
+    end
+
+    it "should serialize the chain correctly" do
+      @query.filter :project_id, :value => Project.all.first.id
+      @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
+      @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
+      @query.group_by :activity_id
+      @query.group_by :cost_object_id
+      @query.group_by :cost_type_id
+      [:filters, :group_bys].each do |type|
+        @query.send(type).each do |chainable|
+          @query.serialize[type].collect{|c| c[0]}.should include chainable.class.name.demodulize
+        end
+      end
+    end
+
+    it "should deserialize a serialized query correctly" do
+      @query.filter :project_id, :value => Project.all.first.id
+      @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
+      @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
+      @query.group_by :activity_id
+      @query.group_by :cost_object_id
+      @query.group_by :cost_type_id
+      new_query = CostQuery.deserialize(@query.serialize)
+      [:filters, :group_bys].each do |type|
+        @query.send(type).each_with_index do |chainable, index|
+          # check whether for presence
+          new_query.send(type).any? do |c|
+            c.class.name == chainable.class.name && (chainable.respond_to?(:values) ? c.values == chainable.values : true)
+          end.should be_true
+          # check for order
+          new_query.send(type).each_with_index do |c, ix|
+            if c.class.name == chainable.class.name
+              ix.should == index
+            end
+          end
+        end
+      end
     end
   end
 

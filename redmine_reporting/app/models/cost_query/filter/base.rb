@@ -14,6 +14,13 @@ module CostQuery::Filter
 
     attr_accessor :values
 
+    ##
+    # A Filter is 'heavy' if it possibly returns a _hughe_ number of available_values.
+    # In that case the UI-guys should think twice about displaying all the values.
+    def self.heavy?
+      false
+    end
+
     def value=(val)
       self.values = [val]
     end
@@ -106,7 +113,7 @@ module CostQuery::Filter
     def sql_statement
       super.tap do |query|
         arity   = operator.arity
-        values  = self.values || []
+        values  = [*self.values].compact
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
         operator.modify(query, field, *values) unless field.empty?
       end

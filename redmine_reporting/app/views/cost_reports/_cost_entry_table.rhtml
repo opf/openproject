@@ -46,7 +46,7 @@
           <% end %>
         </td>
       </tr>
-      <% if debug? %>
+      <% if params[:debug] %>
         <tr>
           <td colspan='<%= list.size + 3 %>'>
             <%= result.fields.reject {|k,v| list.include? k.to_sym }.inspect %>
@@ -57,4 +57,4 @@
   </tbody>
 </table>
 
-<%= render :partial => 'sortable_init', :locals => {:sort_first_row => true } %>
+<%= render :partial => 'sortable_init', :locals => { :sort_first_row => true } %>

@@ -1,19 +1,10 @@
 /*global $, selectAllOptions, moveOptions */
 
-function toggle_filter(field) {
-    var to_toggle, label;
-    label = $('label_' + field);
-    to_toggle = label.up().siblings();
-    if (label.visible()) {
-        to_toggle.invoke('show');
-    } else {
-        to_toggle.invoke('hide');
-    }
-}
-
 function make_select_accept_multiple_values(select) {
     select.multiple = true;
     select.size = 4;
+    // first option just got selected, because THAT'S the kind of world we live in
+    select.options[0].selected = false;
 }
 
 function make_select_accept_single_value(select) {
@@ -47,6 +38,9 @@ function change_argument_visibility(field, arg_nr) {
 
 function operator_changed(field, select) {
     var option_tag, arity;
+    if (select === null) {
+        return;
+    }
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     change_argument_visibility(field, arity);
@@ -77,21 +71,49 @@ function set_remove_button_visibility(field, value) {
     }
 }
 
-function show_filter_callback(field, callback_func) {
+function load_available_values_for_filter(filter_name, callback_func) {
+    var select;
+    select = $('' + filter_name + '_arg_1_val');
+    if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
+        new Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
+            parameters: { filter_name: filter_name },
+            insertion: 'bottom',
+            evalScripts: false,
+            onCreate: function (a, b) {
+                $('operators_' + filter_name).disable();
+                $('' + filter_name + '_arg_1_val').disable();
+            },
+            onComplete: function (a, b) {
+                $('operators_' + filter_name).enable();
+                $('' + filter_name + '_arg_1_val').enable();
+                callback_func();
+            }
+        });
+        make_select_accept_single_value(select);
+    }
+    else {
+        callback_func();
+    }
+}
+
+function show_filter_callback(field, slowly, callback_func) {
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
         load_available_values_for_filter(field, callback_func);
         // the following command might be included into the callback_function (which is called after the ajax request) later
-        field_el.show();
-        toggle_filter(field);
         $('rm_' + field).value = field;
+        if (slowly) {
+            new Effect.Appear(field_el);
+        } else {
+            field_el.show();
+        }
         operator_changed(field, $("operators_" + field));
         display_category(field_el);
     }
 }
 
 function show_filter(field) {
-    show_filter_callback(field, function () {});
+    show_filter_callback(field, true, function () {});
 }
 
 function occupied_category(tr_field) {
@@ -106,13 +128,21 @@ function occupied_category(tr_field) {
     return false; //not hit
 }
 
-function hide_filter(field) {
-    var field_el = $('tr_' +  field);
+function hide_filter(field, slowly) {
+    var field_el, operator_select;
+    field_el = $('tr_' +  field);
     if (field_el !== null) {
         $('rm_' + field).value = "";
-        field_el.hide();
-        toggle_filter(field);
-        operator_changed(field, $("operators_" + field));
+        if (slowly) {
+            new Effect.Fade(field_el);
+        } else {
+            field_el.hide();
+        }
+        operator_select = $("operators_" + field);
+        if (operator_select !== null) {
+            // in case the filter doesn't have an operator select field'
+            operator_changed(field, $("operators_" + field));
+        }
         if (!occupied_category(field_el)) {
             hide_category(field_el);
         }
@@ -146,24 +176,36 @@ function add_filter(select) {
 }
 
 function remove_filter(field) {
-    hide_filter(field);
+    hide_filter(field, true);
     enable_select_option($("add_filter_select"), field);
 }
 
-function show_group_by(group_by, source) {
-    // find group_by option-tag in source select-box
+function show_group_by(group_by, target) {
+    var source, group_option, i;
+    source = $("group_by_container");
+    group_option = null;
+    // find group_by option-tag in target select-box
     for (i = 0; i < source.options.length; i += 1) {
         if (source.options[i].value === group_by) {
-            source.value = group_by;
-            add_group_by(source);
+            group_option = source.options[i];
+            source.options[i] = null;
             break;
         }
     }
+    // die if the appropriate option-tag can not be found
+    if (group_option === null) {
+        return;
+    }
+    // move the option-tag to the taget select-box while keepings its data
+    target.options[target.length] = group_option;
 }
 
 function select_operator(field, operator) {
     var select, i;
     select = $("operators_" + field);
+    if (select === null) {
+        return; // there is no such operator select field
+    }
     for (i = 0; i < select.options.length; i += 1) {
         if (select.options[i].value === operator) {
             select.selectedIndex = i;
@@ -194,34 +236,6 @@ function restore_select_values(select, values) {
     }
 }
 
-function select_active_group_bys() {
-    [$('group_by_columns'), $('group_by_rows')].each(function (sel) {
-        sel.multiple = true;
-        sort_group_bys(sel, sel.siblings());
-    });
-}
-
-function sort_group_bys(select, group_bys) {
-    for (var k = 0; k < group_bys.length; k++) {
-        for (var i = 0; i < select.options.length; i++) {
-            if (group_bys[k].getAttribute('data-backref') == select.options[i].value) {
-                select.options[i].setAttribute('data-sort_by', k);
-                select.options[i].selected = true;
-            }
-        }
-    }
-    moveOptionsToTopLevel(select);
-    sortOptions(select.id);
-}
-
-function reset_group_by_selects() {
-    [$('group_by_columns'), $('group_by_rows')].each(function(select) {
-        select.multiple = false;
-        putOptionsIntoOpgroups(select);
-        select.options[0].selected = true;
-    });
-}
-
 function find_arguments(field) {
     var args = [], arg_count = 0, arg = null;
     arg = $(field + '_arg_' + (arg_count + 1) + '_val');
@@ -236,8 +250,16 @@ function find_arguments(field) {
 function restore_values(field, values) {
     var op_select, op_arity, args, i;
     op_select = $("operators_" + field);
-    op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
+    if (op_select !== null) {
+        op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
+    }
+    else {
+        op_arity = 0;
+    }
     args = find_arguments(field);
+    if (args.size() === 0) {
+        return; // there are no values to set
+    }
     if (!Object.isArray(values)) {
         values = [values];
     }
@@ -253,157 +275,19 @@ function restore_values(field, values) {
 function restore_filter(field, operator, values) {
     select_operator(field, operator);
     disable_select_option($("add_filter_select"), field);
-    show_filter_callback(field, function () {
+    show_filter_callback(field, true, function () {
         if (typeof(values) !== "undefined") {
             restore_values(field, values);
         }
     });
 }
 
-function add_group_by(select) {
-    field = select.value;
-    group_by = init_group_by(field + "_" + select.id);
-    group_by.setAttribute('data-backref', field);
-    select.up().appendChild(group_by);
-    label = init_label(group_by);
-    label.innerHTML = sanitized_selected(select);
-    select.value = "";
-    group_by.appendChild(label);
-    group_by.appendChild(init_arrow(group_by));
-    if (!(first_in_row(group_by))) {
-        update_arrow(group_by.previous());
-    }
-    disable_select_option($('group_by_columns'), field);
-    disable_select_option($('group_by_rows'), field);
-}
-
-function remove_group_by(arrow) {
-    group_by = arrow.up();
-    enable_select_option($('group_by_columns'), group_by.getAttribute('data-backref'));
-    enable_select_option($('group_by_rows'), group_by.getAttribute('data-backref'));
-    previous = group_by.previous();
-    group_by.remove();
-    if (previous !== null) {
-        update_arrow(previous);
-    }
-}
-
-function init_arrow(group_by) {
-    arrow = document.createElement('div');
-    arrow.setAttribute('id', group_by.id + '_arrow');
-    arrow.setAttribute('class', 'arrow in_row arrow_left');
-    arrow.src = "/plugin_assets/redmine_reporting/images/arrow_left.png";
-    init_arrow_hover_effects(arrow);
-    return arrow;
-}
-
-function init_arrow_hover_effects(arrow) {
-    Event.observe(arrow, 'mouseover', function() { arrow_start_removal_hover(arrow) });
-    Event.observe(arrow, 'mouseout', function() { arrow_end_removal_hover(arrow) });
-    Event.observe(arrow, 'click', function() { remove_group_by(arrow) });
-}
-
-function arrow_start_removal_hover(arrow) {
-    group_by_start_hover(arrow.up());
-    update_arrow(arrow.up());
-    arrow.className = arrow.className + "_remove";
-}
-
-function arrow_end_removal_hover(arrow) {
-    group_by_end_hover(arrow.up());
-    arrow.className = arrow.className.replace(/\_remove/, "");
-}
-
-function update_arrow(group_by) {
-    arrow = $(group_by.id + "_arrow");
-    if (arrow == null) return;
-    if (last_in_row(group_by)) {
-        arrow.className = "arrow in_row arrow_left";
-    } else {
-        arrow.className = "arrow in_row arrow_both";
-    }
-}
-
-function init_label(group_by) {
-    group_by_label = document.createElement('label');
-    group_by_label.setAttribute('for', group_by.id);
-    group_by_label.setAttribute('class', 'in_row group_by_label');
-    group_by_label.setAttribute('id', group_by.id + '_label');
-    init_group_by_hover_effects(group_by_label);
-    return group_by_label;
-}
-
-function sanitized_selected(select) {
-    return select.descendants().select(function(e) { return e.value == select.value }).first().innerHTML.strip();
-}
-
-function init_group_by(field) {
-    group_by = document.createElement('span');
-    group_by.className = 'in_row drag_element group_by';
-    group_by.id = field;
-    return group_by;
-}
-
-function init_group_by_hover_effects(group_by_label) {
-    Event.observe(group_by_label, 'mouseover', function() {
-        group_by_start_hover(group_by_label.up());
-    });
-    Event.observe(group_by_label, 'mouseout', function() {
-        group_by_end_hover(group_by_label.up());
-    });
-}
-
-function group_by_start_hover(group_by) {
-    arrow = $(group_by.id + '_arrow');
-    group_by.className = group_by.className.replace(/group\_by/, 'group_by_hover');
-    if (last_in_row(group_by)) {
-        arrow.className = 'arrow in_row arrow_left_hover';
-    } else {
-        arrow.className = 'arrow in_row arrow_both_hover_left';
-    }
-    if (!(first_in_row(group_by))) {
-        $(group_by.previous().id + '_arrow').className = 'arrow in_row arrow_both_hover_right';
-    }
-}
-
-function group_by_end_hover(group_by) {
-    arrow = $(group_by.id + '_arrow');
-    group_by.className = group_by.className.replace(/\_hover/, '');
-    if (arrow !== null) {
-        if (last_in_row(group_by)) {
-            arrow.className = 'arrow in_row arrow_left';
-        } else {
-            arrow.className = 'arrow in_row arrow_both';
-        }
-    }
-    if (!(first_in_row(group_by))) {
-        $(group_by.previous().id + '_arrow').className = 'arrow in_row arrow_both';
-    }
-}
-
-function first_in_row(group_by) {
-    return ((group_by.previous() == null) || (!group_by.previous().hasClassName('group_by')));
-}
-
-function last_in_row(group_by) {
-    return ((group_by.next() == null) || (!group_by.next().hasClassName('group_by')));
-}
-
-function move_group_by(group_by, target) {
-    group_by = $(group_by);
-    target = $(target);
-    if (group_by === null || target === null) {
-        return;
-    }
-    target.insert({ bottom: group_by.remove() });
+function show_group_by_column(group_by) {
+    show_group_by(group_by, $('group_by_columns'));
 }
 
 function show_group_by_row(group_by) {
     show_group_by(group_by, $('group_by_rows'));
-}
-
-function show_group_by_column(group_by) {
-    show_group_by(group_by, $('group_by_columns'));
 }
 
 function disable_all_filters() {
@@ -412,7 +296,7 @@ function disable_all_filters() {
         e.hide();
         if (e.readAttribute('class') === 'filter') {
             field = e.id.gsub('tr_', '');
-            hide_filter(field);
+            hide_filter(field, false);
             enable_select_option($('add_filter_select'), field);
             possible_select = $(field + '_arg_1_val');
             if (possible_select !== null && possible_select.type && possible_select.type.include('select')) {
@@ -423,16 +307,11 @@ function disable_all_filters() {
 }
 
 function disable_all_group_bys() {
-    [$('group_columns'), $('group_rows')].each(function(origin) {
-        children = origin.childElements();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].hasClassName('group_by')) {
-                [$('group_by_columns'), $('group_by_rows')].each(function (sel) {
-                    enable_select_option(sel, children[i].getAttribute('data-backref'));
-                });
-                children[i].remove();
-            }
-        }
+    var destination;
+    destination = $('group_by_container');
+    [$('group_by_columns'), $('group_by_rows')].each(function (origin) {
+        selectAllOptions(origin);
+        moveOptions(origin, destination);
     });
 }
 
@@ -463,31 +342,6 @@ function init_group_bys() {
     };
     Sortable.create('group_columns', options);
     Sortable.create('group_rows', options);
-}
-
-function load_available_values_for_filter(filter_name, callback_func) {
-    var select;
-    select = $('' + filter_name + '_arg_1_val');
-    if (select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
-        new Ajax.Updater({ success: select }, '/cost_reports/available_values', {
-            parameters: { filter_name: filter_name },
-            insertion: 'bottom',
-            evalScripts: false,
-            onCreate: function (a, b) {
-                $('operators_' + filter_name).disable();
-                $('' + filter_name + '_arg_1_val').disable();
-            },
-            onComplete: function (a, b) {
-                $('operators_' + filter_name).enable();
-                $('' + filter_name + '_arg_1_val').enable();
-                callback_func();
-            }
-        });
-        make_select_accept_single_value(select);
-    }
-    else {
-        callback_func();
-    }
 }
 
 function defineElementGetter() {

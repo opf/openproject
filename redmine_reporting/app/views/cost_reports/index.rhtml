@@ -5,7 +5,7 @@
   <%= stylesheet_link_tag 'reporting', :plugin => 'redmine_reporting' %>
 <% end %>
 
-<% if @custom_errors && !@custom_errors.empty? %>
+<% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
     <div class="flash error"><%= err %></div>
   <% end %>
@@ -16,53 +16,52 @@
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
 <div id="query_form_content">
-  <fieldset id="query_fieldset" class="collapsible <%= "collapsed" unless @query.new_record? %>">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_query) %></legend>
-    <div id="query_settings">
-      <h1><%= l(:label_filter_plural) %></h1>
-      <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
-      <h1><%= l(:label_group_by) %></h1>
-      <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
-      
-      <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
-      <p class="buttons">
-        <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
-                           { :url => { :set_filter => 1 },
-                             :condition => 'Ajax.activeRequestCount === 0',
-                             :before => 'select_active_group_bys();',
-                             :after => 'reset_group_by_selects();',
-                             :update => "content",
-                             :with => "Form.serialize('query_form')",
-                             :eval_scripts => true
-                           }, :class => 'button apply' %>
-        <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
-        <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-        <%
-          #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
-        %>
-        <% end %>
-      </p>
-    </div>
+  <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
+
+  <fieldset id="group-by" class="collapsible <%= "collapsed" unless @query.new_record? %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
+    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
+  </fieldset>
+
+  <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
+  <p class="buttons">
+  <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
+                     { :url => { :set_filter => 1 },
+                       :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+                       :condition => 'Ajax.activeRequestCount === 0',
+                       :update => "content",
+                       :with => "Form.serialize('query_form')",
+                       :eval_scripts => true
+                     }, :class => 'button apply' %>
+  <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
+  <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
+  <%
+    #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
+  %>
+  <% end %>
+  </p>
 </div>
 
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
-  <% @available_cost_types.each do |id, label| %>
-    <%=
+  <%= delimit(
+    available_cost_type_tabs(@cost_types).map do |id, label|
       if id != @unit_id
-        link_to_remote label, {
-          :url => { :set_filter => 1, :unit => id },
-          :before => 'select_active_group_bys();',
-          :after => 'reset_group_by_selects();',
-          :update => "content",
-          :with => "Form.serialize('query_form')",
-          :eval_scripts => true }
-      else
-        "<b>#{label}</b>"
-      end
-    %>
-  <% end %>
+          link_to_remote label, {
+            :url => { :set_filter => 1, :unit => id },
+            :condition => 'Ajax.activeRequestCount === 0',
+            :update => "content",
+            :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
+            :with => "Form.serialize('query_form')",
+            :eval_scripts => true }
+        else
+          "<b>#{label}</b>"
+        end
+    end)
+  %>
 </div>
 
 <% end %>

@@ -1,9 +1,10 @@
 class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
   label :field_cost_type
+  extra_options :display
 
   def initialize(child = nil, options = {})
-    @display = options.delete(:display)
     super
+    @display = options[:display]
   end
 
   def display?

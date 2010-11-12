@@ -4,6 +4,13 @@ class CostReportsController < ApplicationController
   before_filter :generate_query,        :only => [:index, :drill_down]
   before_filter :set_cost_types,        :only => [:index, :drill_down]
 
+  rescue_from Exception do |exception|
+    session.delete(:cost_query)
+    @custom_errors ||= []
+    @custom_errors << l(:error_generic)
+    render :layout => !request.xhr?
+  end
+
   helper :reporting
   include ReportingHelper
 
@@ -80,8 +87,8 @@ class CostReportsController < ApplicationController
 
   def http_group_parameters
     if params[:groups]
-      rows = params[:groups][:rows].reject { |gb| gb.empty? }
-      columns = params[:groups][:columns].reject { |gb| gb.empty? }
+      rows = params[:groups][:rows]
+      columns = params[:groups][:columns]
     end
     {:rows => (rows || []), :columns => (columns || [])}
   end
@@ -117,8 +124,8 @@ class CostReportsController < ApplicationController
 
   ##
   # We apply a project filter, except when we are just applying a brand new query
-  def ensure_project_scope(filters)
-    return if set_filter? or set_unit?
+  def ensure_project_scope!(filters)
+    return unless ensure_project_scope?
     if @project
       filters[:operators].merge! :project_id => "="
       filters[:values].merge! :project_id => @project.id.to_s
@@ -128,6 +135,10 @@ class CostReportsController < ApplicationController
     end
   end
 
+  def ensure_project_scope?
+    !(set_filter? or set_unit?)
+  end
+
   ##
   # Build the query from the current request and save it to
   # the session.
@@ -135,7 +146,8 @@ class CostReportsController < ApplicationController
     CostQuery::QueryUtils.cache.clear
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
-    ensure_project_scope filters
+    ensure_project_scope! filters
+
     session[:cost_query] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
     @query.tap do |q|
@@ -160,29 +172,37 @@ class CostReportsController < ApplicationController
   end
 
   ##
-  # FIXME: Split, also ugly
-  # This method does three things:
-  #   set the @unit_id -> this is used in the index for determining the active unit tab
-  #   set the @cost_types -> this is used to determine which tabs to display
-  #   possibly set the @cost_type -> this is used to select the proper units for display
-  def set_cost_types(value = nil)
-    @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i) || (-1..CostType.count)
-    @unit_id = value || params[:unit].try(:to_i) || session[:unit_id].to_i
+  # Determine active cost types, the currently selected unit and corresponding cost type
+  def set_cost_types
+    set_active_cost_types
+    set_unit
+    set_cost_type
+  end
+
+  # Determine the currently active unit from the parameters or session
+  #   sets the @unit_id -> this is used in the index for determining the active unit tab
+  def set_unit
+    @unit_id = params[:unit].try(:to_i) || session[:unit_id].to_i
     @unit_id = 0 unless @cost_types.include? @unit_id
     session[:unit_id] = @unit_id
+  end
+
+  # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
+  #   sets the @cost_type -> this is used to select the proper units for display
+  def set_cost_type
     if @unit_id != 0
       @query.filter :cost_type_id, :operator => '=', :value => @unit_id.to_s, :display => false
       @cost_type = CostType.find(@unit_id) if @unit_id > 0
     end
-    @available_cost_types = @cost_types.to_a
-    @available_cost_types.delete 0 
-    @available_cost_types.unshift 0
-    @available_cost_types.map! do |id|
-      case id
-      when 0  then [0,  l(:label_money)]
-      when -1 then [-1, l(:caption_labor)]
-      else [id, CostType.find(id).unit_plural ]
-      end
+  end
+
+  #   set the @cost_types -> this is used to determine which tabs to display
+  def set_active_cost_types
+    unless @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i)
+      relevant_cost_types = CostType.find(:all, :select => "id", :order => "id ASC").select do |t|
+        t.cost_entries.count > 0
+      end.collect(&:id)
+      @cost_types = [-1, 0, *relevant_cost_types]
     end
   end
 

@@ -14,6 +14,7 @@ module ReportingHelper
   def html_elements(filter)
     return text_elements filter if CostQuery::Operator.string_operators.all? { |o| filter.available_operators.include? o }
     return date_elements filter if CostQuery::Operator.time_operators.all?   { |o| filter.available_operators.include? o }
+    return heavy_object_elements filter if filter.heavy?
     object_elements filter
   end
 
@@ -24,15 +25,19 @@ module ReportingHelper
     @project = project_was
   end
 
-  def debug?
-    (!!params[:debug]) and !Rails.env.production?
-  end
-
   def object_elements(filter)
     [
       {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
       {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
       {:name => :multi_values, :filter_name => filter.underscore_name},
+      {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  end
+
+  def heavy_object_elements(filter)
+    [
+      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+      {:name => :text, :text => l(:label_equals)},
+      {:name => :heavy_values, :filter_name => filter.underscore_name, :disable_controls => true},
       {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
@@ -69,7 +74,7 @@ module ReportingHelper
   end
 
   def debug_fields(result, prefix = ", ")
-    prefix << result.fields.inspect << ", " << result.key.inspect if debug?
+    #prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
   end
 
   def show_field(key, value)
@@ -94,22 +99,23 @@ module ReportingHelper
   def field_representation_map(key, value)
     return l(:label_none) if value.blank?
     case key.to_sym
-    when :activity_id               then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
-    when :project_id                then link_to_project Project.find(value.to_i)
-    when :user_id, :assigned_to_id  then link_to_user User.find(value.to_i)
-    when :tyear, :units             then value
-    when :tweek                     then "#{l(:label_week)} ##{value}"
-    when :tmonth                    then month_name(value.to_i)
-    when :category_id               then IssueCategory.find(value.to_i).name
-    when :cost_type_id              then mapped value, CostType, l(:caption_labor)
-    when :cost_object_id            then cost_object_link value
-    when :issue_id                  then link_to_issue Issue.find(value.to_i)
-    when :spent_on                  then format_date(value.to_date)
-    when :tracker_id                then Tracker.find(value.to_i)
-    when :week                      then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-    when :priority_id               then IssuePriority.find(value.to_i).name
-    when :fixed_version_id          then Version.find(value.to_i).name
-    when :singleton_value           then ""
+    when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
+    when :project_id                            then link_to_project Project.find(value.to_i)
+    when :user_id, :assigned_to_id, :author_id  then link_to_user User.find(value.to_i)
+    when :tyear, :units                         then value
+    when :tweek                                 then "#{l(:label_week)} ##{value}"
+    when :tmonth                                then month_name(value.to_i)
+    when :category_id                           then IssueCategory.find(value.to_i).name
+    when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
+    when :cost_object_id                        then cost_object_link value
+    when :issue_id                              then link_to_issue Issue.find(value.to_i)
+    when :spent_on                              then format_date(value.to_date)
+    when :tracker_id                            then Tracker.find(value.to_i)
+    when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
+    when :priority_id                           then IssuePriority.find(value.to_i).name
+    when :fixed_version_id                      then Version.find(value.to_i).name
+    when :singleton_value                       then ""
+    when :status_id                             then IssueStatus.find(value.to_i).name
     else value.to_s
     end
   end
@@ -128,14 +134,29 @@ module ReportingHelper
     when -1 then l_hours(row.units)
     when 0  then row.real_costs ? number_to_currency(row.real_costs) : '-'
     else
-      cost_type = @cost_type || CostType.find(unit_id)
-      "#{row.units} #{row.units != 1 ? cost_type.unit_plural : cost_type.unit}"
+      current_cost_type = @cost_type || CostType.find(unit_id)
+      pluralize(row.units, current_cost_type.unit, current_cost_type.unit_plural)
     end
   end
 
   def set_filter_options(struct, key, value)
     struct[:operators][key] = "="
     struct[:values][key]    = value.to_s
+  end
+
+  def available_cost_type_tabs(cost_types)
+    tabs = cost_types.to_a
+    tabs.delete 0 # remove money from list
+    tabs.unshift 0 # add money as first tab
+    tabs.map {|cost_type_id| [cost_type_id, cost_type_label(cost_type_id)] }
+  end
+
+  def cost_type_label(cost_type_id, cost_type_inst = nil, plural = true)
+    case cost_type_id
+    when -1 then l(:caption_labor)
+    when 0  then l(:label_money)
+    else (cost_type_inst || CostType.find(cost_type_id)).name
+    end
   end
 
   def link_to_details(result)
@@ -177,6 +198,20 @@ module ReportingHelper
   # localization rules
   def show_row(row)
     link_to_details(row) << row.render { |k,v| show_field(k,v) }
+  end
+
+  def delimit(items, options = {})
+    options[:step] ||= 1
+    options[:delim] ||= '&bull;'
+    delimited = []
+    items.each_with_index do |item, ix|
+      if ix != 0 and ix % options[:step] == 0
+        delimited << "<b> #{options[:delim]} </b>" + item
+      else
+        delimited << item
+      end
+    end
+    delimited
   end
 
   ##

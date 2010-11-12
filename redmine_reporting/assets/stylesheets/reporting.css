@@ -98,7 +98,7 @@
 }
 
 /* Aligning filter elements at the top. */
-table#filter_table td {
+.new_cost_query fieldset#filters table td {
   vertical-align: top;
   border-spacing: 5px 5px;
   border-color: white;
@@ -106,7 +106,7 @@ table#filter_table td {
   border-width: 2px 0px 0px;
 }
 
-table#filter_table td > label {
+.new_cost_query fieldset#filters table td > label {
   left: 3px;
   top: 3px;
   position: relative;
@@ -120,13 +120,63 @@ table#filter_table td > label {
 }
 
 .group_by {
-  background-color: #3F9ED7;
+  background-color: transparent;
   background-position: 50%;
   background-repeat: no-repeat;
+  border: 1px solid #900;
+  height: 10px;
+  width: 10px;
+  margin: 1px;
 }
 
-.group_by_hover {
-  background-color: #398AD3;
+.group_by:hover {
+  background-color: #EEE;
+}
+
+.move {
+  height: 25px;
+  width: 25px;
+}
+
+.sort {
+  height: 15px;
+  width: 15px;
+}
+
+.moveUp {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_up.gif);
+}
+
+.moveDown {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_down.gif);
+}
+
+.moveLeft {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_left.gif);
+}
+
+.moveRight {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_right.gif);
+}
+
+.sortUp {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_up.gif);
+}
+
+.sortDown {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_down.gif);
 }
 
 .filter_rem {
@@ -149,10 +199,6 @@ table#filter_table td > label {
   position: absolute;
 }
 
-.icon-filter-rem:hover {
-  background-image: url(../images/remove_hover.png);
-}
-
 .filter {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -163,26 +209,18 @@ table#filter_table td > label {
   margin-top: 6px;
 }
 
-div#query_settings h1 {
-  margin-top: 15px;
-}
-
-
-table#filter_table {
-  border-spacing: 0px 0px;
-}
-
-table#filter_table tr.filter:hover {
+.new_cost_query fieldset#filters table tr.filter:hover {
   background: #aaa;
 }
 
-table#filter_table tr.filter {
+.new_cost_query fieldset#filters table tr.filter {
   color: #000;
-  background-color: #ededed;
+  background: #ededed;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+
 
 .drag_element {
   /*cursor: move;*/

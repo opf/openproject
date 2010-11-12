@@ -18,6 +18,10 @@ module CostQuery::GroupBy
       CostQuery::GroupBy::Tyear,
       CostQuery::GroupBy::UserId,
       CostQuery::GroupBy::Week,
+      CostQuery::GroupBy::AuthorId,
+      CostQuery::GroupBy::AssignedToId,
+      CostQuery::GroupBy::CategoryId,
+      CostQuery::GroupBy::StatusId,
       *CostQuery::GroupBy::CustomField.all
     ]
   end

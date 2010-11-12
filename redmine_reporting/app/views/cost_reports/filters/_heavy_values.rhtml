@@ -1,0 +1,21 @@
+<%#
+  This partial requires the following locals:
+    element   a Hash containing the following keys:
+      - :name => :heavy_values
+      - :filter_name => String: The name of a filter (e.g. activity_id)
+      - :hide => Boolean: If you want this to be hidden
+    query => the current CostQuery
+%>
+<% filter = query.filters.detect {|f| f.class.underscore_name == element[:filter_name] }
+   values_available = !!filter && !!filter.values %>
+
+<td <%= 'style="display:none"' if element[:hide] %> >
+  <div style="" id="<%= element[:filter_name] %>_arg_1" class="filter_values">
+    <%= filter.values.map{ |v| filter.class.text_for_id v }.join '<br />' if values_available %>
+    <input type="hidden"
+           name="values[<%= element[:filter_name] %>][]"
+           id="<%= element[:filter_name] %>_arg_1_val"
+           <%= 'disabled="disabled"' unless values_available %>
+           value="<%= filter.values.to_json if values_available %>"/>
+  </div>
+</td>

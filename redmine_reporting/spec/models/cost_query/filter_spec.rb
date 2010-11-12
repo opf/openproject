@@ -125,6 +125,12 @@ describe CostQuery do
       @query.result.count.should == Entry.all.select { |e| e.updated_on.to_date > Date.today.years_ago(20) }.count
     end
 
+    it "filters user_id" do
+      val = CostQuery::Filter::UserId.available_values.first[1].to_i
+      @query.filter :user_id, :value => val, :operator => '='
+      @query.result.count.should == Entry.all.select { |e| e.user_id == val }.count
+    end
+
     it "filters overridden_costs" do
       @query.filter :overridden_costs, :operator => 'y'
       @query.result.count.should == Entry.all.select { |e| not e.overridden_costs.nil? }.count
