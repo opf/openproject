@@ -17,6 +17,7 @@
 
 class MailHandler < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
+  include Redmine::I18n
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
@@ -217,13 +218,27 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && plain_text_body.gsub!(/^#{attr.to_s.humanize}[ \t]*:[ \t]*(.+)\s*$/i, '')
-          $1.strip
+        if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) && (v = extract_keyword!(plain_text_body, attr))
+          v
         elsif !@@handler_options[:issue][attr].blank?
           @@handler_options[:issue][attr]
         end
       end
     end
+  end
+  
+  # Destructively extracts the value for +attr+ in +text+
+  # Returns nil if no matching keyword found
+  def extract_keyword!(text, attr)
+    keys = [attr.to_s.humanize]
+    if attr.is_a?(Symbol)
+      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user
+      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language)
+    end
+    keys.reject! {|k| k.blank?}
+    keys.collect! {|k| Regexp.escape(k)}
+    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(.+)\s*$/i, '')
+    $2 && $2.strip
   end
 
   def target_project

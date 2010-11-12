@@ -228,6 +228,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
+
+  def test_add_issue_with_localized_attributes
+    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
+    issue = submit_email('ticket_with_localized_attributes.eml', :allow_override => 'tracker,category,priority')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'Feature request', issue.tracker.to_s
+    assert_equal 'Stock management', issue.category.to_s
+    assert_equal 'Urgent', issue.priority.to_s
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+  end
   
   def test_add_issue_with_japanese_keywords
     tracker = Tracker.create!(:name => '開発')
