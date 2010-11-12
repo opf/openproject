@@ -1,27 +1,18 @@
 ---
 en:
-  units: Units
   label_entry: "Cost Entry"
-  label_less: "<"
-  label_greater: ">"
   label_cost_entry_attributes: "Cost Entry Attributes"
   label_issue_attributes: "Issue Attributes"
   label_spent_on_reporting: "Date (Spent)"
   label_week_reporting: "Week (Spent)"
   label_month_reporting: "Month (Spent)"
   label_year_reporting: "Year (Spent)"
-  label_report: "Report"
   label_money: "Money"
-  label_columns: "Columns"
-  label_rows: "Rows"
   label_is_project_with_subprojects: "is (includes subprojects)"
   label_is_not_project_with_subprojects: "is not (includes subprojects)"
 
   text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
   information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
-
-  label_count: Count
-  label_sum: Sum
 
   description_drill_down: Show details
 
