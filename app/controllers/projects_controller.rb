@@ -93,7 +93,7 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'settings', :id => @project
         }
-        format.xml  { head :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
     else
       respond_to do |format|

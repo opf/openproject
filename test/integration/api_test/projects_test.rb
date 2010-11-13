@@ -52,12 +52,15 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_difference 'Project.count' do
       post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
     end
-    assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    
     project = Project.first(:order => 'id DESC')
     attributes.each do |attribute, value|
       assert_equal value, project.send(attribute)
     end
+
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
   end
   
   def test_create_failure

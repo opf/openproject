@@ -106,6 +106,10 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       assert_equal 2, issue.tracker_id
       assert_equal 3, issue.status_id
       assert_equal 'API test', issue.subject
+  
+      assert_response :created
+      assert_equal 'application/xml', @response.content_type
+      assert_tag 'issue', :child => {:tag => 'id', :content => issue.id.to_s}
     end
   end
   
