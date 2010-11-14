@@ -20,6 +20,9 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
+  # Maximum length for project identifiers
+  IDENTIFIER_MAX_LENGTH = 100
+  
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
@@ -66,9 +69,9 @@ class Project < ActiveRecord::Base
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
   validates_associated :repository, :wiki
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
-  validates_length_of :identifier, :in => 1..20
+  validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
   # donwcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
