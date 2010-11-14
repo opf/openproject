@@ -16,7 +16,7 @@ file 'config/initializers/session_store.rb' do
 # secret is at least 30 characters and all random, no regular words or
 # you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :session_key => '_redmine_session',
+  :key => '_redmine_session',
   #
   # Uncomment and edit the :session_path below if are hosting your Redmine
   # at a suburi and don't want the top level path to access the cookies
