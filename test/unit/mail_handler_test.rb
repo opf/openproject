@@ -25,6 +25,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                    :roles,
                    :members,
                    :member_roles,
+                   :users,
                    :issues,
                    :issue_statuses,
                    :workflows,
@@ -234,6 +235,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
+    assert_nil issue.assigned_to
     assert_nil issue.start_date
     assert_nil issue.due_date
     assert_equal 0, issue.done_ratio

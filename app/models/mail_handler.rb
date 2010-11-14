@@ -253,12 +253,15 @@ class MailHandler < ActionMailer::Base
   
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
+    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k)
+    assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
+    
     {
       'tracker_id' => ((k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id)) || issue.project.trackers.find(:first).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
-      'assigned_to_id' => (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k).try(:id),
+      'assigned_to_id' => assigned_to.try(:id),
       'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) && issue.project.shared_versions.find_by_name(k).try(:id),
       'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
