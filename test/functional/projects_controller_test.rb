@@ -344,7 +344,7 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2 # manager
     post :update, :id => 1, :project => {:name => 'Test changed name',
                                        :issue_custom_field_ids => ['']}
-    assert_redirected_to 'projects/ecookbook/settings'
+    assert_redirected_to '/projects/ecookbook/settings'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
   end
@@ -360,14 +360,14 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_post_destroy
     @request.session[:user_id] = 1 # admin
     post :destroy, :id => 1, :confirm => 1
-    assert_redirected_to 'admin/projects'
+    assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end
   
   def test_archive
     @request.session[:user_id] = 1 # admin
     post :archive, :id => 1
-    assert_redirected_to 'admin/projects'
+    assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
   
@@ -375,7 +375,7 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
     Project.find(1).archive
     post :unarchive, :id => 1
-    assert_redirected_to 'admin/projects'
+    assert_redirected_to '/admin/projects'
     assert Project.find(1).active?
   end
   
@@ -424,7 +424,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'issues'
-    assert_redirected_to 'projects/ecookbook/issues'
+    assert_redirected_to '/projects/ecookbook/issues'
   end
   
   def test_jump_should_not_redirect_to_inactive_tab

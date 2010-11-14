@@ -65,7 +65,7 @@ class RolesControllerTest < ActionController::TestCase
                          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
                          :assignable => '0'}
     
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithoutWorkflowCopy')
     assert_not_nil role
     assert_equal [:add_issues, :edit_issues, :log_time], role.permissions
@@ -78,7 +78,7 @@ class RolesControllerTest < ActionController::TestCase
                          :assignable => '0'},
                :copy_workflow_from => '1'
     
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithWorkflowCopy')
     assert_not_nil role
     assert_equal Role.find(1).workflows.size, role.workflows.size
@@ -97,7 +97,7 @@ class RolesControllerTest < ActionController::TestCase
                           :permissions => ['edit_project', ''],
                           :assignable => '0'}
     
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     role = Role.find(1)
     assert_equal [:edit_project], role.permissions
   end
@@ -107,13 +107,13 @@ class RolesControllerTest < ActionController::TestCase
     assert r.save
     
     post :destroy, :id => r
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert_nil Role.find_by_id(r.id)
   end
   
   def test_destroy_role_in_use
     post :destroy, :id => 1
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert flash[:error] == 'This role is in use and can not be deleted.'
     assert_not_nil Role.find_by_id(1)
   end
@@ -139,7 +139,7 @@ class RolesControllerTest < ActionController::TestCase
   
   def test_post_report
     post :report, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     
     assert_equal [:edit_issues], Role.find(1).permissions
     assert_equal [:add_issues, :delete_issues], Role.find(3).permissions
@@ -148,33 +148,33 @@ class RolesControllerTest < ActionController::TestCase
   
   def test_clear_all_permissions
     post :report, :permissions => { '0' => '' }
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert Role.find(1).permissions.empty?
   end
   
   def test_move_highest
     post :edit, :id => 3, :role => {:move_to => 'highest'}
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
     post :edit, :id => 3, :role => {:move_to => 'higher'}
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
     post :edit, :id => 2, :role => {:move_to => 'lower'}
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
     post :edit, :id => 2, :role => {:move_to => 'lowest'}
-    assert_redirected_to 'roles'
+    assert_redirected_to '/roles'
     assert_equal Role.count, Role.find(2).position
   end
 end

@@ -72,7 +72,7 @@ class IssuesTest < ActionController::IntegrationTest
     put 'issues/1',
          :notes => 'Some notes',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
-    assert_redirected_to "issues/1"
+    assert_redirected_to "/issues/1"
     
     # make sure attachment was saved
     attachment = Issue.find(1).attachments.find_by_filename("testfile.txt")

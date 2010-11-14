@@ -50,7 +50,7 @@ class SettingsControllerTest < ActionController::TestCase
                               :notified_events => %w(issue_added issue_updated news_added),
                               :emails_footer => 'Test footer'
                               }
-    assert_redirected_to 'settings/edit'
+    assert_redirected_to '/settings/edit'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events

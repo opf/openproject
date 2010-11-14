@@ -44,7 +44,7 @@ class AccountTest < ActionController::IntegrationTest
     
     # User logs in with 'autologin' checked
     post '/login', :username => user.login, :password => 'admin', :autologin => 1
-    assert_redirected_to 'my/page'
+    assert_redirected_to '/my/page'
     token = Token.find :first
     assert_not_nil token
     assert_equal user, token.user
@@ -105,7 +105,7 @@ class AccountTest < ActionController::IntegrationTest
     
     post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"}, 
                              :password => "newpass", :password_confirmation => "newpass"
-    assert_redirected_to 'my/account'
+    assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
     assert_template 'my/account'
@@ -152,7 +152,7 @@ class AccountTest < ActionController::IntegrationTest
     AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
   
     post 'account/login', :username => 'foo', :password => 'bar'
-    assert_redirected_to 'my/page'
+    assert_redirected_to '/my/page'
     
     user = User.find_by_login('foo')
     assert user.is_a?(User)
@@ -187,7 +187,7 @@ class AccountTest < ActionController::IntegrationTest
     sid = session[:session_id]
     
     post '/login', :username => 'admin', :password => 'admin'
-    assert_redirected_to 'my/page'
+    assert_redirected_to '/my/page'
     assert_not_equal sid, session[:session_id], "login should reset session"
     assert_equal 1, session[:user_id]
     sid = session[:session_id]

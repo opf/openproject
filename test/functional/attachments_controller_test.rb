@@ -95,7 +95,7 @@ class AttachmentsControllerTest < ActionController::TestCase
       post :destroy, :id => 1
     end
     # no referrer
-    assert_redirected_to 'projects/ecookbook'
+    assert_redirected_to '/projects/ecookbook'
     assert_nil Attachment.find_by_id(1)
     j = issue.journals.find(:first, :order => 'created_on DESC')
     assert_equal 'attachment', j.details.first.property

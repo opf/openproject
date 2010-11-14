@@ -68,7 +68,7 @@ class MyControllerTest < ActionController::TestCase
                              :login => "root",
                              :admin => 1,
                              :custom_field_values => {"4" => "0100562500"}}
-    assert_redirected_to 'my/account'
+    assert_redirected_to '/my/account'
     user = User.find(2)
     assert_equal user, assigns(:user)
     assert_equal "Joe", user.firstname
@@ -102,7 +102,7 @@ class MyControllerTest < ActionController::TestCase
     post :password, :password => 'jsmith',
                     :new_password => 'hello',
                     :new_password_confirmation => 'hello'
-    assert_redirected_to 'my/account'
+    assert_redirected_to '/my/account'
     assert User.try_to_login('jsmith', 'hello')
   end
   

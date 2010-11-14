@@ -73,7 +73,7 @@ class NewsControllerTest < ActionController::TestCase
     post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
                                             :description => 'This is the description',
                                             :summary => '' }
-    assert_redirected_to 'projects/ecookbook/news'
+    assert_redirected_to '/projects/ecookbook/news'
     
     news = News.find_by_title('NewsControllerTest')
     assert_not_nil news
@@ -93,7 +93,7 @@ class NewsControllerTest < ActionController::TestCase
   def test_put_update
     @request.session[:user_id] = 2
     put :update, :id => 1, :news => { :description => 'Description changed by test_post_edit' }
-    assert_redirected_to 'news/1'
+    assert_redirected_to '/news/1'
     news = News.find(1)
     assert_equal 'Description changed by test_post_edit', news.description
   end
@@ -114,7 +114,7 @@ class NewsControllerTest < ActionController::TestCase
   def test_destroy
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
-    assert_redirected_to 'projects/ecookbook/news'
+    assert_redirected_to '/projects/ecookbook/news'
     assert_nil News.find_by_id(1)
   end
 end

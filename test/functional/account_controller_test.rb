@@ -64,7 +64,7 @@ class AccountControllerTest < ActionController::TestCase
     assert existing_user.save!
 
     post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to 'my/page'
+    assert_redirected_to '/my/page'
   end
 
   def test_login_with_invalid_openid_provider
@@ -86,14 +86,14 @@ class AccountControllerTest < ActionController::TestCase
     assert existing_user.save!
 
     post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to 'login'
+    assert_redirected_to '/login'
   end
 
   def test_login_with_openid_with_new_user_created
     Setting.self_registration = '3'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to 'my/account'
+    assert_redirected_to '/my/account'
     user = User.find_by_login('cool_user')
     assert user
     assert_equal 'Cool', user.firstname
@@ -113,7 +113,7 @@ class AccountControllerTest < ActionController::TestCase
     Setting.self_registration = '1'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to 'login'
+    assert_redirected_to '/login'
     user = User.find_by_login('cool_user')
     assert user
 
@@ -125,7 +125,7 @@ class AccountControllerTest < ActionController::TestCase
     Setting.self_registration = '2'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
-    assert_redirected_to 'login'
+    assert_redirected_to '/login'
     user = User.find_by_login('cool_user')
     assert user
     assert_equal User::STATUS_REGISTERED, user.status
@@ -157,7 +157,7 @@ class AccountControllerTest < ActionController::TestCase
   def test_logout
     @request.session[:user_id] = 2
     get :logout
-    assert_redirected_to ''
+    assert_redirected_to '/'
     assert_nil @request.session[:user_id]
   end
 

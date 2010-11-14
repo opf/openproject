@@ -72,7 +72,7 @@ class IssueMovesControllerTest < ActionController::TestCase
         post :create, :ids => [1, 2], :new_project_id => 2, :copy_options => {:copy => '1'}
       end
     end
-    assert_redirected_to 'projects/ecookbook/issues'
+    assert_redirected_to '/projects/ecookbook/issues'
   end
 
   context "#create via bulk copy" do

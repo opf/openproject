@@ -54,7 +54,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_difference 'Group.count' do
       post :create, :group => {:lastname => 'New group'}
     end
-    assert_redirected_to 'groups'
+    assert_redirected_to '/groups'
   end
   
   def test_edit
@@ -65,14 +65,14 @@ class GroupsControllerTest < ActionController::TestCase
   
   def test_update
     post :update, :id => 10
-    assert_redirected_to 'groups'
+    assert_redirected_to '/groups'
   end
   
   def test_destroy
     assert_difference 'Group.count', -1 do
       post :destroy, :id => 10
     end
-    assert_redirected_to 'groups'
+    assert_redirected_to '/groups'
   end
   
   def test_add_users
