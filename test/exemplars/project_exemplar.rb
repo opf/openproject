@@ -18,7 +18,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.all_modules
-    returning [] do |modules|
+    [].tap do |modules|
       Redmine::AccessControl.available_project_modules.each do |name|
         modules << EnabledModule.new(:name => name.to_s)
       end

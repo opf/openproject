@@ -76,7 +76,7 @@ class PluginMigrationGenerator < Rails::Generator::Base
     # plugin names involved is shorter than 230 characters that one will be
     # used. Otherwise a shorter name will be returned.
     def build_migration_name
-      returning descriptive_migration_name do |name|        
+      descriptive_migration_name.tap do |name|        
         name.replace short_migration_name if name.length > MAX_FILENAME_LENGTH
       end
     end

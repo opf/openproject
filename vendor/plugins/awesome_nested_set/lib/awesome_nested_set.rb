@@ -154,7 +154,7 @@ module CollectiveIdea #:nodoc:
         def each_root_valid?(roots_to_validate)
           left = right = 0
           roots_to_validate.all? do |root|
-            returning(root.left > left && root.right > right) do
+            (root.left > left && root.right > right).tap do
               left = root.left
               right = root.right
             end

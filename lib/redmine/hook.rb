@@ -57,7 +57,7 @@ module Redmine
       # Calls a hook.
       # Returns the listeners response.
       def call_hook(hook, context={})
-        returning [] do |response|
+        [].tap do |response|
           hls = hook_listeners(hook)
           if hls.any?
             hls.each {|listener| response << listener.send(hook, context)}

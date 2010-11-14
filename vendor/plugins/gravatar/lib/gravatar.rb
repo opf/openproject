@@ -71,7 +71,7 @@ module GravatarHelper
       email_hash = Digest::MD5.hexdigest(email)
       options = DEFAULT_OPTIONS.merge(options)
       options[:default] = CGI::escape(options[:default]) unless options[:default].nil?
-      returning gravatar_api_url(email_hash, options.delete(:ssl)) do |url|
+      gravatar_api_url(email_hash, options.delete(:ssl)).tap do |url|
         opts = []
         [:rating, :size, :default].each do |opt|
           unless options[opt].nil?
