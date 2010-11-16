@@ -98,7 +98,7 @@
 
 <% if !@issue.nil? %>
 	<% if @can[:log_time] -%>
-	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
+	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue},
 	        :class => 'icon-time-add' %></li>
 	<% end %>
 	<% if User.current.logged? %>
