@@ -2,7 +2,7 @@
 
 require 'yaml'
 
-langdir = File.dirname(__FILE__)
+langdir = File.join(File.dirname(__FILE__), '..', '..', 'config', 'locales')
 
 template_file = "#{langdir}/en.yml"
 template = YAML::load_file(template_file)['en']
