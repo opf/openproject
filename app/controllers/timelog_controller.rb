@@ -17,7 +17,9 @@
 
 class TimelogController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :authorize, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :find_project, :only => [:new, :create]
+  before_filter :find_time_entry, :only => [:edit, :update, :destroy]
+  before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
 
   helper :sort
@@ -108,7 +110,6 @@ class TimelogController < ApplicationController
   end
   
   def edit
-    (render_403; return) if @time_entry && !@time_entry.editable_by?(User.current)
     @time_entry.attributes = params[:time_entry]
     
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -116,7 +117,6 @@ class TimelogController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    (render_403; return) if @time_entry && !@time_entry.editable_by?(User.current)
     @time_entry.attributes = params[:time_entry]
     
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -131,8 +131,6 @@ class TimelogController < ApplicationController
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    (render_404; return) unless @time_entry
-    (render_403; return) unless @time_entry.editable_by?(User.current)
     if @time_entry.destroy && @time_entry.destroyed?
       flash[:notice] = l(:notice_successful_delete)
     else
@@ -144,11 +142,19 @@ class TimelogController < ApplicationController
   end
 
 private
+  def find_time_entry
+    @time_entry = TimeEntry.find(params[:id])
+    unless @time_entry.editable_by?(User.current)
+      render_403
+      return false
+    end
+    @project = @time_entry.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   def find_project
-    if params[:id]
-      @time_entry = TimeEntry.find(params[:id])
-      @project = @time_entry.project
-    elsif params[:issue_id]
+    if params[:issue_id]
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
     elsif params[:project_id]
