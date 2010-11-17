@@ -269,6 +269,7 @@ private
     @priorities = IssuePriority.all
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new
+    @time_entry.attributes = params[:time_entry]
     
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
     @issue.init_journal(User.current, @notes)
