@@ -35,6 +35,23 @@ Feature: Groups
     And I should not see "Project" within "select[@id='group_by_container']"
 
   @javascript
+  Scenario: Groups can be removed from rows and columns
+    Given there is a standard cost control project named "First Project"
+    And I am logged in as "controller"
+    And I am on the Cost Reports page for the project called "First Project"
+    And I click on "Clear"
+    And I group columns by "Issue"
+    And I group rows by "Project"
+    Then I should see "Issue" within "select[@id='group_by_columns']"
+    And I should see "Project" within "select[@id='group_by_rows']"
+    When I remove "Project" from rows
+    And I remove "Issue" from columns
+    Then I should not see "Issue" within "select[@id='group_by_columns']"
+    And I should not see "Project" within "select[@id='group_by_rows']"
+    And I should see "Project" within "select[@id='group_by_container']"
+    And I should see "Issue" within "select[@id='group_by_container']"
+
+  @javascript
   Scenario: Groups get restored after sending a query
     Given there is a standard cost control project named "First Project"
     And I am logged in as "controller"
