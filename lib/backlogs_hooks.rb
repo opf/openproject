@@ -12,7 +12,9 @@ module BacklogsPlugin
         locals[:sprint] = nil
         locals[:webcal] = (context[:request].ssl? ? 'webcals' : 'webcal')
 
-        return '' if locals[:project].blank? || ! locals[:project].module_enabled?('backlogs')
+        return '' unless locals[:project]
+        return '' if locals[:project].blank?
+        return '' unless locals[:project].module_enabled?('backlogs')
 
         user = User.find_by_id(context[:request].session[:user_id])
         locals[:key] = user ? user.api_key : nil
