@@ -38,13 +38,13 @@ module Redmine
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
             theversion = hgversion_from_command_line
-            if theversion.match(/^\d+(\.\d+)+/)
-              theversion.split(".").collect(&:to_i)
+            if m = theversion.match(/\b\d+(\.\d+)+\b/)
+              m[0].split(".").collect(&:to_i)
             end
           end
           
           def hgversion_from_command_line
-            %x{#{HG_BIN} --version}.match(/\(version (.*)\)/)[1]
+            %x{#{HG_BIN} --version}.lines.first.to_s
           end
           
           def template_path

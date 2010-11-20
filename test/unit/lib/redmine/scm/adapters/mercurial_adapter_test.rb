@@ -11,11 +11,12 @@ begin
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
     
     def test_hgversion
-      to_test = { "0.9.5" => [0,9,5],
-                  "1.0" => [1,0],
-                  "1e4ddc9ac9f7+20080325" => nil,
-                  "1.0.1+20080525" => [1,0,1],
-                  "1916e629a29d" => nil}
+      to_test = { "Mercurial Distributed SCM (version 0.9.5)\n" => [0,9,5],
+                  "Mercurial Distributed SCM (1.0)\n" => [1,0],
+                  "Mercurial Distributed SCM (1e4ddc9ac9f7+20080325)\n" => nil,
+                  "Mercurial Distributed SCM (1.0.1+20080525)\n" => [1,0,1],
+                  "Mercurial Distributed SCM (1916e629a29d)\n" => nil,
+                  "Mercurial SCM Distribuito (versione 0.9.5)\n" => [0,9,5]}
       
       to_test.each do |s, v|
         test_hgversion_for(s, v)
