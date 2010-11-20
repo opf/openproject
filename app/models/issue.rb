@@ -276,7 +276,7 @@ class Issue < ActiveRecord::Base
       if !user.allowed_to?(:manage_subtasks, project)
         attrs.delete('parent_issue_id')
       elsif !attrs['parent_issue_id'].blank?
-        attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'])
+        attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
       end
     end
     

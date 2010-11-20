@@ -525,6 +525,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil issue
     assert_equal Issue.find(2), issue.parent
   end
+
+  def test_post_create_subissue_with_non_numeric_parent_id
+    @request.session[:user_id] = 2
+    
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1, 
+                 :issue => {:tracker_id => 1,
+                            :subject => 'This is a child issue',
+                            :parent_issue_id => 'ABC'}
+    end
+    issue = Issue.find_by_subject('This is a child issue')
+    assert_not_nil issue
+    assert_nil issue.parent
+  end
   
   def test_post_create_should_send_a_notification
     ActionMailer::Base.deliveries.clear
