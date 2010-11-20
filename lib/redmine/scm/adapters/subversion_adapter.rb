@@ -36,8 +36,8 @@ module Redmine
             version = nil
             shellout(cmd) do |io|
               # Read svn version in first returned line
-              if m = io.gets.to_s.match(%r{((\d+\.)+\d+)})
-                version = m[0].scan(%r{\d+}).collect(&:to_i)
+              if m = io.read.to_s.match(%r{\A(.*?)((\d+\.)+\d+)})
+                version = m[2].scan(%r{\d+}).collect(&:to_i)
               end
             end
             return nil if $? && $?.exitstatus != 0
