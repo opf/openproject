@@ -16,8 +16,10 @@ begin
                   "Mercurial Distributed SCM (1e4ddc9ac9f7+20080325)\n" => nil,
                   "Mercurial Distributed SCM (1.0.1+20080525)\n" => [1,0,1],
                   "Mercurial Distributed SCM (1916e629a29d)\n" => nil,
-                  "Mercurial SCM Distribuito (versione 0.9.5)\n" => [0,9,5]}
-      
+                  "Mercurial SCM Distribuito (versione 0.9.5)\n" => [0,9,5],
+                  "(1.6)\n(1.7)\n(1.8)"           => [1,6],
+                  "(1.7.1)\r\n(1.8.1)\r\n(1.9.1)" => [1,7,1]}
+
       to_test.each do |s, v|
         test_hgversion_for(s, v)
       end
@@ -27,8 +29,9 @@ begin
       to_test = { [0,9,5] => "0.9.5",
                   [1,0] => "1.0",
                   [] => "1.0",
-                  [1,0,1] => "1.0"}
-      
+                  [1,0,1] => "1.0",
+                  [1,7]   => "1.0",
+                  [1,7,1] => "1.0"}
       to_test.each do |v, template|
         test_template_path_for(v, template)
       end
@@ -50,5 +53,8 @@ begin
   end
   
 rescue LoadError
-  def test_fake; assert(false, "Requires mocha to run those tests")  end
+  class MercurialMochaFake < ActiveSupport::TestCase
+    def test_fake; assert(false, "Requires mocha to run those tests")  end
+  end
 end
+
