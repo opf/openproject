@@ -49,6 +49,18 @@ class GanttsControllerTest < ActionController::TestCase
       assert_nil assigns(:gantt).project
     end
 
+    should "not disclose private projects" do
+      get :show
+      assert_response :success
+      assert_template 'show.html.erb'
+      
+      assert_tag 'a', :content => /eCookbook/
+      # Root private project
+      assert_no_tag 'a', {:content => /OnlineStore/}
+      # Private children of a public project
+      assert_no_tag 'a', :content => /Private child of eCookbook/
+    end
+
     should "export to pdf" do
       get :show, :project_id => 1, :format => 'pdf'
       assert_response :success

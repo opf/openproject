@@ -91,7 +91,7 @@ module Redmine
         if @project
           return number_of_rows_on_project(@project)
         else
-          Project.roots.inject(0) do |total, project|
+          Project.roots.visible.inject(0) do |total, project|
             total += number_of_rows_on_project(project)
           end
         end
@@ -119,7 +119,7 @@ module Redmine
         end
 
         # Subprojects
-        project.children.each do |subproject|
+        project.children.visible.each do |subproject|
           count += number_of_rows_on_project(subproject)
         end
 
@@ -134,7 +134,7 @@ module Redmine
         if @project
           output << render_project(@project, options)
         else
-          Project.roots.each do |project|
+          Project.roots.visible.each do |project|
             output << render_project(project, options)
           end
         end
@@ -150,7 +150,7 @@ module Redmine
         if @project
           output << render_project(@project, options)
         else
-          Project.roots.each do |project|
+          Project.roots.visible.each do |project|
             output << render_project(project, options)
           end
         end
@@ -191,7 +191,7 @@ module Redmine
         end
 
         # Fourth, subprojects
-        project.children.each do |project|
+        project.children.visible.each do |project|
           subproject_rendering = render_project(project, options)
           output << subproject_rendering if options[:format] == :html
         end
