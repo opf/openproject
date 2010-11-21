@@ -178,6 +178,7 @@ module Redmine
         
         # Second, Issues without a version
         issues = project.issues.for_gantt.without_version.with_query(@query)
+        sort_issues!(issues)
         if issues
           issue_rendering = render_issues(issues, options)
           output << issue_rendering if options[:format] == :html
@@ -237,6 +238,7 @@ module Redmine
         
         issues = version.fixed_issues.for_gantt.with_query(@query)
         if issues
+          sort_issues!(issues)
           # Indent issues
           options[:indent] += options[:indent_increment]
           output << render_issues(issues, options)
@@ -952,6 +954,17 @@ module Redmine
       
       private
 
+      # Sorts a collection of issues by start_date, due_date, id for gantt rendering
+      def sort_issues!(issues)
+        issues.sort! do |a, b|
+          cmp = 0
+          cmp = (a.start_date <=> b.start_date) if a.start_date? && b.start_date?
+          cmp = (a.due_date <=> b.due_date) if cmp == 0 && a.due_date? && b.due_date?
+          cmp = (a.id <=> b.id) if cmp == 0
+          cmp
+        end
+      end
+      
       # Renders both the subjects and lines of the Gantt chart for the
       # PDF format
       def pdf_subjects_and_lines(pdf, options = {})

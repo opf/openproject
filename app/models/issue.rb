@@ -68,8 +68,7 @@ class Issue < ActiveRecord::Base
                                   :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
   named_scope :for_gantt, lambda {
     {
-      :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version],
-      :order => "#{Issue.table_name}.due_date ASC, #{Issue.table_name}.start_date ASC, #{Issue.table_name}.id ASC"
+      :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version]
     }
   }
 
