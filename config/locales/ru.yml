@@ -859,7 +859,7 @@ ru:
   setting_attachment_max_size: Максимальный размер вложения
   setting_autofetch_changesets: Автоматически следить за изменениями хранилища
   setting_autologin: Автоматический вход
-  setting_bcc_recipients: Использовать скрытые списки (bcc)
+  setting_bcc_recipients: Использовать скрытые списки (BCC)
   setting_cache_formatted_text: Кешировать форматированный текст
   setting_commit_fix_keywords: Назначение ключевых слов
   setting_commit_logs_encoding: Кодировка комментариев в хранилище
@@ -871,7 +871,7 @@ ru:
   setting_default_projects_public: Новые проекты являются общедоступными
   setting_diff_max_lines_displayed: Максимальное число строк для diff
   setting_display_subprojects_issues: Отображение подпроектов по умолчанию
-  setting_emails_footer: Подстрочные примечания Email
+  setting_emails_footer: Подстрочные примечания письма
   setting_enabled_scm: Разрешенные SCM
   setting_feeds_limit: Ограничение количества заголовков для RSS потока
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
@@ -1035,13 +1035,12 @@ ru:
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
   label_overall_spent_time: Всего затрачено времени
-
   label_user_mail_option_none: Нет событий
   field_member_of_group: Группа назначенного
   field_assigned_to_role: Роль назначенного
   notice_not_authorized_archived_project: Запрашиваемый проект был архивирован.
+  label_principal_search: "Найти пользователя или группу:"
+  label_user_search: "Найти пользователя:"
+  field_visible: Видимый
+  setting_emails_header: Заголовок письма
 
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header

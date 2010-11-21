@@ -288,6 +288,7 @@ ja:
   field_attr_lastname: 苗字属性
   field_attr_mail: メール属性
   field_onthefly: あわせてユーザを作成
+  field_start_date: 開始日
   field_done_ratio: 進捗 %
   field_auth_source: 認証方式
   field_hide_mail: メールアドレスを隠す
@@ -322,6 +323,7 @@ ja:
   field_member_of_group: 担当者のグループ
   field_assigned_to_role: 担当者のロール
   field_text: テキスト
+  field_visible: 表示
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -351,6 +353,7 @@ ja:
   setting_issue_list_default_columns: チケットの一覧で表示する項目
   setting_repositories_encodings: リポジトリのエンコーディング
   setting_commit_logs_encoding: コミットメッセージのエンコーディング
+  setting_emails_header: メールのヘッダ
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
   setting_per_page_options: ページ毎の表示件数
@@ -806,6 +809,8 @@ ja:
   label_api_access_key_created_on: "APIアクセスキーは{{value}}前に作成されました"
   label_subtask_plural: 子チケット
   label_project_copy_notifications: コピーしたチケットのメール通知を送信する
+  label_principal_search: "ユーザまたはグループの検索:"
+  label_user_search: "ユーザの検索:"
   
   button_login: ログイン
   button_submit: 変更
@@ -947,8 +952,3 @@ ja:
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
   enumeration_system_activity: システム作業分類
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header

@@ -308,6 +308,7 @@ sv:
   field_attr_lastname: Efternamnsattribut
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
+  field_start_date: Startdatum
   field_done_ratio: % Klart
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
@@ -826,6 +827,8 @@ sv:
   label_profile: Profil
   label_subtask_plural: Underaktiviteter
   label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
+  label_principal_search: "Sök efter användare eller grupp:"
+  label_user_search: "Sök efter användare:"
   
   button_login: Logga in
   button_submit: Skicka
@@ -894,9 +897,9 @@ sv:
   text_journal_set_to: "{{label}} satt till {{value}}"
   text_journal_deleted: "{{label}} borttagen ({{old}})"
   text_journal_added: "{{label}} {{value}} tillagd"
-  text_tip_issue_begin_day: arbetsuppgift som börjar denna dag
-  text_tip_issue_end_day: arbetsuppgift som slutar denna dag
-  text_tip_issue_begin_end_day: arbetsuppgift börjar och slutar denna dag
+  text_tip_issue_begin_day: ärende som börjar denna dag
+  text_tip_issue_end_day: ärende som slutar denna dag
+  text_tip_issue_begin_end_day: ärende som börjar och slutar denna dag
   text_project_identifier_info: 'Små bokstäver (a-z), siffror och streck tillåtna.<br />När den är sparad kan identifieraren inte ändras.'
   text_caracters_maximum: "max {{count}} tecken."
   text_caracters_minimum: "Måste vara minst {{count}} tecken lång."
@@ -967,8 +970,5 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header

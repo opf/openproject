@@ -321,7 +321,7 @@ bg:
   label_registered_on: Регистрация
   label_activity: Дейност
   label_new: Нов
-  label_logged_as: Влязъл като
+  label_logged_as: Здравейте,
   label_environment: Среда
   label_authentication: Оторизация
   label_auth_source: Начин на оторозация
@@ -850,8 +850,8 @@ bg:
   button_duplicate: Дублиране
   button_copy_and_follow: Копиране и продължаване
   label_copy_source: Източник
-  setting_issue_done_ratio: Изчисление на процента на готово задачи с
-  setting_issue_done_ratio_issue_status: Използване на състояниетона задачите
+  setting_issue_done_ratio: Изчисление на процента на готови задачи с
+  setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
   error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
   error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
   setting_issue_done_ratio_issue_field: Използване на поле 'задача'
@@ -896,30 +896,30 @@ bg:
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
   field_principal: Principal
-  label_my_page_block: My page block
+  label_my_page_block: Блокове в личната страница
   notice_failed_to_save_members: "Невъзможност за запис на член(ове): {{errors}}."
   text_zoom_out: Намаляване
   text_zoom_in: Увеличаване
   notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
   label_overall_spent_time: Общо употребено време
   field_time_entries: Log time
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  text_tip_issue_end_day: issue ending this day
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  field_member_of_group: Assignee's group
-  project_module_gantt: Gantt
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  text_tip_issue_begin_end_day: issue beginning and ending this day
-  setting_default_notification_option: Default notification option
-  project_module_calendar: Calendar
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  text_tip_issue_begin_day: issue beginning this day
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран.
+  text_tip_issue_end_day: задача, завършваща този ден
+  field_text: Текстово поле
+  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
+  field_member_of_group: Член на група
+  project_module_gantt: Мрежов график
+  text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
+  text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
+  setting_default_notification_option: Подразбиращ се начин за известяване
+  project_module_calendar: Календар
+  label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
+  text_tip_issue_begin_day: задача, започваща този ден
+  label_user_mail_option_only_assigned: Само за неща, назначени на мен
+  button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: {{page_title}}"
   field_assigned_to_role: Assignee's role
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
+  field_start_date: Начална дата
+  label_principal_search: "Търсене на потребител или група:"
+  label_user_search: "Търсене на потребител:"
+  field_visible: Видим
   setting_emails_header: Emails header

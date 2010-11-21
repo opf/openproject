@@ -370,7 +370,7 @@ da:
   label_reported_issues: Rapporterede sager
   label_assigned_to_me_issues: Sager tildelt mig
   label_last_login: Sidste login tidspunkt
-  label_registered_on: Registeret den
+  label_registered_on: Registreret den
   label_activity: Aktivitet
   label_new: Ny
   label_logged_as: Registreret som
@@ -441,7 +441,7 @@ da:
   label_none: intet
   label_nobody: ingen
   label_next: Næste
-  label_previous: Forrig
+  label_previous: Forrige
   label_used_by: Brugt af
   label_details: Detaljer
   label_add_note: Tilføj note
@@ -537,7 +537,7 @@ da:
   label_view_diff: Vis forskelle
   label_diff_inline: inline
   label_diff_side_by_side: side om side
-  label_options: Optioner
+  label_options: Formatering
   label_copy_workflow_from: Kopier arbejdsgang fra
   label_permissions_report: Godkendelsesrapport
   label_watched_issues: Overvågede sager
@@ -547,7 +547,7 @@ da:
   label_relation_new: Ny relation
   label_relation_delete: Slet relation
   label_relates_to: relaterer til
-  label_duplicates: kopierer
+  label_duplicates: duplikater
   label_blocks: blokerer
   label_blocked_by: blokeret af
   label_precedes: kommer før
@@ -869,8 +869,8 @@ da:
   label_version_sharing_tree: Med projekt træ
   label_version_sharing_none: Ikke delt
   error_can_not_archive_project: Dette projekt kan ikke arkiveres
-  button_duplicate: Kopier
-  button_copy_and_follow: Kopier og overvåg
+  button_duplicate: Duplikér
+  button_copy_and_follow: Kopiér og overvåg
   label_copy_source: Kilde
   setting_issue_done_ratio: Beregn sagsløsning ratio
   setting_issue_done_ratio_issue_status: Benyt sags status
@@ -895,14 +895,14 @@ da:
   label_missing_feeds_access_key: Mangler en RSS nøgle
   button_show: Vis
   text_line_separated: Flere væredier tilladt (en linje for hver værdi).
-  setting_mail_handler_body_delimiters: Trunker emails efter en af disse linjer
+  setting_mail_handler_body_delimiters: Trunkér emails efter en af disse linjer
   permission_add_subprojects: Lav underprojekter
   label_subproject_new: Nyt underprojekt
   text_own_membership_delete_confirmation: |-
     Du er ved at fjerne en eller flere af dine rettigheder, og kan muligvis ikke redigere projektet bagefter.
     Er du sikker på du ønsker at fortsætte?
   label_close_versions: Luk færdige versioner
-  label_board_sticky: Sticky
+  label_board_sticky: Klistret
   label_board_locked: Låst
   permission_export_wiki_pages: Eksporter wiki sider
   setting_cache_formatted_text: Cache formatteret tekst
@@ -913,30 +913,30 @@ da:
   field_parent_issue: Hoved opgave
   label_subtask_plural: Under opgaver
   label_project_copy_notifications: Send email notifikationer, mens projektet kopieres
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  error_can_not_delete_custom_field: Kan ikke slette brugerdefineret felt
+  error_unable_to_connect: Kan ikke forbinde ({{value}})
+  error_can_not_remove_role: Denne rolle er i brug og kan ikke slettes.
+  error_can_not_delete_tracker: Denne type indeholder sager og kan ikke slettes.
   field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
-  text_zoom_out: Zoom out
+  label_my_page_block: blok
+  notice_failed_to_save_members: "Fejl under lagring af medlem(mer): {{errors}}."
+  text_zoom_out: Zoom ud
   text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  notice_unable_delete_time_entry: Kan ikke slette tidsregistrering.
+  label_overall_spent_time: Overordnet forbrug af tid
+  field_time_entries: Log tid
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
+  project_module_calendar: Kalender
+  button_edit_associated_wikipage: "Redigér tilknyttet Wiki side: {{page_title}}"
+  text_are_you_sure_with_children: Slet sag og alle undersager?
+  field_text: Tekstfelt
   label_user_mail_option_only_owner: Only for things I am the owner of
   setting_default_notification_option: Default notification option
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_assigned: Only for things I am assigned to
   label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
+  field_member_of_group: Medlem af Gruppe
+  field_assigned_to_role: Medlem af Rolle
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   field_start_date: Start date
   label_principal_search: "Search for user or group:"
