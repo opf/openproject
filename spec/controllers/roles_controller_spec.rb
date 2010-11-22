@@ -10,7 +10,7 @@ describe RolesController do
     it {response.should be_success}
     it {assigns(:roles).should eql(@roles)}
     it {assigns(:role_pages).should be_a ActionController::Pagination::Paginator}
-    it {response.should render_template "roles/index.erb"}
+    it {response.should render_template "roles/index"}
   end
 
   shared_examples_for "member assigns" do
@@ -76,7 +76,7 @@ describe RolesController do
       end
 
       it {response.should be_success}
-      it {response.should render_template "roles/new.erb"}
+      it {response.should render_template "roles/new"}
       it {assigns(:member_permissions).should eql @member_role.setable_permissions}
       it {assigns(:roles).should eql @roles}
       it {assigns(:role).should eql @member_role}
@@ -102,7 +102,7 @@ describe RolesController do
               before {get :edit, @params}
 
               it {response.should be_success}
-              it {response.should render_template "roles/edit.erb"}
+              it {response.should render_template "roles/edit"}
               it {assigns(:role).should eql @member_role}
               it {assigns(:permissions).should eql @member_role.setable_permissions}
             end
