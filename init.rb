@@ -7,7 +7,6 @@ Dispatcher.to_prepare do
   require_dependency 'global_roles/permission_patch'
   require_dependency 'global_roles/access_control_patch'
   require_dependency 'global_roles/role_patch'
-
 end
 
 Redmine::Plugin.register :redmine_global_roles do
@@ -21,8 +20,10 @@ Redmine::Plugin.register :redmine_global_roles do
     #hence it is not possible to define an option :public => true
     #we must therefore take the less obvious option to say :require => :global
     #an option ala :public => true would only be possible when the plugin has been moved to core
+    require 'global_roles/access_control_patch'
+
     project_module :user do
-      permission :manage_global_roles, {:example => [:say_hello]}, :require => :global
+      permission :manage_global_roles, {:example => [:say_hello]}, :global => true
     end
   end
 end
