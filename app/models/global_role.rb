@@ -1,4 +1,5 @@
 class GlobalRole < Role
+  unloadable
   has_many :principal_roles, :foreign_key => :role_id, :dependent => :destroy
   has_many :principals, :through => :principal_roles
 

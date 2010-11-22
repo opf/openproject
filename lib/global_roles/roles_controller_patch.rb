@@ -48,6 +48,7 @@ module GlobalRoles
       private
 
       def create_global_role
+        debugger
         @role = GlobalRole.new params[:role]
         if @role.save
           flash[:notice] = l(:notice_successful_create)
