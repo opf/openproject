@@ -1,0 +1,5 @@
+<p><%= f.check_box :assignable %></p>
+<% if role.new_record? && roles.any? %>
+<p><label><%= l(:label_copy_workflow_from) %></label>
+<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles.select{|r| !r.is_a?(GlobalRole)}, :id, :name)) %></p>
+<% end %>

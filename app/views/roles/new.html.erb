@@ -1,0 +1,10 @@
+<% content_for :header_tags do %>
+<%= javascript_include_tag "global_roles", :plugin => "redmine_global_roles"%>
+<% end %>
+
+<h2><%= link_to l(:label_role_plural), :controller => 'roles', :action => 'index' %> &#187; <%=l(:label_role_new)%></h2>
+
+<% labelled_tabular_form_for :role, @role, :url => { :action => 'create' }, :html => {:id => 'role_form'} do |f| %>
+<%= render :partial => 'form', :locals => { :f => f, :role => @role, :member_role => @member_role, :global_role => @global_role, :roles => @roles,  :member_permissions => @member_permissions, :global_permissions => @global_permissions} %>
+<%= submit_tag l(:button_create) %>
+<% end %>
