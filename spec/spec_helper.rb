@@ -24,4 +24,5 @@ rescue LoadError => error
 end
 
 Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
-require File.expand_path(File.dirname(__FILE__) + '/helpers/plugin_spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/plugin_spec_helper')
+include GlobalRoles::PluginSpecHelper
