@@ -1,11 +1,11 @@
-module CostQuery::Result
+module Report::Result
   class Base
     attr_accessor :parent, :type, :important_fields
     attr_accessor :key
     attr_reader :value
     alias values value
     include Enumerable
-    include CostQuery::QueryUtils
+    include Report::QueryUtils
 
     def initialize(value)
       @important_fields ||= []
@@ -41,11 +41,11 @@ module CostQuery::Result
             fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
           end
           # map group back to array, all fields with same key get grouped into one list
-          data.keys.map { |f| CostQuery::Result.new data[f], f, type, important_fields }
+          data.keys.map { |f| Report::Result.new data[f], f, type, important_fields }
         end
       end
       # create a single result from that list
-      CostQuery::Result.new list, {}, type, important_fields
+      Report::Result.new list, {}, type, important_fields
     end
 
     def inspect

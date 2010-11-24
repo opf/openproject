@@ -1,4 +1,4 @@
-module CostQuery::Validation
+module Report::Validation
   module Dates
     def validate_dates(*values)
       values = values.flatten

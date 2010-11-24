@@ -1,11 +1,11 @@
 <%#
   This partial requires the following locals:
     f       An ActionView::Helpers::FormBuilder
-    query   A CostQuery object
+    query   A Report object
 %>
 
 <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-<% grouped_filters = CostQuery::Filter.all_grouped.sort_by { |label, group_by_ary| l(label) } %>
+<% grouped_filters = Report::Filter.all_grouped.sort_by { |label, group_by_ary| l(label) } %>
 <% partial_prefix = File.join(File.basename(File.dirname(__FILE__)), 'filters') %>
 
 

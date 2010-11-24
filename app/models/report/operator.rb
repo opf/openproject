@@ -1,6 +1,6 @@
-class CostQuery::Operator
-  include CostQuery::QueryUtils
-  include CostQuery::Validation
+class Report::Operator
+  include Report::QueryUtils
+  include Report::Validation
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
@@ -221,7 +221,7 @@ class CostQuery::Operator
     ::String.send :include, self
     ::Symbol.send :include, self
     def to_operator
-      CostQuery::Operator.find self
+      Report::Operator.find self
     end
   end
 

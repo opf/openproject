@@ -1,4 +1,4 @@
-module CostQuery::QueryUtils
+module Report::QueryUtils
   include Redmine::I18n
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
@@ -88,7 +88,7 @@ module CostQuery::QueryUtils
   # @param [Object] statement Not sanitized statement.
   # @return [String] Sanitized statement.
   def sanitize_sql_for_conditions(statement)
-    CostQuery.send :sanitize_sql_for_conditions, statement
+    Report.send :sanitize_sql_for_conditions, statement
   end
 
   ##
@@ -192,7 +192,7 @@ module CostQuery::QueryUtils
   end
 
   def cache
-    CostQuery::QueryUtils.cache
+    Report::QueryUtils.cache
   end
 
   def mysql?

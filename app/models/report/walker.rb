@@ -1,4 +1,4 @@
-class CostQuery::Walker
+class Report::Walker
   attr_accessor :query, :header_stack
   def initialize(query)
     @query = query

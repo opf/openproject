@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+module Report::GroupBy
   class SingletonValue < Base
     dont_display!
   end

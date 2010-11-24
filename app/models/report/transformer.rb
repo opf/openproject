@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class CostQuery::Transformer
+class Report::Transformer
   attr_reader :query
 
   def initialize(query)
@@ -7,15 +7,15 @@ class CostQuery::Transformer
   end
 
   ##
-  # @return [CostQuery::Result::Base] Result tree with row group bys at the top
-  # @see CostQuery::Chainable#result
+  # @return [Report::Result::Base] Result tree with row group bys at the top
+  # @see Report::Chainable#result
   def row_first
     @row_first ||= query.result
   end
 
   ##
-  # @return [CostQuery::Result::Base] Result tree with column group bys at the top
-  # @see CostQuery::Walker#row_first
+  # @return [Report::Result::Base] Result tree with column group bys at the top
+  # @see Report::Walker#row_first
   def column_first
     @column_first ||= begin
       # reverse since we fake recursion ↓↓↓

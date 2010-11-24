@@ -1,7 +1,7 @@
 <%#
   This partial requires the following locals:
     f       An ActionView::Helpers::FormBuilder
-    query   A CostQuery object
+    query   A Report object
 %>
 
 <%#TODO: replace me with a drag&drop group_by selector %>
@@ -53,7 +53,7 @@
     </td>
     <td>
       <select style="width: 180px;" size="9" multiple="multiple" id="group_by_container">
-      <% CostQuery::GroupBy.all_grouped.sort_by { |label, group_by_ary| l(label) }.each do |label, group_by_ary| %>
+      <% Report::GroupBy.all_grouped.sort_by { |label, group_by_ary| l(label) }.each do |label, group_by_ary| %>
         <optgroup label="<%= l(label) %>" data-category="<%= label.to_s %>">
         <% group_by_ary.sort_by { |g| l(g.label)}.each do |group_by| %>
           <% next unless group_by.selectable? %>

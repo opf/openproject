@@ -1,4 +1,4 @@
-module CostQuery::Validation
+module Report::Validation
   module Integers
     def validate_integers(*values)
       values = values.flatten
