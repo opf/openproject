@@ -24,14 +24,14 @@ class CostQuery < ActiveRecord::Base
 
   def self.deserialize(hash)
     self.new.tap do |q|
-      # have to take the reverse to regain the original order
-      hash[:filters].reverse.each {|name, opts| q.filter(name, opts) }
-      hash[:group_bys].reverse.each {|name, opts| q.group_by(name, opts) }
+      hash[:filters].each {|name, opts| q.filter(name, opts) }
+      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
     end
   end
 
   def serialize
-    { :filters => filters.collect(&:serialize), :group_bys => group_bys.collect(&:serialize) }
+    # have to take the reverse to regain the original order when deserializing
+    { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
   def yamlize!
@@ -116,6 +116,23 @@ class CostQuery < ActiveRecord::Base
 
   def to_s
     chain.to_s
+  end
+
+  def to_params
+    params = {}
+    sel_filters = filters.select { |f| f.class.selectable? }
+    params[:operators] = sel_filters.inject({}) do |hash, filter|
+      hash[filter.class.underscore_name.to_sym] = filter.operator.name
+      hash
+    end
+    params[:values] = sel_filters.inject({}) do |hash, filter|
+      hash[filter.class.underscore_name.to_sym] = filter.values
+      hash
+    end
+    rows = group_bys.select &:row?
+    columns = group_bys - rows
+    params[:groups] = { :rows => rows.map { |gb| gb.class.field }, :columns => columns.map { |gb| gb.class.field } }
+    params
   end
 
   private
