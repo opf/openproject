@@ -5,7 +5,7 @@ class CostReportsController < ApplicationController
   before_filter :set_cost_types,        :only => [:index, :drill_down]
 
   rescue_from Exception do |exception|
-    session.delete(:cost_query)
+    session.delete(:report)
     @custom_errors ||= []
     @custom_errors << l(:error_generic)
     render :layout => !request.xhr?
@@ -64,13 +64,13 @@ class CostReportsController < ApplicationController
   # Find a query to search on and put it in the session
   def filter_params
     filters = http_filter_parameters if set_filter?
-    filters ||= session[:cost_query].try(:[], :filters)
+    filters ||= session[:report].try(:[], :filters)
     filters ||= default_filter_parameters
   end
 
   def group_params
     groups = http_group_parameters if set_filter?
-    groups ||= session[:cost_query].try(:[], :groups)
+    groups ||= session[:report].try(:[], :groups)
     groups ||= default_group_parameters
   end
 
@@ -148,7 +148,7 @@ class CostReportsController < ApplicationController
     groups  = force_default? ? default_group_parameters  : group_params
     ensure_project_scope! filters
 
-    session[:cost_query] = {:filters => filters, :groups => groups}
+    session[:report] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
     @query.tap do |q|
       filters[:operators].each do |filter, operator|
@@ -198,7 +198,7 @@ class CostReportsController < ApplicationController
 
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
-    unless @cost_types = session[:cost_query][:filters][:values][:cost_type_id].try(:collect, &:to_i)
+    unless @cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i)
       relevant_cost_types = CostType.find(:all, :select => "id", :order => "id ASC").select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)

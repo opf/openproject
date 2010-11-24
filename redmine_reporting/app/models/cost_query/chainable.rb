@@ -62,7 +62,7 @@ class CostQuery < ActiveRecord::Base
     end
 
     ##
-    # The given block is called when a new chain is created for a cost_query.
+    # The given block is called when a new chain is created for a report.
     # The query will be given to the block as a parameter.
     # Example:
     # initialize_query_with { |query| query.filter CostQuery::Filter::City, :operators => '=', :values => 'Berlin, da great City' }

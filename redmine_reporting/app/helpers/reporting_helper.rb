@@ -161,7 +161,7 @@ module ReportingHelper
 
   def link_to_details(result)
     return '' # unless result.respond_to? :fields # uncomment to display
-    session_filter = {:operators => session[:cost_query][:filters][:operators].dup, :values => session[:cost_query][:filters][:values].dup }
+    session_filter = {:operators => session[:report][:filters][:operators].dup, :values => session[:report][:filters][:values].dup }
     filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
       case key
