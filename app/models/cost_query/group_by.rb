@@ -1,8 +1,9 @@
 require "set"
 
 module CostQuery::GroupBy
+  include Report::GroupBy
   def self.all
-    @all ||= Set[
+    @all ||= super + Set[
       CostQuery::GroupBy::ActivityId,
       CostQuery::GroupBy::CostObjectId,
       CostQuery::GroupBy::CostTypeId,
@@ -11,7 +12,6 @@ module CostQuery::GroupBy
       CostQuery::GroupBy::PriorityId,
       CostQuery::GroupBy::ProjectId,
       CostQuery::GroupBy::SpentOn,
-      CostQuery::GroupBy::SingletonValue,
       CostQuery::GroupBy::Tmonth,
       CostQuery::GroupBy::TrackerId,
       #CostQuery::GroupBy::Tweek,
@@ -26,11 +26,4 @@ module CostQuery::GroupBy
     ]
   end
 
-  def self.all_grouped
-    all.group_by { |f| f.applies_for }.to_a.sort { |a,b| a.first.to_s <=> b.first.to_s }
-  end
-
-  def self.from_hash
-    raise NotImplementedError
-  end
 end
