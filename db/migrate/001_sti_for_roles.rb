@@ -2,6 +2,11 @@ class StiForRoles < ActiveRecord::Migration
   def self.up
     add_column :roles, :type, :string, :limit => 30, :default => "Role"
 
+    Role.all.each do |role|
+      role.type = "Role"
+      role.save
+    end
+
     create_table :principal_roles, :force => true do |t|
       t.column :role_id, :integer, :null => false
       t.column :principal_id, :integer, :null => false
