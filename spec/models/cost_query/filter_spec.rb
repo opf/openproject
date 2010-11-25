@@ -106,7 +106,7 @@ describe CostQuery do
         @query.filter "author_id", :value => object.id
         @query.result.count.should == Entry.all.select { |i| i.issue and i.issue.author == object }.count
       end
-    end\
+    end
 
     it "filters spent_on" do
       @query.filter :spent_on, :operator=> 'w'
@@ -233,12 +233,12 @@ describe CostQuery do
       before do
         CostQuery::Filter.all.merge CostQuery::Filter::CustomField.all
       end
-      
+
       it "should create classes for custom fields" do
         # Would raise a name error
         CostQuery::Filter::CustomFieldSearchableField
       end
-      
+
       it "includes custom fields classes in CustomField.all" do
         CostQuery::Filter::CustomField.all.
           should include(CostQuery::Filter::CustomFieldSearchableField)

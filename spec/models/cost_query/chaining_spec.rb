@@ -22,6 +22,10 @@ describe CostQuery do
       CostQuery.chain_initializer.clear
     end
 
+    after(:all) do
+      CostQuery.chain_initializer.clear
+    end
+
     it "should contain NoFilter" do
       @query.chain.should be_a(CostQuery::Filter::NoFilter)
     end
