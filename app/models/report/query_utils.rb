@@ -1,5 +1,4 @@
 module Report::QueryUtils
-  include Redmine::I18n
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
   ##
@@ -170,25 +169,16 @@ module Report::QueryUtils
     end
   end
 
-  def adapter_name
-    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
-  end
-
   def map_field(key, value)
-    case key.to_s
-    when "user_id"                          then value ? user_name(value.to_i) : ''
-    when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
-    when "week"                             then value.to_i.divmod(100)
-    when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
-    when /^custom_field/                    then value.to_s
-    when "singleton_value"                  then value.to_i
-    else fail "add mapping for  #{key}"
+    if key.to_s == "singleton_value"
+      value.to_i
+    else
+      value.to_s
     end
   end
 
-  def user_name(id)
-    # we have no identity map... :(
-    cache[:user_name][id] ||= User.find(id).name
+  def adapter_name
+    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
   end
 
   def cache
