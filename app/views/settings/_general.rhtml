@@ -6,7 +6,7 @@
 <p><%= setting_text_area :welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
 <%= wikitoolbar_for 'settings_welcome_text' %>
 
-<p><%= setting_text_field :attachment_max_size, :size => 6 %> KB</p>
+<p><%= setting_text_field :attachment_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 
 <p><%= setting_text_field :per_page_options, :size => 20 %><br />
 <em><%= l(:text_comma_separated) %></em></p>
@@ -26,7 +26,7 @@
 
 <p><%= setting_text_field :feeds_limit, :size => 6 %></p>
 
-<p><%= setting_text_field :file_max_size_displayed, :size => 6 %> KB</p>
+<p><%= setting_text_field :file_max_size_displayed, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 
 <p><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></p>
 
