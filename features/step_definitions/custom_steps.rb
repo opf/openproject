@@ -67,3 +67,9 @@ Given /^I group (rows|columns) by "([^"]*)"/ do |target, group|
   When %{I select "#{group}" from "group_by_container"}
   find(:xpath, "//input[@class='buttons group_by move #{destination}']").click
 end
+
+Given /^I remove "([^"]*)" from (rows|columns)/ do |group, source|
+  movement = source == "rows" ? "moveRight" : "moveDown"
+  When %{I select "#{group}" from "group_by_#{source}"}
+  find(:xpath, "//input[@class='buttons group_by move #{movement}']").click
+end

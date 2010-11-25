@@ -127,14 +127,13 @@ module CostQuery::QueryUtils
   def iso_year_week(field, default_table = nil)
     field = field_name_for(field, default_table)
     "-- code specific for #{adapter_name}\n\t" << \
-    case adapter_name
-    when :mysql
+    if mysql?
       "yearweek(#{field}, 1)"
-    when :postgresql
+    elsif postgresql?
       "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
       "EXTRACT(week from #{field} - \n\t\t" \
       "(EXTRACT(dow FROM #{field})::int+6)%7))"
-    when :sqlite
+    elsif sqlite?
       # enjoy
       <<-EOS
         case
@@ -197,7 +196,7 @@ module CostQuery::QueryUtils
   end
 
   def mysql?
-    adapter_name == :mysql
+    [:mysql, :mysql2].include? adapter_name.to_s.downcase.to_sym
   end
 
   def sqlite?
