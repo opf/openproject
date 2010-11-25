@@ -5,9 +5,10 @@ module CostQuery::CustomFieldMixin
   SQL_TYPES = {
     'string' => mysql? ? 'char' : 'varchar',
     'list'   => mysql? ? 'char' : 'varchar',
-    'text'  => 'text',          'date'  => 'date',
-    'int'   => 'decimal(60,3)', 'float' => 'decimal(60,3)',
-    'bool'  => 'boolean' }
+    'text'   => mysql? ? 'char' : 'text',
+    'bool'   => mysql? ? 'unsigned' : 'boolean',
+    'date'  => 'date',
+    'int'   => 'decimal(60,3)', 'float' => 'decimal(60,3)' }
 
   def self.extended(base)
     base.inherited_attribute :factory
