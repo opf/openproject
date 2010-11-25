@@ -950,20 +950,21 @@ es:
   label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
+  project_module_calendar: Calendario
+  button_edit_associated_wikipage: "Editar paginas Wiki asociadas: {{page_title}}"
+  text_are_you_sure_with_children: ¿Borrar peticiones y todas sus peticiones hijas?
+  field_text: Campo de texto
+  label_user_mail_option_only_owner: Solo para objetos que soy propietario
+  setting_default_notification_option: Opcion de notificacion por defecto
+  label_user_mail_option_only_my_events: Solo para objetos que soy seguidor o estoy involucrado
+  label_user_mail_option_only_assigned: Solo para objetos que estoy asignado
+  label_user_mail_option_none: Sin eventos
+  field_member_of_group: Asignado al grupo
+  field_assigned_to_role: Asignado al perfil
+  notice_not_authorized_archived_project: El proyecto al que intenta acceder ha sido archivado.
+  field_start_date: Fecha de inicio
+  label_principal_search: "Buscar por usuario o grupo:"
+  label_user_search: "Buscar por usuario:"
   field_visible: Visible
-  setting_emails_header: Emails header
+  setting_emails_header: Encabezado de Correos
+
