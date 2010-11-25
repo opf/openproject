@@ -4,7 +4,7 @@ module CostQuery::Validation
       register_validation(val_method)
     end
   end
-  
+
   def register_validation(val_method)
     const_name = val_method.to_s.camelize
     begin
@@ -23,13 +23,11 @@ module CostQuery::Validation
   end
 
   def errors
-    @errors ||= []
-    @errors
+    @errors ||= Hash.new { |h,k| h[k] = [] }
   end
 
   def validations
     @validations ||= []
-    @validations
   end
 
   def validate(*values)

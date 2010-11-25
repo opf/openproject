@@ -164,11 +164,16 @@ class CostReportsController < ApplicationController
 
   def valid_query?
     return true unless @query
-    errornous = @query.filters ? @query.filters.select { |f| !f.valid? } : []
-    @custom_errors = errornous.map do |err|
-      "Filter #{l(err.label)}: #{err.errors.join(", ")}"
+    erroneous = @query.filters ? @query.filters.select { |f| !f.valid? } : []
+    @custom_errors = erroneous.map do |err|
+      filterlabel = "Filter #{l(err.label)}: "
+      errorstr = ''
+      err.errors.each_key do |key|
+        errorstr << "'#{err.errors[key].join(', ')}' #{l(("validation_failure_" + key.to_s).to_sym)}"
+      end
+      filterlabel + errorstr
     end
-    errornous.empty?
+    erroneous.empty?
   end
 
   ##
