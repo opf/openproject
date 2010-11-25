@@ -1,4 +1,4 @@
-class CostQuery::SqlStatement
+class Report::SqlStatement
   class Union
     attr_accessor :first, :second, :as
     def initialize(first, second, as = nil)
@@ -20,7 +20,7 @@ class CostQuery::SqlStatement
     end
   end
 
-  include CostQuery::QueryUtils
+  include Report::QueryUtils
   ##
   # Describes the query. This may be used in a sql-comment later.
   attr_accessor :desc
@@ -36,7 +36,7 @@ class CostQuery::SqlStatement
   ##
   # Creates a uninon of the caller and the callee.
   #
-  # @param [CostQuery::SqlStatement] other Second part of the union
+  # @param [Report::SqlStatement] other Second part of the union
   # @return [String] The sql query.
   def union(other, as = nil)
     Union.new(self, other, as)
@@ -106,7 +106,7 @@ class CostQuery::SqlStatement
   # @overload where(fields)
   #   Adds condition to where clause
   #   @param [Array, Hash, String] fields Parameters passed to sanitize_sql_for_conditions.
-  # @see CostQuery::QueryUtils#sanitize_sql_for_conditions
+  # @see Report::QueryUtils#sanitize_sql_for_conditions
   def where(fields = nil)
     @where ||= ["1=1"]
     unless fields.nil?
@@ -175,7 +175,7 @@ class CostQuery::SqlStatement
           end
         when Hash then select f.map { |k,v| "#{field_name_for v} as #{field_name_for k}" }
         when String, Symbol then @select << field_name_for(f)
-        when CostQuery::SqlStatement then @select << f.to_s
+        when Report::SqlStatement then @select << f.to_s
         else raise ArgumentError, "cannot handle #{f.inspect}"
         end
       end

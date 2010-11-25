@@ -1,6 +1,6 @@
-module CostQuery::Filter
-  class Base < CostQuery::Chainable
-    CostQuery::Operator.load
+module Report::Filter
+  class Base < Report::Chainable
+    Report::Operator.load
 
     inherited_attribute   :available_operators,
                             :list => true, :map => :to_operator,
@@ -30,8 +30,8 @@ module CostQuery::Filter
       names.each do |name|
         dont_inherit :available_operators if skip_inherited_operators.include? name
         case name
-        when String, CostQuery::Operator then operators << name.to_operator
-        when Symbol then operators.push(*CostQuery::Operator.send(name))
+        when String, Report::Operator then operators << name.to_operator
+        when Symbol then operators.push(*Report::Operator.send(name))
         else fail "dunno what to do with #{name.inspect}"
         end
       end
@@ -59,7 +59,7 @@ module CostQuery::Filter
     end
 
     def correct_position?
-      child.nil? or child.is_a? CostQuery::Filter::Base
+      child.nil? or child.filter?
     end
 
     def from_for(scope)
@@ -93,7 +93,7 @@ module CostQuery::Filter
     end
 
     def operator
-      (@operator || self.class.default_operator || CostQuery::Operator.default_operator).to_operator
+      (@operator || self.class.default_operator || Report::Operator.default_operator).to_operator
     end
 
     def operator=(value)

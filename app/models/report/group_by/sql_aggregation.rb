@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+module Report::GroupBy
   module SqlAggregation
     def responsible_for_sql?
       true

@@ -1,6 +1,6 @@
 require 'forwardable'
 
-class CostQuery < ActiveRecord::Base
+class Report < ActiveRecord::Base
   extend Forwardable
   include Enumerable
   #belongs_to :user
@@ -28,15 +28,15 @@ class CostQuery < ActiveRecord::Base
   end
 
   def available_filters
-    CostQuery::Filter.all
+    Report::Filter.all
   end
 
   def transformer
-    @transformer ||= CostQuery::Transformer.new self
+    @transformer ||= Report::Transformer.new self
   end
 
   def walker
-    @walker ||= CostQuery::Walker.new self
+    @walker ||= Report::Walker.new self
   end
 
   def add_chain(type, name, options)

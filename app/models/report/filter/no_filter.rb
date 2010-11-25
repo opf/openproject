@@ -1,0 +1,8 @@
+class Report::Filter::NoFilter < Report::Filter::Base
+  dont_display!
+  singleton
+
+  def sql_statement
+    Report::SqlStatement.for_entries
+  end
+end

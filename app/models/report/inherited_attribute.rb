@@ -1,6 +1,6 @@
 require 'set'
 
-module CostQuery::InheritedAttribute
+module Report::InheritedAttribute
   def inherited_attribute(*attributes)
       options = attributes.extract_options!
       list    = options[:list]

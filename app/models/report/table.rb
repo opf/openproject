@@ -1,9 +1,9 @@
 # encoding: UTF-8
 require 'enumerator'
 
-class CostQuery::Table
+class Report::Table
   attr_accessor :query
-  include CostQuery::QueryUtils
+  include Report::QueryUtils
 
   def initialize(query)
     @query = query

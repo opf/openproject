@@ -1,5 +1,5 @@
-module CostQuery::GroupBy
-  class Base < CostQuery::Chainable
+module Report::GroupBy
+  class Base < Report::Chainable
     inherited_attributes :group_fields, :list => true, :merge => false
 
     def self.inherited(klass)
@@ -8,7 +8,7 @@ module CostQuery::GroupBy
     end
 
     def correct_position?
-      type == :row or !child.is_a?(CostQuery::GroupBy::Base) or child.type == :column
+      type == :row or !child.is_a?(Report::GroupBy::Base) or child.type == :column
     end
 
     def filter?

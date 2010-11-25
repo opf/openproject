@@ -1,16 +1,16 @@
 # Proviedes convinience layer and logic shared between GroupBy::Base and Filter::Base.
 # Implements a dubble linked list (FIXME: is that the correct term?).
-class CostQuery < ActiveRecord::Base
+class Report < ActiveRecord::Base
   class Chainable
     include Enumerable
-    include CostQuery::QueryUtils
-    extend CostQuery::InheritedAttribute
+    include Report::QueryUtils
+    extend Report::InheritedAttribute
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, :default => :label_cost_entry_attributes
 
     def self.accepts_property(*list)
-      CostQuery.accepted_properties.push(*list.map(&:to_s))
+      Report.accepted_properties.push(*list.map(&:to_s))
     end
 
     def self.chain_list(*list)
@@ -62,12 +62,12 @@ class CostQuery < ActiveRecord::Base
     end
 
     ##
-    # The given block is called when a new chain is created for a cost_query.
+    # The given block is called when a new chain is created for a report.
     # The query will be given to the block as a parameter.
     # Example:
-    # initialize_query_with { |query| query.filter CostQuery::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
+    # initialize_query_with { |query| query.filter Report::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
     def self.initialize_query_with(&block)
-      CostQuery.chain_initializer.push block
+      Report.chain_initializer.push block
     end
 
     inherited_attribute :label
@@ -124,7 +124,7 @@ class CostQuery < ActiveRecord::Base
       @options = options
       options.each do |key, value|
         unless self.class.extra_options.include? key
-          raise ArgumentError, "may not set #{key}" unless CostQuery.accepted_properties.include? key.to_s
+          raise ArgumentError, "may not set #{key}" unless Report.accepted_properties.include? key.to_s
           send "#{key}=", value if value
         end
       end

@@ -4,7 +4,7 @@
       - :name => :heavy_values
       - :filter_name => String: The name of a filter (e.g. activity_id)
       - :hide => Boolean: If you want this to be hidden
-    query => the current CostQuery
+    query => the current Report
 %>
 <% filter = query.filters.detect {|f| f.class.underscore_name == element[:filter_name] }
    values_available = !!filter && !!filter.values %>
