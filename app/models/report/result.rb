@@ -50,7 +50,7 @@ module Report::Result
 
     def inspect
       "<##{self.class}: @fields=#{fields.inspect} @type=#{type.inspect} " \
-      "@size=#{size} @count=#{count} @units=#{units} @real_costs=#{real_costs}>"
+      "@size=#{size} @count=#{count} @units=#{units}>"
     end
 
     def row?
@@ -105,9 +105,6 @@ module Report::Result
       self.key = index.map { |k| map_field(k, fields[k]) }
     end
 
-    def display_costs?
-      display_costs > 0
-    end
   end
 
   class DirectResult < Base
@@ -117,20 +114,12 @@ module Report::Result
       false
     end
 
-    def display_costs
-      self["display_costs"].to_i
-    end
-
     def count
       self["count"].to_i
     end
 
     def units
       self["units"].to_d
-    end
-
-    def real_costs
-      (self["real_costs"] || 0).to_d if display_costs? # FIXME: default value here?
     end
 
     ##
@@ -181,16 +170,8 @@ module Report::Result
       sum_for :count
     end
 
-    def display_costs
-      (sum_for :display_costs) >= 1 ? 1 : 0
-    end
-
     def units
       sum_for :units
-    end
-
-    def real_costs
-      sum_for :real_costs if display_costs?
     end
 
     def sum_for(field)
