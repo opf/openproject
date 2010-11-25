@@ -106,9 +106,9 @@ class Report < ActiveRecord::Base
   def to_s
     chain.to_s
   end
-  
+
   private
-  
+
   def minimal_chain!
     @chain = Filter::NoFilter.new
   end
