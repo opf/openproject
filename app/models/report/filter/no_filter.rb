@@ -3,6 +3,5 @@ class Report::Filter::NoFilter < Report::Filter::Base
   singleton
 
   def sql_statement
-    Report::SqlStatement.for_entries
   end
 end
