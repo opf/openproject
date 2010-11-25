@@ -2,7 +2,7 @@ require "set"
 
 module Report::GroupBy
   def self.all
-    Set[]
+    Set[CostQuery::GroupBy::SingletonValue]
   end
 
   def self.all_grouped
