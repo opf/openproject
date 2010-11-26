@@ -1,6 +1,7 @@
 require 'forwardable'
 
 class Report < ActiveRecord::Base
+  InheritedNamespace.activate
   extend Forwardable
   include Enumerable
   #belongs_to :user
