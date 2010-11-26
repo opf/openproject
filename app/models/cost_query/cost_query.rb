@@ -1,0 +1,2 @@
+class CostQuery < Report
+end
