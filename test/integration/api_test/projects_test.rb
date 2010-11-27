@@ -32,6 +32,12 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_equal 'application/xml', @response.content_type
   end
   
+  context "GET /projects/2.xml" do
+    # TODO: A private project is needed because should_allow_api_authentication
+    # actually tests that authentication is *required*, not just allowed
+    should_allow_api_authentication(:get, "/projects/2.xml")
+  end
+  
   def test_show
     get '/projects/1.xml'
     assert_response :success
