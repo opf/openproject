@@ -145,3 +145,15 @@ attachments_012:
   filename: version_file.zip
   author_id: 2
   content_type: application/octet-stream
+attachments_013:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: Message
+  container_id: 1
+  downloads: 0
+  disk_filename: 060719210727_foo.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 13
+  filesize: 452
+  filename: foo.zip
+  author_id: 2
+  content_type: application/octet-stream

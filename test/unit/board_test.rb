@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BoardTest < ActiveSupport::TestCase
-  fixtures :projects, :boards, :messages
+  fixtures :projects, :boards, :messages, :attachments, :watchers
 
   def setup
     @project = Project.find(1)
@@ -23,8 +23,13 @@ class BoardTest < ActiveSupport::TestCase
   
   def test_destroy
     board = Board.find(1)
-    assert board.destroy
-    # make sure that the associated messages are removed
+    assert_difference 'Message.count', -6 do
+      assert_difference 'Attachment.count', -1 do
+        assert_difference 'Watcher.count', -1 do
+          assert board.destroy
+        end
+      end
+    end
     assert_equal 0, Message.count(:conditions => {:board_id => 1})
   end
 end
