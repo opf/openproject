@@ -46,21 +46,26 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_equal 'application/xml', @response.content_type
     assert_no_tag 'custom_field', :attributes => {:name => 'Development status'}
   end
-    
-  def test_create
-    attributes = {:name => 'API test', :identifier => 'api-test'}
-    assert_difference 'Project.count' do
-      post '/projects.xml', {:project => attributes}, :authorization => credentials('admin')
-    end
-    
-    project = Project.first(:order => 'id DESC')
-    attributes.each do |attribute, value|
-      assert_equal value, project.send(attribute)
-    end
+  
+  context "POST /projects.xml" do
+    should_allow_api_authentication(:post,
+                                    '/projects.xml',
+                                    {:project => {:name => 'API test', :identifier => 'api-test'}},
+                                    {:success_code => :created})
 
-    assert_response :created
-    assert_equal 'application/xml', @response.content_type
-    assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
+    should "create a project with the attributes" do
+      assert_difference('Project.count') do
+        post '/projects.xml', {:project => {:name => 'API test', :identifier => 'api-test'}}, :authorization => credentials('admin')
+      end
+  
+      project = Project.first(:order => 'id DESC')
+      assert_equal 'API test', project.name
+      assert_equal 'api-test', project.identifier
+  
+      assert_response :created
+      assert_equal 'application/xml', @response.content_type
+      assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
+    end
   end
   
   def test_create_failure
