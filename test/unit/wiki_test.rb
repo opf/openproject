@@ -39,6 +39,15 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal "Another start page", @wiki.start_page
   end
   
+  def test_find_page
+    wiki = Wiki.find(1)
+    page = WikiPage.find(2)
+    
+    assert_equal page, wiki.find_page('Another_page')
+    assert_equal page, wiki.find_page('Another page')
+    assert_equal page, wiki.find_page('ANOTHER page')
+  end
+  
   def test_titleize
     assert_equal 'Page_title_with_CAPITALES', Wiki.titleize('page title with CAPITALES')
     assert_equal 'テスト', Wiki.titleize('テスト')
