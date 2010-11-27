@@ -78,16 +78,20 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_tag :errors, :child => {:tag => 'error', :content => "Identifier can't be blank"}
   end
     
-  def test_update
-    attributes = {:name => 'API update'}
-    assert_no_difference 'Project.count' do
-      put '/projects/1.xml', {:project => attributes}, :authorization => credentials('jsmith')
-    end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    project = Project.find(1)
-    attributes.each do |attribute, value|
-      assert_equal value, project.send(attribute)
+  context "PUT /projects/2.xml" do
+    should_allow_api_authentication(:put,
+                                    '/projects/2.xml',
+                                    {:project => {:name => 'API test'}},
+                                    {:success_code => :ok})
+    
+    should "update the project" do
+      assert_no_difference 'Project.count' do
+        put '/projects/2.xml', {:project => {:name => 'API update'}}, :authorization => credentials('jsmith')
+      end
+      assert_response :ok
+      assert_equal 'application/xml', @response.content_type
+      project = Project.find(2)
+      assert_equal 'API update', project.name
     end
   end
   
