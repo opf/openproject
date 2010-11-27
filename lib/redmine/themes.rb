@@ -29,8 +29,13 @@ module Redmine
     end
     
     # Return theme for given id, or nil if it's not found
-    def self.theme(id)
-      themes.find {|t| t.id == id}
+    def self.theme(id, options={})
+      found = themes.find {|t| t.id == id}
+      if found.nil? && options[:rescan] != false
+        rescan
+        found = theme(id, :rescan => false)
+      end
+      found
     end
   
     # Class used to represent a theme
@@ -45,7 +50,11 @@ module Redmine
       
       # Directory name used as the theme id
       def id; dir end
-
+      
+      def ==(theme)
+        theme.is_a?(Theme) && theme.dir == dir
+      end
+      
       def <=>(theme)
         name <=> theme.name
       end

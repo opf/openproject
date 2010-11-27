@@ -44,6 +44,8 @@ class SettingsController < ApplicationController
 
     @guessed_host_and_path = request.host_with_port.dup
     @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+    
+    Redmine::Themes.rescan
   end
 
   def plugin
