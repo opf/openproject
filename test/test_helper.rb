@@ -115,7 +115,7 @@ class ActiveSupport::TestCase
   end
   
   def assert_error_tag(options={})
-    assert_tag({:tag => 'p', :attributes => { :id => 'errorExplanation' }}.merge(options))
+    assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end
 
   # Shoulda macros

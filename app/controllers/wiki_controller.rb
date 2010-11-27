@@ -125,6 +125,8 @@ class WikiController < ApplicationController
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
       redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    else
+      render :action => 'edit'
     end
 
   rescue ActiveRecord::StaleObjectError

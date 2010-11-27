@@ -108,6 +108,52 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
+
+  def test_update_page
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1,
+            :id => 'Another_page',
+            :content => {
+              :comments => "my comments",
+              :text => "edited",
+              :version => 1
+            }
+        end
+      end
+    end
+    assert_redirected_to '/projects/ecookbook/wiki/Another_page'
+    
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    assert_equal "edited", page.content.text
+    assert_equal 2, page.content.version
+    assert_equal "my comments", page.content.comments
+  end
+
+  def test_update_page_with_failure
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1,
+            :id => 'Another_page',
+            :content => {
+              :comments => 'a' * 300,  # failure here, comment is too long
+              :text => 'edited',
+              :version => 1
+            }
+          end
+        end
+      end
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_error_tag :descendant => {:content => /Comment is too long/}
+    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => 'edited'
+    assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
+  end
   
   def test_preview
     @request.session[:user_id] = 2
