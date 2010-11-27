@@ -31,7 +31,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_response :success
     assert_equal 'application/xml', @response.content_type
   end
-    
+  
   def test_show
     get '/projects/1.xml'
     assert_response :success
@@ -104,14 +104,20 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
     assert_equal 'application/xml', @response.content_type
     assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
   end
-    
-  def test_destroy
-    assert_difference 'Project.count', -1 do
-      delete '/projects/2.xml', {}, :authorization => credentials('admin')
+  
+  context "DELETE /projects/2.xml" do
+    should_allow_api_authentication(:delete,
+                                    '/projects/2.xml',
+                                    {},
+                                    {:success_code => :ok})
+
+    should "delete the project" do
+      assert_difference('Project.count',-1) do
+        delete '/projects/2.xml', {}, :authorization => credentials('admin')
+      end
+      assert_response :ok
+      assert_nil Project.find_by_id(2)
     end
-    assert_response :ok
-    assert_equal 'application/xml', @response.content_type
-    assert_nil Project.find_by_id(2)
   end
   
   def credentials(user, password=nil)
