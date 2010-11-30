@@ -17,14 +17,14 @@
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
 <div id="query_form_content">
-  <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
+  <fieldset id="filters" class="collapsible">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
+    <div><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
 
-  <fieldset id="group-by" class="collapsible <%= "collapsed" unless @query.new_record? %>">
+  <fieldset id="group-by" class="collapsible">
     <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
+    <div><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
   </fieldset>
 
   <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>

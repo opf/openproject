@@ -5,7 +5,7 @@
 
 <div class="saved_queries buttons">
 <% queries.each do |query| %>
-  <%= link_to_remote "<span><em>#{query.name}</em></span>",
+  <%= link_to_remote "<div><em>#{query.name}</em></div>",
                     { :url => ({ :set_filter => 1, :action => 'index' }.merge CostQuery.load(query.yamlized).to_params),
                       :condition => 'Ajax.activeRequestCount === 0',
                       :update => "content",
@@ -13,3 +13,4 @@
                     }, :class => 'reporting_button send_query' %>
 <% end %>
 </div>
+<div style="clear:both"></div>

@@ -333,7 +333,7 @@ td:hover .drill_down, th:hover .drill_down {
   background-color: #666666;
 }
 
-.buttons .reporting_button span em {
+.buttons .reporting_button * em {
   color: white;
   display: block;
   font-size: 11px;
@@ -342,8 +342,13 @@ td:hover .drill_down, th:hover .drill_down {
   line-height: 17px;
 }
 
-.buttons .reporting_button span {
+.buttons .reporting_button > * {
   display: inline-block;
   margin: 0px;
+}
+
+.saved_queries .reporting_button {
+  float: left;
+  margin: 2px;
 }
 
