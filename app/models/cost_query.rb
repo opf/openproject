@@ -30,7 +30,7 @@ class CostQuery < ActiveRecord::Base
   end
 
   def serialize
-    # have to take the reverse to regain the original order when deserializing
+    # have to take the reverse to retain the original order when deserializing
     { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
