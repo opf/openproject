@@ -3,13 +3,13 @@
     queries   A Collection of CostQuery Objects
 %>
 
+<div class="saved_queries buttons">
 <% queries.each do |query| %>
-
   <%= link_to_remote "<span><em>#{query.name}</em></span>",
                     { :url => ({ :set_filter => 1, :action => 'index' }.merge CostQuery.load(query.yamlized).to_params),
                       :condition => 'Ajax.activeRequestCount === 0',
                       :update => "content",
                       :eval_scripts => true
-                    }, :class => 'button send_query' %>
-
+                    }, :class => 'reporting_button send_query' %>
 <% end %>
+</div>
