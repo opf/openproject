@@ -1,6 +1,5 @@
 module Report::InheritedNamespace
   NESTED_NAMESPACES = %w[Validation Filter GroupBy Result]
-  
 
   def self.activate
     Report.extend self
@@ -8,10 +7,8 @@ module Report::InheritedNamespace
   end
 
   def const_missing(name, *)
-    puts "const_missing called on #{self.name}"
     super
   rescue NameError => error
-    raise error unless respond_to? :superclass and superclass != self
     load_constant name, error
   end
 
@@ -27,9 +24,11 @@ module Report::InheritedNamespace
   
   def propagate(klass)
     klass.extend Report::InheritedNamespace
+    return unless klass < Report
     NESTED_NAMESPACES.each do |name|
       if file = ActiveSupport::Dependencies.search_for_file("#{klass.name}::#{name}".underscore)
         require_or_load file
+        klass.const_get(name).extend Report::InheritedNamespace
       else
         const_missing name
       end
@@ -37,14 +36,13 @@ module Report::InheritedNamespace
   end
 
   def load_constant(name, error = nil)
-    puts "#{self.name} #{name}"
-    zuper = superclass.const_get(name)
+    zuper = (Class === self ? superclass : ancestors.second).const_get(name)
     case zuper
     when Class  then const_set name, Class.new(zuper).extend(Report::InheritedNamespace)
     when Module then const_set name, Module.new { include zuper }.extend(Report::InheritedNamespace)
     else const_set name, zuper
     end
-  rescue NameError, ArgumentError
+  rescue NameError, ArgumentError => new_error
     raise error
   end
 end
