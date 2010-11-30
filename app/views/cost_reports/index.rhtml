@@ -13,6 +13,7 @@
 
 <h2><%= l(:label_cost_report) %></h2>
 <% html_title( l(:label_cost_report) ) %>
+  <%= render :partial => 'saved_queries', :locals => { :queries => CostQuery.all }  %>
 
 <% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post} do |query_form| %>
 <div id="query_form_content">
@@ -42,6 +43,7 @@
                     { :url => { :save_query => 1 },
                       :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
                       :with => "Form.serialize('query_form')",
+                      :update => 'content',
                       :eval_scripts => true
                     }, :class => 'icon icon-save' %>
   <% end %>

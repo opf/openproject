@@ -129,10 +129,21 @@ class CostQuery < ActiveRecord::Base
       hash[filter.class.underscore_name.to_sym] = filter.values
       hash
     end
+    params[:fields] = sel_filters.collect { |f| f.class.underscore_name }
     rows = group_bys.select &:row?
     columns = group_bys - rows
     params[:groups] = { :rows => rows.map { |gb| gb.class.field }, :columns => columns.map { |gb| gb.class.field } }
     params
+  end
+
+  def hash
+    filter_string = filters.inject("") do |str, f|
+      str + f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
+    end
+    filter_string = group_bys.collect(&:class).sort_by(&:underscore_name).inject(filter_string) do |string, gb|
+      string.concat(gb.underscore_name)
+    end
+    Digest::MD5.hexdigest(filter_string)
   end
 
   private
