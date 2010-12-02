@@ -7,7 +7,7 @@
 <% queries.each do |query| %>
   <span class='reporting_button'>
   <%= link_to_remote "<em>#{query.name}</em>",
-                    { :url => ({ :set_filter => 1, :action => 'index' }.merge CostQuery.load(query.yamlized).to_params),
+                    { :url => { :action => 'index', :query => query },
                       :condition => 'Ajax.activeRequestCount === 0',
                       :update => "content",
                       :eval_scripts => true } %>

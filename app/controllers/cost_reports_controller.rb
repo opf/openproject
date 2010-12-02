@@ -144,11 +144,16 @@ class CostReportsController < ApplicationController
   # the session.
   def generate_query
     CostQuery::QueryUtils.cache.clear
+
+    if params[:query]
+      return @query = CostQuery.load(CostQuery.find(params[:query]).yamlized)
+    end
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
     ensure_project_scope! filters
 
     session[:cost_query] = {:filters => filters, :groups => groups}
+
     @query = CostQuery.new
     @query.tap do |q|
       filters[:operators].each do |filter, operator|
