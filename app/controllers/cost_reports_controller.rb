@@ -208,8 +208,10 @@ class CostReportsController < ApplicationController
 
   def save_query
     return unless params[:save_query].to_i == 1 || !User.current.allowed_to?(:save_queries, @project, :global => true)
-    # TODO render some form instead of just guessing values!
-    @query.name ||= @query.hash
+    @query.name = params[:name].present? ? params[:name] : l(:label_default)
+    @query.is_public = if User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+      params[:public]
+    end || false
     @query.user_id ||= User.current.id
     @query.save!
   end

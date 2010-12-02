@@ -352,3 +352,24 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
+div#button_form {
+  /* TODO IE Compatibility! */
+  background-color: white;
+  border: 1px solid grey;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  position: absolute;
+  left: 100px;
+  padding: 5px;
+  margin-top: -10px;
+}
+
+div#button_form * input#name {
+  width: 200px
+}
+
+div#button_form * input[type="button"] {
+  float: right;
+} br { clear: right; }
+
+

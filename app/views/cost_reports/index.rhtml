@@ -39,17 +39,10 @@
                     }, :class => 'reporting_button apply' %>
   <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
   <% if User.current.allowed_to?(:save_queries, @project, :global => true) && @valid %>
-    <%= link_to_remote l(:button_save),
-                    { :url => { :save_query => 1 },
-                      :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-                      :with => "Form.serialize('query_form')",
-                      :update => 'content',
-                      :eval_scripts => true
-                    }, :class => 'icon icon-save' %>
+    <%= render :partial => 'save_query' %>
   <% end %>
   </p>
 </div>
-
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
   <%= delimit(

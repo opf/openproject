@@ -363,4 +363,13 @@ function defineElementGetter() {
     }
 }
 
+function toggleElementSlide(id) {
+  if ($(id).visible()) {
+    new Effect.SlideUp(id);
+  } else {
+    new Effect.SlideDown(id);
+  }
+  $(id).toggle();
+}
+
 defineElementGetter();
