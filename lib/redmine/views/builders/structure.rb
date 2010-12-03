@@ -37,6 +37,8 @@ module Redmine
             if args.first.is_a?(Hash)
               if @struct.last.is_a?(Array)
                 @struct.last << args.first
+              else
+                @struct.last[sym] = args.first
               end
             else
               if @struct.last.is_a?(Array)

@@ -28,6 +28,15 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
     end
   end
   
+  def test_hash_hash
+    assert_json_output({'person' => {'name' => 'Ryan', 'birth' => {'city' => 'London', 'country' => 'UK'}}}) do |b|
+      b.person do
+        b.name 'Ryan'
+        b.birth :city => 'London', :country => 'UK'
+      end
+    end
+  end
+  
   def test_array
     assert_json_output({'books' => [{'title' => 'Book 1', 'author' => 'B. Smith'}, {'title' => 'Book 2', 'author' => 'G. Cooper'}]}) do |b|
       b.array :books do |b|

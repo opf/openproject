@@ -84,8 +84,7 @@ class IssuesController < ApplicationController
       
       respond_to do |format|
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
-        format.xml  { render :layout => false }
-        format.json { render :text => @issues.to_json, :layout => false }
+        format.api  { render :template => 'issues/index.apit' }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -110,8 +109,7 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
-      format.xml  { render :layout => false }
-      format.json { render :text => @issue.to_json, :layout => false }
+      format.api  { render :template => 'issues/show.apit' }
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -138,15 +136,13 @@ class IssuesController < ApplicationController
           redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
-        format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
-        format.json { render :text => @issue.to_json, :status => :created, :location => url_for(:controller => 'issues', :action => 'show'), :layout => false }
+        format.api  { render :template => 'issues/show.apit', :status => :created, :location => issue_url(@issue) }
       end
       return
     else
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
-        format.json { render :text => object_errors_to_json(@issue), :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -171,8 +167,7 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
-        format.xml  { head :ok }
-        format.json  { head :ok }
+        format.api  { head :ok }
       end
     else
       render_attachment_warning_if_needed(@issue)
@@ -181,8 +176,7 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
-        format.json { render :text => object_errors_to_json(@issue), :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -232,17 +226,14 @@ class IssuesController < ApplicationController
           TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
         end
       else
-        unless params[:format] == 'xml' || params[:format] == 'json'
-          # display the destroy form if it's a user request
-          return
-        end
+        # display the destroy form if it's a user request
+        return unless api_request?
       end
     end
     @issues.each(&:destroy)
     respond_to do |format|
       format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
-      format.xml  { head :ok }
-      format.json  { head :ok }
+      format.api  { head :ok }
     end
   end
 

@@ -74,7 +74,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       get '/issues.json?status_id=5'
 
       json = ActiveSupport::JSON.decode(response.body)
-      status_ids_used = json.collect {|j| j['status_id'] }
+      status_ids_used = json['issues'].collect {|j| j['status']['id'] }
       assert_equal 3, status_ids_used.length
       assert status_ids_used.all? {|id| id == 5 }
     end
@@ -160,7 +160,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       end
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert_equal "can't be blank", json.first['subject']
+      assert json['errors'].include?(['subject', "can't be blank"])
     end
   end
 
@@ -300,7 +300,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       put '/issues/6.json', @parameters, @headers
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert_equal "can't be blank", json.first['subject']
+      assert json['errors'].include?(['subject', "can't be blank"])
     end
   end
 
