@@ -109,5 +109,23 @@ class AutoCompletesControllerTest < ActionController::TestCase
         assert_select "input[type=checkbox][value=?]", @firstname.id, :count => 0
       end
     end
+    
+    context "restrict by removing issue watchers" do
+      setup do
+        @issue = Issue.find(2)
+        @issue.add_watcher(@login)
+        @issue.add_watcher(@firstname)
+        get :users, :q => 'complete', :remove_watchers => @issue.id, :klass => 'Issue'
+      end
+      
+      should_respond_with :success
+      
+      should "not include existing watchers" do
+        assert_select "input[type=checkbox][value=?]", @lastname.id
+
+        assert_select "input[type=checkbox][value=?]", @login.id, :count => 0
+        assert_select "input[type=checkbox][value=?]", @firstname.id, :count => 0
+      end
+    end
   end
 end

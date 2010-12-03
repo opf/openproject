@@ -12,12 +12,12 @@
          	                    :object_id => watched},
        	             :method => :post,
       	             :html => {:id => 'new-watcher-form', :style => 'display:none;'}) do |f| %>
-    <% users = User.active.find(:all, :limit => 10) %>
+    <% users = User.active.find(:all, :limit => 25) - watched.watcher_users %>
 		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil, :style => "width:98%;" %></p>
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
-                 :url => auto_complete_users_path,
+                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class),
                  :with => 'q')
                   %>
 		
