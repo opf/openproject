@@ -1,4 +1,4 @@
-module Report::GroupBy
+class Report::GroupBy
   module RubyAggregation
     def responsible_for_sql?
       false

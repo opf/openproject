@@ -1,4 +1,4 @@
-module Report::Filter
+class Report::Filter
   class Base < Report::Chainable
     Report::Operator.load
 
