@@ -122,8 +122,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.json { render :json => {:errors => @user.errors}, :status => :unprocessable_entity, :layout => false }
-        format.xml  { render :xml  => @user.errors, :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@user) }
       end
     end
   end
@@ -180,8 +179,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => :edit }
-        format.json { render :json => {:errors => @user.errors}, :status => :unprocessable_entity, :layout => false }
-        format.xml  { render :xml  => @user.errors, :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@user) }
       end
     end
   rescue ::ActionController::RedirectBackError
