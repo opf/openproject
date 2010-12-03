@@ -46,7 +46,9 @@ class UsersController < ApplicationController
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 
-    render :layout => !request.xhr?	
+		respond_to do |format|
+		  format.html { render :layout => !request.xhr? }
+		end	
   end
   
   def show
@@ -64,8 +66,10 @@ class UsersController < ApplicationController
         return
       end
     end
-    render :layout => 'base'
-
+    
+    respond_to do |format|
+      format.html { render :layout => 'base' }
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -98,15 +102,23 @@ class UsersController < ApplicationController
       @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
 
       Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to(params[:continue] ? {:controller => 'users', :action => 'new'} : 
-                                      {:controller => 'users', :action => 'edit', :id => @user})
-      return
+      
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to(params[:continue] ? 
+            {:controller => 'users', :action => 'new'} : 
+            {:controller => 'users', :action => 'edit', :id => @user}
+          )
+        }
+      end
     else
       @auth_sources = AuthSource.find(:all)
       @notification_option = @user.mail_notification
 
-      render :action => 'new'
+      respond_to do |format|
+        format.html { render :action => 'new' }
+      end
     end
   end
 
@@ -148,13 +160,20 @@ class UsersController < ApplicationController
       elsif @user.active? && params[:send_information] && !params[:password].blank? && @user.auth_source_id.nil?
         Mailer.deliver_account_information(@user, params[:password])
       end
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :back
+      
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to :back
+        }
+      end
     else
       @auth_sources = AuthSource.find(:all)
       @membership ||= Member.new
 
-      render :action => :edit
+      respond_to do |format|
+        format.html { render :action => :edit }
+      end
     end
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'users', :action => 'edit', :id => @user
