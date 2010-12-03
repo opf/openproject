@@ -29,10 +29,10 @@ class Redmine::Views::Builders::XmlTest < HelperTestCase
   end
   
   def test_array
-    assert_xml_output('<books type="array"><book author="B. Smith" title="Book 1"/><book author="G. Cooper" title="Book 2"/></books>') do |b|
+    assert_xml_output('<books type="array"><book title="Book 1"/><book title="Book 2"/></books>') do |b|
       b.array :books do |b|
-        b.book :title => 'Book 1', :author => 'B. Smith'
-        b.book :title => 'Book 2', :author => 'G. Cooper'
+        b.book :title => 'Book 1'
+        b.book :title => 'Book 2'
       end
     end
   end
