@@ -49,8 +49,7 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 		  format.html { render :layout => !request.xhr? }
-      format.json { render :template => 'users/index.apit' }
-		  format.xml  { render :template => 'users/index.apit' }
+      format.api  { render :template => 'users/index.apit' }
 		end	
   end
   
@@ -72,8 +71,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html { render :layout => 'base' }
-      format.json { render :template => 'users/show.apit' }
-      format.xml  { render :template => 'users/show.apit' }
+      format.api  { render :template => 'users/show.apit' }
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -116,8 +114,7 @@ class UsersController < ApplicationController
             {:controller => 'users', :action => 'edit', :id => @user}
           )
         }
-        format.json { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
-        format.xml  { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
+        format.api  { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -175,8 +172,7 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
         }
-        format.json { head :ok }
-        format.xml  { head :ok }
+        format.api  { head :ok }
       end
     else
       @auth_sources = AuthSource.find(:all)

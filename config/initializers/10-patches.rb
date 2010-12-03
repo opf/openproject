@@ -92,3 +92,13 @@ module I18n
     end
   end
 end
+
+module ActionController
+  module MimeResponds
+    class Responder
+      def api(&block)
+        any(:xml, :json, &block)
+      end
+    end
+  end
+end
