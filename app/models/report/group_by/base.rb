@@ -1,4 +1,4 @@
-module Report::GroupBy
+class Report::GroupBy
   class Base < Report::Chainable
     inherited_attributes :group_fields, :list => true, :merge => false
 
