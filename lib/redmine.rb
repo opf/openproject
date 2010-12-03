@@ -229,3 +229,5 @@ end
 Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
 end
+
+ActionView::Template.register_template_handler :apit, Redmine::Views::ApiTemplateHandler

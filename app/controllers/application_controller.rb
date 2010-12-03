@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
 
   layout 'base'
-  exempt_from_layout 'builder'
+  exempt_from_layout 'builder', 'apit'
   
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
