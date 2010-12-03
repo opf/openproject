@@ -1,10 +1,7 @@
 require "set"
 
-module CostQuery::Filter
-  include Report::Filter
-  extend self
-
-  def all
+class CostQuery::Filter < Report::Filter
+  def self.all
     @all ||= super + Set[
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::AssignedToId,

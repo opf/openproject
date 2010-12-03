@@ -1,4 +1,4 @@
-module CostQuery::Filter
+class CostQuery::Filter
   class CustomField < Base
     extend CostQuery::CustomFieldMixin
 
