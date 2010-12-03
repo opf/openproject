@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin, :except => :show
+  accept_key_auth :index, :show, :create, :update
 
   helper :sort
   include SortHelper
@@ -48,6 +49,8 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 		  format.html { render :layout => !request.xhr? }
+      format.json { render :template => 'users/index.apit' }
+		  format.xml  { render :template => 'users/index.apit' }
 		end	
   end
   
@@ -69,6 +72,8 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html { render :layout => 'base' }
+      format.json { render :template => 'users/show.apit' }
+      format.xml  { render :template => 'users/show.apit' }
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -111,6 +116,8 @@ class UsersController < ApplicationController
             {:controller => 'users', :action => 'edit', :id => @user}
           )
         }
+        format.json { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
+        format.xml  { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -118,6 +125,8 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'new' }
+        format.json { render :json => {:errors => @user.errors}, :status => :unprocessable_entity, :layout => false }
+        format.xml  { render :xml  => @user.errors, :status => :unprocessable_entity, :layout => false }
       end
     end
   end
@@ -166,6 +175,8 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
         }
+        format.json { head :ok }
+        format.xml  { head :ok }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -173,6 +184,8 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => :edit }
+        format.json { render :json => {:errors => @user.errors}, :status => :unprocessable_entity, :layout => false }
+        format.xml  { render :xml  => @user.errors, :status => :unprocessable_entity, :layout => false }
       end
     end
   rescue ::ActionController::RedirectBackError
