@@ -1,7 +1,6 @@
 require "set"
 
-module CostQuery::GroupBy
-  include Report::GroupBy
+class CostQuery::GroupBy < Report::GroupBy
   def self.all
     @all ||= super + Set[
       CostQuery::GroupBy::ActivityId,
