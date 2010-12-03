@@ -33,7 +33,7 @@
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
-                 :url => auto_complete_users_path(:id => @group),
+                 :url => auto_complete_users_path(:remove_group_members => @group),
                  :with => 'q')
                   %>
 

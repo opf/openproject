@@ -34,10 +34,15 @@ class AutoCompletesController < ApplicationController
   end
 
   def users
-    @group = Group.find(params[:id])
-    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @group.users
+    if params[:remove_group_members].present?
+      @group = Group.find(params[:remove_group_members])
+      @removed_users = @group.users
+    else
+      @removed_users = []
+    end
+    
+    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @removed_users
     render :layout => false
-
   end
   
   private
