@@ -60,6 +60,35 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal "eCookbook", @ecookbook.name
   end
   
+  def test_default_attributes
+    with_settings :default_projects_public => '1' do
+      assert_equal true, Project.new.is_public
+      assert_equal false, Project.new(:is_public => false).is_public
+    end
+
+    with_settings :default_projects_public => '0' do
+      assert_equal false, Project.new.is_public
+      assert_equal true, Project.new(:is_public => true).is_public
+    end
+
+    with_settings :sequential_project_identifiers => '1' do
+      assert !Project.new.identifier.blank?
+      assert Project.new(:identifier => '').identifier.blank?
+    end
+
+    with_settings :sequential_project_identifiers => '0' do
+      assert Project.new.identifier.blank?
+      assert !Project.new(:identifier => 'test').blank?
+    end
+
+    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+      assert_equal ['issue_tracking', 'repository'], Project.new.enabled_module_names
+    end
+    
+    assert_equal Tracker.all, Project.new.trackers
+    assert_equal Tracker.find(1, 3), Project.new(:tracker_ids => [1, 3]).trackers
+  end
+  
   def test_update
     assert_equal "eCookbook", @ecookbook.name
     @ecookbook.name = "eCook"

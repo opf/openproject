@@ -84,6 +84,24 @@ class Project < ActiveRecord::Base
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
   
+  def initialize(attributes = nil)
+    super
+    
+    initialized = (attributes || {}).stringify_keys
+    if !initialized.key?('identifier') && Setting.sequential_project_identifiers? 
+      self.identifier = Project.next_identifier
+    end
+    if !initialized.key?('is_public')
+      self.is_public = Setting.default_projects_public?
+    end
+    if !initialized.key?('enabled_module_names')
+      self.enabled_module_names = Setting.default_projects_modules
+    end
+    if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
+      self.trackers = Tracker.all
+    end
+  end
+  
   def identifier=(identifier)
     super unless identifier_frozen?
   end
@@ -492,7 +510,7 @@ class Project < ActiveRecord::Base
   
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
-      module_names = module_names.collect(&:to_s)
+      module_names = module_names.collect(&:to_s).reject(&:blank?)
       # remove disabled modules
       enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
       # add new modules
@@ -500,6 +518,11 @@ class Project < ActiveRecord::Base
     else
       enabled_modules.clear
     end
+  end
+  
+  # Returns an array of the enabled modules names
+  def enabled_module_names
+    enabled_modules.collect(&:name)
   end
 
   # Returns an array of projects that are in this project's hierarchy

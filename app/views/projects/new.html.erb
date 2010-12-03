@@ -10,6 +10,8 @@
     <%= l_or_humanize(m, :prefix => "project_module_") %>
     </label>
 <% end %>
+<%= hidden_field_tag 'enabled_modules[]', '' %>
+
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

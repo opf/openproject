@@ -103,6 +103,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
   context "POST /projects" do
     context "with valid parameters" do
       setup do
+        Setting.default_projects_modules = ['issue_tracking', 'repository']
         @parameters = {:project => {:name => 'API test', :identifier => 'api-test'}}
       end
       
@@ -121,6 +122,7 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           project = Project.first(:order => 'id DESC')
           assert_equal 'API test', project.name
           assert_equal 'api-test', project.identifier
+          assert_equal ['issue_tracking', 'repository'], project.enabled_module_names
       
           assert_response :created
           assert_equal 'application/xml', @response.content_type

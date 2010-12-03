@@ -68,11 +68,6 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new(params[:project])
-
-    @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-    @project.trackers = Tracker.all
-    @project.is_public = Setting.default_projects_public?
-    @project.enabled_module_names = Setting.default_projects_modules
   end
 
   def create
@@ -80,7 +75,7 @@ class ProjectsController < ApplicationController
     @trackers = Tracker.all
     @project = Project.new(params[:project])
 
-    @project.enabled_module_names = params[:enabled_modules]
+    @project.enabled_module_names = params[:enabled_modules] if params[:enabled_modules]
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       # Add current user as a project member if he is not admin
