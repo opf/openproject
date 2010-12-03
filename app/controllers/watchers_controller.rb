@@ -34,9 +34,12 @@ class WatchersController < ApplicationController
   end
 
   def new
-    @watcher = Watcher.new(params[:watcher])
-    @watcher.watchable = @watched
-    @watcher.save if request.post?
+    params[:user_ids].each do |user_id|
+      @watcher = Watcher.new((params[:watcher] || {}).merge({:user_id => user_id}))
+      @watcher.watchable = @watched
+      @watcher.save if request.post?
+    end if params[:user_ids].present?
+    
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
