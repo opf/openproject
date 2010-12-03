@@ -346,4 +346,9 @@ class RoutingTest < ActionController::IntegrationTest
   context "administration panel" do
     should_route :get, "/admin/projects", :controller => 'admin', :action => 'projects'
   end
+
+  context "auto_completes" do
+    should_route :get, "/users/auto_complete", :controller => 'auto_completes', :action => 'users'
+  end
+  
 end

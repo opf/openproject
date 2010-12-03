@@ -63,4 +63,30 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal [], assigns(:issues)
   end
+
+  context "GET :users" do
+    setup do
+      @login = User.generate!(:login => 'Acomplete')
+      @firstname = User.generate!(:firstname => 'Complete')
+      @lastname = User.generate!(:lastname => 'Complete')
+      @none = User.generate!(:login => 'hello', :firstname => 'ABC', :lastname => 'DEF')
+      @inactive = User.generate!(:firstname => 'Complete', :status => User::STATUS_LOCKED)
+      
+      get :users, :q => 'complete', :id => Group.first.id
+    end
+    
+    should_respond_with :success
+    
+    should "render a list of matching users in checkboxes" do
+      assert_select "input[type=checkbox][value=?]", @login.id
+      assert_select "input[type=checkbox][value=?]", @firstname.id
+      assert_select "input[type=checkbox][value=?]", @lastname.id
+      assert_select "input[type=checkbox][value=?]", @none.id, :count => 0
+    end
+    
+    should "only show active users" do
+      assert_select "input[type=checkbox][value=?]", @inactive.id, :count => 0
+    end
+  end
+  
 end
