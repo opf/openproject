@@ -52,8 +52,9 @@ class ProjectsController < ApplicationController
       format.html { 
         @projects = Project.visible.find(:all, :order => 'lft') 
       }
-      format.xml  {
+      format.api  {
         @projects = Project.visible.find(:all, :order => 'lft')
+        render :template => 'projects/index.apit'
       }
       format.atom {
         projects = Project.visible.find(:all, :order => 'created_on DESC',
@@ -93,12 +94,12 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'settings', :id => @project
         }
-        format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        format.api  { render :template => 'projects/show.apit', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
     else
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+        format.api  { render_validation_errors(@project) }
       end
     end
     
@@ -169,7 +170,7 @@ class ProjectsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.xml
+      format.api { render :template => 'projects/show.apit'}
     end
   end
 
@@ -194,7 +195,7 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :action => 'settings', :id => @project
         }
-        format.xml  { head :ok }
+        format.api  { head :ok }
       end
     else
       respond_to do |format|
@@ -202,7 +203,7 @@ class ProjectsController < ApplicationController
           settings
           render :action => 'settings'
         }
-        format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
+        format.api  { render_validation_errors(@project) }
       end
     end
   end
@@ -233,11 +234,11 @@ class ProjectsController < ApplicationController
     if request.get?
       # display confirmation view
     else
-      if params[:format] == 'xml' || params[:confirm]
+      if api_request? || params[:confirm]
         @project_to_destroy.destroy
         respond_to do |format|
           format.html { redirect_to :controller => 'admin', :action => 'projects' }
-          format.xml  { head :ok }
+          format.api  { head :ok }
         end
       end
     end
