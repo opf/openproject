@@ -89,6 +89,60 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "/issues/6.json" do
     should_allow_api_authentication(:get, "/issues/6.json")
   end
+  
+  context "GET /issues/:id" do
+    context "with subtasks" do
+      setup do
+        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :tracker_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
+      end
+      
+      context ".xml" do
+        should "display children" do
+          get '/issues/1.xml'
+          
+          assert_tag :tag => 'issue', 
+            :child => {
+              :tag => 'children',
+              :children => {:count => 2},
+              :child => {
+                :tag => 'issue',
+                :attributes => {:id => @c1.id.to_s},
+                :child => {
+                  :tag => 'subject',
+                  :content => 'child c1',
+                  :sibling => {
+                    :tag => 'children',
+                    :children => {:count => 1},
+                    :child => {
+                      :tag => 'issue',
+                      :attributes => {:id => @c3.id.to_s}
+                    }
+                  }
+                }
+              }
+            }
+        end
+        
+        context ".json" do
+          should "display children" do
+            get '/issues/1.json'
+            
+            json = ActiveSupport::JSON.decode(response.body)
+            assert_equal([
+              {
+                'id' => @c1.id, 'subject' => 'child c1', 'tracker' => {'id' => 1, 'name' => 'Bug'},
+                'children' => [{ 'id' => @c3.id, 'subject' => 'child c3', 'tracker' => {'id' => 1, 'name' => 'Bug'} }]
+              },
+              { 'id' => @c2.id, 'subject' => 'child c2', 'tracker' => {'id' => 1, 'name' => 'Bug'} }
+              ],
+              json['issue']['children'])
+          end
+        end
+      end
+    end
+  end
 
   context "POST /issues.xml" do
     should_allow_api_authentication(:post,
