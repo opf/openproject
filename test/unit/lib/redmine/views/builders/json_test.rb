@@ -35,6 +35,13 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
         b.birth :city => 'London', :country => 'UK'
       end
     end
+    
+    assert_json_output({'person' => {'id' => 1, 'name' => 'Ryan', 'birth' => {'city' => 'London', 'country' => 'UK'}}}) do |b|
+      b.person :id => 1 do
+        b.name 'Ryan'
+        b.birth :city => 'London', :country => 'UK'
+      end
+    end
   end
   
   def test_array

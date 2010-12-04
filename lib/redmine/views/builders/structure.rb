@@ -56,7 +56,11 @@ module Redmine
             if @struct.last.is_a?(Array)
               @struct.last << ret
             else
-              @struct.last[sym] = ret
+              if @struct.last.has_key?(sym) && @struct.last[sym].is_a?(Hash)
+                @struct.last[sym].merge! ret
+              else
+                @struct.last[sym] = ret
+              end
             end
           end
         end
