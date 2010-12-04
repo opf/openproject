@@ -179,7 +179,7 @@ class TimelogController < ApplicationController
     else
       respond_to do |format|
         format.html {
-          flash[:notice] = l(:notice_unable_delete_time_entry)
+          flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         }
         format.api  { render_validation_errors(@time_entry) }
