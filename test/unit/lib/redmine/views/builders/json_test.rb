@@ -51,6 +51,17 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
         b.book :title => 'Book 2', :author => 'G. Cooper'
       end
     end
+
+    assert_json_output({'books' => [{'title' => 'Book 1', 'author' => 'B. Smith'}, {'title' => 'Book 2', 'author' => 'G. Cooper'}]}) do |b|
+      b.array :books do |b|
+        b.book :title => 'Book 1' do
+          b.author 'B. Smith'
+        end
+        b.book :title => 'Book 2' do
+          b.author 'G. Cooper'
+        end
+      end
+    end
   end
   
   def test_array_with_content_tags
