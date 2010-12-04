@@ -54,7 +54,6 @@ class ProjectsController < ApplicationController
       }
       format.api  {
         @projects = Project.visible.find(:all, :order => 'lft')
-        render :template => 'projects/index.apit'
       }
       format.atom {
         projects = Project.visible.find(:all, :order => 'created_on DESC',
@@ -89,7 +88,7 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'settings', :id => @project
         }
-        format.api  { render :template => 'projects/show.apit', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
     else
       respond_to do |format|
@@ -165,7 +164,7 @@ class ProjectsController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.api { render :template => 'projects/show.apit'}
+      format.api
     end
   end
 

@@ -76,8 +76,6 @@ class TimelogController < ApplicationController
                                     :order => sort_clause,
                                     :limit  =>  @entry_pages.items_per_page,
                                     :offset =>  @entry_pages.current.offset)
-          
-          render :template => 'timelog/index.apit'
         }
         format.atom {
           entries = TimeEntry.find(:all,
@@ -103,7 +101,7 @@ class TimelogController < ApplicationController
     respond_to do |format|
       # TODO: Implement html response
       format.html { render :nothing => true, :status => 406 }
-      format.api  { render :template => 'timelog/show.apit' }
+      format.api
     end
   end
 
@@ -128,7 +126,7 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default :action => 'index', :project_id => @time_entry.project
         }
-        format.api  { render :template => 'timelog/show.apit', :status => :created, :location => time_entry_url(@time_entry) }
+        format.api  { render :action => 'show', :status => :created, :location => time_entry_url(@time_entry) }
       end
     else
       respond_to do |format|

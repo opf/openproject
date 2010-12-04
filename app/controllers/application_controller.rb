@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
 
   layout 'base'
-  exempt_from_layout 'builder', 'apit'
+  exempt_from_layout 'builder', 'rsb'
   
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
@@ -425,5 +425,25 @@ class ApplicationController < ActionController::Base
       end
     )
     render options
+  end
+  
+  # Overrides #default_template so that the api template
+  # is used automatically if it exists
+  def default_template(action_name = self.action_name)
+    if api_request?
+      begin
+        return self.view_paths.find_template(default_template_name(action_name), 'api')
+      rescue ::ActionView::MissingTemplate
+        # the api template was not found
+        # fallback to the default behaviour
+      end
+    end
+    super
+  end
+  
+  # Overrides #pick_layout so that #render with no arguments
+  # doesn't use the layout for api requests
+  def pick_layout(*args)
+    api_request? ? nil : super
   end
 end

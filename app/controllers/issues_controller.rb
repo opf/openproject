@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
       
       respond_to do |format|
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
-        format.api  { render :template => 'issues/index.apit' }
+        format.api
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -109,7 +109,7 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
-      format.api  { render :template => 'issues/show.apit' }
+      format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -136,7 +136,7 @@ class IssuesController < ApplicationController
           redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
-        format.api  { render :template => 'issues/show.apit', :status => :created, :location => issue_url(@issue) }
+        format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
       return
     else

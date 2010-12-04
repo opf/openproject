@@ -49,7 +49,7 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 		  format.html { render :layout => !request.xhr? }
-      format.api  { render :template => 'users/index.apit' }
+      format.api
 		end	
   end
   
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html { render :layout => 'base' }
-      format.api  { render :template => 'users/show.apit' }
+      format.api
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -114,7 +114,7 @@ class UsersController < ApplicationController
             {:controller => 'users', :action => 'edit', :id => @user}
           )
         }
-        format.api  { render :template => 'users/show.apit', :status => :created, :location => user_url(@user) }
+        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
