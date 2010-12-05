@@ -1013,3 +1013,6 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  setting_commit_logtime_enabled: Enable time logging
