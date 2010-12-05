@@ -44,6 +44,77 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
+  def test_ref_keywords
+    Setting.commit_ref_keywords = 'refs'
+    Setting.commit_fix_keywords = ''
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'Ignores #2. Refs #1')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [1], c.issue_ids.sort
+  end
+  
+  def test_ref_keywords_any_only
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_fix_keywords = ''
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'Ignores #2. Refs #1')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [1, 2], c.issue_ids.sort
+  end
+  
+  def test_ref_keywords_any_with_timelog
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_logtime_enabled = '1'
+
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => 24.hours.ago,
+                      :comments => 'Worked on this issue #1 @2h',
+                      :scmid => '520',
+                      :revision => '520',
+                      :user => User.find(2))
+    assert_difference 'TimeEntry.count' do
+      c.scan_comment_for_issue_ids
+    end
+    assert_equal [1], c.issue_ids.sort
+    
+    time = TimeEntry.first(:order => 'id desc')
+    assert_equal 1, time.issue_id
+    assert_equal 1, time.project_id
+    assert_equal 2, time.user_id
+    assert_equal 2.0, time.hours
+    assert_equal Date.yesterday, time.spent_on
+    assert time.activity.is_default?
+    assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
+  end
+  
+  def test_ref_keywords_closing_with_timelog
+    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_fix_keywords = 'fixes , closes'
+    Setting.commit_logtime_enabled = '1'
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'This is a comment. Fixes #1 @2.5, #2 @1',
+                      :user => User.find(2))
+    assert_difference 'TimeEntry.count', 2 do
+      c.scan_comment_for_issue_ids
+    end
+    
+    assert_equal [1, 2], c.issue_ids.sort
+    assert Issue.find(1).closed?
+    assert Issue.find(2).closed?
+
+    times = TimeEntry.all(:order => 'id desc', :limit => 2)
+    assert_equal [1, 2], times.collect(&:issue_id).sort
+  end
+  
   def test_ref_keywords_any_line_start
     Setting.commit_ref_keywords = '*'
 
@@ -98,6 +169,16 @@ class ChangesetTest < ActiveSupport::TestCase
     
     assert_equal [2], c.issue_ids.sort
     assert c.issues.first.project != c.project
+  end
+  
+  def test_text_tag_numeric
+    c = Changeset.new(:scmid => '520', :revision => '520')
+    assert_equal 'r520', c.text_tag
+  end
+  
+  def test_text_tag_hash
+    c = Changeset.new(:scmid => '7234cb2750b63f47bff735edc50a1c0a433c2518', :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
+    assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
   end
 
   def test_previous

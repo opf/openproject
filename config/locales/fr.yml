@@ -358,6 +358,8 @@ fr:
   setting_gravatar_default: Image Gravatar par défaut
   setting_start_of_week: Jour de début des calendriers
   setting_cache_formatted_text: Mettre en cache le texte formaté
+  setting_commit_logtime_enabled: Permettre la saisie de temps
+  setting_commit_logtime_activity_id: Activité pour le temps saisi
   
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -857,6 +859,7 @@ fr:
   text_no_configuration_data: "Les rôles, trackers, statuts et le workflow ne sont pas encore paramétrés.\nIl est vivement recommandé de charger le paramétrage par defaut. Vous pourrez le modifier une fois chargé."
   text_load_default_configuration: Charger le paramétrage par défaut
   text_status_changed_by_changeset: "Appliqué par commit {{value}}."
+  text_time_logged_by_changeset: "Appliqué par commit {{value}}"
   text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer le(s) demandes(s) selectionnée(s) ?'
   text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé

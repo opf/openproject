@@ -354,6 +354,8 @@ en:
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
   setting_default_notification_option: Default notification option
+  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_activity_id: Activity for logged time
   
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -875,6 +877,7 @@ en:
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_time_logged_by_changeset: "Applied in changeset {{value}}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
