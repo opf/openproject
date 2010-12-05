@@ -275,6 +275,9 @@ RAW
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
       # remove attributes except class
       "<pre class='foo'>some text</pre>" => "<pre class='foo'>some text</pre>",
+      '<pre class="foo">some text</pre>' => '<pre class="foo">some text</pre>',
+      "<pre class='foo bar'>some text</pre>" => "<pre class='foo bar'>some text</pre>",
+      '<pre class="foo bar">some text</pre>' => '<pre class="foo bar">some text</pre>',
       "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
