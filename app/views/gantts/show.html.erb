@@ -62,6 +62,8 @@ g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 # Collect the number of issues on Versions
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
+
+@gantt.render(:headers_height => headers_height, :top => headers_height + 8, :zoom => zoom, :g_width => g_width)
 %>
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
@@ -72,7 +74,7 @@ t_height = g_height + headers_height
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
 <% top = headers_height + 8 %>
 
-<%= @gantt.subjects(:headers_height => headers_height, :top => top, :g_width => g_width) %>
+<%= @gantt.subjects %>
 
 </div>
 </td>
@@ -153,7 +155,7 @@ end %>
 
 <% top = headers_height + 10 %>
 
-<%= @gantt.lines(:top => top, :zoom => zoom, :g_width => g_width ) %>
+<%= @gantt.lines %>
 
 <%
 #

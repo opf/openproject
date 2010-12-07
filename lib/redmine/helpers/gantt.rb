@@ -67,6 +67,9 @@ module Redmine
         
         @date_from = Date.civil(@year_from, @month_from, 1)
         @date_to = (@date_from >> @months) - 1
+        
+        @subjects = ''
+        @lines = ''
       end
 
       def common_params
@@ -128,34 +131,32 @@ module Redmine
 
       # Renders the subjects of the Gantt chart, the left side.
       def subjects(options={})
-        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
-
-        output = ''
-        if @project
-          output << render_project(@project, options)
-        else
-          Project.roots.visible.each do |project|
-            output << render_project(project, options)
-          end
-        end
-
-        output
+        render(options.merge(:only => :subjects)) unless @subjects_rendered
+        @subjects
       end
 
       # Renders the lines of the Gantt chart, the right side
       def lines(options={})
-        options = {:indent => 4, :render => :line, :format => :html}.merge(options)
-        output = ''
-
+        render(options.merge(:only => :lines)) unless @lines_rendered
+        @lines
+      end
+      
+      def render(options={})
+        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
+        
+        @subjects = '' unless options[:only] == :lines
+        @lines = '' unless options[:only] == :subjects
+        
         if @project
-          output << render_project(@project, options)
+          render_project(@project, options)
         else
           Project.roots.visible.each do |project|
-            output << render_project(project, options)
+            render_project(project, options)
           end
         end
         
-        output
+        @subjects_rendered = true unless options[:only] == :lines
+        @lines_rendered = true unless options[:only] == :subjects
       end
 
       def render_project(project, options={})
@@ -163,15 +164,8 @@ module Redmine
         options[:indent_increment] = 20 unless options.key? :indent_increment
         options[:top_increment] = 20 unless options.key? :top_increment
 
-        output = ''
-        # Project Header
-        project_header = if options[:render] == :subject
-                           subject_for_project(project, options)
-                         else
-                           # :line
-                           line_for_project(project, options)
-                         end
-        output << project_header if options[:format] == :html
+        subject_for_project(project, options) unless options[:only] == :lines
+        line_for_project(project, options) unless options[:only] == :subjects
         
         options[:top] += options[:top_increment]
         options[:indent] += options[:indent_increment]
@@ -180,54 +174,36 @@ module Redmine
         issues = project.issues.for_gantt.without_version.with_query(@query)
         sort_issues!(issues)
         if issues
-          issue_rendering = render_issues(issues, options)
-          output << issue_rendering if options[:format] == :html
+          render_issues(issues, options)
         end
 
         # Third, Versions
         project.versions.sort.each do |version|
-          version_rendering = render_version(version, options)
-          output << version_rendering if options[:format] == :html
+          render_version(version, options)
         end
 
         # Fourth, subprojects
         project.children.visible.each do |project|
-          subproject_rendering = render_project(project, options)
-          output << subproject_rendering if options[:format] == :html
+          render_project(project, options)
         end
 
         # Remove indent to hit the next sibling
         options[:indent] -= options[:indent_increment]
-        
-        output
       end
 
       def render_issues(issues, options={})
-        output = ''
         issues.each do |i|
-          issue_rendering = if options[:render] == :subject
-                              subject_for_issue(i, options)
-                            else
-                              # :line
-                              line_for_issue(i, options)
-                            end
-          output << issue_rendering if options[:format] == :html
+          subject_for_issue(i, options) unless options[:only] == :lines
+          line_for_issue(i, options) unless options[:only] == :subjects
+          
           options[:top] += options[:top_increment]
         end
-        output
       end
 
       def render_version(version, options={})
-        output = ''
         # Version header
-        version_rendering = if options[:render] == :subject
-                              subject_for_version(version, options)
-                            else
-                              # :line
-                              line_for_version(version, options)
-                            end
-
-        output << version_rendering if options[:format] == :html
+        subject_for_version(version, options) unless options[:only] == :lines
+        line_for_version(version, options) unless options[:only] == :subjects
         
         options[:top] += options[:top_increment]
 
@@ -241,11 +217,9 @@ module Redmine
           sort_issues!(issues)
           # Indent issues
           options[:indent] += options[:indent_increment]
-          output << render_issues(issues, options)
+          render_issues(issues, options)
           options[:indent] -= options[:indent_increment]
         end
-
-        output
       end
 
       def subject_for_project(project, options)
@@ -263,7 +237,7 @@ module Redmine
             ''
           end
           output << "</small></div>"
-
+          @subjects << output
           output
         when :image
           
@@ -351,7 +325,7 @@ module Redmine
               output << "<strong>#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%</strong>"
               output << "</div>"
             end
-
+            @lines << output
             output
           when :image
             options[:image].stroke('transparent')
@@ -399,7 +373,7 @@ module Redmine
             ''
           end
           output << "</small></div>"
-
+          @subjects << output
           output
         when :image
           options[:image].fill('black')
@@ -486,7 +460,7 @@ module Redmine
               output << "<strong>#{h version } #{h version.completed_pourcent.to_i.to_s}%</strong>"
               output << "</div>"
             end
-
+            @lines << output
             output
           when :image
             options[:image].stroke('transparent')
@@ -553,6 +527,7 @@ module Redmine
           end
 
           output << "</div>"
+          @subjects << output
           output
         when :image
           options[:image].fill('black')
@@ -625,6 +600,7 @@ module Redmine
             output << '<span class="tip">'
             output << view.render_issue_tooltip(issue)
             output << "</span></div>"
+            @lines << output
             output
           
           when :image
@@ -938,18 +914,21 @@ module Redmine
         
         # Tasks
         top = headers_heigth + y_start
-        pdf_subjects_and_lines(pdf, {
-                                 :top => top,
-                                 :zoom => zoom,
-                                 :subject_width => subject_width,
-                                 :g_width => g_width
-                               })
-
+        options = {
+          :top => top,
+          :zoom => zoom,
+          :subject_width => subject_width,
+          :g_width => g_width,
+          :indent => 0,
+          :indent_increment => 5,
+          :top_increment => 3,
+          :format => :pdf,
+          :pdf => pdf
+        }
+        render(options)
         
         pdf.Line(15, top, subject_width+g_width, top)
         pdf.Output
-
-        
       end
       
       private
@@ -964,24 +943,6 @@ module Redmine
           cmp
         end
       end
-      
-      # Renders both the subjects and lines of the Gantt chart for the
-      # PDF format
-      def pdf_subjects_and_lines(pdf, options = {})
-        subject_options = {:indent => 0, :indent_increment => 5, :top_increment => 3, :render => :subject, :format => :pdf, :pdf => pdf}.merge(options)
-        line_options = {:indent => 0, :indent_increment => 5, :top_increment => 3, :render => :line, :format => :pdf, :pdf => pdf}.merge(options)
-
-        if @project
-          render_project(@project, subject_options)
-          render_project(@project, line_options)
-        else
-          Project.roots.each do |project|
-            render_project(project, subject_options)
-            render_project(project, line_options)
-          end
-        end
-      end
-
     end
   end
 end
