@@ -882,14 +882,6 @@ class ProjectTest < ActiveSupport::TestCase
     should "be nil if there are no issues on the project" do
       assert_nil @project.start_date
     end
-
-    should "be nil if issue tracking is disabled" do
-      Issue.generate_for_project!(@project, :start_date => Date.today)
-      @project.enabled_modules.find_all_by_name('issue_tracking').each {|m| m.destroy}
-      @project.reload
-      
-      assert_nil @project.start_date
-    end
     
     should "be tested when issues have no start date"
 
@@ -911,14 +903,6 @@ class ProjectTest < ActiveSupport::TestCase
     end
     
     should "be nil if there are no issues on the project" do
-      assert_nil @project.due_date
-    end
-
-    should "be nil if issue tracking is disabled" do
-      Issue.generate_for_project!(@project, :due_date => Date.today)
-      @project.enabled_modules.find_all_by_name('issue_tracking').each {|m| m.destroy}
-      @project.reload
-      
       assert_nil @project.due_date
     end
     

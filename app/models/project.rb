@@ -449,24 +449,20 @@ class Project < ActiveRecord::Base
 
   # The earliest start date of a project, based on it's issues and versions
   def start_date
-    if module_enabled?(:issue_tracking)
-      [
-       issues.minimum('start_date'),
-       shared_versions.collect(&:effective_date),
-       shared_versions.collect {|v| v.fixed_issues.minimum('start_date')}
-      ].flatten.compact.min
-    end
+    [
+     issues.minimum('start_date'),
+     shared_versions.collect(&:effective_date),
+     shared_versions.collect {|v| v.fixed_issues.minimum('start_date')}
+    ].flatten.compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
-    if module_enabled?(:issue_tracking)
-      [
-       issues.maximum('due_date'),
-       shared_versions.collect(&:effective_date),
-       shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
-      ].flatten.compact.max
-    end
+    [
+     issues.maximum('due_date'),
+     shared_versions.collect(&:effective_date),
+     shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
+    ].flatten.compact.max
   end
 
   def overdue?

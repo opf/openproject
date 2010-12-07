@@ -97,7 +97,7 @@ module Redmine
         if @project
           return number_of_rows_on_project(@project)
         else
-          Project.roots.visible.inject(0) do |total, project|
+          Project.roots.visible.has_module('issue_tracking').inject(0) do |total, project|
             total += number_of_rows_on_project(project)
           end
         end
@@ -125,7 +125,7 @@ module Redmine
         end
 
         # Subprojects
-        project.children.visible.each do |subproject|
+        project.children.visible.has_module('issue_tracking').each do |subproject|
           count += number_of_rows_on_project(subproject)
         end
 
@@ -154,7 +154,7 @@ module Redmine
         if @project
           render_project(@project, options)
         else
-          Project.roots.visible.each do |project|
+          Project.roots.visible.has_module('issue_tracking').each do |project|
             render_project(project, options)
           end
         end
@@ -190,7 +190,7 @@ module Redmine
         end
 
         # Fourth, subprojects
-        project.children.visible.each do |project|
+        project.children.visible.has_module('issue_tracking').each do |project|
           render_project(project, options)
         end
 
