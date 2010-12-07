@@ -1,6 +1,6 @@
 require "set"
 
-module Report::GroupBy
+class Report::GroupBy
   def self.all
     Set[CostQuery::GroupBy::SingletonValue]
   end
