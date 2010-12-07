@@ -63,7 +63,7 @@ g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
 
-@gantt.render(:headers_height => headers_height, :top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
 %>
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
@@ -72,7 +72,6 @@ t_height = g_height + headers_height
 <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr"></div>
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
-<% top = headers_height + 8 %>
 
 <%= @gantt.subjects %>
 
@@ -152,8 +151,6 @@ if show_days
 	wday = 1 if wday > 7
 	end
 end %>
-
-<% top = headers_height + 10 %>
 
 <%= @gantt.lines %>
 
