@@ -1,5 +1,5 @@
 class CostQuery::Filter
-  class CustomFields < Base
+  class CustomFieldEntries < Base
     extend CostQuery::CustomFieldMixin
 
     on_prepare do

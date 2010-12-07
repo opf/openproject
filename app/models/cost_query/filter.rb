@@ -26,7 +26,7 @@ class CostQuery::Filter < Report::Filter
       CostQuery::Filter::UpdatedOn,
       CostQuery::Filter::UserId,
       CostQuery::Filter::PermissionFilter,
-      *CostQuery::Filter::CustomFields.all
+      *CostQuery::Filter::CustomFieldEntries.all
     ]
   end
 end
