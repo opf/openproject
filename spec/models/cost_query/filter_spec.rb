@@ -229,9 +229,9 @@ describe CostQuery do
       end
     end
 
-    describe CostQuery::Filter::CustomField do
+    describe CostQuery::Filter::CustomFields do
       before do
-        CostQuery::Filter.all.merge CostQuery::Filter::CustomField.all
+        CostQuery::Filter.all.merge CostQuery::Filter::CustomFields.all
       end
       
       it "should create classes for custom fields" do
@@ -239,13 +239,13 @@ describe CostQuery do
         CostQuery::Filter::CustomFieldSearchableField
       end
       
-      it "includes custom fields classes in CustomField.all" do
-        CostQuery::Filter::CustomField.all.
+      it "includes custom fields classes in CustomFields.all" do
+        CostQuery::Filter::CustomFields.all.
           should include(CostQuery::Filter::CustomFieldSearchableField)
       end
 
       it "includes custom fields classes in Filter.all" do
-        CostQuery::Filter::CustomField.all.
+        CostQuery::Filter::CustomFields.all.
           should include(CostQuery::Filter::CustomFieldSearchableField)
       end
 
