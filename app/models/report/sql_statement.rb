@@ -20,7 +20,8 @@ class Report::SqlStatement
     end
   end
 
-  include Report.lookup::QueryUtils
+  include Report::QueryUtils
+
   ##
   # Describes the query. This may be used in a sql-comment later.
   attr_accessor :desc

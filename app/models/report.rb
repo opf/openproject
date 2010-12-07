@@ -8,14 +8,9 @@ class Report < ActiveRecord::Base
   #belongs_to :project
   #attr_protected :user_id, :project_id, :created_at, :updated_at
   self.abstract_class = true #lets have subclasses have their own SQL tables
-  @@lookup = Report
-  def self.lookup(klass = nil)
-    @@lookup = klass if klass
-    @@lookup
-  end
 
   def self.accepted_properties
-    @accepted_properties ||= []
+    @@accepted_properties ||= []
   end
 
   def self.chain_initializer
@@ -35,15 +30,15 @@ class Report < ActiveRecord::Base
   end
 
   def available_filters
-    self.class.lookup::Filter.all
+    self.class::Filter.all
   end
 
   def transformer
-    @transformer ||= self.class.lookup::Transformer.new self
+    @transformer ||= self.class::Transformer.new self
   end
 
   def walker
-    @walker ||= self.class.lookup::Walker.new self
+    @walker ||= self.class::Walker.new self
   end
 
   def add_chain(type, name, options)
@@ -61,18 +56,18 @@ class Report < ActiveRecord::Base
 
   def build_new_chain
     #FIXME: is there a better way to load all filter and groups?
-    self.class.lookup::Filter.all && self.class.lookup::GroupBy.all
+    self.class::Filter.all && self.class::GroupBy.all
 
     minimal_chain!
     self.class.chain_initializer.each { |block| block.call self }
   end
 
   def filter(name, options = {})
-    add_chain self.class.lookup::Filter, name, options
+    add_chain self.class::Filter, name, options
   end
 
   def group_by(name, options = {})
-    add_chain self.class.lookup::GroupBy, name, options.reverse_merge(:type => :column)
+    add_chain self.class::GroupBy, name, options.reverse_merge(:type => :column)
   end
 
   def column(name, options = {})
@@ -84,7 +79,7 @@ class Report < ActiveRecord::Base
   end
 
   def table
-    @table = self.class.lookup::Table.new(self)
+    @table = self.class::Table.new(self)
   end
 
   def group_bys
@@ -117,7 +112,7 @@ class Report < ActiveRecord::Base
   private
 
   def minimal_chain!
-    @chain = self.class.lookup::Filter::NoFilter.new
+    @chain = self.class::Filter::NoFilter.new
   end
 
 end
