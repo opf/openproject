@@ -157,6 +157,8 @@ module Redmine
         
         @subjects_rendered = true unless options[:only] == :lines
         @lines_rendered = true unless options[:only] == :subjects
+        
+        render_end(options)
       end
 
       def render_project(project, options={})
@@ -219,6 +221,13 @@ module Redmine
           options[:indent] += options[:indent_increment]
           render_issues(issues, options)
           options[:indent] -= options[:indent_increment]
+        end
+      end
+      
+      def render_end(options={})
+        case options[:format]
+        when :pdf        
+          options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
         end
       end
 
@@ -929,8 +938,6 @@ module Redmine
           :pdf => pdf
         }
         render(options)
-        
-        pdf.Line(15, top, subject_width+g_width, top)
         pdf.Output
       end
       
