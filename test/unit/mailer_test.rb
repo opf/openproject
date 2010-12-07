@@ -305,6 +305,26 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
   
+  def test_wiki_content_added
+    content = WikiContent.find(:first)
+    valid_languages.each do |lang|
+      Setting.default_language = lang.to_s
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        assert Mailer.deliver_wiki_content_added(content)
+      end
+    end
+  end
+  
+  def test_wiki_content_updated
+    content = WikiContent.find(:first)
+    valid_languages.each do |lang|
+      Setting.default_language = lang.to_s
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        assert Mailer.deliver_wiki_content_updated(content)
+      end
+    end
+  end
+  
   def test_account_information
     user = User.find(2)
     valid_languages.each do |lang|
