@@ -246,6 +246,7 @@ module Redmine
           options[:image].stroke_width(1)
           options[:image].text(options[:indent], options[:top] + 2, project.name)
         when :pdf
+          pdf_new_page?(options)
           options[:pdf].SetY(options[:top])
           options[:pdf].SetX(15)
           
@@ -381,6 +382,7 @@ module Redmine
           options[:image].stroke_width(1)
           options[:image].text(options[:indent], options[:top] + 2, version.to_s_with_project)
         when :pdf
+          pdf_new_page?(options)
           options[:pdf].SetY(options[:top])
           options[:pdf].SetX(15)
           
@@ -535,6 +537,7 @@ module Redmine
           options[:image].stroke_width(1)
           options[:image].text(options[:indent], options[:top] + 2, issue.subject)
         when :pdf
+          pdf_new_page?(options)
           options[:pdf].SetY(options[:top])
           options[:pdf].SetX(15)
           
@@ -921,7 +924,7 @@ module Redmine
           :g_width => g_width,
           :indent => 0,
           :indent_increment => 5,
-          :top_increment => 3,
+          :top_increment => 5,
           :format => :pdf,
           :pdf => pdf
         }
@@ -941,6 +944,15 @@ module Redmine
           cmp = (a.due_date <=> b.due_date) if cmp == 0 && a.due_date? && b.due_date?
           cmp = (a.id <=> b.id) if cmp == 0
           cmp
+        end
+      end
+      
+      def pdf_new_page?(options)
+        if options[:top] > 180
+          options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
+          options[:pdf].AddPage("L")
+          options[:top] = 15
+          options[:pdf].Line(15, options[:top] - 0.1, PDF::TotalWidth, options[:top] - 0.1)
         end
       end
     end
