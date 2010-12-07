@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   class Week < Base
     label :label_week_reporting
   end

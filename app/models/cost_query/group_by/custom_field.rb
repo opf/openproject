@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   class CustomField < Base
     applies_for :label_issue_attributes
     extend CostQuery::CustomFieldMixin

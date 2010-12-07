@@ -3,6 +3,6 @@ class CostQuery::Filter::NoFilter < Report::Filter::NoFilter
   singleton
 
   def sql_statement
-    Report::SqlStatement.for_entries
+    Report.lookup::SqlStatement.for_entries
   end
 end

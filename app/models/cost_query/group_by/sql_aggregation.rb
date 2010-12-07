@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   module SqlAggregation
     include Report::GroupBy::SqlAggregation
 
