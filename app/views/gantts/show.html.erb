@@ -59,11 +59,13 @@ end
 
 # Width of the entire chart    
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
-# Collect the number of issues on Versions
+
+@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
 
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+
 %>
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>

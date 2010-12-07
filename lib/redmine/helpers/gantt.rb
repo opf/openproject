@@ -70,6 +70,7 @@ module Redmine
         
         @subjects = ''
         @lines = ''
+        @number_of_rows = nil
       end
 
       def common_params
@@ -91,6 +92,8 @@ module Redmine
             ### Extracted from the HTML view/helpers
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
+        return @number_of_rows if @number_of_rows
+        
         if @project
           return number_of_rows_on_project(@project)
         else
@@ -146,6 +149,7 @@ module Redmine
         
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
+        @number_of_rows = 0
         
         if @project
           render_project(@project, options)
@@ -171,6 +175,7 @@ module Redmine
         
         options[:top] += options[:top_increment]
         options[:indent] += options[:indent_increment]
+        @number_of_rows += 1
         
         # Second, Issues without a version
         issues = project.issues.for_gantt.without_version.with_query(@query)
@@ -199,6 +204,7 @@ module Redmine
           line_for_issue(i, options) unless options[:only] == :subjects
           
           options[:top] += options[:top_increment]
+          @number_of_rows += 1
         end
       end
 
@@ -208,7 +214,8 @@ module Redmine
         line_for_version(version, options) unless options[:only] == :subjects
         
         options[:top] += options[:top_increment]
-
+        @number_of_rows += 1
+        
         # Remove the project requirement for Versions because it will
         # restrict issues to only be on the current project.  This
         # ends up missing issues which are assigned to shared versions.
