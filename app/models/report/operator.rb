@@ -190,7 +190,7 @@ class Report::Operator
   end
 
   def self.all
-    @all ||= {}
+    @@all_operators ||= {}
   end
 
   def self.load
@@ -200,7 +200,7 @@ class Report::Operator
   end
 
   def self.find(name)
-    all[name.to_s] or raise ArgumentError, "Operator not defined"
+    all[name.to_s] or raise ArgumentError, "Operator #{name.inspect} not defined"
   end
 
   def self.defaults(&block)
