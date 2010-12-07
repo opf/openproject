@@ -1,5 +1,5 @@
 module Report::InheritedNamespace
-  NESTED_NAMESPACES = %w[Validation Filter GroupBy Result]
+  NESTED_NAMESPACES = %w[Validation Filter GroupBy Result Operator]
 
   def self.activate
     Report.extend self
