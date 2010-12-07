@@ -22,16 +22,6 @@ module Report::QueryUtils
   end
 
   ##
-  # Graceful, internationalized quoted string.
-  #
-  # @see quote_string
-  # @param [Object] str String to quote/translate
-  # @return [Object] Quoted, translated version
-  def quoted_label(ident)
-    "'#{quote_string l(ident)}'"
-  end
-
-  ##
   # Creates a SQL fragment representing a collection/array.
   #
   # @see quote_string
