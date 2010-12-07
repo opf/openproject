@@ -1,18 +1,14 @@
 require_dependency "entry"
 require 'forwardable'
-require 'yaml'
 
 class CostQuery < ActiveRecord::Base
   extend Forwardable
   include Enumerable
   belongs_to :user
+  belongs_to :project
 
-  before_save :yamlize!
-  #attr_protected :user_id, :project_id, :created_at, :updated_at
-
-  def self.load(yaml)
-    deserialize(YAML::load(yaml))
-  end
+  before_save :serialize
+  serialize :serialized, Hash
 
   def self.accepted_properties
     @accepted_properties ||= []
@@ -31,11 +27,7 @@ class CostQuery < ActiveRecord::Base
 
   def serialize
     # have to take the reverse to retain the original order when deserializing
-    { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
-  end
-
-  def yamlize!
-    self.yamlized = serialize.to_yaml
+    self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
   def available_filters

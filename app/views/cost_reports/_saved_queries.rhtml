@@ -3,7 +3,7 @@
     queries   A Collection of CostQuery Objects
 %>
 
-<div class="saved_queries buttons">
+<div id= "saved_queries" class="saved_queries buttons">
 <% queries.each do |query| %>
   <span class='reporting_button'>
   <%= link_to_remote "<em>#{query.name}</em>",
@@ -12,6 +12,12 @@
                       :update => "content",
                       :eval_scripts => true } %>
   </span>
+  <div>
+    <% link_to_remote l(:label_edit),
+    { :url => { :action => 'edit', :query => query },
+      :update => "saved_queries",
+      :eval_scripts => true } %>
+  </div>
 <% end %>
 </div>
 <div style="clear:both"></div>

@@ -5,12 +5,12 @@ class CostReportsController < ApplicationController
   before_filter :set_cost_types,        :only => [:index, :drill_down]
   before_filter :save_query,            :only => [:index, :drill_down]
 
-  rescue_from Exception do |exception|
-    session.delete(:cost_query)
-    @custom_errors ||= []
-    @custom_errors << l(:error_generic)
-    render :layout => !request.xhr?
-  end
+  # rescue_from Exception do |exception|
+  #   session.delete(:cost_query)
+  #   @custom_errors ||= []
+  #   @custom_errors << l(:error_generic)
+  #   render :layout => !request.xhr?
+  # end
 
   helper :reporting
   include ReportingHelper
@@ -139,6 +139,17 @@ class CostReportsController < ApplicationController
     !(set_filter? or set_unit?)
   end
 
+  def save_query
+    return unless params[:save_query].to_i == 1 || !User.current.allowed_to?(:save_queries, @project, :global => true)
+    @query.name = params[:name].present? ? params[:name] : l(:label_default)
+    @query.project ||= params[:project] || @project
+    @query.is_public = if User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+      params[:public]
+    end || false
+    @query.user_id ||= User.current.id
+    @query.save!
+  end
+
   ##
   # Build the query from the current request and save it to
   # the session.
@@ -146,7 +157,7 @@ class CostReportsController < ApplicationController
     CostQuery::QueryUtils.cache.clear
 
     if params[:query]
-      return @query = CostQuery.load(CostQuery.find(params[:query]).yamlized)
+      return @query = CostQuery.deserialize(CostQuery.find(params[:query]).serialized)
     end
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
@@ -209,16 +220,6 @@ class CostReportsController < ApplicationController
       end.collect(&:id)
       @cost_types = [-1, 0, *relevant_cost_types]
     end
-  end
-
-  def save_query
-    return unless params[:save_query].to_i == 1 || !User.current.allowed_to?(:save_queries, @project, :global => true)
-    @query.name = params[:name].present? ? params[:name] : l(:label_default)
-    @query.is_public = if User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-      params[:public]
-    end || false
-    @query.user_id ||= User.current.id
-    @query.save!
   end
 
   def load_all
