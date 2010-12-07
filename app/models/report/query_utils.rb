@@ -2,6 +2,16 @@ module Report::QueryUtils
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
   ##
+  # Subclass of Report to be used for constant lookup and such.
+  # It is considered public API to override this method i.e. in Tests.
+  #
+  # @return [Class] subclass
+  def engine
+    return self.class.engine unless is_a? Module
+    Object.const_get name[/^[^:]+/]
+  end
+
+  ##
   # Graceful string quoting.
   #
   # @param [Object] str String to quote

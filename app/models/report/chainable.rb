@@ -3,14 +3,14 @@
 class Report < ActiveRecord::Base
   class Chainable
     include Enumerable
-    include Report.lookup::QueryUtils
-    extend Report.lookup::InheritedAttribute
+    include Report::QueryUtils
+    extend Report::InheritedAttribute
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, :default => :label_cost_entry_attributes
 
     def self.accepts_property(*list)
-      Report.lookup.accepted_properties.push(*list.map(&:to_s))
+      engine.accepted_properties.push(*list.map(&:to_s))
     end
 
     def self.chain_list(*list)
@@ -67,7 +67,7 @@ class Report < ActiveRecord::Base
     # Example:
     # initialize_query_with { |query| query.filter Report::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
     def self.initialize_query_with(&block)
-      Report.lookup.chain_initializer.push block
+      engine.chain_initializer.push block
     end
 
     inherited_attribute :label
@@ -124,7 +124,7 @@ class Report < ActiveRecord::Base
       @options = options
       options.each do |key, value|
         unless self.class.extra_options.include? key
-          raise ArgumentError, "may not set #{key}" unless Report.lookup.accepted_properties.include? key.to_s
+          raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
           send "#{key}=", value if value
         end
       end
@@ -198,7 +198,7 @@ class Report < ActiveRecord::Base
     end
 
     def compute_result
-      Report.lookup::Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s), {}, type
+      engine::Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s), {}, type
     end
 
     def table_joins
