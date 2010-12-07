@@ -35,7 +35,7 @@ module Report::InheritedNamespace
     end
   end
 
-  def load_constant(name, error = nil)
+  def load_constant(name, error = NameError)
     zuper = (Class === self ? superclass : ancestors.second).const_get(name)
     case zuper
     when Class  then const_set name, Class.new(zuper).extend(Report::InheritedNamespace)
@@ -43,6 +43,9 @@ module Report::InheritedNamespace
     else const_set name, zuper
     end
   rescue NameError, ArgumentError => new_error
+    error.message << "\n\tWas #{new_error.class}: #{new_error.message}"
+    new_error.backtrace[0..9].each { |l| error.message << "\n\t\t#{l}" }
+    error.message << "\n\t\t..." if new_error.backtrace.size > 10
     raise error
   end
 end
