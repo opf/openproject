@@ -41,11 +41,11 @@ module Report::Result
             fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
           end
           # map group back to array, all fields with same key get grouped into one list
-          data.keys.map { |f| Report::Result.new data[f], f, type, important_fields }
+          data.keys.map { |f| engine::Result.new data[f], f, type, important_fields }
         end
       end
       # create a single result from that list
-      Report::Result.new list, {}, type, important_fields
+      engine::Result.new list, {}, type, important_fields
     end
 
     def inspect
