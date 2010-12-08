@@ -1,6 +1,16 @@
 module Report::QueryUtils
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
+  def self.included(base)
+    @includees ||= []
+    @includees << base
+  end
+
+  def self.send_to_all_includees(mod)
+    @includees ||= []
+    @includees.each {|i| i.send :include, mod }
+  end
+
   ##
   # Subclass of Report to be used for constant lookup and such.
   # It is considered public API to override this method i.e. in Tests.
@@ -28,7 +38,21 @@ module Report::QueryUtils
   # @param [#flatten] *values Ruby collection
   # @return [String] SQL collection
   def collection(*values)
-    "(#{values.flatten.map { |v| "'#{quote_string(v)}'" }.join ", "})"
+    if values.empty?
+      ""
+    else
+      "(#{values.flatten.map { |v| "'#{quote_string(v)}'" }.join ", "})"
+    end
+  end
+
+  ##
+  # Graceful, internationalized quoted string.
+  #
+  # @see quote_string
+  # @param [Object] str String to quote/translate
+  # @return [Object] Quoted, translated version
+  def quoted_label(ident)
+    "'#{quote_string l(ident)}'"
   end
 
   def quoted_date(date)
@@ -74,6 +98,7 @@ module Report::QueryUtils
   # @return [String] Field name.
   def field_name_for(arg, default_table = nil)
     return 'NULL' unless arg
+    return field_name_for(arg.keys.first, default_table) if arg.is_a? Hash
     return arg if arg.is_a? String and arg =~ /\.| |\(.*\)/
     return table_name_for(arg.first || default_table) + '.' << arg.last.to_s if arg.is_a? Array and arg.size == 2
     return arg.to_s unless default_table
@@ -87,10 +112,11 @@ module Report::QueryUtils
   # @param [Object] statement Not sanitized statement.
   # @return [String] Sanitized statement.
   def sanitize_sql_for_conditions(statement)
-    Report.send :sanitize_sql_for_conditions, statement
+    engine.send :sanitize_sql_for_conditions, statement
   end
 
   ##
+  # FIXME: This is redmine
   # Generates string representation for a currency.
   #
   # @see CostRate.clean_currency

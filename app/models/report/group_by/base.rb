@@ -37,7 +37,7 @@ class Report::GroupBy
 
     def aggregation_mixin
       sql_aggregation? ? SqlAggregation : RubyAggregation
-    end 
+    end
 
     def initialize(child = nil, optios = {})
       super

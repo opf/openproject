@@ -1,6 +1,8 @@
 class Report::Filter
   class Base < Report::Chainable
-    Report::Operator.load
+    include Report::CostQuery
+
+    engine::Operator.load
 
     inherited_attribute   :available_operators,
                             :list => true, :map => :to_operator,
@@ -30,8 +32,8 @@ class Report::Filter
       names.each do |name|
         dont_inherit :available_operators if skip_inherited_operators.include? name
         case name
-        when String, Report::Operator then operators << name.to_operator
-        when Symbol then operators.push(*Report::Operator.send(name))
+        when String, engine::Operator then operators << name.to_operator
+        when Symbol then operators.push(*engine::Operator.send(name))
         else fail "dunno what to do with #{name.inspect}"
         end
       end
@@ -93,7 +95,7 @@ class Report::Filter
     end
 
     def operator
-      (@operator || self.class.default_operator || Report::Operator.default_operator).to_operator
+      (@operator || self.class.default_operator || engine::Operator.default_operator).to_operator
     end
 
     def operator=(value)

@@ -150,6 +150,11 @@ class Report::SqlStatement
     end
   end
 
+  def default_select(value = nil)
+    @default_select = value if value
+    @default_select ||= ["*"]
+  end
+
   ##
   # @overload select
   #   @return [Array<String>] All fields/statements for select part
@@ -165,7 +170,7 @@ class Report::SqlStatement
   #   @param [Array, Hash, String, Symbol, SqlStatement] fields Fields to add to select part
   #   @return [Array<String>] All fields/statements for select part
   def select(*fields)
-    return(@select || ["*"]) if fields.empty?
+    return(@select || default_select) if fields.empty?
     returning(@select ||= []) do
       @sql = nil
       fields.each do |f|
@@ -176,7 +181,7 @@ class Report::SqlStatement
           end
         when Hash then select f.map { |k,v| "#{field_name_for v} as #{field_name_for k}" }
         when String, Symbol then @select << field_name_for(f)
-        when Report::SqlStatement then @select << f.to_s
+        when engine::SqlStatement then @select << f.to_s
         else raise ArgumentError, "cannot handle #{f.inspect}"
         end
       end
