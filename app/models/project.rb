@@ -688,12 +688,20 @@ class Project < ActiveRecord::Base
       end
       
       self.issues << new_issue
-      issues_map[issue.id] = new_issue
+      if new_issue.new_record?
+        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+      else
+        issues_map[issue.id] = new_issue unless new_issue.new_record?
+      end
     end
 
     # Relations after in case issues related each other
     project.issues.each do |issue|
       new_issue = issues_map[issue.id]
+      unless new_issue
+        # Issue was not copied
+        next
+      end
       
       # Relations
       issue.relations_from.each do |source_relation|
