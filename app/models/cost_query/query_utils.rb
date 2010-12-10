@@ -17,4 +17,20 @@ module CostQuery::QueryUtils
     # we have no identity map... :(
     cache[:user_name][id] ||= User.find(id).name
   end
+
+  ##
+  # Graceful, internationalized quoted string.
+  #
+  # @see quote_string
+  # @param [Object] str String to quote/translate
+  # @return [Object] Quoted, translated version
+  def quoted_label(ident)
+    "'#{quote_string l(ident)}'"
+  end
+
+  def self.included(klass)
+    super
+    klass.extend self
+  end
+
 end
