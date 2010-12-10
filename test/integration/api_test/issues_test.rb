@@ -91,6 +91,40 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
   
   context "GET /issues/:id" do
+    context "with journals" do
+      context ".xml" do
+        should "display journals" do
+          get '/issues/1.xml'
+          
+          assert_tag :tag => 'issue',
+            :child => {
+              :tag => 'journals',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'journal',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'details',
+                  :attributes => { :type => 'array' },
+                  :child => {
+                    :tag => 'detail',
+                    :attributes => { :name => 'status_id' },
+                    :child => {
+                      :tag => 'old_value',
+                      :content => '1',
+                      :sibling => {
+                        :tag => 'new_value',
+                        :content => '2'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        end
+      end
+    end
+    
     context "with custom fields" do
       context ".xml" do
         should "display custom fields" do
