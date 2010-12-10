@@ -1,16 +1,6 @@
 module Report::QueryUtils
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
 
-  def self.included(base)
-    @includees ||= []
-    @includees << base
-  end
-
-  def self.send_to_all_includees(mod)
-    @includees ||= []
-    @includees.each {|i| i.send :include, mod }
-  end
-
   ##
   # Subclass of Report to be used for constant lookup and such.
   # It is considered public API to override this method i.e. in Tests.
