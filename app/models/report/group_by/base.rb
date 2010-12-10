@@ -27,7 +27,7 @@ class Report::GroupBy
     def all_group_fields(prefix = true)
       @all_group_fields ||= []
       @all_group_fields[prefix ? 0 : 1] ||= begin
-        fields = group_fields.reject { |c| c.blank? }
+        fields = group_fields.reject { |c| c.blank? or c == 'base' }
         (parent ? parent.all_group_fields(prefix) : []) + (prefix ? with_table(fields) : fields)
       end.uniq
     end

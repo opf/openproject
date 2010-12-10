@@ -22,19 +22,19 @@ class Report::Operator
       end
 
       def label
-        @label ||= Query.operators[name]
+        @label ||= self.class.name.to_sym
       end
     end
 
     # Operators from Redmine
-    new ">t-" do
+    new ">t-", :label => :label_less_than_ago do
       include DateRange
       def modify(query, field, value)
         super query, field, -value.to_i, 0
       end
     end
 
-    new "w", :arity => 0 do
+    new "w", :arity => 0, :label => :label_this_week do
       def modify(query, field, offset = nil)
         offset ||= 0
         from = Time.now.at_beginning_of_week - ((l(:general_first_day_of_week).to_i % 7) + 1).days
@@ -43,16 +43,16 @@ class Report::Operator
       end
     end
 
-    new "t+" do
+    new "t+", :label => :label_in do
       include DateRange
       def modify(query, field, *values)
         super query, field, values.first.to_i, values.first.to_i
       end
     end
 
-    new "<="
+    new "<=", :label => :label_less_or_equal
 
-    new "!" do
+    new "!", :label => :label_not_equals do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
         where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
@@ -62,14 +62,14 @@ class Report::Operator
       end
     end
 
-    new "t-" do
+    new "t-", :label => :label_ago do
       include DateRange
       def modify(query, field, *values)
         super query, field, -values.first.to_i, -values.first.to_i
       end
     end
 
-    new "!~", :arity => 1 do
+    new "!~", :arity => 1, :label => :label_not_contains do
       def modify(query, field, *values)
         value = values.first || ''
         query.where "LOWER(#{field}) NOT LIKE '%#{quote_string(value.to_s.downcase)}%'"
@@ -77,7 +77,7 @@ class Report::Operator
       end
     end
 
-    new "=" do
+    new "=", :label => :label_equals do
       def modify(query, field, *values)
         if values.compact.empty?
           query.where "1=0"
@@ -88,7 +88,7 @@ class Report::Operator
       end
     end
 
-    new "~", :arity => 1 do
+    new "~", :arity => 1, :label => :label_contains do
       def modify(query, field, *values)
         value = values.first || ''
         query.where "LOWER(#{field}) LIKE '%#{quote_string(value.to_s.downcase)}%'"
@@ -96,39 +96,39 @@ class Report::Operator
       end
     end
 
-    new "<t+" do
+    new "<t+", :label => :label_in_less_than do
       include DateRange
       def modify(query, field, value)
         super query, field, 0, value.to_i
       end
     end
 
-    new "t" do
+    new "t", :label => :label_today do
       include DateRange
       def modify(query, field)
         super query, field, 0, 0
       end
     end
 
-    new ">="
+    new ">=", :label => :label_greater_or_equal
 
-    new "!*", :arity => 0, :where_clause => "%s IS NULL"
+    new "!*", :arity => 0, :where_clause => "%s IS NULL", :label => :label_none
 
-    new "<t-" do
+    new "<t-", :label => :label_more_than_ago do
       include DateRange
       def modify(query, field, value)
         super query, field, nil, -value.to_i
       end
     end
 
-    new ">t+" do
+    new ">t+", :label => :label_in_more_than do
       include DateRange
       def modify(query, field, value)
         super query, field, value.to_i, nil
       end
     end
 
-    new "*", :arity => 0, :where_clause => "%s IS NOT NULL"
+    new "*", :arity => 0, :where_clause => "%s IS NOT NULL", :label => :label_all
 
     # Our own operators
     new "<", :label => :label_less
