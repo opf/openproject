@@ -53,8 +53,8 @@ issues_003:
   assigned_to_id: 3
   author_id: 2
   status_id: 1
-  start_date: <%= 1.day.from_now.to_date.to_s(:db) %>
-  due_date: <%= 40.day.from_now.to_date.to_s(:db) %>
+  start_date: <%= 15.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 5.day.ago.to_date.to_s(:db) %>
   root_id: 3
   lft: 1
   rgt: 2
