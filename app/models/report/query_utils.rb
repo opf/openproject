@@ -8,7 +8,7 @@ module Report::QueryUtils
   # @return [Class] subclass
   def engine
     return self.class.engine unless is_a? Module
-    Object.const_get name[/^[^:]+/]
+    Object.const_get(name[/^[^:]+/] || :Report)
   end
 
   ##
