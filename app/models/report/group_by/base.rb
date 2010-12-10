@@ -1,5 +1,7 @@
 class Report::GroupBy
   class Base < Report::Chainable
+    include Report::QueryUtils
+
     inherited_attributes :group_fields, :list => true, :merge => false
 
     def self.inherited(klass)
@@ -8,7 +10,7 @@ class Report::GroupBy
     end
 
     def correct_position?
-      type == :row or !child.is_a?(Report::GroupBy::Base) or child.type == :column
+      type == :row or !child.is_a?(engine::GroupBy::Base) or child.type == :column
     end
 
     def filter?
