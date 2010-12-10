@@ -189,6 +189,7 @@ class Report::Operator
     all[name.to_s] ||= super
   end
 
+  #TODO: this should be inheritable by subclasses
   def self.all
     @@all_operators ||= {}
   end

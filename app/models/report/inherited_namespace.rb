@@ -1,5 +1,5 @@
 module Report::InheritedNamespace
-  NESTED_NAMESPACES = %w[Validation Filter GroupBy Result Operator]
+  NESTED_NAMESPACES = %w[Validation Filter GroupBy Result Operator QueryUtils]
 
   module Hook
     def const_missing(name, *)
@@ -18,12 +18,12 @@ module Report::InheritedNamespace
     super
     propagate klass
   end
-  
+
   def included(klass)
     super
     propagate klass
   end
-  
+
   def propagate(klass)
     klass.extend Report::InheritedNamespace
     klass.extend Hook

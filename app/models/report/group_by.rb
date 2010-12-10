@@ -1,8 +1,10 @@
 require "set"
 
 class Report::GroupBy
+  include Report::QueryUtils
+
   def self.all
-    Set[CostQuery::GroupBy::SingletonValue]
+    Set[engine::GroupBy::SingletonValue]
   end
 
   def self.all_grouped
