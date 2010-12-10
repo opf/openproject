@@ -229,6 +229,7 @@ class Issue < ActiveRecord::Base
     done_ratio
     estimated_hours
     custom_field_values
+    custom_fields
     lock_version
   ) unless const_defined?(:SAFE_ATTRIBUTES)
   

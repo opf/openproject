@@ -284,6 +284,23 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     
   end
   
+  context "PUT /issues/3.xml with custom fields" do
+    setup do
+      @parameters = {:issue => {:custom_fields => [{'id' => '1', 'value' => 'PostgreSQL' }, {'id' => '2', 'value' => '150'}]}}
+      @headers = { :authorization => credentials('jsmith') }
+    end
+    
+    should "update custom fields" do
+      assert_no_difference('Issue.count') do
+        put '/issues/3.xml', @parameters, @headers
+      end
+      
+      issue = Issue.find(3)
+      assert_equal '150', issue.custom_value_for(2).value
+      assert_equal 'PostgreSQL', issue.custom_value_for(1).value
+    end
+  end
+  
   context "PUT /issues/6.xml with failed update" do
     setup do
       @parameters = {:issue => {:subject => ''}}

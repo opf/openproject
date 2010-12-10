@@ -50,6 +50,21 @@ module Redmine
                                  :order => 'position')
         end
         
+        # Sets the values of the object's custom fields
+        # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
+        def custom_fields=(values)
+          values_to_hash = values.inject({}) do |hash, v|
+            v = v.stringify_keys
+            if v['id'] && v.has_key?('value')
+              hash[v['id']] = v['value']
+            end
+            hash
+          end
+          self.custom_field_values = values_to_hash
+        end
+
+        # Sets the values of the object's custom fields
+        # values is a hash like {'1' => 'foo', 2 => 'bar'}
         def custom_field_values=(values)
           @custom_field_values_changed = true
           values = values.stringify_keys
