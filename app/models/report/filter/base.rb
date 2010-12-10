@@ -1,6 +1,6 @@
 class Report::Filter
   class Base < Report::Chainable
-    include Report::CostQuery
+    include Report::QueryUtils
 
     engine::Operator.load
 
