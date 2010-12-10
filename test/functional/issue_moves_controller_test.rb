@@ -58,8 +58,8 @@ class IssueMovesControllerTest < ActionController::TestCase
       post :create, :ids => [1, 2], :notes => 'Moving two issues'
 
       assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
-      assert_equal 'Moving two issues', Issue.find(1).journals.last.notes
-      assert_equal 'Moving two issues', Issue.find(2).journals.last.notes
+      assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
+      assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
 
     end
     
