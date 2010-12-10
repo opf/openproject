@@ -91,6 +91,32 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   end
   
   context "GET /issues/:id" do
+    context "with custom fields" do
+      context ".xml" do
+        should "display custom fields" do
+          get '/issues/3.xml'
+          
+          assert_tag :tag => 'issue', 
+            :child => {
+              :tag => 'custom_fields',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'custom_field',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'value',
+                  :content => 'MySQL'
+                }
+              }
+            }
+            
+          assert_nothing_raised do
+            Hash.from_xml(response.body).to_xml
+          end
+        end
+      end
+    end
+    
     context "with subtasks" do
       setup do
         @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
