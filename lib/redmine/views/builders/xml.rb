@@ -37,7 +37,7 @@ module Redmine
         end
         
         def array(name, options={}, &block)
-          __send__ name, options.merge(:type => 'array'), &block
+          __send__ name, (options || {}).merge(:type => 'array'), &block
         end
       end
     end

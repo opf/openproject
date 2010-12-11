@@ -25,11 +25,12 @@ module Redmine
           @struct = [{}]
         end
         
-        def array(tag, &block)
+        def array(tag, options={}, &block)
           @struct << []
           block.call(self)
           ret = @struct.pop
           @struct.last[tag] = ret
+          @struct.last.merge!(options) if options
         end
         
         def method_missing(sym, *args, &block)

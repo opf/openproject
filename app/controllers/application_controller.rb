@@ -349,6 +349,23 @@ class ApplicationController < ActionController::Base
     per_page
   end
 
+  def api_offset_and_limit
+    offset = nil
+    if params[:offset].present?
+      offset = params[:offset].to_i
+      if offset < 0
+        offset = 0
+      end
+    end
+    limit = params[:limit].to_i
+    if limit < 1
+      limit = 25
+    elsif limit > 100
+      limit = 100
+    end
+    [offset, limit]
+  end
+  
   # qvalues http header parser
   # code taken from webrick
   def parse_qvalues(value)

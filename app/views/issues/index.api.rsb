@@ -1,4 +1,4 @@
-api.array :issues do
+api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :limit => @limit) do
   @issues.each do |issue|
     api.issue do
       api.id issue.id

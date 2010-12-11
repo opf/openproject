@@ -30,6 +30,13 @@ class UsersController < ApplicationController
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
     
+    case params[:format]
+    when 'xml', 'json'
+      @offset, @limit = api_offset_and_limit
+    else
+      @limit = per_page_option
+    end
+    
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -39,13 +46,13 @@ class UsersController < ApplicationController
     end
     
     @user_count = User.count(:conditions => c.conditions)
-    @user_pages = Paginator.new self, @user_count,
-								per_page_option,
-								params['page']								
-    @users =  User.find :all,:order => sort_clause,
+    @user_pages = Paginator.new self, @user_count, @limit, params['page']
+    @offset ||= @user_pages.current.offset
+    @users =  User.find :all,
+                        :order => sort_clause,
                         :conditions => c.conditions,
-						:limit  =>  @user_pages.items_per_page,
-						:offset =>  @user_pages.current.offset
+                        :limit  =>  @limit,
+                        :offset =>  @offset
 
 		respond_to do |format|
 		  format.html { render :layout => !request.xhr? }

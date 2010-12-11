@@ -65,21 +65,24 @@ class IssuesController < ApplicationController
     sort_update(@query.sortable_columns)
     
     if @query.valid?
-      limit = case params[:format]
+      case params[:format]
       when 'csv', 'pdf'
-        Setting.issues_export_limit.to_i
+        @limit = Setting.issues_export_limit.to_i
       when 'atom'
-        Setting.feeds_limit.to_i
+        @limit = Setting.feeds_limit.to_i
+      when 'xml', 'json'
+        @offset, @limit = api_offset_and_limit
       else
-        per_page_option
+        @limit = per_page_option
       end
       
       @issue_count = @query.issue_count
-      @issue_pages = Paginator.new self, @issue_count, limit, params['page']
+      @issue_pages = Paginator.new self, @issue_count, @limit, params['page']
+      @offset ||= @issue_pages.current.offset
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
                               :order => sort_clause, 
-                              :offset => @issue_pages.current.offset, 
-                              :limit => limit)
+                              :offset => @offset, 
+                              :limit => @limit)
       @issue_count_by_group = @query.issue_count_by_group
       
       respond_to do |format|

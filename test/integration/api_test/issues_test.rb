@@ -46,10 +46,60 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
-  # Use a private project to make sure auth is really working and not just
-  # only showing public issues.
   context "/index.xml" do
+    # Use a private project to make sure auth is really working and not just
+    # only showing public issues.
     should_allow_api_authentication(:get, "/projects/private-child/issues.xml")
+    
+    should "contain metadata" do
+      get '/issues.xml'
+      
+      assert_tag :tag => 'issues',
+        :attributes => {
+          :type => 'array',
+          :total_count => assigns(:issue_count),
+          :limit => 25,
+          :offset => 0
+        }
+    end
+    
+    context "with offset and limit" do
+      should "use the params" do
+        get '/issues.xml?offset=2&limit=3'
+        
+        assert_equal 3, assigns(:limit)
+        assert_equal 2, assigns(:offset)
+        assert_tag :tag => 'issues', :children => {:count => 3, :only => {:tag => 'issue'}}
+      end
+    end
+
+    context "with nometa param" do
+      should "not contain metadata" do
+        get '/issues.xml?nometa=1'
+        
+        assert_tag :tag => 'issues',
+          :attributes => {
+            :type => 'array',
+            :total_count => nil,
+            :limit => nil,
+            :offset => nil
+          }
+      end
+    end
+
+    context "with nometa header" do
+      should "not contain metadata" do
+        get '/issues.xml', {}, {'X-Redmine-Nometa' => '1'}
+        
+        assert_tag :tag => 'issues',
+          :attributes => {
+            :type => 'array',
+            :total_count => nil,
+            :limit => nil,
+            :offset => nil
+          }
+      end
+    end
   end
 
   context "/index.json" do
