@@ -21,7 +21,9 @@ class Report < ActiveRecord::Base
     end
 
     def self.base?
-      superclass == Chainable or self == Chainable
+      superclass == engine::Chainable or self == engine::Chainable or
+      superclass == Chainable or self == Chainable or
+      self == engine::Filter::Base or self == engine::GroupBy::Base
     end
 
     def self.base
