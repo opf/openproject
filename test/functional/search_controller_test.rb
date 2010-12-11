@@ -83,7 +83,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
-    assert results.include?(Issue.find(3))
+    assert results.include?(Issue.find(7))
   end
   
   def test_search_all_words
