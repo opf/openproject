@@ -126,11 +126,10 @@ class Changeset < ActiveRecord::Base
   end
 
   def text_tag
-    c = scmid? ? scmid : revision
-    if c.to_s =~ /^[0-9]*$/
-      "r#{c}"
+    if scmid?
+      "commit:#{scmid}"
     else
-      "commit:#{c}"
+      "r#{revision}"
     end
   end
   
