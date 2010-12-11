@@ -14,5 +14,5 @@ api.project do
     @project.trackers.each do |tracker|
       api.tracker(:id => tracker.id, :name => tracker.name)
     end
-  end
+  end if include_in_api_response?('trackers')
 end

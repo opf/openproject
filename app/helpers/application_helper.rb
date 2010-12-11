@@ -866,6 +866,16 @@ module ApplicationHelper
   def favicon
     "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />"
   end
+  
+  # Returns true if arg is expected in the API response
+  def include_in_api_response?(arg)
+    unless @included_in_api_response
+      param = params[:include]
+      @included_in_api_response = param.is_a?(Array) ? param.collect(&:to_s) : param.to_s.split(',')
+      @included_in_api_response.collect!(&:strip)
+    end
+    @included_in_api_response.include?(arg.to_s)
+  end
 
   private
 

@@ -25,13 +25,13 @@ api.issue do
   api.created_on @issue.created_on
   api.updated_on @issue.updated_on
   
-  render_api_issue_children(@issue, api)
+  render_api_issue_children(@issue, api) if include_in_api_response?('children')
   
   api.array :relations do
   	@issue.relations.select {|r| r.other_issue(@issue).visible? }.each do |relation|
   		api.relation(:id => relation.id, :issue_id => relation.other_issue(@issue).id, :relation_type => relation.relation_type_for(@issue), :delay => relation.delay)
   	end
-  end
+  end if include_in_api_response?('relations')
   
   api.array :changesets do
   	@issue.changesets.each do |changeset|
@@ -41,7 +41,7 @@ api.issue do
   			api.committed_on changeset.committed_on
   		end
   	end
-  end if User.current.allowed_to?(:view_changesets, @project) && @issue.changesets.any?
+  end if include_in_api_response?('changesets') && User.current.allowed_to?(:view_changesets, @project)
   
   api.array :journals do
   	@issue.journals.each do |journal|
@@ -58,5 +58,5 @@ api.issue do
   			end
   		end
   	end
-  end unless @issue.journals.empty?
+  end if include_in_api_response?('journals')
 end

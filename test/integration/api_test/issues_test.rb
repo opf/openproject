@@ -94,7 +94,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     context "with journals" do
       context ".xml" do
         should "display journals" do
-          get '/issues/1.xml'
+          get '/issues/1.xml?include=journals'
           
           assert_tag :tag => 'issue',
             :child => {
@@ -160,7 +160,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       
       context ".xml" do
         should "display children" do
-          get '/issues/1.xml'
+          get '/issues/1.xml?include=children'
           
           assert_tag :tag => 'issue', 
             :child => {
@@ -187,7 +187,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
         
         context ".json" do
           should "display children" do
-            get '/issues/1.json'
+            get '/issues/1.json?include=children'
             
             json = ActiveSupport::JSON.decode(response.body)
             assert_equal([

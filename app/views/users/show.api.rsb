@@ -20,5 +20,5 @@ api.user do
         end
       end if membership.project
     end
-  end if @memberships.present?
+  end if include_in_api_response?('memberships') && @memberships
 end
