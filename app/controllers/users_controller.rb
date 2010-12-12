@@ -105,7 +105,7 @@ class UsersController < ApplicationController
       @user.pref.save
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
+      Mailer.deliver_account_information(@user, params[:user][:password]) if params[:send_information]
       
       respond_to do |format|
         format.html {

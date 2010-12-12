@@ -168,7 +168,41 @@ class UsersControllerTest < ActionController::TestCase
       should_respond_with :success
       should_render_template :new
     end
-
+  end
+  
+  def test_create
+    Setting.bcc_recipients = '1'
+    
+    assert_difference 'User.count' do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        post :create,
+          :user => {
+            :firstname => 'John',
+            :lastname => 'Doe',
+            :login => 'jdoe',
+            :password => 'secret',
+            :password_confirmation => 'secret',
+            :mail => 'jdoe@gmail.com',
+            :mail_notification => 'none'
+          },
+          :send_information => '1'
+      end
+    end
+    
+    user = User.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
+    
+    assert_equal 'John', user.firstname
+    assert_equal 'Doe', user.lastname
+    assert_equal 'jdoe', user.login
+    assert_equal 'jdoe@gmail.com', user.mail
+    assert_equal 'none', user.mail_notification
+    assert user.check_password?('secret')
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal [user.mail], mail.bcc
+    assert mail.body.include?('secret')
   end
 
   def test_update
