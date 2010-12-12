@@ -54,7 +54,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
   context "POST /users" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}}
+        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret', :mail_notification => 'only_assigned'}}
       end
       
       context ".xml" do
@@ -73,6 +73,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           assert_equal 'Firstname', user.firstname
           assert_equal 'Lastname', user.lastname
           assert_equal 'foo@example.net', user.mail
+          assert_equal 'only_assigned', user.mail_notification
           assert !user.admin?
           assert user.check_password?('secret')
           

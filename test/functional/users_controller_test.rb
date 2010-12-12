@@ -139,9 +139,9 @@ class UsersControllerTest < ActionController::TestCase
           :login => 'jdoe',
           :password => 'test',
           :password_confirmation => 'test',
-          :mail => 'jdoe@gmail.com'
-        },
-        :notification_option => 'none'
+          :mail => 'jdoe@gmail.com',
+          :mail_notification => 'none'
+        }
       end
 
       should_assign_to :user
@@ -173,11 +173,11 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_update
     ActionMailer::Base.deliveries.clear
-    put :update, :id => 2, :user => {:firstname => 'Changed'}, :notification_option => 'all', :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
+    put :update, :id => 2, :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'}, :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
 
     user = User.find(2)
     assert_equal 'Changed', user.firstname
-    assert_equal 'all', user.mail_notification
+    assert_equal 'only_assigned', user.mail_notification
     assert_equal true, user.pref[:hide_mail]
     assert_equal 'desc', user.pref[:comments_sorting]
     assert ActionMailer::Base.deliveries.empty?
