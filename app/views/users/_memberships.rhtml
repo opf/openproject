@@ -38,8 +38,8 @@
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
 	</tr>
+  <% end; reset_cycle %>
 	</tbody>
-<% end; reset_cycle %>
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
