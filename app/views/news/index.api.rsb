@@ -1,0 +1,14 @@
+api.array :news, api_meta(:total_count => @news_count, :offset => @offset, :limit => @limit) do
+  @newss.each do |news|
+    api.news do
+      api.id news.id
+      api.project(:id => news.project_id, :name => news.project.name) unless news.project.nil?
+      api.author(:id => news.author_id, :name => news.author.name) unless news.author.nil?
+      
+      api.title 		news.title
+      api.summary		news.summary
+      api.description 	news.description
+      api.created_on news.created_on
+    end
+  end
+end

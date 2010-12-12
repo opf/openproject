@@ -20,3 +20,12 @@ news_002:
   summary: eCookbook 1.0 have downloaded 100,000 times
   author_id: 2
   comments_count: 0
+news_003: 
+  created_on: 2006-07-19 22:42:58 +02:00
+  project_id: 2
+  title: News on a private project
+  id: 3
+  description: This is a private news
+  summary:
+  author_id: 2
+  comments_count: 0
