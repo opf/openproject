@@ -97,7 +97,8 @@ class UsersController < ApplicationController
     @notification_options = User::MAIL_NOTIFICATION_OPTIONS
     @notification_option = Setting.default_notification_option
 
-    @user = User.new(params[:user])
+    @user = User.new
+    @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
@@ -155,7 +156,7 @@ class UsersController < ApplicationController
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
     end
     @user.group_ids = params[:user][:group_ids] if params[:user][:group_ids]
-    @user.attributes = params[:user]
+    @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account

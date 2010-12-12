@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
+  include Redmine::SafeAttributes
+  
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
@@ -520,6 +522,15 @@ class Project < ActiveRecord::Base
   def enabled_module_names
     enabled_modules.collect(&:name)
   end
+  
+  safe_attributes 'name',
+    'description',
+    'homepage',
+    'is_public',
+    'identifier',
+    'custom_field_values',
+    'custom_fields',
+    'tracker_ids'
 
   # Returns an array of projects that are in this project's hierarchy
   #

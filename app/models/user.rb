@@ -18,7 +18,8 @@
 require "digest/sha1"
 
 class User < Principal
-
+  include Redmine::SafeAttributes
+  
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -390,6 +391,20 @@ class User < Principal
   def allowed_to_globally?(action, options)
     allowed_to?(action, nil, options.reverse_merge(:global => true))
   end
+
+  safe_attributes 'login',
+    'firstname',
+    'lastname',
+    'mail',
+    'mail_notification',
+    'language',
+    'custom_field_values',
+    'custom_fields',
+    'identity_url'
+  
+  safe_attributes 'status',
+    'auth_source_id',
+    :if => lambda {|user, current_user| current_user.admin?}
   
   # Utility method to help check if a user should be notified about an
   # event.

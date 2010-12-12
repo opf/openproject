@@ -144,19 +144,27 @@ class ProjectsControllerTest < ActionController::TestCase
       end
       
       should "create a new project" do
-        post :create, :project => { :name => "blog", 
-                                 :description => "weblog",
-                                 :identifier => "blog",
-                                 :is_public => 1,
-                                 :custom_field_values => { '3' => 'Beta' }
-                                }
+        post :create,
+          :project => {
+            :name => "blog", 
+            :description => "weblog",
+            :homepage => 'http://weblog',
+            :identifier => "blog",
+            :is_public => 1,
+            :custom_field_values => { '3' => 'Beta' },
+            :tracker_ids => ['1', '3']
+          }
         assert_redirected_to '/projects/blog/settings'
         
         project = Project.find_by_name('blog')
         assert_kind_of Project, project
+        assert project.active?
         assert_equal 'weblog', project.description 
+        assert_equal 'http://weblog', project.homepage
         assert_equal true, project.is_public?
         assert_nil project.parent
+        assert_equal 'Beta', project.custom_value_for(3).value
+        assert_equal [1, 3], project.trackers.map(&:id).sort
       end
       
       should "create a new subproject" do

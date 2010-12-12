@@ -53,7 +53,7 @@ class MyController < ApplicationController
     @user = User.current
     @pref = @user.pref
     if request.post?
-      @user.attributes = params[:user]
+      @user.safe_attributes = params[:user]
       @user.mail_notification = params[:notification_option] || 'only_my_events'
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')

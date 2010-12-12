@@ -72,7 +72,8 @@ class ProjectsController < ApplicationController
   def create
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
-    @project = Project.new(params[:project])
+    @project = Project.new
+    @project.safe_attributes = params[:project]
 
     @project.enabled_module_names = params[:enabled_modules] if params[:enabled_modules]
     if validate_parent_id && @project.save
@@ -115,7 +116,8 @@ class ProjectsController < ApplicationController
       end  
     else
       Mailer.with_deliveries(params[:notifications] == '1') do
-        @project = Project.new(params[:project])
+        @project = Project.new
+        @project.safe_attributes = params[:project]
         @project.enabled_module_names = params[:enabled_modules]
         if validate_parent_id && @project.copy(@source_project, :only => params[:only])
           @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
@@ -181,7 +183,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project.attributes = params[:project]
+    @project.safe_attributes = params[:project]
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       respond_to do |format|
