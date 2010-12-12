@@ -183,6 +183,13 @@ class UsersControllerTest < ActionController::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
   
+  def test_update_with_group_ids_should_assign_groups
+    put :update, :id => 2, :user => {:group_ids => ['10']}
+    
+    user = User.find(2)
+    assert_equal [10], user.group_ids
+  end
+  
   def test_update_with_activation_should_send_a_notification
     u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
     u.login = 'foo'

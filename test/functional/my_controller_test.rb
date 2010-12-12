@@ -64,17 +64,24 @@ class MyControllerTest < ActionController::TestCase
   end
 
   def test_update_account
-    post :account, :user => {:firstname => "Joe",
-                             :login => "root",
-                             :admin => 1,
-                             :custom_field_values => {"4" => "0100562500"}}
+    post :account,
+      :user => {
+        :firstname => "Joe",
+        :login => "root",
+        :admin => 1,
+        :group_ids => ['10'],
+        :custom_field_values => {"4" => "0100562500"}
+      }
+    
     assert_redirected_to '/my/account'
     user = User.find(2)
     assert_equal user, assigns(:user)
     assert_equal "Joe", user.firstname
     assert_equal "jsmith", user.login
     assert_equal "0100562500", user.custom_value_for(4).value
+    # ignored
     assert !user.admin?
+    assert user.groups.empty?
   end
   
   def test_change_password

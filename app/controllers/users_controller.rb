@@ -145,7 +145,6 @@ class UsersController < ApplicationController
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
-    @user.group_ids = params[:user][:group_ids] if params[:user][:group_ids]
     @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])

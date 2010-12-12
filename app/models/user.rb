@@ -60,7 +60,7 @@ class User < Principal
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password, :group_ids
+  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 	
   validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
@@ -406,6 +406,9 @@ class User < Principal
   safe_attributes 'status',
     'auth_source_id',
     :if => lambda {|user, current_user| current_user.admin?}
+  
+  safe_attributes 'group_ids',
+    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?}
   
   # Utility method to help check if a user should be notified about an
   # event.
