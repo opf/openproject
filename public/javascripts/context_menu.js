@@ -121,6 +121,7 @@ ContextMenu.prototype = {
 
     new Ajax.Updater({success:'context-menu'}, this.url, 
       {asynchronous:true,
+       method: 'get',
        evalScripts:true,
        parameters:Form.serialize(Event.findElement(e, 'form')),
        onComplete:function(request){
