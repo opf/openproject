@@ -119,55 +119,13 @@ class UsersControllerTest < ActionController::TestCase
     project_ids = memberships.map(&:project_id)
     assert project_ids.include?(2) #private project admin can see
   end
-
-  context "GET :new" do
-    setup do
-      get :new
-    end
-
-    should_assign_to :user
-    should_respond_with :success
-    should_render_template :new
-  end
-
-  context "POST :create" do
-    context "when successful" do
-      setup do
-        post :create, :user => {
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :login => 'jdoe',
-          :password => 'test',
-          :password_confirmation => 'test',
-          :mail => 'jdoe@gmail.com',
-          :mail_notification => 'none'
-        }
-      end
-
-      should_assign_to :user
-      should_respond_with :redirect
-      should_redirect_to('user edit') { {:controller => 'users', :action => 'edit', :id => User.find_by_login('jdoe')}}
-
-      should 'set the users mail notification' do
-        user = User.last
-        assert_equal 'none', user.mail_notification
-      end
-      
-      should 'set the password' do
-        user = User.first(:order => 'id DESC')
-        assert user.check_password?('test')
-      end
-    end
-
-    context "when unsuccessful" do
-      setup do
-        post :create, :user => {}
-      end
-
-      should_assign_to :user
-      should_respond_with :success
-      should_render_template :new
-    end
+  
+  def test_new
+    get :new
+    
+    assert_response :success
+    assert_template :new
+    assert assigns(:user)
   end
   
   def test_create
@@ -204,6 +162,23 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [user.mail], mail.bcc
     assert mail.body.include?('secret')
   end
+  
+  def test_create_with_failure
+    assert_no_difference 'User.count' do
+      post :create, :user => {}
+    end
+    
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_edit
+    get :edit, :id => 2
+    
+    assert_response :success
+    assert_template 'edit'
+    assert_equal User.find(2), assigns(:user)
+  end
 
   def test_update
     ActionMailer::Base.deliveries.clear
@@ -215,6 +190,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal true, user.pref[:hide_mail]
     assert_equal 'desc', user.pref[:comments_sorting]
     assert ActionMailer::Base.deliveries.empty?
+  end
+
+  def test_update_with_failure
+    assert_no_difference 'User.count' do
+      put :update, :id => 2, :user => {:firstname => ''}
+    end
+    
+    assert_response :success
+    assert_template 'edit'
   end
   
   def test_update_with_group_ids_should_assign_groups
