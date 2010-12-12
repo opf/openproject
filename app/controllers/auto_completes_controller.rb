@@ -4,11 +4,12 @@ class AutoCompletesController < ApplicationController
   def issues
     @issues = []
     q = params[:q].to_s
+    query = (params[:scope] == "all" && Setting.cross_project_issue_relations?) ? Issue : @project.issues
     if q.match(/^\d+$/)
-      @issues << @project.issues.visible.find_by_id(q.to_i)
+      @issues << query.visible.find_by_id(q.to_i)
     end
     unless q.blank?
-      @issues += @project.issues.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
+      @issues += query.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
     end
     render :layout => false
   end

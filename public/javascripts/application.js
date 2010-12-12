@@ -218,6 +218,20 @@ function observeParentIssueField(url) {
                            }});
 }
 
+function observeRelatedIssueField(url) {
+  new Ajax.Autocompleter('relation_issue_to_id',
+                         'related_issue_candidates',
+                         url,
+                         { minChars: 3,
+                           frequency: 0.5,
+                           paramName: 'q',
+                           updateElement: function(value) {
+                             document.getElementById('relation_issue_to_id').value = value.id;
+                           },
+                           parameters: 'scope=all'
+                           });
+}
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

@@ -663,6 +663,7 @@ div.autocomplete ul li span.informal {
 }
 
 #parent_issue_candidates ul li {width: 500px;}
+#related_issue_candidates ul li {width: 500px;}
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
