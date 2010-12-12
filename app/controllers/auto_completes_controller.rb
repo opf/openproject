@@ -11,6 +11,7 @@ class AutoCompletesController < ApplicationController
     unless q.blank?
       @issues += query.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
     end
+    @issues.compact!
     render :layout => false
   end
 

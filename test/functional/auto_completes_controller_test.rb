@@ -29,6 +29,6 @@ class AutoCompletesControllerTest < ActionController::TestCase
     Setting.cross_project_issue_relations = '0'
     get :issues, :project_id => 'ecookbook', :q => '13', :scope => 'all'
     assert_response :success
-    assert_equal [nil], assigns(:issues)
+    assert_equal [], assigns(:issues)
   end
 end
