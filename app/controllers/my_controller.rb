@@ -19,6 +19,7 @@ class MyController < ApplicationController
   before_filter :require_login
 
   helper :issues
+  helper :users
   helper :custom_fields
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
@@ -65,7 +66,6 @@ class MyController < ApplicationController
         return
       end
     end
-    @notification_options = @user.valid_notification_options
   end
 
   # Manage user's password

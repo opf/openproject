@@ -33,6 +33,10 @@ module UsersHelper
     options
   end
   
+  def user_mail_notification_options(user)
+    user.valid_notification_options.collect {|o| [l(o.last), o.first]}
+  end
+  
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
     

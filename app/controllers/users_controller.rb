@@ -85,16 +85,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
-
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
     @auth_sources = AuthSource.find(:all)
   end
   
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
-    @notification_options = User::MAIL_NOTIFICATION_OPTIONS
-
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
@@ -135,7 +131,6 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    @notification_options = @user.valid_notification_options
 
     @auth_sources = AuthSource.find(:all)
     @membership ||= Member.new
@@ -144,7 +139,6 @@ class UsersController < ApplicationController
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @user = User.find(params[:id])
-    @notification_options = @user.valid_notification_options
 
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
