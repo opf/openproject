@@ -54,13 +54,13 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
   context "POST /users" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net'}}
+        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}}
       end
       
       context ".xml" do
         should_allow_api_authentication(:post,
           '/users.xml',
-          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net'}},
+          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}},
           {:success_code => :created})
         
         should "create a user with the attributes" do
@@ -74,6 +74,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           assert_equal 'Lastname', user.lastname
           assert_equal 'foo@example.net', user.mail
           assert !user.admin?
+          assert user.check_password?('secret')
           
           assert_response :created
           assert_equal 'application/xml', @response.content_type

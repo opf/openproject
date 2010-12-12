@@ -152,6 +152,11 @@ class UsersControllerTest < ActionController::TestCase
         user = User.last
         assert_equal 'none', user.mail_notification
       end
+      
+      should 'set the password' do
+        user = User.first(:order => 'id DESC')
+        assert user.check_password?('test')
+      end
     end
 
     context "when unsuccessful" do
@@ -194,13 +199,13 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.include?(ll('fr', :notice_account_activated))
   end
   
-  def test_updat_with_password_change_should_send_a_notification
+  def test_update_with_password_change_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
     
+    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
     u = User.find(2)
-    put :update, :id => u.id, :user => {}, :password => 'newpass', :password_confirmation => 'newpass', :send_information => '1'
-    assert_equal User.hash_password('newpass'), u.reload.hashed_password 
+    assert u.check_password?('newpass')
     
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -214,10 +219,10 @@ class UsersControllerTest < ActionController::TestCase
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => ''}, :password => 'newpass', :password_confirmation => 'newpass'
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass'}, :password_confirmation => 'newpass'
 
     assert_equal nil, u.reload.auth_source
-    assert_equal User.hash_password('newpass'), u.reload.hashed_password
+    assert u.check_password?('newpass')
   end
   
   def test_edit_membership
