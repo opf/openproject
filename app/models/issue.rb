@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Issue < ActiveRecord::Base
+  include Redmine::SafeAttributes
+  
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -214,31 +216,29 @@ class Issue < ActiveRecord::Base
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
   
-  SAFE_ATTRIBUTES = %w(
-    tracker_id
-    status_id
-    parent_issue_id
-    category_id
-    assigned_to_id
-    priority_id
-    fixed_version_id
-    subject
-    description
-    start_date
-    due_date
-    done_ratio
-    estimated_hours
-    custom_field_values
-    custom_fields
-    lock_version
-  ) unless const_defined?(:SAFE_ATTRIBUTES)
+  safe_attributes 'tracker_id',
+    'status_id',
+    'parent_issue_id',
+    'category_id',
+    'assigned_to_id',
+    'priority_id',
+    'fixed_version_id',
+    'subject',
+    'description',
+    'start_date',
+    'due_date',
+    'done_ratio',
+    'estimated_hours',
+    'custom_field_values',
+    'custom_fields',
+    'lock_version',
+    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
   
-  SAFE_ATTRIBUTES_ON_TRANSITION = %w(
-    status_id
-    assigned_to_id
-    fixed_version_id
-    done_ratio
-  ) unless const_defined?(:SAFE_ATTRIBUTES_ON_TRANSITION)
+  safe_attributes 'status_id',
+    'assigned_to_id',
+    'fixed_version_id',
+    'done_ratio',
+    :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
 
   # Safely sets attributes
   # Should be called from controllers instead of #attributes=
@@ -249,13 +249,8 @@ class Issue < ActiveRecord::Base
     return unless attrs.is_a?(Hash)
     
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-    if new_record? || user.allowed_to?(:edit_issues, project)
-      attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES.include?(k)}
-    elsif new_statuses_allowed_to(user).any?
-      attrs = attrs.reject {|k,v| !SAFE_ATTRIBUTES_ON_TRANSITION.include?(k)}
-    else
-      return
-    end
+    attrs = delete_unsafe_attributes(attrs, user)
+    return if attrs.empty? 
     
     # Tracker must be set before since new_statuses_allowed_to depends on it.
     if t = attrs.delete('tracker_id')
