@@ -115,10 +115,17 @@ class UserTest < ActiveSupport::TestCase
     assert Member.find_all_by_user_id(2).empty?
   end
   
-  def test_validate
+  def test_validate_login_presence
     @admin.login = ""
     assert !@admin.save
     assert_equal 1, @admin.errors.count
+  end
+  
+  def test_validate_mail_notification_inclusion
+    u = User.new
+    u.mail_notification = 'foo'
+    u.save
+    assert_not_nil u.errors.on(:mail_notification)
   end
   
   context "User#try_to_login" do
@@ -437,55 +444,49 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "be true for a user with :all" do
-        @author.update_attribute(:mail_notification, :all)
+        @author.update_attribute(:mail_notification, 'all')
         assert @author.notify_about?(@issue)
       end
       
       should "be false for a user with :none" do
-        @author.update_attribute(:mail_notification, :none)
+        @author.update_attribute(:mail_notification, 'none')
         assert ! @author.notify_about?(@issue)
       end
       
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
-        @user = User.generate_with_protected!(:mail_notification => :only_my_events)
+        @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
         assert ! @user.notify_about?(@issue)
       end
       
       should "be true for a user with :only_my_events and is the author" do
-        @author.update_attribute(:mail_notification, :only_my_events)
+        @author.update_attribute(:mail_notification, 'only_my_events')
         assert @author.notify_about?(@issue)
       end
       
       should "be true for a user with :only_my_events and is the assignee" do
-        @assignee.update_attribute(:mail_notification, :only_my_events)
+        @assignee.update_attribute(:mail_notification, 'only_my_events')
         assert @assignee.notify_about?(@issue)
       end
       
       should "be true for a user with :only_assigned and is the assignee" do
-        @assignee.update_attribute(:mail_notification, :only_assigned)
+        @assignee.update_attribute(:mail_notification, 'only_assigned')
         assert @assignee.notify_about?(@issue)
       end
       
       should "be false for a user with :only_assigned and is not the assignee" do
-        @author.update_attribute(:mail_notification, :only_assigned)
+        @author.update_attribute(:mail_notification, 'only_assigned')
         assert ! @author.notify_about?(@issue)
       end
       
       should "be true for a user with :only_owner and is the author" do
-        @author.update_attribute(:mail_notification, :only_owner)
+        @author.update_attribute(:mail_notification, 'only_owner')
         assert @author.notify_about?(@issue)
       end
       
       should "be false for a user with :only_owner and is not the author" do
-        @assignee.update_attribute(:mail_notification, :only_owner)
+        @assignee.update_attribute(:mail_notification, 'only_owner')
         assert ! @assignee.notify_about?(@issue)
       end
-      
-      should "be false if the mail_notification is anything else" do
-        @assignee.update_attribute(:mail_notification, :somthing_else)
-        assert ! @assignee.notify_about?(@issue)
-      end
-      
     end
 
     context "other events" do
