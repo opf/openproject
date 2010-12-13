@@ -1,6 +1,4 @@
-module CostQuery::Result
-  include Report::Result
-
+class CostQuery::Result < Report::Result
   class Base < Report::Result::Base
     def inspect
       "<##{self.class}: @fields=#{fields.inspect} @type=#{type.inspect} " \
