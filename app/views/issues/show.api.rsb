@@ -46,6 +46,7 @@ api.issue do
       api.journal :id => journal.id do
         api.user(:id => journal.user_id, :name => journal.user.name) unless journal.user.nil?
         api.notes journal.notes
+        api.created_on journal.created_on
         api.array :details do
           journal.details.each do |detail|
             api.detail :property => detail.property, :name => detail.prop_key do
