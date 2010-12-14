@@ -168,6 +168,45 @@ class WatchersControllerTest < ActionController::TestCase
     assert @page.watched_by?(User.find(4))
     assert @page.watched_by?(User.find(7))
   end
+  
+  def test_new_multiple_users_watching_board
+    Role.find(1).add_permission! :add_board_watchers
+
+    @request.session[:user_id] = 2
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    assert !@board.watched_by?(User.find(2))
+    assert !@board.watched_by?(User.find(4))
+    
+    assert_difference('Watcher.count', 2) do
+      xhr :post, :new, :object_type => 'board', :object_id => @board.id, :user_ids => ['2','4']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    @board.reload
+    assert @board.watched_by?(User.find(2))
+    assert @board.watched_by?(User.find(4))
+  end
+
+  def test_new_multiple_users_watching_message
+    Role.find(1).add_permission! :add_message_watchers
+
+    @request.session[:user_id] = 2
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    @message = Message.generate!(:board => @board)
+    assert !@message.watched_by?(User.find(2))
+    assert !@message.watched_by?(User.find(4))
+    
+    assert_difference('Watcher.count', 2) do
+      xhr :post, :new, :object_type => 'message', :object_id => @message.id, :user_ids => ['2','4']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    @message.reload
+    assert @message.watched_by?(User.find(2))
+    assert @message.watched_by?(User.find(4))
+  end
 
   def test_new_issue_watcher_without_permission
     Role.find(1).remove_permission! :add_issue_watchers
@@ -181,8 +220,8 @@ class WatchersControllerTest < ActionController::TestCase
 
   end
   
-  def test_remove_wiki_page_watcher_without_permission
-    Role.find(1).remove_permission! :delete_wiki_page_watchers
+  def test_new_wiki_page_watcher_without_permission
+    Role.find(1).remove_permission! :add_wiki_page_watchers
 
     @request.session[:user_id] = 2
     @page = WikiPage.find(1)
@@ -192,6 +231,37 @@ class WatchersControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
     assert !WikiPage.find(1).watched_by?(User.find(2))
+
+  end
+  
+  def test_new_board_watcher_without_permission
+    Role.find(1).remove_permission! :add_board_watchers
+
+    @request.session[:user_id] = 2
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+
+    assert_difference('Watcher.count',0) do
+      xhr :post, :new, :object_type => 'board', :object_id => @board.id, :user_ids => ['2']
+      assert_response :forbidden
+    end
+    assert !Board.find(@board.id).watched_by?(User.find(2))
+
+  end
+
+  def test_new_message_watcher_without_permission
+    Role.find(1).remove_permission! :add_message_watchers
+
+    @request.session[:user_id] = 2
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    @message = Message.generate!(:board => @board)
+
+    assert_difference('Watcher.count',0) do
+      xhr :post, :new, :object_type => 'message', :object_id => @message.id, :user_ids => ['2']
+      assert_response :forbidden
+    end
+    assert !Message.find(@message.id).watched_by?(User.find(2))
 
   end
 
@@ -241,6 +311,39 @@ class WatchersControllerTest < ActionController::TestCase
     assert !WikiPage.find(1).watched_by?(User.find(2))
   end
 
+  def test_remove_board_watcher
+    Role.find(1).add_permission! :delete_board_watchers
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    Watcher.create!(:user_id => 2, :watchable => @board)
+    assert @board.watched_by?(User.find(2))
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', -1) do
+      xhr :post, :destroy, :object_type => 'board', :object_id => @board.id, :user_id => '2'
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    assert !Board.find(@board.id).watched_by?(User.find(2))
+  end
+
+  def test_remove_message_watcher
+    Role.find(1).add_permission! :delete_message_watchers
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    @message = Message.generate!(:board => @board)
+    Watcher.create!(:user_id => 2, :watchable => @message)
+    assert @message.watched_by?(User.find(2))
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', -1) do
+      xhr :post, :destroy, :object_type => 'message', :object_id => @message.id, :user_id => '2'
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    assert !Message.find(@message.id).watched_by?(User.find(2))
+  end
+
   def test_remove_issue_watcher_without_permission
     Role.find(1).remove_permission! :delete_issue_watchers
 
@@ -269,4 +372,34 @@ class WatchersControllerTest < ActionController::TestCase
 
   end
   
+  def test_remove_board_watcher_without_permission
+    Role.find(1).remove_permission! :delete_board_watchers
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    Watcher.create!(:user_id => 2, :watchable => @board)
+    assert @board.watched_by?(User.find(2))
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', 0) do
+      xhr :post, :destroy, :object_type => 'board', :object_id => @board.id, :user_id => '2'
+      assert_response :forbidden
+    end
+    assert Board.find(@board.id).watched_by?(User.find(2))
+  end
+
+  def test_remove_message_watcher_without_permission
+    Role.find(1).remove_permission! :delete_message_watchers
+    @project = Project.find(1)
+    @board = Board.generate!(:project => @project)
+    @message = Message.generate!(:board => @board)
+    Watcher.create!(:user_id => 2, :watchable => @message)
+    assert @message.watched_by?(User.find(2))
+    
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', 0) do
+      xhr :post, :destroy, :object_type => 'message', :object_id => @message.id, :user_id => '2'
+      assert_response :forbidden
+    end
+    assert Message.find(@message.id).watched_by?(User.find(2))
+  end
 end

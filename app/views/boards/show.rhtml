@@ -71,3 +71,13 @@
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
     <%= stylesheet_link_tag 'scm' %>
 <% end %>
+
+<% content_for :sidebar do %>
+  <% if User.current.allowed_to?(:add_board_watchers, @project) ||
+    (@board.watchers.present? && User.current.allowed_to?(:view_board_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @board} %>
+    </div>
+  <% end %>
+
+<% end %>
