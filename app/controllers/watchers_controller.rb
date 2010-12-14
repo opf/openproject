@@ -100,26 +100,22 @@ private
   end
 
   def authorize_access_to_object
-    allowed = false
-    
-    case @watched.class.to_s
-    when "Issue"
-      if params[:action] == 'new'
-        allowed = true if User.current.allowed_to?(:add_issue_watchers, @project)
-      end
-      if params[:action] == 'destroy'
-        allowed = true if User.current.allowed_to?(:delete_issue_watchers, @project)
-      end
-    when "WikiPage"
-      if params[:action] == 'new'
-        allowed = true if User.current.allowed_to?(:add_wiki_page_watchers, @project)
-      end
-      if params[:action] == 'destroy'
-        allowed = true if User.current.allowed_to?(:delete_wiki_page_watchers, @project)
-      end
+    permission = ''
+    case params[:action]
+    when 'new'
+      permission << 'add_'
+    when 'destroy'
+      permission << 'delete_'
     end
 
-    deny_access unless allowed
+    # Ends up like: :delete_wiki_page_watchers
+    permission << "#{@watched.class.name.underscore}_watchers"
+
+    if User.current.allowed_to?(permission.to_sym, @project)
+      return true
+    else
+      deny_access
+    end
   end
   
 end
