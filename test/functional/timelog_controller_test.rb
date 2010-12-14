@@ -94,6 +94,26 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal i, t.issue
     assert_equal i.project, t.project
   end
+
+  def test_post_create_with_blank_issue
+    # TODO: should POST to issues’ time log instead of project. change form
+    # and routing
+    @request.session[:user_id] = 3
+    post :create, :project_id => 1,
+                :time_entry => {:comments => 'Some work on TimelogControllerTest',
+                                # Not the default activity
+                                :activity_id => '11',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'}
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    
+    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    assert_not_nil t
+    assert_equal 11, t.activity_id
+    assert_equal 7.3, t.hours
+    assert_equal 3, t.user_id
+  end
   
   def test_update
     entry = TimeEntry.find(1)
