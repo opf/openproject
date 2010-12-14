@@ -19,7 +19,8 @@ class WatchersController; def rescue_action(e) raise e end; end
 
 class WatchersControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
-           :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
+           :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers,
+           :wikis, :wiki_pages
 
   def setup
     @controller = WatchersController.new
@@ -145,9 +146,58 @@ class WatchersControllerTest < ActionController::TestCase
       end
       assert Issue.find(2).watched_by?(@group)
     end
+
+  end
+  
+  def test_new_multiple_users_watching_wiki_page
+    Role.find(1).add_permission! :add_wiki_page_watchers
+
+    @request.session[:user_id] = 2
+    @page = WikiPage.find(1)
+    assert !@page.watched_by?(User.find(2))
+    assert !@page.watched_by?(User.find(4))
+    assert !@page.watched_by?(User.find(7))
+    
+    assert_difference('Watcher.count', 3) do
+      xhr :post, :new, :object_type => 'wiki_page', :object_id => '1', :user_ids => ['2','4','7']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    @page.reload
+    assert @page.watched_by?(User.find(2))
+    assert @page.watched_by?(User.find(4))
+    assert @page.watched_by?(User.find(7))
+  end
+
+  def test_new_issue_watcher_without_permission
+    Role.find(1).remove_permission! :add_issue_watchers
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count',0) do
+      xhr :post, :new, :object_type => 'issue', :object_id => '2', :user_ids => ['4']
+      assert_response :forbidden
+    end
+    assert !Issue.find(2).watched_by?(User.find(4))
+
+  end
+  
+  def test_remove_wiki_page_watcher_without_permission
+    Role.find(1).remove_permission! :delete_wiki_page_watchers
+
+    @request.session[:user_id] = 2
+    @page = WikiPage.find(1)
+
+    assert_difference('Watcher.count',0) do
+      xhr :post, :new, :object_type => 'wiki_page', :object_id => '1', :user_ids => ['2']
+      assert_response :forbidden
+    end
+    assert !WikiPage.find(1).watched_by?(User.find(2))
+
   end
 
   def test_remove_watcher
+    Role.find(1).add_permission! :delete_issue_watchers
+    
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
       xhr :post, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
@@ -173,6 +223,50 @@ class WatchersControllerTest < ActionController::TestCase
       assert !Issue.find(2).watched_by?(@group)
     end
     
+  end
+  
+  def test_remove_wiki_page_watcher
+    Role.find(1).add_permission! :delete_wiki_page_watchers
+
+    @request.session[:user_id] = 2
+    @page = WikiPage.find(1)
+    Watcher.create!(:user_id => 2, :watchable => @page)
+    assert @page.watched_by?(User.find(2))
+    
+    assert_difference('Watcher.count', -1) do
+      xhr :post, :destroy, :object_type => 'wiki_page', :object_id => '1', :user_id => '2'
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    assert !WikiPage.find(1).watched_by?(User.find(2))
+  end
+
+  def test_remove_issue_watcher_without_permission
+    Role.find(1).remove_permission! :delete_issue_watchers
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count',0) do
+      xhr :post, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      assert_response :forbidden
+    end
+    assert Issue.find(2).watched_by?(User.find(3))
+
+  end
+  
+  def test_remove_wiki_page_watcher_without_permission
+    Role.find(1).remove_permission! :delete_wiki_page_watchers
+
+    @request.session[:user_id] = 2
+    @page = WikiPage.find(1)
+    Watcher.create!(:user_id => 2, :watchable => @page)
+    assert @page.watched_by?(User.find(2))
+
+    assert_difference('Watcher.count',0) do
+      xhr :post, :destroy, :object_type => 'wiki_page', :object_id => '1', :user_id => '2'
+      assert_response :forbidden
+    end
+    assert WikiPage.find(1).watched_by?(User.find(2))
+
   end
   
 end

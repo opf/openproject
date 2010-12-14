@@ -59,6 +59,14 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'wiki/sidebar' %>
+
+  <% if User.current.allowed_to?(:add_wiki_page_watchers, @project) ||
+    (@page.watchers.present? && User.current.allowed_to?(:view_wiki_page_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @page} %>
+    </div>
+  <% end %>
+
 <% end %>
 
 <% html_title h(@page.pretty_title) %>

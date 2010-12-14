@@ -1,10 +1,10 @@
 <div class="contextual">
-<%= link_to_function(l(:button_add), "$('new-watcher-form').toggle();") if User.current.allowed_to?(:add_issue_watchers, @project) %>
+<%= link_to_function(l(:button_add), "$('new-watcher-form').toggle();") if User.current.allowed_to?("add_#{watched.class.name.underscore}_watchers".to_sym, @project) %>
 </div>
 
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
 
-<% if User.current.allowed_to?(:add_issue_watchers, @project) %>
+<% if User.current.allowed_to?("add_#{watched.class.name.underscore}_watchers".to_sym, @project) %>
 	<% remote_form_for(:watcher, @watcher, 
                 	   :url => {:controller => 'watchers',
               	              :action => 'new',

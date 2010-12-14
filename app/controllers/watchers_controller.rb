@@ -16,7 +16,8 @@ class WatchersController < ApplicationController
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => [:new, :destroy]
-
+  before_filter :authorize_access_to_object, :only => [:new, :destroy]
+  
   verify :method => :post,
          :only => [ :watch, :unwatch ],
          :render => { :nothing => true, :status => :method_not_allowed }
@@ -97,4 +98,28 @@ private
   rescue ::ActionController::RedirectBackError
     render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
   end
+
+  def authorize_access_to_object
+    allowed = false
+    
+    case @watched.class.to_s
+    when "Issue"
+      if params[:action] == 'new'
+        allowed = true if User.current.allowed_to?(:add_issue_watchers, @project)
+      end
+      if params[:action] == 'destroy'
+        allowed = true if User.current.allowed_to?(:delete_issue_watchers, @project)
+      end
+    when "WikiPage"
+      if params[:action] == 'new'
+        allowed = true if User.current.allowed_to?(:add_wiki_page_watchers, @project)
+      end
+      if params[:action] == 'destroy'
+        allowed = true if User.current.allowed_to?(:delete_wiki_page_watchers, @project)
+      end
+    end
+
+    deny_access unless allowed
+  end
+  
 end
