@@ -923,3 +923,5 @@ ro:
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset {{value}}.
   setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
