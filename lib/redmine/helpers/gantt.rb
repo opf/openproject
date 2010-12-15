@@ -206,7 +206,7 @@ module Redmine
         project.children.visible.has_module('issue_tracking').each do |project|
           render_project(project, options)
           return if abort?
-        end
+        end unless project.leaf?
 
         # Remove indent to hit the next sibling
         options[:indent] -= options[:indent_increment]
