@@ -66,6 +66,9 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+gantt_items_limit:
+  format: int
+  default: 500
 # Maximum size of files that can be displayed
 # inline through the file viewer (in KB)
 file_max_size_displayed:

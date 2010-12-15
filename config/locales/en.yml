@@ -163,6 +163,7 @@ en:
   notice_unable_delete_version: Unable to delete version.
   notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
+  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})"
   
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -356,6 +357,7 @@ en:
   setting_default_notification_option: Default notification option
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_logtime_activity_id: Activity for logged time
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

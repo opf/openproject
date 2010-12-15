@@ -34,7 +34,7 @@ module Redmine
         end
       end
 
-      attr_reader :year_from, :month_from, :date_from, :date_to, :zoom, :months
+      attr_reader :year_from, :month_from, :date_from, :date_to, :zoom, :months, :truncated, :max_rows
       attr_accessor :query
       attr_accessor :project
       attr_accessor :view
@@ -71,6 +71,13 @@ module Redmine
         @subjects = ''
         @lines = ''
         @number_of_rows = nil
+        
+        @truncated = false
+        if options.has_key?(:max_rows)
+          @max_rows = options[:max_rows]
+        else
+          @max_rows = Setting.gantt_items_limit.blank? ? nil : Setting.gantt_items_limit.to_i
+        end
       end
 
       def common_params
@@ -94,13 +101,15 @@ module Redmine
       def number_of_rows
         return @number_of_rows if @number_of_rows
         
-        if @project
-          return number_of_rows_on_project(@project)
+        rows = if @project
+          number_of_rows_on_project(@project)
         else
           Project.roots.visible.has_module('issue_tracking').inject(0) do |total, project|
             total += number_of_rows_on_project(project)
           end
         end
+        
+        rows > @max_rows ? @max_rows : rows
       end
 
       # Returns the number of rows that will be used to list a project on
@@ -156,6 +165,7 @@ module Redmine
         else
           Project.roots.visible.has_module('issue_tracking').each do |project|
             render_project(project, options)
+            break if abort?
           end
         end
         
@@ -176,22 +186,26 @@ module Redmine
         options[:top] += options[:top_increment]
         options[:indent] += options[:indent_increment]
         @number_of_rows += 1
+        return if abort?
         
         # Second, Issues without a version
-        issues = project.issues.for_gantt.without_version.with_query(@query)
+        issues = project.issues.for_gantt.without_version.with_query(@query).all(:limit => current_limit)
         sort_issues!(issues)
         if issues
           render_issues(issues, options)
+          return if abort?
         end
 
         # Third, Versions
         project.versions.sort.each do |version|
           render_version(version, options)
+          return if abort?
         end
 
         # Fourth, subprojects
         project.children.visible.has_module('issue_tracking').each do |project|
           render_project(project, options)
+          return if abort?
         end
 
         # Remove indent to hit the next sibling
@@ -205,6 +219,7 @@ module Redmine
           
           options[:top] += options[:top_increment]
           @number_of_rows += 1
+          return if abort?
         end
       end
 
@@ -215,13 +230,14 @@ module Redmine
         
         options[:top] += options[:top_increment]
         @number_of_rows += 1
+        return if abort?
         
         # Remove the project requirement for Versions because it will
         # restrict issues to only be on the current project.  This
         # ends up missing issues which are assigned to shared versions.
         @query.project = nil if @query.project
         
-        issues = version.fixed_issues.for_gantt.with_query(@query)
+        issues = version.fixed_issues.for_gantt.with_query(@query).all(:limit => current_limit)
         if issues
           sort_issues!(issues)
           # Indent issues
@@ -958,6 +974,20 @@ module Redmine
           cmp = (a.due_date <=> b.due_date) if cmp == 0 && a.due_date? && b.due_date?
           cmp = (a.id <=> b.id) if cmp == 0
           cmp
+        end
+      end
+      
+      def current_limit
+        if @max_rows
+          @max_rows - @number_of_rows
+        else
+          nil
+        end
+      end
+      
+      def abort?
+        if @max_rows && @number_of_rows >= @max_rows
+          @truncated = true
         end
       end
       

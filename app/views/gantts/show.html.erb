@@ -67,6 +67,11 @@ t_height = g_height + headers_height
 
 
 %>
+
+<% if @gantt.truncated %>
+	<p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
+<% end %>
+
 <table width="100%" style="border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">

@@ -180,6 +180,7 @@ fr:
   notice_unable_delete_version: Impossible de supprimer cette version.
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
+  notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés ({{max}})"
   
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : {{value}}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -360,6 +361,7 @@ fr:
   setting_cache_formatted_text: Mettre en cache le texte formaté
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
+  setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
   
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

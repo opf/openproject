@@ -53,9 +53,9 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
   end
 
   # Creates a Gantt chart for a 4 week span
-  def create_gantt(project=Project.generate!)
+  def create_gantt(project=Project.generate!, options={})
     @project = project
-    @gantt = Redmine::Helpers::Gantt.new
+    @gantt = Redmine::Helpers::Gantt.new(options)
     @gantt.project = @project
     @gantt.query = Query.generate_default!(:project => @project)
     @gantt.view = build_view
@@ -73,6 +73,22 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       should "return the total number of rows for all the projects, resursively"
     end
 
+    should "not exceed max_rows option" do
+      p = Project.generate!
+      5.times do
+        Issue.generate_for_project!(p)
+      end
+      
+      create_gantt(p)
+      @gantt.render
+      assert_equal 6, @gantt.number_of_rows
+      assert !@gantt.truncated
+
+      create_gantt(p, :max_rows => 3)
+      @gantt.render
+      assert_equal 3, @gantt.number_of_rows
+      assert @gantt.truncated
+    end
   end
 
   context "#number_of_rows_on_project" do
