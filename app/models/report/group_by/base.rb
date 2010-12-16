@@ -38,7 +38,7 @@ class Report::GroupBy
     end
 
     def aggregation_mixin
-      sql_aggregation? ? SqlAggregation : RubyAggregation
+      sql_aggregation? ? engine::GroupBy::SqlAggregation : engine::GroupBy::RubyAggregation
     end
 
     def initialize(child = nil, optios = {})
