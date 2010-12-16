@@ -84,8 +84,9 @@ class Report::Filter
       []
     end
 
-    def initialze(child = nil, options = {})
-      raise ArgumentError, "Child has to be a Filter." if child and not child.filter?
+    def initialize(child = nil, options = {})
+      # TODO: wtf?
+      #raise ArgumentError, "Child has to be a Filter." if child and not child.filter?
       @values = []
       super
     end

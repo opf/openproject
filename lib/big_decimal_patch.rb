@@ -13,4 +13,9 @@ module BigDecimalPatch
     ::String.send :include, self
     def to_d; ::BigDecimal.new(self) end
   end
+  
+  module NilClass
+    ::NilClass.send :include, self
+    def to_d; 0 end
+  end
 end

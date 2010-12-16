@@ -1,4 +1,4 @@
-module Report::Result
+class Report::Result
   class Base
     attr_accessor :parent, :type, :important_fields
     attr_accessor :key
