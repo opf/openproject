@@ -302,7 +302,7 @@ module Redmine
           when :html
             coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
             label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
-            output = html_task(options[:top], coords, :css => "project task", :label => label, :markers => true)
+            output = html_task(options, coords, :css => "project task", :label => label, :markers => true)
             
             @lines << output
             output
@@ -318,19 +318,9 @@ module Redmine
               options[:image].text(i_left + 11, options[:top] + 1, project.name)
             end
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            i_left = ((project.due_date - @date_from)*options[:zoom])
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(50,50,200)
-              options[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
-        
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left + 3)
-              options[:pdf].Cell(30, 2, "#{project.name}")
-            end
+            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
+            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
+            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_project was not given a project with a start_date"
@@ -384,7 +374,7 @@ module Redmine
             coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
             label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
             label = h("#{version.project} -") + label unless @project && @project == version.project
-            output = html_task(options[:top], coords, :css => "version task", :label => label, :markers => true)
+            output = html_task(options, coords, :css => "version task", :label => label, :markers => true)
             
             @lines << output
             output
@@ -400,19 +390,10 @@ module Redmine
               options[:image].text(i_left + 11, options[:top] + 1, version.name)
             end
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            i_left = ((version.start_date - @date_from)*options[:zoom]) 
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(50,200,50)
-              options[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
-        
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left + 3)
-              options[:pdf].Cell(30, 2, "#{version.name}")
-            end
+            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
+            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
+            label = h("#{version.project} -") + label unless @project && @project == version.project
+            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_version was not given a version with a start_date"
@@ -481,7 +462,7 @@ module Redmine
           when :html
             coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
             css = "task " + (issue.leaf? ? 'leaf' : 'parent')
-            output = html_task(options[:top], coords, :css => css, :label => "#{ issue.status.name } #{ issue.done_ratio }%", :issue => issue)
+            output = html_task(options, coords, :css => css, :label => "#{ issue.status.name } #{ issue.done_ratio }%", :issue => issue)
             
             @lines << output
             output
@@ -526,60 +507,9 @@ module Redmine
             end
 
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= @date_from
-                          issue.start_date
-                        else
-                          @date_from
-                        end
-
-            i_end_date = (issue.due_before <= @date_to ? issue.due_before : @date_to )
-            
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
-            i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = ((i_start_date - @date_from)*options[:zoom]) 
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom])
-            d_width = ((i_done_date - i_start_date)*options[:zoom])
-            l_width = ((i_late_date - i_start_date+1)*options[:zoom]) if i_late_date
-            l_width ||= 0
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(200,200,200)
-              options[:pdf].Cell(i_width, 2, "", 0, 0, "", 1)
-            end
-          
-            if l_width > 0
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(255,100,100)
-              options[:pdf].Cell(l_width, 2, "", 0, 0, "", 1)
-            end 
-            if d_width > 0
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(100,100,255)
-              options[:pdf].Cell(d_width, 2, "", 0, 0, "", 1)
-            end
-
-            options[:pdf].SetY(options[:top]+1.5)
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if (i_left + i_width) >= 0
-              options[:pdf].SetX(options[:subject_width] + i_left + i_width)
-            else
-              options[:pdf].SetX(options[:subject_width])
-            end
-            options[:pdf].Cell(30, 2, "#{issue.status} #{issue.done_ratio}%")
-          end
+            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+            pdf_task(options, coords, :label => "#{ issue.status.name } #{ issue.done_ratio }%")
+        end
         else
           ActiveRecord::Base.logger.debug "GanttHelper#line_for_issue was not given an issue with a due_before"
           ''
@@ -896,43 +826,88 @@ module Redmine
         end
       end
       
-      def html_task(top, coords, options={})
+      def html_task(params, coords, options={})
         output = ''
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
-          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
           
           if coords[:bar_late_end]
-            output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
           end
           if coords[:bar_progress_end]
-            output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
           end
         end
         # Renders the markers
         if options[:markers]
           if coords[:start]
-            output << "<div style='top:#{ top }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>"
           end
           if coords[:end]
-            output << "<div style='top:#{ top }px;left:#{ coords[:end] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:end] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
           end
         end
         # Renders the label on the right
         if options[:label]
-          output << "<div style='top:#{ top }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{options[:css]} label'>"
+          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{options[:css]} label'>"
           output << options[:label]
           output << "</div>"
         end
         # Renders the tooltip
         if options[:issue] && coords[:bar_start] && coords[:bar_end]
-          output << "<div class='tooltip' style='position: absolute;top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
+          output << "<div class='tooltip' style='position: absolute;top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
           output << '<span class="tip">'
           output << view.render_issue_tooltip(options[:issue])
           output << "</span></div>"
         end
         
         output
+      end
+      
+      def pdf_task(params, coords, options={})
+        height = options[:height] || 2
+        
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          params[:pdf].SetY(params[:top]+1.5)
+          params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+          params[:pdf].SetFillColor(200,200,200)
+          params[:pdf].Cell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            
+          if coords[:bar_late_end]
+            params[:pdf].SetY(params[:top]+1.5)
+            params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+            params[:pdf].SetFillColor(255,100,100)
+            params[:pdf].Cell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          end
+          if coords[:bar_progress_end]
+            params[:pdf].SetY(params[:top]+1.5)
+            params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+            params[:pdf].SetFillColor(90,200,90)
+            params[:pdf].Cell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            params[:pdf].SetY(params[:top] + 1)
+            params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
+            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+          end
+          if coords[:end]
+            params[:pdf].SetY(params[:top] + 1)
+            params[:pdf].SetX(params[:subject_width] + coords[:end] - 1)
+            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+          end
+        end
+        # Renders the label on the right
+        if options[:label]
+          params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
+          params[:pdf].Cell(30, 2, options[:label])
+        end
       end
     end
   end
