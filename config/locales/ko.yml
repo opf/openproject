@@ -956,10 +956,10 @@ ko:
   error_can_not_delete_custom_field: 사용자 정의 필드를 삭제할 수 없습니다.
   error_unable_to_connect: 연결할 수 없습니다(({{value}})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
-  error_can_not_delete_tracker: 이 유형의 일감들이 있에서 삭제할 수 없습니다.
+  error_can_not_delete_tracker: 이 유형의 일감들이 있어서 삭제할 수 없습니다.
   field_principal: 신원
   label_my_page_block: 내 페이지 출력화면
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "{{errors}}:구성원을 저장 중 실패하였습니다"
   text_zoom_out: 더 작게
   text_zoom_in: 더 크게
   notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
@@ -967,24 +967,24 @@ ko:
   field_time_entries: 기록된 시간
   project_module_gantt: Gantt 챠트
   project_module_calendar: 달력
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
-  setting_commit_logtime_enabled: Enable time logging
+  button_edit_associated_wikipage: "연관된 위키 페이지 {{page_title}} 수정"
+  text_are_you_sure_with_children: 일감과 모든 하위 일감들을 삭제하시겠습니까?
+  field_text: 텍스트 영역
+  label_user_mail_option_only_owner: 내가 저자인 사항만
+  setting_default_notification_option: 기본 알림 옵션
+  label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
+  label_user_mail_option_only_assigned: 내에게 할당된 사항만
+  label_user_mail_option_none: 알림 없음
+  field_member_of_group: 할당된 사람의 그룹
+  field_assigned_to_role: 할당된 사람의 역할
+  notice_not_authorized_archived_project: 접근하려는 프로젝트는 이미 잠금보관되어 있습니다.
+  field_start_date: 시작일자
+  label_principal_search: "사용자 및 그룹 찾기:"
+  label_user_search: "사용자 찾기::"
+  field_visible: 보이기
+  setting_emails_header: 이메일 헤더
+  setting_commit_logtime_activity_id: 기록된 시간에 적용할 작업분류
+  text_time_logged_by_changeset: "변경묶음 {{value}}에서 적용되었습니다."
+  setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
   notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

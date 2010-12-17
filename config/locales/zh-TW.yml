@@ -279,9 +279,9 @@
   mail_subject_reminder: "您有 {{count}} 個項目即將到期 ({{days}})"
   mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
   mail_subject_wiki_content_added: "'{{id}}' wiki 頁面已被新增"
-  mail_body_wiki_content_added: "The '{{id}}' wiki 頁面已被 {{author}} 新增。"
+  mail_body_wiki_content_added: "此 '{{id}}' wiki 頁面已被 {{author}} 新增。"
   mail_subject_wiki_content_updated: "'{{id}}' wiki 頁面已被更新"
-  mail_body_wiki_content_updated: "The '{{id}}' wiki 頁面已被 {{author}} 更新。"
+  mail_body_wiki_content_updated: "此 '{{id}}' wiki 頁面已被 {{author}} 更新。"
   
   gui_validation_error: 1 個錯誤
   gui_validation_error_plural: "{{count}} 個錯誤"
@@ -440,6 +440,8 @@
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
   setting_cache_formatted_text: 快取已格式化文字
   setting_default_notification_option: 預設通知選項
+  setting_commit_logtime_enabled: 啟用送交中的時間記錄
+  setting_commit_logtime_activity_id: 時間記錄對應的活動
   
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -961,6 +963,7 @@
   text_no_configuration_data: "角色、追蹤標籤、項目狀態與流程尚未被設定完成。\n強烈建議您先載入預設的組態。將預設組態載入之後，您可再變更其中之值。"
   text_load_default_configuration: 載入預設組態
   text_status_changed_by_changeset: "已套用至變更集 {{value}}."
+  text_time_logged_by_changeset: "紀錄於變更集 {{value}}."
   text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
   text_select_project_modules: '選擇此專案可使用之模組：'
   text_default_administrator_account_changed: 已變更預設管理員帳號內容
@@ -1013,8 +1016,5 @@
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
 
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
-  setting_commit_logtime_enabled: Enable time logging
   notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

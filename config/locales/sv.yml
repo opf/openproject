@@ -54,7 +54,7 @@ sv:
           byte:
             one: "Byte"
             other: "Bytes"
-          kb: "KB"
+          kb: "kB"
           mb: "MB"
           gb: "GB"
           tb: "TB"
@@ -343,6 +343,7 @@ sv:
   field_member_of_group: Tilldelad användares grupp
   field_assigned_to_role: Tilldelad användares roll
   field_text: Textfält
+  field_visible: Synlig
   
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -352,14 +353,14 @@ sv:
   setting_self_registration: Självregistrering
   setting_attachment_max_size: Maxstorlek på bilaga
   setting_issues_export_limit: Exportgräns för ärenden
-  setting_mail_from: Avsändare
+  setting_mail_from: Avsändaradress
   setting_bcc_recipients: Hemlig kopia (bcc) till mottagare
   setting_plain_text_mail: Oformaterad text i mail (ingen HTML)
   setting_host_name: Värddatornamn
   setting_text_formatting: Textformatering
   setting_wiki_compression: Komprimering av wikihistorik
   setting_feeds_limit: Innehållsgräns för Feed
-  setting_default_projects_public: Nya projekt är publika som standard
+  setting_default_projects_public: Nya projekt är publika
   setting_autofetch_changesets: Automatisk hämtning av commits
   setting_sys_api_enabled: Aktivera WS för versionsarkivhantering
   setting_commit_ref_keywords: Referens-nyckelord
@@ -371,12 +372,13 @@ sv:
   setting_issue_list_default_columns: Standardkolumner i ärendelistan
   setting_repositories_encodings: Teckenuppsättningar för versionsarkiv
   setting_commit_logs_encoding: Teckenuppsättning för commit-meddelanden
+  setting_emails_header: Mail-header
   setting_emails_footer: Signatur
   setting_protocol: Protokoll
   setting_per_page_options: Alternativ, objekt per sida
   setting_user_format: Visningsformat för användare
   setting_activity_days_default: Dagar som visas på projektaktivitet
-  setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt som standard
+  setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt
   setting_enabled_scm: Aktivera SCM
   setting_mail_handler_body_delimiters: Trunkera mail efter en av följande rader
   setting_mail_handler_api_enabled: Aktivera WS för inkommande mail
@@ -390,7 +392,7 @@ sv:
   setting_openid: Tillåt inloggning och registrering med OpenID
   setting_password_min_length: Minsta tillåtna lösenordslängd
   setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
-  setting_default_projects_modules: Standardaktiverade moduler för nya projekt
+  setting_default_projects_modules: Aktiverade moduler för nya projekt
   setting_issue_done_ratio: Beräkna % klart med
   setting_issue_done_ratio_issue_field: Använd ärendefältet
   setting_issue_done_ratio_issue_status: Använd ärendestatus
@@ -933,7 +935,7 @@ sv:
   text_enumeration_destroy_question: "{{count}} objekt är tilldelade till detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
   text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
-  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller emailadress i både Redmine och versionsarkivet mappas automatiskt."
+  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller mailadress i både Redmine och versionsarkivet mappas automatiskt."
   text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
   text_custom_field_possible_values_info: 'Ett värde per rad'
   text_wiki_page_destroy_question: Denna sida har {{descendants}} underliggande sidor. Vad vill du göra?
@@ -970,8 +972,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset {{value}}.
   setting_commit_logtime_enabled: Enable time logging
