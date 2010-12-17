@@ -530,7 +530,8 @@ class Project < ActiveRecord::Base
     'identifier',
     'custom_field_values',
     'custom_fields',
-    'tracker_ids'
+    'tracker_ids',
+    'issue_custom_field_ids'
 
   # Returns an array of projects that are in this project's hierarchy
   #

@@ -152,7 +152,9 @@ class ProjectsControllerTest < ActionController::TestCase
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => { '3' => 'Beta' },
-            :tracker_ids => ['1', '3']
+            :tracker_ids => ['1', '3'],
+            # an issue custom field that is not for all project
+            :issue_custom_field_ids => ['9']
           }
         assert_redirected_to '/projects/blog/settings'
         
@@ -165,6 +167,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_nil project.parent
         assert_equal 'Beta', project.custom_value_for(3).value
         assert_equal [1, 3], project.trackers.map(&:id).sort
+        assert project.issue_custom_fields.include?(IssueCustomField.find(9))
       end
       
       should "create a new subproject" do
