@@ -59,8 +59,8 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     @gantt.project = @project
     @gantt.query = Query.generate_default!(:project => @project)
     @gantt.view = build_view
-    @gantt.instance_variable_set('@date_from', 2.weeks.ago.to_date)
-    @gantt.instance_variable_set('@date_to', 2.weeks.from_now.to_date)
+    @gantt.instance_variable_set('@date_from', options[:date_from] || 2.weeks.ago.to_date)
+    @gantt.instance_variable_set('@date_to', options[:date_to] || 2.weeks.from_now.to_date)
   end
 
   context "#number_of_rows" do
@@ -636,7 +636,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
                                :tracker => @tracker,
                                :project => @project,
                                :done_ratio => 30,
-                               :start_date => Date.yesterday,
+                               :start_date => 1.week.ago.to_date,
                                :due_date => 1.week.from_now.to_date)
       @project.issues << @issue
     end
@@ -645,12 +645,12 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       context "todo line" do
         should "start from the starting point on the left" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_todo[style*=left:52px]"
+          assert_select "div.task_todo[style*=left:28px]", true, @response.body
         end
 
         should "be the total width of the issue" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_todo[style*=width:34px]"
+          assert_select "div.task_todo[style*=width:58px]", true, @response.body
         end
 
       end
@@ -658,24 +658,32 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       context "late line" do
         should "start from the starting point on the left" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_late[style*=left:52px]"
+          assert_select "div.task_late[style*=left:28px]", true, @response.body
         end
 
         should "be the total delayed width of the issue" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_late[style*=width:6px]"
+          assert_select "div.task_late[style*=width:30px]", true, @response.body
         end
       end
 
       context "done line" do
         should "start from the starting point on the left" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=left:52px]"
+          assert_select "div.task_done[style*=left:28px]", true, @response.body
         end
 
         should "Be the total done width of the issue"  do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=left:52px]"
+          assert_select "div.task_done[style*=width:18px]", true, @response.body
+        end
+
+        should "not be the total done width if the chart starts after issue start date"  do
+          create_gantt(@project, :date_from => 5.days.ago.to_date)
+          
+          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_done[style*=left:0px]", true, @response.body
+          assert_select "div.task_done[style*=width:10px]", true, @response.body
         end
       end
 
@@ -684,7 +692,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.issue-name"
+          assert_select "div.issue-name", true, @response.body
         end
 
         should "show the issue status" do

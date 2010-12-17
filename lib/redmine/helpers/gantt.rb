@@ -588,53 +588,22 @@ module Redmine
           case options[:format]
           when :html
             output = ''
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= self.date_from
-                              issue.start_date
-                            else
-                              self.date_from
-                            end
-
-            i_end_date = ((issue.due_before && issue.due_before <= self.date_to) ? issue.due_before : self.date_to )
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = ((i_start_date - self.date_from)*options[:zoom]).floor 	
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom]).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - i_start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - i_start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
             css = "task " + (issue.leaf? ? 'leaf' : 'parent')
             
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ i_width }px;' class='#{css} task_todo'>&nbsp;</div>"
+            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+            if coords[:bar_start] && coords[:bar_end]
+              output << html_task(options[:top], coords, css)
+  
+              output << "<div class='tooltip' style='position: absolute;top:#{ options[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
+              output << '<span class="tip">'
+              output << view.render_issue_tooltip(issue)
+              output << "</span></div>"
             end
-            if l_width > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ l_width }px;' class='#{css} task_late'>&nbsp;</div>"
-            end
-            if d_width > 0
-              output<< "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ d_width }px;' class='#{css} task_done'>&nbsp;</div>"
-            end
-
-            # Display the status even if it's floated off to the left
-            status_px = i_left + i_width + 5
-            status_px = 5 if status_px <= 0
             
-            output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='#{css} label issue-name'>"
-            output << issue.status.name
-            output << ' '
-            output << (issue.done_ratio).to_i.to_s
-            output << "%"
+            output << "<div style='top:#{ options[:top] }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{css} label issue-name'>"
+            output << "#{ issue.status.name } #{ issue.done_ratio }%"
             output << "</div>"
-
-            output << "<div class='tooltip' style='position: absolute;top:#{ options[:top] }px;left:#{ i_left }px;width:#{ i_width }px;height:12px;'>"
-            output << '<span class="tip">'
-            output << view.render_issue_tooltip(issue)
-            output << "</span></div>"
+            
             @lines << output
             output
           
@@ -965,6 +934,54 @@ module Redmine
       end
       
       private
+      
+      def coordinates(start_date, end_date, progress, zoom=nil)
+        zoom ||= @zoom
+        
+        coords = {}
+        if start_date && end_date && start_date < self.date_to && end_date > self.date_from
+          if start_date > self.date_from
+            coords[:start] = start_date - self.date_from
+            coords[:bar_start] = start_date - self.date_from
+          else
+            coords[:bar_start] = 0
+          end
+          if end_date < self.date_to
+            coords[:end] = end_date - self.date_from
+            coords[:bar_end] = end_date - self.date_from + 1
+          else
+            coords[:bar_end] = self.date_to - self.date_from + 1
+          end
+        
+          if progress
+            progress_date = start_date + (end_date - start_date) * (progress / 100.0)
+            if progress_date > self.date_from && progress_date > start_date
+              if progress_date < self.date_to
+                coords[:bar_progress_end] = progress_date - self.date_from + 1
+              else
+                coords[:bar_progress_end] = self.date_to - self.date_from + 1
+              end
+            end
+            
+            if progress_date < Date.today
+              late_date = [Date.today, end_date].min
+              if late_date > self.date_from && late_date > start_date
+                if late_date < self.date_to
+                  coords[:bar_late_end] = late_date - self.date_from + 1
+                else
+                  coords[:bar_late_end] = self.date_to - self.date_from + 1
+                end
+              end
+            end
+          end
+        end
+        
+        # Transforms dates into pixels witdh
+        coords.keys.each do |key|
+          coords[key] = (coords[key] * zoom).floor
+        end
+        coords
+      end
 
       # Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def sort_issues!(issues)
@@ -998,6 +1015,19 @@ module Redmine
           options[:top] = 15
           options[:pdf].Line(15, options[:top] - 0.1, PDF::TotalWidth, options[:top] - 0.1)
         end
+      end
+      
+      def html_task(top, coords, css)
+        output = "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{css} task_todo'>&nbsp;</div>"
+        
+        if coords[:bar_late_end]
+          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{css} task_late'>&nbsp;</div>"
+        end
+        if coords[:bar_progress_end]
+          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{css} task_done'>&nbsp;</div>"
+        end
+        
+        output
       end
     end
   end
