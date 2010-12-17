@@ -435,65 +435,11 @@ module Redmine
 
           case options[:format]
           when :html
-            output = ''
-            i_left = ((version.start_date - self.date_from)*options[:zoom]).floor
-            # TODO: or version.fixed_issues.collect(&:start_date).min
-            start_date = version.fixed_issues.minimum('start_date') if version.fixed_issues.present?
-            start_date ||= self.date_from
-            start_left = ((start_date - self.date_from)*options[:zoom]).floor
-
-            i_end_date = ((version.due_date <= self.date_to) ? version.due_date : self.date_to )
-            i_done_date = start_date + ((version.due_date - start_date+1)* version.completed_pourcent/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
+            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
+            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
+            label = h("#{version.project} -") + label unless @project && @project == version.project
+            output = html_task(options[:top], coords, :css => "version task", :label => label, :markers => true)
             
-            i_late_date = [i_end_date, Date.today].min if start_date < Date.today
-
-            i_width = (i_left - start_left + 1).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
-
-            i_end = ((i_end_date - self.date_from) * options[:zoom]).floor # Ending pixel
-
-            # Bar graphic
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ i_width }px;' class='task milestone_todo'>&nbsp;</div>"
-            end
-            if l_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ l_width }px;' class='task milestone_late'>&nbsp;</div>"
-            end
-            if d_width > 0 && i_left <= options[:g_width]
-              output<< "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ d_width }px;' class='task milestone_done'>&nbsp;</div>"
-            end
-
-            
-            # Starting diamond
-            if start_left <= options[:g_width] && start_left > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:15px;' class='task milestone starting'>&nbsp;</div>"
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left + 12 }px;background:#fff;' class='task'>"
-              output << "</div>"
-            end
-
-            # Ending diamond
-            # Don't show items too far ahead
-            if i_left <= options[:g_width] && i_end > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_end }px;width:15px;' class='task milestone ending'>&nbsp;</div>"
-            end
-
-            # Display the Version name and %
-            if i_end <= options[:g_width]
-              # Display the status even if it's floated off to the left
-              status_px = i_end + 12 # 12px for the diamond
-              status_px = 0 if status_px <= 0
-              
-              output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='task label version-name'>"
-              output << h("#{version.project} -") unless @project && @project == version.project
-              output << "<strong>#{h version } #{h version.completed_pourcent.to_i.to_s}%</strong>"
-              output << "</div>"
-            end
             @lines << output
             output
           when :image
@@ -1015,6 +961,15 @@ module Redmine
           end
           if coords[:bar_progress_end]
             output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            output << "<div style='top:#{ top }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>"
+          end
+          if coords[:end]
+            output << "<div style='top:#{ top }px;left:#{ coords[:end] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
           end
         end
         # Renders the label on the right

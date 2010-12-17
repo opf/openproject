@@ -801,10 +801,11 @@ background-image:url('../images/close_hl.png');
 .task_todo.parent .left  { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -5px; left: 0px; top: -1px;}
 .task_todo.parent .right { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-right: -5px; right: 0px; top: -1px;}
 
-.milestone { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; }
-.milestone_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.milestone_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.milestone_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.version.task_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.version.task_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.version.task_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.version.marker { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; }
+
 .project-line { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; }
 .project_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
 .project_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
