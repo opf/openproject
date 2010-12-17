@@ -296,23 +296,16 @@ module Redmine
         if project.is_a?(Project) && project.start_date && project.due_date
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-
+            
+          coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
+          label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
           
           case options[:format]
           when :html
-            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
-            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
-            output = html_task(options, coords, :css => "project task", :label => label, :markers => true)
-            
-            @lines << output
-            output
+            html_task(options, coords, :css => "project task", :label => label, :markers => true)
           when :image
-            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
-            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
             image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
-            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
-            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
             pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
@@ -361,25 +354,17 @@ module Redmine
         if version.is_a?(Version) && version.start_date && version.due_date
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
+          
+          coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
+          label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
+          label = h("#{version.project} -") + label unless @project && @project == version.project
 
           case options[:format]
           when :html
-            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
-            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
-            label = h("#{version.project} -") + label unless @project && @project == version.project
-            output = html_task(options, coords, :css => "version task", :label => label, :markers => true)
-            
-            @lines << output
-            output
+            html_task(options, coords, :css => "version task", :label => label, :markers => true)
           when :image
-            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
-            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
-            label = h("#{version.project} -") + label unless @project && @project == version.project
             image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
-            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
-            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
-            label = h("#{version.project} -") + label unless @project && @project == version.project
             pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
@@ -445,22 +430,16 @@ module Redmine
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
+          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+          label = "#{ issue.status.name } #{ issue.done_ratio }%"
+          
           case options[:format]
           when :html
-            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
-            css = "task " + (issue.leaf? ? 'leaf' : 'parent')
-            output = html_task(options, coords, :css => css, :label => "#{ issue.status.name } #{ issue.done_ratio }%", :issue => issue)
-            
-            @lines << output
-            output
-          
+            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue)
           when :image
-            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
-            image_task(options, coords, :label => "#{ issue.status.name } #{ issue.done_ratio }%")
-
+            image_task(options, coords, :label => label)
           when :pdf
-            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
-            pdf_task(options, coords, :label => "#{ issue.status.name } #{ issue.done_ratio }%")
+            pdf_task(options, coords, :label => label)
         end
         else
           ActiveRecord::Base.logger.debug "GanttHelper#line_for_issue was not given an issue with a due_before"
@@ -815,7 +794,7 @@ module Redmine
           output << view.render_issue_tooltip(options[:issue])
           output << "</span></div>"
         end
-        
+        @lines << output
         output
       end
       
