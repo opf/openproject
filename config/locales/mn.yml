@@ -32,37 +32,37 @@ mn:
       half_a_minute: "хагас минут"
       less_than_x_seconds:
         one:   "секунд орчим"
-        other: "{{count}} секундээс бага хугацаа"
+        other: "%{count} секундээс бага хугацаа"
       x_seconds:
         one:   "1 секунд"
-        other: "{{count}} секунд"
+        other: "%{count} секунд"
       less_than_x_minutes:
         one:   "минутаас бага хугацаа"
-        other: "{{count}} минутаас бага хугацаа"
+        other: "%{count} минутаас бага хугацаа"
       x_minutes:
         one:   "1 минут"
-        other: "{{count}} минут"
+        other: "%{count} минут"
       about_x_hours:
         one:   "1 цаг орчим"
-        other: "ойролцоогоор {{count}} цаг"
+        other: "ойролцоогоор %{count} цаг"
       x_days:
         one:   "1 өдөр"
-        other: "{{count}} өдөр"
+        other: "%{count} өдөр"
       about_x_months:
         one:   "1 сар орчим"
-        other: "ойролцоогоор {{count}} сар"
+        other: "ойролцоогоор %{count} сар"
       x_months:
         one:   "1 сар"
-        other: "{{count}} сар"
+        other: "%{count} сар"
       about_x_years:
         one:   "ойролцоогоор 1 жил"
-        other: "ойролцоогоор {{count}} жил"
+        other: "ойролцоогоор %{count} жил"
       over_x_years:
         one:   "1 жилээс их"
-        other: "{{count}} жилээс их"
+        other: "%{count} жилээс их"
       almost_x_years:
         one:   "бараг 1 жил"
-        other: "бараг {{count}} жил"
+        other: "бараг %{count} жил"
 
   number:
     format:
@@ -101,17 +101,17 @@ mn:
         accepted: "хүлээж авах ёстой"
         empty: "хоосон байж болохгүй"
         blank: "бланк байж болохгүй"
-        too_long: "дэндүү урт байна (хамгийн ихдээ {{count}} тэмдэгт)"
-        too_short: "дэндүү богино байна (хамгийн багадаа {{count}} тэмдэгт)"
-        wrong_length: "буруу урттай байна (заавал {{count}} тэмдэгт)"
+        too_long: "дэндүү урт байна (хамгийн ихдээ %{count} тэмдэгт)"
+        too_short: "дэндүү богино байна (хамгийн багадаа %{count} тэмдэгт)"
+        wrong_length: "буруу урттай байна (заавал %{count} тэмдэгт)"
         taken: "аль хэдийнэ авсан байна"
         not_a_number: "тоо биш байна"
         not_a_date: "зөв огноо биш байна"
-        greater_than: "{{count}} их байх ёстой"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        greater_than: "%{count} их байх ёстой"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "заавал сондгой"
         even: "заавал тэгш"
         greater_than_start_date: "must be greater than start date"
@@ -148,20 +148,20 @@ mn:
   notice_file_not_found: Таны үзэх гэсэн хуудас байхгүй юмуу устгагдсан байна.
   notice_locking_conflict: Өгөгдлийг өөр хүн өөрчилсөн байна.
   notice_not_authorized: Танд энэ хуудсыг үзэх эрх байхгүй байна.
-  notice_email_sent: "{{value}} - руу мэйл илгээлээ"
-  notice_email_error: "Мэйл илгээхэд алдаа гарлаа ({{value}})"
+  notice_email_sent: "%{value} - руу мэйл илгээлээ"
+  notice_email_error: "Мэйл илгээхэд алдаа гарлаа (%{value})"
   notice_feeds_access_key_reseted: Таны RSS хандалтын түлхүүрийг дахин эхлүүллээ.
   notice_api_access_key_reseted: Your API access key was reset.
-  notice_failed_to_save_issues: "{{total}} асуудал сонгогдсоноос {{count}} асуудлыг нь хадгалахад алдаа гарлаа: {{ids}}."
+  notice_failed_to_save_issues: "%{total} асуудал сонгогдсоноос %{count} асуудлыг нь хадгалахад алдаа гарлаа: %{ids}."
   notice_no_issue_selected: "Ямар ч асуудал сонгогдоогүй байна! Засварлах асуудлуудаа сонгоно уу."
   notice_account_pending: "Таны дансыг үүсгэж дууслаа, администратор баталгаажуулах хүртэл хүлээнэ үү."
   notice_default_data_loaded: Стандарт тохиргоог амжилттай ачааллаа.
   notice_unable_delete_version: Хувилбарыг устгах боломжгүй.
   notice_issue_done_ratios_updated: Issue done ratios updated.
   
-  error_can_t_load_default_data: "Стандарт тохиргоог ачаалж чадсангүй: {{value}}"
+  error_can_t_load_default_data: "Стандарт тохиргоог ачаалж чадсангүй: %{value}"
   error_scm_not_found: "Repository дотор тухайн бичлэг эсвэл хувилбарыг олсонгүй."
-  error_scm_command_failed: "Repository-д хандахад алдаа гарлаа:  {{value}}"
+  error_scm_command_failed: "Repository-д хандахад алдаа гарлаа:  %{value}"
   error_scm_annotate: "Бичлэг байхгүй байна, эсвэл бичлэгт тайлбар хавсаргаж болохгүй."
   error_issue_not_found_in_project: 'Сонгосон асуудал энэ төсөлд хамаардаггүй юм уу эсвэл системд байхгүй байна.'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
@@ -172,25 +172,25 @@ mn:
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   
-  warning_attachments_not_saved: "{{count}} file(s) файлыг хадгалж чадсангүй."
+  warning_attachments_not_saved: "%{count} file(s) файлыг хадгалж чадсангүй."
   
-  mail_subject_lost_password: "Таны {{value}} нууц үг"
+  mail_subject_lost_password: "Таны %{value} нууц үг"
   mail_body_lost_password: 'Нууц үгээ өөрчлөхийн тулд доорх холбоос дээр дарна уу:'
-  mail_subject_register: "Таны {{value}} дансыг идэвхжүүлэх"
+  mail_subject_register: "Таны %{value} дансыг идэвхжүүлэх"
   mail_body_register: 'Дансаа идэвхжүүлэхийн тулд доорх холбоос дээр дарна уу:'
-  mail_body_account_information_external: "Та өөрийнхөө {{value}} дансыг ашиглаж холбогдож болно."
+  mail_body_account_information_external: "Та өөрийнхөө %{value} дансыг ашиглаж холбогдож болно."
   mail_body_account_information: Таны дансны тухай мэдээлэл
-  mail_subject_account_activation_request: "{{value}} дансыг идэвхжүүлэх хүсэлт"
-  mail_body_account_activation_request: "Шинэ хэрэглэгч ({{value}}) бүртгүүлсэн байна. Таны баталгаажуулахыг хүлээж байна:"
-  mail_subject_reminder: "Дараагийн өдрүүдэд {{count}} асуудлыг шийдэх хэрэгтэй ({{days}})"
-  mail_body_reminder: "Танд оноогдсон {{count}} асуудлуудыг дараагийн {{days}} өдрүүдэд шийдэх хэрэгтэй:"
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
+  mail_subject_account_activation_request: "%{value} дансыг идэвхжүүлэх хүсэлт"
+  mail_body_account_activation_request: "Шинэ хэрэглэгч (%{value}) бүртгүүлсэн байна. Таны баталгаажуулахыг хүлээж байна:"
+  mail_subject_reminder: "Дараагийн өдрүүдэд %{count} асуудлыг шийдэх хэрэгтэй (%{days})"
+  mail_body_reminder: "Танд оноогдсон %{count} асуудлуудыг дараагийн %{days} өдрүүдэд шийдэх хэрэгтэй:"
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   
   gui_validation_error: 1 алдаа
-  gui_validation_error_plural: "{{count}} алдаа"
+  gui_validation_error_plural: "%{count} алдаа"
   
   field_name: Нэр
   field_description: Тайлбар
@@ -410,14 +410,14 @@ mn:
   label_x_projects:
     zero:  төсөл байхгүй
     one:   1 төсөл
-    other: "{{count}} төслүүд"
+    other: "%{count} төслүүд"
   label_project_all: Бүх Төслүүд
   label_project_latest: Сүүлийн үеийн төслүүд
   label_issue: Асуудал
   label_issue_new: Шинэ асуудал
   label_issue_plural: Асуудлууд
   label_issue_view_all: Бүх асуудлуудыг харах
-  label_issues_by: "{{value}} - н асуудлууд"
+  label_issues_by: "%{value} - н асуудлууд"
   label_issue_added: Асуудал нэмэгдлээ
   label_issue_updated: Асуудал өөрчлөгдлөө
   label_document: Бичиг баримт
@@ -466,7 +466,7 @@ mn:
   label_registered_on: Бүртгүүлсэн огноо
   label_activity: Үйл ажиллагаа
   label_overall_activity: Ерөнхий үйл ажиллагаа
-  label_user_activity: "{{value}}-ийн үйл ажиллагаа"
+  label_user_activity: "%{value}-ийн үйл ажиллагаа"
   label_new: Шинэ
   label_logged_as: Холбогдсон нэр
   label_environment: Орчин
@@ -476,7 +476,7 @@ mn:
   label_auth_source_plural: Нэвтрэх аргууд
   label_subproject_plural: Дэд төслүүд
   label_subproject_new: Шинэ дэд төсөл
-  label_and_its_subprojects: "{{value}} болон холбогдох дэд төслүүд"
+  label_and_its_subprojects: "%{value} болон холбогдох дэд төслүүд"
   label_min_max_length: Дээд - Доод урт
   label_list: Жагсаалт
   label_date: Огноо
@@ -487,8 +487,8 @@ mn:
   label_text: Урт текст
   label_attribute: Аттрибут
   label_attribute_plural: Аттрибутууд
-  label_download: "{{count}} Татаж авсан зүйл"
-  label_download_plural: "{{count}} Татаж авсан зүйлс"
+  label_download: "%{count} Татаж авсан зүйл"
+  label_download_plural: "%{count} Татаж авсан зүйлс"
   label_no_data: Үзүүлэх өгөгдөл байхгүй байна
   label_change_status: Төлвийг өөрчлөх
   label_history: Түүх
@@ -521,17 +521,17 @@ mn:
   label_closed_issues: хаалттай
   label_closed_issues_plural: хаалттай
   label_x_open_issues_abbr_on_total:
-    zero:  0 нээлттэй / {{total}}
-    one:   1 нээлттэй / {{total}}
-    other: "{{count}} нээлттэй / {{total}}"
+    zero:  0 нээлттэй / %{total}
+    one:   1 нээлттэй / %{total}
+    other: "%{count} нээлттэй / %{total}"
   label_x_open_issues_abbr:
     zero:  0 нээлттэй
     one:   1 нээлттэй
-    other: "{{count}} нээлттэй"
+    other: "%{count} нээлттэй"
   label_x_closed_issues_abbr:
     zero:  0 хаалттай
     one:   1 хаалттай
-    other: "{{count}} хаалттай"
+    other: "%{count} хаалттай"
   label_total: Нийт
   label_permissions: Зөвшөөрлүүд
   label_current_status: Одоогийн төлөв
@@ -549,7 +549,7 @@ mn:
   label_months_from: Саруудыг хаанаас
   label_gantt: Гант диаграм
   label_internal: Дотоод
-  label_last_changes: "сүүлийн {{count}} өөрчлөлтүүд"
+  label_last_changes: "сүүлийн %{count} өөрчлөлтүүд"
   label_change_view_all: Бүх өөрчлөлтүүдийг харах
   label_personalize_page: Энэ хуудсыг өөрт зориулан өөрчлөх
   label_comment: Тайлбар
@@ -557,7 +557,7 @@ mn:
   label_x_comments:
     zero: сэтгэгдэл байхгүй
     one: 1 сэтгэгдэлтэй
-    other: "{{count}} сэтгэгдэлтэй"
+    other: "%{count} сэтгэгдэлтэй"
   label_comment_add: Тайлбар нэмэх
   label_comment_added: Тайлбар нэмэгдлээ
   label_comment_delete: Тайлбарууд устгах
@@ -578,7 +578,7 @@ mn:
   label_yesterday: өчигдөр
   label_this_week: энэ долоо хоног
   label_last_week: өнгөрсөн долоо хоног
-  label_last_n_days: "сүүлийн {{count}} өдрүүд"
+  label_last_n_days: "сүүлийн %{count} өдрүүд"
   label_this_month: энэ сар
   label_last_month: сүүлийн сар
   label_this_year: энэ жил
@@ -592,13 +592,13 @@ mn:
   label_repository: Репозитори
   label_repository_plural: Репозиторууд
   label_browse: Үзэх
-  label_modification: "{{count}} өөрчлөлт"
-  label_modification_plural: "{{count}} өөрчлөлтүүд"
+  label_modification: "%{count} өөрчлөлт"
+  label_modification_plural: "%{count} өөрчлөлтүүд"
   label_branch: Салбар
   label_tag: Шошго 
   label_revision: Хувилбар
   label_revision_plural: Хувилбарууд
-  label_revision_id: "{{value}} Хувилбар"
+  label_revision_id: "%{value} Хувилбар"
   label_associated_revisions: Хамааралтай хувилбарууд
   label_added: нэмэгдсэн
   label_modified: өөрчлөгдсөн
@@ -615,8 +615,8 @@ mn:
   label_sort_lower: Доош нь
   label_sort_lowest: Хамгийн доор
   label_roadmap: Хөтөч
-  label_roadmap_due_in: "{{value}} дотор дуусгах"
-  label_roadmap_overdue: "{{value}} оройтсон"
+  label_roadmap_due_in: "%{value} дотор дуусгах"
+  label_roadmap_overdue: "%{value} оройтсон"
   label_roadmap_no_issues: Энэ хувилбарт асуудал байхгүй байна
   label_search: Хайх
   label_result_plural: Үр дүн
@@ -634,8 +634,8 @@ mn:
   label_changes_details: Бүх өөрчлөлтүүдийн дэлгэрэнгүй
   label_issue_tracking: Асуудал хянах
   label_spent_time: Зарцуулсан хугацаа
-  label_f_hour: "{{value}} цаг"
-  label_f_hour_plural: "{{value}} цаг"
+  label_f_hour: "%{value} цаг"
+  label_f_hour_plural: "%{value} цаг"
   label_time_tracking: Хугацааг хянах
   label_change_plural: Өөрчлөлтүүд
   label_statistics: Статистик
@@ -686,15 +686,15 @@ mn:
   label_date_from: Хэзээнээс
   label_date_to: Хэдий хүртэл
   label_language_based: Хэрэглэгчийн хэлнас шалтгаалан
-  label_sort_by: "{{value}} талбараар нь эрэмбэлэх"
+  label_sort_by: "%{value} талбараар нь эрэмбэлэх"
   label_send_test_email: Турших мэйл илгээх
   label_feeds_access_key: RSS хандах түлхүүр
   label_missing_feeds_access_key: RSS хандах түлхүүр алга
-  label_feeds_access_key_created_on: "RSS хандалтын түлхүүр {{value}}-ийн өмнө үүссэн"
+  label_feeds_access_key_created_on: "RSS хандалтын түлхүүр %{value}-ийн өмнө үүссэн"
   label_module_plural: Модулууд
-  label_added_time_by: "{{author}} {{age}}-ийн өмнө нэмсэн"
-  label_updated_time_by: "{{author}} {{age}}-ийн өмнө өөрчилсөн"
-  label_updated_time: "{{value}} -ийн өмнө өөрчлөгдсөн"
+  label_added_time_by: "%{author} %{age}-ийн өмнө нэмсэн"
+  label_updated_time_by: "%{author} %{age}-ийн өмнө өөрчилсөн"
+  label_updated_time: "%{value} -ийн өмнө өөрчлөгдсөн"
   label_jump_to_a_project: Төсөл рүү очих...
   label_file_plural: Файлууд
   label_changeset_plural: Өөрчлөлтүүд
@@ -710,7 +710,7 @@ mn:
   label_registration_activation_by_email: дансыг имэйлээр идэвхжүүлэх
   label_registration_manual_activation: дансыг гараар идэвхжүүлэх
   label_registration_automatic_activation: дансыг автоматаар идэвхжүүлэх
-  label_display_per_page: 'Нэг хуудсанд: {{value}}'
+  label_display_per_page: 'Нэг хуудсанд: %{value}'
   label_age: Нас
   label_change_properties: Тохиргоог өөрчлөх
   label_general: Ерөнхий
@@ -733,7 +733,7 @@ mn:
   label_sort: Sort
   label_ascending: Ascending
   label_descending: Descending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_group: Group
@@ -752,7 +752,7 @@ mn:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
-  label_api_access_key_created_on: "API access key created {{value}} ago"
+  label_api_access_key_created_on: "API access key created %{value} ago"
   
   button_login: Нэвтрэх
   button_submit: Илгээх
@@ -812,53 +812,53 @@ mn:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 гэвэл ямар ч хязгааргүй гэсэн үг
   text_project_destroy_confirmation: Та энэ төсөл болоод бусад мэдээллийг нь үнэхээр устгамаар байна уу ?
-  text_subprojects_destroy_warning: "Уг төслийн дэд төслүүд : {{value}} нь бас устгагдах болно."
+  text_subprojects_destroy_warning: "Уг төслийн дэд төслүүд : %{value} нь бас устгагдах болно."
   text_workflow_edit: Ажлын дарааллыг өөрчлөхийн тулд хандалтын эрх болон асуудлын чиглэлийг сонгоно уу
   text_are_you_sure: Та итгэлтэй байна уу ?
-  text_journal_changed: "{{label}} {{old}} байсан нь {{new}} болов"
-  text_journal_set_to: "{{label}} {{value}} болгож өөрчиллөө"
-  text_journal_deleted: "{{label}} устсан ({{old}})"
-  text_journal_added: "{{label}} {{value}} нэмэгдсэн"
+  text_journal_changed: "%{label} %{old} байсан нь %{new} болов"
+  text_journal_set_to: "%{label} %{value} болгож өөрчиллөө"
+  text_journal_deleted: "%{label} устсан (%{old})"
+  text_journal_added: "%{label} %{value} нэмэгдсэн"
   text_tip_issue_begin_day: энэ өдөр эхлэх ажил
   text_tip_issue_end_day: энэ өдөр дуусах ажил
   text_tip_issue_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
   text_project_identifier_info: 'Зөвхөн жижиг үсгүүд болон (a-z), тоо and дундуур зураас ашиглаж болно.<br />Нэгэнт хадгалсан хойно, төслийн глобал нэрийг өөрлчөх боломжгүй.'
-  text_caracters_maximum: "дээд тал нь {{count}} үсэг."
-  text_caracters_minimum: "Хамгийн багадаа ядаж {{count}} тэмдэгт байх."
-  text_length_between: "Урт нь багадаа {{min}}, ихдээ {{max}} тэмдэгт."
+  text_caracters_maximum: "дээд тал нь %{count} үсэг."
+  text_caracters_minimum: "Хамгийн багадаа ядаж %{count} тэмдэгт байх."
+  text_length_between: "Урт нь багадаа %{min}, ихдээ %{max} тэмдэгт."
   text_tracker_no_workflow: Энэхүү асуудлын чиглэлд ямар ч ажлын дараалал тодорхойлогдоогүй байна
   text_unallowed_characters: Хэрэглэж болохгүй тэмдэгтүүд
   text_comma_separated: Таслалаар зааглан олон утга оруулж болно.
   text_line_separated: Multiple values allowed (one line for each value).
   text_issues_ref_in_commit_messages: Коммитийн зурвасуудад хамааруулсан болон байнгын асуудлууд
-  text_issue_added: "Асуудал {{id}} - ийг хэрэглэгч {{author}} мэдэгдсэн байна."
-  text_issue_updated: "Асуудал {{id}} - ийг хэрэглэгч {{author}} өөрчилсөн байна."
+  text_issue_added: "Асуудал %{id} - ийг хэрэглэгч %{author} мэдэгдсэн байна."
+  text_issue_updated: "Асуудал %{id} - ийг хэрэглэгч %{author} өөрчилсөн байна."
   text_wiki_destroy_confirmation: Та энэ вики болон холбогдох бүх мэдээллийг үнэхээр устгамаар байна уу ?
-  text_issue_category_destroy_question: "Энэ ангилалд зарим асуудлууд ({{count}})  орсон байна. Та яах вэ ?"
+  text_issue_category_destroy_question: "Энэ ангилалд зарим асуудлууд (%{count})  орсон байна. Та яах вэ ?"
   text_issue_category_destroy_assignments: Асуудлуудыг энэ ангиллаас авах
   text_issue_category_reassign_to: Асуудлуудыг энэ ангилалд дахин оноох
   text_user_mail_option: "Сонгогдоогүй төслүүдийн хувьд, та зөвхөн өөрийнхөө ажиглаж байгаа зүйлс юмуу танд хамаатай зүйлсийн талаар мэдэгдэл авах болно (Таны оруулсан асуудал, эсвэл танд оноосон гэх мэт)."
   text_no_configuration_data: "Хандалтын эрхүүд, чиглэлүүд, асуудлын төлвүүд болон ажлын дарааллын тухай мэдээллийг хараахан оруулаагүй байна.\nТа стандарт өгөгдлүүдийг даруйхан оруулахыг зөвлөж байна, оруулсан хойно та засварлаж болно."
   text_load_default_configuration: Стандарт өгөгдлийг ачаалах
-  text_status_changed_by_changeset: "{{value}} өөрчлөлтөд хийгдсэн."
+  text_status_changed_by_changeset: "%{value} өөрчлөлтөд хийгдсэн."
   text_issues_destroy_confirmation: 'Та сонгогдсон асуудлуудыг үнэхээр устгамаар байна уу ?'
   text_select_project_modules:  'Энэ төслийн хувьд идэвхжүүлэх модулуудаа сонгоно уу:'
   text_default_administrator_account_changed: Стандарт администраторын бүртгэл өөрчлөгдлөө
   text_file_repository_writable: Хавсралт файл хадгалах хавтас руу бичих эрхтэй
   text_plugin_assets_writable: Плагин модулийн ассет хавтас руу бичих эрхтэй
   text_rmagick_available: RMagick суулгагдсан (заавал биш)
-  text_destroy_time_entries_question: "Таны устгах гэж байгаа асуудлууд дээр нийт {{hours}} цаг зарцуулсан юм байна, та яах вэ ?"
+  text_destroy_time_entries_question: "Таны устгах гэж байгаа асуудлууд дээр нийт %{hours} цаг зарцуулсан юм байна, та яах вэ ?"
   text_destroy_time_entries: Мэдэгдсэн цагуудыг устгах
   text_assign_time_entries_to_project: Мэдэгдсэн асуудлуудыг төсөлд оноох
   text_reassign_time_entries: 'Мэдэгдсэн асуудлуудыг энэ асуудалд дахин оноо:'
-  text_user_wrote: "{{value}} бичихдээ:"
-  text_enumeration_destroy_question: "Энэ утгад {{count}} обьект оноогдсон байна."
+  text_user_wrote: "%{value} бичихдээ:"
+  text_enumeration_destroy_question: "Энэ утгад %{count} обьект оноогдсон байна."
   text_enumeration_category_reassign_to: 'Тэдгээрийг энэ утгад дахин оноо:'
   text_email_delivery_not_configured: "Имэйлийн тохиргоог хараахан тохируулаагүй байна, тиймээс имэйл мэдэгдэл явуулах боломжгүй байна.\nSMTP сервэрээ config/email.yml файл дотор тохируулаад төслийн менежерээ дахиад эхлүүлээрэй."
   text_repository_usernames_mapping: "Репозиторийн логд байгаа бүх хэрэглэгчийн нэрүүдэд харгалзсан Төслийн Менежер системд бүртгэлтэй хэрэглэгчдийг Сонгох юмуу шинэчилнэ үү.\nТөслийн менежер болон репозиторид байгаа ижилхэн нэр юмуу имэйлтэй хэрэглэгчид харилцан харгалзна."
   text_diff_truncated: '... Файлын ялгаврын хэмжээ үзүүлэхэд дэндүү урт байгаа учраас төгсгөлөөс нь хасч үзүүлэв.'
   text_custom_field_possible_values_info: 'One line for each value'
-  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
@@ -899,12 +899,12 @@ mn:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -912,7 +912,7 @@ mn:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -929,7 +929,7 @@ mn:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

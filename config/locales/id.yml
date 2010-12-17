@@ -30,37 +30,37 @@ id:
       half_a_minute: "setengah menit"
       less_than_x_seconds:
         one:   "kurang dari sedetik"
-        other: "kurang dari {{count}} detik"
+        other: "kurang dari %{count} detik"
       x_seconds:
         one:   "sedetik"
-        other: "{{count}} detik"
+        other: "%{count} detik"
       less_than_x_minutes:
         one:   "kurang dari semenit"
-        other: "kurang dari {{count}} menit"
+        other: "kurang dari %{count} menit"
       x_minutes:
         one:   "semenit"
-        other: "{{count}} menit"
+        other: "%{count} menit"
       about_x_hours:
         one:   "sekitar sejam"
-        other: "sekitar {{count}} jam"
+        other: "sekitar %{count} jam"
       x_days:
         one:   "sehari"
-        other: "{{count}} hari"
+        other: "%{count} hari"
       about_x_months:
         one:   "sekitar sebulan"
-        other: "sekitar {{count}} bulan"
+        other: "sekitar %{count} bulan"
       x_months:
         one:   "sebulan"
-        other: "{{count}} bulan"
+        other: "%{count} bulan"
       about_x_years:
         one:   "sekitar setahun"
-        other: "sekitar {{count}} tahun"
+        other: "sekitar %{count} tahun"
       over_x_years:
         one:   "lebih dari setahun"
-        other: "lebih dari {{count}} tahun"
+        other: "lebih dari %{count} tahun"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number:
     format:
@@ -103,17 +103,17 @@ id:
         accepted: "harus disetujui"
         empty: "tidak boleh kosong"
         blank: "tidak boleh kosong"
-        too_long: "terlalu panjang (maksimum {{count}} karakter)"
-        too_short: "terlalu pendek (minimum {{count}} karakter)"
-        wrong_length: "panjangnya salah (seharusnya {{count}} karakter)"
+        too_long: "terlalu panjang (maksimum %{count} karakter)"
+        too_short: "terlalu pendek (minimum %{count} karakter)"
+        wrong_length: "panjangnya salah (seharusnya %{count} karakter)"
         taken: "sudah diambil"
         not_a_number: "bukan angka"
         not_a_date: "bukan tanggal"
-        greater_than: "harus lebih besar dari {{count}}"
-        greater_than_or_equal_to: "harus lebih besar atau sama dengan {{count}}"
-        equal_to: "harus sama dengan {{count}}"
-        less_than: "harus kurang dari {{count}}"
-        less_than_or_equal_to: "harus kurang atau sama dengan {{count}}"
+        greater_than: "harus lebih besar dari %{count}"
+        greater_than_or_equal_to: "harus lebih besar atau sama dengan %{count}"
+        equal_to: "harus sama dengan %{count}"
+        less_than: "harus kurang dari %{count}"
+        less_than_or_equal_to: "harus kurang atau sama dengan %{count}"
         odd: "harus ganjil"
         even: "harus genap"
         greater_than_start_date: "harus lebih besar dari tanggal mulai"
@@ -150,18 +150,18 @@ id:
   notice_file_not_found: Berkas yang anda buka tidak ada atau sudah dihapus.
   notice_locking_conflict: Data sudah diubah oleh pengguna lain.
   notice_not_authorized: Anda tidak memiliki akses ke halaman ini.
-  notice_email_sent: "Email sudah dikirim ke {{value}}"
-  notice_email_error: "Terjadi kesalahan pada saat pengiriman email ({{value}})"
+  notice_email_sent: "Email sudah dikirim ke %{value}"
+  notice_email_error: "Terjadi kesalahan pada saat pengiriman email (%{value})"
   notice_feeds_access_key_reseted: RSS access key anda sudah direset.
-  notice_failed_to_save_issues: "Gagal menyimpan {{count}} masalah dari {{total}} yang dipilih: {{ids}}."
+  notice_failed_to_save_issues: "Gagal menyimpan %{count} masalah dari %{total} yang dipilih: %{ids}."
   notice_no_issue_selected: "Tidak ada masalah yang dipilih! Silakan pilih masalah yang akan anda sunting."
   notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
   notice_default_data_loaded: Konfigurasi default sudah berhasil dimuat.
   notice_unable_delete_version: Tidak bisa menghapus versi.
   
-  error_can_t_load_default_data: "Konfigurasi default tidak bisa dimuat: {{value}}"
+  error_can_t_load_default_data: "Konfigurasi default tidak bisa dimuat: %{value}"
   error_scm_not_found: "Entri atau revisi tidak terdapat pada repositori."
-  error_scm_command_failed: "Terjadi kesalahan pada saat mengakses repositori: {{value}}"
+  error_scm_command_failed: "Terjadi kesalahan pada saat mengakses repositori: %{value}"
   error_scm_annotate: "Entri tidak ada, atau tidak dapat di anotasi."
   error_issue_not_found_in_project: 'Masalah tidak ada atau tidak tergabung dalam proyek ini.'
   error_no_tracker_in_project: 'Tidak ada pelacak yang diasosiasikan pada proyek ini. Silakan pilih Pengaturan Proyek.'
@@ -169,25 +169,25 @@ id:
   error_can_not_reopen_issue_on_closed_version: 'Masalah yang ditujukan pada versi tertutup tidak bisa dibuka kembali'
   error_can_not_archive_project: Proyek ini tidak bisa diarsipkan
   
-  warning_attachments_not_saved: "{{count}} berkas tidak bisa disimpan."
+  warning_attachments_not_saved: "%{count} berkas tidak bisa disimpan."
   
-  mail_subject_lost_password: "Kata sandi {{value}} anda"
+  mail_subject_lost_password: "Kata sandi %{value} anda"
   mail_body_lost_password: 'Untuk mengubah kata sandi anda, klik tautan berikut::'
-  mail_subject_register: "Aktivasi akun {{value}} anda"
+  mail_subject_register: "Aktivasi akun %{value} anda"
   mail_body_register: 'Untuk mengaktifkan akun anda, klik tautan berikut:'
-  mail_body_account_information_external: "Anda dapat menggunakan akun {{value}} anda untuk login."
+  mail_body_account_information_external: "Anda dapat menggunakan akun %{value} anda untuk login."
   mail_body_account_information: Informasi akun anda
-  mail_subject_account_activation_request: "Permintaan aktivasi akun {{value}} "
-  mail_body_account_activation_request: "Pengguna baru ({{value}}) sudan didaftarkan. Akun tersebut menunggu persetujuan anda:"
-  mail_subject_reminder: "{{count}} masalah harus selesai pada hari berikutnya ({{days}})"
-  mail_body_reminder: "{{count}} masalah yang ditugaskan pada anda harus selesai dalam {{days}} hari kedepan:"
-  mail_subject_wiki_content_added: "'{{id}}' halaman wiki sudah ditambahkan"
-  mail_body_wiki_content_added: "The '{{id}}' halaman wiki sudah ditambahkan oleh {{author}}."
-  mail_subject_wiki_content_updated: "'{{id}}' halaman wiki sudah diperbarui"
-  mail_body_wiki_content_updated: "The '{{id}}' halaman wiki sudah diperbarui oleh {{author}}."
+  mail_subject_account_activation_request: "Permintaan aktivasi akun %{value} "
+  mail_body_account_activation_request: "Pengguna baru (%{value}) sudan didaftarkan. Akun tersebut menunggu persetujuan anda:"
+  mail_subject_reminder: "%{count} masalah harus selesai pada hari berikutnya (%{days})"
+  mail_body_reminder: "%{count} masalah yang ditugaskan pada anda harus selesai dalam %{days} hari kedepan:"
+  mail_subject_wiki_content_added: "'%{id}' halaman wiki sudah ditambahkan"
+  mail_body_wiki_content_added: "The '%{id}' halaman wiki sudah ditambahkan oleh %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' halaman wiki sudah diperbarui"
+  mail_body_wiki_content_updated: "The '%{id}' halaman wiki sudah diperbarui oleh %{author}."
   
   gui_validation_error: 1 kesalahan
-  gui_validation_error_plural: "{{count}} kesalahan"
+  gui_validation_error_plural: "%{count} kesalahan"
 
   
   field_name: Nama
@@ -398,14 +398,14 @@ id:
   label_x_projects:
     zero:  tidak ada proyek 
     one:   1 proyek 
-    other: "{{count}} proyek"
+    other: "%{count} proyek"
   label_project_all: Semua Proyek 
   label_project_latest: Proyek terakhir
   label_issue: Masalah
   label_issue_new: Masalah baru
   label_issue_plural: Masalah
   label_issue_view_all: tampilkan semua masalah
-  label_issues_by: "Masalah ditambahkan oleh {{value}}"
+  label_issues_by: "Masalah ditambahkan oleh %{value}"
   label_issue_added: Masalah ditambahan
   label_issue_updated: Masalah diperbarui
   label_document: Dokumen
@@ -454,7 +454,7 @@ id:
   label_registered_on: Terdaftar pada
   label_activity: Kegiatan
   label_overall_activity: Kegiatan umum
-  label_user_activity: "kegiatan {{value}}"
+  label_user_activity: "kegiatan %{value}"
   label_new: Baru
   label_logged_as: Login sebagai
   label_environment: Lingkungan
@@ -463,7 +463,7 @@ id:
   label_auth_source_new: Mode otentikasi baru
   label_auth_source_plural: Mode Otentikasi
   label_subproject_plural: Subproyek
-  label_and_its_subprojects: "{{value}} dan subproyeknya"
+  label_and_its_subprojects: "%{value} dan subproyeknya"
   label_min_max_length: Panjang Min - Maks
   label_list: Daftar
   label_date: Tanggal
@@ -474,8 +474,8 @@ id:
   label_text: Long text
   label_attribute: Atribut
   label_attribute_plural: Atribut
-  label_download: "{{count}} Unduhan"
-  label_download_plural: "{{count}} Unduhan"
+  label_download: "%{count} Unduhan"
+  label_download_plural: "%{count} Unduhan"
   label_no_data: Tidak ada data untuk ditampilkan
   label_change_status: Status perubahan
   label_history: Riwayat
@@ -507,17 +507,17 @@ id:
   label_closed_issues: selesai
   label_closed_issues_plural: selesai
   label_x_open_issues_abbr_on_total:
-    zero:  0 belum selesai / {{total}}
-    one:   1 belum selesai / {{total}}
-    other: "{{count}} terbuka / {{total}}"
+    zero:  0 belum selesai / %{total}
+    one:   1 belum selesai / %{total}
+    other: "%{count} terbuka / %{total}"
   label_x_open_issues_abbr:
     zero:  0 belum selesai
     one:   1 belum selesai
-    other: "{{count}} belum selesai"
+    other: "%{count} belum selesai"
   label_x_closed_issues_abbr:
     zero:  0 selesai
     one:   1 selesai
-    other: "{{count}} selesai"
+    other: "%{count} selesai"
   label_total: Total
   label_permissions: Perijinan
   label_current_status: Status sekarang
@@ -535,7 +535,7 @@ id:
   label_months_from: dari bulan
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "{{count}} perubahan terakhir"
+  label_last_changes: "%{count} perubahan terakhir"
   label_change_view_all: Tampilkan semua perubahan
   label_personalize_page: Personalkan halaman ini
   label_comment: Komentar
@@ -543,7 +543,7 @@ id:
   label_x_comments:
     zero: tak ada komentar
     one: 1 komentar
-    other: "{{count}} komentar"
+    other: "%{count} komentar"
   label_comment_add: Tambahkan komentar
   label_comment_added: Komentar ditambahkan
   label_comment_delete: Hapus komentar
@@ -564,7 +564,7 @@ id:
   label_yesterday: kemarin
   label_this_week: minggu ini
   label_last_week: minggu lalu
-  label_last_n_days: "{{count}} hari terakhir"
+  label_last_n_days: "%{count} hari terakhir"
   label_this_month: bulan ini
   label_last_month: bulan lalu
   label_this_year: this year
@@ -578,8 +578,8 @@ id:
   label_repository: Repositori
   label_repository_plural: Repositori
   label_browse: Jelajah
-  label_modification: "{{count}} perubahan"
-  label_modification_plural: "{{count}} perubahan"
+  label_modification: "%{count} perubahan"
+  label_modification_plural: "%{count} perubahan"
   label_branch: Cabang
   label_tag: Tag 
   label_revision: Revisi
@@ -600,8 +600,8 @@ id:
   label_sort_lower: Ke bawah
   label_sort_lowest: Ke paling bawah
   label_roadmap: Rencana kerja
-  label_roadmap_due_in: "Harus selesai dalam {{value}}"
-  label_roadmap_overdue: "{{value}} terlambat"
+  label_roadmap_due_in: "Harus selesai dalam %{value}"
+  label_roadmap_overdue: "%{value} terlambat"
   label_roadmap_no_issues: Tak ada masalah pada versi ini
   label_search: Cari
   label_result_plural: Hasil
@@ -619,8 +619,8 @@ id:
   label_changes_details: Rincian semua perubahan
   label_issue_tracking: Pelacak masalah
   label_spent_time: Waktu terpakai
-  label_f_hour: "{{value}} jam"
-  label_f_hour_plural: "{{value}} jam"
+  label_f_hour: "%{value} jam"
+  label_f_hour_plural: "%{value} jam"
   label_time_tracking: Pelacak waktu
   label_change_plural: Perubahan
   label_statistics: Statistik
@@ -669,13 +669,13 @@ id:
   label_date_from: Dari
   label_date_to: Sampai
   label_language_based: Berdasarkan bahasa pengguna
-  label_sort_by: "Urut berdasarkan {{value}}"
+  label_sort_by: "Urut berdasarkan %{value}"
   label_send_test_email: Kirim email percobaan
-  label_feeds_access_key_created_on: "RSS access key dibuat {{value}} yang lalu"
+  label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_module_plural: Modul
-  label_added_time_by: "Ditambahkan oleh {{author}} {{age}} yang lalu"
-  label_updated_time_by: "Diperbarui oleh {{author}} {{age}} yang lalu"
-  label_updated_time: "Diperbarui oleh {{value}} yang lalu"
+  label_added_time_by: "Ditambahkan oleh %{author} %{age} yang lalu"
+  label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
+  label_updated_time: "Diperbarui oleh %{value} yang lalu"
   label_jump_to_a_project: Pilih proyek...
   label_file_plural: Berkas
   label_changeset_plural: Set perubahan
@@ -693,7 +693,7 @@ id:
   label_registration_activation_by_email: aktivasi akun melalui email
   label_registration_manual_activation: aktivasi akun secara manual
   label_registration_automatic_activation: aktivasi akun secara otomatis
-  label_display_per_page: "Per halaman: {{value}}"
+  label_display_per_page: "Per halaman: %{value}"
   label_age: Umur
   label_change_properties: Rincian perubahan
   label_general: Umum
@@ -716,7 +716,7 @@ id:
   label_sort: Urut
   label_ascending: Menaik
   label_descending: Menurun
-  label_date_from_to: Dari {{start}} sampai {{end}}
+  label_date_from_to: Dari %{start} sampai %{end}
   label_wiki_content_added: Halaman wiki ditambahkan
   label_wiki_content_updated: Halaman wiki diperbarui
   label_group: Kelompok
@@ -787,52 +787,52 @@ id:
   text_regexp_info: mis. ^[A-Z0-9]+$
   text_min_max_length_info: 0 berarti tidak ada pembatasan
   text_project_destroy_confirmation: Apakah anda benar-benar akan menghapus proyek ini beserta data terkait ?
-  text_subprojects_destroy_warning: "Subproyek: {{value}} juga akan dihapus."
+  text_subprojects_destroy_warning: "Subproyek: %{value} juga akan dihapus."
   text_workflow_edit: Pilih peran dan pelacak untuk menyunting alur kerja
   text_are_you_sure: Anda yakin ?
-  text_journal_changed: "{{label}} berubah dari {{old}} menjadi {{new}}"
-  text_journal_set_to: "{{label}} di set ke {{value}}"
-  text_journal_deleted: "{{label}} dihapus ({{old}})"
-  text_journal_added: "{{label}} {{value}} ditambahkan"
+  text_journal_changed: "%{label} berubah dari %{old} menjadi %{new}"
+  text_journal_set_to: "%{label} di set ke %{value}"
+  text_journal_deleted: "%{label} dihapus (%{old})"
+  text_journal_added: "%{label} %{value} ditambahkan"
   text_tip_issue_begin_day: tugas dimulai hari itu
   text_tip_issue_end_day: tugas berakhir hari itu
   text_tip_issue_begin_end_day: tugas dimulai dan berakhir hari itu
   text_project_identifier_info: 'Yang diijinkan hanya huruf kecil (a-z), angka dan tanda minus.<br />Sekali disimpan, pengenal tidak bisa diubah.'
-  text_caracters_maximum: "maximum {{count}} karakter."
-  text_caracters_minimum: "Setidaknya harus sepanjang {{count}} karakter."
-  text_length_between: "Panjang diantara {{min}} dan {{max}} karakter."
+  text_caracters_maximum: "maximum %{count} karakter."
+  text_caracters_minimum: "Setidaknya harus sepanjang %{count} karakter."
+  text_length_between: "Panjang diantara %{min} dan %{max} karakter."
   text_tracker_no_workflow: Tidak ada alur kerja untuk pelacak ini
   text_unallowed_characters: Karakter tidak diperbolehkan
   text_comma_separated: Beberapa nilai diperbolehkan (dipisahkan koma).
   text_issues_ref_in_commit_messages: Mereferensikan dan membetulkan masalah pada pesan komit
-  text_issue_added: "Masalah {{id}} sudah dilaporkan oleh {{author}}."
-  text_issue_updated: "Masalah {{id}} sudah diperbarui oleh {{author}}."
+  text_issue_added: "Masalah %{id} sudah dilaporkan oleh %{author}."
+  text_issue_updated: "Masalah %{id} sudah diperbarui oleh %{author}."
   text_wiki_destroy_confirmation: Apakah anda benar-benar akan menghapus wiki ini beserta semua isinya ?
-  text_issue_category_destroy_question: "Beberapa masalah ({{count}}) ditugaskan pada kategori ini. Apa yang anda lakukan ?"
+  text_issue_category_destroy_question: "Beberapa masalah (%{count}) ditugaskan pada kategori ini. Apa yang anda lakukan ?"
   text_issue_category_destroy_assignments: Hapus kategori penugasan
   text_issue_category_reassign_to: Tugaskan kembali masalah untuk kategori ini
   text_user_mail_option: "Untuk proyek yang tidak dipilih, anda hanya akan menerima notifikasi hal-hal yang anda pantau atau anda terlibat di dalamnya (misalnya masalah yang anda tulis atau ditugaskan pada anda)."
   text_no_configuration_data: "Peran, pelacak, status masalah dan alur kerja belum dikonfigur.\nSangat disarankan untuk memuat konfigurasi default. Anda akan bisa mengubahnya setelah konfigurasi dimuat."
   text_load_default_configuration: Muat konfigurasi default
-  text_status_changed_by_changeset: "Diterapkan di set perubahan {{value}}."
+  text_status_changed_by_changeset: "Diterapkan di set perubahan %{value}."
   text_issues_destroy_confirmation: 'Apakah anda yakin untuk menghapus masalah terpilih ?'
   text_select_project_modules: 'Pilih modul untuk diaktifkan pada proyek ini:'
   text_default_administrator_account_changed: Akun administrator default sudah berubah
   text_file_repository_writable: Direktori yang bisa ditulisi untuk lampiran
   text_plugin_assets_writable: Direktori yang bisa ditulisi untuk plugin asset
   text_rmagick_available: RMagick tersedia (optional)
-  text_destroy_time_entries_question: "{{hours}} jam sudah dilaporkan pada masalah yang akan anda hapus. Apa yang akan anda lakukan ?"
+  text_destroy_time_entries_question: "%{hours} jam sudah dilaporkan pada masalah yang akan anda hapus. Apa yang akan anda lakukan ?"
   text_destroy_time_entries: Hapus jam yang terlapor
   text_assign_time_entries_to_project: Tugaskan jam terlapor pada proyek
   text_reassign_time_entries: 'Tugaskan kembali jam terlapor pada masalah ini:'
-  text_user_wrote: "{{value}} menulis:"
-  text_enumeration_destroy_question: "{{count}} obyek ditugaskan untuk nilai ini."
+  text_user_wrote: "%{value} menulis:"
+  text_enumeration_destroy_question: "%{count} obyek ditugaskan untuk nilai ini."
   text_enumeration_category_reassign_to: 'Tugaskan kembali untuk nilai ini:'
   text_email_delivery_not_configured: "Pengiriman email belum dikonfigurasi, notifikasi tidak diaktifkan.\nAnda harus mengkonfigur SMTP server anda pada config/email.yml dan restart kembali aplikasi untuk mengaktifkan."
   text_repository_usernames_mapping: "Pilih atau perbarui pengguna Redmine yang terpetakan ke setiap nama pengguna yang ditemukan di log repositori.\nPengguna dengan nama pengguna dan repositori atau email yang sama  secara otomasit akan dipetakan."
   text_diff_truncated: '... Perbedaan terpotong karena melebihi batas maksimum yang bisa ditampilkan.'
   text_custom_field_possible_values_info: 'Satu baris untuk setiap nilai'
-  text_wiki_page_destroy_question: "Halaman ini mempunyai {{descendants}} halaman anak dan turunannya. Apa yang akan anda lakukan ?"
+  text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan turunannya. Apa yang akan anda lakukan ?"
   text_wiki_page_nullify_children: "Biarkan halaman anak sebagai halaman teratas (root)"
   text_wiki_page_destroy_children: "Hapus halaman anak dan semua turunannya"
   text_wiki_page_reassign_children: "Tujukan halaman anak ke halaman induk yang ini"
@@ -868,13 +868,13 @@ id:
   setting_issue_done_ratio: Calculate the issue done ratio with
   label_api_access_key: API access key
   text_line_separated: Multiple values allowed (one line for each value).
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   permission_view_issues: View Issues
   setting_issue_done_ratio_issue_status: Use the issue status
   error_issue_done_ratios_not_updated: Issue done ratios not updated.
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   error_workflow_copy_target: Please select target tracker(s) and role(s)
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -906,12 +906,12 @@ id:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -919,7 +919,7 @@ id:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -936,7 +936,7 @@ id:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

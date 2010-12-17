@@ -38,38 +38,38 @@ he:
       less_than_x_seconds:
         zero: 'פחות משניה'
         one: 'פחות משניה'
-        other: 'פחות מ־{{count}} שניות'
+        other: 'פחות מ־%{count} שניות'
       x_seconds:
         one: 'שניה אחת'
-        other: '{{count}} שניות'
+        other: '%{count} שניות'
       less_than_x_minutes:
         zero: 'פחות מדקה אחת'
         one: 'פחות מדקה אחת'
-        other: 'פחות מ־{{count}} דקות'
+        other: 'פחות מ־%{count} דקות'
       x_minutes:
         one: 'דקה אחת'
-        other: '{{count}} דקות'
+        other: '%{count} דקות'
       about_x_hours:
         one: 'בערך שעה אחת'
-        other: 'בערך {{count}} שעות'
+        other: 'בערך %{count} שעות'
       x_days:
         one: 'יום אחד'
-        other: '{{count}} ימים'
+        other: '%{count} ימים'
       about_x_months:
         one: 'בערך חודש אחד'
-        other: 'בערך {{count}} חודשים'
+        other: 'בערך %{count} חודשים'
       x_months:
         one: 'חודש אחד'
-        other: '{{count}} חודשים'
+        other: '%{count} חודשים'
       about_x_years:
         one: 'בערך שנה אחת'
-        other: 'בערך {{count}} שנים'
+        other: 'בערך %{count} שנים'
       over_x_years:
         one: 'מעל שנה אחת'
-        other: 'מעל {{count}} שנים'
+        other: 'מעל %{count} שנים'
       almost_x_years:
         one:   "כמעט שנה"
-        other: "כמעט {{count}} שנים"
+        other: "כמעט %{count} שנים"
 
   number:
     format:
@@ -108,16 +108,16 @@ he:
         accepted: "חייב באישור"
         empty: "חייב להכלל"
         blank: "חייב להכלל"
-        too_long: "ארוך מדי (לא יותר מ־{{count}} תוים)"
-        too_short: "קצר מדי (לא יותר מ־{{count}} תוים)"
-        wrong_length: "לא באורך הנכון (חייב להיות {{count}} תוים)"
+        too_long: "ארוך מדי (לא יותר מ־%{count} תוים)"
+        too_short: "קצר מדי (לא יותר מ־%{count} תוים)"
+        wrong_length: "לא באורך הנכון (חייב להיות %{count} תוים)"
         taken: "לא זמין"
         not_a_number: "הוא לא מספר"
-        greater_than: "חייב להיות גדול מ־{{count}}"
-        greater_than_or_equal_to: "חייב להיות גדול או שווה ל־{{count}}"
-        equal_to: "חייב להיות שווה ל־{{count}}"
-        less_than: "חייב להיות קטן מ־{{count}}"
-        less_than_or_equal_to: "חייב להיות קטן או שווה ל־{{count}}"
+        greater_than: "חייב להיות גדול מ־%{count}"
+        greater_than_or_equal_to: "חייב להיות גדול או שווה ל־%{count}"
+        equal_to: "חייב להיות שווה ל־%{count}"
+        less_than: "חייב להיות קטן מ־%{count}"
+        less_than_or_equal_to: "חייב להיות קטן או שווה ל־%{count}"
         odd: "חייב להיות אי זוגי"
         even: "חייב להיות זוגי"
         greater_than_start_date: "חייב להיות מאוחר יותר מתאריך ההתחלה"
@@ -155,12 +155,12 @@ he:
   notice_locking_conflict: המידע עודכן על ידי משתמש אחר.
   notice_not_authorized: אינך מורשה לראות דף זה.
   notice_not_authorized_archived_project: הפרויקט שאתה מנסה לגשת אליו נמצא בארכיון.
-  notice_email_sent: "דואל נשלח לכתובת {{value}}"
-  notice_email_error: "ארעה שגיאה בעת שליחת הדואל ({{value}})"
+  notice_email_sent: "דואל נשלח לכתובת %{value}"
+  notice_email_error: "ארעה שגיאה בעת שליחת הדואל (%{value})"
   notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
   notice_api_access_key_reseted: מפתח הגישה שלך ל־API אופס.
-  notice_failed_to_save_issues: "נכשרת בשמירת {{count}} נושא\ים ב {{total}} נבחרו: {{ids}}."
-  notice_failed_to_save_members: "כשלון בשמירת חבר(ים): {{errors}}."
+  notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושא\ים ב %{total} נבחרו: %{ids}."
+  notice_failed_to_save_members: "כשלון בשמירת חבר(ים): %{errors}."
   notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
   notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
   notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
@@ -168,9 +168,9 @@ he:
   notice_unable_delete_time_entry: לא ניתן למחוק רשומת זמן.
   notice_issue_done_ratios_updated: אחוזי התקדמות לנושא עודכנו.
 
-  error_can_t_load_default_data: "אפשרויות ברירת המחדל לא הצליחו להיטען: {{value}}"
+  error_can_t_load_default_data: "אפשרויות ברירת המחדל לא הצליחו להיטען: %{value}"
   error_scm_not_found: כניסה ו\או מהדורה אינם קיימים במאגר.
-  error_scm_command_failed: "ארעה שגיאה בעת ניסון גישה למאגר: {{value}}"
+  error_scm_command_failed: "ארעה שגיאה בעת ניסון גישה למאגר: %{value}"
   error_scm_annotate: "הכניסה לא קיימת או שלא ניתן לתאר אותה."
   error_issue_not_found_in_project: 'הנושאים לא נמצאו או אינם שיכים לפרויקט'
   error_no_tracker_in_project: לא הוגדר סיווג לפרויקט זה. נא בדוק את הגדרות הפרויקט.
@@ -184,26 +184,26 @@ he:
   error_workflow_copy_source: נא בחר סיווג או תפקיד מקור
   error_workflow_copy_target: נא בחר תפקיד(ים) וסיווג(ים)
   error_unable_delete_issue_status: לא ניתן למחוק מצב נושא
-  error_unable_to_connect: לא ניתן להתחבר ({{value}})
-  warning_attachments_not_saved: "כשלון בשמירת {{count}} קבצים."
+  error_unable_to_connect: לא ניתן להתחבר (%{value})
+  warning_attachments_not_saved: "כשלון בשמירת %{count} קבצים."
 
-  mail_subject_lost_password: "סיסמת ה־{{value}} שלך"
+  mail_subject_lost_password: "סיסמת ה־%{value} שלך"
   mail_body_lost_password: 'לשינו סיסמת ה־Redmine שלך, לחץ על הקישור הבא:'
-  mail_subject_register: "הפעלת חשבון {{value}}"
+  mail_subject_register: "הפעלת חשבון %{value}"
   mail_body_register: 'להפעלת חשבון ה־Redmine שלך, לחץ על הקישור הבא:'
-  mail_body_account_information_external: "אתה יכול להשתמש בחשבון {{value}} כדי להתחבר"
+  mail_body_account_information_external: "אתה יכול להשתמש בחשבון %{value} כדי להתחבר"
   mail_body_account_information: פרטי החשבון שלך
-  mail_subject_account_activation_request: "בקשת הפעלה לחשבון {{value}}"
-  mail_body_account_activation_request: "משתמש חדש ({{value}}) נרשם. החשבון שלו מחכה לאישור שלך:"
-  mail_subject_reminder: "{{count}} נושאים מיועדים להגשה בימים הקרובים ({{days}})"
-  mail_body_reminder: "{{count}} נושאים שמיועדים אליך מיועדים להגשה בתוך {{days}} ימים:"
-  mail_subject_wiki_content_added: "דף ה־wiki ‏'{{id}}' נוסף"
-  mail_body_wiki_content_added: דף ה־wiki ‏'{{id}}' נוסף ע"י {{author}}.
-  mail_subject_wiki_content_updated: "דף ה־wiki ‏'{{id}}' עודכן"
-  mail_body_wiki_content_updated: דף ה־wiki ‏'{{id}}' עודכן ע"י {{author}}.
+  mail_subject_account_activation_request: "בקשת הפעלה לחשבון %{value}"
+  mail_body_account_activation_request: "משתמש חדש (%{value}) נרשם. החשבון שלו מחכה לאישור שלך:"
+  mail_subject_reminder: "%{count} נושאים מיועדים להגשה בימים הקרובים (%{days})"
+  mail_body_reminder: "%{count} נושאים שמיועדים אליך מיועדים להגשה בתוך %{days} ימים:"
+  mail_subject_wiki_content_added: "דף ה־wiki ‏'%{id}' נוסף"
+  mail_body_wiki_content_added: דף ה־wiki ‏'%{id}' נוסף ע"י %{author}.
+  mail_subject_wiki_content_updated: "דף ה־wiki ‏'%{id}' עודכן"
+  mail_body_wiki_content_updated: דף ה־wiki ‏'%{id}' עודכן ע"י %{author}.
 
   gui_validation_error: שגיאה 1
-  gui_validation_error_plural: "{{count}} שגיאות"
+  gui_validation_error_plural: "%{count} שגיאות"
 
   field_name: שם
   field_description: תיאור
@@ -431,14 +431,14 @@ he:
   label_x_projects:
     zero:  ללא פרויקטים
     one:   פרויקט אחד
-    other: "{{count}} פרויקטים"
+    other: "%{count} פרויקטים"
   label_project_all: כל הפרויקטים
   label_project_latest: הפרויקטים החדשים ביותר
   label_issue: נושא
   label_issue_new: נושא חדש
   label_issue_plural: נושאים
   label_issue_view_all: צפה בכל הנושאים
-  label_issues_by: "נושאים לפי {{value}}"
+  label_issues_by: "נושאים לפי %{value}"
   label_issue_added: נושא נוסף
   label_issue_updated: נושא עודכן
   label_document: מסמך
@@ -488,7 +488,7 @@ he:
   label_registered_on: נרשם בתאריך
   label_activity: פעילות
   label_overall_activity: פעילות כוללת
-  label_user_activity: "הפעילות של {{value}}"
+  label_user_activity: "הפעילות של %{value}"
   label_new: חדש
   label_logged_as: מחובר כ
   label_environment: סביבה
@@ -498,7 +498,7 @@ he:
   label_auth_source_plural: מקורות הזדהות
   label_subproject_plural: תת־פרויקטים
   label_subproject_new: תת־פרויקט חדש
-  label_and_its_subprojects: "{{value}} וכל תתי־הפרויקטים שלו"
+  label_and_its_subprojects: "%{value} וכל תתי־הפרויקטים שלו"
   label_min_max_length: אורך מינימאלי - מקסימאלי
   label_list: רשימה
   label_date: תאריך
@@ -509,8 +509,8 @@ he:
   label_text: טקסט ארוך
   label_attribute: תכונה
   label_attribute_plural: תכונות
-  label_download: "הורדה {{count}}"
-  label_download_plural: "{{count}} הורדות"
+  label_download: "הורדה %{count}"
+  label_download_plural: "%{count} הורדות"
   label_no_data: אין מידע להציג
   label_change_status: שנה מצב
   label_history: היסטוריה
@@ -542,17 +542,17 @@ he:
   label_closed_issues: סגור
   label_closed_issues_plural: סגורים
   label_x_open_issues_abbr_on_total:
-    zero:  0 פתוחים / {{total}}
-    one:   1 פתוח / {{total}}
-    other: "{{count}} פתוחים / {{total}}"
+    zero:  0 פתוחים / %{total}
+    one:   1 פתוח / %{total}
+    other: "%{count} פתוחים / %{total}"
   label_x_open_issues_abbr:
     zero:  0 פתוחים
     one:   1 פתוח
-    other: "{{count}} פתוחים"
+    other: "%{count} פתוחים"
   label_x_closed_issues_abbr:
     zero:  0 סגורים
     one:   1 סגור
-    other: "{{count}} סגורים"
+    other: "%{count} סגורים"
   label_total: סה"כ
   label_permissions: הרשאות
   label_current_status: מצב נוכחי
@@ -570,7 +570,7 @@ he:
   label_months_from: חודשים מ
   label_gantt: גאנט
   label_internal: פנימי
-  label_last_changes: "{{count}} שינוים אחרונים"
+  label_last_changes: "%{count} שינוים אחרונים"
   label_change_view_all: צפה בכל השינוים
   label_personalize_page: התאם אישית דף זה
   label_comment: תגובה
@@ -578,7 +578,7 @@ he:
   label_x_comments:
     zero: אין הערות
     one: הערה אחת
-    other: "{{count}} הערות"
+    other: "%{count} הערות"
   label_comment_add: הוסף תגובה
   label_comment_added: תגובה נוספה
   label_comment_delete: מחק תגובות
@@ -599,7 +599,7 @@ he:
   label_yesterday: אתמול
   label_this_week: השבוע
   label_last_week: השבוע שעבר
-  label_last_n_days: "ב־{{count}} ימים אחרונים"
+  label_last_n_days: "ב־%{count} ימים אחרונים"
   label_this_month: החודש
   label_last_month: חודש שעבר
   label_this_year: השנה
@@ -613,13 +613,13 @@ he:
   label_repository: מאגר
   label_repository_plural: מאגרים
   label_browse: סייר
-  label_modification: "שינוי {{count}}"
-  label_modification_plural: "{{count}} שינויים"
+  label_modification: "שינוי %{count}"
+  label_modification_plural: "%{count} שינויים"
   label_branch: ענף
   label_tag: סימון
   label_revision: מהדורה
   label_revision_plural: מהדורות
-  label_revision_id: מהדורה {{value}}
+  label_revision_id: מהדורה %{value}
   label_associated_revisions: מהדורות קשורות
   label_added: נוסף
   label_modified: שונה
@@ -636,8 +636,8 @@ he:
   label_sort_lower: הזז למטה
   label_sort_lowest: הזז לתחתית
   label_roadmap: מפת הדרכים
-  label_roadmap_due_in: "נגמר בעוד {{value}}"
-  label_roadmap_overdue: "{{value}} מאחר"
+  label_roadmap_due_in: "נגמר בעוד %{value}"
+  label_roadmap_overdue: "%{value} מאחר"
   label_roadmap_no_issues: אין נושאים לגירסה זו
   label_search: חפש
   label_result_plural: תוצאות
@@ -656,8 +656,8 @@ he:
   label_issue_tracking: מעקב אחר נושאים
   label_spent_time: זמן שהושקע
   label_overall_spent_time: זמן שהושקע סה"כ
-  label_f_hour: "{{value}} שעה"
-  label_f_hour_plural: "{{value}} שעות"
+  label_f_hour: "%{value} שעה"
+  label_f_hour_plural: "%{value} שעות"
   label_time_tracking: מעקב זמנים
   label_change_plural: שינויים
   label_statistics: סטטיסטיקות
@@ -708,15 +708,15 @@ he:
   label_date_from: מתאריך
   label_date_to: עד
   label_language_based: מבוסס שפה
-  label_sort_by: "מיין לפי {{value}}"
+  label_sort_by: "מיין לפי %{value}"
   label_send_test_email: שלח דוא"ל בדיקה
   label_feeds_access_key: מפתח גישה ל־RSS
   label_missing_feeds_access_key: חסר מפתח גישה ל־RSS
-  label_feeds_access_key_created_on: "מפתח הזנת RSS נוצר לפני{{value}}"
+  label_feeds_access_key_created_on: "מפתח הזנת RSS נוצר לפני%{value}"
   label_module_plural: מודולים
-  label_added_time_by: 'נוסף ע"י {{author}} לפני {{age}}'
-  label_updated_time_by: 'עודכן ע"י {{author}} לפני {{age}}'
-  label_updated_time: "עודכן לפני {{value}} "
+  label_added_time_by: 'נוסף ע"י %{author} לפני %{age}'
+  label_updated_time_by: 'עודכן ע"י %{author} לפני %{age}'
+  label_updated_time: "עודכן לפני %{value} "
   label_jump_to_a_project: קפוץ לפרויקט...
   label_file_plural: קבצים
   label_changeset_plural: סדרות שינויים
@@ -735,7 +735,7 @@ he:
   label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
   label_registration_manual_activation: הפעלת חשבון ידנית
   label_registration_automatic_activation: הפעלת חשבון אוטומטית
-  label_display_per_page: "בכל דף: {{value}} תוצאות"
+  label_display_per_page: "בכל דף: %{value} תוצאות"
   label_age: גיל
   label_change_properties: שנה מאפיינים
   label_general: כללי
@@ -758,7 +758,7 @@ he:
   label_sort: מיון
   label_ascending: בסדר עולה
   label_descending: בסדר יורד
-  label_date_from_to: 'מתאריך {{start}} ועד תאריך {{end}}'
+  label_date_from_to: 'מתאריך %{start} ועד תאריך %{end}'
   label_wiki_content_added: נוסף דף ל־wiki
   label_wiki_content_updated: דף wiki עודכן
   label_group: קבוצה
@@ -777,7 +777,7 @@ he:
   label_display_used_statuses_only: הצג רק את המצבים בשימוש לסיווג זה
   label_api_access_key: מפתח גישה ל־API
   label_missing_api_access_key: חסר מפתח גישה ל־API
-  label_api_access_key_created_on: 'מפתח גישה ל־API נוצר לפני {{value}}'
+  label_api_access_key_created_on: 'מפתח גישה ל־API נוצר לפני %{value}'
   label_profile: פרופיל
   label_subtask_plural: תתי־משימות
   label_project_copy_notifications: שלח התראות דואר במהלך העתקת הפרויקט
@@ -792,7 +792,7 @@ he:
   button_create_and_continue: צור ופתח חדש
   button_test: בדוק
   button_edit: ערוך
-  button_edit_associated_wikipage: "ערוך דף wiki מקושר: {{page_title}}"
+  button_edit_associated_wikipage: "ערוך דף wiki מקושר: %{page_title}"
   button_add: הוסף
   button_change: שנה
   button_apply: החל
@@ -841,54 +841,54 @@ he:
   text_regexp_info: כגון. ^[A-Z0-9]+$
   text_min_max_length_info: 0 משמעו ללא הגבלות
   text_project_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הפרויקט ואת כל המידע הקשור אליו?
-  text_subprojects_destroy_warning: "תת־הפרויקט\ים: {{value}} ימחקו גם כן."
+  text_subprojects_destroy_warning: "תת־הפרויקט\ים: %{value} ימחקו גם כן."
   text_workflow_edit: בחר תפקיד וסיווג כדי לערוך את זרימת העבודה
   text_are_you_sure: האם אתה בטוח?
   text_are_you_sure_with_children: האם למחוק את הנושא ואת כל בניו?
-  text_journal_changed: "{{label}} השתנה מ{{old}} ל{{new}}"
-  text_journal_set_to: "{{label}} נקבע ל{{value}}"
-  text_journal_deleted: "{{label}} נמחק ({{old}})"
-  text_journal_added: "{{label}} {{value}} נוסף"
+  text_journal_changed: "%{label} השתנה מ%{old} ל%{new}"
+  text_journal_set_to: "%{label} נקבע ל%{value}"
+  text_journal_deleted: "%{label} נמחק (%{old})"
+  text_journal_added: "%{label} %{value} נוסף"
   text_tip_issue_begin_day: מטלה המתחילה היום
   text_tip_issue_end_day: מטלה המסתיימת היום
   text_tip_issue_begin_end_day: מטלה המתחילה ומסתיימת היום
   text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
-  text_caracters_maximum: "מקסימום {{count}} תווים."
-  text_caracters_minimum: "חייב להיות לפחות באורך של {{count}} תווים."
-  text_length_between: "אורך בין {{min}} ל {{max}} תווים."
+  text_caracters_maximum: "מקסימום %{count} תווים."
+  text_caracters_minimum: "חייב להיות לפחות באורך של %{count} תווים."
+  text_length_between: "אורך בין %{min} ל %{max} תווים."
   text_tracker_no_workflow: זרימת עבודה לא הוגדרה עבור סיווג זה
   text_unallowed_characters: תווים לא מורשים
   text_comma_separated: הכנסת ערכים מרובים מותרת (מופרדים בפסיקים).
   text_line_separated: ניתן להזין מספר ערכים (שורה אחת לכל ערך).
   text_issues_ref_in_commit_messages: קישור ותיקום נושאים בהודעות הפקדה
-  text_issue_added: "הנושא {{id}} דווח (בידי {{author}})."
-  text_issue_updated: "הנושא {{id}} עודכן (בידי {{author}})."
+  text_issue_added: "הנושא %{id} דווח (בידי %{author})."
+  text_issue_updated: "הנושא %{id} עודכן (בידי %{author})."
   text_wiki_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הWIKI הזה ואת כל תוכנו?
-  text_issue_category_destroy_question: "כמה נושאים ({{count}}) מוצבים לקטגוריה הזו. מה ברצונך לעשות?"
+  text_issue_category_destroy_question: "כמה נושאים (%{count}) מוצבים לקטגוריה הזו. מה ברצונך לעשות?"
   text_issue_category_destroy_assignments: הסר הצבת קטגוריה
   text_issue_category_reassign_to: הצב מחדש את הקטגוריה לנושאים
   text_user_mail_option: "בפרויקטים שלא בחרת, אתה רק תקבל התרעות על שאתה צופה או קשור אליהם (לדוגמא:נושאים שאתה היוצר שלהם או אחראי עליהם)."
   text_no_configuration_data: "לא הוגדרה תצורה עבור תפקידים, סיווגים, מצבי נושא וזרימת עבודה.\nמומלץ מאד לטעון את תצורת ברירת המחדל. תוכל לשנותה מאוחר יותר."
   text_load_default_configuration: טען את אפשרויות ברירת המחדל
-  text_status_changed_by_changeset: "הוחל בסדרת השינויים {{value}}."
+  text_status_changed_by_changeset: "הוחל בסדרת השינויים %{value}."
   text_issues_destroy_confirmation: 'האם אתה בטוח שברצונך למחוק את הנושא\ים?'
   text_select_project_modules: 'בחר מודולים להחיל על פרויקט זה:'
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
   text_plugin_assets_writable: ספרית נכסי תוספים ניתנת לכתיבה
   text_rmagick_available: RMagick זמין (רשות)
-  text_destroy_time_entries_question: "{{hours}} שעות דווחו על הנושאים שאתה עומד למחוק. מה ברצונך לעשות?"
+  text_destroy_time_entries_question: "%{hours} שעות דווחו על הנושאים שאתה עומד למחוק. מה ברצונך לעשות?"
   text_destroy_time_entries: מחק שעות שדווחו
   text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה
   text_reassign_time_entries: 'הצב מחדש שעות שדווחו לפרויקט הזה:'
-  text_user_wrote: "{{value}} כתב:"
-  text_enumeration_destroy_question: "{{count}} אוביקטים מוצבים לערך זה."
+  text_user_wrote: "%{value} כתב:"
+  text_enumeration_destroy_question: "%{count} אוביקטים מוצבים לערך זה."
   text_enumeration_category_reassign_to: 'הצב מחדש לערך הזה:'
   text_email_delivery_not_configured: 'לא נקבעה תצורה לשליחת דואר, וההתראות כבויות.\nקבע את תצורת שרת ה־SMTP בקובץ /etc/redmine/&lt;instance&gt;/email.yml והתחל את האפליקציה מחדש ע"מ לאפשר אותם.'
   text_repository_usernames_mapping: "בחר או עדכן את משתמש Redmine הממופה לכל שם משתמש ביומן המאגר.\nמשתמשים בעלי שם או כתובת דואר זהה ב־Redmine ובמאגר ממופים באופן אוטומטי."
   text_diff_truncated: '... השינויים עוברים את מספר השורות המירבי לתצוגה, ולכן הם קוצצו.'
   text_custom_field_possible_values_info: שורה אחת לכל ערך
-  text_wiki_page_destroy_question: לדף זה יש {{descendants}} דפים בנים ותלויים. מה ברצונך לעשות?
+  text_wiki_page_destroy_question: לדף זה יש %{descendants} דפים בנים ותלויים. מה ברצונך לעשות?
   text_wiki_page_nullify_children: השאר דפים בנים כדפים ראשיים
   text_wiki_page_destroy_children: מחק את הדפים הבנים ואת כל התלויים בהם
   text_wiki_page_reassign_children: הצב מחדש דפים בנים לדף האב הנוכחי
@@ -933,7 +933,7 @@ he:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

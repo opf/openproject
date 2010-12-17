@@ -74,41 +74,41 @@ gl:
         zero: 'menos dun segundo'
         one: '1 segundo'
         few: 'poucos segundos'
-        other: '{{count}} segundos'
+        other: '%{count} segundos'
       x_seconds:
         one: '1 segundo'
-        other: '{{count}} segundos'
+        other: '%{count} segundos'
       less_than_x_minutes:
         zero: 'menos dun minuto'
         one: '1 minuto'
-        other: '{{count}} minutos'
+        other: '%{count} minutos'
       x_minutes:
         one: '1 minuto'
-        other: '{{count}} minuto'
+        other: '%{count} minuto'
       about_x_hours:
         one: 'aproximadamente unha hora'
-        other: '{{count}} horas'
+        other: '%{count} horas'
       x_days:
         one: '1 día'
-        other: '{{count}} días'
+        other: '%{count} días'
       x_weeks:
         one: '1 semana'
-        other: '{{count}} semanas'
+        other: '%{count} semanas'
       about_x_months:
         one: 'aproximadamente 1 mes'
-        other: '{{count}} meses'
+        other: '%{count} meses'
       x_months:
         one: '1 mes'
-        other: '{{count}} meses'
+        other: '%{count} meses'
       about_x_years:
         one: 'aproximadamente 1 ano'
-        other: '{{count}} anos'
+        other: '%{count} anos'
       over_x_years:
         one: 'máis dun ano'
-        other: '{{count}} anos'
+        other: '%{count} anos'
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
       now: 'agora'
       today: 'hoxe'
       tomorrow: 'mañá'
@@ -124,8 +124,8 @@ gl:
     errors:
       template:
         header:
-          one: "1 erro evitou que se poidese gardar o {{model}}"
-          other: "{{count}} erros evitaron que se poidese gardar o {{model}}"
+          one: "1 erro evitou que se poidese gardar o %{model}"
+          other: "%{count} erros evitaron que se poidese gardar o %{model}"
         body: "Atopáronse os seguintes problemas:"
       messages:
         inclusion: "non está incluido na lista"
@@ -135,16 +135,16 @@ gl:
         accepted: "debe ser aceptado"
         empty: "non pode estar valeiro"
         blank: "non pode estar en blanco"
-        too_long: "é demasiado longo (non máis de {{count}} carácteres)"
-        too_short: "é demasiado curto (non menos de {{count}} carácteres)"
-        wrong_length: "non ten a lonxitude correcta (debe ser de {{count}} carácteres)"
+        too_long: "é demasiado longo (non máis de %{count} carácteres)"
+        too_short: "é demasiado curto (non menos de %{count} carácteres)"
+        wrong_length: "non ten a lonxitude correcta (debe ser de %{count} carácteres)"
         taken: "non está dispoñible"
         not_a_number: "non é un número"
-        greater_than: "debe ser maior que {{count}}"
-        greater_than_or_equal_to: "debe ser maior ou igual que {{count}}"
-        equal_to: "debe ser igual a {{count}}"
-        less_than: "debe ser menor que {{count}}"
-        less_than_or_equal_to: "debe ser menor ou igual que {{count}}"
+        greater_than: "debe ser maior que %{count}"
+        greater_than_or_equal_to: "debe ser maior ou igual que %{count}"
+        equal_to: "debe ser igual a %{count}"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor ou igual que %{count}"
         odd: "debe ser par"
         even: "debe ser impar"
         greater_than_start_date: "debe ser posterior á data de comezo"
@@ -216,10 +216,10 @@ gl:
   enumeration_activities: Actividades (tempo dedicado)
   enumeration_doc_categories: Categorías do documento
   enumeration_issue_priorities: Prioridade das peticións
-  error_can_t_load_default_data: "Non se puido cargar a configuración por defecto: {{value}}"
+  error_can_t_load_default_data: "Non se puido cargar a configuración por defecto: %{value}"
   error_issue_not_found_in_project: 'A petición non se atopa ou non está asociada a este proxecto'
   error_scm_annotate: "Non existe a entrada ou non se puido anotar"
-  error_scm_command_failed: "Aconteceu un erro ao acceder ó repositorio: {{value}}"
+  error_scm_command_failed: "Aconteceu un erro ao acceder ó repositorio: %{value}"
   error_scm_not_found: "A entrada e/ou revisión non existe no repositorio."
   field_account: Conta
   field_activity: Actividade
@@ -315,19 +315,19 @@ gl:
   general_text_no: 'non'
   general_text_yes: 'si'
   gui_validation_error: 1 erro
-  gui_validation_error_plural: "{{count}} erros"
+  gui_validation_error_plural: "%{count} erros"
   label_activity: Actividade
   label_add_another_file: Engadir outro arquivo
   label_add_note: Engadir unha nota
   label_added: engadido
-  label_added_time_by: "Engadido por {{author}} fai {{age}}"
+  label_added_time_by: "Engadido por %{author} fai %{age}"
   label_administration: Administración
   label_age: Idade
   label_ago: fai
   label_all: todos
   label_all_time: todo o tempo
   label_all_words: Tódalas palabras
-  label_and_its_subprojects: "{{value}} e proxectos secundarios"
+  label_and_its_subprojects: "%{value} e proxectos secundarios"
   label_applied_status: Aplicar estado
   label_assigned_to_me_issues: Peticións asignadas a min
   label_associated_revisions: Revisións asociadas
@@ -360,17 +360,17 @@ gl:
   label_closed_issues: pechada
   label_closed_issues_plural: pechadas
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_comment: Comentario
   label_comment_add: Engadir un comentario
   label_comment_added: Comentario engadido
@@ -379,7 +379,7 @@ gl:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_commits_per_author: Commits por autor
   label_commits_per_month: Commits por mes
   label_confirmation: Confirmación
@@ -403,13 +403,13 @@ gl:
   label_diff_inline: en liña
   label_diff_side_by_side: cara a cara
   label_disabled: deshabilitado
-  label_display_per_page: "Por páxina: {{value}}"
+  label_display_per_page: "Por páxina: %{value}"
   label_document: Documento
   label_document_added: Documento engadido
   label_document_new: Novo documento
   label_document_plural: Documentos
-  label_download: "{{count}} Descarga"
-  label_download_plural: "{{count}} Descargas"
+  label_download: "%{count} Descarga"
+  label_download_plural: "%{count} Descargas"
   label_downloads_abbr: D/L
   label_duplicated_by: duplicada por
   label_duplicates: duplicada de
@@ -421,10 +421,10 @@ gl:
   label_equals: igual
   label_example: Exemplo
   label_export_to: 'Exportar a:'
-  label_f_hour: "{{value}} hora"
-  label_f_hour_plural: "{{value}} horas"
+  label_f_hour: "%{value} hora"
+  label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "Clave de acceso por RSS creada fai {{value}}"
+  label_feeds_access_key_created_on: "Clave de acceso por RSS creada fai %{value}"
   label_file_added: Arquivo engadido
   label_file_plural: Arquivos
   label_filter_add: Engadir o filtro
@@ -461,13 +461,13 @@ gl:
   label_issue_updated: Petición actualizada
   label_issue_view_all: Ver tódalas peticións
   label_issue_watchers: Seguidores
-  label_issues_by: "Peticións por {{value}}"
+  label_issues_by: "Peticións por %{value}"
   label_jump_to_a_project: Ir ao proxecto...
   label_language_based: Baseado no idioma
-  label_last_changes: "últimos {{count}} cambios"
+  label_last_changes: "últimos %{count} cambios"
   label_last_login: Última conexión
   label_last_month: último mes
-  label_last_n_days: "últimos {{count}} días"
+  label_last_n_days: "últimos %{count} días"
   label_last_week: última semana
   label_latest_revision: Última revisión
   label_latest_revision_plural: Últimas revisións
@@ -488,8 +488,8 @@ gl:
   label_message_plural: Mensaxes
   label_message_posted: Mensaxe engadida
   label_min_max_length: Lonxitude mín - máx
-  label_modification: "{{count}} modificación"
-  label_modification_plural: "{{count}} modificacións"
+  label_modification: "%{count} modificación"
+  label_modification_plural: "%{count} modificacións"
   label_modified: modificado
   label_module_plural: Módulos
   label_month: Mes
@@ -540,7 +540,7 @@ gl:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_public_projects: Proxectos públicos
   label_query: Consulta personalizada
   label_query_new: Nova consulta
@@ -567,9 +567,9 @@ gl:
   label_revision: Revisión
   label_revision_plural: Revisións
   label_roadmap: Planificación
-  label_roadmap_due_in: "Remata en {{value}}"
+  label_roadmap_due_in: "Remata en %{value}"
   label_roadmap_no_issues: Non hai peticións para esta versión
-  label_roadmap_overdue: "{{value}} tarde"
+  label_roadmap_overdue: "%{value} tarde"
   label_role: Perfil
   label_role_and_permissions: Perfiles e permisos
   label_role_new: Novo perfil
@@ -581,7 +581,7 @@ gl:
   label_send_test_email: Enviar un correo de proba
   label_settings: Configuración
   label_show_completed_versions: Mostra as versións rematadas
-  label_sort_by: "Ordenar por {{value}}"
+  label_sort_by: "Ordenar por %{value}"
   label_sort_higher: Subir
   label_sort_highest: Primeiro
   label_sort_lower: Baixar
@@ -605,11 +605,11 @@ gl:
   label_tracker: Tipo
   label_tracker_new: Novo tipo
   label_tracker_plural: Tipos de peticións
-  label_updated_time: "Actualizado fai {{value}}"
-  label_updated_time_by: "Actualizado por {{author}} fai {{age}}"
+  label_updated_time: "Actualizado fai %{value}"
+  label_updated_time_by: "Actualizado por %{author} fai %{age}"
   label_used_by: Utilizado por
   label_user: Usuario
-  label_user_activity: "Actividade de {{value}}"
+  label_user_activity: "Actividade de %{value}"
   label_user_mail_no_self_notified: "Non quero ser avisado de cambios feitos por min"
   label_user_mail_option_all: "Para calquera evento en tódolos proxectos"
   label_user_mail_option_selected: "Para calquera evento dos proxectos seleccionados..."
@@ -630,16 +630,16 @@ gl:
   label_workflow: Fluxo de traballo
   label_year: Ano
   label_yesterday: onte
-  mail_body_account_activation_request: "Inscribiuse un novo usuario ({{value}}). A conta está pendente de aprobación:"
+  mail_body_account_activation_request: "Inscribiuse un novo usuario (%{value}). A conta está pendente de aprobación:"
   mail_body_account_information: Información sobre a súa conta
-  mail_body_account_information_external: "Pode usar a súa conta {{value}} para conectarse."
+  mail_body_account_information_external: "Pode usar a súa conta %{value} para conectarse."
   mail_body_lost_password: 'Para cambiar o seu contrasinal, faga clic no seguinte enlace:'
   mail_body_register: 'Para activar a súa conta, faga clic no seguinte enlace:'
-  mail_body_reminder: "{{count}} petición(s) asignadas a ti rematan nos próximos {{days}} días:"
-  mail_subject_account_activation_request: "Petición de activación de conta {{value}}"
-  mail_subject_lost_password: "O teu contrasinal de {{value}}"
-  mail_subject_register: "Activación da conta de {{value}}"
-  mail_subject_reminder: "{{count}} petición(s) rematarán nos próximos {{days}} días"
+  mail_body_reminder: "%{count} petición(s) asignadas a ti rematan nos próximos %{days} días:"
+  mail_subject_account_activation_request: "Petición de activación de conta %{value}"
+  mail_subject_lost_password: "O teu contrasinal de %{value}"
+  mail_subject_register: "Activación da conta de %{value}"
+  mail_subject_reminder: "%{count} petición(s) rematarán nos próximos %{days} días"
   notice_account_activated: A súa conta foi activada. Xa pode conectarse.
   notice_account_invalid_creditentials: Usuario ou contrasinal inválido.
   notice_account_lost_email_sent: Enviouse un correo con instrucións para elixir un novo contrasinal.
@@ -651,9 +651,9 @@ gl:
   notice_account_wrong_password: Contrasinal incorrecto.
   notice_can_t_change_password: Esta conta utiliza unha fonte de autenticación externa. Non é posible cambiar o contrasinal.
   notice_default_data_loaded: Configuración por defecto cargada correctamente.
-  notice_email_error: "Ocorreu un error enviando o correo ({{value}})"
-  notice_email_sent: "Enviouse un correo a {{value}}"
-  notice_failed_to_save_issues: "Imposible gravar %s petición(s) en {{count}} seleccionado: {{ids}}."
+  notice_email_error: "Ocorreu un error enviando o correo (%{value})"
+  notice_email_sent: "Enviouse un correo a %{value}"
+  notice_failed_to_save_issues: "Imposible gravar %s petición(s) en %{count} seleccionado: %{ids}."
   notice_feeds_access_key_reseted: A súa clave de acceso para RSS reiniciouse.
   notice_file_not_found: A páxina á que tenta acceder non existe.
   notice_locking_conflict: Os datos modificáronse por outro usuario.
@@ -764,25 +764,25 @@ gl:
   status_registered: rexistrado
   text_are_you_sure: ¿Está seguro?
   text_assign_time_entries_to_project: Asignar as horas ó proxecto
-  text_caracters_maximum: "{{count}} caracteres como máximo."
-  text_caracters_minimum: "{{count}} caracteres como mínimo"
+  text_caracters_maximum: "%{count} caracteres como máximo."
+  text_caracters_minimum: "%{count} caracteres como mínimo"
   text_comma_separated: Múltiples valores permitidos (separados por coma).
   text_default_administrator_account_changed: Conta de administrador por defecto modificada
   text_destroy_time_entries: Borrar as horas
-  text_destroy_time_entries_question: Existen {{hours}} horas asignadas á petición que quere borrar. ¿Que quere facer ?
+  text_destroy_time_entries_question: Existen %{hours} horas asignadas á petición que quere borrar. ¿Que quere facer ?
   text_diff_truncated: '... Diferencia truncada por exceder o máximo tamaño visualizable.'
   text_email_delivery_not_configured: "O envío de correos non está configurado, e as notificacións desactiváronse. \n Configure o servidor de SMTP en config/email.yml e reinicie a aplicación para activar os cambios."
   text_enumeration_category_reassign_to: 'Reasignar ó seguinte valor:'
-  text_enumeration_destroy_question: "{{count}} obxectos con este valor asignado."
+  text_enumeration_destroy_question: "%{count} obxectos con este valor asignado."
   text_file_repository_writable: Pódese escribir no repositorio
-  text_issue_added: "Petición {{id}} engadida por {{author}}."
+  text_issue_added: "Petición %{id} engadida por %{author}."
   text_issue_category_destroy_assignments: Deixar as peticións sen categoría
-  text_issue_category_destroy_question: "Algunhas peticións ({{count}}) están asignadas a esta categoría. ¿Que desexa facer?"
+  text_issue_category_destroy_question: "Algunhas peticións (%{count}) están asignadas a esta categoría. ¿Que desexa facer?"
   text_issue_category_reassign_to: Reasignar as peticións á categoría
-  text_issue_updated: "A petición {{id}} actualizouse por {{author}}."
+  text_issue_updated: "A petición %{id} actualizouse por %{author}."
   text_issues_destroy_confirmation: '¿Seguro que quere borrar as peticións seleccionadas?'
   text_issues_ref_in_commit_messages: Referencia e petición de corrección nas mensaxes
-  text_length_between: "Lonxitude entre {{min}} e {{max}} caracteres."
+  text_length_between: "Lonxitude entre %{min} e %{max} caracteres."
   text_load_default_configuration: Cargar a configuración por defecto
   text_min_max_length_info: 0 para ningunha restrición
   text_no_configuration_data: "Inda non se configuraron perfiles, nin tipos, estados e fluxo de traballo asociado a peticións. Recoméndase encarecidamente cargar a configuración por defecto. Unha vez cargada, poderá modificala."
@@ -794,18 +794,18 @@ gl:
   text_rmagick_available: RMagick dispoñible (opcional)
   text_select_mail_notifications: Seleccionar os eventos a notificar
   text_select_project_modules: 'Seleccione os módulos a activar para este proxecto:'
-  text_status_changed_by_changeset: "Aplicado nos cambios {{value}}"
-  text_subprojects_destroy_warning: "Os proxectos secundarios: {{value}} tamén se eliminarán"
+  text_status_changed_by_changeset: "Aplicado nos cambios %{value}"
+  text_subprojects_destroy_warning: "Os proxectos secundarios: %{value} tamén se eliminarán"
   text_tip_issue_begin_day: tarefa que comeza este día
   text_tip_issue_begin_end_day: tarefa que comeza e remata este día
   text_tip_issue_end_day: tarefa que remata este día
   text_tracker_no_workflow: Non hai ningún fluxo de traballo definido para este tipo de petición
   text_unallowed_characters: Caracteres non permitidos
   text_user_mail_option: "Dos proxectos non seleccionados, só recibirá notificacións sobre elementos monitorizados ou elementos nos que estea involucrado (por exemplo, peticións das que vostede sexa autor ou asignadas a vostede)."
-  text_user_wrote: "{{value}} escribiu:"
+  text_user_wrote: "%{value} escribiu:"
   text_wiki_destroy_confirmation: ¿Seguro que quere borrar o wiki e todo o seu contido?
   text_workflow_edit: Seleccionar un fluxo de traballo para actualizar
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   field_editable: Editable
   text_plugin_assets_writable: Plugin assets directory writable
   label_display: Display
@@ -821,21 +821,21 @@ gl:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -843,14 +843,14 @@ gl:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
   label_group_plural: Groups
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -885,9 +885,9 @@ gl:
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -914,12 +914,12 @@ gl:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -927,7 +927,7 @@ gl:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -944,7 +944,7 @@ gl:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

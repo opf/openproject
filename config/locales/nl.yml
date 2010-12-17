@@ -32,37 +32,37 @@ nl:
       half_a_minute: "halve minuut"
       less_than_x_seconds:
         one:   "minder dan een seconde"
-        other: "mindera dan {{count}} seconden"
+        other: "mindera dan %{count} seconden"
       x_seconds:
         one:   "1 seconde"
-        other: "{{count}} seconden"
+        other: "%{count} seconden"
       less_than_x_minutes:
         one:   "minder dan een minuut"
-        other: "minder dan {{count}} minuten"
+        other: "minder dan %{count} minuten"
       x_minutes:
         one:   "1 minuut"
-        other: "{{count}} minuten"
+        other: "%{count} minuten"
       about_x_hours:
         one:   "ongeveer 1 uur"
-        other: "ongeveer {{count}} uren"
+        other: "ongeveer %{count} uren"
       x_days:
         one:   "1 dag"
-        other: "{{count}} dagen"
+        other: "%{count} dagen"
       about_x_months:
         one:   "ongeveer 1 maand"
-        other: "ongeveer {{count}} maanden"
+        other: "ongeveer %{count} maanden"
       x_months:
         one:   "1 maand"
-        other: "{{count}} maanden"
+        other: "%{count} maanden"
       about_x_years:
         one:   "ongeveer 1 jaar"
-        other: "ongeveer {{count}} jaren"
+        other: "ongeveer %{count} jaren"
       over_x_years:
         one:   "over 1 jaar"
-        other: "over {{count}} jaren"
+        other: "over %{count} jaren"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number:
     format:
@@ -106,11 +106,11 @@ nl:
         taken: "is al in gebruik"
         not_a_number: "is geen getal"
         not_a_date: "is geen valide datum"
-        greater_than: "moet groter zijn dan {{count}}"
-        greater_than_or_equal_to: "moet groter zijn of gelijk zijn aan {{count}}"
-        equal_to: "moet gelijk zijn aan {{count}}"
-        less_than: "moet minder zijn dan {{count}}"
-        less_than_or_equal_to: "moet minder dan of gelijk zijn aan {{count}}"
+        greater_than: "moet groter zijn dan %{count}"
+        greater_than_or_equal_to: "moet groter zijn of gelijk zijn aan %{count}"
+        equal_to: "moet gelijk zijn aan %{count}"
+        less_than: "moet minder zijn dan %{count}"
+        less_than_or_equal_to: "moet minder dan of gelijk zijn aan %{count}"
         odd: "moet oneven zijn"
         even: "moet even zijn"
         greater_than_start_date: "moet na de startdatum liggen"
@@ -182,10 +182,10 @@ nl:
   enumeration_activities: Activiteiten (tijdtracking)
   enumeration_doc_categories: Documentcategorieën
   enumeration_issue_priorities: Issueprioriteiten
-  error_can_t_load_default_data: "De standaard configuratie kon niet worden geladen: {{value}}"
+  error_can_t_load_default_data: "De standaard configuratie kon niet worden geladen: %{value}"
   error_issue_not_found_in_project: 'Deze issue is niet gevonden of behoort niet toe tot dit project.'
   error_scm_annotate: "Er kan geen commentaar toegevoegd worden."
-  error_scm_command_failed: "Er trad een fout op tijdens de poging om verbinding te maken met de repository: {{value}}"
+  error_scm_command_failed: "Er trad een fout op tijdens de poging om verbinding te maken met de repository: %{value}"
   error_scm_not_found: "Deze ingang of revisie bestaat niet in de repository."
   field_account: Account
   field_activity: Activiteit
@@ -281,19 +281,19 @@ nl:
   general_text_no: 'nee'
   general_text_yes: 'ja'
   gui_validation_error: 1 fout
-  gui_validation_error_plural: "{{count}} fouten"
+  gui_validation_error_plural: "%{count} fouten"
   label_activity: Activiteit
   label_add_another_file: Ander bestand toevoegen
   label_add_note: Voeg een notitie toe
   label_added: toegevoegd
-  label_added_time_by: "Toegevoegd door {{author}} {{age}} geleden"
+  label_added_time_by: "Toegevoegd door %{author} %{age} geleden"
   label_administration: Administratie
   label_age: Leeftijd
   label_ago: dagen geleden
   label_all: alle
   label_all_time: alles
   label_all_words: Alle woorden
-  label_and_its_subprojects: "{{value}} en zijn subprojecten."
+  label_and_its_subprojects: "%{value} en zijn subprojecten."
   label_applied_status: Toegekende status
   label_assigned_to_me_issues: Aan mij toegewezen issues
   label_associated_revisions: Geassociëerde revisies
@@ -326,17 +326,17 @@ nl:
   label_closed_issues: gesloten
   label_closed_issues_plural: gesloten
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_comment: Commentaar
   label_comment_add: Voeg commentaar toe
   label_comment_added: Commentaar toegevoegd
@@ -345,7 +345,7 @@ nl:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_commits_per_author: Commits per auteur
   label_commits_per_month: Commits per maand
   label_confirmation: Bevestiging
@@ -369,13 +369,13 @@ nl:
   label_diff_inline: inline
   label_diff_side_by_side: naast elkaar
   label_disabled: uitgeschakeld
-  label_display_per_page: "Per pagina: {{value}}"
+  label_display_per_page: "Per pagina: %{value}"
   label_document: Document
   label_document_added: Document toegevoegd
   label_document_new: Nieuw document
   label_document_plural: Documenten
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: gedupliceerd door
   label_duplicates: dupliceert
@@ -387,10 +387,10 @@ nl:
   label_equals: is gelijk
   label_example: Voorbeeld
   label_export_to: Exporteer naar
-  label_f_hour: "{{value}} uur"
-  label_f_hour_plural: "{{value}} uren"
+  label_f_hour: "%{value} uur"
+  label_f_hour_plural: "%{value} uren"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "RSS toegangssleutel {{value}} geleden gemaakt."
+  label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt."
   label_file_added: Bericht toegevoegd
   label_file_plural: Bestanden
   label_filter_add: Voeg filter toe
@@ -427,13 +427,13 @@ nl:
   label_issue_updated: Issue bijgewerkt
   label_issue_view_all: Bekijk alle issues
   label_issue_watchers: Monitoren
-  label_issues_by: "Issues door {{value}}"
+  label_issues_by: "Issues door %{value}"
   label_jump_to_a_project: Ga naar een project...
   label_language_based: Taal gebaseerd
-  label_last_changes: "laatste {{count}} wijzigingen"
+  label_last_changes: "laatste %{count} wijzigingen"
   label_last_login: Laatste bezoek
   label_last_month: laatste maand
-  label_last_n_days: "{{count}} dagen geleden"
+  label_last_n_days: "%{count} dagen geleden"
   label_last_week: vorige week
   label_latest_revision: Meest recente revisie
   label_latest_revision_plural: Meest recente revisies
@@ -454,8 +454,8 @@ nl:
   label_message_plural: Berichten
   label_message_posted: Bericht toegevoegd
   label_min_max_length: Min-max lengte
-  label_modification: "{{count}} wijziging"
-  label_modification_plural: "{{count}} wijzigingen"
+  label_modification: "%{count} wijziging"
+  label_modification_plural: "%{count} wijzigingen"
   label_modified: gewijzigd
   label_module_plural: Modules
   label_month: Maand
@@ -506,7 +506,7 @@ nl:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_public_projects: Publieke projecten
   label_query: Eigen zoekvraag
   label_query_new: Nieuwe zoekvraag
@@ -533,9 +533,9 @@ nl:
   label_revision: Revisie
   label_revision_plural: Revisies
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Voldaan in {{value}}"
+  label_roadmap_due_in: "Voldaan in %{value}"
   label_roadmap_no_issues: Geen issues voor deze versie
-  label_roadmap_overdue: "{{value}} over tijd"
+  label_roadmap_overdue: "%{value} over tijd"
   label_role: Rol
   label_role_and_permissions: Rollen en permissies
   label_role_new: Nieuwe rol
@@ -547,7 +547,7 @@ nl:
   label_send_test_email: Stuur een test e-mail
   label_settings: Instellingen
   label_show_completed_versions: Toon afgeronde versies
-  label_sort_by: "Sorteer op {{value}}"
+  label_sort_by: "Sorteer op %{value}"
   label_sort_higher: Verplaats naar boven
   label_sort_highest: Verplaats naar begin
   label_sort_lower: Verplaats naar beneden
@@ -571,11 +571,11 @@ nl:
   label_tracker: Tracker
   label_tracker_new: Nieuwe tracker
   label_tracker_plural: Trackers
-  label_updated_time: "{{value}} geleden bijgewerkt"
-  label_updated_time_by: "{{age}} geleden bijgewerkt door {{author}}"
+  label_updated_time: "%{value} geleden bijgewerkt"
+  label_updated_time_by: "%{age} geleden bijgewerkt door %{author}"
   label_used_by: Gebruikt door
   label_user: Gebruiker
-  label_user_activity: "{{value}}'s activiteit"
+  label_user_activity: "%{value}'s activiteit"
   label_user_mail_no_self_notified: "Ik wil niet op de hoogte gehouden worden van wijzigingen die ik zelf maak."
   label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
   label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
@@ -596,16 +596,16 @@ nl:
   label_workflow: Workflow
   label_year: Jaar
   label_yesterday: gisteren
-  mail_body_account_activation_request: "Een nieuwe gebruiker ({{value}}) is geregistreerd. Zijn account wacht op uw akkoord:"
+  mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) is geregistreerd. Zijn account wacht op uw akkoord:"
   mail_body_account_information: Uw account gegevens
-  mail_body_account_information_external: "U kunt uw account ({{value}}) gebruiken om in te loggen."
+  mail_body_account_information_external: "U kunt uw account (%{value}) gebruiken om in te loggen."
   mail_body_lost_password: 'Gebruik de volgende link om uw wachtwoord te wijzigen:'
   mail_body_register: 'Gebruik de volgende link om uw account te activeren:'
-  mail_body_reminder: "{{count}} issue(s) die aan u toegewezen zijn en voldaan moeten zijn in de komende {{days}} dagen:"
-  mail_subject_account_activation_request: "{{value}} accountactivatieverzoek"
-  mail_subject_lost_password: "uw {{value}} wachtwoord"
-  mail_subject_register: "uw {{value}} accountactivatie"
-  mail_subject_reminder: "{{count}} issue(s) die voldaan moeten zijn in de komende {{days}} dagen."
+  mail_body_reminder: "%{count} issue(s) die aan u toegewezen zijn en voldaan moeten zijn in de komende %{days} dagen:"
+  mail_subject_account_activation_request: "%{value} accountactivatieverzoek"
+  mail_subject_lost_password: "uw %{value} wachtwoord"
+  mail_subject_register: "uw %{value} accountactivatie"
+  mail_subject_reminder: "%{count} issue(s) die voldaan moeten zijn in de komende %{days} dagen."
   notice_account_activated: uw account is geactiveerd. u kunt nu inloggen.
   notice_account_invalid_creditentials: Incorrecte gebruikersnaam of wachtwoord
   notice_account_lost_email_sent: Er is een e-mail naar u verstuurd met instructies over het kiezen van een nieuw wachtwoord.
@@ -617,9 +617,9 @@ nl:
   notice_account_wrong_password: Incorrect wachtwoord
   notice_can_t_change_password: Dit account gebruikt een externe bron voor authenticatie. Het is niet mogelijk om het wachtwoord te veranderen.
   notice_default_data_loaded: Standaard configuratie succesvol geladen.
-  notice_email_error: "Er is een fout opgetreden tijdens het versturen van ({{value}})"
-  notice_email_sent: "Een e-mail werd verstuurd naar {{value}}"
-  notice_failed_to_save_issues: "Fout bij bewaren van {{count}} issue(s) ({{total}} geselecteerd): {{ids}}."
+  notice_email_error: "Er is een fout opgetreden tijdens het versturen van (%{value})"
+  notice_email_sent: "Een e-mail werd verstuurd naar %{value}"
+  notice_failed_to_save_issues: "Fout bij bewaren van %{count} issue(s) (%{total} geselecteerd): %{ids}."
   notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
   notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is verwijderd.
   notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
@@ -730,25 +730,25 @@ nl:
   status_registered: geregistreerd
   text_are_you_sure: Weet u het zeker?
   text_assign_time_entries_to_project: Gerapporteerde uren toevoegen aan dit project
-  text_caracters_maximum: "{{count}} van maximum aantal tekens."
-  text_caracters_minimum: "Moet minstens {{count}} karakters lang zijn."
+  text_caracters_maximum: "%{count} van maximum aantal tekens."
+  text_caracters_minimum: "Moet minstens %{count} karakters lang zijn."
   text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
   text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
   text_destroy_time_entries: Verwijder gerapporteerde uren
-  text_destroy_time_entries_question: "{{hours}} uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?"
+  text_destroy_time_entries_question: "%{hours} uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?"
   text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
   text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer uw SMTP server in config/email.yml en herstart de applicatie om dit te activeren."
   text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
-  text_enumeration_destroy_question: "{{count}} objecten zijn toegewezen aan deze waarde."
+  text_enumeration_destroy_question: "%{count} objecten zijn toegewezen aan deze waarde."
   text_file_repository_writable: Bestandsrepository beschrijfbaar
-  text_issue_added: "Issue {{id}} is gerapporteerd (door {{author}})."
+  text_issue_added: "Issue %{id} is gerapporteerd (door %{author})."
   text_issue_category_destroy_assignments: Verwijder toewijzingen aan deze categorie
-  text_issue_category_destroy_question: "Er zijn issues ({{count}}) aan deze categorie toegewezen. Wat wilt u hiermee doen ?"
+  text_issue_category_destroy_question: "Er zijn issues (%{count}) aan deze categorie toegewezen. Wat wilt u hiermee doen ?"
   text_issue_category_reassign_to: Issues opnieuw toewijzen aan deze categorie
-  text_issue_updated: "Issue {{id}} is gewijzigd (door {{author}})."
+  text_issue_updated: "Issue %{id} is gewijzigd (door %{author})."
   text_issues_destroy_confirmation: 'Weet u zeker dat u deze issue(s) wil verwijderen?'
   text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commitberichten
-  text_length_between: "Lengte tussen {{min}} en {{max}} tekens."
+  text_length_between: "Lengte tussen %{min} en %{max} tekens."
   text_load_default_configuration: Laad de standaardconfiguratie
   text_min_max_length_info: 0 betekent geen restrictie
   text_no_configuration_data: "Rollen, trackers, issue statussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaard configuratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
@@ -761,18 +761,18 @@ nl:
   text_rmagick_available: RMagick beschikbaar (optioneel)
   text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
   text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
-  text_status_changed_by_changeset: "Toegepast in changeset {{value}}."
-  text_subprojects_destroy_warning: "De subprojecten: {{value}} zullen ook verwijderd worden."
+  text_status_changed_by_changeset: "Toegepast in changeset %{value}."
+  text_subprojects_destroy_warning: "De subprojecten: %{value} zullen ook verwijderd worden."
   text_tip_issue_begin_day: issue die op deze dag begint
   text_tip_issue_begin_end_day: issue die op deze dag begint en eindigt
   text_tip_issue_end_day: issue die op deze dag eindigt
   text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
   text_unallowed_characters: Niet toegestane tekens
   text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
-  text_user_wrote: "{{value}} schreef:"
+  text_user_wrote: "%{value} schreef:"
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
   text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
-  warning_attachments_not_saved: "{{count}} bestand(en) konden niet opgeslagen worden."
+  warning_attachments_not_saved: "%{count} bestand(en) konden niet opgeslagen worden."
   button_create_and_continue: Maak en ga verder
   text_custom_field_possible_values_info: 'Per lijn een waarde'
   label_display: Toon
@@ -787,21 +787,21 @@ nl:
   label_descending: Aflopend
   label_sort: Sorteer
   label_ascending: Oplopend
-  label_date_from_to: Van {{start}} tot {{end}}
+  label_date_from_to: Van %{start} tot %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Deze pagina heeft {{descendants}} subpagina's en onderliggende pagina's?. Wil wil je ermee doen?
+  text_wiki_page_destroy_question: Deze pagina heeft %{descendants} subpagina's en onderliggende pagina's?. Wil wil je ermee doen?
   text_wiki_page_reassign_children: Alle subpagina's toewijzen aan deze hoofdpagina
   text_wiki_page_nullify_children: Behoud subpagina's als hoofdpagina's
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
   setting_password_min_length: Minimum wachtwoord lengte
   field_group_by: Groepeer resultaten per
-  mail_subject_wiki_content_updated: "'{{id}}' wiki pagina is bijgewerkt"
+  mail_subject_wiki_content_updated: "'%{id}' wiki pagina is bijgewerkt"
   label_wiki_content_added: Wiki pagina toegevoegd
-  mail_subject_wiki_content_added: "'{{id}}' wiki pagina is toegevoegd"
-  mail_body_wiki_content_added: The '{{id}}' wiki pagina is toegevoegd door {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki pagina is toegevoegd"
+  mail_body_wiki_content_added: The '%{id}' wiki pagina is toegevoegd door %{author}.
   label_wiki_content_updated: Wiki pagina bijgewerkt
-  mail_body_wiki_content_updated: The '{{id}}' wiki pagina is bijgewerkt door {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki pagina is bijgewerkt door %{author}.
   permission_add_project: Maak project
   setting_new_project_user_role_id: Rol van gebruiker die een project maakt
   label_view_all_revisions: Bekijk alle revisies
@@ -809,14 +809,14 @@ nl:
   label_branch: Branch
   error_no_tracker_in_project: Geen tracker is geassocieerd met dit project. Check de project instellingen.
   error_no_default_issue_status: Geen standaard issue status ingesteld. Check de configuratie (Ga naar "Administratie -> Issue statussen").
-  text_journal_changed: "{{label}} gewijzigd van {{old}} naar {{new}}"
-  text_journal_set_to: "{{label}} gewijzigd naar {{value}}"
-  text_journal_deleted: "{{label}} verwijderd ({{old}})"
+  text_journal_changed: "%{label} gewijzigd van %{old} naar %{new}"
+  text_journal_set_to: "%{label} gewijzigd naar %{value}"
+  text_journal_deleted: "%{label} verwijderd (%{old})"
   label_group_plural: Groepen
   label_group: Groep
   label_group_new: Nieuwe groep
   label_time_entry_plural: Bestede tijd
-  text_journal_added: "{{label}} {{value}} toegevoegd"
+  text_journal_added: "%{label} %{value} toegevoegd"
   field_active: Actief
   enumeration_system_activity: Systeem Activiteit
   permission_delete_issue_watchers: Verwijder volgers
@@ -851,9 +851,9 @@ nl:
   setting_start_of_week: Week begint op
   permission_view_issues: Bekijk Issues
   label_display_used_statuses_only: Laat alleen statussen zien die gebruikt worden door deze tracker
-  label_revision_id: Revisie {{value}}
+  label_revision_id: Revisie %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key gemaakt {{value}} geleden
+  label_api_access_key_created_on: API access key gemaakt %{value} geleden
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Uw API access key was gereset.
   setting_rest_api_enabled: Activeer REST web service
@@ -880,12 +880,12 @@ nl:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Stuur email notificaties voor de project kopie
   error_can_not_delete_custom_field: Verwijderen niet mogelijk van custom field
-  error_unable_to_connect: Geen connectie ({{value}})
+  error_unable_to_connect: Geen connectie (%{value})
   error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
   error_can_not_delete_tracker: Deze tracker bevat nog issues en kan niet worden verwijderd.
   field_principal: Principal
   label_my_page_block: Mijn pagina block
-  notice_failed_to_save_members: "Niet gelukt om lid/leden op te slaan: {{errors}}."
+  notice_failed_to_save_members: "Niet gelukt om lid/leden op te slaan: %{errors}."
   text_zoom_out: Zoom uit
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
@@ -893,7 +893,7 @@ nl:
   field_time_entries: Log tijd
   project_module_gantt: Gantt
   project_module_calendar: Kalender
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -910,7 +910,7 @@ nl:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

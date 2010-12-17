@@ -37,38 +37,38 @@ tr:
       less_than_x_seconds:
         zero: '1 saniyeden az'
         one: '1 saniyeden az'
-        other: '{{count}} saniyeden az'
+        other: '%{count} saniyeden az'
       x_seconds:
         one: '1 saniye'
-        other: '{{count}} saniye'
+        other: '%{count} saniye'
       less_than_x_minutes:
         zero: '1 dakikadan az'
         one: '1 dakikadan az'
-        other: '{{count}} dakikadan az'
+        other: '%{count} dakikadan az'
       x_minutes:
         one: '1 dakika'
-        other: '{{count}} dakika'
+        other: '%{count} dakika'
       about_x_hours:
         one: '1 saat civarında'
-        other: '{{count}} saat civarında'
+        other: '%{count} saat civarında'
       x_days:
         one: '1 gün'
-        other: '{{count}} gün'
+        other: '%{count} gün'
       about_x_months:
         one: '1 ay civarında'
-        other: '{{count}} ay civarında'
+        other: '%{count} ay civarında'
       x_months:
         one: '1 ay'
-        other: '{{count}} ay'
+        other: '%{count} ay'
       about_x_years:
         one: '1 yıl civarında'
-        other: '{{count}} yıl civarında'
+        other: '%{count} yıl civarında'
       over_x_years:
         one: '1 yıldan fazla'
-        other: '{{count}} yıldan fazla'
+        other: '%{count} yıldan fazla'
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
       
   number:
     format:
@@ -116,8 +116,8 @@ tr:
     errors:
       template:
         header:
-          one:    "{{model}} girişi kaydedilemedi: 1 hata."
-          other:  "{{model}} girişi kadedilemedi: {{count}} hata."
+          one:    "%{model} girişi kaydedilemedi: 1 hata."
+          other:  "%{model} girişi kadedilemedi: %{count} hata."
         body: "Lütfen aşağıdaki hataları düzeltiniz:"
 
       messages:
@@ -128,16 +128,16 @@ tr:
         accepted: "kabul edilmeli"
         empty: "doldurulmalı"
         blank: "doldurulmalı"
-        too_long: "çok uzun (en fazla {{count}} karakter)"
-        too_short: "çok kısa (en az {{count}} karakter)"
-        wrong_length: "yanlış uzunlukta (tam olarak {{count}} karakter olmalı)"
+        too_long: "çok uzun (en fazla %{count} karakter)"
+        too_short: "çok kısa (en az %{count} karakter)"
+        wrong_length: "yanlış uzunlukta (tam olarak %{count} karakter olmalı)"
         taken: "hali hazırda kullanılmakta"
         not_a_number: "geçerli bir sayı değil"
-        greater_than: "{{count}} sayısından büyük olmalı"
-        greater_than_or_equal_to: "{{count}} sayısına eşit veya büyük olmalı"
-        equal_to: "tam olarak {{count}} olmalı"
-        less_than: "{{count}} sayısından küçük olmalı"
-        less_than_or_equal_to: "{{count}} sayısına eşit veya küçük olmalı"
+        greater_than: "%{count} sayısından büyük olmalı"
+        greater_than_or_equal_to: "%{count} sayısına eşit veya büyük olmalı"
+        equal_to: "tam olarak %{count} olmalı"
+        less_than: "%{count} sayısından küçük olmalı"
+        less_than_or_equal_to: "%{count} sayısına eşit veya küçük olmalı"
         odd: "tek olmalı"
         even: "çift olmalı"
         greater_than_start_date: "başlangıç tarihinden büyük olmalı"
@@ -174,31 +174,31 @@ tr:
   notice_file_not_found: Erişmek istediğiniz sayfa mevcut değil ya da kaldırılmış.
   notice_locking_conflict: Veri başka bir kullanıcı tarafından güncellendi.
   notice_not_authorized: Bu sayfaya erişme yetkiniz yok.
-  notice_email_sent: "E-posta gönderildi {{value}}"
-  notice_email_error: "E-posta gönderilirken bir hata oluştu ({{value}})"
+  notice_email_sent: "E-posta gönderildi %{value}"
+  notice_email_error: "E-posta gönderilirken bir hata oluştu (%{value})"
   notice_feeds_access_key_reseted: RSS erişim anahtarınız sıfırlandı.
-  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
+  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_no_issue_selected: "Seçili ileti yok! Lütfen, düzenlemek istediğiniz iletileri işaretleyin."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
   notice_default_data_loaded: Varasayılan konfigürasyon başarılıyla yüklendi.
   
-  error_can_t_load_default_data: "Varsayılan konfigürasyon yüklenemedi: {{value}}"
+  error_can_t_load_default_data: "Varsayılan konfigürasyon yüklenemedi: %{value}"
   error_scm_not_found: "Depoda, giriş ya da revizyon yok."
-  error_scm_command_failed: "Depoya erişmeye çalışırken bir hata meydana geldi: {{value}}"
+  error_scm_command_failed: "Depoya erişmeye çalışırken bir hata meydana geldi: %{value}"
   error_scm_annotate: "Giriş mevcut değil veya izah edilemedi."
   error_issue_not_found_in_project: 'İleti bilgisi bulunamadı veya bu projeye ait değil'
   
-  mail_subject_lost_password: "Parolanız {{value}}"
+  mail_subject_lost_password: "Parolanız %{value}"
   mail_body_lost_password: 'Parolanızı değiştirmek için, aşağıdaki bağlantıya tıklayın:'
-  mail_subject_register: "Your {{value}} hesap aktivasyonu"
+  mail_subject_register: "Your %{value} hesap aktivasyonu"
   mail_body_register: 'Hesabınızı etkinleştirmek için, aşağıdaki bağlantıya tıklayın:'
-  mail_body_account_information_external: "Hesabınızı {{value}} giriş yapmak için kullanabilirsiniz."
+  mail_body_account_information_external: "Hesabınızı %{value} giriş yapmak için kullanabilirsiniz."
   mail_body_account_information: Hesap bilgileriniz
-  mail_subject_account_activation_request: "{{value}} hesabı etkinleştirme isteği"
-  mail_body_account_activation_request: "Yeni bir kullanıcı ({{value}}) kaydedildi. Hesap onaylanmayı bekliyor:"
+  mail_subject_account_activation_request: "%{value} hesabı etkinleştirme isteği"
+  mail_body_account_activation_request: "Yeni bir kullanıcı (%{value}) kaydedildi. Hesap onaylanmayı bekliyor:"
   
   gui_validation_error: 1 hata
-  gui_validation_error_plural: "{{count}} hata"
+  gui_validation_error_plural: "%{count} hata"
   
   field_name: İsim
   field_description: Açıklama
@@ -333,14 +333,14 @@ tr:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: Tüm Projeler
   label_project_latest: En son projeler
   label_issue: İleti
   label_issue_new: Yeni İleti
   label_issue_plural: İletiler
   label_issue_view_all: Tüm iletileri izle
-  label_issues_by: "{{value}} tarafından gönderilmiş iletiler"
+  label_issues_by: "%{value} tarafından gönderilmiş iletiler"
   label_issue_added: İleti eklendi
   label_issue_updated: İleti güncellendi
   label_document: Belge
@@ -406,8 +406,8 @@ tr:
   label_text: Uzun Metin
   label_attribute: Nitelik
   label_attribute_plural: Nitelikler
-  label_download: "{{count}} indirilen"
-  label_download_plural: "{{count}} indirilen"
+  label_download: "%{count} indirilen"
+  label_download_plural: "%{count} indirilen"
   label_no_data: Gösterilecek veri yok
   label_change_status: Değişim Durumu
   label_history: Geçmiş
@@ -438,17 +438,17 @@ tr:
   label_closed_issues: kapalı
   label_closed_issues_plural: kapalı
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: Toplam
   label_permissions: İzinler
   label_current_status: Mevcut Durum
@@ -466,7 +466,7 @@ tr:
   label_months_from: aylardan itibaren
   label_gantt: Gantt
   label_internal: Dahili
-  label_last_changes: "Son {{count}} değişiklik"
+  label_last_changes: "Son %{count} değişiklik"
   label_change_view_all: Tüm Değişiklikleri gör
   label_personalize_page: Bu sayfayı kişiselleştir
   label_comment: Açıklama
@@ -474,7 +474,7 @@ tr:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Açıklama Ekle
   label_comment_added: Açıklama Eklendi
   label_comment_delete: Açıklamaları sil
@@ -493,7 +493,7 @@ tr:
   label_yesterday: Dün
   label_this_week: Bu hafta
   label_last_week: Geçen hafta
-  label_last_n_days: "Son {{count}} gün"
+  label_last_n_days: "Son %{count} gün"
   label_this_month: Bu ay
   label_last_month: Geçen ay
   label_this_year: Bu yıl
@@ -507,8 +507,8 @@ tr:
   label_repository: Depo
   label_repository_plural: Depolar
   label_browse: Tara
-  label_modification: "{{count}} değişim"
-  label_modification_plural: "{{count}} değişim"
+  label_modification: "%{count} değişim"
+  label_modification_plural: "%{count} değişim"
   label_revision: Revizyon
   label_revision_plural: Revizyonlar
   label_associated_revisions: Birleştirilmiş revizyonlar
@@ -524,8 +524,8 @@ tr:
   label_sort_lower: Aşağı taşı
   label_sort_lowest: Dibe taşı
   label_roadmap: Yol Haritası
-  label_roadmap_due_in: "Due in {{value}}"
-  label_roadmap_overdue: "{{value}} geç"
+  label_roadmap_due_in: "Due in %{value}"
+  label_roadmap_overdue: "%{value} geç"
   label_roadmap_no_issues: Bu versiyon için ileti yok
   label_search: Ara
   label_result_plural: Sonuçlar
@@ -543,8 +543,8 @@ tr:
   label_changes_details: Bütün değişikliklerin detayları
   label_issue_tracking: İleti Takibi
   label_spent_time: Harcanan zaman
-  label_f_hour: "{{value}} saat"
-  label_f_hour_plural: "{{value}} saat"
+  label_f_hour: "%{value} saat"
+  label_f_hour_plural: "%{value} saat"
   label_time_tracking: Zaman Takibi
   label_change_plural: Değişiklikler
   label_statistics: İstatistikler
@@ -592,12 +592,12 @@ tr:
   label_date_from: Başlangıç
   label_date_to: Bitiş
   label_language_based: Kullanıcı diline istinaden
-  label_sort_by: "{{value}} göre sırala"
+  label_sort_by: "%{value} göre sırala"
   label_send_test_email: Test e-postası gönder
-  label_feeds_access_key_created_on: "RSS erişim anahtarı {{value}} önce oluşturuldu"
+  label_feeds_access_key_created_on: "RSS erişim anahtarı %{value} önce oluşturuldu"
   label_module_plural: Modüller
-  label_added_time_by: "{{author}} tarafından {{age}} önce eklendi"
-  label_updated_time: "{{value}} önce güncellendi"
+  label_added_time_by: "%{author} tarafından %{age} önce eklendi"
+  label_updated_time: "%{value} önce güncellendi"
   label_jump_to_a_project: Projeye git...
   label_file_plural: Dosyalar
   label_changeset_plural: Değişiklik Listeleri
@@ -613,7 +613,7 @@ tr:
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_manual_activation: Elle hesap etkinleştirme
   label_registration_automatic_activation: Otomatik hesap etkinleştirme
-  label_display_per_page: "Sayfa başına: {{value}}"
+  label_display_per_page: "Sayfa başına: %{value}"
   label_age: Yaş
   label_change_properties: Özellikleri değiştir
   label_general: Genel
@@ -675,36 +675,36 @@ tr:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 sınırlama yok demektir
   text_project_destroy_confirmation: Bu projeyi ve bağlantılı verileri silmek istediğinizden emin misiniz?
-  text_subprojects_destroy_warning: "Ayrıca {{value}} alt proje silinecek."
+  text_subprojects_destroy_warning: "Ayrıca %{value} alt proje silinecek."
   text_workflow_edit: İşakışını düzenlemek için bir rol ve takipçi seçin
   text_are_you_sure: Emin misiniz ?
   text_tip_issue_begin_day: Bugün başlayan görevler
   text_tip_issue_end_day: Bugün sona eren görevler
   text_tip_issue_begin_end_day: Bugün başlayan ve sona eren görevler
   text_project_identifier_info: 'Küçük harfler (a-z), sayılar ve noktalar kabul edilir.<br />Bir kere kaydedildiğinde,tanımlayıcı değiştirilemez.'
-  text_caracters_maximum: "En çok {{count}} karakter."
-  text_caracters_minimum: "En az {{count}} karakter uzunluğunda olmalı."
-  text_length_between: "{{min}} ve {{max}} karakterleri arasındaki uzunluk."
+  text_caracters_maximum: "En çok %{count} karakter."
+  text_caracters_minimum: "En az %{count} karakter uzunluğunda olmalı."
+  text_length_between: "%{min} ve %{max} karakterleri arasındaki uzunluk."
   text_tracker_no_workflow: Bu takipçi için işakışı tanımlanmamış
   text_unallowed_characters: Yasaklı karakterler
   text_comma_separated: Çoklu değer uygundur(Virgül ile ayrılmış).
   text_issues_ref_in_commit_messages: Teslim mesajlarındaki iletileri çözme ve başvuruda bulunma
-  text_issue_added: "İleti {{id}}, {{author}} tarafından rapor edildi."
-  text_issue_updated: "İleti {{id}}, {{author}} tarafından güncellendi."
+  text_issue_added: "İleti %{id}, %{author} tarafından rapor edildi."
+  text_issue_updated: "İleti %{id}, %{author} tarafından güncellendi."
   text_wiki_destroy_confirmation: bu wikiyi ve tüm içeriğini silmek istediğinizden emin misiniz?
-  text_issue_category_destroy_question: "Bazı iletiler ({{count}}) bu kategoriye atandı. Ne yapmak istersiniz?"
+  text_issue_category_destroy_question: "Bazı iletiler (%{count}) bu kategoriye atandı. Ne yapmak istersiniz?"
   text_issue_category_destroy_assignments: Kategori atamalarını kaldır
   text_issue_category_reassign_to: İletileri bu kategoriye tekrar ata
   text_user_mail_option: "Seçili olmayan projeler için, sadece dahil olduğunuz ya da izlediğiniz öğeler hakkında uyarılar alacaksınız (örneğin,yazarı veya atandığınız iletiler)."
   text_no_configuration_data: "Roller, takipçiler, ileti durumları ve işakışı henüz yapılandırılmadı.\nVarsayılan yapılandırılmanın yüklenmesi şiddetle tavsiye edilir. Bir kez yüklendiğinde yapılandırmayı değiştirebileceksiniz."
   text_load_default_configuration: Varsayılan yapılandırmayı yükle
-  text_status_changed_by_changeset: "Değişiklik listesi {{value}} içinde uygulandı."
+  text_status_changed_by_changeset: "Değişiklik listesi %{value} içinde uygulandı."
   text_issues_destroy_confirmation: 'Seçili iletileri silmek istediğinizden emin misiniz ?'
   text_select_project_modules: 'Bu proje için etkinleştirmek istediğiniz modülleri seçin:'
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_file_repository_writable: Dosya deposu yazılabilir
   text_rmagick_available: RMagick Kullanılabilir (isteğe bağlı)
-  text_destroy_time_entries_question: Silmek üzere olduğunuz iletiler üzerine {{hours}} saat raporlandı.Ne yapmak istersiniz ?
+  text_destroy_time_entries_question: Silmek üzere olduğunuz iletiler üzerine %{hours} saat raporlandı.Ne yapmak istersiniz ?
   text_destroy_time_entries: Raporlanmış saatleri sil
   text_assign_time_entries_to_project: Raporlanmış saatleri projeye ata
   text_reassign_time_entries: 'Raporlanmış saatleri bu iletiye tekrar ata:'
@@ -743,13 +743,13 @@ tr:
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   label_issue_watchers: Watchers
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
   label_duplicated_by: duplicated by
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
-  text_user_wrote: "{{value}} wrote:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_user_wrote: "%{value} wrote:"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
+  label_and_its_subprojects: "%{value} and its subprojects"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
   setting_mail_handler_api_key: API key
   setting_commit_logs_encoding: Commit messages encoding
   general_csv_decimal_separator: '.'
@@ -808,12 +808,12 @@ tr:
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   permission_edit_own_messages: Edit own messages
   permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_user_activity: "%{value}'s activity"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and continue
   text_custom_field_possible_values_info: 'One line for each value'
   label_display: Display
@@ -828,21 +828,21 @@ tr:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -854,10 +854,10 @@ tr:
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -892,9 +892,9 @@ tr:
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -921,12 +921,12 @@ tr:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -934,7 +934,7 @@ tr:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -951,7 +951,7 @@ tr:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

@@ -32,37 +32,37 @@ bg:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "по-малко от 1 секунда"
-        other: "по-малко от {{count}} секунди"
+        other: "по-малко от %{count} секунди"
       x_seconds:
         one:   "1 секунда"
-        other: "{{count}} секунди"
+        other: "%{count} секунди"
       less_than_x_minutes:
         one:   "по-малко от 1 минута"
-        other: "по-малко от {{count}} минути"
+        other: "по-малко от %{count} минути"
       x_minutes:
         one:   "1 минута"
-        other: "{{count}} минути"
+        other: "%{count} минути"
       about_x_hours:
         one:   "около 1 час"
-        other: "около {{count}} часа"
+        other: "около %{count} часа"
       x_days:
         one:   "1 ден"
-        other: "{{count}} дена"
+        other: "%{count} дена"
       about_x_months:
         one:   "около 1 месец"
-        other: "около {{count}} месеца"
+        other: "около %{count} месеца"
       x_months:
         one:   "1 месец"
-        other: "{{count}} месеца"
+        other: "%{count} месеца"
       about_x_years:
         one:   "около 1 година"
-        other: "около {{count}} години"
+        other: "около %{count} години"
       over_x_years:
         one:   "над 1 година"
-        other: "над {{count}} години"
+        other: "над %{count} години"
       almost_x_years:
         one:   "почти 1 година"
-        other: "почти {{count}} години"
+        other: "почти %{count} години"
 
   number:
     format:
@@ -106,11 +106,11 @@ bg:
         taken: "вече съществува"
         not_a_number: "не е число"
         not_a_date: "е невалидна дата"
-        greater_than: "трябва да бъде по-голям[a/о] от {{count}}"
-        greater_than_or_equal_to: "трябва да бъде по-голям[a/о] от или равен[a/o] на {{count}}"
-        equal_to: "трябва да бъде равен[a/o] на {{count}}"
-        less_than: "трябва да бъде по-малък[a/o] от {{count}}"
-        less_than_or_equal_to: "трябва да бъде по-малък[a/o] от или равен[a/o] на {{count}}"
+        greater_than: "трябва да бъде по-голям[a/о] от %{count}"
+        greater_than_or_equal_to: "трябва да бъде по-голям[a/о] от или равен[a/o] на %{count}"
+        equal_to: "трябва да бъде равен[a/o] на %{count}"
+        less_than: "трябва да бъде по-малък[a/o] от %{count}"
+        less_than_or_equal_to: "трябва да бъде по-малък[a/o] от или равен[a/o] на %{count}"
         odd: "трябва да бъде нечетен[a/o]"
         even: "трябва да бъде четен[a/o]"
         greater_than_start_date: "трябва да е след началната дата"
@@ -146,20 +146,20 @@ bg:
   notice_file_not_found: Несъществуваща или преместена страница.
   notice_locking_conflict: Друг потребител променя тези данни в момента.
   notice_not_authorized: Нямате право на достъп до тази страница.
-  notice_email_sent: "Изпратен e-mail на {{value}}"
-  notice_email_error: "Грешка при изпращане на e-mail ({{value}})"
+  notice_email_sent: "Изпратен e-mail на %{value}"
+  notice_email_error: "Грешка при изпращане на e-mail (%{value})"
   notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
   
   error_scm_not_found: Несъществуващ обект в хранилището.
-  error_scm_command_failed: "Грешка при опит за комуникация с хранилище: {{value}}"
+  error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
   
-  mail_subject_lost_password: "Вашата парола ({{value}})"
+  mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
-  mail_subject_register: "Активация на профил ({{value}})"
+  mail_subject_register: "Активация на профил (%{value})"
   mail_body_register: 'За да активирате профила си използвайте следния линк:'
   
   gui_validation_error: 1 грешка
-  gui_validation_error_plural: "{{count}} грешки"
+  gui_validation_error_plural: "%{count} грешки"
   
   field_name: Име
   field_description: Описание
@@ -270,7 +270,7 @@ bg:
   label_x_projects:
     zero:  0 проекти
     one:   1 проект
-    other: "{{count}} проекта"
+    other: "%{count} проекта"
   label_project_all: Всички проекти
   label_project_latest: Последни проекти
   label_issue: Задача
@@ -337,8 +337,8 @@ bg:
   label_text: Дълъг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "{{count}} изтегляне"
-  label_download_plural: "{{count}} изтегляния"
+  label_download: "%{count} изтегляне"
+  label_download_plural: "%{count} изтегляния"
   label_no_data: Няма изходни данни
   label_change_status: Промяна на състоянието
   label_history: История
@@ -367,17 +367,17 @@ bg:
   label_closed_issues: затворена
   label_closed_issues_plural: затворени
   label_x_open_issues_abbr_on_total:
-    zero:  0 отворени / {{total}}
-    one:   1 отворена / {{total}}
-    other: "{{count}} отворени / {{total}}"
+    zero:  0 отворени / %{total}
+    one:   1 отворена / %{total}
+    other: "%{count} отворени / %{total}"
   label_x_open_issues_abbr:
     zero:  0 отворени
     one:   1 отворена
-    other: "{{count}} отворени"
+    other: "%{count} отворени"
   label_x_closed_issues_abbr:
     zero:  0 затворени
     one:   1 затворена
-    other: "{{count}} затворени"
+    other: "%{count} затворени"
   label_total: Общо
   label_permissions: Права
   label_current_status: Текущо състояние
@@ -394,7 +394,7 @@ bg:
   label_months_from: месеца от
   label_gantt: Мрежов график
   label_internal: Вътрешен
-  label_last_changes: "последни {{count}} промени"
+  label_last_changes: "последни %{count} промени"
   label_change_view_all: Виж всички промени
   label_personalize_page: Персонализиране
   label_comment: Коментар
@@ -402,7 +402,7 @@ bg:
   label_x_comments:
     zero: 0 коментари
     one: 1 коментар
-    other: "{{count}} коментари"
+    other: "%{count} коментари"
   label_comment_add: Добавяне на коментар
   label_comment_added: Добавен коментар
   label_comment_delete: Изтриване на коментари
@@ -426,8 +426,8 @@ bg:
   label_day_plural: дни
   label_repository: Хранилище
   label_browse: Разглеждане
-  label_modification: "{{count}} промяна"
-  label_modification_plural: "{{count}} промени"
+  label_modification: "%{count} промяна"
+  label_modification_plural: "%{count} промени"
   label_revision: Ревизия
   label_revision_plural: Ревизии
   label_added: добавено
@@ -442,8 +442,8 @@ bg:
   label_sort_lower: Премести по-долу
   label_sort_lowest: Премести най-долу
   label_roadmap: Пътна карта
-  label_roadmap_due_in: "Излиза след {{value}}"
-  label_roadmap_overdue: "{{value}} закъснение"
+  label_roadmap_due_in: "Излиза след %{value}"
+  label_roadmap_overdue: "%{value} закъснение"
   label_roadmap_no_issues: Няма задачи за тази версия
   label_search: Търсене
   label_result_plural: Pезултати
@@ -461,8 +461,8 @@ bg:
   label_changes_details: Подробни промени
   label_issue_tracking: Тракинг
   label_spent_time: Отделено време
-  label_f_hour: "{{value}} час"
-  label_f_hour_plural: "{{value}} часа"
+  label_f_hour: "%{value} час"
+  label_f_hour_plural: "%{value} часа"
   label_time_tracking: Отделяне на време
   label_change_plural: Промени
   label_statistics: Статистики
@@ -509,12 +509,12 @@ bg:
   label_date_from: От
   label_date_to: До
   label_language_based: В зависимост от езика
-  label_sort_by: "Сортиране по {{value}}"
+  label_sort_by: "Сортиране по %{value}"
   label_send_test_email: Изпращане на тестов e-mail
-  label_feeds_access_key_created_on: "{{value}} от създаването на RSS ключа"
+  label_feeds_access_key_created_on: "%{value} от създаването на RSS ключа"
   label_module_plural: Модули
-  label_added_time_by: "Публикувана от {{author}} преди {{age}}"
-  label_updated_time: "Обновена преди {{value}}"
+  label_added_time_by: "Публикувана от %{author} преди %{age}"
+  label_updated_time: "Обновена преди %{value}"
   label_jump_to_a_project: Проект...
   
   button_login: Вход
@@ -564,16 +564,16 @@ bg:
   text_tip_task_end_day: задача завършваща този ден
   text_tip_task_begin_end_day: задача започваща и завършваща този ден
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
-  text_caracters_maximum: "До {{count}} символа."
-  text_length_between: "От {{min}} до {{max}} символа."
+  text_caracters_maximum: "До %{count} символа."
+  text_length_between: "От %{min} до %{max} символа."
   text_tracker_no_workflow: Няма дефиниран работен процес за този тракер
   text_unallowed_characters: Непозволени символи
   text_comma_separated: Позволено е изброяване (с разделител запетая).
   text_issues_ref_in_commit_messages: Отбелязване и приключване на задачи от ревизии
-  text_issue_added: "Публикувана е нова задача с номер {{id}} (от {{author}})."
-  text_issue_updated: "Задача {{id}} е обновена (от {{author}})."
+  text_issue_added: "Публикувана е нова задача с номер %{id} (от %{author})."
+  text_issue_updated: "Задача %{id} е обновена (от %{author})."
   text_wiki_destroy_confirmation: Сигурни ли сте, че искате да изтриете това Wiki и цялото му съдържание?
-  text_issue_category_destroy_question: "Има задачи ({{count}}) обвързани с тази категория. Какво ще изберете?"
+  text_issue_category_destroy_question: "Има задачи (%{count}) обвързани с тази категория. Какво ще изберете?"
   text_issue_category_destroy_assignments: Премахване на връзките с категорията
   text_issue_category_reassign_to: Преобвързване с категория
   
@@ -611,7 +611,7 @@ bg:
   notice_no_issue_selected: "Няма избрани задачи."
   label_bulk_edit_selected_issues: Редактиране на задачи
   label_no_change_option: (Без промяна)
-  notice_failed_to_save_issues: "Неуспешен запис на {{count}} задачи от {{total}} избрани: {{ids}}."
+  notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
   label_theme: Тема
   label_default: По подразбиране
   label_search_titles_only: Само в заглавията
@@ -624,37 +624,37 @@ bg:
   setting_emails_footer: Подтекст за e-mail
   label_float: Дробно
   button_copy: Копиране
-  mail_body_account_information_external: "Можете да използвате вашия {{value}} профил за вход."
+  mail_body_account_information_external: "Можете да използвате вашия %{value} профил за вход."
   mail_body_account_information: Информацията за профила ви
   setting_protocol: Протокол
   label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
   setting_time_format: Формат на часа
   label_registration_activation_by_email: активиране на профила по email
-  mail_subject_account_activation_request: "Заявка за активиране на профил в {{value}}"
-  mail_body_account_activation_request: "Има новорегистриран потребител ({{value}}), очакващ вашето одобрение:"
+  mail_subject_account_activation_request: "Заявка за активиране на профил в %{value}"
+  mail_body_account_activation_request: "Има новорегистриран потребител (%{value}), очакващ вашето одобрение:"
   label_registration_automatic_activation: автоматично активиране
   label_registration_manual_activation: ръчно активиране
   notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
   field_time_zone: Часова зона
-  text_caracters_minimum: "Минимум {{count}} символа."
+  text_caracters_minimum: "Минимум %{count} символа."
   setting_bcc_recipients: Получатели на скрито копие (bcc)
   button_annotate: Анотация
-  label_issues_by: "Задачи по {{value}}"
+  label_issues_by: "Задачи по %{value}"
   field_searchable: С възможност за търсене
-  label_display_per_page: "На страница по: {{value}}"
+  label_display_per_page: "На страница по: %{value}"
   setting_per_page_options: Опции за страниране
   label_age: Възраст
   notice_default_data_loaded: Примерната информацията е успешно заредена.
   text_load_default_configuration: Зареждане на примерна информация
   text_no_configuration_data: "Все още не са конфигурирани Роли, тракери, състояния на задачи и работен процес.\nСтрого се препоръчва зареждането на примерната информация. Веднъж заредена ще имате възможност да я редактирате."
-  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: {{value}}"
+  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   button_update: Обновяване
   label_change_properties: Промяна на настройки
   label_general: Основни
   label_repository_plural: Хранилища
   label_associated_revisions: Асоциирани ревизии
   setting_user_format: Потребителски формат
-  text_status_changed_by_changeset: "Приложено с ревизия {{value}}."
+  text_status_changed_by_changeset: "Приложено с ревизия %{value}."
   label_more: Още
   text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
   label_scm: SCM (Система за контрол на кода)
@@ -681,7 +681,7 @@ bg:
   label_ldap_authentication: LDAP оторизация
   label_downloads_abbr: D/L
   label_this_month: текущия месец
-  label_last_n_days: "последните {{count}} дни"
+  label_last_n_days: "последните %{count} дни"
   label_all_time: всички
   label_this_year: текущата година
   label_date_range: Период
@@ -690,7 +690,7 @@ bg:
   label_last_month: последния месец
   label_add_another_file: Добавяне на друг файл
   label_optional_description: Незадължително описание
-  text_destroy_time_entries_question: "{{hours}} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
+  text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   error_issue_not_found_in_project: 'Задачата не е намерена или не принадлежи на този проект'
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
   text_destroy_time_entries: Изтриване на отделеното време
@@ -705,15 +705,15 @@ bg:
   setting_default_projects_public: Новите проекти са публични по подразбиране
   error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
   label_planning: Планиране
-  text_subprojects_destroy_warning: "Неговите подпроекти: {{value}} също ще бъдат изтрити."
-  label_and_its_subprojects: "{{value}} и неговите подпроекти"
-  mail_body_reminder: "{{count}} задачи, назначени на вас са с краен срок в следващите {{days}} дни:"
-  mail_subject_reminder: "{{count}} задачи с краен срок с следващите {{days}} дни"
-  text_user_wrote: "{{value}} написа:"
+  text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
+  label_and_its_subprojects: "%{value} и неговите подпроекти"
+  mail_body_reminder: "%{count} задачи, назначени на вас са с краен срок в следващите %{days} дни:"
+  mail_subject_reminder: "%{count} задачи с краен срок с следващите %{days} дни"
+  text_user_wrote: "%{value} написа:"
   label_duplicated_by: дублирана от
   setting_enabled_scm: Разрешена SCM
   text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
-  text_enumeration_destroy_question: "{{count}} обекта са свързани с тази стойност."
+  text_enumeration_destroy_question: "%{count} обекта са свързани с тази стойност."
   label_incoming_emails: Входящи e-mail-и
   label_generate_key: Генериране на ключ
   setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
@@ -779,12 +779,12 @@ bg:
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   permission_edit_own_messages: Редактиране на собствени съобщения
   permission_delete_own_messages: Изтриване на собствени съобщения
-  label_user_activity: "Активност на {{value}}"
-  label_updated_time_by: "Обновена от {{author}} преди {{age}}"
+  label_user_activity: "Активност на %{value}"
+  label_updated_time_by: "Обновена от %{author} преди %{age}"
   text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
   setting_diff_max_lines_displayed: Максимален брой показани diff редове
   text_plugin_assets_writable: Папката на приставките е разрешена за запис
-  warning_attachments_not_saved: "{{count}} файла не бяха записани."
+  warning_attachments_not_saved: "%{count} файла не бяха записани."
   button_create_and_continue: Създаване и продължаване
   text_custom_field_possible_values_info: 'Една стойност на ред'
   label_display: Display
@@ -799,21 +799,21 @@ bg:
   label_descending: Намаляващ
   label_sort: Сортиране
   label_ascending: Нарастващ
-  label_date_from_to: От {{start}} до {{end}}
+  label_date_from_to: От %{start} до %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Тази страница има {{descendants}} страници деца и descendant(s). Какво желаете да правите?
+  text_wiki_page_destroy_question: Тази страница има %{descendants} страници деца и descendant(s). Какво желаете да правите?
   text_wiki_page_reassign_children: Преназначаване на страниците деца на тази родителска страница
   text_wiki_page_nullify_children: Запазване на тези страници като коренни страници
   text_wiki_page_destroy_children: Изтриване на страниците деца и всички техни descendants
   setting_password_min_length: Минимална дължина на парола
   field_group_by: Групиране на резултатите по
-  mail_subject_wiki_content_updated: "Wiki страницата '{{id}}' не беше обновена"
+  mail_subject_wiki_content_updated: "Wiki страницата '%{id}' не беше обновена"
   label_wiki_content_added: Wiki страница беше добавена
-  mail_subject_wiki_content_added: "Wiki страницата '{{id}}' беше добавена"
-  mail_body_wiki_content_added: Wiki страницата '{{id}}' беше добавена от {{author}}.
+  mail_subject_wiki_content_added: "Wiki страницата '%{id}' беше добавена"
+  mail_body_wiki_content_added: Wiki страницата '%{id}' беше добавена от %{author}.
   label_wiki_content_updated: Wiki страница беше обновена
-  mail_body_wiki_content_updated: Wiki страницата '{{id}}' беше обновена от {{author}}.
+  mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
   permission_add_project: Създаване на проект
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   label_view_all_revisions: Разглеждане на всички ревизии
@@ -821,14 +821,14 @@ bg:
   label_branch: работен вариант
   error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
   error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
-  text_journal_changed: "{{label}} променен от {{old}} на {{new}}"
-  text_journal_set_to: "{{label}} установен на {{value}}"
-  text_journal_deleted: "{{label}} изтрит ({{old}})"
+  text_journal_changed: "%{label} променен от %{old} на %{new}"
+  text_journal_set_to: "%{label} установен на %{value}"
+  text_journal_deleted: "%{label} изтрит (%{old})"
   label_group_plural: Групи
   label_group: Група
   label_group_new: Нова група
   label_time_entry_plural: Използвано време
-  text_journal_added: "Добавено {{label}} {{value}}"
+  text_journal_added: "Добавено %{label} %{value}"
   field_active: Активен
   enumeration_system_activity: Системна активност
   permission_delete_issue_watchers: Изтриване на наблюдатели
@@ -863,9 +863,9 @@ bg:
   setting_start_of_week: Първи ден на седмицата
   permission_view_issues: Разглеждане на задачите
   label_display_used_statuses_only: Показване само на състоянията, използвани от този тракер
-  label_revision_id: Ревизия {{value}}
+  label_revision_id: Ревизия %{value}
   label_api_access_key: API ключ за достъп
-  label_api_access_key_created_on: API ключ за достъп е създаден преди {{value}}
+  label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_feeds_access_key: RSS access ключ
   notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
   setting_rest_api_enabled: Разрешаване на REST web сървис
@@ -892,12 +892,12 @@ bg:
   label_subtask_plural: Подзадачи
   label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
   error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
-  error_unable_to_connect: Невъзможност за свързване с ({{value}})
+  error_unable_to_connect: Невъзможност за свързване с (%{value})
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
   field_principal: Principal
   label_my_page_block: Блокове в личната страница
-  notice_failed_to_save_members: "Невъзможност за запис на член(ове): {{errors}}."
+  notice_failed_to_save_members: "Невъзможност за запис на член(ове): %{errors}."
   text_zoom_out: Намаляване
   text_zoom_in: Увеличаване
   notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
@@ -916,7 +916,7 @@ bg:
   label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
   text_tip_issue_begin_day: задача, започваща този ден
   label_user_mail_option_only_assigned: Само за неща, назначени на мен
-  button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: {{page_title}}"
+  button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: %{page_title}"
   field_assigned_to_role: Assignee's role
   field_start_date: Начална дата
   label_principal_search: "Търсене на потребител или група:"
@@ -924,7 +924,7 @@ bg:
   field_visible: Видим
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

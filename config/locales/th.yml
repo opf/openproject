@@ -32,37 +32,37 @@ th:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
         one:   "1 second"
-        other: "{{count}} seconds"
+        other: "%{count} seconds"
       less_than_x_minutes:
         one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        other: "less than %{count} minutes"
       x_minutes:
         one:   "1 minute"
-        other: "{{count}} minutes"
+        other: "%{count} minutes"
       about_x_hours:
         one:   "about 1 hour"
-        other: "about {{count}} hours"
+        other: "about %{count} hours"
       x_days:
         one:   "1 day"
-        other: "{{count}} days"
+        other: "%{count} days"
       about_x_months:
         one:   "about 1 month"
-        other: "about {{count}} months"
+        other: "about %{count} months"
       x_months:
         one:   "1 month"
-        other: "{{count}} months"
+        other: "%{count} months"
       about_x_years:
         one:   "about 1 year"
-        other: "about {{count}} years"
+        other: "about %{count} years"
       over_x_years:
         one:   "over 1 year"
-        other: "over {{count}} years"
+        other: "over %{count} years"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number:
     format:
@@ -106,11 +106,11 @@ th:
         taken: "ถูกใช้ไปแล้ว"
         not_a_number: "ไม่ใช่ตัวเลข"
         not_a_date: "ไม่ใช่วันที่ ที่ถูกต้อง"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        greater_than: "must be greater than %{count}"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
         greater_than_start_date: "ต้องมากกว่าวันเริ่ม"
@@ -147,31 +147,31 @@ th:
   notice_file_not_found: หน้าที่คุณต้องการดูไม่มีอยู่จริง หรือถูกลบไปแล้ว.
   notice_locking_conflict: ข้อมูลถูกปรับปรุงโดยผู้ใช้คนอื่น.
   notice_not_authorized: คุณไม่มีสิทธิเข้าถึงหน้านี้.
-  notice_email_sent: "อีเมล์ได้ถูกส่งถึง {{value}}"
-  notice_email_error: "เกิดความผิดพลาดขณะกำส่งอีเมล์ ({{value}})"
+  notice_email_sent: "อีเมล์ได้ถูกส่งถึง %{value}"
+  notice_email_error: "เกิดความผิดพลาดขณะกำส่งอีเมล์ (%{value})"
   notice_feeds_access_key_reseted: RSS access key ของคุณถูก reset แล้ว.
-  notice_failed_to_save_issues: "{{count}} ปัญหาจาก {{total}} ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ: {{ids}}."
+  notice_failed_to_save_issues: "%{count} ปัญหาจาก %{total} ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ: %{ids}."
   notice_no_issue_selected: "ไม่มีปัญหาที่ถูกเลือก! กรุณาเลือกปัญหาที่คุณต้องการแก้ไข."
   notice_account_pending: "บัญชีของคุณสร้างเสร็จแล้ว ขณะนี้รอการอนุมัติจากผู้บริหารจัดการ."
   notice_default_data_loaded: ค่าเริ่มต้นโหลดเสร็จแล้ว.
   
-  error_can_t_load_default_data: "ค่าเริ่มต้นโหลดไม่สำเร็จ: {{value}}"
+  error_can_t_load_default_data: "ค่าเริ่มต้นโหลดไม่สำเร็จ: %{value}"
   error_scm_not_found: "ไม่พบรุ่นที่ต้องการในแหล่งเก็บต้นฉบับ."
-  error_scm_command_failed: "เกิดความผิดพลาดในการเข้าถึงแหล่งเก็บต้นฉบับ: {{value}}"
+  error_scm_command_failed: "เกิดความผิดพลาดในการเข้าถึงแหล่งเก็บต้นฉบับ: %{value}"
   error_scm_annotate: "entry ไม่มีอยู่จริง หรือไม่สามารถเขียนหมายเหตุประกอบ."
   error_issue_not_found_in_project: 'ไม่พบปัญหานี้ หรือปัญหาไม่ได้อยู่ในโครงการนี้'
   
-  mail_subject_lost_password: "รหัสผ่าน {{value}} ของคุณ"
+  mail_subject_lost_password: "รหัสผ่าน %{value} ของคุณ"
   mail_body_lost_password: 'คลิ๊กที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่าน:'
-  mail_subject_register: "เปิดบัญชี {{value}} ของคุณ"
+  mail_subject_register: "เปิดบัญชี %{value} ของคุณ"
   mail_body_register: 'คลิ๊กที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่าน:'
-  mail_body_account_information_external: "คุณสามารถใช้บัญชี {{value}} เพื่อเข้าสู่ระบบ."
+  mail_body_account_information_external: "คุณสามารถใช้บัญชี %{value} เพื่อเข้าสู่ระบบ."
   mail_body_account_information: ข้อมูลบัญชีของคุณ
-  mail_subject_account_activation_request: "กรุณาเปิดบัญชี {{value}}"
-  mail_body_account_activation_request: "ผู้ใช้ใหม่ ({{value}}) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:"
+  mail_subject_account_activation_request: "กรุณาเปิดบัญชี %{value}"
+  mail_body_account_activation_request: "ผู้ใช้ใหม่ (%{value}) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:"
   
   gui_validation_error: 1 ข้อผิดพลาด
-  gui_validation_error_plural: "{{count}} ข้อผิดพลาด"
+  gui_validation_error_plural: "%{count} ข้อผิดพลาด"
   
   field_name: ชื่อ
   field_description: รายละเอียด
@@ -306,14 +306,14 @@ th:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: โครงการทั้งหมด
   label_project_latest: โครงการล่าสุด
   label_issue: ปัญหา
   label_issue_new: ปัญหาใหม่
   label_issue_plural: ปัญหา
   label_issue_view_all: ดูปัญหาทั้งหมด
-  label_issues_by: "ปัญหาโดย {{value}}"
+  label_issues_by: "ปัญหาโดย %{value}"
   label_issue_added: ปัญหาถูกเพิ่ม
   label_issue_updated: ปัญหาถูกปรับปรุง
   label_document: เอกสาร
@@ -381,8 +381,8 @@ th:
   label_text: ข้อความขนาดยาว
   label_attribute: คุณลักษณะ
   label_attribute_plural: คุณลักษณะ
-  label_download: "{{count}} ดาวน์โหลด"
-  label_download_plural: "{{count}} ดาวน์โหลด"
+  label_download: "%{count} ดาวน์โหลด"
+  label_download_plural: "%{count} ดาวน์โหลด"
   label_no_data: จำนวนข้อมูลที่แสดง
   label_change_status: เปลี่ยนสถานะ
   label_history: ประวัติ
@@ -413,17 +413,17 @@ th:
   label_closed_issues: ปิด
   label_closed_issues_plural: ปิด
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: จำนวนรวม
   label_permissions: สิทธิ
   label_current_status: สถานะปัจจุบัน
@@ -441,7 +441,7 @@ th:
   label_months_from: เดือนจาก
   label_gantt: Gantt
   label_internal: ภายใน
-  label_last_changes: "last {{count}} เปลี่ยนแปลง"
+  label_last_changes: "last %{count} เปลี่ยนแปลง"
   label_change_view_all: ดูการเปลี่ยนแปลงทั้งหมด
   label_personalize_page: ปรับแต่งหน้านี้
   label_comment: ความเห็น
@@ -449,7 +449,7 @@ th:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: เพิ่มความเห็น
   label_comment_added: ความเห็นถูกเพิ่ม
   label_comment_delete: ลบความเห็น
@@ -468,7 +468,7 @@ th:
   label_yesterday: เมื่อวาน
   label_this_week: อาทิตย์นี้
   label_last_week: อาทิตย์ที่แล้ว
-  label_last_n_days: "{{count}} วันย้อนหลัง"
+  label_last_n_days: "%{count} วันย้อนหลัง"
   label_this_month: เดือนนี้
   label_last_month: เดือนที่แล้ว
   label_this_year: ปีนี้
@@ -482,8 +482,8 @@ th:
   label_repository: ที่เก็บต้นฉบับ
   label_repository_plural: ที่เก็บต้นฉบับ
   label_browse: เปิดหา
-  label_modification: "{{count}} เปลี่ยนแปลง"
-  label_modification_plural: "{{count}} เปลี่ยนแปลง"
+  label_modification: "%{count} เปลี่ยนแปลง"
+  label_modification_plural: "%{count} เปลี่ยนแปลง"
   label_revision: การแก้ไข
   label_revision_plural: การแก้ไข
   label_associated_revisions: การแก้ไขที่เกี่ยวข้อง
@@ -499,8 +499,8 @@ th:
   label_sort_lower: ย้ายลง
   label_sort_lowest: ย้ายไปล่างสุด
   label_roadmap: แผนงาน
-  label_roadmap_due_in: "ถึงกำหนดใน {{value}}"
-  label_roadmap_overdue: "{{value}} ช้ากว่ากำหนด"
+  label_roadmap_due_in: "ถึงกำหนดใน %{value}"
+  label_roadmap_overdue: "%{value} ช้ากว่ากำหนด"
   label_roadmap_no_issues: ไม่มีปัญหาสำหรับรุ่นนี้
   label_search: ค้นหา
   label_result_plural: ผลการค้นหา
@@ -518,8 +518,8 @@ th:
   label_changes_details: รายละเอียดการเปลี่ยนแปลงทั้งหมด
   label_issue_tracking: ติดตามปัญหา
   label_spent_time: เวลาที่ใช้
-  label_f_hour: "{{value}} ชั่วโมง"
-  label_f_hour_plural: "{{value}} ชั่วโมง"
+  label_f_hour: "%{value} ชั่วโมง"
+  label_f_hour_plural: "%{value} ชั่วโมง"
   label_time_tracking: ติดตามการใช้เวลา
   label_change_plural: เปลี่ยนแปลง
   label_statistics: สถิติ
@@ -567,12 +567,12 @@ th:
   label_date_from: จาก
   label_date_to: ถึง
   label_language_based: ขึ้นอยู่กับภาษาของผู้ใช้
-  label_sort_by: "เรียงโดย {{value}}"
+  label_sort_by: "เรียงโดย %{value}"
   label_send_test_email: ส่งจดหมายทดสอบ
-  label_feeds_access_key_created_on: "RSS access key สร้างเมื่อ {{value}} ที่ผ่านมา"
+  label_feeds_access_key_created_on: "RSS access key สร้างเมื่อ %{value} ที่ผ่านมา"
   label_module_plural: ส่วนประกอบ
-  label_added_time_by: "เพิ่มโดย {{author}} {{age}} ที่ผ่านมา"
-  label_updated_time: "ปรับปรุง {{value}} ที่ผ่านมา"
+  label_added_time_by: "เพิ่มโดย %{author} %{age} ที่ผ่านมา"
+  label_updated_time: "ปรับปรุง %{value} ที่ผ่านมา"
   label_jump_to_a_project: ไปที่โครงการ...
   label_file_plural: แฟ้ม
   label_changeset_plural: กลุ่มการเปลี่ยนแปลง
@@ -588,7 +588,7 @@ th:
   label_registration_activation_by_email: เปิดบัญชีผ่านอีเมล์
   label_registration_manual_activation: อนุมัติโดยผู้บริหารจัดการ
   label_registration_automatic_activation: เปิดบัญชีอัตโนมัติ
-  label_display_per_page: "ต่อหน้า: {{value}}"
+  label_display_per_page: "ต่อหน้า: %{value}"
   label_age: อายุ
   label_change_properties: เปลี่ยนคุณสมบัติ
   label_general: ทั่วๆ ไป
@@ -650,36 +650,36 @@ th:
   text_regexp_info: ตัวอย่าง ^[A-Z0-9]+$
   text_min_max_length_info: 0 หมายถึงไม่จำกัด
   text_project_destroy_confirmation: คุณแน่ใจไหมว่าต้องการลบโครงการและข้อมูลที่เกี่ยวข้่อง ?
-  text_subprojects_destroy_warning: "โครงการย่อย: {{value}} จะถูกลบด้วย."
+  text_subprojects_destroy_warning: "โครงการย่อย: %{value} จะถูกลบด้วย."
   text_workflow_edit: เลือกบทบาทและการติดตาม เพื่อแก้ไขลำดับงาน
   text_are_you_sure: คุณแน่ใจไหม ?
   text_tip_issue_begin_day: งานที่เริ่มวันนี้
   text_tip_issue_end_day: งานที่จบวันนี้
   text_tip_issue_begin_end_day: งานที่เริ่มและจบวันนี้
   text_project_identifier_info: 'ภาษาอังกฤษตัวเล็ก(a-z), ตัวเลข(0-9) และขีด (-) เท่านั้น.<br />เมื่อจัดเก็บแล้ว, ชื่อเฉพาะไม่สามารถเปลี่ยนแปลงได้'
-  text_caracters_maximum: "สูงสุด {{count}} ตัวอักษร."
-  text_caracters_minimum: "ต้องยาวอย่างน้อย {{count}} ตัวอักษร."
-  text_length_between: "ความยาวระหว่าง {{min}} ถึง {{max}} ตัวอักษร."
+  text_caracters_maximum: "สูงสุด %{count} ตัวอักษร."
+  text_caracters_minimum: "ต้องยาวอย่างน้อย %{count} ตัวอักษร."
+  text_length_between: "ความยาวระหว่าง %{min} ถึง %{max} ตัวอักษร."
   text_tracker_no_workflow: ไม่ได้บัญญัติลำดับงานสำหรับการติดตามนี้
   text_unallowed_characters: ตัวอักษรต้องห้าม
   text_comma_separated: ใส่ได้หลายค่า โดยคั่นด้วยลูกน้ำ( ,).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "ปัญหา {{id}} ถูกแจ้งโดย {{author}}."
-  text_issue_updated: "ปัญหา {{id}} ถูกปรับปรุงโดย {{author}}."
+  text_issue_added: "ปัญหา %{id} ถูกแจ้งโดย %{author}."
+  text_issue_updated: "ปัญหา %{id} ถูกปรับปรุงโดย %{author}."
   text_wiki_destroy_confirmation: คุณแน่ใจหรือว่าต้องการลบ wiki นี้พร้อมทั้งเนี้อหา?
-  text_issue_category_destroy_question: "บางปัญหา ({{count}}) อยู่ในประเภทนี้. คุณต้องการทำอย่างไร ?"
+  text_issue_category_destroy_question: "บางปัญหา (%{count}) อยู่ในประเภทนี้. คุณต้องการทำอย่างไร ?"
   text_issue_category_destroy_assignments: ลบประเภทนี้
   text_issue_category_reassign_to: ระบุปัญหาในประเภทนี้
   text_user_mail_option: "ในโครงการที่ไม่ได้เลือก, คุณจะได้รับการแจ้งเกี่ยวกับสิ่งที่คุณเฝ้าดูหรือมีส่วนเกี่ยวข้อง (เช่นปัญหาที่คุณแจ้งไว้หรือได้รับมอบหมาย)."
   text_no_configuration_data: "บทบาท, การติดตาม, สถานะปัญหา และลำดับงานยังไม่ได้ถูกตั้งค่า.\nขอแนะนำให้โหลดค่าเริ่มต้น. คุณสามารถแก้ไขค่าได้หลังจากโหลดแล้ว."
   text_load_default_configuration: โหลดค่าเริ่มต้น
-  text_status_changed_by_changeset: "ประยุกต์ใช้ในกลุ่มการเปลี่ยนแปลง {{value}}."
+  text_status_changed_by_changeset: "ประยุกต์ใช้ในกลุ่มการเปลี่ยนแปลง %{value}."
   text_issues_destroy_confirmation: 'คุณแน่ใจไหมว่าต้องการลบปัญหา(ทั้งหลาย)ที่เลือกไว้?'
   text_select_project_modules: 'เลือกส่วนประกอบที่ต้องการใช้งานสำหรับโครงการนี้:'
   text_default_administrator_account_changed: ค่าเริ่มต้นของบัญชีผู้บริหารจัดการถูกเปลี่ยนแปลง
   text_file_repository_writable: ที่เก็บต้นฉบับสามารถเขียนได้
   text_rmagick_available: RMagick มีให้ใช้ (เป็นตัวเลือก)
-  text_destroy_time_entries_question: "{{hours}} ชั่วโมงที่ถูกแจ้งในปัญหานี้จะโดนลบ. คุณต้องการทำอย่างไร?"
+  text_destroy_time_entries_question: "%{hours} ชั่วโมงที่ถูกแจ้งในปัญหานี้จะโดนลบ. คุณต้องการทำอย่างไร?"
   text_destroy_time_entries: ลบเวลาที่รายงานไว้
   text_assign_time_entries_to_project: ระบุเวลาที่ใช้ในโครงการนี้
   text_reassign_time_entries: 'ระบุเวลาที่ใช้ในโครงการนี่อีกครั้ง:'
@@ -709,14 +709,14 @@ th:
   enumeration_issue_priorities: ความสำคัญของปัญหา
   enumeration_doc_categories: ประเภทเอกสาร
   enumeration_activities: กิจกรรม (ใช้ในการติดตามเวลา)
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
-  text_user_wrote: "{{value}} wrote:"
+  label_and_its_subprojects: "%{value} and its subprojects"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  text_user_wrote: "%{value} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails
@@ -782,12 +782,12 @@ th:
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   permission_edit_own_messages: Edit own messages
   permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_user_activity: "%{value}'s activity"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and continue
   text_custom_field_possible_values_info: 'One line for each value'
   label_display: Display
@@ -802,21 +802,21 @@ th:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -824,14 +824,14 @@ th:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
   label_group_plural: Groups
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -866,9 +866,9 @@ th:
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -895,12 +895,12 @@ th:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -908,7 +908,7 @@ th:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -925,7 +925,7 @@ th:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

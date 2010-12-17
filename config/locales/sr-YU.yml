@@ -34,37 +34,37 @@ sr-YU:
       half_a_minute: "pola minuta"
       less_than_x_seconds:
         one:   "manje od jedne sekunde"
-        other: "manje od {{count}} sek."
+        other: "manje od %{count} sek."
       x_seconds:
         one:   "jedna sekunda"
-        other: "{{count}} sek."
+        other: "%{count} sek."
       less_than_x_minutes:
         one:   "manje od minuta"
-        other: "manje od {{count}} min."
+        other: "manje od %{count} min."
       x_minutes:
         one:   "jedan minut"
-        other: "{{count}} min."
+        other: "%{count} min."
       about_x_hours:
         one:   "približno jedan sat"
-        other: "približno {{count}} sati"
+        other: "približno %{count} sati"
       x_days:
         one:   "jedan dan"
-        other: "{{count}} dana"
+        other: "%{count} dana"
       about_x_months:
         one:   "približno jedan mesec"
-        other: "približno {{count}} meseci"
+        other: "približno %{count} meseci"
       x_months:
         one:   "jedan mesec"
-        other: "{{count}} meseci"
+        other: "%{count} meseci"
       about_x_years:
         one:   "približno godinu dana"
-        other: "približno {{count}} god."
+        other: "približno %{count} god."
       over_x_years:
         one:   "preko godinu dana"
-        other: "preko {{count}} god."
+        other: "preko %{count} god."
       almost_x_years:
         one:   "skoro godinu dana"
-        other: "skoro {{count}} god."
+        other: "skoro %{count} god."
 
   number:
     format:
@@ -103,17 +103,17 @@ sr-YU:
         accepted: "mora biti prihvaćen"
         empty: "ne može biti prazno"
         blank: "ne može biti prazno"
-        too_long: "je predugačka (maksimum znakova je {{count}})"
-        too_short: "je prekratka (minimum znakova je {{count}})"
-        wrong_length: "je pogrešne dužine (broj znakova mora biti {{count}})"
+        too_long: "je predugačka (maksimum znakova je %{count})"
+        too_short: "je prekratka (minimum znakova je %{count})"
+        wrong_length: "je pogrešne dužine (broj znakova mora biti %{count})"
         taken: "je već u upotrebi"
         not_a_number: "nije broj"
         not_a_date: "nije ispravan datum"
-        greater_than: "mora biti veći od {{count}}"
-        greater_than_or_equal_to: "mora biti veći ili jednak {{count}}"
-        equal_to: "mora biti jednak {{count}}"
-        less_than: "mora biti manji od {{count}}"
-        less_than_or_equal_to: "mora biti manji ili jednak {{count}}"
+        greater_than: "mora biti veći od %{count}"
+        greater_than_or_equal_to: "mora biti veći ili jednak %{count}"
+        equal_to: "mora biti jednak %{count}"
+        less_than: "mora biti manji od %{count}"
+        less_than_or_equal_to: "mora biti manji ili jednak %{count}"
         odd: "mora biti paran"
         even: "mora biti neparan"
         greater_than_start_date: "mora biti veći od početnog datuma"
@@ -150,12 +150,12 @@ sr-YU:
   notice_file_not_found: Strana kojoj želite pristupiti ne postoji ili je uklonjena.
   notice_locking_conflict: Podatak je ažuriran od strane drugog korisnika.
   notice_not_authorized: Niste ovlašćeni za pristup ovoj strani.
-  notice_email_sent: "E-poruka je poslata na {{value}}"
-  notice_email_error: "Dogodila se greška prilikom slanja e-poruke ({{value}})"
+  notice_email_sent: "E-poruka je poslata na %{value}"
+  notice_email_error: "Dogodila se greška prilikom slanja e-poruke (%{value})"
   notice_feeds_access_key_reseted: Vaš RSS pristupni ključ je poništen.
   notice_api_access_key_reseted: Vaš API pristupni ključ je poništen.
-  notice_failed_to_save_issues: "Neuspešno snimanje {{count}} problema od {{total}} odabranih: {{ids}}."
-  notice_failed_to_save_members: "Neuspešno snimanje člana(ova): {{errors}}."
+  notice_failed_to_save_issues: "Neuspešno snimanje %{count} problema od %{total} odabranih: %{ids}."
+  notice_failed_to_save_members: "Neuspešno snimanje člana(ova): %{errors}."
   notice_no_issue_selected: "Ni jedan problem nije odabran! Molimo, odaberite problem koji želite da menjate."
   notice_account_pending: "Vaš nalog je kreiran i čeka na odobrenje administratora."
   notice_default_data_loaded: Podrazumevano konfigurisanje je uspešno učitano.
@@ -163,9 +163,9 @@ sr-YU:
   notice_unable_delete_time_entry: Stavku evidencije vremena je nemoguće izbrisati.
   notice_issue_done_ratios_updated: Odnos rešenih problema je ažuriran.
   
-  error_can_t_load_default_data: "Podrazumevano konfigurisanje je nemoguće učitati: {{value}}"
+  error_can_t_load_default_data: "Podrazumevano konfigurisanje je nemoguće učitati: %{value}"
   error_scm_not_found: "Stavka ili ispravka nisu pronađene u spremištu."
-  error_scm_command_failed: "Greška se javila prilikom pokušaja pristupa spremištu: {{value}}"
+  error_scm_command_failed: "Greška se javila prilikom pokušaja pristupa spremištu: %{value}"
   error_scm_annotate: "Stavka ne postoji ili ne može biti označena."
   error_issue_not_found_in_project: 'Problem nije pronađen ili ne pripada ovom projektu.'
   error_no_tracker_in_project: 'Ni jedno praćenje nije povezano sa ovim projektom. Molimo proverite podešavanja projekta.'
@@ -179,26 +179,26 @@ sr-YU:
   error_workflow_copy_source: 'Molimo odaberite izvorno praćenje ili ulogu'
   error_workflow_copy_target: 'Molimo odaberite odredišno praćenje i ulogu'
   error_unable_delete_issue_status: 'Status problema je nemoguće obrisati'
-  error_unable_to_connect: "Povezivanje sa ({{value}}) je nemoguće"  
-  warning_attachments_not_saved: "{{count}} datoteka ne može biti snimljena."
+  error_unable_to_connect: "Povezivanje sa (%{value}) je nemoguće"  
+  warning_attachments_not_saved: "%{count} datoteka ne može biti snimljena."
   
-  mail_subject_lost_password: "Vaša {{value}} lozinka"
+  mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_body_lost_password: 'Za promenu vaše lozinke, kliknite na sledeći link:'
-  mail_subject_register: "Aktivacija vašeg {{value}} naloga"
+  mail_subject_register: "Aktivacija vašeg %{value} naloga"
   mail_body_register: 'Za aktivaciju vašeg naloga, kliknite na sledeći link:'
-  mail_body_account_information_external: "Vaš nalog {{value}} možete koristiti za prijavu."
+  mail_body_account_information_external: "Vaš nalog %{value} možete koristiti za prijavu."
   mail_body_account_information: Informacije o vašem nalogu
-  mail_subject_account_activation_request: "Zahtev za aktivaciju naloga {{value}}"
-  mail_body_account_activation_request: "Novi korisnik ({{value}}) je registrovan. Nalog čeka na vaše odobrenje:"
-  mail_subject_reminder: "{{count}} problema dospeva narednih {{days}} dana"
-  mail_body_reminder: "{{count}} problema dodeljenih vama dospeva u narednih {{days}} dana:"
-  mail_subject_wiki_content_added: "Wiki stranica '{{id}}' je dodata"
-  mail_body_wiki_content_added: "{{author}} je dodao wiki stranicu '{{id}}'."
-  mail_subject_wiki_content_updated: "Wiki stranica '{{id}}' je ažurirana"
-  mail_body_wiki_content_updated: "{{author}} je ažurirao wiki stranicu '{{id}}'."
+  mail_subject_account_activation_request: "Zahtev za aktivaciju naloga %{value}"
+  mail_body_account_activation_request: "Novi korisnik (%{value}) je registrovan. Nalog čeka na vaše odobrenje:"
+  mail_subject_reminder: "%{count} problema dospeva narednih %{days} dana"
+  mail_body_reminder: "%{count} problema dodeljenih vama dospeva u narednih %{days} dana:"
+  mail_subject_wiki_content_added: "Wiki stranica '%{id}' je dodata"
+  mail_body_wiki_content_added: "%{author} je dodao wiki stranicu '%{id}'."
+  mail_subject_wiki_content_updated: "Wiki stranica '%{id}' je ažurirana"
+  mail_body_wiki_content_updated: "%{author} je ažurirao wiki stranicu '%{id}'."
   
   gui_validation_error: jedna greška
-  gui_validation_error_plural: "{{count}} grešaka"
+  gui_validation_error_plural: "%{count} grešaka"
   
   field_name: Naziv
   field_description: Opis
@@ -421,14 +421,14 @@ sr-YU:
   label_x_projects:
     zero:  nema projekata
     one:   jedan projekat
-    other: "{{count}} projekata"
+    other: "%{count} projekata"
   label_project_all: Svi projekti
   label_project_latest: Poslednji projekti
   label_issue: Problem
   label_issue_new: Novi problem
   label_issue_plural: Problemi
   label_issue_view_all: Prikaz svih problema
-  label_issues_by: "Problemi ({{value}})"
+  label_issues_by: "Problemi (%{value})"
   label_issue_added: Problem je dodat
   label_issue_updated: Problem je ažuriran
   label_document: Dokument
@@ -478,7 +478,7 @@ sr-YU:
   label_registered_on: Registrovan
   label_activity: Aktivnost
   label_overall_activity: Celokupna aktivnost
-  label_user_activity: "Aktivnost korisnika {{value}}"
+  label_user_activity: "Aktivnost korisnika %{value}"
   label_new: Novo
   label_logged_as: Prijavljeni ste kao
   label_environment: Okruženje
@@ -488,7 +488,7 @@ sr-YU:
   label_auth_source_plural: Režimi potvrde identiteta
   label_subproject_plural: Potprojekti
   label_subproject_new: Novi potprojekat
-  label_and_its_subprojects: "{{value}} i njegovi potprojekti"
+  label_and_its_subprojects: "%{value} i njegovi potprojekti"
   label_min_max_length: Min. - Maks. dužina
   label_list: Spisak
   label_date: Datum
@@ -499,8 +499,8 @@ sr-YU:
   label_text: Dugi tekst
   label_attribute: Osobina
   label_attribute_plural: Osobine
-  label_download: "{{count}} preuzimanje"
-  label_download_plural: "{{count}} preuzimanja"
+  label_download: "%{count} preuzimanje"
+  label_download_plural: "%{count} preuzimanja"
   label_no_data: Nema podataka za prikazivanje
   label_change_status: Promena statusa
   label_history: Istorija
@@ -532,17 +532,17 @@ sr-YU:
   label_closed_issues: zatvoren
   label_closed_issues_plural: zatvorenih
   label_x_open_issues_abbr_on_total:
-    zero:  0 otvorenih / {{total}}
-    one:   1 otvoren / {{total}}
-    other: "{{count}} otvorenih / {{total}}"
+    zero:  0 otvorenih / %{total}
+    one:   1 otvoren / %{total}
+    other: "%{count} otvorenih / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otvorenih
     one:   1 otvoren
-    other: "{{count}} otvorenih"
+    other: "%{count} otvorenih"
   label_x_closed_issues_abbr:
     zero:  0 zatvorenih
     one:   1 zatvoren
-    other: "{{count}} zatvorenih"
+    other: "%{count} zatvorenih"
   label_total: Ukupno
   label_permissions: Dozvole
   label_current_status: Trenutni status
@@ -560,7 +560,7 @@ sr-YU:
   label_months_from: meseci od
   label_gantt: Gantov dijagram
   label_internal: Unutrašnji
-  label_last_changes: "poslednjih {{count}} promena"
+  label_last_changes: "poslednjih %{count} promena"
   label_change_view_all: Prikaži sve promene
   label_personalize_page: Personalizuj ovu stranu
   label_comment: Komentar
@@ -568,7 +568,7 @@ sr-YU:
   label_x_comments:
     zero: bez komentara
     one: jedan komentar
-    other: "{{count}} komentara"
+    other: "%{count} komentara"
   label_comment_add: Dodaj komentar
   label_comment_added: Komentar dodat
   label_comment_delete: Obriši komentare
@@ -589,7 +589,7 @@ sr-YU:
   label_yesterday: juče
   label_this_week: ove sedmice
   label_last_week: poslednje sedmice
-  label_last_n_days: "poslednjih {{count}} dana"
+  label_last_n_days: "poslednjih %{count} dana"
   label_this_month: ovog meseca
   label_last_month: poslednjeg meseca
   label_this_year: ove godine
@@ -603,13 +603,13 @@ sr-YU:
   label_repository: Spremište
   label_repository_plural: Spremišta
   label_browse: Pregledanje
-  label_modification: "{{count}} promena"
-  label_modification_plural: "{{count}} promena"
+  label_modification: "%{count} promena"
+  label_modification_plural: "%{count} promena"
   label_branch: Grana
   label_tag: Oznaka
   label_revision: Revizija
   label_revision_plural: Revizije
-  label_revision_id: "Revizija {{value}}"
+  label_revision_id: "Revizija %{value}"
   label_associated_revisions: Pridružene revizije
   label_added: dodato
   label_modified: promenjeno
@@ -626,8 +626,8 @@ sr-YU:
   label_sort_lower: Premeštanje na dole
   label_sort_lowest: Premeštanje na dno
   label_roadmap: Plan rada
-  label_roadmap_due_in: "Dospeva {{value}}"
-  label_roadmap_overdue: "{{value}} najkasnije"
+  label_roadmap_due_in: "Dospeva %{value}"
+  label_roadmap_overdue: "%{value} najkasnije"
   label_roadmap_no_issues: Nema problema za ovu verziju
   label_search: Pretraga
   label_result_plural: Rezultati
@@ -646,8 +646,8 @@ sr-YU:
   label_issue_tracking: Praćenje problema
   label_spent_time: Utrošeno vreme
   label_overall_spent_time: Celokupno utrošeno vreme
-  label_f_hour: "{{value}} sat"
-  label_f_hour_plural: "{{value}} sati"
+  label_f_hour: "%{value} sat"
+  label_f_hour_plural: "%{value} sati"
   label_time_tracking: Praćenje vremena
   label_change_plural: Promene
   label_statistics: Statistika
@@ -698,15 +698,15 @@ sr-YU:
   label_date_from: Šalje
   label_date_to: Prima
   label_language_based: Bazirano na jeziku korisnika
-  label_sort_by: "Sortirano po {{value}}"
+  label_sort_by: "Sortirano po %{value}"
   label_send_test_email: Slanje probne e-poruke
   label_feeds_access_key: RSS pristupni ključ
   label_missing_feeds_access_key: RSS pristupni ključ nedostaje
-  label_feeds_access_key_created_on: "RSS pristupni ključ je napravljen pre {{value}}"
+  label_feeds_access_key_created_on: "RSS pristupni ključ je napravljen pre %{value}"
   label_module_plural: Moduli
-  label_added_time_by: "Dodao {{author}} pre {{age}}"
-  label_updated_time_by: "Ažurirao {{author}} pre {{age}}"
-  label_updated_time: "Ažurirano pre {{value}}"
+  label_added_time_by: "Dodao %{author} pre %{age}"
+  label_updated_time_by: "Ažurirao %{author} pre %{age}"
+  label_updated_time: "Ažurirano pre %{value}"
   label_jump_to_a_project: Skok na projekat...
   label_file_plural: Datoteke
   label_changeset_plural: Skupovi promena
@@ -722,7 +722,7 @@ sr-YU:
   label_registration_activation_by_email: aktivacija naloga putem e-poruke
   label_registration_manual_activation: ručna aktivacija naloga
   label_registration_automatic_activation: automatska aktivacija naloga
-  label_display_per_page: "Broj stavki po stranici: {{value}}"
+  label_display_per_page: "Broj stavki po stranici: %{value}"
   label_age: Starost
   label_change_properties: Promeni svojstva
   label_general: Opšti
@@ -745,7 +745,7 @@ sr-YU:
   label_sort: Sortiranje
   label_ascending: Rastući niz
   label_descending: Opadajući niz
-  label_date_from_to: Od {{start}} do {{end}}
+  label_date_from_to: Od %{start} do %{end}
   label_wiki_content_added: Wiki stranica je dodata
   label_wiki_content_updated: Wiki stranica je ažurirana
   label_group: Grupa
@@ -764,7 +764,7 @@ sr-YU:
   label_display_used_statuses_only: Prikazuj statuse korišćene samo od strane ovog praćenja
   label_api_access_key: API pristupni ključ
   label_missing_api_access_key: Nedostaje API pristupni ključ
-  label_api_access_key_created_on: "API pristupni ključ je kreiran pre {{value}}"
+  label_api_access_key_created_on: "API pristupni ključ je kreiran pre %{value}"
   label_profile: Profil
   label_subtask_plural: Podzadatak
   label_project_copy_notifications: Pošalji e-poruku sa obaveštenjem prilikom kopiranja projekta 
@@ -827,53 +827,53 @@ sr-YU:
   text_regexp_info: npr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znači bez ograničenja
   text_project_destroy_confirmation: Jeste li sigurni da želite da izbrišete ovaj projekat i sve pripadajuće podatke?
-  text_subprojects_destroy_warning: "Potprojekti: {{value}} će takođe biti izbrisan."
+  text_subprojects_destroy_warning: "Potprojekti: %{value} će takođe biti izbrisan."
   text_workflow_edit: Odaberite ulogu i praćenje za izmenu toka posla
   text_are_you_sure: Jeste li sigurni?
-  text_journal_changed: "{{label}} promenjen od {{old}} u {{new}}"
-  text_journal_set_to: "{{label}} postavljen u {{value}}"
-  text_journal_deleted: "{{label}} izbrisano ({{old}})"
-  text_journal_added: "{{label}} {{value}} dodato"
+  text_journal_changed: "%{label} promenjen od %{old} u %{new}"
+  text_journal_set_to: "%{label} postavljen u %{value}"
+  text_journal_deleted: "%{label} izbrisano (%{old})"
+  text_journal_added: "%{label} %{value} dodato"
   text_tip_issue_begin_day: zadatak počinje ovog dana
   text_tip_issue_end_day: zadatak se završava ovog dana
   text_tip_issue_begin_end_day: zadatak počinje i završava ovog dana
   text_project_identifier_info: 'Dozvoljena su samo mala slova (a-š), brojevi i crtice.<br />Jednom snimljen identifikator više se ne može promeniti.'
-  text_caracters_maximum: "Najviše {{count}} znak(ova)."
-  text_caracters_minimum: "Broj znakova mora biti najmanje {{count}}."
-  text_length_between: "Broj znakova mora biti između {{min}} i {{max}}."
+  text_caracters_maximum: "Najviše %{count} znak(ova)."
+  text_caracters_minimum: "Broj znakova mora biti najmanje %{count}."
+  text_length_between: "Broj znakova mora biti između %{min} i %{max}."
   text_tracker_no_workflow: Ovo praćenje nema definisan tok posla
   text_unallowed_characters: Nedozvoljeni znakovi
   text_comma_separated: Dozvoljene su višestruke vrednosti (odvojene zarezom).
   text_line_separated: Dozvoljene su višestruke vrednosti (jedan red za svaku vrednost).
   text_issues_ref_in_commit_messages: Referenciranje i popravljanje problema u izvršnim porukama
-  text_issue_added: "{{author}} je prijavio problem {{id}}."
-  text_issue_updated: "{{author}} je ažurirao problem {{id}}."
+  text_issue_added: "%{author} je prijavio problem %{id}."
+  text_issue_updated: "%{author} je ažurirao problem %{id}."
   text_wiki_destroy_confirmation: Jeste li sigurni da želite da obrišete wiki i sav sadržaj?
-  text_issue_category_destroy_question: "Nekoliko problema ({{count}}) je dodeljeno ovoj kategoriji. Šta želite da uradite?"
+  text_issue_category_destroy_question: "Nekoliko problema (%{count}) je dodeljeno ovoj kategoriji. Šta želite da uradite?"
   text_issue_category_destroy_assignments: Ukloni dodeljene kategorije
   text_issue_category_reassign_to: Dodeli ponovo probleme ovoj kategoriji
   text_user_mail_option: "Za neizabrane projekte, dobićete samo obaveštenje o stvarima koje pratite ili ste uključeni (npr. problemi čiji ste vi autor ili zastupnik)."
   text_no_configuration_data: "Uloge, praćenja, statusi problema i toka posla još uvek nisu podešeni.\nPreporučljivo je da učitate podrazumevano konfigurisanje. Izmena je moguća nakon prvog učitavanja."
   text_load_default_configuration: Učitaj podrazumevano konfigurisanje
-  text_status_changed_by_changeset: "Primenjeno u skupu sa promenama {{value}}."
+  text_status_changed_by_changeset: "Primenjeno u skupu sa promenama %{value}."
   text_issues_destroy_confirmation: 'Jeste li sigurni da želite da izbrišete odabrane probleme?'
   text_select_project_modules: 'Odaberite module koje želite omogućiti za ovaj projekat:'
   text_default_administrator_account_changed: Podrazumevani administratorski nalog je promenjen
   text_file_repository_writable: Fascikla priloženih datoteka je upisiva
   text_plugin_assets_writable: Fascikla elemenata dodatnih komponenti je upisiva
   text_rmagick_available: RMagick je dostupan (opciono)
-  text_destroy_time_entries_question: "{{hours}} sati je prijavljeno za ovaj problem koji želite izbrisati. Šta želite da uradite?"
+  text_destroy_time_entries_question: "%{hours} sati je prijavljeno za ovaj problem koji želite izbrisati. Šta želite da uradite?"
   text_destroy_time_entries: Izbriši prijavljene sate
   text_assign_time_entries_to_project: Dodeli prijavljene sate projektu
   text_reassign_time_entries: 'Dodeli ponovo prijavljene sate ovom problemu:'
-  text_user_wrote: "{{value}} je napisao:"
-  text_enumeration_destroy_question: "{{count}} objekat(a) je dodeljeno ovoj vrednosti."
+  text_user_wrote: "%{value} je napisao:"
+  text_enumeration_destroy_question: "%{count} objekat(a) je dodeljeno ovoj vrednosti."
   text_enumeration_category_reassign_to: 'Dodeli ih ponovo ovoj vrednosti:'
   text_email_delivery_not_configured: "Isporuka e-poruka nije konfigurisana i obaveštenja su onemogućena.\nPodesite vaš SMTP server u config/email.yml i pokrenite ponovo aplikaciju za njihovo omogućavanje."
   text_repository_usernames_mapping: "Odaberite ili ažurirajte Redmine korisnike mapiranjem svakog korisničkog imena pronađenog u evidenciji spremišta.\nKorisnici sa istim Redmine imenom i imenom spremišta ili e-adresom su automatski mapirani."
   text_diff_truncated: '... Ova razlika je isečena jer je dostignuta maksimalna veličina prikaza.'
   text_custom_field_possible_values_info: 'Jedan red za svaku vrednost'
-  text_wiki_page_destroy_question: "Ova stranica ima {{descendants}} podređenih stranica i podstranica. Šta želite da uradite?"
+  text_wiki_page_destroy_question: "Ova stranica ima %{descendants} podređenih stranica i podstranica. Šta želite da uradite?"
   text_wiki_page_nullify_children: "Zadrži podređene stranice kao korene stranice"
   text_wiki_page_destroy_children: "Izbriši podređene stranice i sve njihove podstranice"
   text_wiki_page_reassign_children: "Dodeli ponovo podređene stranice ovoj matičnoj stranici"
@@ -911,7 +911,7 @@ sr-YU:
   field_time_entries: Vreme evidencije
   project_module_gantt: Gantov dijagram
   project_module_calendar: Kalendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -928,7 +928,7 @@ sr-YU:
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset {{value}}.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed ({{max}})
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
