@@ -587,22 +587,9 @@ module Redmine
         if issue.is_a?(Issue) && issue.due_before
           case options[:format]
           when :html
-            output = ''
-            css = "task " + (issue.leaf? ? 'leaf' : 'parent')
-            
             coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
-            if coords[:bar_start] && coords[:bar_end]
-              output << html_task(options[:top], coords, css)
-  
-              output << "<div class='tooltip' style='position: absolute;top:#{ options[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
-              output << '<span class="tip">'
-              output << view.render_issue_tooltip(issue)
-              output << "</span></div>"
-            end
-            
-            output << "<div style='top:#{ options[:top] }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{css} label issue-name'>"
-            output << "#{ issue.status.name } #{ issue.done_ratio }%"
-            output << "</div>"
+            css = "task " + (issue.leaf? ? 'leaf' : 'parent')
+            output = html_task(options[:top], coords, :css => css, :label => "#{ issue.status.name } #{ issue.done_ratio }%", :issue => issue)
             
             @lines << output
             output
@@ -1017,14 +1004,31 @@ module Redmine
         end
       end
       
-      def html_task(top, coords, css)
-        output = "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{css} task_todo'>&nbsp;</div>"
-        
-        if coords[:bar_late_end]
-          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{css} task_late'>&nbsp;</div>"
+      def html_task(top, coords, options={})
+        output = ''
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+          
+          if coords[:bar_late_end]
+            output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
+          end
+          if coords[:bar_progress_end]
+            output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+          end
         end
-        if coords[:bar_progress_end]
-          output << "<div style='top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{css} task_done'>&nbsp;</div>"
+        # Renders the label on the right
+        if options[:label]
+          output << "<div style='top:#{ top }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{options[:css]} label'>"
+          output << options[:label]
+          output << "</div>"
+        end
+        # Renders the tooltip
+        if options[:issue] && coords[:bar_start] && coords[:bar_end]
+          output << "<div class='tooltip' style='position: absolute;top:#{ top }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
+          output << '<span class="tip">'
+          output << view.render_issue_tooltip(options[:issue])
+          output << "</span></div>"
         end
         
         output

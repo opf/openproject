@@ -235,7 +235,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     context "issue" do
       should "be rendered" do
         assert_select "div.task_todo"
-        assert_select "div.label.issue-name", /#{@issue.done_ratio}/
+        assert_select "div.task.label", /#{@issue.done_ratio}/
         assert_select "div.tooltip", /#{@issue.subject}/
       end
     end
@@ -692,17 +692,17 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.issue-name", true, @response.body
+          assert_select "div.task.label", true, @response.body
         end
 
         should "show the issue status" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.issue-name", /#{@issue.status.name}/
+          assert_select "div.task.label", /#{@issue.status.name}/
         end
 
         should "show the percent complete" do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.issue-name", /30%/
+          assert_select "div.task.label", /30%/
         end
       end
     end
