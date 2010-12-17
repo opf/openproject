@@ -1,4 +1,4 @@
-RAILS_ENV ||= "test"
+RAILS_ENV = "test" unless defined? RAILS_ENV
 
 # prevent case where we are using rubygems and test-unit 2.x is installed
 begin
