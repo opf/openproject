@@ -95,6 +95,10 @@ id:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "tidak termasuk dalam daftar"
         exclusion: "sudah dicadangkan"

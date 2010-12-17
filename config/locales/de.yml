@@ -111,7 +111,9 @@ de:
   activerecord:
     errors:
       template:
-        header: "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
+        header:
+          one:    "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
+          other:  "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
       messages:

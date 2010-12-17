@@ -97,6 +97,10 @@ eu:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "ez dago zerrendan"
         exclusion: "erreserbatuta dago"

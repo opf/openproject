@@ -93,6 +93,10 @@ hr:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "nije ukljuceno u listu"
         exclusion: "je rezervirano"

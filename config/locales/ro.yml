@@ -86,6 +86,10 @@ ro:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "nu este inclus în listă"
         exclusion: "este rezervat"

@@ -92,6 +92,10 @@ nl:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "staat niet in de lijst"
         exclusion: "is gereserveerd"
