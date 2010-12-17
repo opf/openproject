@@ -307,16 +307,9 @@ module Redmine
             @lines << output
             output
           when :image
-            options[:image].stroke('transparent')
-            i_left = options[:subject_width] + ((project.due_date - self.date_from)*options[:zoom]).floor
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > options[:subject_width]
-              options[:image].fill('blue')
-              options[:image].rectangle(i_left, options[:top], i_left + 6, options[:top] - 6)        
-              options[:image].fill('black')
-              options[:image].text(i_left + 11, options[:top] + 1, project.name)
-            end
+            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
+            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
+            image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
             coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
             label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
@@ -379,16 +372,10 @@ module Redmine
             @lines << output
             output
           when :image
-            options[:image].stroke('transparent')
-            i_left = options[:subject_width] + ((version.start_date - @date_from)*options[:zoom]).floor
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > options[:subject_width]
-              options[:image].fill('green')
-              options[:image].rectangle(i_left, options[:top], i_left + 6, options[:top] - 6)        
-              options[:image].fill('black')
-              options[:image].text(i_left + 11, options[:top] + 1, version.name)
-            end
+            coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
+            label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
+            label = h("#{version.project} -") + label unless @project && @project == version.project
+            image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
             coords = coordinates(version.fixed_issues.minimum('start_date'), version.due_date, version.completed_pourcent, options[:zoom])
             label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
@@ -468,43 +455,8 @@ module Redmine
             output
           
           when :image
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= @date_from
-                              issue.start_date
-                            else
-                              @date_from
-                            end
-
-            i_end_date = (issue.due_before <= date_to ? issue.due_before : date_to )        
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
-            i_done_date = (i_done_date >= date_to ? date_to : i_done_date )        
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = options[:subject_width] + ((i_start_date - @date_from)*options[:zoom]).floor 	
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom]).floor                  # total width of the issue
-            d_width = ((i_done_date - i_start_date)*options[:zoom]).floor                     # done width
-            l_width = i_late_date ? ((i_late_date - i_start_date+1)*options[:zoom]).floor : 0 # delay width
-
-            
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              options[:image].fill('grey')
-              options[:image].rectangle(i_left, options[:top], i_left + i_width, options[:top] - 6)
-              options[:image].fill('red')
-              options[:image].rectangle(i_left, options[:top], i_left + l_width, options[:top] - 6) if l_width > 0
-              options[:image].fill('blue')
-              options[:image].rectangle(i_left, options[:top], i_left + d_width, options[:top] - 6) if d_width > 0
-            end
-
-            # Show the status and % done next to the subject if it overflows
-            options[:image].fill('black')
-            if i_width > 0
-              options[:image].text(i_left + i_width + 5,options[:top] + 1, "#{issue.status.name} #{issue.done_ratio}%")
-            else
-              options[:image].text(options[:subject_width] + 5,options[:top] + 1, "#{issue.status.name} #{issue.done_ratio}%")            
-            end
+            coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+            image_task(options, coords, :label => "#{ issue.status.name } #{ issue.done_ratio }%")
 
           when :pdf
             coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
@@ -537,6 +489,7 @@ module Redmine
         gc = Magick::Draw.new
         
         # Subjects
+        gc.stroke('transparent')
         subjects(:image => gc, :top => (headers_heigth + 20), :indent => 4, :format => :image)
     
         # Months headers
@@ -615,7 +568,8 @@ module Redmine
             
         # content
         top = headers_heigth + 20
-        
+
+        gc.stroke('transparent')
         lines(:image => gc, :top => top, :zoom => zoom, :subject_width => subject_width, :format => :image)
         
         # today red line
@@ -907,6 +861,41 @@ module Redmine
         if options[:label]
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
           params[:pdf].Cell(30, 2, options[:label])
+        end
+      end
+
+      def image_task(params, coords, options={})
+        height = options[:height] || 6
+        
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          params[:image].fill('grey')
+          params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_end], params[:top] - height)
+ 
+          if coords[:bar_late_end]
+            params[:image].fill('red')
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_late_end], params[:top] - height)
+          end
+          if coords[:bar_progress_end]
+            params[:image].fill('green')
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_progress_end], params[:top] - height)
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            params[:image].fill('blue')
+            params[:image].rectangle(params[:subject_width] + coords[:start], params[:top] + 1, params[:subject_width] + coords[:start] + 4, params[:top] - 4)
+          end
+          if coords[:end]
+            params[:image].fill('blue')
+            params[:image].rectangle(params[:subject_width] + coords[:end], params[:top] + 1, params[:subject_width] + coords[:end] + 4, params[:top] - 4)
+          end
+        end
+        # Renders the label on the right
+        if options[:label]
+          params[:image].fill('black')
+          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,params[:top] + 1, options[:label])
         end
       end
     end
