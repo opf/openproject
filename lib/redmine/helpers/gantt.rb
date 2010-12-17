@@ -300,64 +300,10 @@ module Redmine
           
           case options[:format]
           when :html
-            output = ''
-            i_left = ((project.start_date - self.date_from)*options[:zoom]).floor
-
-            start_date = project.start_date
-            start_date ||= self.date_from
-            start_left = ((start_date - self.date_from)*options[:zoom]).floor
-
-            i_end_date = ((project.due_date <= self.date_to) ? project.due_date : self.date_to )
-            i_done_date = start_date + ((project.due_date - start_date+1)* project.completed_percent(:include_subprojects => true)/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
+            coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
+            label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
+            output = html_task(options[:top], coords, :css => "project task", :label => label, :markers => true)
             
-            i_late_date = [i_end_date, Date.today].min if start_date < Date.today
-            i_end = ((i_end_date - self.date_from) * options[:zoom]).floor
-
-            i_width = (i_end - i_left + 1).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
-
-            # Bar graphic
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_end > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ i_width }px;' class='task project_todo'>&nbsp;</div>"
-            end
-            
-            if l_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ l_width }px;' class='task project_late'>&nbsp;</div>"
-            end
-            if d_width > 0 && i_left <= options[:g_width]
-              output<< "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ d_width }px;' class='task project_done'>&nbsp;</div>"
-            end
-
-            
-            # Starting diamond
-            if start_left <= options[:g_width] && start_left > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:15px;' class='task project-line starting'>&nbsp;</div>"
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left + 12 }px;' class='task label'>"
-              output << "</div>"
-            end
-
-            # Ending diamond
-            # Don't show items too far ahead
-            if i_end <= options[:g_width] && i_end > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_end }px;width:15px;' class='task project-line ending'>&nbsp;</div>"
-            end
-
-            # DIsplay the Project name and %
-            if i_end <= options[:g_width]
-              # Display the status even if it's floated off to the left
-              status_px = i_end + 12 # 12px for the diamond
-              status_px = 0 if status_px <= 0
-
-              output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='task label project-name'>"
-              output << "<strong>#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%</strong>"
-              output << "</div>"
-            end
             @lines << output
             output
           when :image

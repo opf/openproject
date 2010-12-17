@@ -791,6 +791,7 @@ background-image:url('../images/close_hl.png');
 }
 
 .task.label {width:100%;}
+.task.label.project, .task.label.version { font-weight: bold; }
 
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
 .task_done { background:#00c600 url(../images/task_done.png); border: 1px solid #00c600; }  
@@ -806,10 +807,10 @@ background-image:url('../images/close_hl.png');
 .version.task_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
 .version.marker { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; }
 
-.project-line { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; }
-.project_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.project_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.project_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.project.task_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.project.task_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.project.task_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.project.marker { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; }
 
 .version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
 .version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
