@@ -257,37 +257,15 @@ module Redmine
       def subject_for_project(project, options)
         case options[:format]
         when :html
-          output = ''
-
-          output << "<div class='project-name' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if project.is_a? Project
-            output << "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
-            output << view.link_to_project(project)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_project was not given a project"
-            ''
-          end
-          output << "</small></div>"
-          @subjects << output
-          output
+          subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
+          subject << view.link_to_project(project)
+          subject << '</span>'
+          html_subject(options, subject, :css => "project-name")
         when :image
-          
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, project.name)
+          image_subject(options, project.name)
         when :pdf
           pdf_new_page?(options)
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{project.name}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+          pdf_subject(options, project.name)
         end
       end
 
@@ -317,35 +295,15 @@ module Redmine
       def subject_for_version(version, options)
         case options[:format]
         when :html
-          output = ''
-          output << "<div class='version-name' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if version.is_a? Version
-            output << "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
-            output << view.link_to_version(version)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_version was not given a version"
-            ''
-          end
-          output << "</small></div>"
-          @subjects << output
-          output
+          subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
+          subject << view.link_to_version(version)
+          subject << '</span>'
+          html_subject(options, subject, :css => "version-name")
         when :image
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, version.to_s_with_project)
+          image_subject(options, version.to_s_with_project)
         when :pdf
           pdf_new_page?(options)
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{version.to_s_with_project}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+          pdf_subject(options, version.to_s_with_project)
         end
       end
 
@@ -376,54 +334,24 @@ module Redmine
       def subject_for_issue(issue, options)
         case options[:format]
         when :html
-          output = ''
-          output << "<div class='tooltip'>"
-          output << "<div class='issue-subject' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if issue.is_a? Issue
-            css_classes = []
-            css_classes << 'issue-overdue' if issue.overdue?
-            css_classes << 'issue-behind-schedule' if issue.behind_schedule?
-            css_classes << 'icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
-
-            if issue.assigned_to.present?
-              assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-              output << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
-            end
-            output << "<span class='#{css_classes.join(' ')}'>"
-            output << view.link_to_issue(issue)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_issue was not given an issue"
-            ''
+          css_classes = ''
+          css_classes << ' issue-overdue' if issue.overdue?
+          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
+          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          
+          subject = "<span class='#{css_classes}'>"
+          if issue.assigned_to.present?
+            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
+            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
           end
-          output << "</small></div>"
-
-          # Tooltip
-          if issue.is_a? Issue
-            output << "<span class='tip' style='position: absolute;top:#{ options[:top].to_i + 16 }px;left:#{ options[:indent].to_i + 20 }px;'>"
-            output << view.render_issue_tooltip(issue)
-            output << "</span>"
-          end
-
-          output << "</div>"
-          @subjects << output
-          output
+          subject << view.link_to_issue(issue)
+          subject << '</span>'
+          html_subject(options, subject, :css => "issue-subject")
         when :image
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, issue.subject)
+          image_subject(options, issue.subject)
         when :pdf
           pdf_new_page?(options)
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{issue.tracker} #{issue.id}: #{issue.subject}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+          pdf_subject(options, issue.subject)
         end
       end
 
@@ -757,6 +685,33 @@ module Redmine
           options[:top] = 15
           options[:pdf].Line(15, options[:top] - 0.1, PDF::TotalWidth, options[:top] - 0.1)
         end
+      end
+      
+      def html_subject(params, subject, options={})
+        output = "<div class=' #{options[:css] }' style='position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;'>"
+        output << subject
+        output << "</div>"
+        @subjects << output
+        output
+      end
+      
+      def pdf_subject(params, subject, options={})
+        params[:pdf].SetY(params[:top])
+        params[:pdf].SetX(15)
+        
+        char_limit = PDF::MaxCharactorsForSubject - params[:indent]
+        params[:pdf].Cell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+      
+        params[:pdf].SetY(params[:top])
+        params[:pdf].SetX(params[:subject_width])
+        params[:pdf].Cell(params[:g_width], 5, "", "LR")
+      end
+      
+      def image_subject(params, subject, options={})
+        params[:image].fill('black')
+        params[:image].stroke('transparent')
+        params[:image].stroke_width(1)
+        params[:image].text(params[:indent], params[:top] + 2, subject)
       end
       
       def html_task(params, coords, options={})
