@@ -779,6 +779,8 @@ background-image:url('../images/close_hl.png');
   overflow: hidden;
 }
 
+.gantt_subjects { font-size: 0.8em; }
+
 .task {
   position: absolute;
   height:8px;
