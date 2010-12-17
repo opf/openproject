@@ -32,7 +32,7 @@ class CostlogController < ApplicationController
 
       respond_to do |format|
         format.html {
-          session[:cost_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+          session[:report] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
           if @cost_type
             redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => @cost_type.id

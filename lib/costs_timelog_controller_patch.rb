@@ -32,7 +32,7 @@ module CostsTimelogControllerPatch
       filters[:values][:project_id] = [@project.id.to_s]
       respond_to do |format|
         format.html {
-          session[:cost_query] = { :filters => filters, :groups => {:rows => [], :columns => []} }
+          session[:report] = { :filters => filters, :groups => {:rows => [], :columns => []} }
 
           redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
