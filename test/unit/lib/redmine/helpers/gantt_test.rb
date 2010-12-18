@@ -158,38 +158,62 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
                                :done_ratio => 30,
                                :start_date => Date.yesterday,
                                :due_date => 1.week.from_now.to_date)
-      @project.issues << @issue
-
-      @response.body = @gantt.subjects
+      @project.issues << @issue      
     end
-
+  
     context "project" do
       should "be rendered" do
+        @response.body = @gantt.subjects
         assert_select "div.project-name a", /#{@project.name}/
       end
-
+  
       should "have an indent of 4" do
+        @response.body = @gantt.subjects
         assert_select "div.project-name[style*=left:4px]"
       end
     end
-
+  
     context "version" do
       should "be rendered" do
+        @response.body = @gantt.subjects
         assert_select "div.version-name a", /#{@version.name}/
       end
-
+  
       should "be indented 24 (one level)" do
+        @response.body = @gantt.subjects
         assert_select "div.version-name[style*=left:24px]"
       end
     end
-
+  
     context "issue" do
       should "be rendered" do
+        @response.body = @gantt.subjects
         assert_select "div.issue-subject", /#{@issue.subject}/
       end
-
+  
       should "be indented 44 (two levels)" do
+        @response.body = @gantt.subjects
         assert_select "div.issue-subject[style*=left:44px]"
+      end
+      
+      context "with subtasks" do
+        setup do
+          attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
+          @child1 = Issue.generate!(attrs.merge(:subject => 'child1', :parent_issue_id => @issue.id, :start_date => Date.yesterday, :due_date => 2.day.from_now.to_date))
+          @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => Date.today, :due_date => 1.week.from_now.to_date))
+          @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => Date.yesterday, :due_date => 2.day.from_now.to_date))
+        end
+        
+        should "indent subtasks" do
+          @response.body = @gantt.subjects
+          # parent task 44px
+          assert_select "div.issue-subject[style*=left:44px]", /#{@issue.subject}/
+          # children 64px
+          assert_select "div.issue-subject[style*=left:64px]", /child1/
+          assert_select "div.issue-subject[style*=left:64px]", /child2/
+          # grandchild 84px
+          assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @response.body
+        end
       end
     end
   end
@@ -379,7 +403,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
         should "appear at the end of the date range" do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.ending[style*=left:84px]", true, @response.body
+          assert_select "div.project.ending[style*=left:88px]", true, @response.body
         end
       end
       
@@ -546,7 +570,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
         should "appear at the end of the date range" do
           @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.ending[style*=left:84px]", true, @response.body
+          assert_select "div.version.ending[style*=left:88px]", true, @response.body
         end
       end
       

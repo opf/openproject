@@ -72,6 +72,8 @@ module Redmine
         @lines = ''
         @number_of_rows = nil
         
+        @issue_ancestors = []
+        
         @truncated = false
         if options.has_key?(:max_rows)
           @max_rows = options[:max_rows]
@@ -213,14 +215,18 @@ module Redmine
       end
 
       def render_issues(issues, options={})
+        @issue_ancestors = []
+        
         issues.each do |i|
           subject_for_issue(i, options) unless options[:only] == :lines
           line_for_issue(i, options) unless options[:only] == :subjects
           
           options[:top] += options[:top_increment]
           @number_of_rows += 1
-          return if abort?
+          break if abort?
         end
+        
+        options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
       def render_version(version, options={})
@@ -332,7 +338,12 @@ module Redmine
       end
 
       def subject_for_issue(issue, options)
-        case options[:format]
+        while @issue_ancestors.any? && !issue.is_descendant_of?(@issue_ancestors.last)
+          @issue_ancestors.pop
+          options[:indent] -= options[:indent_increment]
+        end
+          
+        output = case options[:format]
         when :html
           css_classes = ''
           css_classes << ' issue-overdue' if issue.overdue?
@@ -346,13 +357,20 @@ module Redmine
           end
           subject << view.link_to_issue(issue)
           subject << '</span>'
-          html_subject(options, subject, :css => "issue-subject")
+          html_subject(options, subject, :css => "issue-subject") + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
           pdf_new_page?(options)
           pdf_subject(options, issue.subject)
         end
+
+        unless issue.leaf?
+          @issue_ancestors << issue
+          options[:indent] += options[:indent_increment]
+        end
+        
+        output
       end
 
       def line_for_issue(issue, options)
@@ -363,7 +381,7 @@ module Redmine
           
           case options[:format]
           when :html
-            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue)
+            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue, :markers => !issue.leaf?)
           when :image
             image_task(options, coords, :label => label)
           when :pdf
@@ -655,12 +673,34 @@ module Redmine
 
       # Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def sort_issues!(issues)
-        issues.sort! do |a, b|
-          cmp = 0
-          cmp = (a.start_date <=> b.start_date) if a.start_date? && b.start_date?
-          cmp = (a.due_date <=> b.due_date) if cmp == 0 && a.due_date? && b.due_date?
-          cmp = (a.id <=> b.id) if cmp == 0
-          cmp
+        issues.sort! { |a, b| gantt_issue_compare(a, b, issues) }
+      end
+  
+      def gantt_issue_compare(x, y, issues)
+        if x.parent_id == y.parent_id
+          gantt_start_compare(x, y)
+        elsif x.is_ancestor_of?(y)
+          -1
+        elsif y.is_ancestor_of?(x)
+          1
+        else
+          ax = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(x) && !i.is_ancestor_of?(y) }.sort_by(&:lft).first
+          ay = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(y) && !i.is_ancestor_of?(x) }.sort_by(&:lft).first
+          if ax.nil? && ay.nil?
+            gantt_start_compare(x, y)
+          else
+            gantt_issue_compare(ax || x, ay || y, issues)
+          end
+        end
+      end
+      
+      def gantt_start_compare(x, y)
+        if x.start_date.nil?
+          -1
+        elsif y.start_date.nil?
+          1
+        else
+          x.start_date <=> y.start_date
         end
       end
       
@@ -733,12 +773,12 @@ module Redmine
             output << "<div style='top:#{ params[:top] }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>"
           end
           if coords[:end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:end] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:end] + params[:zoom] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
           end
         end
         # Renders the label on the right
         if options[:label]
-          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 5 }px;' class='#{options[:css]} label'>"
+          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>"
           output << options[:label]
           output << "</div>"
         end
