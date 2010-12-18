@@ -117,7 +117,7 @@ module Redmine
           cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --raw --date=iso --pretty=fuller "
           cmd << " --reverse " if options[:reverse]
           cmd << " --all " if options[:all]
-          cmd << " -n #{options[:limit]} " if options[:limit]
+          cmd << " -n #{options[:limit].to_i} " if options[:limit]
           cmd << "#{shell_quote(identifier_from + '..')}" if identifier_from
           cmd << "#{shell_quote identifier_to}" if identifier_to
           cmd << " --since=#{shell_quote(options[:since].strftime("%Y-%m-%d %H:%M:%S"))}" if options[:since]

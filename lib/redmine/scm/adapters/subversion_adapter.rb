@@ -135,8 +135,8 @@ module Redmine
         
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path ||= ''
-          identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
-          identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : 1
+          identifier_from = (identifier_from && identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
+          identifier_to = (identifier_to && identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
           cmd = "#{SVN_BIN} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string

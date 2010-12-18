@@ -66,7 +66,7 @@ module Redmine
           path_prefix = (path.blank? ? '' : "#{path}/")
           path = '.' if path.blank?
           entries = Entries.new          
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
+          cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --xml-output"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
           shellout(cmd) do |io|
@@ -90,7 +90,7 @@ module Redmine
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path = '.' if path.blank?
           revisions = Revisions.new
-          cmd = "#{DARCS_BIN} changes --repodir #{@url} --xml-output"
+          cmd = "#{DARCS_BIN} changes --repodir #{shell_quote @url} --xml-output"
           cmd << " --from-match #{shell_quote("hash #{identifier_from}")}" if identifier_from
           cmd << " --last #{options[:limit].to_i}" if options[:limit]
           shellout(cmd) do |io|
@@ -116,7 +116,7 @@ module Redmine
         
         def diff(path, identifier_from, identifier_to=nil)
           path = '*' if path.blank?
-          cmd = "#{DARCS_BIN} diff --repodir #{@url}"
+          cmd = "#{DARCS_BIN} diff --repodir #{shell_quote @url}"
           if identifier_to.nil?
             cmd << " --match #{shell_quote("hash #{identifier_from}")}"
           else
@@ -135,7 +135,7 @@ module Redmine
         end
         
         def cat(path, identifier=nil)
-          cmd = "#{DARCS_BIN} show content --repodir #{@url}"
+          cmd = "#{DARCS_BIN} show content --repodir #{shell_quote @url}"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
           cat = nil
@@ -170,7 +170,7 @@ module Redmine
         
         # Retrieve changed paths for a single patch
         def get_paths_for_patch(hash)
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --summary --xml-output"
+          cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --summary --xml-output"
           cmd << " --match #{shell_quote("hash #{hash}")} "
           paths = []
           shellout(cmd) do |io|
