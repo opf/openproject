@@ -196,7 +196,10 @@ class RepositoriesController < ApplicationController
     end
   end
   
-private
+  private
+
+  REV_PARAM_RE = %r{^[a-f0-9]*$}i
+
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
@@ -205,6 +208,12 @@ private
     @path ||= ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
+    
+    unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
+      if @repository.branches.blank?
+        raise InvalidRevisionParam
+      end
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam
