@@ -43,7 +43,7 @@
 	<label><%= l(:field_fixed_version) %></label> 
 	<%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_none), :value => 'none') +
-                                   version_options_for_select(@project.shared_versions.open)) %>
+                                   version_options_for_select(@project.shared_versions.open.sort)) %>
 </p>
 <% end %>
 
