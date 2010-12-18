@@ -112,7 +112,7 @@ module Redmine
             cmd << " -r #{identifier_from.to_i}:"
           end
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
-          cmd << " #{shell_quote path}" if path
+          cmd << " #{shell_quote path}" unless path.blank?
           shellout(cmd) do |io|
             begin
               # HG doesn't close the XML Document...
