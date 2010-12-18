@@ -279,6 +279,9 @@ RAW
       "<pre class='foo bar'>some text</pre>" => "<pre class='foo bar'>some text</pre>",
       '<pre class="foo bar">some text</pre>' => '<pre class="foo bar">some text</pre>',
       "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
+      # xss
+      '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
+      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
