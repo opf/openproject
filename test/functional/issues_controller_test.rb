@@ -281,6 +281,9 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
     
+    assert_tag :tag => 'a',
+      :content => /Quote/
+    
     assert_tag :tag => 'form',
                :descendant => { :tag => 'fieldset',
                                 :child => { :tag => 'legend', 
