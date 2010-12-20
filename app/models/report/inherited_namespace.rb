@@ -4,6 +4,8 @@ module Report::InheritedNamespace
   module Hook
     def const_missing(name, *)
       super
+    rescue ArgumentError => error
+      # require 'ruby-debug'; debugger
     rescue NameError => error
       load_constant name, error
     end

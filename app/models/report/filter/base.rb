@@ -56,7 +56,7 @@ class Report::Filter
       super
     end
 
-    def self.available_values(user)
+    def self.available_values(params = {})
       raise NotImplementedError, "subclass responsibility"
     end
 
