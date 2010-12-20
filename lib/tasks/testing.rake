@@ -11,6 +11,19 @@ namespace :test do
     system("open coverage/index.html") if PLATFORM['darwin']
   end
 
+  desc 'Run unit and functional scm tests'
+  task :scm do
+    errors = %w(test:scm:units test:scm:functionals).collect do |task|
+      begin
+        Rake::Task[task].invoke
+        nil
+      rescue => e
+        task
+      end
+    end.compact
+    abort "Errors running #{errors.to_sentence(:locale => :en)}!" if errors.any?
+  end
+
   namespace :scm do
     namespace :setup do
       desc "Creates directory for test repositories"
@@ -37,5 +50,19 @@ namespace :test do
       desc "Creates all test repositories"
       task :all => supported_scms
     end
+    
+    Rake::TestTask.new(:units => "db:test:prepare") do |t|
+      t.libs << "test"
+      t.verbose = true
+      t.test_files = FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
+    end
+    Rake::Task['test:scm:units'].comment = "Run the scm unit tests"
+    
+    Rake::TestTask.new(:functionals => "db:test:prepare") do |t|
+      t.libs << "test"
+      t.verbose = true
+      t.test_files = FileList['test/functional/repositories*_test.rb']
+    end
+    Rake::Task['test:scm:functionals'].comment = "Run the scm unit tests"
   end
 end
