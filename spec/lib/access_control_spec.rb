@@ -37,6 +37,5 @@ describe Redmine::AccessControl do
       it {Redmine::AccessControl.available_project_modules.include?(:project_module).should be_true }
       it {Redmine::AccessControl.available_project_modules.include?(:mixed_module).should be_true }
     end
-
   end
 end
