@@ -63,6 +63,6 @@ namespace :test do
       t.verbose = true
       t.test_files = FileList['test/functional/repositories*_test.rb']
     end
-    Rake::Task['test:scm:functionals'].comment = "Run the scm unit tests"
+    Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
   end
 end
