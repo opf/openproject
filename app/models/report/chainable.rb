@@ -268,7 +268,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.last_table
-      @last_table ||= 'entries'
+      @last_table ||= engine::Filter::NoFilter.table_name
     end
 
     def self.table_name(value = nil)

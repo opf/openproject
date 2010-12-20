@@ -27,11 +27,11 @@ class Report::SqlStatement
   attr_accessor :desc
 
   ##
-  # Generates new SqlStatement.
+  # Generates new SqlStatement. The table name defaults to the NoFilter's table.
   #
   # @param [String, #to_s] table Table name (or subselect) for from part.
-  def initialize(table)
-    from table
+  def initialize(table = nil)
+    from(table || engine::Filter::NoFilter.table_name)
   end
 
   ##
