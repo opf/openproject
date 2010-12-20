@@ -4,7 +4,13 @@
 
 <div class="box">
 <p><%= f.text_field :name, :required => true %></p>
-<p><label for='global_role'><%= l(:label_global_role)%></label><%= check_box_tag "global_role", "1", role.is_a?(GlobalRole), :disabled => !role.new_record?%></p>
+<p>
+<% if role.new_record? %>
+<label for='global_role'><%= l(:label_global_role)%></label><%= check_box_tag("global_role", "1", role.is_a?(GlobalRole))%>
+<%else%>
+<%= role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role) %>
+<%end%>
+</p>
 <div id="global_attributes" style="display:none">
     <%= render :partial => "global_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
   </div>
@@ -14,9 +20,13 @@
 </div>
 
 <h3><%= l(:label_permissions) %></h3>
-<div id="global_permissions" style="display:none">
+<% if role.new_record? || role.is_a?(GlobalRole)%>
+<div id="global_permissions" style=<%= role.new_record? ? "display:none" : ""%> >
 <%= render :partial => "permissions", :locals => {:permissions => global_permissions, :role => role }%>
 </div>
+<%end%>
+<%if role.new_record? || !role.is_a?(GlobalRole)%>
 <div id="member_permissions">
 <%= render :partial => "permissions", :locals => {:permissions => member_permissions, :role => role }%>
 </div>
+<%end%>

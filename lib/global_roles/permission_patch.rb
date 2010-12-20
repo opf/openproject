@@ -4,6 +4,8 @@ module GlobalRoles
       base.send(:include, InstanceMethods)
 
       base.class_eval do
+        unloadable
+
         alias_method_chain :initialize, :global_option
       end
     end

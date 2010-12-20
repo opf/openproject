@@ -59,5 +59,12 @@ module GlobalRoles
     def disable_flash_sweep
      @controller.instance_eval{flash.stub!(:sweep)}
     end
+
+    def response_should_render method, *params
+      page = mock("page")
+      controller.should_receive(:render).with(:update).and_yield(page)
+
+      page.should_receive(method).with(*params)
+    end
   end
 end

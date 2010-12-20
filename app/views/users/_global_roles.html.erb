@@ -1,0 +1,33 @@
+<% content_for :header_tags do %>
+	<%= javascript_include_tag 'principal_roles', :plugin => 'redmine_global_roles'%>
+<% end %>
+
+<div class="splitcontentleft">
+<table id="table_principal_roles" class="list">
+	<thead>
+		<tr>
+	  	<th><%= l(:label_role) %></th>
+	  	<%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
+	  	<th style="width:15%"></th>
+		</tr>
+	</thead>
+	<tbody id="table_principal_roles_body">
+	<% @user.principal_roles.each do |principal_role| %>
+		<%= render :partial => 'principal_roles/show_table_row', :locals => {:principal_role => principal_role} %>
+	<%end%>
+	</tbody>
+</table>
+<p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
+</div>
+
+<div class="splitcontentright">
+<fieldset><legend><%= l(:label_role_plural) %></legend>
+<% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
+	<%= hidden_field_tag 'principal_role[principal_id]', @user.id %>
+<% @global_roles.each do |role| %>
+  <div class="principal_role_option"><%= check_box_tag 'principal_role[role_ids][]', role.id, false, :id => "principal_role_role_ids_#{role.id}" %><%= label_tag "principal_role_role_ids_#{role.id}", h(role) %></div>
+<% end %>
+<p><%= submit_tag l(:button_add) %></p>
+<% end %>
+</fieldset>
+</div>

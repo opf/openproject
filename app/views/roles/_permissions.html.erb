@@ -1,4 +1,4 @@
-<div class="box" id="permissions">
+<%= tag "div", { :class =>"box", :id => permissions_id(permissions) }, false %>
 <% perms_by_module = permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
@@ -10,6 +10,6 @@
     <% end %>
     </fieldset>
 <% end %>
-<br /><%= check_all_links 'permissions' %>
+<br /><%= check_all_links permissions_id(permissions) %>
 <%= hidden_field_tag 'role[permissions][]', '' %>
 </div>

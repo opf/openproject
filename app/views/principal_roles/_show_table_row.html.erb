@@ -1,0 +1,12 @@
+<tr id="principal_role_<%= principal_role.id %>">
+<td class="role assigned_global_role_<%= principal_role.role.id%>">
+  <%=h principal_role.role %>
+</td>
+<%= call_hook(:principal_roles_table_row, :user => @user, :principal_role => principal_role )%>
+<td class="buttons">
+    <%= link_to_function l(:button_edit), "$('role_#{principal_role.id}-roles').hide(); $('role_#{principal_role.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+    <%= link_to_remote(l(:button_delete), { :url => principal_role_url(principal_role.id),
+    																				:method => :delete },
+    																		    :class => 'icon icon-del') %>
+</td>
+</tr>
