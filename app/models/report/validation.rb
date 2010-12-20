@@ -9,7 +9,7 @@ module Report::Validation
     const_name = val_method.to_s.camelize
     begin
       val_module = Report::Validation.const_get const_name
-      metaclass.send(:include, val_module)
+      singleton_class.send(:include, val_module)
       val_method = "validate_" + val_method.to_s.pluralize
       if method(val_method)
         validations << val_method
