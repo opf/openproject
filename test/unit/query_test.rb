@@ -382,6 +382,12 @@ class QueryTest < ActiveSupport::TestCase
       assert users[:values].map{|u|u[1]}.include?("3")
     end
 
+    should "include visible projects in cross-project view" do
+      projects = @query.available_filters["project_id"]
+      assert_not_nil projects
+      assert projects[:values].map{|u|u[1]}.include?("1")
+    end
+
     context "'member_of_group' filter" do
       should "be present" do
         assert @query.available_filters.keys.include?("member_of_group")
