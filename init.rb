@@ -27,10 +27,5 @@ Redmine::Plugin.register :redmine_global_roles do
     project_module :user do
       permission :manage_global_roles, {:example => [:say_hello]}, :global => true
     end
-  else
-    #because sec faults are thrown when Permissions are created in cucumber
-    #project_module :cucumber do
-    #  permission :cucumber_test, {:test => [:do_test]}, :global => true
-    #end
   end
 end
