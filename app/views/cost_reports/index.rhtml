@@ -1,8 +1,8 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "select_list_move_optgroup", :plugin => "redmine_reporting" %>
-  <%= javascript_include_tag "reporting", :plugin => "redmine_reporting" %>
-  <%= javascript_include_tag "sortable", :plugin => "redmine_reporting" %>
-  <%= stylesheet_link_tag 'reporting', :plugin => 'redmine_reporting' %>
+  <%= javascript_include_tag "select_list_move_optgroup", :plugin => "reporting_engine" %>
+  <%= javascript_include_tag "reporting", :plugin => "reporting_engine" %>
+  <%= javascript_include_tag "sortable", :plugin => "reporting_engine" %>
+  <%= stylesheet_link_tag 'reporting', :plugin => 'reporting_engine' %>
 <% end %>
 
 <% if @custom_errors.present? %>
