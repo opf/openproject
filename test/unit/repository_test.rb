@@ -21,12 +21,17 @@ class RepositoryTest < ActiveSupport::TestCase
   fixtures :projects,
            :trackers,
            :projects_trackers,
+           :enabled_modules,
            :repositories,
            :issues,
            :issue_statuses,
+           :issue_categories,
            :changesets,
            :changes,
            :users,
+           :members,
+           :member_roles,
+           :roles,
            :enumerations
   
   def setup
