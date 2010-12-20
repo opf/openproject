@@ -285,18 +285,23 @@ class RoutingTest < ActionController::IntegrationTest
 
   context "users" do
     should_route :get, "/users", :controller => 'users', :action => 'index'
+    should_route :get, "/users.xml", :controller => 'users', :action => 'index', :format => 'xml'
     should_route :get, "/users/44", :controller => 'users', :action => 'show', :id => '44'
+    should_route :get, "/users/44.xml", :controller => 'users', :action => 'show', :id => '44', :format => 'xml'
     should_route :get, "/users/current", :controller => 'users', :action => 'show', :id => 'current'
+    should_route :get, "/users/current.xml", :controller => 'users', :action => 'show', :id => 'current', :format => 'xml'
     should_route :get, "/users/new", :controller => 'users', :action => 'new'
     should_route :get, "/users/444/edit", :controller => 'users', :action => 'edit', :id => '444'
     should_route :get, "/users/222/edit/membership", :controller => 'users', :action => 'edit', :id => '222', :tab => 'membership'
 
     should_route :post, "/users", :controller => 'users', :action => 'create'
+    should_route :post, "/users.xml", :controller => 'users', :action => 'create', :format => 'xml'
     should_route :post, "/users/123/memberships", :controller => 'users', :action => 'edit_membership', :id => '123'
     should_route :post, "/users/123/memberships/55", :controller => 'users', :action => 'edit_membership', :id => '123', :membership_id => '55'
     should_route :post, "/users/567/memberships/12/destroy", :controller => 'users', :action => 'destroy_membership', :id => '567', :membership_id => '12'
 
     should_route :put, "/users/444", :controller => 'users', :action => 'update', :id => '444'
+    should_route :put, "/users/444.xml", :controller => 'users', :action => 'update', :id => '444', :format => 'xml'
   end
 
   # TODO: should they all be scoped under /projects/:project_id ?
