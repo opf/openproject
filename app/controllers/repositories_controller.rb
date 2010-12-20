@@ -198,7 +198,7 @@ class RepositoriesController < ApplicationController
   
   private
 
-  REV_PARAM_RE = %r{^[a-f0-9]*$}i
+  REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
 
   def find_repository
     @project = Project.find(params[:id])
