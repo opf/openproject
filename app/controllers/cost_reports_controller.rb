@@ -147,7 +147,6 @@ class CostReportsController < ApplicationController
     filters = force_default? ? default_filter_parameters : filter_params
     groups  = force_default? ? default_group_parameters  : group_params
     ensure_project_scope! filters
-
     session[:report] = {:filters => filters, :groups => groups}
     @query = CostQuery.new
     @query.tap do |q|
