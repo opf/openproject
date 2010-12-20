@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin, :except => :show
+  before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
   accept_key_auth :index, :show, :create, :update
 
   helper :sort
@@ -61,8 +62,6 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find(params[:id])
-    
     # show projects based on current user visibility
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
     
@@ -80,8 +79,6 @@ class UsersController < ApplicationController
       format.html { render :layout => 'base' }
       format.api
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def new
@@ -130,16 +127,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-
     @auth_sources = AuthSource.find(:all)
     @membership ||= Member.new
   end
   
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @user = User.find(params[:id])
-
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
@@ -185,7 +178,6 @@ class UsersController < ApplicationController
   end
 
   def edit_membership
-    @user = User.find(params[:id])
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
     @membership.save if request.post?
     respond_to do |format|
@@ -208,7 +200,6 @@ class UsersController < ApplicationController
   end
   
   def destroy_membership
-    @user = User.find(params[:id])
     @membership = Member.find(params[:membership_id])
     if request.post? && @membership.deletable?
       @membership.destroy
@@ -217,5 +208,18 @@ class UsersController < ApplicationController
       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
+  end
+  
+  private
+  
+  def find_user
+    if params[:id] == 'current'
+      require_login || return
+      @user = User.current
+    else
+      @user = User.find(params[:id])
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

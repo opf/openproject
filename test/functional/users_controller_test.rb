@@ -120,6 +120,20 @@ class UsersControllerTest < ActionController::TestCase
     assert project_ids.include?(2) #private project admin can see
   end
   
+  def test_show_current_should_require_authentication
+    @request.session[:user_id] = nil
+    get :show, :id => 'current'
+    assert_response 302
+  end
+  
+  def test_show_current
+    @request.session[:user_id] = 2
+    get :show, :id => 'current'
+    assert_response :success
+    assert_template 'show'
+    assert_equal User.find(2), assigns(:user)
+  end
+  
   def test_new
     get :new
     

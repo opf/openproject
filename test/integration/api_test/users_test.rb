@@ -50,6 +50,23 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       end
     end
   end
+  
+  context "GET /users/current" do
+    context ".xml" do
+      should "require authentication" do
+        get '/users/current.xml'
+        
+        assert_response 401
+      end
+      
+      should "return current user" do
+        get '/users/current.xml', {}, :authorization => credentials('jsmith')
+        
+        assert_tag :tag => 'user',
+          :child => {:tag => 'id', :content => '2'}
+      end
+    end
+  end
 
   context "POST /users" do
     context "with valid parameters" do
