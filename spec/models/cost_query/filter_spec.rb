@@ -106,7 +106,7 @@ describe CostQuery do
         @query.filter "author_id", :value => object.id
         @query.result.count.should == Entry.all.select { |i| i.issue and i.issue.author == object }.count
       end
-    end\
+    end
 
     it "filters spent_on" do
       @query.filter :spent_on, :operator=> 'w'
@@ -261,3 +261,4 @@ describe CostQuery do
     end
   end
 end
+

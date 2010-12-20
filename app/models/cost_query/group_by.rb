@@ -11,6 +11,7 @@ class CostQuery::GroupBy < Report::GroupBy
       CostQuery::GroupBy::PriorityId,
       CostQuery::GroupBy::ProjectId,
       CostQuery::GroupBy::SpentOn,
+      CostQuery::GroupBy::SingletonValue,
       CostQuery::GroupBy::Tmonth,
       CostQuery::GroupBy::TrackerId,
       #CostQuery::GroupBy::Tweek,
@@ -24,5 +25,4 @@ class CostQuery::GroupBy < Report::GroupBy
       *CostQuery::GroupBy::CustomFieldEntries.all
     ]
   end
-
 end

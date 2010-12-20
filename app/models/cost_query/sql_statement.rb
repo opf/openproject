@@ -83,3 +83,4 @@ class CostQuery::SqlStatement < Report::SqlStatement
     new unified_entry(TimeEntry).union(unified_entry(CostEntry), "entries")
   end
 end
+

@@ -3,3 +3,4 @@ class CostQuery::GroupBy
     dont_display!
   end
 end
+

@@ -9,6 +9,7 @@ module CostQuery::QueryUtils
     when "week"                             then value.to_i.divmod(100)
     when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
     when /^custom_field/                    then value.to_s
+    when "singleton_value"                  then value.to_i
     else super
     end
   end
@@ -32,5 +33,5 @@ module CostQuery::QueryUtils
     super
     klass.extend self
   end
-
 end
+

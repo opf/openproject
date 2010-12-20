@@ -55,6 +55,16 @@ Feature: Filter
     And "!" should be selected for "operators_user_id"
 
   @javascript
+  Scenario: A click on clear enables the option in the Add-Filter-Selectbox
+    Given there is a standard cost control project named "First Project"
+    And I am logged in as "controller"
+    And I am on the Cost Reports page for the project called "First Project"
+    Then "user_id" should not be selectable from "add_filter_select"
+    And filter "user_id" should be visible
+    When I click on "Clear"
+    Then "user_id" should be selectable from "add_filter_select"
+
+  @javascript
   Scenario: Setting a Filter disables the option in the Add-Filter-Selectbox
     Given there is a standard cost control project named "First Project"
     And I am logged in as "controller"
@@ -65,3 +75,4 @@ Feature: Filter
     Then "user_id" should not be selectable from "add_filter_select"
     When I send the query
     Then "user_id" should not be selectable from "add_filter_select"
+
