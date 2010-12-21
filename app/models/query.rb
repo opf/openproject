@@ -378,15 +378,15 @@ class Query < ActiveRecord::Base
   
   # Returns true if the query is a grouped query
   def grouped?
-    !group_by.blank?
+    !group_by_column.nil?
   end
   
   def group_by_column
-    groupable_columns.detect {|c| c.name.to_s == group_by}
+    groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
   end
   
   def group_by_statement
-    group_by_column.groupable
+    group_by_column.try(:groupable)
   end
   
   def project_statement

@@ -235,6 +235,22 @@ class QueryTest < ActiveSupport::TestCase
     q = Query.new
     assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}
   end
+
+  def test_grouped_with_valid_column
+    q = Query.new(:group_by => 'status')
+    assert q.grouped?
+    assert_not_nil q.group_by_column
+    assert_equal :status, q.group_by_column.name
+    assert_not_nil q.group_by_statement
+    assert_equal 'status', q.group_by_statement
+  end
+  
+  def test_grouped_with_invalid_column
+    q = Query.new(:group_by => 'foo')
+    assert !q.grouped?
+    assert_nil q.group_by_column
+    assert_nil q.group_by_statement
+  end
   
   def test_default_sort
     q = Query.new
