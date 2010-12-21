@@ -1,4 +1,4 @@
-Feature: Permission Assignment
+Feature: Role Permissions
 
   @javascript
   Scenario: Global Permissions for new role
