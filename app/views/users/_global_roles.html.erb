@@ -20,7 +20,7 @@
 <p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
 </div>
 
-<div class="splitcontentright">
+<div class="splitcontentright" id="available_principal_roles">
 <fieldset><legend><%= l(:label_role_plural) %></legend>
 <% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
 	<%= hidden_field_tag 'principal_role[principal_id]', @user.id %>
