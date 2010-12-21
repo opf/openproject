@@ -1,7 +1,6 @@
 var principal_roles = {
 	init: function(){
 		principal_roles.set_table_visibility();
-		principal_roles.set_role_selection_visibility();
 	},
 
 	set_table_visibility: function(){
@@ -14,18 +13,6 @@ var principal_roles = {
 			$('table_principal_roles').hide();
 			$('no_data').show();
 		}
-	},
-
-	set_role_selection_visibility: function(){
-		$$('.principal_role_option').each(function(element){
-			if($$('.assigned_global_role_' + element.down('input').value).length > 0){
-				//element.hide();
-			}
-			else{
-				//element.show();
-			}
-			//element.checked = false;
-		})
 	},
 
 	role_already_assigned: function(){
