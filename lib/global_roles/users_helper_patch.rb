@@ -8,6 +8,10 @@ module GlobalRoles
       base.class_eval do
         unloadable
 
+        def available_additional_principal_roles available_roles, user
+          available_roles - user.principal_roles.collect(&:role)
+        end
+
         alias_method_chain :user_settings_tabs, :global_roles
       end
     end

@@ -38,6 +38,14 @@ Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |ro
   end
 end
 
+Given /^the [Uu]ser (.+) (?:is a|has the global role) (.+)$/ do |user, role|
+  u = User.find_by_login(user.gsub("\"", ""))
+  r = GlobalRole.find_by_name(role.gsub("\"", ""))
+  as_admin do
+    r.principals << u
+  end
+end
+
 When /^I select the available role (.+)$/ do |role|
   r = GlobalRole.find_by_name(role.gsub("\"", ""))
   raise "No such role was defined: #{role}" unless r
