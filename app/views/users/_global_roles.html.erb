@@ -25,7 +25,7 @@
 <% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
 	<%= hidden_field_tag 'principal_role[principal_id]', @user.id %>
 <% @global_roles.each do |role| %>
-  <div class="principal_role_option" id= "principal_role_option_<%=h (role.id)%>"><%= check_box_tag 'principal_role[role_ids][]', role.id, false, :id => "principal_role_role_ids_#{role.id}" %><%= label_tag "principal_role_role_ids_#{role.id}", h(role) %></div>
+  <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
 <% end %>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>
