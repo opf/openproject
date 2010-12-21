@@ -1,0 +1,18 @@
+<% def available_additional_global_roles available_roles, user
+
+	taken_roles = user.global_roles
+
+	available_roles - taken_roles
+end%>
+
+<div class="splitcontentright" id="available_principal_roles">
+<fieldset><legend><%= l(:label_role_plural) %></legend>
+<% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
+	<%= hidden_field_tag 'principal_role[principal_id]', user.id %>
+<% available_additional_global_roles(global_roles, user).each do |role| %>
+  <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
+<% end %>
+<p><%= submit_tag l(:button_add) %></p>
+<% end %>
+</fieldset>
+</div>

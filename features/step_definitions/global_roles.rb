@@ -53,3 +53,13 @@ When /^I select the available role (.+)$/ do |role|
     When I check "principal_role_role_ids_#{r.id}"
   }
 end
+
+When /^I delete the assigned role (.+)$/ do |role|
+  g = GlobalRole.find_by_name(role.gsub("\"", ""))
+  raise "No such role was defined: #{role}" unless g
+  raise "More than one or no principal has this role" if g.principal_roles.length != 1
+
+  steps %Q{
+    When I follow "Delete" within "#principal_role_#{g.principal_roles[0].id}"
+  }
+end

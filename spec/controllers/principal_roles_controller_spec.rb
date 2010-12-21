@@ -48,6 +48,8 @@ describe PrincipalRolesController do
   describe :delete do
     before :each do
       PrincipalRole.stub!(:find).and_return @principal_role
+      @principal_role.stub!(:principal_id).and_return(1)
+      Principal.stub(:find).and_return(mock_model User)
       @principal_role.stub!(:destroy)
       @params = {"id" => "1"}
     end
@@ -56,6 +58,11 @@ describe PrincipalRolesController do
       describe "SUCCESS" do
         before :each do
           response_should_render :remove, "principal_role_1"
+          response_should_render :replace,
+                                 "available_principal_roles",
+                                 :partial => "users/available_global_roles",
+                                 :locals => {:global_roles => anything(),
+                                             :user => anything()}
         end
 
         describe "js" do

@@ -2,8 +2,6 @@
 	<%= javascript_include_tag 'principal_roles', :plugin => 'redmine_global_roles'%>
 <% end %>
 
-
-
 <div class="splitcontentleft">
 <table id="table_principal_roles" class="list">
 	<thead>
@@ -22,14 +20,4 @@
 <p id="no_data" class="nodata"><%= l(:label_no_data) %></p>
 </div>
 
-<div class="splitcontentright" id="available_principal_roles">
-<fieldset><legend><%= l(:label_role_plural) %></legend>
-<% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
-	<%= hidden_field_tag 'principal_role[principal_id]', @user.id %>
-<% available_additional_principal_roles(@global_roles, @user).each do |role| %>
-  <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
-<% end %>
-<p><%= submit_tag l(:button_add) %></p>
-<% end %>
-</fieldset>
-</div>
+<%= render :partial => 'users/available_global_roles', :locals => {:user => @user, :global_roles => @global_roles}%>

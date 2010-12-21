@@ -20,12 +20,18 @@ class PrincipalRolesController < ApplicationController
 
   def destroy
     principal_role = PrincipalRole.find(params[:id])
+    user = Principal.find(principal_role.principal_id)
+    global_roles = GlobalRole.all
+
     principal_role.destroy
 
     respond_to do |format|
       format.js do
         render(:update) do |page|
           page.remove "principal_role_#{params[:id]}"
+          page.replace "available_principal_roles",
+                        :partial => "users/available_global_roles",
+                        :locals => {:user => user, :global_roles => global_roles}
         end
       end
     end
