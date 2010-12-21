@@ -21,11 +21,18 @@ Redmine::Plugin.register :redmine_global_roles do
   description 'This is a plugin for Redmine'
   version '0.0.1'
 
-
   if RAILS_ENV != "test"
     require_or_load 'global_roles/permission_patch'
     project_module :user do
       permission :manage_global_roles, {:example => [:say_hello]}, :global => true
     end
+    Redmine::AccessControl.permission(:add_project).global = true
+  else
+    Redmine::AccessControl.permission(:add_project).instance_eval do
+      @global = true
+    end
   end
+
+
 end
+

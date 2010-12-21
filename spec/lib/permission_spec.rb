@@ -6,7 +6,14 @@ describe Redmine::AccessControl::Permission do
   describe "setting global" do
     describe "creating with", :new do
       before {@permission = Redmine::AccessControl::Permission.new(:perm, {:cont => [:action]}, {:global => true})}
-      #before {Redmine::AccessControl::Permission.new :example_say_hello, {:example => [:say_hello]}, :public => true}
+      describe :global? do
+        it {@permission.global?.should be_true}
+      end
+    end
+
+    describe "name is :add_project", :new do
+      before {@permission = Redmine::AccessControl::Permission.new(:add_project, {:cont => [:action]}, :project_module => :project)}
+
       describe :global? do
         it {@permission.global?.should be_true}
       end

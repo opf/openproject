@@ -20,6 +20,10 @@ module GlobalRoles
         @global || global_require
       end
 
+      def global=(bool)
+        @global = bool
+      end
+
       private
 
       def global_require
