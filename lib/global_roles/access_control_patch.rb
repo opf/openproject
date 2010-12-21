@@ -4,10 +4,6 @@ module GlobalRoles
       base.send(:extend, ClassMethods)
 
       base.class_eval do
-        def self.global_permissions
-          @global_permissions ||= @permissions.select {|p| p.global?}
-        end
-
         class << self
           alias_method :available_project_modules_without_no_global, :available_project_modules unless method_defined?(:available_project_modules_without_no_global)
           alias_method :available_project_modules, :available_project_modules_with_no_global
@@ -19,6 +15,10 @@ module GlobalRoles
       def available_project_modules_with_no_global
         @available_project_modules ||= @permissions.reject{|p| p.global? }.collect(&:project_module).uniq.compact
         available_project_modules_without_no_global
+      end
+
+      def global_permissions
+        @global_permissions ||= @permissions.select {|p| p.global?}
       end
     end
   end

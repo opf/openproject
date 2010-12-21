@@ -19,18 +19,23 @@ describe PrincipalRolesController do
 
       describe "SUCCESS" do
         before :each do
-          Role.stub!(:find).and_return([mock_model(GlobalRole)])
+          @global_role = mock_model(GlobalRole)
+          @global_role.stub!(:id).and_return(42)
+          Role.stub!(:find).and_return([@global_role])
           PrincipalRole.stub!(:new).and_return(@principal_role)
           @principal_role.stub!(:role=)
+          @principal_role.stub!(:role).and_return(@global_role)
           @principal_role.stub!(:save)
         end
 
         describe "js" do
           before :each do
+            response_should_render :remove, "principal_role_option_#{@global_role.id}"
             response_should_render :insert_html,
                                    :top, 'table_principal_roles_body',
                                    :partial => "principal_roles/show_table_row",
                                    :locals => {:principal_role => anything()}
+
             xhr :post, :create, @params
           end
 
@@ -42,17 +47,12 @@ describe PrincipalRolesController do
 
   describe :delete do
     before :each do
-
       PrincipalRole.stub!(:find).and_return @principal_role
       @principal_role.stub!(:destroy)
       @params = {"id" => "1"}
     end
 
     describe :destroy do
-      before :each do
-
-      end
-
       describe "SUCCESS" do
         before :each do
           response_should_render :remove, "principal_role_1"
@@ -64,12 +64,8 @@ describe PrincipalRolesController do
           end
 
           it { response.should be_success }
-
-
         end
       end
     end
-
-
   end
 end
