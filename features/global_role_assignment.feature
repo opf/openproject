@@ -39,6 +39,7 @@ Feature: Global Role Assignment
     And I click on "Add"
     Then I should see "global_role" within "#table_principal_roles"
     And I should not see "global_role" within "#available_principal_roles"
+    And I should see "No global role available for assignment"
 
   @javascript
   Scenario: Deleting a global role of a user

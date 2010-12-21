@@ -1,6 +1,7 @@
 var principal_roles = {
 	init: function(){
 		principal_roles.set_table_visibility();
+		principal_roles.set_available_roles_visibility();
 	},
 
 	set_table_visibility: function(){
@@ -12,6 +13,18 @@ var principal_roles = {
 		{
 			$('table_principal_roles').hide();
 			$('no_data').show();
+		}
+	},
+
+	set_available_roles_visibility: function(){
+		if ($$('.principal_role_option').length > 0){
+			$('additional_principal_roles').show();
+			$('no_additional_principal_roles').hide();
+		}
+		else
+		{
+			$('additional_principal_roles').hide();
+			$('no_additional_principal_roles').show();
 		}
 	},
 

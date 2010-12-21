@@ -1,3 +1,2 @@
-# English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  label_no_assignable_role: No global role available for assignment

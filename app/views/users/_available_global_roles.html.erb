@@ -1,12 +1,10 @@
 <% def available_additional_global_roles available_roles, user
-
-	taken_roles = user.global_roles
-
-	available_roles - taken_roles
+	available_roles - user.global_roles
 end%>
 
 <div class="splitcontentright" id="available_principal_roles">
 <fieldset><legend><%= l(:label_role_plural) %></legend>
+<span id="additional_principal_roles">
 <% remote_form_for(:principal_roles, :url => principal_roles_url, :method => :post) do %>
 	<%= hidden_field_tag 'principal_role[principal_id]', user.id %>
 <% available_additional_global_roles(global_roles, user).each do |role| %>
@@ -14,5 +12,9 @@ end%>
 <% end %>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>
+</span>
+<span id="no_additional_principal_roles" style="display:none">
+<p id="no_data" class="nodata"><%= l(:label_no_assignable_role) %></p>
+<span>
 </fieldset>
 </div>
