@@ -16,10 +16,10 @@ Dispatcher.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_global_roles do
-  name 'Redmine Global Roles plugin'
-  author 'Author name'
-  description 'This is a plugin for Redmine'
-  version '0.0.1'
+  name 'Global Roles plugin'
+  author 'Jens Ulferts @ finnlabs'
+  description 'Adds global, meaning non project bound, roles. Create Project becomes a global role.'
+  version '0.1.0'
 
   if RAILS_ENV != "test"
     require_or_load 'global_roles/permission_patch'
@@ -32,7 +32,5 @@ Redmine::Plugin.register :redmine_global_roles do
       @global = true
     end
   end
-
-
 end
 

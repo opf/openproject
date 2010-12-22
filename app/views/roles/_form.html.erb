@@ -1,3 +1,7 @@
+<% content_for :header_tags do%>
+	<%= stylesheet_link_tag "global_roles", :plugin => "redmine_global_roles" %>
+<%end%>
+
 <% roles ||= nil %>
 
 <%= error_messages_for :role %>
@@ -8,7 +12,9 @@
 <% if role.new_record? %>
 <label for='global_role'><%= l(:label_global_role)%></label><%= check_box_tag("global_role", "1", role.is_a?(GlobalRole))%>
 <%else%>
-<%= role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role) %>
+<span class="label">
+<%= l(:label_role_type) + " " + l(:label_not_changeable)%></span>
+<%= (role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role))%>
 <%end%>
 </p>
 <div id="global_attributes" style="display:none">
