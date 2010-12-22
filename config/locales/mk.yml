@@ -265,6 +265,7 @@ mk:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: Моментално (On-the-fly) креирање на корисници
+  field_start_date: Почеток
   field_done_ratio: % Завршено
   field_auth_source: Режим на автентикација
   field_hide_mail: Криј ја мојата адреса на е-пошта
@@ -926,7 +927,6 @@ mk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

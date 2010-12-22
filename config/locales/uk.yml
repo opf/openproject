@@ -231,6 +231,7 @@ uk:
   field_attr_lastname: Атрибут Прізвище
   field_attr_mail: Атрибут Email
   field_onthefly: Створення користувача на льоту
+  field_start_date: Початок
   field_done_ratio: % зроблено
   field_auth_source: Режим аутентифікації
   field_hide_mail: Приховувати мій email
@@ -922,7 +923,6 @@ uk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

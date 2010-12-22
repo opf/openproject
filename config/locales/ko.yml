@@ -299,6 +299,7 @@ ko:
   field_attr_lastname: 성 속성
   field_attr_mail: 메일 속성
   field_onthefly: 동적 사용자 생성
+  field_start_date: 시작시간
   field_done_ratio: 진척도
   field_auth_source: 인증 공급자
   field_hide_mail: 메일 주소 숨기기
@@ -978,7 +979,6 @@ ko:
   field_member_of_group: 할당된 사람의 그룹
   field_assigned_to_role: 할당된 사람의 역할
   notice_not_authorized_archived_project: 접근하려는 프로젝트는 이미 잠금보관되어 있습니다.
-  field_start_date: 시작일자
   label_principal_search: "사용자 및 그룹 찾기:"
   label_user_search: "사용자 찾기::"
   field_visible: 보이기

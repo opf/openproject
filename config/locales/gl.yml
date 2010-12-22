@@ -290,6 +290,7 @@ gl:
   field_role: Perfil
   field_searchable: Incluír nas búsquedas
   field_spent_on: Data
+  field_start_date: Data de inicio
   field_start_page: Páxina principal
   field_status: Estado
   field_subject: Tema
@@ -938,7 +939,6 @@ gl:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

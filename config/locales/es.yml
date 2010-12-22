@@ -313,6 +313,7 @@ es:
   field_role: Perfil
   field_searchable: Incluir en las búsquedas
   field_spent_on: Fecha
+  field_start_date: Fecha de inicio
   field_start_page: Página principal
   field_status: Estado
   field_subject: Tema
@@ -962,7 +963,6 @@ es:
   field_member_of_group: Asignado al grupo
   field_assigned_to_role: Asignado al perfil
   notice_not_authorized_archived_project: El proyecto al que intenta acceder ha sido archivado.
-  field_start_date: Fecha de inicio
   label_principal_search: "Buscar por usuario o grupo:"
   label_user_search: "Buscar por usuario:"
   field_visible: Visible

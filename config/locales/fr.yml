@@ -273,6 +273,7 @@ fr:
   field_attr_lastname: Attribut Nom
   field_attr_mail: Attribut Email
   field_onthefly: Création des utilisateurs à la volée
+  field_start_date: Début
   field_done_ratio: % réalisé
   field_auth_source: Mode d'authentification
   field_hide_mail: Cacher mon adresse mail
@@ -948,5 +949,4 @@ fr:
   label_user_mail_option_none: Aucune notification
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
-  field_start_date: Start date
   setting_emails_header: Emails header

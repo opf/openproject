@@ -313,7 +313,6 @@ ru:
   field_description: Описание
   field_done_ratio: Готовность в %
   field_downloads: Загрузки
-  field_start_date: Дата начала
   field_due_date: Дата выполнения
   field_editable: Редактируемый
   field_effective_date: Дата
@@ -364,6 +363,7 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
+  field_start_date: Начата
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема

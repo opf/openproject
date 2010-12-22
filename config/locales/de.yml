@@ -282,6 +282,7 @@ de:
   field_attr_lastname: Name-Attribut
   field_attr_mail: E-Mail-Attribut
   field_onthefly: On-the-fly-Benutzererstellung
+  field_start_date: Beginn
   field_done_ratio: % erledigt
   field_auth_source: Authentifizierungs-Modus
   field_hide_mail: E-Mail-Adresse nicht anzeigen
@@ -945,7 +946,6 @@ de:
   label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
-  field_start_date: Start date
   field_visible: Visible
   setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time

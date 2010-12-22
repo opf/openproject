@@ -232,6 +232,7 @@ it:
   field_attr_lastname: Attributo cognome
   field_attr_mail: Attributo email
   field_onthefly: Creazione utente "al volo"
+  field_start_date: Inizio
   field_done_ratio: % completato
   field_auth_source: Modalità di autenticazione
   field_hide_mail: Nascondi il mio indirizzo email
@@ -926,7 +927,6 @@ it:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

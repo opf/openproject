@@ -254,6 +254,7 @@ da:
   field_attr_lastname: Efternavn attribut
   field_attr_mail: Email attribut
   field_onthefly: løbende brugeroprettelse
+  field_start_date: Start date
   field_done_ratio: % Færdig
   field_auth_source: Sikkerhedsmetode
   field_hide_mail: Skjul min email
@@ -942,7 +943,6 @@ da:
   field_member_of_group: Medlem af Gruppe
   field_assigned_to_role: Medlem af Rolle
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

@@ -261,6 +261,7 @@ eu:
   field_attr_lastname: Abizenak atributua
   field_attr_mail: Eposta atributua
   field_onthefly: Zuzeneko erabiltzaile sorrera
+  field_start_date: Hasiera
   field_done_ratio: Egindako %
   field_auth_source: Autentikazio modua
   field_hide_mail: Nire eposta helbidea ezkutatu
@@ -930,7 +931,6 @@ eu:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible

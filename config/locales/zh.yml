@@ -272,6 +272,7 @@ zh:
   field_attr_lastname: 姓氏属性
   field_attr_mail: 邮件属性
   field_onthefly: 即时用户生成
+  field_start_date: 开始
   field_done_ratio: 完成度
   field_auth_source: 认证模式
   field_hide_mail: 隐藏我的邮件地址
@@ -940,7 +941,6 @@ zh:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
