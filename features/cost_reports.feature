@@ -4,11 +4,11 @@ Feature: Cost Control
     Given I am not logged in
     And there is 1 Project with the following:
       | Name      | Test |
-    And the project "Test" has 1 cost entry    
+    And the project "Test" has 1 cost entry
     And I am on the Cost Reports page for the project called Test
     Then I should see "Login:"
     And I should see "Password:"
-    
+
   Scenario: Admin user sees everything
     Given I am admin
     And there is 1 project with the following:
@@ -58,10 +58,10 @@ Feature: Cost Control
       | Firstname 		| Bob 		|
       | Lastname 			| Bobbit 	|
       | default rate  | 20.0    |
-    And the user "Bob" is a "Developer" in the project "Test"
+    And the user "bob" is a "Developer" in the project "Test"
     And the role "Developer" may have the following rights:
       | View own time entries |
-    And the user "Bob" has 1 time entry
+    And the user "bob" has 1 time entry
     And the project "Test" has 2 time entries with the following:
       | hours | 11 |
     And I am logged in as "bob"
@@ -71,7 +71,7 @@ Feature: Cost Control
     And I should not see "11"
     And I should not see "220.0"
     And I should not see "Redmine Admin"
-    
+
   Scenario: Editing a cost entry does not duplicate, but update it
     Given there is a standard cost control project named "CostProject"
     And the project "CostProject" has 1 cost entry with the following:
