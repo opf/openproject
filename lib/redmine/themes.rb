@@ -30,6 +30,8 @@ module Redmine
     
     # Return theme for given id, or nil if it's not found
     def self.theme(id, options={})
+      return nil if id.blank?
+      
       found = themes.find {|t| t.id == id}
       if found.nil? && options[:rescan] != false
         rescan
