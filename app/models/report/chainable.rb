@@ -72,7 +72,7 @@ class Report < ActiveRecord::Base
       engine.chain_initializer.push block
     end
 
-    inherited_attribute :label
+    inherited_attribute :label, :default => :translation_needed
     inherited_attribute :properties, :list => true
 
     class << self
