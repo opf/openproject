@@ -1,5 +1,6 @@
 <% content_for :header_tags do%>
 	<%= stylesheet_link_tag "global_roles", :plugin => "redmine_global_roles" %>
+	<%= javascript_include_tag "global_roles", :plugin => "redmine_global_roles"%>
 <%end%>
 
 <% roles ||= nil %>

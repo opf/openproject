@@ -1,6 +1,6 @@
 en:
   label_role_type: Type
-  label_member_role: Member Role
+  label_member_role: Project Role
   label_global_role: Global Role
   label_not_changeable: (not changeable)
   label_no_assignable_role: No global role available for assignment
