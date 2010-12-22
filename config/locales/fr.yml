@@ -128,6 +128,7 @@ fr:
         wrong_length: "ne fait pas la bonne longueur (doit comporter %{count} caractères)"
         taken: "est déjà utilisé"
         not_a_number: "n'est pas un nombre"
+        not_a_date: "n'est pas une date valide"
         greater_than: "doit être supérieur à %{count}"
         greater_than_or_equal_to: "doit être supérieur ou égal à %{count}"
         equal_to: "doit être égal à %{count}"
