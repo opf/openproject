@@ -21,9 +21,9 @@ module CostsUserPatch
 
       has_many :rates, :class_name => 'HourlyRate'
       has_many :default_rates, :class_name => 'DefaultHourlyRate'
-      
+
       before_save :save_rates
-      
+
       alias_method_chain :allowed_to?, :inheritance
     end
 
@@ -32,7 +32,7 @@ module CostsUserPatch
   module InstanceMethods
     def allowed_for_role(action, project, role, users, options={})
       allowed = role.allowed_to?(action)
-      
+
       if action.is_a? Symbol
         perm = Redmine::AccessControl.permission(action)
         if perm.granular_for
@@ -66,7 +66,7 @@ module CostsUserPatch
       end
       roles
     end
-    
+
     # Return true if the user is allowed to do the specified action on project
     # action can be:
     # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -75,9 +75,9 @@ module CostsUserPatch
       allowed_for_role = Proc.new do |role, users|
         self.allowed_for_role(action, project, role, users, options)
       end
-      
+
       options[:for] = self unless options.has_key?(:for)
-      
+
       if project
         # No action allowed on archived projects
         return false unless project.active?
@@ -90,13 +90,14 @@ module CostsUserPatch
 
         roles = granular_roles_for_project(project)
         return false unless roles
-        roles.detect do |role, users|
+        allowing_role_pair = roles.detect do |role, users|
           if (project.is_public? || role.member?)
             allowed_for_role.call(role, users)
           else
             false
           end
         end
+        allowing_role_pair ? allowing_role_pair[0] : allowing_role_pair #the role
       elsif options[:global]
         # Admin users are always authorized
         return true if admin?
@@ -112,13 +113,19 @@ module CostsUserPatch
             roles
           end
         end
-        
-        roles.detect(&allowed_for_role) || (self.logged? ? allowed_for_role.call(Role.non_member, [self]) : allowed_for_role.call(Role.anonymous, [self]))
+
+        allowing_role = roles.detect(&allowed_for_role)
+        if allowing_role
+          allowing_role[0]
+        else
+          self.logged? ? allowed_for_role.call(Role.non_member, [self]) : allowed_for_role.call(Role.anonymous, [self])
+        end
+
       else
         false
       end
     end
-    
+
     def allowed_for(permission, projects = nil)
       unless projects.nil? or projects.blank?
         projects = [projects] unless projects.is_a? Array
@@ -130,9 +137,9 @@ module CostsUserPatch
         # In case there is no Project, we assume that an admin still has all the permissions
         return (self.admin? ? "(1=1)" : "(1=0)") if projects.blank?
       end
-      
+
       return "(#{Project.table_name}.id in (#{projects.collect(&:id).join(", ")}))" if self.admin?
-      
+
       user_list = projects.inject({}) do |user_list, project|
         roles = granular_roles_for_project(project)
         return user_list unless roles
@@ -155,7 +162,7 @@ module CostsUserPatch
         end
         user_list
       end
-      
+
       cond = ["0=1"]
       user_list.each_pair do |users, projects|
         if users
@@ -166,11 +173,11 @@ module CostsUserPatch
       end
       "(#{cond.join " OR "})"
     end
-    
+
     def current_rate(project = nil, include_default = true)
       rate_at(Date.today, project, include_default)
     end
-    
+
     def rate_at(date, project = nil, include_default = true)
       unless project.nil?
         rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
@@ -182,7 +189,7 @@ module CostsUserPatch
       rate ||= default_rate_at(date) if include_default
       rate
     end
-    
+
     def current_default_rate()
       default_rate_at(Date.today)
     end
@@ -190,15 +197,15 @@ module CostsUserPatch
     def default_rate_at(date)
       DefaultHourlyRate.find(:first, :conditions => [ "user_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
     end
-    
+
     def add_rates(project, rate_attributes)
       # set project to nil to set the default rates
-      
+
       return unless rate_attributes
-      
+
       rate_attributes.each do |index, attributes|
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
-        
+
         if project.nil?
           default_rates.build(attributes)
         else
@@ -219,20 +226,20 @@ module CostsUserPatch
         end
       end
     end
-    
+
     def save_rates
       (default_rates + rates).each do |rate|
         rate.save(false)
       end
     end
-    
-    
+
+
   private
     def granular_roles(member_roles)
       roles = {}
       member_roles.each do |r|
         roles[r.role] = [self]
-        
+
         if r.inherited_from
           # the role was inherited from a group
           case r.membership_type
@@ -240,7 +247,7 @@ module CostsUserPatch
             inherited = MemberRole.find_by_id(r.inherited_from)
             users = [self]
             users += inherited.member.users# if inherited.member.principal.is_a? Group
-            
+
             roles[r.role] = users
           else # :default
             #nothing
@@ -252,7 +259,7 @@ module CostsUserPatch
 
     def update_rate(rate, rate_attributes, project_rate = true)
       attributes = rate_attributes[rate.id.to_s] if rate_attributes
-      
+
       has_rate = false
       if attributes && attributes[:rate].present?
         attributes[:rate] = Rate.clean_currency(attributes[:rate])
