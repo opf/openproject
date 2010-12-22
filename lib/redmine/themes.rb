@@ -40,12 +40,14 @@ module Redmine
   
     # Class used to represent a theme
     class Theme
-      attr_reader :name, :dir, :stylesheets
+      attr_reader :path, :name, :dir
       
       def initialize(path)
+        @path = path
         @dir = File.basename(path)
         @name = @dir.humanize
-        @stylesheets = Dir.glob("#{path}/stylesheets/*.css").collect {|f| File.basename(f).gsub(/\.css$/, '')}
+        @stylesheets = nil
+        @javascripts = nil
       end
       
       # Directory name used as the theme id
@@ -58,10 +60,32 @@ module Redmine
       def <=>(theme)
         name <=> theme.name
       end
+      
+      def stylesheets
+        @stylesheets ||= assets("stylesheets", "css")
+      end
+      
+      def javascripts
+        @javascripts ||= assets("javascripts", "js")
+      end
+      
+      def stylesheet_path(source)
+        "/themes/#{dir}/stylesheets/#{source}"
+      end
+      
+      def javascript_path(source)
+        "/themes/#{dir}/javascripts/#{source}"
+      end
+      
+      private
+      
+      def assets(dir, ext)
+        Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f).gsub(/\.#{ext}$/, '')}
+      end
     end
     
     private
-        
+    
     def self.scan_themes
       dirs = Dir.glob("#{Rails.public_path}/themes/*").select do |f|
         # A theme should at least override application.css
@@ -73,13 +97,29 @@ module Redmine
 end
 
 module ApplicationHelper
+  def current_theme
+    unless instance_variable_defined?(:@current_theme)
+      @current_theme = Redmine::Themes.theme(Setting.ui_theme)
+    end
+    @current_theme
+  end
+  
   def stylesheet_path(source)
-    @current_theme ||= Redmine::Themes.theme(Setting.ui_theme)
-    super((@current_theme && @current_theme.stylesheets.include?(source)) ?
-      "/themes/#{@current_theme.dir}/stylesheets/#{source}" : source)
+    if current_theme && current_theme.stylesheets.include?(source)
+      super current_theme.stylesheet_path(source)
+    else
+      super
+    end
   end
   
   def path_to_stylesheet(source)
     stylesheet_path source
+  end
+  
+  # Returns the header tags for the current theme
+  def heads_for_theme
+    if current_theme && current_theme.javascripts.include?('theme')
+      javascript_include_tag current_theme.javascript_path('theme')
+    end
   end
 end
