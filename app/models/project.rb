@@ -454,7 +454,7 @@ class Project < ActiveRecord::Base
     [
      issues.minimum('start_date'),
      shared_versions.collect(&:effective_date),
-     shared_versions.collect {|v| v.fixed_issues.minimum('start_date')}
+     shared_versions.collect(&:start_date)
     ].flatten.compact.min
   end
 
