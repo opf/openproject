@@ -101,7 +101,7 @@ class Report < ActiveRecord::Base
     end
 
     def to_a
-      returning([to_hash]) { |a| a.unshift(*child.to_a) unless bottom? }
+      [to_hash].tap { |a| a.unshift(*child.to_a) unless bottom? }
     end
 
     def top
