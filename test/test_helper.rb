@@ -361,6 +361,20 @@ class ActiveSupport::TestCase
       end
     end
     
+    context "should allow key based auth using X-Redmine-API-Key header for #{http_method} #{url}" do
+      setup do
+        @user = User.generate_with_protected!(:admin => true)
+        @token = Token.generate!(:user => @user, :action => 'api')
+        send(http_method, url, parameters, {'X-Redmine-API-Key' => @token.value.to_s})
+      end
+      
+      should_respond_with success_code
+      should_respond_with_content_type_based_on_url(url)
+      should_be_a_valid_response_string_based_on_url(url)
+      should "login as the user" do
+        assert_equal @user, User.current
+      end
+    end
   end
 
   # Uses should_respond_with_content_type based on what's in the url:

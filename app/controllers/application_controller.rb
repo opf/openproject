@@ -71,10 +71,10 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format])
-      if params[:key].present? && accept_key_auth_actions.include?(params[:action])
+    elsif Setting.rest_api_enabled? && api_request?
+      if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
-        User.find_by_api_key(params[:key])
+        User.find_by_api_key(key)
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
@@ -401,6 +401,15 @@ class ApplicationController < ActionController::Base
   
   def api_request?
     %w(xml json).include? params[:format]
+  end
+  
+  # Returns the API key present in the request
+  def api_key_from_request
+    if params[:key].present?
+      params[:key]
+    elsif request.headers["X-Redmine-API-Key"].present?
+      request.headers["X-Redmine-API-Key"]
+    end
   end
 
   # Renders a warning flash if obj has unsaved attachments
