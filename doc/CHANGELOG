@@ -4,6 +4,20 @@ Redmine - project management software
 Copyright (C) 2006-2010  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2010-12-23 v1.0.5
+
+* #6656: Mercurial adapter loses seconds of commit times
+* #6996: Migration trac(sqlite3) -> redmine(postgresql) doesnt escape ' char
+* #7013: v-1.0.4 trunk - see {{count}} in page display rather than value
+* #7016: redundant 'field_start_date' in ja.yml
+* #7018: 'undefined method `reschedule_after' for nil:NilClass' on new issues
+* #7024: E-mail notifications about Wiki changes.
+* #7033: 'class' attribute of <pre> tag shouldn't be truncate
+* #7035: CSV value separator in russian
+* #7122: Issue-description Quote-button missing
+* #7144: custom queries making use of deleted custom fields cause a 500 error
+* #7162: Multiply defined label in french translation
+
 == 2010-11-28 v1.0.4
 
 * #5324: Git not working if color.ui is enabled
