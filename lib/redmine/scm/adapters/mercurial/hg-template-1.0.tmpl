@@ -1,7 +1,7 @@
 changeset = 'This template must be used with --debug option\n'
 changeset_quiet =  'This template must be used with --debug option\n'
 changeset_verbose = 'This template must be used with --debug option\n'
-changeset_debug = '<logentry revision="{rev}" node="{node|short}">\n<author>{author|escape}</author>\n<date>{date|isodate}</date>\n<paths>\n{file_mods}{file_adds}{file_dels}{file_copies}</paths>\n<msg>{desc|escape}</msg>\n{tags}</logentry>\n\n'
+changeset_debug = '<logentry revision="{rev}" node="{node|short}">\n<author>{author|escape}</author>\n<date>{date|isodatesec}</date>\n<paths>\n{file_mods}{file_adds}{file_dels}{file_copies}</paths>\n<msg>{desc|escape}</msg>\n{tags}</logentry>\n\n'
 
 file_mod = '<path action="M">{file_mod|escape}</path>\n'
 file_add = '<path action="A">{file_add|escape}</path>\n'

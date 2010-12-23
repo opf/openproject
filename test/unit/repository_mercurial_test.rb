@@ -62,12 +62,20 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 2, @repository.entries("images", 2).size
     end
 
-
     def test_cat
       assert @repository.scm.cat("sources/welcome_controller.rb", 2)
       assert_nil @repository.scm.cat("sources/welcome_controller.rb")
     end
 
+    def test_isodatesec
+      # Template keyword 'isodatesec' supported in Mercurial 1.0 and higher
+      if @repository.scm.class.client_version_above?([1, 0])
+        @repository.fetch_changesets
+        @repository.reload
+        rev0_committed_on = Time.gm(2007, 12, 14, 9, 22, 52)
+        assert_equal @repository.changesets.find_by_revision('0').committed_on, rev0_committed_on
+      end
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
