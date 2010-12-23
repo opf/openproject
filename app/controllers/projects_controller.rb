@@ -53,7 +53,9 @@ class ProjectsController < ApplicationController
         @projects = Project.visible.find(:all, :order => 'lft') 
       }
       format.api  {
-        @projects = Project.visible.find(:all, :order => 'lft')
+        @offset, @limit = api_offset_and_limit
+        @project_count = Project.visible.count
+        @projects = Project.visible.all(:offset => @offset, :limit => @limit, :order => 'lft')
       }
       format.atom {
         projects = Project.visible.find(:all, :order => 'created_on DESC',

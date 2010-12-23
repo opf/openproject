@@ -1,4 +1,4 @@
-api.array :projects do
+api.array :projects, api_meta(:total_count => @project_count, :offset => @offset, :limit => @limit) do
   @projects.each do |project|
     api.project do
       api.id          project.id
