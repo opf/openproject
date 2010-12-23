@@ -349,20 +349,27 @@ class ApplicationController < ActionController::Base
     per_page
   end
 
-  def api_offset_and_limit
-    offset = nil
-    if params[:offset].present?
-      offset = params[:offset].to_i
+  # Returns offset and limit used to retrieve objects
+  # for an API response based on offset, limit and page parameters
+  def api_offset_and_limit(options=params)
+    if options[:offset].present?
+      offset = options[:offset].to_i
       if offset < 0
         offset = 0
       end
     end
-    limit = params[:limit].to_i
+    limit = options[:limit].to_i
     if limit < 1
       limit = 25
     elsif limit > 100
       limit = 100
     end
+    if offset.nil? && options[:page].present?
+      offset = (options[:page].to_i - 1) * limit
+      offset = 0 if offset < 0
+    end
+    offset ||= 0
+    
     [offset, limit]
   end
   
