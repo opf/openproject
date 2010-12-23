@@ -57,4 +57,19 @@ class ThemesTest < ActionController::IntegrationTest
   ensure
     @theme.javascripts.delete 'theme'
   end
+  
+  def test_with_sub_uri
+    Redmine::Utils.relative_url_root = '/foo'
+    @theme.javascripts << 'theme'
+    get '/'
+    
+    assert_response :success
+    assert_tag :tag => 'link',
+      :attributes => {:href => %r{^/foo/themes/#{@theme.dir}/stylesheets/application.css}}
+    assert_tag :tag => 'script',
+      :attributes => {:src => %r{^/foo/themes/#{@theme.dir}/javascripts/theme.js}}
+  
+  ensure
+    Redmine::Utils.relative_url_root = ''
+  end
 end
