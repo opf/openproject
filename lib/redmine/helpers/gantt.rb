@@ -281,8 +281,8 @@ module Redmine
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
             
-          coords = coordinates(project.start_date, project.due_date, project.completed_percent(:include_subprojects => true), options[:zoom])
-          label = "#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%"
+          coords = coordinates(project.start_date, project.due_date, nil, options[:zoom])
+          label = h(project)
           
           case options[:format]
           when :html

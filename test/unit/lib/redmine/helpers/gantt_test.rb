@@ -353,24 +353,24 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       end
 
       context "late line" do
-        should "start from the starting point on the left" do
+        should_eventually "start from the starting point on the left" do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.task_late[style*=left:28px]", true, @response.body
         end
 
-        should "be the total delayed width of the project" do
+        should_eventually "be the total delayed width of the project" do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.task_late[style*=width:30px]", true, @response.body
         end
       end
 
       context "done line" do
-        should "start from the starting point on the left" do
+        should_eventually "start from the starting point on the left" do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.task_done[style*=left:28px]", true, @response.body
         end
 
-        should "Be the total done width of the project"  do
+        should_eventually "Be the total done width of the project"  do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.task_done[style*=width:18px]", true, @response.body
         end
@@ -420,7 +420,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.project.label", /#{@project.name}/
         end
 
-        should "show the percent complete" do
+        should_eventually "show the percent complete" do
           @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /0%/
         end
