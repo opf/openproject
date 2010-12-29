@@ -676,31 +676,12 @@ module Redmine
         issues.sort! { |a, b| gantt_issue_compare(a, b, issues) }
       end
   
+      # TODO: top level issues should be sorted by start date
       def gantt_issue_compare(x, y, issues)
-        if x.parent_id == y.parent_id
-          gantt_start_compare(x, y)
-        elsif x.is_ancestor_of?(y)
-          -1
-        elsif y.is_ancestor_of?(x)
-          1
+        if x.root_id == y.root_id
+          x.lft <=> y.lft
         else
-          ax = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(x) && !i.is_ancestor_of?(y) }.sort_by(&:lft).first
-          ay = issues.select {|i| i.is_a?(Issue) && i.is_ancestor_of?(y) && !i.is_ancestor_of?(x) }.sort_by(&:lft).first
-          if ax.nil? && ay.nil?
-            gantt_start_compare(x, y)
-          else
-            gantt_issue_compare(ax || x, ay || y, issues)
-          end
-        end
-      end
-      
-      def gantt_start_compare(x, y)
-        if x.start_date.nil?
-          -1
-        elsif y.start_date.nil?
-          1
-        else
-          x.start_date <=> y.start_date
+          x.root_id <=> y.root_id
         end
       end
       
