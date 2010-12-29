@@ -102,4 +102,10 @@ class ContextMenusControllerTest < ActionController::TestCase
                                              :class => 'icon-del' }
   end
   
+  def test_context_menu_issue_visibility
+    get :issues, :ids => [1, 4]
+    assert_response :success
+    assert_template 'context_menu'
+    assert_equal [1], assigns(:issues).collect(&:id)
+  end
 end
