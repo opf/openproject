@@ -148,6 +148,9 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     end
     
+    # ignore CLI-supplied defaults for new issues
+    @@handler_options[:issue].clear
+    
     journal = issue.init_journal(user, cleaned_up_text_body)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}

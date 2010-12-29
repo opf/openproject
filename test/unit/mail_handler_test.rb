@@ -327,6 +327,14 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
+  def test_add_issue_note_should_not_set_defaults
+    journal = submit_email('ticket_reply.eml', :issue => {:tracker => 'Support request', :priority => 'High'})
+    assert journal.is_a?(Journal)
+    assert_match /This is reply/, journal.notes
+    assert_equal 'Feature request', journal.issue.tracker.name
+    assert_equal 'Normal', journal.issue.priority.name
+  end
+  
   def test_reply_to_a_message
     m = submit_email('message_reply.eml')
     assert m.is_a?(Message)
