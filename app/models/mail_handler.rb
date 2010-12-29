@@ -256,8 +256,8 @@ class MailHandler < ActionMailer::Base
     assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k)
     assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
     
-    {
-      'tracker_id' => ((k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id)) || issue.project.trackers.find(:first).try(:id),
+    attrs = {
+      'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
@@ -268,6 +268,12 @@ class MailHandler < ActionMailer::Base
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
       'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
+    
+    if issue.new_record? && attrs['tracker_id'].nil?
+      attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
+    end
+    
+    attrs
   end
   
   # Returns a Hash of issue custom field values extracted from keywords in the email body

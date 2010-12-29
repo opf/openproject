@@ -36,6 +36,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                    :issue_categories,
                    :custom_fields,
                    :custom_fields_trackers,
+                   :custom_fields_projects,
                    :boards,
                    :messages
   
@@ -53,9 +54,10 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
+    assert_equal Project.find(2), issue.project
+    assert_equal issue.project.trackers.first, issue.tracker
     assert_equal 'New ticket on a given project', issue.subject
     assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
     assert_equal IssueStatus.find_by_name('Resolved'), issue.status
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     assert_equal '2010-01-01', issue.start_date.to_s
@@ -72,6 +74,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert mail.subject.include?('New ticket on a given project')
+  end
+  
+  def test_add_issue_with_default_tracker
+    # This email contains: 'Project: onlinestore'
+    issue = submit_email('ticket_on_given_project.eml', :issue => {:tracker => 'Support request'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'Support request', issue.tracker.name
   end
 
   def test_add_issue_with_status
@@ -290,6 +301,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
+    assert_equal 'Feature request', journal.issue.tracker.name
   end
 
   def test_add_issue_note_with_attribute_changes
@@ -300,11 +312,12 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes
+    assert_equal 'Feature request', journal.issue.tracker.name
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
     assert_equal '2010-01-01', issue.start_date.to_s
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal 'Updated custom value', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
+    assert_equal "52.6", issue.custom_value_for(CustomField.find_by_name('Float field')).value
   end
 
   def test_add_issue_note_should_send_email_notification
