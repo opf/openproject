@@ -449,12 +449,19 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
 
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
-      
-    parse_non_pre_blocks(text) do |text|
+    
+    @parsed_headings = []
+    text = parse_non_pre_blocks(text) do |text|
       [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
+    
+    if @parsed_headings.any?
+      replace_toc(text, @parsed_headings)
+    end
+    
+    text
   end
   
   def parse_non_pre_blocks(text)
@@ -674,21 +681,26 @@ module ApplicationHelper
     end
   end
   
-  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
   HEADING_RE = /<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>/i unless const_defined?(:HEADING_RE)
   
   # Headings and TOC
-  # Adds ids and links to headings and renders the TOC if needed unless options[:headings] is set to false
+  # Adds ids and links to headings unless options[:headings] is set to false
   def parse_headings(text, project, obj, attr, only_path, options)
-    headings = []
+    return if options[:headings] == false
+    
     text.gsub!(HEADING_RE) do
       level, attrs, content = $1.to_i, $2, $3
       item = strip_tags(content).strip
       anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-      headings << [level, anchor, item]
+      @parsed_headings << [level, anchor, item]
       "<h#{level} #{attrs} id=\"#{anchor}\">#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
-    end unless options[:headings] == false
-    
+    end
+  end
+          
+  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
+  
+  # Renders the TOC with given headings
+  def replace_toc(text, headings)
     text.gsub!(TOC_RE) do
       if headings.empty?
         ''

@@ -428,7 +428,11 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 h2. Subtitle with [[Wiki|another Wiki]] link
 
 h2. Subtitle with %{color:red}red text%
-    
+
+<pre>
+some code
+</pre>
+
 h3. Subtitle with *some* _modifiers_
 
 h1. Another title
@@ -464,7 +468,7 @@ RAW
                '</ul>'
 
     @project = Project.find(1)
-    assert textilizable(raw).gsub("\n", "").include?(expected)
+    assert textilizable(raw).gsub("\n", "").include?(expected), textilizable(raw)
   end
   
   def test_table_of_content_should_contain_included_page_headings
