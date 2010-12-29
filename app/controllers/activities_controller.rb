@@ -23,7 +23,7 @@ class ActivitiesController < ApplicationController
 
     events = @activity.events(@date_from, @date_to)
     
-    if events.empty? || stale?(:etag => [events.first, User.current])
+    if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html { 
           @events_by_day = events.group_by(&:event_date)
