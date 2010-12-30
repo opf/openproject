@@ -474,7 +474,7 @@ module Redmine
         	(date_to - @date_from + 1).to_i.times do 
               width =  zoom
               gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
-              gc.stroke('grey')
+              gc.stroke('#ddd')
               gc.stroke_width(1)
               gc.rectangle(left, 2*header_heigth, left + width, 2*header_heigth + g_height-1)
               left = left + width
@@ -824,27 +824,31 @@ module Redmine
         
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
-          params[:image].fill('grey')
+          params[:image].fill('#aaa')
           params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_end], params[:top] - height)
  
           if coords[:bar_late_end]
-            params[:image].fill('red')
+            params[:image].fill('#f66')
             params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_late_end], params[:top] - height)
           end
           if coords[:bar_progress_end]
-            params[:image].fill('green')
+            params[:image].fill('#00c600')
             params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_progress_end], params[:top] - height)
           end
         end
         # Renders the markers
         if options[:markers]
           if coords[:start]
+            x = params[:subject_width] + coords[:start]
+            y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].rectangle(params[:subject_width] + coords[:start], params[:top] + 1, params[:subject_width] + coords[:start] + 4, params[:top] - 4)
+            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
           end
           if coords[:end]
+            x = params[:subject_width] + coords[:end] + params[:zoom]
+            y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].rectangle(params[:subject_width] + coords[:end], params[:top] + 1, params[:subject_width] + coords[:end] + 4, params[:top] - 4)
+            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
           end
         end
         # Renders the label on the right
