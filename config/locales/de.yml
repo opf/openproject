@@ -858,6 +858,7 @@ de:
   text_subprojects_destroy_warning: "Dessen Unterprojekte (%{value}) werden ebenfalls gelöscht."
   text_workflow_edit: Workflow zum Bearbeiten auswählen
   text_are_you_sure: Sind Sie sicher?
+  text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
   text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -936,20 +937,19 @@ de:
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
 
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  field_text: Textfeld
+  label_user_mail_option_only_owner: Nur für Aufgaben die ich angelegt habe
+  setting_default_notification_option: Standard Benachrichtigungsoptionen
+  label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
+  label_user_mail_option_only_assigned: Nur für Aufgaben für die ich zuständig bin.
+  notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht nicht verfügbar.
+  label_user_mail_option_none: keine Ereignisse
+  field_member_of_group: Zuständigkeitsgruppe
+  field_assigned_to_role: Zuständigkeitsrolle
+  field_visible: Sichtbar
+  setting_emails_header: Emailkopf
+  setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
+  text_time_logged_by_changeset: Angewendet in Changeset %{value}.
+  setting_commit_logtime_enabled: Aktiviere Zeitlogging
+  notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
+  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
