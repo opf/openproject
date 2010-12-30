@@ -334,7 +334,7 @@ pl:
   label_auth_source_plural: Tryby identyfikacji
   label_authentication: Identyfikacja
   label_blocked_by: zablokowane przez
-  label_blocks: blokady
+  label_blocks: blokuje
   label_board: Forum
   label_board_new: Nowe forum
   label_board_plural: Fora
@@ -410,7 +410,7 @@ pl:
   label_download_plural: "%{count} Pobrania"
   label_downloads_abbr: Pobieranie
   label_duplicated_by: zduplikowane przez
-  label_duplicates: duplikaty
+  label_duplicates: duplikuje
   label_end_to_end: koniec do końca
   label_end_to_start: koniec do początku
   label_enumeration_new: Nowa wartość
