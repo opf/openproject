@@ -248,6 +248,7 @@
   notice_unable_delete_version: 無法刪除版本。
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
   notice_issue_done_ratios_updated: 項目完成百分比已更新。
+  notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在 SCM 儲存庫中找不到這個項目或版次。"
@@ -442,6 +443,7 @@
   setting_default_notification_option: 預設通知選項
   setting_commit_logtime_enabled: 啟用送交中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
+  setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1015,6 +1017,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
