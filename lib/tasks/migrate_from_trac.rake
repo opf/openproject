@@ -246,8 +246,8 @@ namespace :redmine do
           ln = ($2 || '-').strip
 
           u = User.new :mail => mail.gsub(/[^-@a-z0-9\.]/i, '-'),
-                       :firstname => fn[0, limit_for(User, 'firstname')].gsub(/[^\w\s\'\-]/i, '-'),
-                       :lastname => ln[0, limit_for(User, 'lastname')].gsub(/[^\w\s\'\-]/i, '-')
+                       :firstname => fn[0, limit_for(User, 'firstname')],
+                       :lastname => ln[0, limit_for(User, 'lastname')]
 
           u.login = username[0,limit_for(User, 'login')].gsub(/[^a-z0-9_\-@\.]/i, '-')
           u.password = 'trac'

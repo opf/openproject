@@ -88,13 +88,11 @@ task :migrate_from_mantis => :environment do
       
       def firstname
         @firstname = realname.blank? ? username : realname.split.first[0..29]
-        @firstname.gsub!(/[^\w\s\'\-]/i, '')
         @firstname
       end
       
       def lastname
         @lastname = realname.blank? ? '-' : realname.split[1..-1].join(' ')[0..29]
-        @lastname.gsub!(/[^\w\s\'\-]/i, '')
         @lastname = '-' if @lastname.blank?
         @lastname
       end
@@ -224,7 +222,7 @@ task :migrate_from_mantis => :environment do
       end
       
       def name
-        read_attribute(:name)[0..29].gsub(/[^\w\s\'\-]/, '-')
+        read_attribute(:name)[0..29]
       end
     end
     
