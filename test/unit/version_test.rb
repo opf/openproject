@@ -190,7 +190,7 @@ class VersionTest < ActiveSupport::TestCase
     # Separate hierarchy
     project_1_issue = Issue.find(1)
     project_1_issue.fixed_version = @version
-    assert project_1_issue.save, project_1_issue.errors.full_messages
+    assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
     
     project_5_issue = Issue.find(6)
     project_5_issue.fixed_version = @version
