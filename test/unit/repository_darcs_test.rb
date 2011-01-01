@@ -54,12 +54,14 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
     end
-    
+
     def test_cat
-      @repository.fetch_changesets
-      cat = @repository.cat("sources/welcome_controller.rb", 2)
-      assert_not_nil cat
-      assert cat.include?('class WelcomeController < ApplicationController')
+      if @repository.scm.supports_cat?
+        @repository.fetch_changesets
+        cat = @repository.cat("sources/welcome_controller.rb", 2)
+        assert_not_nil cat
+        assert cat.include?('class WelcomeController < ApplicationController')
+      end
     end
   else
     puts "Darcs test repository NOT FOUND. Skipping unit tests !!!"
