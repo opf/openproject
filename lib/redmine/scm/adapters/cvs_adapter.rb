@@ -283,6 +283,8 @@ module Redmine
         # convert a date/time into the CVS-format
         def time_to_cvstime(time)
           return nil if time.nil?
+          return Time.now if time == 'HEAD'
+          
           unless time.kind_of? Time
             time = Time.parse(time)
           end
