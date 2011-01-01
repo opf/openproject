@@ -113,7 +113,13 @@ module RepositoriesHelper
   end
   
   def to_utf8(str)
-    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    if str.respond_to?(:force_encoding)
+      str.force_encoding('UTF-8')
+      return str if str.valid_encoding?
+    else
+      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    end
+    
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
     @encodings.each do |encoding|
       begin
