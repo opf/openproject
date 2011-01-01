@@ -1,10 +1,10 @@
 Index: trunk/app/controllers/issues_controller.rb
 ===================================================================
---- trunk/app/controllers/issues_controller.rb	(r‚vision 1483)
-+++ trunk/app/controllers/issues_controller.rb	(r‚vision 1484)
+--- trunk/app/controllers/issues_controller.rb	(révision 1483)
++++ trunk/app/controllers/issues_controller.rb	(révision 1484)
 @@ -149,7 +149,7 @@
          attach_files(@issue, params[:attachments])
-         flash[:notice] = l(:notice_successful_create)
+         flash[:notice] = 'Demande créée avec succès'
          Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
 -        redirect_to :controller => 'issues', :action => 'show', :id => @issue,  :project_id => @project
 +        redirect_to :controller => 'issues', :action => 'show', :id => @issue
