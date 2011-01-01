@@ -59,7 +59,7 @@ class ActiveSupport::TestCase
   end
   
   def uploaded_test_file(name, mime)
-    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)
+    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
   end
 
   # Mock out a file
