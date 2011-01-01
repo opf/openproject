@@ -17,5 +17,6 @@ class AddUniqueIndexOnMembers < ActiveRecord::Migration
   end
 
   def self.down
+    remove_index :members, [:user_id, :project_id]
   end
 end
