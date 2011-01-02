@@ -116,28 +116,19 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_activities
-      @repository.fetch_changesets
-      @repository.reload
-      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
-      f.scope = ['changesets']
-      events = f.events
-      assert_kind_of Array, events
-      eve = events[-9]
-      assert eve.event_title.include?('1:')
-      assert_equal eve.event_url[:rev], '1'
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '1', :comments => 'test')
+      
+      assert c.event_title.include?('1:'), c.event_title
+      assert_equal c.event_url[:rev], '1'
     end
 
     def test_activities_nine_digit
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
-      assert( c.save )
-      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
-      f.scope = ['changesets']
-      events = f.events
-      assert_kind_of Array, events
-      eve = events[-11]
-      assert eve.event_title.include?('123456789:')
-      assert_equal eve.event_url[:rev], '123456789'
+      
+      assert c.event_title.include?('123456789:')
+      assert_equal c.event_url[:rev], '123456789'
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
