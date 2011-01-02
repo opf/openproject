@@ -770,6 +770,22 @@ class ProjectTest < ActiveSupport::TestCase
         assert_equal @project, membership.project
       end
     end
+    
+    should "copy memberships with groups and additional roles" do
+      group = Group.create!(:lastname => "Copy group")
+      user = User.find(7) 
+      group.users << user
+      # group role
+      Member.create!(:project_id => @source_project.id, :principal => group, :role_ids => [2])
+      member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
+      # additional role
+      member.role_ids = [1]
+
+      assert @project.copy(@source_project)
+      member = Member.find_by_user_id_and_project_id(user.id, @project.id)
+      assert_not_nil member
+      assert_equal [1, 2], member.role_ids.sort
+    end
 
     should "copy project specific queries" do
       assert @project.valid?

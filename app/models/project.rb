@@ -740,7 +740,12 @@ class Project < ActiveRecord::Base
 
   # Copies members from +project+
   def copy_members(project)
-    project.memberships.each do |member|
+    # Copy users first, then groups to handle members with inherited and given roles
+    members_to_copy = []
+    members_to_copy += project.memberships.select {|m| m.principal.is_a?(User)}
+    members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
+    
+    members_to_copy.each do |member|
       new_member = Member.new
       new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
       # only copy non inherited roles
