@@ -18,6 +18,9 @@
 require 'redmine/scm/adapters/mercurial_adapter'
 
 class Repository::Mercurial < Repository
+  # sort changesets by revision number
+  has_many :changesets, :order => "#{Changeset.table_name}.id DESC", :foreign_key => 'repository_id'
+
   attr_protected :root_url
   validates_presence_of :url
 
@@ -50,6 +53,18 @@ class Repository::Mercurial < Repository
       end
     end
     entries
+  end
+
+  # Returns the latest changesets for +path+; sorted by revision number
+  def latest_changesets(path, rev, limit=10)
+    if path.blank?
+      changesets.find(:all, :include => :user, :limit => limit)
+    else
+      changes.find(:all, :include => {:changeset => :user},
+                         :conditions => ["path = ?", path.with_leading_slash],
+                         :order => "#{Changeset.table_name}.id DESC",
+                         :limit => limit).collect(&:changeset)
+    end
   end
 
   def fetch_changesets
