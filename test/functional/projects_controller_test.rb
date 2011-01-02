@@ -429,7 +429,7 @@ class ProjectsControllerTest < ActionController::TestCase
       @request.session[:user_id] = 1 # admin
       post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
       assert_response :redirect
-      assert_redirected_to :controller => 'projects', :action => 'settings'
+      assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
     end
   end
 
