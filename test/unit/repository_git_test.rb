@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
   
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
@@ -61,6 +61,32 @@ class RepositoryGitTest < ActiveSupport::TestCase
       
       @repository.fetch_changesets
       assert_equal 15, @repository.changesets.count
+    end
+
+    def test_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+      assert_equal c.scmid, c.identifier
+    end
+
+    def test_format_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+      assert_equal c.format_identifier, '7234cb27'
+    end
+
+    def test_activities
+      @repository.fetch_changesets
+      @repository.reload
+      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
+      f.scope = ['changesets']
+      events = f.events
+      assert_kind_of Array, events
+      eve = events[-9]
+      assert eve.event_title.include?('7234cb27:')
+      assert_equal eve.event_url[:rev], '7234cb2750b63f47bff735edc50a1c0a433c2518'
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"

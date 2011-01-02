@@ -264,6 +264,13 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           cat
         end
+
+        class Revision < Redmine::Scm::Adapters::Revision
+          # Returns the readable identifier
+          def format_identifier
+            identifier[0,8]
+          end
+        end
       end
     end
   end

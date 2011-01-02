@@ -218,4 +218,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c.comments = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
     assert_equal "Texte encod en ISO-8859-1.", c.comments
   end
+
+  def test_identifier
+    c = Changeset.find_by_revision('1')
+    assert_equal c.revision, c.identifier
+  end
 end

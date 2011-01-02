@@ -174,6 +174,9 @@ class RepositoriesController < ApplicationController
         @diff = @repository.diff(@path, @rev, @rev_to)
         show_error_not_found unless @diff
       end
+
+      @changeset = @repository.find_changeset_by_name(@rev)
+      @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
     end
   end
   

@@ -29,6 +29,16 @@ class Repository::Git < Repository
     'Git'
   end
 
+  # Returns the identifier for the given git changeset
+  def self.changeset_identifier(changeset)
+    changeset.scmid
+  end
+
+  # Returns the readable identifier for the given git changeset
+  def self.format_changeset_identifier(changeset)
+    changeset.revision[0, 8]
+  end
+
   def branches
     scm.branches
   end

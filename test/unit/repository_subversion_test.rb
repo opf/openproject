@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
   
   def setup
     @project = Project.find(1)
@@ -87,6 +87,57 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_not_nil entries, 'Expect to find entries'
       assert_equal 1, entries.size, 'Expect a single entry'
       assert_equal 'README.txt', entries.first.name
+    end
+
+    def test_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('1')
+      assert_equal c.revision, c.identifier
+    end
+
+    def test_identifier_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert_equal c.identifier, c.revision
+    end
+
+    def test_format_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('1')
+      assert_equal c.format_identifier, c.revision
+    end
+
+    def test_format_identifier_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert_equal c.format_identifier, c.revision
+    end
+
+    def test_activities
+      @repository.fetch_changesets
+      @repository.reload
+      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
+      f.scope = ['changesets']
+      events = f.events
+      assert_kind_of Array, events
+      eve = events[-9]
+      assert eve.event_title.include?('1:')
+      assert_equal eve.event_url[:rev], '1'
+    end
+
+    def test_activities_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert( c.save )
+      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
+      f.scope = ['changesets']
+      events = f.events
+      assert_kind_of Array, events
+      eve = events[-11]
+      assert eve.event_title.include?('123456789:')
+      assert_equal eve.event_url[:rev], '123456789'
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"

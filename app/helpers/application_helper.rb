@@ -104,8 +104,10 @@ module ApplicationHelper
   # * :text - Link text (default to the formatted revision)
   def link_to_revision(revision, project, options={})
     text = options.delete(:text) || format_revision(revision)
+    rev = revision.respond_to?(:identifier) ? revision.identifier : revision
 
-    link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
+    link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => rev},
+            :title => l(:label_revision_id, format_revision(revision)))
   end
 
   # Generates a link to a project if active

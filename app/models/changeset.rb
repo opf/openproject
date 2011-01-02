@@ -23,10 +23,10 @@ class Changeset < ActiveRecord::Base
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :issues
 
-  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.revision}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+  acts_as_event :title => Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
                 :description => :long_comments,
                 :datetime => :committed_on,
-                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.revision}}
+                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}}
                 
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},
@@ -47,6 +47,15 @@ class Changeset < ActiveRecord::Base
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)
   end
+
+  # Returns the identifier of this changeset; depending on repository backends
+  def identifier
+    if repository.class.respond_to? :changeset_identifier
+      repository.class.changeset_identifier self
+    else
+      revision.to_s
+    end
+  end
   
   def comments=(comment)
     write_attribute(:comments, Changeset.normalize_comments(comment))
@@ -55,6 +64,15 @@ class Changeset < ActiveRecord::Base
   def committed_on=(date)
     self.commit_date = date
     super
+  end
+
+  # Returns the readable identifier
+  def format_identifier
+    if repository.class.respond_to? :format_changeset_identifier
+      repository.class.format_changeset_identifier self
+    else
+      identifier
+    end
   end
   
   def committer=(arg)
