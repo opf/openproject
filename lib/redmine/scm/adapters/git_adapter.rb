@@ -89,12 +89,13 @@ module Redmine
           cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
           cmd <<  "-- #{shell_quote path} " unless path.empty?
-          shellout(cmd) do |io|
-            begin
-              id = io.gets.split[1]
-              author = io.gets.match('Author:\s+(.*)$')[1]
-              2.times { io.gets }
-              time = Time.parse(io.gets.match('CommitDate:\s+(.*)$')[1]).localtime
+          lines = []
+          shellout(cmd) { |io| lines = io.readlines }
+          return nil if $? && $?.exitstatus != 0
+          begin
+              id = lines[0].split[1]
+              author = lines[1].match('Author:\s+(.*)$')[1]
+              time = Time.parse(lines[4].match('CommitDate:\s+(.*)$')[1]).localtime
 
               Revision.new({
                 :identifier => id,
@@ -104,10 +105,9 @@ module Redmine
                 :message => nil, 
                 :paths => nil 
               })
-            rescue NoMethodError => e
+          rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
               return nil
-            end
           end
         end
 
