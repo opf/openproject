@@ -125,10 +125,29 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'annotate'
-      # Line 23, revision 4
-      assert_tag :tag => 'th', :content => /23/,
-                 :sibling => { :tag => 'td', :child => { :tag => 'a', :content => /4/ } },
-                 :sibling => { :tag => 'td', :content => /jsmith/ },
+      # Line 23, revision 4:def6d2f1254a
+      assert_tag :tag => 'th',
+                 :content => '23',
+                 :attributes => { :class => 'line-num' },
+                 :sibling =>
+                       {
+                         :tag => 'td',
+                         :attributes => { :class => 'revision' },
+                         :child => { :tag => 'a', :content => '4' }
+                         # :child => { :tag => 'a', :content => /4:def6d2f1/ }
+                       }
+      assert_tag :tag => 'th',
+                 :content => '23',
+                 :attributes => { :class => 'line-num' },
+                 :sibling =>
+                       {
+                          :tag     => 'td'    ,
+                          :content => 'jsmith' ,
+                          :attributes => { :class   => 'author' },
+                        }
+      assert_tag :tag => 'th',
+                 :content => '23',
+                 :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
   else
