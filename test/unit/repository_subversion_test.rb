@@ -118,15 +118,13 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     def test_activities
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '1', :comments => 'test')
-      
-      assert c.event_title.include?('1:'), c.event_title
+      assert c.event_title.include?('1:')
       assert_equal c.event_url[:rev], '1'
     end
 
     def test_activities_nine_digit
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
-      
       assert c.event_title.include?('123456789:')
       assert_equal c.event_url[:rev], '123456789'
     end

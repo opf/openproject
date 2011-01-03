@@ -78,15 +78,12 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_activities
-      @repository.fetch_changesets
-      @repository.reload
-      f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
-      f.scope = ['changesets']
-      events = f.events
-      assert_kind_of Array, events
-      eve = events[-9]
-      assert eve.event_title.include?('7234cb27:')
-      assert_equal eve.event_url[:rev], '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+                        :scmid    => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+                        :comments => 'test')
+      assert c.event_title.include?('abc7234c:')
+      assert_equal c.event_url[:rev], 'abc7234cb2750b63f47bff735edc50a1c0a433c2'
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
