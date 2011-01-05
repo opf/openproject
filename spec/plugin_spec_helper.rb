@@ -1,5 +1,29 @@
 module GlobalRoles
   module PluginSpecHelper
+    def mobile_tan_plugin_loaded?
+      plugin_loaded?("redmine_mobile_otp_authentication")
+    end
+
+    def strong_passwords_plugin_loaded?
+      plugin_loaded?("redmine_strong_passwords")
+    end
+
+    def privacy_plugin_loaded?
+      plugin_loaded?("redmine_dtag_privacy")
+    end
+
+    def costs_plugin_loaded?
+      plugin_loaded?("redmine_costs")
+    end
+
+    def costs_plugin_loaded?
+      plugin_loaded?("redmine_costs")
+    end
+
+    def plugin_loaded?(name)
+      Redmine::Plugin.all.detect {|x| x.id == name.to_sym}.present?
+    end
+
     def mocks_for_member_roles
       @role = mock_model Role
       Role.stub!(:new).and_return(@role)
@@ -86,6 +110,12 @@ module GlobalRoles
       permission.stub!(:public?).and_return(is_public)
       permission.stub!(:global?).and_return(is_global)
       permission
+    end
+
+    def create_non_member_role
+      Role.create(:name => 'No member', :position => 0) do |role|
+        role.builtin = Role::BUILTIN_NON_MEMBER
+      end
     end
   end
 end
