@@ -50,9 +50,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 3, assigns(:entries).size
-      assert assigns(:entries).detect {|e| e.name == 'images' && e.kind == 'dir'}
+      assert assigns(:entries).detect {|e| e.name == 'images'  && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
+      assert assigns(:entries).detect {|e| e.name == 'README'  && e.kind == 'file'}
     end
     
     def test_show_directory
@@ -86,10 +86,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
-      # Line 19
+      # Line 10
       assert_tag :tag => 'th',
-                 :content => /10/,
-                 :attributes => { :class => /line-num/ },
+                 :content => '10',
+                 :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
     
@@ -115,7 +115,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_template 'diff'
       # Line 22 removed
       assert_tag :tag => 'th',
-                 :content => /22/,
+                 :content => '22',
                  :sibling => { :tag => 'td', 
                                :attributes => { :class => /diff_out/ },
                                :content => /def remove/ }
