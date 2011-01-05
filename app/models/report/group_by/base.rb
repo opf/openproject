@@ -59,8 +59,12 @@ class Report::GroupBy
 
     def define_group(sql)
       fields = all_group_fields
-      sql.group_by fields
-      sql.select fields
+      # fields usually are Strings which we want select and group_by
+      # sometimes fields are arrays of the form [String,String], where
+      # the fields.first is to select and where we have to group on field.last
+      #TODO: differenciate between all_group_fields and all_select_fields
+      sql.select fields.map   {|field| field.is_a?(String) ? field : field.first}
+      sql.group_by fields.map {|field| field.is_a?(String) ? field : field.last}
     end
   end
 end
