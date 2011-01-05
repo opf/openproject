@@ -18,6 +18,21 @@ class PrincipalRolesController < ApplicationController
     end
   end
 
+  def update
+    principal_role = PrincipalRole.find(params[:id])
+    principal_role.update_attributes(params[:principal_role])
+
+    respond_to do |format|
+      format.js do
+        render(:update) do |page|
+          page.replace "principal_role-#{principal_role.role_id}",
+                        :partial => "principal_roles/show_table_row",
+                        :locals => {:principal_role => principal_role}
+        end
+      end
+    end
+  end
+
   def destroy
     principal_role = PrincipalRole.find(params[:id])
     user = Principal.find(principal_role.principal_id)
@@ -28,7 +43,7 @@ class PrincipalRolesController < ApplicationController
     respond_to do |format|
       format.js do
         render(:update) do |page|
-          page.remove "principal_role_#{params[:id]}"
+          page.remove "principal_role-#{params[:id]}"
           page.replace "available_principal_roles",
                         :partial => "users/available_global_roles",
                         :locals => {:user => user, :global_roles => global_roles}
@@ -43,9 +58,9 @@ class PrincipalRolesController < ApplicationController
     role_ids = params[:principal_role][:role_id] ? [params[:principal_role].delete(:role_id)] : params[:principal_role].delete(:role_ids)
     roles = Role.find role_ids
     principal_roles = []
-    role_ids.each do |role_id|
+    role_ids.map(&:to_i).each do |role_id|
       role = PrincipalRole.new(params[:principal_role])
-      role.role = roles.detect {|r| r.id == role_id.to_i}
+      role.role = roles.detect {|r| r.id == role_id}
       role.save
       principal_roles << role
     end
