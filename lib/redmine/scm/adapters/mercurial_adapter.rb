@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'redmine/scm/adapters/abstract_adapter'
+require 'cgi'
 
 module Redmine
   module Scm
@@ -127,8 +128,8 @@ module Redmine
                     from_rev = logentry.attributes['revision']
                   end
                   paths << {:action => path.attributes['action'],
-                    :path => "/#{path.text}",
-                    :from_path => from_path ? "/#{from_path}" : nil,
+                    :path => "/#{CGI.unescape(path.text)}",
+                    :from_path => from_path ? "/#{CGI.unescape(from_path)}" : nil,
                     :from_revision => from_rev ? from_rev : nil
                   }
                 end
