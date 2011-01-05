@@ -96,6 +96,31 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets('/sql_escape/underscore_dir/understrike_file.txt', nil)
       assert_equal %w|12 9|, changesets.collect(&:revision)
     end
+
+    def test_copied_files
+      @repository.fetch_changesets
+      @repository.reload
+
+      cs1 = @repository.changesets.find_by_revision('13')
+      c1  = cs1.changes
+      assert_equal 2, c1.size
+
+      assert_equal 'A', c1[0].action
+      assert_equal '/sql_escape/percent%dir/percentfile1.txt',  c1[0].path
+      assert_equal '/sql_escape/percent%dir/percent%file1.txt', c1[0].from_path
+
+      assert_equal 'A', c1[1].action
+      assert_equal '/sql_escape/underscore_dir/understrike-file.txt', c1[1].path
+      assert_equal '/sql_escape/underscore_dir/understrike_file.txt', c1[1].from_path
+
+      cs2 = @repository.changesets.find_by_revision('15')
+      c2  = cs2.changes
+      assert_equal 1, c2.size
+
+      assert_equal 'A', c2[0].action
+      assert_equal '/README (1)[2]&,%.-3_4', c2[0].path
+      assert_equal '/README', c2[0].from_path
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
