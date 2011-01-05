@@ -74,7 +74,21 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end
-    
+
+    def test_show_directory_sql_escape_percent
+      get :show, :id => 3, :path => ['sql_escape', 'percent%dir'], :rev => 13
+      assert_response :success
+      assert_template 'show'
+
+      assert_not_nil assigns(:entries)
+      assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
+      changesets = assigns(:changesets)
+
+      ## This is not yet implemented.
+      # assert_not_nil changesets
+      # assert_equal %w(13 11 10 9), changesets.collect(&:revision)
+    end
+
     def test_changes
       get :changes, :id => 3, :path => ['images', 'edit.png']
       assert_response :success
