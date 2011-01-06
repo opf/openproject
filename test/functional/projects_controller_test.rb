@@ -288,6 +288,17 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
   
+  context "GET :create" do
+    setup do
+      @request.session[:user_id] = 1
+    end
+    
+    should "not be allowed" do
+      get :create
+      assert_response :method_not_allowed
+    end
+  end
+  
   def test_show_by_id
     get :show, :id => 1
     assert_response :success

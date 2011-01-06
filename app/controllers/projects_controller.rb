@@ -32,9 +32,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # TODO: convert to PUT only
-  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
-
   helper :sort
   include SortHelper
   helper :custom_fields
@@ -71,6 +68,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
   end
 
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
@@ -183,6 +181,8 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  # TODO: convert to PUT only
+  verify :method => [:post, :put], :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @project.safe_attributes = params[:project]
     if validate_parent_id && @project.save
