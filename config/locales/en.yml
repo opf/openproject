@@ -5,3 +5,4 @@ en:
   label_not_changeable: (not changeable)
   label_no_assignable_role: No global role available for assignment
   global_roles: Global Roles
+  label_global: Global
