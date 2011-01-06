@@ -8,7 +8,7 @@ class PrincipalRolesController < ApplicationController
       format.js do
         render(:update) do |page|
           principal_roles.each do |role|
-            page.remove "principal_role_option_#{role.role.id}"
+            page.remove "principal_role_option_#{role.role_id}"
             page.insert_html :top, 'table_principal_roles_body',
                              :partial => "principal_roles/show_table_row",
                              :locals => {:principal_role => role}
@@ -26,7 +26,7 @@ class PrincipalRolesController < ApplicationController
       format.js do
         render(:update) do |page|
           if @principal_role.valid?
-            page.replace "principal_role-#{@principal_role.role_id}",
+            page.replace "principal_role-#{@principal_role.id}",
                           :partial => "principal_roles/show_table_row",
                           :locals => {:principal_role => @principal_role}
           else
