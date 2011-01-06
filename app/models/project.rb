@@ -66,7 +66,7 @@ class Project < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
                 :author => nil
 
-  attr_protected :status, :enabled_module_names
+  attr_protected :status
   
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
@@ -533,6 +533,9 @@ class Project < ActiveRecord::Base
     'tracker_ids',
     'issue_custom_field_ids'
 
+  safe_attributes 'enabled_module_names',
+    :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
+  
   # Returns an array of projects that are in this project's hierarchy
   #
   # Example: parents, children, siblings

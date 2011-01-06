@@ -6,11 +6,11 @@
 <fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
-    <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
+    <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m) %>
     <%= l_or_humanize(m, :prefix => "project_module_") %>
     </label>
 <% end %>
-<%= hidden_field_tag 'enabled_modules[]', '' %>
+<%= hidden_field_tag 'project[enabled_module_names][]', '' %>
 
 </fieldset>
 

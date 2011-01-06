@@ -122,11 +122,34 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           project = Project.first(:order => 'id DESC')
           assert_equal 'API test', project.name
           assert_equal 'api-test', project.identifier
-          assert_equal ['issue_tracking', 'repository'], project.enabled_module_names
+          assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
+          assert_equal Tracker.all.size, project.trackers.size
       
           assert_response :created
           assert_equal 'application/xml', @response.content_type
           assert_tag 'project', :child => {:tag => 'id', :content => project.id.to_s}
+        end
+        
+        should "accept enabled_module_names attribute" do
+          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
+          
+          assert_difference('Project.count') do
+            post '/projects.xml', @parameters, :authorization => credentials('admin')
+          end
+          
+          project = Project.first(:order => 'id DESC')
+          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+        end
+        
+        should "accept tracker_ids attribute" do
+          @parameters[:project].merge!({:tracker_ids => [1, 3]})
+          
+          assert_difference('Project.count') do
+            post '/projects.xml', @parameters, :authorization => credentials('admin')
+          end
+          
+          project = Project.first(:order => 'id DESC')
+          assert_equal [1, 3], project.trackers.map(&:id).sort
         end
       end
     end
@@ -170,6 +193,28 @@ class ApiTest::ProjectsTest < ActionController::IntegrationTest
           assert_equal 'application/xml', @response.content_type
           project = Project.find(2)
           assert_equal 'API update', project.name
+        end
+        
+        should "accept enabled_module_names attribute" do
+          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
+          
+          assert_no_difference 'Project.count' do
+            put '/projects/2.xml', @parameters, :authorization => credentials('admin')
+          end
+          assert_response :ok
+          project = Project.find(2)
+          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+        end
+        
+        should "accept tracker_ids attribute" do
+          @parameters[:project].merge!({:tracker_ids => [1, 3]})
+          
+          assert_no_difference 'Project.count' do
+            put '/projects/2.xml', @parameters, :authorization => credentials('admin')
+          end
+          assert_response :ok
+          project = Project.find(2)
+          assert_equal [1, 3], project.trackers.map(&:id).sort
         end
       end
     end
