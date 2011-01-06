@@ -232,6 +232,24 @@ function observeRelatedIssueField(url) {
                            });
 }
 
+function setVisible(id, visible) {
+  var el = $(id);
+  if (el) {if (visible) {el.show();} else {el.hide();}}
+}
+
+function observeProjectModules() {
+  var f = function() {
+    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
+    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    setVisible('project_trackers', c);
+    setVisible('project_issue_custom_fields', c);
+  };
+  
+  Event.observe(window, 'load', f);
+  Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
+}
+
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

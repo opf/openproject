@@ -2,18 +2,6 @@
 
 <% labelled_tabular_form_for :project, @project, :url => { :action => "create" } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
-
-<fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
-    <label class="floating">
-    <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m) %>
-    <%= l_or_humanize(m, :prefix => "project_module_") %>
-    </label>
-<% end %>
-<%= hidden_field_tag 'project[enabled_module_names][]', '' %>
-
-</fieldset>
-
 <%= submit_tag l(:button_save) %>
 <%= javascript_tag "Form.Element.focus('project_name');" %>
 <% end %>
