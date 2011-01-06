@@ -19,15 +19,19 @@ class PrincipalRolesController < ApplicationController
   end
 
   def update
-    principal_role = PrincipalRole.find(params[:id])
-    principal_role.update_attributes(params[:principal_role])
+    @principal_role = PrincipalRole.find(params[:id])
+    @principal_role.update_attributes(params[:principal_role])
 
     respond_to do |format|
       format.js do
         render(:update) do |page|
-          page.replace "principal_role-#{principal_role.role_id}",
-                        :partial => "principal_roles/show_table_row",
-                        :locals => {:principal_role => principal_role}
+          if @principal_role.valid?
+            page.replace "principal_role-#{@principal_role.role_id}",
+                          :partial => "principal_roles/show_table_row",
+                          :locals => {:principal_role => @principal_role}
+          else
+            page.insert_html :top, "tab-content-global_roles", :partial => 'errors'
+          end
         end
       end
     end
