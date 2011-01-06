@@ -179,6 +179,8 @@ tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
+tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:center;}
+
 tr.time-entry { text-align: center; white-space: nowrap; }
 tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; white-space: normal; }
 td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
