@@ -50,6 +50,20 @@ namespace :test do
       desc "Creates all test repositories"
       task :all => supported_scms
     end
+      
+    desc "Updates installed test repositories"
+    task :update do
+      require 'fileutils'
+      Dir.glob("tmp/test/*_repository").each do |dir|
+        next unless File.basename(dir) =~ %r{^(.+)_repository$} && File.directory?(dir)
+        scm = $1
+        next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
+        next if File.stat(dir).ctime > File.stat(fixture).mtime
+        
+        FileUtils.rm_rf dir
+        Rake::Task["test:scm:setup:#{scm}"].execute
+      end
+    end
     
     Rake::TestTask.new(:units => "db:test:prepare") do |t|
       t.libs << "test"
