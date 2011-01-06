@@ -288,15 +288,10 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
   
-  context "GET :create" do
-    setup do
-      @request.session[:user_id] = 1
-    end
-    
-    should "not be allowed" do
-      get :create
-      assert_response :method_not_allowed
-    end
+  def test_create_should_not_accept_get
+    @request.session[:user_id] = 1
+    get :create
+    assert_response :method_not_allowed
   end
   
   def test_show_by_id
@@ -375,6 +370,21 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
+  end
+
+  def test_modules
+    @request.session[:user_id] = 2
+    Project.find(1).enabled_module_names = ['issue_tracking', 'news']
+    
+    post :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository', 'documents']
+    assert_redirected_to '/projects/ecookbook/settings/modules'
+    assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
+  end
+
+  def test_modules_should_not_allow_get
+    @request.session[:user_id] = 1
+    get :modules, :id => 1
+    assert_response :method_not_allowed
   end
   
   def test_get_destroy
