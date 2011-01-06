@@ -4,6 +4,8 @@ describe PrincipalRolesController do
   before(:each) do
     @controller.stub!(:require_admin).and_return(true)
     @principal_role = mock_model PrincipalRole
+    @principal_role.stub!(:id).and_return(23)
+    PrincipalRole.stub!(:find).and_return @principal_role
     disable_flash_sweep
   end
 
@@ -26,6 +28,7 @@ describe PrincipalRolesController do
           @principal_role.stub!(:role=)
           @principal_role.stub!(:role).and_return(@global_role)
           @principal_role.stub!(:save)
+          @principal_role.stub!(:role_id).and_return(@global_role.id)
         end
 
         describe "js" do
@@ -45,9 +48,52 @@ describe PrincipalRolesController do
     end
   end
 
+  describe :put do
+    before :each do
+      @params = {"principal_role"=>{"id"=>"6", "role_id" => "5"}}
+    end
+
+    describe :update do
+      before(:each) do
+        @principal_role.stub!(:update_attributes)
+      end
+
+      describe "SUCCESS" do
+        describe "js" do
+          before :each do
+            @principal_role.stub!(:valid?).and_return(true)
+            response_should_render :replace,
+                                  "principal_role-#{@principal_role.id}",
+                                  :partial => "principal_roles/show_table_row",
+                                  :locals => {:principal_role => anything()}
+
+            xhr :put, :update, @params
+          end
+
+          it {response.should be_success}
+        end
+      end
+
+      describe "FAILURE" do
+        describe "js" do
+          before :each do
+            @principal_role.stub!(:valid?).and_return(false)
+            response_should_render :insert_html,
+                                   :top,
+                                   "tab-content-global_roles",
+                                   :partial => 'errors'
+
+            xhr :put, :update, @params
+          end
+
+          it {response.should be_success}
+        end
+      end
+    end
+  end
+
   describe :delete do
     before :each do
-      PrincipalRole.stub!(:find).and_return @principal_role
       @principal_role.stub!(:principal_id).and_return(1)
       Principal.stub(:find).and_return(mock_model User)
       @principal_role.stub!(:destroy)
@@ -57,7 +103,7 @@ describe PrincipalRolesController do
     describe :destroy do
       describe "SUCCESS" do
         before :each do
-          response_should_render :remove, "principal_role_1"
+          response_should_render :remove, "principal_role-1"
           response_should_render :replace,
                                  "available_principal_roles",
                                  :partial => "users/available_global_roles",

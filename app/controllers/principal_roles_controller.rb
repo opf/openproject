@@ -19,7 +19,7 @@ class PrincipalRolesController < ApplicationController
   end
 
   def update
-    @principal_role = PrincipalRole.find(params[:id])
+    @principal_role = PrincipalRole.find(params[:principal_role][:id])
     @principal_role.update_attributes(params[:principal_role])
 
     respond_to do |format|
