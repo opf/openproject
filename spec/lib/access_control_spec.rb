@@ -2,8 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Redmine::AccessControl do
   before(:each) do
-    Redmine::AccessControl.permissions.clear #this line is required although it should not be
-    # otherwise permissions from previous tests are kept
+    clear_access_control_permissions
 
     Redmine::AccessControl.map do |map|
       map.permission :proj0, {:dont => :care}, :require => :member

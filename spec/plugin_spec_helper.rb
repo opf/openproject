@@ -113,8 +113,24 @@ module GlobalRoles
     end
 
     def create_non_member_role
-      Role.create(:name => 'No member', :position => 0) do |role|
-        role.builtin = Role::BUILTIN_NON_MEMBER
+      create_builtin_role 'No member', Role::BUILTIN_NON_MEMBER
+    end
+
+    def create_anonymous_role
+      create_builtin_role "Anonymous", Role::BUILTIN_ANONYMOUS
+    end
+
+    def create_builtin_role(name, const)
+      Role.create(:name => name, :position => 0) do |role|
+        role.builtin = const
+      end
+    end
+
+    def clear_access_control_permissions
+      Redmine::AccessControl.permissions.clear #this line is required although it should not be
+      # otherwise permissions from previous tests are kept
+      Redmine::AccessControl.class_eval do
+        @global_permissions = nil
       end
     end
   end
