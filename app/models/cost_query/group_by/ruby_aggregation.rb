@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   module RubyAggregation
     def responsible_for_sql?
       false

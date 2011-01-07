@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   class Tmonth < Base
     label :label_month_reporting
   end

@@ -75,3 +75,4 @@ Feature: Filter
     Then "user_id" should not be selectable from "add_filter_select"
     When I send the query
     Then "user_id" should not be selectable from "add_filter_select"
+
