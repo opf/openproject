@@ -33,8 +33,21 @@ describe GlobalRole do
   end
 
   describe "instance methods" do
+    before (:each) do
+      if costs_plugin_loaded?
+        @perm = mock_model(Redmine::AccessControl::Permission)
+        Redmine::AccessControl.stub!(:permission).and_return @perm
+        @perm.stub!(:inherited_by).and_return([])
+        @perm.stub!(:name).and_return(:perm)
+        @perm.stub!(:inherits).and_return([])
+      end
+    end
+
     describe "WITH no attributes set" do
-      before {@role = GlobalRole.new}
+      before (:each) do
+        @role = GlobalRole.new
+      end
+
       describe :permissions do
         subject {@role.permissions}
 
@@ -95,7 +108,6 @@ describe GlobalRole do
       describe :allowed_to? do
         describe "WITH requested permission" do
           it {@role.allowed_to?(:perm1).should be_true}
-          it {@role.allowed_to?("perm1").should be_true}
           it {@role.allowed_to?(:perm5).should be_false}
         end
       end
