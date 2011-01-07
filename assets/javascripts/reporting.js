@@ -275,7 +275,7 @@ function restore_values(field, values) {
 function restore_filter(field, operator, values) {
     select_operator(field, operator);
     disable_select_option($("add_filter_select"), field);
-    show_filter_callback(field, false, function () {
+    show_filter_callback(field, true, function () {
         if (typeof(values) !== "undefined") {
             restore_values(field, values);
         }
@@ -361,15 +361,6 @@ function defineElementGetter() {
             return results;
         };
     }
-}
-
-function toggleElementSlide(id) {
-  if ($(id).visible()) {
-    new Effect.SlideUp(id);
-  } else {
-    new Effect.SlideDown(id);
-  }
-  $(id).toggle();
 }
 
 defineElementGetter();
