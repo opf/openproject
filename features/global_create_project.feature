@@ -27,3 +27,21 @@ Feature: Global Create Project
     When I login as "bob"
     And I go to the overall projects page
     Then I should see "New project"
+
+  @javascript
+  Scenario: Create Project displayed to user
+    Given there is a global role "Global"
+    And the global role "Global" may have the following rights:
+      | add_project |
+    And there is 1 User with:
+      | Login | bob |
+      | Firstname | Bob |
+      | Lastname | Bobbit |
+    And the user "bob" has the global role "Global"
+    When I login as "bob"
+    And I go to the new page of "Project"
+    And I fill in "project_name" with "ProjectName"
+    And I fill in "project_identifier" with "projectid"
+    And I click on "Save"
+    Then I should see "Successful creation."
+    And I should be on the settings page of the project called "ProjectName"
