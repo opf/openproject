@@ -63,6 +63,12 @@ class Report < ActiveRecord::Base
       name.demodulize.underscore
     end
 
+    def self.put_sql_table_names(table_prefix_placement = {})
+      @table_prefix_placement ||= {}
+      @table_prefix_placement.merge! table_prefix_placement
+      @table_prefix_placement
+    end
+
     ##
     # The given block is called when a new chain is created for a report.
     # The query will be given to the block as a parameter.
@@ -285,7 +291,10 @@ class Report < ActiveRecord::Base
     end
 
     def with_table(fields)
-      fields.map { |f| field_name_for f, self }
+      fields.map do |f|
+        place_field_name = self.class.put_sql_table_names[f] || self.class.put_sql_table_names[f].nil?
+        place_field_name ? (field_name_for f, self) : f
+      end
     end
 
     def field
