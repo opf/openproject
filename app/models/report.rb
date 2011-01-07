@@ -1,7 +1,8 @@
 require 'forwardable'
 
 class Report < ActiveRecord::Base
-  InheritedNamespace.activate
+  InheritedNamespace.activate unless defined? Rails && Rails.version =~ /^3./
+
   extend Forwardable
   include Enumerable
   belongs_to :user

@@ -32,8 +32,35 @@ class Report::GroupBy
       end.uniq
     end
 
+    def self.select_fields(*fields)
+      unless fields.empty?
+        @select_fields ||= []
+        @select_fields += fields
+      end
+      @select_fields
+    end
+
+    def select_fields
+      if self.class.select_fields
+        (parent ? parent.select_fields : []) + self.class.select_fields
+      else
+        group_fields
+      end
+    end
+
+    ##
+    # @param [FalseClass, TrueClass] prefix Whether or not add a table prefix the field names
+    # @return [Array<String,Symbol>] List of select fields corresponding to self and all parents'
+    def all_select_fields(prefix = true)
+      @all_select_fields ||= []
+      @all_select_fields[prefix ? 0 : 1] ||= begin
+        fields = select_fields.reject { |c| c.blank? or c == 'base' }
+        (parent ? parent.all_select_fields(prefix) : []) + (prefix ? with_table(fields) : fields)
+      end.uniq
+    end
+
     def clear
-      @all_group_fields = nil
+      @all_group_fields = @all_select_fields = nil
       super
     end
 
@@ -58,9 +85,8 @@ class Report::GroupBy
     end
 
     def define_group(sql)
-      fields = all_group_fields
-      sql.group_by fields
-      sql.select fields
+      sql.select all_select_fields
+      sql.group_by all_group_fields
     end
   end
 end

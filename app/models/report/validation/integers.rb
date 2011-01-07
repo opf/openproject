@@ -5,7 +5,7 @@ module Report::Validation
       return true if values.empty?
       values.flatten.all? do |val|
         if val.to_i.to_s != val.to_s
-          errors << "\'#{val}\'" + l(:validation_failure_integer)
+          errors[:int] << val
           validate_integers(values - [val])
           false
         else

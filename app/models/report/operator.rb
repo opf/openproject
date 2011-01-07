@@ -240,9 +240,9 @@ class Report::Operator
     validation_methods = values.delete(:validate)
     register_validations(validation_methods) unless validation_methods.nil?
     values.each do |key, value|
-      metaclass.class_eval { define_method(key) { value } }
+      singleton_class.class_eval { define_method(key) { value } }
     end
-    metaclass.class_eval(&block) if block
+    singleton_class.class_eval(&block) if block
   end
 
   def to_operator
