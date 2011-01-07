@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   class ActivityId < Base
     label :field_activity
   end

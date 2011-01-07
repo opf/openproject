@@ -1,4 +1,4 @@
-module CostQuery::GroupBy
+class CostQuery::GroupBy
   class IssueId < Base
     label :field_issue
   end

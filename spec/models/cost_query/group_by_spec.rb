@@ -203,18 +203,18 @@ describe CostQuery do
       sub_sql_sizes.sort.should == sub_ruby_sizes.sort
     end
 
-    describe CostQuery::GroupBy::CustomField do
+    describe CostQuery::GroupBy::CustomFieldEntries do
       before do
-        CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomField.all
+        CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
       end
-      
+
       it "should create classes for custom fields" do
         # Would raise a name error
         CostQuery::GroupBy::CustomFieldSearchableField
       end
-      
-      it "includes custom fields classes in CustomField.all" do
-        CostQuery::GroupBy::CustomField.all.
+
+      it "includes custom fields classes in CustomFieldEntries.all" do
+        CostQuery::GroupBy::CustomFieldEntries.all.
           should include(CostQuery::GroupBy::CustomFieldSearchableField)
       end
 

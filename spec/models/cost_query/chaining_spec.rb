@@ -22,6 +22,10 @@ describe CostQuery do
       CostQuery.chain_initializer.clear
     end
 
+    after(:all) do
+      CostQuery.chain_initializer.clear
+    end
+
     it "should contain NoFilter" do
       @query.chain.should be_a(CostQuery::Filter::NoFilter)
     end
@@ -106,6 +110,9 @@ describe CostQuery do
 
     it "should initialize the chain through a block" do
       class TestFilter < CostQuery::Filter::Base
+        def self.engine
+          CostQuery
+        end
         initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
       end
       @query.build_new_chain

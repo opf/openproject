@@ -13,6 +13,9 @@ Feature: Groups
     Given there is a standard cost control project named "First Project"
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
+    And I click on "Clear"
+    Then I should not see "Week (Spent)" within "select[@id='group_by_columns']"
+    And I should not see "Issue" within "select[@id='group_by_rows']"
     And I group rows by "User"
     And I group rows by "Cost type"
     And I click on "Clear"
@@ -66,3 +69,4 @@ Feature: Groups
     And I should see "Issue" within "select[@id='group_by_columns']"
     And I should see "User" within "select[@id='group_by_rows']"
     And I should see "Cost type" within "select[@id='group_by_rows']"
+
