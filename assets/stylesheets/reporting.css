@@ -98,7 +98,7 @@
 }
 
 /* Aligning filter elements at the top. */
-.new_cost_query fieldset#filters table td {
+.new_report fieldset#filters table td {
   vertical-align: top;
   border-spacing: 5px 5px;
   border-color: white;
@@ -106,7 +106,7 @@
   border-width: 2px 0px 0px;
 }
 
-.new_cost_query fieldset#filters table td > label {
+.new_report fieldset#filters table td > label {
   left: 3px;
   top: 3px;
   position: relative;
@@ -114,7 +114,7 @@
 
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
-.new_cost_query fieldset h3 {
+.new_report fieldset h3 {
   font-size: 1.17em;
   border: none;
 }
@@ -209,11 +209,11 @@
   margin-top: 6px;
 }
 
-.new_cost_query fieldset#filters table tr.filter:hover {
+.new_report fieldset#filters table tr.filter:hover {
   background: #aaa;
 }
 
-.new_cost_query fieldset#filters table tr.filter {
+.new_report fieldset#filters table tr.filter {
   color: #000;
   background: #ededed;
   -webkit-border-radius: 5px;

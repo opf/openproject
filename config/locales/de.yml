@@ -1,24 +1,11 @@
 ---
 de:
   units: Einheiten
-  label_entry: "Kosteneintrag"
   label_less: "<"
   label_greater: ">"
-  label_cost_entry_attributes: "Attribute am Kosteneintrag"
-  label_issue_attributes: "Attribute am Ticket"
-  label_spent_on_reporting: "Datum der Buchung"
-  label_week_reporting: "Woche der Buchung"
-  label_month_reporting: "Monat der Buchung"
-  label_year_reporting: "Jahr der Buchung"
   label_report: "Report"
-  label_money: "Geld"
   label_columns: "Spalten"
   label_rows: "Zeilen"
-  label_is_project_with_subprojects: "ist (mit Unterprojekten)"
-  label_is_not_project_with_subprojects: "ist nicht (mit Unterprojekten)"
-
-  text_costs_are_rounded_note: "Die angezeigten Werte sind gerunded. Alle Berechnungen basieren auf ungerundete Werte."
-  information_restricted_depending_on_permission: "Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein."
 
   label_count: Anzahl
   label_sum: Summe
@@ -27,5 +14,3 @@ de:
 
   validation_failure_date: "ist kein gültiges Datum"
   validation_failure_integer: "ist keine ganze Zahl"
-
-  comments: "Kommentar"
