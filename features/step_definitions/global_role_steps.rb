@@ -60,6 +60,6 @@ When /^I delete the assigned role (.+)$/ do |role|
   raise "More than one or no principal has this role" if g.principal_roles.length != 1
 
   steps %Q{
-    When I follow "Delete" within "#principal_role_#{g.principal_roles[0].id}"
+    When I follow "Delete" within "#principal_role-#{g.principal_roles[0].id}"
   }
 end
