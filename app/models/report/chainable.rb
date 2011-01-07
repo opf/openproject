@@ -1,5 +1,5 @@
-# Proviedes convinience layer and logic shared between GroupBy::Base and Filter::Base.
-# Implements a dubble linked list (FIXME: is that the correct term?).
+# Provides convinience layer and logic shared between GroupBy::Base and Filter::Base.
+# Implements a double linked list (FIXME: is that the correct term?).
 class Report < ActiveRecord::Base
   class Chainable
     include Enumerable
@@ -72,7 +72,7 @@ class Report < ActiveRecord::Base
       engine.chain_initializer.push block
     end
 
-    inherited_attribute :label
+    inherited_attribute :label, :default => :translation_needed
     inherited_attribute :properties, :list => true
 
     class << self
