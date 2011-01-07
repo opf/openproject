@@ -32,6 +32,10 @@ class Report < ActiveRecord::Base
     self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
+  def deserialize
+    self.class.deserialize(serialized || serialize)
+  end
+
   def available_filters
     self.class::Filter.all
   end
