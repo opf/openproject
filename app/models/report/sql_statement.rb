@@ -171,7 +171,7 @@ class Report::SqlStatement
   #   @return [Array<String>] All fields/statements for select part
   def select(*fields)
     return(@select || default_select) if fields.empty?
-    returning(@select ||= []) do
+    (@select ||= []).tap do
       @sql = nil
       fields.each do |f|
         case f
@@ -200,7 +200,7 @@ class Report::SqlStatement
   #   @param [Array, String, Symbol] fields Fields to add
   def group_by(*fields)
     @sql = nil unless fields.empty?
-    returning(@group_by ||= []) do
+    (@group_by ||= []).tap do
       fields.each do |e|
         if e.is_a? Array and (e.size != 2 or !e.first.respond_to? :table_name)
           group_by(*e)
