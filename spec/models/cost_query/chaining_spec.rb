@@ -159,9 +159,9 @@ describe CostQuery do
     end
   end
 
-  describe CostQuery::Chainable do
+  describe Report::Chainable do
     describe :top do
-      before { @chain = CostQuery::Chainable.new }
+      before { @chain = Report::Chainable.new }
 
       it "returns for an one element long chain that chain as top" do
         @chain.top.should == @chain
@@ -169,7 +169,7 @@ describe CostQuery do
       end
 
       it "does not keep the old top when prepending elements" do
-        CostQuery::Chainable.new @chain
+        Report::Chainable.new @chain
         @chain.top.should_not == @chain
         @chain.should_not be_top
       end
@@ -186,7 +186,7 @@ describe CostQuery do
 
     describe :inherited_attribute do
       before do
-        @a = Class.new CostQuery::Chainable
+        @a = Class.new Report::Chainable
         @a.inherited_attribute :foo, :default => 42
         @b = Class.new @a
         @c = Class.new @a
