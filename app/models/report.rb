@@ -124,7 +124,7 @@ class Report < ActiveRecord::Base
     filter_string = group_bys.collect(&:class).sort_by(&:underscore_name).inject(filter_string) do |string, gb|
       string.concat(gb.underscore_name)
     end
-    Digest::MD5.hexdigest(filter_string)
+    filter_string.hash
   end
 
   def == another_report
