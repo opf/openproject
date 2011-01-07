@@ -4,13 +4,13 @@ begin
     namespace :plugins do
       desc "Runs the examples for reporting_engine"
       Spec::Rake::SpecTask.new(:reporting_engine) do |t|
-        t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+        t.spec_opts = ['--options', "\"#{Rails.root}/spec/spec.opts\""]
         t.spec_files = FileList['vendor/plugins/reporting_engine/spec/**/*_spec.rb']
       end
 
       desc "Runs the examples for reporting_engine"
       Spec::Rake::SpecTask.new(:"reporting_engine:rcov") do |t|
-        t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+        t.spec_opts = ['--options', "\"#{Rails.root}/spec/spec.opts\""]
         t.spec_files = FileList['vendor/plugins/reporting_engine/spec/**/*_spec.rb']
         t.rcov = true
         t.rcov_opts = ['-x', "\.rb,spec", '-i', "reporting_engine/app/,redmine_reporting/lib/"]
