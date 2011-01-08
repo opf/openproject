@@ -43,8 +43,14 @@ begin
       end
 
       def test_cat
-        assert     @adapter.cat("sources/welcome_controller.rb", 2)
-        assert_nil @adapter.cat("sources/welcome_controller.rb")
+        [2, '400bb8672109', '400', 400].each do |r|
+          buf = @adapter.cat('sources/welcome_controller.rb', r)
+          assert buf
+          lines = buf.split("\r\n")
+          assert_equal 25, lines.length
+          assert_equal 'class WelcomeController < ApplicationController', lines[17]
+        end
+        assert_nil @adapter.cat('sources/welcome_controller.rb')
       end
 
       def test_access_by_nodeid
