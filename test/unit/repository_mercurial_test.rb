@@ -130,7 +130,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
       %w|2 400bb8672109 400|.each do |r|
-        assert_equal @repository.find_changeset_by_name(r).revision, '2'
+        assert_equal '2', @repository.find_changeset_by_name(r).revision
       end
     end
 
