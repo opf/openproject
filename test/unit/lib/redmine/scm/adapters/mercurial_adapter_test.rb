@@ -47,6 +47,17 @@ begin
         assert_nil @adapter.cat("sources/welcome_controller.rb")
       end
 
+      def test_access_by_nodeid
+        path = 'sources/welcome_controller.rb'
+        assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400bb8672109')
+      end
+
+      def test_access_by_fuzzy_nodeid
+        path = 'sources/welcome_controller.rb'
+        # falls back to nodeid
+        assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400')
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
