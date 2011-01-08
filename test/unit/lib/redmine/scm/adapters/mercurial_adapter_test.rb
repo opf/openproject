@@ -42,6 +42,24 @@ begin
         end
       end
 
+      def test_diff
+        assert_nil @adapter.diff(nil, '100000')
+        assert_nil @adapter.diff(nil, '100000', '200000')
+        [2, '400bb8672109', '400', 400].each do |r1|
+          diff1 = @adapter.diff(nil, r1)
+          assert_equal 28, diff1.size
+          assert_equal "+    return true unless klass.respond_to?('watched_by')\r\n", diff1[24]
+          [4, 'def6d2f1254a'].each do |r2|
+            diff2 = @adapter.diff(nil,r1,r2)
+            assert_equal 50, diff2.size
+            assert_equal "+class WelcomeController < ApplicationController\r\n", diff2[42]
+            diff3 = @adapter.diff('sources/watchers_controller.rb', r1, r2)
+            assert_equal 20, diff3.size
+            assert_equal "+    @watched.remove_watcher(user)\r\n", diff3[12]
+          end
+        end
+      end
+
       def test_cat
         [2, '400bb8672109', '400', 400].each do |r|
           buf = @adapter.cat('sources/welcome_controller.rb', r)

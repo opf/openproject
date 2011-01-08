@@ -153,15 +153,13 @@ module Redmine
         
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
+          diff_args = ''
           if identifier_to
-            identifier_to = identifier_to.to_i 
+            diff_args = "-r #{hgrev(identifier_to)} -r #{hgrev(identifier_from)}"
           else
-            identifier_to = identifier_from.to_i - 1
+            diff_args = "-c #{hgrev(identifier_from)}"
           end
-          if identifier_from
-            identifier_from = identifier_from.to_i
-          end
-          cmd = "#{HG_BIN} -R #{target('')} diff -r #{identifier_to} -r #{identifier_from} --nodates"
+          cmd = "#{HG_BIN} -R #{target('')} diff --nodates #{diff_args}"
           cmd << " -I #{target(path)}" unless path.empty?
           diff = []
           shellout(cmd) do |io|
@@ -203,6 +201,12 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
+
+        # Returns correct revision identifier
+        def hgrev(identifier)
+          identifier.blank? ? 'tip' : identifier.to_s
+        end
+        private :hgrev
       end
     end
   end
