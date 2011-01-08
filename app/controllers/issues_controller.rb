@@ -44,6 +44,8 @@ class IssuesController < ApplicationController
   include AttachmentsHelper
   helper :queries
   include QueriesHelper
+  helper :repositories
+  include RepositoriesHelper
   helper :sort
   include SortHelper
   include IssuesHelper
