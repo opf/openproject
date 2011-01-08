@@ -127,7 +127,7 @@ bg:
   general_text_Yes: 'Да'
   general_text_no: 'не'
   general_text_yes: 'да'
-  general_lang_name: 'Bulgarian'
+  general_lang_name: 'Bulgarian (Български)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
@@ -225,7 +225,6 @@ bg:
   field_attr_lastname: Атрибут Фамилия (Lastname)
   field_attr_mail: Атрибут Email
   field_onthefly: Динамично създаване на потребител
-  field_start_date: Начална дата
   field_done_ratio: % Прогрес
   field_auth_source: Начин на оторизация
   field_hide_mail: Скрий e-mail адреса ми
@@ -730,8 +729,8 @@ bg:
   button_quote: Цитат
   setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
   notice_unable_delete_version: Невъзможност за изтриване на версия
-  label_renamed: преименуван
-  label_copied: копиран
+  label_renamed: преименувано
+  label_copied: копирано
   setting_plain_text_mail: само чист текст (без HTML)
   permission_view_files: Разглеждане на файлове
   permission_edit_issues: Редактиране на задачи
@@ -859,7 +858,7 @@ bg:
   setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
   error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
   error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
-  setting_issue_done_ratio_issue_field: Използване на поле 'задача'
+  setting_issue_done_ratio_issue_field: Използване на поле '% Прогрес'
   label_copy_same_as_target: Също като целта
   label_copy_target: Цел
   notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
@@ -923,12 +922,13 @@ bg:
   label_user_mail_option_only_assigned: Само за неща, назначени на мен
   button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: %{page_title}"
   field_assigned_to_role: Assignee's role
+  field_start_date: Начална дата
   label_principal_search: "Търсене на потребител или група:"
   label_user_search: "Търсене на потребител:"
   field_visible: Видим
   setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  setting_commit_logtime_activity_id: Дейност при отчитане на работното време
+  text_time_logged_by_changeset: Приложено в ревизия %{value}.
+  setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
+  notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
+  setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
