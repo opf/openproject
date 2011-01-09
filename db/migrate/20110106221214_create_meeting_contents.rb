@@ -7,6 +7,8 @@ class CreateMeetingContents < ActiveRecord::Migration
       t.column :text, :text
       t.column :comment, :string
       t.column :version, :integer
+      
+      t.timestamps
     end
   end
 

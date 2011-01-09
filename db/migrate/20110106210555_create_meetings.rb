@@ -5,6 +5,8 @@ class CreateMeetings < ActiveRecord::Migration
       t.column :author_id, :integer
       t.column :location, :string
       t.column :time, :datetime
+      
+      t.timestamps
     end
   end
 

@@ -2,7 +2,7 @@ require 'redmine'
 
 Redmine::Plugin.register :redmine_meeting do
   name 'Redmine Meeting'
-  author 'Felix Schäfer'
+  author 'Felix Schäfer @ finnlabs'
   author_url 'http://finn.de/team'
   description 'This plugin adds a meeting module with functionality to plan and save the minutes of a meeting.'
   url 'http://finn.de'

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  user_id: 1
+  meeting_id: 1
+  meeting_role_id: 1
+  email: MyString
+  name: MyString
+  created_at: 2011-01-08 23:07:21
+  updated_at: 2011-01-08 23:07:21
+two:
+  id: 2
+  user_id: 1
+  meeting_id: 1
+  meeting_role_id: 1
+  email: MyString
+  name: MyString
+  created_at: 2011-01-08 23:07:21
+  updated_at: 2011-01-08 23:07:21

@@ -7,6 +7,8 @@ one:
   text: MyText
   comment: MyString
   version: 1
+  created_at: 2011-01-06 22:12:14
+  updated_at: 2011-01-06 22:12:14
 two:
   id: 2
   type: MyString
@@ -15,3 +17,5 @@ two:
   text: MyText
   comment: MyString
   version: 1
+  created_at: 2011-01-06 22:12:14
+  updated_at: 2011-01-06 22:12:14
