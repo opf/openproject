@@ -106,7 +106,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       cs1 = @repository.changesets.find_by_revision('13')
       assert_not_nil cs1
-      c1  = cs1.changes
+      c1  = cs1.changes.sort_by(&:path)
       assert_equal 2, c1.size
 
       assert_equal 'A', c1[0].action
