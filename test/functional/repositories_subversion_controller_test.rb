@@ -198,6 +198,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :diff, :id => 1, :rev => 3
       assert_response :success
       assert_template 'diff'
+
+      assert_tag :tag => 'h2', :content => /3/
     end
 
     def test_directory_diff
@@ -209,6 +211,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil diff
       # 2 files modified
       assert_equal 2, Redmine::UnifiedDiff.new(diff).size
+
+      assert_tag :tag => 'h2', :content => /2:6/
     end
     
     def test_annotate

@@ -33,9 +33,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Git.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @repository = Repository::Git.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
@@ -126,8 +127,11 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end
-    
+
     def test_diff
+      @repository.fetch_changesets
+      @repository.reload
+
       # Full diff of changeset 2f9c0091
       get :diff, :id => 3, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
       assert_response :success
@@ -138,6 +142,21 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', 
                                :attributes => { :class => /diff_out/ },
                                :content => /def remove/ }
+      assert_tag :tag => 'h2', :content => /2f9c0091/
+    end
+
+    def test_diff_two_revs
+      @repository.fetch_changesets
+      @repository.reload
+
+      get :diff, :id => 3, :rev    => '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+                           :rev_to => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+      assert_response :success
+      assert_template 'diff'
+
+      diff = assigns(:diff)
+      assert_not_nil diff
+      assert_tag :tag => 'h2', :content => /2f9c0091:61b685fb/
     end
 
     def test_annotate
@@ -150,7 +169,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /jsmith/ },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
-    
+
     def test_annotate_binary_file
       get :annotate, :id => 3, :path => ['images', 'edit.png']
       assert_response 500
