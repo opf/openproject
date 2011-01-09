@@ -66,27 +66,31 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
     end
-    
+
     def test_show_at_given_revision
-      get :show, :id => 3, :path => ['images'], :rev => 0
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      [0, '0', '0885933ad4f6'].each do |r1|
+        get :show, :id => 3, :path => ['images'], :rev => r1
+        assert_response :success
+        assert_template 'show'
+        assert_not_nil assigns(:entries)
+        assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      end
     end
 
     def test_show_directory_sql_escape_percent
-      get :show, :id => 3, :path => ['sql_escape', 'percent%dir'], :rev => 13
-      assert_response :success
-      assert_template 'show'
+      [13, '13', '3a330eb32958'].each do |r1|
+        get :show, :id => 3, :path => ['sql_escape', 'percent%dir'], :rev => r1
+        assert_response :success
+        assert_template 'show'
 
-      assert_not_nil assigns(:entries)
-      assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
-      changesets = assigns(:changesets)
+        assert_not_nil assigns(:entries)
+        assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
+        changesets = assigns(:changesets)
 
-      ## This is not yet implemented.
-      # assert_not_nil changesets
-      # assert_equal %w(13 11 10 9), changesets.collect(&:revision)
+        ## This is not yet implemented.
+        # assert_not_nil changesets
+        # assert_equal %w(13 11 10 9), changesets.collect(&:revision)
+      end
     end
 
     def test_changes
@@ -123,16 +127,18 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
     
     def test_diff
-      # Full diff of changeset 4
-      get :diff, :id => 3, :rev => 4
-      assert_response :success
-      assert_template 'diff'
-      # Line 22 removed
-      assert_tag :tag => 'th',
-                 :content => '22',
-                 :sibling => { :tag => 'td', 
-                               :attributes => { :class => /diff_out/ },
-                               :content => /def remove/ }
+      [4, '4', 'def6d2f1254a'].each do |r1|
+        # Full diff of changeset 4
+        get :diff, :id => 3, :rev => 4
+        assert_response :success
+        assert_template 'diff'
+        # Line 22 removed
+        assert_tag :tag => 'th',
+                   :content => '22',
+                   :sibling => { :tag => 'td', 
+                                 :attributes => { :class => /diff_out/ },
+                                 :content => /def remove/ }
+      end
     end
 
     def test_annotate
