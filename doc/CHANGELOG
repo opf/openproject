@@ -1,8 +1,79 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2010  Jean-Philippe Lang
+Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
+
+== 2011-01-09 v1.1.0
+
+* Defect #2038: Italics in wiki headers show-up wrong in the toc
+* Defect #3449: Redmine Takes Too Long On Large Mercurial Repository
+* Defect #3567: Sorting for changesets might go wrong on Mercurial repos
+* Defect #3707: {{toc}} doesn't work with {{include}}
+* Defect #5096: Redmine hangs up while browsing Git repository
+* Defect #6000: Safe Attributes prevents plugin extension of Issue model...
+* Defect #6064: Modules not assigned to projects created via API
+* Defect #6110: MailHandler should allow updating Issue Priority and Custom fields
+* Defect #6136: JSON API holds less information than XML API
+* Defect #6345: xml used by rest API is invalid
+* Defect #6348: Gantt chart PDF rendering errors
+* Defect #6403: Updating an issue with custom fields fails
+* Defect #6467: "Member of role", "Member of group" filter not work correctly
+* Defect #6473: New gantt broken after clearing issue filters
+* Defect #6541: Email notifications send to everybody
+* Defect #6549: Notification settings not migrated properly
+* Defect #6591: Acronyms must have a minimum of three characters
+* Defect #6674: Delete time log broken after changes to REST
+* Defect #6681: Mercurial, Bazaar and Darcs auto close issue text should be commit id instead of revision number
+* Defect #6724: Wiki uploads does not work anymore (SVN 4266)
+* Defect #6746: Wiki links are broken on Activity page
+* Defect #6747: Wiki diff does not work since r4265
+* Defect #6763: New gantt charts: subject displayed twice on issues
+* Defect #6826: Clicking "Add" twice creates duplicate member record
+* Defect #6844: Unchecking status filter on the issue list has no effect
+* Defect #6895: Wrong Polish translation of "blocks"
+* Defect #6943: Migration from boolean to varchar fails on PostgreSQL 8.1
+* Defect #7064: Mercurial adapter does not recognize non alphabetic nor numeric in UTF-8 copied files
+* Defect #7128: New gantt chart does not render subtasks under parent task
+* Defect #7135: paging mechanism returns the same last page forever
+* Defect #7188: Activity page not refreshed when changing language
+* Defect #7195: Apply CLI-supplied defaults for incoming mail only to new issues not replies
+* Defect #7197: Tracker reset to default when replying to an issue email
+* Defect #7213: Copy project does not copy all roles and permissions
+* Defect #7225: Project settings: Trackers & Custom fields only relevant if module Issue tracking is active
+* Feature #630: Allow non-unique names for projects
+* Feature #1738: Add a "Visible" flag to project/user custom fields
+* Feature #2803: Support for Javascript in Themes
+* Feature #2852: Clean Incoming Email of quoted text "----- Reply above this line ------"
+* Feature #2995: Improve error message when trying to access an archived project
+* Feature #3170: Autocomplete issue relations on subject
+* Feature #3503: Administrator Be Able To Modify Email settings Of Users
+* Feature #4155: Automatic spent time logging from commit messages
+* Feature #5136: Parent select on Wiki rename page
+* Feature #5338: Descendants (subtasks) should be available via REST API
+* Feature #5494: Wiki TOC should display heading from level 4
+* Feature #5594: Improve MailHandler's keyword handling
+* Feature #5622: Allow version to be set via incoming email
+* Feature #5712: Reload themes
+* Feature #5869: Issue filters by Group and Role
+* Feature #6092: Truncate Git revision labels in Activity page/feed and allow configurable length
+* Feature #6112: Accept localized keywords when receiving emails
+* Feature #6140: REST issues response with issue count limit and offset
+* Feature #6260: REST API for Users
+* Feature #6276: Gantt Chart rewrite
+* Feature #6446: Remove length limits on project identifier and name
+* Feature #6628: Improvements in truncate email
+* Feature #6779: Project JSON API
+* Feature #6823: REST API for time tracker.
+* Feature #7072: REST API for news
+* Feature #7111: Expose more detail on journal entries
+* Feature #7141: REST API: get information about current user
+* Patch #4807: Allow to set the done_ratio field with the incoming mail system
+* Patch #5441: Initialize TimeEntry attributes with params[:time_entry]
+* Patch #6762: Use GET instead of POST to retrieve context_menu
+* Patch #7160: French translation ofr "not_a_date" is missing
+* Patch #7212: Missing remove_index in AddUniqueIndexOnMembers down migration
+
 
 == 2010-12-23 v1.0.5
 
