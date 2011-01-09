@@ -159,7 +159,7 @@ module Redmine
           else
             diff_args = "-c #{hgrev(identifier_from)}"
           end
-          cmd = "#{HG_BIN} -R #{target('')} diff --nodates #{diff_args}"
+          cmd = "#{HG_BIN} -R #{target('')} diff --nodates --git #{diff_args}"
           cmd << " -I #{target(path)}" unless path.empty?
           diff = []
           shellout(cmd) do |io|
