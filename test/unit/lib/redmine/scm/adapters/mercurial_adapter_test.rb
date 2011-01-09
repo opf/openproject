@@ -71,6 +71,19 @@ begin
         assert_nil @adapter.cat('sources/welcome_controller.rb')
       end
 
+      def test_annotate
+        assert_equal [], @adapter.annotate("sources/welcome_controller.rb").lines
+        [2, '400bb8672109', '400', 400].each do |r|
+          ann = @adapter.annotate('sources/welcome_controller.rb', r)
+          assert ann
+          assert_equal '1', ann.revisions[17].revision
+          assert_equal '9d5b5b004199', ann.revisions[17].identifier
+          assert_equal 'jsmith', ann.revisions[0].author
+          assert_equal 25, ann.lines.length
+          assert_equal 'class WelcomeController < ApplicationController', ann.lines[17]
+        end
+      end
+
       def test_access_by_nodeid
         path = 'sources/welcome_controller.rb'
         assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400bb8672109')

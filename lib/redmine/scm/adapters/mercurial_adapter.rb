@@ -183,23 +183,31 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           cat
         end
-        
+
         def annotate(path, identifier=nil)
           path ||= ''
           cmd = "#{HG_BIN} -R #{target('')}"
-          cmd << " annotate -n -u"
-          cmd << " -r " + shell_quote(identifier ? identifier.to_s : "tip")
-          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " annotate -ncu"
+          cmd << " -r #{hgrev(identifier)}"
           cmd << " #{target(path)}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|
-              next unless line =~ %r{^([^:]+)\s(\d+):(.*)$}
-              blame.add_line($3.rstrip, Revision.new(:identifier => $2.to_i, :author => $1.strip))
+              next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
+              r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
+                               :identifier => $3)
+              blame.add_line($4.rstrip, r)
             end
           end
           return nil if $? && $?.exitstatus != 0
           blame
+        end
+
+        class Revision < Redmine::Scm::Adapters::Revision
+          # Returns the readable identifier
+          def format_identifier
+            "#{revision}:#{scmid}"
+          end
         end
 
         # Returns correct revision identifier

@@ -134,7 +134,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                                :attributes => { :class => /diff_out/ },
                                :content => /def remove/ }
     end
-    
+
     def test_annotate
       get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -147,8 +147,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                        {
                          :tag => 'td',
                          :attributes => { :class => 'revision' },
-                         :child => { :tag => 'a', :content => '4' }
-                         # :child => { :tag => 'a', :content => /4:def6d2f1/ }
+                         :child => { :tag => 'a', :content => '4:def6d2f1254a' }
                        }
       assert_tag :tag => 'th',
                  :content => '23',
