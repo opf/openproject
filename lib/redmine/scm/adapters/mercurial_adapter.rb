@@ -212,7 +212,7 @@ module Redmine
 
         # Returns correct revision identifier
         def hgrev(identifier)
-          identifier.blank? ? 'tip' : identifier.to_s
+          shell_quote(identifier.blank? ? 'tip' : identifier.to_s)
         end
         private :hgrev
       end
