@@ -235,8 +235,8 @@ class MailHandler < ActionMailer::Base
   def extract_keyword!(text, attr, format=nil)
     keys = [attr.to_s.humanize]
     if attr.is_a?(Symbol)
-      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user
-      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language)
+      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user && user.language.present?
+      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language) if Setting.default_language.present?
     end
     keys.reject! {|k| k.blank?}
     keys.collect! {|k| Regexp.escape(k)}
