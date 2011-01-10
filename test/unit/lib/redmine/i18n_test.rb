@@ -109,4 +109,18 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     
     to_test.each {|lang, expected| assert_equal expected, find_language(lang)}
   end
+  
+  def test_fallback
+    ::I18n.backend.store_translations(:en, {:untranslated => "Untranslated string"})
+    ::I18n.locale = 'en'
+    assert_equal "Untranslated string", l(:untranslated)
+    ::I18n.locale = 'fr'
+    assert_equal "Untranslated string", l(:untranslated)
+    
+    ::I18n.backend.store_translations(:fr, {:untranslated => "Pas de traduction"})
+    ::I18n.locale = 'en'
+    assert_equal "Untranslated string", l(:untranslated)
+    ::I18n.locale = 'fr'
+    assert_equal "Pas de traduction", l(:untranslated)
+  end
 end
