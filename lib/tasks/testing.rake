@@ -40,7 +40,18 @@ namespace :test do
         system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
       end
       
-      (supported_scms - [:subversion]).each do |scm|
+      desc "Creates a test mercurial repository"
+      task :mercurial => :create_dir do
+        repo_path = "tmp/test/mercurial_repository"
+        FileUtils.mkdir_p repo_path
+        Dir.chdir repo_path do
+          system "hg init"
+          system "hg unbundle ../../../test/fixtures/repositories/mercurial_repository.hg"
+          system "hg update"
+        end
+      end
+      
+      (supported_scms - [:subversion, :mercurial]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
           system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
