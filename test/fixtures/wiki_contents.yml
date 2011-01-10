@@ -95,4 +95,12 @@ wiki_contents_009:
   version: 1
   author_id: 1
   comments: 
+wiki_contents_010: 
+  text: Page with cyrillic title
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 10
+  id: 10
+  version: 1
+  author_id: 1
+  comments: 
   
