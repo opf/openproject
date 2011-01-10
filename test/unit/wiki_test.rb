@@ -46,6 +46,9 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal page, wiki.find_page('Another_page')
     assert_equal page, wiki.find_page('Another page')
     assert_equal page, wiki.find_page('ANOTHER page')
+    
+    page = WikiPage.find(10)
+    assert_equal page, wiki.find_page('Этика_менеджмента')
   end
   
   def test_titleize
