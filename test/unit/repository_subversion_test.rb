@@ -119,14 +119,14 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '1', :comments => 'test')
       assert c.event_title.include?('1:')
-      assert_equal c.event_url[:rev], '1'
+      assert_equal '1', c.event_url[:rev]
     end
 
     def test_activities_nine_digit
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')
       assert c.event_title.include?('123456789:')
-      assert_equal c.event_url[:rev], '123456789'
+      assert_equal '123456789', c.event_url[:rev]
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"

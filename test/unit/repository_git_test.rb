@@ -74,16 +74,17 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
       c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
-      assert_equal c.format_identifier, '7234cb27'
+      assert_equal '7234cb27', c.format_identifier
     end
 
     def test_activities
-      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+      c = Changeset.new(:repository => @repository,
+                        :committed_on => Time.now,
                         :revision => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                         :scmid    => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                         :comments => 'test')
       assert c.event_title.include?('abc7234c:')
-      assert_equal c.event_url[:rev], 'abc7234cb2750b63f47bff735edc50a1c0a433c2'
+      assert_equal 'abc7234cb2750b63f47bff735edc50a1c0a433c2', c.event_url[:rev]
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
