@@ -3,6 +3,7 @@ class CreateMeetings < ActiveRecord::Migration
     create_table :meetings do |t|
       t.column :title, :string
       t.column :author_id, :integer
+      t.column :project_id, :integer
       t.column :location, :string
       t.column :time, :datetime
       
