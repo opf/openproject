@@ -43,12 +43,8 @@ namespace :test do
       desc "Creates a test mercurial repository"
       task :mercurial => :create_dir do
         repo_path = "tmp/test/mercurial_repository"
-        FileUtils.mkdir_p repo_path
-        Dir.chdir repo_path do
-          system "hg init"
-          system "hg unbundle ../../../test/fixtures/repositories/mercurial_repository.hg"
-          system "hg update"
-        end
+        bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
+        system "hg clone -U #{bundle_path} #{repo_path}"
       end
       
       (supported_scms - [:subversion, :mercurial]).each do |scm|
