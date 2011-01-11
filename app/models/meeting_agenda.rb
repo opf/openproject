@@ -1,0 +1,2 @@
+class MeetingAgenda < MeetingContent
+end

@@ -1,0 +1,2 @@
+class MeetingMinutes < MeetingContent
+end

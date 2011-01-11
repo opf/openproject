@@ -1,4 +1,6 @@
 class MeetingContent < ActiveRecord::Base
+  unloadable
+  
   acts_as_versioned
   
   belongs_to :meeting
