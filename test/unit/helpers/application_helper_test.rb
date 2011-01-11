@@ -227,11 +227,12 @@ RAW
 
   def test_redmine_links_git_commit
     changeset_link = link_to('abcd',
-                                  {
-                                :controller => 'repositories',
-                                :action => 'revision', :id => 'subproject1',
-                                :rev => 'abcd'
-                                  },
+                               {
+                                 :controller => 'repositories',
+                                 :action     => 'revision',
+                                 :id         => 'subproject1',
+                                 :rev        => 'abcd',
+                                },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
       'commit:abcd' => changeset_link,
@@ -251,11 +252,12 @@ RAW
   # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
   def test_redmine_links_darcs_commit
     changeset_link = link_to('20080308225258-98289-abcd456efg.gz',
-                                  {
-                                :controller => 'repositories',
-                                :action => 'revision', :id => 'subproject1',
-                                :rev => '123'
-                                  },
+                               {
+                                 :controller => 'repositories',
+                                 :action     => 'revision',
+                                 :id         => 'subproject1',
+                                 :rev        => '123',
+                                },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
       'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
