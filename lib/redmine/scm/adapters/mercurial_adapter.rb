@@ -154,14 +154,18 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           diff_args = ''
+          diff = []
           if identifier_to
             diff_args = "-r #{hgrev(identifier_to)} -r #{hgrev(identifier_from)}"
           else
-            diff_args = "-c #{hgrev(identifier_from)}"
+            if self.class.client_version_above?([1, 2])
+              diff_args = "-c #{hgrev(identifier_from)}"
+            else
+              return []
+            end
           end
           cmd = "#{HG_BIN} -R #{target('')} diff --nodates --git #{diff_args}"
           cmd << " -I #{target(path)}" unless path.empty?
-          diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
               diff << line

@@ -43,13 +43,19 @@ begin
       end
 
       def test_diff
-        assert_nil @adapter.diff(nil, '100000')
+        if @adapter.class.client_version_above?([1, 2])
+          assert_nil @adapter.diff(nil, '100000')
+        end
         assert_nil @adapter.diff(nil, '100000', '200000')
         [2, '400bb8672109', '400', 400].each do |r1|
           diff1 = @adapter.diff(nil, r1)
-          assert_equal 28, diff1.size
-          buf = diff1[24].gsub(/\r\n|\r|\n/, "")
-          assert_equal "+    return true unless klass.respond_to?('watched_by')", buf
+          if @adapter.class.client_version_above?([1, 2])
+            assert_equal 28, diff1.size
+            buf = diff1[24].gsub(/\r\n|\r|\n/, "")
+            assert_equal "+    return true unless klass.respond_to?('watched_by')", buf
+          else
+            assert_equal 0, diff1.size
+          end
           [4, 'def6d2f1254a'].each do |r2|
             diff2 = @adapter.diff(nil,r1,r2)
             assert_equal 50, diff2.size

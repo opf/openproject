@@ -32,9 +32,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @repository = Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
@@ -132,12 +133,15 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         get :diff, :id => 3, :rev => 4
         assert_response :success
         assert_template 'diff'
-        # Line 22 removed
-        assert_tag :tag => 'th',
-                   :content => '22',
-                   :sibling => { :tag => 'td', 
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /def remove/ }
+
+        if @repository.scm.class.client_version_above?([1, 2])
+          # Line 22 removed
+          assert_tag :tag => 'th',
+                     :content => '22',
+                     :sibling => { :tag => 'td', 
+                                   :attributes => { :class => /diff_out/ },
+                                   :content => /def remove/ }
+        end
       end
     end
 
