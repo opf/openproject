@@ -146,6 +146,23 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       c = @repository.changesets.find_by_revision('2')
       assert_equal c.scmid, c.identifier
     end
+
+    def test_format_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('2')
+      assert_equal '2:400bb8672109', c.format_identifier
+    end
+
+    def test_activities
+      c = Changeset.new(:repository   => @repository,
+                        :committed_on => Time.now,
+                        :revision     => '123',
+                        :scmid        => 'abc400bb8672',
+                        :comments     => 'test')
+      assert c.event_title.include?('123:abc400bb8672:')
+      assert_equal 'abc400bb8672', c.event_url[:rev]
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end

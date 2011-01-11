@@ -34,8 +34,7 @@ class Repository::Mercurial < Repository
 
   # Returns the readable identifier for the given mercurial changeset
   def self.format_changeset_identifier(changeset)
-    # "#{changeset.revision}:#{changeset.scmid}"
-    changeset.revision
+    "#{changeset.revision}:#{changeset.scmid}"
   end
 
   # Returns the identifier for the given Mercurial changeset
