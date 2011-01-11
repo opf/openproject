@@ -44,7 +44,8 @@ namespace :test do
       task :mercurial => :create_dir do
         repo_path = "tmp/test/mercurial_repository"
         bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
-        system "hg clone -U #{bundle_path} #{repo_path}"
+        system "hg init #{repo_path}"
+        system "hg -R #{repo_path} pull #{bundle_path}"
       end
       
       (supported_scms - [:subversion, :mercurial]).each do |scm|
