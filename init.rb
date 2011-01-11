@@ -1,4 +1,11 @@
 require 'redmine'
+require 'dispatcher'
+
+Dispatcher.to_prepare do
+  require_dependency 'project'
+  require 'redmine_meeting/patch_redmine_classes'
+  Project.send(:include, ::Plugin::Meeting::Project)
+end
 
 Redmine::Plugin.register :redmine_meeting do
   name 'Redmine Meeting'
@@ -9,4 +16,11 @@ Redmine::Plugin.register :redmine_meeting do
   version '0.0.1'
   
   requires_redmine :version_or_higher => '0.9'
+  
+  project_module :meetings do
+    permission :manage_meetings, {:meetings => :index}, :require => :member
+  end
+  
+  menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :label_meeting_plural, :param => :project_id
+  
 end
