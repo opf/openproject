@@ -107,6 +107,9 @@ class PrincipalRolesController < ApplicationController
           page.replace "available_principal_roles",
                         :partial => "users/available_global_roles",
                         :locals => {:user => user, :global_roles => global_roles}
+
+          call_hook :principal_roles_controller_update_respond_js_role,
+                        {:page => page, :principal_role => principal_role}
         end
       end
     end
