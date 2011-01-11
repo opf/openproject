@@ -651,7 +651,7 @@ module ApplicationHelper
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
                                            :title => truncate_single_line(changeset.comments, :length => 100)
             end
