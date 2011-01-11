@@ -19,9 +19,16 @@ class PrincipalRolesController < ApplicationController
 
   def update
     @principal_role = PrincipalRole.find(params[:principal_role][:id])
-    @principal_role.update_attributes(params[:principal_role])
 
-    respond_to_update @principal_role
+    call_hook :principal_roles_controller_update_before_save,
+              {:principal_role => @principal_role}
+
+    @principal_role.update_attributes(params[:principal_role]) unless performed?
+
+    call_hook :principal_roles_controller_update_before_respond,
+              {:principal_role => @principal_role}
+
+    respond_to_update @principal_role unless performed?
   end
 
   def destroy
@@ -29,17 +36,15 @@ class PrincipalRolesController < ApplicationController
     @user = Principal.find(@principal_role.principal_id)
     @global_roles = GlobalRole.all
 
+    call_hook :principal_roles_controller_destroy_before_destroy,
+              {:principal_role => @principal_role}
+
     @principal_role.destroy
 
+    call_hook :principal_roles_controller_update_before_respond,
+              {:principal_role => @principal_role}
+
     respond_to_destroy @principal_role, @user, @global_roles
-  end
-
-  def respond_with=(value)
-    @respond_with = value
-  end
-
-  def respond_with
-    @respond_with
   end
 
   private
@@ -86,6 +91,9 @@ class PrincipalRolesController < ApplicationController
           else
             page.insert_html :top, "tab-content-global_roles", :partial => 'errors'
           end
+
+          call_hook :principal_roles_controller_update_respond_js_role,
+                    {:page => page, :principal_role => role}
         end
       end
     end
