@@ -139,6 +139,13 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.reload
       assert_nil @repository.find_changeset_by_name('100000')
     end
+
+    def test_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('2')
+      assert_equal c.scmid, c.identifier
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end

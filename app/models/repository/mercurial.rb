@@ -27,11 +27,22 @@ class Repository::Mercurial < Repository
   def scm_adapter
     Redmine::Scm::Adapters::MercurialAdapter
   end
-  
+
   def self.scm_name
     'Mercurial'
   end
-  
+
+  # Returns the readable identifier for the given mercurial changeset
+  def self.format_changeset_identifier(changeset)
+    # "#{changeset.revision}:#{changeset.scmid}"
+    changeset.revision
+  end
+
+  # Returns the identifier for the given Mercurial changeset
+  def self.changeset_identifier(changeset)
+    changeset.scmid
+  end
+
   def entries(path=nil, identifier=nil)
     entries=scm.entries(path, identifier)
     if entries
