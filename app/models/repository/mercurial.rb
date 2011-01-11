@@ -42,6 +42,10 @@ class Repository::Mercurial < Repository
     changeset.scmid
   end
 
+  def diff_format_revisions(cs, cs_to, sep=':')
+    super(cs, cs_to, ' ')
+  end
+
   def entries(path=nil, identifier=nil)
     entries=scm.entries(path, identifier)
     if entries

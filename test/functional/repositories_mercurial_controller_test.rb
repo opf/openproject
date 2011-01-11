@@ -128,6 +128,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
     
     def test_diff
+      @repository.fetch_changesets
+      @repository.reload
+
       [4, '4', 'def6d2f1254a'].each do |r1|
         # Full diff of changeset 4
         get :diff, :id => 3, :rev => 4
@@ -141,6 +144,25 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                      :sibling => { :tag => 'td', 
                                    :attributes => { :class => /diff_out/ },
                                    :content => /def remove/ }
+          assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
+        end
+      end
+    end
+
+    def test_diff_two_revs
+      @repository.fetch_changesets
+      @repository.reload
+
+      [2, '400bb8672109', '400', 400].each do |r1|
+        [4, 'def6d2f1254a'].each do |r2|
+          get :diff, :id => 3, :rev    => r1,
+                               :rev_to => r2
+          assert_response :success
+          assert_template 'diff'
+
+          diff = assigns(:diff)
+          assert_not_nil diff
+          assert_tag :tag => 'h2', :content => /4:def6d2f1254a 2:400bb8672109/
         end
       end
     end
