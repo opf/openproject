@@ -1,8 +1,6 @@
 class PrincipalRolesController < ApplicationController
   unloadable (PrincipalRolesController)
 
-  #before_filter :authorize
-
   def create
     @principal_roles = new_principal_roles_from_params
 
@@ -39,12 +37,12 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_destroy_before_destroy,
               {:principal_role => @principal_role}
 
-    @principal_role.destroy
+    @principal_role.destroy unless performed?
 
-    call_hook :principal_roles_controller_update_before_respond,
+    call_hook :principal_roles_controller_destroy_before_respond,
               {:principal_role => @principal_role}
 
-    respond_to_destroy @principal_role, @user, @global_roles
+    respond_to_destroy @principal_role, @user, @global_roles unless performed?
   end
 
   private
@@ -67,10 +65,14 @@ class PrincipalRolesController < ApplicationController
       format.js do
         render(:update) do |page|
           roles.each do |role|
-            page.remove "principal_role_option_#{role.role_id}"
-            page.insert_html :top, 'table_principal_roles_body',
-                             :partial => "principal_roles/show_table_row",
-                             :locals => {:principal_role => role}
+            if role.valid?
+              page.remove "principal_role_option_#{role.role_id}"
+              page.insert_html :top, 'table_principal_roles_body',
+                               :partial => "principal_roles/show_table_row",
+                               :locals => {:principal_role => role}
+            else
+              page.insert_html :top, "tab-content-global_roles", :partial => 'errors'
+            end
 
             call_hook :principal_roles_controller_create_respond_js_role,
                       {:page => page, :principal_role => role}
