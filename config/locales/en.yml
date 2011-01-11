@@ -1,3 +1,4 @@
 # English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  label_meeting: "Meeting"
+  label_meeting_plural: "Meetings"
