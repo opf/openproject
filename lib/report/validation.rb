@@ -1,4 +1,10 @@
 module Report::Validation
+  extend ProactiveAutoloader
+  include Report::QueryUtils
+  autoload :Dates, 'report/validation/dates'
+  autoload :Integers, 'report/validation/integers'
+  autoload :Sql, 'report/validation/sql'
+
   def register_validations(*validation_methods)
     validation_methods.flatten.each do |val_method|
       register_validation(val_method)
