@@ -177,9 +177,10 @@ class RepositoriesController < ApplicationController
 
       @changeset = @repository.find_changeset_by_name(@rev)
       @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
+      @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
     end
   end
-  
+
   def stats  
   end
   
