@@ -147,7 +147,7 @@ RAW
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
                                :class => 'issue status-1 priority-1 overdue', :title => 'Error 281 when updating a recipe (New)')
@@ -224,7 +224,54 @@ RAW
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
-  
+
+  def test_redmine_links_git_commit
+    changeset_link = link_to('abcd',
+                                  {
+                                :controller => 'repositories',
+                                :action => 'revision', :id => 'subproject1',
+                                :rev => 'abcd'
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'commit:abcd' => changeset_link,
+     }
+    @project = Project.find(3)
+    r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => 'abcd',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
+  # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
+  def test_redmine_links_darcs_commit
+    changeset_link = link_to('20080308225258-98289-abcd456efg.gz',
+                                  {
+                                :controller => 'repositories',
+                                :action => 'revision', :id => 'subproject1',
+                                :rev => '123'
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
+     }
+    @project = Project.find(3)
+    r = Repository::Darcs.create!(:project => @project, :url => '/tmp/test/darcs')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => '123',
+                      :scmid => '20080308225258-98289-abcd456efg.gz',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
   def test_attachment_links
     attachment_link = link_to('error281.txt', {:controller => 'attachments', :action => 'download', :id => '1'}, :class => 'attachment')
     to_test = {
