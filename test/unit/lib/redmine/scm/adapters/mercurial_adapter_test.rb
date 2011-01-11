@@ -58,8 +58,8 @@ begin
           end
           [4, 'def6d2f1254a'].each do |r2|
             diff2 = @adapter.diff(nil,r1,r2)
-            assert_equal 50, diff2.size
-            buf =  diff2[42].gsub(/\r\n|\r|\n/, "")
+            assert_equal 49, diff2.size
+            buf =  diff2[41].gsub(/\r\n|\r|\n/, "")
             assert_equal "+class WelcomeController < ApplicationController", buf
             diff3 = @adapter.diff('sources/watchers_controller.rb', r1, r2)
             assert_equal 20, diff3.size

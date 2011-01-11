@@ -164,7 +164,7 @@ module Redmine
               return []
             end
           end
-          cmd = "#{HG_BIN} -R #{target('')} diff --nodates --git #{diff_args}"
+          cmd = "#{HG_BIN} -R #{target('')} --config diff.git=false diff --nodates #{diff_args}"
           cmd << " -I #{target(path)}" unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
