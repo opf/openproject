@@ -274,6 +274,39 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
+  def test_redmine_links_mercurial_commit
+    changeset_link_rev = link_to('r123',
+                                  {
+                                     :controller => 'repositories',
+                                     :action     => 'revision',
+                                     :id         => 'subproject1',
+                                     :rev        => '123' ,
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    changeset_link_commit = link_to('abcd',
+                                  {
+                                        :controller => 'repositories',
+                                        :action     => 'revision',
+                                        :id         => 'subproject1',
+                                        :rev        => 'abcd' ,
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'r123' => changeset_link_rev,
+      'commit:abcd' => changeset_link_commit,
+     }
+    @project = Project.find(3)
+    r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => '123',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
   def test_attachment_links
     attachment_link = link_to('error281.txt', {:controller => 'attachments', :action => 'download', :id => '1'}, :class => 'attachment')
     to_test = {
