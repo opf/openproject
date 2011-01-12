@@ -1,4 +1,6 @@
 class Report::Result
+  include Report::QueryUtils
+
   class Base
     attr_accessor :parent, :type, :important_fields
     attr_accessor :key
@@ -243,8 +245,8 @@ class Report::Result
   def self.new(value, fields = {}, type = nil, important_fields = [])
     result = begin
       case value
-      when Array then WrappedResult.new value.map { |e| new e, {}, nil, important_fields }
-      when Hash  then DirectResult.new value.with_indifferent_access
+      when Array then engine::Result::WrappedResult.new value.map { |e| new e, {}, nil, important_fields }
+      when Hash  then engine::Result::DirectResult.new value.with_indifferent_access
       when Base  then value
       else raise ArgumentError, "Cannot create Result from #{value.inspect}"
       end

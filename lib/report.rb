@@ -1,17 +1,18 @@
 require 'forwardable'
+require 'proactive_autoloader'
 
 class Report < ActiveRecord::Base
-  InheritedNamespace.activate unless defined? Rails && Rails.version =~ /^3./
-
+  extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
+
   belongs_to :user
   belongs_to :project
 
   before_save :serialize
   serialize :serialized, Hash
 
-  self.abstract_class = true #lets have subclasses have their own SQL tables
+  self.abstract_class = true # lets have subclasses have their own SQL tables
 
   def self.accepted_properties
     @@accepted_properties ||= []
