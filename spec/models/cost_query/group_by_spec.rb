@@ -225,7 +225,8 @@ describe CostQuery do
 
       it "is usable as filter" do
         @query.group_by :custom_field_searchable_field
-        @query.result.first.count.should == 1 # see fixtures
+        footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
+        footprint.should == [[1, 1], [2, 2], [2, 3], [8, 11]] # see fixtures
       end
     end
   end
