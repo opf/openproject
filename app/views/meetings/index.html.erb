@@ -1,1 +1,17 @@
-<h2>Meetings#index</h2>
+<div class="contextual">
+<%= link_to_if_authorized(l(:label_meeting_new),
+                          {:controller => 'meetings', :action => 'new', :project_id => @project},
+                          :class => 'icon icon-add') %>
+</div>
+
+<h2><%= l(:label_meeting_plural)%></h2>
+
+<% if @meetings.empty? -%>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else -%>
+<ul>
+<% @meetings.each do |meeting| -%>
+  <li><%=h meeting.title%></li>
+<% end -%>
+</ul>
+<% end -%>

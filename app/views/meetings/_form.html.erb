@@ -1,0 +1,7 @@
+<%= error_messages_for 'meeting' %>
+
+<div class="box tabular">
+  <p><%= f.text_field :title, :required => true, :size => 60 %></p>
+  <p><%= f.text_field :location, :size => 60 %></p>
+  <p><%= f.text_field :time, :size => 10 %><%= calendar_for('meeting_time') %></p>
+</div>

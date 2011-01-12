@@ -2,3 +2,6 @@
 en:
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"
+  label_meeting_new: "New Meeting"
+  field_location: "Location"
+  field_time: "Time"

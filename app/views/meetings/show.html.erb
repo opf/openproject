@@ -1,1 +1,13 @@
-<h2>Meetings#show</h2>
+<div class="contextual">
+  <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
+</div>
+
+<h2><%= l(:label_meeting) %> #<%= @meeting.id %></h2>
+
+<div class="meeting details">
+  <%= avatar(@author, :size => "64") %>
+  <h3><%=h @meeting.title %></h3>
+  <p class="author"><%= authoring @meeting.created_at, @author %></p>
+  <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
+  <p><strong><%= l(:field_time) %></strong>: <%= format_time @meeting.time %></p>
+</div>

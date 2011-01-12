@@ -2,7 +2,8 @@ class MeetingsController < ApplicationController
   unloadable
   
   before_filter :find_project, :only => [:index, :new, :create]
-  before_filter :find_project, :except => [:index, :new, :create]
+  before_filter :find_meeting, :except => [:index, :new, :create]
+  before_filter :authorize
 
   def index
     @meetings = @project.meetings.find(:all, :order => 'created_at DESC')
@@ -16,12 +17,23 @@ class MeetingsController < ApplicationController
   end
 
   def create
+    @meeting.attributes = params[:meeting]
+    if @meeting.save
+      flash[:notice] = l(:notice_successfull_create)
+      redirect_to :action => 'show', :id => @meeting
+    else
+      render :action => 'new', :project_id => @project
+    end
   end
 
   def new
   end
 
   def destroy
+    # TODO: Notify about successfull deletion
+    # TODO? handle bizarre cases
+    @meeting.destroy
+    redirect_to :action => 'index', :project_id => @project
   end
 
   def edit

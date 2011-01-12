@@ -6,4 +6,6 @@ class Meeting < ActiveRecord::Base
   has_one :agenda, :dependent => :destroy, :class_name => 'MeetingAgenda'
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
+  
+  validates_presence_of :title
 end
