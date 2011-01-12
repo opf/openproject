@@ -35,7 +35,11 @@ class Report < ActiveRecord::Base
   end
 
   def deserialize
-    self.class.deserialize(serialized || serialize)
+    hash = serialized || serialize
+    self.tap do |q|
+      hash[:filters].each {|name, opts| q.filter(name, opts) }
+      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
+    end
   end
 
   def available_filters
