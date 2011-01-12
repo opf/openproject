@@ -19,6 +19,7 @@ class MeetingsController < ApplicationController
   def create
     @meeting.attributes = params[:meeting]
     if @meeting.save
+      # TODO: doesn't redmine have a string for that on-board already?
       flash[:notice] = l(:notice_successfull_create)
       redirect_to :action => 'show', :id => @meeting
     else

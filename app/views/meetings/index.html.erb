@@ -9,9 +9,9 @@
 <% if @meetings.empty? -%>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else -%>
-<ul>
 <% @meetings.each do |meeting| -%>
-  <li><%=h meeting.title%></li>
+  <h3><%= link_to h(meeting.title), :controller => 'meetings', :action => 'show', :id => meeting %></h3>
+  <p class="author"><%= authoring meeting.created_at, meeting.author %></p>
+  <p>Location/Time</p>
 <% end -%>
-</ul>
 <% end -%>
