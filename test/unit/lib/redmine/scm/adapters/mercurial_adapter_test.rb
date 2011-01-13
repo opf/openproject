@@ -93,6 +93,32 @@ begin
         end
       end
 
+      # TODO filesize etc.
+      def test_entries
+        assert_nil @adapter.entries(nil, '100000')
+        [2, '400bb8672109', '400', 400].each do |r|
+          entries1 = @adapter.entries(nil, r)
+          assert entries1
+          assert_equal 3, entries1.size
+          assert_equal 'sources', entries1[1].name
+          assert_equal 'sources', entries1[1].path
+          assert_equal 'dir', entries1[1].kind
+          assert_equal 'README', entries1[2].name
+          assert_equal 'README', entries1[2].path
+          assert_equal 'file', entries1[2].kind
+
+          entries2 = @adapter.entries('sources', r)
+          assert entries2
+          assert_equal 2, entries2.size
+          assert_equal 'watchers_controller.rb', entries2[0].name
+          assert_equal 'sources/watchers_controller.rb', entries2[0].path
+          assert_equal 'file', entries2[0].kind
+          assert_equal 'welcome_controller.rb', entries2[1].name
+          assert_equal 'sources/welcome_controller.rb', entries2[1].path
+          assert_equal 'file', entries2[1].kind
+        end
+      end
+
       def test_access_by_nodeid
         path = 'sources/welcome_controller.rb'
         assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400bb8672109')
