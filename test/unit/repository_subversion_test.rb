@@ -96,6 +96,14 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal c.revision, c.identifier
     end
 
+    def test_find_changeset_by_empty_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        assert_nil @repository.find_changeset_by_name(r)
+      end
+    end
+
     def test_identifier_nine_digit
       c = Changeset.new(:repository => @repository, :committed_on => Time.now,
                         :revision => '123456789', :comments => 'test')

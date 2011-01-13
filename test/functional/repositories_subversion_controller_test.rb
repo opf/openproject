@@ -171,7 +171,15 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response 500
       assert_error_tag :content => /was not found/
     end
-    
+
+    def test_empty_revision
+      ['', ' ', nil].each do |r|
+        get :revision, :id => 1, :rev => r
+        assert_response 500
+        assert_error_tag :content => /was not found/
+      end
+    end
+
     def test_revision_with_repository_pointing_to_a_subdirectory
       r = Project.find(1).repository
       # Changes repository url to a subdirectory

@@ -139,6 +139,7 @@ class RepositoriesController < ApplicationController
   end
   
   def revision
+    raise ChangesetNotFound if @rev.nil? || @rev.empty?
     @changeset = @repository.find_changeset_by_name(@rev)
     raise ChangesetNotFound unless @changeset
 

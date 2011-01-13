@@ -176,6 +176,26 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /can not be annotated/
     end
+
+    def test_revision
+      @repository.fetch_changesets
+      @repository.reload
+      ['61b685fbe55ab05b5ac68402d5720c1a6ac973d1', '61b685f'].each do |r|
+        get :revision, :id => 3, :rev => r
+        assert_response :success
+        assert_template 'revision'
+      end
+    end
+
+    def test_empty_revision
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        get :revision, :id => 1, :rev => r
+        assert_response 500
+        assert_error_tag :content => /was not found/
+      end
+    end
   else
     puts "Git test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end

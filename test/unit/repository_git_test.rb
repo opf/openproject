@@ -63,6 +63,23 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 15, @repository.changesets.count
     end
 
+    def test_find_changeset_by_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['7234cb2750b63f47bff735edc50a1c0a433c2518', '7234cb2750b'].each do |r|
+        assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518',
+                     @repository.find_changeset_by_name(r).revision
+      end
+    end
+
+    def test_find_changeset_by_empty_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        assert_nil @repository.find_changeset_by_name(r)
+      end
+    end
+
     def test_identifier
       @repository.fetch_changesets
       @repository.reload
