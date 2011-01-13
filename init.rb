@@ -6,7 +6,7 @@ require 'redmine'
 # rescue LoadError
 #   raise Exception.new("ERROR: Please install Composite Primary Keys gem via \"gem install composite_primary_keys\"")
 # end
-# 
+#
 unless defined? GLoc
   module ::GLoc
     def l(*args)
@@ -30,18 +30,18 @@ Dispatcher.to_prepare do
   require_dependency 'costs_user_patch'
   require_dependency 'costs_time_entry_patch'
   require_dependency 'costs_version_patch'
-  
+
   # Controller Patches
   require_dependency 'costs_application_controller_patch'
   require_dependency 'costs_groups_controller_patch'
   require_dependency 'costs_issues_controller_patch'
   require_dependency 'costs_timelog_controller_patch'
-  
+
   # Helper Patches
   require_dependency 'costs_application_helper_patch'
   require_dependency 'costs_users_helper_patch'
   require_dependency 'costs_issues_helper_patch'
-  
+
   # Library Patches
   require_or_load 'costs_access_control_permission_patch'
   require_dependency 'costs_access_control_patch'
@@ -60,20 +60,20 @@ Redmine::Plugin.register :redmine_costs do
   author 'Holger Just @ finnlabs'
   author_url 'http://finn.de/team#h.just'
   description 'The costs plugin provides basic cost management functionality for Redmine.'
-  version '0.3'
-  
+  version '0.4'
+
   requires_redmine :version_or_higher => '0.9'
-  
+
   settings :default => {
     'costs_currency' => 'EUR',
     'costs_currency_format' => '%n %u'
   }, :partial => 'settings/redmine_costs'
 
-  
+
   # register our custom permissions
   project_module :costs_module do
     require_or_load 'costs_access_control_permission_patch'
-    
+
     permission :view_own_hourly_rate, {},
       :granular_for => :view_hourly_rates
     permission :view_hourly_rates, {}
@@ -84,7 +84,7 @@ Redmine::Plugin.register :redmine_costs do
     permission :edit_hourly_rates, {:hourly_rates => [:set_rate, :edit]},
       :require => :member,
       :inherits => :view_hourly_rates
-    
+
     permission :view_cost_rates, {}
     permission :log_own_costs, {:costlog => :edit},
       :require => :loggedin,
@@ -114,10 +114,10 @@ Redmine::Plugin.register :redmine_costs do
   view_time_entries = Redmine::AccessControl.permission(:view_time_entries)
   view_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   view_time_entries.actions << "cost_reports/index"
-  
+
   edit_time_entries = Redmine::AccessControl.permission(:edit_time_entries)
   edit_time_entries.instance_variable_set("@inherits", [:view_time_entries])
-  
+
   edit_own_time_entries = Redmine::AccessControl.permission(:edit_own_time_entries)
   edit_own_time_entries.instance_variable_set("@inherits", [:view_own_time_entries])
   edit_own_time_entries.instance_variable_set("@granular_for", :edit_time_entries)
