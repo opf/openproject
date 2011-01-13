@@ -1,6 +1,8 @@
 require "set"
 
 class CostQuery::Filter < Report::Filter
+  require_dependency 'cost_query/filter/base'
+
   def self.all
     @all ||= super + Set[
       CostQuery::Filter::ActivityId,
