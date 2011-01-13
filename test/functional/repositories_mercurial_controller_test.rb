@@ -195,6 +195,16 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
+
+    def test_empty_revision
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        get :revision, :id => 1, :rev => r
+        assert_response 500
+        assert_error_tag :content => /was not found/
+      end
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end

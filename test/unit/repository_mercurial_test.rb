@@ -154,6 +154,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal '2:400bb8672109', c.format_identifier
     end
 
+    def test_find_changeset_by_empty_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        assert_nil @repository.find_changeset_by_name(r)
+      end
+    end
+
     def test_activities
       c = Changeset.new(:repository   => @repository,
                         :committed_on => Time.now,
