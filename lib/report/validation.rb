@@ -1,6 +1,6 @@
 module Report::Validation
   extend ProactiveAutoloader
-
+  include Report::QueryUtils
   # autoload :Dates, 'report/validation/dates'
   # autoload :Integers, 'report/validation/integers'
   # autoload :Sql, 'report/validation/sql'
@@ -42,11 +42,6 @@ module Report::Validation
     validations.all? do |validation|
       values.empty? ? true : send(validation, *values)
     end
-  end
-
-  def self.included(klass)
-    super
-    klass.send :include, Report::QueryUtils
   end
 
 end
