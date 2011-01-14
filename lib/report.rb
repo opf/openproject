@@ -22,8 +22,8 @@ class Report < ActiveRecord::Base
     @chain_initializer ||= []
   end
 
-  def self.deserialize(hash)
-    self.new.tap do |q|
+  def self.deserialize(hash, object = self.new)
+    object.tap do |q|
       hash[:filters].each {|name, opts| q.filter(name, opts) }
       hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
     end
@@ -35,10 +35,11 @@ class Report < ActiveRecord::Base
   end
 
   def deserialize
-    hash = serialized || serialize
-    self.tap do |q|
-      hash[:filters].each {|name, opts| q.filter(name, opts) }
-      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
+    unless @chain
+      hash = serialized || serialize
+      self.class.deserialize(hash, self)
+    else
+      raise ArgumentError, "Cannot deserialize a report which already has a chain"
     end
   end
 
