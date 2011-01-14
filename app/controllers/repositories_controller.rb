@@ -226,7 +226,7 @@ class RepositoriesController < ApplicationController
   end
 
   def show_error_not_found
-    render_error l(:error_scm_not_found)
+    render_error :message => l(:error_scm_not_found), :status => 404
   end
   
   # Handler for Redmine::Scm::Adapters::CommandFailed exception

@@ -168,14 +168,14 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     
     def test_invalid_revision
       get :revision, :id => 1, :rev => 'something_weird'
-      assert_response 500
+      assert_response 404
       assert_error_tag :content => /was not found/
     end
 
     def test_empty_revision
       ['', ' ', nil].each do |r|
         get :revision, :id => 1, :rev => r
-        assert_response 500
+        assert_response 404
         assert_error_tag :content => /was not found/
       end
     end

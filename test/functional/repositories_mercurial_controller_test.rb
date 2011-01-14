@@ -201,7 +201,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.reload
       ['', ' ', nil].each do |r|
         get :revision, :id => 1, :rev => r
-        assert_response 500
+        assert_response 404
         assert_error_tag :content => /was not found/
       end
     end
