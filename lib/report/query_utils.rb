@@ -1,5 +1,8 @@
 module Report::QueryUtils
+  alias singleton_class metaclass unless respond_to? :singleton_class
+
   delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
+  attr_writer :engine
 
   ##
   # Subclass of Report to be used for constant lookup and such.
@@ -8,7 +11,7 @@ module Report::QueryUtils
   # @return [Class] subclass
   def engine
     return self.class.engine unless is_a? Module
-    Object.const_get(name[/^[^:]+/] || :Report)
+    @engine ||= Object.const_get(name[/^[^:]+/] || :Report)
   end
 
   ##

@@ -1,6 +1,8 @@
 require 'set'
 
 module Report::InheritedAttribute
+  include Report::QueryUtils
+
   def inherited_attribute(*attributes)
       options = attributes.extract_options!
       list    = options[:list]
@@ -24,8 +26,6 @@ module Report::InheritedAttribute
         define_method(name) { |*values| self.class.send(name, *values) }
       end
     end
-
-    alias singleton_class metaclass unless respond_to? :singleton_class
 
     def define_singleton_method(name, &block)
       singleton_class.send :attr_writer, name
