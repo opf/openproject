@@ -1,9 +1,9 @@
 module Report::Validation
   extend ProactiveAutoloader
   include Report::QueryUtils
-  autoload :Dates, 'report/validation/dates'
-  autoload :Integers, 'report/validation/integers'
-  autoload :Sql, 'report/validation/sql'
+  # autoload :Dates, 'report/validation/dates'
+  # autoload :Integers, 'report/validation/integers'
+  # autoload :Sql, 'report/validation/sql'
 
   def register_validations(*validation_methods)
     validation_methods.flatten.each do |val_method|
@@ -14,7 +14,7 @@ module Report::Validation
   def register_validation(val_method)
     const_name = val_method.to_s.camelize
     begin
-      val_module = Report::Validation.const_get const_name
+      val_module = engine::Validation.const_get const_name
       singleton_class.send(:include, val_module)
       val_method = "validate_" + val_method.to_s.pluralize
       if method(val_method)
@@ -23,7 +23,7 @@ module Report::Validation
         warn "#{val_module.name} does not define #{val_method}"
       end
     rescue NameError
-      warn "No Module Report::Validation::#{const_name} found to validate #{val_method}"
+      warn "No Module #{engine}::Validation::#{const_name} found to validate #{val_method}"
     end
     self
   end
