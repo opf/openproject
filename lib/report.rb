@@ -43,6 +43,16 @@ class Report < ActiveRecord::Base
     end
   end
 
+  ##
+  # Migrates this report to look like the given report.
+  # This may be used to alter report properties without
+  # creating a new report in a database.
+  def migrate(report)
+    [:@query, :@transformer, :@walker, :@table, :@depths, :@chain_initializer].each do |inst_var|
+      instance_variable_set inst_var, (report.instance_variable_get inst_var)
+    end
+  end
+
   def available_filters
     self.class::Filter.all
   end
