@@ -67,6 +67,12 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal Date.parse("2011-01-14"), c.spent_on
   end
   
+  def test_spent_on_with_invalid_string
+    c = TimeEntry.new
+    c.spent_on = "foo"
+    assert_nil c.spent_on
+  end
+  
   def test_spent_on_with_date
     c = TimeEntry.new
     c.spent_on = Date.today
