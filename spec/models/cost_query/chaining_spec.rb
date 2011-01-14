@@ -116,7 +116,7 @@ describe CostQuery do
         initialize_query_with {|query| query.filter(:project_id, :value => Project.all.first.id)}
       end
       @query.build_new_chain
-      @query.filters.size.should == 2
+      @query.filters.size.should == 2 # project_id and no_filter
       @query.filters.collect {|f| f.class.underscore_name}.should include "project_id"
     end
 
