@@ -48,6 +48,36 @@ class TimeEntryTest < ActiveSupport::TestCase
   def test_hours_should_default_to_nil
     assert_nil TimeEntry.new.hours
   end
+  
+  def test_spent_on_with_blank
+    c = TimeEntry.new
+    c.spent_on = ''
+    assert_nil c.spent_on
+  end
+  
+  def test_spent_on_with_nil
+    c = TimeEntry.new
+    c.spent_on = nil
+    assert_nil c.spent_on
+  end
+  
+  def test_spent_on_with_string
+    c = TimeEntry.new
+    c.spent_on = "2011-01-14"
+    assert_equal Date.parse("2011-01-14"), c.spent_on
+  end
+  
+  def test_spent_on_with_date
+    c = TimeEntry.new
+    c.spent_on = Date.today
+    assert_equal Date.today, c.spent_on
+  end
+  
+  def test_spent_on_with_time
+    c = TimeEntry.new
+    c.spent_on = Time.now
+    assert_equal Date.today, c.spent_on
+  end
 
   context "#earilest_date_for_project" do
     setup do
