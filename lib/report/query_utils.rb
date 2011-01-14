@@ -5,11 +5,22 @@ module Report::QueryUtils
   attr_writer :engine
 
   module PropagationHook
+    include Report::QueryUtils
+
     def append_features(base)
       ancestors[1..-1].reverse_each { |m| base.send(:include, m) }
       base.extend PropagationHook
       base.extend self
       super
+    end
+
+    def propagate!(to = engine)
+      to.local_constants.each do |name|
+        const = to.const_get name
+        next unless Module === const and const < Report::QueryUtils
+        append_features const unless const <= self
+        propagate! const
+      end
     end
   end
 
