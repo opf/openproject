@@ -14,7 +14,6 @@ class CostQuery::GroupBy < Report::GroupBy
       CostQuery::GroupBy::SingletonValue,
       CostQuery::GroupBy::Tmonth,
       CostQuery::GroupBy::TrackerId,
-      #CostQuery::GroupBy::Tweek,
       CostQuery::GroupBy::Tyear,
       CostQuery::GroupBy::UserId,
       CostQuery::GroupBy::Week,

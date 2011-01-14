@@ -1,6 +1,4 @@
 class CostQuery::SqlStatement < Report::SqlStatement
-  include CostQuery::QueryUtils
-
   COMMON_FIELDS = %w[
     user_id project_id issue_id rate_id
     comments spent_on created_on updated_on tyear tmonth tweek

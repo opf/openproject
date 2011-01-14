@@ -29,9 +29,6 @@ module CostQuery::QueryUtils
     "'#{quote_string l(ident)}'"
   end
 
-  def self.included(klass)
-    super
-    klass.extend self
-  end
+  propagate!
 end
 
