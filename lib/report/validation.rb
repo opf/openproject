@@ -14,7 +14,7 @@ module Report::Validation
   def register_validation(val_method)
     const_name = val_method.to_s.camelize
     begin
-      val_module = Report::Validation.const_get const_name
+      val_module = engine::Validation.const_get const_name
       singleton_class.send(:include, val_module)
       val_method = "validate_" + val_method.to_s.pluralize
       if method(val_method)
