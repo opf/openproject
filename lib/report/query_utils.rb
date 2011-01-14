@@ -224,5 +224,4 @@ module Report::QueryUtils
     super
     klass.extend self
   end
-
 end

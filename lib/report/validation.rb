@@ -1,6 +1,6 @@
 module Report::Validation
   extend ProactiveAutoloader
-
+  include Report::QueryUtils
   # autoload :Dates, 'report/validation/dates'
   # autoload :Integers, 'report/validation/integers'
   # autoload :Sql, 'report/validation/sql'
@@ -14,7 +14,7 @@ module Report::Validation
   def register_validation(val_method)
     const_name = val_method.to_s.camelize
     begin
-      val_module = engine::Validation.const_get const_name
+      val_module = Report::Validation.const_get const_name
       singleton_class.send(:include, val_module)
       val_method = "validate_" + val_method.to_s.pluralize
       if method(val_method)
@@ -42,11 +42,6 @@ module Report::Validation
     validations.all? do |validation|
       values.empty? ? true : send(validation, *values)
     end
-  end
-
-  def self.included(klass)
-    super
-    klass.send :include, Report::QueryUtils
   end
 
 end
