@@ -1,6 +1,4 @@
 class CostQuery::Operator < Report::Operator
-  include CostQuery::QueryUtils
-
   # Operators from Redmine
   new "c", :arity => 0 do
     def modify(query, field, *values)
