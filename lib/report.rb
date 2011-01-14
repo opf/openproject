@@ -48,7 +48,7 @@ class Report < ActiveRecord::Base
   # This may be used to alter report properties without
   # creating a new report in a database.
   def migrate(report)
-    [:@query, :@transformer, :@walker, :@table, :@depths, :@chain_initializer].each do |inst_var|
+    [:@chain, :@query, :@transformer, :@walker, :@table, :@depths, :@chain_initializer].each do |inst_var|
       instance_variable_set inst_var, (report.instance_variable_get inst_var)
     end
   end
