@@ -618,6 +618,25 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_all_dependent_issues
+    IssueRelation.delete_all
+    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => Issue.find(3), :issue_to => Issue.find(8), :relation_type => IssueRelation::TYPE_PRECEDES)
+    
+    assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
+  end
+
+  def test_all_dependent_issues_with_persistent_circular_dependency
+    IssueRelation.delete_all
+    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
+    # Validation skipping
+    assert IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES).save(false)
+    
+    assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
+  end
+  
   context "#done_ratio" do
     setup do
       @issue = Issue.find(1)

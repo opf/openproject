@@ -456,11 +456,14 @@ class Issue < ActiveRecord::Base
     (relations_from + relations_to).sort
   end
   
-  def all_dependent_issues
+  def all_dependent_issues(except=nil)
+    except ||= self
     dependencies = []
     relations_from.each do |relation|
-      dependencies << relation.issue_to
-      dependencies += relation.issue_to.all_dependent_issues
+      if relation.issue_to && relation.issue_to != except
+        dependencies << relation.issue_to
+        dependencies += relation.issue_to.all_dependent_issues(except)
+      end
     end
     dependencies
   end
