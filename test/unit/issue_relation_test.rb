@@ -73,4 +73,13 @@ class IssueRelationTest < ActiveSupport::TestCase
     r = IssueRelation.new(:relation_type => IssueRelation::TYPE_PRECEDES, :delay => 1)
     assert_nil r.set_issue_to_dates
   end
+  
+  def test_validates_circular_dependency
+    IssueRelation.delete_all
+    assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert IssueRelation.create!(:issue_from => Issue.find(2), :issue_to => Issue.find(3), :relation_type => IssueRelation::TYPE_PRECEDES)
+    r = IssueRelation.new(:issue_from => Issue.find(3), :issue_to => Issue.find(1), :relation_type => IssueRelation::TYPE_PRECEDES)
+    assert !r.save
+    assert_not_nil r.errors.on(:base)
+  end
 end
