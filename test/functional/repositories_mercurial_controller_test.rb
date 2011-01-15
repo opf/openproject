@@ -44,7 +44,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
     end
-    
+
     def test_show_root
       get :show, :id => 3
       assert_response :success
@@ -55,7 +55,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README'  && e.kind == 'file'}
     end
-    
+
     def test_show_directory
       get :show, :id => 3, :path => ['images']
       assert_response :success
@@ -133,7 +133,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
       [4, '4', 'def6d2f1254a'].each do |r1|
         # Full diff of changeset 4
-        get :diff, :id => 3, :rev => 4
+        get :diff, :id => 3, :rev => r1
         assert_response :success
         assert_template 'diff'
 
