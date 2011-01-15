@@ -57,10 +57,11 @@ require 'rdoc/usage'
 
 module Net
   class HTTPS < HTTP
-    def self.post_form(url, params)
+    def self.post_form(url, params, headers)
       request = Post.new(url.path)
       request.form_data = params
       request.basic_auth url.user, url.password if url.user
+      request.initialize_http_header(headers)
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
       http.start {|h| h.request(request) }
@@ -121,6 +122,8 @@ class RedmineMailHandler
   def submit(email)
     uri = url.gsub(%r{/*$}, '') + '/mail_handler'
     
+    headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
+    
     data = { 'key' => key, 'email' => email, 
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,
@@ -128,7 +131,7 @@ class RedmineMailHandler
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
              
     debug "Posting to #{uri}..."
-    response = Net::HTTPS.post_form(URI.parse(uri), data)
+    response = Net::HTTPS.post_form(URI.parse(uri), data, headers)
     debug "Response received: #{response.code}"
     
     case response.code.to_i
