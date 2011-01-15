@@ -449,6 +449,9 @@ fr:
   label_issue_view_all: Voir toutes les demandes
   label_issue_added: Demande ajoutée
   label_issue_updated: Demande mise à jour
+  label_issue_note_added: Note ajoutée
+  label_issue_status_updated: Statut changé
+  label_issue_priority_updated: Priorité changée
   label_issues_by: "Demandes par %{value}"
   label_document: Document
   label_document_new: Nouveau document
