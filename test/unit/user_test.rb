@@ -310,6 +310,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 6, User.find(2).valid_notification_options.size
   end
   
+  def test_valid_notification_options_class_method
+    assert_equal 5, User.valid_notification_options.size
+    assert_equal 5, User.valid_notification_options(User.find(7)).size
+    assert_equal 6, User.valid_notification_options(User.find(2)).size
+  end
+  
   def test_mail_notification_all
     @jsmith.mail_notification = 'all'
     @jsmith.notified_project_ids = []
