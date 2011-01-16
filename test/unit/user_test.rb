@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -301,6 +301,13 @@ class UserTest < ActiveSupport::TestCase
     
     # user with no role
     assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
+  end
+  
+  def test_valid_notification_options
+    # without memberships
+    assert_equal 5, User.find(7).valid_notification_options.size
+    # with memberships
+    assert_equal 6, User.find(2).valid_notification_options.size
   end
   
   def test_mail_notification_all

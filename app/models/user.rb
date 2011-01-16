@@ -265,7 +265,7 @@ class User < Principal
     # Note that @user.membership.size would fail since AR ignores
     # :include association option when doing a count
     if memberships.length < 1
-      MAIL_NOTIFICATION_OPTIONS.delete_if {|option| option.first == 'selected'}
+      MAIL_NOTIFICATION_OPTIONS.reject {|option| option.first == 'selected'}
     else
       MAIL_NOTIFICATION_OPTIONS
     end
