@@ -1,2 +1,1 @@
-gem 'spreadsheet'
-
+gem "spreadsheet"
