@@ -3,6 +3,7 @@ class MeetingsController < ApplicationController
   
   before_filter :find_project, :only => [:index, :new, :create]
   before_filter :find_meeting, :except => [:index, :new, :create]
+  before_filter :convert_params, :only => [:create, :update]
   before_filter :authorize
 
   def index
@@ -19,8 +20,7 @@ class MeetingsController < ApplicationController
   def create
     @meeting.attributes = params[:meeting]
     if @meeting.save
-      # TODO: doesn't redmine have a string for that on-board already?
-      flash[:notice] = l(:notice_successfull_create)
+      flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'show', :id => @meeting
     else
       render :action => 'new', :project_id => @project
@@ -31,9 +31,8 @@ class MeetingsController < ApplicationController
   end
 
   def destroy
-    # TODO: Notify about successfull deletion
-    # TODO? handle bizarre cases
     @meeting.destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index', :project_id => @project
   end
 
@@ -41,6 +40,13 @@ class MeetingsController < ApplicationController
   end
 
   def update
+    @meeting.attributes = params[:meeting]
+    if @meeting.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'show', :id => @meeting
+    else
+      render :action => 'edit'
+    end
   end
   
   private
@@ -55,5 +61,9 @@ class MeetingsController < ApplicationController
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def convert_params
+    params[:meeting][:start_time] = Date.parse(params[:meeting].delete(:start_date)) + params[:meeting].delete(:"start_time(4i)").to_i.hours + params[:meeting].delete(:"start_time(5i)").to_i.minutes
   end
 end

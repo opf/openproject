@@ -4,4 +4,5 @@ en:
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
   field_location: "Location"
-  field_time: "Time"
+  field_start_time: "Time"
+  field_duration: "Duration"

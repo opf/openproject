@@ -1,1 +1,5 @@
-<h2>Meetings#edit</h2>
+<h2><%= l(:label_meeting) %> #<%= @meeting.id %></h2>
+<% labelled_tabular_form_for :meeting, @meeting, :url => {:controller => 'meetings', :action => 'update'}, :html => {:id => 'meeting-form', :method => :put} do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end if @project %>
