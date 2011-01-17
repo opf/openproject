@@ -193,6 +193,13 @@ class Report::SqlStatement
   end
 
   ##
+  # Return the names which have been bound through select statements
+  # @return [Array<String>] All fields for select part
+  def selects
+    @select.collect { |s| s.split(" as ").last }
+  end
+
+  ##
   # @overload group_by
   #   @return [Array<String>] All fields/statements for group by part
   #
