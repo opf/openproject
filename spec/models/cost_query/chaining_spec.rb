@@ -36,7 +36,7 @@ describe CostQuery do
       @query.chain.top.should_not be_a(CostQuery::Filter::NoFilter)
     end
 
-    it "should not remember it's correct parent" do
+    it "should remember it's correct parent" do
       @query.group_by :project_id
       @query.filter :project_id
       @query.chain.top.child.child.parent.should == @query.chain.top.child
@@ -144,7 +144,7 @@ describe CostQuery do
       new_query = CostQuery.deserialize(@query.serialize)
       [:filters, :group_bys].each do |type|
         @query.send(type).each_with_index do |chainable, index|
-          # check whether for presence
+          # check for presence
           new_query.send(type).any? do |c|
             c.class.name == chainable.class.name && (chainable.respond_to?(:values) ? c.values == chainable.values : true)
           end.should be_true
