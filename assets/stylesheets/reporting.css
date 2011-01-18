@@ -316,7 +316,7 @@ td:hover .drill_down, th:hover .drill_down {
 
 /*Buttons*/
 
-.buttons .apply {
+.buttons .reporting_button {
   background-color: #9a9a9a;
   border: none;
   cursor: pointer;
@@ -329,11 +329,11 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
-.buttons .apply:hover {
+.buttons .reporting_button:hover {
   background-color: #666666;
 }
 
-.buttons .apply span em {
+.buttons .reporting_button * em {
   color: white;
   display: block;
   font-size: 11px;
@@ -342,8 +342,61 @@ td:hover .drill_down, th:hover .drill_down {
   line-height: 17px;
 }
 
-.buttons .apply span {
+.buttons .reporting_button > * {
   display: inline-block;
   margin: 0px;
+}
+
+.saved_queries .reporting_button {
+  float: left;
+  margin: 2px;
+}
+
+div#button_form {
+  /* TODO IE Compatibility! */
+  background-color: white;
+  border: 1px solid grey;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  left: 100px;
+  position: absolute;
+  padding: 5px;
+  margin-top: -10px;
+}
+
+div#button_form * input#name {
+  width: 200px
+}
+
+div#button_form * input[type="button"] {
+  float: right;
+} br { clear: right; }
+
+/***** Ajax indicator ******/
+#ajax-indicator {
+  position: absolute; /* fixed not supported by IE */
+  background-color:#eee;
+  border: 1px solid #bbb;
+  top:35%;
+  left:40%;
+  width:20%;
+  font-weight:bold;
+  text-align:center;
+  padding:0.6em;
+  z-index:100;
+  filter:alpha(opacity=50);
+  opacity: 0.5;
+  line-height: 10px;
+  font-size: 18px;
+}
+
+html>body #ajax-indicator { position: fixed; }
+
+#ajax-indicator span {
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  background-image: url(../images/loading.gif);
+  padding-left: 26px;
+  vertical-align: bottom;
 }
 

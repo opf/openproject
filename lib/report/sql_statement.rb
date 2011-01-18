@@ -30,7 +30,8 @@ class Report::SqlStatement
   # Generates new SqlStatement.
   #
   # @param [String, #to_s] table Table name (or subselect) for from part.
-  def initialize(table)
+  def initialize(table, desc = nil)
+    self.desc = desc || "unkown statement from #{caller.first}"
     from table
   end
 
@@ -189,6 +190,13 @@ class Report::SqlStatement
       # by sorting here we never ever have to worry about this again, sucker!
       @select = @select.uniq.sort_by { |x| x.split(" as ").last }
     end
+  end
+
+  ##
+  # Return the names which have been bound through select statements
+  # @return [Array<String>] All fields for select part
+  def selects
+    @select.collect { |s| s.split(" as ").last }
   end
 
   ##

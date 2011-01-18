@@ -11,7 +11,7 @@ class Report::GroupBy
     def sql_statement
       super.tap do |sql|
         define_group sql
-        sql.count
+        sql.count unless sql.selects.include? "count"
       end
     end
   end

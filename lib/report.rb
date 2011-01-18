@@ -5,6 +5,13 @@ class Report < ActiveRecord::Base
   extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
+
+  belongs_to :user
+  belongs_to :project
+
+  before_save :serialize
+  serialize :serialized, Hash
+
   self.abstract_class = true # lets have subclasses have their own SQL tables
 
   def self.accepted_properties
@@ -15,16 +22,35 @@ class Report < ActiveRecord::Base
     @chain_initializer ||= []
   end
 
-  def self.deserialize(hash)
-    self.new.tap do |q|
-      # have to take the reverse to regain the original order
-      hash[:filters].reverse.each {|name, opts| q.filter(name, opts) }
-      hash[:group_bys].reverse.each {|name, opts| q.group_by(name, opts) }
+  def self.deserialize(hash, object = self.new)
+    object.tap do |q|
+      hash[:filters].each {|name, opts| q.filter(name, opts) }
+      hash[:group_bys].each {|name, opts| q.group_by(name, opts) }
     end
   end
 
   def serialize
-    { :filters => filters.collect(&:serialize), :group_bys => group_bys.collect(&:serialize) }
+    # have to take the reverse to retain the original order when deserializing
+    self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
+  end
+
+  def deserialize
+    unless @chain
+      hash = serialized || serialize
+      self.class.deserialize(hash, self)
+    else
+      raise ArgumentError, "Cannot deserialize a report which already has a chain"
+    end
+  end
+
+  ##
+  # Migrates this report to look like the given report.
+  # This may be used to alter report properties without
+  # creating a new report in a database.
+  def migrate(report)
+    [:@chain, :@query, :@transformer, :@walker, :@table, :@depths, :@chain_initializer].each do |inst_var|
+      instance_variable_set inst_var, (report.instance_variable_get inst_var)
+    end
   end
 
   def available_filters
@@ -105,6 +131,20 @@ class Report < ActiveRecord::Base
 
   def to_s
     chain.to_s
+  end
+
+  def hash
+    filter_string = filters.inject("") do |str, f|
+      str + f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
+    end
+    filter_string = group_bys.collect(&:class).sort_by(&:underscore_name).inject(filter_string) do |string, gb|
+      string.concat(gb.underscore_name)
+    end
+    filter_string.hash
+  end
+
+  def == another_report
+    hash == another_report.hash
   end
 
   private
