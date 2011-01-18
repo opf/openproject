@@ -16,10 +16,24 @@
 
 <div class="meeting meeting-content meeting-agenda">
   <h3><%= l(:label_meeting_agenda)%></h3>
-  <%= render :partial => (@meeting.agenda.present? ? "contents" : "contents_form"), :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id} %>
+  <% if authorize_for('meetings', 'edit') -%>
+  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => 'Element.show("edit-meeting-agenda"); return false;' %>
+  <div id="edit-meeting-agenda"<%= " style=\"display:none;\"" if @meeting.agenda.present? %>>
+  <%= render(:partial => "contents_form", :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id}) %>
+  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-meeting-agenda"); return false;' %>
+  </div>
+  <% end -%>
+  <%= render(:partial => "contents", :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id}) if @meeting.agenda.present? %>  
 </div>
 
 <div class="meeting meeting-content meeting-minutes">
   <h3><%= l(:label_meeting_minutes)%></h3>
-  <%= render :partial => (@meeting.minutes.present? ? "contents" : "contents_form"), :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id} %>
+  <% if authorize_for('meetings', 'edit') -%>
+  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => 'Element.show("edit-meeting-minutes"); return false;' %>
+  <div id="edit-meeting-minutes"<%= " style=\"display:none;\"" if @meeting.minutes.present? %>>
+  <%= render(:partial => "contents_form", :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id}) %>
+  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-meeting-minutes"); return false;' %>
+  </div>
+  <% end -%>
+  <%= render(:partial => "contents", :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id}) if @meeting.minutes.present? %>
 </div>
