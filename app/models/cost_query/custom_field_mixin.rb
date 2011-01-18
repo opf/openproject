@@ -1,5 +1,5 @@
 module CostQuery::CustomFieldMixin
-  include CostQuery::QueryUtils
+  include Report::QueryUtils
 
   attr_reader :custom_field
   SQL_TYPES = {
