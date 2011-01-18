@@ -17,8 +17,8 @@ module Report::QueryUtils
     def propagate!(to = engine)
       to.local_constants.each do |name|
         const = to.const_get name
-        next unless Module === const and const < Report::QueryUtils
-        append_features const unless const <= self
+        next unless Module === const
+        append_features const unless const <= self or not const < Report::QueryUtils
         propagate! const
       end
     end
