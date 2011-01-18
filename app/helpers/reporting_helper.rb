@@ -1,11 +1,6 @@
 module ReportingHelper
   include QueriesHelper
 
-  def l(*values)
-    return values.first if values.size == 1 and values.first.respond_to? :to_str
-    super
-  end
-
   ##
   # For a given CostQuery::Filter filter, return an array of hashes, that contain
   # the partials that should be rendered (:name) for that filter and necessary

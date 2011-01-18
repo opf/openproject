@@ -14,6 +14,11 @@ module CostQuery::QueryUtils
     end
   end
 
+  def l(*values)
+    return values.first if values.size == 1 and values.first.respond_to? :to_str
+    I18n.t(*values)
+  end
+
   def user_name(id)
     # we have no identity map... :(
     cache[:user_name][id] ||= User.find(id).name
