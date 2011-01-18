@@ -6,9 +6,23 @@ class CostReportsController < ApplicationController
 
   rescue_from Exception do |exception|
     session.delete(:report)
-    @custom_errors ||= []
-    @custom_errors << l(:error_generic)
-    render :layout => !request.xhr?
+    if Rails.env == "production"
+      @custom_errors ||= []
+      @custom_errors << l(:error_generic)
+      render :layout => !request.xhr?
+      logger.fatal <<-THE_ERROR
+
+        ==============================================================================
+        REPORTING ERROR:
+
+        #{exception.class}: #{exception.message}
+            #{exception.backtrace.join("\n            ")}
+        ==============================================================================
+
+      THE_ERROR
+    else
+      raise exception
+    end
   end
 
   helper :reporting
