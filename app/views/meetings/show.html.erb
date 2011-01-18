@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to_if_authorized(l(:button_update), {:action => 'edit'}, :class => 'icon icon-edit')%>
+  <%= link_to_if_authorized(l(:button_edit), {:action => 'edit'}, :class => 'icon icon-edit')%>
   <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
 </div>
 
@@ -11,4 +11,15 @@
   <p class="author"><%= authoring @meeting.created_at, @author %></p>
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
+  <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
+</div>
+
+<div class="meeting meeting-content meeting-agenda">
+  <h3><%= l(:label_meeting_agenda)%></h3>
+  <%= render :partial => (@meeting.agenda.present? ? "contents" : "contents_form"), :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id} %>
+</div>
+
+<div class="meeting meeting-content meeting-minutes">
+  <h3><%= l(:label_meeting_minutes)%></h3>
+  <%= render :partial => (@meeting.minutes.present? ? "contents" : "contents_form"), :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id} %>
 </div>
