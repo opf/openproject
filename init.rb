@@ -24,9 +24,7 @@ Redmine::Plugin.register :redmine_global_roles do
 
   if RAILS_ENV != "test"
     require_or_load 'global_roles/permission_patch'
-    project_module :user do
-      permission :manage_global_roles, {:example => [:say_hello]}, :global => true
-    end
+
     Redmine::AccessControl.permission(:add_project).global = true
   else
     Redmine::AccessControl.permission(:add_project).instance_eval do
