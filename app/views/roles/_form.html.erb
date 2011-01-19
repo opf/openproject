@@ -18,12 +18,16 @@
 <%= (role.is_a?(GlobalRole) ? l(:label_global_role) : l(:label_member_role))%>
 <%end%>
 </p>
+<% if role.new_record? || role.is_a?(GlobalRole) %>
 <div id="global_attributes" style="display:none">
     <%= render :partial => "global_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| r.is_a?(GlobalRole)} : nil) }%>
   </div>
+<%end%>
+<%if role.new_record? || !role.is_a?(GlobalRole)%>
   <div id="member_attributes">
     <%= render :partial => "member_attributes", :locals => { :f => f, :role => role, :roles => (roles.present? ? roles.select {|r| !r.is_a?(GlobalRole)} : nil)}%>
   </div>
+<%end%>
 </div>
 
 <h3><%= l(:label_permissions) %></h3>

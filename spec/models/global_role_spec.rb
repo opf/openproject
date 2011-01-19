@@ -34,6 +34,8 @@ describe GlobalRole do
 
   describe "instance methods" do
     before (:each) do
+      @role = GlobalRole.new
+
       if costs_plugin_loaded?
         @perm = mock_model(Redmine::AccessControl::Permission)
         Redmine::AccessControl.stub!(:permission).and_return @perm
@@ -137,6 +139,15 @@ describe GlobalRole do
       before {@role = GlobalRole.create :name => "global"}
 
       it {@role.destroy}
+    end
+
+    describe :assignable do
+      it {@role.assignable.should be_false}
+    end
+
+    describe :assignable= do
+      it {lambda {@role.assignable = true}.should raise_error ArgumentError}
+      it {lambda {@role.assignable = false}.should_not raise_error ArgumentError}
     end
   end
 
