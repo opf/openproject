@@ -4,6 +4,12 @@ describe PrincipalRolesController do
   before(:each) do
     @controller.stub!(:require_admin).and_return(true)
     @principal_role = mock_model PrincipalRole
+    if privacy_plugin_loaded?
+      @principal_role.stub!(:privacy_unnecessary=)
+      @principal_role.stub!(:valid?).and_return(true)
+      @principal_role.stub!(:privacy_statement_necessary?).and_return(false)
+    end
+
     @principal_role.stub!(:id).and_return(23)
     PrincipalRole.stub!(:find).and_return @principal_role
     disable_flash_sweep
