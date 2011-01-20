@@ -1,1 +1,2 @@
-<div class="principal_role_option" id= "principal_role_option_<%=h (role.id)%>"><%= check_box_tag 'principal_role[role_ids][]', role.id, false, :id => "principal_role_role_ids_#{role.id}" %><%= label_tag "principal_role_role_ids_#{role.id}", h(role) %></div>
+<div class="principal_role_option" id= "principal_role_option_<%=h (role.id)%>">
+<%= check_box_tag 'principal_role[role_ids][]', role.id, false, :id => "principal_role_role_ids_#{role.id}", :disabled => !role.assignable_to?(@user) %><%= label_tag "principal_role_role_ids_#{role.id}", h(role) %></div>

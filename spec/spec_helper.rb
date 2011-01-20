@@ -25,4 +25,5 @@ end
 
 Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
 require File.expand_path(File.dirname(__FILE__) + '/plugin_spec_helper')
+require 'redmine_factory_girl'
 include GlobalRoles::PluginSpecHelper

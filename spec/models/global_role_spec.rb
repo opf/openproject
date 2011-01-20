@@ -149,6 +149,16 @@ describe GlobalRole do
       it {lambda {@role.assignable = true}.should raise_error ArgumentError}
       it {lambda {@role.assignable = false}.should_not raise_error ArgumentError}
     end
+
+    describe :assignable_to? do
+      before(:each) do
+        @role = Factory.build(:global_role)
+        @user = Factory.build(:user)
+      end
+      it "always true global roles for now" do
+        @role.assignable_to?(@user).should be_true
+      end
+    end
   end
 
 end

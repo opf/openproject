@@ -41,7 +41,11 @@ describe PrincipalRolesController do
 
           describe "js" do
             before :each do
-              response_should_render :remove, "principal_role_option_#{@global_role.id}"
+              response_should_render :replace,
+                                     "available_principal_roles",
+                                     :partial => "users/available_global_roles",
+                                     :locals => {:global_roles => anything(),
+                                                 :user => anything()}
               response_should_render :insert_html,
                                      :top, 'table_principal_roles_body',
                                      :partial => "principal_roles/show_table_row",

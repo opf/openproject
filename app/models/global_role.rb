@@ -29,4 +29,8 @@ class GlobalRole < Role
     raise ArgumentError if value == true
     super
   end
+
+  def assignable_to?(user)
+    true #for now
+  end
 end

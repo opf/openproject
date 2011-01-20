@@ -3,6 +3,8 @@ class PrincipalRolesController < ApplicationController
 
   def create
     @principal_roles = new_principal_roles_from_params
+    @global_roles = GlobalRole.all
+    @user = Principal.find(params[:principal_role][:principal_id])
 
     call_hook :principal_roles_controller_create_before_save,
               {:principal_roles => @principal_roles}
@@ -12,7 +14,7 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_create_before_respond,
               {:principal_roles => @principal_roles}
 
-    respond_to_create @principal_roles unless performed?
+    respond_to_create @principal_roles, @user, @global_roles unless performed?
   end
 
   def update
@@ -60,22 +62,26 @@ class PrincipalRolesController < ApplicationController
     principal_roles
   end
 
-  def respond_to_create roles
+  def respond_to_create principal_roles, user, global_roles
     respond_to do |format|
       format.js do
         render(:update) do |page|
-          roles.each do |role|
-            if role.valid?
-              page.remove "principal_role_option_#{role.role_id}"
+          if principal_roles.all?{|r| r.valid?}
+            principal_roles.each do |role|
               page.insert_html :top, 'table_principal_roles_body',
                                :partial => "principal_roles/show_table_row",
                                :locals => {:principal_role => role}
-            else
-              page.insert_html :top, "tab-content-global_roles", :partial => 'errors'
+
+              call_hook :principal_roles_controller_create_respond_js_role,
+                        {:page => page, :principal_role => role}
             end
 
-            call_hook :principal_roles_controller_create_respond_js_role,
-                      {:page => page, :principal_role => role}
+            page.replace "available_principal_roles",
+                         :partial => "users/available_global_roles",
+                         :locals => {:global_roles => global_roles,
+                                     :user => user}
+          else
+            page.insert_html :top, "tab-content-global_roles", :partial => 'errors'
           end
         end
       end

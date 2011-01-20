@@ -48,7 +48,7 @@ Given /^the [Uu]ser (.+) (?:is a|has the global role) (.+)$/ do |user, role|
   end
 end
 
-When /^I select the available role (.+)$/ do |role|
+When /^I select the available global role (.+)$/ do |role|
   r = GlobalRole.find_by_name(role.gsub("\"", ""))
   raise "No such role was defined: #{role}" unless r
   steps %Q{
