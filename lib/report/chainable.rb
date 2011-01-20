@@ -28,7 +28,7 @@ class Report < ActiveRecord::Base
 
     def self.base
       return self if base?
-      super
+      superclass.base
     end
 
     def self.from_base(&block)
