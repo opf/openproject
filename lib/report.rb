@@ -84,6 +84,7 @@ class Report < ActiveRecord::Base
 
     minimal_chain!
     self.class.chain_initializer.each { |block| block.call self }
+    self
   end
 
   def filter(name, options = {})
