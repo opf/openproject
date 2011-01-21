@@ -6,13 +6,7 @@ class Widget::Filters < Widget::Base
       content_tag :tr do
         content_tag :td do
           content_tag :table, :id => "filter_table" do
-            active_filters = @query.filters.select {|f| f.class.display? }
-            engine::Filter.all.collect do |filter|
-              content_tag :tr, :id => "tr_#{filter.underscore_name}",
-                  :class => filter, :style => "display:none" do
-                render_filter filter, active_filters.detect {|f| f.class == filter }
-              end
-            end.join("\n")
+            render_filters
           end
         end
       end
@@ -24,7 +18,7 @@ class Widget::Filters < Widget::Base
           :class => "select-small",
           :name => nil
     end
-    (table + "\n" + select)
+    (table + select)
   end
 
   def selectables
@@ -38,10 +32,19 @@ class Widget::Filters < Widget::Base
     end
   end
 
+  def render_filters
+    active_filters = @query.filters.select {|f| f.class.display? }
+    engine::Filter.all.collect do |filter|
+      content_tag :tr, :id => "tr_#{filter.underscore_name}",
+          :class => "#{filter.underscore_name}", :style => "display:none" do
+        render_filter filter, active_filters.detect {|f| f.class == filter }
+      end
+    end.join.html_safe
+  end
+
   def render_filter(f_cls, f_inst)
-    html = ""
     f = f_inst || f_cls
-    render_widget Filters::Label, f, :to => html
+    html = render_widget Filters::Label, f
     render_widget Filters::Operators, f, :to => html
     if engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget Filters::TextBox, f, :to => html
