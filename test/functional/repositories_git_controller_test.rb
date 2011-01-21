@@ -170,6 +170,15 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
 
+    def test_annotate_at_given_revision
+      @repository.fetch_changesets
+      @repository.reload
+      get :annotate, :id => 3, :rev => 'deff7', :path => ['sources', 'watchers_controller.rb']
+      assert_response :success
+      assert_template 'annotate'
+      assert_tag :tag => 'h2', :content => /@ deff712f/
+    end
+
     def test_annotate_binary_file
       get :annotate, :id => 3, :path => ['images', 'edit.png']
       assert_response 500

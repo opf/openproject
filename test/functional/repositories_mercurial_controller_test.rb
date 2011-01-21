@@ -196,6 +196,17 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /watcher =/ }
     end
 
+    def test_annotate_at_given_revision
+      @repository.fetch_changesets
+      @repository.reload
+      [2, '400bb8672109', '400', 400].each do |r1|
+        get :annotate, :id => 3, :rev => r1, :path => ['sources', 'watchers_controller.rb']
+        assert_response :success
+        assert_template 'annotate'
+        assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
+      end
+    end
+
     def test_empty_revision
       @repository.fetch_changesets
       @repository.reload
