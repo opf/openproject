@@ -57,7 +57,7 @@ class Report::Filter
     end
 
     def self.available_values(params = {})
-      raise NotImplementedError, "subclass responsibility"
+      []
     end
 
     def correct_position?
