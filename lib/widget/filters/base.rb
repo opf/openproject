@@ -7,7 +7,7 @@ class Widget::Filters::Base < Widget::Base
       @filter = filter.new
     else
       @filter = filter
-      @filter.class = filter.class
+      @filter_class = filter.class
     end
     @engine = filter.engine
   end
