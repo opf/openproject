@@ -91,7 +91,13 @@ class Widget::GroupBys < Widget::Base
             l(g.label)
           end.collect do |group_by|
             next unless group_by.selectable?
-            content_tag :option, :value => group_by.underscore_name, :"data-category" => label.to_s do
+            option_tag_options = {:value => group_by.underscore_name,
+                                  :"data-category" => label.to_s}
+            if grby = @query.group_bys.detect {|g| g.class == group_by }
+              option_tag_options.merge({:"data-selected-axis" => grby.type.to_s})
+              option_tag_options.merge({:"data-selected-index" => @query.group_bys.index(grby)})
+            end
+            content_tag :option, option_tag_options do
               l(group_by.label)
             end
           end.compact.join.html_safe
