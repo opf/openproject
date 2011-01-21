@@ -1,39 +1,61 @@
 class Widget::Filters < Widget::Base
+  extend ProactiveAutoloader
+
   def render
-    @query.engine::Filter.all.collect do |f|
-      render_filter f
-    end.join
+    table = content_tag :table, :width => "100%" do
+      content_tag :tr do
+        content_tag :td do
+          content_tag :table, :id => "filter_table" do
+            active_filters = @query.filters.select {|f| f.class.display? }
+            engine::Filter.all.collect do |filter|
+              content_tag :tr, :id => "tr_#{filter.underscore_name}",
+                  :class => filter, :style => "display:none" do
+                render_filter filter, active_filters.detect {|f| f.class == filter }
+              end
+            end.join("\n")
+          end
+        end
+      end
+    end
+    select = content_tag :div, :id => "add_filter_block" do
+      select_tag 'add_filter_select',
+          options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
+          :onchange => "add_filter(this);",
+          :class => "select-small",
+          :name => nil
+    end
+    (table + "\n" + select)
   end
 
-  def render_filter(f)
-    Filters::Label.render(f)
-    Filters::Operators.render(f)
-
-    return filter.custom_elements if filter.custom_elements?
-    return object_elements_with_dependents filter if filter.has_dependents?
-    return text_elements filter if engine::Operator.string_operators.all? { |o| filter.available_operators.include? o }
-    return date_elements filter if engine::Operator.time_operators.all?   { |o| filter.available_operators.include? o }
-    return object_elements filter
-  end
-
-  def object_elements_with_dependents(filter)
-    object_elements(filter).tap do |elements|
-      elements.last[:dependents] = filter.injected_dependents.collect(&:underscore_name)
-      elements.last[:name] = :multi_values_with_dependent
+  def selectables
+    filters = engine::Filter.all
+    filters.sort_by do |filter|
+      l(filter.label)
+    end.select do |filter|
+      filter.selectable?
+    end.collect do |filter|
+      [ l(filter.label), filter.underscore_name ]
     end
   end
 
-  def object_elements(f)
-    Filters::MultiValues.render(f)
-  end
-
-  def date_elements(filter)
-    [
-      {:name => :date, :filter_name => filter.underscore_name}]
-  end
-
-  def text_elements(filter)
-    [
-      {:name => :text_box, :filter_name => filter.underscore_name}]
+  def render_filter(f_cls, f_inst)
+    html = ""
+    f = f_inst || f_cls
+    render_widget Filters::Label, f, :to => html
+    render_widget Filters::Operators, f, :to => html
+    if engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
+      render_widget Filters::TextBox, f, :to => html
+    elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
+      render_widget Filters::Date, f, :to => html
+    elsif engine::Operator.integer_operators.all? {|o| f_cls.available_operators.include? o }
+      if f_cls.available_values.empty?
+        render_widget Filters::TextBox, f, :to => html
+      else
+        render_widget Filters::MultiValues, f, :to => html
+      end
+    else
+      render_widget Filters::MultiValues, f, :to => html
+    end
+    html
   end
 end
