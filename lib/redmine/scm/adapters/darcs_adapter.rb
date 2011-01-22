@@ -62,7 +62,9 @@ module Redmine
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path_prefix = (path.blank? ? '' : "#{path}/")
-          path = '.' if path.blank?
+          if path.blank?
+            path = ( self.class.client_version_above?([2, 2, 0]) ? @url : '.' )
+          end
           entries = Entries.new          
           cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --xml-output"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
