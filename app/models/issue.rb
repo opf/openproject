@@ -34,7 +34,7 @@ class Issue < ActiveRecord::Base
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
-  acts_as_nested_set :scope => 'root_id'
+  acts_as_nested_set :scope => 'root_id', :dependent => :destroy
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
@@ -89,7 +89,6 @@ class Issue < ActiveRecord::Base
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
-  after_destroy :destroy_children
   after_destroy :update_parent_attributes
   
   # Returns true if usr or current user is allowed to view the issue
@@ -755,14 +754,6 @@ class Issue < ActiveRecord::Base
       
       # ancestors will be recursively updated
       p.save(false)
-    end
-  end
-  
-  def destroy_children
-    unless leaf?
-      children.each do |child|
-        child.destroy
-      end
     end
   end
   
