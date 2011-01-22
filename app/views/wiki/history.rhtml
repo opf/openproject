@@ -3,7 +3,6 @@
 <h3><%= l(:label_history) %></h3>
 
 <% form_tag({:action => "diff"}, :method => :get) do %>
-  <%= hidden_field_tag('project_id', h(@project.to_param)) %>
 <table class="list wiki-page-versions">
 <thead><tr>
     <th>#</th>
