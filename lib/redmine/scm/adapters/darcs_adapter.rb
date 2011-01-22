@@ -31,16 +31,14 @@ module Redmine
           end
   	  
           def darcs_binary_version
-            cmd = "#{DARCS_BIN} --version"
-            version = nil
-            shellout(cmd) do |io|
-              # Read darcs version in first returned line
-              if m = io.gets.match(%r{((\d+\.)+\d+)})
-                version = m[0].scan(%r{\d+}).collect(&:to_i)
-              end
+            darcsversion = darcs_binary_version_from_command_line
+            if m = darcsversion.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
             end
-            return nil if $? && $?.exitstatus != 0
-            version
+          end
+
+          def darcs_binary_version_from_command_line
+            shellout("#{DARCS_BIN} --version") { |io| io.read }.to_s
           end
         end
 
