@@ -26,10 +26,10 @@ api.issue do
   render_api_issue_children(@issue, api) if include_in_api_response?('children')
   
   api.array :relations do
-    @issue.relations.select {|r| r.other_issue(@issue).visible? }.each do |relation|
+    @relations.each do |relation|
       api.relation(:id => relation.id, :issue_id => relation.other_issue(@issue).id, :relation_type => relation.relation_type_for(@issue), :delay => relation.delay)
     end
-  end if include_in_api_response?('relations')
+  end if include_in_api_response?('relations') && @relations.present?
   
   api.array :changesets do
     @issue.changesets.each do |changeset|
