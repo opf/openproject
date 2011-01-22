@@ -166,7 +166,7 @@ fr:
   notice_successful_create: Création effectuée avec succès.
   notice_successful_update: Mise à jour effectuée avec succès.
   notice_successful_delete: Suppression effectuée avec succès.
-  notice_successful_connection: Connection réussie.
+  notice_successful_connection: Connexion réussie.
   notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
   notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
