@@ -200,7 +200,7 @@ RAW
       'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
       # message
       'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
-      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5'), :class => 'message'),
+      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5', :r => 5), :class => 'message'),
       # project
       'project#3'                   => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       'project:subproject1'         => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
