@@ -65,6 +65,6 @@ class MeetingsController < ApplicationController
   
   def convert_params
     params[:meeting][:start_time] = Date.parse(params[:meeting].delete(:start_date)) + params[:meeting].delete(:"start_time(4i)").to_i.hours + params[:meeting].delete(:"start_time(5i)").to_i.minutes
-    params[:meeting][:participants] = (params[:meeting_participant_users].collect{|i| @meeting.participants.find_or_create_by_user_id(i)} if params[:meeting_participant_users].present?) || []
+    params[:meeting][:participants] = (params[:meeting_participant_users].collect{|i| @meeting.participants.find_or_initialize_by_user_id(i)} if params[:meeting_participant_users].present?) || []
   end
 end
