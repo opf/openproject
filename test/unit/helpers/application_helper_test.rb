@@ -224,6 +224,35 @@ RAW
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
+  
+  def test_cross_project_redmine_links
+    source_link = link_to('ecookbook:source:/some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']},
+      :class => 'source')
+    
+    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+      :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+                                   
+    to_test = {
+      # documents
+      'document:"Test document"'              => 'document:"Test document"',
+      'ecookbook:document:"Test document"'    => '<a href="/documents/1" class="document">Test document</a>',
+      'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
+      # versions
+      'version:"1.0"'                         => 'version:"1.0"',
+      'ecookbook:version:"1.0"'               => '<a href="/versions/show/2" class="version">1.0</a>',
+      'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
+      # changeset
+      'r2'                                    => 'r2',
+      'ecookbook:r2'                          => changeset_link,
+      'invalid:r2'                            => 'invalid:r2',
+      # source
+      'source:/some/file'                     => 'source:/some/file',
+      'ecookbook:source:/some/file'           => source_link,
+      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+    }
+    @project = Project.find(3)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
 
   def test_redmine_links_git_commit
     changeset_link = link_to('abcd',

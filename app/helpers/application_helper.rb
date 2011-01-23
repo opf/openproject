@@ -588,16 +588,25 @@ module ApplicationHelper
   #     source:some/file#L120 -> Link to line 120 of the file
   #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
   #     export:some/file -> Force the download of the file
-  #  Forum messages:
+  #   Forum messages:
   #     message#1218 -> Link to message with id 1218
+  #
+  #   Links can refer other objects from other projects, using project identifier:
+  #     identifier:r52
+  #     identifier:document:"Some document"
+  #     identifier:version:1.0.0
+  #     identifier:source:some/file
   def parse_redmine_links(text, project, obj, attr, only_path, options)
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(attachment|document|version|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
-      leading, esc, prefix, sep, identifier = $1, $2, $3, $5 || $7, $6 || $8
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-]+):)?(attachment|document|version|commit|source|export|message|project)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |m|
+      leading, esc, project_prefix, project_identifier, prefix, sep, identifier = $1, $2, $3, $4, $5, $7 || $9, $8 || $10
       link = nil
+      if project_identifier
+        project = Project.visible.find_by_identifier(project_identifier)
+      end
       if esc.nil?
         if prefix.nil? && sep == 'r'
           if project && (changeset = project.changesets.find_by_revision(identifier))
-            link = link_to("r#{identifier}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+            link = link_to("#{project_prefix}r#{identifier}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
@@ -651,7 +660,7 @@ module ApplicationHelper
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
+              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
                                            :title => truncate_single_line(changeset.comments, :length => 100)
             end
@@ -659,7 +668,7 @@ module ApplicationHelper
             if project && project.repository
               name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
+              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
                                                       :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,
@@ -679,7 +688,7 @@ module ApplicationHelper
           end
         end
       end
-      leading + (link || "#{prefix}#{sep}#{identifier}")
+      leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
     end
   end
   
