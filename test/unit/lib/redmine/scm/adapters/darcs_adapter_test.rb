@@ -19,6 +19,19 @@ begin
         end
       end
 
+      def test_revisions
+        id1 = '20080308225258-98289-761f654d669045eabee90b91b53a21ce5593cadf.gz'
+        revs = @adapter.revisions('', nil, nil, {:with_path => true})
+        assert_equal 6, revs.size
+        assert_equal id1, revs[5].scmid
+        paths = revs[5].paths
+        assert_equal 5, paths.size
+        assert_equal 'A', paths[0][:action]
+        assert_equal '/README', paths[0][:path]
+        assert_equal 'A', paths[1][:action]
+        assert_equal '/images', paths[1][:path]
+      end
+
       private
 
       def test_darcsversion_for(darcsversion, version)
