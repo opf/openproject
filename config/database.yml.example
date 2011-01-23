@@ -36,4 +36,4 @@ test_pgsql:
 
 test_sqlite3:
   adapter: sqlite3
-  database: db/test.db
+  database: db/test.sqlite3
