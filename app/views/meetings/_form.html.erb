@@ -5,4 +5,9 @@
   <p><%= f.text_field :location, :size => 60 %></p>
   <p><%= f.text_field :start_date, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= time_select("meeting", "start_time", :ignore_date => true) %></p>
   <p><label for="meeting_duration"><%= l(:field_duration)%></label><%= text_field_tag "meeting[duration]", @meeting.duration, :size => 5 %> <em>(in hours)</em></p>
+  <p><label><%= l(:label_participants) %></label>
+  <% @meeting.project.users.sort.each do |user| -%>
+  <label class="floating"><%= check_box_tag 'meeting_participant_users[]', user.id, ((params[:meeting_participant_users].include?(user.id.to_s) if params[:meeting_participant_users].present?) || @meeting.participants.find_by_user_id(user.id).present?) %> <%=h user %></label>
+  <% end -%>
+  </p>
 </div>
