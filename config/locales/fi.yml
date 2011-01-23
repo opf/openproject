@@ -750,7 +750,7 @@ fi:
   label_generate_key: Luo avain
   setting_mail_handler_api_enabled: Ota käyttöön WS saapuville sähköposteille
   setting_mail_handler_api_key: API avain
-  text_email_delivery_not_configured: "Sähköpostin jakelu ei ole määritelty ja sähköpostimuistutukset eivät ole käytössä.\nKonfiguroi sähköpostipalvelinasetukset (SMTP) config/email.yml tiedostosta ja uudelleenkäynnistä sovellus jotta asetukset astuvat voimaan."
+  text_email_delivery_not_configured: "Sähköpostin jakelu ei ole määritelty ja sähköpostimuistutukset eivät ole käytössä.\nKonfiguroi sähköpostipalvelinasetukset (SMTP) config/configuration.yml tiedostosta ja uudelleenkäynnistä sovellus jotta asetukset astuvat voimaan."
   field_parent_title: Aloitussivu
   label_issue_watchers: Tapahtuman seuraajat
   button_quote: Vastaa

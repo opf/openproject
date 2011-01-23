@@ -723,7 +723,7 @@ sk:
   label_generate_key: Vygenerovať kľúč
   setting_mail_handler_api_enabled: Zapnúť Webovú Službu (WS) pre príchodzie emaily
   setting_mail_handler_api_key: API kľúč
-  text_email_delivery_not_configured: "Doručenie emailov nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/email.yml a reštartnite aplikáciu pre aktiváciu funkcie."
+  text_email_delivery_not_configured: "Doručenie emailov nieje nastavené, notifikácie sú vypnuté.\nNastavte váš SMTP server v config/configuration.yml a reštartnite aplikáciu pre aktiváciu funkcie."
   field_parent_title: Nadradená stránka
   label_issue_watchers: Pozorovatelia
   setting_commit_logs_encoding: Kódovanie prenášaných správ

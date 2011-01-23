@@ -716,7 +716,7 @@
   label_generate_key: Generer en nøkkel
   setting_mail_handler_api_enabled: Skru på WS for innkommende e-post
   setting_mail_handler_api_key: API-nøkkel
-  text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/email.yml og start programmet på nytt for å skru det på."
+  text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/configuration.yml og start programmet på nytt for å skru det på."
   field_parent_title: Foreldreside
   label_issue_watchers: Overvåkere
   setting_commit_logs_encoding: Tegnkoding for innsendingsmeldinger

@@ -885,7 +885,7 @@ lt:
   text_user_wrote: "%{value} parašė:"
   text_enumeration_destroy_question: "%{count} objektai priskirti šiai reikšmei."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
-  text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas, ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/email.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
+  text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas, ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
   text_repository_usernames_mapping: "Parinkite  ar atnaujinkite Redmine vartotojo vardą kiekvienam saugyklos vardui, kuris paminėtas saugyklos log'e.\nVartotojai, turintys tą patį Redmine ir saugyklos vardą ar el.paštą automatiškai surišti."
   text_diff_truncated: "... Šis diff'as nukarpytas, nes jis viršijo maksimalų rodomą eilučių skaičių."
   text_custom_field_possible_values_info: 'Po vieną eilutę kiekvienai reikšmei'

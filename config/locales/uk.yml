@@ -725,7 +725,7 @@ uk:
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: API key
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   field_parent_title: Parent page
   label_issue_watchers: Watchers
   setting_commit_logs_encoding: Commit messages encoding

@@ -715,7 +715,7 @@ pt:
   text_user_wrote: "%{value} escreveu:"
   text_enumeration_destroy_question: "%{count} objectos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
-  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/email.yml e reinicie a aplicação para activar estas funcionalidades."
+  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para activar estas funcionalidades."
   
   default_role_manager: Gestor
   default_role_developer: Programador

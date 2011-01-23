@@ -1,0 +1,9 @@
+default:
+  somesetting: foo
+  
+production:
+
+development:
+
+test:
+  somesetting: bar

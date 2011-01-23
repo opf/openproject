@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
   # config.active_record.schema_format = :ruby
   
   # Deliveries are disabled by default. Do NOT modify this section.
-  # Define your email configuration in email.yml instead.
+  # Define your email configuration in configuration.yml instead.
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
 
