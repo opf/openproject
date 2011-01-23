@@ -167,9 +167,38 @@ module Redmine
                        })
                      })        
         end
+
+        def get_paths_for_patch(hash)
+          paths = get_paths_for_patch_raw(hash)
+          if self.class.client_version_above?([2, 4])
+            orig_paths = paths
+            paths = []
+            add_paths = []
+            add_paths_name = []
+            mod_paths = []
+            other_paths = []
+            orig_paths.each do |path|
+              if path[:action] == 'A'
+                add_paths << path
+                add_paths_name << path[:path]
+              elsif path[:action] == 'M'
+                mod_paths << path
+              else
+                other_paths << path
+              end
+            end
+            add_paths_name.each do |add_path|
+              mod_paths.delete_if { |m| m[:path] == add_path }
+            end
+            paths.concat add_paths
+            paths.concat mod_paths
+            paths.concat other_paths
+          end
+          paths
+        end
         
         # Retrieve changed paths for a single patch
-        def get_paths_for_patch(hash)
+        def get_paths_for_patch_raw(hash)
           cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --summary --xml-output"
           cmd << " --match #{shell_quote("hash #{hash}")} "
           paths = []
