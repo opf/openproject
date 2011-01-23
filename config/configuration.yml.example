@@ -79,6 +79,7 @@
 
 # default configuration options for all environments
 default:
+  # Outgoing emails configuration (see examples above)
   email_delivery:
     delivery_method: :smtp
     smtp_settings:
@@ -88,6 +89,15 @@ default:
       authentication: :login
       user_name: "redmine@example.net"
       password: "redmine"
+  
+  # Absolute path to the directory where attachments are stored.
+  # The default is the 'files' directory in your Redmine instance.
+  # Your Redmine instance needs to have write permission on this
+  # directory.
+  # Examples:
+  # attachments_storage_path: /var/redmine/files
+  # attachments_storage_path: D:/redmine/files
+  attachments_storage_path:
   
 # specific configuration options for production environment
 # that overrides the default ones
