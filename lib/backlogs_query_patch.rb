@@ -55,7 +55,7 @@ module Backlogs
             else
                 backlogs_filters = {
                         "backlogs_issue_type" => {  :type => :list,
-                                                    :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"], [l(:backlogs_any), "any"]],
+                                                    :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"], [l(:backlogs_impediment), "impediment"], [l(:backlogs_any), "any"]],
                                                     :order => 20 } 
                     }
             end
@@ -71,13 +71,25 @@ module Backlogs
   
                 selected_values = values_for(field)
                 selected_values = ['story', 'task'] if selected_values.include?('any')
-                
+
+                story_trackers = Story.trackers.collect{|val| "#{val}"}.join(",")
+                all_trackers = (Story.trackers + [Task.tracker]).collect{|val| "#{val}"}.join(",")
+
                 selected_values.each { |val|
                     case val
                         when "story"
-                            sql << "(#{db_table}.tracker_id in (" + Story.trackers.collect{|val| "#{val}"}.join(",") + ") and #{db_table}.parent_id is NULL)"
+                            sql << "(#{db_table}.tracker_id in (#{story_trackers}) and #{db_table}.parent_id is NULL)"
                         when "task"
                             sql << "(#{db_table}.tracker_id = #{Task.tracker} and not #{db_table}.parent_id is NULL)"
+                        when "impediment"
+                            sql << "(#{db_table}.id in (
+                                  select issue_from_id
+                                  from issue_relations ir
+                                  join issues blocked on
+                                    blocked.id = ir.issue_to_id
+                                    and blocked.tracker_id in (#{all_trackers})
+                                  where ir.relation_type = 'blocks'
+                                )"
                     end
                 }
   

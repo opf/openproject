@@ -4,9 +4,13 @@ require 'dispatcher'
 Dispatcher.to_prepare do
   require_dependency 'issue'
 
-  Issue::SAFE_ATTRIBUTES << "story_points" if Issue.const_defined? "SAFE_ATTRIBUTES"
-  Issue::SAFE_ATTRIBUTES << "remaining_hours" if Issue.const_defined? "SAFE_ATTRIBUTES"
-  Issue::SAFE_ATTRIBUTES << "position" if Issue.const_defined? "SAFE_ATTRIBUTES"
+  if Issue.const_defined? "SAFE_ATTRIBUTES"
+    Issue::SAFE_ATTRIBUTES << "story_points"
+    Issue::SAFE_ATTRIBUTES << "remaining_hours"
+    Issue::SAFE_ATTRIBUTES << "position"
+  else
+    Issue.safe_attributes "story_points", "remaining_hours", "position"
+  end
 
   require_dependency 'backlogs_query_patch'
   require_dependency 'backlogs_issue_patch'
