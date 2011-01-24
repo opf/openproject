@@ -468,6 +468,7 @@ class UserTest < ActiveSupport::TestCase
       
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
         @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
+        Member.create!(:user => @user, :project => @project, :role_ids => [1])
         assert ! @user.notify_about?(@issue)
       end
       
@@ -499,6 +500,22 @@ class UserTest < ActiveSupport::TestCase
       should "be false for a user with :only_owner and is not the author" do
         @assignee.update_attribute(:mail_notification, 'only_owner')
         assert ! @assignee.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :selected and is the author" do
+        @author.update_attribute(:mail_notification, 'selected')
+        assert @author.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :selected and is the assignee" do
+        @assignee.update_attribute(:mail_notification, 'selected')
+        assert @assignee.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :selected and is not the author or assignee" do
+        @user = User.generate_with_protected!(:mail_notification => 'selected')
+        Member.create!(:user => @user, :project => @project, :role_ids => [1])
+        assert ! @user.notify_about?(@issue)
       end
     end
 

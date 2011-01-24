@@ -422,7 +422,12 @@ class User < Principal
     when 'all'
       true
     when 'selected'
-      # Handled by the Project
+      # user receives notifications for created/assigned issues on unselected projects
+      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+        true
+      else
+        false
+      end
     when 'none'
       false
     when 'only_my_events'
