@@ -15,16 +15,10 @@ begin
     require 'ci/reporter/rake/test_unit' # use this if you're using Test::Unit
     task :"spec:plugins:redmine_additional_formats:ci" => ["ci:setup:rspec",
         "spec:plugins:redmine_additional_formats"]
-  rescue LoadError
-    puts <<-EOS
-      Missing the CI Reporter gem. This is not fatal.
-      If you want XML output for the CI, execute
-
-          gem install ci_reporter
-
-    EOS
+  rescue LoadError => error
+    puts error.message + " (#{__FILE__}:#{__LINE__})"
   end
 
-rescue LoadError
-  puts "Missing RSpec gem"
+rescue LoadError => error
+  puts error.message + " (#{__FILE__}:#{__LINE__})"
 end
