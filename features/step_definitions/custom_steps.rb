@@ -62,6 +62,28 @@ Then /^filter "([^"]*)" should (not )?be visible$/ do |filter, negative|
   page.evaluate_script("$('tr_#{filter}').visible()") =~ /^#{bool}$/
 end
 
+Then /^(?:|I )should( not)? see "([^\"]*)" in columns$/ do |negation, text|
+  columns = "select[@id='group_by_columns']"
+  begin
+    When %{I should#{negation} see "#{text}" within "#{columns}"}
+  rescue Selenium::WebDriver::Error::ObsoleteElementError
+    # Slenium might not find the right DOM element due to a rais condition - try again
+    # see: http://groups.google.com/group/ruby-capybara/browse_thread/thread/76c194b92c58ecef
+    When %{I should#{negation} see "#{text}" within "#{columns}"}
+  end
+end
+
+Then /^(?:|I )should( not)? see "([^\"]*)" in rows$/ do |negation, text|
+  rows = "select[@id='group_by_rows']"
+  begin
+    When %{I should#{negation} see "#{text}" within "#{rows}"}
+  rescue Selenium::WebDriver::Error::ObsoleteElementError
+    # Slenium might not find the right DOM element due to a rais condition - try again
+    # see: http://groups.google.com/group/ruby-capybara/browse_thread/thread/76c194b92c58ecef
+    When %{I should#{negation} see "#{text}" within "#{rows}"}
+  end
+end
+
 Given /^I group (rows|columns) by "([^"]*)"/ do |target, group|
   destination = target == "rows" ? "moveLeft" : "moveUp"
   When %{I select "#{group}" from "group_by_container"}
