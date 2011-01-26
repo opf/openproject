@@ -10,7 +10,11 @@ class Task < Issue
   end
 
   def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
-    attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
+    if Issue.const_defined? "SAFE_ATTRIBUTES"
+      attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
+    else
+      attribs = params.clone.delete_if {|k,v| !Task.safe_attributes.include?(k) }
+    end
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
     attribs['author_id'] = user_id
     attribs['tracker_id'] = Task.tracker
@@ -53,7 +57,11 @@ class Task < Issue
   end
 
   def update_with_relationships(params, is_impediment = false)
-    attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
+    if Issue.const_defined? "SAFE_ATTRIBUTES"
+      attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
+    else
+      attribs = params.clone.delete_if {|k,v| !Task.safe_attributes.include?(k) }
+    end
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
     valid_relationships = if is_impediment && params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
