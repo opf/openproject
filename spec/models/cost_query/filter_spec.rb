@@ -126,9 +126,12 @@ describe CostQuery do
     end
 
     it "filters user_id" do
+      old_user = User.current
+      User.current = User.all.detect {|u| !u.anonymous?} # for any not anonym user we have at least one available_value
       val = CostQuery::Filter::UserId.available_values.first[1].to_i
       @query.filter :user_id, :value => val, :operator => '='
       @query.result.count.should == Entry.all.select { |e| e.user_id == val }.count
+      User.current = old_user
     end
 
     it "filters overridden_costs" do
