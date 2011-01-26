@@ -36,7 +36,8 @@ Feature: Cost Reporting Linkage
     Then I should see "107.07" # 100 EUR (labour cost) + 7.07 EUR (words)
     And I should not see "No data to display"
 
-  @javascript #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  @javascript
   Scenario: Going from an Issue to the cost report should set the filter on this issue
     Given there is a standard cost control project named "Standard Project"
     And the role "Manager" may have the following rights:
@@ -65,7 +66,8 @@ Feature: Cost Reporting Linkage
     And I should not see "50.00" # 10 EUR x 5 (hours)
     And I should not see "150.00"
 
-  @javascript #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
+  @javascript
   Scenario: Going from an Issue to the cost report should set the filter on this issue
     Given there is a standard cost control project named "Standard Project"
     And there is 1 cost type with the following:
