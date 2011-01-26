@@ -49,7 +49,7 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
 end
 
 Given /^I set the filter "([^"]*)" to "([^"]*)" with the operator "([^"]*)"$/ do |filter, value, operator|
-  locate :xpath, "//body"
+  find :xpath, "//body"
   page.evaluate_script("restore_filter(\"#{filter}\", \"#{operator}\", \"#{value}\")")
 end
 
