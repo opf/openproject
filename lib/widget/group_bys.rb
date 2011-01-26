@@ -66,8 +66,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render_sort_button(axis, dir)
-    tag :input, :type => "button", :class => "buttons group_by sort sort#{dir}",
-        :onclick => "moveOption#{dir}(this.form.group_by_#{axis});"
+    tag :input, :type => "button", :class => "buttons group_by sort sort#{dir} sort-#{axis}"
   end
 
   def render_move_buttons(axis, to, from, br = false)
@@ -77,8 +76,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render_move_option_button(axis, dir)
-    tag :input, :type => "button", :class => "buttons group_by move move#{dir}",
-        :onclick => "moveOptions(this.form.group_by_container, this.form.group_by_#{axis});"
+    tag :input, :type => "button", :class => "buttons group_by move move#{dir}"
   end
 
   def render_grouped_group_bys
