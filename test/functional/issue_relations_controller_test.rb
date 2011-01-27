@@ -33,6 +33,19 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
   end
   
+  def test_new_xhr
+    assert_difference 'IssueRelation.count' do
+      @request.session[:user_id] = 3
+      xhr :post, :new,
+        :issue_id => 3, 
+        :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
+      assert_select_rjs 'relations' do
+        assert_select 'table', 1
+        assert_select 'tr', 2 # relations
+      end
+    end
+  end
+  
   def test_new_should_accept_id_with_hash
     assert_difference 'IssueRelation.count' do
       @request.session[:user_id] = 3
@@ -66,6 +79,22 @@ class IssueRelationsControllerTest < ActionController::TestCase
     assert_difference 'IssueRelation.count', -1 do
       @request.session[:user_id] = 3
       post :destroy, :id => '2', :issue_id => '3'
+    end
+  end
+  
+  def test_destroy_xhr
+    IssueRelation.create!(:relation_type => IssueRelation::TYPE_RELATES) do |r|
+      r.issue_from_id = 3
+      r.issue_to_id = 1
+    end
+    
+    assert_difference 'IssueRelation.count', -1 do
+      @request.session[:user_id] = 3
+      xhr :post, :destroy, :id => '2', :issue_id => '3'
+      assert_select_rjs 'relations' do
+        assert_select 'table', 1
+        assert_select 'tr', 1 # relation left
+      end
     end
   end
 end
