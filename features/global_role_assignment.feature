@@ -35,8 +35,9 @@ Feature: Global Role Assignment
     And I am admin
     When I go to the edit page of the user called "bob"
     And I click on "tab-global_roles"
-    And I select the available role "global_role"
+    And I select the available global role "global_role"
     And I click on "Add"
+    And I satisfy the "redmine_dtag_privacy" plugin to modify a principal_role
     Then I should see "global_role" within "#table_principal_roles"
     And I should not see "global_role" within "#available_principal_roles"
     And I should see "No global role available for assignment"

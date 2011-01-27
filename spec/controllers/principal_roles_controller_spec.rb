@@ -4,6 +4,12 @@ describe PrincipalRolesController do
   before(:each) do
     @controller.stub!(:require_admin).and_return(true)
     @principal_role = mock_model PrincipalRole
+    if privacy_plugin_loaded?
+      @principal_role.stub!(:privacy_unnecessary=)
+      @principal_role.stub!(:valid?).and_return(true)
+      @principal_role.stub!(:privacy_statement_necessary?).and_return(false)
+    end
+
     @principal_role.stub!(:id).and_return(23)
     PrincipalRole.stub!(:find).and_return @principal_role
     disable_flash_sweep
@@ -14,35 +20,42 @@ describe PrincipalRolesController do
       @params = {"principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
     end
 
-    describe :create do
-      before :each do
+    unless privacy_plugin_loaded? #tests than are defined in privacy_plugin
 
-      end
-
-      describe "SUCCESS" do
+      describe :create do
         before :each do
-          @global_role = mock_model(GlobalRole)
-          @global_role.stub!(:id).and_return(42)
-          Role.stub!(:find).and_return([@global_role])
-          PrincipalRole.stub!(:new).and_return(@principal_role)
-          @principal_role.stub!(:role=)
-          @principal_role.stub!(:role).and_return(@global_role)
-          @principal_role.stub!(:save)
-          @principal_role.stub!(:role_id).and_return(@global_role.id)
+
         end
 
-        describe "js" do
+        describe "SUCCESS" do
           before :each do
-            response_should_render :remove, "principal_role_option_#{@global_role.id}"
-            response_should_render :insert_html,
-                                   :top, 'table_principal_roles_body',
-                                   :partial => "principal_roles/show_table_row",
-                                   :locals => {:principal_role => anything()}
-
-            xhr :post, :create, @params
+            @global_role = mock_model(GlobalRole)
+            @global_role.stub!(:id).and_return(42)
+            Role.stub!(:find).and_return([@global_role])
+            PrincipalRole.stub!(:new).and_return(@principal_role)
+            @principal_role.stub!(:role=)
+            @principal_role.stub!(:role).and_return(@global_role)
+            @principal_role.stub!(:save)
+            @principal_role.stub!(:role_id).and_return(@global_role.id)
           end
 
-          it { response.should be_success }
+          describe "js" do
+            before :each do
+              response_should_render :replace,
+                                     "available_principal_roles",
+                                     :partial => "users/available_global_roles",
+                                     :locals => {:global_roles => anything(),
+                                                 :user => anything()}
+              response_should_render :insert_html,
+                                     :top, 'table_principal_roles_body',
+                                     :partial => "principal_roles/show_table_row",
+                                     :locals => {:principal_role => anything()}
+
+              xhr :post, :create, @params
+            end
+
+            it { response.should be_success }
+          end
         end
       end
     end
@@ -62,6 +75,7 @@ describe PrincipalRolesController do
         describe "js" do
           before :each do
             @principal_role.stub!(:valid?).and_return(true)
+
             response_should_render :replace,
                                   "principal_role-#{@principal_role.id}",
                                   :partial => "principal_roles/show_table_row",
@@ -103,7 +117,7 @@ describe PrincipalRolesController do
     describe :destroy do
       describe "SUCCESS" do
         before :each do
-          response_should_render :remove, "principal_role-1"
+          response_should_render :remove, "principal_role-#{@principal_role.id}"
           response_should_render :replace,
                                  "available_principal_roles",
                                  :partial => "users/available_global_roles",

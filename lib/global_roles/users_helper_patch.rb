@@ -19,6 +19,8 @@ module GlobalRoles
         tabs << {:name => 'global_roles', :partial => 'users/global_roles', :label => "global_roles"}
         tabs
       end
+
+
     end
   end
 end

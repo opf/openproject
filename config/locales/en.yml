@@ -6,3 +6,5 @@ en:
   label_no_assignable_role: No global role available for assignment
   global_roles: Global Roles
   label_global: Global
+
+  error_can_not_be_assigned: The role can not be assigned to this user
