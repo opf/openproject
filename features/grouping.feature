@@ -5,8 +5,8 @@ Feature: Groups
     Given there is a standard cost control project named "First Project"
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    Then I should see "Week (Spent)" within "select[@id='group_by_columns']"
-    And I should see "Issue" within "select[@id='group_by_rows']"
+    Then I should see "Week (Spent)" in columns
+    And I should see "Issue" in rows
 
   @javascript
   Scenario: A click on clear removes all groups
@@ -14,15 +14,15 @@ Feature: Groups
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
-    Then I should not see "Week (Spent)" within "select[@id='group_by_columns']"
-    And I should not see "Issue" within "select[@id='group_by_rows']"
+    Then I should not see "Week (Spent)" in columns
+    And I should not see "Issue" in rows
     And I group rows by "User"
     And I group rows by "Cost type"
     And I click on "Clear"
-    Then I should not see "Week (Spent)" within "select[@id='group_by_columns']"
-    And I should not see "Issue" within "select[@id='group_by_rows']"
-    And I should not see "User" within "select[@id='group_by_rows']"
-    And I should not see "Cost type" within "select[@id='group_by_rows']"
+    Then I should not see "Week (Spent)" in columns
+    And I should not see "Issue" in rows
+    And I should not see "User" in rows
+    And I should not see "Cost type" in rows
 
   @javascript
   Scenario: Groups can be added to either rows or columns
@@ -31,10 +31,10 @@ Feature: Groups
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
     And I group columns by "Issue"
-    Then I should see "Issue" within "select[@id='group_by_columns']"
+    Then I should see "Issue" in columns
     And I should not see "Issues" within "select[@id='group_by_container']"
     When I group rows by "Project"
-    Then I should see "Project" within "select[@id='group_by_rows']"
+    Then I should see "Project" in rows
     And I should not see "Project" within "select[@id='group_by_container']"
 
   @javascript
@@ -45,12 +45,12 @@ Feature: Groups
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
-    Then I should see "Issue" within "select[@id='group_by_columns']"
-    And I should see "Project" within "select[@id='group_by_rows']"
+    Then I should see "Issue" in columns
+    And I should see "Project" in rows
     When I remove "Project" from rows
     And I remove "Issue" from columns
-    Then I should not see "Issue" within "select[@id='group_by_columns']"
-    And I should not see "Project" within "select[@id='group_by_rows']"
+    Then I should not see "Issue" in columns
+    And I should not see "Project" in rows
     And I should see "Project" within "select[@id='group_by_container']"
     And I should see "Issue" within "select[@id='group_by_container']"
 
@@ -65,8 +65,8 @@ Feature: Groups
     And I group rows by "User"
     And I group rows by "Cost type"
     And I send the query
-    Then I should see "Project" within "select[@id='group_by_columns']"
-    And I should see "Issue" within "select[@id='group_by_columns']"
-    And I should see "User" within "select[@id='group_by_rows']"
-    And I should see "Cost type" within "select[@id='group_by_rows']"
+    Then I should see "Project" in columns
+    And I should see "Issue" in columns
+    And I should see "User" in rows
+    And I should see "Cost type" in rows
 
