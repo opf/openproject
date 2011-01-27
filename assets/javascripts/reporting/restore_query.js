@@ -2,42 +2,80 @@
 jslint Reporting: false, nomen: true, debug: false, evil: false,
     onevar: false, browser: true, white: false, indent: 0
 */
-var Reporting.RestoreQueries = {};
 
-Reporting.RestoreQueries.set_filters = function() {
-  <% sorted_filters = engine::Filter.all.map {|fclass| query.filters.detect {|f| f.class == fclass } }.compact %>
-  <% visible_filters = sorted_filters.select {|f| f.class.display? } %>
-  <% visible_filters.each do |f| %>
-    restore_filter("<%= f.class.underscore_name %>",
-                   "<%= f.operator.to_s %>"<%= "," if f.values %>
-                    <%= f.values.to_json.html_safe if f.values  %>);
-    <% if f.class.has_dependents? %>
-      // Evaluate the dependency observer synchronously. See _multi_values_with_dependent.rhtml for more info
-      <%= "observe_selector_#{f.class.underscore_name}(true);" %>
-    <% end %>
-  <% end %>
+Reporting.RestoreQuery = {
+  restore_filters: function() {
+    group_bys = $('filter_table').select("tr").select(function(row) {
+      return $(row).getAttribute("data-selected") == "true";
+    }).each(function(row) {
+      var field = row.className;
+      Reporting.Filters.show_filter(field);
+      disable_select_option($("add_filter_select"), field);
+    });
+  },
+
+  select_operator: function(field, operator) {
+    var select, i;
+    select = $("operators_" + field);
+    if (select === null) {
+        return; // there is no such operator select field
+    }
+    for (i = 0; i < select.options.length; i += 1) {
+        if (select.options[i].value === operator) {
+            select.selectedIndex = i;
+            break;
+        }
+    }
+    operator_changed(field, select);
+  },
+
+  disable_select_option: function(select, field) {
+    for (var i = 0; i < select.options.length; i += 1) {
+        if (select.options[i].value === field) {
+            select.options[i].disabled = true;
+            break;
+        }
+    }
+  },
+
+  show_group_by: function(group_by, target) {
+    $('group_by_container').select("")
+    var source, group_option, i;
+    source = $("group_by_container");
+    group_option = null;
+    // find group_by option-tag in target select-box
+    for (i = 0; i < source.options.length; i++) {
+        if (source.options[i].value == group_by) {
+            group_option = source.options[i];
+            source.options[i] = null;
+            break;
+        }
+    }
+    // die if the appropriate option-tag can not be found
+    if (group_option === null) {
+        return;
+    }
+    // move the option-tag to the taget select-box while keepings its data
+    target.options[target.length] = group_option;
+  },
+
+  restore_group_bys: function() {
+    // Activate recent group_bys on loading
+    group_bys = $('group_by_container').childElements().collect(function(og) {
+      return $(og).childElements();
+    }).flatten().select(function(group_by) {
+      return $(group_by).hasAttribute("data-selected-axis");
+    }).sortBy(function(group_by) {
+      return $(group_by).getAttribute("data-selected-index");
+    }).each(function(group_by) {
+      var axis = $(group_by).getAttribute("data-selected-axis");
+      var name = $(group_by).getAttribute("value");
+      Reporting.RestoreQuery.show_group_by(name, $('group_by_' + axis + 's'));
+    });
+  }
 }
 
-Reporting.RestoreQueries.set_group_bys = function() {
-  // Activate recent group_bys on loading
-  group_bys = $('group_by_container').childElements().collect(function(og) {
-    return $(og).childElements();
-  }).flatten().select(function(group_by) {
-    return $(group_by).hasAttribute("data-selected-axis");
-  }).sortBy(function(group_by) {
-    return $(group_by).getAttribute("data-selected-index");
-  }).each(function(group_by) {
-    var axis = $(group_by).getAttribute("data-selected-axis");
-    var name = $(group_by).getAttribute("value");
-    show_group_by(axis, name);
-  });
-}
 
-Reporting.RestoreQueries.restore_query_inputs = function() {
-  disable_all_filters();
-  disable_all_group_bys();
-  set_filters();
-  set_group_bys();
-}
-
-Reporting.RestoreQueries.restore_query_inputs();
+Reporting.onload(function() {
+  Reporting.RestoreQuery.restore_group_bys();
+});

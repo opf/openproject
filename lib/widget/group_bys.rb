@@ -66,8 +66,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render_sort_button(axis, dir)
-    tag :input, :type => "button", :class => "buttons group_by sort sort#{dir}",
-        :onclick => "moveOption#{dir}(this.form.group_by_#{axis});"
+    tag :input, :type => "button", :class => "buttons group_by sort sort#{dir} sort-#{axis}"
   end
 
   def render_move_buttons(axis, to, from, br = false)
@@ -77,8 +76,7 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render_move_option_button(axis, dir)
-    tag :input, :type => "button", :class => "buttons group_by move move#{dir}",
-        :onclick => "moveOptions(this.form.group_by_container, this.form.group_by_#{axis});"
+    tag :input, :type => "button", :class => "buttons group_by move move#{dir}"
   end
 
   def render_grouped_group_bys
@@ -87,23 +85,28 @@ class Widget::GroupBys < Widget::Base
         l(label)
       end.collect do |label, group_by_ary|
         content_tag :optgroup, :label => l(label), :"data-category" => label.to_s do
-          group_by_ary.sort_by do |g|
-            l(g.label)
-          end.collect do |group_by|
-            next unless group_by.selectable?
-            option_tag_options = {:value => group_by.underscore_name,
-                                  :"data-category" => label.to_s}
-            if grby = @query.group_bys.detect {|g| g.class == group_by }
-              option_tag_options.merge({:"data-selected-axis" => grby.type.to_s})
-              option_tag_options.merge({:"data-selected-index" => @query.group_bys.index(grby)})
-            end
-            content_tag :option, option_tag_options do
-              l(group_by.label)
-            end
-          end.compact.join.html_safe
+          render_group_bys_for(group_by_ary, label)
         end
       end.join.html_safe
     end
   end
 
+  def render_group_bys_for(group_by_ary, label)
+    group_by_ary.sort_by do |g|
+      l(g.label)
+    end.collect do |group_by|
+      next unless group_by.selectable?
+      render_group_by(group_by, :value => group_by.underscore_name, :"data-category" => label.to_s)
+    end.compact.join.html_safe
+  end
+
+  def render_group_by(group_by, option_tag_options)
+    if grby = @query.group_bys.detect {|g| g.class == group_by }
+      option_tag_options[:"data-selected-axis"] = grby.type.to_s
+      option_tag_options[:"data-selected-index"] = @query.group_bys.index(grby)
+    end
+    content_tag :option, option_tag_options do
+      l(group_by.label)
+    end
+  end
 end

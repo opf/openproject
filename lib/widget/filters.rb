@@ -35,9 +35,15 @@ class Widget::Filters < Widget::Base
   def render_filters
     active_filters = @query.filters.select {|f| f.class.display? }
     engine::Filter.all.collect do |filter|
-      content_tag :tr, :id => "tr_#{filter.underscore_name}",
-          :class => "#{filter.underscore_name}", :style => "display:none" do
-        render_filter filter, active_filters.detect {|f| f.class == filter }
+      opts = :id => "tr_#{filter.underscore_name}", :class => "#{filter.underscore_name}"
+      active_instance = active_filters.detect {|f| f.class == filter }
+      if active_instance
+        opts[:"data-selected"] = true
+      else
+        opts[:style] = "display:none"
+      end
+      content_tag :tr, opts do
+        render_filter filter, active_instance
       end
     end.join.html_safe
   end
