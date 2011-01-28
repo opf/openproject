@@ -7,7 +7,12 @@ module CostQuery::QueryUtils
     when "user_id"                          then value ? user_name(value.to_i) : ''
     when "tweek", "tyear", "tmonth", /_id$/ then value.to_i
     when "week"                             then value.to_i.divmod(100)
-    when /_(on|at)$/                        then value ? Time.parse(value) : Time.at(0)
+    when /_(on|at)$/                        then
+      if value
+        value.is_a?(Time) ? value : Time.parse(value.to_str)
+      else
+        Time.at(0)
+      end
     when /^custom_field/                    then value.to_s
     when "singleton_value"                  then value.to_i
     else super
