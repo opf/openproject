@@ -1,10 +1,11 @@
 class ActionView::Base
-  def render_widget(widget, subject, options = nil)
+  def render_widget(widget, subject, options = {}, &block)
     i = widget.new(subject)
     i.config = config
     i.controller = controller
     i._content_for = @_content_for
-    (options ? i.render_with_options(options) : i.render).html_safe
+    i._routes = _routes
+    i.render_with_options(options, &block).html_safe
   end
 end
 
@@ -14,7 +15,7 @@ class Widget < ActionView::Base
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
 
-  attr_accessor :output_buffer, :controller, :config, :_content_for
+  attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes
 
   extend ProactiveAutoloader
 
@@ -24,5 +25,9 @@ class Widget < ActionView::Base
 
   def current_language
     ::I18n.locale
+  end
+
+  def protect_against_forgery?
+    false
   end
 end

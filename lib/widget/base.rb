@@ -10,11 +10,11 @@ class Widget::Base < Widget
     raise NotImplementedError,  "#render is missing in my subclass"
   end
 
-  def render_with_options(options = {})
+  def render_with_options(options = {}, &block)
     if canvas = options[:to]
-      canvas << "\n" << render
+      canvas << "\n" << render(&block)
     else
-      raise ArgumentError, "invalid options"
+      render(&block)
     end
   end
 end
