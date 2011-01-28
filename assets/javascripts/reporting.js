@@ -5,7 +5,6 @@ window.Reporting = {
   source: ($$("head")[0].select("script[src*='reporting.js']")[0].src),
 
   require: function (libraryName) {
-    alert("loading " + libraryName);
     var jsName = Reporting.source.replace("reporting.js", "reporting/" + libraryName + ".js");
     try {
       // inserting via DOM fails in Safari 2.0, so brute force approach
