@@ -287,7 +287,7 @@ task :migrate_from_mantis => :environment do
     	project.versions.each do |version|
           v = Version.new :name => encode(version.version),
                           :description => encode(version.description),
-                          :effective_date => version.date_order.to_date
+                          :effective_date => (version.date_order ? version.date_order.to_date : nil)
           v.project = p
           v.save
           versions_map[version.id] = v.id
