@@ -16,9 +16,9 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
             name = l(name) if name.is_a? Symbol
             name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
             unless options[:optgroup]
-              content_tag :option, :value => id do
-                name_prefix + h(name)
-              end
+              opts = { :value => id }
+              opts[:selected] = "selected" if filter.values.include? id
+              content_tag(:option, opts) { name_prefix + h(name) }
             else
               tag :optgroup, :label => l(:label_sector)
             end
