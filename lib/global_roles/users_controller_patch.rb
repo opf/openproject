@@ -8,13 +8,13 @@ module GlobalRoles
       base.class_eval do
         unloadable
 
-        alias_method_chain :edit, :global_roles
+        before_filter :add_global_roles, :only => [:edit]
       end
     end
 
     module InstanceMethods
-      def edit_with_global_roles
-        edit_without_global_roles
+      private
+      def add_global_roles
         @global_roles = GlobalRole.all
       end
     end
