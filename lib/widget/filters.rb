@@ -64,6 +64,6 @@ class Widget::Filters < Widget::Base
     else
       render_widget Filters::MultiValues, f, :to => html
     end
-    html
+    render_widget Filters::RemoveButton, f, :to => html
   end
 end
