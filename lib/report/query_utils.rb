@@ -175,10 +175,10 @@ module Report::QueryUtils
       value.to_i
     elsif key =~ /_id$/
       @@to_i << key
-      redo
+      value.to_i
     else
       @@to_s << key
-      redo
+      value.to_s
     end
   end
 
