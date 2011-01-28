@@ -1,3 +1,5 @@
+require 'set'
+
 module Report::QueryUtils
   alias singleton_class metaclass unless respond_to? :singleton_class
 
@@ -164,10 +166,19 @@ module Report::QueryUtils
   end
 
   def map_field(key, value)
-    if key.to_s == "singleton_value"
+    @@to_i ||= Set["singleton_value"]
+    @@to_s ||= Set.new
+    key = key.to_s
+    if @@to_i.include? key
       value.to_i
+    elsif @@to_s.include? key
+      value.to_i
+    elsif key =~ /_id$/
+      @@to_i << key
+      redo
     else
-      value.to_s
+      @@to_s << key
+      redo
     end
   end
 
