@@ -4,7 +4,7 @@ class AdjustCostQueryLayout < ActiveRecord::Migration
     remove_column :cost_queries, :group_by
     remove_column :cost_queries, :granularity
 
-    add_column :cost_queries, :yamlized, :string, :null => false
+    add_column :cost_queries, :yamlized, :string, :null => true
   end
 
   def self.down
