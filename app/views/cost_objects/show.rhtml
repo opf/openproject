@@ -12,20 +12,20 @@
     <%= authoring @cost_object.created_on, @cost_object.author %>.
     <%= l(:label_updated_time, distance_of_time_in_words(Time.now, @cost_object.updated_on)) + '.' if @cost_object.created_on != @cost_object.updated_on %>
   </p>
-  
+
   <table width="100%">
     <tr>
       <td style="width:15%" class="type"><strong><%=l(:field_type)%>:</strong></td>
       <td style="width:35%" class="type"><%= @cost_object.type_label %></td>
-      
+
       <td style="width:15%" class="due-date"><strong><%=l(:field_fixed_date)%>:</strong></td>
       <td style="width:35%"><%= format_date(@cost_object.fixed_date) %></td>
     </tr>
-    
+
     <tr>
       <td class="status"><strong><%=l(:field_status)%>:</strong></td>
       <td class="status"><%= l(@cost_object.status) %></td>
-      
+
       <td class="progress"><strong><%=l(:field_budget_ratio)%>:</strong></td>
       <td class="progress"><%= extended_progress_bar(@cost_object.budget_ratio, :width => '80px', :legend => "#{@cost_object.budget_ratio}%") %></td>
     </tr>
@@ -37,9 +37,9 @@
   </div>
 
   <%= link_to_attachments @cost_object %>
-  
+
   <%= render :partial => "show_#{@cost_object.kind.underscore}" %>
-</div>  
+</div>
 
 <div style="clear: both;"></div>
 
@@ -49,11 +49,6 @@
   <%= render :partial => 'edit' %>
   </div>
 <% end %>
-
-<p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
-</p>
 
 <% html_title "#{l(:label_cost_object)} ##{@cost_object.id}: #{@cost_object.subject}" %>
 
