@@ -107,3 +107,9 @@ Reporting.Filters = {
     Reporting.Filters.multi_select(select, !select.multiple);
   }
 };
+
+Reporting.onload(function () {
+  $("add_filter_select").observe("change", function () {
+    Reporting.Filters.add_filter(this);
+  });
+});
