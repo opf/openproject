@@ -1,11 +1,12 @@
 bg:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   date:
     formats:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
+      default: "%d-%m-%Y"
       short: "%b %d"
       long: "%B %d, %Y"
       
@@ -65,12 +66,13 @@ bg:
         other: "почти %{count} години"
 
   number:
+    # Default format for numbers
     format:
       separator: "."
       delimiter: ""
       precision: 3
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: ""
       storage_units: 
@@ -83,7 +85,8 @@ bg:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-      
+
+
 # Used in array.to_sentence.
   support:
     array:
@@ -94,8 +97,8 @@ bg:
     errors:
       template:
         header:
-          one:    "1 error prohibited this %{model} from being saved"
-          other:  "%{count} errors prohibited this %{model} from being saved"
+          one:    "1 грешка попречи този %{model} да бъде записан"
+          other:  "%{count} грешки попречиха този %{model} да бъде записан"
       messages:
         inclusion: "не съществува в списъка"
         exclusion: "е запазено"
@@ -120,6 +123,7 @@ bg:
         greater_than_start_date: "трябва да е след началната дата"
         not_same_project: "не е от същия проект"
         circular_dependency: "Тази релация ще доведе до безкрайна зависимост"
+        cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
 
   actionview_instancetag_blank_option: Изберете
   
@@ -150,24 +154,61 @@ bg:
   notice_file_not_found: Несъществуваща или преместена страница.
   notice_locking_conflict: Друг потребител променя тези данни в момента.
   notice_not_authorized: Нямате право на достъп до тази страница.
+  notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран.
   notice_email_sent: "Изпратен e-mail на %{value}"
   notice_email_error: "Грешка при изпращане на e-mail (%{value})"
   notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
+  notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
+  notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
+  notice_failed_to_save_members: "Невъзможност за запис на член(ове): %{errors}."
+  notice_no_issue_selected: "Няма избрани задачи."
+  notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
+  notice_default_data_loaded: Примерната информация е заредена успешно.
+  notice_unable_delete_version: Невъзможност за изтриване на версия
+  notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
+  notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
+  notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
   
+  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
+  error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
+  error_issue_not_found_in_project: 'Задачата не е намерена или не принадлежи на този проект'
+  error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
+  error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
+  error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
+  error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
+  error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
+  error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
+  error_can_not_archive_project: Този проект не може да бъде архивиран
+  error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
+  error_workflow_copy_source: Моля изберете source тракер или роля
+  error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
+  error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
+  error_unable_to_connect: Невъзможност за свързване с (%{value})
+  warning_attachments_not_saved: "%{count} файла не бяха записани."
   
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
   mail_subject_register: "Активация на профил (%{value})"
   mail_body_register: 'За да активирате профила си използвайте следния линк:'
+  mail_body_account_information_external: "Можете да използвате вашия %{value} профил за вход."
+  mail_body_account_information: Информацията за профила ви
+  mail_subject_account_activation_request: "Заявка за активиране на профил в %{value}"
+  mail_body_account_activation_request: "Има новорегистриран потребител (%{value}), очакващ вашето одобрение:"
+  mail_subject_reminder: "%{count} задачи с краен срок с следващите %{days} дни"
+  mail_body_reminder: "%{count} задачи, назначени на вас са с краен срок в следващите %{days} дни:"
+  mail_subject_wiki_content_added: "Wiki страницата '%{id}' беше добавена"
+  mail_body_wiki_content_added: Wiki страницата '%{id}' беше добавена от %{author}.
+  mail_subject_wiki_content_updated: "Wiki страницата '%{id}' не беше обновена"
+  mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
   
   gui_validation_error: 1 грешка
   gui_validation_error_plural: "%{count} грешки"
   
   field_name: Име
   field_description: Описание
-  field_summary: Групиран изглед
+  field_summary: Анотация
   field_is_required: Задължително
   field_firstname: Име
   field_lastname: Фамилия
@@ -200,6 +241,7 @@ bg:
   field_priority: Приоритет
   field_fixed_version: Планувана версия
   field_user: Потребител
+  field_principal: Principal
   field_role: Роля
   field_homepage: Начална страница
   field_is_public: Публичен
@@ -225,6 +267,7 @@ bg:
   field_attr_lastname: Атрибут Фамилия (Lastname)
   field_attr_mail: Атрибут Email
   field_onthefly: Динамично създаване на потребител
+  field_start_date: Начална дата
   field_done_ratio: % Прогрес
   field_auth_source: Начин на оторизация
   field_hide_mail: Скрий e-mail адреса ми
@@ -242,7 +285,24 @@ bg:
   field_assignable: Възможно е възлагане на задачи за тази роля
   field_redirect_existing_links: Пренасочване на съществуващи линкове
   field_estimated_hours: Изчислено време
+  field_column_names: Колони
+  field_time_entries: Log time
+  field_time_zone: Часова зона
+  field_searchable: С възможност за търсене
   field_default_value: Стойност по подразбиране
+  field_comments_sorting: Сортиране на коментарите
+  field_parent_title: Родителска страница
+  field_editable: Editable
+  field_watcher: Наблюдател
+  field_identity_url: OpenID URL
+  field_content: Съдържание
+  field_group_by: Групиране на резултатите по
+  field_sharing: Sharing
+  field_parent_issue: Родителска задача
+  field_member_of_group: Член на група
+  field_assigned_to_role: Assignee's role
+  field_text: Текстово поле
+  field_visible: Видим
   
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -253,26 +313,132 @@ bg:
   setting_attachment_max_size: Максимална големина на прикачен файл
   setting_issues_export_limit: Максимален брой задачи за експорт
   setting_mail_from: E-mail адрес за емисии
+  setting_bcc_recipients: Получатели на скрито копие (bcc)
+  setting_plain_text_mail: само чист текст (без HTML)
   setting_host_name: Хост
   setting_text_formatting: Форматиране на текста
   setting_wiki_compression: Wiki компресиране на историята
   setting_feeds_limit: Максимален брой за емисии
+  setting_default_projects_public: Новите проекти са публични по подразбиране
   setting_autofetch_changesets: Автоматично обработване на ревизиите
   setting_sys_api_enabled: Разрешаване на WS за управление
   setting_commit_ref_keywords: Отбелязващи ключови думи
   setting_commit_fix_keywords: Приключващи ключови думи
   setting_autologin: Автоматичен вход
   setting_date_format: Формат на датата
+  setting_time_format: Формат на часа
   setting_cross_project_issue_relations: Релации на задачи между проекти
+  setting_issue_list_default_columns: Показвани колони по подразбиране
+  setting_repositories_encodings: Кодови таблици
+  setting_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
+  setting_emails_header: Emails header
+  setting_emails_footer: Подтекст за e-mail
+  setting_protocol: Протокол
+  setting_per_page_options: Опции за страниране
+  setting_user_format: Потребителски формат
+  setting_activity_days_default: Брой дни показвани на таб Дейност
+  setting_display_subprojects_issues: Показване на подпроектите в проектите по подразбиране
+  setting_enabled_scm: Разрешена SCM
+  setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
+  setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
+  setting_mail_handler_api_key: API ключ
+  setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
+  setting_gravatar_enabled: Използване на портребителски икони от Gravatar
+  setting_gravatar_default: Подразбиращо се изображение от Gravatar
+  setting_diff_max_lines_displayed: Максимален брой показани diff редове
+  setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
+  setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
+  setting_openid: Рарешаване на OpenID вход и регистрация
+  setting_password_min_length: Минимална дължина на парола
+  setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
+  setting_default_projects_modules: Активирани модули по подразбиране за нов проект
+  setting_issue_done_ratio: Изчисление на процента на готови задачи с
+  setting_issue_done_ratio_issue_field: Използване на поле '% Прогрес'
+  setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
+  setting_start_of_week: Първи ден на седмицата
+  setting_rest_api_enabled: Разрешаване на REST web сървис
+  setting_cache_formatted_text: Cache formatted text
+  setting_default_notification_option: Подразбиращ се начин за известяване
+  setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
+  setting_commit_logtime_activity_id: Дейност при отчитане на работното време
+  setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   
+  permission_add_project: Създаване на проект
+  permission_add_subprojects: Създаване на подпроекти
+  permission_edit_project: Редактиране на проект
+  permission_select_project_modules: Избор на проектни модули
+  permission_manage_members: Управление на членовете (на екип)
+  permission_manage_project_activities: Управление на дейностите на проекта
+  permission_manage_versions: Управление на версиите
+  permission_manage_categories: Управление на категориите
+  permission_view_issues: Разглеждане на задачите
+  permission_add_issues: Добавяне на задачи
+  permission_edit_issues: Редактиране на задачи
+  permission_manage_issue_relations: Управление на връзките между задачите
+  permission_add_issue_notes: Добаване на бележки
+  permission_edit_issue_notes: Редактиране на бележки
+  permission_edit_own_issue_notes: Редактиране на собствени бележки
+  permission_move_issues: Преместване на задачи
+  permission_delete_issues: Изтриване на задачи
+  permission_manage_public_queries: Управление на публичните заявки
+  permission_save_queries: Запис на запитвания (queries)
+  permission_view_gantt: Разглеждане на мрежов график
+  permission_view_calendar: Разглеждане на календари
+  permission_view_issue_watchers: Разглеждане на списък с наблюдатели
+  permission_add_issue_watchers: Добавяне на наблюдатели
+  permission_delete_issue_watchers: Изтриване на наблюдатели
+  permission_log_time: Log spent time
+  permission_view_time_entries: Разглеждане на изразходваното време
+  permission_edit_time_entries: Редактиране на time logs
+  permission_edit_own_time_entries: Редактиране на собствените time logs
+  permission_manage_news: Управление на новини
+  permission_comment_news: Коментиране на новини
+  permission_manage_documents: Управление на документи
+  permission_view_documents: Разглеждане на документи
+  permission_manage_files: Управление на файлове
+  permission_view_files: Разглеждане на файлове
+  permission_manage_wiki: Управление на wiki
+  permission_rename_wiki_pages: Преименуване на wiki страници
+  permission_delete_wiki_pages: Изтриване на wiki страници
+  permission_view_wiki_pages: Разглеждане на wiki
+  permission_view_wiki_edits: Разглеждане на wiki история
+  permission_edit_wiki_pages: Редактиране на wiki страници
+  permission_delete_wiki_pages_attachments: Изтриване на прикачени файлове към wiki страници
+  permission_protect_wiki_pages: Заключване на wiki страници
+  permission_manage_repository: Управление на хранилища
+  permission_browse_repository: Разглеждане на хранилища
+  permission_view_changesets: Разглеждане на changesets
+  permission_commit_access: Поверяване
+  permission_manage_boards: Управление на boards
+  permission_view_messages: Разглеждане на съобщения
+  permission_add_messages: Публикуване на съобщения
+  permission_edit_messages: Редактиране на съобщения
+  permission_edit_own_messages: Редактиране на собствени съобщения
+  permission_delete_messages: Изтриване на съобщения
+  permission_delete_own_messages: Изтриване на собствени съобщения
+  permission_export_wiki_pages: Експорт на wiki страници
+  permission_manage_subtasks: Управление на подзадачите
+
+  project_module_issue_tracking: Тракинг
+  project_module_time_tracking: Отделяне на време
+  project_module_news: Новини
+  project_module_documents: Документи
+  project_module_files: Файлове
+  project_module_wiki: Wiki
+  project_module_repository: Хранилище
+  project_module_boards: Форуми
+  project_module_calendar: Календар
+  project_module_gantt: Мрежов график
+
   label_user: Потребител
   label_user_plural: Потребители
   label_user_new: Нов потребител
+  label_user_anonymous: Анонимен
   label_project: Проект
   label_project_new: Нов проект
   label_project_plural: Проекти
   label_x_projects:
-    zero:  0 проекти
+    zero:  0 проекта
     one:   1 проект
     other: "%{count} проекта"
   label_project_all: Всички проекти
@@ -281,9 +447,13 @@ bg:
   label_issue_new: Нова задача
   label_issue_plural: Задачи
   label_issue_view_all: Всички задачи
+  label_issues_by: "Задачи по %{value}"
+  label_issue_added: Добавена задача
+  label_issue_updated: Обновена задача
   label_document: Документ
   label_document_new: Нов документ
   label_document_plural: Документи
+  label_document_added: Добавен документ
   label_role: Роля
   label_role_plural: Роли
   label_role_new: Нова роля
@@ -310,11 +480,13 @@ bg:
   label_information_plural: Информация
   label_please_login: Вход
   label_register: Регистрация
+  label_login_with_open_id_option: или вход чрез OpenID
   label_password_lost: Забравена парола
   label_home: Начало
   label_my_page: Лична страница
   label_my_account: Профил
   label_my_projects: Проекти, в които участвам
+  label_my_page_block: Блокове в личната страница
   label_administration: Администрация
   label_login: Вход
   label_logout: Изход
@@ -324,6 +496,8 @@ bg:
   label_last_login: Последно свързване
   label_registered_on: Регистрация
   label_activity: Дейност
+  label_overall_activity: Цялостна дейност
+  label_user_activity: "Активност на %{value}"
   label_new: Нов
   label_logged_as: Здравейте,
   label_environment: Среда
@@ -332,10 +506,13 @@ bg:
   label_auth_source_new: Нов начин на оторизация
   label_auth_source_plural: Начини на оторизация
   label_subproject_plural: Подпроекти
+  label_subproject_new: Нов подпроект
+  label_and_its_subprojects: "%{value} и неговите подпроекти"
   label_min_max_length: Минимална - максимална дължина
   label_list: Списък
   label_date: Дата
   label_integer: Целочислен
+  label_float: Дробно
   label_boolean: Чекбокс
   label_string: Текст
   label_text: Дълъг текст
@@ -350,6 +527,7 @@ bg:
   label_attachment_new: Нов файл
   label_attachment_delete: Изтриване
   label_attachment_plural: Файлове
+  label_file_added: Добавен файл
   label_report: Справка
   label_report_plural: Справки
   label_news: Новини
@@ -357,11 +535,13 @@ bg:
   label_news_plural: Новини
   label_news_latest: Последни новини
   label_news_view_all: Виж всички
+  label_news_added: Добавена новина
   label_settings: Настройки
   label_overview: Общ изглед
   label_version: Версия
   label_version_new: Нова версия
   label_version_plural: Версии
+  label_close_versions: Затваряне на завършените версии
   label_confirmation: Одобрение
   label_export_to: Експорт към
   label_read: Read...
@@ -388,6 +568,7 @@ bg:
   label_new_statuses_allowed: Позволени състояния
   label_all: всички
   label_none: никакви
+  label_nobody: никой
   label_next: Следващ
   label_previous: Предишен
   label_used_by: Използва се от
@@ -419,9 +600,19 @@ bg:
   label_not_equals: не е
   label_in_less_than: след по-малко от
   label_in_more_than: след повече от
+  label_greater_or_equal: ">="
+  label_less_or_equal: <=
   label_in: в следващите
   label_today: днес
+  label_all_time: всички
+  label_yesterday: вчера
   label_this_week: тази седмица
+  label_last_week: последната седмица
+  label_last_n_days: "последните %{count} дни"
+  label_this_month: текущия месец
+  label_last_month: последния месец
+  label_this_year: текущата година
+  label_date_range: Период
   label_less_than_ago: преди по-малко от
   label_more_than_ago: преди повече от
   label_ago: преди
@@ -429,17 +620,25 @@ bg:
   label_not_contains: не съдържа
   label_day_plural: дни
   label_repository: Хранилище
+  label_repository_plural: Хранилища
   label_browse: Разглеждане
   label_modification: "%{count} промяна"
   label_modification_plural: "%{count} промени"
+  label_branch: работен вариант
+  label_tag: Версия
   label_revision: Ревизия
   label_revision_plural: Ревизии
+  label_revision_id: Ревизия %{value}
+  label_associated_revisions: Асоциирани ревизии
   label_added: добавено
   label_modified: променено
+  label_copied: копирано
+  label_renamed: преименувано
   label_deleted: изтрито
   label_latest_revision: Последна ревизия
   label_latest_revision_plural: Последни ревизии
   label_view_revisions: Виж ревизиите
+  label_view_all_revisions: Разглеждане на всички ревизии
   label_max_size: Максимална големина
   label_sort_highest: Премести най-горе
   label_sort_higher: Премести по-горе
@@ -465,6 +664,7 @@ bg:
   label_changes_details: Подробни промени
   label_issue_tracking: Тракинг
   label_spent_time: Отделено време
+  label_overall_spent_time: Общо употребено време
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
   label_time_tracking: Отделяне на време
@@ -486,6 +686,7 @@ bg:
   label_relation_delete: Изтриване на релация
   label_relates_to: свързана със
   label_duplicates: дублира
+  label_duplicated_by: дублирана от
   label_blocks: блокира
   label_blocked_by: блокирана от
   label_precedes: предшества
@@ -501,10 +702,13 @@ bg:
   label_board: Форум
   label_board_new: Нов форум
   label_board_plural: Форуми
+  label_board_locked: Заключена
+  label_board_sticky: Sticky
   label_topic_plural: Теми
   label_message_plural: Съобщения
   label_message_last: Последно съобщение
   label_message_new: Нова тема
+  label_message_posted: Добавено съобщение
   label_reply_plural: Отговори
   label_send_information: Изпращане на информацията до потребителя
   label_year: Година
@@ -515,12 +719,81 @@ bg:
   label_language_based: В зависимост от езика
   label_sort_by: "Сортиране по %{value}"
   label_send_test_email: Изпращане на тестов e-mail
+  label_feeds_access_key: RSS access ключ
+  label_missing_feeds_access_key: Липсващ RSS ключ за достъп
   label_feeds_access_key_created_on: "%{value} от създаването на RSS ключа"
   label_module_plural: Модули
   label_added_time_by: "Публикувана от %{author} преди %{age}"
+  label_updated_time_by: "Обновена от %{author} преди %{age}"
   label_updated_time: "Обновена преди %{value}"
   label_jump_to_a_project: Проект...
-  
+  label_file_plural: Файлове
+  label_changeset_plural: Ревизии
+  label_default_columns: По подразбиране
+  label_no_change_option: (Без промяна)
+  label_bulk_edit_selected_issues: Редактиране на задачи
+  label_theme: Тема
+  label_default: По подразбиране
+  label_search_titles_only: Само в заглавията
+  label_user_mail_option_all: "За всяко събитие в проектите, в които участвам"
+  label_user_mail_option_selected: "За всички събития само в избраните проекти..."
+  label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
+  label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
+  label_user_mail_option_only_assigned: Само за неща, назначени на мен
+  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
+  label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
+  label_registration_activation_by_email: активиране на профила по email
+  label_registration_manual_activation: ръчно активиране
+  label_registration_automatic_activation: автоматично активиране
+  label_display_per_page: "На страница по: %{value}"
+  label_age: Възраст
+  label_change_properties: Промяна на настройки
+  label_general: Основни
+  label_more: Още
+  label_scm: SCM (Система за контрол на версиите)
+  label_plugins: Плъгини
+  label_ldap_authentication: LDAP оторизация
+  label_downloads_abbr: D/L
+  label_optional_description: Незадължително описание
+  label_add_another_file: Добавяне на друг файл
+  label_preferences: Предпочитания
+  label_chronological_order: Хронологичен ред
+  label_reverse_chronological_order: Обратен хронологичен ред
+  label_planning: Планиране
+  label_incoming_emails: Входящи e-mail-и
+  label_generate_key: Генериране на ключ
+  label_issue_watchers: Наблюдатели
+  label_example: Пример
+  label_display: Display
+  label_sort: Сортиране
+  label_ascending: Нарастващ
+  label_descending: Намаляващ
+  label_date_from_to: От %{start} до %{end}
+  label_wiki_content_added: Wiki страница беше добавена
+  label_wiki_content_updated: Wiki страница беше обновена
+  label_group: Група
+  label_group_plural: Групи
+  label_group_new: Нова група
+  label_time_entry_plural: Използвано време
+  label_version_sharing_none: Не споделен
+  label_version_sharing_descendants: С подпроекти
+  label_version_sharing_hierarchy: С проектна йерархия
+  label_version_sharing_tree: С дърво на проектите
+  label_version_sharing_system: С всички проекти
+  label_update_issue_done_ratios: Обновяване на процента на завършените задачи
+  label_copy_source: Източник
+  label_copy_target: Цел
+  label_copy_same_as_target: Също като целта
+  label_display_used_statuses_only: Показване само на състоянията, използвани от този тракер
+  label_api_access_key: API ключ за достъп
+  label_missing_api_access_key: Липсващ API ключ
+  label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
+  label_profile: Профил
+  label_subtask_plural: Подзадачи
+  label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
+  label_principal_search: "Търсене на потребител или група:"
+  label_user_search: "Търсене на потребител:"
+
   button_login: Вход
   button_submit: Прикачване
   button_save: Запис
@@ -528,8 +801,10 @@ bg:
   button_uncheck_all: Изчистване на всички
   button_delete: Изтриване
   button_create: Създаване
+  button_create_and_continue: Създаване и продължаване
   button_test: Тест
   button_edit: Редакция
+  button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: %{page_title}"
   button_add: Добавяне
   button_change: Промяна
   button_apply: Приложи
@@ -540,6 +815,7 @@ bg:
   button_list: Списък
   button_view: Преглед
   button_move: Преместване
+  button_move_and_follow: Преместване и продължаване
   button_back: Назад
   button_cancel: Отказ
   button_activate: Активация
@@ -553,26 +829,49 @@ bg:
   button_unarchive: Разархивиране
   button_reset: Генериране наново
   button_rename: Преименуване
+  button_change_password: Промяна на парола
+  button_copy: Копиране
+  button_copy_and_follow: Копиране и продължаване
+  button_annotate: Анотация
+  button_update: Обновяване
+  button_configure: Конфигуриране
+  button_quote: Цитат
+  button_duplicate: Дублиране
+  button_show: Показване
   
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
   
+  version_status_open: отворена
+  version_status_locked: заключена
+  version_status_closed: затворена
+
+  field_active: Активен
+
   text_select_mail_notifications: Изберете събития за изпращане на e-mail.
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_min_max_length_info: 0 - без ограничения
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
+  text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
-  text_tip_task_begin_day: задача започваща този ден
-  text_tip_task_end_day: задача завършваща този ден
-  text_tip_task_begin_end_day: задача започваща и завършваща този ден
+  text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
+  text_journal_changed: "%{label} променен от %{old} на %{new}"
+  text_journal_set_to: "%{label} установен на %{value}"
+  text_journal_deleted: "%{label} изтрит (%{old})"
+  text_journal_added: "Добавено %{label} %{value}"
+  text_tip_issue_begin_day: задача, започваща този ден
+  text_tip_issue_end_day: задача, завършваща този ден
+  text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
   text_caracters_maximum: "До %{count} символа."
+  text_caracters_minimum: "Минимум %{count} символа."
   text_length_between: "От %{min} до %{max} символа."
   text_tracker_no_workflow: Няма дефиниран работен процес за този тракер
   text_unallowed_characters: Непозволени символи
   text_comma_separated: Позволено е изброяване (с разделител запетая).
+  text_line_separated: Позволени са много стойности (по едно на ред).
   text_issues_ref_in_commit_messages: Отбелязване и приключване на задачи от ревизии
   text_issue_added: "Публикувана е нова задача с номер %{id} (от %{author})."
   text_issue_updated: "Задача %{id} е обновена (от %{author})."
@@ -580,7 +879,36 @@ bg:
   text_issue_category_destroy_question: "Има задачи (%{count}) обвързани с тази категория. Какво ще изберете?"
   text_issue_category_destroy_assignments: Премахване на връзките с категорията
   text_issue_category_reassign_to: Преобвързване с категория
-  
+  text_user_mail_option: "За неизбраните проекти, ще получавате известия само за наблюдавани дейности или в които участвате (т.е. автор или назначени на мен)."
+  text_no_configuration_data: "Все още не са конфигурирани Роли, тракери, състояния на задачи и работен процес.\nСтрого се препоръчва зареждането на примерната информация. Веднъж заредена ще имате възможност да я редактирате."
+  text_load_default_configuration: Зареждане на примерна информация
+  text_status_changed_by_changeset: "Приложено с ревизия %{value}."
+  text_time_logged_by_changeset: Приложено в ревизия %{value}.
+  text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
+  text_select_project_modules: 'Изберете активните модули за този проект:'
+  text_default_administrator_account_changed: Сменен фабричния администраторски профил
+  text_file_repository_writable: Възможност за писане в хранилището с файлове
+  text_plugin_assets_writable: Папката на приставките е разрешена за запис
+  text_rmagick_available: Наличен RMagick (по избор)
+  text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
+  text_destroy_time_entries: Изтриване на отделеното време
+  text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
+  text_reassign_time_entries: 'Прехвърляне на отделеното време към задача:'
+  text_user_wrote: "%{value} написа:"
+  text_enumeration_destroy_question: "%{count} обекта са свързани с тази стойност."
+  text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
+  text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/configuration.yml и рестартирайте Redmine, за да ги разрешите."
+  text_repository_usernames_mapping: "Изберете или променете потребителите в Redmine, съответстващи на потребителите в дневника на хранилището (repository).\nПотребителите с еднакви имена в Redmine и хранилищата се съвместяват автоматично."
+  text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
+  text_custom_field_possible_values_info: 'Една стойност на ред'
+  text_wiki_page_destroy_question: Тази страница има %{descendants} страници деца и descendant(s). Какво желаете да правите?
+  text_wiki_page_nullify_children: Запазване на тези страници като коренни страници
+  text_wiki_page_destroy_children: Изтриване на страниците деца и всички техни descendants
+  text_wiki_page_reassign_children: Преназначаване на страниците деца на тази родителска страница
+  text_own_membership_delete_confirmation: "Вие сте на път да премахнете някои или всички ваши разрешения и е възможно след това да не можете да редактирате този проект.\nСигурен ли сте, че искате да продължите?"
+  text_zoom_in: Увеличаване
+  text_zoom_out: Намаляване
+
   default_role_manager: Мениджър
   default_role_developer: Разработчик
   default_role_reporter: Публикуващ
@@ -602,333 +930,9 @@ bg:
   default_priority_immediate: Веднага
   default_activity_design: Дизайн
   default_activity_development: Разработка
-  
+
   enumeration_issue_priorities: Приоритети на задачи
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
-  label_file_plural: Файлове
-  label_changeset_plural: Ревизии
-  field_column_names: Колони
-  label_default_columns: По подразбиране
-  setting_issue_list_default_columns: Показвани колони по подразбиране
-  setting_repositories_encodings: Кодови таблици
-  notice_no_issue_selected: "Няма избрани задачи."
-  label_bulk_edit_selected_issues: Редактиране на задачи
-  label_no_change_option: (Без промяна)
-  notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
-  label_theme: Тема
-  label_default: По подразбиране
-  label_search_titles_only: Само в заглавията
-  label_nobody: никой
-  button_change_password: Промяна на парола
-  text_user_mail_option: "За неизбраните проекти, ще получавате известия само за наблюдавани дейности или в които участвате (т.е. автор или назначени на мен)."
-  label_user_mail_option_selected: "За всички събития само в избраните проекти..."
-  label_user_mail_option_all: "За всяко събитие в проектите, в които участвам"
-  label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
-  setting_emails_footer: Подтекст за e-mail
-  label_float: Дробно
-  button_copy: Копиране
-  mail_body_account_information_external: "Можете да използвате вашия %{value} профил за вход."
-  mail_body_account_information: Информацията за профила ви
-  setting_protocol: Протокол
-  label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
-  setting_time_format: Формат на часа
-  label_registration_activation_by_email: активиране на профила по email
-  mail_subject_account_activation_request: "Заявка за активиране на профил в %{value}"
-  mail_body_account_activation_request: "Има новорегистриран потребител (%{value}), очакващ вашето одобрение:"
-  label_registration_automatic_activation: автоматично активиране
-  label_registration_manual_activation: ръчно активиране
-  notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
-  field_time_zone: Часова зона
-  text_caracters_minimum: "Минимум %{count} символа."
-  setting_bcc_recipients: Получатели на скрито копие (bcc)
-  button_annotate: Анотация
-  label_issues_by: "Задачи по %{value}"
-  field_searchable: С възможност за търсене
-  label_display_per_page: "На страница по: %{value}"
-  setting_per_page_options: Опции за страниране
-  label_age: Възраст
-  notice_default_data_loaded: Примерната информацията е успешно заредена.
-  text_load_default_configuration: Зареждане на примерна информация
-  text_no_configuration_data: "Все още не са конфигурирани Роли, тракери, състояния на задачи и работен процес.\nСтрого се препоръчва зареждането на примерната информация. Веднъж заредена ще имате възможност да я редактирате."
-  error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
-  button_update: Обновяване
-  label_change_properties: Промяна на настройки
-  label_general: Основни
-  label_repository_plural: Хранилища
-  label_associated_revisions: Асоциирани ревизии
-  setting_user_format: Потребителски формат
-  text_status_changed_by_changeset: "Приложено с ревизия %{value}."
-  label_more: Още
-  text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
-  label_scm: SCM (Система за контрол на кода)
-  text_select_project_modules: 'Изберете активните модули за този проект:'
-  label_issue_added: Добавена задача
-  label_issue_updated: Обновена задача
-  label_document_added: Добавен документ
-  label_message_posted: Добавено съобщение
-  label_file_added: Добавен файл
-  label_news_added: Добавена новина
-  project_module_boards: Форуми
-  project_module_issue_tracking: Тракинг
-  project_module_wiki: Wiki
-  project_module_files: Файлове
-  project_module_documents: Документи
-  project_module_repository: Хранилище
-  project_module_news: Новини
-  project_module_time_tracking: Отделяне на време
-  text_file_repository_writable: Възможност за писане в хранилището с файлове
-  text_default_administrator_account_changed: Сменен фабричния администраторски профил
-  text_rmagick_available: Наличен RMagick (по избор)
-  button_configure: Конфигуриране
-  label_plugins: Плъгини
-  label_ldap_authentication: LDAP оторизация
-  label_downloads_abbr: D/L
-  label_this_month: текущия месец
-  label_last_n_days: "последните %{count} дни"
-  label_all_time: всички
-  label_this_year: текущата година
-  label_date_range: Период
-  label_last_week: последната седмица
-  label_yesterday: вчера
-  label_last_month: последния месец
-  label_add_another_file: Добавяне на друг файл
-  label_optional_description: Незадължително описание
-  text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
-  error_issue_not_found_in_project: 'Задачата не е намерена или не принадлежи на този проект'
-  text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
-  text_destroy_time_entries: Изтриване на отделеното време
-  text_reassign_time_entries: 'Прехвърляне на отделеното време към задача:'
-  setting_activity_days_default: Брой дни показвани на таб Дейност
-  label_chronological_order: Хронологичен ред
-  field_comments_sorting: Сортиране на коментарите
-  label_reverse_chronological_order: Обратен хронологичен ред
-  label_preferences: Предпочитания
-  setting_display_subprojects_issues: Показване на подпроектите в проектите по подразбиране
-  label_overall_activity: Цялостна дейност
-  setting_default_projects_public: Новите проекти са публични по подразбиране
-  error_scm_annotate: "Обектът не съществува или не може да бъде анотиран."
-  label_planning: Планиране
-  text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
-  label_and_its_subprojects: "%{value} и неговите подпроекти"
-  mail_body_reminder: "%{count} задачи, назначени на вас са с краен срок в следващите %{days} дни:"
-  mail_subject_reminder: "%{count} задачи с краен срок с следващите %{days} дни"
-  text_user_wrote: "%{value} написа:"
-  label_duplicated_by: дублирана от
-  setting_enabled_scm: Разрешена SCM
-  text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
-  text_enumeration_destroy_question: "%{count} обекта са свързани с тази стойност."
-  label_incoming_emails: Входящи e-mail-и
-  label_generate_key: Генериране на ключ
-  setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
-  setting_mail_handler_api_key: API ключ
-  text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/configuration.yml и рестартирайте Redmine, за да ги разрешите."
-  field_parent_title: Родителска страница
-  label_issue_watchers: Наблюдатели
-  setting_commit_logs_encoding: Кодова таблица на съобщенията при поверяване
-  button_quote: Цитат
-  setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
-  notice_unable_delete_version: Невъзможност за изтриване на версия
-  label_renamed: преименувано
-  label_copied: копирано
-  setting_plain_text_mail: само чист текст (без HTML)
-  permission_view_files: Разглеждане на файлове
-  permission_edit_issues: Редактиране на задачи
-  permission_edit_own_time_entries: Редактиране на собствените time logs
-  permission_manage_public_queries: Управление на публичните заявки
-  permission_add_issues: Добавяне на задачи
-  permission_log_time: Log spent time
-  permission_view_changesets: Разглеждане на changesets
-  permission_view_time_entries: Разглеждане на изразходваното време
-  permission_manage_versions: Управление на версиите
-  permission_manage_wiki: Управление на wiki
-  permission_manage_categories: Управление на категориите задачи
-  permission_protect_wiki_pages: Заключване на wiki страници
-  permission_comment_news: Коментиране на новини
-  permission_delete_messages: Изтриване на съобщения
-  permission_select_project_modules: Избор на проектни модули
-  permission_manage_documents: Управление на документи
-  permission_edit_wiki_pages: Редактиране на wiki страници
-  permission_add_issue_watchers: Добавяне на наблюдатели
-  permission_view_gantt: Разглеждане на мрежов график
-  permission_move_issues: Преместване на задачи
-  permission_manage_issue_relations: Управление на връзките между задачите
-  permission_delete_wiki_pages: Изтриване на wiki страници
-  permission_manage_boards: Управление на boards
-  permission_delete_wiki_pages_attachments: Изтриване на прикачени файлове
-  permission_view_wiki_edits: Разглеждане на wiki история
-  permission_add_messages: Публикуване на съобщения
-  permission_view_messages: Разглеждане на съобщения
-  permission_manage_files: Управление на файлове
-  permission_edit_issue_notes: Редактиране на бележки
-  permission_manage_news: Управление на новини
-  permission_view_calendar: Разглеждане на календари
-  permission_manage_members: Управление на членовете (на екип)
-  permission_edit_messages: Редактиране на съобщения
-  permission_delete_issues: Изтриване на задачи
-  permission_view_issue_watchers: Разглеждане на списък с наблюдатели
-  permission_manage_repository: Управление на хранилища
-  permission_commit_access: Поверяване
-  permission_browse_repository: Разглеждане на хранилища
-  permission_view_documents: Разглеждане на документи
-  permission_edit_project: Редактиране на проект
-  permission_add_issue_notes: Добаване на бележки
-  permission_save_queries: Запис на запитвания (queries)
-  permission_view_wiki_pages: Разглеждане на wiki
-  permission_rename_wiki_pages: Преименуване на wiki страници
-  permission_edit_time_entries: Редактиране на time logs
-  permission_edit_own_issue_notes: Редактиране на собствени бележки
-  setting_gravatar_enabled: Използване на портребителски икони от Gravatar
-  label_example: Пример
-  text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  permission_edit_own_messages: Редактиране на собствени съобщения
-  permission_delete_own_messages: Изтриване на собствени съобщения
-  label_user_activity: "Активност на %{value}"
-  label_updated_time_by: "Обновена от %{author} преди %{age}"
-  text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
-  setting_diff_max_lines_displayed: Максимален брой показани diff редове
-  text_plugin_assets_writable: Папката на приставките е разрешена за запис
-  warning_attachments_not_saved: "%{count} файла не бяха записани."
-  button_create_and_continue: Създаване и продължаване
-  text_custom_field_possible_values_info: 'Една стойност на ред'
-  label_display: Display
-  field_editable: Editable
-  setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
-  setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
-  field_watcher: Наблюдател
-  setting_openid: Рарешаване на OpenID вход и регистрация
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: или вход чрез OpenID
-  field_content: Съдържание
-  label_descending: Намаляващ
-  label_sort: Сортиране
-  label_ascending: Нарастващ
-  label_date_from_to: От %{start} до %{end}
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=
-  text_wiki_page_destroy_question: Тази страница има %{descendants} страници деца и descendant(s). Какво желаете да правите?
-  text_wiki_page_reassign_children: Преназначаване на страниците деца на тази родителска страница
-  text_wiki_page_nullify_children: Запазване на тези страници като коренни страници
-  text_wiki_page_destroy_children: Изтриване на страниците деца и всички техни descendants
-  setting_password_min_length: Минимална дължина на парола
-  field_group_by: Групиране на резултатите по
-  mail_subject_wiki_content_updated: "Wiki страницата '%{id}' не беше обновена"
-  label_wiki_content_added: Wiki страница беше добавена
-  mail_subject_wiki_content_added: "Wiki страницата '%{id}' беше добавена"
-  mail_body_wiki_content_added: Wiki страницата '%{id}' беше добавена от %{author}.
-  label_wiki_content_updated: Wiki страница беше обновена
-  mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
-  permission_add_project: Създаване на проект
-  setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
-  label_view_all_revisions: Разглеждане на всички ревизии
-  label_tag: Версия
-  label_branch: работен вариант
-  error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
-  error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
-  text_journal_changed: "%{label} променен от %{old} на %{new}"
-  text_journal_set_to: "%{label} установен на %{value}"
-  text_journal_deleted: "%{label} изтрит (%{old})"
-  label_group_plural: Групи
-  label_group: Група
-  label_group_new: Нова група
-  label_time_entry_plural: Използвано време
-  text_journal_added: "Добавено %{label} %{value}"
-  field_active: Активен
   enumeration_system_activity: Системна активност
-  permission_delete_issue_watchers: Изтриване на наблюдатели
-  version_status_closed: затворена
-  version_status_locked: заключена
-  version_status_open: отворена
-  error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
-  label_user_anonymous: Анонимен
-  button_move_and_follow: Преместване и продължаване
-  setting_default_projects_modules: Активирани модули по подразбиране за нов проект
-  setting_gravatar_default: Подразбиращо се изображение от Gravatar
-  field_sharing: Sharing
-  label_version_sharing_hierarchy: С проектна йерархия
-  label_version_sharing_system: С всички проекти
-  label_version_sharing_descendants: С подпроекти
-  label_version_sharing_tree: С дърво на проектите
-  label_version_sharing_none: Не споделен
-  error_can_not_archive_project: Този проект не може да бъде архивиран
-  button_duplicate: Дублиране
-  button_copy_and_follow: Копиране и продължаване
-  label_copy_source: Източник
-  setting_issue_done_ratio: Изчисление на процента на готови задачи с
-  setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
-  error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
-  error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
-  setting_issue_done_ratio_issue_field: Използване на поле '% Прогрес'
-  label_copy_same_as_target: Също като целта
-  label_copy_target: Цел
-  notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
-  error_workflow_copy_source: Моля изберете source тракер или роля
-  label_update_issue_done_ratios: Обновяване на процента на завършените задачи
-  setting_start_of_week: Първи ден на седмицата
-  permission_view_issues: Разглеждане на задачите
-  label_display_used_statuses_only: Показване само на състоянията, използвани от този тракер
-  label_revision_id: Ревизия %{value}
-  label_api_access_key: API ключ за достъп
-  label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
-  label_feeds_access_key: RSS access ключ
-  notice_api_access_key_reseted: Вашият API ключ за достъп беше изчистен.
-  setting_rest_api_enabled: Разрешаване на REST web сървис
-  label_missing_api_access_key: Липсващ API ключ
-  label_missing_feeds_access_key: Липсващ RSS ключ за достъп
-  button_show: Показване
-  text_line_separated: Позволени са много стойности (по едно на ред).
-  setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
-  permission_add_subprojects: Създаване на подпроекти
-  label_subproject_new: Нов подпроект
-  text_own_membership_delete_confirmation: |-
-    Вие сте на път да премахнете някои или всички ваши разрешения и е възможно след това на да не можете да редатирате този проект.
-    Сигурен ли сте, че искате да продължите?
-  label_close_versions: Затваряне на завършените версии
-  label_board_sticky: Sticky
-  label_board_locked: Заключена
-  permission_export_wiki_pages: Експорт на wiki страници
-  setting_cache_formatted_text: Cache formatted text
-  permission_manage_project_activities: Управление на дейностите на проекта
-  error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
-  label_profile: Профил
-  permission_manage_subtasks: Управление на подзадачите
-  field_parent_issue: Родителска задача
-  label_subtask_plural: Подзадачи
-  label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
-  error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
-  error_unable_to_connect: Невъзможност за свързване с (%{value})
-  error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
-  error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
-  field_principal: Principal
-  label_my_page_block: Блокове в личната страница
-  notice_failed_to_save_members: "Невъзможност за запис на член(ове): %{errors}."
-  text_zoom_out: Намаляване
-  text_zoom_in: Увеличаване
-  notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
-  label_overall_spent_time: Общо употребено време
-  field_time_entries: Log time
-  notice_not_authorized_archived_project: Проектът, който се опитвате да видите е архивиран.
-  text_tip_issue_end_day: задача, завършваща този ден
-  field_text: Текстово поле
-  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
-  field_member_of_group: Член на група
-  project_module_gantt: Мрежов график
-  text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
-  text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
-  setting_default_notification_option: Подразбиращ се начин за известяване
-  project_module_calendar: Календар
-  label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
-  text_tip_issue_begin_day: задача, започваща този ден
-  label_user_mail_option_only_assigned: Само за неща, назначени на мен
-  button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: %{page_title}"
-  field_assigned_to_role: Assignee's role
-  field_start_date: Начална дата
-  label_principal_search: "Търсене на потребител или група:"
-  label_user_search: "Търсене на потребител:"
-  field_visible: Видим
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Дейност при отчитане на работното време
-  text_time_logged_by_changeset: Приложено в ревизия %{value}.
-  setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
-  notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
-  setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
+
