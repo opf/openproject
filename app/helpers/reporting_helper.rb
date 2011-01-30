@@ -7,8 +7,9 @@ module ReportingHelper
   # parameters.
   # @param [CostQuery::Filter] the filter we want to render
   def html_elements(filter)
-    return text_elements filter if CostQuery::Operator.string_operators.all? { |o| filter.available_operators.include? o }
-    return date_elements filter if CostQuery::Operator.time_operators.all?   { |o| filter.available_operators.include? o }
+    return text_elements filter if CostQuery::Operator.string_operators.all?  { |o| filter.available_operators.include? o }
+    return text_elements filter if CostQuery::Operator.integer_operators.all? { |o| filter.available_operators.include? o } #FIXME: have special filters designed for integer-operators, to give feedback if the user doesn't enter an int etc.
+    return date_elements filter if CostQuery::Operator.time_operators.all?    { |o| filter.available_operators.include? o }
     return heavy_object_elements filter if filter.heavy?
     object_elements filter
   end
