@@ -1,1 +1,6 @@
 cost_reports_title: "Reports"
+
+label_open: 'Offen'
+label_closed: 'Geschlossen'
+label_less: "<"
+label_greater: ">"
