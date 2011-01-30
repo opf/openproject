@@ -15,7 +15,7 @@ de:
   label_less: "<"
   label_greater: ">"
 
-  text_costs_are_rounded_note: "Die angezeigten Werte sind gerunded. Alle Berechnungen basieren auf ungerundete Werte."
+  text_costs_are_rounded_note: "Die angezeigten Werte sind gerundet. Alle Berechnungen basieren auf ungerundeten Werte."
   information_restricted_depending_on_permission: "Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein."
 
   description_drill_down: Details anzeigen
