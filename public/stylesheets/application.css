@@ -783,6 +783,8 @@ background-image:url('../images/close_hl.png');
 }
 
 .gantt_subjects { font-size: 0.8em; }
+.gantt_subject { position: absolute; line-height: 1.2em; height: 16px; overflow: hidden; text-overflow: ellipsis; }
+.gantt_subject-text { float: left; white-space: nowrap; }
 
 .task {
   position: absolute;

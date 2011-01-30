@@ -263,7 +263,7 @@ module Redmine
       def subject_for_project(project, options)
         case options[:format]
         when :html
-          subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
+          subject = "<span class='gantt_subject-text icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
           subject << view.link_to_project(project)
           subject << '</span>'
           html_subject(options, subject, :css => "project-name")
@@ -301,7 +301,7 @@ module Redmine
       def subject_for_version(version, options)
         case options[:format]
         when :html
-          subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
+          subject = "<span class='gantt_subject-text icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
           subject << view.link_to_version(version)
           subject << '</span>'
           html_subject(options, subject, :css => "version-name")
@@ -345,7 +345,7 @@ module Redmine
           
         output = case options[:format]
         when :html
-          css_classes = ''
+          css_classes = 'gantt_subject-text'
           css_classes << ' issue-overdue' if issue.overdue?
           css_classes << ' issue-behind-schedule' if issue.behind_schedule?
           css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
@@ -357,7 +357,7 @@ module Redmine
           end
           subject << view.link_to_issue(issue)
           subject << '</span>'
-          html_subject(options, subject, :css => "issue-subject") + "\n"
+          html_subject(options, subject, :css => 'issue-subject') + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
@@ -709,7 +709,7 @@ module Redmine
       end
       
       def html_subject(params, subject, options={})
-        output = "<div class=' #{options[:css] }' style='position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;'>"
+        output = "<div class='gantt_subject #{options[:css] }' style='top:#{params[:top]}px;left:#{params[:indent]}px;width:#{params[:subject_width]-params[:indent]}px;'>"
         output << subject
         output << "</div>"
         @subjects << output
