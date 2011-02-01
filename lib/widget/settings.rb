@@ -3,11 +3,11 @@ class Widget::Settings < Widget::Base
     form_for @query, :url => "#", :html => {:id => 'query_form', :method => :post} do |query_form|
       content_tag :div, :id => "query_form_content" do
 
-        fieldsets = render_widget Widget::Settings::Fieldset, :type => "filter" do
+        fieldsets = render_widget Widget::Settings::Fieldset, @query, { :type => "filter" } do
           render_widget Widget::Filters, @query
         end
 
-        fieldsets += render_widget Widget::Settings::Fieldset, :type => "group_by" do
+        fieldsets += render_widget Widget::Settings::Fieldset, @query, { :type => "group_by" } do
           render_widget Widget::GroupBys, @query
         end
 
