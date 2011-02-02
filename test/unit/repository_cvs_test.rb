@@ -27,7 +27,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   MODULE_NAME = 'test'
   
   def setup
-    @project = Project.find(1)
+    @project = Project.find(3)
     assert @repository = Repository::Cvs.create(:project => @project, 
                                                 :root_url => REPOSITORY_PATH,
                                                 :url => MODULE_NAME)
