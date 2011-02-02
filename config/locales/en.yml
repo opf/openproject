@@ -818,7 +818,8 @@ en:
   label_path_encoding: Path encoding
   label_deleted_custom_field: '(deleted custom field)'
   label_toc: "Contents"
-
+  label_mail_handler_confirmation: "Confirmation of email submission: {{subject}}"
+  
   button_login: Login
   button_submit: Submit
   button_save: Save
@@ -943,7 +944,8 @@ en:
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
   text_display_subprojects: Display subprojects
   text_current_project: Current project
-
+  text_mail_handler_confirmation_successful: "Your email has been successful added at the following url"
+  
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter

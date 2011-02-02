@@ -39,6 +39,8 @@ class MailHandlerTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
+    Setting.mail_handler_confirmation_on_success = true
+    Setting.mail_handler_confirmation_on_failure = true
   end
 
   def test_add_issue
@@ -67,6 +69,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.description.match(/^Status:/i)
     assert !issue.description.match(/^Start Date:/i)
     # Email notification should be sent
+    assert_equal 2, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert mail.subject.include?('New ticket on a given project')
@@ -289,7 +292,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_add_issue_note
@@ -454,6 +457,28 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(Issue)
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
+  end
+
+  context "#receive_issue" do
+    should "deliver an email confirmation when configured" do
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_on_given_project.eml')
+      
+      assert_equal 2, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[OnlineStore]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: New ticket on a given project'), "Main subject missing"
+      assert mail.body.include?("/issues/#{issue.reload.id}"), "Link to issue missing"
+    end
+  end
+
+  context "#receive_issue_reply" do
+    should "deliver an email confirmation when configured"
+  end
+
+  context "#receive_message_reply" do
+    should "deliver an email confirmation when configured"
   end
 
   private

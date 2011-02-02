@@ -285,6 +285,15 @@ class Mailer < ActionMailer::Base
     render_multipart('register', body)
   end
 
+  def mail_handler_confirmation(object, user, email_subject)
+    recipients user.mail
+    project = object.try(:project).try(:name) || ''
+    subject "[#{project}] #{l(:label_mail_handler_confirmation, :subject => email_subject)}"
+    body(:object => object,
+         :url => url_for(:controller => 'issues', :action => 'show', :id => object.id))
+    render_multipart('mail_handler_confirmation', body)
+  end
+
   def test(user)
     redmine_headers 'Type' => "Test"
     set_language_if_valid(user.language)
