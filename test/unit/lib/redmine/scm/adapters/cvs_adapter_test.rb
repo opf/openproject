@@ -19,6 +19,15 @@ begin
         end
         assert_equal 14, cnt
       end
+
+      def test_revisions_from_rev3
+        rev3_committed_on = Time.gm(2007, 12, 13, 16, 27, 22)
+        cnt = 0
+        @adapter.revisions('', rev3_committed_on, nil, :with_paths => true) do |revision|
+          cnt += 1
+        end
+        assert_equal 2, cnt
+      end
     else
       puts "Cvs test repository NOT FOUND. Skipping unit tests !!!"
       def test_fake; assert true end
