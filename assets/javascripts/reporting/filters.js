@@ -137,7 +137,25 @@ Reporting.onload(function () {
   });
   $$(".filter_rem").each(function (e) {
     e.observe("click", function () {
-      Reporting.Filters.remove_filter(e.id.replace(/^rm_/, ""));
+      var filter_name = this.getAttribute("data-filter-name");
+      Reporting.Filters.remove_filter(filter_name);
     });
+  });
+  $$(".filter_operator").each(function (e) {
+    e.observe("change", function () {
+      var filter_name = this.getAttribute("data-filter-name");
+      Reporting.Filters.operator_changed(filter_name, this);
+    });
+  });
+  $$(".filter_multi-select").each(function (e) {
+    e.observe("click", function () {
+      Reporting.Filters.toggle_multi_select($(this.getAttribute("data-filter-name") + '_arg_1_val'));
+    });
+  });
+  $$(".filters-select").each(function (s) {
+    var selected_size = Array.from(s.options).findAll(function (o) {
+      return o.selected === true;
+    }).size();
+    s.multiple = (selected_size > 1);
   });
 });

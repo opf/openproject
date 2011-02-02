@@ -3,7 +3,8 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
     content_tag :td, :width => "25px" do
       tag :input, :id => "rm_#{filter_class.underscore_name}",
         :name => "fields[]", :type => "button", :value => "",
-        :class => "icon filter_rem icon-filter-rem"
+        :class => "icon filter_rem icon-filter-rem",
+        :"data-filter-name" => filter_class.underscore_name
     end
   end
 end
