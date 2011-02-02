@@ -52,24 +52,21 @@ Reporting.Filters = {
       }
       display_functor(field_el);
       Reporting.Filters.operator_changed(field, $("operators_" + field));
-      Reporting.Filters.display_category(field_el, options.show_filter);
+      Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
   },
 
-  display_category: function (tr_field, show) {
-    if (show === undefined) {
-      show = true;
-    }
-    var label = $(tr_field.getAttribute("data-label"));
+  /* Display the given category if any of its filters are visible. Otherwise hide it */
+  display_category: function (label) {
     if (label !== null) {
       var filters = $$('.filter');
       for (var i = 0; i < filters.length; i += 1) {
-        if (filters[i].visible() === show && filters[i].getAttribute("data-label") === label) {
-          return; // No need to show/hide
+        if (filters[i].visible() && filters[i].getAttribute("data-label") === label) {
+          Element.show(label);
+          return;
         }
       }
-      var display_functor = show ? Element.show : Element.hide;
-      display_functor(label);
+      Element.hide(label);
     }
   },
 
