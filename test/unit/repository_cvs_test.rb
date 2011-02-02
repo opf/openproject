@@ -35,6 +35,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @repository.reload
       
@@ -44,6 +45,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
     
     def test_fetch_changesets_incremental
+      assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       # Remove the 3 latest changesets
       @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
@@ -55,6 +57,11 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     end
     
     def test_deleted_files_should_not_be_listed
+      assert_equal 0, @repository.changesets.count
+      @repository.fetch_changesets
+      @repository.reload
+      assert_equal 5, @repository.changesets.count
+
       entries = @repository.entries('sources')
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
