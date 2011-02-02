@@ -27,6 +27,9 @@ Reporting.Filters = {
   },
 
   show_filter: function (field, options) {
+    if (options === undefined) {
+      options = {};
+    }
     if (options.callback_func === undefined) {
       options.callback_func = function () {};
     }
