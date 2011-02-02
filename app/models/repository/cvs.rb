@@ -104,8 +104,8 @@ class Repository::Cvs < Repository
       scm.revisions('', fetch_since, nil, :with_paths => true) do |revision|
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all. 
-        unless changes.find_by_path_and_revision(scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
-          revision
+        unless changes.find_by_path_and_revision(
+	           scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
           cs = changesets.find(:first, :conditions=>{
             :committed_on=>revision.time-time_delta..revision.time+time_delta,
             :committer=>revision.author,
@@ -116,7 +116,6 @@ class Repository::Cvs < Repository
           unless cs
             # we use a temporaray revision number here (just for inserting)
             # later on, we calculate a continous positive number
-            latest = changesets.find(:first, :order => 'id DESC')
             cs = Changeset.create(:repository => self,
                                   :revision => "_#{tmp_rev_num}", 
                                   :committer => revision.author, 
@@ -144,7 +143,9 @@ class Repository::Cvs < Repository
       end
       
       # Renumber new changesets in chronological order
-      changesets.find(:all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE '_%'").each do |changeset|
+      changesets.find(
+              :all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE '_%'"
+           ).each do |changeset|
         changeset.update_attribute :revision, next_revision_number
       end
     end # transaction
