@@ -135,4 +135,9 @@ Reporting.onload(function () {
   $("add_filter_select").observe("change", function () {
     Reporting.Filters.add_filter(this);
   });
+  $$(".filter_rem").each(function (e) {
+    e.observe("click", function () {
+      Reporting.Filters.remove_filter(e.id.replace(/^rm_/, ""));
+    });
+  });
 });
