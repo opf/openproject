@@ -135,13 +135,23 @@ class Report < ActiveRecord::Base
   end
 
   def hash
-    filter_string = filters.inject("") do |str, f|
-      str + f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
-    end
-    filter_string = group_bys.collect(&:class).sort_by(&:underscore_name).inject(filter_string) do |string, gb|
-      string.concat(gb.underscore_name)
-    end
-    filter_string.hash
+    report_string = ""
+    
+    report_string.concat('filters: [')
+    report_string.concat(filters.map { |f| 
+      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "") 
+    }.sort.join(', '))
+    report_string.concat(']')
+
+    report_string.concat(', group_bys: {')
+
+    report_string.concat(group_bys.group_by(&:type).map { |t, gbs| 
+      "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
+    }.join(', '))
+    
+    report_string.concat('}')
+
+    report_string.hash
   end
 
   def == another_report
@@ -153,5 +163,4 @@ class Report < ActiveRecord::Base
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
   end
-
 end
