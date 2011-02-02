@@ -107,7 +107,7 @@ Reporting.Filters = {
   },
 
   select_option_enabled: function (box, value, state) {
-    box.select("[value='" + value + "']").first().disabled = state;
+    box.select("[value='" + value + "']").first().disabled = !state;
   },
 
   multi_select: function (select, multi) {
