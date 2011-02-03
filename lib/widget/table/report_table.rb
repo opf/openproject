@@ -17,15 +17,14 @@ class Widget::Table::ReportTable < Widget::Table
 
   def configure_walker
     walker.for_final_row do |row, cells|
-      final_row_html = ""
-      final_row_html += content_tag :th, :class => 'normal inner left' do
+      final_row_html = content_tag :th, :class => 'normal inner left' do
         "#{show_row(row)}#{debug_fields(row)}"
       end
       final_row_html += cells.join
       final_row_html += content_tag :th, :class => 'normal inner right' do
-        "#{show_row(row)}#{debug_fields(row)}"
+        "#{show_result(row)}#{debug_fields(row)}"
       end
-      final_row_html
+      final_row_html.html_safe
     end
 
     walker.for_row do |row, subrows|
@@ -37,7 +36,7 @@ class Widget::Table::ReportTable < Widget::Table
         end
         subrows[0].gsub("class='normal'", "class='top'")
         subrows[0] += content_tag(:th, :class => 'top right', :rowspan => subrows.size) do
-          "#{show_row(row)}#{debug_fields(row)}"
+          "#{show_result(row)}#{debug_fields(row)}"
         end
       end
       subrows.last.gsub!("class='normal", "class='bottom")
@@ -46,13 +45,15 @@ class Widget::Table::ReportTable < Widget::Table
     end
 
     walker.for_empty_cell do
-      content_tag(:td, :class =>'normal empty') { "&nbsp;".html_safe }
+      content_tag(:td, :class =>'normal empty') do
+        "&nbsp;".html_safe
+      end
     end
 
     walker.for_cell do |result|
       content_tag :td, :class => 'normal right' do
         "#{show_result(result)}#{debug_fields(result)}"
-      end
+      end.html_safe
     end
   end
 
@@ -85,8 +86,10 @@ class Widget::Table::ReportTable < Widget::Table
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
         reverse_headers += '<tr>'
-        reverse_headers += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
-          "&nbsp;".html_safe if first
+        if first
+          reverse_headers += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
+            "&nbsp;".html_safe
+          end
         end
       end
 
@@ -98,11 +101,11 @@ class Widget::Table::ReportTable < Widget::Table
       if last_in_col
         if first
           reverse_headers += content_tag :th,
-          :rowspan => @query.depth_of(:column),
-          :colspan => @query.depth_of(:row),
-          :class => 'top result' do
-            show_result @query
-          end
+            :rowspan => @query.depth_of(:column),
+            :colspan => @query.depth_of(:row),
+            :class => 'top result' do
+              show_result @query
+          end.html_safe
         end
         reverse_headers += '</tr>'
       end
