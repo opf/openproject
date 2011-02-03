@@ -24,18 +24,16 @@ class Widget::Table < Widget::Base
   end
 
   def render
-    if @query.group_bys.empty?
-      widget = Widget::Table::DetailedTable
-    elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
-      widget = Widget::Table::SimpleTable
-    else
-      if @query.depth_of(:row) == 0
-        @query.column(:singleton_value)
-      elsif @query.depth_of(:column) == 0
-        @query.row(:singleton_value)
-      end
-      widget = Widget::Table::ReportTable
-    end
+    # if @query.depth_of(:column) + @query.depth_of(:row) == 1
+    #   widget = Widget::Table::SimpleTable
+    # else
+    #   if @query.depth_of(:row) == 0
+    #     @query.column(:singleton_value)
+    #   elsif @query.depth_of(:column) == 0
+    #     @query.row(:singleton_value)
+    #   end
+    # end
+    widget = Widget::Table::ReportTable
     content_tag :div, :id => "result-table" do
       if @query.result.count > 0
         render_widget widget, @query, { :debug => debug? }
