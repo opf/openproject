@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+#-- encoding: utf-8 -8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -304,15 +304,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
-  test "reply to issue update (Journal) by message_id" do
-    journal = submit_email('ticket_reply_by_message_id.eml')
-    assert journal.is_a?(IssueJournal), "Email was a #{journal.class}"
-    assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journaled
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
-  end
-
   def test_add_issue_note_with_attribute_changes
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
@@ -336,7 +327,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
   def test_add_issue_note_should_not_set_defaults
@@ -474,7 +465,17 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   context "#receive_issue_reply" do
-    should "deliver an email confirmation when configured"
+    should "deliver an email confirmation when configured" do
+      journal = submit_email('ticket_reply.eml')
+
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[eCookbook]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: Re: Add ingredients categories'), "Main subject missing"
+      assert mail.body.include?("/issues/2"), "Link to issue missing"
+    end
+    
   end
 
   context "#receive_message_reply" do

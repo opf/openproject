@@ -287,10 +287,22 @@ class Mailer < ActionMailer::Base
 
   def mail_handler_confirmation(object, user, email_subject)
     recipients user.mail
-    project = object.try(:project).try(:name) || ''
+
+    case
+    when object.is_a?(Issue)
+      project = object.project.name
+      url = url_for(:controller => 'issues', :action => 'show', :id => object.id)
+    when object.is_a?(Journal)
+      project = object.project.name
+      url = url_for(:controller => 'issues', :action => 'show', :id => object.issue.id)
+    else
+      project = ''
+      url = ''
+    end
+    
     subject "[#{project}] #{l(:label_mail_handler_confirmation, :subject => email_subject)}"
     body(:object => object,
-         :url => url_for(:controller => 'issues', :action => 'show', :id => object.id))
+         :url => url)
     render_multipart('mail_handler_confirmation', body)
   end
 

@@ -818,7 +818,7 @@ en:
   label_path_encoding: Path encoding
   label_deleted_custom_field: '(deleted custom field)'
   label_toc: "Contents"
-  label_mail_handler_confirmation: "Confirmation of email submission: {{subject}}"
+  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
   
   button_login: Login
   button_submit: Submit
