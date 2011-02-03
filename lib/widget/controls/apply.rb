@@ -8,7 +8,7 @@ class Widget::Controls::Apply < Widget::Base
             '#{url_for(:action => 'index', :set_filter => '1')}',
             { asynchronous:true,
                     evalScripts:true,
-                    postBody: Form.serialize('query_form') + '\\n' + $('filters').innerHTML });
+                    postBody: Form.serialize('query_form') + '\\n' + $('filter_table').innerHTML});
                     return false;".html_safe,
           :class => 'button apply'}) do
         content_tag(:span, content_tag(:em, l(:button_apply)))
