@@ -28,84 +28,12 @@ Reporting.require("group_bys");
 Reporting.require("restore_query");
 
 //
-// /*global $, selectAllOptions, moveOptions */
-//
 // function hide_category(tr_field) {
 //     var label = $(tr_field.getAttribute("data-label"));
 //     if (label !== null) {
 //         label.hide();
 //     }
 // }
-//
-// function set_remove_button_visibility(field, value) {
-//     var remove = $('rm_' + field);
-//     if (remove !== null) {
-//         if (value === true) {
-//             remove.show();
-//         } else {
-//             remove.hide();
-//         }
-//     }
-// }
-//
-// function occupied_category(tr_field) {
-//     var i, data_label, filters;
-//     data_label = tr_field.getAttribute("data-label");
-//     filters = document.getElementsByClassName('filter');
-//     for (i = 0; i < filters.length; i += 1) {
-//         if (filters[i].visible() && filters[i].getAttribute("data-label") === data_label) {
-//             return true;
-//         }
-//     }
-//     return false; //not hit
-// }
-//
-// function hide_filter(field, slowly) {
-//     var field_el, operator_select;
-//     field_el = $('tr_' +  field);
-//     if (field_el !== null) {
-//         $('rm_' + field).value = "";
-//         if (slowly) {
-//             new Effect.Fade(field_el);
-//         } else {
-//             field_el.hide();
-//         }
-//         operator_select = $("operators_" + field);
-//         if (operator_select !== null) {
-//             // in case the filter doesn't have an operator select field'
-//             operator_changed(field, $("operators_" + field));
-//         }
-//         if (!occupied_category(field_el)) {
-//             hide_category(field_el);
-//         }
-//     }
-// }
-//
-// function remove_filter(field) {
-//     hide_filter(field, true);
-//     enable_select_option($("add_filter_select"), field);
-// }
-//
-// function show_group_by(group_by, target) {
-//     var source, group_option, i;
-//     source = $("group_by_container");
-//     group_option = null;
-//     // find group_by option-tag in target select-box
-//     for (i = 0; i < source.options.length; i += 1) {
-//         if (source.options[i].value === group_by) {
-//             group_option = source.options[i];
-//             source.options[i] = null;
-//             break;
-//         }
-//     }
-//     // die if the appropriate option-tag can not be found
-//     if (group_option === null) {
-//         return;
-//     }
-//     // move the option-tag to the taget select-box while keepings its data
-//     target.options[target.length] = group_option;
-// }
-//
 //
 // function restore_select_values(select, values) {
 //     var i, j;
@@ -126,71 +54,6 @@ Reporting.require("restore_query");
 //             }
 //         }
 //     }
-// }
-//
-// function find_arguments(field) {
-//     var args = [], arg_count = 0, arg = null;
-//     arg = $(field + '_arg_' + (arg_count + 1) + '_val');
-//     while (arg !== null) {
-//         args[args.length] = arg;
-//         arg_count = arg_count + 1;
-//         arg = $(field + '_arg_' + (arg_count + 1) + '_val');
-//     }
-//     return args;
-// }
-//
-// function restore_values(field, values) {
-//     var op_select, op_arity, args, i;
-//     op_select = $("operators_" + field);
-//     if (op_select !== null) {
-//         op_arity = op_select.options[op_select.selectedIndex].getAttribute("data-arity");
-//     }
-//     else {
-//         op_arity = 0;
-//     }
-//     args = find_arguments(field);
-//     if (args.size() === 0) {
-//         return; // there are no values to set
-//     }
-//     if (!Object.isArray(values)) {
-//         values = [values];
-//     }
-//     if (op_arity < 0 && !(args[0].type.empty()) && args[0].type.include('select')) {
-//         restore_select_values(args[0], values);
-//     } else {
-//         for (i = 0; i < values.length && i < args.length; i += 1) {
-//             args[i].setValue(values[i]);
-//         }
-//     }
-// }
-//
-// function serialize_filter_and_group_by() {
-//     var ret_str, rows, columns;
-//     ret_str = Form.serialize('query_form');
-//     rows = Sortable.serialize('group_rows');
-//     columns = Sortable.serialize('group_columns');
-//     if (rows !== null && rows !== "") {
-//         ret_str += "&" + rows;
-//     }
-//     if (columns !== null && columns !== "") {
-//         ret_str += "&" + columns;
-//     }
-//     return ret_str;
-// }
-//
-// function init_group_bys() {
-//     var options = {
-//         tag: 'span',
-//         overlap: 'horizontal',
-//         constraint: 'horizontal',
-//         containment: ['group_columns', 'group_rows'],
-//         //only: "group_by",
-//         dropOnEmpty: true,
-//         format: /^(.*)$/,
-//         hoverclass: 'drag_container_accept'
-//     };
-//     Sortable.create('group_columns', options);
-//     Sortable.create('group_rows', options);
 // }
 //
 // function defineElementGetter() {

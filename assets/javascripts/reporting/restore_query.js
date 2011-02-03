@@ -3,7 +3,7 @@
 
 Reporting.RestoreQuery = {
   restore_filters: function () {
-    var group_bys = $('filter_table').select("tr").select(function (row) {
+    $('filter_table').select("tr").select(function (row) {
       return $(row).getAttribute("data-selected") === "true";
     }).each(function (row) {
       var field = row.className;

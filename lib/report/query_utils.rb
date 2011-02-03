@@ -158,22 +158,55 @@ module Report::QueryUtils
     "THEN #{field_name_for v}" }}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
-  def typed(type, value, escape = true)
-    value = "'#{quote_string value}'" if escape
-    return value unless postgresql?
-    "#{value}::#{type}"
-  end
-
   def iso_year_week(field, default_table = nil)
     field = field_name_for(field, default_table)
-    "-- code specific for #{adapter_name}\n\t" << \
-    if mysql?
+    "-- code specific for #{adapter_name}\n\t" << super(field)
+  end
+
+  def map_field(key, value)
+    if key.to_s == "singleton_value"
+      value.to_i
+    else
+      value.to_s
+    end
+  end
+
+  def adapter_name
+    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+  end
+
+  def cache
+    Report::QueryUtils.cache
+  end
+
+  def mysql?
+    [:mysql, :mysql2].include? adapter_name.to_s.downcase.to_sym
+  end
+
+  def sqlite?
+    adapter_name == :sqlite
+  end
+
+  def postgresql?
+    adapter_name == :postgresql
+  end
+
+  module SQL
+    def typed(type, value, escape = true)
+      escape ? "'#{quote_string value}'" : value
+    end
+  end
+
+  module MySql
+    include SQL
+    def iso_year_week(field)
       "yearweek(#{field}, 1)"
-    elsif postgresql?
-      "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
-      "EXTRACT(week from #{field} - \n\t\t" \
-      "(EXTRACT(dow FROM #{field})::int+6)%7))"
-    elsif sqlite?
+    end
+  end
+
+  module Sqlite
+    include SQL
+    def iso_year_week(field)
       # enjoy
       <<-EOS
         case
@@ -205,38 +238,25 @@ module Report::QueryUtils
             end
         end
       EOS
-    else
-      fail "#{adapter_name} not supported"
     end
   end
 
-  def map_field(key, value)
-    if key.to_s == "singleton_value"
-      value.to_i
-    else
-      value.to_s
+  module Postres
+    include SQL
+    def typed(type, value, escape = true)
+      "#{super}::#{type}"
+    end
+
+    def iso_year_week(field)
+      "(EXTRACT(isoyear from #{field})*100 + \n\t\t" \
+      "EXTRACT(week from #{field} - \n\t\t" \
+      "(EXTRACT(dow FROM #{field})::int+6)%7))"
     end
   end
 
-  def adapter_name
-    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
-  end
-
-  def cache
-    Report::QueryUtils.cache
-  end
-
-  def mysql?
-    [:mysql, :mysql2].include? adapter_name.to_s.downcase.to_sym
-  end
-
-  def sqlite?
-    adapter_name == :sqlite
-  end
-
-  def postgresql?
-    adapter_name == :postgresql
-  end
+  include MySql if mysql?
+  include Sqlite if sqlite?
+  include Postres if postgresql?
 
   def self.cache
     @cache ||= Hash.new { |h,k| h[k] = {} }

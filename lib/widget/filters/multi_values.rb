@@ -24,9 +24,10 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
             end
           end.join.html_safe
         end
-        plus = link_to_function image_tag('bullet_toggle_plus.png'),
-            "toggle_multi_select($('#{filter_class.underscore_name}_arg_1_val'));",
-            :style => "vertical-align: bottom;"
+        plus = image_tag 'bullet_toggle_plus.png',
+                  :class => "filter_multi-select",
+                  :style => "vertical-align: bottom;",
+                  :"data-filter-name" => filter_class.underscore_name
         box + plus
       end
     end

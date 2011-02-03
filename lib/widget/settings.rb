@@ -11,24 +11,15 @@ class Widget::Settings < Widget::Base
           render_widget Widget::GroupBys, @query
         end
 
-        buttons = content_tag :p, :class => "buttons form_controls" do
-          p = link_to({}, {:href => "#",
-                  :onclick => "
-                  selectAllOptions('group_by_rows');
-                  selectAllOptions('group_by_columns');
-                  new Ajax.Updater('result-table',
-                  '#{url_for(:action => 'index', :set_filter => '1')}',
-                  { asynchronous:true,
-                    evalScripts:true,
-                    postBody: Form.serialize('query_form') + '\\n' + $('filters').innerHTML });
-                  return false;".html_safe,
-                  :class => 'button apply'}) do
-            content_tag(:span, content_tag(:em, l(:button_apply)))
-          end
-          p += link_to_function l(:button_reset), "restore_query_inputs();", :class => 'icon icon-reload'
+        controls = content_tag :p, :class => "buttons form_controls" do
+          widgets = render_widget(Widget::Controls::Apply, @query)
+          render_widget(Widget::Controls::Save, @query, :to => widgets)
+          render_widget(Widget::Controls::SaveAs, @query, :to => widgets)
+          render_widget(Widget::Controls::Reset, @query, :to => widgets)
+          render_widget(Widget::Controls::Delete, @query, :to => widgets)
         end
 
-        fieldsets + buttons
+        fieldsets + controls
       end
     end
   end
