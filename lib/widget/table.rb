@@ -3,7 +3,6 @@ class Widget::Table < Widget::Base
   include ReportingHelper # FIXME ugs in the ugly. have to think of something else for mapping stuff
 
   inherited_attribute :debug, :default => false
-  inherited_attribute :mapping, :default => {}
 
   def initialize(query, options = {})
     raise ArgumentError, "Tables only work on Reports!" unless query.is_a? Report
@@ -46,7 +45,4 @@ class Widget::Table < Widget::Base
     end
   end
 
-  def represent_field
-
-  end
 end
