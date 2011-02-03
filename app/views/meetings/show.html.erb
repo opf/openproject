@@ -12,6 +12,7 @@
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
   <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
+  <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.join(", ") %></p>
 </div>
 
 <div class="meeting meeting-content meeting-agenda">

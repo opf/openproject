@@ -7,7 +7,7 @@ class MeetingsController < ApplicationController
   before_filter :authorize
 
   def index
-    @meetings = @project.meetings.find(:all, :order => 'created_at DESC')
+    @meetings = @project.meetings.find(:all, :order => 'start_time DESC')
   end
 
   def show
@@ -57,7 +57,7 @@ class MeetingsController < ApplicationController
   end
   
   def find_meeting
-    @meeting = Meeting.find(params[:id], :include => [:project, :author, :participants, :agenda, :minutes])
+    @meeting = Meeting.find(params[:id], :include => [:project, :author, {:participants => :user}, :agenda, :minutes])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404

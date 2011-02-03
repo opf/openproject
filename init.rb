@@ -7,6 +7,8 @@ Dispatcher.to_prepare do
   Project.send(:include, ::Plugin::Meeting::Project)
 end
 
+require_dependency 'redmine_meeting/view_hooks'
+
 Redmine::Plugin.register :redmine_meeting do
   name 'Redmine Meeting'
   author 'Felix Schäfer @ finnlabs'
