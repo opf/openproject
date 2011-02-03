@@ -479,7 +479,17 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   context "#receive_message_reply" do
-    should "deliver an email confirmation when configured"
+    should "deliver an email confirmation when configured" do
+      ActionMailer::Base.deliveries.clear
+      m = submit_email('message_reply.eml')
+
+      assert_equal 2, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[eCookbook]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: Reply via email'), "Main subject missing"
+      assert mail.body.include?("/boards/1/topics/1"), "Link to message missing"
+    end
   end
 
   private

@@ -192,6 +192,7 @@ class MailHandler < ActionMailer::Base
         reply.board = message.board
         message.children << reply
         add_attachments(reply)
+        Mailer.deliver_mail_handler_confirmation(message, user, reply.subject) if Setting.mail_handler_confirmation_on_success
         reply
       else
         logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic" if logger && logger.info
