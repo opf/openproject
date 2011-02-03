@@ -18,7 +18,7 @@ module GlobalRoles
       end
 
       def global_permissions
-        @global_permissions ||= @permissions.select {|p| p.global?}
+        @permissions.select {|p| p.global?}
       end
     end
   end
