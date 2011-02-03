@@ -1,2 +1,4 @@
-class Widget::Table::DetailedTable < Widget::Base
+class Widget::Table::DetailedTable < Widget::Table
+  def render
+  end
 end
