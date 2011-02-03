@@ -12,6 +12,7 @@
   border-collapse:  collapse;
   border:           solid 1px #ccc !important;
   width:            auto !important;
+  font-size: 11px;
 }
 
 .report td, .report th {
@@ -74,6 +75,7 @@
 
 .report .result {
   font-size: 120%;
+  text-align: right;
 }
 
 .report thead tr:hover .inner, .report tfoot tr:hover .inner {
