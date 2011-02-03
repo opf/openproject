@@ -110,8 +110,10 @@ module CostsUserPatch
             else
               roles[role] = users
             end
+            
             roles
           end
+          roles
         end
 
         allowing_role = roles.detect(&allowed_for_role)
