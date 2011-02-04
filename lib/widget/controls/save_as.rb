@@ -8,7 +8,7 @@ class Widget::Controls::SaveAs < Widget::Base
     content_tag :span do
       button = link_to link_name, {}, :class => 'breadcrumb_icon icon-save-as',
           :id => 'query-icon-save-as', :title => l(:button_save_as)
-      button_form + render_popup
+      button + render_popup
     end
   end
 
