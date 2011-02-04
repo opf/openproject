@@ -14,6 +14,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
             options = args.first || {} # optional configuration for values
             level = options[:level] # nesting_level is optional for values
             name = l(name) if name.is_a? Symbol
+            name = name.empty? ? l(:label_none) : name
             name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
             unless options[:optgroup]
               opts = { :value => id }
