@@ -81,6 +81,7 @@ Reporting.onload(function () {
     Reporting.Controls.query_name_editor('query_saved_name');
   }
   $("query-icon-delete").observe("click", Reporting.Controls.toggle_delete_form);
+  $("query-icon-delete-cancel").observe("click", Reporting.Controls.toggle_delete_form);
   $("query-icon-save-as").observe("click", Reporting.Controls.toggle_save_as_form);
   $("query-icon-save-as-cancel").observe("click", Reporting.Controls.toggle_save_as_form);
   $('save_as_form').hide();
