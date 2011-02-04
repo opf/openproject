@@ -5,12 +5,10 @@ class Widget::Controls::SaveAs < Widget::Base
     else
       link_name = l(:button_save_as)
     end
-    content_tag :span do
-      button = link_to link_name, "#",
-          :class => 'breadcrumb_icon icon-save-as',
-          :id => 'query-icon-save-as', :title => l(:button_save_as)
-      button + render_popup
-    end
+    button = link_to link_name, "#",
+        :class => 'breadcrumb_icon icon-save-as',
+        :id => 'query-icon-save-as', :title => l(:button_save_as)
+    button + render_popup
   end
 
   def render_popup_form
