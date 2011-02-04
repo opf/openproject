@@ -327,6 +327,11 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
+.form_controls {
+  font-size: 13px;
+  line-height: 18px;
+}
+
 .buttons .reporting_button:hover {
   background-color: #666666;
 }
