@@ -45,6 +45,7 @@
 .report th {
   border: dotted 1px #ccc;
   background-color: #e3e3e3 !important;
+  text-align: right !important;
 }
 
 .report th.inner {
@@ -83,12 +84,12 @@
 }
 
 .report .left {
-  text-align: left;
+  text-align: left !important;
   padding-left: 5px;
 }
 
 .report .right {
-  text-align: right;
+  text-align: right !important;
   padding-right: 5px;
 }
 
