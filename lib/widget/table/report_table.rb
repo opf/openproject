@@ -20,11 +20,11 @@ class Widget::Table::ReportTable < Widget::Table
       final_row_html = content_tag :th, :class => 'normal inner left' do
         "#{show_row(row)}#{debug_fields(row)}"
       end
-      final_row_html += cells.join
+      final_row_html += cells.join.html_safe
       final_row_html += content_tag :th, :class => 'normal inner right' do
         "#{show_result(row)}#{debug_fields(row)}"
       end
-      final_row_html.html_safe
+      final_row_html
     end
 
     walker.for_row do |row, subrows|
@@ -46,21 +46,21 @@ class Widget::Table::ReportTable < Widget::Table
 
     walker.for_empty_cell do
       content_tag(:td, :class =>'normal empty') do
-        "&nbsp;".html_safe
+        " "
       end
     end
 
     walker.for_cell do |result|
       content_tag :td, :class => 'normal right' do
         "#{show_result(result)}#{debug_fields(result)}"
-      end.html_safe
+      end
     end
   end
 
   def header
     header_content = ""
     walker.headers do |list, first, first_in_col, last_in_col|
-      header_content += '<tr>'.html_safe if first_in_col
+      header_content += '<tr>' if first_in_col
       if first
         header_content += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
           ""
@@ -76,7 +76,7 @@ class Widget::Table::ReportTable < Widget::Table
           ""
         end
       end
-      header_content += '</tr>'.html_safe if last_in_col
+      header_content += '</tr>' if last_in_col
     end
     content_tag :thead, header_content.html_safe
   end
@@ -88,7 +88,7 @@ class Widget::Table::ReportTable < Widget::Table
         reverse_headers += '<tr>'
         if first
           reverse_headers += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
-            "&nbsp;".html_safe
+            " "
           end
         end
       end
@@ -105,7 +105,7 @@ class Widget::Table::ReportTable < Widget::Table
             :colspan => @query.depth_of(:row),
             :class => 'top result' do
               show_result @query
-          end.html_safe
+          end
         end
         reverse_headers += '</tr>'
       end
@@ -122,7 +122,7 @@ class Widget::Table::ReportTable < Widget::Table
         first = false
       end
       walker_body += content_tag :tr, :class => cycle("odd", "even") do
-        line.html_safe
+        line
       end
     end
     content_tag :tbody, walker_body.html_safe
