@@ -1,7 +1,12 @@
 class Widget::Controls::SaveAs < Widget::Base
   def render
+    if @query.new_record?
+      link_name = l(:button_save)
+    else
+      link_name = l(:button_save_as)
+    end
     content_tag :span do
-      button = link_to l(:button_save_as), {}, :class => 'breadcrumb_icon icon-save-as',
+      button = link_to link_name, {}, :class => 'breadcrumb_icon icon-save-as',
           :id => 'query-icon-save-as', :title => l(:button_save_as)
       button_form + render_popup
     end
