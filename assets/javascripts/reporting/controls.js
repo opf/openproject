@@ -99,6 +99,7 @@ Reporting.onload(function () {
 
   // When saving a new query, the success-response is the new saved query's url -> redirect to that
   Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
+    Ajax.activeRequestCount = Ajax.activeRequestCount + 1; // HACK: Prevent Loading spinner from disappearing
     document.location = response.responseText;
   });
   // When saving an update of an exisiting query or apply filters, we replace the table on success
