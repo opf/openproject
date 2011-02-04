@@ -101,6 +101,7 @@ Reporting.Filters = {
     var field;
     field = select.value;
     Reporting.Filters.show_filter(field, { slowly: true });
+    select.selectedIndex = 0;
     Reporting.Filters.select_option_enabled(select, field, false);
   },
 
