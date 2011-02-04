@@ -90,20 +90,26 @@ Reporting.onload(function () {
   if ($('query_saved_name').getAttribute("data-update-url") !== null) {
     Reporting.Controls.query_name_editor('query_saved_name');
   }
-  Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
-  Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
+  // don't concern ourselves with new queries
+  if ($('query_saved_name').getAttribute("data-is_new") !== null) {
+    Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
+    Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
+    $('delete_form').hide();
+
+    // When saving an update of an exisiting query or apply filters, we replace the table on success
+    Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+  }
+
   Reporting.Controls.observe_click("query-icon-save-as", Reporting.Controls.toggle_save_as_form);
   Reporting.Controls.observe_click("query-icon-save-as-cancel", Reporting.Controls.toggle_save_as_form);
   $('save_as_form').hide();
-  $('delete_form').hide();
 
   // When saving a new query, the success-response is the new saved query's url -> redirect to that
-  Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
-    Ajax.activeRequestCount = Ajax.activeRequestCount + 1; // HACK: Prevent Loading spinner from disappearing
-    document.location = response.responseText;
-  });
+    Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
+      Ajax.activeRequestCount = Ajax.activeRequestCount + 1; // HACK: Prevent Loading spinner from disappearing
+      document.location = response.responseText;
+    });
   // When saving an update of an exisiting query or apply filters, we replace the table on success
-  Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
   Reporting.Controls.attach_settings_callback($("query-icon-apply-button"), Reporting.Controls.update_result_table);
 });
 
