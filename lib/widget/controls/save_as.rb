@@ -14,14 +14,15 @@ class Widget::Controls::SaveAs < Widget::Base
 
   def render_popup_form
     content_tag :form, :id => "query_save_as_form", :method => "post", :action => "#" do
-      content_tag :p do
-        label :query_name, l(:field_name)
-        text_field_tag :query_name, @query.name || l(:label_default)
+      name = content_tag :p do
+        label(:query_name, l(:field_name)) +
+        text_field_tag(:query_name, @query.name || l(:label_default))
       end
-      content_tag :p do
-        label :query_is_public, l(:field_is_public)
-        check_box_tag :query_is_public
+      box = content_tag :p do
+        label(:query_is_public, l(:field_is_public)) +
+        check_box_tag(:query_is_public)
       end
+      name + box
     end
   end
 
