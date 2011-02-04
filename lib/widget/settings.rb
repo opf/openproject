@@ -11,7 +11,7 @@ class Widget::Settings < Widget::Base
           render_widget Widget::GroupBys, @query
         end
 
-        controls = content_tag :p, :class => "buttons form_controls" do
+        controls = content_tag :div, :class => "buttons form_controls" do
           widgets = render_widget(Widget::Controls::Apply, @query)
           render_widget(Widget::Controls::Save, @query, :to => widgets)
           render_widget(Widget::Controls::SaveAs, @query, :to => widgets)

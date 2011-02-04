@@ -1,6 +1,6 @@
 class Widget::Controls::QueryName < Widget::Base
   def render
-    options = { "data-translations" => translations }
+    options = { :id => "query_saved_name", "data-translations" => translations }
     if @query.new_record?
       name = l(:label_save_this_query)
       icon = ""
@@ -11,11 +11,9 @@ class Widget::Controls::QueryName < Widget::Base
         l(:button_rename)
       end
       options["data-is_public"] = @query.is_public
-      options["data-update-url"] = url_for(:action => "update",
-            :controller => @engine.name.underscore.pluralize,
-            :id => @query.id).html_safe
+      options["data-update-url"] = url_for(:action => "update", :id => @query.id)
     end
-    content_tag(:span, name, :id => "query_saved_name") + icon
+    content_tag(:span, name, options) + icon
   end
 
   def translations
@@ -24,6 +22,6 @@ class Widget::Controls::QueryName < Widget::Base
       :loading => l(:label_loading),
       :clickToEdit => l(:label_click_to_edit),
       :isPublic => l(:field_is_public),
-      :saving => l(:label_saving) }.to_json.html_safe
+      :saving => l(:label_saving) }.to_json
   end
 end

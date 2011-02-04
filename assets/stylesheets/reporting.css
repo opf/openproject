@@ -183,8 +183,6 @@
 
 .filter_rem {
   overflow: hidden;
-  font-size: 0 !important;
-  line-height: 0 !important;
   cursor: pointer;
   background-repeat: no-repeat;
   background-color: transparent;
@@ -196,9 +194,7 @@
 
 .icon-filter-rem {
   background-image: url(../images/remove.png);
-  margin-top: 3px;
-  margin-right: 3px;
-  position: absolute;
+  position: relative;
 }
 
 .filter {
@@ -329,6 +325,11 @@ td:hover .drill_down, th:hover .drill_down {
   -moz-border-radius: 3px;
   border-radius: 3px;
   padding: 4px;
+}
+
+.form_controls {
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .buttons .reporting_button:hover {
