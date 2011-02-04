@@ -1,9 +1,9 @@
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
-  <% if authorize_for(content_type.pluralize, 'update') -%>
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" %>
+  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if authorize_for(content_type.pluralize, 'update') %>
   </div>
   <h2><%= l(:"label_#{content_type}")%></h2>
+  <% if authorize_for(content_type.pluralize, 'update') -%>
   <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.present? %>>
   <%= render(:partial => "contents_form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
