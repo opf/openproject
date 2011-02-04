@@ -23,7 +23,7 @@ module Redmine
     module Adapters    
       class DarcsAdapter < AbstractAdapter      
         # Darcs executable name
-        DARCS_BIN = Redmine::Configuration['scm_command_darcs'] || "darcs"
+        DARCS_BIN = Redmine::Configuration['scm_darcs_command'] || "darcs"
         
         class << self
           def client_version

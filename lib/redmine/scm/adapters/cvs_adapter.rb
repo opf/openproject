@@ -23,7 +23,7 @@ module Redmine
       class CvsAdapter < AbstractAdapter
 
         # CVS executable name
-        CVS_BIN = Redmine::Configuration['scm_command_cvs'] || "cvs"
+        CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
     
         # Guidelines for the input:
         #  url -> the project-path, relative to the cvsroot (eg. module name)
