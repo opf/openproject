@@ -7,7 +7,7 @@ class MeetingAgendasController < ApplicationController
   before_filter :authorize
   
   def update
-    @agenda.attributes = params[:agenda]
+    @agenda.attributes = params[:meeting_agenda]
     if @agenda.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to @meeting

@@ -7,7 +7,7 @@ class MeetingMinutesController < ApplicationController
   before_filter :authorize
   
   def update
-    @minutes.attributes = params[:minutes]
+    @minutes.attributes = params[:meeting_minutes]
     if @minutes.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to @meeting

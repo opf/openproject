@@ -1,9 +1,9 @@
-<% form_for :"#{content_type}", content, :url => {:controller => "meeting_#{content_type.pluralize}", :action => 'update', :meeting_id => meeting_id}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
+<% form_for :"#{content_type}", content, :url => {:controller => content_type.pluralize, :action => 'update', :meeting_id => @meeting.id}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
 <%= f.hidden_field :version %>
-<%= error_messages_for "meeting_#{content_type}" %>
+<%= error_messages_for content_type %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label for="<%= content_type %>_comment"><%= l(:field_comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %> <%= link_to l(:button_cancel), "#", :onclick => "Element.show(\"meeting-#{content_type}-text\"); Element.hide(\"edit-meeting-#{content_type}\"); return false;" %></p>
+<p><%= submit_tag l(:button_save) %> <%= link_to l(:button_cancel), "#", :onclick => "Element.show(\"#{content_type}-text\"); Element.hide(\"edit-#{content_type}\"); return false;" %></p>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>

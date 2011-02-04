@@ -15,28 +15,6 @@
   <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.join(", ") %></p>
 </div>
 
-<div class="meeting meeting-content meeting-agenda">
-  <div class="contextual">
-  <% if authorize_for('meetings', 'edit') -%>
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => 'Element.show("edit-meeting-agenda"); Element.hide("meeting-agenda-text"); return false;' %>
-  </div>
-  <h2><%= l(:label_meeting_agenda)%></h2>
-  <div id="edit-meeting-agenda"<%= " style=\"display:none;\"" if @meeting.agenda.present? %>>
-  <%= render(:partial => "contents_form", :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id}) %>
-  </div>
-  <% end -%>
-  <%= render(:partial => "contents", :locals => {:content => @meeting.agenda, :content_type => "agenda", :meeting_id => @meeting.id}) if @meeting.agenda.present? %>  
-</div>
+<%= render(:partial => "contents", :locals => {:content => @meeting.agenda, :content_type => "meeting_agenda"}) %>
 
-<div class="meeting meeting-content meeting-minutes">
-  <div class="contextual">
-  <% if authorize_for('meetings', 'edit') -%>
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => 'Element.show("edit-meeting-minutes"); Element.hide("meeting-minutes-text"); return false;' %>
-  </div>
-  <h2><%= l(:label_meeting_minutes)%></h2>
-  <div id="edit-meeting-minutes"<%= " style=\"display:none;\"" if @meeting.minutes.present? %>>
-  <%= render(:partial => "contents_form", :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id}) %>
-  </div>
-  <% end -%>
-  <%= render(:partial => "contents", :locals => {:content => @meeting.minutes, :content_type => "minutes", :meeting_id => @meeting.id}) %>
-</div>
+<%= render(:partial => "contents", :locals => {:content => @meeting.minutes, :content_type => "meeting_minutes"}) %>
