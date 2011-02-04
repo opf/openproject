@@ -4,6 +4,7 @@ class MeetingMinutesController < ApplicationController
   include MeetingContentsHelper
   
   before_filter :find_meeting, :find_minutes
+  before_filter :authorize
   
   def update
     @minutes.attributes = params[:minutes]

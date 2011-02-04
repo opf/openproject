@@ -4,6 +4,7 @@ class MeetingAgendasController < ApplicationController
   include MeetingContentsHelper
   
   before_filter :find_meeting, :find_agenda
+  before_filter :authorize
   
   def update
     @agenda.attributes = params[:agenda]
