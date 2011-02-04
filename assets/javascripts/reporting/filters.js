@@ -34,7 +34,7 @@ Reporting.Filters = {
       options.callback_func = function () {};
     }
     if (options.slowly === undefined) {
-      options.slowly = true;
+      options.slowly = false;
     }
     if (options.show_filter === undefined) {
       options.show_filter = true;
@@ -98,7 +98,7 @@ Reporting.Filters = {
   add_filter: function (select) {
     var field;
     field = select.value;
-    Reporting.Filters.show_filter(field);
+    Reporting.Filters.show_filter(field, { slowly: true });
     select.selectedIndex = 0;
     Reporting.Filters.select_option_enabled(select, field, false);
   },
