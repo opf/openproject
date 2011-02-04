@@ -8,8 +8,7 @@ class Widget::Controls::Delete < Widget::Base
             :id => 'query-icon-delete',
             :title => l(:button_delete)
 
-      popup = content_tag :div, :id => "delete_form", :class => "button_form",
-                                :style => "display:none" do
+      popup = content_tag :div, :id => "delete_form", :class => "button_form" do
         question = content_tag :p, l(:label_really_delete_question)
         options = content_tag :p do
           opt1 = link_to l(:button_delete), url_for(:action => 'delete', :id => @query.id)
