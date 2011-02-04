@@ -107,6 +107,15 @@ default:
   autologin_cookie_path:
   autologin_cookie_secure:
   
+  # Configuration of SCM executable command.
+  # Absolute path (ex. /usr/local/bin/hg) or command name (ex. hg.exe, bzr.exe)
+  # On Windows, *.cmd, *.bat (ex. hg.cmd, bzr.bat) does not work.
+  scm_command_subversion: svn                                       # (default: svn)
+  scm_command_mercurial:  "\"C:\Program Files\TortoiseHg\hg.exe\""  # (default: hg)
+  scm_command_git:        /usr/local/bin/git                        # (default: git)
+  scm_command_bazaar:     bzr.exe                                   # (default: bzr)
+  scm_command_darcs:      darcs-1.0.9-i386-linux                    # (default: darcs)
+  
 # specific configuration options for production environment
 # that overrides the default ones
 production:

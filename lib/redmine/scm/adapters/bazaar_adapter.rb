@@ -23,7 +23,7 @@ module Redmine
       class BazaarAdapter < AbstractAdapter
       
         # Bazaar executable name
-        BZR_BIN = "bzr"
+        BZR_BIN = Redmine::Configuration['scm_command_bazaar'] || "bzr"
         
         # Get info about the repository
         def info
