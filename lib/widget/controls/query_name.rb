@@ -22,6 +22,6 @@ class Widget::Controls::QueryName < Widget::Base
       :loading => l(:label_loading),
       :clickToEdit => l(:label_click_to_edit),
       :isPublic => l(:field_is_public),
-      :saving => l(:label_saving) }.to_json.html_safe
+      :saving => l(:label_saving) }.to_json
   end
 end
