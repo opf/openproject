@@ -59,13 +59,12 @@ Reporting.Controls = {
   send_settings_data: function (targetUrl, callback) {
     selectAllOptions('group_by_rows');
     selectAllOptions('group_by_columns');
-    Ajax.Request(
+    var updater = new Ajax.Request(
       targetUrl,
       { asynchronous: true,
         evalScripts: true,
-        postBody: Form.serialize('query_form') + '&' + Form.serialize('query_save_as_form'),
+        postBody: Form.serialize('query_form'),
         onSuccess: callback });
-    return false;
   },
 
   attach_settings_callback: function (element, callback) {
@@ -73,6 +72,17 @@ Reporting.Controls = {
       Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback);
       e.preventDefault();
     });
+  },
+
+  observe_click: function (element_id, callback) {
+    var el = $(element_id);
+    if (el !== null && el !== undefined) {
+      el.observe("click", callback);
+    }
+  },
+
+  update_result_table: function (response) {
+    $('result-table').update(response.responseText);
   }
 };
 
@@ -80,10 +90,10 @@ Reporting.onload(function () {
   if ($('query_saved_name').getAttribute("data-update-url") !== null) {
     Reporting.Controls.query_name_editor('query_saved_name');
   }
-  $("query-icon-delete").observe("click", Reporting.Controls.toggle_delete_form);
-  $("query-icon-delete-cancel").observe("click", Reporting.Controls.toggle_delete_form);
-  $("query-icon-save-as").observe("click", Reporting.Controls.toggle_save_as_form);
-  $("query-icon-save-as-cancel").observe("click", Reporting.Controls.toggle_save_as_form);
+  Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
+  Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
+  Reporting.Controls.observe_click("query-icon-save-as", Reporting.Controls.toggle_save_as_form);
+  Reporting.Controls.observe_click("query-icon-save-as-cancel", Reporting.Controls.toggle_save_as_form);
   $('save_as_form').hide();
   $('delete_form').hide();
 
@@ -91,9 +101,9 @@ Reporting.onload(function () {
   Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
     document.location = response.responseText;
   });
-  // When saving an update of an exisiting query or just applying filters, we don't do anything on sucess
-  Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), function (response) {});
-  Reporting.Controls.attach_settings_callback($("query-icon-apply-button"), function (response) {});
+  // When saving an update of an exisiting query or apply filters, we replace the table on success
+  Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+  Reporting.Controls.attach_settings_callback($("query-icon-apply-button"), Reporting.Controls.update_result_table);
 });
 
 
