@@ -108,8 +108,8 @@ default:
   autologin_cookie_secure:
   
   # Configuration of SCM executable command.
-  # Absolute path (ex. /usr/local/bin/hg) or command name (ex. hg.exe, bzr.exe)
-  # On Windows, *.cmd, *.bat (ex. hg.cmd, bzr.bat) does not work.
+  # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
   scm_command_subversion: svn                                       # (default: svn)
   scm_command_mercurial:  "\"C:\Program Files\TortoiseHg\hg.exe\""  # (default: hg)
   scm_command_git:        /usr/local/bin/git                        # (default: git)
