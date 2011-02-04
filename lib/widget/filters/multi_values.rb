@@ -17,7 +17,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
             name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
             unless options[:optgroup]
               opts = { :value => id }
-              opts[:selected] = "selected" if filter.values.include? id
+              opts[:selected] = "selected" if Array(filter.values).include? id
               content_tag(:option, opts) { name_prefix + h(name) }
             else
               tag :optgroup, :label => l(:label_sector)
