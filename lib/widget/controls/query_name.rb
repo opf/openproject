@@ -11,9 +11,7 @@ class Widget::Controls::QueryName < Widget::Base
         l(:button_rename)
       end
       options["data-is_public"] = @query.is_public
-      options["data-update-url"] = url_for(:action => "update",
-            :controller => @engine.name.underscore.pluralize,
-            :id => @query.id).html_safe
+      options["data-update-url"] = url_for(:action => "update", :id => @query.id).html_safe
     end
     content_tag(:span, name, :id => "query_saved_name") + icon
   end
