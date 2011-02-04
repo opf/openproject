@@ -67,7 +67,9 @@ class Widget::Table::ReportTable < Widget::Table
         end
       end
       list.each do |column|
-        header_content += content_tag :th, :colspan => column.final_number(:column), :class => column.final?(:column) ? "inner" : "" do
+        opts = { :colspan => column.final_number(:column) }
+        opts.merge!(:class => "inner") if column.final?(:column)
+        header_content += content_tag :th, opts do
           show_row column
         end
       end
@@ -94,7 +96,9 @@ class Widget::Table::ReportTable < Widget::Table
       end
 
       list.each do |column|
-        reverse_headers += content_tag :th, :colspan => column.final_number(:column), :class => (first ? "inner" : "") do
+        opts = { :colspan => column.final_number(:column) }
+        opts.merge!(:class => "inner") if first
+        reverse_headers += content_tag :th, opts do
           "#{show_result(column)}#{debug_fields(column)}"
         end
       end
@@ -122,7 +126,7 @@ class Widget::Table::ReportTable < Widget::Table
         first = false
       end
       walker_body += content_tag :tr, :class => cycle("odd", "even") do
-        line
+        line.html_safe
       end
     end
     content_tag :tbody, walker_body.html_safe
