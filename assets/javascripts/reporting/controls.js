@@ -47,11 +47,13 @@ Reporting.Controls = {
   toggle_delete_form: function () {
     var offset = $('query-icon-delete').positionedOffset().left;
     $('delete_form').setStyle("left: " + offset + "px").toggle();
+    return false;
   },
 
   toggle_save_as_form: function () {
     var offset = $('query-icon-save-as').positionedOffset().left;
     $('save_as_form').setStyle("left: " + offset + "px").toggle();
+    return false;
   },
 
   send_settings_data: function (targetUrl, callback) {
@@ -69,6 +71,7 @@ Reporting.Controls = {
   attach_settings_callback: function (element, callback) {
     element.observe("click", function () {
       Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback);
+      return false;
     });
   }
 };
