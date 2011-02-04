@@ -44,16 +44,16 @@ Reporting.Controls = {
     });
   },
 
-  toggle_delete_form: function () {
+  toggle_delete_form: function (e) {
     var offset = $('query-icon-delete').positionedOffset().left;
     $('delete_form').setStyle("left: " + offset + "px").toggle();
-    return false;
+    e.preventDefault();
   },
 
-  toggle_save_as_form: function () {
+  toggle_save_as_form: function (e) {
     var offset = $('query-icon-save-as').positionedOffset().left;
     $('save_as_form').setStyle("left: " + offset + "px").toggle();
-    return false;
+    e.preventDefault();
   },
 
   send_settings_data: function (targetUrl, callback) {
@@ -69,9 +69,9 @@ Reporting.Controls = {
   },
 
   attach_settings_callback: function (element, callback) {
-    element.observe("click", function () {
+    element.observe("click", function (e) {
       Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback);
-      return false;
+      e.preventDefault();
     });
   }
 };
