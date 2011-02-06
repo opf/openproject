@@ -1,10 +1,18 @@
 class MeetingAgendasController < ApplicationController
   unloadable
   
+  menu_item :meetings
+  
   include MeetingContentsHelper
   
   before_filter :find_meeting, :find_agenda
   before_filter :authorize
+  
+  def show
+    # TODO: Accept showing versions
+    @content = @agenda
+    render 'meeting_contents/show'
+  end
   
   def update
     @agenda.attributes = params[:meeting_agenda]

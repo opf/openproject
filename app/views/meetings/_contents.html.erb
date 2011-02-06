@@ -1,11 +1,12 @@
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
   <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if authorize_for(content_type.pluralize, 'update') %>
+  <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') %>
   </div>
   <h2><%= l(:"label_#{content_type}")%></h2>
   <% if authorize_for(content_type.pluralize, 'update') -%>
   <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.present? %>>
-  <%= render(:partial => "contents_form", :locals => {:content => content, :content_type => content_type}) %>
+  <%= render(:partial => "meetings/contents_form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
   <% end -%>
   <div class="wiki" id="<%= content_type %>-text">

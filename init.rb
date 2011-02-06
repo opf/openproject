@@ -23,7 +23,7 @@ Redmine::Plugin.register :redmine_meeting do
     permission :create_meetings, {:meetings => [:new, :create]}, :require => :member
     permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
     permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
-    permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history], :meeting_minutes => [:history]}
+    permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show], :meeting_minutes => [:history, :show]}
     permission :create_meeting_agendas, {:meeting_agendas => [:update]}, :require => :member
     permission :create_meeting_minutes, {:meeting_minutes => [:update]}, :require => :member
   end

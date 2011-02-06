@@ -1,10 +1,18 @@
 class MeetingMinutesController < ApplicationController
   unloadable
   
+  menu_item :meetings
+  
   include MeetingContentsHelper
   
   before_filter :find_meeting, :find_minutes
   before_filter :authorize
+  
+  def show
+    # TODO: Accept showing versions
+    @content = @minutes
+    render 'meeting_contents/show'
+  end
   
   def update
     @minutes.attributes = params[:meeting_minutes]
