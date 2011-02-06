@@ -5,4 +5,8 @@ class MeetingContent < ActiveRecord::Base
   
   belongs_to :meeting
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  
+  class Version
+    belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
+  end
 end
