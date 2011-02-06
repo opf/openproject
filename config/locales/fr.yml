@@ -169,7 +169,7 @@ fr:
   notice_successful_connection: Connexion réussie.
   notice_file_not_found: "La page à laquelle vous souhaitez accéder n'existe pas ou a été supprimée."
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
-  notice_not_authorized: "Vous n'êtes pas autorisés à accéder à cette page."
+  notice_not_authorized: "Vous n'êtes pas autorisé à accéder à cette page."
   notice_not_authorized_archived_project: Le projet auquel vous tentez d'accéder a été archivé.
   notice_email_sent: "Un email a été envoyé à %{value}"
   notice_email_error: "Erreur lors de l'envoi de l'email (%{value})"
@@ -323,11 +323,11 @@ fr:
   setting_text_formatting: Formatage du texte
   setting_wiki_compression: Compression historique wiki
   setting_feeds_limit: Limite du contenu des flux RSS
-  setting_default_projects_public: Définir les nouveaux projects comme publics par défaut
+  setting_default_projects_public: Définir les nouveaux projets comme publics par défaut
   setting_autofetch_changesets: Récupération auto. des commits
   setting_sys_api_enabled: Activer les WS pour la gestion des dépôts
-  setting_commit_ref_keywords: Mot-clés de référencement
-  setting_commit_fix_keywords: Mot-clés de résolution
+  setting_commit_ref_keywords: Mots-clés de référencement
+  setting_commit_fix_keywords: Mots-clés de résolution
   setting_autologin: Autologin
   setting_date_format: Format de date
   setting_time_format: Format d'heure
@@ -349,7 +349,7 @@ fr:
   setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
   setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
   setting_file_max_size_displayed: Taille maximum des fichiers texte affichés en ligne
-  setting_repository_log_display_limit: "Nombre maximum de revisions affichées sur l'historique d'un fichier"
+  setting_repository_log_display_limit: "Nombre maximum de révisions affichées sur l'historique d'un fichier"
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
   setting_password_min_length: Longueur minimum des mots de passe
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
@@ -369,7 +369,7 @@ fr:
   permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet
   permission_select_project_modules: Choisir les modules
-  permission_manage_members: Gérer les members
+  permission_manage_members: Gérer les membres
   permission_manage_versions: Gérer les versions
   permission_manage_categories: Gérer les catégories de demandes
   permission_view_issues: Voir les demandes
@@ -859,7 +859,7 @@ fr:
   text_issue_added: "La demande %{id} a été soumise par %{author}."
   text_issue_updated: "La demande %{id} a été mise à jour par %{author}."
   text_wiki_destroy_confirmation: Etes-vous sûr de vouloir supprimer ce wiki et tout son contenu ?
-  text_issue_category_destroy_question: "%{count} demandes sont affectées à cette catégories. Que voulez-vous faire ?"
+  text_issue_category_destroy_question: "%{count} demandes sont affectées à cette catégorie. Que voulez-vous faire ?"
   text_issue_category_destroy_assignments: N'affecter les demandes à aucune autre catégorie
   text_issue_category_reassign_to: Réaffecter les demandes à cette catégorie
   text_user_mail_option: "Pour les projets non sélectionnés, vous recevrez seulement des notifications pour ce que vous surveillez ou à quoi vous participez (exemple: demandes dont vous êtes l'auteur ou la personne assignée)."
