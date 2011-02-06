@@ -14,15 +14,6 @@ class Meeting < ActiveRecord::Base
     start_time.to_date if start_time.present?
   end
   
-  # store the duration as seconds internally
-  def duration
-    self[:duration]/3600.0 if self[:duration].present?
-  end
-  
-  def duration=(h)
-    self[:duration] = ((h.is_a?(String) ? h.to_hours : h)*3600).round if h.present?
-  end
-  
   protected
   
   def after_initialize

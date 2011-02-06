@@ -6,7 +6,7 @@ class CreateMeetings < ActiveRecord::Migration
       t.column :project_id, :integer
       t.column :location, :string
       t.column :start_time, :datetime
-      t.column :duration, :integer    # duration in seconds
+      t.column :duration, :float
       
       t.timestamps
     end
