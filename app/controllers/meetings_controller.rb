@@ -28,6 +28,7 @@ class MeetingsController < ApplicationController
   end
 
   def new
+    @meeting.attributes = Meeting.find(params[:copy_from_id]).attributes.reject {|k,v| !%w(duration location title).include? k} if params[:copy_from_id]
   end
 
   def destroy
