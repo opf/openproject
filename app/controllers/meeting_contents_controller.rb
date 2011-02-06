@@ -8,6 +8,7 @@ class MeetingContentsController < ApplicationController
   
   def show
     # TODO: Accept showing versions
+    @content = @content.find_version(params[:version])
     render 'meeting_contents/show'
   end
   
