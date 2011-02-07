@@ -22,11 +22,11 @@ class MeetingContentsController < ApplicationController
   end
   
   def history
-    #@version_count = @page.content.versions.count
-    #@version_pages = Paginator.new self, @version_count, per_page_option, params['p']
+    @version_count = @content.versions.count
+    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
-    @content_versions = @content.versions.all :select => "id, author_id, comment, updated_at, version", :order => 'version DESC'
-    render 'meeting_contents/history'
+    @content_versions = @content.versions.all :select => "id, author_id, comment, updated_at, version", :order => 'version DESC', :limit => @version_pages.items_per_page + 1, :offset =>  @version_pages.current.offset
+    render 'meeting_contents/history', :layout => !request.xhr?
   end
   
   private

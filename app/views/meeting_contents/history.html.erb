@@ -25,4 +25,5 @@
 </tbody>
 </table>
 <%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+<span class="pagination"><%= pagination_links_full @version_pages, @version_count, :page_param => :p %></span>
 <% end %>
