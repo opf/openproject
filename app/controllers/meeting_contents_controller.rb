@@ -7,8 +7,7 @@ class MeetingContentsController < ApplicationController
   before_filter :authorize
   
   def show
-    # TODO: Accept showing versions
-    @content = @content.find_version(params[:version])
+    @content = @content.find_version(params[:version]) unless (params[:version].blank? || @content.version == params[:version].to_i)
     render 'meeting_contents/show'
   end
   
