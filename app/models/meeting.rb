@@ -18,6 +18,10 @@ class Meeting < ActiveRecord::Base
     title
   end
   
+  def participant_user_ids
+    @participant_user_ids ||= participants.collect(&:user_id)
+  end
+  
   protected
   
   def after_initialize
