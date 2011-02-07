@@ -117,7 +117,7 @@ class Repository::Cvs < Repository
             # we use a temporaray revision number here (just for inserting)
             # later on, we calculate a continous positive number
             cs = Changeset.create(:repository => self,
-                                  :revision => "_#{tmp_rev_num}", 
+                                  :revision => "tmp#{tmp_rev_num}", 
                                   :committer => revision.author, 
                                   :committed_on => revision.time,
                                   :comments => revision.message)
@@ -144,11 +144,12 @@ class Repository::Cvs < Repository
       
       # Renumber new changesets in chronological order
       changesets.find(
-              :all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE '_%'"
+              :all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE 'tmp%'"
            ).each do |changeset|
         changeset.update_attribute :revision, next_revision_number
       end
     end # transaction
+    @current_revision_number = nil
   end
   
   private
@@ -156,7 +157,9 @@ class Repository::Cvs < Repository
   # Returns the next revision number to assign to a CVS changeset
   def next_revision_number
     # Need to retrieve existing revision numbers to sort them as integers
-    @current_revision_number ||= (connection.select_values("SELECT revision FROM #{Changeset.table_name} WHERE repository_id = #{id} AND revision NOT LIKE '_%'").collect(&:to_i).max || 0)
+    sql = "SELECT revision FROM #{Changeset.table_name} "
+    sql << "WHERE repository_id = #{id} AND revision NOT LIKE 'tmp%'"
+    @current_revision_number ||= (connection.select_values(sql).collect(&:to_i).max || 0)
     @current_revision_number += 1
   end
 end
