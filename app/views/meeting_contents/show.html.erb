@@ -1,1 +1,1 @@
-<%= render(:partial => "meeting_contents/show", :locals => {:content => @content, :content_type => @content_type}) %>
+<%= render(:partial => "meeting_contents/show", :locals => {:content => @content, :content_type => @content_type, :title => "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}"}) %>

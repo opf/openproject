@@ -1,1 +1,1 @@
-<%= render(:partial => "meeting_contents/show", :locals => {:content => tab[:content], :content_type => tab[:content_type]}) %>
+<%= render :partial => "meeting_contents/show", :locals => {:content => tab[:content], :content_type => tab[:content_type], :title => l(:"label_#{tab[:content_type]}")} %>

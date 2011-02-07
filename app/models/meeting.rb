@@ -14,6 +14,10 @@ class Meeting < ActiveRecord::Base
     start_time.to_date if start_time.present?
   end
   
+  def to_s
+    title
+  end
+  
   protected
   
   def after_initialize

@@ -1,4 +1,6 @@
-<h2><%= l(:label_history) %>: <%= l(:"label_#{@content_type}") %> <%=h @meeting.title %></h2>
+<h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting %></h2>
+
+<h3><%= l(:label_history) %></h3>
 
 <% form_tag({:action => "diff"}, :method => :get) do %>
 <table class="list">

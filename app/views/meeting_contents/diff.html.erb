@@ -2,7 +2,7 @@
 <%= link_to_if_authorized(l(:label_history), {:controller => @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') %>
 </div>
 
-<h2><%= l(:label_diff) %>: <%= l(:"label_#{@content_type}") %> <%=h @meeting.title %></h2>
+<h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting %></h2>
 
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, {:controller => @content_type.pluralize, :action => 'show', :meeting_id => @meeting, :version => @diff.content_from.version} %>

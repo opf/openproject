@@ -3,7 +3,7 @@
   <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if (authorize_for(content_type.pluralize, 'update') && (content.blank? || content.editable?)) %>
   <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') unless content.blank? %>
   </div>
-  <h2><%= l(:"label_#{content_type}")%></h2>
+  <h2><%= title %></h2>
   <% if authorize_for(content_type.pluralize, 'update') -%>
   <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.present? %>>
   <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
