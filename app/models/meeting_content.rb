@@ -10,6 +10,17 @@ class MeetingContent < ActiveRecord::Base
     true
   end
   
+  def diff(version_to=nil, version_from=nil)
+    version_to = version_to ? version_to.to_i : self.version
+    version_from = version_from ? version_from.to_i : version_to - 1
+    version_to, version_from = version_from, version_to unless version_from < version_to
+    
+    content_to = self.find_version(version_to)
+    content_from = self.find_version(version_from)
+    
+    (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
+  end
+  
   class Version
     unloadable
     
