@@ -4,18 +4,20 @@
   <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
 </div>
 
-<h2><%= l(:label_meeting) %> #<%= @meeting.id %></h2>
+<h2><%= l(:label_meeting) %>: <%=h @meeting.title %></h2>
 
-<div class="meeting details">
+<div class="meeting details box">
   <%= avatar(@author, :size => "64") %>
-  <h3><%=h @meeting.title %></h3>
   <p class="author"><%= authoring @meeting.created_at, @author %></p>
+  <div class="splitcontentleft">
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
+  </div>
+  <div class="splitcontentright">
   <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
   <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.join(", ") %></p>
+  </div>
+  <div style="clear:both;"> </div>
 </div>
 
-<%= render(:partial => "meeting_contents/show", :locals => {:content => @meeting.agenda, :content_type => "meeting_agenda"}) %>
-
-<%= render(:partial => "meeting_contents/show", :locals => {:content => @meeting.minutes, :content_type => "meeting_minutes"}) %>
+<%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/tab', :label => :label_meeting_agenda, :content => @meeting.agenda, :content_type => "meeting_agenda"}, {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/tab', :label => :label_meeting_minutes, :content => @meeting.minutes, :content_type => "meeting_minutes"}] %>
