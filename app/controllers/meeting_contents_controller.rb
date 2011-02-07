@@ -9,6 +9,8 @@ class MeetingContentsController < ApplicationController
   before_filter :authorize
   
   def show
+    # Redirect links to the last version
+    (redirect_to :controller => @content_type.pluralize, :action => :show, :meeting_id => @meeting and return) if params[:version].present? && @content.version == params[:version].to_i
     @content = @content.find_version(params[:version]) unless params[:version].blank?
     render 'meeting_contents/show'
   end
