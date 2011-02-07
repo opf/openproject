@@ -10,4 +10,5 @@
   <label class="floating"><%= check_box_tag 'meeting_participant_users[]', user.id, ((params[:meeting_participant_users].include?(user.id.to_s) if params[:meeting_participant_users].present?) || @meeting.participant_user_ids.include?(user.id)) %> <%=h user %></label>
   <% end -%>
   </p>
+  <%= hidden_field_tag "copy_from_id", params[:copy_from_id] if params[:copy_from_id].present? %>
 </div>

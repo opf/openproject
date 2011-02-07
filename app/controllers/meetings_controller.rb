@@ -19,6 +19,12 @@ class MeetingsController < ApplicationController
 
   def create
     @meeting.attributes = params[:meeting]
+    begin
+      @meeting.agenda = MeetingAgenda.new(:text => Meeting.find(params[:copy_from_id]).agenda.text,
+                                          :comment => "Copied from Meeting ##{params[:copy_from_id]}",
+                                          :author => User.current)
+    rescue ActiveRecord::RecordNotFound
+    end if params[:copy_from_id].present?
     if @meeting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'show', :id => @meeting
@@ -28,12 +34,13 @@ class MeetingsController < ApplicationController
   end
 
   def new
-    if params[:copy_from_id]
+    begin
       copy_from = Meeting.find(params[:copy_from_id])
       @meeting.attributes = copy_from.attributes.reject {|k,v| !%w(duration location title).include? k}
       @meeting.start_time += (copy_from.start_time.hour - 10).hours
       @meeting.participants = copy_from.participants
-    end
+    rescue ActiveRecord::RecordNotFound
+    end if params[:copy_from_id].present?
   end
 
   def destroy
