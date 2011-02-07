@@ -7,6 +7,8 @@ class MeetingContent < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   
   class Version
+    unloadable
+    
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
   end
 end

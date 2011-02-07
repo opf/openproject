@@ -1,6 +1,6 @@
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if authorize_for(content_type.pluralize, 'update') %>
+  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if (authorize_for(content_type.pluralize, 'update') && (content.is_a?(MeetingAgenda) || content.is_a?(MeetingMinutes))) %>
   <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') %>
   </div>
   <h2><%= l(:"label_#{content_type}")%></h2>
