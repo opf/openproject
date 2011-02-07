@@ -104,10 +104,11 @@ class Repository::Cvs < Repository
       scm.revisions('', fetch_since, nil, :with_paths => true) do |revision|
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all. 
+        tmp_time = revision.time.clone
         unless changes.find_by_path_and_revision(
 	           scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
           cs = changesets.find(:first, :conditions=>{
-            :committed_on=>revision.time-time_delta..revision.time+time_delta,
+            :committed_on=>tmp_time - time_delta .. tmp_time + time_delta,
             :committer=>revision.author,
             :comments=>Changeset.normalize_comments(revision.message)
           })
@@ -116,10 +117,14 @@ class Repository::Cvs < Repository
           unless cs
             # we use a temporaray revision number here (just for inserting)
             # later on, we calculate a continous positive number
+            tmp_time2 = tmp_time.clone.gmtime
+            branch = revision.paths[0][:branch]
+            scmid = branch + "-" + tmp_time2.strftime("%Y%m%d-%H%M%S")
             cs = Changeset.create(:repository => self,
-                                  :revision => "tmp#{tmp_rev_num}", 
+                                  :revision => "tmp#{tmp_rev_num}",
+                                  :scmid => scmid,
                                   :committer => revision.author, 
-                                  :committed_on => revision.time,
+                                  :committed_on => tmp_time,
                                   :comments => revision.message)
             tmp_rev_num += 1
           end
