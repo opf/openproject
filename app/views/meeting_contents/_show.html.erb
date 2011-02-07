@@ -6,7 +6,7 @@
   <h2><%= l(:"label_#{content_type}")%></h2>
   <% if authorize_for(content_type.pluralize, 'update') -%>
   <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.present? %>>
-  <%= render(:partial => "meetings/contents_form", :locals => {:content => content, :content_type => content_type}) %>
+  <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
   <% end -%>
   <div class="wiki" id="<%= content_type %>-text">

@@ -16,6 +16,6 @@
   <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.join(", ") %></p>
 </div>
 
-<%= render(:partial => "contents", :locals => {:content => @meeting.agenda, :content_type => "meeting_agenda"}) %>
+<%= render(:partial => "meeting_contents/show", :locals => {:content => @meeting.agenda, :content_type => "meeting_agenda"}) %>
 
-<%= render(:partial => "contents", :locals => {:content => @meeting.minutes, :content_type => "meeting_minutes"}) %>
+<%= render(:partial => "meeting_contents/show", :locals => {:content => @meeting.minutes, :content_type => "meeting_minutes"}) %>
