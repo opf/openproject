@@ -14,11 +14,11 @@
 <% show_diff = @content_versions.size > 1 %>
 <% @content_versions.each_with_index do |content_version,index| %>
 <tr class="<%= cycle("odd", "even") %>">
-    <td class="id"><%= link_to content_version.version, :action => 'show', :meeting_id => @meeting, :version => content_version.version %></td>
+    <td class="id"><%= link_to content_version.version, :action => 'show', :meeting_id => @meeting, :version => (content_version.version == @content.version ? nil : content_version.version) %></td>
     <td class="checkbox"><%= radio_button_tag('version', content_version.version, (index==0), :id => "checkbox-#{index}", :onclick => "$('checkbox-to-#{index+1}').checked=true;") if show_diff && (index < @content_versions.size-1) %></td>
     <td class="checkbox"><%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}", :onclick => "if ($('checkbox-#{index}').checked==true || $('version_from').value > #{content_version.version}) {$('checkbox-#{index-1}').checked=true;}") if show_diff && (index > 0) %></td>
     <td align="center"><%= format_time(content_version.updated_at) %></td>
-    <td><em><%= content_version.author ? content_version.author.name : "anonyme" %></em></td>
+    <td><em><%= content_version.author %></em></td>
     <td><%=h content_version.comment %></td>
 </tr>
 <% end %>
