@@ -35,8 +35,9 @@ class MeetingContentsController < ApplicationController
   
   def diff
     @diff = @content.diff(params[:version_to], params[:version_from])
-    render_404 unless @diff
     render 'meeting_contents/diff'
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
   private
