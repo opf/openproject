@@ -378,6 +378,7 @@ div#button_form * input[type="button"] {
 
 /***** Ajax indicator ******/
 #ajax-indicator {
+  font-family: Verdana, sans-serif;
   position: absolute; /* fixed not supported by IE */
   background-color:#eee;
   border: 1px solid #bbb;
