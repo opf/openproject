@@ -309,6 +309,13 @@ class Mailer < ActionMailer::Base
     render_multipart('mail_handler_confirmation', body)
   end
 
+  def mail_handler_unauthorized_action(user, email_subject, options={})
+    recipients options[:to] || user.mail
+    subject l(:label_mail_handler_failure, :subject => email_subject)
+    body({})
+    render_multipart('mail_handler_unauthorized_action', body)
+  end
+  
   def test(user)
     redmine_headers 'Type' => "Test"
     set_language_if_valid(user.language)

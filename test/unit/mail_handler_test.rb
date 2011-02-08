@@ -450,6 +450,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
   end
 
+  context "with an email that performs an unauthorized action" do
+    should "deliver an email error confirmation" do
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_by_unknown_user.eml')
+      assert_equal false, issue
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.to.include?('john.doe@somenet.foo')
+      assert mail.subject.include?('Failed email submission: Ticket by unknown user')
+      assert mail.body.include?('You are not authorized to perform this action')
+    end
+  end
+
   context "#receive_issue" do
     should "deliver an email confirmation when configured" do
       ActionMailer::Base.deliveries.clear
@@ -483,7 +498,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       m = submit_email('message_reply.eml')
 
-      assert_equal 2, ActionMailer::Base.deliveries.size
+      assert_equal 3, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
       assert mail.subject.include?('[eCookbook]'), "Project name missing"

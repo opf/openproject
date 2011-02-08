@@ -69,6 +69,7 @@ class MailHandler < ActionMailer::Base
       else
         # Default behaviour, emails from unknown users are ignored
         logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]" if logger && logger.info
+        Mailer.deliver_mail_handler_unauthorized_action(user, email.subject.to_s, :to => sender_email) if Setting.mail_handler_confirmation_on_failure
         return false
       end
     end
