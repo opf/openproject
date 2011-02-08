@@ -2,18 +2,22 @@
 /*global window, $, $$, Reporting, Effect, Ajax, Element, selectAllOptions, Form */
 
 Reporting.InplaceEditor = Class.create(Ajax.InPlaceEditor, {
-    enterEditMode: function(e) {
+  enterEditMode: function (e) {
     if (this._saving || this._editing) return;
     this._editing = true;
     this.triggerCallback('onEnterEditMode');
-    if (this.options.externalControl)
+    if (this.options.externalControl) {
       this.options.externalControl.hide();
+    }
     this.element.hide();
     this.createForm();
     this.element.parentNode.insertBefore(this._form, this.element);
-    if (!this.options.loadTextURL)
+    if (!this.options.loadTextURL) {
       this.postProcessEditField();
-    if (e) Event.stop(e);
+    }
+    if (e) {
+      Event.stop(e);
+    }
     this.triggerCallback('onCreateForm');
   }
 });
@@ -48,9 +52,9 @@ Reporting.Controls = {
 
     var editor = new Reporting.InplaceEditor(target_id, updateUrl, {
       onCreateForm: function (editor, event) {
-        $('query_saved_name-inplaceeditor').select('[class=editor_field]').first().onblur = function() {
+        $('query_saved_name-inplaceeditor').select('[class=editor_field]').first().onblur = function () {
           editor.leaveEditMode();
-        }
+        };
       },
       callback: function (form, value) {
         return  'query_name=' + encodeURIComponent(value);
