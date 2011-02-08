@@ -43,12 +43,12 @@ Reporting.Filters = {
     }
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
-      Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
       // the following command might be included into the callback_function (which is called after the ajax request) later
       $('rm_' + field).value = field;
       var display_functor;
       if (options.show_filter) {
         display_functor = options.slowly ? Effect.Appear : Element.show;
+        Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
       } else {
         display_functor = options.slowly ? Effect.Fade : Element.hide;
       }
