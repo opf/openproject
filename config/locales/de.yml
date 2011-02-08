@@ -1,0 +1,18 @@
+# German strings go here for Rails i18n
+de:
+  label_meeting: "Meeting"
+  label_meeting_plural: "Meetings"
+  label_meeting_new: "Meeting anlegen"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Protokoll"
+  field_participants: "Teilnehmer"
+  field_location: "Ort"
+  field_start_time: "Anfangszeit"
+  field_duration: "Länge"
+  project_module_meetings: "Meetings"
+  permission_create_meetings: "Meetings erstellen"
+  permission_edit_meetings: "Meetings bearbeiten"
+  permission_delete_meetings: "Meetings löschen"
+  permission_view_meetings: "Meetings ansehen"
+  permission_create_meeting_agendas: "Agendas anlegen/bearbeiten"
+  permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
