@@ -13,7 +13,7 @@ module GlobalRoles
 
     module ClassMethods
       def available_project_modules_with_no_global
-        @available_project_modules ||= @permissions.reject{|p| p.global? }.collect(&:project_module).uniq.compact
+        @available_project_modules = @permissions.reject{|p| p.global? }.collect(&:project_module).uniq.compact
         available_project_modules_without_no_global
       end
 
