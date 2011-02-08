@@ -28,9 +28,9 @@ class Widget::Table < Widget::Base
       widget = Widget::Table::SimpleTable
     else
       if @query.depth_of(:row) == 0
-        @query.column(:singleton_value)
-      elsif @query.depth_of(:column) == 0
         @query.row(:singleton_value)
+      elsif @query.depth_of(:column) == 0
+        @query.column(:singleton_value)
       end
     end
     widget = Widget::Table::ReportTable
