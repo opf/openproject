@@ -103,6 +103,7 @@ class MailHandler < ActionMailer::Base
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
     logger.error e.message if logger
+    Mailer.deliver_mail_handler_missing_information(user, email.subject.to_s, e.message) if Setting.mail_handler_confirmation_on_failure
     false
   rescue MissingInformation => e
     logger.error "MailHandler: missing information from #{user}: #{e.message}" if logger

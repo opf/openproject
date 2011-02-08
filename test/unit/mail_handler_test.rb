@@ -497,6 +497,25 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert mail.body.include?('Unable to determine target project')
 
     end
+
+    should "deliver an email error confirmation to the sender for a missing other attributes" do
+      # Add a required custom field to simulate the error
+      project = Project.find('onlinestore')
+      project.issue_custom_fields << IssueCustomField.generate(:name => 'Required Custom Field0', :is_required => true, :trackers => project.trackers)
+      project.save
+
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_on_project_with_missing_information.eml')
+      assert_equal false, issue
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.bcc.include?('jsmith@somenet.foo')
+      assert mail.subject.include?('Failed email submission: New ticket on a given project')
+      assert mail.body.include?('There were errors with your email submission')
+      assert mail.body.include?('Required Custom Field0 can\'t be blank')
+    end
   end
 
   context "#receive_issue" do
