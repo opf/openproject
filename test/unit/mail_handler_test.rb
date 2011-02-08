@@ -451,7 +451,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   context "with an email that performs an unauthorized action" do
-    should "deliver an email error confirmation" do
+    should "deliver an email error confirmation for an unknown user" do
       ActionMailer::Base.deliveries.clear
       issue = submit_email('ticket_by_unknown_user.eml')
       assert_equal false, issue
@@ -461,6 +461,23 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_not_nil mail
       assert mail.to.include?('john.doe@somenet.foo')
       assert mail.subject.include?('Failed email submission: Ticket by unknown user')
+      assert mail.body.include?('You are not authorized to perform this action')
+    end
+
+    should "deliver an email error confirmation for a user without permission" do
+      ActionMailer::Base.deliveries.clear
+      # Clear memberships for the sending user so they fail permission checks
+      Project.find(1).update_attributes(:is_public => false)
+      Member.all(:conditions => {:user_id => 2}).collect(&:destroy)
+      assert_no_difference('Journal.count') do
+        assert_equal false, submit_email('ticket_reply.eml')
+      end
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.bcc.include?('jsmith@somenet.foo')
+      assert mail.subject.include?('Failed email submission: Re: Add ingredients categories')
       assert mail.body.include?('You are not authorized to perform this action')
     end
   end

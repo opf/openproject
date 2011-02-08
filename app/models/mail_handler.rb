@@ -109,6 +109,7 @@ class MailHandler < ActionMailer::Base
     false
   rescue UnauthorizedAction => e
     logger.error "MailHandler: unauthorized attempt from #{user}" if logger
+    Mailer.deliver_mail_handler_unauthorized_action(user, email.subject.to_s) if Setting.mail_handler_confirmation_on_failure
     false
   end
 
