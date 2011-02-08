@@ -82,6 +82,12 @@ Reporting.Controls = {
     e.preventDefault();
   },
 
+  clear_query: function (e) {
+    Reporting.Filters.clear();
+    Reporting.GroupBys.clear();
+    e.preventDefault();
+  },
+
   send_settings_data: function (targetUrl, callback) {
     selectAllOptions('group_by_rows');
     selectAllOptions('group_by_columns');
@@ -131,12 +137,13 @@ Reporting.onload(function () {
   $('save_as_form').hide();
 
   // When saving a new query, the success-response is the new saved query's url -> redirect to that
-    Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
-      Ajax.activeRequestCount = Ajax.activeRequestCount + 1; // HACK: Prevent Loading spinner from disappearing
-      document.location = response.responseText;
-    });
+  Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {
+    Ajax.activeRequestCount = Ajax.activeRequestCount + 1; // HACK: Prevent Loading spinner from disappearing
+    document.location = response.responseText;
+  });
   // When saving an update of an exisiting query or apply filters, we replace the table on success
   Reporting.Controls.attach_settings_callback($("query-icon-apply-button"), Reporting.Controls.update_result_table);
+  Reporting.Controls.observe_click($('query-link-clear'), Reporting.Controls.clear_query);
 });
 
 

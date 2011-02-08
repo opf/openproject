@@ -39,6 +39,13 @@ Reporting.GroupBys = {
         moveOptionDown(box);
       }
     });
+  },
+
+  clear: function () {
+    ['group_by_columns', 'group_by_rows'].each(function (type) {
+      selectAllOptions(type);
+      moveOptions(type, 'group_by_container');
+    });
   }
 };
 

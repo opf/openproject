@@ -127,6 +127,20 @@ Reporting.Filters = {
   remove_filter: function (field) {
     Reporting.Filters.show_filter(field, { show_filter: false });
     Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
+  },
+
+  visible_filters: function () {
+    return $("filter_table").childElements().first().select('tr').select(function (tr) {
+      return tr.visible() === true;
+    }).collect(function (filter) {
+      return filter.className;
+    });
+  },
+
+  clear: function () {
+    Reporting.Filters.visible_filters().each(function (filter) {
+      Reporting.Filters.remove_filter(filter);
+    });
   }
 };
 

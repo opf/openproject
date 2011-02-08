@@ -15,7 +15,7 @@ class Widget::Settings < Widget::Base
           widgets = render_widget(Widget::Controls::Apply, @query)
           render_widget(Widget::Controls::Save, @query, :to => widgets)
           render_widget(Widget::Controls::SaveAs, @query, :to => widgets)
-          render_widget(Widget::Controls::Reset, @query, :to => widgets)
+          render_widget(Widget::Controls::Clear, @query, :to => widgets)
           render_widget(Widget::Controls::Delete, @query, :to => widgets)
         end
 
