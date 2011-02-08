@@ -23,9 +23,9 @@ class Widget::Table < Widget::Base
     end
   end
 
-  def render
+  def table_widget
     if @query.depth_of(:column) + @query.depth_of(:row) == 0
-      widget = Widget::Table::SimpleTable
+      Widget::Table::SimpleTable
     else
       if @query.depth_of(:row) == 0
         @query.row(:singleton_value)
@@ -33,12 +33,15 @@ class Widget::Table < Widget::Base
         @query.column(:singleton_value)
       end
     end
-    widget = Widget::Table::ReportTable
+    Widget::Table::ReportTable
+  end
+
+  def render
     content_tag :div, :id => "result-table" do
-      if @query.result.count > 0
-        render_widget widget, @query, { :debug => debug? }
-      else
+      if @query.group_bys.empty? || @query.result.count <= 0
         content_tag :p, l(:label_no_data), :class => "nodata"
+      else
+        render_widget table_widget, @query, { :debug => debug? }
       end
     end
   end
