@@ -53,7 +53,9 @@ Reporting.Controls = {
     var editor = new Reporting.InplaceEditor(target_id, updateUrl, {
       onCreateForm: function (editor, event) {
         $('query_saved_name-inplaceeditor').select('[class=editor_field]').first().onblur = function () {
-          editor.leaveEditMode();
+          if ($('query_saved_name-inplaceeditor').include(event.target)) {
+            editor.leaveEditMode();
+          }
         };
       },
       callback: function (form, value) {
