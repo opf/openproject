@@ -46,19 +46,19 @@ Feature: Show existing meetings
     And the role "user" may have the following rights:
       | view_meetings |
     And the user "alice" is a "user" in the project "dingens"
-    # TODO: Wie kriegt man eine start_time rein?
     And there is 1 meeting in project "dingens" created by "alice" with:
-      | title      | Meeting 1 |
-      | location   | Room 1    |
-      | duration   | 1:30      |
+      | title      | Meeting 1           |
+      | location   | Room 1              |
+      | duration   | 1:30                |
+      | start_time | 2011-02-11 12:30:00 |
     And there is 1 meeting in project "dingens" created by "alice" with:
-      | title      | Meeting 2 |
-      | location   | Room 2    |
-      | duration   | 2:30      |
+      | title      | Meeting 2           |
+      | location   | Room 2              |
+      | duration   | 2:30                |
+      | start_time | 2011-02-10 11:00:00 |
     When I login as "alice"
     And I go to the page for the project "dingens"
     And I click on "Meetings"
     Then I should see "Meetings" within "#content"
     And I should not see "No data to display" within "#content"
-    And I should see "Meeting 1" within ".meetings"
-    And I should see "Meeting 2" within ".meetings"
+    And I should see 2 meetings
