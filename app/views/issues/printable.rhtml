@@ -8,21 +8,17 @@
       <td><strong><%= l(:label_filter_plural) %>:</strong></td>
       <td><%=  FilterSettingsHelper.filter_settings(@query).join(", ") %></td>
     </tr>
-    <% if group_by_settings = FilterSettingsHelper.group_by_setting(@query) %>        
+    <% if group_by_settings = FilterSettingsHelper.group_by_setting(@query) %>
       <tr>
         <td><strong><%= l(:field_group_by) %>:</strong></td>
         <td><%= group_by_settings %></td>
       </tr>
     <% end %>
   </table>
-  
+
   <% if @issues.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>
     <%= render :partial => 'issues/list_printable', :locals => {:issues => @issues, :query => @query} %>
   <% end %>
-<% end %>
-
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'issues_printable', :plugin => 'redmine_additional_formats', :media => "all" %>
 <% end %>
