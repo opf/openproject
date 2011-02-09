@@ -276,6 +276,8 @@ div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 #issue_tree td.checkbox {display:none;}
 
 fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
+fieldset.collapsible.borders { border-width: 1px; }
+fieldset.collapsible.collapsed.borders { border-width: 1px 0 0 0; }
 fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
 fieldset.collapsible.collapsed legend { background-image: url(../images/arrow_collapsed.png); }
 

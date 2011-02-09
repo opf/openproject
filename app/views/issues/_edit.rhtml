@@ -36,8 +36,12 @@
     <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
     <%= wikitoolbar_for 'notes' %>
     <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
+    </fieldset>
     
-    <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
+    <fieldset id="attachments" class="collapsible collapsed borders"><legend onclick="toggleFieldset(this);"><%=l(:label_attachment_plural)%></legend>
+      <div style="display: none;">
+      <%= render :partial => 'attachments/form' %>
+      </div>
     </fieldset>
     </div>
     
