@@ -5,7 +5,8 @@ class Widget::Filters::TextBox < Widget::Filters::Base
         text_field_tag("values[#{filter_class.underscore_name}]", "",
             :size => 150,
             :class => "select-small",
-            :id => "#{filter_class.underscore_name}_arg_1_val")
+            :id => "#{filter_class.underscore_name}_arg_1_val",
+            :'data-filter-name' => filter_class.underscore_name)
       end
     end
   end
