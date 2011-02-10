@@ -195,9 +195,10 @@ module Backlogs
             and tracker_id in (#{story_trackers})
           "
   
-          points_per_hour = Float(Story.find_by_sql("select avg(story_points) / avg(estimated_hours) as points_per_hour from issues where #{select_stories}")[0].points_per_hour)
+          points_per_hour = Story.find_by_sql("select avg(story_points) / avg(estimated_hours) as points_per_hour from issues where #{select_stories}")[0].points_per_hour
   
           if points_per_hour
+            points_per_hour = Float(points_per_hour)
             stories = Story.find(:all, :conditions => [select_stories])
             error = stories.inject(0) {|err, story|
               err + (1 - (points_per_hour / (story.story_points / story.estimated_hours)))
