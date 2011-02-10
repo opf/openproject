@@ -2,15 +2,6 @@
 /*global window, $, $$, Reporting, Effect, Ajax */
 
 Reporting.RestoreQuery = {
-  restore_filters: function () {
-    $('filter_table').select("tr").select(function (row) {
-      return $(row).getAttribute("data-selected") === "true";
-    }).each(function (row) {
-      var field = row.className;
-      Reporting.Filters.show_filter(field);
-      Reporting.Filters.select_option_enabled($("add_filter_select"), field, false);
-    });
-  },
 
   select_operator: function (field, operator) {
     var select, i;
