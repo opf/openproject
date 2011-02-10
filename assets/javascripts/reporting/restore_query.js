@@ -50,7 +50,7 @@ Reporting.RestoreQuery = {
 
   restore_group_bys: function () {
     // Activate recent group_bys on loading
-    var group_bys = $('group_by_container').select("option")
+    $('group_by_container').select("option")
     .select(function (group_by) {
       return $(group_by).hasAttribute("data-selected-axis");
     }).sortBy(function (group_by) {
