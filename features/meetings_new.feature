@@ -1,5 +1,5 @@
 Feature: Create new meetings
-
+  
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
