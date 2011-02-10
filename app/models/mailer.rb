@@ -40,7 +40,8 @@ class Mailer < ActionMailer::Base
   def issue_add(issue)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login
+                    'Issue-Author' => issue.author.login,
+                    'Type' => "Issue"
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
     recipients issue.recipients
@@ -60,7 +61,8 @@ class Mailer < ActionMailer::Base
     issue = journal.journalized.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login
+                    'Issue-Author' => issue.author.login,
+                    'Type' => "Issue"
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id journal
     references issue
@@ -80,6 +82,7 @@ class Mailer < ActionMailer::Base
   end
 
   def reminder(user, issues, days)
+    redmine_headers 'Type' => "Issue"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_reminder, :count => issues.size, :days => days)
@@ -95,7 +98,8 @@ class Mailer < ActionMailer::Base
   #   document_added(document) => tmail object
   #   Mailer.deliver_document_added(document) => sends an email to the document's project recipients
   def document_added(document)
-    redmine_headers 'Project' => document.project.identifier
+    redmine_headers 'Project' => document.project.identifier,
+                    'Type' => "Document"
     recipients document.recipients
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
@@ -126,7 +130,8 @@ class Mailer < ActionMailer::Base
       added_to = "#{l(:label_document)}: #{container.title}"
       recipients container.recipients
     end
-    redmine_headers 'Project' => container.project.identifier
+    redmine_headers 'Project' => container.project.identifier,
+                    'Type' => "Attachment"
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
     body :attachments => attachments,
          :added_to => added_to,
@@ -140,7 +145,8 @@ class Mailer < ActionMailer::Base
   #   news_added(news) => tmail object
   #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
   def news_added(news)
-    redmine_headers 'Project' => news.project.identifier
+    redmine_headers 'Project' => news.project.identifier,
+                    'Type' => "News"
     message_id news
     recipients news.recipients
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
@@ -156,7 +162,8 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_message_posted(message) => sends an email to the recipients
   def message_posted(message)
     redmine_headers 'Project' => message.project.identifier,
-                    'Topic-Id' => (message.parent_id || message.id)
+                    'Topic-Id' => (message.parent_id || message.id),
+                    'Type' => "Forum"
     message_id message
     references message.parent unless message.parent.nil?
     recipients(message.recipients)
@@ -174,7 +181,8 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_wiki_content_added(wiki_content) => sends an email to the project's recipients
   def wiki_content_added(wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
-                    'Wiki-Page-Id' => wiki_content.page.id
+                    'Wiki-Page-Id' => wiki_content.page.id,
+                    'Type' => "Wiki"
     message_id wiki_content
     recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients - recipients)
@@ -191,7 +199,8 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
   def wiki_content_updated(wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
-                    'Wiki-Page-Id' => wiki_content.page.id
+                    'Wiki-Page-Id' => wiki_content.page.id,
+                    'Type' => "Wiki"
     message_id wiki_content
     recipients wiki_content.recipients
     cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
@@ -208,6 +217,7 @@ class Mailer < ActionMailer::Base
   #   account_information(user, password) => tmail object
   #   Mailer.deliver_account_information(user, password) => sends account information to the user
   def account_information(user, password)
+    redmine_headers 'Type' => "Account"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -224,6 +234,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_account_activation_request(user)=> sends an email to all active administrators
   def account_activation_request(user)
     # Send the email to all active administrators
+    redmine_headers 'Type' => "Account"
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
@@ -237,6 +248,7 @@ class Mailer < ActionMailer::Base
   #   account_activated(user) => tmail object
   #   Mailer.deliver_account_activated(user) => sends an email to the registered user
   def account_activated(user)
+    redmine_headers 'Type' => "Account"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -246,6 +258,7 @@ class Mailer < ActionMailer::Base
   end
 
   def lost_password(token)
+    redmine_headers 'Type' => "Account"
     set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_lost_password, Setting.app_title)
@@ -255,6 +268,7 @@ class Mailer < ActionMailer::Base
   end
 
   def register(token)
+    redmine_headers 'Type' => "Account"
     set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -264,6 +278,7 @@ class Mailer < ActionMailer::Base
   end
 
   def test(user)
+    redmine_headers 'Type' => "Test"
     set_language_if_valid(user.language)
     recipients user.mail
     subject 'Redmine test'
