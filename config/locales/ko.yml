@@ -843,7 +843,7 @@ ko:
   text_user_wrote: "%{value}의 덧글:"
   text_enumeration_category_reassign_to: '새로운 값을 설정:'
   text_enumeration_destroy_question: "%{count} 개의 일감이 이 값을 사용하고 있습니다."
-  text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/email.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
+  text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/configuration.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
   text_repository_usernames_mapping: "저장소 로그에서 발견된 각 사용자에 레드마인 사용자를 업데이트할때 선택합니다.\n레드마인과 저장소의 이름이나 이메일이 같은 사용자가 자동으로 연결됩니다."
   text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
   text_custom_field_possible_values_info: '각 값 당 한 줄'

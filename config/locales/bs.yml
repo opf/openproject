@@ -787,7 +787,7 @@ bs:
   text_user_wrote: "%{value} je napisao/la:"
   text_enumeration_destroy_question: "Za %{count} objekata je dodjeljenja ova vrijednost."
   text_enumeration_category_reassign_to: 'Ponovo im dodjeli ovu vrijednost:'
-  text_email_delivery_not_configured: "Email dostava nije konfiguraisana, notifikacija je onemogućena.\nKonfiguriši SMTP server u config/email.yml i restartuj aplikaciju nakon toga."
+  text_email_delivery_not_configured: "Email dostava nije konfiguraisana, notifikacija je onemogućena.\nKonfiguriši SMTP server u config/configuration.yml i restartuj aplikaciju nakon toga."
   text_repository_usernames_mapping: "Odaberi ili ispravi redmine korisnika mapiranog za svako korisničko ima nađeno u logu repozitorija.\nKorisnici sa istim imenom u redmineu i u repozitoruju se automatski mapiraju."
   text_diff_truncated: '... Ovaj prikaz razlike je odsječen pošto premašuje maksimalnu veličinu za prikaz'
   text_custom_field_possible_values_info: 'Jedna linija za svaku vrijednost'

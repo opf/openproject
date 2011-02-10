@@ -255,7 +255,7 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
-        pdf.MultiCell(155,5, issue.description,"BR")
+        pdf.MultiCell(155,5, issue.description.to_s,"BR")
         
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
@@ -271,7 +271,7 @@ module Redmine
             pdf.Ln
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
-              pdf.MultiCell(190,5, changeset.comments)
+              pdf.MultiCell(190,5, changeset.comments.to_s)
             end   
             pdf.Ln
           end
@@ -291,7 +291,7 @@ module Redmine
           end
           if journal.notes?
             pdf.SetFontStyle('',8)
-            pdf.MultiCell(190,5, journal.notes)
+            pdf.MultiCell(190,5, journal.notes.to_s)
           end   
           pdf.Ln
         end

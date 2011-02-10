@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -303,6 +303,19 @@ class UserTest < ActiveSupport::TestCase
     assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
   end
   
+  def test_valid_notification_options
+    # without memberships
+    assert_equal 5, User.find(7).valid_notification_options.size
+    # with memberships
+    assert_equal 6, User.find(2).valid_notification_options.size
+  end
+  
+  def test_valid_notification_options_class_method
+    assert_equal 5, User.valid_notification_options.size
+    assert_equal 5, User.valid_notification_options(User.find(7)).size
+    assert_equal 6, User.valid_notification_options(User.find(2)).size
+  end
+  
   def test_mail_notification_all
     @jsmith.mail_notification = 'all'
     @jsmith.notified_project_ids = []
@@ -455,6 +468,7 @@ class UserTest < ActiveSupport::TestCase
       
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
         @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
+        Member.create!(:user => @user, :project => @project, :role_ids => [1])
         assert ! @user.notify_about?(@issue)
       end
       
@@ -486,6 +500,22 @@ class UserTest < ActiveSupport::TestCase
       should "be false for a user with :only_owner and is not the author" do
         @assignee.update_attribute(:mail_notification, 'only_owner')
         assert ! @assignee.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :selected and is the author" do
+        @author.update_attribute(:mail_notification, 'selected')
+        assert @author.notify_about?(@issue)
+      end
+      
+      should "be true for a user with :selected and is the assignee" do
+        @assignee.update_attribute(:mail_notification, 'selected')
+        assert @assignee.notify_about?(@issue)
+      end
+      
+      should "be false for a user with :selected and is not the author or assignee" do
+        @user = User.generate_with_protected!(:mail_notification => 'selected')
+        Member.create!(:user => @user, :project => @project, :role_ids => [1])
+        assert ! @user.notify_about?(@issue)
       end
     end
 

@@ -202,13 +202,45 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue2 = create_issue!
     issue3 = create_issue!(:parent_issue_id => issue2.id)
     issue4 = create_issue!(:parent_issue_id => issue1.id)
-    issue2.reload.destroy
+    
+    issue3.init_journal(User.find(2))
+    issue3.subject = 'child with journal'
+    issue3.save!
+    
+    assert_difference 'Issue.count', -2 do
+      assert_difference 'Journal.count', -1 do
+        assert_difference 'JournalDetail.count', -1 do
+          Issue.find(issue2.id).destroy
+        end
+      end
+    end
+    
     issue1.reload
     issue4.reload
     assert !Issue.exists?(issue2.id)
     assert !Issue.exists?(issue3.id)
     assert_equal [issue1.id, 1, 4], [issue1.root_id, issue1.lft, issue1.rgt]
     assert_equal [issue1.id, 2, 3], [issue4.root_id, issue4.lft, issue4.rgt]
+  end
+  
+  def test_destroy_child_issue_with_children
+    root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root')
+    child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id)
+    leaf = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id)
+    leaf.init_journal(User.find(2))
+    leaf.subject = 'leaf with journal'
+    leaf.save!
+    
+    assert_difference 'Issue.count', -2 do
+      assert_difference 'Journal.count', -1 do
+        assert_difference 'JournalDetail.count', -1 do
+          Issue.find(child.id).destroy
+        end
+      end
+    end
+    
+    root = Issue.find(root.id)
+    assert root.leaf?, "Root issue is not a leaf (lft: #{root.lft}, rgt: #{root.rgt})"
   end
   
   def test_parent_priority_should_be_the_highest_child_priority

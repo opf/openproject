@@ -24,7 +24,7 @@ module Redmine
       class MercurialAdapter < AbstractAdapter
 
         # Mercurial executable name
-        HG_BIN = "hg"
+        HG_BIN = Redmine::Configuration['scm_mercurial_command'] || "hg"
         TEMPLATES_DIR = File.dirname(__FILE__) + "/mercurial"
         TEMPLATE_NAME = "hg-template"
         TEMPLATE_EXTENSION = "tmpl"

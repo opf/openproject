@@ -23,7 +23,7 @@ module Redmine
       class CvsAdapter < AbstractAdapter
 
         # CVS executable name
-        CVS_BIN = "cvs"
+        CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
     
         # Guidelines for the input:
         #  url -> the project-path, relative to the cvsroot (eg. module name)
@@ -109,7 +109,7 @@ module Redmine
           
           path_with_project="#{url}#{with_leading_slash(path)}"
           cmd = "#{CVS_BIN} -d #{shell_quote root_url} rlog"
-          cmd << " -d\">#{time_to_cvstime(identifier_from)}\"" if identifier_from
+          cmd << " -d\">#{time_to_cvstime_rlog(identifier_from)}\"" if identifier_from
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
             state="entry_start"
@@ -289,6 +289,12 @@ module Redmine
             time = Time.parse(time)
           end
           return time.strftime("%Y-%m-%d %H:%M:%S")
+        end
+
+        def time_to_cvstime_rlog(time)
+          return nil if time.nil?
+          t1 = time.clone.localtime
+          return t1.strftime("%Y-%m-%d %H:%M:%S")
         end
           
         def normalize_cvs_path(path)

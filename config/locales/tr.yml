@@ -741,7 +741,7 @@ tr:
   label_generate_key: Generate a key
   setting_sequential_project_identifiers: Generate sequential project identifiers
   field_parent_title: Parent page
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   label_issue_watchers: Watchers
   mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"

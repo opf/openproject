@@ -771,7 +771,7 @@ pl:
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
   text_destroy_time_entries: Usuń wpisy dziennika
   text_destroy_time_entries_question: Przepracowano %{hours} godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?
-  text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/email.yml  a następnie zrestartuj aplikację i uaktywnij to."
+  text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie zostało skonfigurowane, więc powiadamianie jest nieaktywne.\nSkonfiguruj serwer SMTP w config/configuration.yml  a następnie zrestartuj aplikację i uaktywnij to."
   text_enumeration_category_reassign_to: 'Zmień przypisanie na tą wartość:'
   text_enumeration_destroy_question: "%{count} obiektów jest przypisana do tej wartości."
   text_file_repository_writable: Zapisywalne repozytorium plików

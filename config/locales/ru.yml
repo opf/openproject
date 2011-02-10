@@ -913,7 +913,7 @@ ru:
   text_destroy_time_entries_question: Вы собираетесь удалить %{hours} часа(ов), прикрепленных за этой задачей.
   text_destroy_time_entries: Удалить зарегистрированное время
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
-  text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/email.yml. Для применения изменений перезапустите приложение."
+  text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/configuration.yml. Для применения изменений перезапустите приложение."
   text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
   text_enumeration_destroy_question: "%{count} объект(а,ов) связаны с этим значением."
   text_file_repository_writable: Хранилище с доступом на запись

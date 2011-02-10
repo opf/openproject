@@ -296,7 +296,7 @@ class Mailer < ActionMailer::Base
       if raise_errors
         raise e
       elsif mylogger
-        mylogger.error "The following error occured while sending email notification: \"#{e.message}\". Check your configuration in config/email.yml."
+        mylogger.error "The following error occured while sending email notification: \"#{e.message}\". Check your configuration in config/configuration.yml."
       end
     ensure
       self.class.raise_delivery_errors = raise_errors

@@ -1,0 +1,126 @@
+# = Redmine configuration file
+#
+# Each environment has it's own configuration options.  If you are only
+# running in production, only the production block needs to be configured.
+# Environment specific configuration options override the default ones.
+#
+# Note that this file needs to be a valid YAML file.
+#
+# == Outgoing email settings (email_delivery setting)
+#
+# === Common configurations
+#
+# ==== Sendmail command
+#
+# production:
+#   email_delivery:
+#     delivery_method: :sendmail
+#
+# ==== Simple SMTP server at localhost
+#
+# production:
+#   email_delivery:
+#     delivery_method: :smtp
+#     smtp_settings:
+#       address: "localhost"
+#       port: 25
+#
+# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+#
+# production:
+#   email_delivery:
+#     delivery_method: :smtp
+#     smtp_settings:
+#       address: "example.com"
+#       port: 25
+#       authentication: :login
+#       domain: 'foo.com'
+#       user_name: 'myaccount'
+#       password: 'password'
+#
+# ==== SMTP server at example.com using PLAIN authentication
+#
+# production:
+#   email_delivery:
+#     delivery_method: :smtp
+#     smtp_settings:
+#       address: "example.com"
+#       port: 25
+#       authentication: :plain
+#       domain: 'example.com'
+#       user_name: 'myaccount'
+#       password: 'password'
+#
+# ==== SMTP server at using TLS (GMail)
+#
+# This requires some additional configuration.  See the article at:
+# http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
+#
+# production:
+#   email_delivery:
+#     delivery_method: :smtp
+#     smtp_settings:
+#       tls: true
+#       address: "smtp.gmail.com"
+#       port: 587
+#       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+#       authentication: :plain
+#       user_name: "your_email@gmail.com"
+#       password: "your_password"
+#
+#
+# === More configuration options
+#
+# See the "Configuration options" at the following website for a list of the
+# full options allowed:
+#
+# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+
+
+# default configuration options for all environments
+default:
+  # Outgoing emails configuration (see examples above)
+  email_delivery:
+    delivery_method: :smtp
+    smtp_settings:
+      address: smtp.example.net
+      port: 25
+      domain: example.net
+      authentication: :login
+      user_name: "redmine@example.net"
+      password: "redmine"
+  
+  # Absolute path to the directory where attachments are stored.
+  # The default is the 'files' directory in your Redmine instance.
+  # Your Redmine instance needs to have write permission on this
+  # directory.
+  # Examples:
+  # attachments_storage_path: /var/redmine/files
+  # attachments_storage_path: D:/redmine/files
+  attachments_storage_path:
+  
+  # Configuration of the autologin cookie.
+  # autologin_cookie_name: the name of the cookie (default: autologin)
+  # autologin_cookie_path: the cookie path (default: /)
+  # autologin_cookie_secure: true sets the cookie secure flag (default: false)
+  autologin_cookie_name:
+  autologin_cookie_path:
+  autologin_cookie_secure:
+  
+  # Configuration of SCM executable command.
+  # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
+  # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
+  scm_subversion_command: svn                                       # (default: svn)
+  scm_mercurial_command:  "\"C:\Program Files\TortoiseHg\hg.exe\""  # (default: hg)
+  scm_git_command:        /usr/local/bin/git                        # (default: git)
+  scm_cvs_command:        cvs                                       # (default: cvs)
+  scm_bazaar_command:     bzr.exe                                   # (default: bzr)
+  scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
+  
+# specific configuration options for production environment
+# that overrides the default ones
+production:
+
+# specific configuration options for development environment
+# that overrides the default ones
+development:

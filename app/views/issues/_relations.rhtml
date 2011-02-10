@@ -6,9 +6,9 @@
 
 <p><strong><%=l(:label_related_issues)%></strong></p>
 
-<% if @issue.relations.any? %>
+<% if @relations.present? %>
 <table style="width:100%">
-<% @issue.relations.select {|r| r.other_issue(@issue).visible? }.each do |relation| %>
+<% @relations.each do |relation| %>
 <tr>
 <td><%= l(relation.label_for(@issue)) %> <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
     <%= h(relation.other_issue(@issue).project) + ' - ' if Setting.cross_project_issue_relations? %>

@@ -753,7 +753,7 @@ da:
   setting_sequential_project_identifiers: Generér sekventielle projekt-identifikatorer
   setting_plain_text_mail: Emails som almindelig tekst (ingen HTML)
   field_parent_title: Siden over
-  text_email_delivery_not_configured: "Email-afsendelse er ikke indstillet og notifikationer er defor slået fra.\nKonfigurér din SMTP server i config/email.yml og genstart applikationen for at aktivere email-afsendelse."
+  text_email_delivery_not_configured: "Email-afsendelse er ikke indstillet og notifikationer er defor slået fra.\nKonfigurér din SMTP server i config/configuration.yml og genstart applikationen for at aktivere email-afsendelse."
   permission_protect_wiki_pages: Beskyt wiki sider
   permission_manage_documents: Administrér dokumenter
   permission_add_issue_watchers: Tilføj overvågere

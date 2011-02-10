@@ -260,12 +260,16 @@ class User < Principal
     notified_projects_ids
   end
 
-  # Only users that belong to more than 1 project can select projects for which they are notified
   def valid_notification_options
+    self.class.valid_notification_options(self)
+  end
+
+  # Only users that belong to more than 1 project can select projects for which they are notified
+  def self.valid_notification_options(user=nil)
     # Note that @user.membership.size would fail since AR ignores
     # :include association option when doing a count
-    if memberships.length < 1
-      MAIL_NOTIFICATION_OPTIONS.delete_if {|option| option.first == 'selected'}
+    if user.nil? || user.memberships.length < 1
+      MAIL_NOTIFICATION_OPTIONS.reject {|option| option.first == 'selected'}
     else
       MAIL_NOTIFICATION_OPTIONS
     end
@@ -418,7 +422,12 @@ class User < Principal
     when 'all'
       true
     when 'selected'
-      # Handled by the Project
+      # user receives notifications for created/assigned issues on unselected projects
+      if object.is_a?(Issue) && (object.author == self || object.assigned_to == self)
+        true
+      else
+        false
+      end
     when 'none'
       false
     when 'only_my_events'

@@ -80,8 +80,8 @@ Optional:
 
 == SMTP server Configuration
 
-Copy config/email.yml.example to config/email.yml and edit this file
-to adjust your SMTP settings.
+Copy config/configuration.yml.example to config/configuration.yml and
+edit this file to adjust your SMTP settings.
 Do not forget to restart the application after any change to this file.
 
 Please do not enter your SMTP settings in environment.rb.

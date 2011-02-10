@@ -748,7 +748,7 @@
   label_generate_key: Kulcs generálása
   setting_mail_handler_api_enabled: Web Service engedélyezése a beérkezett levelekhez
   setting_mail_handler_api_key: API kulcs
-  text_email_delivery_not_configured: "Az E-mail küldés nincs konfigurálva, és az értesítések ki vannak kapcsolva.\nÁllítsd be az SMTP szervert a config/email.yml fájlban és indítsd újra az alkalmazást, hogy érvénybe lépjen."
+  text_email_delivery_not_configured: "Az E-mail küldés nincs konfigurálva, és az értesítések ki vannak kapcsolva.\nÁllítsd be az SMTP szervert a config/configuration.yml fájlban és indítsd újra az alkalmazást, hogy érvénybe lépjen."
   field_parent_title: Szülő oldal
   label_issue_watchers: Megfigyelők
   setting_commit_logs_encoding: Commit üzenetek kódlapja

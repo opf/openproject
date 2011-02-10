@@ -16,6 +16,6 @@ dirs.each do |dir|
     / <%= link_to h(filename), :action => 'changes', :id => @project, :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
 
-<%= "@ #{h revision}" if revision %>
+<%= "@ #{h format_revision(@changeset)}" if @changeset %>
 
 <% html_title(with_leading_slash(path)) -%>

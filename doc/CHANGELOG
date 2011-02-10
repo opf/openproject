@@ -4,6 +4,29 @@ Redmine - project management software
 Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2011-01-30 v1.1.1
+
+* Defect #4899: Redmine fails to list files for darcs repository
+* Defect #7245: Wiki fails to find pages with cyrillic characters using postgresql
+* Defect #7256: redmine/public/.htaccess must be moved for non-fastcgi installs/upgrades
+* Defect #7258: Automatic spent time logging does not work properly with SQLite3
+* Defect #7259: Released 1.1.0 uses "devel" label inside admin information
+* Defect #7265: "Loading..." icon does not disappear after add project member
+* Defect #7266: Test test_due_date_distance_in_words fail due to undefined locale
+* Defect #7274: CSV value separator in dutch locale
+* Defect #7277: Enabling gravatas causes usernames to overlap first name field in user list
+* Defect #7294: "Notifiy for only project I select" is not available anymore in 1.1.0
+* Defect #7307: HTTP 500 error on query for empty revision
+* Defect #7313: Label not translated in french in Settings/Email Notification tab
+* Defect #7329: <code class="javascript"> with long strings may hang server
+* Defect #7337: My page french translation
+* Defect #7348: French Translation of "Connection"
+* Defect #7385: Error when viewing an issue which was related to a deleted subtask
+* Defect #7386: NoMethodError on pdf export
+* Defect #7415: Darcs adapter recognizes new files as modified files above Darcs 2.4
+* Defect #7421: no email sent with 'Notifiy for any event on the selected projects only'
+* Feature #5344: Update to latest CodeRay 0.9.x
+
 == 2011-01-09 v1.1.0
 
 * Defect #2038: Italics in wiki headers show-up wrong in the toc

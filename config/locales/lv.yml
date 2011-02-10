@@ -854,7 +854,7 @@ lv:
   text_user_wrote: "%{value} rakstīja:"
   text_enumeration_destroy_question: "%{count} objekti ir piešķirti šai vērtībai."
   text_enumeration_category_reassign_to: 'Piešķirt tos šai vērtībai:'
-  text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/email.yml un pārstartējiet lietotni."
+  text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/configuration.yml un pārstartējiet lietotni."
   text_repository_usernames_mapping: "Izvēlieties vai atjaunojiet Redmine lietotāju, saistītu ar katru lietotājvārdu, kas atrodams repozitorija žurnālā.\nLietotāji ar to pašu Redmine un repozitorija lietotājvārdu būs saistīti automātiski."
   text_diff_truncated: '... Šis diff tika nošķelts, jo tas pārsniedz maksimālo izmēru, ko var parādīt.'
   text_custom_field_possible_values_info: 'Katra vērtības savā rindā'

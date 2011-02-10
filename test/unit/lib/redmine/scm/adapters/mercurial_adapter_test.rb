@@ -69,6 +69,17 @@ begin
         end
       end
 
+      def test_diff_made_by_revision
+        if @adapter.class.client_version_above?([1, 2])
+          [16, '16', '4cddb4e45f52'].each do |r1|
+            diff1 = @adapter.diff(nil, r1)
+            assert_equal 5, diff1.size
+            buf = diff1[4].gsub(/\r\n|\r|\n/, "")
+            assert_equal '+0885933ad4f68d77c2649cd11f8311276e7ef7ce tag-init-revision', buf
+          end
+        end
+      end
+
       def test_cat
         [2, '400bb8672109', '400', 400].each do |r|
           buf = @adapter.cat('sources/welcome_controller.rb', r)

@@ -46,7 +46,9 @@
         <ul>
             <li>Link to an issue: <strong>#124</strong> (displays <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>, link is striked-through if the issue is closed)</li>
             <li>Link to a changeset: <strong>r758</strong> (displays <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">r758</a>)</li>
-            <li>Link to a changeset with a non-numeric hash: <strong>commit:c6f4d0fd</strong> (displays c6f4d0fd).  Added in <a href="#" class="changeset" title="Merged Git support branch (r1200 to r1226).">r1236</a>.</li>
+            <li>Link to a changeset with a non-numeric hash: <strong>commit:c6f4d0fd</strong> (displays <a href="#" class="changeset">c6f4d0fd</a>).</li>
+            <li>Link to a changeset of another project: <strong>sandbox:r758</strong> (displays <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">sanbox:r758</a>)</li>
+            <li>Link to a changeset with a non-numeric hash: <strong>sandbox:c6f4d0fd</strong> (displays <a href="#" class="changeset">sandbox:c6f4d0fd</a>).</li>
         </ul>
 
         <p>Wiki links:</p>
@@ -74,7 +76,7 @@
                     <li><strong>document#17</strong> (link to document with id 17)</li>
                     <li><strong>document:Greetings</strong> (link to the document with title "Greetings")</li>
                     <li><strong>document:"Some document"</strong> (double quotes can be used when document title contains spaces)</li>
-                    <li><strong>document:some_project:"Some document"</strong> (link to a document with title "Some document" in other project "some_project")
+                    <li><strong>sandbox:document:"Some document"</strong> (link to a document with title "Some document" in other project "sandbox")</li>
                 </ul></li>
         </ul>
 
@@ -84,6 +86,7 @@
                     <li><strong>version#3</strong> (link to version with id 3)</li>
                     <li><strong>version:1.0.0</strong> (link to version named "1.0.0")</li>
                     <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>sandbox:version:1.0.0</strong> (link to version "1.0.0" in the project "sandbox")</li>
                 </ul></li>
         </ul>
 
@@ -104,6 +107,8 @@
                     <li><strong>source:some/file@52#L120</strong>   (link to line 120 of the file's revision 52)</li>
                     <li><strong>source:"some file@52#L120"</strong> (use double quotes when the URL contains spaces</li>
                     <li><strong>export:some/file</strong>           (force the download of the file)</li>
+                    <li><strong>sandbox:source:some/file</strong>   (link to the file located at /some/file in the repository of the project "sandbox")</li>
+                    <li><strong>sandbox:export:some/file</strong>   (force the download of the file)</li>
                 </ul></li>
         </ul>
 

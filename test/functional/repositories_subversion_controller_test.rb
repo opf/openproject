@@ -228,6 +228,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'annotate'
     end
+
+    def test_annotate_at_given_revision
+      get :annotate, :id => 1, :rev => 8, :path => ['subversion_test', 'helloworld.c']
+      assert_response :success
+      assert_template 'annotate'
+      assert_tag :tag => 'h2', :content => /@ 8/
+    end
   else
     puts "Subversion test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end

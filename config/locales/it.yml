@@ -730,7 +730,7 @@ it:
   label_generate_key: Genera una chiave
   setting_mail_handler_api_enabled: Abilita WS per le email in arrivo
   setting_mail_handler_api_key: Chiave API
-  text_email_delivery_not_configured: "La consegna via email non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/email.yml e riavvia l'applicazione per abilitarle."
+  text_email_delivery_not_configured: "La consegna via email non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/configuration.yml e riavvia l'applicazione per abilitarle."
   field_parent_title: Pagina principale
   label_issue_watchers: Osservatori
   setting_commit_logs_encoding: Codifica dei messaggi di commit

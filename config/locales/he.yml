@@ -889,7 +889,7 @@ he:
   text_user_wrote: "%{value} כתב:"
   text_enumeration_destroy_question: "%{count} אוביקטים מוצבים לערך זה."
   text_enumeration_category_reassign_to: 'הצב מחדש לערך הזה:'
-  text_email_delivery_not_configured: 'לא נקבעה תצורה לשליחת דואר, וההתראות כבויות.\nקבע את תצורת שרת ה־SMTP בקובץ /etc/redmine/&lt;instance&gt;/email.yml והתחל את האפליקציה מחדש ע"מ לאפשר אותם.'
+  text_email_delivery_not_configured: 'לא נקבעה תצורה לשליחת דואר, וההתראות כבויות.\nקבע את תצורת שרת ה־SMTP בקובץ /etc/redmine/&lt;instance&gt;/configuration.yml והתחל את האפליקציה מחדש ע"מ לאפשר אותם.'
   text_repository_usernames_mapping: "בחר או עדכן את משתמש Redmine הממופה לכל שם משתמש ביומן המאגר.\nמשתמשים בעלי שם או כתובת דואר זהה ב־Redmine ובמאגר ממופים באופן אוטומטי."
   text_diff_truncated: '... השינויים עוברים את מספר השורות המירבי לתצוגה, ולכן הם קוצצו.'
   text_custom_field_possible_values_info: שורה אחת לכל ערך

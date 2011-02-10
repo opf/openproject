@@ -8,7 +8,7 @@
 
 <p><%= setting_check_box :plain_text_mail %></p>
 
-<p><%= setting_select(:default_notification_option, User::MAIL_NOTIFICATION_OPTIONS.collect {|o| [l(o.last), o.first.to_s]}) %></p>
+<p><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></p>
 
 </div>
 

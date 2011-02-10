@@ -203,11 +203,23 @@ class AccountController < ApplicationController
     self.logged_user = user
     # generate a key and set cookie if autologin
     if params[:autologin] && Setting.autologin?
-      token = Token.create(:user => user, :action => 'autologin')
-      cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+      set_autologin_cookie(user)
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
     redirect_back_or_default :controller => 'my', :action => 'page'
+  end
+  
+  def set_autologin_cookie(user)
+    token = Token.create(:user => user, :action => 'autologin')
+    cookie_name = Redmine::Configuration['autologin_cookie_name'] || 'autologin'
+    cookie_options = {
+      :value => token.value,
+      :expires => 1.year.from_now,
+      :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
+      :secure => (Redmine::Configuration['autologin_cookie_secure'] ? true : false),
+      :httponly => true
+    }
+    cookies[cookie_name] = cookie_options
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes

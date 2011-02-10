@@ -795,7 +795,7 @@ es:
   text_destroy_time_entries: Borrar las horas
   text_destroy_time_entries_question: Existen %{hours} horas asignadas a la petición que quiere borrar. ¿Qué quiere hacer?
   text_diff_truncated: '... Diferencia truncada por exceder el máximo tamaño visualizable.'
-  text_email_delivery_not_configured: "Las notificaciones están desactivadas porque el servidor de correo no está configurado.\nConfigure el servidor de SMTP en config/email.yml y reinicie la aplicación para activar los cambios."
+  text_email_delivery_not_configured: "Las notificaciones están desactivadas porque el servidor de correo no está configurado.\nConfigure el servidor de SMTP en config/configuration.yml y reinicie la aplicación para activar los cambios."
   text_enumeration_category_reassign_to: 'Reasignar al siguiente valor:'
   text_enumeration_destroy_question: "%{count} objetos con este valor asignado."
   text_file_repository_writable: Se puede escribir en el repositorio

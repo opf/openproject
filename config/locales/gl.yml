@@ -772,7 +772,7 @@ gl:
   text_destroy_time_entries: Borrar as horas
   text_destroy_time_entries_question: Existen %{hours} horas asignadas á petición que quere borrar. ¿Que quere facer ?
   text_diff_truncated: '... Diferencia truncada por exceder o máximo tamaño visualizable.'
-  text_email_delivery_not_configured: "O envío de correos non está configurado, e as notificacións desactiváronse. \n Configure o servidor de SMTP en config/email.yml e reinicie a aplicación para activar os cambios."
+  text_email_delivery_not_configured: "O envío de correos non está configurado, e as notificacións desactiváronse. \n Configure o servidor de SMTP en config/configuration.yml e reinicie a aplicación para activar os cambios."
   text_enumeration_category_reassign_to: 'Reasignar ó seguinte valor:'
   text_enumeration_destroy_question: "%{count} obxectos con este valor asignado."
   text_file_repository_writable: Pódese escribir no repositorio

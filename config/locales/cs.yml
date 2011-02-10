@@ -546,7 +546,7 @@ cs:
   label_relation_delete: Odstranit souvislost
   label_relates_to: související s
   label_duplicates: duplicity
-  label_blocks: bloků
+  label_blocks: blokuje
   label_blocked_by: zablokován
   label_precedes: předchází
   label_follows: následuje
@@ -729,7 +729,7 @@ cs:
   label_generate_key: Generovat klíč
   setting_mail_handler_api_enabled: Povolit WS pro příchozí e-maily
   setting_mail_handler_api_key: API klíč
-  text_email_delivery_not_configured: "Doručování e-mailů není nastaveno a odesílání notifikací je zakázáno.\nNastavte Váš SMTP server v souboru config/email.yml a restartujte aplikaci."
+  text_email_delivery_not_configured: "Doručování e-mailů není nastaveno a odesílání notifikací je zakázáno.\nNastavte Váš SMTP server v souboru config/configuration.yml a restartujte aplikaci."
   field_parent_title: Rodičovská stránka
   label_issue_watchers: Sledování
   setting_commit_logs_encoding: Kódování zpráv při commitu

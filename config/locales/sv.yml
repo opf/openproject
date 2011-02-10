@@ -208,6 +208,7 @@ sv:
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
   notice_issue_done_ratios_updated: % klart uppdaterade.
+  notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
   
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
@@ -217,7 +218,7 @@ sv:
   error_no_tracker_in_project: 'Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.'
   error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").'
   error_can_not_delete_custom_field: Kan inte ta bort användardefinerat fält
-  error_can_not_delete_tracker: Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.
+  error_can_not_delete_tracker: "Det finns ärenden av denna typ och den är därför inte möjlig att ta bort."
   error_can_not_remove_role: "Denna roll används och den är därför inte möjlig att ta bort."
   error_can_not_reopen_issue_on_closed_version: 'Ett ärende tilldelat en stängd version kan inte öppnas på nytt'
   error_can_not_archive_project: Detta projekt kan inte arkiveras
@@ -225,7 +226,7 @@ sv:
   error_workflow_copy_source: 'Vänligen välj källans ärendetyp eller roll'
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
-  error_unable_to_connect: Kan inte ansluta (%{value})
+  error_unable_to_connect: "Kan inte ansluta (%{value})"
   
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
   
@@ -240,9 +241,9 @@ sv:
   mail_subject_reminder: "%{count} ärende(n) har deadline under de kommande %{days} dagarna"
   mail_body_reminder: "%{count} ärende(n) som är tilldelat dig har deadline under de %{days} dagarna:"
   mail_subject_wiki_content_added: "'%{id}' wikisida has lagts till"
-  mail_body_wiki_content_added: The '%{id}' wikisida has lagts till av %{author}.
+  mail_body_wiki_content_added: "The '%{id}' wikisida has lagts till av %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
-  mail_body_wiki_content_updated: The '%{id}' wikisida har uppdaterats av %{author}.
+  mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
   
   gui_validation_error: 1 fel
   gui_validation_error_plural: "%{count} fel"
@@ -340,8 +341,8 @@ sv:
   field_group_by: Gruppera resultat efter
   field_sharing: Delning
   field_parent_issue: Förälderaktivitet
-  field_member_of_group: Tilldelad användares grupp
-  field_assigned_to_role: Tilldelad användares roll
+  field_member_of_group: "Tilldelad användares grupp"
+  field_assigned_to_role: "Tilldelad användares roll"
   field_text: Textfält
   field_visible: Synlig
   
@@ -380,7 +381,7 @@ sv:
   setting_activity_days_default: Dagar som visas på projektaktivitet
   setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt
   setting_enabled_scm: Aktivera SCM
-  setting_mail_handler_body_delimiters: Trunkera mail efter en av följande rader
+  setting_mail_handler_body_delimiters: "Trunkera mail efter en av följande rader"
   setting_mail_handler_api_enabled: Aktivera WS för inkommande mail
   setting_mail_handler_api_key: API-nyckel
   setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
@@ -400,6 +401,9 @@ sv:
   setting_rest_api_enabled: Aktivera REST webbtjänst
   setting_cache_formatted_text: Cacha formaterad text
   setting_default_notification_option: Standard notifieringsalternativ
+  setting_commit_logtime_enabled: Aktivera tidloggning
+  setting_commit_logtime_activity_id: Aktivitet för loggad tid
+  setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
   
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
@@ -581,7 +585,7 @@ sv:
   label_version_plural: Versioner
   label_close_versions: Stäng klara versioner
   label_confirmation: Bekräftelse
-  label_export_to: Exportera till
+  label_export_to: 'Finns även som:'
   label_read: Läs...
   label_public_projects: Publika projekt
   label_open_issues: öppen
@@ -666,7 +670,7 @@ sv:
   label_tag: Tag
   label_revision: Revision
   label_revision_plural: Revisioner
-  label_revision_id: Revision %{value}
+  label_revision_id: "Revision %{value}"
   label_associated_revisions: Associerade revisioner
   label_added: tillagd
   label_modified: modifierad
@@ -775,10 +779,10 @@ sv:
   label_search_titles_only: Sök endast i titlar
   label_user_mail_option_all: "För alla händelser i mina projekt"
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
-  label_user_mail_option_none: Inga händelser
-  label_user_mail_option_only_my_events: Endast för saker jag bevakar eller är inblandad i
-  label_user_mail_option_only_assigned: Endast för saker jag är tilldelad
-  label_user_mail_option_only_owner: Endast för saker jag äger
+  label_user_mail_option_none: "Inga händelser"
+  label_user_mail_option_only_my_events: "Endast för saker jag bevakar eller är inblandad i"
+  label_user_mail_option_only_assigned: "Endast för saker jag är tilldelad"
+  label_user_mail_option_only_owner: "Endast för saker jag äger"
   label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering
@@ -825,7 +829,7 @@ sv:
   label_display_used_statuses_only: Visa endast status som används av denna ärendetyp
   label_api_access_key: API-nyckel
   label_missing_api_access_key: Saknar en API-nyckel
-  label_api_access_key_created_on: API-nyckel skapad för %{value} sedan
+  label_api_access_key_created_on: "API-nyckel skapad för %{value} sedan"
   label_profile: Profil
   label_subtask_plural: Underaktiviteter
   label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
@@ -921,6 +925,7 @@ sv:
   text_no_configuration_data: "Roller, ärendetyper, ärendestatus och arbetsflöden har inte konfigurerats ännu.\nDet rekommenderas att läsa in standardkonfigurationen. Du kommer att kunna göra ändringar efter att den blivit inläst."
   text_load_default_configuration: Läs in standardkonfiguration
   text_status_changed_by_changeset: "Tilldelad i changeset %{value}."
+  text_time_logged_by_changeset: "Tilldelad i changeset %{value}."
   text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
   text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
   text_default_administrator_account_changed: Standardadministratörens konto ändrat
@@ -934,14 +939,14 @@ sv:
   text_user_wrote: "%{value} skrev:"
   text_enumeration_destroy_question: "%{count} objekt är tilldelade till detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
-  text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/email.yml och starta om applikationen för att aktivera dem."
+  text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
   text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller mailadress i både Redmine och versionsarkivet mappas automatiskt."
   text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
   text_custom_field_possible_values_info: 'Ett värde per rad'
-  text_wiki_page_destroy_question: Denna sida har %{descendants} underliggande sidor. Vad vill du göra?
-  text_wiki_page_nullify_children: Behåll undersidor som rotsidor
-  text_wiki_page_destroy_children: Ta bort alla underliggande sidor
-  text_wiki_page_reassign_children: Flytta undersidor till denna föräldersida
+  text_wiki_page_destroy_question: "Denna sida har %{descendants} underliggande sidor. Vad vill du göra?"
+  text_wiki_page_nullify_children: "Behåll undersidor som rotsidor"
+  text_wiki_page_destroy_children: "Ta bort alla underliggande sidor"
+  text_wiki_page_reassign_children: "Flytta undersidor till denna föräldersida"
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
@@ -972,8 +977,3 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

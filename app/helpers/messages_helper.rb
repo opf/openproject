@@ -16,14 +16,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module MessagesHelper
-
-  def link_to_message(message)
-    return '' unless message
-    link_to h(truncate(message.subject, :length => 60)), :controller => 'messages',
-                                           :action => 'show',
-                                           :board_id => message.board_id,
-                                           :id => message.root,
-                                           :r => (message.parent_id && message.id),
-                                           :anchor => (message.parent_id ? "message-#{message.id}" : nil)
-  end
 end
