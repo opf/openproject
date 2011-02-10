@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2010  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,10 +18,11 @@
 class TimelogController < ApplicationController
   menu_item :issues
   before_filter :find_project, :only => [:new, :create]
-  before_filter :find_time_entry, :only => [:edit, :update, :destroy]
+  before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
-
+  accept_key_auth :index, :show, :create, :update, :destroy
+  
   helper :sort
   include SortHelper
   helper :issues
@@ -66,6 +67,16 @@ class TimelogController < ApplicationController
 
           render :layout => !request.xhr?
         }
+        format.api  {
+          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
+          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+          @entries = TimeEntry.find(:all, 
+                                    :include => [:project, :activity, :user, {:issue => :tracker}],
+                                    :conditions => cond.conditions,
+                                    :order => sort_clause,
+                                    :limit  =>  @entry_pages.items_per_page,
+                                    :offset =>  @entry_pages.current.offset)
+        }
         format.atom {
           entries = TimeEntry.find(:all,
                                    :include => [:project, :activity, :user, {:issue => :tracker}],
@@ -85,6 +96,14 @@ class TimelogController < ApplicationController
       end
     end
   end
+  
+  def show
+    respond_to do |format|
+      # TODO: Implement html response
+      format.html { render :nothing => true, :status => 406 }
+      format.api
+    end
+  end
 
   def new
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
@@ -102,10 +121,18 @@ class TimelogController < ApplicationController
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     
     if @time_entry.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+        }
+        format.api  { render :action => 'show', :status => :created, :location => time_entry_url(@time_entry) }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.api  { render_validation_errors(@time_entry) }
+      end
     end    
   end
   
@@ -122,21 +149,40 @@ class TimelogController < ApplicationController
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     
     if @time_entry.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_back_or_default :action => 'index', :project_id => @time_entry.project
+        }
+        format.api  { head :ok }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.api  { render_validation_errors(@time_entry) }
+      end
     end    
   end
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     if @time_entry.destroy && @time_entry.destroyed?
-      flash[:notice] = l(:notice_successful_delete)
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_delete)
+          redirect_to :back
+        }
+        format.api  { head :ok }
+      end
     else
-      flash[:error] = l(:notice_unable_delete_time_entry)
+      respond_to do |format|
+        format.html {
+          flash[:error] = l(:notice_unable_delete_time_entry)
+          redirect_to :back
+        }
+        format.api  { render_validation_errors(@time_entry) }
+      end
     end
-    redirect_to :back
   rescue ::ActionController::RedirectBackError
     redirect_to :action => 'index', :project_id => @time_entry.project
   end
@@ -154,11 +200,11 @@ private
   end
 
   def find_project
-    if params[:issue_id]
-      @issue = Issue.find(params[:issue_id])
+    if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
+      @issue = Issue.find(issue_id)
       @project = @issue.project
-    elsif params[:project_id]
-      @project = Project.find(params[:project_id])
+    elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
+      @project = Project.find(project_id)
     else
       render_404
       return false

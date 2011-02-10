@@ -10,8 +10,10 @@ http://www.redmine.org/
 1. Uncompress the program archive in a new directory
 
 2. Copy your database settings (RAILS_ROOT/config/database.yml)
-   and SMTP settings (RAILS_ROOT/config/email.yml) into the new
-   config directory
+   and your configuration file (RAILS_ROOT/config/configuration.yml)
+   into the new config directory
+   Note: before Redmine 1.2, SMTP configuration was stored in
+   config/email.yml. It should now be stored in config/configuration.yml. 
 
 3. Copy the RAILS_ROOT/files directory content into your new installation
    This directory contains all the attached files.

@@ -15,10 +15,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
   
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
@@ -61,6 +61,47 @@ class RepositoryGitTest < ActiveSupport::TestCase
       
       @repository.fetch_changesets
       assert_equal 15, @repository.changesets.count
+    end
+
+    def test_find_changeset_by_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['7234cb2750b63f47bff735edc50a1c0a433c2518', '7234cb2750b'].each do |r|
+        assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518',
+                     @repository.find_changeset_by_name(r).revision
+      end
+    end
+
+    def test_find_changeset_by_empty_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        assert_nil @repository.find_changeset_by_name(r)
+      end
+    end
+
+    def test_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+      assert_equal c.scmid, c.identifier
+    end
+
+    def test_format_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
+      assert_equal '7234cb27', c.format_identifier
+    end
+
+    def test_activities
+      c = Changeset.new(:repository => @repository,
+                        :committed_on => Time.now,
+                        :revision => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+                        :scmid    => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+                        :comments => 'test')
+      assert c.event_title.include?('abc7234c:')
+      assert_equal 'abc7234cb2750b63f47bff735edc50a1c0a433c2', c.event_url[:rev]
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"

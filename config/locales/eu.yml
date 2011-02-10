@@ -36,37 +36,37 @@ eu:
       half_a_minute: "minutu erdi"
       less_than_x_seconds:
         one:   "segundu bat baino gutxiago"
-        other: "{{count}} segundu baino gutxiago"
+        other: "%{count} segundu baino gutxiago"
       x_seconds:
         one:   "segundu 1"
-        other: "{{count}} segundu"
+        other: "%{count} segundu"
       less_than_x_minutes:
         one:   "minutu bat baino gutxiago"
-        other: "{{count}} minutu baino gutxiago"
+        other: "%{count} minutu baino gutxiago"
       x_minutes:
         one:   "minutu 1"
-        other: "{{count}} minutu"
+        other: "%{count} minutu"
       about_x_hours:
         one:   "ordu 1 inguru"
-        other: "{{count}} ordu inguru"
+        other: "%{count} ordu inguru"
       x_days:
         one:   "egun 1"
-        other: "{{count}} egun"
+        other: "%{count} egun"
       about_x_months:
         one:   "hilabete 1 inguru"
-        other: "{{count}} hilabete inguru"
+        other: "%{count} hilabete inguru"
       x_months:
         one:   "hilabete 1"
-        other: "{{count}} hilabete"
+        other: "%{count} hilabete"
       about_x_years:
         one:   "urte 1 inguru"
-        other: "{{count}} urte inguru"
+        other: "%{count} urte inguru"
       over_x_years:
         one:   "urte 1 baino gehiago"
-        other: "{{count}} urte baino gehiago"
+        other: "%{count} urte baino gehiago"
       almost_x_years:
         one:   "ia urte 1"
-        other: "ia {{count}} urte"
+        other: "ia %{count} urte"
 
   number:
     format:
@@ -97,6 +97,10 @@ eu:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "ez dago zerrendan"
         exclusion: "erreserbatuta dago"
@@ -105,17 +109,17 @@ eu:
         accepted: "onartu behar da"
         empty: "ezin da hutsik egon"
         blank: "ezin da hutsik egon"
-        too_long: "luzeegia da (maximoa {{count}} karaktere dira)"
-        too_short: "laburregia da (minimoa {{count}} karaktere dira)"
-        wrong_length: "luzera ezegokia da ({{count}} karakter izan beharko litzake)"
+        too_long: "luzeegia da (maximoa %{count} karaktere dira)"
+        too_short: "laburregia da (minimoa %{count} karaktere dira)"
+        wrong_length: "luzera ezegokia da (%{count} karakter izan beharko litzake)"
         taken: "dagoeneko hartuta dago"
         not_a_number: "ez da zenbaki bat"
         not_a_date: "ez da baliozko data"
-        greater_than: "{{count}} baino handiagoa izan behar du"
-        greater_than_or_equal_to: "{{count}} edo handiagoa izan behar du"
-        equal_to: "{{count}} izan behar du"
-        less_than: "{{count}} baino gutxiago izan behar du"
-        less_than_or_equal_to: "{{count}} edo gutxiago izan behar du"
+        greater_than: "%{count} baino handiagoa izan behar du"
+        greater_than_or_equal_to: "%{count} edo handiagoa izan behar du"
+        equal_to: "%{count} izan behar du"
+        less_than: "%{count} baino gutxiago izan behar du"
+        less_than_or_equal_to: "%{count} edo gutxiago izan behar du"
         odd: "bakoitia izan behar du"
         even: "bikoitia izan behar du"
         greater_than_start_date: "hasiera data baino handiagoa izan behar du"
@@ -152,20 +156,20 @@ eu:
   notice_file_not_found: Atzitu nahi duzun orria ez da exisitzen edo ezabatua izan da.
   notice_locking_conflict: Beste erabiltzaile batek datuak eguneratu ditu.
   notice_not_authorized: Ez duzu orri hau atzitzeko baimenik.
-  notice_email_sent: "{{value}} helbidera eposta bat bidali da"
-  notice_email_error: "Errorea eposta bidaltzean ({{value}})"
+  notice_email_sent: "%{value} helbidera eposta bat bidali da"
+  notice_email_error: "Errorea eposta bidaltzean (%{value})"
   notice_feeds_access_key_reseted: Zure RSS atzipen giltza berrezarri da.
   notice_api_access_key_reseted: Zure API atzipen giltza berrezarri da.
-  notice_failed_to_save_issues: "Hautatutako {{total}} zereginetatik {{count}} ezin izan dira konpondu: {{ids}}."
+  notice_failed_to_save_issues: "Hautatutako %{total} zereginetatik %{count} ezin izan dira konpondu: %{ids}."
   notice_no_issue_selected: "Ez da zereginik hautatu! Mesedez, editatu nahi dituzun arazoak markatu."
   notice_account_pending: "Zure kontua sortu da, orain kudeatzailearen onarpenaren zain dago."
   notice_default_data_loaded: Lehenetsitako konfigurazioa ongi kargatu da.
   notice_unable_delete_version: Ezin da bertsioa ezabatu.
   notice_issue_done_ratios_updated: Burututako zereginen erlazioa eguneratu da.
   
-  error_can_t_load_default_data: "Ezin izan da lehenetsitako konfigurazioa kargatu: {{value}}"
+  error_can_t_load_default_data: "Ezin izan da lehenetsitako konfigurazioa kargatu: %{value}"
   error_scm_not_found: "Sarrera edo berrikuspena ez da biltegian topatu."
-  error_scm_command_failed: "Errorea gertatu da biltegia atzitzean: {{value}}"
+  error_scm_command_failed: "Errorea gertatu da biltegia atzitzean: %{value}"
   error_scm_annotate: "Sarrera ez da existitzen edo ezin da anotatu."
   error_issue_not_found_in_project: 'Zeregina ez da topatu edo ez da proiektu honetakoa'
   error_no_tracker_in_project: 'Proiektu honek ez du aztarnaririk esleituta. Mesedez egiaztatu Proiektuaren ezarpenak.'
@@ -176,25 +180,25 @@ eu:
   error_workflow_copy_source: 'Mesedez hautatu iturburuko aztarnari edo rola'
   error_workflow_copy_target: 'Mesedez hautatu helburuko aztarnari(ak) edo rola(k)'
   
-  warning_attachments_not_saved: "{{count}} fitxategi ezin izan d(ir)a gorde."
+  warning_attachments_not_saved: "%{count} fitxategi ezin izan d(ir)a gorde."
   
-  mail_subject_lost_password: "Zure {{value}} pasahitza"
+  mail_subject_lost_password: "Zure %{value} pasahitza"
   mail_body_lost_password: 'Zure pasahitza aldatzeko hurrengo estekan klikatu:'
-  mail_subject_register: "Zure {{value}} kontuaren gaitzea"
+  mail_subject_register: "Zure %{value} kontuaren gaitzea"
   mail_body_register: 'Zure kontua gaitzeko hurrengo estekan klikatu:'
-  mail_body_account_information_external: "Zure {{value}} kontua erabil dezakezu saioa hasteko."
+  mail_body_account_information_external: "Zure %{value} kontua erabil dezakezu saioa hasteko."
   mail_body_account_information: Zure kontuaren informazioa
-  mail_subject_account_activation_request: "{{value}} kontu gaitzeko eskaera"
-  mail_body_account_activation_request: "Erabiltzaile berri bat ({{value}}) erregistratu da. Kontua zure onarpenaren zain dago:"
-  mail_subject_reminder: "{{count}} arazo hurrengo {{days}} egunetan amaitzen d(ir)a"
-  mail_body_reminder: "Zuri esleituta dauden {{count}} arazo hurrengo {{days}} egunetan amaitzen d(ir)a:"
-  mail_subject_wiki_content_added: "'{{id}}' wiki orria gehitu da"
-  mail_body_wiki_content_added: "{{author}}-(e)k '{{id}}' wiki orria gehitu du."
-  mail_subject_wiki_content_updated: "'{{id}}' wiki orria eguneratu da"
-  mail_body_wiki_content_updated: "{{author}}-(e)k '{{id}}' wiki orria eguneratu du."
+  mail_subject_account_activation_request: "%{value} kontu gaitzeko eskaera"
+  mail_body_account_activation_request: "Erabiltzaile berri bat (%{value}) erregistratu da. Kontua zure onarpenaren zain dago:"
+  mail_subject_reminder: "%{count} arazo hurrengo %{days} egunetan amaitzen d(ir)a"
+  mail_body_reminder: "Zuri esleituta dauden %{count} arazo hurrengo %{days} egunetan amaitzen d(ir)a:"
+  mail_subject_wiki_content_added: "'%{id}' wiki orria gehitu da"
+  mail_body_wiki_content_added: "%{author}-(e)k '%{id}' wiki orria gehitu du."
+  mail_subject_wiki_content_updated: "'%{id}' wiki orria eguneratu da"
+  mail_body_wiki_content_updated: "%{author}-(e)k '%{id}' wiki orria eguneratu du."
   
   gui_validation_error: akats 1
-  gui_validation_error_plural: "{{count}} akats"
+  gui_validation_error_plural: "%{count} akats"
   
   field_name: Izena
   field_description: Deskribapena
@@ -257,6 +261,7 @@ eu:
   field_attr_lastname: Abizenak atributua
   field_attr_mail: Eposta atributua
   field_onthefly: Zuzeneko erabiltzaile sorrera
+  field_start_date: Hasiera
   field_done_ratio: Egindako %
   field_auth_source: Autentikazio modua
   field_hide_mail: Nire eposta helbidea ezkutatu
@@ -412,14 +417,14 @@ eu:
   label_x_projects:
     zero:  proiekturik ez
     one:   proiektu bat
-    other: "{{count}} proiektu"
+    other: "%{count} proiektu"
   label_project_all: Proiektu guztiak
   label_project_latest: Azken proiektuak
   label_issue: Zeregina
   label_issue_new: Zeregin berria
   label_issue_plural: Zereginak
   label_issue_view_all: Zeregin guztiak ikusi
-  label_issues_by: "Zereginak honengatik: {{value}}"
+  label_issues_by: "Zereginak honengatik: %{value}"
   label_issue_added: Zeregina gehituta
   label_issue_updated: Zeregina eguneratuta
   label_document: Dokumentua
@@ -468,7 +473,7 @@ eu:
   label_registered_on: Noiz erregistratuta
   label_activity: Jarduerak
   label_overall_activity: Jarduera guztiak
-  label_user_activity: "{{value}}-(r)en jarduerak"
+  label_user_activity: "%{value}-(r)en jarduerak"
   label_new: Berria
   label_logged_as: "Sartutako erabiltzailea:"
   label_environment: Ingurune
@@ -478,7 +483,7 @@ eu:
   label_auth_source_plural: Autentikazio moduak
   label_subproject_plural: Azpiproiektuak
   label_subproject_new: Azpiproiektu berria
-  label_and_its_subprojects: "{{value}} eta bere azpiproiektuak"
+  label_and_its_subprojects: "%{value} eta bere azpiproiektuak"
   label_min_max_length: Luzera min - max
   label_list: Zerrenda
   label_date: Data
@@ -489,8 +494,8 @@ eu:
   label_text: Testu luzea
   label_attribute: Atributua
   label_attribute_plural: Atributuak
-  label_download: "Deskarga {{count}}"
-  label_download_plural: "{{count}} Deskarga"
+  label_download: "Deskarga %{count}"
+  label_download_plural: "%{count} Deskarga"
   label_no_data: Ez dago erakusteko daturik
   label_change_status: Egoera aldatu
   label_history: Historikoa
@@ -523,17 +528,17 @@ eu:
   label_closed_issues: itxita
   label_closed_issues_plural: itxiak
   label_x_open_issues_abbr_on_total:
-    zero:  0 irekita / {{total}}
-    one:   1 irekita / {{total}}
-    other: "{{count}} irekiak / {{total}}"
+    zero:  0 irekita / %{total}
+    one:   1 irekita / %{total}
+    other: "%{count} irekiak / %{total}"
   label_x_open_issues_abbr:
     zero:  0 irekita
     one:   1 irekita
-    other: "{{count}} irekiak"
+    other: "%{count} irekiak"
   label_x_closed_issues_abbr:
     zero:  0 itxita
     one:   1 itxita
-    other: "{{count}} itxiak"
+    other: "%{count} itxiak"
   label_total: Guztira
   label_permissions: Baimenak
   label_current_status: Uneko egoera
@@ -551,7 +556,7 @@ eu:
   label_months_from: months from
   label_gantt: Gantt
   label_internal: Barnekoa
-  label_last_changes: "azken {{count}} aldaketak"
+  label_last_changes: "azken %{count} aldaketak"
   label_change_view_all: Aldaketa guztiak ikusi
   label_personalize_page: Orri hau pertsonalizatu
   label_comment: Iruzkin
@@ -559,7 +564,7 @@ eu:
   label_x_comments:
     zero: iruzkinik ez
     one: iruzkin 1
-    other: "{{count}} iruzkin"
+    other: "%{count} iruzkin"
   label_comment_add: Iruzkina gehitu
   label_comment_added: Iruzkina gehituta
   label_comment_delete: Iruzkinak ezabatu
@@ -580,7 +585,7 @@ eu:
   label_yesterday: atzo
   label_this_week: aste honetan
   label_last_week: pasadan astean
-  label_last_n_days: "azken {{count}} egunetan"
+  label_last_n_days: "azken %{count} egunetan"
   label_this_month: hilabete hau
   label_last_month: pasadan hilabetea
   label_this_year: urte hau
@@ -594,13 +599,13 @@ eu:
   label_repository: Biltegia
   label_repository_plural: Biltegiak
   label_browse: Arakatu
-  label_modification: "aldaketa {{count}}"
-  label_modification_plural: "{{count}} aldaketa"
+  label_modification: "aldaketa %{count}"
+  label_modification_plural: "%{count} aldaketa"
   label_branch: Adarra
   label_tag: Etiketa 
   label_revision: Berrikuspena
   label_revision_plural: Berrikuspenak
-  label_revision_id: "{{value}} berrikuspen"
+  label_revision_id: "%{value} berrikuspen"
   label_associated_revisions: Elkartutako berrikuspenak
   label_added: gehituta
   label_modified: aldatuta
@@ -617,8 +622,8 @@ eu:
   label_sort_lower: Behera mugitu
   label_sort_lowest: Beheraino mugitu
   label_roadmap: Ibilbide-mapa
-  label_roadmap_due_in: "Epea: {{value}}"
-  label_roadmap_overdue: "{{value}} berandu"
+  label_roadmap_due_in: "Epea: %{value}"
+  label_roadmap_overdue: "%{value} berandu"
   label_roadmap_no_issues: Ez dago zereginik bertsio honetan
   label_search: Bilatu
   label_result_plural: Emaitzak
@@ -636,8 +641,8 @@ eu:
   label_changes_details: Aldaketa guztien xehetasunak
   label_issue_tracking: Zeregin jarraipena
   label_spent_time: Igarotako denbora
-  label_f_hour: "ordu {{value}}"
-  label_f_hour_plural: "{{value}} ordu"
+  label_f_hour: "ordu %{value}"
+  label_f_hour_plural: "%{value} ordu"
   label_time_tracking: Denbora jarraipena
   label_change_plural: Aldaketak
   label_statistics: Estatistikak
@@ -686,15 +691,15 @@ eu:
   label_date_from: Nork
   label_date_to: Nori
   label_language_based: Erabiltzailearen hizkuntzaren arabera
-  label_sort_by: "Ordenazioa: {{value}}"
+  label_sort_by: "Ordenazioa: %{value}"
   label_send_test_email: Frogako mezua bidali
   label_feeds_access_key: RSS atzipen giltza
   label_missing_feeds_access_key: RSS atzipen giltza falta da
-  label_feeds_access_key_created_on: "RSS atzipen giltza orain dela {{value}} sortuta"
+  label_feeds_access_key_created_on: "RSS atzipen giltza orain dela %{value} sortuta"
   label_module_plural: Moduluak
-  label_added_time_by: "{{author}}, orain dela {{age}} gehituta"
-  label_updated_time_by: "{{author}}, orain dela {{age}} eguneratuta"
-  label_updated_time: "Orain dela {{value}} eguneratuta"
+  label_added_time_by: "%{author}, orain dela %{age} gehituta"
+  label_updated_time_by: "%{author}, orain dela %{age} eguneratuta"
+  label_updated_time: "Orain dela %{value} eguneratuta"
   label_jump_to_a_project: Joan proiektura...
   label_file_plural: Fitxategiak
   label_changeset_plural: Aldaketak
@@ -710,7 +715,7 @@ eu:
   label_registration_activation_by_email: kontuak epostaz gaitu
   label_registration_manual_activation: kontuak eskuz gaitu
   label_registration_automatic_activation: kontuak automatikoki gaitu
-  label_display_per_page: "Orriko: {{value}}"
+  label_display_per_page: "Orriko: %{value}"
   label_age: Adina
   label_change_properties: Propietateak aldatu
   label_general: Orokorra
@@ -733,7 +738,7 @@ eu:
   label_sort: Ordenatu
   label_ascending: Gorantz
   label_descending: Beherantz
-  label_date_from_to: "{{start}}-tik {{end}}-ra"
+  label_date_from_to: "%{start}-tik %{end}-ra"
   label_wiki_content_added: Wiki orria gehituta
   label_wiki_content_updated: Wiki orria eguneratuta
   label_group: Taldea
@@ -752,7 +757,7 @@ eu:
   label_display_used_statuses_only: Aztarnari honetan erabiltzen diren egoerak bakarrik erakutsi
   label_api_access_key: API atzipen giltza
   label_missing_api_access_key: API atzipen giltza falta da
-  label_api_access_key_created_on: "API atzipen giltza sortuta orain dela {{value}}"
+  label_api_access_key_created_on: "API atzipen giltza sortuta orain dela %{value}"
   
   button_login: Saioa hasi
   button_submit: Bidali
@@ -812,53 +817,53 @@ eu:
   text_regexp_info: adib. ^[A-Z0-9]+$
   text_min_max_length_info: 0k mugarik gabe esan nahi du
   text_project_destroy_confirmation: Ziur zaude proiektu hau eta erlazionatutako datu guztiak ezabatu nahi dituzula?
-  text_subprojects_destroy_warning: "{{value}} azpiproiektuak ere ezabatuko dira."
+  text_subprojects_destroy_warning: "%{value} azpiproiektuak ere ezabatuko dira."
   text_workflow_edit: Hautatu rola eta aztarnaria workflow-a editatzeko
   text_are_you_sure: Ziur zaude?
-  text_journal_changed: "{{label}} {{old}}-(e)tik {{new}}-(e)ra aldatuta"
-  text_journal_set_to: "{{label}}-k {{value}} balioa hartu du"
-  text_journal_deleted: "{{label}} ezabatuta ({{old}})"
-  text_journal_added: "{{label}} {{value}} gehituta"
+  text_journal_changed: "%{label} %{old}-(e)tik %{new}-(e)ra aldatuta"
+  text_journal_set_to: "%{label}-k %{value} balioa hartu du"
+  text_journal_deleted: "%{label} ezabatuta (%{old})"
+  text_journal_added: "%{label} %{value} gehituta"
   text_tip_issue_begin_day: gaur hasten diren atazak
   text_tip_issue_end_day: gaur bukatzen diren atazak
   text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren atazak
   text_project_identifier_info: 'Letra xeheak (a-z), zenbakiak eta marrak erabil daitezke bakarrik.<br />Gorde eta gero identifikadorea ezin da aldatu.'
-  text_caracters_maximum: "{{count}} karaktere gehienez."
-  text_caracters_minimum: "Gutxienez {{count}} karaktereetako luzerakoa izan behar du."
-  text_length_between: "Luzera {{min}} eta {{max}} karaktereen artekoa."
+  text_caracters_maximum: "%{count} karaktere gehienez."
+  text_caracters_minimum: "Gutxienez %{count} karaktereetako luzerakoa izan behar du."
+  text_length_between: "Luzera %{min} eta %{max} karaktereen artekoa."
   text_tracker_no_workflow: Ez da workflow-rik definitu aztarnari honentzako
   text_unallowed_characters: Debekatutako karaktereak
   text_comma_separated: Balio anitz izan daitezke (komaz banatuta).
   text_line_separated: Balio anitz izan daitezke (balio bakoitza lerro batean).
   text_issues_ref_in_commit_messages: Commit-en mezuetan zereginak erlazionatu eta konpontzen
-  text_issue_added: "{{id}} zeregina {{author}}-(e)k jakinarazi du."
-  text_issue_updated: "{{id}} zeregina {{author}}-(e)k eguneratu du."
+  text_issue_added: "%{id} zeregina %{author}-(e)k jakinarazi du."
+  text_issue_updated: "%{id} zeregina %{author}-(e)k eguneratu du."
   text_wiki_destroy_confirmation: Ziur zaude wiki hau eta bere eduki guztiak ezabatu nahi dituzula?
-  text_issue_category_destroy_question: "Zeregin batzuk ({{count}}) kategoria honetara esleituta daude. Zer egin nahi duzu?"
+  text_issue_category_destroy_question: "Zeregin batzuk (%{count}) kategoria honetara esleituta daude. Zer egin nahi duzu?"
   text_issue_category_destroy_assignments: Kategoria esleipenak kendu
   text_issue_category_reassign_to: Zereginak kategoria honetara esleitu
   text_user_mail_option: "Hautatu gabeko proiektuetan, behatzen edo parte hartzen duzun gauzei buruzko jakinarazpenak jasoko dituzu (adib. zu egile zaren edo esleituta dituzun zereginak)."
   text_no_configuration_data: "Rolak, aztarnariak, zeregin egoerak eta workflow-ak ez dira oraindik konfiguratu.\nOso gomendagarria de lehenetsitako kkonfigurazioa kargatzea. Kargatu eta gero aldatu ahalko duzu."
   text_load_default_configuration: Lehenetsitako konfigurazioa kargatu
-  text_status_changed_by_changeset: "{{value}} aldaketan aplikatuta."
+  text_status_changed_by_changeset: "%{value} aldaketan aplikatuta."
   text_issues_destroy_confirmation: 'Ziur zaude hautatutako zeregina(k) ezabatu nahi dituzula?'
   text_select_project_modules: 'Hautatu proiektu honetan gaitu behar diren moduluak:'
   text_default_administrator_account_changed: Lehenetsitako kudeatzaile kontua aldatuta
   text_file_repository_writable: Eranskinen direktorioan idatz daiteke
   text_plugin_assets_writable: Pluginen baliabideen direktorioan idatz daiteke
   text_rmagick_available: RMagick eskuragarri (aukerazkoa)
-  text_destroy_time_entries_question: "{{hours}} orduei buruz berri eman zen zuk ezabatzera zoazen zereginean. Zer egin nahi duzu?"
+  text_destroy_time_entries_question: "%{hours} orduei buruz berri eman zen zuk ezabatzera zoazen zereginean. Zer egin nahi duzu?"
   text_destroy_time_entries: Ezabatu berri emandako orduak
   text_assign_time_entries_to_project: Berri emandako orduak proiektura esleitu
   text_reassign_time_entries: 'Berri emandako orduak zeregin honetara esleitu:'
-  text_user_wrote: "{{value}}-(e)k idatzi zuen:"
-  text_enumeration_destroy_question: "{{count}} objetu balio honetara esleituta daude."
+  text_user_wrote: "%{value}-(e)k idatzi zuen:"
+  text_enumeration_destroy_question: "%{count} objetu balio honetara esleituta daude."
   text_enumeration_category_reassign_to: 'Beste balio honetara esleitu:'
-  text_email_delivery_not_configured: "Eposta bidalketa ez dago konfiguratuta eta jakinarazpenak ezgaituta daude.\nKonfiguratu zure SMTP zerbitzaria config/email.yml-n eta aplikazioa berrabiarazi hauek gaitzeko."
+  text_email_delivery_not_configured: "Eposta bidalketa ez dago konfiguratuta eta jakinarazpenak ezgaituta daude.\nKonfiguratu zure SMTP zerbitzaria config/configuration.yml-n eta aplikazioa berrabiarazi hauek gaitzeko."
   text_repository_usernames_mapping: "Hautatu edo eguneratu Redmineko erabiltzailea biltegiko egunkarietan topatzen diren erabiltzaile izenekin erlazionatzeko.\nRedmine-n eta biltegian erabiltzaile izen edo eposta berdina duten erabiltzaileak automatikoki erlazionatzen dira."
   text_diff_truncated: '... Diff hau moztua izan da erakus daitekeen tamaina maximoa gainditu duelako.'
   text_custom_field_possible_values_info: 'Lerro bat balio bakoitzeko'
-  text_wiki_page_destroy_question: "Orri honek {{descendants}} orri seme eta ondorengo ditu. Zer egin nahi duzu?"
+  text_wiki_page_destroy_question: "Orri honek %{descendants} orri seme eta ondorengo ditu. Zer egin nahi duzu?"
   text_wiki_page_nullify_children: "Orri semeak erro orri moduan mantendu"
   text_wiki_page_destroy_children: "Orri semeak eta beraien ondorengo guztiak ezabatu"
   text_wiki_page_reassign_children: "Orri semeak orri guraso honetara esleitu"
@@ -902,12 +907,12 @@ eu:
   label_subtask_plural: Azpiatazak
   label_project_copy_notifications: Proiektua kopiatzen den bitartean eposta jakinarazpenak bidali
   error_can_not_delete_custom_field: Ezin da eremu pertsonallizatua ezabatu
-  error_unable_to_connect: Ezin da konektatu ({{value}})
+  error_unable_to_connect: Ezin da konektatu (%{value})
   error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
   error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -915,7 +920,7 @@ eu:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -926,8 +931,12 @@ eu:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

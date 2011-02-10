@@ -218,6 +218,38 @@ function observeParentIssueField(url) {
                            }});
 }
 
+function observeRelatedIssueField(url) {
+  new Ajax.Autocompleter('relation_issue_to_id',
+                         'related_issue_candidates',
+                         url,
+                         { minChars: 3,
+                           frequency: 0.5,
+                           paramName: 'q',
+                           updateElement: function(value) {
+                             document.getElementById('relation_issue_to_id').value = value.id;
+                           },
+                           parameters: 'scope=all'
+                           });
+}
+
+function setVisible(id, visible) {
+  var el = $(id);
+  if (el) {if (visible) {el.show();} else {el.hide();}}
+}
+
+function observeProjectModules() {
+  var f = function() {
+    /* Hides trackers and issues custom fields on the new project form when issue_tracking module is disabled */
+    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    setVisible('project_trackers', c);
+    setVisible('project_issue_custom_fields', c);
+  };
+  
+  Event.observe(window, 'load', f);
+  Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
+}
+
+
 /* shows and hides ajax indicator */
 Ajax.Responders.register({
     onCreate: function(){

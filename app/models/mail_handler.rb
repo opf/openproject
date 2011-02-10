@@ -148,6 +148,9 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     end
     
+    # ignore CLI-supplied defaults for new issues
+    @@handler_options[:issue].clear
+    
     journal = issue.init_journal(user, cleaned_up_text_body)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
@@ -232,8 +235,8 @@ class MailHandler < ActionMailer::Base
   def extract_keyword!(text, attr, format=nil)
     keys = [attr.to_s.humanize]
     if attr.is_a?(Symbol)
-      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user
-      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language)
+      keys << l("field_#{attr}", :default => '', :locale =>  user.language) if user && user.language.present?
+      keys << l("field_#{attr}", :default => '', :locale =>  Setting.default_language) if Setting.default_language.present?
     end
     keys.reject! {|k| k.blank?}
     keys.collect! {|k| Regexp.escape(k)}
@@ -256,8 +259,8 @@ class MailHandler < ActionMailer::Base
     assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k)
     assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
     
-    {
-      'tracker_id' => ((k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id)) || issue.project.trackers.find(:first).try(:id),
+    attrs = {
+      'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.find_by_name(k).try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.find_by_name(k).try(:id),
@@ -268,6 +271,12 @@ class MailHandler < ActionMailer::Base
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
       'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
+    
+    if issue.new_record? && attrs['tracker_id'].nil?
+      attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
+    end
+    
+    attrs
   end
   
   # Returns a Hash of issue custom field values extracted from keywords in the email body

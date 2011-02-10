@@ -104,10 +104,11 @@ class Repository::Cvs < Repository
       scm.revisions('', fetch_since, nil, :with_paths => true) do |revision|
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all. 
-        unless changes.find_by_path_and_revision(scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
-          revision
+        tmp_time = revision.time.clone
+        unless changes.find_by_path_and_revision(
+	           scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
           cs = changesets.find(:first, :conditions=>{
-            :committed_on=>revision.time-time_delta..revision.time+time_delta,
+            :committed_on=>tmp_time - time_delta .. tmp_time + time_delta,
             :committer=>revision.author,
             :comments=>Changeset.normalize_comments(revision.message)
           })
@@ -116,11 +117,14 @@ class Repository::Cvs < Repository
           unless cs
             # we use a temporaray revision number here (just for inserting)
             # later on, we calculate a continous positive number
-            latest = changesets.find(:first, :order => 'id DESC')
+            tmp_time2 = tmp_time.clone.gmtime
+            branch = revision.paths[0][:branch]
+            scmid = branch + "-" + tmp_time2.strftime("%Y%m%d-%H%M%S")
             cs = Changeset.create(:repository => self,
-                                  :revision => "_#{tmp_rev_num}", 
+                                  :revision => "tmp#{tmp_rev_num}",
+                                  :scmid => scmid,
                                   :committer => revision.author, 
-                                  :committed_on => revision.time,
+                                  :committed_on => tmp_time,
                                   :comments => revision.message)
             tmp_rev_num += 1
           end
@@ -144,10 +148,13 @@ class Repository::Cvs < Repository
       end
       
       # Renumber new changesets in chronological order
-      changesets.find(:all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE '_%'").each do |changeset|
+      changesets.find(
+              :all, :order => 'committed_on ASC, id ASC', :conditions => "revision LIKE 'tmp%'"
+           ).each do |changeset|
         changeset.update_attribute :revision, next_revision_number
       end
     end # transaction
+    @current_revision_number = nil
   end
   
   private
@@ -155,7 +162,9 @@ class Repository::Cvs < Repository
   # Returns the next revision number to assign to a CVS changeset
   def next_revision_number
     # Need to retrieve existing revision numbers to sort them as integers
-    @current_revision_number ||= (connection.select_values("SELECT revision FROM #{Changeset.table_name} WHERE repository_id = #{id} AND revision NOT LIKE '_%'").collect(&:to_i).max || 0)
+    sql = "SELECT revision FROM #{Changeset.table_name} "
+    sql << "WHERE repository_id = #{id} AND revision NOT LIKE 'tmp%'"
+    @current_revision_number ||= (connection.select_values(sql).collect(&:to_i).max || 0)
     @current_revision_number += 1
   end
 end

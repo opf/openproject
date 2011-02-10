@@ -32,37 +32,37 @@ en-GB:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
         one:   "1 second"
-        other: "{{count}} seconds"
+        other: "%{count} seconds"
       less_than_x_minutes:
         one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        other: "less than %{count} minutes"
       x_minutes:
         one:   "1 minute"
-        other: "{{count}} minutes"
+        other: "%{count} minutes"
       about_x_hours:
         one:   "about 1 hour"
-        other: "about {{count}} hours"
+        other: "about %{count} hours"
       x_days:
         one:   "1 day"
-        other: "{{count}} days"
+        other: "%{count} days"
       about_x_months:
         one:   "about 1 month"
-        other: "about {{count}} months"
+        other: "about %{count} months"
       x_months:
         one:   "1 month"
-        other: "{{count}} months"
+        other: "%{count} months"
       about_x_years:
         one:   "about 1 year"
-        other: "about {{count}} years"
+        other: "about %{count} years"
       over_x_years:
         one:   "over 1 year"
-        other: "over {{count}} years"
+        other: "over %{count} years"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number:
     format:
@@ -98,6 +98,10 @@ en-GB:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "is not included in the list"
         exclusion: "is reserved"
@@ -106,17 +110,17 @@ en-GB:
         accepted: "must be accepted"
         empty: "can't be empty"
         blank: "can't be blank"
-        too_long: "is too long (maximum is {{count}} characters)"
-        too_short: "is too short (minimum is {{count}} characters)"
-        wrong_length: "is the wrong length (should be {{count}} characters)"
+        too_long: "is too long (maximum is %{count} characters)"
+        too_short: "is too short (minimum is %{count} characters)"
+        wrong_length: "is the wrong length (should be %{count} characters)"
         taken: "has already been taken"
         not_a_number: "is not a number"
         not_a_date: "is not a valid date"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        greater_than: "must be greater than %{count}"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
         greater_than_start_date: "must be greater than start date"
@@ -153,20 +157,20 @@ en-GB:
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorised to access this page.
-  notice_email_sent: "An email was sent to {{value}}"
-  notice_email_error: "An error occurred while sending mail ({{value}})"
+  notice_email_sent: "An email was sent to %{value}"
+  notice_email_error: "An error occurred while sending mail (%{value})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
-  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
+  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete version.
   notice_issue_done_ratios_updated: Issue done ratios updated.
   
-  error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
+  error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
+  error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
@@ -177,25 +181,25 @@ en-GB:
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   
-  mail_subject_lost_password: "Your {{value}} password"
+  mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
-  mail_subject_register: "Your {{value}} account activation"
+  mail_subject_register: "Your %{value} account activation"
   mail_body_register: 'To activate your account, click on the following link:'
-  mail_body_account_information_external: "You can use your {{value}} account to log in."
+  mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_account_information: Your account information
-  mail_subject_account_activation_request: "{{value}} account activation request"
-  mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
+  mail_subject_account_activation_request: "%{value} account activation request"
+  mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   
   gui_validation_error: 1 error
-  gui_validation_error_plural: "{{count}} errors"
+  gui_validation_error_plural: "%{count} errors"
   
   field_name: Name
   field_description: Description
@@ -416,14 +420,14 @@ en-GB:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: All Projects
   label_project_latest: Latest projects
   label_issue: Issue
   label_issue_new: New issue
   label_issue_plural: Issues
   label_issue_view_all: View all issues
-  label_issues_by: "Issues by {{value}}"
+  label_issues_by: "Issues by %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
   label_document: Document
@@ -472,7 +476,7 @@ en-GB:
   label_registered_on: Registered on
   label_activity: Activity
   label_overall_activity: Overall activity
-  label_user_activity: "{{value}}'s activity"
+  label_user_activity: "%{value}'s activity"
   label_new: New
   label_logged_as: Logged in as
   label_environment: Environment
@@ -482,7 +486,7 @@ en-GB:
   label_auth_source_plural: Authentication modes
   label_subproject_plural: Subprojects
   label_subproject_new: New subproject
-  label_and_its_subprojects: "{{value}} and its subprojects"
+  label_and_its_subprojects: "%{value} and its subprojects"
   label_min_max_length: Min - Max length
   label_list: List
   label_date: Date
@@ -493,8 +497,8 @@ en-GB:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
   label_no_data: No data to display
   label_change_status: Change status
   label_history: History
@@ -526,17 +530,17 @@ en-GB:
   label_closed_issues: closed
   label_closed_issues_plural: closed
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: Total
   label_permissions: Permissions
   label_current_status: Current status
@@ -554,7 +558,7 @@ en-GB:
   label_months_from: months from
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "last {{count}} changes"
+  label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
   label_personalize_page: Personalise this page
   label_comment: Comment
@@ -562,7 +566,7 @@ en-GB:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Add a comment
   label_comment_added: Comment added
   label_comment_delete: Delete comments
@@ -583,7 +587,7 @@ en-GB:
   label_yesterday: yesterday
   label_this_week: this week
   label_last_week: last week
-  label_last_n_days: "last {{count}} days"
+  label_last_n_days: "last %{count} days"
   label_this_month: this month
   label_last_month: last month
   label_this_year: this year
@@ -597,13 +601,13 @@ en-GB:
   label_repository: Repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "{{count}} change"
-  label_modification_plural: "{{count}} changes"
+  label_modification: "%{count} change"
+  label_modification_plural: "%{count} changes"
   label_branch: Branch
   label_tag: Tag 
   label_revision: Revision
   label_revision_plural: Revisions
-  label_revision_id: "Revision {{value}}"
+  label_revision_id: "Revision %{value}"
   label_associated_revisions: Associated revisions
   label_added: added
   label_modified: modified
@@ -620,8 +624,8 @@ en-GB:
   label_sort_lower: Move down
   label_sort_lowest: Move to bottom
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Due in {{value}}"
-  label_roadmap_overdue: "{{value}} late"
+  label_roadmap_due_in: "Due in %{value}"
+  label_roadmap_overdue: "%{value} late"
   label_roadmap_no_issues: No issues for this version
   label_search: Search
   label_result_plural: Results
@@ -639,8 +643,8 @@ en-GB:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
-  label_f_hour: "{{value}} hour"
-  label_f_hour_plural: "{{value}} hours"
+  label_f_hour: "%{value} hour"
+  label_f_hour_plural: "%{value} hours"
   label_time_tracking: Time tracking
   label_change_plural: Changes
   label_statistics: Statistics
@@ -691,15 +695,15 @@ en-GB:
   label_date_from: From
   label_date_to: To
   label_language_based: Based on user's language
-  label_sort_by: "Sort by {{value}}"
+  label_sort_by: "Sort by %{value}"
   label_send_test_email: Send a test email
   label_feeds_access_key: RSS access key
   label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
+  label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_module_plural: Modules
-  label_added_time_by: "Added by {{author}} {{age}} ago"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
-  label_updated_time: "Updated {{value}} ago"
+  label_added_time_by: "Added by %{author} %{age} ago"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
+  label_updated_time: "Updated %{value} ago"
   label_jump_to_a_project: Jump to a project...
   label_file_plural: Files
   label_changeset_plural: Changesets
@@ -716,7 +720,7 @@ en-GB:
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
   label_registration_automatic_activation: automatic account activation
-  label_display_per_page: "Per page: {{value}}"
+  label_display_per_page: "Per page: %{value}"
   label_age: Age
   label_change_properties: Change properties
   label_general: General
@@ -739,7 +743,7 @@ en-GB:
   label_sort: Sort
   label_ascending: Ascending
   label_descending: Descending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_group: Group
@@ -758,7 +762,7 @@ en-GB:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
-  label_api_access_key_created_on: "API access key created {{value}} ago"
+  label_api_access_key_created_on: "API access key created %{value} ago"
   
   button_login: Login
   button_submit: Submit
@@ -818,53 +822,53 @@ en-GB:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
   text_project_destroy_confirmation: Are you sure you want to delete this project and related data?
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
+  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure?
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_added: "%{label} %{value} added"
   text_tip_issue_begin_day: task beginning this day
   text_tip_issue_end_day: task ending this day
   text_tip_issue_begin_end_day: task beginning and ending this day
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
-  text_caracters_maximum: "{{count}} characters maximum."
-  text_caracters_minimum: "Must be at least {{count}} characters long."
-  text_length_between: "Length between {{min}} and {{max}} characters."
+  text_caracters_maximum: "%{count} characters maximum."
+  text_caracters_minimum: "Must be at least %{count} characters long."
+  text_length_between: "Length between %{min} and %{max} characters."
   text_tracker_no_workflow: No workflow defined for this tracker
   text_unallowed_characters: Unallowed characters
   text_comma_separated: Multiple values allowed (comma separated).
   text_line_separated: Multiple values allowed (one line for each value).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Issue {{id}} has been reported by {{author}}."
-  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_issue_added: "Issue %{id} has been reported by %{author}."
+  text_issue_updated: "Issue %{id} has been updated by %{author}."
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content?
-  text_issue_category_destroy_question: "Some issues ({{count}}) are assigned to this category. What do you want to do?"
+  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Reassign issues to this category
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick available (optional)
-  text_destroy_time_entries_question: "{{hours}} hours were reported on the issues you are about to delete. What do you want to do?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
-  text_user_wrote: "{{value}} wrote:"
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_user_wrote: "%{value} wrote:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   text_custom_field_possible_values_info: 'One line for each value'
-  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
@@ -901,7 +905,7 @@ en-GB:
   error_can_not_delete_custom_field: Unable to delete custom field
   permission_manage_subtasks: Manage subtasks
   label_profile: Profile
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   label_overall_spent_time: Overall spent time
   error_can_not_remove_role: This role is in use and can not be deleted.
   field_principal: Principal
@@ -912,14 +916,14 @@ en-GB:
   error_unable_delete_issue_status: Unable to delete issue status
   label_subtask_plural: Subtasks
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   label_project_copy_notifications: Send email notifications during the project copy
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
   field_member_of_group: Member of Group
   field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -931,3 +935,8 @@ en-GB:
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

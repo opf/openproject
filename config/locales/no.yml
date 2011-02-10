@@ -27,37 +27,37 @@
       half_a_minute: "et halvt minutt"
       less_than_x_seconds:
         one: "mindre enn 1 sekund"
-        other: "mindre enn {{count}} sekunder"
+        other: "mindre enn %{count} sekunder"
       x_seconds:
         one: "1 sekund"
-        other: "{{count}} sekunder"
+        other: "%{count} sekunder"
       less_than_x_minutes:
         one: "mindre enn 1 minutt"
-        other: "mindre enn {{count}} minutter"
+        other: "mindre enn %{count} minutter"
       x_minutes:
         one: "1 minutt"
-        other: "{{count}} minutter"
+        other: "%{count} minutter"
       about_x_hours:
         one: "rundt 1 time"
-        other: "rundt {{count}} timer"
+        other: "rundt %{count} timer"
       x_days:
         one: "1 dag"
-        other: "{{count}} dager"
+        other: "%{count} dager"
       about_x_months:
         one: "rundt 1 måned"
-        other: "rundt {{count}} måneder"
+        other: "rundt %{count} måneder"
       x_months:
         one: "1 måned"
-        other: "{{count}} måneder"
+        other: "%{count} måneder"
       about_x_years:
         one: "rundt 1 år"
-        other: "rundt {{count}} år"
+        other: "rundt %{count} år"
       over_x_years:
         one: "over 1 år"
-        other: "over {{count}} år"
+        other: "over %{count} år"
       almost_x_years:
         one:   "nesten 1 år"
-        other: "nesten {{count}} år"
+        other: "nesten %{count} år"
   number:
     format:
       precision: 2
@@ -86,7 +86,7 @@
   activerecord:
     errors:
       template:
-        header: "kunne ikke lagre {{model}} på grunn av {{count}} feil."
+        header: "kunne ikke lagre %{model} på grunn av %{count} feil."
         body: "det oppstod problemer i følgende felt:"
       messages:
         inclusion: "er ikke inkludert i listen"
@@ -96,16 +96,16 @@
         accepted: "må være akseptert"
         empty: "kan ikke være tom"
         blank: "kan ikke være blank"
-        too_long: "er for lang (maksimum {{count}} tegn)"
-        too_short: "er for kort (minimum {{count}} tegn)"
-        wrong_length: "er av feil lengde (maksimum {{count}} tegn)"
+        too_long: "er for lang (maksimum %{count} tegn)"
+        too_short: "er for kort (minimum %{count} tegn)"
+        wrong_length: "er av feil lengde (maksimum %{count} tegn)"
         taken: "er allerede i bruk"
         not_a_number: "er ikke et tall"
-        greater_than: "må være større enn {{count}}"
-        greater_than_or_equal_to: "må være større enn eller lik {{count}}"
-        equal_to: "må være lik {{count}}"
-        less_than: "må være mindre enn {{count}}"
-        less_than_or_equal_to: "må være mindre enn eller lik {{count}}"
+        greater_than: "må være større enn %{count}"
+        greater_than_or_equal_to: "må være større enn eller lik %{count}"
+        equal_to: "må være lik %{count}"
+        less_than: "må være mindre enn %{count}"
+        less_than_or_equal_to: "må være mindre enn eller lik %{count}"
         odd: "må være oddetall"
         even: "må være partall"
         greater_than_start_date: "må være større enn startdato"
@@ -143,33 +143,33 @@
   notice_file_not_found: Siden du forsøkte å vise eksisterer ikke, eller er slettet.
   notice_locking_conflict: Data har blitt oppdatert av en annen bruker.
   notice_not_authorized: Du har ikke adgang til denne siden.
-  notice_email_sent: "En e-post er sendt til {{value}}"
-  notice_email_error: "En feil oppstod under sending av e-post ({{value}})"
+  notice_email_sent: "En e-post er sendt til %{value}"
+  notice_email_error: "En feil oppstod under sending av e-post (%{value})"
   notice_feeds_access_key_reseted: Din RSS-tilgangsnøkkel er nullstilt.
-  notice_failed_to_save_issues: "Lykkes ikke å lagre {{count}} sak(er) på {{total}} valgt: {{ids}}."
+  notice_failed_to_save_issues: "Lykkes ikke å lagre %{count} sak(er) på %{total} valgt: %{ids}."
   notice_no_issue_selected: "Ingen sak valgt! Vennligst merk sakene du vil endre."
   notice_account_pending: "Din konto ble opprettet og avventer nå administrativ godkjenning."
   notice_default_data_loaded: Standardkonfigurasjonen lastet inn.
   
-  error_can_t_load_default_data: "Standardkonfigurasjonen kunne ikke lastes inn: {{value}}"
+  error_can_t_load_default_data: "Standardkonfigurasjonen kunne ikke lastes inn: %{value}"
   error_scm_not_found: "Elementet og/eller revisjonen eksisterer ikke i depoet."
-  error_scm_command_failed: "En feil oppstod under tilkobling til depoet: {{value}}"
+  error_scm_command_failed: "En feil oppstod under tilkobling til depoet: %{value}"
   error_scm_annotate: "Elementet eksisterer ikke, eller kan ikke noteres."
   error_issue_not_found_in_project: 'Saken eksisterer ikke, eller hører ikke til dette prosjektet'
   
-  mail_subject_lost_password: "Ditt {{value}} passord"
+  mail_subject_lost_password: "Ditt %{value} passord"
   mail_body_lost_password: 'Klikk følgende lenke for å endre ditt passord:'
-  mail_subject_register: "{{value}} kontoaktivering"
+  mail_subject_register: "%{value} kontoaktivering"
   mail_body_register: 'Klikk følgende lenke for å aktivere din konto:'
-  mail_body_account_information_external: "Du kan bruke din {{value}}-konto for å logge inn."
+  mail_body_account_information_external: "Du kan bruke din %{value}-konto for å logge inn."
   mail_body_account_information: Informasjon om din konto
-  mail_subject_account_activation_request: "{{value}} kontoaktivering"
-  mail_body_account_activation_request: "En ny bruker ({{value}}) er registrert, og avventer din godkjenning:"
-  mail_subject_reminder: "{{count}} sak(er) har frist de kommende {{days}} dagene"
-  mail_body_reminder: "{{count}} sak(er) som er tildelt deg har frist de kommende {{days}} dager:"
+  mail_subject_account_activation_request: "%{value} kontoaktivering"
+  mail_body_account_activation_request: "En ny bruker (%{value}) er registrert, og avventer din godkjenning:"
+  mail_subject_reminder: "%{count} sak(er) har frist de kommende %{days} dagene"
+  mail_body_reminder: "%{count} sak(er) som er tildelt deg har frist de kommende %{days} dager:"
   
   gui_validation_error: 1 feil
-  gui_validation_error_plural: "{{count}} feil"
+  gui_validation_error_plural: "%{count} feil"
   
   field_name: Navn
   field_description: Beskrivelse
@@ -231,6 +231,7 @@
   field_attr_lastname: Etternavnsattributt
   field_attr_mail: E-post-attributt
   field_onthefly: On-the-fly brukeropprettelse
+  field_start_date: Start
   field_done_ratio: % Ferdig
   field_auth_source: Autentifikasjonsmodus
   field_hide_mail: Skjul min e-post-adresse
@@ -305,14 +306,14 @@
   label_x_projects:
     zero:  ingen prosjekter
     one:   1 prosjekt
-    other: "{{count}} prosjekter"
+    other: "%{count} prosjekter"
   label_project_all: Alle prosjekter
   label_project_latest: Siste prosjekter
   label_issue: Sak
   label_issue_new: Ny sak
   label_issue_plural: Saker
   label_issue_view_all: Vis alle saker
-  label_issues_by: "Saker etter {{value}}"
+  label_issues_by: "Saker etter %{value}"
   label_issue_added: Sak lagt til
   label_issue_updated: Sak oppdatert
   label_document: Dokument
@@ -368,7 +369,7 @@
   label_auth_source_new: Ny autentifikasjonmodus
   label_auth_source_plural: Autentifikasjonsmoduser
   label_subproject_plural: Underprosjekter
-  label_and_its_subprojects: "{{value}} og dets underprosjekter"
+  label_and_its_subprojects: "%{value} og dets underprosjekter"
   label_min_max_length: Min.-maks. lengde
   label_list: Liste
   label_date: Dato
@@ -379,8 +380,8 @@
   label_text: Lang tekst
   label_attribute: Attributt
   label_attribute_plural: Attributter
-  label_download: "{{count}} Nedlasting"
-  label_download_plural: "{{count}} Nedlastinger"
+  label_download: "%{count} Nedlasting"
+  label_download_plural: "%{count} Nedlastinger"
   label_no_data: Ingen data å vise
   label_change_status: Endre status
   label_history: Historikk
@@ -411,17 +412,17 @@
   label_closed_issues: lukket
   label_closed_issues_plural: lukkede
   label_x_open_issues_abbr_on_total:
-    zero:  0 åpne / {{total}}
-    one:   1 åpen / {{total}}
-    other: "{{count}} åpne / {{total}}"
+    zero:  0 åpne / %{total}
+    one:   1 åpen / %{total}
+    other: "%{count} åpne / %{total}"
   label_x_open_issues_abbr:
     zero:  0 åpne
     one:   1 åpen
-    other: "{{count}} åpne"
+    other: "%{count} åpne"
   label_x_closed_issues_abbr:
     zero:  0 lukka
     one:   1 lukka
-    other: "{{count}} lukka"
+    other: "%{count} lukka"
   label_total: Totalt
   label_permissions: Godkjenninger
   label_current_status: Nåværende status
@@ -439,7 +440,7 @@
   label_months_from: måneder fra
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "siste {{count}} endringer"
+  label_last_changes: "siste %{count} endringer"
   label_change_view_all: Vis alle endringer
   label_personalize_page: Tilpass denne siden
   label_comment: Kommentar
@@ -447,7 +448,7 @@
   label_x_comments:
     zero: no kommentarer
     one: 1 kommentar
-    other: "{{count}} kommentarer"
+    other: "%{count} kommentarer"
   label_comment_add: Legg til kommentar
   label_comment_added: Kommentar lagt til
   label_comment_delete: Slett kommentar
@@ -466,7 +467,7 @@
   label_yesterday: i går
   label_this_week: denne uken
   label_last_week: sist uke
-  label_last_n_days: "siste {{count}} dager"
+  label_last_n_days: "siste %{count} dager"
   label_this_month: denne måneden
   label_last_month: siste måned
   label_this_year: dette året
@@ -480,8 +481,8 @@
   label_repository: Depot
   label_repository_plural: Depoter
   label_browse: Utforsk
-  label_modification: "{{count}} endring"
-  label_modification_plural: "{{count}} endringer"
+  label_modification: "%{count} endring"
+  label_modification_plural: "%{count} endringer"
   label_revision: Revisjon
   label_revision_plural: Revisjoner
   label_associated_revisions: Assosierte revisjoner
@@ -497,8 +498,8 @@
   label_sort_lower: Flytt ned
   label_sort_lowest: Flytt til bunnen
   label_roadmap: Veikart
-  label_roadmap_due_in: "Frist om {{value}}"
-  label_roadmap_overdue: "{{value}} over fristen"
+  label_roadmap_due_in: "Frist om %{value}"
+  label_roadmap_overdue: "%{value} over fristen"
   label_roadmap_no_issues: Ingen saker for denne versjonen
   label_search: Søk
   label_result_plural: Resultater
@@ -516,8 +517,8 @@
   label_changes_details: Detaljer om alle endringer
   label_issue_tracking: Sakssporing
   label_spent_time: Brukt tid
-  label_f_hour: "{{value}} time"
-  label_f_hour_plural: "{{value}} timer"
+  label_f_hour: "%{value} time"
+  label_f_hour_plural: "%{value} timer"
   label_time_tracking: Tidssporing
   label_change_plural: Endringer
   label_statistics: Statistikk
@@ -566,12 +567,12 @@
   label_date_from: Fra
   label_date_to: Til
   label_language_based: Basert på brukerens språk
-  label_sort_by: "Sorter etter {{value}}"
+  label_sort_by: "Sorter etter %{value}"
   label_send_test_email: Send en e-post-test
-  label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for {{value}} siden"
+  label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
   label_module_plural: Moduler
-  label_added_time_by: "Lagt til av {{author}} for {{age}} siden"
-  label_updated_time: "Oppdatert for {{value}} siden"
+  label_added_time_by: "Lagt til av %{author} for %{age} siden"
+  label_updated_time: "Oppdatert for %{value} siden"
   label_jump_to_a_project: Gå til et prosjekt...
   label_file_plural: Filer
   label_changeset_plural: Endringssett
@@ -587,7 +588,7 @@
   label_registration_activation_by_email: kontoaktivering pr. e-post
   label_registration_manual_activation: manuell kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
-  label_display_per_page: "Pr. side: {{value}}"
+  label_display_per_page: "Pr. side: %{value}"
   label_age: Alder
   label_change_properties: Endre egenskaper
   label_general: Generell
@@ -649,40 +650,40 @@
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyr ingen begrensning
   text_project_destroy_confirmation: Er du sikker på at du vil slette dette prosjekter og alle relatert data ?
-  text_subprojects_destroy_warning: "Underprojekt(ene): {{value}} vil også bli slettet."
+  text_subprojects_destroy_warning: "Underprojekt(ene): %{value} vil også bli slettet."
   text_workflow_edit: Velg en rolle og en sakstype for å endre arbeidsflyten
   text_are_you_sure: Er du sikker ?
   text_tip_issue_begin_day: oppgaven starter denne dagen
   text_tip_issue_end_day: oppgaven avsluttes denne dagen
   text_tip_issue_begin_end_day: oppgaven starter og avsluttes denne dagen
   text_project_identifier_info: 'Små bokstaver (a-z), nummer og bindestrek tillatt.<br />Identifikatoren kan ikke endres etter den er lagret.'
-  text_caracters_maximum: "{{count}} tegn maksimum."
-  text_caracters_minimum: "Må være minst {{count}} tegn langt."
-  text_length_between: "Lengde mellom {{min}} og {{max}} tegn."
+  text_caracters_maximum: "%{count} tegn maksimum."
+  text_caracters_minimum: "Må være minst %{count} tegn langt."
+  text_length_between: "Lengde mellom %{min} og %{max} tegn."
   text_tracker_no_workflow: Ingen arbeidsflyt definert for denne sakstypen
   text_unallowed_characters: Ugyldige tegn
   text_comma_separated: Flere verdier tillat (kommaseparert).
   text_issues_ref_in_commit_messages: Referering og retting av saker i innsendingsmelding
-  text_issue_added: "Issue {{id}} has been reported by {{author}}."
-  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_issue_added: "Issue %{id} has been reported by %{author}."
+  text_issue_updated: "Issue %{id} has been updated by %{author}."
   text_wiki_destroy_confirmation: Er du sikker på at du vil slette denne wikien og alt innholdet ?
-  text_issue_category_destroy_question: "Noen saker ({{count}}) er lagt til i denne kategorien. Hva vil du gjøre ?"
+  text_issue_category_destroy_question: "Noen saker (%{count}) er lagt til i denne kategorien. Hva vil du gjøre ?"
   text_issue_category_destroy_assignments: Fjern bruk av kategorier
   text_issue_category_reassign_to: Overfør sakene til denne kategorien
   text_user_mail_option: "For ikke-valgte prosjekter vil du bare motta varsling om ting du overvåker eller er involveret i (eks. saker du er forfatter av eller er tildelt)."
   text_no_configuration_data: "Roller, arbeidsflyt, sakstyper og -statuser er ikke konfigurert enda.\nDet anbefales sterkt å laste inn standardkonfigurasjonen. Du vil kunne endre denne etter den er innlastet."
   text_load_default_configuration: Last inn standardkonfigurasjonen
-  text_status_changed_by_changeset: "Brukt i endringssett {{value}}."
+  text_status_changed_by_changeset: "Brukt i endringssett %{value}."
   text_issues_destroy_confirmation: 'Er du sikker på at du vil slette valgte sak(er) ?'
   text_select_project_modules: 'Velg moduler du vil aktivere for dette prosjektet:'
   text_default_administrator_account_changed: Standard administrator-konto er endret
   text_file_repository_writable: Fil-arkivet er skrivbart
   text_rmagick_available: RMagick er tilgjengelig (valgfritt)
-  text_destroy_time_entries_question: "{{hours}} timer er ført på sakene du er i ferd med å slette. Hva vil du gjøre ?"
+  text_destroy_time_entries_question: "%{hours} timer er ført på sakene du er i ferd med å slette. Hva vil du gjøre ?"
   text_destroy_time_entries: Slett førte timer
   text_assign_time_entries_to_project: Overfør førte timer til prosjektet
   text_reassign_time_entries: 'Overfør førte timer til denne saken:'
-  text_user_wrote: "{{value}} skrev:"
+  text_user_wrote: "%{value} skrev:"
   
   default_role_manager: Leder
   default_role_developer: Utvikler
@@ -710,12 +711,12 @@
   enumeration_doc_categories: Dokument-kategorier
   enumeration_activities: Aktiviteter (tidssporing)
   text_enumeration_category_reassign_to: 'Endre dem til denne verdien:'
-  text_enumeration_destroy_question: "{{count}} objekter er endret til denne verdien."
+  text_enumeration_destroy_question: "%{count} objekter er endret til denne verdien."
   label_incoming_emails: Innkommende e-post
   label_generate_key: Generer en nøkkel
   setting_mail_handler_api_enabled: Skru på WS for innkommende e-post
   setting_mail_handler_api_key: API-nøkkel
-  text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/email.yml og start programmet på nytt for å skru det på."
+  text_email_delivery_not_configured: "Levering av e-post er ikke satt opp, og varsler er skrudd av.\nStill inn din SMTP-tjener i config/configuration.yml og start programmet på nytt for å skru det på."
   field_parent_title: Foreldreside
   label_issue_watchers: Overvåkere
   setting_commit_logs_encoding: Tegnkoding for innsendingsmeldinger
@@ -776,12 +777,12 @@
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   permission_edit_own_messages: Edit own messages
   permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_user_activity: "%{value}'s activity"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and continue
   text_custom_field_possible_values_info: 'One line for each value'
   label_display: Display
@@ -796,21 +797,21 @@
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -818,14 +819,14 @@
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
   label_group_plural: Groups
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -860,9 +861,9 @@
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -889,12 +890,12 @@
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -902,7 +903,7 @@
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -913,8 +914,12 @@
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

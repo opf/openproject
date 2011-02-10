@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryBazaarTest < ActiveSupport::TestCase
   fixtures :projects
@@ -77,7 +77,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     def test_annotate
       annotate = @repository.scm.annotate('doc-mkdir.txt')
       assert_equal 17, annotate.lines.size
-      assert_equal 1, annotate.revisions[0].identifier
+      assert_equal '1', annotate.revisions[0].identifier
       assert_equal 'jsmith@', annotate.revisions[0].author
       assert_equal 'mkdir', annotate.lines[0]
     end

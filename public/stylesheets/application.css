@@ -1,3 +1,4 @@
+html {overflow-y:scroll;}
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#484848; margin: 0; padding: 0; min-width: 900px; }
 
 h1, h2, h3, h4 { font-family: "Trebuchet MS", Verdana, sans-serif;}
@@ -177,6 +178,8 @@ tr.user td.email { width:18%; }
 tr.user td { white-space: nowrap; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
+
+tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:center;}
 
 tr.time-entry { text-align: center; white-space: nowrap; }
 tr.time-entry td.subject, tr.time-entry td.comments { text-align: left; white-space: normal; }
@@ -663,6 +666,7 @@ div.autocomplete ul li span.informal {
 }
 
 #parent_issue_candidates ul li {width: 500px;}
+#related_issue_candidates ul li {width: 500px;}
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
@@ -778,6 +782,8 @@ background-image:url('../images/close_hl.png');
   overflow: hidden;
 }
 
+.gantt_subjects { font-size: 0.8em; }
+
 .task {
   position: absolute;
   height:8px;
@@ -790,24 +796,26 @@ background-image:url('../images/close_hl.png');
 }
 
 .task.label {width:100%;}
+.task.label.project, .task.label.version { font-weight: bold; }
 
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
 .task_done { background:#00c600 url(../images/task_done.png); border: 1px solid #00c600; }  
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 
-.task_todo.parent { background: #888; border: 1px solid #888; height: 6px;}
+.task_todo.parent { background: #888; border: 1px solid #888; height: 3px;}
 .task_late.parent, .task_done.parent { height: 3px;}
-.task_todo.parent .left  { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -5px; left: 0px; top: -1px;}
-.task_todo.parent .right { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-right: -5px; right: 0px; top: -1px;}
+.task.parent.marker.starting  { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -4px; left: 0px; top: -1px;}
+.task.parent.marker.ending { position: absolute; background: url(../images/task_parent_end.png) no-repeat 0 0; width: 8px; height: 16px; margin-left: -4px; right: 0px; top: -1px;}
 
-.milestone { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; }
-.milestone_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.milestone_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.milestone_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
-.project-line { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; }
-.project_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
-.project_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
-.project_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.version.task_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.version.task_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.version.task_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.version.marker { background-image:url(../images/version_marker.png); background-repeat: no-repeat; border: 0; margin-left: -4px; margin-top: 1px; }
+
+.project.task_late { background:#f66 url(../images/milestone_late.png); border: 1px solid #f66; height: 2px; margin-top: 3px;}
+.project.task_done { background:#00c600 url(../images/milestone_done.png); border: 1px solid #00c600; height: 2px; margin-top: 3px;}
+.project.task_todo { background:#fff url(../images/milestone_todo.png); border: 1px solid #fff; height: 2px; margin-top: 3px;}
+.project.marker { background-image:url(../images/project_marker.png); background-repeat: no-repeat; border: 0; margin-left: -4px; margin-top: 1px; }
 
 .version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
 .version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
@@ -833,7 +841,6 @@ padding-bottom: 3px;
 .icon-folder { background-image: url(../images/folder.png); }
 .open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
-.icon-home { background-image: url(../images/home.png); }
 .icon-user { background-image: url(../images/user.png); }
 .icon-projects { background-image: url(../images/projects.png); }
 .icon-help { background-image: url(../images/help.png); }
@@ -906,8 +913,8 @@ h4 img.gravatar {
 }
 
 td.username img.gravatar {
-	float: left;
-	margin: 0 1em 0 0;
+	margin: 0 0.5em 0 0;
+	vertical-align: top;
 }
 
 #activity dt img.gravatar {

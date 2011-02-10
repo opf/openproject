@@ -25,7 +25,6 @@ class IssueStatus < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
-  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
   def after_save

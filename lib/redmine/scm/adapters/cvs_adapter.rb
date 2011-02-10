@@ -23,7 +23,7 @@ module Redmine
       class CvsAdapter < AbstractAdapter
 
         # CVS executable name
-        CVS_BIN = "cvs"
+        CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
     
         # Guidelines for the input:
         #  url -> the project-path, relative to the cvsroot (eg. module name)
@@ -63,7 +63,7 @@ module Redmine
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
           path_with_project="#{url}#{with_leading_slash(path)}"
           entries = Entries.new
-          cmd = "#{CVS_BIN} -d #{root_url} rls -e"
+          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rls -e"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
@@ -108,8 +108,8 @@ module Redmine
           logger.debug "<cvs> revisions path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} rlog"
-          cmd << " -d\">#{time_to_cvstime(identifier_from)}\"" if identifier_from
+          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rlog"
+          cmd << " -d\">#{time_to_cvstime_rlog(identifier_from)}\"" if identifier_from
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
             state="entry_start"
@@ -229,7 +229,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
+          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -244,7 +244,7 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} co"
+          cmd = "#{CVS_BIN} -d #{shell_quote root_url} co"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
           cmd << " -p #{shell_quote path_with_project}"
           cat = nil
@@ -256,10 +256,10 @@ module Redmine
         end  
 
         def annotate(path, identifier=nil)
-          identifier = (identifier) ? identifier : "HEAD"
+          identifier = (identifier) ? identifier.to_i : "HEAD"
           logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
+          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -283,10 +283,18 @@ module Redmine
         # convert a date/time into the CVS-format
         def time_to_cvstime(time)
           return nil if time.nil?
+          return Time.now if time == 'HEAD'
+          
           unless time.kind_of? Time
             time = Time.parse(time)
           end
           return time.strftime("%Y-%m-%d %H:%M:%S")
+        end
+
+        def time_to_cvstime_rlog(time)
+          return nil if time.nil?
+          t1 = time.clone.localtime
+          return t1.strftime("%Y-%m-%d %H:%M:%S")
         end
           
         def normalize_cvs_path(path)

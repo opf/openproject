@@ -31,6 +31,13 @@
 &nbsp;<%= l(:label_applied_status) %>: <%= setting_select :commit_fix_status_id, [["", 0]] + IssueStatus.find(:all).collect{|status| [status.name, status.id.to_s]}, :label => false %>
 &nbsp;<%= l(:field_done_ratio) %>: <%= setting_select :commit_fix_done_ratio, (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] }, :blank => :label_no_change_option, :label => false %>
 <br /><em><%= l(:text_comma_separated) %></em></p>
+
+<p><%= setting_check_box :commit_logtime_enabled,
+         :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></p>
+
+<p><%= setting_select :commit_logtime_activity_id, 
+         [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
+         :disabled => !Setting.commit_logtime_enabled?%></p>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

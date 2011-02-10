@@ -1,0 +1,155 @@
+--- !ruby/object:Gem::Specification 
+name: coderay
+version: !ruby/object:Gem::Version 
+  hash: 53
+  prerelease: false
+  segments: 
+  - 0
+  - 9
+  - 7
+  version: 0.9.7
+platform: ruby
+authors: 
+- murphy
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2011-01-15 00:00:00 +01:00
+default_executable: 
+dependencies: []
+
+description: |
+  Fast and easy syntax highlighting for selected languages, written in Ruby.
+  Comes with RedCloth integration and LOC counter.
+
+email: murphy@rubychan.de
+executables: 
+- coderay
+- coderay_stylesheet
+extensions: []
+
+extra_rdoc_files: 
+- lib/README
+- FOLDERS
+files: 
+- ./lib/coderay/duo.rb
+- ./lib/coderay/encoder.rb
+- ./lib/coderay/encoders/_map.rb
+- ./lib/coderay/encoders/comment_filter.rb
+- ./lib/coderay/encoders/count.rb
+- ./lib/coderay/encoders/debug.rb
+- ./lib/coderay/encoders/div.rb
+- ./lib/coderay/encoders/filter.rb
+- ./lib/coderay/encoders/html/css.rb
+- ./lib/coderay/encoders/html/numerization.rb
+- ./lib/coderay/encoders/html/output.rb
+- ./lib/coderay/encoders/html.rb
+- ./lib/coderay/encoders/json.rb
+- ./lib/coderay/encoders/lines_of_code.rb
+- ./lib/coderay/encoders/null.rb
+- ./lib/coderay/encoders/page.rb
+- ./lib/coderay/encoders/span.rb
+- ./lib/coderay/encoders/statistic.rb
+- ./lib/coderay/encoders/term.rb
+- ./lib/coderay/encoders/text.rb
+- ./lib/coderay/encoders/token_class_filter.rb
+- ./lib/coderay/encoders/xml.rb
+- ./lib/coderay/encoders/yaml.rb
+- ./lib/coderay/for_redcloth.rb
+- ./lib/coderay/helpers/file_type.rb
+- ./lib/coderay/helpers/gzip_simple.rb
+- ./lib/coderay/helpers/plugin.rb
+- ./lib/coderay/helpers/word_list.rb
+- ./lib/coderay/scanner.rb
+- ./lib/coderay/scanners/_map.rb
+- ./lib/coderay/scanners/c.rb
+- ./lib/coderay/scanners/cpp.rb
+- ./lib/coderay/scanners/css.rb
+- ./lib/coderay/scanners/debug.rb
+- ./lib/coderay/scanners/delphi.rb
+- ./lib/coderay/scanners/diff.rb
+- ./lib/coderay/scanners/groovy.rb
+- ./lib/coderay/scanners/html.rb
+- ./lib/coderay/scanners/java/builtin_types.rb
+- ./lib/coderay/scanners/java.rb
+- ./lib/coderay/scanners/java_script-0.9.6.rb
+- ./lib/coderay/scanners/java_script.rb
+- ./lib/coderay/scanners/json.rb
+- ./lib/coderay/scanners/nitro_xhtml.rb
+- ./lib/coderay/scanners/php.rb
+- ./lib/coderay/scanners/plaintext.rb
+- ./lib/coderay/scanners/python.rb
+- ./lib/coderay/scanners/rhtml.rb
+- ./lib/coderay/scanners/ruby/patterns.rb
+- ./lib/coderay/scanners/ruby.rb
+- ./lib/coderay/scanners/scheme.rb
+- ./lib/coderay/scanners/sql.rb
+- ./lib/coderay/scanners/xml.rb
+- ./lib/coderay/scanners/yaml.rb
+- ./lib/coderay/style.rb
+- ./lib/coderay/styles/_map.rb
+- ./lib/coderay/styles/cycnus.rb
+- ./lib/coderay/styles/murphy.rb
+- ./lib/coderay/token_classes.rb
+- ./lib/coderay/tokens.rb
+- ./lib/coderay.rb
+- ./Rakefile
+- ./test/functional/basic.rb
+- ./test/functional/basic.rbc
+- ./test/functional/for_redcloth.rb
+- ./test/functional/for_redcloth.rbc
+- ./test/functional/load_plugin_scanner.rb
+- ./test/functional/load_plugin_scanner.rbc
+- ./test/functional/suite.rb
+- ./test/functional/suite.rbc
+- ./test/functional/vhdl.rb
+- ./test/functional/vhdl.rbc
+- ./test/functional/word_list.rb
+- ./test/functional/word_list.rbc
+- ./lib/README
+- ./LICENSE
+- lib/README
+- FOLDERS
+- bin/coderay
+- bin/coderay_stylesheet
+has_rdoc: true
+homepage: http://coderay.rubychan.de
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- -SNw2
+- -mlib/README
+- -t CodeRay Documentation
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 51
+      segments: 
+      - 1
+      - 8
+      - 2
+      version: 1.8.2
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  none: false
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
+      version: "0"
+requirements: []
+
+rubyforge_project: coderay
+rubygems_version: 1.3.7
+signing_key: 
+specification_version: 3
+summary: Fast syntax highlighting for selected languages.
+test_files: 
+- ./test/functional/suite.rb

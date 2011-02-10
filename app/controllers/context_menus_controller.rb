@@ -2,7 +2,8 @@ class ContextMenusController < ApplicationController
   helper :watchers
   
   def issues
-    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
+    @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)
+    
     if (@issues.size == 1)
       @issue = @issues.first
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)

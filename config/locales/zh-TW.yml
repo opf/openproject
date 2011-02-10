@@ -104,37 +104,37 @@
       half_a_minute: "半分鐘"
       less_than_x_seconds:
         one: "小於 1 秒"
-        other: "小於 {{count}} 秒"
+        other: "小於 %{count} 秒"
       x_seconds:
         one: "1 秒"
-        other: "{{count}} 秒"
+        other: "%{count} 秒"
       less_than_x_minutes:
         one: "小於 1 分鐘"
-        other: "小於 {{count}} 分鐘"
+        other: "小於 %{count} 分鐘"
       x_minutes:
         one: "1 分鐘"
-        other: "{{count}} 分鐘"
+        other: "%{count} 分鐘"
       about_x_hours:
         one: "約 1 小時"
-        other: "約 {{count}} 小時"
+        other: "約 %{count} 小時"
       x_days:
         one: "1 天"
-        other: "{{count}} 天"
+        other: "%{count} 天"
       about_x_months:
         one: "約 1 個月"
-        other: "約 {{count}} 個月"
+        other: "約 %{count} 個月"
       x_months:
         one: "1 個月"
-        other: "{{count}} 個月"
+        other: "%{count} 個月"
       about_x_years:
         one: "約 1 年"
-        other: "約 {{count}} 年"
+        other: "約 %{count} 年"
       over_x_years:
         one: "超過 1 年"
-        other: "超過 {{count}} 年"
+        other: "超過 %{count} 年"
       almost_x_years:
         one:   "將近 1 年"
-        other: "將近 {{count}} 年"
+        other: "將近 %{count} 年"
     prompts:
       year:   "年"
       month:  "月"
@@ -147,8 +147,8 @@
     errors:
       template:
         header: 
-          one:   "有 1 個錯誤發生使得「{{model}}」無法被儲存。"
-          other: "有 {{count}} 個錯誤發生使得「{{model}}」無法被儲存。"
+          one:   "有 1 個錯誤發生使得「%{model}」無法被儲存。"
+          other: "有 %{count} 個錯誤發生使得「%{model}」無法被儲存。"
         # The variable :count is also available
         body: "下面所列欄位有問題："
       # The values :model, :attribute and :value are always available for interpolation
@@ -161,16 +161,16 @@
         accepted: "必须是可被接受的"
         empty: "不能留空"
         blank: "不能是空白字元"
-        too_long: "過長（最長是 {{count}} 個字）"
-        too_short: "過短（最短是 {{count}} 個字）"
-        wrong_length: "字數錯誤（必須是 {{count}} 個字）"
+        too_long: "過長（最長是 %{count} 個字）"
+        too_short: "過短（最短是 %{count} 個字）"
+        wrong_length: "字數錯誤（必須是 %{count} 個字）"
         taken: "已經被使用"
         not_a_number: "不是數字"
-        greater_than: "必須大於 {{count}}"
-        greater_than_or_equal_to: "必須大於或等於 {{count}}"
-        equal_to: "必須等於 {{count}}"
-        less_than: "必須小於 {{count}}"
-        less_than_or_equal_to: "必須小於或等於 {{count}}"
+        greater_than: "必須大於 %{count}"
+        greater_than_or_equal_to: "必須大於或等於 %{count}"
+        equal_to: "必須等於 %{count}"
+        less_than: "必須小於 %{count}"
+        less_than_or_equal_to: "必須小於或等於 %{count}"
         odd: "必須是奇數"
         even: "必須是偶數"
         # Append your own errors here or at the model/attributes scope.
@@ -185,7 +185,7 @@
       # For example,
       #   models:
       #     user:
-      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       blank: "This is a custom blank message for %{model}: %{attribute}"
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
@@ -236,22 +236,23 @@
   notice_locking_conflict: 資料已被其他使用者更新。
   notice_not_authorized: 你未被授權存取此頁面。
   notice_not_authorized_archived_project: 您欲存取的專案已經被歸檔封存。
-  notice_email_sent: "郵件已經成功寄送至以下收件者： {{value}}"
-  notice_email_error: "寄送郵件的過程中發生錯誤 ({{value}})"
+  notice_email_sent: "郵件已經成功寄送至以下收件者： %{value}"
+  notice_email_error: "寄送郵件的過程中發生錯誤 (%{value})"
   notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
   notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
-  notice_failed_to_save_issues: " {{count}} 個項目儲存失敗（總共選取 {{total}} 個項目）： {{ids}} 。"
-  notice_failed_to_save_members: "成員儲存失敗: {{errors}}."
+  notice_failed_to_save_issues: " %{count} 個項目儲存失敗（總共選取 %{total} 個項目）： %{ids} 。"
+  notice_failed_to_save_members: "成員儲存失敗: %{errors}."
   notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
   notice_issue_done_ratios_updated: 項目完成百分比已更新。
+  notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
 
-  error_can_t_load_default_data: "無法載入預設組態： {{value}}"
+  error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在 SCM 儲存庫中找不到這個項目或版次。"
-  error_scm_command_failed: "嘗試存取 SCM 儲存庫時發生錯誤： {{value}}"
+  error_scm_command_failed: "嘗試存取 SCM 儲存庫時發生錯誤： %{value}"
   error_scm_annotate: "SCM 儲存庫中無此項目或此項目無法被加註。"
   error_issue_not_found_in_project: '該項目不存在或不屬於此專案'
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
@@ -265,26 +266,26 @@
   error_workflow_copy_source: '請選擇一個來源項目追蹤標籤或角色'
   error_workflow_copy_target: '請選擇一個（或多個）目的項目追蹤標籤或角色'
   error_unable_delete_issue_status: '無法刪除項目狀態'
-  error_unable_to_connect: "無法連線至（{{value}}）"
-  warning_attachments_not_saved: "{{count}} 個附加檔案無法被儲存。"
+  error_unable_to_connect: "無法連線至（%{value}）"
+  warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
   
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
   mail_subject_register: 啟用您的 Redmine 帳號
   mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
-  mail_body_account_information_external: "您可以使用 {{value}} 帳號登入 Redmine 網站。"
+  mail_body_account_information_external: "您可以使用 %{value} 帳號登入 Redmine 網站。"
   mail_body_account_information: 您的 Redmine 帳號資訊
   mail_subject_account_activation_request: Redmine 帳號啟用需求通知
-  mail_body_account_activation_request: "有位新用戶 ({{value}}) 已經完成註冊，正等候您的審核："
-  mail_subject_reminder: "您有 {{count}} 個項目即將到期 ({{days}})"
-  mail_body_reminder: "{{count}} 個指派給您的項目，將於 {{days}} 天之內到期："
-  mail_subject_wiki_content_added: "'{{id}}' wiki 頁面已被新增"
-  mail_body_wiki_content_added: "The '{{id}}' wiki 頁面已被 {{author}} 新增。"
-  mail_subject_wiki_content_updated: "'{{id}}' wiki 頁面已被更新"
-  mail_body_wiki_content_updated: "The '{{id}}' wiki 頁面已被 {{author}} 更新。"
+  mail_body_account_activation_request: "有位新用戶 (%{value}) 已經完成註冊，正等候您的審核："
+  mail_subject_reminder: "您有 %{count} 個項目即將到期 (%{days})"
+  mail_body_reminder: "%{count} 個指派給您的項目，將於 %{days} 天之內到期："
+  mail_subject_wiki_content_added: "'%{id}' wiki 頁面已被新增"
+  mail_body_wiki_content_added: "此 '%{id}' wiki 頁面已被 %{author} 新增。"
+  mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
+  mail_body_wiki_content_updated: "此 '%{id}' wiki 頁面已被 %{author} 更新。"
   
   gui_validation_error: 1 個錯誤
-  gui_validation_error_plural: "{{count}} 個錯誤"
+  gui_validation_error_plural: "%{count} 個錯誤"
   
   field_name: 名稱
   field_description: 概述
@@ -440,6 +441,9 @@
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
   setting_cache_formatted_text: 快取已格式化文字
   setting_default_notification_option: 預設通知選項
+  setting_commit_logtime_enabled: 啟用送交中的時間記錄
+  setting_commit_logtime_activity_id: 時間記錄對應的活動
+  setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
   
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -518,14 +522,14 @@
   label_x_projects:
     zero:  無專案
     one:   1 個專案
-    other: "{{count}} 個專案"
+    other: "%{count} 個專案"
   label_project_all: 全部的專案
   label_project_latest: 最近的專案
   label_issue: 項目
   label_issue_new: 建立新項目
   label_issue_plural: 項目清單
   label_issue_view_all: 檢視所有項目
-  label_issues_by: "項目按 {{value}} 分組顯示"
+  label_issues_by: "項目按 %{value} 分組顯示"
   label_issue_added: 項目已新增
   label_issue_updated: 項目已更新
   label_document: 文件
@@ -575,7 +579,7 @@
   label_registered_on: 註冊於
   label_activity: 活動
   label_overall_activity: 整體活動
-  label_user_activity: "{{value}} 的活動"
+  label_user_activity: "%{value} 的活動"
   label_new: 建立新的...
   label_logged_as: 目前登入
   label_environment: 環境
@@ -585,7 +589,7 @@
   label_auth_source_plural: 認證模式清單
   label_subproject_plural: 子專案
   label_subproject_new: 建立子專案
-  label_and_its_subprojects: "{{value}} 與其子專案"
+  label_and_its_subprojects: "%{value} 與其子專案"
   label_min_max_length: 最小 - 最大 長度
   label_list: 清單
   label_date: 日期
@@ -596,8 +600,8 @@
   label_text: 長文字
   label_attribute: 屬性
   label_attribute_plural: 屬性
-  label_download: "{{count}} 個下載"
-  label_download_plural: "{{count}} 個下載"
+  label_download: "%{count} 個下載"
+  label_download_plural: "%{count} 個下載"
   label_no_data: 沒有任何資料可供顯示
   label_change_status: 變更狀態
   label_history: 歷史
@@ -629,17 +633,17 @@
   label_closed_issues: 已結束
   label_closed_issues_plural: 已結束
   label_x_open_issues_abbr_on_total:
-    zero:  0 進行中 / 共 {{total}}
-    one:   1 進行中 / 共 {{total}}
-    other: "{{count}} 進行中 / 共 {{total}}"
+    zero:  0 進行中 / 共 %{total}
+    one:   1 進行中 / 共 %{total}
+    other: "%{count} 進行中 / 共 %{total}"
   label_x_open_issues_abbr:
     zero:  0 進行中
     one:   1 進行中
-    other: "{{count}} 進行中"
+    other: "%{count} 進行中"
   label_x_closed_issues_abbr:
     zero:  0 已結束
     one:   1 已結束
-    other: "{{count}} 已結束"
+    other: "%{count} 已結束"
   label_total: 總計
   label_permissions: 權限
   label_current_status: 目前狀態
@@ -657,7 +661,7 @@
   label_months_from: 個月, 開始月份
   label_gantt: 甘特圖
   label_internal: 內部
-  label_last_changes: "最近 {{count}} 個變更"
+  label_last_changes: "最近 %{count} 個變更"
   label_change_view_all: 檢視全部的變更
   label_personalize_page: 自訂版面
   label_comment: 註解
@@ -665,7 +669,7 @@
   label_x_comments:
     zero: 無註解
     one: 1 個註解
-    other: "{{count}} 個註解"
+    other: "%{count} 個註解"
   label_comment_add: 加入新註解
   label_comment_added: 新註解已加入
   label_comment_delete: 刪除註解
@@ -686,7 +690,7 @@
   label_yesterday: 昨天
   label_this_week: 本週
   label_last_week: 上週
-  label_last_n_days: "過去 {{count}} 天"
+  label_last_n_days: "過去 %{count} 天"
   label_this_month: 這個月
   label_last_month: 上個月
   label_this_year: 今年
@@ -700,13 +704,13 @@
   label_repository: 版本控管
   label_repository_plural: 版本控管
   label_browse: 瀏覽
-  label_modification: "{{count}} 變更"
-  label_modification_plural: "{{count}} 變更"
+  label_modification: "%{count} 變更"
+  label_modification_plural: "%{count} 變更"
   label_branch: 分支
   label_tag: 標籤 
   label_revision: 版次
   label_revision_plural: 版次清單
-  label_revision_id: "版次 {{value}}"
+  label_revision_id: "版次 %{value}"
   label_associated_revisions: 相關版次
   label_added: 已新增
   label_modified: 已修改
@@ -723,8 +727,8 @@
   label_sort_lower: 往下移動
   label_sort_lowest: 移動至結尾
   label_roadmap: 版本藍圖
-  label_roadmap_due_in: "剩餘 {{value}}"
-  label_roadmap_overdue: "逾期 {{value}}"
+  label_roadmap_due_in: "剩餘 %{value}"
+  label_roadmap_overdue: "逾期 %{value}"
   label_roadmap_no_issues: 此版本尚未包含任何項目
   label_search: 搜尋
   label_result_plural: 結果
@@ -743,8 +747,8 @@
   label_issue_tracking: 項目追蹤
   label_spent_time: 耗用工時
   label_overall_spent_time: 整體耗用工時
-  label_f_hour: "{{value}} 小時"
-  label_f_hour_plural: "{{value}} 小時"
+  label_f_hour: "%{value} 小時"
+  label_f_hour_plural: "%{value} 小時"
   label_time_tracking: 工時追蹤
   label_change_plural: 變更
   label_statistics: 統計資訊
@@ -795,15 +799,15 @@
   label_date_from: 開始
   label_date_to: 結束
   label_language_based: 依用戶之語系決定
-  label_sort_by: "按 {{value}} 排序"
+  label_sort_by: "按 %{value} 排序"
   label_send_test_email: 寄送測試郵件
   label_feeds_access_key: RSS 存取金鑰
   label_missing_feeds_access_key: 找不到 RSS 存取金鑰
-  label_feeds_access_key_created_on: "RSS 存取鍵建立於 {{value}} 之前"
+  label_feeds_access_key_created_on: "RSS 存取鍵建立於 %{value} 之前"
   label_module_plural: 模組
-  label_added_time_by: "是由 {{author}} 於 {{age}} 前加入"
-  label_updated_time_by: "是由 {{author}} 於 {{age}} 前更新"
-  label_updated_time: "於 {{value}} 前更新"
+  label_added_time_by: "是由 %{author} 於 %{age} 前加入"
+  label_updated_time_by: "是由 %{author} 於 %{age} 前更新"
+  label_updated_time: "於 %{value} 前更新"
   label_jump_to_a_project: 選擇欲前往的專案...
   label_file_plural: 檔案清單
   label_changeset_plural: 變更集清單
@@ -823,7 +827,7 @@
   label_registration_activation_by_email: 透過電子郵件啟用帳戶
   label_registration_manual_activation: 手動啟用帳戶
   label_registration_automatic_activation: 自動啟用帳戶
-  label_display_per_page: "每頁顯示: {{value}} 個"
+  label_display_per_page: "每頁顯示: %{value} 個"
   label_age: 年齡
   label_change_properties: 變更屬性
   label_general: 一般
@@ -846,7 +850,7 @@
   label_sort: 排序
   label_ascending: 遞增排序
   label_descending: 遞減排序
-  label_date_from_to: 起 {{start}} 迄 {{end}}
+  label_date_from_to: 起 %{start} 迄 %{end}
   label_wiki_content_added: Wiki 頁面已新增
   label_wiki_content_updated: Wiki 頁面已更新
   label_group: 群組
@@ -865,7 +869,7 @@
   label_display_used_statuses_only: 僅顯示此追蹤標籤所使用之狀態
   label_api_access_key: API 存取金鑰
   label_missing_api_access_key: 找不到 API 存取金鑰
-  label_api_access_key_created_on: "API 存取金鑰建立於 {{value}} 之前"
+  label_api_access_key_created_on: "API 存取金鑰建立於 %{value} 之前"
   label_profile: 配置概況
   label_subtask_plural: 子工作項目
   label_project_copy_notifications: 在複製專案的過程中，傳送通知郵件
@@ -882,7 +886,7 @@
   button_create_and_continue: 繼續建立
   button_test: 測試
   button_edit: 編輯
-  button_edit_associated_wikipage: "編輯相關 Wiki 頁面: {{page_title}}"
+  button_edit_associated_wikipage: "編輯相關 Wiki 頁面: %{page_title}"
   button_add: 新增
   button_change: 修改
   button_apply: 套用
@@ -931,54 +935,55 @@
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 代表「不限制」
   text_project_destroy_confirmation: 您確定要刪除這個專案和其他相關資料？
-  text_subprojects_destroy_warning: "下列子專案： {{value}} 將一併被刪除。"
+  text_subprojects_destroy_warning: "下列子專案： %{value} 將一併被刪除。"
   text_workflow_edit: 選擇角色與追蹤標籤以設定其工作流程
   text_are_you_sure: 確定執行？
   text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
-  text_journal_changed: "{{label}} 從 {{old}} 變更為 {{new}}"
-  text_journal_set_to: "{{label}} 設定為 {{value}}"
-  text_journal_deleted: "{{label}} 已刪除 ({{old}})"
-  text_journal_added: "{{label}} {{value}} 已新增"
+  text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
+  text_journal_set_to: "%{label} 設定為 %{value}"
+  text_journal_deleted: "%{label} 已刪除 (%{old})"
+  text_journal_added: "%{label} %{value} 已新增"
   text_tip_issue_begin_day: 今天起始的工作
   text_tip_issue_end_day: 今天截止的的工作
   text_tip_issue_begin_end_day: 今天起始與截止的工作
   text_project_identifier_info: '只允許小寫英文字母（a-z）、阿拉伯數字與連字符號（-）。<br />儲存後，代碼不可再被更改。'
-  text_caracters_maximum: "最多 {{count}} 個字元."
-  text_caracters_minimum: "長度必須大於 {{count}} 個字元."
-  text_length_between: "長度必須介於 {{min}} 至 {{max}} 個字元之間."
+  text_caracters_maximum: "最多 %{count} 個字元."
+  text_caracters_minimum: "長度必須大於 %{count} 個字元."
+  text_length_between: "長度必須介於 %{min} 至 %{max} 個字元之間."
   text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
   text_unallowed_characters: 不允許的字元
   text_comma_separated: 可輸入多個值（須以逗號分隔）。
   text_line_separated: 可輸入多個值（須以換行符號分隔，即每列只能輸入一個值）。
   text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
-  text_issue_added: "項目 {{id}} 已被 {{author}} 通報。"
-  text_issue_updated: "項目 {{id}} 已被 {{author}} 更新。"
+  text_issue_added: "項目 %{id} 已被 %{author} 通報。"
+  text_issue_updated: "項目 %{id} 已被 %{author} 更新。"
   text_wiki_destroy_confirmation: 您確定要刪除這個 wiki 和其中的所有內容？
-  text_issue_category_destroy_question: "有 ({{count}}) 個項目被指派到此分類. 請選擇您想要的動作？"
+  text_issue_category_destroy_question: "有 (%{count}) 個項目被指派到此分類. 請選擇您想要的動作？"
   text_issue_category_destroy_assignments: 移除這些項目的分類
   text_issue_category_reassign_to: 重新指派這些項目至其它分類
   text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的項目通知。（「參與中的項目」包含您建立的或是指派給您的項目）"
   text_no_configuration_data: "角色、追蹤標籤、項目狀態與流程尚未被設定完成。\n強烈建議您先載入預設的組態。將預設組態載入之後，您可再變更其中之值。"
   text_load_default_configuration: 載入預設組態
-  text_status_changed_by_changeset: "已套用至變更集 {{value}}."
+  text_status_changed_by_changeset: "已套用至變更集 %{value}."
+  text_time_logged_by_changeset: "紀錄於變更集 %{value}."
   text_issues_destroy_confirmation: '確定刪除已選擇的項目？'
   text_select_project_modules: '選擇此專案可使用之模組：'
   text_default_administrator_account_changed: 已變更預設管理員帳號內容
   text_file_repository_writable: 可寫入附加檔案目錄
   text_plugin_assets_writable: 可寫入附加元件目錄
   text_rmagick_available: 可使用 RMagick (選配)
-  text_destroy_time_entries_question: 您即將刪除的項目已報工 {{hours}} 小時. 您的選擇是？
+  text_destroy_time_entries_question: 您即將刪除的項目已報工 %{hours} 小時. 您的選擇是？
   text_destroy_time_entries: 刪除已報工的時數
   text_assign_time_entries_to_project: 指定已報工的時數至專案中
   text_reassign_time_entries: '重新指定已報工的時數至此項目：'
-  text_user_wrote: "{{value}} 先前提到:"
-  text_enumeration_destroy_question: "目前有 {{count}} 個物件使用此列舉值。"
+  text_user_wrote: "%{value} 先前提到:"
+  text_enumeration_destroy_question: "目前有 %{count} 個物件使用此列舉值。"
   text_enumeration_category_reassign_to: '重新設定其列舉值為：'
-  text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/email.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
+  text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/configuration.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
   text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
   text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
   text_custom_field_possible_values_info: '一列輸入一個值'
-  text_wiki_page_destroy_question: "此頁面包含 {{descendants}} 個子頁面及延伸頁面。 請選擇您想要的動作?"
+  text_wiki_page_destroy_question: "此頁面包含 %{descendants} 個子頁面及延伸頁面。 請選擇您想要的動作?"
   text_wiki_page_nullify_children: "保留所有子頁面當作根頁面"
   text_wiki_page_destroy_children: "刪除所有子頁面及其延伸頁面"
   text_wiki_page_reassign_children: "重新指定所有的子頁面之父頁面至此頁面"
@@ -1012,4 +1017,3 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-

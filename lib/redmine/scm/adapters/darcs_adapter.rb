@@ -23,7 +23,7 @@ module Redmine
     module Adapters    
       class DarcsAdapter < AbstractAdapter      
         # Darcs executable name
-        DARCS_BIN = "darcs"
+        DARCS_BIN = Redmine::Configuration['scm_darcs_command'] || "darcs"
         
         class << self
           def client_version
@@ -31,16 +31,14 @@ module Redmine
           end
   	  
           def darcs_binary_version
-            cmd = "#{DARCS_BIN} --version"
-            version = nil
-            shellout(cmd) do |io|
-              # Read darcs version in first returned line
-              if m = io.gets.match(%r{((\d+\.)+\d+)})
-                version = m[0].scan(%r{\d+}).collect(&:to_i)
-              end
+            darcsversion = darcs_binary_version_from_command_line
+            if m = darcsversion.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
             end
-            return nil if $? && $?.exitstatus != 0
-            version
+          end
+
+          def darcs_binary_version_from_command_line
+            shellout("#{DARCS_BIN} --version") { |io| io.read }.to_s
           end
         end
 
@@ -64,9 +62,11 @@ module Redmine
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path_prefix = (path.blank? ? '' : "#{path}/")
-          path = '.' if path.blank?
+          if path.blank?
+            path = ( self.class.client_version_above?([2, 2, 0]) ? @url : '.' )
+          end
           entries = Entries.new          
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --xml-output"
+          cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --xml-output"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
           shellout(cmd) do |io|
@@ -90,7 +90,7 @@ module Redmine
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path = '.' if path.blank?
           revisions = Revisions.new
-          cmd = "#{DARCS_BIN} changes --repodir #{@url} --xml-output"
+          cmd = "#{DARCS_BIN} changes --repodir #{shell_quote @url} --xml-output"
           cmd << " --from-match #{shell_quote("hash #{identifier_from}")}" if identifier_from
           cmd << " --last #{options[:limit].to_i}" if options[:limit]
           shellout(cmd) do |io|
@@ -116,7 +116,7 @@ module Redmine
         
         def diff(path, identifier_from, identifier_to=nil)
           path = '*' if path.blank?
-          cmd = "#{DARCS_BIN} diff --repodir #{@url}"
+          cmd = "#{DARCS_BIN} diff --repodir #{shell_quote @url}"
           if identifier_to.nil?
             cmd << " --match #{shell_quote("hash #{identifier_from}")}"
           else
@@ -135,7 +135,7 @@ module Redmine
         end
         
         def cat(path, identifier=nil)
-          cmd = "#{DARCS_BIN} show content --repodir #{@url}"
+          cmd = "#{DARCS_BIN} show content --repodir #{shell_quote @url}"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
           cat = nil
@@ -167,10 +167,39 @@ module Redmine
                        })
                      })        
         end
+
+        def get_paths_for_patch(hash)
+          paths = get_paths_for_patch_raw(hash)
+          if self.class.client_version_above?([2, 4])
+            orig_paths = paths
+            paths = []
+            add_paths = []
+            add_paths_name = []
+            mod_paths = []
+            other_paths = []
+            orig_paths.each do |path|
+              if path[:action] == 'A'
+                add_paths << path
+                add_paths_name << path[:path]
+              elsif path[:action] == 'M'
+                mod_paths << path
+              else
+                other_paths << path
+              end
+            end
+            add_paths_name.each do |add_path|
+              mod_paths.delete_if { |m| m[:path] == add_path }
+            end
+            paths.concat add_paths
+            paths.concat mod_paths
+            paths.concat other_paths
+          end
+          paths
+        end
         
         # Retrieve changed paths for a single patch
-        def get_paths_for_patch(hash)
-          cmd = "#{DARCS_BIN} annotate --repodir #{@url} --summary --xml-output"
+        def get_paths_for_patch_raw(hash)
+          cmd = "#{DARCS_BIN} annotate --repodir #{shell_quote @url} --summary --xml-output"
           cmd << " --match #{shell_quote("hash #{hash}")} "
           paths = []
           shellout(cmd) do |io|

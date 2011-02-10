@@ -36,7 +36,7 @@ function removeBlock(block) {
 
 <div class="contextual">
 <% form_tag({:action => "add_block"}, :id => "block-form") do %>
-<%= label_tag('block-select', l(:label_my_page_block)) %>
+<%= label_tag('block-select', l(:label_my_page_block)) %>:
 <%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select" %>
 <%= link_to_remote l(:button_add),
            {:url => { :action => "add_block" },

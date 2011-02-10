@@ -36,37 +36,37 @@ ca:
       half_a_minute: "mig minut"
       less_than_x_seconds:
         one:   "menys d'un segon"
-        other: "menys de {{count}} segons"
+        other: "menys de %{count} segons"
       x_seconds:
         one:   "1 segons"
-        other: "{{count}} segons"
+        other: "%{count} segons"
       less_than_x_minutes:
         one:   "menys d'un minut"
-        other: "menys de {{count}} minuts"
+        other: "menys de %{count} minuts"
       x_minutes:
         one:   "1 minut"
-        other: "{{count}} minuts"
+        other: "%{count} minuts"
       about_x_hours:
         one:   "aproximadament 1 hora"
-        other: "aproximadament {{count}} hores"
+        other: "aproximadament %{count} hores"
       x_days:
         one:   "1 dia"
-        other: "{{count}} dies"
+        other: "%{count} dies"
       about_x_months:
         one:   "aproximadament 1 mes"
-        other: "aproximadament {{count}} mesos"
+        other: "aproximadament %{count} mesos"
       x_months:
         one:   "1 mes"
-        other: "{{count}} mesos"
+        other: "%{count} mesos"
       about_x_years:
         one:   "aproximadament 1 any"
-        other: "aproximadament {{count}} anys"
+        other: "aproximadament %{count} anys"
       over_x_years:
         one:   "més d'un any"
-        other: "més de {{count}} anys"
+        other: "més de %{count} anys"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number:
     # Default format for numbers
@@ -98,6 +98,10 @@ ca:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "no està inclòs a la llista"
         exclusion: "està reservat"
@@ -112,11 +116,11 @@ ca:
         taken: "ja s'està utilitzant"
         not_a_number: "no és un número"
         not_a_date: "no és una data vàlida"
-        greater_than: "ha de ser més gran que {{count}}"
-        greater_than_or_equal_to: "ha de ser més gran o igual a {{count}}"
-        equal_to: "ha de ser igual a {{count}}"
-        less_than: "ha de ser menys que {{count}}"
-        less_than_or_equal_to: "ha de ser menys o igual a {{count}}"
+        greater_than: "ha de ser més gran que %{count}"
+        greater_than_or_equal_to: "ha de ser més gran o igual a %{count}"
+        equal_to: "ha de ser igual a %{count}"
+        less_than: "ha de ser menys que %{count}"
+        less_than_or_equal_to: "ha de ser menys o igual a %{count}"
         odd: "ha de ser senar"
         even: "ha de ser parell"
         greater_than_start_date: "ha de ser superior que la data inicial"
@@ -153,12 +157,12 @@ ca:
   notice_file_not_found: "La pàgina a la que intenteu accedir no existeix o s'ha suprimit."
   notice_locking_conflict: Un altre usuari ha actualitzat les dades.
   notice_not_authorized: No teniu permís per a accedir a aquesta pàgina.
-  notice_email_sent: "S'ha enviat un correu electrònic a {{value}}"
-  notice_email_error: "S'ha produït un error en enviar el correu ({{value}})"
+  notice_email_sent: "S'ha enviat un correu electrònic a %{value}"
+  notice_email_error: "S'ha produït un error en enviar el correu (%{value})"
   notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del RSS."
   notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
-  notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de {{count}} seleccionats: {{ids}}."
-  notice_failed_to_save_members: "No s'han pogut desar els membres: {{errors}}."
+  notice_failed_to_save_issues: "No s'han pogut desar %s assumptes de %{count} seleccionats: %{ids}."
+  notice_failed_to_save_members: "No s'han pogut desar els membres: %{errors}."
   notice_no_issue_selected: "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
   notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."
@@ -166,9 +170,9 @@ ca:
   notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
   notice_issue_done_ratios_updated: "S'ha actualitzat el tant per cent dels assumptes."
   
-  error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: {{value}} "
+  error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: %{value} "
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el dipòsit."
-  error_scm_command_failed: "S'ha produït un error en intentar accedir al dipòsit: {{value}}"
+  error_scm_command_failed: "S'ha produït un error en intentar accedir al dipòsit: %{value}"
   error_scm_annotate: "L'entrada no existeix o no s'ha pogut anotar."
   error_issue_not_found_in_project: "No s'ha trobat l'assumpte o no pertany a aquest projecte"
   error_no_tracker_in_project: "Aquest projecte no té seguidor associat. Comproveu els paràmetres del projecte."
@@ -182,26 +186,26 @@ ca:
   error_workflow_copy_source: "Seleccioneu un seguidor o rol font"
   error_workflow_copy_target: "Seleccioneu seguidors i rols objectiu"
   error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte"
-  error_unable_to_connect: "No s'ha pogut connectar ({{value}})"
-  warning_attachments_not_saved: "No s'han pogut desar {{count}} fitxers."
+  error_unable_to_connect: "No s'ha pogut connectar (%{value})"
+  warning_attachments_not_saved: "No s'han pogut desar %{count} fitxers."
   
-  mail_subject_lost_password: "Contrasenya de {{value}}"
+  mail_subject_lost_password: "Contrasenya de %{value}"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
-  mail_subject_register: "Activació del compte de {{value}}"
+  mail_subject_register: "Activació del compte de %{value}"
   mail_body_register: "Per a activar el compte, feu clic en l'enllaç següent:"
-  mail_body_account_information_external: "Podeu utilitzar el compte «{{value}}» per a entrar."
+  mail_body_account_information_external: "Podeu utilitzar el compte «%{value}» per a entrar."
   mail_body_account_information: Informació del compte
-  mail_subject_account_activation_request: "Sol·licitud d'activació del compte de {{value}}"
-  mail_body_account_activation_request: "S'ha registrat un usuari nou ({{value}}). El seu compte està pendent d'aprovació:"
-  mail_subject_reminder: "{{count}} assumptes venceran els següents {{days}} dies"
-  mail_body_reminder: "{{count}} assumptes que teniu assignades venceran els següents {{days}} dies:"
-  mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «{{id}}»"
-  mail_body_wiki_content_added: "En {{author}} ha afegit la pàgina wiki «{{id}}»."
-  mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «{{id}}»"
-  mail_body_wiki_content_updated: "En {{author}} ha actualitzat la pàgina wiki «{{id}}»."
+  mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
+  mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El seu compte està pendent d'aprovació:"
+  mail_subject_reminder: "%{count} assumptes venceran els següents %{days} dies"
+  mail_body_reminder: "%{count} assumptes que teniu assignades venceran els següents %{days} dies:"
+  mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
+  mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
+  mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
+  mail_body_wiki_content_updated: "En %{author} ha actualitzat la pàgina wiki «%{id}»."
   
   gui_validation_error: 1 error
-  gui_validation_error_plural: "{{count}} errors"
+  gui_validation_error_plural: "%{count} errors"
   
   field_name: Nom
   field_description: Descripció
@@ -264,6 +268,7 @@ ca:
   field_attr_lastname: Atribut del cognom
   field_attr_mail: Atribut del correu electrònic
   field_onthefly: "Creació de l'usuari «al vol»"
+  field_start_date: Inici
   field_done_ratio: % realitzat
   field_auth_source: "Mode d'autenticació"
   field_hide_mail: "Oculta l'adreça de correu electrònic"
@@ -427,14 +432,14 @@ ca:
   label_x_projects:
     zero:  cap projecte
     one:   1 projecte
-    other: "{{count}} projectes"
+    other: "%{count} projectes"
   label_project_all: Tots els projectes
   label_project_latest: Els últims projectes
   label_issue: Assumpte
   label_issue_new: Assumpte nou
   label_issue_plural: Assumptes
   label_issue_view_all: Visualitza tots els assumptes
-  label_issues_by: "Assumptes per {{value}}"
+  label_issues_by: "Assumptes per %{value}"
   label_issue_added: Assumpte afegit
   label_issue_updated: Assumpte actualitzat
   label_document: Document
@@ -484,7 +489,7 @@ ca:
   label_registered_on: Informat el
   label_activity: Activitat
   label_overall_activity: Activitat global
-  label_user_activity: "Activitat de {{value}}"
+  label_user_activity: "Activitat de %{value}"
   label_new: Nou
   label_logged_as: Heu entrat com a
   label_environment: Entorn
@@ -494,7 +499,7 @@ ca:
   label_auth_source_plural: "Modes d'autenticació"
   label_subproject_plural: Subprojectes
   label_subproject_new: "Subprojecte nou"
-  label_and_its_subprojects: "{{value}} i els seus subprojectes"
+  label_and_its_subprojects: "%{value} i els seus subprojectes"
   label_min_max_length: Longitud mín - max
   label_list: Llist
   label_date: Data
@@ -505,8 +510,8 @@ ca:
   label_text: Text llarg
   label_attribute: Atribut
   label_attribute_plural: Atributs
-  label_download: "{{count}} baixada"
-  label_download_plural: "{{count}} baixades"
+  label_download: "%{count} baixada"
+  label_download_plural: "%{count} baixades"
   label_no_data: Sense dades a mostrar
   label_change_status: "Canvia l'estat"
   label_history: Historial
@@ -538,17 +543,17 @@ ca:
   label_closed_issues: tancat
   label_closed_issues_plural: tancats
   label_x_open_issues_abbr_on_total:
-    zero:  0 oberts / {{total}}
-    one:   1 obert / {{total}}
-    other: "{{count}} oberts / {{total}}"
+    zero:  0 oberts / %{total}
+    one:   1 obert / %{total}
+    other: "%{count} oberts / %{total}"
   label_x_open_issues_abbr:
     zero:  0 oberts
     one:   1 obert
-    other: "{{count}} oberts"
+    other: "%{count} oberts"
   label_x_closed_issues_abbr:
     zero:  0 tancats
     one:   1 tancat
-    other: "{{count}} tancats"
+    other: "%{count} tancats"
   label_total: Total
   label_permissions: Permisos
   label_current_status: Estat actual
@@ -566,7 +571,7 @@ ca:
   label_months_from: mesos des de
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "últims {{count}} canvis"
+  label_last_changes: "últims %{count} canvis"
   label_change_view_all: Visualitza tots els canvis
   label_personalize_page: Personalitza aquesta pàgina
   label_comment: Comentari
@@ -574,7 +579,7 @@ ca:
   label_x_comments:
     zero: sense comentaris
     one: 1 comentari
-    other: "{{count}} comentaris"
+    other: "%{count} comentaris"
   label_comment_add: Afegeix un comentari
   label_comment_added: Comentari afegit
   label_comment_delete: Suprimeix comentaris
@@ -595,7 +600,7 @@ ca:
   label_yesterday: ahir
   label_this_week: aquesta setmana
   label_last_week: "l'última setmana"
-  label_last_n_days: "els últims {{count}} dies"
+  label_last_n_days: "els últims %{count} dies"
   label_this_month: aquest més
   label_last_month: "l'últim més"
   label_this_year: aquest any
@@ -609,13 +614,13 @@ ca:
   label_repository: Dipòsit
   label_repository_plural: Dipòsits
   label_browse: Navega
-  label_modification: "{{count}} canvi"
-  label_modification_plural: "{{count}} canvis"
+  label_modification: "%{count} canvi"
+  label_modification_plural: "%{count} canvis"
   label_branch: Branca
   label_tag: Etiqueta
   label_revision: Revisió
   label_revision_plural: Revisions
-  label_revision_id: "Revisió {{value}}"
+  label_revision_id: "Revisió %{value}"
   label_associated_revisions: Revisions associades
   label_added: afegit
   label_modified: modificat
@@ -632,8 +637,8 @@ ca:
   label_sort_lower: Mou cap avall
   label_sort_lowest: Mou a la part inferior
   label_roadmap: Planificació
-  label_roadmap_due_in: "Venç en {{value}}"
-  label_roadmap_overdue: "{{value}} tard"
+  label_roadmap_due_in: "Venç en %{value}"
+  label_roadmap_overdue: "%{value} tard"
   label_roadmap_no_issues: No hi ha assumptes per a aquesta versió
   label_search: Cerca
   label_result_plural: Resultats
@@ -652,8 +657,8 @@ ca:
   label_issue_tracking: "Seguiment d'assumptes"
   label_spent_time: Temps invertit
   label_overall_spent_time: "Temps total invertit"
-  label_f_hour: "{{value}} hora"
-  label_f_hour_plural: "{{value}} hores"
+  label_f_hour: "%{value} hora"
+  label_f_hour_plural: "%{value} hores"
   label_time_tracking: Temps de seguiment
   label_change_plural: Canvis
   label_statistics: Estadístiques
@@ -704,15 +709,15 @@ ca:
   label_date_from: Des de
   label_date_to: A
   label_language_based: "Basat en l'idioma de l'usuari"
-  label_sort_by: "Ordena per {{value}}"
+  label_sort_by: "Ordena per %{value}"
   label_send_test_email: Envia un correu electrònic de prova
   label_feeds_access_key: "Clau d'accés del RSS"
   label_missing_feeds_access_key: "Falta una clau d'accés del RSS"
-  label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa {{value}}"
+  label_feeds_access_key_created_on: "Clau d'accés del RSS creada fa %{value}"
   label_module_plural: Mòduls
-  label_added_time_by: "Afegit per {{author}} fa {{age}}"
-  label_updated_time_by: "Actualitzat per {{author}} fa {{age}}"
-  label_updated_time: "Actualitzat fa {{value}}"
+  label_added_time_by: "Afegit per %{author} fa %{age}"
+  label_updated_time_by: "Actualitzat per %{author} fa %{age}"
+  label_updated_time: "Actualitzat fa %{value}"
   label_jump_to_a_project: Salta al projecte...
   label_file_plural: Fitxers
   label_changeset_plural: Conjunt de canvis
@@ -728,7 +733,7 @@ ca:
   label_registration_activation_by_email: activació del compte per correu electrònic
   label_registration_manual_activation: activació del compte manual
   label_registration_automatic_activation: activació del compte automàtica
-  label_display_per_page: "Per pàgina: {{value}}"
+  label_display_per_page: "Per pàgina: %{value}"
   label_age: Edat
   label_change_properties: Canvia les propietats
   label_general: General
@@ -751,7 +756,7 @@ ca:
   label_sort: Ordena
   label_ascending: Ascendent
   label_descending: Descendent
-  label_date_from_to: Des de {{start}} a {{end}}
+  label_date_from_to: Des de %{start} a %{end}
   label_wiki_content_added: "S'ha afegit la pàgina wiki"
   label_wiki_content_updated: "S'ha actualitzat la pàgina wiki"
   label_group: Grup
@@ -770,7 +775,7 @@ ca:
   label_display_used_statuses_only: "Mostra només els estats que utilitza aquest seguidor"
   label_api_access_key: "Clau d'accés a l'API"
   label_missing_api_access_key: "Falta una clau d'accés de l'API"
-  label_api_access_key_created_on: "Clau d'accés de l'API creada fa {{value}}"
+  label_api_access_key_created_on: "Clau d'accés de l'API creada fa %{value}"
   label_profile: Perfil
   label_subtask_plural: Subtasques
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
@@ -833,53 +838,53 @@ ca:
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 significa sense restricció
   text_project_destroy_confirmation: Segur que voleu suprimir aquest projecte i les dades relacionades?
-  text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: {{value}}."
+  text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: %{value}."
   text_workflow_edit: Seleccioneu un rol i un seguidor per a editar el flux de treball
   text_are_you_sure: Segur?
-  text_journal_changed: "{{label}} ha canviat de {{old}} a {{new}}"
-  text_journal_set_to: "{{label}} s'ha establert a {{value}}"
-  text_journal_deleted: "{{label}} s'ha suprimit ({{old}})"
-  text_journal_added: "S'ha afegit {{label}} {{value}}"
+  text_journal_changed: "%{label} ha canviat de %{old} a %{new}"
+  text_journal_set_to: "%{label} s'ha establert a %{value}"
+  text_journal_deleted: "%{label} s'ha suprimit (%{old})"
+  text_journal_added: "S'ha afegit %{label} %{value}"
   text_tip_issue_begin_day: "tasca que s'inicia aquest dia"
   text_tip_issue_end_day: tasca que finalitza aquest dia
   text_tip_issue_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
   text_project_identifier_info: "Es permeten lletres en minúscules (a-z), números i guions.<br />Un cop desat, l'identificador no es pot modificar."
-  text_caracters_maximum: "{{count}} caràcters com a màxim."
-  text_caracters_minimum: "Com a mínim ha de tenir {{count}} caràcters."
-  text_length_between: "Longitud entre {{min}} i {{max}} caràcters."
+  text_caracters_maximum: "%{count} caràcters com a màxim."
+  text_caracters_minimum: "Com a mínim ha de tenir %{count} caràcters."
+  text_length_between: "Longitud entre %{min} i %{max} caràcters."
   text_tracker_no_workflow: "No s'ha definit cap flux de treball per a aquest seguidor"
   text_unallowed_characters: Caràcters no permesos
   text_comma_separated: Es permeten valors múltiples (separats per una coma).
   text_line_separated: "Es permeten diversos valors (una línia per cada valor)."
   text_issues_ref_in_commit_messages: Referència i soluciona els assumptes en els missatges publicats
-  text_issue_added: "L'assumpte {{id}} ha sigut informat per {{author}}."
-  text_issue_updated: "L'assumpte {{id}} ha sigut actualitzat per {{author}}."
+  text_issue_added: "L'assumpte %{id} ha sigut informat per %{author}."
+  text_issue_updated: "L'assumpte %{id} ha sigut actualitzat per %{author}."
   text_wiki_destroy_confirmation: Segur que voleu suprimir aquest wiki i tots els seus continguts?
-  text_issue_category_destroy_question: "Alguns assumptes ({{count}}) estan assignats a aquesta categoria. Què voleu fer?"
+  text_issue_category_destroy_question: "Alguns assumptes (%{count}) estan assignats a aquesta categoria. Què voleu fer?"
   text_issue_category_destroy_assignments: Suprimeix les assignacions de la categoria
   text_issue_category_reassign_to: Torna a assignar els assumptes a aquesta categoria
   text_user_mail_option: "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. assumptes que en sou l'autor o hi esteu assignat)."
   text_no_configuration_data: "Encara no s'han configurat els rols, seguidors, estats de l'assumpte i flux de treball.\nÉs altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada."
   text_load_default_configuration: Carrega la configuració predeterminada
-  text_status_changed_by_changeset: "Aplicat en el conjunt de canvis {{value}}."
+  text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_issues_destroy_confirmation: "Segur que voleu suprimir els assumptes seleccionats?"
   text_select_project_modules: "Seleccioneu els mòduls a habilitar per a aquest projecte:"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_file_repository_writable: Es pot escriure en el dipòsit de fitxers
   text_plugin_assets_writable: Es pot escriure als connectors actius
   text_rmagick_available: RMagick disponible (opcional)
-  text_destroy_time_entries_question: "S'han informat {{hours}} hores en els assumptes que aneu a suprimir. Què voleu fer?"
+  text_destroy_time_entries_question: "S'han informat %{hours} hores en els assumptes que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: Suprimeix les hores informades
   text_assign_time_entries_to_project: Assigna les hores informades al projecte
   text_reassign_time_entries: "Torna a assignar les hores informades a aquest assumpte:"
-  text_user_wrote: "{{value}} va escriure:"
-  text_enumeration_destroy_question: "{{count}} objectes estan assignats a aquest valor."
+  text_user_wrote: "%{value} va escriure:"
+  text_enumeration_destroy_question: "%{count} objectes estan assignats a aquest valor."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
-  text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/email.yml i reinicieu l'aplicació per habilitar-lo."
+  text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo."
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del Redmine i cada nom d'usuari trobat al dipòsit.\nEls usuaris amb el mateix nom d'usuari o correu del Redmine i del dipòsit s'assignaran automàticament."
   text_diff_truncated: "... Aquestes diferències s'han trucat perquè excedeixen la mida màxima que es pot mostrar."
   text_custom_field_possible_values_info: "Una línia per a cada valor"
-  text_wiki_page_destroy_question: "Aquesta pàgina té {{descendants}} pàgines fill i descendents. Què voleu fer?"
+  text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill i descendents. Què voleu fer?"
   text_wiki_page_nullify_children: "Deixa les pàgines fill com a pàgines arrel"
   text_wiki_page_destroy_children: "Suprimeix les pàgines fill i tots els seus descendents"
   text_wiki_page_reassign_children: "Reasigna les pàgines fill a aquesta pàgina pare"
@@ -914,7 +919,7 @@ ca:
   enumeration_activities: Activitats (seguidor de temps)
   enumeration_system_activity: Activitat del sistema
 
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -925,8 +930,12 @@ ca:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

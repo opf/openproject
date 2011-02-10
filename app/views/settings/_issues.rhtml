@@ -8,6 +8,8 @@
 <p><%= setting_select :issue_done_ratio, Issue::DONE_RATIO_OPTIONS.collect {|i| [l("setting_issue_done_ratio_#{i}"), i]} %></p>
 
 <p><%= setting_text_field :issues_export_limit, :size => 6 %></p>
+
+<p><%= setting_text_field :gantt_items_limit, :size => 6 %></p>
 </div>
 
 <fieldset class="box settings"><legend><%= l(:setting_issue_list_default_columns) %></legend>

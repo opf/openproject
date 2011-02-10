@@ -187,10 +187,18 @@ class Query < ActiveRecord::Base
     if project
       user_values += project.users.sort.collect{|s| [s.name, s.id.to_s] }
     else
-      project_ids = Project.all(:conditions => Project.visible_by(User.current)).collect(&:id)
-      if project_ids.any?
-        # members of the user's projects
-        user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", project_ids]).sort.collect{|s| [s.name, s.id.to_s] }
+      all_projects = Project.visible.all
+      if all_projects.any?
+        # members of visible projects
+        user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort.collect{|s| [s.name, s.id.to_s] }
+          
+        # project filter
+        project_values = []
+        Project.project_tree(all_projects) do |p, level|
+          prefix = (level > 0 ? ('--' * level + ' ') : '')
+          project_values << ["#{prefix}#{p.name}", p.id.to_s]
+        end
+        @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values} unless project_values.empty?
       end
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
@@ -225,12 +233,6 @@ class Query < ActiveRecord::Base
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => system_shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
       end
       add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
-      # project filter
-      project_values = Project.all(:conditions => Project.visible_by(User.current), :order => 'lft').map do |p|
-        pre = (p.level > 0 ? ('--' * p.level + ' ') : '')
-        ["#{pre}#{p.name}",p.id.to_s]
-      end
-      @available_filters["project_id"] = { :type => :list, :order => 1, :values => project_values}
     end
     @available_filters
   end
@@ -376,15 +378,15 @@ class Query < ActiveRecord::Base
   
   # Returns true if the query is a grouped query
   def grouped?
-    !group_by.blank?
+    !group_by_column.nil?
   end
   
   def group_by_column
-    groupable_columns.detect {|c| c.name.to_s == group_by}
+    groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
   end
   
   def group_by_statement
-    group_by_column.groupable
+    group_by_column.try(:groupable)
   end
   
   def project_statement

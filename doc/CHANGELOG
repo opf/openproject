@@ -1,8 +1,116 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2010  Jean-Philippe Lang
+Copyright (C) 2006-2011  Jean-Philippe Lang
 http://www.redmine.org/
+
+== 2011-01-30 v1.1.1
+
+* Defect #4899: Redmine fails to list files for darcs repository
+* Defect #7245: Wiki fails to find pages with cyrillic characters using postgresql
+* Defect #7256: redmine/public/.htaccess must be moved for non-fastcgi installs/upgrades
+* Defect #7258: Automatic spent time logging does not work properly with SQLite3
+* Defect #7259: Released 1.1.0 uses "devel" label inside admin information
+* Defect #7265: "Loading..." icon does not disappear after add project member
+* Defect #7266: Test test_due_date_distance_in_words fail due to undefined locale
+* Defect #7274: CSV value separator in dutch locale
+* Defect #7277: Enabling gravatas causes usernames to overlap first name field in user list
+* Defect #7294: "Notifiy for only project I select" is not available anymore in 1.1.0
+* Defect #7307: HTTP 500 error on query for empty revision
+* Defect #7313: Label not translated in french in Settings/Email Notification tab
+* Defect #7329: <code class="javascript"> with long strings may hang server
+* Defect #7337: My page french translation
+* Defect #7348: French Translation of "Connection"
+* Defect #7385: Error when viewing an issue which was related to a deleted subtask
+* Defect #7386: NoMethodError on pdf export
+* Defect #7415: Darcs adapter recognizes new files as modified files above Darcs 2.4
+* Defect #7421: no email sent with 'Notifiy for any event on the selected projects only'
+* Feature #5344: Update to latest CodeRay 0.9.x
+
+== 2011-01-09 v1.1.0
+
+* Defect #2038: Italics in wiki headers show-up wrong in the toc
+* Defect #3449: Redmine Takes Too Long On Large Mercurial Repository
+* Defect #3567: Sorting for changesets might go wrong on Mercurial repos
+* Defect #3707: {{toc}} doesn't work with {{include}}
+* Defect #5096: Redmine hangs up while browsing Git repository
+* Defect #6000: Safe Attributes prevents plugin extension of Issue model...
+* Defect #6064: Modules not assigned to projects created via API
+* Defect #6110: MailHandler should allow updating Issue Priority and Custom fields
+* Defect #6136: JSON API holds less information than XML API
+* Defect #6345: xml used by rest API is invalid
+* Defect #6348: Gantt chart PDF rendering errors
+* Defect #6403: Updating an issue with custom fields fails
+* Defect #6467: "Member of role", "Member of group" filter not work correctly
+* Defect #6473: New gantt broken after clearing issue filters
+* Defect #6541: Email notifications send to everybody
+* Defect #6549: Notification settings not migrated properly
+* Defect #6591: Acronyms must have a minimum of three characters
+* Defect #6674: Delete time log broken after changes to REST
+* Defect #6681: Mercurial, Bazaar and Darcs auto close issue text should be commit id instead of revision number
+* Defect #6724: Wiki uploads does not work anymore (SVN 4266)
+* Defect #6746: Wiki links are broken on Activity page
+* Defect #6747: Wiki diff does not work since r4265
+* Defect #6763: New gantt charts: subject displayed twice on issues
+* Defect #6826: Clicking "Add" twice creates duplicate member record
+* Defect #6844: Unchecking status filter on the issue list has no effect
+* Defect #6895: Wrong Polish translation of "blocks"
+* Defect #6943: Migration from boolean to varchar fails on PostgreSQL 8.1
+* Defect #7064: Mercurial adapter does not recognize non alphabetic nor numeric in UTF-8 copied files
+* Defect #7128: New gantt chart does not render subtasks under parent task
+* Defect #7135: paging mechanism returns the same last page forever
+* Defect #7188: Activity page not refreshed when changing language
+* Defect #7195: Apply CLI-supplied defaults for incoming mail only to new issues not replies
+* Defect #7197: Tracker reset to default when replying to an issue email
+* Defect #7213: Copy project does not copy all roles and permissions
+* Defect #7225: Project settings: Trackers & Custom fields only relevant if module Issue tracking is active
+* Feature #630: Allow non-unique names for projects
+* Feature #1738: Add a "Visible" flag to project/user custom fields
+* Feature #2803: Support for Javascript in Themes
+* Feature #2852: Clean Incoming Email of quoted text "----- Reply above this line ------"
+* Feature #2995: Improve error message when trying to access an archived project
+* Feature #3170: Autocomplete issue relations on subject
+* Feature #3503: Administrator Be Able To Modify Email settings Of Users
+* Feature #4155: Automatic spent time logging from commit messages
+* Feature #5136: Parent select on Wiki rename page
+* Feature #5338: Descendants (subtasks) should be available via REST API
+* Feature #5494: Wiki TOC should display heading from level 4
+* Feature #5594: Improve MailHandler's keyword handling
+* Feature #5622: Allow version to be set via incoming email
+* Feature #5712: Reload themes
+* Feature #5869: Issue filters by Group and Role
+* Feature #6092: Truncate Git revision labels in Activity page/feed and allow configurable length
+* Feature #6112: Accept localized keywords when receiving emails
+* Feature #6140: REST issues response with issue count limit and offset
+* Feature #6260: REST API for Users
+* Feature #6276: Gantt Chart rewrite
+* Feature #6446: Remove length limits on project identifier and name
+* Feature #6628: Improvements in truncate email
+* Feature #6779: Project JSON API
+* Feature #6823: REST API for time tracker.
+* Feature #7072: REST API for news
+* Feature #7111: Expose more detail on journal entries
+* Feature #7141: REST API: get information about current user
+* Patch #4807: Allow to set the done_ratio field with the incoming mail system
+* Patch #5441: Initialize TimeEntry attributes with params[:time_entry]
+* Patch #6762: Use GET instead of POST to retrieve context_menu
+* Patch #7160: French translation ofr "not_a_date" is missing
+* Patch #7212: Missing remove_index in AddUniqueIndexOnMembers down migration
+
+
+== 2010-12-23 v1.0.5
+
+* #6656: Mercurial adapter loses seconds of commit times
+* #6996: Migration trac(sqlite3) -> redmine(postgresql) doesnt escape ' char
+* #7013: v-1.0.4 trunk - see {{count}} in page display rather than value
+* #7016: redundant 'field_start_date' in ja.yml
+* #7018: 'undefined method `reschedule_after' for nil:NilClass' on new issues
+* #7024: E-mail notifications about Wiki changes.
+* #7033: 'class' attribute of <pre> tag shouldn't be truncate
+* #7035: CSV value separator in russian
+* #7122: Issue-description Quote-button missing
+* #7144: custom queries making use of deleted custom fields cause a 500 error
+* #7162: Multiply defined label in french translation
 
 == 2010-11-28 v1.0.4
 

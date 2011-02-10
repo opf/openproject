@@ -94,6 +94,7 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
     @changesets = @repository.latest_changesets(@path, @rev, Setting.repository_log_display_limit.to_i)
     @properties = @repository.properties(@path, @rev)
+    @changeset = @repository.find_changeset_by_name(@rev)
   end
   
   def revisions
@@ -127,18 +128,21 @@ class RepositoriesController < ApplicationController
     else
       # Prevent empty lines when displaying a file with Windows style eol
       @content.gsub!("\r\n", "\n")
+      @changeset = @repository.find_changeset_by_name(@rev)
    end
   end
-  
+
   def annotate
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
     
     @annotate = @repository.scm.annotate(@path, @rev)
     (render_error l(:error_scm_annotate); return) if @annotate.nil? || @annotate.empty?
+    @changeset = @repository.find_changeset_by_name(@rev)
   end
-  
+
   def revision
+    raise ChangesetNotFound if @rev.blank?
     @changeset = @repository.find_changeset_by_name(@rev)
     raise ChangesetNotFound unless @changeset
 
@@ -174,9 +178,13 @@ class RepositoriesController < ApplicationController
         @diff = @repository.diff(@path, @rev, @rev_to)
         show_error_not_found unless @diff
       end
+
+      @changeset = @repository.find_changeset_by_name(@rev)
+      @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
+      @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
     end
   end
-  
+
   def stats  
   end
   
@@ -196,7 +204,10 @@ class RepositoriesController < ApplicationController
     end
   end
   
-private
+  private
+
+  REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
+
   def find_repository
     @project = Project.find(params[:id])
     @repository = @project.repository
@@ -205,6 +216,12 @@ private
     @path ||= ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
+    
+    unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
+      if @repository.branches.blank?
+        raise InvalidRevisionParam
+      end
+    end
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam
@@ -212,7 +229,7 @@ private
   end
 
   def show_error_not_found
-    render_error l(:error_scm_not_found)
+    render_error :message => l(:error_scm_not_found), :status => 404
   end
   
   # Handler for Redmine::Scm::Adapters::CommandFailed exception

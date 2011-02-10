@@ -1,4 +1,6 @@
-require File.dirname(__FILE__) + '/../../../../../test_helper'
+# encoding: utf-8
+
+require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class GitAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'

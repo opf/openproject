@@ -18,8 +18,12 @@
 require 'iconv'
 
 module RepositoriesHelper
-  def format_revision(txt)
-    txt.to_s[0,8]
+  def format_revision(revision)
+    if revision.respond_to? :format_identifier
+      revision.format_identifier
+    else
+      revision.to_s
+    end
   end
   
   def truncate_at_line_break(text, length = 255)
@@ -87,7 +91,7 @@ module RepositoriesHelper
                              :action => 'show',
                              :id => @project,
                              :path => path_param,
-                             :rev => @changeset.revision)
+                             :rev => @changeset.identifier)
         output << "<li class='#{style}'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
@@ -97,13 +101,13 @@ module RepositoriesHelper
                              :action => 'entry',
                              :id => @project,
                              :path => path_param,
-                             :rev => @changeset.revision) unless c.action == 'D'
+                             :rev => @changeset.identifier) unless c.action == 'D'
         text << " - #{c.revision}" unless c.revision.blank?
         text << ' (' + link_to('diff', :controller => 'repositories',
                                        :action => 'diff',
                                        :id => @project,
                                        :path => path_param,
-                                       :rev => @changeset.revision) + ') ' if c.action == 'M'
+                                       :rev => @changeset.identifier) + ') ' if c.action == 'M'
         text << ' ' + content_tag('span', c.from_path, :class => 'copied-from') unless c.from_path.blank?
         output << "<li class='#{style}'>#{text}</li>"
       end
@@ -113,7 +117,13 @@ module RepositoriesHelper
   end
   
   def to_utf8(str)
-    return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    if str.respond_to?(:force_encoding)
+      str.force_encoding('UTF-8')
+      return str if str.valid_encoding?
+    else
+      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+    end
+    
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
     @encodings.each do |encoding|
       begin

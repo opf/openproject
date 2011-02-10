@@ -36,37 +36,37 @@ ja:
       half_a_minute: "30秒前後"
       less_than_x_seconds:
         one:   "1秒以内"
-        other: "{{count}}秒以内"
+        other: "%{count}秒以内"
       x_seconds:
         one:   "1秒"
-        other: "{{count}}秒"
+        other: "%{count}秒"
       less_than_x_minutes:
         one:   "1分以内"
-        other: "{{count}}分以内"
+        other: "%{count}分以内"
       x_minutes:
         one:   "1分"
-        other: "{{count}}分"
+        other: "%{count}分"
       about_x_hours:
         one:   "約1時間"
-        other: "約{{count}}時間"
+        other: "約%{count}時間"
       x_days:
         one:   "1日"
-        other: "{{count}}日"
+        other: "%{count}日"
       about_x_months:
         one:   "約1ヶ月"
-        other: "約{{count}}ヶ月"
+        other: "約%{count}ヶ月"
       x_months:
         one:   "1ヶ月"
-        other: "{{count}}ヶ月"
+        other: "%{count}ヶ月"
       about_x_years:
         one:   "約1年"
-        other: "約{{count}}年"
+        other: "約%{count}年"
       over_x_years:
         one:   "1年以上"
-        other: "{{count}}年以上"
+        other: "%{count}年以上"
       almost_x_years:
         one:   "ほぼ1年"
-        other: "ほぼ{{count}}年"
+        other: "ほぼ%{count}年"
 
   number:
     format:
@@ -116,8 +116,8 @@ ja:
     errors:
       template:
         header:
-          one:   "{{model}} にエラーが発生しました。"
-          other: "{{model}} に {{count}} つのエラーが発生しました。"
+          one:   "%{model} にエラーが発生しました。"
+          other: "%{model} に %{count} つのエラーが発生しました。"
         body: "次の項目を確認してください。"
 
       messages:
@@ -128,17 +128,17 @@ ja:
         accepted: "を受諾してください。"
         empty: "を入力してください。"
         blank: "を入力してください。"
-        too_long: "は{{count}}文字以内で入力してください。"
-        too_short: "は{{count}}文字以上で入力してください。"
-        wrong_length: "は{{count}}文字で入力してください。"
+        too_long: "は%{count}文字以内で入力してください。"
+        too_short: "は%{count}文字以上で入力してください。"
+        wrong_length: "は%{count}文字で入力してください。"
         taken: "はすでに存在します。"
         not_a_number: "は数値で入力してください。"
         not_a_date: "は日付を入力してください。"
-        greater_than: "は{{count}}より大きい値にしてください。"
-        greater_than_or_equal_to: "は{{count}}以上の値にしてください。"
-        equal_to: "は{{count}}にしてください。"
-        less_than: "は{{count}}より小さい値にしてください。"
-        less_than_or_equal_to: "は{{count}}以下の値にしてください。"
+        greater_than: "は%{count}より大きい値にしてください。"
+        greater_than_or_equal_to: "は%{count}以上の値にしてください。"
+        equal_to: "は%{count}にしてください。"
+        less_than: "は%{count}より小さい値にしてください。"
+        less_than_or_equal_to: "は%{count}以下の値にしてください。"
         odd: "は奇数にしてください。"
         even: "は偶数にしてください。"
         greater_than_start_date: "を開始日より後にしてください"
@@ -176,29 +176,30 @@ ja:
   notice_locking_conflict: 別のユーザがデータを更新しています。
   notice_not_authorized: このページにアクセスするには認証が必要です。
   notice_not_authorized_archived_project: プロジェクトは書庫に保存されています。
-  notice_email_sent: "{{value}} 宛にメールを送信しました。"
-  notice_email_error: "メール送信中にエラーが発生しました ({{value}})"
+  notice_email_sent: "%{value} 宛にメールを送信しました。"
+  notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: RSSアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
-  notice_failed_to_save_issues: "{{total}}件のうち{{count}}件のチケットが保存できませんでした: {{ids}}."
-  notice_failed_to_save_members: "メンバーの保存に失敗しました: {{errors}}."
+  notice_failed_to_save_issues: "%{total}件のうち%{count}件のチケットが保存できませんでした: %{ids}."
+  notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントは作成済みで、管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗が更新されました。
+  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
   
-  error_can_t_load_default_data: "デフォルト設定がロードできませんでした: {{value}}"
+  error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
-  error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: {{value}}"
+  error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %{value}"
   error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
   error_issue_not_found_in_project: 'チケットが見つかりません、もしくはこのプロジェクトに属していません'
   error_unable_delete_issue_status: "チケットのステータスを削除できませんでした。"
   error_no_tracker_in_project: 'このプロジェクトにはトラッカーが登録されていません。プロジェクト設定を確認してください。'
   error_no_default_issue_status: 'デフォルトのチケットステータスが定義されていません。設定を確認してください（管理→チケットのステータス）。'
   error_can_not_delete_custom_field: 'カスタムフィールドを削除できません。'
-  error_unable_to_connect: "接続できません。 ({{value}})"
+  error_unable_to_connect: "接続できません。 (%{value})"
   error_can_not_remove_role: 'このロールは使用されています。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
   error_can_not_archive_project: このプロジェクトは書庫に保存できません
@@ -207,25 +208,25 @@ ja:
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
   error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
   
-  warning_attachments_not_saved: "{{count}}個の添付ファイルが保存できませんでした。"
+  warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
   
-  mail_subject_lost_password: "{{value}} パスワード再発行"
+  mail_subject_lost_password: "%{value} パスワード再発行"
   mail_body_lost_password: 'パスワードを変更するには、以下のリンクをクリックしてください:'
-  mail_subject_register: "{{value}} アカウント登録の確認"
+  mail_subject_register: "%{value} アカウント登録の確認"
   mail_body_register: 'アカウント登録を完了するには、以下のアドレスをクリックしてください:'
-  mail_body_account_information_external: "{{value}} アカウントを使ってにログインできます。"
+  mail_body_account_information_external: "%{value} アカウントを使ってにログインできます。"
   mail_body_account_information: アカウント情報
-  mail_subject_account_activation_request: "{{value}} アカウントの承認要求"
-  mail_body_account_activation_request: "新しいユーザ {{value}} が登録されました。このアカウントはあなたの承認待ちです："
-  mail_subject_reminder: "{{count}}件のチケットの期日が{{days}}日以内に到来します"
-  mail_body_reminder: "{{count}}件の担当チケットの期日が{{days}}日以内に到来します:"
-  mail_subject_wiki_content_added: "Wikiページ {{id}} が追加されました"
-  mail_body_wiki_content_added: "{{author}} によってWikiページ {{id}} が追加されました。"
-  mail_subject_wiki_content_updated: "Wikiページ {{id}} が更新されました"
-  mail_body_wiki_content_updated: "{{author}} によってWikiページ {{id}} が更新されました。"
+  mail_subject_account_activation_request: "%{value} アカウントの承認要求"
+  mail_body_account_activation_request: "新しいユーザ %{value} が登録されました。このアカウントはあなたの承認待ちです："
+  mail_subject_reminder: "%{count}件のチケットの期日が%{days}日以内に到来します"
+  mail_body_reminder: "%{count}件の担当チケットの期日が%{days}日以内に到来します:"
+  mail_subject_wiki_content_added: "Wikiページ %{id} が追加されました"
+  mail_body_wiki_content_added: "%{author} によってWikiページ %{id} が追加されました。"
+  mail_subject_wiki_content_updated: "Wikiページ %{id} が更新されました"
+  mail_body_wiki_content_updated: "%{author} によってWikiページ %{id} が更新されました。"
   
   gui_validation_error: 1件のエラー
-  gui_validation_error_plural: "{{count}}件のエラー"
+  gui_validation_error_plural: "%{count}件のエラー"
   
   field_name: 名称
   field_description: 説明
@@ -380,6 +381,9 @@ ja:
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
   setting_default_notification_option: デフォルトのメール通知オプション
+  setting_commit_logtime_enabled: コミット時に作業時間を記録する
+  setting_commit_logtime_activity_id: 作業時間の作業分類
+  setting_gantt_items_limit: ガントチャート最大表示項目数
   
   permission_add_project: プロジェクトの追加
   permission_add_subprojects: サブプロジェクトの追加
@@ -459,14 +463,14 @@ ja:
   label_x_projects:
     zero:  プロジェクトはありません
     one:   1プロジェクト
-    other: "{{count}}プロジェクト"
+    other: "%{count}プロジェクト"
   label_project_all: 全プロジェクト
   label_project_latest: 最近のプロジェクト
   label_issue: チケット
   label_issue_new: 新しいチケット
   label_issue_plural: チケット
   label_issue_view_all: 全てのチケットを見る
-  label_issues_by: "{{value}} 別のチケット"
+  label_issues_by: "%{value} 別のチケット"
   label_issue_added: チケットが追加されました
   label_issue_updated: チケットが更新されました
   label_document: 文書
@@ -516,7 +520,7 @@ ja:
   label_registered_on: 登録日
   label_activity: 活動
   label_overall_activity: 全ての活動
-  label_user_activity: "{{value}} の活動"
+  label_user_activity: "%{value} の活動"
   label_new: 新しく作成
   label_logged_as: ログイン中：
   label_environment: 環境
@@ -526,7 +530,7 @@ ja:
   label_auth_source_plural: 認証方式
   label_subproject_plural: サブプロジェクト
   label_subproject_new: 新しいサブプロジェクト
-  label_and_its_subprojects: "{{value}} とサブプロジェクト"
+  label_and_its_subprojects: "%{value} とサブプロジェクト"
   label_min_max_length: 最小値 - 最大値の長さ
   label_list: リストから選択
   label_date: 日付
@@ -537,8 +541,8 @@ ja:
   label_text: 長いテキスト
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "{{count}}ダウンロード"
-  label_download_plural: "{{count}}ダウンロード"
+  label_download: "%{count}ダウンロード"
+  label_download_plural: "%{count}ダウンロード"
   label_no_data: 表示するデータがありません
   label_change_status: ステータスの変更
   label_history: 履歴
@@ -570,17 +574,17 @@ ja:
   label_closed_issues: 完了
   label_closed_issues_plural: 完了
   label_x_open_issues_abbr_on_total:
-    zero:  0件未完了 / 全{{total}}件
-    one:   1件未完了 / 全{{total}}件
-    other: "{{count}}件未完了 / 全{{total}}件"
+    zero:  0件未完了 / 全%{total}件
+    one:   1件未完了 / 全%{total}件
+    other: "%{count}件未完了 / 全%{total}件"
   label_x_open_issues_abbr:
     zero:  0件未完了
     one:   1件未完了
-    other: "{{count}}件未完了"
+    other: "%{count}件未完了"
   label_x_closed_issues_abbr:
     zero:  0件完了
     one:   1件完了
-    other: "{{count}}件完了"
+    other: "%{count}件完了"
   label_total: 合計
   label_permissions: 権限
   label_current_status: 現在のステータス
@@ -598,7 +602,7 @@ ja:
   label_months_from: ヶ月分
   label_gantt: ガントチャート
   label_internal: 内部
-  label_last_changes: "最新の変更 {{count}}件"
+  label_last_changes: "最新の変更 %{count}件"
   label_change_view_all: 全ての変更を見る
   label_personalize_page: このページをパーソナライズする
   label_comment: コメント
@@ -606,7 +610,7 @@ ja:
   label_x_comments:
     zero: コメントがありません
     one: 1コメント
-    other: "{{count}}コメント"
+    other: "%{count}コメント"
   label_comment_add: コメント追加
   label_comment_added: 追加されたコメント
   label_comment_delete: コメント削除
@@ -627,7 +631,7 @@ ja:
   label_yesterday: 昨日
   label_this_week: この週
   label_last_week: 先週
-  label_last_n_days: "最後の{{count}}日間"
+  label_last_n_days: "最後の%{count}日間"
   label_this_month: 今月
   label_last_month: 先月
   label_this_year: 今年
@@ -641,13 +645,13 @@ ja:
   label_repository: リポジトリ
   label_repository_plural: リポジトリ
   label_browse: ブラウズ
-  label_modification: "{{count}}点の変更"
-  label_modification_plural: "{{count}}点の変更"
+  label_modification: "%{count}点の変更"
+  label_modification_plural: "%{count}点の変更"
   label_branch: ブランチ
   label_tag: タグ
   label_revision: リビジョン
   label_revision_plural: リビジョン
-  label_revision_id: リビジョン {{value}}
+  label_revision_id: リビジョン %{value}
   label_associated_revisions: 関係しているリビジョン
   label_added: 追加
   label_modified: 変更
@@ -664,8 +668,8 @@ ja:
   label_sort_lower: 下へ
   label_sort_lowest: 一番下へ
   label_roadmap: ロードマップ
-  label_roadmap_due_in: "期日まで {{value}}"
-  label_roadmap_overdue: "{{value}} 遅れ"
+  label_roadmap_due_in: "期日まで %{value}"
+  label_roadmap_overdue: "%{value} 遅れ"
   label_roadmap_no_issues: このバージョンに関するチケットはありません
   label_search: 検索
   label_result_plural: 結果
@@ -684,8 +688,8 @@ ja:
   label_issue_tracking: チケットトラッキング
   label_spent_time: 作業時間の記録
   label_overall_spent_time: 全ての作業時間の記録
-  label_f_hour: "{{value}}時間"
-  label_f_hour_plural: "{{value}}時間"
+  label_f_hour: "%{value}時間"
+  label_f_hour_plural: "%{value}時間"
   label_time_tracking: 時間トラッキング
   label_change_plural: 変更
   label_statistics: 統計
@@ -736,15 +740,15 @@ ja:
   label_date_from: "日付指定: "
   label_date_to: から
   label_language_based: 既定の言語の設定に従う
-  label_sort_by: "並び替え {{value}}"
+  label_sort_by: "並び替え %{value}"
   label_send_test_email: テストメールを送信
   label_feeds_access_key: RSSアクセスキー
   label_missing_feeds_access_key: RSSアクセスキーが見つかりません
-  label_feeds_access_key_created_on: "RSSアクセスキーは{{value}}前に作成されました"
+  label_feeds_access_key_created_on: "RSSアクセスキーは%{value}前に作成されました"
   label_module_plural: モジュール
-  label_added_time_by: "{{author}} が{{age}}前に追加"
-  label_updated_time_by: "{{author}} が{{age}}前に更新"
-  label_updated_time: "{{value}}前に更新"
+  label_added_time_by: "%{author} が%{age}前に追加"
+  label_updated_time_by: "%{author} が%{age}前に更新"
+  label_updated_time: "%{value}前に更新"
   label_jump_to_a_project: プロジェクトへ移動...
   label_file_plural: ファイル
   label_changeset_plural: 更新履歴
@@ -764,7 +768,7 @@ ja:
   label_registration_activation_by_email: メールでアカウントを有効化
   label_registration_manual_activation: 手動でアカウントを有効化
   label_registration_automatic_activation: 自動でアカウントを有効化
-  label_display_per_page: "1ページに: {{value}}"
+  label_display_per_page: "1ページに: %{value}"
   label_age: 年齢
   label_change_properties: プロパティの変更
   label_general: 全般
@@ -787,7 +791,7 @@ ja:
   label_sort: ソート条件
   label_ascending: 昇順
   label_descending: 降順
-  label_date_from_to: "{{start}}から{{end}}まで"
+  label_date_from_to: "%{start}から%{end}まで"
   label_wiki_content_added: Wikiページが追加されました
   label_wiki_content_updated: Wikiページが更新されました
   label_group: グループ
@@ -806,7 +810,7 @@ ja:
   label_display_used_statuses_only: このトラッカーで使われているステータスのみ表示する
   label_api_access_key: APIアクセスキー
   label_missing_api_access_key: APIアクセスキーが見つかりません
-  label_api_access_key_created_on: "APIアクセスキーは{{value}}前に作成されました"
+  label_api_access_key_created_on: "APIアクセスキーは%{value}前に作成されました"
   label_subtask_plural: 子チケット
   label_project_copy_notifications: コピーしたチケットのメール通知を送信する
   label_principal_search: "ユーザまたはグループの検索:"
@@ -822,7 +826,7 @@ ja:
   button_create_and_continue: 連続作成
   button_test: テスト
   button_edit: 編集
-  button_edit_associated_wikipage: "関連するWikiページを編集: {{page_title}}"
+  button_edit_associated_wikipage: "関連するWikiページを編集: %{page_title}"
   button_add: 追加
   button_change: 変更
   button_apply: 適用
@@ -871,54 +875,55 @@ ja:
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
   text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除してもよろしいですか？
-  text_subprojects_destroy_warning: "サブプロジェクト {{value}} も削除されます。"
+  text_subprojects_destroy_warning: "サブプロジェクト %{value} も削除されます。"
   text_workflow_edit: ワークフローを編集するロールとトラッカーを選んでください
   text_are_you_sure: よろしいですか？
   text_are_you_sure_with_children: チケットとその子チケット全てを削除しますか?
-  text_journal_changed: "{{label}} を {{old}} から {{new}} に変更"
-  text_journal_set_to: "{{label}} を {{value}} にセット"
-  text_journal_deleted: "{{label}} を削除 ({{old}})"
-  text_journal_added: "{{label}} {{value}} を追加"
+  text_journal_changed: "%{label} を %{old} から %{new} に変更"
+  text_journal_set_to: "%{label} を %{value} にセット"
+  text_journal_deleted: "%{label} を削除 (%{old})"
+  text_journal_added: "%{label} %{value} を追加"
   text_tip_issue_begin_day: この日に開始するタスク
   text_tip_issue_end_day: この日に終了するタスク
   text_tip_issue_begin_end_day: この日のうちに開始して終了するタスク
   text_project_identifier_info: '英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'
-  text_caracters_maximum: "最大{{count}}文字です。"
-  text_caracters_minimum: "最低{{count}}文字の長さが必要です"
-  text_length_between: "長さは{{min}}から{{max}}文字までです。"
+  text_caracters_maximum: "最大%{count}文字です。"
+  text_caracters_minimum: "最低%{count}文字の長さが必要です"
+  text_length_between: "長さは%{min}から%{max}文字までです。"
   text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
   text_unallowed_characters: 次の文字は使用できません
   text_comma_separated: (カンマで区切ることで)複数の値を設定できます。
   text_line_separated: (1行ごとに書くことで)複数の値を設定できます。
   text_issues_ref_in_commit_messages: コミットメッセージ内でチケットの参照/修正
-  text_issue_added: "チケット {{id}} が {{author}} によって報告されました。"
-  text_issue_updated: "チケット {{id}} が {{author}} によって更新されました。"
+  text_issue_added: "チケット %{id} が %{author} によって報告されました。"
+  text_issue_updated: "チケット %{id} が %{author} によって更新されました。"
   text_wiki_destroy_confirmation: 本当にこのwikiとその内容の全てを削除しますか？
-  text_issue_category_destroy_question: "{{count}}件のチケットがこのカテゴリに割り当てられています。"
+  text_issue_category_destroy_question: "%{count}件のチケットがこのカテゴリに割り当てられています。"
   text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
   text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
   text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している事柄(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
   text_no_configuration_data: "ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
   text_load_default_configuration: デフォルト設定をロード
-  text_status_changed_by_changeset: "更新履歴 {{value}} で適用されました。"
+  text_status_changed_by_changeset: "更新履歴 %{value} で適用されました。"
+  text_time_logged_by_changeset: "更新履歴 %{value} で適用されました。"
   text_issues_destroy_confirmation: '本当に選択したチケットを削除しますか？'
   text_select_project_modules: 'このプロジェクトで使用するモジュールを選択してください:'
   text_default_administrator_account_changed: デフォルト管理アカウントが変更済
   text_file_repository_writable: ファイルリポジトリに書き込み可能
   text_plugin_assets_writable: Plugin assetsディレクトリに書き込み可能
   text_rmagick_available: RMagickが使用可能 (オプション)
-  text_destroy_time_entries_question: このチケットの{{hours}}時間分の作業記録の扱いを選択してください。
+  text_destroy_time_entries_question: このチケットの%{hours}時間分の作業記録の扱いを選択してください。
   text_destroy_time_entries: 記録された作業時間を含めて削除
   text_assign_time_entries_to_project: 記録された作業時間をプロジェクト自体に割り当て
   text_reassign_time_entries: '記録された作業時間をこのチケットに再割り当て：'
-  text_user_wrote: "{{value}} は書きました:"
-  text_enumeration_destroy_question: "{{count}}個のオブジェクトがこの値に割り当てられています。"
+  text_user_wrote: "%{value} は書きました:"
+  text_enumeration_destroy_question: "%{count}個のオブジェクトがこの値に割り当てられています。"
   text_enumeration_category_reassign_to: '次の値に割り当て直す:'
-  text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
+  text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/configuration.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
   text_repository_usernames_mapping: "リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\nログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
   text_diff_truncated: '... 差分の行数が表示可能な上限を超えました。超過分は表示しません。'
   text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
-  text_wiki_page_destroy_question: "この親ページの配下に{{descendants}}ページの子孫ページがあります。"
+  text_wiki_page_destroy_question: "この親ページの配下に%{descendants}ページの子孫ページがあります。"
   text_wiki_page_nullify_children: "子ページをメインページ配下に移動する"
   text_wiki_page_destroy_children: "配下の子孫ページも削除する"
   text_wiki_page_reassign_children: "子ページを次の親ページの配下に移動する"

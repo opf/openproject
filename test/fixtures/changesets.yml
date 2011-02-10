@@ -24,7 +24,7 @@ changesets_003:
   id: 102
   comments: |-
     A commit with wrong issue ids
-    IssueID 666 3
+    IssueID #666 #3
   repository_id: 10
   committer: dlopper
   user_id: 3

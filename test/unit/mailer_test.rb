@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
@@ -302,6 +302,26 @@ class MailerTest < ActiveSupport::TestCase
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_message_posted(message)
+    end
+  end
+  
+  def test_wiki_content_added
+    content = WikiContent.find(:first)
+    valid_languages.each do |lang|
+      Setting.default_language = lang.to_s
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        assert Mailer.deliver_wiki_content_added(content)
+      end
+    end
+  end
+  
+  def test_wiki_content_updated
+    content = WikiContent.find(:first)
+    valid_languages.each do |lang|
+      Setting.default_language = lang.to_s
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        assert Mailer.deliver_wiki_content_updated(content)
+      end
     end
   end
   

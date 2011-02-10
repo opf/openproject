@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
   fixtures :projects, :users, :issues, :issue_statuses, :trackers, :enumerations, :versions
@@ -190,7 +190,7 @@ class VersionTest < ActiveSupport::TestCase
     # Separate hierarchy
     project_1_issue = Issue.find(1)
     project_1_issue.fixed_version = @version
-    assert project_1_issue.save, project_1_issue.errors.full_messages
+    assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
     
     project_5_issue = Issue.find(6)
     project_5_issue.fixed_version = @version

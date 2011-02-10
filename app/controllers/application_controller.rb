@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
 
   layout 'base'
-  exempt_from_layout 'builder'
+  exempt_from_layout 'builder', 'rsb'
   
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
@@ -71,10 +71,10 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
-    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format])
-      if params[:key].present? && accept_key_auth_actions.include?(params[:action])
+    elsif Setting.rest_api_enabled? && api_request?
+      if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
-        User.find_by_api_key(params[:key])
+        User.find_by_api_key(key)
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
@@ -349,6 +349,30 @@ class ApplicationController < ActionController::Base
     per_page
   end
 
+  # Returns offset and limit used to retrieve objects
+  # for an API response based on offset, limit and page parameters
+  def api_offset_and_limit(options=params)
+    if options[:offset].present?
+      offset = options[:offset].to_i
+      if offset < 0
+        offset = 0
+      end
+    end
+    limit = options[:limit].to_i
+    if limit < 1
+      limit = 25
+    elsif limit > 100
+      limit = 100
+    end
+    if offset.nil? && options[:page].present?
+      offset = (options[:page].to_i - 1) * limit
+      offset = 0 if offset < 0
+    end
+    offset ||= 0
+    
+    [offset, limit]
+  end
+  
   # qvalues http header parser
   # code taken from webrick
   def parse_qvalues(value)
@@ -377,6 +401,15 @@ class ApplicationController < ActionController::Base
   
   def api_request?
     %w(xml json).include? params[:format]
+  end
+  
+  # Returns the API key present in the request
+  def api_key_from_request
+    if params[:key].present?
+      params[:key]
+    elsif request.headers["X-Redmine-API-Key"].present?
+      request.headers["X-Redmine-API-Key"]
+    end
   end
 
   # Renders a warning flash if obj has unsaved attachments
@@ -413,5 +446,37 @@ class ApplicationController < ActionController::Base
       { attribute => error }
     end.to_json
   end
+
+  # Renders API response on validation failure
+  def render_validation_errors(object)
+    options = { :status => :unprocessable_entity, :layout => false }
+    options.merge!(case params[:format]
+      when 'xml';  { :xml =>  object.errors }
+      when 'json'; { :json => {'errors' => object.errors} } # ActiveResource client compliance
+      else
+        raise "Unknown format #{params[:format]} in #render_validation_errors"
+      end
+    )
+    render options
+  end
   
+  # Overrides #default_template so that the api template
+  # is used automatically if it exists
+  def default_template(action_name = self.action_name)
+    if api_request?
+      begin
+        return self.view_paths.find_template(default_template_name(action_name), 'api')
+      rescue ::ActionView::MissingTemplate
+        # the api template was not found
+        # fallback to the default behaviour
+      end
+    end
+    super
+  end
+  
+  # Overrides #pick_layout so that #render with no arguments
+  # doesn't use the layout for api requests
+  def pick_layout(*args)
+    api_request? ? nil : super
+  end
 end

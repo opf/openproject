@@ -1,5 +1,7 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# encoding: utf-8
+#
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'attachments_controller'
 
 # Re-raise errors caught by the controller.
@@ -35,10 +37,31 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
   
   def test_show_diff
-    get :show, :id => 5
+    get :show, :id => 14 # 060719210727_changeset_utf8.diff
     assert_response :success
     assert_template 'diff'
     assert_equal 'text/html', @response.content_type
+    
+    assert_tag 'th',
+      :attributes => {:class => /filename/},
+      :content => /issues_controller.rb\t\(révision 1484\)/
+    assert_tag 'td',
+      :attributes => {:class => /line-code/},
+      :content => /Demande créée avec succès/
+  end
+  
+  def test_show_diff_should_strip_non_utf8_content
+    get :show, :id => 5 # 060719210727_changeset_iso8859-1.diff
+    assert_response :success
+    assert_template 'diff'
+    assert_equal 'text/html', @response.content_type
+    
+    assert_tag 'th',
+      :attributes => {:class => /filename/},
+      :content => /issues_controller.rb\t\(rvision 1484\)/
+    assert_tag 'td',
+      :attributes => {:class => /line-code/},
+      :content => /Demande cre avec succs/
   end
   
   def test_show_text_file

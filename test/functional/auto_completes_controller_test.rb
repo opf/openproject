@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class AutoCompletesControllerTest < ActionController::TestCase
   fixtures :all
@@ -17,4 +17,18 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert assigns(:issues).include?(Issue.find(13))
   end
   
+  def test_auto_complete_with_scope_all_and_cross_project_relations
+    Setting.cross_project_issue_relations = '1'
+    get :issues, :project_id => 'ecookbook', :q => '13', :scope => 'all'
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+  end
+     
+  def test_auto_complete_with_scope_all_without_cross_project_relations
+    Setting.cross_project_issue_relations = '0'
+    get :issues, :project_id => 'ecookbook', :q => '13', :scope => 'all'
+    assert_response :success
+    assert_equal [], assigns(:issues)
+  end
 end

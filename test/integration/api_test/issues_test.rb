@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require "#{File.dirname(__FILE__)}/../../test_helper"
+require File.expand_path('../../../test_helper', __FILE__)
 
 class ApiTest::IssuesTest < ActionController::IntegrationTest
   fixtures :projects,
@@ -46,10 +46,60 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '1'
   end
 
-  # Use a private project to make sure auth is really working and not just
-  # only showing public issues.
   context "/index.xml" do
+    # Use a private project to make sure auth is really working and not just
+    # only showing public issues.
     should_allow_api_authentication(:get, "/projects/private-child/issues.xml")
+    
+    should "contain metadata" do
+      get '/issues.xml'
+      
+      assert_tag :tag => 'issues',
+        :attributes => {
+          :type => 'array',
+          :total_count => assigns(:issue_count),
+          :limit => 25,
+          :offset => 0
+        }
+    end
+    
+    context "with offset and limit" do
+      should "use the params" do
+        get '/issues.xml?offset=2&limit=3'
+        
+        assert_equal 3, assigns(:limit)
+        assert_equal 2, assigns(:offset)
+        assert_tag :tag => 'issues', :children => {:count => 3, :only => {:tag => 'issue'}}
+      end
+    end
+
+    context "with nometa param" do
+      should "not contain metadata" do
+        get '/issues.xml?nometa=1'
+        
+        assert_tag :tag => 'issues',
+          :attributes => {
+            :type => 'array',
+            :total_count => nil,
+            :limit => nil,
+            :offset => nil
+          }
+      end
+    end
+
+    context "with nometa header" do
+      should "not contain metadata" do
+        get '/issues.xml', {}, {'X-Redmine-Nometa' => '1'}
+        
+        assert_tag :tag => 'issues',
+          :attributes => {
+            :type => 'array',
+            :total_count => nil,
+            :limit => nil,
+            :offset => nil
+          }
+      end
+    end
   end
 
   context "/index.json" do
@@ -74,7 +124,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       get '/issues.json?status_id=5'
 
       json = ActiveSupport::JSON.decode(response.body)
-      status_ids_used = json.collect {|j| j['status_id'] }
+      status_ids_used = json['issues'].collect {|j| j['status']['id'] }
       assert_equal 3, status_ids_used.length
       assert status_ids_used.all? {|id| id == 5 }
     end
@@ -88,6 +138,120 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
   context "/issues/6.json" do
     should_allow_api_authentication(:get, "/issues/6.json")
+  end
+  
+  context "GET /issues/:id" do
+    context "with journals" do
+      context ".xml" do
+        should "display journals" do
+          get '/issues/1.xml?include=journals'
+          
+          assert_tag :tag => 'issue',
+            :child => {
+              :tag => 'journals',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'journal',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'details',
+                  :attributes => { :type => 'array' },
+                  :child => {
+                    :tag => 'detail',
+                    :attributes => { :name => 'status_id' },
+                    :child => {
+                      :tag => 'old_value',
+                      :content => '1',
+                      :sibling => {
+                        :tag => 'new_value',
+                        :content => '2'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        end
+      end
+    end
+    
+    context "with custom fields" do
+      context ".xml" do
+        should "display custom fields" do
+          get '/issues/3.xml'
+          
+          assert_tag :tag => 'issue', 
+            :child => {
+              :tag => 'custom_fields',
+              :attributes => { :type => 'array' },
+              :child => {
+                :tag => 'custom_field',
+                :attributes => { :id => '1'},
+                :child => {
+                  :tag => 'value',
+                  :content => 'MySQL'
+                }
+              }
+            }
+            
+          assert_nothing_raised do
+            Hash.from_xml(response.body).to_xml
+          end
+        end
+      end
+    end
+    
+    context "with subtasks" do
+      setup do
+        @c1 = Issue.generate!(:status_id => 1, :subject => "child c1", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c2 = Issue.generate!(:status_id => 1, :subject => "child c2", :tracker_id => 1, :project_id => 1, :parent_issue_id => 1)
+        @c3 = Issue.generate!(:status_id => 1, :subject => "child c3", :tracker_id => 1, :project_id => 1, :parent_issue_id => @c1.id)
+      end
+      
+      context ".xml" do
+        should "display children" do
+          get '/issues/1.xml?include=children'
+          
+          assert_tag :tag => 'issue', 
+            :child => {
+              :tag => 'children',
+              :children => {:count => 2},
+              :child => {
+                :tag => 'issue',
+                :attributes => {:id => @c1.id.to_s},
+                :child => {
+                  :tag => 'subject',
+                  :content => 'child c1',
+                  :sibling => {
+                    :tag => 'children',
+                    :children => {:count => 1},
+                    :child => {
+                      :tag => 'issue',
+                      :attributes => {:id => @c3.id.to_s}
+                    }
+                  }
+                }
+              }
+            }
+        end
+        
+        context ".json" do
+          should "display children" do
+            get '/issues/1.json?include=children'
+            
+            json = ActiveSupport::JSON.decode(response.body)
+            assert_equal([
+              {
+                'id' => @c1.id, 'subject' => 'child c1', 'tracker' => {'id' => 1, 'name' => 'Bug'},
+                'children' => [{ 'id' => @c3.id, 'subject' => 'child c3', 'tracker' => {'id' => 1, 'name' => 'Bug'} }]
+              },
+              { 'id' => @c2.id, 'subject' => 'child c2', 'tracker' => {'id' => 1, 'name' => 'Bug'} }
+              ],
+              json['issue']['children'])
+          end
+        end
+      end
+    end
   end
 
   context "POST /issues.xml" do
@@ -160,7 +324,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       end
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert_equal "can't be blank", json.first['subject']
+      assert json['errors'].include?(['subject', "can't be blank"])
     end
   end
 
@@ -202,6 +366,23 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       assert_equal "API update", issue.subject
     end
     
+  end
+  
+  context "PUT /issues/3.xml with custom fields" do
+    setup do
+      @parameters = {:issue => {:custom_fields => [{'id' => '1', 'value' => 'PostgreSQL' }, {'id' => '2', 'value' => '150'}]}}
+      @headers = { :authorization => credentials('jsmith') }
+    end
+    
+    should "update custom fields" do
+      assert_no_difference('Issue.count') do
+        put '/issues/3.xml', @parameters, @headers
+      end
+      
+      issue = Issue.find(3)
+      assert_equal '150', issue.custom_value_for(2).value
+      assert_equal 'PostgreSQL', issue.custom_value_for(1).value
+    end
   end
   
   context "PUT /issues/6.xml with failed update" do
@@ -300,7 +481,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       put '/issues/6.json', @parameters, @headers
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert_equal "can't be blank", json.first['subject']
+      assert json['errors'].include?(['subject', "can't be blank"])
     end
   end
 

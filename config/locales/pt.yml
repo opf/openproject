@@ -33,37 +33,37 @@ pt:
       half_a_minute: "meio minuto"
       less_than_x_seconds:
         one: "menos de 1 segundo"
-        other: "menos de {{count}} segundos"
+        other: "menos de %{count} segundos"
       x_seconds:
         one: "1 segundo"
-        other: "{{count}} segundos"
+        other: "%{count} segundos"
       less_than_x_minutes: 
         one: "menos de um minuto"
-        other: "menos de {{count}} minutos"
+        other: "menos de %{count} minutos"
       x_minutes:
         one: "1 minuto"
-        other: "{{count}} minutos"
+        other: "%{count} minutos"
       about_x_hours:
         one: "aproximadamente 1 hora"
-        other: "aproximadamente {{count}} horas"
+        other: "aproximadamente %{count} horas"
       x_days:
         one: "1 dia"
-        other: "{{count}} dias"
+        other: "%{count} dias"
       about_x_months:
         one: "aproximadamente 1 mês"
-        other: "aproximadamente {{count}} meses"
+        other: "aproximadamente %{count} meses"
       x_months:
         one: "1 mês"
-        other: "{{count}} meses"
+        other: "%{count} meses"
       about_x_years:
         one: "aproximadamente 1 ano"
-        other: "aproximadamente {{count}} anos"
+        other: "aproximadamente %{count} anos"
       over_x_years:
         one: "mais de 1 ano"
-        other: "mais de {{count}} anos"
+        other: "mais de %{count} anos"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
         
   number:
     format:
@@ -102,8 +102,8 @@ pt:
     errors:
       template:
         header:
-          one: "Não foi possível guardar {{model}}: 1 erro"
-          other: "Não foi possível guardar {{model}}: {{count}} erros"
+          one: "Não foi possível guardar %{model}: 1 erro"
+          other: "Não foi possível guardar %{model}: %{count} erros"
         body: "Por favor, verifique os seguintes campos:"
       messages:
         inclusion: "não está incluído na lista"
@@ -113,16 +113,16 @@ pt:
         accepted:  "precisa de ser aceite"
         empty: "não pode estar em branco"
         blank: "não pode estar em branco"
-        too_long: "tem demasiados caracteres (máximo: {{count}} caracteres)"
-        too_short: "tem poucos caracteres (mínimo: {{count}} caracteres)"
-        wrong_length: "não é do tamanho correcto (necessita de ter {{count}} caracteres)"
+        too_long: "tem demasiados caracteres (máximo: %{count} caracteres)"
+        too_short: "tem poucos caracteres (mínimo: %{count} caracteres)"
+        wrong_length: "não é do tamanho correcto (necessita de ter %{count} caracteres)"
         taken: "não está disponível"
         not_a_number: "não é um número"
-        greater_than: "tem de ser maior do que {{count}}"
-        greater_than_or_equal_to: "tem de ser maior ou igual a {{count}}"
-        equal_to: "tem de ser igual a {{count}}"
-        less_than: "tem de ser menor do que {{count}}"
-        less_than_or_equal_to: "tem de ser menor ou igual a {{count}}"
+        greater_than: "tem de ser maior do que %{count}"
+        greater_than_or_equal_to: "tem de ser maior ou igual a %{count}"
+        equal_to: "tem de ser igual a %{count}"
+        less_than: "tem de ser menor do que %{count}"
+        less_than_or_equal_to: "tem de ser menor ou igual a %{count}"
         odd: "tem de ser ímpar"
         even: "tem de ser par"
         greater_than_start_date: "deve ser maior que a data inicial"
@@ -160,34 +160,34 @@ pt:
   notice_file_not_found: A página que está a tentar aceder não existe ou foi removida.
   notice_locking_conflict: Os dados foram actualizados por outro utilizador.
   notice_not_authorized: Não está autorizado a visualizar esta página.
-  notice_email_sent: "Foi enviado um e-mail para {{value}}"
-  notice_email_error: "Ocorreu um erro ao enviar o e-mail ({{value}})"
+  notice_email_sent: "Foi enviado um e-mail para %{value}"
+  notice_email_error: "Ocorreu um erro ao enviar o e-mail (%{value})"
   notice_feeds_access_key_reseted: A sua chave de RSS foi inicializada.
-  notice_failed_to_save_issues: "Não foi possível guardar {{count}} tarefa(s) das {{total}} seleccionadas: {{ids}}."
+  notice_failed_to_save_issues: "Não foi possível guardar %{count} tarefa(s) das %{total} seleccionadas: %{ids}."
   notice_no_issue_selected: "Nenhuma tarefa seleccionada! Por favor, seleccione as tarefas que quer editar."
   notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
   notice_unable_delete_version: Não foi possível apagar a versão.
   
-  error_can_t_load_default_data: "Não foi possível carregar a configuração padrão: {{value}}"
+  error_can_t_load_default_data: "Não foi possível carregar a configuração padrão: %{value}"
   error_scm_not_found: "A entrada ou revisão não foi encontrada no repositório."
-  error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: {{value}}"
+  error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: %{value}"
   error_scm_annotate: "A entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projecto.'
   
-  mail_subject_lost_password: "Palavra-chave de {{value}}"
+  mail_subject_lost_password: "Palavra-chave de %{value}"
   mail_body_lost_password: 'Para mudar a sua palavra-chave, clique na ligação abaixo:'
-  mail_subject_register: "Activação de conta de {{value}}"
+  mail_subject_register: "Activação de conta de %{value}"
   mail_body_register: 'Para activar a sua conta, clique na ligação abaixo:'
-  mail_body_account_information_external: "Pode utilizar a conta {{value}} para autenticar-se."
+  mail_body_account_information_external: "Pode utilizar a conta %{value} para autenticar-se."
   mail_body_account_information: Informação da sua conta
-  mail_subject_account_activation_request: "Pedido de activação da conta {{value}}"
-  mail_body_account_activation_request: "Um novo utilizador ({{value}}) registou-se. A sua conta está à espera de aprovação:"
-  mail_subject_reminder: "{{count}} tarefa(s) para entregar nos próximos {{days}} dias"
-  mail_body_reminder: "{{count}} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos {{days}} dias:"
+  mail_subject_account_activation_request: "Pedido de activação da conta %{value}"
+  mail_body_account_activation_request: "Um novo utilizador (%{value}) registou-se. A sua conta está à espera de aprovação:"
+  mail_subject_reminder: "%{count} tarefa(s) para entregar nos próximos %{days} dias"
+  mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %{days} dias:"
   
   gui_validation_error: 1 erro
-  gui_validation_error_plural: "{{count}} erros"
+  gui_validation_error_plural: "%{count} erros"
   
   field_name: Nome
   field_description: Descrição
@@ -249,6 +249,7 @@ pt:
   field_attr_lastname: Atributo último nome
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
+  field_start_date: Início
   field_done_ratio: % Completo
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
@@ -328,14 +329,14 @@ pt:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: Todos os projectos
   label_project_latest: Últimos projectos
   label_issue: Tarefa
   label_issue_new: Nova tarefa
   label_issue_plural: Tarefas
   label_issue_view_all: Ver todas as tarefas
-  label_issues_by: "Tarefas por {{value}}"
+  label_issues_by: "Tarefas por %{value}"
   label_issue_added: Tarefa adicionada
   label_issue_updated: Tarefa actualizada
   label_document: Documento
@@ -391,7 +392,7 @@ pt:
   label_auth_source_new: Novo modo de autenticação
   label_auth_source_plural: Modos de autenticação
   label_subproject_plural: Sub-projectos
-  label_and_its_subprojects: "{{value}} e sub-projectos"
+  label_and_its_subprojects: "%{value} e sub-projectos"
   label_min_max_length: Tamanho mínimo-máximo
   label_list: Lista
   label_date: Data
@@ -402,8 +403,8 @@ pt:
   label_text: Texto longo
   label_attribute: Atributo
   label_attribute_plural: Atributos
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
   label_no_data: Sem dados para mostrar
   label_change_status: Mudar estado
   label_history: Histórico
@@ -434,17 +435,17 @@ pt:
   label_closed_issues: fechado
   label_closed_issues_plural: fechados
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: Total
   label_permissions: Permissões
   label_current_status: Estado actual
@@ -462,7 +463,7 @@ pt:
   label_months_from: meses de
   label_gantt: Gantt
   label_internal: Interno
-  label_last_changes: "últimas {{count}} alterações"
+  label_last_changes: "últimas %{count} alterações"
   label_change_view_all: Ver todas as alterações
   label_personalize_page: Personalizar esta página
   label_comment: Comentário
@@ -470,7 +471,7 @@ pt:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Adicionar comentário
   label_comment_added: Comentário adicionado
   label_comment_delete: Apagar comentários
@@ -489,7 +490,7 @@ pt:
   label_yesterday: ontem
   label_this_week: esta semana
   label_last_week: semana passada
-  label_last_n_days: "últimos {{count}} dias"
+  label_last_n_days: "últimos %{count} dias"
   label_this_month: este mês
   label_last_month: mês passado
   label_this_year: este ano
@@ -503,8 +504,8 @@ pt:
   label_repository: Repositório
   label_repository_plural: Repositórios
   label_browse: Navegar
-  label_modification: "{{count}} alteração"
-  label_modification_plural: "{{count}} alterações"
+  label_modification: "%{count} alteração"
+  label_modification_plural: "%{count} alterações"
   label_revision: Revisão
   label_revision_plural: Revisões
   label_associated_revisions: Revisões associadas
@@ -522,8 +523,8 @@ pt:
   label_sort_lower: Mover para baixo
   label_sort_lowest: Mover para o fim
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Termina em {{value}}"
-  label_roadmap_overdue: "Atrasado {{value}}"
+  label_roadmap_due_in: "Termina em %{value}"
+  label_roadmap_overdue: "Atrasado %{value}"
   label_roadmap_no_issues: Sem tarefas para esta versão
   label_search: Procurar
   label_result_plural: Resultados
@@ -541,8 +542,8 @@ pt:
   label_changes_details: Detalhes de todas as mudanças
   label_issue_tracking: Tarefas
   label_spent_time: Tempo gasto
-  label_f_hour: "{{value}} hora"
-  label_f_hour_plural: "{{value}} horas"
+  label_f_hour: "%{value} hora"
+  label_f_hour_plural: "%{value} horas"
   label_time_tracking: Registo de tempo
   label_change_plural: Mudanças
   label_statistics: Estatísticas
@@ -591,12 +592,12 @@ pt:
   label_date_from: De
   label_date_to: Para
   label_language_based: Baseado na língua do utilizador
-  label_sort_by: "Ordenar por {{value}}"
+  label_sort_by: "Ordenar por %{value}"
   label_send_test_email: enviar um e-mail de teste
-  label_feeds_access_key_created_on: "Chave RSS criada há {{value}} atrás"
+  label_feeds_access_key_created_on: "Chave RSS criada há %{value} atrás"
   label_module_plural: Módulos
-  label_added_time_by: "Adicionado por {{author}} há {{age}} atrás"
-  label_updated_time: "Alterado há {{value}} atrás"
+  label_added_time_by: "Adicionado por %{author} há %{age} atrás"
+  label_updated_time: "Alterado há %{value} atrás"
   label_jump_to_a_project: Ir para o projecto...
   label_file_plural: Ficheiros
   label_changeset_plural: Changesets
@@ -612,7 +613,7 @@ pt:
   label_registration_activation_by_email: Activação da conta por e-mail
   label_registration_manual_activation: Activação manual da conta
   label_registration_automatic_activation: Activação automática da conta
-  label_display_per_page: "Por página: {{value}}"
+  label_display_per_page: "Por página: %{value}"
   label_age: Idade
   label_change_properties: Mudar propriedades
   label_general: Geral
@@ -678,43 +679,43 @@ pt:
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 siginifica sem restrição
   text_project_destroy_confirmation: Tem a certeza que deseja apagar o projecto e todos os dados relacionados?
-  text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): {{value}} também será/serão apagado(s)."
+  text_subprojects_destroy_warning: "O(s) seu(s) sub-projecto(s): %{value} também será/serão apagado(s)."
   text_workflow_edit: Seleccione uma função e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Tem a certeza?
   text_tip_issue_begin_day: tarefa a começar neste dia
   text_tip_issue_end_day: tarefa a acabar neste dia
   text_tip_issue_begin_end_day: tarefa a começar e acabar neste dia
   text_project_identifier_info: 'Apenas são permitidos letras minúsculas (a-z), números e hífens.<br />Uma vez guardado, o identificador não poderá ser alterado.'
-  text_caracters_maximum: "máximo {{count}} caracteres."
-  text_caracters_minimum: "Deve ter pelo menos {{count}} caracteres."
-  text_length_between: "Deve ter entre {{min}} e {{max}} caracteres."
+  text_caracters_maximum: "máximo %{count} caracteres."
+  text_caracters_minimum: "Deve ter pelo menos %{count} caracteres."
+  text_length_between: "Deve ter entre %{min} e %{max} caracteres."
   text_tracker_no_workflow: Sem fluxo de trabalho definido para este tipo de tarefa.
   text_unallowed_characters: Caracteres não permitidos
   text_comma_separated: Permitidos múltiplos valores (separados por vírgula).
   text_issues_ref_in_commit_messages: Referenciando e fechando tarefas em mensagens de commit
-  text_issue_added: "Tarefa {{id}} foi criada por {{author}}."
-  text_issue_updated: "Tarefa {{id}} foi actualizada por {{author}}."
+  text_issue_added: "Tarefa %{id} foi criada por %{author}."
+  text_issue_updated: "Tarefa %{id} foi actualizada por %{author}."
   text_wiki_destroy_confirmation: Tem a certeza que deseja apagar este wiki e todo o seu conteúdo?
-  text_issue_category_destroy_question: "Algumas tarefas ({{count}}) estão atribuídas a esta categoria. O que quer fazer?"
+  text_issue_category_destroy_question: "Algumas tarefas (%{count}) estão atribuídas a esta categoria. O que quer fazer?"
   text_issue_category_destroy_assignments: Remover as atribuições à categoria
   text_issue_category_reassign_to: Re-atribuir as tarefas para esta categoria
   text_user_mail_option: "Para projectos não seleccionados, apenas receberá notificações acerca de coisas que está a observar ou está envolvido (ex. tarefas das quais foi o criador ou lhes foram atribuídas)."
   text_no_configuration_data: "Perfis, tipos de tarefas, estados das tarefas e workflows ainda não foram configurados.\nÉ extremamente recomendado carregar as configurações padrão. Será capaz de as modificar depois de estarem carregadas."
   text_load_default_configuration: Carregar as configurações padrão
-  text_status_changed_by_changeset: "Aplicado no changeset {{value}}."
+  text_status_changed_by_changeset: "Aplicado no changeset %{value}."
   text_issues_destroy_confirmation: 'Tem a certeza que deseja apagar a(s) tarefa(s) seleccionada(s)?'
   text_select_project_modules: 'Seleccione os módulos a activar para este projecto:'
   text_default_administrator_account_changed: Conta default de administrador alterada.
   text_file_repository_writable: Repositório de ficheiros com permissões de escrita
   text_rmagick_available: RMagick disponível (opcional)
-  text_destroy_time_entries_question: "{{hours}} horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?"
+  text_destroy_time_entries_question: "%{hours} horas de trabalho foram atribuídas a estas tarefas que vai apagar. O que deseja fazer?"
   text_destroy_time_entries: Apagar as horas
   text_assign_time_entries_to_project: Atribuir as horas ao projecto
   text_reassign_time_entries: 'Re-atribuir as horas para esta tarefa:'
-  text_user_wrote: "{{value}} escreveu:"
-  text_enumeration_destroy_question: "{{count}} objectos estão atribuídos a este valor."
+  text_user_wrote: "%{value} escreveu:"
+  text_enumeration_destroy_question: "%{count} objectos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
-  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/email.yml e reinicie a aplicação para activar estas funcionalidades."
+  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para activar estas funcionalidades."
   
   default_role_manager: Gestor
   default_role_developer: Programador
@@ -793,12 +794,12 @@ pt:
   text_repository_usernames_mapping: "Seleccionar ou actualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou email no Redmine e no repositório são mapeados automaticamente."
   permission_edit_own_messages: Editar as próprias mensagens
   permission_delete_own_messages: Apagar as próprias mensagens
-  label_user_activity: "Actividade de {{value}}"
-  label_updated_time_by: "Actualizado por {{author}} há {{age}}"
+  label_user_activity: "Actividade de %{value}"
+  label_updated_time_by: "Actualizado por %{author} há %{age}"
   text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado.'
   setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
   text_plugin_assets_writable: Escrita na pasta de activos dos módulos de extensão possível
-  warning_attachments_not_saved: "Não foi possível gravar {{count}} ficheiro(s) ."
+  warning_attachments_not_saved: "Não foi possível gravar %{count} ficheiro(s) ."
   button_create_and_continue: Criar e continuar
   text_custom_field_possible_values_info: 'Uma linha para cada valor'
   label_display: Mostrar
@@ -813,21 +814,21 @@ pt:
   label_descending: Descendente
   label_sort: Ordenar
   label_ascending: Ascendente
-  label_date_from_to: De {{start}} a {{end}}
+  label_date_from_to: De %{start} a %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Esta página tem {{descendants}} página(s) subordinada(s) e descendente(s). O que deseja fazer?
+  text_wiki_page_destroy_question: Esta página tem %{descendants} página(s) subordinada(s) e descendente(s). O que deseja fazer?
   text_wiki_page_reassign_children: Reatribuir páginas subordinadas a esta página principal
   text_wiki_page_nullify_children: Manter páginas subordinadas como páginas raíz
   text_wiki_page_destroy_children: Apagar as páginas subordinadas e todos os seus descendentes
   setting_password_min_length: Tamanho mínimo de palavra-chave
   field_group_by: Agrupar resultados por
-  mail_subject_wiki_content_updated: "A página Wiki '{{id}}' foi actualizada"
+  mail_subject_wiki_content_updated: "A página Wiki '%{id}' foi actualizada"
   label_wiki_content_added: Página Wiki adicionada
-  mail_subject_wiki_content_added: "A página Wiki '{{id}}' foi adicionada"
-  mail_body_wiki_content_added: A página Wiki '{{id}}' foi adicionada por {{author}}.
+  mail_subject_wiki_content_added: "A página Wiki '%{id}' foi adicionada"
+  mail_body_wiki_content_added: A página Wiki '%{id}' foi adicionada por %{author}.
   label_wiki_content_updated: Página Wiki actualizada
-  mail_body_wiki_content_updated: A página Wiki '{{id}}' foi actualizada por {{author}}.
+  mail_body_wiki_content_updated: A página Wiki '%{id}' foi actualizada por %{author}.
   permission_add_project: Criar projecto
   setting_new_project_user_role_id: Função atribuída a um utilizador não-administrador que cria um projecto
   label_view_all_revisions: Ver todas as revisões
@@ -839,10 +840,10 @@ pt:
   label_group: Grupo
   label_group_new: Novo grupo
   label_time_entry_plural: Tempo registado
-  text_journal_changed: "{{label}} alterado de {{old}} para {{new}}"
-  text_journal_set_to: "{{label}} configurado como {{value}}"
-  text_journal_deleted: "{{label}} apagou ({{old}})"
-  text_journal_added: "{{label}} {{value}} adicionado"
+  text_journal_changed: "%{label} alterado de %{old} para %{new}"
+  text_journal_set_to: "%{label} configurado como %{value}"
+  text_journal_deleted: "%{label} apagou (%{old})"
+  text_journal_added: "%{label} %{value} adicionado"
   field_active: Activo
   enumeration_system_activity: Actividade de sistema
   permission_delete_issue_watchers: Apagar observadores
@@ -877,9 +878,9 @@ pt:
   setting_start_of_week: Iniciar calendários a
   permission_view_issues: Ver tarefas
   label_display_used_statuses_only: Só exibir estados empregues por este tipo de tarefa
-  label_revision_id: Revisão {{value}}
+  label_revision_id: Revisão %{value}
   label_api_access_key: Chave de acesso API
-  label_api_access_key_created_on: Chave de acesso API criada há {{value}}
+  label_api_access_key_created_on: Chave de acesso API criada há %{value}
   label_feeds_access_key: Chave de acesso RSS
   notice_api_access_key_reseted: A sua chave de acesso API foi reinicializada.
   setting_rest_api_enabled: Activar serviço Web REST
@@ -906,12 +907,12 @@ pt:
   label_subtask_plural: Sub-tarefa
   label_project_copy_notifications: Enviar notificações por e-mail durante a cópia do projecto
   error_can_not_delete_custom_field: Não foi possível apagar o campo personalizado
-  error_unable_to_connect: Não foi possível ligar ({{value}})
+  error_unable_to_connect: Não foi possível ligar (%{value})
   error_can_not_remove_role: Esta função está actualmente em uso e não pode ser apagada.
   error_can_not_delete_tracker: Existem ainda tarefas nesta categoria. Não é possível apagar este tipo de tarefa.
   field_principal: Principal
   label_my_page_block: Bloco da minha página
-  notice_failed_to_save_members: "Erro ao guardar o(s) membro(s): {{errors}}."
+  notice_failed_to_save_members: "Erro ao guardar o(s) membro(s): %{errors}."
   text_zoom_out: Ampliar
   text_zoom_in: Reduzir
   notice_unable_delete_time_entry: Não foi possível apagar a entrada de tempo registado.
@@ -919,7 +920,7 @@ pt:
   field_time_entries: Tempo registado
   project_module_gantt: Gantt
   project_module_calendar: Calendário
-  button_edit_associated_wikipage: "Editar página Wiki associada: {{page_title}}"
+  button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   text_are_you_sure_with_children: Apagar tarefa e todas as sub-tarefas?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -930,8 +931,12 @@ pt:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.expand_path('../../../test_helper', __FILE__)
 
 class ApplicationHelperTest < ActionView::TestCase
   
@@ -147,7 +147,7 @@ RAW
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
                                :class => 'issue status-1 priority-1 overdue', :title => 'Error 281 when updating a recipe (New)')
@@ -200,7 +200,7 @@ RAW
       'export:/some/file'           => link_to('export:/some/file', source_url.merge(:format => 'raw'), :class => 'source download'),
       # message
       'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
-      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5'), :class => 'message'),
+      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5', :r => 5), :class => 'message'),
       # project
       'project#3'                   => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
       'project:subproject1'         => link_to('eCookbook Subproject 1', project_url, :class => 'project'),
@@ -225,6 +225,117 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
   
+  def test_cross_project_redmine_links
+    source_link = link_to('ecookbook:source:/some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']},
+      :class => 'source')
+    
+    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+      :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+                                   
+    to_test = {
+      # documents
+      'document:"Test document"'              => 'document:"Test document"',
+      'ecookbook:document:"Test document"'    => '<a href="/documents/1" class="document">Test document</a>',
+      'invalid:document:"Test document"'      => 'invalid:document:"Test document"',
+      # versions
+      'version:"1.0"'                         => 'version:"1.0"',
+      'ecookbook:version:"1.0"'               => '<a href="/versions/show/2" class="version">1.0</a>',
+      'invalid:version:"1.0"'                 => 'invalid:version:"1.0"',
+      # changeset
+      'r2'                                    => 'r2',
+      'ecookbook:r2'                          => changeset_link,
+      'invalid:r2'                            => 'invalid:r2',
+      # source
+      'source:/some/file'                     => 'source:/some/file',
+      'ecookbook:source:/some/file'           => source_link,
+      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+    }
+    @project = Project.find(3)
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_redmine_links_git_commit
+    changeset_link = link_to('abcd',
+                               {
+                                 :controller => 'repositories',
+                                 :action     => 'revision',
+                                 :id         => 'subproject1',
+                                 :rev        => 'abcd',
+                                },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'commit:abcd' => changeset_link,
+     }
+    @project = Project.find(3)
+    r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => 'abcd',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
+  # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
+  def test_redmine_links_darcs_commit
+    changeset_link = link_to('20080308225258-98289-abcd456efg.gz',
+                               {
+                                 :controller => 'repositories',
+                                 :action     => 'revision',
+                                 :id         => 'subproject1',
+                                 :rev        => '123',
+                                },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
+     }
+    @project = Project.find(3)
+    r = Repository::Darcs.create!(:project => @project, :url => '/tmp/test/darcs')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => '123',
+                      :scmid => '20080308225258-98289-abcd456efg.gz',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
+  def test_redmine_links_mercurial_commit
+    changeset_link_rev = link_to('r123',
+                                  {
+                                     :controller => 'repositories',
+                                     :action     => 'revision',
+                                     :id         => 'subproject1',
+                                     :rev        => '123' ,
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    changeset_link_commit = link_to('abcd',
+                                  {
+                                        :controller => 'repositories',
+                                        :action     => 'revision',
+                                        :id         => 'subproject1',
+                                        :rev        => 'abcd' ,
+                                  },
+                              :class => 'changeset', :title => 'test commit')
+    to_test = {
+      'r123' => changeset_link_rev,
+      'commit:abcd' => changeset_link_commit,
+     }
+    @project = Project.find(3)
+    r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
+    assert r
+    c = Changeset.new(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => '123',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+    assert( c.save )
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
   def test_attachment_links
     attachment_link = link_to('error281.txt', {:controller => 'attachments', :action => 'download', :id => '1'}, :class => 'attachment')
     to_test = {
@@ -275,7 +386,13 @@ RAW
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
       # remove attributes except class
       "<pre class='foo'>some text</pre>" => "<pre class='foo'>some text</pre>",
+      '<pre class="foo">some text</pre>' => '<pre class="foo">some text</pre>',
+      "<pre class='foo bar'>some text</pre>" => "<pre class='foo bar'>some text</pre>",
+      '<pre class="foo bar">some text</pre>' => '<pre class="foo bar">some text</pre>',
       "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
+      # xss
+      '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
+      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
@@ -422,7 +539,11 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 h2. Subtitle with [[Wiki|another Wiki]] link
 
 h2. Subtitle with %{color:red}red text%
-    
+
+<pre>
+some code
+</pre>
+
 h3. Subtitle with *some* _modifiers_
 
 h1. Another title
@@ -458,7 +579,7 @@ RAW
                '</ul>'
 
     @project = Project.find(1)
-    assert textilizable(raw).gsub("\n", "").include?(expected)
+    assert textilizable(raw).gsub("\n", "").include?(expected), textilizable(raw)
   end
   
   def test_table_of_content_should_contain_included_page_headings
@@ -600,6 +721,7 @@ EXPECTED
                 Date.today - 100 => 'about 3 months late',
                 Date.today - 20000 => 'over 54 years late',
                }
+    ::I18n.locale = :en
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
     end

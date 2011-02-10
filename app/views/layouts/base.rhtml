@@ -9,8 +9,9 @@
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 <%= javascript_include_tag :defaults %>
+<%= heads_for_theme %>
 <%= heads_for_wiki_formatter %>
-<!--[if IE]>
+<!--[if IE 6]>
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
@@ -68,7 +69,7 @@
 	
 <div id="footer">
   <div class="bgl"><div class="bgr">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2010 Jean-Philippe Lang
+    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2011 Jean-Philippe Lang
   </div></div>
 </div>
 </div>

@@ -26,15 +26,26 @@ class NewsController < ApplicationController
   accept_key_auth :index
   
   def index
-    @news_pages, @newss = paginate :news,
-                                   :per_page => 10,
-                                   :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),
-                                   :include => [:author, :project],
-                                   :order => "#{News.table_name}.created_on DESC"    
+    case params[:format]
+    when 'xml', 'json'
+      @offset, @limit = api_offset_and_limit
+    else
+      @limit =  10
+    end
+    
+    scope = @project ? @project.news.visible : News.visible
+    
+    @news_count = scope.count
+    @news_pages = Paginator.new self, @news_count, @limit, params['page']
+    @offset ||= @news_pages.current.offset
+    @newss = scope.all(:include => [:author, :project],
+                                       :order => "#{News.table_name}.created_on DESC",
+                                       :offset => @offset,
+                                       :limit => @limit)
+    
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
-      format.xml { render :xml => @newss.to_xml }
-      format.json { render :json => @newss.to_json }
+      format.api
       format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end

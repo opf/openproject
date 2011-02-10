@@ -15,20 +15,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'repositories_controller'
 
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesCvsControllerTest < ActionController::TestCase
+  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/cvs_repository'
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   # CVS module
   MODULE_NAME = 'test'
-  
+  PRJ_ID = 3
+
   def setup
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
@@ -36,14 +38,18 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
     User.current = nil
 
-    @project = Project.find(1)
-    @project.repository = Repository::Cvs.create(:root_url => REPOSITORY_PATH,
-                                                 :url => MODULE_NAME)
+    @project = Project.find(PRJ_ID)
+    @repository  = Repository::Cvs.create(:project => Project.find(PRJ_ID),
+                                          :root_url => REPOSITORY_PATH,
+                                          :url => MODULE_NAME)
+    assert @repository
   end
   
   if File.directory?(REPOSITORY_PATH)
     def test_show
-      get :show, :id => 1
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -51,7 +57,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
     
     def test_browse_root
-      get :show, :id => 1
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -65,7 +73,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
     
     def test_browse_directory
-      get :show, :id => 1, :path => ['images']
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID, :path => ['images']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -77,8 +87,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
     
     def test_browse_at_given_revision
-      Project.find(1).repository.fetch_changesets
-      get :show, :id => 1, :path => ['images'], :rev => 1
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID, :path => ['images'], :rev => 1
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -86,7 +97,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
   
     def test_entry
-      get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb']
+      @repository.fetch_changesets
+      @repository.reload
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
       assert_no_tag :tag => 'td', :attributes => { :class => /line-code/},
@@ -95,8 +108,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     
     def test_entry_at_given_revision
       # changesets must be loaded
-      Project.find(1).repository.fetch_changesets
-      get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb'], :rev => 2
+      @repository.fetch_changesets
+      @repository.reload
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :rev => 2
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3
@@ -105,18 +119,24 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
     
     def test_entry_not_found
-      get :entry, :id => 1, :path => ['sources', 'zzz.c']
+      @repository.fetch_changesets
+      @repository.reload
+      get :entry, :id => PRJ_ID, :path => ['sources', 'zzz.c']
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /The entry or revision was not found in the repository/
     end
   
     def test_entry_download
-      get :entry, :id => 1, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      @repository.fetch_changesets
+      @repository.reload
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
     end
 
     def test_directory_entry
-      get :entry, :id => 1, :path => ['sources']
+      @repository.fetch_changesets
+      @repository.reload
+      get :entry, :id => PRJ_ID, :path => ['sources']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -124,8 +144,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
     
     def test_diff
-      Project.find(1).repository.fetch_changesets
-      get :diff, :id => 1, :rev => 3, :type => 'inline'
+      @repository.fetch_changesets
+      @repository.reload
+      get :diff, :id => PRJ_ID, :rev => 3, :type => 'inline'
       assert_response :success
       assert_template 'diff'
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
@@ -135,8 +156,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      Project.find(1).repository.fetch_changesets
-      get :annotate, :id => 1, :path => ['sources', 'watchers_controller.rb']
+      @repository.fetch_changesets
+      @repository.reload
+      get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'annotate'
       # 1.1 line

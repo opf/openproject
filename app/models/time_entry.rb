@@ -66,6 +66,9 @@ class TimeEntry < ActiveRecord::Base
   # these attributes make time aggregations easier
   def spent_on=(date)
     super
+    if spent_on.is_a?(Time)
+      self.spent_on = spent_on.to_date
+    end
     self.tyear = spent_on ? spent_on.year : nil
     self.tmonth = spent_on ? spent_on.month : nil
     self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil

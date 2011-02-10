@@ -189,6 +189,20 @@ module IssuesHelper
     end
   end
   
+  # Renders issue children recursively
+  def render_api_issue_children(issue, api)
+    return if issue.leaf?
+    api.array :children do
+      issue.children.each do |child|
+        api.issue(:id => child.id) do
+          api.tracker(:id => child.tracker_id, :name => child.tracker.name) unless child.tracker.nil?
+          api.subject child.subject
+          render_api_issue_children(child, api)
+        end
+      end
+    end
+  end
+  
   def issues_to_csv(issues, project = nil)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     decimal_separator = l(:general_csv_decimal_separator)

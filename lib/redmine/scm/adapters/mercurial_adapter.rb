@@ -16,23 +16,24 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'redmine/scm/adapters/abstract_adapter'
+require 'cgi'
 
 module Redmine
   module Scm
     module Adapters    
       class MercurialAdapter < AbstractAdapter
-        
+
         # Mercurial executable name
-        HG_BIN = "hg"
+        HG_BIN = Redmine::Configuration['scm_mercurial_command'] || "hg"
         TEMPLATES_DIR = File.dirname(__FILE__) + "/mercurial"
         TEMPLATE_NAME = "hg-template"
         TEMPLATE_EXTENSION = "tmpl"
-        
+
         class << self
           def client_version
             @@client_version ||= (hgversion || [])
           end
-          
+
           def hgversion  
             # The hg version is expressed either as a
             # release number (eg 0.9.5 or 1.0) or as a revision
@@ -42,15 +43,15 @@ module Redmine
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
           end
-          
+
           def hgversion_from_command_line
             shellout("#{HG_BIN} --version") { |io| io.read }.to_s
           end
-          
+
           def template_path
             @@template_path ||= template_path_for(client_version)
           end
-          
+
           def template_path_for(version)
             if ((version <=> [0,9,5]) > 0) || version.empty?
               ver = "1.0"
@@ -60,7 +61,7 @@ module Redmine
             "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
           end
         end
-        
+
         def info
           cmd = "#{HG_BIN} -R #{target('')} root"
           root_url = nil
@@ -75,12 +76,12 @@ module Redmine
         rescue CommandFailed
           return nil
         end
-        
+
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
           cmd = "#{HG_BIN} -R #{target('')} --cwd #{target('')} locate"
-          cmd << " -r " + (identifier ? identifier.to_s : "tip")
+          cmd << " -r #{hgrev(identifier)}"
           cmd << " " + shell_quote("path:#{path}") unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -100,19 +101,19 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
         end
-        
+
         # Fetch the revisions by using a template file that 
         # makes Mercurial produce a xml output.
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
           revisions = Revisions.new
           cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
           if identifier_from && identifier_to
-            cmd << " -r #{identifier_from.to_i}:#{identifier_to.to_i}"
+            cmd << " -r #{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
           elsif identifier_from
-            cmd << " -r #{identifier_from.to_i}:"
+            cmd << " -r #{hgrev(identifier_from)}:"
           end
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
-          cmd << " #{path}" if path
+          cmd << " #{shell_quote path}" unless path.blank?
           shellout(cmd) do |io|
             begin
               # HG doesn't close the XML Document...
@@ -127,13 +128,13 @@ module Redmine
                     from_rev = logentry.attributes['revision']
                   end
                   paths << {:action => path.attributes['action'],
-                    :path => "/#{path.text}",
-                    :from_path => from_path ? "/#{from_path}" : nil,
+                    :path => "/#{CGI.unescape(path.text)}",
+                    :from_path => from_path ? "/#{CGI.unescape(from_path)}" : nil,
                     :from_revision => from_rev ? from_rev : nil
                   }
                 end
                 paths.sort! { |x,y| x[:path] <=> y[:path] }
-                
+
                 revisions << Revision.new({:identifier => logentry.attributes['revision'],
                                             :scmid => logentry.attributes['node'],
                                             :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
@@ -149,17 +150,22 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           revisions
         end
-        
+
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
-          if identifier_to
-            identifier_to = identifier_to.to_i 
-          else
-            identifier_to = identifier_from.to_i - 1
-          end
-          cmd = "#{HG_BIN} -R #{target('')} diff -r #{identifier_to} -r #{identifier_from} --nodates"
-          cmd << " -I #{target(path)}" unless path.empty?
+          diff_args = ''
           diff = []
+          if identifier_to
+            diff_args = "-r #{hgrev(identifier_to)} -r #{hgrev(identifier_from)}"
+          else
+            if self.class.client_version_above?([1, 2])
+              diff_args = "-c #{hgrev(identifier_from)}"
+            else
+              return []
+            end
+          end
+          cmd = "#{HG_BIN} -R #{target('')} --config diff.git=false diff --nodates #{diff_args}"
+          cmd << " -I #{target(path)}" unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
               diff << line
@@ -168,10 +174,10 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           diff
         end
-        
+
         def cat(path, identifier=nil)
           cmd = "#{HG_BIN} -R #{target('')} cat"
-          cmd << " -r " + (identifier ? identifier.to_s : "tip")
+          cmd << " -r #{hgrev(identifier)}"
           cmd << " #{target(path)}"
           cat = nil
           shellout(cmd) do |io|
@@ -181,24 +187,38 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           cat
         end
-        
+
         def annotate(path, identifier=nil)
           path ||= ''
           cmd = "#{HG_BIN} -R #{target('')}"
-          cmd << " annotate -n -u"
-          cmd << " -r " + (identifier ? identifier.to_s : "tip")
-          cmd << " -r #{identifier.to_i}" if identifier
+          cmd << " annotate -ncu"
+          cmd << " -r #{hgrev(identifier)}"
           cmd << " #{target(path)}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|
-              next unless line =~ %r{^([^:]+)\s(\d+):(.*)$}
-              blame.add_line($3.rstrip, Revision.new(:identifier => $2.to_i, :author => $1.strip))
+              next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
+              r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
+                               :identifier => $3)
+              blame.add_line($4.rstrip, r)
             end
           end
           return nil if $? && $?.exitstatus != 0
           blame
         end
+
+        class Revision < Redmine::Scm::Adapters::Revision
+          # Returns the readable identifier
+          def format_identifier
+            "#{revision}:#{scmid}"
+          end
+        end
+
+        # Returns correct revision identifier
+        def hgrev(identifier)
+          shell_quote(identifier.blank? ? 'tip' : identifier.to_s)
+        end
+        private :hgrev
       end
     end
   end

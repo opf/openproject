@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class NewsTest < ActiveSupport::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news
@@ -46,9 +46,8 @@ class NewsTest < ActiveSupport::TestCase
   end
   
   def test_should_not_include_news_for_projects_with_news_disabled
-    # The projects_002 (OnlineStore) doesn't have the news module enabled, use that project for this test
-    project = projects(:projects_002)
-    assert ! project.enabled_modules.any?{ |em| em.name == 'news' }
+    EnabledModule.delete_all(["project_id = ? AND name = ?", 2, 'news'])
+    project = Project.find(2)
 
     # Add a piece of news to the project
     news = project.news.create(valid_news)
@@ -58,8 +57,7 @@ class NewsTest < ActiveSupport::TestCase
   end
   
   def test_should_only_include_news_from_projects_visibly_to_the_user
-    # users_001 has no memberships so can only get news from public project
-    assert News.latest(users(:users_001)).all? { |news| news.project.is_public? } 
+    assert News.latest(User.anonymous).all? { |news| news.project.is_public? } 
   end
   
   def test_should_limit_the_amount_of_returned_news

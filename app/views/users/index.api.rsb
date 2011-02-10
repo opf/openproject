@@ -1,0 +1,15 @@
+api.array :users, api_meta(:total_count => @user_count, :offset => @offset, :limit => @limit) do
+  @users.each do |user|
+    api.user do
+      api.id         user.id
+      api.login      user.login
+      api.firstname  user.firstname
+      api.lastname   user.lastname
+      api.mail       user.mail
+      api.created_on user.created_on
+      api.last_login_on user.last_login_on
+
+      render_api_custom_values user.visible_custom_field_values, api
+    end
+  end
+end

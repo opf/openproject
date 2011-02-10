@@ -34,7 +34,7 @@ module Redmine
         end
       end
 
-      attr_reader :year_from, :month_from, :date_from, :date_to, :zoom, :months
+      attr_reader :year_from, :month_from, :date_from, :date_to, :zoom, :months, :truncated, :max_rows
       attr_accessor :query
       attr_accessor :project
       attr_accessor :view
@@ -67,6 +67,19 @@ module Redmine
         
         @date_from = Date.civil(@year_from, @month_from, 1)
         @date_to = (@date_from >> @months) - 1
+        
+        @subjects = ''
+        @lines = ''
+        @number_of_rows = nil
+        
+        @issue_ancestors = []
+        
+        @truncated = false
+        if options.has_key?(:max_rows)
+          @max_rows = options[:max_rows]
+        else
+          @max_rows = Setting.gantt_items_limit.blank? ? nil : Setting.gantt_items_limit.to_i
+        end
       end
 
       def common_params
@@ -88,13 +101,17 @@ module Redmine
             ### Extracted from the HTML view/helpers
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
-        if @project
-          return number_of_rows_on_project(@project)
+        return @number_of_rows if @number_of_rows
+        
+        rows = if @project
+          number_of_rows_on_project(@project)
         else
-          Project.roots.visible.inject(0) do |total, project|
+          Project.roots.visible.has_module('issue_tracking').inject(0) do |total, project|
             total += number_of_rows_on_project(project)
           end
         end
+        
+        rows > @max_rows ? @max_rows : rows
       end
 
       # Returns the number of rows that will be used to list a project on
@@ -119,7 +136,7 @@ module Redmine
         end
 
         # Subprojects
-        project.children.visible.each do |subproject|
+        project.children.visible.has_module('issue_tracking').each do |subproject|
           count += number_of_rows_on_project(subproject)
         end
 
@@ -128,34 +145,36 @@ module Redmine
 
       # Renders the subjects of the Gantt chart, the left side.
       def subjects(options={})
-        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
-
-        output = ''
-        if @project
-          output << render_project(@project, options)
-        else
-          Project.roots.visible.each do |project|
-            output << render_project(project, options)
-          end
-        end
-
-        output
+        render(options.merge(:only => :subjects)) unless @subjects_rendered
+        @subjects
       end
 
       # Renders the lines of the Gantt chart, the right side
       def lines(options={})
-        options = {:indent => 4, :render => :line, :format => :html}.merge(options)
-        output = ''
-
+        render(options.merge(:only => :lines)) unless @lines_rendered
+        @lines
+      end
+      
+      def render(options={})
+        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
+        
+        @subjects = '' unless options[:only] == :lines
+        @lines = '' unless options[:only] == :subjects
+        @number_of_rows = 0
+        
         if @project
-          output << render_project(@project, options)
+          render_project(@project, options)
         else
-          Project.roots.visible.each do |project|
-            output << render_project(project, options)
+          Project.roots.visible.has_module('issue_tracking').each do |project|
+            render_project(project, options)
+            break if abort?
           end
         end
         
-        output
+        @subjects_rendered = true unless options[:only] == :lines
+        @lines_rendered = true unless options[:only] == :subjects
+        
+        render_end(options)
       end
 
       def render_project(project, options={})
@@ -163,124 +182,96 @@ module Redmine
         options[:indent_increment] = 20 unless options.key? :indent_increment
         options[:top_increment] = 20 unless options.key? :top_increment
 
-        output = ''
-        # Project Header
-        project_header = if options[:render] == :subject
-                           subject_for_project(project, options)
-                         else
-                           # :line
-                           line_for_project(project, options)
-                         end
-        output << project_header if options[:format] == :html
+        subject_for_project(project, options) unless options[:only] == :lines
+        line_for_project(project, options) unless options[:only] == :subjects
         
         options[:top] += options[:top_increment]
         options[:indent] += options[:indent_increment]
+        @number_of_rows += 1
+        return if abort?
         
         # Second, Issues without a version
-        issues = project.issues.for_gantt.without_version.with_query(@query)
+        issues = project.issues.for_gantt.without_version.with_query(@query).all(:limit => current_limit)
         sort_issues!(issues)
         if issues
-          issue_rendering = render_issues(issues, options)
-          output << issue_rendering if options[:format] == :html
+          render_issues(issues, options)
+          return if abort?
         end
 
         # Third, Versions
         project.versions.sort.each do |version|
-          version_rendering = render_version(version, options)
-          output << version_rendering if options[:format] == :html
+          render_version(version, options)
+          return if abort?
         end
 
         # Fourth, subprojects
-        project.children.visible.each do |project|
-          subproject_rendering = render_project(project, options)
-          output << subproject_rendering if options[:format] == :html
-        end
+        project.children.visible.has_module('issue_tracking').each do |project|
+          render_project(project, options)
+          return if abort?
+        end unless project.leaf?
 
         # Remove indent to hit the next sibling
         options[:indent] -= options[:indent_increment]
-        
-        output
       end
 
       def render_issues(issues, options={})
-        output = ''
+        @issue_ancestors = []
+        
         issues.each do |i|
-          issue_rendering = if options[:render] == :subject
-                              subject_for_issue(i, options)
-                            else
-                              # :line
-                              line_for_issue(i, options)
-                            end
-          output << issue_rendering if options[:format] == :html
+          subject_for_issue(i, options) unless options[:only] == :lines
+          line_for_issue(i, options) unless options[:only] == :subjects
+          
           options[:top] += options[:top_increment]
+          @number_of_rows += 1
+          break if abort?
         end
-        output
+        
+        options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
       def render_version(version, options={})
-        output = ''
         # Version header
-        version_rendering = if options[:render] == :subject
-                              subject_for_version(version, options)
-                            else
-                              # :line
-                              line_for_version(version, options)
-                            end
-
-        output << version_rendering if options[:format] == :html
+        subject_for_version(version, options) unless options[:only] == :lines
+        line_for_version(version, options) unless options[:only] == :subjects
         
         options[:top] += options[:top_increment]
-
+        @number_of_rows += 1
+        return if abort?
+        
         # Remove the project requirement for Versions because it will
         # restrict issues to only be on the current project.  This
         # ends up missing issues which are assigned to shared versions.
         @query.project = nil if @query.project
         
-        issues = version.fixed_issues.for_gantt.with_query(@query)
+        issues = version.fixed_issues.for_gantt.with_query(@query).all(:limit => current_limit)
         if issues
           sort_issues!(issues)
           # Indent issues
           options[:indent] += options[:indent_increment]
-          output << render_issues(issues, options)
+          render_issues(issues, options)
           options[:indent] -= options[:indent_increment]
         end
-
-        output
+      end
+      
+      def render_end(options={})
+        case options[:format]
+        when :pdf        
+          options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
+        end
       end
 
       def subject_for_project(project, options)
         case options[:format]
         when :html
-          output = ''
-
-          output << "<div class='project-name' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if project.is_a? Project
-            output << "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
-            output << view.link_to_project(project)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_project was not given a project"
-            ''
-          end
-          output << "</small></div>"
-
-          output
+          subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
+          subject << view.link_to_project(project)
+          subject << '</span>'
+          html_subject(options, subject, :css => "project-name")
         when :image
-          
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, project.name)
+          image_subject(options, project.name)
         when :pdf
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{project.name}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+          pdf_new_page?(options)
+          pdf_subject(options, project.name)
         end
       end
 
@@ -289,95 +280,17 @@ module Redmine
         if project.is_a?(Project) && project.start_date && project.due_date
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-
+            
+          coords = coordinates(project.start_date, project.due_date, nil, options[:zoom])
+          label = h(project)
           
           case options[:format]
           when :html
-            output = ''
-            i_left = ((project.start_date - self.date_from)*options[:zoom]).floor
-
-            start_date = project.start_date
-            start_date ||= self.date_from
-            start_left = ((start_date - self.date_from)*options[:zoom]).floor
-
-            i_end_date = ((project.due_date <= self.date_to) ? project.due_date : self.date_to )
-            i_done_date = start_date + ((project.due_date - start_date+1)* project.completed_percent(:include_subprojects => true)/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if start_date < Date.today
-            i_end = ((i_end_date - self.date_from) * options[:zoom]).floor
-
-            i_width = (i_end - i_left + 1).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
-
-            # Bar graphic
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_end > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ i_width }px;' class='task project_todo'>&nbsp;</div>"
-            end
-            
-            if l_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ l_width }px;' class='task project_late'>&nbsp;</div>"
-            end
-            if d_width > 0 && i_left <= options[:g_width]
-              output<< "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ d_width }px;' class='task project_done'>&nbsp;</div>"
-            end
-
-            
-            # Starting diamond
-            if start_left <= options[:g_width] && start_left > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:15px;' class='task project-line starting'>&nbsp;</div>"
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left + 12 }px;' class='task label'>"
-              output << "</div>"
-            end
-
-            # Ending diamond
-            # Don't show items too far ahead
-            if i_end <= options[:g_width] && i_end > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_end }px;width:15px;' class='task project-line ending'>&nbsp;</div>"
-            end
-
-            # DIsplay the Project name and %
-            if i_end <= options[:g_width]
-              # Display the status even if it's floated off to the left
-              status_px = i_end + 12 # 12px for the diamond
-              status_px = 0 if status_px <= 0
-
-              output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='task label project-name'>"
-              output << "<strong>#{h project } #{h project.completed_percent(:include_subprojects => true).to_i.to_s}%</strong>"
-              output << "</div>"
-            end
-
-            output
+            html_task(options, coords, :css => "project task", :label => label, :markers => true)
           when :image
-            options[:image].stroke('transparent')
-            i_left = options[:subject_width] + ((project.due_date - self.date_from)*options[:zoom]).floor
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > options[:subject_width]
-              options[:image].fill('blue')
-              options[:image].rectangle(i_left, options[:top], i_left + 6, options[:top] - 6)        
-              options[:image].fill('black')
-              options[:image].text(i_left + 11, options[:top] + 1, project.name)
-            end
+            image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            i_left = ((project.due_date - @date_from)*options[:zoom])
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(50,50,200)
-              options[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
-        
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left + 3)
-              options[:pdf].Cell(30, 2, "#{project.name}")
-            end
+            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_project was not given a project with a start_date"
@@ -388,34 +301,15 @@ module Redmine
       def subject_for_version(version, options)
         case options[:format]
         when :html
-          output = ''
-          output << "<div class='version-name' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if version.is_a? Version
-            output << "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
-            output << view.link_to_version(version)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_version was not given a version"
-            ''
-          end
-          output << "</small></div>"
-
-          output
+          subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
+          subject << view.link_to_version(version)
+          subject << '</span>'
+          html_subject(options, subject, :css => "version-name")
         when :image
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, version.to_s_with_project)
+          image_subject(options, version.to_s_with_project)
         when :pdf
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{version.to_s_with_project}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+          pdf_new_page?(options)
+          pdf_subject(options, version.to_s_with_project)
         end
       end
 
@@ -424,95 +318,18 @@ module Redmine
         if version.is_a?(Version) && version.start_date && version.due_date
           options[:zoom] ||= 1
           options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
+          
+          coords = coordinates(version.start_date, version.due_date, version.completed_pourcent, options[:zoom])
+          label = "#{h version } #{h version.completed_pourcent.to_i.to_s}%"
+          label = h("#{version.project} -") + label unless @project && @project == version.project
 
           case options[:format]
           when :html
-            output = ''
-            i_left = ((version.start_date - self.date_from)*options[:zoom]).floor
-            # TODO: or version.fixed_issues.collect(&:start_date).min
-            start_date = version.fixed_issues.minimum('start_date') if version.fixed_issues.present?
-            start_date ||= self.date_from
-            start_left = ((start_date - self.date_from)*options[:zoom]).floor
-
-            i_end_date = ((version.due_date <= self.date_to) ? version.due_date : self.date_to )
-            i_done_date = start_date + ((version.due_date - start_date+1)* version.completed_pourcent/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if start_date < Date.today
-
-            i_width = (i_left - start_left + 1).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
-
-            i_end = ((i_end_date - self.date_from) * options[:zoom]).floor # Ending pixel
-
-            # Bar graphic
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ i_width }px;' class='task milestone_todo'>&nbsp;</div>"
-            end
-            if l_width > 0 && i_left <= options[:g_width]
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ l_width }px;' class='task milestone_late'>&nbsp;</div>"
-            end
-            if d_width > 0 && i_left <= options[:g_width]
-              output<< "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:#{ d_width }px;' class='task milestone_done'>&nbsp;</div>"
-            end
-
-            
-            # Starting diamond
-            if start_left <= options[:g_width] && start_left > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left }px;width:15px;' class='task milestone starting'>&nbsp;</div>"
-              output << "<div style='top:#{ options[:top] }px;left:#{ start_left + 12 }px;background:#fff;' class='task'>"
-              output << "</div>"
-            end
-
-            # Ending diamond
-            # Don't show items too far ahead
-            if i_left <= options[:g_width] && i_end > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_end }px;width:15px;' class='task milestone ending'>&nbsp;</div>"
-            end
-
-            # Display the Version name and %
-            if i_end <= options[:g_width]
-              # Display the status even if it's floated off to the left
-              status_px = i_end + 12 # 12px for the diamond
-              status_px = 0 if status_px <= 0
-              
-              output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='task label version-name'>"
-              output << h("#{version.project} -") unless @project && @project == version.project
-              output << "<strong>#{h version } #{h version.completed_pourcent.to_i.to_s}%</strong>"
-              output << "</div>"
-            end
-
-            output
+            html_task(options, coords, :css => "version task", :label => label, :markers => true)
           when :image
-            options[:image].stroke('transparent')
-            i_left = options[:subject_width] + ((version.start_date - @date_from)*options[:zoom]).floor
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > options[:subject_width]
-              options[:image].fill('green')
-              options[:image].rectangle(i_left, options[:top], i_left + 6, options[:top] - 6)        
-              options[:image].fill('black')
-              options[:image].text(i_left + 11, options[:top] + 1, version.name)
-            end
+            image_task(options, coords, :label => label, :markers => true, :height => 3)
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            i_left = ((version.start_date - @date_from)*options[:zoom]) 
-
-            # Make sure negative i_left doesn't overflow the subject
-            if i_left > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(50,200,50)
-              options[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
-        
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left + 3)
-              options[:pdf].Cell(30, 2, "#{version.name}")
-            end
+            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_version was not given a version with a start_date"
@@ -521,206 +338,55 @@ module Redmine
       end
 
       def subject_for_issue(issue, options)
-        case options[:format]
-        when :html
-          output = ''
-          output << "<div class='tooltip'>"
-          output << "<div class='issue-subject' style='position: absolute;line-height:1.2em;height:16px;top:#{options[:top]}px;left:#{options[:indent]}px;overflow:hidden;'><small>    "
-          if issue.is_a? Issue
-            css_classes = []
-            css_classes << 'issue-overdue' if issue.overdue?
-            css_classes << 'issue-behind-schedule' if issue.behind_schedule?
-            css_classes << 'icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
-
-            if issue.assigned_to.present?
-              assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-              output << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
-            end
-            output << "<span class='#{css_classes.join(' ')}'>"
-            output << view.link_to_issue(issue)
-            output << '</span>'
-          else
-            ActiveRecord::Base.logger.debug "Gantt#subject_for_issue was not given an issue"
-            ''
-          end
-          output << "</small></div>"
-
-          # Tooltip
-          if issue.is_a? Issue
-            output << "<span class='tip' style='position: absolute;top:#{ options[:top].to_i + 16 }px;left:#{ options[:indent].to_i + 20 }px;'>"
-            output << view.render_issue_tooltip(issue)
-            output << "</span>"
-          end
-
-          output << "</div>"
-          output
-        when :image
-          options[:image].fill('black')
-          options[:image].stroke('transparent')
-          options[:image].stroke_width(1)
-          options[:image].text(options[:indent], options[:top] + 2, issue.subject)
-        when :pdf
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(15)
-          
-          char_limit = PDF::MaxCharactorsForSubject - options[:indent]
-          options[:pdf].Cell(options[:subject_width]-15, 5, (" " * options[:indent]) +"#{issue.tracker} #{issue.id}: #{issue.subject}".sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
-        
-          options[:pdf].SetY(options[:top])
-          options[:pdf].SetX(options[:subject_width])
-          options[:pdf].Cell(options[:g_width], 5, "", "LR")
+        while @issue_ancestors.any? && !issue.is_descendant_of?(@issue_ancestors.last)
+          @issue_ancestors.pop
+          options[:indent] -= options[:indent_increment]
         end
+          
+        output = case options[:format]
+        when :html
+          css_classes = ''
+          css_classes << ' issue-overdue' if issue.overdue?
+          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
+          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          
+          subject = "<span class='#{css_classes}'>"
+          if issue.assigned_to.present?
+            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
+            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
+          end
+          subject << view.link_to_issue(issue)
+          subject << '</span>'
+          html_subject(options, subject, :css => "issue-subject") + "\n"
+        when :image
+          image_subject(options, issue.subject)
+        when :pdf
+          pdf_new_page?(options)
+          pdf_subject(options, issue.subject)
+        end
+
+        unless issue.leaf?
+          @issue_ancestors << issue
+          options[:indent] += options[:indent_increment]
+        end
+        
+        output
       end
 
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
+          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+          label = "#{ issue.status.name } #{ issue.done_ratio }%"
+          
           case options[:format]
           when :html
-            output = ''
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= self.date_from
-                              issue.start_date
-                            else
-                              self.date_from
-                            end
-
-            i_end_date = ((issue.due_before && issue.due_before <= self.date_to) ? issue.due_before : self.date_to )
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= self.date_from ? self.date_from : i_done_date )
-            i_done_date = (i_done_date >= self.date_to ? self.date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = ((i_start_date - self.date_from)*options[:zoom]).floor 	
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom]).floor - 2                  # total width of the issue (- 2 for left and right borders)
-            d_width = ((i_done_date - i_start_date)*options[:zoom]).floor - 2                     # done width
-            l_width = i_late_date ? ((i_late_date - i_start_date+1)*options[:zoom]).floor - 2 : 0 # delay width
-            css = "task " + (issue.leaf? ? 'leaf' : 'parent')
-            
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ i_width }px;' class='#{css} task_todo'>&nbsp;</div>"
-            end
-            if l_width > 0
-              output << "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ l_width }px;' class='#{css} task_late'>&nbsp;</div>"
-            end
-            if d_width > 0
-              output<< "<div style='top:#{ options[:top] }px;left:#{ i_left }px;width:#{ d_width }px;' class='#{css} task_done'>&nbsp;</div>"
-            end
-
-            # Display the status even if it's floated off to the left
-            status_px = i_left + i_width + 5
-            status_px = 5 if status_px <= 0
-            
-            output << "<div style='top:#{ options[:top] }px;left:#{ status_px }px;' class='#{css} label issue-name'>"
-            output << issue.status.name
-            output << ' '
-            output << (issue.done_ratio).to_i.to_s
-            output << "%"
-            output << "</div>"
-
-            output << "<div class='tooltip' style='position: absolute;top:#{ options[:top] }px;left:#{ i_left }px;width:#{ i_width }px;height:12px;'>"
-            output << '<span class="tip">'
-            output << view.render_issue_tooltip(issue)
-            output << "</span></div>"
-            output
-          
+            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue, :markers => !issue.leaf?)
           when :image
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= @date_from
-                              issue.start_date
-                            else
-                              @date_from
-                            end
-
-            i_end_date = (issue.due_before <= date_to ? issue.due_before : date_to )        
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
-            i_done_date = (i_done_date >= date_to ? date_to : i_done_date )        
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = options[:subject_width] + ((i_start_date - @date_from)*options[:zoom]).floor 	
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom]).floor                  # total width of the issue
-            d_width = ((i_done_date - i_start_date)*options[:zoom]).floor                     # done width
-            l_width = i_late_date ? ((i_late_date - i_start_date+1)*options[:zoom]).floor : 0 # delay width
-
-            
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              options[:image].fill('grey')
-              options[:image].rectangle(i_left, options[:top], i_left + i_width, options[:top] - 6)
-              options[:image].fill('red')
-              options[:image].rectangle(i_left, options[:top], i_left + l_width, options[:top] - 6) if l_width > 0
-              options[:image].fill('blue')
-              options[:image].rectangle(i_left, options[:top], i_left + d_width, options[:top] - 6) if d_width > 0
-            end
-
-            # Show the status and % done next to the subject if it overflows
-            options[:image].fill('black')
-            if i_width > 0
-              options[:image].text(i_left + i_width + 5,options[:top] + 1, "#{issue.status.name} #{issue.done_ratio}%")
-            else
-              options[:image].text(options[:subject_width] + 5,options[:top] + 1, "#{issue.status.name} #{issue.done_ratio}%")            
-            end
-
+            image_task(options, coords, :label => label)
           when :pdf
-            options[:pdf].SetY(options[:top]+1.5)
-            # Handle nil start_dates, rare but can happen.
-            i_start_date =  if issue.start_date && issue.start_date >= @date_from
-                          issue.start_date
-                        else
-                          @date_from
-                        end
-
-            i_end_date = (issue.due_before <= @date_to ? issue.due_before : @date_to )
-            
-            i_done_date = i_start_date + ((issue.due_before - i_start_date+1)*issue.done_ratio/100).floor
-            i_done_date = (i_done_date <= @date_from ? @date_from : i_done_date )
-            i_done_date = (i_done_date >= @date_to ? @date_to : i_done_date )
-            
-            i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = ((i_start_date - @date_from)*options[:zoom]) 
-            i_width = ((i_end_date - i_start_date + 1)*options[:zoom])
-            d_width = ((i_done_date - i_start_date)*options[:zoom])
-            l_width = ((i_late_date - i_start_date+1)*options[:zoom]) if i_late_date
-            l_width ||= 0
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if i_width > 0
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(200,200,200)
-              options[:pdf].Cell(i_width, 2, "", 0, 0, "", 1)
-            end
-          
-            if l_width > 0
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(255,100,100)
-              options[:pdf].Cell(l_width, 2, "", 0, 0, "", 1)
-            end 
-            if d_width > 0
-              options[:pdf].SetY(options[:top]+1.5)
-              options[:pdf].SetX(options[:subject_width] + i_left)
-              options[:pdf].SetFillColor(100,100,255)
-              options[:pdf].Cell(d_width, 2, "", 0, 0, "", 1)
-            end
-
-            options[:pdf].SetY(options[:top]+1.5)
-
-            # Make sure that negative i_left and i_width don't
-            # overflow the subject
-            if (i_left + i_width) >= 0
-              options[:pdf].SetX(options[:subject_width] + i_left + i_width)
-            else
-              options[:pdf].SetX(options[:subject_width])
-            end
-            options[:pdf].Cell(30, 2, "#{issue.status} #{issue.done_ratio}%")
-          end
+            pdf_task(options, coords, :label => label)
+        end
         else
           ActiveRecord::Base.logger.debug "GanttHelper#line_for_issue was not given an issue with a due_before"
           ''
@@ -748,6 +414,7 @@ module Redmine
         gc = Magick::Draw.new
         
         # Subjects
+        gc.stroke('transparent')
         subjects(:image => gc, :top => (headers_heigth + 20), :indent => 4, :format => :image)
     
         # Months headers
@@ -807,7 +474,7 @@ module Redmine
         	(date_to - @date_from + 1).to_i.times do 
               width =  zoom
               gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
-              gc.stroke('grey')
+              gc.stroke('#ddd')
               gc.stroke_width(1)
               gc.rectangle(left, 2*header_heigth, left + width, 2*header_heigth + g_height-1)
               left = left + width
@@ -826,7 +493,8 @@ module Redmine
             
         # content
         top = headers_heigth + 20
-        
+
+        gc.stroke('transparent')
         lines(:image => gc, :top => top, :zoom => zoom, :subject_width => subject_width, :format => :image)
         
         # today red line
@@ -938,50 +606,257 @@ module Redmine
         
         # Tasks
         top = headers_heigth + y_start
-        pdf_subjects_and_lines(pdf, {
-                                 :top => top,
-                                 :zoom => zoom,
-                                 :subject_width => subject_width,
-                                 :g_width => g_width
-                               })
-
-        
-        pdf.Line(15, top, subject_width+g_width, top)
+        options = {
+          :top => top,
+          :zoom => zoom,
+          :subject_width => subject_width,
+          :g_width => g_width,
+          :indent => 0,
+          :indent_increment => 5,
+          :top_increment => 5,
+          :format => :pdf,
+          :pdf => pdf
+        }
+        render(options)
         pdf.Output
-
-        
       end
       
       private
+      
+      def coordinates(start_date, end_date, progress, zoom=nil)
+        zoom ||= @zoom
+        
+        coords = {}
+        if start_date && end_date && start_date < self.date_to && end_date > self.date_from
+          if start_date > self.date_from
+            coords[:start] = start_date - self.date_from
+            coords[:bar_start] = start_date - self.date_from
+          else
+            coords[:bar_start] = 0
+          end
+          if end_date < self.date_to
+            coords[:end] = end_date - self.date_from
+            coords[:bar_end] = end_date - self.date_from + 1
+          else
+            coords[:bar_end] = self.date_to - self.date_from + 1
+          end
+        
+          if progress
+            progress_date = start_date + (end_date - start_date) * (progress / 100.0)
+            if progress_date > self.date_from && progress_date > start_date
+              if progress_date < self.date_to
+                coords[:bar_progress_end] = progress_date - self.date_from + 1
+              else
+                coords[:bar_progress_end] = self.date_to - self.date_from + 1
+              end
+            end
+            
+            if progress_date < Date.today
+              late_date = [Date.today, end_date].min
+              if late_date > self.date_from && late_date > start_date
+                if late_date < self.date_to
+                  coords[:bar_late_end] = late_date - self.date_from + 1
+                else
+                  coords[:bar_late_end] = self.date_to - self.date_from + 1
+                end
+              end
+            end
+          end
+        end
+        
+        # Transforms dates into pixels witdh
+        coords.keys.each do |key|
+          coords[key] = (coords[key] * zoom).floor
+        end
+        coords
+      end
 
       # Sorts a collection of issues by start_date, due_date, id for gantt rendering
       def sort_issues!(issues)
-        issues.sort! do |a, b|
-          cmp = 0
-          cmp = (a.start_date <=> b.start_date) if a.start_date? && b.start_date?
-          cmp = (a.due_date <=> b.due_date) if cmp == 0 && a.due_date? && b.due_date?
-          cmp = (a.id <=> b.id) if cmp == 0
-          cmp
+        issues.sort! { |a, b| gantt_issue_compare(a, b, issues) }
+      end
+  
+      # TODO: top level issues should be sorted by start date
+      def gantt_issue_compare(x, y, issues)
+        if x.root_id == y.root_id
+          x.lft <=> y.lft
+        else
+          x.root_id <=> y.root_id
         end
       end
       
-      # Renders both the subjects and lines of the Gantt chart for the
-      # PDF format
-      def pdf_subjects_and_lines(pdf, options = {})
-        subject_options = {:indent => 0, :indent_increment => 5, :top_increment => 3, :render => :subject, :format => :pdf, :pdf => pdf}.merge(options)
-        line_options = {:indent => 0, :indent_increment => 5, :top_increment => 3, :render => :line, :format => :pdf, :pdf => pdf}.merge(options)
-
-        if @project
-          render_project(@project, subject_options)
-          render_project(@project, line_options)
+      def current_limit
+        if @max_rows
+          @max_rows - @number_of_rows
         else
-          Project.roots.each do |project|
-            render_project(project, subject_options)
-            render_project(project, line_options)
+          nil
+        end
+      end
+      
+      def abort?
+        if @max_rows && @number_of_rows >= @max_rows
+          @truncated = true
+        end
+      end
+      
+      def pdf_new_page?(options)
+        if options[:top] > 180
+          options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
+          options[:pdf].AddPage("L")
+          options[:top] = 15
+          options[:pdf].Line(15, options[:top] - 0.1, PDF::TotalWidth, options[:top] - 0.1)
+        end
+      end
+      
+      def html_subject(params, subject, options={})
+        output = "<div class=' #{options[:css] }' style='position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;'>"
+        output << subject
+        output << "</div>"
+        @subjects << output
+        output
+      end
+      
+      def pdf_subject(params, subject, options={})
+        params[:pdf].SetY(params[:top])
+        params[:pdf].SetX(15)
+        
+        char_limit = PDF::MaxCharactorsForSubject - params[:indent]
+        params[:pdf].Cell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+      
+        params[:pdf].SetY(params[:top])
+        params[:pdf].SetX(params[:subject_width])
+        params[:pdf].Cell(params[:g_width], 5, "", "LR")
+      end
+      
+      def image_subject(params, subject, options={})
+        params[:image].fill('black')
+        params[:image].stroke('transparent')
+        params[:image].stroke_width(1)
+        params[:image].text(params[:indent], params[:top] + 2, subject)
+      end
+      
+      def html_task(params, coords, options={})
+        output = ''
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+          
+          if coords[:bar_late_end]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
           end
+          if coords[:bar_progress_end]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:start] }px;width:15px;' class='#{options[:css]} marker starting'>&nbsp;</div>"
+          end
+          if coords[:end]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:end] + params[:zoom] }px;width:15px;' class='#{options[:css]} marker ending'>&nbsp;</div>"
+          end
+        end
+        # Renders the label on the right
+        if options[:label]
+          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>"
+          output << options[:label]
+          output << "</div>"
+        end
+        # Renders the tooltip
+        if options[:issue] && coords[:bar_start] && coords[:bar_end]
+          output << "<div class='tooltip' style='position: absolute;top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] }px;height:12px;'>"
+          output << '<span class="tip">'
+          output << view.render_issue_tooltip(options[:issue])
+          output << "</span></div>"
+        end
+        @lines << output
+        output
+      end
+      
+      def pdf_task(params, coords, options={})
+        height = options[:height] || 2
+        
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          params[:pdf].SetY(params[:top]+1.5)
+          params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+          params[:pdf].SetFillColor(200,200,200)
+          params[:pdf].Cell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            
+          if coords[:bar_late_end]
+            params[:pdf].SetY(params[:top]+1.5)
+            params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+            params[:pdf].SetFillColor(255,100,100)
+            params[:pdf].Cell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          end
+          if coords[:bar_progress_end]
+            params[:pdf].SetY(params[:top]+1.5)
+            params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
+            params[:pdf].SetFillColor(90,200,90)
+            params[:pdf].Cell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            params[:pdf].SetY(params[:top] + 1)
+            params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
+            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+          end
+          if coords[:end]
+            params[:pdf].SetY(params[:top] + 1)
+            params[:pdf].SetX(params[:subject_width] + coords[:end] - 1)
+            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+          end
+        end
+        # Renders the label on the right
+        if options[:label]
+          params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
+          params[:pdf].Cell(30, 2, options[:label])
         end
       end
 
+      def image_task(params, coords, options={})
+        height = options[:height] || 6
+        
+        # Renders the task bar, with progress and late
+        if coords[:bar_start] && coords[:bar_end]
+          params[:image].fill('#aaa')
+          params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_end], params[:top] - height)
+ 
+          if coords[:bar_late_end]
+            params[:image].fill('#f66')
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_late_end], params[:top] - height)
+          end
+          if coords[:bar_progress_end]
+            params[:image].fill('#00c600')
+            params[:image].rectangle(params[:subject_width] + coords[:bar_start], params[:top], params[:subject_width] + coords[:bar_progress_end], params[:top] - height)
+          end
+        end
+        # Renders the markers
+        if options[:markers]
+          if coords[:start]
+            x = params[:subject_width] + coords[:start]
+            y = params[:top] - height / 2
+            params[:image].fill('blue')
+            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
+          end
+          if coords[:end]
+            x = params[:subject_width] + coords[:end] + params[:zoom]
+            y = params[:top] - height / 2
+            params[:image].fill('blue')
+            params[:image].polygon(x-4, y, x, y-4, x+4, y, x, y+4)
+          end
+        end
+        # Renders the label on the right
+        if options[:label]
+          params[:image].fill('black')
+          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,params[:top] + 1, options[:label])
+        end
+      end
     end
   end
 end

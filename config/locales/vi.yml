@@ -66,37 +66,37 @@ vi:
       half_a_minute: "30 giây"
       less_than_x_seconds:
         one:   "chưa tới 1 giây"
-        other: "chưa tới {{count}} giây"
+        other: "chưa tới %{count} giây"
       x_seconds:
         one:   "1 giây"
-        other: "{{count}} giây"
+        other: "%{count} giây"
       less_than_x_minutes:
         one:   "chưa tới 1 phút"
-        other: "chưa tới {{count}} phút"
+        other: "chưa tới %{count} phút"
       x_minutes:
         one:   "1 phút"
-        other: "{{count}} phút"
+        other: "%{count} phút"
       about_x_hours:
         one:   "khoảng 1 giờ"
-        other: "khoảng {{count}} giờ"
+        other: "khoảng %{count} giờ"
       x_days:
         one:   "1 ngày"
-        other: "{{count}} ngày"
+        other: "%{count} ngày"
       about_x_months:
         one:   "khoảng 1 tháng"
-        other: "khoảng {{count}} tháng"
+        other: "khoảng %{count} tháng"
       x_months:
         one:   "1 tháng"
-        other: "{{count}} tháng"
+        other: "%{count} tháng"
       about_x_years:
         one:   "khoảng 1 năm"
-        other: "khoảng {{count}} năm"
+        other: "khoảng %{count} năm"
       over_x_years:
         one:   "hơn 1 năm"
-        other: "hơn {{count}} năm"
+        other: "hơn %{count} năm"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
     prompts:
       year:   "Năm"
       month:  "Tháng"
@@ -109,8 +109,8 @@ vi:
     errors:
       template:
         header:
-          one:   "1 lỗi ngăn không cho lưu {{model}} này"
-          other: "{{count}} lỗi ngăn không cho lưu {{model}} này"
+          one:   "1 lỗi ngăn không cho lưu %{model} này"
+          other: "%{count} lỗi ngăn không cho lưu %{model} này"
         # The variable :count is also available
         body: "Có lỗi với các mục sau:"
 
@@ -124,16 +124,16 @@ vi:
         accepted: "phải được đồng ý"
         empty: "không thể rỗng"
         blank: "không thể để trắng"
-        too_long: "quá dài (tối đa {{count}} ký tự)"
-        too_short: "quá ngắn (tối thiểu {{count}} ký tự)"
-        wrong_length: "độ dài không đúng (phải là {{count}} ký tự)"
+        too_long: "quá dài (tối đa %{count} ký tự)"
+        too_short: "quá ngắn (tối thiểu %{count} ký tự)"
+        wrong_length: "độ dài không đúng (phải là %{count} ký tự)"
         taken: "đã có"
         not_a_number: "không phải là số"
-        greater_than: "phải lớn hơn {{count}}"
-        greater_than_or_equal_to: "phải lớn hơn hoặc bằng {{count}}"
-        equal_to: "phải bằng {{count}}"
-        less_than: "phải nhỏ hơn {{count}}"
-        less_than_or_equal_to: "phải nhỏ hơn hoặc bằng {{count}}"
+        greater_than: "phải lớn hơn %{count}"
+        greater_than_or_equal_to: "phải lớn hơn hoặc bằng %{count}"
+        equal_to: "phải bằng %{count}"
+        less_than: "phải nhỏ hơn %{count}"
+        less_than_or_equal_to: "phải nhỏ hơn hoặc bằng %{count}"
         odd: "phải là số chẵn"
         even: "phải là số lẻ"
         greater_than_start_date: "phải đi sau ngày bắt đầu"
@@ -205,34 +205,34 @@ vi:
   notice_file_not_found: Trang bạn cố xem không tồn tại hoặc đã chuyển.
   notice_locking_conflict: Thông tin đang được cập nhật bởi người khác. Hãy chép nội dung cập nhật của bạn vào clipboard.
   notice_not_authorized: Bạn không có quyền xem trang này.
-  notice_email_sent: "Email đã được gửi tới {{value}}"
-  notice_email_error: "Lỗi xảy ra khi gửi email ({{value}})"
+  notice_email_sent: "Email đã được gửi tới %{value}"
+  notice_email_error: "Lỗi xảy ra khi gửi email (%{value})"
   notice_feeds_access_key_reseted: Mã số chứng thực RSS đã được tạo lại.
-  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
+  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
   notice_default_data_loaded: Đã nạp cấu hình mặc định.
   notice_unable_delete_version: Không thể xóa phiên bản.
   
-  error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: {{value}}"
+  error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: {{value}}"
+  error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'Vấn đề không tồn tại hoặc không thuộc dự án'
   
-  mail_subject_lost_password: "{{value}}: mật mã của bạn"
+  mail_subject_lost_password: "%{value}: mật mã của bạn"
   mail_body_lost_password: "Để đổi mật mã, hãy click chuột vào liên kết sau:"
-  mail_subject_register: "{{value}}: kích hoạt tài khoản"
+  mail_subject_register: "%{value}: kích hoạt tài khoản"
   mail_body_register: "Để kích hoạt tài khoản, hãy click chuột vào liên kết sau:"
-  mail_body_account_information_external: " Bạn có thể dùng tài khoản {{value}} để đăng nhập."
+  mail_body_account_information_external: " Bạn có thể dùng tài khoản %{value} để đăng nhập."
   mail_body_account_information: Thông tin về tài khoản
-  mail_subject_account_activation_request: "{{value}}: Yêu cầu chứng thực tài khoản"
-  mail_body_account_activation_request: "Người dùng ({{value}}) mới đăng ký và cần bạn xác nhận:"
-  mail_subject_reminder: "{{count}} vấn đề hết hạn trong các {{days}} ngày tới"
-  mail_body_reminder: "{{count}} vấn đề gán cho bạn sẽ hết hạn trong {{days}} ngày tới:"
+  mail_subject_account_activation_request: "%{value}: Yêu cầu chứng thực tài khoản"
+  mail_body_account_activation_request: "Người dùng (%{value}) mới đăng ký và cần bạn xác nhận:"
+  mail_subject_reminder: "%{count} vấn đề hết hạn trong các %{days} ngày tới"
+  mail_body_reminder: "%{count} vấn đề gán cho bạn sẽ hết hạn trong %{days} ngày tới:"
   
   gui_validation_error: 1 lỗi
-  gui_validation_error_plural: "{{count}} lỗi"
+  gui_validation_error_plural: "%{count} lỗi"
   
   field_name: Tên
   field_description: Mô tả
@@ -294,6 +294,7 @@ vi:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
+  field_start_date: Bắt đầu
   field_done_ratio: Tiến độ
   field_auth_source: Authentication mode
   field_hide_mail: Không làm lộ email của bạn
@@ -373,14 +374,14 @@ vi:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: Mọi dự án
   label_project_latest: Dự án mới nhất
   label_issue: Vấn đề
   label_issue_new: Tạo vấn đề mới
   label_issue_plural: Vấn đề
   label_issue_view_all: Tất cả vấn đề
-  label_issues_by: "Vấn đề của {{value}}"
+  label_issues_by: "Vấn đề của %{value}"
   label_issue_added: Đã thêm vấn đề
   label_issue_updated: Vấn đề được cập nhật
   label_document: Tài liệu
@@ -436,7 +437,7 @@ vi:
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
   label_subproject_plural: Dự án con
-  label_and_its_subprojects: "{{value}} và dự án con"
+  label_and_its_subprojects: "%{value} và dự án con"
   label_min_max_length: Min - Max length
   label_list: List
   label_date: Ngày
@@ -447,8 +448,8 @@ vi:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "{{count}} lần tải"
-  label_download_plural: "{{count}} lần tải"
+  label_download: "%{count} lần tải"
+  label_download_plural: "%{count} lần tải"
   label_no_data: Chưa có thông tin gì
   label_change_status: Đổi trạng thái
   label_history: Lược sử
@@ -479,17 +480,17 @@ vi:
   label_closed_issues: đóng
   label_closed_issues_plural: đóng
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: Tổng cộng
   label_permissions: Quyền
   label_current_status: Trạng thái hiện tại
@@ -507,7 +508,7 @@ vi:
   label_months_from: tháng từ
   label_gantt: Biểu đồ sự kiện
   label_internal: Nội bộ
-  label_last_changes: "{{count}} thay đổi cuối"
+  label_last_changes: "%{count} thay đổi cuối"
   label_change_view_all: Xem mọi thay đổi
   label_personalize_page: Điều chỉnh trang này
   label_comment: Bình luận
@@ -515,7 +516,7 @@ vi:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Thêm bình luận
   label_comment_added: Đã thêm bình luận
   label_comment_delete: Xóa bình luận
@@ -534,7 +535,7 @@ vi:
   label_yesterday: hôm qua
   label_this_week: tuần này
   label_last_week: tuần trước
-  label_last_n_days: "{{count}} ngày cuối"
+  label_last_n_days: "%{count} ngày cuối"
   label_this_month: tháng này
   label_last_month: tháng cuối
   label_this_year: năm này
@@ -548,8 +549,8 @@ vi:
   label_repository: Kho lưu trữ
   label_repository_plural: Kho lưu trữ
   label_browse: Duyệt
-  label_modification: "{{count}} thay đổi"
-  label_modification_plural: "{{count}} thay đổi"
+  label_modification: "%{count} thay đổi"
+  label_modification_plural: "%{count} thay đổi"
   label_revision: Bản điều chỉnh
   label_revision_plural: Bản điều chỉnh
   label_associated_revisions: Associated revisions
@@ -567,8 +568,8 @@ vi:
   label_sort_lower: Dịch xuống
   label_sort_lowest: Xuống dưới cùng
   label_roadmap: Kế hoạch
-  label_roadmap_due_in: "Hết hạn trong {{value}}"
-  label_roadmap_overdue: "Trễ {{value}}"
+  label_roadmap_due_in: "Hết hạn trong %{value}"
+  label_roadmap_overdue: "Trễ %{value}"
   label_roadmap_no_issues: Không có vấn đề cho phiên bản này
   label_search: Tìm
   label_result_plural: Kết quả
@@ -586,8 +587,8 @@ vi:
   label_changes_details: Chi tiết của mọi thay đổi
   label_issue_tracking: Vấn đề
   label_spent_time: Thời gian
-  label_f_hour: "{{value}} giờ"
-  label_f_hour_plural: "{{value}} giờ"
+  label_f_hour: "%{value} giờ"
+  label_f_hour_plural: "%{value} giờ"
   label_time_tracking: Theo dõi thời gian
   label_change_plural: Thay đổi
   label_statistics: Thống kê
@@ -636,12 +637,12 @@ vi:
   label_date_from: Từ
   label_date_to: Đến
   label_language_based: Theo ngôn ngữ người dùng
-  label_sort_by: "Sắp xếp theo {{value}}"
+  label_sort_by: "Sắp xếp theo %{value}"
   label_send_test_email: Send a test email
-  label_feeds_access_key_created_on: "Mã chứng thực RSS được tạo ra cách đây {{value}}"
+  label_feeds_access_key_created_on: "Mã chứng thực RSS được tạo ra cách đây %{value}"
   label_module_plural: Mô-đun
-  label_added_time_by: "thêm bởi {{author}} cách đây {{age}}"
-  label_updated_time: "Cập nhật cách đây {{value}}"
+  label_added_time_by: "thêm bởi %{author} cách đây %{age}"
+  label_updated_time: "Cập nhật cách đây %{value}"
   label_jump_to_a_project: Nhảy đến dự án...
   label_file_plural: Tập tin
   label_changeset_plural: Thay đổi
@@ -657,7 +658,7 @@ vi:
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
   label_registration_automatic_activation: automatic account activation
-  label_display_per_page: "mỗi trang: {{value}}"
+  label_display_per_page: "mỗi trang: %{value}"
   label_age: Age
   label_change_properties: Thay đổi thuộc tính
   label_general: Tổng quan
@@ -723,43 +724,43 @@ vi:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 để chỉ không hạn chế
   text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
+  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Bạn chắc chứ?
   text_tip_issue_begin_day: ngày bắt đầu
   text_tip_issue_end_day: ngày kết thúc
   text_tip_issue_begin_end_day: bắt đầu và kết thúc cùng ngày
   text_project_identifier_info: 'Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.'
-  text_caracters_maximum: "Tối đa {{count}} ký tự."
-  text_caracters_minimum: "Phải gồm ít nhất {{count}} ký tự."
-  text_length_between: "Length between {{min}} and {{max}} characters."
+  text_caracters_maximum: "Tối đa %{count} ký tự."
+  text_caracters_minimum: "Phải gồm ít nhất %{count} ký tự."
+  text_length_between: "Length between %{min} and %{max} characters."
   text_tracker_no_workflow: No workflow defined for this tracker
   text_unallowed_characters: Ký tự không hợp lệ
   text_comma_separated: Multiple values allowed (comma separated).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Issue {{id}} has been reported by {{author}}."
-  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_issue_added: "Issue %{id} has been reported by %{author}."
+  text_issue_updated: "Issue %{id} has been updated by %{author}."
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-  text_issue_category_destroy_question: "Some issues ({{count}}) are assigned to this category. What do you want to do ?"
+  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do ?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Reassign issues to this category
   text_user_mail_option: "Với các dự án không được chọn, bạn chỉ có thể nhận được thông báo về các vấn đề bạn đăng ký theo dõi hoặc có liên quan đến bạn (chẳng hạn, vấn đề được gán cho bạn)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
   text_select_project_modules: 'Chọn các mô-đun cho dự án:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: File repository writable
   text_rmagick_available: RMagick available (optional)
-  text_destroy_time_entries_question: "{{hours}} hours were reported on the issues you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
-  text_user_wrote: "{{value}} wrote:"
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_user_wrote: "%{value} wrote:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   
   default_role_manager: Điều hành
   default_role_developer: Phát triển
@@ -840,12 +841,12 @@ vi:
   label_example: Ví dụ
   text_repository_usernames_mapping: "Chọn hoặc cập nhật ánh xạ người dùng hệ thống với người dùng trong kho lưu trữ.\nNhững trường hợp trùng hợp về tên và email sẽ được tự động ánh xạ."
   permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_user_activity: "%{value}'s activity"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and continue
   text_custom_field_possible_values_info: 'One line for each value'
   label_display: Display
@@ -860,21 +861,21 @@ vi:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -882,14 +883,14 @@ vi:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
   label_group_plural: Groups
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -924,9 +925,9 @@ vi:
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -953,12 +954,12 @@ vi:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -966,7 +967,7 @@ vi:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -977,8 +978,12 @@ vi:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

@@ -1,7 +1,9 @@
 <%= error_messages_for 'relation' %>
 
 <p><%= f.select :relation_type, collection_for_relation_type_select, {}, :onchange => "setPredecessorFieldsVisibility();" %>
-<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :size => 6 %>
+<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :size => 10 %>
+<div id="related_issue_candidates" class="autocomplete"></div>
+<%= javascript_tag "observeRelatedIssueField('#{auto_complete_issues_path(:id => @issue, :project_id => @project) }')" %>
 <span id="predecessor_fields" style="display:none;">
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>

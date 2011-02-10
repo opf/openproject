@@ -47,14 +47,16 @@
 
 <% if @issue.description? || @issue.attachments.any? -%>
 <hr />
-<div class="contextual">
-<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') if @issue.description? %>
-</div>
-                              
-<div class="wiki">
-<%= textilizable @issue, :description, :attachments => @issue.attachments %>
-</div>
-
+<% if @issue.description? %>
+	<div class="contextual">
+	<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
+	</div>
+	
+	<p><strong><%=l(:field_description)%></strong></p>
+	<div class="wiki">
+	<%= textilizable @issue, :description, :attachments => @issue.attachments %>
+	</div>
+<% end %>
 <%= link_to_attachments @issue %>
 <% end -%>
 

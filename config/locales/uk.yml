@@ -32,37 +32,37 @@ uk:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
         one:   "1 second"
-        other: "{{count}} seconds"
+        other: "%{count} seconds"
       less_than_x_minutes:
         one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        other: "less than %{count} minutes"
       x_minutes:
         one:   "1 minute"
-        other: "{{count}} minutes"
+        other: "%{count} minutes"
       about_x_hours:
         one:   "about 1 hour"
-        other: "about {{count}} hours"
+        other: "about %{count} hours"
       x_days:
         one:   "1 day"
-        other: "{{count}} days"
+        other: "%{count} days"
       about_x_months:
         one:   "about 1 month"
-        other: "about {{count}} months"
+        other: "about %{count} months"
       x_months:
         one:   "1 month"
-        other: "{{count}} months"
+        other: "%{count} months"
       about_x_years:
         one:   "about 1 year"
-        other: "about {{count}} years"
+        other: "about %{count} years"
       over_x_years:
         one:   "over 1 year"
-        other: "over {{count}} years"
+        other: "over %{count} years"
       almost_x_years:
         one:   "almost 1 year"
-        other: "almost {{count}} years"
+        other: "almost %{count} years"
 
   number: 
     format:
@@ -92,6 +92,10 @@ uk:
       
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "немає в списку"
         exclusion: "зарезервовано"
@@ -106,11 +110,11 @@ uk:
         taken: "вже використовується"
         not_a_number: "не є числом"
         not_a_date: "є недійсною датою"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
+        greater_than: "must be greater than %{count}"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
         greater_than_start_date: "повинна бути пізніша за дату початку"
@@ -148,24 +152,24 @@ uk:
   notice_locking_conflict: Дані оновлено іншим користувачем.
   notice_scm_error: Запису та/або виправлення немає в репозиторії.
   notice_not_authorized: У вас немає прав для відвідини даної сторінки.
-  notice_email_sent: "Відправлено листа {{value}}"
-  notice_email_error: "Під час відправки листа відбулася помилка ({{value}})"
+  notice_email_sent: "Відправлено листа %{value}"
+  notice_email_error: "Під час відправки листа відбулася помилка (%{value})"
   notice_feeds_access_key_reseted: Ваш ключ доступу RSS було скинуто.
-  notice_failed_to_save_issues: "Не вдалося зберегти {{count}} пункт(ів) з {{total}} вибраних: {{ids}}."
+  notice_failed_to_save_issues: "Не вдалося зберегти %{count} пункт(ів) з %{total} вибраних: %{ids}."
   notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
   notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
   
-  mail_subject_lost_password: "Ваш {{value}} пароль"
+  mail_subject_lost_password: "Ваш %{value} пароль"
   mail_body_lost_password: 'Для зміни пароля, зайдіть за наступним посиланням:'
-  mail_subject_register: "Активація облікового запису {{value}}"
+  mail_subject_register: "Активація облікового запису %{value}"
   mail_body_register: 'Для активації облікового запису, зайдіть за наступним посиланням:'
-  mail_body_account_information_external: "Ви можете використовувати ваш {{value}} обліковий запис для входу."
+  mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
   mail_body_account_information: Інформація по Вашому обліковому запису
-  mail_subject_account_activation_request: "Запит на активацію облікового запису {{value}}"
-  mail_body_account_activation_request: "Новий користувач ({{value}}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
+  mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
+  mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   
   gui_validation_error: 1 помилка
-  gui_validation_error_plural: "{{count}} помилки(ок)"
+  gui_validation_error_plural: "%{count} помилки(ок)"
   
   field_name: Ім'я
   field_description: Опис
@@ -227,6 +231,7 @@ uk:
   field_attr_lastname: Атрибут Прізвище
   field_attr_mail: Атрибут Email
   field_onthefly: Створення користувача на льоту
+  field_start_date: Початок
   field_done_ratio: % зроблено
   field_auth_source: Режим аутентифікації
   field_hide_mail: Приховувати мій email
@@ -284,14 +289,14 @@ uk:
   label_x_projects:
     zero:  no projects
     one:   1 project
-    other: "{{count}} projects"
+    other: "%{count} projects"
   label_project_all: Усі проекти
   label_project_latest: Останні проекти
   label_issue: Питання
   label_issue_new: Нові питання
   label_issue_plural: Питання
   label_issue_view_all: Проглянути всі питання
-  label_issues_by: "Питання за {{value}}"
+  label_issues_by: "Питання за %{value}"
   label_document: Документ
   label_document_new: Новий документ
   label_document_plural: Документи
@@ -353,8 +358,8 @@ uk:
   label_text: Довгий текст
   label_attribute: Атрибут
   label_attribute_plural: атрибути
-  label_download: "{{count}} Завантажено"
-  label_download_plural: "{{count}} Завантажень"
+  label_download: "%{count} Завантажено"
+  label_download_plural: "%{count} Завантажень"
   label_no_data: Немає даних для відображення
   label_change_status: Змінити статус
   label_history: Історія
@@ -383,17 +388,17 @@ uk:
   label_closed_issues: закрите
   label_closed_issues_plural: закриті
   label_x_open_issues_abbr_on_total:
-    zero:  0 open / {{total}}
-    one:   1 open / {{total}}
-    other: "{{count}} open / {{total}}"
+    zero:  0 open / %{total}
+    one:   1 open / %{total}
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "{{count}} closed"
+    other: "%{count} closed"
   label_total: Всього
   label_permissions: Права доступу
   label_current_status: Поточний статус
@@ -411,7 +416,7 @@ uk:
   label_months_from: місяців(ця) з
   label_gantt: Діаграма Ганта
   label_internal: Внутрішній
-  label_last_changes: "останні {{count}} змін"
+  label_last_changes: "останні %{count} змін"
   label_change_view_all: Проглянути всі зміни
   label_personalize_page: Персоналізувати цю сторінку
   label_comment: Коментувати
@@ -419,7 +424,7 @@ uk:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Залишити коментар
   label_comment_added: Коментар додано
   label_comment_delete: Видалити коментарі
@@ -443,8 +448,8 @@ uk:
   label_day_plural: днів(я)
   label_repository: Репозиторій
   label_browse: Проглянути
-  label_modification: "{{count}} зміна"
-  label_modification_plural: "{{count}} змін"
+  label_modification: "%{count} зміна"
+  label_modification_plural: "%{count} змін"
   label_revision: Версія
   label_revision_plural: Версій
   label_added: додано
@@ -459,8 +464,8 @@ uk:
   label_sort_lower: Вниз
   label_sort_lowest: У кінець
   label_roadmap: Оперативний план
-  label_roadmap_due_in: "Строк {{value}}"
-  label_roadmap_overdue: "{{value}} запізнення"
+  label_roadmap_due_in: "Строк %{value}"
+  label_roadmap_overdue: "%{value} запізнення"
   label_roadmap_no_issues: Немає питань для даної версії
   label_search: Пошук
   label_result_plural: Результати 
@@ -478,8 +483,8 @@ uk:
   label_changes_details: Подробиці по всіх змінах 
   label_issue_tracking: Координація питань
   label_spent_time: Витрачений час
-  label_f_hour: "{{value}} година"
-  label_f_hour_plural: "{{value}} годин(и)"
+  label_f_hour: "%{value} година"
+  label_f_hour_plural: "%{value} годин(и)"
   label_time_tracking: Облік часу
   label_change_plural: Зміни
   label_statistics: Статистика
@@ -526,12 +531,12 @@ uk:
   label_date_from: З
   label_date_to: Кому
   label_language_based: На основі мови користувача
-  label_sort_by: "Сортувати за {{value}}"
+  label_sort_by: "Сортувати за %{value}"
   label_send_test_email: Послати email для перевірки
-  label_feeds_access_key_created_on: "Ключ доступу RSS створений {{value}} назад "
+  label_feeds_access_key_created_on: "Ключ доступу RSS створений %{value} назад "
   label_module_plural: Модулі
-  label_added_time_by: "Доданий {{author}} {{age}} назад"
-  label_updated_time: "Оновлений {{value}} назад"
+  label_added_time_by: "Доданий %{author} %{age} назад"
+  label_updated_time: "Оновлений %{value} назад"
   label_jump_to_a_project: Перейти до проекту...
   label_file_plural: Файли
   label_changeset_plural: Набори змін
@@ -599,17 +604,17 @@ uk:
   text_tip_issue_end_day: день завершення задачі
   text_tip_issue_begin_end_day: початок задачі і закінчення цього дня
   text_project_identifier_info: 'Рядкові букви (a-z), допустимі цифри і дефіс.<br />Збережений ідентифікатор не може бути змінений.'
-  text_caracters_maximum: "{{count}} символів(а) максимум."
-  text_caracters_minimum: "Повинно мати якнайменше  {{count}} символів(а) у довжину."
-  text_length_between: "Довжина між {{min}} і {{max}} символів."
+  text_caracters_maximum: "%{count} символів(а) максимум."
+  text_caracters_minimum: "Повинно мати якнайменше  %{count} символів(а) у довжину."
+  text_length_between: "Довжина між %{min} і %{max} символів."
   text_tracker_no_workflow: Для цього координатора послідовність дій не визначена
   text_unallowed_characters: Заборонені символи
   text_comma_separated: Допустимі декілька значень (розділені комою).
   text_issues_ref_in_commit_messages: Посилання та зміна питань у повідомленнях до подавань
-  text_issue_added: "Issue {{id}} has been reported by {{author}}."
-  text_issue_updated: "Issue {{id}} has been updated by {{author}}."
+  text_issue_added: "Issue %{id} has been reported by %{author}."
+  text_issue_updated: "Issue %{id} has been updated by %{author}."
   text_wiki_destroy_confirmation: Ви впевнені, що хочете видалити цю wiki і весь зміст?
-  text_issue_category_destroy_question: "Декілька питань ({{count}}) призначено в цю категорію. Що ви хочете зробити?"
+  text_issue_category_destroy_question: "Декілька питань (%{count}) призначено в цю категорію. Що ви хочете зробити?"
   text_issue_category_destroy_assignments: Видалити призначення категорії
   text_issue_category_reassign_to: Перепризначити задачі до даної категорії
   text_user_mail_option: "Для невибраних проектів ви отримуватимете повідомлення тільки про те, що проглядаєте або в чому берете участь (наприклад, питання автором яких ви є або які вам призначені)."
@@ -639,8 +644,8 @@ uk:
   enumeration_issue_priorities: Пріоритети питань
   enumeration_doc_categories: Категорії документів
   enumeration_activities: Дії (облік часу)
-  text_status_changed_by_changeset: "Applied in changeset {{value}}."
-  label_display_per_page: "Per page: {{value}}"
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
+  label_display_per_page: "Per page: %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
   setting_per_page_options: Objects per page options
@@ -650,7 +655,7 @@ uk:
   label_document_added: Document added
   label_message_posted: Message added
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
-  error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
+  error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   setting_user_format: Users display format
   label_age: Age
   label_file_added: File added
@@ -666,7 +671,7 @@ uk:
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   label_news_added: News added
   label_repository_plural: Repositories
-  error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
+  error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   project_module_boards: Boards
   project_module_issue_tracking: Issue tracking
   project_module_wiki: Wiki
@@ -683,7 +688,7 @@ uk:
   label_ldap_authentication: LDAP authentication
   label_downloads_abbr: D/L
   label_this_month: this month
-  label_last_n_days: "last {{count}} days"
+  label_last_n_days: "last %{count} days"
   label_all_time: all time
   label_this_year: this year
   label_date_range: Date range
@@ -692,7 +697,7 @@ uk:
   label_last_month: last month
   label_add_another_file: Add another file
   label_optional_description: Optional description
-  text_destroy_time_entries_question: "{{hours}} hours were reported on the issues you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   text_assign_time_entries_to_project: Assign reported hours to the project
   text_destroy_time_entries: Delete reported hours
@@ -707,20 +712,20 @@ uk:
   setting_default_projects_public: New projects are public by default
   error_scm_annotate: "The entry does not exist or can not be annotated."
   label_planning: Planning
-  text_subprojects_destroy_warning: "Its subproject(s): {{value}} will be also deleted."
-  label_and_its_subprojects: "{{value}} and its subprojects"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
-  text_user_wrote: "{{value}} wrote:"
+  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
+  label_and_its_subprojects: "%{value} and its subprojects"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  text_user_wrote: "%{value} wrote:"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: API key
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   field_parent_title: Parent page
   label_issue_watchers: Watchers
   setting_commit_logs_encoding: Commit messages encoding
@@ -781,12 +786,12 @@ uk:
   text_repository_usernames_mapping: "Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   permission_edit_own_messages: Edit own messages
   permission_delete_own_messages: Delete own messages
-  label_user_activity: "{{value}}'s activity"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_user_activity: "%{value}'s activity"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   text_plugin_assets_writable: Plugin assets directory writable
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and continue
   text_custom_field_possible_values_info: 'One line for each value'
   label_display: Display
@@ -801,21 +806,21 @@ uk:
   label_descending: Descending
   label_sort: Sort
   label_ascending: Ascending
-  label_date_from_to: From {{start}} to {{end}}
+  label_date_from_to: From %{start} to %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: This page has {{descendants}} child page(s) and descendant(s). What do you want to do?
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_destroy_children: Delete child pages and all their descendants
   setting_password_min_length: Minimum password length
   field_group_by: Group results by
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   label_wiki_content_added: Wiki page added
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: The '{{id}}' wiki page has been added by {{author}}.
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
   label_wiki_content_updated: Wiki page updated
-  mail_body_wiki_content_updated: The '{{id}}' wiki page has been updated by {{author}}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
   permission_add_project: Create project
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   label_view_all_revisions: View all revisions
@@ -823,14 +828,14 @@ uk:
   label_branch: Branch
   error_no_tracker_in_project: No tracker is associated to this project. Please check the Project settings.
   error_no_default_issue_status: No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").
-  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
   label_group_plural: Groups
   label_group: Group
   label_group_new: New group
   label_time_entry_plural: Spent time
-  text_journal_added: "{{label}} {{value}} added"
+  text_journal_added: "%{label} %{value} added"
   field_active: Active
   enumeration_system_activity: System Activity
   permission_delete_issue_watchers: Delete watchers
@@ -865,9 +870,9 @@ uk:
   setting_start_of_week: Start calendars on
   permission_view_issues: View Issues
   label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_revision_id: Revision {{value}}
+  label_revision_id: Revision %{value}
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created {{value}} ago
+  label_api_access_key_created_on: API access key created %{value} ago
   label_feeds_access_key: RSS access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
@@ -894,12 +899,12 @@ uk:
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_unable_to_connect: Unable to connect ({{value}})
+  error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   field_principal: Principal
   label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
@@ -907,7 +912,7 @@ uk:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -918,8 +923,12 @@ uk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

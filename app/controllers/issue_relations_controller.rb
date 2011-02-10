@@ -28,6 +28,7 @@ class IssueRelationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
       format.js do
+        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
         render :update do |page|
           page.replace_html "relations", :partial => 'issues/relations'
           if @relation.errors.empty?
@@ -47,7 +48,10 @@ class IssueRelationsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js { render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'} }
+      format.js {
+        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+        render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'}
+      }
     end
   end
   

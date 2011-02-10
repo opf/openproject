@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryDarcsTest < ActiveSupport::TestCase
   fixtures :projects
@@ -54,12 +54,14 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
     end
-    
+
     def test_cat
-      @repository.fetch_changesets
-      cat = @repository.cat("sources/welcome_controller.rb", 2)
-      assert_not_nil cat
-      assert cat.include?('class WelcomeController < ApplicationController')
+      if @repository.scm.supports_cat?
+        @repository.fetch_changesets
+        cat = @repository.cat("sources/welcome_controller.rb", 2)
+        assert_not_nil cat
+        assert cat.include?('class WelcomeController < ApplicationController')
+      end
     end
   else
     puts "Darcs test repository NOT FOUND. Skipping unit tests !!!"

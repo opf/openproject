@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'repositories_controller'
 
 # Re-raise errors caught by the controller.
@@ -166,6 +166,20 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
                             }
     end
     
+    def test_invalid_revision
+      get :revision, :id => 1, :rev => 'something_weird'
+      assert_response 404
+      assert_error_tag :content => /was not found/
+    end
+
+    def test_empty_revision
+      ['', ' ', nil].each do |r|
+        get :revision, :id => 1, :rev => r
+        assert_response 404
+        assert_error_tag :content => /was not found/
+      end
+    end
+
     def test_revision_with_repository_pointing_to_a_subdirectory
       r = Project.find(1).repository
       # Changes repository url to a subdirectory
@@ -192,6 +206,8 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :diff, :id => 1, :rev => 3
       assert_response :success
       assert_template 'diff'
+
+      assert_tag :tag => 'h2', :content => /3/
     end
 
     def test_directory_diff
@@ -203,12 +219,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil diff
       # 2 files modified
       assert_equal 2, Redmine::UnifiedDiff.new(diff).size
+
+      assert_tag :tag => 'h2', :content => /2:6/
     end
     
     def test_annotate
       get :annotate, :id => 1, :path => ['subversion_test', 'helloworld.c']
       assert_response :success
       assert_template 'annotate'
+    end
+
+    def test_annotate_at_given_revision
+      get :annotate, :id => 1, :rev => 8, :path => ['subversion_test', 'helloworld.c']
+      assert_response :success
+      assert_template 'annotate'
+      assert_tag :tag => 'h2', :content => /@ 8/
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping functional tests !!!"

@@ -62,4 +62,10 @@ wiki_pages_009:
   wiki_id: 2
   protected: false
   parent_id: 8
-  
+wiki_pages_010: 
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: Этика_менеджмента
+  id: 10
+  wiki_id: 1
+  protected: false
+  parent_id: 

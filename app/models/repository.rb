@@ -86,17 +86,25 @@ class Repository < ActiveRecord::Base
   def diff(path, rev, rev_to)
     scm.diff(path, rev, rev_to)
   end
-  
+
+  def diff_format_revisions(cs, cs_to, sep=':')
+    text = ""
+    text << cs_to.format_identifier + sep if cs_to
+    text << cs.format_identifier if cs
+    text
+  end
+
   # Returns a path relative to the url of the repository
   def relative_path(path)
     path
   end
-  
+
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
+    return nil if name.blank?
     changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name.to_s] : ["revision LIKE ?", name + '%']))
   end
-  
+
   def latest_changeset
     @latest_changeset ||= changesets.find(:first)
   end

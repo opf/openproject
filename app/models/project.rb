@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Project < ActiveRecord::Base
+  include Redmine::SafeAttributes
+  
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
@@ -64,7 +66,7 @@ class Project < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
                 :author => nil
 
-  attr_protected :status, :enabled_module_names
+  attr_protected :status
   
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
@@ -83,6 +85,24 @@ class Project < ActiveRecord::Base
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  
+  def initialize(attributes = nil)
+    super
+    
+    initialized = (attributes || {}).stringify_keys
+    if !initialized.key?('identifier') && Setting.sequential_project_identifiers? 
+      self.identifier = Project.next_identifier
+    end
+    if !initialized.key?('is_public')
+      self.is_public = Setting.default_projects_public?
+    end
+    if !initialized.key?('enabled_module_names')
+      self.enabled_module_names = Setting.default_projects_modules
+    end
+    if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
+      self.trackers = Tracker.all
+    end
+  end
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -431,24 +451,20 @@ class Project < ActiveRecord::Base
 
   # The earliest start date of a project, based on it's issues and versions
   def start_date
-    if module_enabled?(:issue_tracking)
-      [
-       issues.minimum('start_date'),
-       shared_versions.collect(&:effective_date),
-       shared_versions.collect {|v| v.fixed_issues.minimum('start_date')}
-      ].flatten.compact.min
-    end
+    [
+     issues.minimum('start_date'),
+     shared_versions.collect(&:effective_date),
+     shared_versions.collect(&:start_date)
+    ].flatten.compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
-    if module_enabled?(:issue_tracking)
-      [
-       issues.maximum('due_date'),
-       shared_versions.collect(&:effective_date),
-       shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
-      ].flatten.compact.max
-    end
+    [
+     issues.maximum('due_date'),
+     shared_versions.collect(&:effective_date),
+     shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
+    ].flatten.compact.max
   end
 
   def overdue?
@@ -492,7 +508,7 @@ class Project < ActiveRecord::Base
   
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
-      module_names = module_names.collect(&:to_s)
+      module_names = module_names.collect(&:to_s).reject(&:blank?)
       # remove disabled modules
       enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
       # add new modules
@@ -501,7 +517,25 @@ class Project < ActiveRecord::Base
       enabled_modules.clear
     end
   end
+  
+  # Returns an array of the enabled modules names
+  def enabled_module_names
+    enabled_modules.collect(&:name)
+  end
+  
+  safe_attributes 'name',
+    'description',
+    'homepage',
+    'is_public',
+    'identifier',
+    'custom_field_values',
+    'custom_fields',
+    'tracker_ids',
+    'issue_custom_field_ids'
 
+  safe_attributes 'enabled_module_names',
+    :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
+  
   # Returns an array of projects that are in this project's hierarchy
   #
   # Example: parents, children, siblings
@@ -669,12 +703,20 @@ class Project < ActiveRecord::Base
       end
       
       self.issues << new_issue
-      issues_map[issue.id] = new_issue
+      if new_issue.new_record?
+        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+      else
+        issues_map[issue.id] = new_issue unless new_issue.new_record?
+      end
     end
 
     # Relations after in case issues related each other
     project.issues.each do |issue|
       new_issue = issues_map[issue.id]
+      unless new_issue
+        # Issue was not copied
+        next
+      end
       
       # Relations
       issue.relations_from.each do |source_relation|
@@ -701,7 +743,12 @@ class Project < ActiveRecord::Base
 
   # Copies members from +project+
   def copy_members(project)
-    project.memberships.each do |member|
+    # Copy users first, then groups to handle members with inherited and given roles
+    members_to_copy = []
+    members_to_copy += project.memberships.select {|m| m.principal.is_a?(User)}
+    members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
+    
+    members_to_copy.each do |member|
       new_member = Member.new
       new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
       # only copy non inherited roles

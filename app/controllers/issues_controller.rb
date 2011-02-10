@@ -44,6 +44,8 @@ class IssuesController < ApplicationController
   include AttachmentsHelper
   helper :queries
   include QueriesHelper
+  helper :repositories
+  include RepositoriesHelper
   helper :sort
   include SortHelper
   include IssuesHelper
@@ -65,27 +67,29 @@ class IssuesController < ApplicationController
     sort_update(@query.sortable_columns)
     
     if @query.valid?
-      limit = case params[:format]
+      case params[:format]
       when 'csv', 'pdf'
-        Setting.issues_export_limit.to_i
+        @limit = Setting.issues_export_limit.to_i
       when 'atom'
-        Setting.feeds_limit.to_i
+        @limit = Setting.feeds_limit.to_i
+      when 'xml', 'json'
+        @offset, @limit = api_offset_and_limit
       else
-        per_page_option
+        @limit = per_page_option
       end
       
       @issue_count = @query.issue_count
-      @issue_pages = Paginator.new self, @issue_count, limit, params['page']
+      @issue_pages = Paginator.new self, @issue_count, @limit, params['page']
+      @offset ||= @issue_pages.current.offset
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
                               :order => sort_clause, 
-                              :offset => @issue_pages.current.offset, 
-                              :limit => limit)
+                              :offset => @offset, 
+                              :limit => @limit)
       @issue_count_by_group = @query.issue_count_by_group
       
       respond_to do |format|
         format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
-        format.xml  { render :layout => false }
-        format.json { render :text => @issues.to_json, :layout => false }
+        format.api
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -104,14 +108,14 @@ class IssuesController < ApplicationController
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+    @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml' }
-      format.xml  { render :layout => false }
-      format.json { render :text => @issue.to_json, :layout => false }
+      format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -138,15 +142,13 @@ class IssuesController < ApplicationController
           redirect_to(params[:continue] ?  { :action => 'new', :project_id => @project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
                       { :action => 'show', :id => @issue })
         }
-        format.xml  { render :action => 'show', :status => :created, :location => url_for(:controller => 'issues', :action => 'show', :id => @issue) }
-        format.json { render :text => @issue.to_json, :status => :created, :location => url_for(:controller => 'issues', :action => 'show'), :layout => false }
+        format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
       return
     else
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity); return }
-        format.json { render :text => object_errors_to_json(@issue), :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -171,8 +173,7 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
-        format.xml  { head :ok }
-        format.json  { head :ok }
+        format.api  { head :ok }
       end
     else
       render_attachment_warning_if_needed(@issue)
@@ -181,8 +182,7 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.xml  { render :xml => @issue.errors, :status => :unprocessable_entity }
-        format.json { render :text => object_errors_to_json(@issue), :status => :unprocessable_entity, :layout => false }
+        format.api  { render_validation_errors(@issue) }
       end
     end
   end
@@ -232,17 +232,14 @@ class IssuesController < ApplicationController
           TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
         end
       else
-        unless params[:format] == 'xml' || params[:format] == 'json'
-          # display the destroy form if it's a user request
-          return
-        end
+        # display the destroy form if it's a user request
+        return unless api_request?
       end
     end
     @issues.each(&:destroy)
     respond_to do |format|
       format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
-      format.xml  { head :ok }
-      format.json  { head :ok }
+      format.api  { head :ok }
     end
   end
 

@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require "#{File.dirname(__FILE__)}/../test_helper"
+require File.expand_path('../../test_helper', __FILE__)
 
 class AdminTest < ActionController::IntegrationTest
   fixtures :all
@@ -25,7 +25,7 @@ class AdminTest < ActionController::IntegrationTest
     get "/users/new"
     assert_response :success
     assert_template "users/new"
-    post "/users/create", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.foo", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
+    post "/users/create", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.foo", :language => "en", :password => "psmith09", :password_confirmation => "psmith09" }
     
     user = User.find_by_login("psmith")
     assert_kind_of User, user

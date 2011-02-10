@@ -29,6 +29,11 @@ class News < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [:project, :author]},
                             :author_key => :author_id
   
+  named_scope :visible, lambda {|*args| { 
+    :include => :project,
+    :conditions => Project.allowed_to_condition(args.first || User.current, :view_news) 
+  }}
+  
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)
   end

@@ -19,7 +19,7 @@
     <tr class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
       <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>
       <td class="revision">
-      <%= (revision.identifier ? link_to(format_revision(revision.identifier), :action => 'revision', :id => @project, :rev => revision.identifier) : format_revision(revision.revision)) if revision %></td>
+      <%= (revision.identifier ? link_to_revision(revision, @project) : format_revision(revision)) if revision %></td>
       <td class="author"><%= h(revision.author.to_s.split('<').first) if revision %></td>
       <td class="line-code"><pre><%= line %></pre></td>
     </tr>

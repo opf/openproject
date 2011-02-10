@@ -86,8 +86,18 @@ module I18n
     module Base
       def warn_syntax_deprecation!(*args)
         return if @skip_syntax_deprecation
-        warn "The {{key}} interpolation syntax in I18n messages is deprecated. Please use %{key} instead.\nDowngrade your i18n gem to 0.3.7 (everything above must be deinstalled) to remove this warning, see http://www.redmine.org/issues/5608 for more information."
+        warn "The {{key}} interpolation syntax in I18n messages is deprecated and will be removed in Redmine 1.2. Please use %{key} instead, see http://www.redmine.org/issues/7013 for more information."
         @skip_syntax_deprecation = true
+      end
+    end
+  end
+end
+
+module ActionController
+  module MimeResponds
+    class Responder
+      def api(&block)
+        any(:xml, :json, &block)
       end
     end
   end

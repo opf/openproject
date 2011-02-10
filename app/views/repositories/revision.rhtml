@@ -1,25 +1,25 @@
 <div class="contextual">
   &#171;
   <% unless @changeset.previous.nil? -%>
-    <%= link_to_revision(@changeset.previous.revision, @project, :text => l(:label_previous)) %>
+    <%= link_to_revision(@changeset.previous, @project, :text => l(:label_previous)) %>
   <% else -%>
     <%= l(:label_previous) %>
   <% end -%>
 |
   <% unless @changeset.next.nil? -%>
-    <%= link_to_revision(@changeset.next.revision, @project, :text => l(:label_next)) %>
+    <%= link_to_revision(@changeset.next, @project, :text => l(:label_next)) %>
   <% else -%>
     <%= l(:label_next) %>
   <% end -%>
   &#187;&nbsp;
 
   <% form_tag({:controller => 'repositories', :action => 'revision', :id => @project, :rev => nil}, :method => :get) do %>
-    <%= text_field_tag 'rev', @rev[0,8], :size => 8 %>
+    <%= text_field_tag 'rev', @rev, :size => 8 %>
     <%= submit_tag 'OK', :name => nil %>
   <% end %>
 </div>
 
-<h2><%= l(:label_revision) %> <%= format_revision(@changeset.revision) %></h2>
+<h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
 
 <p><% if @changeset.scmid %>ID: <%= @changeset.scmid %><br /><% end %>
 <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
@@ -45,7 +45,7 @@
 <li class="change change-D"><%= l(:label_deleted) %></li>
 </ul>
 
-<p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.revision) if @changeset.changes.any? %></p>
+<p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.identifier) if @changeset.changes.any? %></p>
 
 <div class="changeset-changes">
 <%= render_changeset_changes %>
@@ -56,4 +56,4 @@
 <%= stylesheet_link_tag "scm" %>
 <% end %>
 
-<% html_title("#{l(:label_revision)} #{@changeset.revision}") -%>
+<% html_title("#{l(:label_revision)} #{format_revision(@changeset)}") -%>

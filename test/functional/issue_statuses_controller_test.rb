@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'issue_statuses_controller'
 
 # Re-raise errors caught by the controller.

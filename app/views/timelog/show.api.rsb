@@ -1,0 +1,12 @@
+api.time_entry do
+  api.id @time_entry.id
+  api.project(:id => @time_entry.project_id, :name => @time_entry.project.name) unless @time_entry.project.nil?
+  api.issue(:id => @time_entry.issue_id) unless @time_entry.issue.nil?
+  api.user(:id => @time_entry.user_id, :name => @time_entry.user.name) unless @time_entry.user.nil?
+  api.activity(:id => @time_entry.activity_id, :name => @time_entry.activity.name) unless @time_entry.activity.nil?
+  api.hours @time_entry.hours
+  api.comments @time_entry.comments
+  api.spent_on @time_entry.spent_on
+  api.created_on @time_entry.created_on
+  api.updated_on @time_entry.updated_on
+end

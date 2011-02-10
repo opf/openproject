@@ -84,14 +84,15 @@ class IssueRelation < ActiveRecord::Base
   
   def set_issue_to_dates
     soonest_start = self.successor_soonest_start
-    if soonest_start
+    if soonest_start && issue_to
       issue_to.reschedule_after(soonest_start)
     end
   end
   
   def successor_soonest_start
-    return nil unless (TYPE_PRECEDES == self.relation_type) && (issue_from.start_date || issue_from.due_date)
-    (issue_from.due_date || issue_from.start_date) + 1 + delay
+    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from && (issue_from.start_date || issue_from.due_date)
+      (issue_from.due_date || issue_from.start_date) + 1 + delay
+    end
   end
   
   def <=>(relation)

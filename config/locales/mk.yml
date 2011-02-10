@@ -33,37 +33,37 @@ mk:
       half_a_minute: "пола минута"
       less_than_x_seconds:
         one:   "помалку од 1 секунда"
-        other: "помалку од {{count}} секунди"
+        other: "помалку од %{count} секунди"
       x_seconds:
         one:   "1 секунда"
-        other: "{{count}} секунди"
+        other: "%{count} секунди"
       less_than_x_minutes:
         one:   "помалку од 1 минута"
-        other: "помалку од {{count}} минути"
+        other: "помалку од %{count} минути"
       x_minutes:
         one:   "1 минута"
-        other: "{{count}} минути"
+        other: "%{count} минути"
       about_x_hours:
         one:   "околу 1 час"
-        other: "околу {{count}} часа"
+        other: "околу %{count} часа"
       x_days:
         one:   "1 ден"
-        other: "{{count}} дена"
+        other: "%{count} дена"
       about_x_months:
         one:   "околу 1 месец"
-        other: "околу {{count}} месеци"
+        other: "околу %{count} месеци"
       x_months:
         one:   "1 месец"
-        other: "{{count}} месеци"
+        other: "%{count} месеци"
       about_x_years:
         one:   "околу 1 година"
-        other: "околу {{count}} години"
+        other: "околу %{count} години"
       over_x_years:
         one:   "преку 1 година"
-        other: "преку {{count}} години"
+        other: "преку %{count} години"
       almost_x_years:
         one:   "скоро 1 година"
-        other: "скоро {{count}} години"
+        other: "скоро %{count} години"
 
   number:
     # Default format for numbers
@@ -95,6 +95,10 @@ mk:
 
   activerecord:
     errors:
+      template:
+        header:
+          one:    "1 error prohibited this %{model} from being saved"
+          other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
         inclusion: "не е вклучено во листата"
         exclusion: "е резервирано"
@@ -103,17 +107,17 @@ mk:
         accepted: "мора да е прифатено"
         empty: "неможе да е празно"
         blank: "неможе да е празно"
-        too_long: "е предолго (макс. {{count}} знаци)"
-        too_short: "е прекратко (мин. {{count}} знаци)"
-        wrong_length: "е погрешна должина (треба да е  {{count}} знаци)"
+        too_long: "е предолго (макс. %{count} знаци)"
+        too_short: "е прекратко (мин. %{count} знаци)"
+        wrong_length: "е погрешна должина (треба да е  %{count} знаци)"
         taken: "е веќе зафатено"
         not_a_number: "не е број"
         not_a_date: "не е валидна дата"
-        greater_than: "мора да е поголемо од {{count}}"
-        greater_than_or_equal_to: "мора да е поголемо или еднакво на {{count}}"
-        equal_to: "мора да е еднакво на {{count}}"
-        less_than: "мора да е помало од {{count}}"
-        less_than_or_equal_to: "мора да е помало или еднакво на {{count}}"
+        greater_than: "мора да е поголемо од %{count}"
+        greater_than_or_equal_to: "мора да е поголемо или еднакво на %{count}"
+        equal_to: "мора да е еднакво на %{count}"
+        less_than: "мора да е помало од %{count}"
+        less_than_or_equal_to: "мора да е помало или еднакво на %{count}"
         odd: "мора да е непарно"
         even: "мора да е парно"
         greater_than_start_date: "мора да е поголема од почетната дата"
@@ -150,12 +154,12 @@ mk:
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorized to access this page.
-  notice_email_sent: "Е-порака е пратена на {{value}}"
-  notice_email_error: "Се случи грешка при праќање на е-пораката ({{value}})"
+  notice_email_sent: "Е-порака е пратена на %{value}"
+  notice_email_error: "Се случи грешка при праќање на е-пораката (%{value})"
   notice_feeds_access_key_reseted: Вашиот RSS клуч за пристап е reset.
   notice_api_access_key_reseted: Вашиот API клуч за пристап е reset.
-  notice_failed_to_save_issues: "Failed to save {{count}} issue(s) on {{total}} selected: {{ids}}."
-  notice_failed_to_save_members: "Failed to save member(s): {{errors}}."
+  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
@@ -163,9 +167,9 @@ mk:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
 
-  error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
+  error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
-  error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
+  error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
@@ -179,26 +183,26 @@ mk:
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   error_unable_delete_issue_status: 'Unable to delete issue status'
-  error_unable_to_connect: "Unable to connect ({{value}})"
-  warning_attachments_not_saved: "{{count}} file(s) could not be saved."
+  error_unable_to_connect: "Unable to connect (%{value})"
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
-  mail_subject_lost_password: "Вашата {{value}} лозинка"
+  mail_subject_lost_password: "Вашата %{value} лозинка"
   mail_body_lost_password: 'To change your password, click on the following link:'
-  mail_subject_register: "Your {{value}} account activation"
+  mail_subject_register: "Your %{value} account activation"
   mail_body_register: 'To activate your account, click on the following link:'
-  mail_body_account_information_external: "You can use your {{value}} account to log in."
+  mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_account_information: Your account information
-  mail_subject_account_activation_request: "{{value}} account activation request"
-  mail_body_account_activation_request: "Нов корисник ({{value}}) е регистриран. The account is pending your approval:"
-  mail_subject_reminder: "{{count}} issue(s) due in the next {{days}} days"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
-  mail_subject_wiki_content_added: "'{{id}}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{{id}}' wiki page has been added by {{author}}."
-  mail_subject_wiki_content_updated: "'{{id}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{id}}' wiki page has been updated by {{author}}."
+  mail_subject_account_activation_request: "%{value} account activation request"
+  mail_body_account_activation_request: "Нов корисник (%{value}) е регистриран. The account is pending your approval:"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
 
   gui_validation_error: 1 грешка
-  gui_validation_error_plural: "{{count}} грешки"
+  gui_validation_error_plural: "%{count} грешки"
 
   field_name: Име
   field_description: Опис
@@ -261,6 +265,7 @@ mk:
   field_attr_lastname: Lastname attribute
   field_attr_mail: Email attribute
   field_onthefly: Моментално (On-the-fly) креирање на корисници
+  field_start_date: Почеток
   field_done_ratio: % Завршено
   field_auth_source: Режим на автентикација
   field_hide_mail: Криј ја мојата адреса на е-пошта
@@ -424,14 +429,14 @@ mk:
   label_x_projects:
     zero:  нема проекти
     one:   1 проект
-    other: "{{count}} проекти"
+    other: "%{count} проекти"
   label_project_all: Сите проекти
   label_project_latest: Последните проекти
   label_issue: Задача
   label_issue_new: Нова задача
   label_issue_plural: Задачи
   label_issue_view_all: Прегледај ги сите задачи
-  label_issues_by: "Задачи по {{value}}"
+  label_issues_by: "Задачи по %{value}"
   label_issue_added: Задачата е додадена
   label_issue_updated: Задачата е ажурирана
   label_document: Документ
@@ -481,7 +486,7 @@ mk:
   label_registered_on: Регистриран на
   label_activity: Активност
   label_overall_activity: Севкупна активност
-  label_user_activity: "Активност на {{value}}"
+  label_user_activity: "Активност на %{value}"
   label_new: Нова
   label_logged_as: Најавени сте како
   label_environment: Опкружување
@@ -491,7 +496,7 @@ mk:
   label_auth_source_plural: Режими на автентикација
   label_subproject_plural: Подпроекти
   label_subproject_new: Нов подпроект
-  label_and_its_subprojects: "{{value}} и неговите подпроекти"
+  label_and_its_subprojects: "%{value} и неговите подпроекти"
   label_min_max_length: Мин. - Макс. должина
   label_list: Листа
   label_date: Дата
@@ -502,8 +507,8 @@ mk:
   label_text: Долг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "{{count}} превземање"
-  label_download_plural: "{{count}} превземања"
+  label_download: "%{count} превземање"
+  label_download_plural: "%{count} превземања"
   label_no_data: Нема податоци за прикажување
   label_change_status: Промени статус
   label_history: Историја
@@ -535,17 +540,17 @@ mk:
   label_closed_issues: затворена
   label_closed_issues_plural: затворени
   label_x_open_issues_abbr_on_total:
-    zero:  0 отворени / {{total}}
-    one:   1 отворена / {{total}}
-    other: "{{count}} отворени / {{total}}"
+    zero:  0 отворени / %{total}
+    one:   1 отворена / %{total}
+    other: "%{count} отворени / %{total}"
   label_x_open_issues_abbr:
     zero:  0 отворени
     one:   1 отворена
-    other: "{{count}} отворени"
+    other: "%{count} отворени"
   label_x_closed_issues_abbr:
     zero:  0 затворени
     one:   1 затворена
-    other: "{{count}} затворени"
+    other: "%{count} затворени"
   label_total: Вкупно
   label_permissions: Овластувања
   label_current_status: Моментален статус
@@ -563,7 +568,7 @@ mk:
   label_months_from: месеци од
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "последни {{count}} промени"
+  label_last_changes: "последни %{count} промени"
   label_change_view_all: Прегледај ги сите промени
   label_personalize_page: Прилагоди ја странава
   label_comment: Коментар
@@ -571,7 +576,7 @@ mk:
   label_x_comments:
     zero: нема коментари
     one: 1 коментар
-    other: "{{count}} коментари"
+    other: "%{count} коментари"
   label_comment_add: Додади коментар
   label_comment_added: Коментарот е додаден
   label_comment_delete: Избриши коментари
@@ -592,7 +597,7 @@ mk:
   label_yesterday: вчера
   label_this_week: оваа недела
   label_last_week: минатата недела
-  label_last_n_days: "последните {{count}} дена"
+  label_last_n_days: "последните %{count} дена"
   label_this_month: овој месец
   label_last_month: минатиот месец
   label_this_year: оваа година
@@ -606,13 +611,13 @@ mk:
   label_repository: Складиште
   label_repository_plural: Складишта
   label_browse: Прелистувај
-  label_modification: "{{count}} промени"
-  label_modification_plural: "{{count}} промени"
+  label_modification: "%{count} промени"
+  label_modification_plural: "%{count} промени"
   label_branch: Гранка
   label_tag: Tag
   label_revision: Ревизија
   label_revision_plural: Ревизии
-  label_revision_id: "Ревизија {{value}}"
+  label_revision_id: "Ревизија %{value}"
   label_associated_revisions: Associated revisions
   label_added: added
   label_modified: modified
@@ -629,8 +634,8 @@ mk:
   label_sort_lower: Премести надоле
   label_sort_lowest: Премести најдоле
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Due in {{value}}"
-  label_roadmap_overdue: "Касни {{value}}"
+  label_roadmap_due_in: "Due in %{value}"
+  label_roadmap_overdue: "Касни %{value}"
   label_roadmap_no_issues: Нема задачи за оваа верзија
   label_search: Барај
   label_result_plural: Резултати
@@ -649,8 +654,8 @@ mk:
   label_issue_tracking: Следење на задачи
   label_spent_time: Потрошено време
   label_overall_spent_time: Вкупно потрошено време
-  label_f_hour: "{{value}} час"
-  label_f_hour_plural: "{{value}} часа"
+  label_f_hour: "%{value} час"
+  label_f_hour_plural: "%{value} часа"
   label_time_tracking: Следење на време
   label_change_plural: Промени
   label_statistics: Статистики
@@ -701,15 +706,15 @@ mk:
   label_date_from: Од
   label_date_to: До
   label_language_based: Според јазикот на корисникот
-  label_sort_by: "Подреди според {{value}}"
+  label_sort_by: "Подреди според %{value}"
   label_send_test_email: Испрати тест е-порака
   label_feeds_access_key: RSS клуч за пристап
   label_missing_feeds_access_key: Недостика RSS клуч за пристап
-  label_feeds_access_key_created_on: "RSS клучот за пристап креиран пред {{value}}"
+  label_feeds_access_key_created_on: "RSS клучот за пристап креиран пред %{value}"
   label_module_plural: Модули
-  label_added_time_by: "Додадено од {{author}} пред {{age}}"
-  label_updated_time_by: "Ажурирано од {{author}} пред {{age}}"
-  label_updated_time: "Ажурирано пред {{value}}"
+  label_added_time_by: "Додадено од %{author} пред %{age}"
+  label_updated_time_by: "Ажурирано од %{author} пред %{age}"
+  label_updated_time: "Ажурирано пред %{value}"
   label_jump_to_a_project: Префрли се на проект...
   label_file_plural: Датотеки
   label_changeset_plural: Changesets
@@ -725,7 +730,7 @@ mk:
   label_registration_activation_by_email: активација на профил преку е-пошта
   label_registration_manual_activation: мануелна активација на профил
   label_registration_automatic_activation: автоматска активација на профил
-  label_display_per_page: "По страна: {{value}}"
+  label_display_per_page: "По страна: %{value}"
   label_age: Age
   label_change_properties: Change properties
   label_general: Општо
@@ -748,7 +753,7 @@ mk:
   label_sort: Подреди
   label_ascending: Растечки
   label_descending: Опаѓачки
-  label_date_from_to: Од {{start}} до {{end}}
+  label_date_from_to: Од %{start} до %{end}
   label_wiki_content_added: Вики страница додадена
   label_wiki_content_updated: Вики страница ажурирана
   label_group: Група
@@ -767,7 +772,7 @@ mk:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_api_access_key: API клуч за пристап
   label_missing_api_access_key: Недостига API клуч за пристап
-  label_api_access_key_created_on: "API клучот за пристап е креиран пред {{value}}"
+  label_api_access_key_created_on: "API клучот за пристап е креиран пред %{value}"
   label_profile: Профил
   label_subtask_plural: Подзадачи
   label_project_copy_notifications: Праќај известувања по е-пошта при копирање на проект
@@ -830,53 +835,53 @@ mk:
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 значи без ограничување
   text_project_destroy_confirmation: Дали сте сигурни дека сакате да го избришете проектот и сите поврзани податоци?
-  text_subprojects_destroy_warning: "Неговите подпроекти: {{value}} исто така ќе бидат избришани."
+  text_subprojects_destroy_warning: "Неговите подпроекти: %{value} исто така ќе бидат избришани."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Дали сте сигурни?
-  text_journal_changed: "{{label}} променето од {{old}} во {{new}}"
-  text_journal_set_to: "{{label}} set to {{value}}"
-  text_journal_deleted: "{{label}} избришан ({{old}})"
-  text_journal_added: "{{label}} {{value}} додаден"
+  text_journal_changed: "%{label} променето од %{old} во %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} избришан (%{old})"
+  text_journal_added: "%{label} %{value} додаден"
   text_tip_issue_begin_day: задачи што почнуваат овој ден
   text_tip_issue_end_day: задачи што завршуваат овој ден
   text_tip_issue_begin_end_day: задачи што почнуваат и завршуваат овој ден
   text_project_identifier_info: 'Само мали букви (a-z), бројки и dashes се дозволени<br />По зачувувањето, идентификаторот неможе да се смени.'
-  text_caracters_maximum: "{{count}} знаци максимум."
-  text_caracters_minimum: "Мора да е најмалку {{count}} знаци долго."
-  text_length_between: "Должина помеѓу {{min}} и {{max}} знаци."
+  text_caracters_maximum: "%{count} знаци максимум."
+  text_caracters_minimum: "Мора да е најмалку %{count} знаци долго."
+  text_length_between: "Должина помеѓу %{min} и %{max} знаци."
   text_tracker_no_workflow: No workflow defined for this tracker
   text_unallowed_characters: Недозволени знаци
   text_comma_separated: Дозволени се повеќе вредности (разделени со запирка).
   text_line_separated: Дозволени се повеќе вредности (една линија за секоја вредност).
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Задачата {{id}} е пријавена од {{author}}."
-  text_issue_updated: "Задачата {{id}} е ажурирана од {{author}}."
+  text_issue_added: "Задачата %{id} е пријавена од %{author}."
+  text_issue_updated: "Задачата %{id} е ажурирана од %{author}."
   text_wiki_destroy_confirmation: Дали сте сигурни дека сакате да го избришете ова вики и целата негова содржина?
-  text_issue_category_destroy_question: "Некои задачи ({{count}}) се доделени на оваа категорија. Што сакате да правите?"
+  text_issue_category_destroy_question: "Некои задачи (%{count}) се доделени на оваа категорија. Што сакате да правите?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Додели ги задачите на оваа категорија
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Дали сте сигурни дека сакате да ги избришете избраните задачи?'
   text_select_project_modules: 'Изберете модули за овој проект:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Во папката за прилози може да се запишува
   text_plugin_assets_writable: Во папката за додатоци може да се запишува
   text_rmagick_available: RMagick available (незадолжително)
-  text_destroy_time_entries_question: "{{hours}} hours were reported on the issues you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Додели ги пријавените часови на проектот
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
-  text_user_wrote: "{{value}} напиша:"
-  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_user_wrote: "%{value} напиша:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_email_delivery_not_configured: "Доставата по е-пошта не е конфигурирана, и известувањата се оневозможени.\nКонфигурирајте го Вашиот  SMTP сервер во config/email.yml и рестартирајте ја апликацијата."
+  text_email_delivery_not_configured: "Доставата по е-пошта не е конфигурирана, и известувањата се оневозможени.\nКонфигурирајте го Вашиот  SMTP сервер во config/configuration.yml и рестартирајте ја апликацијата."
   text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   text_custom_field_possible_values_info: 'One line for each value'
-  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
@@ -911,7 +916,7 @@ mk:
   enumeration_activities: Активности (следење на време)
   enumeration_system_activity: Системска активност
 
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -922,8 +927,12 @@ mk:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

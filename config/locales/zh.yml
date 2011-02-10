@@ -29,37 +29,37 @@ zh:
       half_a_minute: "半分钟"
       less_than_x_seconds:
         one: "一秒内"
-        other: "少于 {{count}} 秒"
+        other: "少于 %{count} 秒"
       x_seconds:
         one: "一秒"
-        other: "{{count}} 秒"
+        other: "%{count} 秒"
       less_than_x_minutes:
         one: "一分钟内"
-        other: "少于 {{count}} 分钟"
+        other: "少于 %{count} 分钟"
       x_minutes:
         one: "一分钟"
-        other: "{{count}} 分钟"
+        other: "%{count} 分钟"
       about_x_hours:
         one: "大约一小时"
-        other: "大约 {{count}} 小时"
+        other: "大约 %{count} 小时"
       x_days:
         one: "一天"
-        other: "{{count}} 天"
+        other: "%{count} 天"
       about_x_months:
         one: "大约一个月"
-        other: "大约 {{count}} 个月"
+        other: "大约 %{count} 个月"
       x_months:
         one: "一个月"
-        other: "{{count}} 个月"
+        other: "%{count} 个月"
       about_x_years:
         one: "大约一年"
-        other: "大约 {{count}} 年"
+        other: "大约 %{count} 年"
       over_x_years:
         one: "一年以上"
-        other: "{{count}} 年以上"
+        other: "%{count} 年以上"
       almost_x_years:
         one:   "将近 1 年"
-        other: "将近 {{count}} 年"
+        other: "将近 %{count} 年"
     prompts:
       year:   "年"
       month:  "月"
@@ -111,8 +111,8 @@ zh:
     errors:
       template:
         header: 
-          one: "有 1 个错误发生导致「{{model}}」无法被保存。"
-          other: "有 {{count}} 个错误发生导致「{{model}}」无法被保存。"
+          one: "有 1 个错误发生导致「%{model}」无法被保存。"
+          other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
         body: "如下字段出现错误："
       messages:
         inclusion: "不包含于列表中"
@@ -122,16 +122,16 @@ zh:
         accepted: "必须是可被接受的"
         empty: "不能留空"
         blank: "不能为空字符"
-        too_long: "过长（最长为 {{count}} 个字符）"
-        too_short: "过短（最短为 {{count}} 个字符）"
-        wrong_length: "长度非法（必须为 {{count}} 个字符）"
+        too_long: "过长（最长为 %{count} 个字符）"
+        too_short: "过短（最短为 %{count} 个字符）"
+        wrong_length: "长度非法（必须为 %{count} 个字符）"
         taken: "已经被使用"
         not_a_number: "不是数字"
-        greater_than: "必须大于 {{count}}"
-        greater_than_or_equal_to: "必须大于或等于 {{count}}"
-        equal_to: "必须等于 {{count}}"
-        less_than: "必须小于 {{count}}"
-        less_than_or_equal_to: "必须小于或等于 {{count}}"
+        greater_than: "必须大于 %{count}"
+        greater_than_or_equal_to: "必须大于或等于 %{count}"
+        equal_to: "必须等于 %{count}"
+        less_than: "必须小于 %{count}"
+        less_than_or_equal_to: "必须小于或等于 %{count}"
         odd: "必须为单数"
         even: "必须为双数"
         greater_than_start_date: "必须在起始日期之后"
@@ -168,20 +168,20 @@ zh:
   notice_file_not_found: 您访问的页面不存在或已被删除。
   notice_locking_conflict: 数据已被另一位用户更新
   notice_not_authorized: 对不起，您无权访问此页面。
-  notice_email_sent: "邮件已成功发送到 {{value}}"
-  notice_email_error: "发送邮件时发生错误 ({{value}})"
+  notice_email_sent: "邮件已成功发送到 %{value}"
+  notice_email_error: "发送邮件时发生错误 (%{value})"
   notice_feeds_access_key_reseted: 您的RSS存取键已被重置。
   notice_api_access_key_reseted: 您的API访问键已被重置。
-  notice_failed_to_save_issues: "{{count}} 个问题保存失败（共选择 {{total}} 个问题）：{{ids}}."
+  notice_failed_to_save_issues: "%{count} 个问题保存失败（共选择 %{total} 个问题）：%{ids}."
   notice_no_issue_selected: "未选择任何问题！请选择您要编辑的问题。"
   notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
   notice_default_data_loaded: 成功载入默认设置。
   notice_unable_delete_version: 无法删除版本
   notice_issue_done_ratios_updated: 问题完成度已更新。
 
-  error_can_t_load_default_data: "无法载入默认设置：{{value}}"
+  error_can_t_load_default_data: "无法载入默认设置：%{value}"
   error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
-  error_scm_command_failed: "访问版本库时发生错误：{{value}}"
+  error_scm_command_failed: "访问版本库时发生错误：%{value}"
   error_scm_annotate: "该条目不存在或无法追溯。"
   error_issue_not_found_in_project: '问题不存在或不属于此项目'
   error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
@@ -192,25 +192,25 @@ zh:
   error_workflow_copy_source: 请选择一个源跟踪标签或者角色
   error_workflow_copy_target: 请选择目标跟踪标签和角色
 
-  warning_attachments_not_saved: "{{count}} 个文件保存失败。"
+  warning_attachments_not_saved: "%{count} 个文件保存失败。"
   
-  mail_subject_lost_password: "您的 {{value}} 密码"
+  mail_subject_lost_password: "您的 %{value} 密码"
   mail_body_lost_password: '请点击以下链接来修改您的密码：'
-  mail_subject_register: "{{value}}帐号激活"
+  mail_subject_register: "%{value}帐号激活"
   mail_body_register: '请点击以下链接来激活您的帐号：'
-  mail_body_account_information_external: "您可以使用您的 {{value}} 帐号来登录。"
+  mail_body_account_information_external: "您可以使用您的 %{value} 帐号来登录。"
   mail_body_account_information: 您的帐号信息
-  mail_subject_account_activation_request: "{{value}}帐号激活请求"
-  mail_body_account_activation_request: "新用户（{{value}}）已完成注册，正在等候您的审核："
-  mail_subject_reminder: "{{count}} 个问题需要尽快解决 ({{days}})"
-  mail_body_reminder: "指派给您的 {{count}} 个问题需要在 {{days}} 天内完成："
-  mail_subject_wiki_content_added: "'{{id}}' wiki页面已添加"
-  mail_body_wiki_content_added: "'{{id}}' wiki页面已由 {{author}} 添加。"
-  mail_subject_wiki_content_updated: "'{{id}}' wiki页面已更新"
-  mail_body_wiki_content_updated: "'{{id}}' wiki页面已由 {{author}} 更新。"
+  mail_subject_account_activation_request: "%{value}帐号激活请求"
+  mail_body_account_activation_request: "新用户（%{value}）已完成注册，正在等候您的审核："
+  mail_subject_reminder: "%{count} 个问题需要尽快解决 (%{days})"
+  mail_body_reminder: "指派给您的 %{count} 个问题需要在 %{days} 天内完成："
+  mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
+  mail_body_wiki_content_added: "'%{id}' wiki页面已由 %{author} 添加。"
+  mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
+  mail_body_wiki_content_updated: "'%{id}' wiki页面已由 %{author} 更新。"
 
   gui_validation_error: 1 个错误
-  gui_validation_error_plural: "{{count}} 个错误"
+  gui_validation_error_plural: "%{count} 个错误"
   
   field_name: 名称
   field_description: 描述
@@ -272,6 +272,7 @@ zh:
   field_attr_lastname: 姓氏属性
   field_attr_mail: 邮件属性
   field_onthefly: 即时用户生成
+  field_start_date: 开始
   field_done_ratio: 完成度
   field_auth_source: 认证模式
   field_hide_mail: 隐藏我的邮件地址
@@ -427,14 +428,14 @@ zh:
   label_x_projects:
     zero:  无项目
     one:   1 个项目
-    other: "{{count}} 个项目"
+    other: "%{count} 个项目"
   label_project_all: 所有的项目
   label_project_latest: 最近的项目
   label_issue: 问题
   label_issue_new: 新建问题
   label_issue_plural: 问题
   label_issue_view_all: 查看所有问题
-  label_issues_by: "按 {{value}} 分组显示问题"
+  label_issues_by: "按 %{value} 分组显示问题"
   label_issue_added: 问题已添加
   label_issue_updated: 问题已更新
   label_document: 文档
@@ -483,7 +484,7 @@ zh:
   label_registered_on: 注册于
   label_activity: 活动
   label_overall_activity: 全部活动
-  label_user_activity: "{{value}} 的活动"
+  label_user_activity: "%{value} 的活动"
   label_new: 新建
   label_logged_as: 登录为
   label_environment: 环境
@@ -493,7 +494,7 @@ zh:
   label_auth_source_plural: 认证模式
   label_subproject_plural: 子项目
   label_subproject_new: 新建子项目
-  label_and_its_subprojects: "{{value}} 及其子项目"
+  label_and_its_subprojects: "%{value} 及其子项目"
   label_min_max_length: 最小 - 最大 长度
   label_list: 列表
   label_date: 日期
@@ -504,8 +505,8 @@ zh:
   label_text: 文本
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "{{count}} 次下载"
-  label_download_plural: "{{count}} 次下载"
+  label_download: "%{count} 次下载"
+  label_download_plural: "%{count} 次下载"
   label_no_data: 没有任何数据可供显示
   label_change_status: 变更状态
   label_history: 历史记录
@@ -537,17 +538,17 @@ zh:
   label_closed_issues: 已关闭
   label_closed_issues_plural: 已关闭
   label_x_open_issues_abbr_on_total:
-    zero:  0 打开 / {{total}}
-    one:   1 打开 / {{total}}
-    other: "{{count}} 打开 / {{total}}"
+    zero:  0 打开 / %{total}
+    one:   1 打开 / %{total}
+    other: "%{count} 打开 / %{total}"
   label_x_open_issues_abbr:
     zero:  0 打开
     one:   1 打开
-    other: "{{count}} 打开"
+    other: "%{count} 打开"
   label_x_closed_issues_abbr:
     zero:  0 关闭
     one:   1 关闭
-    other: "{{count}} 关闭"
+    other: "%{count} 关闭"
   label_total: 合计
   label_permissions: 权限
   label_current_status: 当前状态
@@ -565,7 +566,7 @@ zh:
   label_months_from: 个月以来
   label_gantt: 甘特图
   label_internal: 内部
-  label_last_changes: "最近的 {{count}} 次变更"
+  label_last_changes: "最近的 %{count} 次变更"
   label_change_view_all: 查看所有变更
   label_personalize_page: 个性化定制本页
   label_comment: 评论
@@ -573,7 +574,7 @@ zh:
   label_x_comments:
     zero: 无评论
     one: 1 条评论
-    other: "{{count}} 条评论"
+    other: "%{count} 条评论"
   label_comment_add: 添加评论
   label_comment_added: 评论已添加
   label_comment_delete: 删除评论
@@ -594,7 +595,7 @@ zh:
   label_yesterday: 昨天
   label_this_week: 本周
   label_last_week: 上周
-  label_last_n_days: "最后 {{count}} 天"
+  label_last_n_days: "最后 %{count} 天"
   label_this_month: 本月
   label_last_month: 上月
   label_this_year: 今年
@@ -608,13 +609,13 @@ zh:
   label_repository: 版本库
   label_repository_plural: 版本库
   label_browse: 浏览
-  label_modification: "{{count}} 个更新"
-  label_modification_plural: "{{count}} 个更新"
+  label_modification: "%{count} 个更新"
+  label_modification_plural: "%{count} 个更新"
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订
   label_revision_plural: 修订
-  label_revision_id: 修订 {{value}}
+  label_revision_id: 修订 %{value}
   label_associated_revisions: 相关修订版本
   label_added: 已添加
   label_modified: 已修改
@@ -631,8 +632,8 @@ zh:
   label_sort_lower: 下移
   label_sort_lowest: 置底
   label_roadmap: 路线图
-  label_roadmap_due_in: "截止日期到  {{value}}"
-  label_roadmap_overdue: "{{value}} 延期"
+  label_roadmap_due_in: "截止日期到  %{value}"
+  label_roadmap_overdue: "%{value} 延期"
   label_roadmap_no_issues: 该版本没有问题
   label_search: 搜索
   label_result_plural: 结果
@@ -650,8 +651,8 @@ zh:
   label_changes_details: 所有变更的详情
   label_issue_tracking: 问题跟踪
   label_spent_time: 耗时
-  label_f_hour: "{{value}} 小时"
-  label_f_hour_plural: "{{value}} 小时"
+  label_f_hour: "%{value} 小时"
+  label_f_hour_plural: "%{value} 小时"
   label_time_tracking: 时间跟踪
   label_change_plural: 变更
   label_statistics: 统计
@@ -700,15 +701,15 @@ zh:
   label_date_from: 从
   label_date_to: 到
   label_language_based: 根据用户的语言
-  label_sort_by: "根据 {{value}} 排序"
+  label_sort_by: "根据 %{value} 排序"
   label_send_test_email: 发送测试邮件
   label_feeds_access_key: RSS存取键
   label_missing_feeds_access_key: 缺少RSS存取键
-  label_feeds_access_key_created_on: "RSS存取键是在 {{value}} 之前建立的"
+  label_feeds_access_key_created_on: "RSS存取键是在 %{value} 之前建立的"
   label_module_plural: 模块
-  label_added_time_by: "由 {{author}} 在 {{age}} 之前添加"
-  label_updated_time: " 更新于 {{value}} 之前"
-  label_updated_time_by: "由 {{author}} 更新于 {{age}} 之前"
+  label_added_time_by: "由 %{author} 在 %{age} 之前添加"
+  label_updated_time: " 更新于 %{value} 之前"
+  label_updated_time_by: "由 %{author} 更新于 %{age} 之前"
   label_jump_to_a_project: 选择一个项目...
   label_file_plural: 文件
   label_changeset_plural: 变更
@@ -724,7 +725,7 @@ zh:
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
   label_registration_automatic_activation: 自动激活帐号
-  label_display_per_page: "每页显示：{{value}}"
+  label_display_per_page: "每页显示：%{value}"
   label_age: 年龄
   label_change_properties: 修改属性
   label_general: 一般
@@ -747,7 +748,7 @@ zh:
   label_sort: 排序
   label_ascending: 升序
   label_descending: 降序
-  label_date_from_to: 从 {{start}} 到 {{end}}
+  label_date_from_to: 从 %{start} 到 %{end}
   label_wiki_content_added: Wiki 页面已添加
   label_wiki_content_updated: Wiki 页面已更新
   label_group: 组
@@ -766,7 +767,7 @@ zh:
   label_display_used_statuses_only: 只显示被此跟踪标签使用的状态
   label_api_access_key: API访问键
   label_missing_api_access_key: 缺少API访问键
-  label_api_access_key_created_on: API访问键是在 {{value}} 之前建立的
+  label_api_access_key_created_on: API访问键是在 %{value} 之前建立的
   
   button_login: 登录
   button_submit: 提交
@@ -826,53 +827,53 @@ zh:
   text_regexp_info: 例如：^[A-Z0-9]+$
   text_min_max_length_info: 0 表示没有限制
   text_project_destroy_confirmation: 您确信要删除这个项目以及所有相关的数据吗？
-  text_subprojects_destroy_warning: "以下子项目也将被同时删除：{{value}}"
+  text_subprojects_destroy_warning: "以下子项目也将被同时删除：%{value}"
   text_workflow_edit: 选择角色和跟踪标签来编辑工作流程
   text_are_you_sure: 您确定？
-  text_journal_changed: "{{label}} 从 {{old}} 变更为 {{new}}"
-  text_journal_set_to: "{{label}} 被设置为 {{value}}"
-  text_journal_deleted: "{{label}} 已删除 ({{old}})"
-  text_journal_added: "{{label}} {{value}} 已添加"
+  text_journal_changed: "%{label} 从 %{old} 变更为 %{new}"
+  text_journal_set_to: "%{label} 被设置为 %{value}"
+  text_journal_deleted: "%{label} 已删除 (%{old})"
+  text_journal_added: "%{label} %{value} 已添加"
   text_tip_issue_begin_day: 今天开始的任务
   text_tip_issue_end_day: 今天结束的任务
   text_tip_issue_begin_end_day: 今天开始并结束的任务
   text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
-  text_caracters_maximum: "最多 {{count}} 个字符。"
-  text_caracters_minimum: "至少需要 {{count}} 个字符。"
-  text_length_between: "长度必须在 {{min}} 到 {{max}} 个字符之间。"
+  text_caracters_maximum: "最多 %{count} 个字符。"
+  text_caracters_minimum: "至少需要 %{count} 个字符。"
+  text_length_between: "长度必须在 %{min} 到 %{max} 个字符之间。"
   text_tracker_no_workflow: 此跟踪标签未定义工作流程
   text_unallowed_characters: 非法字符
   text_comma_separated: 可以使用多个值（用逗号,分开）。
   text_line_separated: 可以使用多个值（每行一个值）。
   text_issues_ref_in_commit_messages: 在提交信息中引用和解决问题
-  text_issue_added: "问题 {{id}} 已由 {{author}} 提交。"
-  text_issue_updated: "问题 {{id}} 已由 {{author}} 更新。"
+  text_issue_added: "问题 %{id} 已由 %{author} 提交。"
+  text_issue_updated: "问题 %{id} 已由 %{author} 更新。"
   text_wiki_destroy_confirmation: 您确定要删除这个 wiki 及其所有内容吗？
-  text_issue_category_destroy_question: "有一些问题（{{count}} 个）属于此类别。您想进行哪种操作？"
+  text_issue_category_destroy_question: "有一些问题（%{count} 个）属于此类别。您想进行哪种操作？"
   text_issue_category_destroy_assignments: 删除问题的所属类别（问题变为无类别）
   text_issue_category_reassign_to: 为问题选择其它类别
   text_user_mail_option: "对于没有选中的项目，您将只会收到您跟踪或参与的项目的通知（比如说，您是问题的报告者, 或被指派解决此问题）。"
   text_no_configuration_data: "角色、跟踪标签、问题状态和工作流程还没有设置。\n强烈建议您先载入默认设置，然后在此基础上进行修改。"
   text_load_default_configuration: 载入默认设置
-  text_status_changed_by_changeset: "已应用到变更列表 {{value}}."
+  text_status_changed_by_changeset: "已应用到变更列表 %{value}."
   text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
   text_select_project_modules: '请选择此项目可以使用的模块：'
   text_default_administrator_account_changed: 默认的管理员帐号已改变
   text_file_repository_writable: 附件路径可写
   text_plugin_assets_writable: 插件的附件路径可写
   text_rmagick_available: RMagick 可用（可选的）
-  text_destroy_time_entries_question: 您要删除的问题已经上报了 {{hours}} 小时的工作量。您想进行那种操作？
+  text_destroy_time_entries_question: 您要删除的问题已经上报了 %{hours} 小时的工作量。您想进行那种操作？
   text_destroy_time_entries: 删除上报的工作量
   text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
   text_reassign_time_entries: '将已上报的工作量指定到此问题：'
-  text_user_wrote: "{{value}} 写到："
+  text_user_wrote: "%{value} 写到："
   text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
-  text_enumeration_destroy_question: "{{count}} 个对象被关联到了这个枚举值。"
-  text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/email.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
+  text_enumeration_destroy_question: "%{count} 个对象被关联到了这个枚举值。"
+  text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/configuration.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
   text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
   text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
   text_custom_field_possible_values_info: '每项数值一行'
-  text_wiki_page_destroy_question: 此页面有 {{descendants}} 个子页面和下级页面。您想进行那种操作？
+  text_wiki_page_destroy_question: 此页面有 %{descendants} 个子页面和下级页面。您想进行那种操作？
   text_wiki_page_reassign_children: 将子页面的上级页面设置为
   text_wiki_page_nullify_children: 将子页面保留为根页面
   text_wiki_page_destroy_children: 删除子页面及其所有下级页面
@@ -916,12 +917,12 @@ zh:
   label_subtask_plural: 子任务
   label_project_copy_notifications: 复制项目时发送邮件通知
   error_can_not_delete_custom_field: 不能删除自定义属性
-  error_unable_to_connect: 不能连接到 ({{value}})
+  error_unable_to_connect: 不能连接到 (%{value})
   error_can_not_remove_role: 该角色正在使用中, 不能删除.
   error_can_not_delete_tracker: 该跟踪标签包含问题, 不能删除.
   field_principal: 用户/用户组
   label_my_page_block: 我的工作台模块
-  notice_failed_to_save_members: "成员保存失败：{{errors}}。"
+  notice_failed_to_save_members: "成员保存失败：%{errors}。"
   text_zoom_out: 缩小
   text_zoom_in: 放大
   notice_unable_delete_time_entry: 无法删除工时记录。
@@ -929,7 +930,7 @@ zh:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: {{page_title}}"
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   text_are_you_sure_with_children: Delete issue and all child issues?
   field_text: Text field
   label_user_mail_option_only_owner: Only for things I am the owner of
@@ -940,8 +941,12 @@ zh:
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  field_start_date: Start date
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
   setting_emails_header: Emails header
+  setting_commit_logtime_activity_id: Activity for logged time
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  setting_commit_logtime_enabled: Enable time logging
+  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart

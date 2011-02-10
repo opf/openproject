@@ -444,17 +444,19 @@ module CollectiveIdea #:nodoc:
         # Prunes a branch off of the tree, shifting all of the elements on the right
         # back to the left so the counts still work.
         def prune_from_tree
-          return if right.nil? || left.nil?
-          diff = right - left + 1
+          return if right.nil? || left.nil? || !self.class.exists?(id)
 
           delete_method = acts_as_nested_set_options[:dependent] == :destroy ?
             :destroy_all : :delete_all
 
           self.class.base_class.transaction do
+            reload_nested_set
             nested_set_scope.send(delete_method,
               ["#{quoted_left_column_name} > ? AND #{quoted_right_column_name} < ?",
                 left, right]
             )
+            reload_nested_set
+            diff = right - left + 1
             nested_set_scope.update_all(
               ["#{quoted_left_column_name} = (#{quoted_left_column_name} - ?)", diff],
               ["#{quoted_left_column_name} >= ?", right]

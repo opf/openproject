@@ -15,10 +15,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
   
   def setup
     @project = Project.find(1)
@@ -87,6 +87,54 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_not_nil entries, 'Expect to find entries'
       assert_equal 1, entries.size, 'Expect a single entry'
       assert_equal 'README.txt', entries.first.name
+    end
+
+    def test_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('1')
+      assert_equal c.revision, c.identifier
+    end
+
+    def test_find_changeset_by_empty_name
+      @repository.fetch_changesets
+      @repository.reload
+      ['', ' ', nil].each do |r|
+        assert_nil @repository.find_changeset_by_name(r)
+      end
+    end
+
+    def test_identifier_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert_equal c.identifier, c.revision
+    end
+
+    def test_format_identifier
+      @repository.fetch_changesets
+      @repository.reload
+      c = @repository.changesets.find_by_revision('1')
+      assert_equal c.format_identifier, c.revision
+    end
+
+    def test_format_identifier_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert_equal c.format_identifier, c.revision
+    end
+
+    def test_activities
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '1', :comments => 'test')
+      assert c.event_title.include?('1:')
+      assert_equal '1', c.event_url[:rev]
+    end
+
+    def test_activities_nine_digit
+      c = Changeset.new(:repository => @repository, :committed_on => Time.now,
+                        :revision => '123456789', :comments => 'test')
+      assert c.event_title.include?('123456789:')
+      assert_equal '123456789', c.event_url[:rev]
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"

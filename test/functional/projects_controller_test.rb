@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'projects_controller'
 
 # Re-raise errors caught by the controller.
@@ -144,19 +144,32 @@ class ProjectsControllerTest < ActionController::TestCase
       end
       
       should "create a new project" do
-        post :create, :project => { :name => "blog", 
-                                 :description => "weblog",
-                                 :identifier => "blog",
-                                 :is_public => 1,
-                                 :custom_field_values => { '3' => 'Beta' }
-                                }
+        post :create,
+          :project => {
+            :name => "blog", 
+            :description => "weblog",
+            :homepage => 'http://weblog',
+            :identifier => "blog",
+            :is_public => 1,
+            :custom_field_values => { '3' => 'Beta' },
+            :tracker_ids => ['1', '3'],
+            # an issue custom field that is not for all project
+            :issue_custom_field_ids => ['9'],
+            :enabled_module_names => ['issue_tracking', 'news', 'repository']
+          }
         assert_redirected_to '/projects/blog/settings'
         
         project = Project.find_by_name('blog')
         assert_kind_of Project, project
+        assert project.active?
         assert_equal 'weblog', project.description 
+        assert_equal 'http://weblog', project.homepage
         assert_equal true, project.is_public?
         assert_nil project.parent
+        assert_equal 'Beta', project.custom_value_for(3).value
+        assert_equal [1, 3], project.trackers.map(&:id).sort
+        assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
+        assert project.issue_custom_fields.include?(IssueCustomField.find(9))
       end
       
       should "create a new subproject" do
@@ -186,7 +199,9 @@ class ProjectsControllerTest < ActionController::TestCase
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
-                                 :custom_field_values => { '3' => 'Beta' }
+                                 :custom_field_values => { '3' => 'Beta' },
+                                 :tracker_ids => ['1', '3'],
+                                 :enabled_module_names => ['issue_tracking', 'news', 'repository']
                                 }
         
         assert_redirected_to '/projects/blog/settings'
@@ -195,6 +210,8 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_kind_of Project, project
         assert_equal 'weblog', project.description 
         assert_equal true, project.is_public?
+        assert_equal [1, 3], project.trackers.map(&:id).sort
+        assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
         
         # User should be added as a project member
         assert User.find(9).member_of?(project)
@@ -269,6 +286,12 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_not_nil project.errors.on(:parent_id)
       end
     end
+  end
+  
+  def test_create_should_not_accept_get
+    @request.session[:user_id] = 1
+    get :create
+    assert_response :method_not_allowed
   end
   
   def test_show_by_id
@@ -348,6 +371,21 @@ class ProjectsControllerTest < ActionController::TestCase
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
   end
+
+  def test_modules
+    @request.session[:user_id] = 2
+    Project.find(1).enabled_module_names = ['issue_tracking', 'news']
+    
+    post :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository', 'documents']
+    assert_redirected_to '/projects/ecookbook/settings/modules'
+    assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
+  end
+
+  def test_modules_should_not_allow_get
+    @request.session[:user_id] = 1
+    get :modules, :id => 1
+    assert_response :method_not_allowed
+  end
   
   def test_get_destroy
     @request.session[:user_id] = 1 # admin
@@ -418,7 +456,7 @@ class ProjectsControllerTest < ActionController::TestCase
       @request.session[:user_id] = 1 # admin
       post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
       assert_response :redirect
-      assert_redirected_to :controller => 'projects', :action => 'settings'
+      assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
     end
   end
 

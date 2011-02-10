@@ -66,6 +66,9 @@ protocol:
 feeds_limit:
   format: int
   default: 15
+gantt_items_limit:
+  format: int
+  default: 500
 # Maximum size of files that can be displayed
 # inline through the file viewer (in KB)
 file_max_size_displayed:
@@ -98,6 +101,11 @@ commit_fix_status_id:
   default: 0
 commit_fix_done_ratio:
   default: 100
+commit_logtime_enabled:
+  default: 0
+commit_logtime_activity_id:
+  format: int
+  default: 0
 # autologin duration in days
 # 0 means autologin is disabled 
 autologin:

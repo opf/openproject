@@ -23,8 +23,22 @@
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
 
+<% if @project.new_record? %>
+<fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+    <label class="floating">
+    <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m), :id => "project_enabled_module_names_#{m}" %>
+    <%= l_or_humanize(m, :prefix => "project_module_") %>
+    </label>
+<% end %>
+<%= hidden_field_tag 'project[enabled_module_names][]', '' %>
+<%= javascript_tag 'observeProjectModules()' %>
+</fieldset>
+<% end %>
+
+<% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
 <% unless @trackers.empty? %>
-<fieldset class="box"><legend><%=l(:label_tracker_plural)%></legend>
+<fieldset class="box" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
 <% @trackers.each do |tracker| %>
     <label class="floating">
     <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker) %>
@@ -36,7 +50,7 @@
 <% end %>
 
 <% unless @issue_custom_fields.empty? %>
-<fieldset class="box"><legend><%=l(:label_custom_field_plural)%></legend>
+<fieldset class="box" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
 <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
 	<%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
@@ -45,5 +59,6 @@
 <% end %>
 <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
 </fieldset>
+<% end %>
 <% end %>
 <!--[eoform:project]-->

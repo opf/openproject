@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 require 'users_controller'
 
 # Re-raise errors caught by the controller.
@@ -119,63 +119,107 @@ class UsersControllerTest < ActionController::TestCase
     project_ids = memberships.map(&:project_id)
     assert project_ids.include?(2) #private project admin can see
   end
-
-  context "GET :new" do
-    setup do
-      get :new
+  
+  def test_show_current_should_require_authentication
+    @request.session[:user_id] = nil
+    get :show, :id => 'current'
+    assert_response 302
+  end
+  
+  def test_show_current
+    @request.session[:user_id] = 2
+    get :show, :id => 'current'
+    assert_response :success
+    assert_template 'show'
+    assert_equal User.find(2), assigns(:user)
+  end
+  
+  def test_new
+    get :new
+    
+    assert_response :success
+    assert_template :new
+    assert assigns(:user)
+  end
+  
+  def test_create
+    Setting.bcc_recipients = '1'
+    
+    assert_difference 'User.count' do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        post :create,
+          :user => {
+            :firstname => 'John',
+            :lastname => 'Doe',
+            :login => 'jdoe',
+            :password => 'secret',
+            :password_confirmation => 'secret',
+            :mail => 'jdoe@gmail.com',
+            :mail_notification => 'none'
+          },
+          :send_information => '1'
+      end
     end
-
-    should_assign_to :user
-    should_respond_with :success
-    should_render_template :new
+    
+    user = User.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
+    
+    assert_equal 'John', user.firstname
+    assert_equal 'Doe', user.lastname
+    assert_equal 'jdoe', user.login
+    assert_equal 'jdoe@gmail.com', user.mail
+    assert_equal 'none', user.mail_notification
+    assert user.check_password?('secret')
+    
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal [user.mail], mail.bcc
+    assert mail.body.include?('secret')
+  end
+  
+  def test_create_with_failure
+    assert_no_difference 'User.count' do
+      post :create, :user => {}
+    end
+    
+    assert_response :success
+    assert_template 'new'
   end
 
-  context "POST :create" do
-    context "when successful" do
-      setup do
-        post :create, :user => {
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :login => 'jdoe',
-          :password => 'test',
-          :password_confirmation => 'test',
-          :mail => 'jdoe@gmail.com'
-        },
-        :notification_option => 'none'
-      end
-
-      should_assign_to :user
-      should_respond_with :redirect
-      should_redirect_to('user edit') { {:controller => 'users', :action => 'edit', :id => User.find_by_login('jdoe')}}
-
-      should 'set the users mail notification' do
-        user = User.last
-        assert_equal 'none', user.mail_notification
-      end
-    end
-
-    context "when unsuccessful" do
-      setup do
-        post :create, :user => {}
-      end
-
-      should_assign_to :user
-      should_respond_with :success
-      should_render_template :new
-    end
-
+  def test_edit
+    get :edit, :id => 2
+    
+    assert_response :success
+    assert_template 'edit'
+    assert_equal User.find(2), assigns(:user)
   end
 
   def test_update
     ActionMailer::Base.deliveries.clear
-    put :update, :id => 2, :user => {:firstname => 'Changed'}, :notification_option => 'all', :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
+    put :update, :id => 2, :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'}, :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
 
     user = User.find(2)
     assert_equal 'Changed', user.firstname
-    assert_equal 'all', user.mail_notification
+    assert_equal 'only_assigned', user.mail_notification
     assert_equal true, user.pref[:hide_mail]
     assert_equal 'desc', user.pref[:comments_sorting]
     assert ActionMailer::Base.deliveries.empty?
+  end
+
+  def test_update_with_failure
+    assert_no_difference 'User.count' do
+      put :update, :id => 2, :user => {:firstname => ''}
+    end
+    
+    assert_response :success
+    assert_template 'edit'
+  end
+  
+  def test_update_with_group_ids_should_assign_groups
+    put :update, :id => 2, :user => {:group_ids => ['10']}
+    
+    user = User.find(2)
+    assert_equal [10], user.group_ids
   end
   
   def test_update_with_activation_should_send_a_notification
@@ -194,13 +238,13 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.include?(ll('fr', :notice_account_activated))
   end
   
-  def test_updat_with_password_change_should_send_a_notification
+  def test_update_with_password_change_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
     
+    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
     u = User.find(2)
-    put :update, :id => u.id, :user => {}, :password => 'newpass', :password_confirmation => 'newpass', :send_information => '1'
-    assert_equal User.hash_password('newpass'), u.reload.hashed_password 
+    assert u.check_password?('newpass')
     
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -214,10 +258,10 @@ class UsersControllerTest < ActionController::TestCase
     u.auth_source = AuthSource.find(1)
     u.save!
 
-    put :update, :id => u.id, :user => {:auth_source_id => ''}, :password => 'newpass', :password_confirmation => 'newpass'
+    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass'}, :password_confirmation => 'newpass'
 
     assert_equal nil, u.reload.auth_source
-    assert_equal User.hash_password('newpass'), u.reload.hashed_password
+    assert u.check_password?('newpass')
   end
   
   def test_edit_membership

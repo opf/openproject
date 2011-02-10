@@ -1078,7 +1078,7 @@ class RedCloth3 < String
                         line = "<redpre##{ @pre_list.length }>"
                         first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
-                        $2.to_s.match(/(class\=\S+)/i)
+                        $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
                         tag << " #{$1}" if $1
                         @pre_list << "<#{ tag }>#{ aftertag }"
                     end

@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.expand_path('../../test_helper', __FILE__)
 
 class ChangesetTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :issues, :issue_statuses, :changesets, :changes, :issue_categories, :enumerations, :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
@@ -42,6 +42,76 @@ class ChangesetTest < ActiveSupport::TestCase
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
     assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+  
+  def test_ref_keywords
+    Setting.commit_ref_keywords = 'refs'
+    Setting.commit_fix_keywords = ''
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'Ignores #2. Refs #1')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [1], c.issue_ids.sort
+  end
+  
+  def test_ref_keywords_any_only
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_fix_keywords = ''
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'Ignores #2. Refs #1')
+    c.scan_comment_for_issue_ids
+    
+    assert_equal [1, 2], c.issue_ids.sort
+  end
+  
+  def test_ref_keywords_any_with_timelog
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_logtime_enabled = '1'
+
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => 24.hours.ago,
+                      :comments => 'Worked on this issue #1 @2h',
+                      :revision => '520',
+                      :user => User.find(2))
+    assert_difference 'TimeEntry.count' do
+      c.scan_comment_for_issue_ids
+    end
+    assert_equal [1], c.issue_ids.sort
+    
+    time = TimeEntry.first(:order => 'id desc')
+    assert_equal 1, time.issue_id
+    assert_equal 1, time.project_id
+    assert_equal 2, time.user_id
+    assert_equal 2.0, time.hours
+    assert_equal Date.yesterday, time.spent_on
+    assert time.activity.is_default?
+    assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
+  end
+  
+  def test_ref_keywords_closing_with_timelog
+    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_fix_keywords = 'fixes , closes'
+    Setting.commit_logtime_enabled = '1'
+    
+    c = Changeset.new(:repository => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments => 'This is a comment. Fixes #1 @2.5, #2 @1',
+                      :user => User.find(2))
+    assert_difference 'TimeEntry.count', 2 do
+      c.scan_comment_for_issue_ids
+    end
+    
+    assert_equal [1, 2], c.issue_ids.sort
+    assert Issue.find(1).closed?
+    assert Issue.find(2).closed?
+
+    times = TimeEntry.all(:order => 'id desc', :limit => 2)
+    assert_equal [1, 2], times.collect(&:issue_id).sort
   end
   
   def test_ref_keywords_any_line_start
@@ -99,6 +169,21 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [2], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end
+  
+  def test_text_tag_revision
+    c = Changeset.new(:revision => '520')
+    assert_equal 'r520', c.text_tag
+  end
+  
+  def test_text_tag_hash
+    c = Changeset.new(:scmid => '7234cb2750b63f47bff735edc50a1c0a433c2518', :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
+    assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
+  end
+
+  def test_text_tag_hash_all_number
+    c = Changeset.new(:scmid => '0123456789', :revision => '0123456789')
+    assert_equal 'commit:0123456789', c.text_tag
+  end
 
   def test_previous
     changeset = Changeset.find_by_revision('3')
@@ -132,5 +217,10 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new
     c.comments = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
     assert_equal "Texte encod en ISO-8859-1.", c.comments
+  end
+
+  def test_identifier
+    c = Changeset.find_by_revision('1')
+    assert_equal c.revision, c.identifier
   end
 end
