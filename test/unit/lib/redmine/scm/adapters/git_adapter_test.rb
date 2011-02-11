@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 # This file includes UTF-8 "Felix Schäfer".
-# We need to consider Ruby 1.9 compatibity.
+# We need to consider Ruby 1.9 compatibility.
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
