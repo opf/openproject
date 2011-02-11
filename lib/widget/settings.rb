@@ -1,6 +1,6 @@
 class Widget::Settings < Widget::Base
   def render
-    form_for @query, :url => "#", :html => {:id => 'query_form', :method => :post} do |query_form|
+    form_tag("#", {:id => 'query_form', :method => :post}) do |query_form|
       content_tag :div, :id => "query_form_content" do
 
         fieldsets = render_widget Widget::Settings::Fieldset, @query, { :type => "filter" } do
