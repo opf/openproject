@@ -1,6 +1,7 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
+   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort
+	 available_principles = Principal.possible_members("", 100) - @project.principals %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
@@ -51,7 +52,7 @@
 </div>
 
 <div class="splitcontentright">
-<% if roles.any? && @available_principles.any? %>
+<% if roles.any? && available_principles.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post,
 									   :loading => '$(\'member-add-submit\').disable();',
 									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
@@ -66,7 +67,7 @@
                   %>
 
 		<div id="principals">
-			<%= principals_check_box_tags 'member[user_ids][]', @available_principles %>
+			<%= principals_check_box_tags 'member[user_ids][]', available_principles %>
 		</div>
 
     <p><%= l(:label_role_plural) %>:
