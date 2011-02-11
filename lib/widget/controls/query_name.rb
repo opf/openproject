@@ -11,7 +11,7 @@ class Widget::Controls::QueryName < Widget::Base
         l(:button_rename)
       end
       options["data-is_public"] = @query.is_public
-      options["data-update-url"] = url_for(:action => "update", :id => @query.id)
+      options["data-update-url"] = url_for(:action => "rename", :id => @query.id)
       options["data-is_new"] = @query.new_record?
     end
     content_tag(:span, name, options) + icon
