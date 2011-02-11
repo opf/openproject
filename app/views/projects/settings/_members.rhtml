@@ -50,11 +50,8 @@
 <% end %>
 </div>
 
-
-<% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
-
 <div class="splitcontentright">
-<% if roles.any? && principals.any? %>
+<% if roles.any? && @available_principles.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post,
 									   :loading => '$(\'member-add-submit\').disable();',
 									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
@@ -69,7 +66,7 @@
                   %>
 
 		<div id="principals">
-			<%= principals_check_box_tags 'member[user_ids][]', principals %>
+			<%= principals_check_box_tags 'member[user_ids][]', @available_principles %>
 		</div>
 
     <p><%= l(:label_role_plural) %>:

@@ -35,6 +35,10 @@ class Principal < ActiveRecord::Base
     to_s
   end
 
+  def self.possible_members(criteria, limit)
+    Principal.active.like(criteria).find(:all, :limit => limit)
+  end
+
   def <=>(principal)
     if self.class.name == principal.class.name
       self.to_s.downcase <=> principal.to_s.downcase

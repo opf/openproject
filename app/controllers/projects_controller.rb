@@ -253,6 +253,7 @@ private
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
+    @available_principles = Principal.possible_members("", 100) - @project.principals
     @trackers = Tracker.all
     @repository ||= @project.repository
     @wiki ||= @project.wiki
