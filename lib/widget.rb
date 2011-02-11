@@ -1,12 +1,20 @@
 class ActionView::Base
   def render_widget(widget, subject, options = {}, &block)
     i = widget.new(subject)
-    i.config = config
-    i.controller = controller
+    if Rails.version.start_with? "3"
+      i.config = config
+      i._routes = _routes
+    else
+      i.output_buffer = ""
+    end
     i._content_for = @_content_for
-    i._routes = _routes
+    i.controller = controller
     i.render_with_options(options, &block).html_safe
   end
+end
+
+if Rails.version.start_with? "2"
+  class ::String; def html_safe; self; end; end
 end
 
 class Widget < ActionView::Base
