@@ -52,6 +52,9 @@
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
+  <%= auto_discovery_link_tag(:atom, :format => :atom,
+			      :controller => 'projects', :action => 'activity', :project_id => @project,
+			      :year => nil, :month => nil, :show_wiki_pages => 1, :key => User.current.rss_key) %>
 <% end %>
 
 <% content_for :sidebar do %>
