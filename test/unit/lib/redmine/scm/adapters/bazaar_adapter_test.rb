@@ -5,11 +5,10 @@ begin
   class BazaarAdapterTest < ActiveSupport::TestCase
 
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
-    MODULE_NAME = 'test'
 
     if File.directory?(REPOSITORY_PATH)  
       def setup
-        @adapter = Redmine::Scm::Adapters::BazzarAdapter.new(MODULE_NAME, REPOSITORY_PATH)
+        @adapter = Redmine::Scm::Adapters::BazaarAdapter.new(MODULE_NAME, REPOSITORY_PATH)
       end
 
     else
