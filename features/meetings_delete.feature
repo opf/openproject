@@ -61,7 +61,8 @@ Feature: Delete meetings
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
-            # Wie kriegt man das hin?
+            # TODO Wie kriegt man das hin?
+            # Momentan bleibt das bei mir beim javascript "confirm" Dialog hängen
         #And I click on "Delete"
        Then I should see "Meetings"
         But I should not see "Bobs Meeting"
