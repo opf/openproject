@@ -55,7 +55,7 @@ module Redmine
         def get_previous_revision(revision)
           CvsRevisionHelper.new(revision).prevRev
         end
-    
+
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         # this method is used by the repository-browser (aka LIST)
@@ -70,7 +70,7 @@ module Redmine
             io.each_line(){|line|
               fields=line.chop.split('/',-1)
               logger.debug(">>InspectLine #{fields.inspect}")
-              
+
               if fields[0]!="D"
                 entries << Entry.new({:name => fields[-5],
                   #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
@@ -96,17 +96,17 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
-        end  
+        end
 
         STARTLOG="----------------------------"
         ENDLOG  ="============================================================================="
-        
+
         # Returns all revisions found between identifier_from and identifier_to
         # in the repository. both identifier have to be dates or nil.
         # these method returns nothing but yield every result in block
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
           logger.debug "<cvs> revisions path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
-          
+
           path_with_project="#{url}#{with_leading_slash(path)}"
           cmd = "#{CVS_BIN} -d #{shell_quote root_url} rlog"
           cmd << " -d\">#{time_to_cvstime_rlog(identifier_from)}\"" if identifier_from
@@ -123,7 +123,7 @@ module Redmine
             file_state=nil
             branch_map=nil
             
-            io.each_line() do |line|            
+            io.each_line() do |line|
               
               if state!="revision" && /^#{ENDLOG}/ =~ line
                 commit_log=String.new
@@ -162,9 +162,9 @@ module Redmine
                 end
                 next
               elsif state=="revision"
-                if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line               
+                if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
                   if revision
-                    
+
                     revHelper=CvsRevisionHelper.new(revision)
                     revBranch="HEAD"
                     
@@ -176,7 +176,7 @@ module Redmine
                     
                     logger.debug("********** YIELD Revision #{revision}::#{revBranch}")
                     
-                    yield Revision.new({                    
+                    yield Revision.new({
                       :time => date,
                       :author => author,
                       :message=>commit_log.chomp,
@@ -188,9 +188,9 @@ module Redmine
                         :kind=>'file',
                         :action=>file_state
                       }]
-                    })                 
+                    })
                   end
-    
+
                   commit_log=String.new
                   revision=nil
                   
@@ -199,7 +199,7 @@ module Redmine
                   end
                   next
                 end
-                  
+
                 if /^branches: (.+)$/ =~ line
                   #TODO: version.branch = $1
                 elsif /^revision (\d+(?:\.\d+)+).*$/ =~ line
@@ -216,16 +216,16 @@ module Redmine
                   #                  version.line_minus = linechanges[2]
                   #                else
                   #                  version.line_plus  = 0
-                  #                  version.line_minus = 0     
-                  #                end              
-                else            
+                  #                  version.line_minus = 0
+                  #                end
+                else
                   commit_log << line unless line =~ /^\*\*\* empty log message \*\*\*/
-                end 
-              end 
+                end
+              end
             end
           end
-        end  
-        
+        end
+
         def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
@@ -238,8 +238,8 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           diff
-        end  
-        
+        end
+
         def cat(path, identifier=nil)
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
@@ -253,7 +253,7 @@ module Redmine
           end
           return nil if $? && $?.exitstatus != 0
           cat
-        end  
+        end
 
         def annotate(path, identifier=nil)
           identifier = (identifier) ? identifier.to_i : "HEAD"
@@ -270,9 +270,9 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
-         
+
         private
-        
+
         # Returns the root url without the connexion string
         # :pserver:anonymous@foo.bar:/path => /path
         # :ext:cvsservername:/path => /path
