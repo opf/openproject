@@ -7,8 +7,6 @@ class Widget::Table < Widget::Base
   def initialize(query, options = {})
     raise ArgumentError, "Tables only work on Reports!" unless query.is_a? Report
     super(query)
-    debug = options[:debug] || false
-    mapping = options[:mapping] || {}
   end
 
   def debug?
@@ -16,6 +14,7 @@ class Widget::Table < Widget::Base
   end
 
   def render_with_options(options = {}, &block)
+    self.debug = options[:debug] || false
     if canvas = options[:to]
       canvas << "\n" << render(&block)
     else
