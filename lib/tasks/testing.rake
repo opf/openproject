@@ -51,7 +51,8 @@ namespace :test do
       (supported_scms - [:subversion, :mercurial]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
+          # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
+          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
         end
       end
       
