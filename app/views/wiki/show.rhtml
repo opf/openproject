@@ -46,12 +46,14 @@
 <% end %>
 
 <% other_formats_links do |f| %>
-	<%= f.link_to 'HTML', :url => {:id => @page.title, :version => @content.version} %>
-	<%= f.link_to 'TXT', :url => {:id => @page.title, :version => @content.version} %>
+  <%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
+  <%= f.link_to 'HTML', :url => {:id => @page.title, :version => @content.version} %>
+  <%= f.link_to 'TXT', :url => {:id => @page.title, :version => @content.version} %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
+  <%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :format => 'atom', :key => User.current.rss_key) %>
 <% end %>
 
 <% content_for :sidebar do %>
