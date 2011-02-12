@@ -67,13 +67,13 @@ class RepositoriesController < ApplicationController
       redirect_to :action => 'committers', :id => @project
     end
   end
-  
+
   def destroy
     @repository.destroy
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'
   end
-  
-  def show 
+
+  def show
     @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
 
     @entries = @repository.entries(@path, @rev)
@@ -88,7 +88,7 @@ class RepositoriesController < ApplicationController
   end
 
   alias_method :browse, :show
-  
+
   def changes
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
@@ -96,23 +96,23 @@ class RepositoriesController < ApplicationController
     @properties = @repository.properties(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
   end
-  
+
   def revisions
     @changeset_count = @repository.changesets.count
     @changeset_pages = Paginator.new self, @changeset_count,
-								      per_page_option,
-								      params['page']								
+                                     per_page_option,
+                                     params['page']
     @changesets = @repository.changesets.find(:all,
-						:limit  =>  @changeset_pages.items_per_page,
-						:offset =>  @changeset_pages.current.offset,
-            :include => [:user, :repository])
+                       :limit  =>  @changeset_pages.items_per_page,
+                       :offset =>  @changeset_pages.current.offset,
+                       :include => [:user, :repository])
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
       format.atom { render_feed(@changesets, :title => "#{@project.name}: #{l(:label_revision_plural)}") }
     end
   end
-  
+
   def entry
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
@@ -122,7 +122,8 @@ class RepositoriesController < ApplicationController
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
-    if 'raw' == params[:format] || @content.is_binary_data? || (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
+    if 'raw' == params[:format] || @content.is_binary_data? ||
+         (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
       # Force the download
       send_data @content, :filename => filename_for_content_disposition(@path.split('/').last)
     else
@@ -135,7 +136,7 @@ class RepositoriesController < ApplicationController
   def annotate
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry
-    
+
     @annotate = @repository.scm.annotate(@path, @rev)
     (render_error l(:error_scm_annotate); return) if @annotate.nil? || @annotate.empty?
     @changeset = @repository.find_changeset_by_name(@rev)
@@ -153,7 +154,7 @@ class RepositoriesController < ApplicationController
   rescue ChangesetNotFound
     show_error_not_found
   end
-  
+
   def diff
     if params[:format] == 'diff'
       @diff = @repository.diff(@path, @rev, @rev_to)
@@ -185,11 +186,11 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def stats  
+  def stats
   end
-  
+
   def graph
-    data = nil    
+    data = nil
     case params[:graph]
     when "commits_per_month"
       data = graph_commits_per_month(@repository)
