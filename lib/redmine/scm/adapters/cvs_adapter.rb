@@ -249,6 +249,7 @@ module Redmine
           cmd << " -p #{shell_quote path_with_project}"
           cat = nil
           shellout(cmd) do |io|
+            io.binmode
             cat = io.read
           end
           return nil if $? && $?.exitstatus != 0
