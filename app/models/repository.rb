@@ -37,6 +37,10 @@ class Repository < ActiveRecord::Base
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
   end
 
+  def scm_adapter
+    self.class.scm_adapter_class
+  end
+
   def scm
     @scm ||= self.scm_adapter.new url, root_url, login, password
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
@@ -46,7 +50,7 @@ class Repository < ActiveRecord::Base
   def scm_name
     self.class.scm_name
   end
-  
+
   def supports_cat?
     scm.supports_cat?
   end
@@ -204,7 +208,23 @@ class Repository < ActiveRecord::Base
   rescue
     nil
   end
-  
+
+  def self.scm_adapter_class
+    nil
+  end
+
+  def self.scm_command
+    self.scm_adapter_class.nil? ? "" : self.scm_adapter_class.client_command
+  end
+
+  def self.scm_version_string
+    self.scm_adapter_class.nil? ? "" : self.scm_adapter_class.client_version_string
+  end
+
+  def self.scm_available
+    self.scm_adapter_class.nil? ? false : self.scm_adapter_class.client_available
+  end
+
   private
   
   def before_save

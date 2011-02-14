@@ -20,14 +20,14 @@ require 'redmine/scm/adapters/darcs_adapter'
 class Repository::Darcs < Repository
   validates_presence_of :url
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::DarcsAdapter
   end
-  
+
   def self.scm_name
     'Darcs'
   end
-  
+
   def entry(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     scm.entry(path, patch.nil? ? nil : patch.scmid)

@@ -24,14 +24,14 @@ class Repository::Filesystem < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::FilesystemAdapter
   end
-  
+
   def self.scm_name
     'Filesystem'
   end
-  
+
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end

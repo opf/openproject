@@ -21,14 +21,14 @@ class Repository::Bazaar < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::BazaarAdapter
   end
-  
+
   def self.scm_name
     'Bazaar'
   end
-  
+
   def entries(path=nil, identifier=nil)
     entries = scm.entries(path, identifier)
     if entries

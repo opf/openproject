@@ -21,10 +21,10 @@ class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::GitAdapter
   end
-  
+
   def self.scm_name
     'Git'
   end

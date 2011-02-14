@@ -21,14 +21,14 @@ require 'digest/sha1'
 class Repository::Cvs < Repository
   validates_presence_of :url, :root_url
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::CvsAdapter
   end
-  
+
   def self.scm_name
     'CVS'
   end
-  
+
   def entry(path=nil, identifier=nil)
     rev = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     scm.entry(path, rev.nil? ? nil : rev.committed_on)

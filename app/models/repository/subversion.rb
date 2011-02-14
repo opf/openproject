@@ -22,10 +22,10 @@ class Repository::Subversion < Repository
   validates_presence_of :url
   validates_format_of :url, :with => /^(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+/i
 
-  def scm_adapter
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::SubversionAdapter
   end
-  
+
   def self.scm_name
     'Subversion'
   end
