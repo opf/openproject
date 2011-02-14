@@ -24,7 +24,17 @@ module Redmine
 
         # CVS executable name
         CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
-    
+
+        class << self
+          def client_command
+            @@bin    ||= CVS_BIN
+          end
+
+          def sq_bin
+            @@sq_bin ||= shell_quote(CVS_BIN)
+          end
+        end
+
         # Guidelines for the input:
         #  url -> the project-path, relative to the cvsroot (eg. module name)
         #  root_url -> the good old, sometimes damned, CVSROOT
@@ -38,20 +48,20 @@ module Redmine
           raise CommandFailed if root_url.blank?
           @root_url = root_url
         end
-        
+
         def root_url
           @root_url
         end
-        
+
         def url
           @url
         end
-        
+
         def info
           logger.debug "<cvs> info"
           Info.new({:root_url => @root_url, :lastrev => nil})
         end
-        
+
         def get_previous_revision(revision)
           CvsRevisionHelper.new(revision).prevRev
         end
@@ -63,7 +73,7 @@ module Redmine
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
           path_with_project="#{url}#{with_leading_slash(path)}"
           entries = Entries.new
-          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rls -e"
+          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rls -e"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
@@ -108,7 +118,7 @@ module Redmine
           logger.debug "<cvs> revisions path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
 
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rlog"
+          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rlog"
           cmd << " -d\">#{time_to_cvstime_rlog(identifier_from)}\"" if identifier_from
           cmd << " #{shell_quote path_with_project}"
           shellout(cmd) do |io|
@@ -229,7 +239,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           logger.debug "<cvs> diff path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
+          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rdiff -u -r#{identifier_to} -r#{identifier_from} #{shell_quote path_with_project}"
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -244,7 +254,7 @@ module Redmine
           identifier = (identifier) ? identifier : "HEAD"
           logger.debug "<cvs> cat path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{shell_quote root_url} co"
+          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} co"
           cmd << " -D \"#{time_to_cvstime(identifier)}\"" if identifier
           cmd << " -p #{shell_quote path_with_project}"
           cat = nil
@@ -260,7 +270,7 @@ module Redmine
           identifier = (identifier) ? identifier.to_i : "HEAD"
           logger.debug "<cvs> annotate path:'#{path}',identifier #{identifier}"
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{CVS_BIN} -d #{shell_quote root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
+          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rannotate -r#{identifier} #{shell_quote path_with_project}"
           blame = Annotate.new
           shellout(cmd) do |io|
             io.each_line do |line|
