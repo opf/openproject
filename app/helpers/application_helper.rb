@@ -898,6 +898,14 @@ module ApplicationHelper
   def favicon
     "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />"
   end
+
+  # Add a HTML meta tag to control robots (web spiders)
+  #
+  # @param [optional, String] content the content of the ROBOTS tag.
+  #   defaults to no index, follow, and no archive
+  def robot_exclusion_tag(content="NOINDEX,FOLLOW,NOARCHIVE")
+    "<meta name='ROBOTS' content='#{h(content)}' />"
+  end
   
   # Returns true if arg is expected in the API response
   def include_in_api_response?(arg)
