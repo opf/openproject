@@ -44,11 +44,11 @@ module ApplicationHelper
     link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
   end
 
-  # Displays a link to user's account page if active
+  # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
       name = h(user.name(options[:format]))
-      if user.active?
+      if user.active? || user.registered?
         link_to name, :controller => 'users', :action => 'show', :id => user
       else
         name
