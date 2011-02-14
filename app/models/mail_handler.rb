@@ -100,7 +100,7 @@ class MailHandler < ActionMailer::Base
     elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
     else
-      receive_issue
+      dispatch_to_default
     end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
@@ -112,6 +112,10 @@ class MailHandler < ActionMailer::Base
   rescue UnauthorizedAction => e
     logger.error "MailHandler: unauthorized attempt from #{user}" if logger
     false
+  end
+
+  def dispatch_to_default
+    receive_issue
   end
   
   # Creates a new issue
