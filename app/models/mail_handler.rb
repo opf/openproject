@@ -114,6 +114,10 @@ class MailHandler < ActionMailer::Base
     false
   end
 
+  # Dispatch the mail to the default method handler, receive_issue
+  #
+  # This can be overridden or patched to support handling other incoming
+  # email types
   def dispatch_to_default
     receive_issue
   end
