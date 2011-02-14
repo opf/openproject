@@ -279,8 +279,7 @@ class User < Principal
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
     # force string comparison to be case sensitive on MySQL
-    type_cast = (ActiveRecord::Base.connection.adapter_name == 'MySQL') ? 'BINARY' : ''
-    
+    type_cast = (ActiveRecord::Base.connection.adapter_name =~ /mysql/i) ? 'BINARY' : ''
     # First look for an exact match
     user = first(:conditions => ["#{type_cast} login = ?", login])
     # Fail over to case-insensitive if none was found
