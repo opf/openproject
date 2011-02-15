@@ -20,6 +20,10 @@ module CostQuery::CustomFieldMixin
     @all ||= generate_subclasses
   end
 
+  def reset!
+    @all = nil
+  end
+
   def generate_subclasses
     IssueCustomField.all.map do |field|
       class_name = class_name_for field.name
