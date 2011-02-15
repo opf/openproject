@@ -4,7 +4,7 @@ begin
 
   class MercurialAdapterTest < ActiveSupport::TestCase
 
-    TEMPLATES_DIR = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATES_DIR
+    HELPERS_DIR = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
     TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
     TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
 
@@ -149,7 +149,7 @@ begin
       end
 
       def test_template_path_for(version, template)
-        assert_equal "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{template}.#{TEMPLATE_EXTENSION}",
+        assert_equal "#{HELPERS_DIR}/#{TEMPLATE_NAME}-#{template}.#{TEMPLATE_EXTENSION}",
                      @adapter.class.template_path_for(version)
         assert File.exist?(@adapter.class.template_path_for(version))
       end

@@ -25,7 +25,8 @@ module Redmine
 
         # Mercurial executable name
         HG_BIN = Redmine::Configuration['scm_mercurial_command'] || "hg"
-        TEMPLATES_DIR = File.dirname(__FILE__) + "/mercurial"
+        HELPERS_DIR = File.dirname(__FILE__) + "/mercurial"
+        HG_HELPER_EXT = "#{HELPERS_DIR}/redminehelper.py"
         TEMPLATE_NAME = "hg-template"
         TEMPLATE_EXTENSION = "tmpl"
 
@@ -73,7 +74,7 @@ module Redmine
             else
               ver = "0.9.5"
             end
-            "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
+            "#{HELPERS_DIR}/#{TEMPLATE_NAME}-#{ver}.#{TEMPLATE_EXTENSION}"
           end
         end
 
