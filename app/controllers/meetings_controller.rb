@@ -7,7 +7,17 @@ class MeetingsController < ApplicationController
   before_filter :authorize
 
   def index
-    @meetings = @project.meetings.find(:all, :order => 'start_time DESC')
+    # Wo sollen Meetings ohne Termin hin?
+    @meetings_by_start_year_month_date = ActiveSupport::OrderedHash.new
+    @project.meetings.all.group_by(&:start_year).each do |year,meetings|
+      @meetings_by_start_year_month_date[year] = ActiveSupport::OrderedHash.new
+      meetings.group_by(&:start_month).each do |month,meetings|
+        @meetings_by_start_year_month_date[year][month] = ActiveSupport::OrderedHash.new
+        meetings.group_by(&:start_date).each do |date,meetings|
+          @meetings_by_start_year_month_date[year][month][date] = meetings.sort_by {|m| m.start_time}.reverse
+        end
+      end
+    end
   end
 
   def show

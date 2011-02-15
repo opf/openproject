@@ -14,6 +14,18 @@ class Meeting < ActiveRecord::Base
     start_time.to_date if start_time.present?
   end
   
+  def start_month
+    start_time.month if start_time.present?
+  end
+  
+  def start_year
+    start_time.year if start_time.present?
+  end
+  
+  def end_time
+    start_time + duration.hours
+  end
+  
   def to_s
     title
   end
