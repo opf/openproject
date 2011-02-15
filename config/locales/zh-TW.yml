@@ -994,6 +994,8 @@
   default_role_manager: 管理人員
   default_role_developer: 開發人員
   default_role_reporter: 報告人員
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: 臭蟲
   default_tracker_feature: 功能
   default_tracker_support: 支援

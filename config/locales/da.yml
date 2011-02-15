@@ -690,6 +690,8 @@ da:
   default_role_manager: Leder
   default_role_developer: Udvikler
   default_role_reporter: Rapportør
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Bug
   default_tracker_feature: Feature
   default_tracker_support: Support

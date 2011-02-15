@@ -889,6 +889,8 @@ sr:
   default_role_manager: Менаџер
   default_role_developer: Програмер
   default_role_reporter: Извештач
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Грешка
   default_tracker_feature: Функционалност
   default_tracker_support: Подршка

@@ -855,6 +855,8 @@ ko:
   default_role_manager: 관리자
   default_role_developer: 개발자
   default_role_reporter: 보고자
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: 결함
   default_tracker_feature: 새기능
   default_tracker_support: 지원

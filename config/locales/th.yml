@@ -692,6 +692,8 @@ th:
   default_role_manager: ผู้จัดการ
   default_role_developer: ผู้พัฒนา
   default_role_reporter: ผู้รายงาน
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: บั๊ก
   default_tracker_feature: ลักษณะเด่น
   default_tracker_support: สนับสนุน

@@ -720,6 +720,8 @@ pt:
   default_role_manager: Gestor
   default_role_developer: Programador
   default_role_reporter: Repórter
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Bug
   default_tracker_feature: Funcionalidade
   default_tracker_support: Suporte

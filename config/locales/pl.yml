@@ -197,6 +197,8 @@ pl:
   default_role_developer: Programista
   default_role_manager: Kierownik
   default_role_reporter: Wprowadzajacy
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Błąd
   default_tracker_feature: Zadanie
   default_tracker_support: Wsparcie

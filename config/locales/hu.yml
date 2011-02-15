@@ -715,6 +715,8 @@
   default_role_manager: Vezető
   default_role_developer: Fejlesztő
   default_role_reporter: Bejelentő
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Hiba
   default_tracker_feature: Fejlesztés
   default_tracker_support: Support

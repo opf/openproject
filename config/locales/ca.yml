@@ -895,6 +895,8 @@ ca:
   default_role_manager: Gestor
   default_role_developer: Desenvolupador
   default_role_reporter: Informador
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Error
   default_tracker_feature: Característica
   default_tracker_support: Suport

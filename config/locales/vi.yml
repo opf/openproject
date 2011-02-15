@@ -765,6 +765,8 @@ vi:
   default_role_manager: Điều hành
   default_role_developer: Phát triển
   default_role_reporter: Báo cáo
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Lỗi
   default_tracker_feature: Tính năng
   default_tracker_support: Hỗ trợ

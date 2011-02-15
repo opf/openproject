@@ -661,6 +661,8 @@ uk:
   label_file_added: File added
   label_more: More
   field_default_value: Default value
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Bug
   label_scm: SCM
   label_general: General

@@ -906,6 +906,8 @@ he:
   default_role_manager: מנהל
   default_role_developer: מפתח
   default_role_reporter: מדווח
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: תקלה
   default_tracker_feature: יכולת
   default_tracker_support: תמיכה

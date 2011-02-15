@@ -94,7 +94,8 @@ module Redmine
                                                     :browse_repository,
                                                     :view_changesets]
                         
-            Role.non_member.update_attribute :permissions, [:view_issues,
+            Role.non_member.update_attributes :name => l(:default_role_non_member),
+                                              :permissions => [:view_issues,
                                                             :add_issues,
                                                             :add_issue_notes,
                                                             :save_queries,
@@ -110,7 +111,8 @@ module Redmine
                                                             :browse_repository,
                                                             :view_changesets]
           
-            Role.anonymous.update_attribute :permissions, [:view_issues,
+            Role.anonymous.update_attributes :name => l(:default_role_anonymous),
+                                             :permissions => [:view_issues,
                                                            :view_gantt,
                                                            :view_calendar,
                                                            :view_time_entries,

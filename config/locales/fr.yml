@@ -893,6 +893,8 @@ fr:
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
   default_role_reporter: "Rapporteur "
+  default_role_non_member: "Non membre "
+  default_role_anonymous: "Anonyme "
   default_tracker_bug: Anomalie
   default_tracker_feature: Evolution
   default_tracker_support: Assistance

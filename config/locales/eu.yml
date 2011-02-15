@@ -872,6 +872,8 @@ eu:
   default_role_manager: Kudeatzailea
   default_role_developer: Garatzailea
   default_role_reporter: Berriemailea
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Errorea
   default_tracker_feature: Eginbidea
   default_tracker_support: Laguntza

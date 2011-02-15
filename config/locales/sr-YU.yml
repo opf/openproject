@@ -889,6 +889,8 @@ sr-YU:
   default_role_manager: Menadžer
   default_role_developer: Programer
   default_role_reporter: Izveštač
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Greška
   default_tracker_feature: Funkcionalnost
   default_tracker_support: Podrška

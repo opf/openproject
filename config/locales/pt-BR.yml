@@ -733,6 +733,8 @@ pt-BR:
   default_role_manager: Gerente
   default_role_developer: Desenvolvedor
   default_role_reporter: Informante
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Defeito
   default_tracker_feature: Funcionalidade
   default_tracker_support: Suporte

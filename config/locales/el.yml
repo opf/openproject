@@ -810,6 +810,8 @@ el:
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter
+  default_role_non_member: Non member
+  default_role_anonymous: Anonymous
   default_tracker_bug: Σφάλματα
   default_tracker_feature: Λειτουργίες
   default_tracker_support: Υποστήριξη
