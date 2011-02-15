@@ -184,7 +184,11 @@ class Repository < ActiveRecord::Base
   def self.fetch_changesets
     Project.active.has_module(:repository).find(:all, :include => :repository).each do |project|
       if project.repository
-        project.repository.fetch_changesets
+        begin
+          project.repository.fetch_changesets
+        rescue Redmine::Scm::Adapters::CommandFailed => e
+          logger.error "Repository: error during fetching changesets: #{e.message}"
+        end
       end
     end
   end
