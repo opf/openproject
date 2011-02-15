@@ -63,6 +63,18 @@ module ApplicationHelper
     users.sort.collect{|u| link_to_user(u, options)}.join(", ")
   end
 
+  #returns a class name based on the user's status
+  def user_status_class(user)
+    case user.status
+      when User::STATUS_ACTIVE
+        "status_active"
+      when User::STATUS_REGISTERED
+        "status_registered"
+      when User::STATUS_LOCKED
+        "status_locked"
+    end
+  end
+
   # Displays a link to +issue+ with its subject.
   # Examples:
   #
@@ -288,7 +300,7 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = ''
     principals.sort.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+      s << "<label class='#{user_status_class principal}'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
     end
     s
   end
