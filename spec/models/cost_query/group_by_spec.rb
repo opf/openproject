@@ -230,14 +230,14 @@ describe CostQuery do
       it "should create new classes for custom fields that get added after starting the server" do
         create_issue_custom_field("AFreshCustomField")
         # Would raise a name error
-        CostQuery::GroupBy::CustomFieldAFreshCustomField
+        CostQuery::GroupBy::CustomFieldAfreshcustomfield
         IssueCustomField.find_by_name("AFreshCustomField").destroy
       end
 
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
         IssueCustomField.find_by_name("AFreshCustomField").destroy
-        lambda { CostQuery::GroupBy::CustomFieldAFreshCustomField }.should raise_error(NameError)
+        lambda { CostQuery::GroupBy::CustomFieldAfreshcustomfield }.should raise_error(NameError)
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
