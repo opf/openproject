@@ -245,7 +245,7 @@ describe CostQuery do
           :max_length => 100,
           :possible_values => "",
           :is_required => false,
-          :field_format => string,
+          :field_format => "string",
           :searchable => true,
           :default_value => "Default string",
           :editable => true)
