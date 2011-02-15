@@ -75,6 +75,17 @@ module ApplicationHelper
     end
   end
 
+  def user_status_i18n(user)
+    case user.status
+      when User::STATUS_ACTIVE
+        l(:status_active)
+      when User::STATUS_REGISTERED
+        l(:status_registered)
+      when User::STATUS_LOCKED
+        l(:status_locked)
+    end
+  end
+
   # Displays a link to +issue+ with its subject.
   # Examples:
   #
@@ -300,7 +311,7 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = ''
     principals.sort.each do |principal|
-      s << "<label class='#{user_status_class principal}'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+      s << "<label class='#{user_status_class principal}' title='#{user_status_i18n principal}'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
     end
     s
   end

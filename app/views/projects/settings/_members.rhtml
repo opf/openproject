@@ -16,7 +16,7 @@
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-	<td class="<%= member.principal.class.name.downcase %> <%= user_status_class member.principal%>"><%= link_to_user member.principal %></td>
+	<td class="<%= member.principal.class.name.downcase %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorize_for('members', 'edit') %>
