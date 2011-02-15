@@ -29,6 +29,9 @@ module Redmine
         TEMPLATE_NAME = "hg-template"
         TEMPLATE_EXTENSION = "tmpl"
 
+        # raised if hg command exited with error, e.g. unknown revision.
+        class HgCommandAborted < CommandFailed; end
+
         class << self
           def client_command
             @@bin    ||= HG_BIN
@@ -225,6 +228,20 @@ module Redmine
             "#{revision}:#{scmid}"
           end
         end
+
+        # Runs 'hg' command with the given args
+        def hg(*args, &block)
+          full_args = [HG_BIN, '--cwd', url, '--encoding', 'utf-8']
+          full_args << '--config' << "extensions.redminehelper=#{HG_HELPER_EXT}"
+          full_args << '--config' << 'diff.git=false'
+          full_args += args
+          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          if $? && $?.exitstatus != 0
+            raise HgCommandAborted, "hg exited with non-zero status: #{$?.exitstatus}"
+          end
+          ret
+        end
+        private :hg
 
         # Returns correct revision identifier
         def hgrev(identifier, sq=false)
