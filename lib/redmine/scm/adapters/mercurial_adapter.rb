@@ -93,7 +93,7 @@ module Redmine
           path ||= ''
           entries = Entries.new
           cmd = "#{self.class.sq_bin} -R #{target('')} --cwd #{target('')} locate"
-          cmd << " -r #{hgrev(identifier)}"
+          cmd << " -r #{hgrev(identifier, true)}"
           cmd << " " + shell_quote("path:#{path}") unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -120,9 +120,9 @@ module Redmine
           revisions = Revisions.new
           cmd = "#{self.class.sq_bin} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
           if identifier_from && identifier_to
-            cmd << " -r #{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
+            cmd << " -r #{hgrev(identifier_from, true)}:#{hgrev(identifier_to, true)}"
           elsif identifier_from
-            cmd << " -r #{hgrev(identifier_from)}:"
+            cmd << " -r #{hgrev(identifier_from, true)}:"
           end
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
           cmd << " #{shell_quote path}" unless path.blank?
@@ -168,10 +168,10 @@ module Redmine
           diff_args = ''
           diff = []
           if identifier_to
-            diff_args = "-r #{hgrev(identifier_to)} -r #{hgrev(identifier_from)}"
+            diff_args = "-r #{hgrev(identifier_to, true)} -r #{hgrev(identifier_from, true)}"
           else
             if self.class.client_version_above?([1, 2])
-              diff_args = "-c #{hgrev(identifier_from)}"
+              diff_args = "-c #{hgrev(identifier_from, true)}"
             else
               return []
             end
@@ -189,7 +189,7 @@ module Redmine
 
         def cat(path, identifier=nil)
           cmd = "#{self.class.sq_bin} -R #{target('')} cat"
-          cmd << " -r #{hgrev(identifier)}"
+          cmd << " -r #{hgrev(identifier, true)}"
           cmd << " #{target(path)}"
           cat = nil
           shellout(cmd) do |io|
@@ -204,7 +204,7 @@ module Redmine
           path ||= ''
           cmd = "#{self.class.sq_bin} -R #{target('')}"
           cmd << " annotate -ncu"
-          cmd << " -r #{hgrev(identifier)}"
+          cmd << " -r #{hgrev(identifier, true)}"
           cmd << " #{target(path)}"
           blame = Annotate.new
           shellout(cmd) do |io|
@@ -227,8 +227,10 @@ module Redmine
         end
 
         # Returns correct revision identifier
-        def hgrev(identifier)
-          shell_quote(identifier.blank? ? 'tip' : identifier.to_s)
+        def hgrev(identifier, sq=false)
+          rev = identifier.blank? ? 'tip' : identifier.to_s
+          rev = shell_quote(rev) if sq
+          rev
         end
         private :hgrev
       end
