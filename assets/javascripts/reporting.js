@@ -292,19 +292,25 @@ function show_group_by_row(group_by) {
 }
 
 function disable_all_filters() {
+    var i, select;
     $('filter_table').down().childElements().each(function (e) {
         var field, possible_select;
         e.hide();
         if (e.readAttribute('class') === 'filter') {
             field = e.id.gsub('tr_', '');
             hide_filter(field, false);
-            enable_select_option($('add_filter_select'), field);
             possible_select = $(field + '_arg_1_val');
             if (possible_select !== null && possible_select.type && possible_select.type.include('select')) {
                 make_select_accept_single_value(possible_select);
             }
         }
     });
+    select = $("add_filter_select");
+    for (i = 0; i < select.options.length; i += 1) {
+        if (select.options[i].disabled) {
+            select.options[i].disabled = false;
+        }
+    }
 }
 
 function disable_all_group_bys() {
