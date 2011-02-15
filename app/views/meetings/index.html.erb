@@ -15,7 +15,7 @@
     <h3><%= format_time meeting.start_time %>: <%= link_to h(meeting.title), :controller => 'meetings', :action => 'show', :id => meeting %></h3>
     <p class="author"><%= authoring meeting.created_at, meeting.author %></p>
     <p><strong><%= l(:field_location) %></strong>: <%=h meeting.location %> - <strong><%= l(:field_duration) %></strong>: <%= l_hours(meeting.duration) %></p>
-    <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.count %>): <%= meeting.participants.join(", ") %></p>
+    <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.count %>): <%= meeting.participants.sort.join(", ") %></p>
   </div>
 <% end -%>
 </div>
