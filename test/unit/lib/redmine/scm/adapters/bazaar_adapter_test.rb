@@ -21,6 +21,19 @@ begin
         end
       end
 
+      def test_cat
+        cat = @adapter.cat('directory/document.txt')
+        assert cat =~ /Write the contents of a file as of a given revision to standard output/
+      end
+    
+      def test_annotate
+        annotate = @adapter.annotate('doc-mkdir.txt')
+        assert_equal 17, annotate.lines.size
+        assert_equal '1', annotate.revisions[0].identifier
+        assert_equal 'jsmith@', annotate.revisions[0].author
+        assert_equal 'mkdir', annotate.lines[0]
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)

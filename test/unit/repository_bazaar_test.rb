@@ -28,7 +28,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     @project = Project.find(1)
     assert @repository = Repository::Bazaar.create(:project => @project, :url => "file:///#{REPOSITORY_PATH}")
   end
-  
+
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
@@ -38,7 +38,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       assert_equal 9, @repository.changes.count
       assert_equal 'Initial import', @repository.changesets.find_by_revision('1').comments
     end
-    
+
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 5
@@ -49,7 +49,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       assert_equal 4, @repository.changesets.count
     end
-    
+
     def test_entries
       entries = @repository.entries
       assert_equal 2, entries.size
@@ -67,19 +67,6 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
       assert_equal 'file', entries.last.kind
       assert_equal 'edit.png', entries.last.name
-    end
-    
-    def test_cat
-      cat = @repository.scm.cat('directory/document.txt')
-      assert cat =~ /Write the contents of a file as of a given revision to standard output/
-    end
-    
-    def test_annotate
-      annotate = @repository.scm.annotate('doc-mkdir.txt')
-      assert_equal 17, annotate.lines.size
-      assert_equal '1', annotate.revisions[0].identifier
-      assert_equal 'jsmith@', annotate.revisions[0].author
-      assert_equal 'mkdir', annotate.lines[0]
     end
   else
     puts "Bazaar test repository NOT FOUND. Skipping unit tests !!!"
