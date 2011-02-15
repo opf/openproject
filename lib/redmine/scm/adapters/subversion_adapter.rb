@@ -39,17 +39,19 @@ module Redmine
             @@client_version ||= (svn_binary_version || [])
           end
 
+          def client_available
+            !client_version.empty?
+          end
+
           def svn_binary_version
-            cmd = "#{sq_bin} --version"
-            version = nil
-            shellout(cmd) do |io|
-              # Read svn version in first returned line
-              if m = io.read.to_s.match(%r{\A(.*?)((\d+\.)+\d+)})
-                version = m[2].scan(%r{\d+}).collect(&:to_i)
-              end
+            scm_version = scm_version_from_command_line
+            if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
             end
-            return nil if $? && $?.exitstatus != 0
-            version
+          end
+
+          def scm_version_from_command_line
+            shellout("#{sq_bin} --version") { |io| io.read }.to_s
           end
         end
 
