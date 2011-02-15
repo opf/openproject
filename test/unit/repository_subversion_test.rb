@@ -21,8 +21,9 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles 
   
   def setup
-    @project = Project.find(1)
-    assert @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}")
+    @project = Project.find(3)
+    assert @repository = Repository::Subversion.create(:project => @project,
+             :url => "file://#{self.class.repository_path('subversion')}")
   end
   
   if repository_configured?('subversion')
@@ -74,7 +75,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_directory_listing_with_square_brackets_in_base
-      @project = Project.find(1)
+      @project = Project.find(3)
       @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
       @repository.fetch_changesets
