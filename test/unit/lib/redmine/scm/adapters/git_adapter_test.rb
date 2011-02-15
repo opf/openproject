@@ -15,6 +15,15 @@ begin
         @adapter = Redmine::Scm::Adapters::GitAdapter.new(REPOSITORY_PATH)
       end
 
+      def test_scm_version
+        to_test = { "git version 1.7.3.4\n"             => [1,7,3,4],
+                    "1.6.1\n1.7\n1.8"                   => [1,6,1],
+                    "1.6.2\r\n1.8.1\r\n1.9.1"           => [1,6,2]}
+        to_test.each do |s, v|
+          test_scm_version_for(s, v)
+        end
+      end
+
       def test_branches
         assert_equal @adapter.branches, ['master', 'test_branch']
       end
@@ -78,6 +87,14 @@ begin
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
       end
+
+      private
+
+      def test_scm_version_for(scm_command_version, version)
+        @adapter.class.expects(:scm_version_from_command_line).returns(scm_command_version)
+        assert_equal version, @adapter.class.scm_command_version
+      end
+
     else
       puts "Git test repository NOT FOUND. Skipping unit tests !!!"
       def test_fake; assert true end
