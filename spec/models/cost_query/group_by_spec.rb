@@ -248,8 +248,7 @@ describe CostQuery do
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
         delete_issue_custom_field("AFreshCustomField")
-        lambda { CostQuery::GroupBy::CustomFieldAfreshcustomfield }.
-          should raise_error(NameError)
+        CostQuery::GroupBy.all.should_not include CostQuery::GroupBy::CustomFieldAfreshcustomfield
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do

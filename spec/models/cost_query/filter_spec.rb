@@ -278,28 +278,27 @@ describe CostQuery do
         create_issue_custom_field("AFreshCustomField")
         # Would raise a name error
         CostQuery::Filter::CustomFieldAfreshcustomfield
-        IssueCustomField.find_by_name("AFreshCustomField").destroy
+        delete_issue_custom_field("AFreshCustomField")
       end
 
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
         delete_issue_custom_field("AFreshCustomField")
-        lambda { CostQuery::Filter::CustomFieldAfreshcustomfield }.
-          should raise_error(NameError)
+        CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldAfreshcustomfield
       end
 
       it "should provide the correct available values" do
-        CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should include CostQuery::Operator.null_operators
+        CostQuery::Operator.null_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should == []
       end
 
       it "should update the available values on change" do
         update_issue_custom_field("Database", :field_format => "string")
-        CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should include CostQuery::Operator.string_operators
+        CostQuery::Operator.string_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should == []
         update_issue_custom_field("Database", :field_format => "list")
-        CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should include CostQuery::Operator.null_operators
+        CostQuery::Operator.null_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should == []
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
