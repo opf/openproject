@@ -288,17 +288,23 @@ describe CostQuery do
       end
 
       it "should provide the correct available values" do
-        CostQuery::Operator.null_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should == []
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.null_operators.each do |o|
+          ao.should include o.name
+        end
       end
 
       it "should update the available values on change" do
         update_issue_custom_field("Database", :field_format => "string")
-        CostQuery::Operator.string_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should == []
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.string_operators.each do |o|
+          ao.should include o.name
+        end
         update_issue_custom_field("Database", :field_format => "list")
-        CostQuery::Operator.null_operators - CostQuery::Filter::CustomFieldDatabase.available_operators.
-          should == []
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.string_operators.each do |o|
+          ao.should include o.name
+        end
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
