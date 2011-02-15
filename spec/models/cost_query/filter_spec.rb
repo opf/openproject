@@ -237,9 +237,50 @@ describe CostQuery do
         CostQuery::Filter.all.merge CostQuery::Filter::CustomFieldEntries.all
       end
 
+      def create_issue_custom_field(name)
+        IssueCustomField.create(:name => name,
+          :min_length => 1,
+          :regexp => "",
+          :is_for_all => true,
+          :max_length => 100,
+          :possible_values => "",
+          :is_required => false,
+          :field_format => string,
+          :searchable => true,
+          :default_value => "Default string",
+          :editable => true)
+      end
+
       it "should create classes for custom fields" do
         # Would raise a name error
         CostQuery::Filter::CustomFieldSearchableField
+      end
+
+      it "should create new classes for custom fields that get added after starting the server" do
+        create_issue_custom_field("AFreshCustomField")
+        # Would raise a name error
+        CostQuery::Filter::CustomFieldAFreshCustomField
+        IssueCustomField.find_by_name("AFreshCustomField").destroy
+      end
+
+      it "should remove the custom field classes after it is deleted" do
+        create_issue_custom_field("AFreshCustomField")
+        IssueCustomField.find_by_name("AFreshCustomField").destroy
+        lambda { CostQuery::Filter::CustomFieldAFreshCustomField }.should raise_error(NameError)
+      end
+
+      it "should provide the correct available values" do
+        CostQuery::Filter::CustomFieldDatabase.available_operators.should == CostQuery::Operator.null_operators
+      end
+
+      it "should update the available values on change" do
+        fld = IssueCustomField.find_by_name("Database")
+        fld.field_format = string
+        fld.save!
+        CostQuery::Filter::CustomFieldDatabase.available_operators.should == CostQuery::Operator.string_operators
+        fld.field_format = list
+        fld.save!
+        CostQuery::Filter::CustomFieldDatabase.available_operators.should == CostQuery::Operator.null_operators
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
