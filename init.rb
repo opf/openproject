@@ -3,11 +3,6 @@ require 'redmine'
 # Hooks
 require 'view_projects_show_sidebar_bottom_hook'
 
-Dispatcher.to_prepare do
-  # Model Patches
-  require_dependency 'reporting_issue_custom_field_patch'
-end
-
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'
   author 'Konstantin Haase, Philipp Tessenow @ finnlabs'

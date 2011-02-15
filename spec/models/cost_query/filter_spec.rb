@@ -249,6 +249,7 @@ describe CostQuery do
           :searchable => true,
           :default_value => "Default string",
           :editable => true)
+        CostReportsController.new.check_cache
       end
 
       it "should create classes for custom fields" do
@@ -266,21 +267,28 @@ describe CostQuery do
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
         IssueCustomField.find_by_name("AFreshCustomField").destroy
-        lambda { CostQuery::Filter::CustomFieldAfreshcustomfield }.should raise_error(NameError)
+        CostReportsController.new.check_cache
+        lambda { CostQuery::Filter::CustomFieldAfreshcustomfield }.
+          should raise_error(NameError)
       end
 
       it "should provide the correct available values" do
-        CostQuery::Filter::CustomFieldDatabase.available_operators.should == CostQuery::Operator.null_operators
+        CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should include CostQuery::Operator.null_operators
       end
 
       it "should update the available values on change" do
         fld = IssueCustomField.find_by_name("Database")
         fld.field_format = "string"
         fld.save!
-        CostQuery::Filter::CustomFieldDatabase.available_operators.should.include? CostQuery::Operator.string_operators
+        CostReportsController.new.check_cache
+        CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should include CostQuery::Operator.string_operators
         fld.field_format = "list"
         fld.save!
-        CostQuery::Filter::CustomFieldDatabase.available_operators.should.include? CostQuery::Operator.null_operators
+        CostReportsController.new.check_cache
+        CostQuery::Filter::CustomFieldDatabase.available_operators.
+          should include CostQuery::Operator.null_operators
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do

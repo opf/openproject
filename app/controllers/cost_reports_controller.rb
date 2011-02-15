@@ -1,4 +1,5 @@
 class CostReportsController < ApplicationController
+  before_filter :check_cache
   before_filter :load_all
   before_filter :find_optional_project, :only => [:index, :drill_down]
   before_filter :generate_query,        :only => [:index, :drill_down]
@@ -27,6 +28,30 @@ class CostReportsController < ApplicationController
 
   helper :reporting
   include ReportingHelper
+
+  cattr_accessor :custom_fields_updated_on, :custom_fields_id_sum
+
+  # Checks if custom fields have been updated, added or removed since we
+  # last saw them, to rebuild the filters and group bys.
+  # Called once per request.
+  def check_cache
+    custom_fields_updated_on = IssueCustomField.maximum(:updated_at)
+    custom_fields_id_sum = IssueCustomField.sum(:id) + IssueCustomField.count
+
+    if custom_fields_updated_on && custom_fields_id_sum
+      if self.class.custom_fields_updated_on != custom_fields_updated_on ||
+            self.class.custom_fields_id_sum != custom_fields_id_sum
+
+        self.class.custom_fields_updated_on = custom_fields_updated_on
+        self.class.custom_fields_id_sum = custom_fields_id_sum
+
+        CostQuery::Filter.reset!
+        CostQuery::Filter::CustomFieldEntries.reset!
+        CostQuery::GroupBy.reset!
+        CostQuery::GroupBy::CustomFieldEntries.reset!
+      end
+    end
+  end
 
   def index
     @valid = valid_query?
