@@ -39,7 +39,7 @@ module Redmine
           end
 
           def client_available
-            !client_version.empty?
+            client_version_above?([1, 12])
           end
 
           def scm_command_version
