@@ -1,4 +1,4 @@
-/*global $, selectAllOptions, moveOptions */
+/*global $, selectAllOptions, moveOptions, Form, Ajax, window, $$, document, Sortable, Effect */
 
 function make_select_accept_multiple_values(select) {
     select.multiple = true;
@@ -72,10 +72,10 @@ function set_remove_button_visibility(field, value) {
 }
 
 function load_available_values_for_filter(filter_name, callback_func) {
-    var select;
+    var upd, select;
     select = $('' + filter_name + '_arg_1_val');
     if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
-        new Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
+        upd = new Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
             parameters: { filter_name: filter_name },
             insertion: 'bottom',
             evalScripts: false,
@@ -97,13 +97,14 @@ function load_available_values_for_filter(filter_name, callback_func) {
 }
 
 function show_filter_callback(field, slowly, callback_func) {
-    var field_el = $('tr_' +  field);
+    var field_el, effect;
+    field_el = $('tr_' +  field);
     if (field_el !== null) {
         load_available_values_for_filter(field, callback_func);
         // the following command might be included into the callback_function (which is called after the ajax request) later
         $('rm_' + field).value = field;
         if (slowly) {
-            new Effect.Appear(field_el);
+            effect = new Effect.Appear(field_el);
         } else {
             field_el.show();
         }
@@ -129,12 +130,12 @@ function occupied_category(tr_field) {
 }
 
 function hide_filter(field, slowly) {
-    var field_el, operator_select;
+    var effect, field_el, operator_select;
     field_el = $('tr_' +  field);
     if (field_el !== null) {
         $('rm_' + field).value = "";
         if (slowly) {
-            new Effect.Fade(field_el);
+            effect = new Effect.Fade(field_el);
         } else {
             field_el.hide();
         }
@@ -228,7 +229,7 @@ function restore_select_values(select, values) {
                 try {
                     select.options[j].selected = true;
                     break;
-                } catch(e) {
+                } catch (e) {
                     window.setTimeout('$("' + select.id + '").childElements()[' + j + '].selected = true;', 1);
                 }
             }
