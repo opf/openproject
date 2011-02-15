@@ -185,6 +185,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
+
           identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : (identifier_from.to_i - 1)
 
           cmd = "#{self.class.sq_bin} diff -r "
