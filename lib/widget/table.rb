@@ -14,12 +14,8 @@ class Widget::Table < Widget::Base
   end
 
   def render_with_options(options = {}, &block)
-    self.debug = options[:debug] || false
-    if canvas = options[:to]
-      canvas << "\n" << render(&block)
-    else
-      render(&block)
-    end
+    canvas = options[:to] ? options[:to] << "\n" : ""
+    canvas << render(&block)
   end
 
   def table_widget
