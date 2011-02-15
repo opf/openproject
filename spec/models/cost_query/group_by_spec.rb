@@ -208,6 +208,11 @@ describe CostQuery do
         CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
       end
 
+      def check_cache
+        CostReportsController.new.check_cache
+        CostQuery::GroupBy::CustomFieldEntries.all
+      end
+
       def create_issue_custom_field(name)
         IssueCustomField.create(:name => name,
           :min_length => 1,
@@ -220,7 +225,12 @@ describe CostQuery do
           :searchable => true,
           :default_value => "Default string",
           :editable => true)
-        CostReportsController.new.check_cache
+        check_cache
+      end
+
+      def delete_issue_custom_field(name)
+        IssueCustomField.find_by_name(name).destroy
+        check_cache
       end
 
       it "should create classes for custom fields" do
@@ -237,8 +247,7 @@ describe CostQuery do
 
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
-        IssueCustomField.find_by_name("AFreshCustomField").destroy
-        CostReportsController.new.check_cache
+        delete_issue_custom_field("AFreshCustomField")
         lambda { CostQuery::GroupBy::CustomFieldAfreshcustomfield }.
           should raise_error(NameError)
       end

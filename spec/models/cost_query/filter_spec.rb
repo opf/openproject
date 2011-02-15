@@ -237,6 +237,11 @@ describe CostQuery do
         CostQuery::Filter.all.merge CostQuery::Filter::CustomFieldEntries.all
       end
 
+      def check_cache
+        CostReportsController.new.check_cache
+        CostQuery::Filter::CustomFieldEntries.all
+      end
+
       def create_issue_custom_field(name)
         IssueCustomField.create(:name => name,
           :min_length => 1,
@@ -249,7 +254,19 @@ describe CostQuery do
           :searchable => true,
           :default_value => "Default string",
           :editable => true)
-        CostReportsController.new.check_cache
+        check_cache
+      end
+
+      def delete_issue_custom_field(name)
+        IssueCustomField.find_by_name(name).destroy
+        check_cache
+      end
+
+      def update_issue_custom_field(name, options)
+        fld = IssueCustomField.find_by_name(name)
+        options.each_pair {|k, v| fld.send(:"#{k}=", v) }
+        fld.save!
+        check_cache
       end
 
       it "should create classes for custom fields" do
@@ -266,8 +283,7 @@ describe CostQuery do
 
       it "should remove the custom field classes after it is deleted" do
         create_issue_custom_field("AFreshCustomField")
-        IssueCustomField.find_by_name("AFreshCustomField").destroy
-        CostReportsController.new.check_cache
+        delete_issue_custom_field("AFreshCustomField")
         lambda { CostQuery::Filter::CustomFieldAfreshcustomfield }.
           should raise_error(NameError)
       end
@@ -278,15 +294,10 @@ describe CostQuery do
       end
 
       it "should update the available values on change" do
-        fld = IssueCustomField.find_by_name("Database")
-        fld.field_format = "string"
-        fld.save!
-        CostReportsController.new.check_cache
+        update_issue_custom_field("Database", :field_format => "string")
         CostQuery::Filter::CustomFieldDatabase.available_operators.
           should include CostQuery::Operator.string_operators
-        fld.field_format = "list"
-        fld.save!
-        CostReportsController.new.check_cache
+        update_issue_custom_field("Database", :field_format => "list")
         CostQuery::Filter::CustomFieldDatabase.available_operators.
           should include CostQuery::Operator.null_operators
       end
