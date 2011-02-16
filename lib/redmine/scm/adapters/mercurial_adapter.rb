@@ -79,18 +79,10 @@ module Redmine
         end
 
         def info
-          cmd = "#{self.class.sq_bin} -R #{target('')} root"
-          root_url = nil
-          shellout(cmd) do |io|
-            root_url = io.read
-          end
-          return nil if $? && $?.exitstatus != 0
-          info = Info.new({:root_url => root_url.chomp,
-                            :lastrev => revisions(nil,nil,nil,{:limit => 1}).last
-                          })
-          info
-        rescue CommandFailed
-          return nil
+          tip = summary['repository']['tip']
+          Info.new(:root_url => CGI.unescape(summary['repository']['root']),
+                   :lastrev => Revision.new(:revision => tip['revision'],
+                                            :scmid => tip['node']))
         end
 
         def summary
