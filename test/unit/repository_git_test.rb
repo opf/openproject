@@ -18,25 +18,26 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
-  
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles
+
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
-  
+
   def setup
-    @project = Project.find(1)
-    assert @repository = Repository::Git.create(:project => @project, :url => REPOSITORY_PATH)
+    @project = Project.find(3)
+    @repository = Repository::Git.create(:project => @project, :url => REPOSITORY_PATH)
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      
+
       assert_equal 15, @repository.changesets.count
       assert_equal 24, @repository.changes.count
-      
+
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
       assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
       assert_equal "jsmith <jsmith@foo.bar>", commit.committer
