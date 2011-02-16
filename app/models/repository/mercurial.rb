@@ -24,6 +24,8 @@ class Repository::Mercurial < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  FETCH_AT_ONCE = 100  # number of changesets to fetch at once
+
   def self.scm_adapter_class
     Redmine::Scm::Adapters::MercurialAdapter
   end
@@ -94,38 +96,24 @@ class Repository::Mercurial < Repository
   end
 
   def fetch_changesets
-    scm_info = scm.info
-    if scm_info
-      # latest revision found in database
-      db_revision = latest_changeset ? latest_changeset.revision.to_i : -1
-      # latest revision in the repository
-      latest_revision = scm_info.lastrev
-      return if latest_revision.nil?
-      scm_revision = latest_revision.identifier.to_i
-      if db_revision < scm_revision
-        logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
-        identifier_from = db_revision + 1
-        while (identifier_from <= scm_revision)
-          # loads changesets by batches of 100
-          identifier_to = [identifier_from + 99, scm_revision].min
-          revisions = scm.revisions('', identifier_from, identifier_to, :with_paths => true)
-          transaction do
-            revisions.each do |revision|
-              changeset = Changeset.create(:repository => self,
-                                           :revision => revision.revision,
-                                           :scmid => revision.scmid,
-                                           :committer => revision.author, 
-                                           :committed_on => revision.time,
-                                           :comments => revision.message)
-              
-              revision.paths.each do |change|
-                changeset.create_change(change)
-              end
-            end
-          end unless revisions.nil?
-          identifier_from = identifier_to + 1
+    scm_rev = scm.info.lastrev.revision.to_i
+    db_rev = latest_changeset ? latest_changeset.revision.to_i : -1
+    return unless db_rev < scm_rev  # already up-to-date
+
+    logger.debug "Fetching changesets for repository #{url}" if logger
+    (db_rev + 1).step(scm_rev, FETCH_AT_ONCE) do |i|
+      transaction do
+        scm.each_revision('', i, [i + FETCH_AT_ONCE - 1, scm_rev].min) do |re|
+          cs = Changeset.create(:repository => self,
+                                :revision => re.revision,
+                                :scmid => re.scmid,
+                                :committer => re.author,
+                                :committed_on => re.time,
+                                :comments => re.message)
+          re.paths.each { |e| cs.create_change(e) }
         end
       end
     end
+    self
   end
 end
