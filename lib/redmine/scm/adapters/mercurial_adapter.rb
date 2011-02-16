@@ -192,16 +192,12 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          cmd = "#{self.class.sq_bin} -R #{target('')} cat"
-          cmd << " -r #{hgrev(identifier, true)}"
-          cmd << " #{target(path)}"
-          cat = nil
-          shellout(cmd) do |io|
+          hg 'cat', '-r', hgrev(identifier), hgtarget(path) do |io|
             io.binmode
-            cat = io.read
+            io.read
           end
-          return nil if $? && $?.exitstatus != 0
-          cat
+        rescue HgCommandAborted
+          nil  # means not found
         end
 
         def annotate(path, identifier=nil)
