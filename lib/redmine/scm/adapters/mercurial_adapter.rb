@@ -170,10 +170,13 @@ module Redmine
             hg_args << '-c' << hgrev(identifier_from)
           end
           hg_args << CGI.escape(hgtarget(path)) unless path.blank?
-
+          diff = []
           hg *hg_args do |io|
-            io.collect
+            io.each_line do |line|
+              diff << line
+            end
           end
+          diff
         rescue HgCommandAborted
           nil  # means not found
         end
