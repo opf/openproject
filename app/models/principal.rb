@@ -22,7 +22,7 @@ class Principal < ActiveRecord::Base
   # Groups and active users
   named_scope :active, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status = 1)"
 
-  named_scope :active_or_registered, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status = #{User::STATUS_ACTIVE} OR #{Principal.table_name}.status = #{User::STATUS_REGISTERED}))"
+  named_scope :active_or_registered, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status = 1 OR #{Principal.table_name}.status = 2))"
   
   named_scope :like, lambda {|q|
     s = "%#{q.to_s.strip.downcase}%"
