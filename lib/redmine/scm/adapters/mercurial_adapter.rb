@@ -110,6 +110,7 @@ module Redmine
             n = CGI.unescape(e['name'])
             p = "#{path_prefix}#{n}"
             lr = Revision.new(:revision => e['revision'], :scmid => e['node'],
+                              :identifier => e['node'],
                               :time => Time.at(e['time'].to_i))
             entries << Entry.new(:name => n, :path => p, :kind => 'file',
                                  :size => e['size'].to_i, :lastrev => lr)
