@@ -18,7 +18,7 @@ describe UsersController do
 
       end
 
-      describe "SUCCESS" do
+      describe "RESULT" do
         before :each do
 
         end
@@ -30,6 +30,7 @@ describe UsersController do
 
           it { response.should be_success }
           it { assigns(:global_roles).should eql @global_roles }
+          it { response.should render_template "users/edit"}
         end
       end
 
