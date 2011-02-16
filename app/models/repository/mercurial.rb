@@ -48,29 +48,6 @@ class Repository::Mercurial < Repository
     super(cs, cs_to, ' ')
   end
 
-  def entries(path=nil, identifier=nil)
-    entries=scm.entries(path, identifier)
-    if entries
-      entries.each do |entry|
-        next unless entry.is_file?
-        # Set the filesize unless browsing a specific revision
-        if identifier.nil?
-          full_path = File.join(root_url, entry.path)
-          entry.size = File.stat(full_path).size if File.file?(full_path)
-        end
-        # Search the DB for the entry's last change
-        change = changes.find(:first, :conditions => ["path = ?", scm.with_leading_slash(entry.path)], :order => "#{Changeset.table_name}.committed_on DESC")
-        if change
-          entry.lastrev.identifier = change.changeset.revision
-          entry.lastrev.name = change.changeset.revision
-          entry.lastrev.author = change.changeset.committer
-          entry.lastrev.revision = change.revision
-        end
-      end
-    end
-    entries
-  end
-
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?

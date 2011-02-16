@@ -93,28 +93,31 @@ module Redmine
         private :summary
 
         def entries(path=nil, identifier=nil)
-          path ||= ''
-          entries = Entries.new
-          cmd = "#{self.class.sq_bin} -R #{target('')} --cwd #{target('')} locate"
-          cmd << " -r #{hgrev(identifier, true)}"
-          cmd << " " + shell_quote("path:#{path}") unless path.empty?
-          shellout(cmd) do |io|
-            io.each_line do |line|
-              # HG uses antislashs as separator on Windows
-              line = line.gsub(/\\/, "/")
-              if path.empty? or e = line.gsub!(%r{^#{with_trailling_slash(path)}},'')
-                e ||= line
-                e = e.chomp.split(%r{[\/\\]})
-                entries << Entry.new({:name => e.first,
-                                       :path => (path.nil? or path.empty? ? e.first : "#{with_trailling_slash(path)}#{e.first}"),
-                                       :kind => (e.size > 1 ? 'dir' : 'file'),
-                                       :lastrev => Revision.new
-                                     }) unless e.empty? || entries.detect{|entry| entry.name == e.first}
-              end
-            end
+          manifest = hg('rhmanifest', '-r', hgrev(identifier),
+                        CGI.escape(without_leading_slash(path.to_s))) do |io|
+            ActiveSupport::XmlMini.parse(io.read)['rhmanifest']['repository']['manifest']
           end
-          return nil if $? && $?.exitstatus != 0
-          entries.sort_by_name
+          path_prefix = path.blank? ? '' : with_trailling_slash(path)
+
+          entries = Entries.new
+          as_ary(manifest['dir']).each do |e|
+            n = CGI.unescape(e['name'])
+            p = "#{path_prefix}#{n}"
+            entries << Entry.new(:name => n, :path => p, :kind => 'dir')
+          end
+
+          as_ary(manifest['file']).each do |e|
+            n = CGI.unescape(e['name'])
+            p = "#{path_prefix}#{n}"
+            lr = Revision.new(:revision => e['revision'], :scmid => e['node'],
+                              :time => Time.at(e['time'].to_i))
+            entries << Entry.new(:name => n, :path => p, :kind => 'file',
+                                 :size => e['size'].to_i, :lastrev => lr)
+          end
+
+          entries
+        rescue HgCommandAborted
+          nil  # means not found
         end
 
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
