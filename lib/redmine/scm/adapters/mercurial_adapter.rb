@@ -117,53 +117,45 @@ module Redmine
           entries.sort_by_name
         end
 
-        # Fetch the revisions by using a template file that 
-        # makes Mercurial produce a xml output.
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
-          revisions = Revisions.new
-          cmd = "#{self.class.sq_bin} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
-          if identifier_from && identifier_to
-            cmd << " -r #{hgrev(identifier_from, true)}:#{hgrev(identifier_to, true)}"
-          elsif identifier_from
-            cmd << " -r #{hgrev(identifier_from, true)}:"
-          end
-          cmd << " --limit #{options[:limit].to_i}" if options[:limit]
-          cmd << " #{shell_quote path}" unless path.blank?
-          shellout(cmd) do |io|
-            begin
-              # HG doesn't close the XML Document...
-              doc = REXML::Document.new(io.read << "</log>")
-              doc.elements.each("log/logentry") do |logentry|
-                paths = []
-                copies = logentry.get_elements('paths/path-copied')
-                logentry.elements.each("paths/path") do |path|
-                  # Detect if the added file is a copy
-                  if path.attributes['action'] == 'A' and c = copies.find{ |e| e.text == path.text }
-                    from_path = c.attributes['copyfrom-path']
-                    from_rev = logentry.attributes['revision']
-                  end
-                  paths << {:action => path.attributes['action'],
-                    :path => "/#{CGI.unescape(path.text)}",
-                    :from_path => from_path ? "/#{CGI.unescape(from_path)}" : nil,
-                    :from_revision => from_rev ? from_rev : nil
-                  }
-                end
-                paths.sort! { |x,y| x[:path] <=> y[:path] }
+        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
+          revs = Revisions.new
+          each_revision(path, identifier_from, identifier_to, options) { |e| revs << e }
+          revs
+        end
 
-                revisions << Revision.new({:revision => logentry.attributes['revision'],
-                                            :scmid => logentry.attributes['node'],
-                                            :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
-                                            :time => Time.parse(logentry.elements['date'].text).localtime,
-                                            :message => logentry.elements['msg'].text,
-                                            :paths => paths,
-                                          })
-              end
-            rescue
-              logger.debug($!)
-            end
+        # Iterates the revisions by using a template file that
+        # makes Mercurial produce a xml output.
+        def each_revision(path=nil, identifier_from=nil, identifier_to=nil, options={})
+          hg_args = ['log', '--debug', '-C', '--style', self.class.template_path]
+          hg_args << '-r' << "#{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
+          hg_args << '--limit' << options[:limit] if options[:limit]
+          hg_args << hgtarget(path) unless path.blank?
+          log = hg(*hg_args) do |io|
+            # Mercurial < 1.5 does not support footer template for '</log>'
+            ActiveSupport::XmlMini.parse("#{io.read}</log>")['log']
           end
-          return nil if $? && $?.exitstatus != 0
-          revisions
+
+          as_ary(log['logentry']).each do |le|
+            cpalist = as_ary(le['paths']['path-copied']).map do |e|
+              [e['__content__'], e['copyfrom-path']].map { |s| CGI.unescape(s) }
+            end
+            cpmap = Hash[*cpalist.flatten]
+
+            paths = as_ary(le['paths']['path']).map do |e|
+              p = CGI.unescape(e['__content__'])
+              {:action => e['action'], :path => with_leading_slash(p),
+               :from_path => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
+               :from_revision => (cpmap.member?(p) ? le['revision'] : nil)}
+            end.sort { |a, b| a[:path] <=> b[:path] }
+
+            yield Revision.new(:revision => le['revision'],
+                               :scmid => le['node'],
+                               :author => (le['author']['__content__'] rescue ''),
+                               :time => Time.parse(le['date']['__content__']).localtime,
+                               :message => le['msg']['__content__'],
+                               :paths => paths)
+          end
+          self
         end
 
         def diff(path, identifier_from, identifier_to=nil)
@@ -249,6 +241,12 @@ module Redmine
           root_url + '/' + without_leading_slash(path)
         end
         private :hgtarget
+
+        def as_ary(o)
+          return [] unless o
+          o.is_a?(Array) ? o : Array[o]
+        end
+        private :as_ary
       end
     end
   end
