@@ -251,6 +251,12 @@ module Redmine
           rev
         end
         private :hgrev
+
+        def hgtarget(path)
+          path ||= ''
+          root_url + '/' + without_leading_slash(path)
+        end
+        private :hgtarget
       end
     end
   end
