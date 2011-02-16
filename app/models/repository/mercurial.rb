@@ -112,7 +112,7 @@ class Repository::Mercurial < Repository
           transaction do
             revisions.each do |revision|
               changeset = Changeset.create(:repository => self,
-                                           :revision => revision.identifier,
+                                           :revision => revision.revision,
                                            :scmid => revision.scmid,
                                            :committer => revision.author, 
                                            :committed_on => revision.time,

@@ -150,12 +150,12 @@ module Redmine
                 end
                 paths.sort! { |x,y| x[:path] <=> y[:path] }
 
-                revisions << Revision.new({:identifier => logentry.attributes['revision'],
+                revisions << Revision.new({:revision => logentry.attributes['revision'],
                                             :scmid => logentry.attributes['node'],
                                             :author => (logentry.elements['author'] ? logentry.elements['author'].text : ""),
                                             :time => Time.parse(logentry.elements['date'].text).localtime,
                                             :message => logentry.elements['msg'].text,
-                                            :paths => paths
+                                            :paths => paths,
                                           })
               end
             rescue
