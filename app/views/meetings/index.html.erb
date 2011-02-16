@@ -9,20 +9,28 @@
 <% if @meetings_by_start_year_month_date.empty? -%>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else -%>
-<div class="meetings">
+<div class="meetings meetings_by_month_year" id="activity">
 <% @meetings_by_start_year_month_date.sort.reverse.each do |year,meetings_by_start_month_date| -%>
 <% meetings_by_start_month_date.sort.reverse.each do |month,meetings_by_start_date| -%>
   <h3 class="month_year"><%= "#{month_name(month)} #{year}" %></h3>
+  <div class="meetings_by_date">
   <% meetings_by_start_date.sort.reverse.each do |date,meetings| -%>
-  <h3 class="date"><%= format_activity_day(date) %></h3>
-  <% meetings.each do |meeting| -%>
-  <div class="meeting" id="meeting-<%= meeting.id %>">
-    <span class="time"><%= format_time meeting.start_time, false %>-<%= format_time meeting.end_time, false %></span> <%= link_to h(meeting.title), :controller => 'meetings', :action => 'show', :id => meeting %>
-    <p><strong><%= l(:field_location) %></strong>: <%=h meeting.location %>
-    <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.count %>): <%= meeting.participants.sort.join(", ") %></p>
+    <h3 class="date"><%= format_activity_day(date) %></h3>
+    <dl class="meetings">
+    <% meetings.each do |meeting| -%>
+      <dt class="meeting" id="meeting-<%= meeting.id %>">
+        <%= avatar meeting.author, :size => "24" %>
+        <span class="time"><%= format_time meeting.start_time, false %>-<%= format_time meeting.end_time, false %></span>
+        <%= link_to h(meeting.title), :controller => 'meetings', :action => 'show', :id => meeting %>
+      </dt>
+      <dd class="meeting" id="meeting-<%= meeting.id %>">
+        <p><strong><%= l(:field_location) %></strong>: <%=h meeting.location %></p>
+        <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.count %>): <%= meeting.participants.sort.join(", ") %></p>
+      </dd>
+    <% end -%>
+    </dl>
+  <% end -%>
   </div>
-  <% end -%>
-  <% end -%>
 <% end -%>
 <% end -%>
 </div>
