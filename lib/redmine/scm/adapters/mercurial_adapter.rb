@@ -159,27 +159,19 @@ module Redmine
         end
 
         def diff(path, identifier_from, identifier_to=nil)
-          path ||= ''
-          diff_args = ''
-          diff = []
+          hg_args = %w|rhdiff|
           if identifier_to
-            diff_args = "-r #{hgrev(identifier_to, true)} -r #{hgrev(identifier_from, true)}"
+            hg_args << '-r' << hgrev(identifier_to) << '-r' << hgrev(identifier_from)
           else
-            if self.class.client_version_above?([1, 2])
-              diff_args = "-c #{hgrev(identifier_from, true)}"
-            else
-              return []
-            end
+            hg_args << '-c' << hgrev(identifier_from)
           end
-          cmd = "#{self.class.sq_bin} -R #{target('')} --config diff.git=false diff --nodates #{diff_args}"
-          cmd << " -I #{target(path)}" unless path.empty?
-          shellout(cmd) do |io|
-            io.each_line do |line|
-              diff << line
-            end
+          hg_args << CGI.escape(hgtarget(path)) unless path.blank?
+
+          hg *hg_args do |io|
+            io.collect
           end
-          return nil if $? && $?.exitstatus != 0
-          diff
+        rescue HgCommandAborted
+          nil  # means not found
         end
 
         def cat(path, identifier=nil)
