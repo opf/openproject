@@ -42,6 +42,16 @@ begin
         end
       end
 
+      def test_info
+        [REPOSITORY_PATH, REPOSITORY_PATH + "/",
+             REPOSITORY_PATH + "//"].each do |repo|
+          adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
+          assert_equal REPOSITORY_PATH, adp.info.root_url
+          # assert_equal '16', adp.info.lastrev.revision
+          assert_equal '4cddb4e45f52',adp.info.lastrev.scmid
+        end
+      end
+
       def test_diff
         if @adapter.class.client_version_above?([1, 2])
           assert_nil @adapter.diff(nil, '100000')
