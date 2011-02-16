@@ -34,7 +34,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     User.current = nil
     @repository = Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
     assert @repository
-    @diff_c_support = @repository.scm.class.client_version_above?([1, 2])
+    @diff_c_support = true
   end
 
   if File.directory?(REPOSITORY_PATH)

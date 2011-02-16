@@ -13,7 +13,7 @@ begin
     if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(REPOSITORY_PATH)
-        @diff_c_support = @adapter.class.client_version_above?([1, 2])
+        @diff_c_support = true
       end
 
       def test_hgversion
