@@ -13,6 +13,7 @@ begin
     if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(REPOSITORY_PATH)
+        @diff_c_support = @adapter.class.client_version_above?([1, 2])
       end
 
       def test_hgversion
@@ -73,7 +74,7 @@ begin
         assert_nil @adapter.diff(nil, '100000', '200000')
         [2, '400bb8672109', '400', 400].each do |r1|
           diff1 = @adapter.diff(nil, r1)
-          if @adapter.class.client_version_above?([1, 2])
+          if @diff_c_support
             assert_equal 28, diff1.size
             buf = diff1[24].gsub(/\r\n|\r|\n/, "")
             assert_equal "+    return true unless klass.respond_to?('watched_by')", buf
@@ -94,7 +95,7 @@ begin
       end
 
       def test_diff_made_by_revision
-        if @adapter.class.client_version_above?([1, 2])
+        if @diff_c_support
           [16, '16', '4cddb4e45f52'].each do |r1|
             diff1 = @adapter.diff(nil, r1)
             assert_equal 5, diff1.size

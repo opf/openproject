@@ -34,6 +34,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     User.current = nil
     @repository = Repository::Mercurial.create(:project => Project.find(3), :url => REPOSITORY_PATH)
     assert @repository
+    @diff_c_support = @repository.scm.class.client_version_above?([1, 2])
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -137,7 +138,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
 
-        if @repository.scm.class.client_version_above?([1, 2])
+        if @diff_c_support
           # Line 22 removed
           assert_tag :tag => 'th',
                      :content => '22',
