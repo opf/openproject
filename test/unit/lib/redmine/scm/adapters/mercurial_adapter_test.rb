@@ -52,6 +52,20 @@ begin
         end
       end
 
+      def test_revisions
+        revisions = @adapter.revisions(nil, 2, 4)
+        assert_equal 3, revisions.size
+        # assert_equal '2', revisions[0].revision
+        assert_equal '400bb8672109', revisions[0].scmid
+        # assert_equal '4', revisions[2].revision
+        assert_equal 'def6d2f1254a', revisions[2].scmid
+
+        revisions = @adapter.revisions(nil, 2, 4, {:limit => 2})
+        assert_equal 2, revisions.size
+        # assert_equal '2', revisions[0].revision
+        assert_equal '400bb8672109', revisions[0].scmid
+      end
+
       def test_diff
         if @adapter.class.client_version_above?([1, 2])
           assert_nil @adapter.diff(nil, '100000')
