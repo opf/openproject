@@ -224,7 +224,8 @@ module Redmine
 
         # Runs 'hg' command with the given args
         def hg(*args, &block)
-          full_args = [HG_BIN, '-R', root_url, '--encoding', 'utf-8']
+          repo_path = root_url || url
+          full_args = [HG_BIN, '-R', repo_path, '--encoding', 'utf-8']
           full_args << '--config' << "extensions.redminehelper=#{HG_HELPER_EXT}"
           full_args << '--config' << 'diff.git=false'
           full_args += args
