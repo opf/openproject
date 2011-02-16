@@ -93,6 +93,13 @@ module Redmine
           return nil
         end
 
+        def summary
+          @summary ||= hg 'rhsummary' do |io|
+            ActiveSupport::XmlMini.parse(io.read)['rhsummary']
+          end
+        end
+        private :summary
+
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
