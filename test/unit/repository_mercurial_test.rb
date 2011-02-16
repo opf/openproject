@@ -22,17 +22,17 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
-  
+
   def setup
     @project = Project.find(1)
-    assert @repository = Repository::Mercurial.create(:project => @project, :url => REPOSITORY_PATH)
+    @repository = Repository::Mercurial.create(:project => @project, :url => REPOSITORY_PATH)
+    assert @repository
   end
   
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      
       assert_equal 17, @repository.changesets.count
       assert_equal 25, @repository.changes.count
       assert_equal "Initial import.\nThe repository contains 3 files.",
