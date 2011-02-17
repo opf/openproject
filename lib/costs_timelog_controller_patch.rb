@@ -6,8 +6,14 @@ module CostsTimelogControllerPatch
     
     base.class_eval do
       unloadable
-      
-      alias_method_chain :details, :reports_view
+
+      if Redmine::VERSION::MAJOR < 1
+        alias_method_chain :details, :reports_view
+      else
+        # in chiliproject details was renamed to index
+        alias :details_without_report_view :index
+        alias :index :details_with_reports_view
+      end
     end
   end
   
