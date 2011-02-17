@@ -2,9 +2,9 @@ class Widget::Table::ReportTable < Widget::Table
 
   attr_accessor :walker
 
-  def initialize(report, options = {})
+  def initialize(query)
     super
-    @walker = @query.walker
+    @walker = query.walker
   end
 
   def render
