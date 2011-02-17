@@ -15,7 +15,7 @@
   </div>
   <div class="splitcontentright">
   <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
-  <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.join(", ") %></p>
+  <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.invited.join(", ") %></p>
   </div>
   <div style="clear:both;"> </div>
 </div>

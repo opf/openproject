@@ -13,15 +13,4 @@ describe Meeting do
   describe "start_date" do
     it {@m.start_date.should == Date.tomorrow}
   end
-  describe "participants" do
-    before(:all) do
-      @m.participants = [Factory.build(:meeting_participant, :user_id => 1002),
-                         Factory.build(:meeting_participant, :user_id => 1003),
-                         Factory.build(:meeting_participant, :user_id => 1020),
-                         Factory.build(:meeting_participant, :user_id => 12)]
-    end
-    describe "participant_user_ids" do
-      it {@m.participant_user_ids.should == [1002, 1003, 1020, 12]}
-    end
-  end
 end

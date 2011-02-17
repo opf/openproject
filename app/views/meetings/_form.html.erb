@@ -6,9 +6,15 @@
   <p><%= f.text_field :start_date, :required => true, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= time_select("meeting", "start_time", :ignore_date => true) %></p>
   <p><label for="meeting_duration"><%= l(:field_duration)%></label><%= text_field_tag "meeting[duration]", @meeting.duration, :size => 5 %> <em>(in hours)</em></p>
   <p><label><%= l(:field_participants) %></label>
-  <% @meeting.project.users.sort.each do |user| -%>
-  <label class="floating"><%= check_box_tag 'meeting_participant_users[]', user.id, ((params[:meeting_participant_users].include?(user.id.to_s) if params[:meeting_participant_users].present?) || @meeting.participant_user_ids.include?(user.id)) %> <%=h user %></label>
-  <% end -%>
+    <% @project.users.sort.each do |user| -%>
+    <%= hidden_field_tag "meeting[participants_attributes][][user_id]", user.id %>
+    <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
+    <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
+    <label class="floating"><%=h user %> <%= check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited? %><%= check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended? %></label>
+    <% else -%>
+    <label class="floating"><%=h user %> <%= check_box_tag "meeting[participants_attributes][][invited]" %><%= check_box_tag "meeting[participants_attributes][][attended]" %></label>
+    <% end -%>
+    <% end -%>
   </p>
   <%= hidden_field_tag "copy_from_id", params[:copy_from_id] if params[:copy_from_id].present? %>
 </div>

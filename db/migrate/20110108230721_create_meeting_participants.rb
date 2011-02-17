@@ -6,6 +6,8 @@ class CreateMeetingParticipants < ActiveRecord::Migration
       t.column :meeting_role_id, :integer
       t.column :email, :string
       t.column :name, :string
+      t.column :invited, :boolean
+      t.column :attended, :boolean
       
       t.timestamps
     end

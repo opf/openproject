@@ -25,7 +25,7 @@
       </dt>
       <dd class="meeting" id="meeting-<%= meeting.id %>">
         <p><strong><%= l(:field_location) %></strong>: <%=h meeting.location %></p>
-        <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.count %>): <%= meeting.participants.sort.join(", ") %></p>
+        <p><strong><%= l(:field_participants) %></strong> (<%= meeting.participants.invited.count %>): <%= meeting.participants.invited.collect(&:name).sort.join(", ") %></p>
       </dd>
     <% end -%>
     </dl>

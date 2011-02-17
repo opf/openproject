@@ -9,7 +9,7 @@ class MeetingsController < ApplicationController
   def index
     # Wo sollen Meetings ohne Termin hin?
     # (gibt's momentan nicht, Zeitpunkt ist ein Pflichtfeld)
-    @meetings_by_start_year_month_date = @project.meetings.find_time_sorted :all
+    @meetings_by_start_year_month_date = @project.meetings.find_time_sorted :all, :include => [{:participants => :user}, :author]
   end
 
   def show
@@ -40,7 +40,7 @@ class MeetingsController < ApplicationController
       copy_from = Meeting.find(params[:copy_from_id])
       @meeting.attributes = copy_from.attributes.reject {|k,v| !%w(duration location title).include? k}
       @meeting.start_time += (copy_from.start_time.hour - 10).hours
-      @meeting.participants = copy_from.participants
+      @meeting.participants = copy_from.participants.collect(&:clone) # Make sure the participants have no id
     rescue ActiveRecord::RecordNotFound
     end if params[:copy_from_id].present?
   end
@@ -80,7 +80,7 @@ class MeetingsController < ApplicationController
   
   def convert_params
     params[:meeting][:start_time] = Date.parse(params[:meeting].delete(:start_date)) + params[:meeting].delete(:"start_time(4i)").to_i.hours + params[:meeting].delete(:"start_time(5i)").to_i.minutes
-    params[:meeting][:participants] = (params[:meeting_participant_users].collect{|i| @meeting.participants.find_or_initialize_by_user_id(i)} if params[:meeting_participant_users].present?) || []
     params[:meeting][:duration] = params[:meeting][:duration].to_hours
+    params[:meeting][:participants_attributes].each {|p| p.reverse_merge! :attended => false, :invited => false}
   end
 end

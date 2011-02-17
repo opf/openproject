@@ -7,6 +7,8 @@ class Meeting < ActiveRecord::Base
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
+  accepts_nested_attributes_for :participants
+  
   validates_presence_of :title, :start_time
   
   def self.find_time_sorted(*args)
@@ -42,10 +44,6 @@ class Meeting < ActiveRecord::Base
   
   def to_s
     title
-  end
-  
-  def participant_user_ids
-    @participant_user_ids ||= participants.collect(&:user_id)
   end
   
   protected
