@@ -6,6 +6,8 @@ en:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
   field_participants: "Participants"
+  field_participants_invited: "Invitees"
+  field_participants_attended: "Attendants"
   field_location: "Location"
   field_start_time: "Time"
   field_duration: "Duration"

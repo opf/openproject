@@ -4,7 +4,7 @@
   <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
 </div>
 
-<h2><%= l(:label_meeting) %>: <%=h @meeting.title %></h2>
+<h2><%= l(:label_meeting) %>: <%= link_to @meeting, @meeting %></h2>
 
 <div class="meeting details box">
   <%= avatar(@meeting.author, :size => "64") %>
@@ -12,10 +12,11 @@
   <div class="splitcontentleft">
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
+  <p><strong><%= l(:field_participants_attended) %></strong>: <%=h @meeting.participants.attended.join(", ") %></p>
   </div>
   <div class="splitcontentright">
   <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
-  <p><strong><%= l(:field_participants) %></strong>: <%=h @meeting.participants.invited.join(", ") %></p>
+  <p><strong><%= l(:field_participants_invited) %></strong>: <%=h @meeting.participants.invited.join(", ") %></p>
   </div>
   <div style="clear:both;"> </div>
 </div>
