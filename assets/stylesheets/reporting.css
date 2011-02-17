@@ -387,7 +387,7 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 0px;
 }
 
-div#button_form {
+div.button_form {
   /* TODO IE Compatibility! */
   background-color: white;
   border: 1px solid grey;
@@ -396,16 +396,19 @@ div#button_form {
   left: 100px;
   position: absolute;
   padding: 5px;
-  margin-top: -10px;
 }
 
-div#button_form * input#name {
+div.button_form * input#name {
   width: 200px
 }
 
-div#button_form * input[type="button"] {
+div.button_form * input[type="button"] {
   float: right;
 } br { clear: right; }
+
+div.button_form p * {
+  margin: 2px;
+}
 
 /***** Ajax indicator ******/
 #ajax-indicator {
