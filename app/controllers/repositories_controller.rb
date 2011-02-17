@@ -218,7 +218,7 @@ class RepositoriesController < ApplicationController
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
     
-    unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
+    unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
       if @repository.branches.blank?
         raise InvalidRevisionParam
       end
