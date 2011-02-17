@@ -74,3 +74,6 @@
 	<%= submit_tag l(:button_move_and_follow), :name => 'follow' %>
 <% end %>
 <% end %>
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag %>
+<% end %>
