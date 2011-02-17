@@ -9,7 +9,7 @@ module Report::Controller
 
       before_filter :determine_engine
       before_filter :prepare_query, :only => [:index, :create]
-      before_filter :find_optional_report, :only => [:index, :show, :update, :delete]
+      before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
     end
   end
 
