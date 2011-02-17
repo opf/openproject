@@ -301,5 +301,21 @@ class Report < ActiveRecord::Base
       self.class.field
     end
 
+    def mapping
+      self.class.method(:mapping).to_proc
+    end
+
+    def self.mapping(value)
+      value.to_s
+    end
+
+
+    def self.mapping_for(field)
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+        hash[cbl.field] << cbl.mapping
+      end
+      @field_map[field]
+    end
+
   end
 end
