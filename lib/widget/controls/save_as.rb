@@ -27,7 +27,7 @@ class Widget::Controls::SaveAs < Widget::Base
     content_tag(:p) do
       save = link_to content_tag(:span, content_tag(:em, l(:button_save))), "#",
         :id => "query-icon-save-button",
-        :class => "button save",
+        :class => "button reporting_button save",
         :"data-target" => url_for(:action => 'create', :set_filter => '1')
       cancel = link_to l(:button_cancel), "#",
         :id => "query-icon-save-as-cancel",
