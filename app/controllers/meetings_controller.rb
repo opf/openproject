@@ -13,18 +13,16 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    @author = @meeting.author
-    @participants = @meeting.participants
-    @agenda = @meeting.agenda
-    @minutes = @meeting.minutes
   end
 
   def create
     @meeting.attributes = params[:meeting]
     begin
-      @meeting.agenda = MeetingAgenda.new(:text => Meeting.find(params[:copy_from_id]).agenda.text,
-                                          :comment => "Copied from Meeting ##{params[:copy_from_id]}",
-                                          :author => User.current)
+      if (agenda = Meeting.find(params[:copy_from_id]).agenda).present?
+        @meeting.agenda = MeetingAgenda.new(:text => agenda.text,
+                                            :comment => "Copied from Meeting ##{params[:copy_from_id]}",
+                                            :author => User.current)
+      end
     rescue ActiveRecord::RecordNotFound
     end if params[:copy_from_id].present?
     if @meeting.save

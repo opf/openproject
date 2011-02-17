@@ -7,8 +7,8 @@
 <h2><%= l(:label_meeting) %>: <%=h @meeting.title %></h2>
 
 <div class="meeting details box">
-  <%= avatar(@author, :size => "64") %>
-  <p class="author"><%= authoring @meeting.created_at, @author %></p>
+  <%= avatar(@meeting.author, :size => "64") %>
+  <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
   <div class="splitcontentleft">
   <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
