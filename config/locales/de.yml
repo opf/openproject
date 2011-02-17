@@ -9,7 +9,7 @@ de:
   field_location: "Ort/Raum"
   field_start_time: "Anfangszeit"
   field_duration: "Dauer"
-  project_module_meetings: "Meetings"
+  project_module_meetings: "Meetings (Beta)"
   permission_create_meetings: "Meetings erstellen"
   permission_edit_meetings: "Meetings bearbeiten"
   permission_delete_meetings: "Meetings löschen"
