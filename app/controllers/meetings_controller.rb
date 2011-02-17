@@ -8,16 +8,8 @@ class MeetingsController < ApplicationController
 
   def index
     # Wo sollen Meetings ohne Termin hin?
-    @meetings_by_start_year_month_date = ActiveSupport::OrderedHash.new
-    @project.meetings.all.group_by(&:start_year).each do |year,meetings|
-      @meetings_by_start_year_month_date[year] = ActiveSupport::OrderedHash.new
-      meetings.group_by(&:start_month).each do |month,meetings|
-        @meetings_by_start_year_month_date[year][month] = ActiveSupport::OrderedHash.new
-        meetings.group_by(&:start_date).each do |date,meetings|
-          @meetings_by_start_year_month_date[year][month][date] = meetings.sort_by {|m| m.start_time}.reverse
-        end
-      end
-    end
+    # (gibt's momentan nicht, Zeitpunkt ist ein Pflichtfeld)
+    @meetings_by_start_year_month_date = @project.meetings.find_time_sorted :all
   end
 
   def show

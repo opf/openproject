@@ -7,7 +7,21 @@ class Meeting < ActiveRecord::Base
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
-  validates_presence_of :title
+  validates_presence_of :title, :start_time
+  
+  def self.find_time_sorted(*args)
+    by_start_year_month_date = ActiveSupport::OrderedHash.new
+    self.find(*args).group_by(&:start_year).each do |year,objs|
+      by_start_year_month_date[year] = ActiveSupport::OrderedHash.new
+      objs.group_by(&:start_month).each do |month,objs|
+        by_start_year_month_date[year][month] = ActiveSupport::OrderedHash.new
+        objs.group_by(&:start_date).each do |date,objs|
+          by_start_year_month_date[year][month][date] = objs.sort_by {|m| m.start_time}.reverse
+        end
+      end
+    end
+    by_start_year_month_date
+  end
   
   def start_date
     # the text_field + calendar_for form helpers expect a Date
