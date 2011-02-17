@@ -356,6 +356,37 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
+.buttons .apply {
+  background-color: #9a9a9a;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  overflow: visible;
+  text-align: center;
+  white-space: nowrap;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.buttons .apply:hover {
+  background-color: #666666;
+}
+
+.buttons .apply span em {
+  color: white;
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 17px;
+}
+
+.buttons .apply span {
+  display: inline-block;
+  margin: 0px;
+}
+
 div#button_form {
   /* TODO IE Compatibility! */
   background-color: white;
