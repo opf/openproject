@@ -6,7 +6,7 @@ module GlobalRoles
       base.class_eval do
         alias_method_chain :new, :global_roles
         alias_method_chain :index, :global_roles
-        alias_method_chain :list, :global_roles
+        alias_method_chain :list, :global_roles if Redmine::VERSION::MAJOR < 1
       end
     end
 
