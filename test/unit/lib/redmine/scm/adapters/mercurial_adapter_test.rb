@@ -183,6 +183,24 @@ begin
         assert_equal Time.gm(2007, 12, 14, 9, 22, 52), readme.lastrev.time
       end
 
+      def test_entries_branch
+        entries1 = @adapter.entries(nil, 'test-branch-00')
+        assert entries1
+        assert_equal 5, entries1.size
+        assert_equal 'sql_escape', entries1[2].name
+        assert_equal 'sql_escape', entries1[2].path
+        assert_equal 'dir', entries1[2].kind
+        readme = entries1[4]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 365, readme.size
+        assert_equal '8', readme.lastrev.revision
+        assert_equal 'c51f5bb613cd', readme.lastrev.identifier
+        # 2001-02-01 00:00:00 -0900
+        assert_equal Time.gm(2001, 2, 1, 9, 0, 0), readme.lastrev.time
+      end
+
       def test_locate_on_outdated_repository
         assert_equal 1, @adapter.entries("images", 0).size
         assert_equal 2, @adapter.entries("images").size
