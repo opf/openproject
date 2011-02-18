@@ -85,6 +85,18 @@ module Redmine
                                             :scmid => tip['node']))
         end
 
+        def tags
+          as_ary(summary['repository']['tag']).map { |e| e['name'] }
+        end
+
+        # Returns map of {'tag' => 'nodeid', ...}
+        def tagmap
+          alist = as_ary(summary['repository']['tag']).map do |e|
+            e.values_at('name', 'node')
+          end
+          Hash[*alist.flatten]
+        end
+
         def summary
           @summary ||= hg 'rhsummary' do |io|
             ActiveSupport::XmlMini.parse(io.read)['rhsummary']
