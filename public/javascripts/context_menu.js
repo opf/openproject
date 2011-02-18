@@ -40,7 +40,7 @@ ContextMenu.prototype = {
   	this.hideMenu();
   	if (Event.element(e).tagName == 'A') { return; }
     if (window.opera && e.altKey) {	return; }
-    if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
+    if (!Event.isRightClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
       var tr = Event.findElement(e, 'tr');
       if (tr!=null && tr!=document && tr.hasClassName('hascontextmenu')) {
         // a row was clicked, check if the click was on checkbox
@@ -53,7 +53,7 @@ ContextMenu.prototype = {
             tr.removeClassName('context-menu-selection');
           }
         } else {
-          if (e.ctrlKey) {
+          if (e.ctrlKey || e.metaKey) {
             this.toggleSelection(tr);
           } else if (e.shiftKey) {
             if (this.lastSelected != null) {
