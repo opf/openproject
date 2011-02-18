@@ -228,6 +228,18 @@ begin
         assert_equal tm, @adapter.tagmap
       end
 
+      def test_branches
+        assert_equal ['default', 'branch (1)[2]&,%.-3_4', 'test-branch-00'],
+                     @adapter.branches
+      end
+
+      def test_branchmap
+        bm = { 'default'               => '4cddb4e45f52',
+               'branch (1)[2]&,%.-3_4' => '933ca60293d7',
+               'test-branch-00'        => '3a330eb32958' }
+        assert_equal bm, @adapter.branchmap
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
