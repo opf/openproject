@@ -61,14 +61,17 @@ class Repository::Mercurial < Repository
   end
 
   # Returns the latest changesets for +path+; sorted by revision number
+  # Default behavior is to search in cached changesets
   def latest_changesets(path, rev, limit=10)
     if path.blank?
       changesets.find(:all, :include => :user, :limit => limit)
     else
-      changes.find(:all, :include => {:changeset => :user},
-                         :conditions => ["path = ?", path.with_leading_slash],
-                         :order => "#{Changeset.table_name}.id DESC",
-                         :limit => limit).collect(&:changeset)
+      changesets.find(:all, :select => "DISTINCT #{Changeset.table_name}.*",
+                      :joins => :changes,
+                      :conditions => ["#{Change.table_name}.path = ? OR #{Change.table_name}.path LIKE ? ESCAPE ?",
+                                      path.with_leading_slash,
+                                      "#{path.with_leading_slash.gsub(/[%_\\]/) { |s| "\\#{s}" }}/%", '\\'],
+                      :include => :user, :limit => limit)
     end
   end
 
