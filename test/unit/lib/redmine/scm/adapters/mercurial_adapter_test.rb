@@ -47,7 +47,8 @@ begin
         [REPOSITORY_PATH, REPOSITORY_PATH + "/",
              REPOSITORY_PATH + "//"].each do |repo|
           adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
-          assert_equal REPOSITORY_PATH, adp.info.root_url
+          repo_path =  adp.info.root_url.gsub(/\\/, "/")
+          assert_equal REPOSITORY_PATH, repo_path
           assert_equal '16', adp.info.lastrev.revision
           assert_equal '4cddb4e45f52',adp.info.lastrev.scmid
         end
