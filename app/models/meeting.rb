@@ -27,15 +27,15 @@ class Meeting < ActiveRecord::Base
   
   def start_date
     # the text_field + calendar_for form helpers expect a Date
-    start_time.to_date if start_time.present?
+    start_time.to_date
   end
   
   def start_month
-    start_time.month if start_time.present?
+    start_time.month
   end
   
   def start_year
-    start_time.year if start_time.present?
+    start_time.year
   end
   
   def end_time
