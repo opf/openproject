@@ -110,9 +110,16 @@ module Redmine
         end
 
         def summary
-          @summary ||= hg 'rhsummary' do |io|
-            ActiveSupport::XmlMini.parse(io.read)['rhsummary']
+          return @summary if @summary 
+          doc = nil
+          hg 'rhsummary' do |io|
+            output = io.read
+            begin
+              doc = ActiveSupport::XmlMini.parse(output)['rhsummary']
+            rescue
+            end
           end
+          @summary = doc
         end
         private :summary
 
