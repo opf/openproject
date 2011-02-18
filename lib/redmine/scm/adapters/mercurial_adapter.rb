@@ -124,7 +124,10 @@ module Redmine
         def entries(path=nil, identifier=nil)
           manifest = hg('rhmanifest', '-r', hgrev(identifier),
                         CGI.escape(without_leading_slash(path.to_s))) do |io|
-            ActiveSupport::XmlMini.parse(io.read)['rhmanifest']['repository']['manifest']
+            begin
+              ActiveSupport::XmlMini.parse(io.read)['rhmanifest']['repository']['manifest']
+            rescue
+            end
           end
           path_prefix = path.blank? ? '' : with_trailling_slash(path)
 
@@ -164,8 +167,11 @@ module Redmine
           hg_args << '--limit' << options[:limit] if options[:limit]
           hg_args << hgtarget(path) unless path.blank?
           log = hg(*hg_args) do |io|
-            # Mercurial < 1.5 does not support footer template for '</log>'
-            ActiveSupport::XmlMini.parse("#{io.read}</log>")['log']
+            begin
+              # Mercurial < 1.5 does not support footer template for '</log>'
+              ActiveSupport::XmlMini.parse("#{io.read}</log>")['log']
+            rescue
+            end
           end
 
           as_ary(log['logentry']).each do |le|
