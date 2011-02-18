@@ -97,6 +97,18 @@ module Redmine
           Hash[*alist.flatten]
         end
 
+        def branches
+          as_ary(summary['repository']['branch']).map { |e| e['name'] }
+        end
+
+        # Returns map of {'branch' => 'nodeid', ...}
+        def branchmap
+          alist = as_ary(summary['repository']['branch']).map do |e|
+            e.values_at('name', 'node')
+          end
+          Hash[*alist.flatten]
+        end
+
         def summary
           @summary ||= hg 'rhsummary' do |io|
             ActiveSupport::XmlMini.parse(io.read)['rhsummary']
