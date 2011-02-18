@@ -218,6 +218,16 @@ begin
         assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400')
       end
 
+      def test_tags
+        assert_equal ['tag_test.00', 'tag-init-revision'], @adapter.tags
+      end
+
+      def test_tagmap
+        tm = { 'tag_test.00'       => '6987191f453a',
+               'tag-init-revision' => '0885933ad4f6' }
+        assert_equal tm, @adapter.tagmap
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
