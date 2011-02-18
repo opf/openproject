@@ -50,19 +50,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 17, @repository.changesets.count
     end
     
-    def test_entries
-      assert_equal 2, @repository.entries("sources", 2).size
-      assert_equal 2, @repository.entries("sources", '400bb8672109').size
-      assert_equal 1, @repository.entries("sources", 3).size
-      assert_equal 1, @repository.entries("sources", 'b3a615152df8').size
-    end
-
-    def test_locate_on_outdated_repository
-      assert_equal 1, @repository.entries("images", 0).size
-      assert_equal 2, @repository.entries("images").size
-      assert_equal 2, @repository.entries("images", 2).size
-    end
-
     def test_isodatesec
       # Template keyword 'isodatesec' supported in Mercurial 1.0 and higher
       if @repository.scm.class.client_version_above?([1, 0])

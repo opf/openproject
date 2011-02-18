@@ -133,6 +133,10 @@ begin
       # TODO filesize etc.
       def test_entries
         assert_nil @adapter.entries(nil, '100000')
+
+        assert_equal 1, @adapter.entries("sources", 3).size
+        assert_equal 1, @adapter.entries("sources", 'b3a615152df8').size
+
         [2, '400bb8672109', '400', 400].each do |r|
           entries1 = @adapter.entries(nil, r)
           assert entries1
@@ -154,6 +158,12 @@ begin
           assert_equal 'sources/welcome_controller.rb', entries2[1].path
           assert_equal 'file', entries2[1].kind
         end
+      end
+
+      def test_locate_on_outdated_repository
+        assert_equal 1, @adapter.entries("images", 0).size
+        assert_equal 2, @adapter.entries("images").size
+        assert_equal 2, @adapter.entries("images", 2).size
       end
 
       def test_access_by_nodeid
