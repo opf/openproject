@@ -158,6 +158,27 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert c.event_title.include?('123:abc400bb8672:')
       assert_equal 'abc400bb8672', c.event_url[:rev]
     end
+
+    def test_latest_changesets_with_limit
+      @repository.fetch_changesets
+      @repository.reload
+      changesets = @repository.latest_changesets('', nil, 2)
+      assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
+    end
+
+    def test_latest_changesets_with_filepath
+      @repository.fetch_changesets
+      @repository.reload
+      changesets = @repository.latest_changesets('README', nil)
+      assert_equal %w|8 6 1 0|, changesets.collect(&:revision)
+    end
+
+    def test_latest_changesets_with_dirpath
+      @repository.fetch_changesets
+      @repository.reload
+      changesets = @repository.latest_changesets('images', nil)
+      assert_equal %w|1 0|, changesets.collect(&:revision)
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
