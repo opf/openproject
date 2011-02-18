@@ -165,6 +165,24 @@ begin
         end
       end
 
+      def test_entries_tag
+        entries1 = @adapter.entries(nil, 'tag_test.00')
+        assert entries1
+        assert_equal 3, entries1.size
+        assert_equal 'sources', entries1[1].name
+        assert_equal 'sources', entries1[1].path
+        assert_equal 'dir', entries1[1].kind
+        readme = entries1[2]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 21, readme.size
+        assert_equal '0', readme.lastrev.revision
+        assert_equal '0885933ad4f6', readme.lastrev.identifier
+        # 2007-12-14 10:22:52 +0100
+        assert_equal Time.gm(2007, 12, 14, 9, 22, 52), readme.lastrev.time
+      end
+
       def test_locate_on_outdated_repository
         assert_equal 1, @adapter.entries("images", 0).size
         assert_equal 2, @adapter.entries("images").size
