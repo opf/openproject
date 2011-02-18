@@ -171,6 +171,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.reload
       changesets = @repository.latest_changesets('README', nil)
       assert_equal %w|8 6 1 0|, changesets.collect(&:revision)
+
+      path = 'sql_escape/percent%dir/percent%file1.txt'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|11 10 9|, changesets.collect(&:revision)
+
+      path = 'sql_escape/underscore_dir/understrike_file.txt'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|12 9|, changesets.collect(&:revision)
     end
 
     def test_latest_changesets_with_dirpath
@@ -178,6 +186,14 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.reload
       changesets = @repository.latest_changesets('images', nil)
       assert_equal %w|1 0|, changesets.collect(&:revision)
+
+      path = 'sql_escape/percent%dir'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
+
+      path = 'sql_escape/underscore_dir'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|13 12 9|, changesets.collect(&:revision)
     end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
