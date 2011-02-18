@@ -130,7 +130,6 @@ begin
         end
       end
 
-      # TODO filesize etc.
       def test_entries
         assert_nil @adapter.entries(nil, '100000')
 
@@ -151,7 +150,7 @@ begin
           assert_equal 27, readme.size
           assert_equal '1', readme.lastrev.revision
           assert_equal '9d5b5b004199', readme.lastrev.identifier
-           # 2007-12-14 10:24:01 +0100
+          # 2007-12-14 10:24:01 +0100
           assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
 
           entries2 = @adapter.entries('sources', r)
