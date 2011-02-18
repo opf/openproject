@@ -19,10 +19,10 @@ require 'cgi'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class CommandFailed < StandardError #:nodoc:
       end
-      
+
       class AbstractAdapter #:nodoc:
         class << self
           def client_command
@@ -188,11 +188,11 @@ module Redmine
         def shellout(cmd, &block)
           self.class.shellout(cmd, &block)
         end
-        
+
         def self.logger
           RAILS_DEFAULT_LOGGER
         end
-        
+
         def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{strip_credential(cmd)}" if logger && logger.debug?
           if Rails.env == 'development'
@@ -210,8 +210,8 @@ module Redmine
             logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
             raise CommandFailed.new(msg)
           end
-        end  
-        
+        end
+
         # Hides username/password in a given command
         def self.strip_credential(cmd)
           q = (Redmine::Platform.mswin? ? '"' : "'")
@@ -231,7 +231,7 @@ module Redmine
             else
               x.kind <=> y.kind
             end
-          }   
+          }
         end
         
         def revisions
@@ -329,7 +329,7 @@ module Redmine
           end
         end
       end
-        
+
       class Annotate
         attr_reader :lines, :revisions
         
