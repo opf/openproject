@@ -18,3 +18,4 @@ en:
   permission_view_meetings: "View meetings"
   permission_create_meeting_agendas: "Manage agendas"
   permission_create_meeting_minutes: "Manage minutes"
+  text_in_hours: "in hours"
