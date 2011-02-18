@@ -144,9 +144,15 @@ begin
           assert_equal 'sources', entries1[1].name
           assert_equal 'sources', entries1[1].path
           assert_equal 'dir', entries1[1].kind
-          assert_equal 'README', entries1[2].name
-          assert_equal 'README', entries1[2].path
-          assert_equal 'file', entries1[2].kind
+          readme = entries1[2]
+          assert_equal 'README', readme.name
+          assert_equal 'README', readme.path
+          assert_equal 'file', readme.kind
+          assert_equal 27, readme.size
+          assert_equal '1', readme.lastrev.revision
+          assert_equal '9d5b5b004199', readme.lastrev.identifier
+           # 2007-12-14 10:24:01 +0100
+          assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
 
           entries2 = @adapter.entries('sources', r)
           assert entries2
