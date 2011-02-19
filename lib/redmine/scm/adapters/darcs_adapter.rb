@@ -38,6 +38,10 @@ module Redmine
             @@client_version ||= (darcs_binary_version || [])
           end
 
+          def client_available
+            !client_version.empty?
+          end
+
           def darcs_binary_version
             darcsversion = darcs_binary_version_from_command_line
             if m = darcsversion.match(%r{\A(.*?)((\d+\.)+\d+)})
