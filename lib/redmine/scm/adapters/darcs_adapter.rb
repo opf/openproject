@@ -21,7 +21,7 @@ require 'rexml/document'
 module Redmine
   module Scm
     module Adapters
-      class DarcsAdapter < AbstractAdapter      
+      class DarcsAdapter < AbstractAdapter
         # Darcs executable name
         DARCS_BIN = Redmine::Configuration['scm_darcs_command'] || "darcs"
 
@@ -73,7 +73,7 @@ module Redmine
           if path.blank?
             path = ( self.class.client_version_above?([2, 2, 0]) ? @url : '.' )
           end
-          entries = Entries.new          
+          entries = Entries.new
           cmd = "#{self.class.sq_bin} annotate --repodir #{shell_quote @url} --xml-output"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
@@ -164,7 +164,7 @@ module Redmine
           if modified_element.elements['modified_how'].text.match(/removed/)
             return nil
           end
-          
+
           Entry.new({:name => element.attributes['name'],
                      :path => path_prefix + element.attributes['name'],
                      :kind => element.name == 'file' ? 'file' : 'dir',
@@ -173,7 +173,7 @@ module Redmine
                        :identifier => nil,
                        :scmid => modified_element.elements['patch'].attributes['hash']
                        })
-                     })        
+                     })
         end
 
         def get_paths_for_patch(hash)
