@@ -111,7 +111,6 @@ module Redmine
 
         def summary
           return @summary if @summary 
-          doc = nil
           hg 'rhsummary' do |io|
             begin
               @summary = ActiveSupport::XmlMini.parse(io.read)['rhsummary']
