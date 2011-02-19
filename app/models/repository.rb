@@ -177,7 +177,7 @@ class Repository < ActiveRecord::Base
       user
     end
   end
-  
+
   # Fetches new changesets for all repositories of active projects
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
@@ -187,12 +187,12 @@ class Repository < ActiveRecord::Base
         begin
           project.repository.fetch_changesets
         rescue Redmine::Scm::Adapters::CommandFailed => e
-          logger.error "Repository: error during fetching changesets: #{e.message}"
+          logger.error "scm: error during fetching changesets: #{e.message}"
         end
       end
     end
   end
-  
+
   # scan changeset comments to find related and fixed issues for all repositories
   def self.scan_changesets_for_issue_ids
     find(:all).each(&:scan_changesets_for_issue_ids)
@@ -218,15 +218,33 @@ class Repository < ActiveRecord::Base
   end
 
   def self.scm_command
-    self.scm_adapter_class.nil? ? "" : self.scm_adapter_class.client_command
+    ret = ""
+    begin
+      ret = self.scm_adapter_class.client_command if self.scm_adapter_class
+    rescue Redmine::Scm::Adapters::CommandFailed => e
+      logger.error "scm: error during get command: #{e.message}"
+    end
+    ret
   end
 
   def self.scm_version_string
-    self.scm_adapter_class.nil? ? "" : self.scm_adapter_class.client_version_string
+    ret = ""
+    begin
+      ret = self.scm_adapter_class.client_version_string if self.scm_adapter_class
+    rescue Redmine::Scm::Adapters::CommandFailed => e
+      logger.error "scm: error during get version string: #{e.message}"
+    end
+    ret
   end
 
   def self.scm_available
-    self.scm_adapter_class.nil? ? false : self.scm_adapter_class.client_available
+    ret = false
+    begin
+      ret = self.scm_adapter_class.client_available if self.scm_adapter_class 
+    rescue Redmine::Scm::Adapters::CommandFailed => e
+      logger.error "scm: error during get scm available: #{e.message}"
+    end
+    ret
   end
 
   private
