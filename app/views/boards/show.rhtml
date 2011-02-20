@@ -69,4 +69,5 @@
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+    <%= stylesheet_link_tag 'scm' %>
 <% end %>
