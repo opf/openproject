@@ -71,6 +71,7 @@ module Redmine
           custom_field_values.each do |custom_value|
             custom_value.value = values[custom_value.custom_field_id.to_s] if values.has_key?(custom_value.custom_field_id.to_s)
           end if values.is_a?(Hash)
+          self.custom_values = custom_field_values
         end
         
         def custom_field_values
