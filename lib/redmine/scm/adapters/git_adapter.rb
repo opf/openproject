@@ -24,6 +24,9 @@ module Redmine
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
+        # raised if scm command exited with error, e.g. unknown revision.
+        class ScmCommandAborted < CommandFailed; end
+
         class << self
           def client_command
             @@bin    ||= GIT_BIN
@@ -82,9 +85,9 @@ module Redmine
         end
 
         def default_branch
-          branches.include?('master') ? 'master' : branches.first 
+          branches.include?('master') ? 'master' : branches.first
         end
-        
+
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
@@ -279,7 +282,7 @@ module Redmine
           end
           blame
         end
-        
+
         def cat(path, identifier=nil)
           if identifier.nil?
             identifier = 'HEAD'
@@ -300,6 +303,19 @@ module Redmine
             identifier[0,8]
           end
         end
+
+        def scm_cmd(*args, &block)
+          repo_path = root_url || url
+          full_args = [GIT_BIN, '--git-dir', repo_path]
+          full_args += args
+          full_args << '--no-color'
+          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          if $? && $?.exitstatus != 0
+            raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"
+          end
+          ret
+        end
+        private :scm_cmd
       end
     end
   end
