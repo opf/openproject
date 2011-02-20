@@ -110,8 +110,12 @@ module Redmine
             total += number_of_rows_on_project(project)
           end
         end
-        
-        rows > @max_rows ? @max_rows : rows
+
+        if @max_rows.present?
+          rows > @max_rows ? @max_rows : rows
+        else
+          rows
+        end
       end
 
       # Returns the number of rows that will be used to list a project on
