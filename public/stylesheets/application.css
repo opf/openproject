@@ -717,15 +717,14 @@ div.wiki ul.toc {
 }
 * html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
+div.wiki ul.toc {font-size: 0.8em;}
 div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
 div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
 div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li { list-style-type:none; margin: 0;}
 div.wiki ul.toc li li { margin-left: 1.5em; }
-div.wiki ul.toc li li li { font-size: 0.8em; }
 
 div.wiki ul.toc a {
-    font-size: 0.9em;
     font-weight: normal;
     text-decoration: none;
     color: #606060;
