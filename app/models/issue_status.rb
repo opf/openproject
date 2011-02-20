@@ -50,10 +50,16 @@ class IssueStatus < ActiveRecord::Base
 
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time
-  def new_statuses_allowed_to(roles, tracker)
+  def new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
     if roles && tracker
       role_ids = roles.collect(&:id)
-      new_statuses = workflows.select {|w| role_ids.include?(w.role_id) && w.tracker_id == tracker.id}.collect{|w| w.new_status}.compact.sort
+      transitions = workflows.select do |w|
+        role_ids.include?(w.role_id) &&
+        w.tracker_id == tracker.id && 
+        (author || !w.author) &&
+        (assignee || !w.assignee)
+      end
+      transitions.collect{|w| w.new_status}.compact.sort
     else
       []
     end
@@ -61,22 +67,17 @@ class IssueStatus < ActiveRecord::Base
   
   # Same thing as above but uses a database query
   # More efficient than the previous method if called just once
-  def find_new_statuses_allowed_to(roles, tracker)
+  def find_new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
     if roles && tracker
+      conditions = {:role_id => roles.collect(&:id), :tracker_id => tracker.id}
+      conditions[:author] = false unless author
+      conditions[:assignee] = false unless assignee
+      
       workflows.find(:all,
                      :include => :new_status,
-                     :conditions => { :role_id => roles.collect(&:id), 
-                                      :tracker_id => tracker.id}).collect{ |w| w.new_status }.compact.sort
+                     :conditions => conditions).collect{|w| w.new_status}.compact.sort
     else
       []
-    end
-  end
-  
-  def new_status_allowed_to?(status, roles, tracker)
-    if status && roles && tracker
-      !workflows.find(:first, :conditions => {:new_status_id => status.id, :role_id => roles.collect(&:id), :tracker_id => tracker.id}).nil?
-    else
-      false
     end
   end
 

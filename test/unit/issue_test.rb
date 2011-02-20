@@ -210,6 +210,33 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
   end
   
+  
+  
+  def test_new_statuses_allowed_to
+    Workflow.delete_all
+    
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2, :author => false, :assignee => false)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3, :author => true, :assignee => false)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4, :author => false, :assignee => true)
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5, :author => true, :assignee => true)
+    status = IssueStatus.find(1)
+    role = Role.find(1)
+    tracker = Tracker.find(1)
+    user = User.find(2)
+    
+    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1)
+    assert_equal [1, 2], issue.new_statuses_allowed_to(user).map(&:id)
+    
+    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user)
+    assert_equal [1, 2, 3], issue.new_statuses_allowed_to(user).map(&:id)
+    
+    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :assigned_to => user)
+    assert_equal [1, 2, 4], issue.new_statuses_allowed_to(user).map(&:id)
+    
+    issue = Issue.generate!(:tracker => tracker, :status => status, :project_id => 1, :author => user, :assigned_to => user)
+    assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
+  end
+  
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.save

@@ -65,17 +65,17 @@ class WorkflowsControllerTest < ActionController::TestCase
     
     # allowed transitions
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][]',
-                                                 :value => '5',
+                                                 :name => 'issue_status[3][5][]',
+                                                 :value => 'always',
                                                  :checked => 'checked' }
     # not allowed
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][]',
-                                                 :value => '2',
+                                                 :name => 'issue_status[3][2][]',
+                                                 :value => 'always',
                                                  :checked => nil }
     # unused
     assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'issue_status[4][]' }
+                                                    :name => 'issue_status[1][1][]' }
   end
   
   def test_get_edit_with_role_and_tracker_and_all_statuses
@@ -89,18 +89,46 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal IssueStatus.count, assigns(:statuses).size
     
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[1][]',
-                                                 :value => '1',
+                                                 :name => 'issue_status[1][1][]',
+                                                 :value => 'always',
                                                  :checked => nil }
   end
   
   def test_post_edit
-    post :edit, :role_id => 2, :tracker_id => 1, :issue_status => {'4' => ['5'], '3' => ['1', '2']}
+    post :edit, :role_id => 2, :tracker_id => 1,
+      :issue_status => {
+        '4' => {'5' => ['always']},
+        '3' => {'1' => ['always'], '2' => ['always']}
+      }
     assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
     
     assert_equal 3, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
     assert_not_nil  Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
     assert_nil      Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4})
+  end
+  
+  def test_post_edit_with_additional_transitions
+    post :edit, :role_id => 2, :tracker_id => 1,
+      :issue_status => {
+        '4' => {'5' => ['always']},
+        '3' => {'1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee']}
+      }
+    assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
+    
+    assert_equal 4, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    
+    w = Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 4, :new_status_id => 5})
+    assert ! w.author
+    assert ! w.assignee
+    w = Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 1})
+    assert w.author
+    assert ! w.assignee
+    w = Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
+    assert ! w.author
+    assert w.assignee
+    w = Workflow.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 4})
+    assert w.author
+    assert w.assignee
   end
   
   def test_clear_workflow

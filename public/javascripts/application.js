@@ -46,6 +46,12 @@ function toggleFieldset(el) {
 	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
 }
 
+function hideFieldset(el) {
+	var fieldset = Element.up(el, 'fieldset');
+	fieldset.toggleClassName('collapsed');
+	fieldset.down('div').hide();
+}
+
 var fileFieldCount = 1;
 
 function addFileField() {
