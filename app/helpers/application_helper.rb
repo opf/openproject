@@ -917,10 +917,10 @@ module ApplicationHelper
     @included_in_api_response.include?(arg.to_s)
   end
 
-  # Returns options or nil if nometa param or X-Redmine-Nometa header
+  # Returns options or nil if nometa param or X-ChiliProject-Nometa header
   # was set in the request
   def api_meta(options)
-    if params[:nometa].present? || request.headers['X-Redmine-Nometa']
+    if params[:nometa].present? || request.headers['X-ChiliProject-Nometa']
       # compatibility mode for activeresource clients that raise
       # an error when unserializing an array with attributes
       nil

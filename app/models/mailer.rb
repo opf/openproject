@@ -281,7 +281,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Type' => "Test"
     set_language_if_valid(user.language)
     recipients user.mail
-    subject 'Redmine test'
+    subject 'ChiliProject test'
     body :url => url_for(:controller => 'welcome')
     render_multipart('test', body)
   end
@@ -362,16 +362,16 @@ class Mailer < ActionMailer::Base
     from Setting.mail_from
     
     # Common headers
-    headers 'X-Mailer' => 'Redmine',
-            'X-Redmine-Host' => Setting.host_name,
-            'X-Redmine-Site' => Setting.app_title,
+    headers 'X-Mailer' => 'ChiliProject',
+            'X-ChiliProject-Host' => Setting.host_name,
+            'X-ChiliProject-Site' => Setting.app_title,
             'Precedence' => 'bulk',
             'Auto-Submitted' => 'auto-generated'
   end
 
-  # Appends a Redmine header field (name is prepended with 'X-Redmine-')
+  # Appends a Redmine header field (name is prepended with 'X-ChiliProject-')
   def redmine_headers(h)
-    h.each { |k,v| headers["X-Redmine-#{k}"] = v }
+    h.each { |k,v| headers["X-ChiliProject-#{k}"] = v }
   end
 
   # Overrides the create_mail method
@@ -425,9 +425,9 @@ class Mailer < ActionMailer::Base
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
     timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on) 
-    hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    hash = "chiliproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
-    host = "#{::Socket.gethostname}.redmine" if host.empty?
+    host = "#{::Socket.gethostname}.chiliproject" if host.empty?
     "<#{hash}@#{host}>"
   end
   

@@ -89,7 +89,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     context "with nometa header" do
       should "not contain metadata" do
-        get '/issues.xml', {}, {'X-Redmine-Nometa' => '1'}
+        get '/issues.xml', {}, {'X-ChiliProject-Nometa' => '1'}
         
         assert_tag :tag => 'issues',
           :attributes => {
