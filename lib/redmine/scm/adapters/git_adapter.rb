@@ -145,17 +145,18 @@ module Redmine
 
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
+          cmd_args = %w|log --raw --date=iso --pretty=fuller|
+          cmd_args << "--reverse" if options[:reverse]
+          cmd_args << "--all" if options[:all]
+          cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
+          from_to = ""
+          from_to << "#{identifier_from}.." if identifier_from
+          from_to << "#{identifier_to}" if identifier_to
+          cmd_args << from_to if !from_to.empty?
+          cmd_args << "--since=#{options[:since].strftime("%Y-%m-%d %H:%M:%S")}" if options[:since]
+          cmd_args << "--" << "#{path}" if path && !path.empty?
 
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} log --no-color --raw --date=iso --pretty=fuller "
-          cmd << " --reverse " if options[:reverse]
-          cmd << " --all " if options[:all]
-          cmd << " -n #{options[:limit].to_i} " if options[:limit]
-          cmd << "#{shell_quote(identifier_from + '..')}" if identifier_from
-          cmd << "#{shell_quote identifier_to}" if identifier_to
-          cmd << " --since=#{shell_quote(options[:since].strftime("%Y-%m-%d %H:%M:%S"))}" if options[:since]
-          cmd << " -- #{shell_quote path}" if path && !path.empty?
-
-          shellout(cmd) do |io|
+          scm_cmd *cmd_args do |io|
             files=[]
             changeset = {}
             parsing_descr = 0  #0: not parsing desc or files, 1: parsing desc, 2: parsing files
@@ -232,8 +233,8 @@ module Redmine
               end
             end
           end
-
-          return nil if $? && $?.exitstatus != 0
+          revisions
+        rescue ScmCommandAborted
           revisions
         end
 
