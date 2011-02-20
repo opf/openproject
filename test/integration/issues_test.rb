@@ -65,7 +65,7 @@ class IssuesTest < ActionController::IntegrationTest
   end
 
   # add then remove 2 attachments to an issue
-  def test_issue_attachements
+  def test_issue_attachments
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
 
