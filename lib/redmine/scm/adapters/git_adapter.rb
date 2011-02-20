@@ -145,7 +145,7 @@ module Redmine
 
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
-          cmd_args = %w|log --raw --date=iso --pretty=fuller|
+          cmd_args = %w|log --no-color --raw --date=iso --pretty=fuller|
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "--all" if options[:all]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
@@ -309,7 +309,6 @@ module Redmine
           repo_path = root_url || url
           full_args = [GIT_BIN, '--git-dir', repo_path]
           full_args += args
-          full_args << '--no-color'
           ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"
