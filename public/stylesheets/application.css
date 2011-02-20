@@ -426,6 +426,7 @@ fieldset.settings label { display: block; }
 .required {color: #bb0000;}
 .summary {font-style: italic;}
 
+#attachments {font-size: 1em; }
 #attachments_fields input[type=text] {margin-left: 8px; }
 
 div.attachments { margin-top: 12px; }
