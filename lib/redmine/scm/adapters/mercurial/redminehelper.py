@@ -119,6 +119,9 @@ def _manifest(ui, repo, path, rev):
 
     ui.write('</manifest>\n')
 
+def rhcat(ui, repo, file1, *pats, **opts):
+    return commands.cat(ui, repo, urllib.unquote(file1), *map(urllib.unquote, pats), **opts)
+
 def rhdiff(ui, repo, *pats, **opts):
     """diff repository (or selected files)"""
     change = opts.pop('change', None)
@@ -156,6 +159,9 @@ def rhsummary(ui, repo, **opts):
 # This extension should be compatible with Mercurial 0.9.5.
 # Note that Mercurial 0.9.5 doesn't have extensions.wrapfunction().
 cmdtable = {
+    'rhcat': (rhcat,
+               [('r', 'rev', '', 'revision')],
+               'hg rhcat ([-r REV] ...) FILE...'),
     'rhdiff': (rhdiff,
                [('r', 'rev', [], 'revision'),
                 ('c', 'change', '', 'change made by revision')],
