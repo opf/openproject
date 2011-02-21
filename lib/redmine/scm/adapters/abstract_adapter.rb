@@ -221,8 +221,19 @@ module Redmine
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
         end
+
+        def scm_iconv(to, from, str)
+          return nil if str.nil?
+          return str if to == from
+          begin
+            Iconv.conv(to, from, str)
+          rescue Iconv::Failure => err
+            logger.error("failed to convert from #{from} to #{to}. #{err}")
+            nil
+          end
+        end
       end
-      
+
       class Entries < Array
         def sort_by_name
           sort {|x,y| 
