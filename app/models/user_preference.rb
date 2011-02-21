@@ -51,4 +51,7 @@ class UserPreference < ActiveRecord::Base
   
   def comments_sorting; self[:comments_sorting] end
   def comments_sorting=(order); self[:comments_sorting]=order end
+  
+  def warn_on_leaving_unsaved; self[:warn_on_leaving_unsaved] || '1'; end
+  def warn_on_leaving_unsaved=(value); self[:warn_on_leaving_unsaved]=value; end
 end

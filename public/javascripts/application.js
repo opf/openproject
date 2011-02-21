@@ -255,6 +255,49 @@ function observeProjectModules() {
   Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
 }
 
+/*
+ * Class used to warn user when leaving a page with unsaved textarea
+ * Author: mathias.fischer@berlinonline.de
+*/
+
+var WarnLeavingUnsaved = Class.create({
+	observedForms: false,
+	observedElements: false,
+	changedForms: false,
+	message: null,
+	
+	initialize: function(message){
+		this.observedForms = $$('form');
+		this.observedElements =  $$('textarea');
+		this.message = message;
+		
+		this.observedElements.each(this.observeChange.bind(this));
+		this.observedForms.each(this.submitAction.bind(this));
+		
+		window.onbeforeunload = this.unload.bind(this);
+	},
+	
+	unload: function(){
+		if(this.changedForms)
+      return this.message;
+	},
+	
+	setChanged: function(){
+    this.changedForms = true;
+	},
+	
+	setUnchanged: function(){
+    this.changedForms = false;
+	},
+	
+	observeChange: function(element){
+    element.observe('change',this.setChanged.bindAsEventListener(this));
+	},
+	
+	submitAction: function(element){
+    element.observe('submit',this.setUnchanged.bindAsEventListener(this));
+	}
+});
 
 /* shows and hides ajax indicator */
 Ajax.Responders.register({

@@ -303,6 +303,7 @@ en:
   field_assigned_to_role: "Assignee's role"
   field_text: Text field
   field_visible: Visible
+  field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -916,6 +917,7 @@ en:
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
   text_powered_by: "Powered by %{link}"
+  text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   
   default_role_manager: Manager
   default_role_developer: Developer

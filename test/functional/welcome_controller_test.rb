@@ -67,4 +67,28 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_equal 'text/plain', @response.content_type
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end
+  
+  def test_warn_on_leaving_unsaved_turn_on
+    user = User.find(2)
+    user.pref.warn_on_leaving_unsaved = '1'
+    user.pref.save!
+    @request.session[:user_id] = 2
+    
+    get :index
+    assert_tag 'script',
+      :attributes => {:type => "text/javascript"},
+      :content => %r{new WarnLeavingUnsaved}
+  end
+  
+  def test_warn_on_leaving_unsaved_turn_off
+    user = User.find(2)
+    user.pref.warn_on_leaving_unsaved = '0'
+    user.pref.save!
+    @request.session[:user_id] = 2
+    
+    get :index
+    assert_no_tag 'script',
+      :attributes => {:type => "text/javascript"},
+      :content => %r{new WarnLeavingUnsaved}
+  end
 end
