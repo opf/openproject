@@ -52,7 +52,7 @@
       if id != @unit_id
           link_to_remote label, {
             :url => { :set_filter => 1, :unit => id },
-            :condition => 'Ajax.activeRequestCount === 0',
+            :condition => 'Ajax.activeRequestCount < 1',
             :update => "content",
             :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
             :with => "Form.serialize('query_form')",
