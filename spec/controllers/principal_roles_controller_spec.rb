@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe PrincipalRolesController do
   before(:each) do
     @controller.stub!(:require_admin).and_return(true)
+    @controller.stub!(:check_if_login_required).and_return(true)
     @principal_role = mock_model PrincipalRole
     if privacy_plugin_loaded?
       @principal_role.stub!(:privacy_unnecessary=)
