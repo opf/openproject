@@ -361,7 +361,7 @@ module Redmine
           end
           subject << view.link_to_issue(issue)
           subject << '</span>'
-          html_subject(options, subject, :css => "issue-subject") + "\n"
+          html_subject(options, subject, :css => "issue-subject", :title => issue.subject) + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
@@ -716,9 +716,7 @@ module Redmine
         style = "position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
         
-        output = "<div class='#{options[:css]}' style='#{style}'>"
-        output << subject
-        output << "</div>"
+        output = view.content_tag 'div', subject, :class => options[:css], :style => style, :title => options[:title]
         @subjects << output
         output
       end
