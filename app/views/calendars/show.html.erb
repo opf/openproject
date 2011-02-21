@@ -20,16 +20,16 @@
 <%= select_year(@year, :prefix => "year", :discard_type => true) %>
 
 <%= link_to_remote l(:button_apply), 
-                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) },
+                   { :url => { :set_filter => 1 },
                      :update => "content",
                      :with => "Form.serialize('query_form')"
                    }, :class => 'icon icon-checked' %>
                    
 <%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   { :url => { :project_id => @project, :set_filter => 1 }, 
                      :method => :put,
                      :update => "content",
-                   }, :class => 'icon icon-reload' if @query.new_record? %>
+                   }, :class => 'icon icon-reload' %>
 </p>
 <% end %>
 
