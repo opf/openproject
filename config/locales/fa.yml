@@ -1,0 +1,943 @@
+fa:
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: rtl
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+      
+    day_names: [یک‌شنبه, دوشنبه, سه‌شنبه, چهارشنبه, پنج‌شنبه, آدینه, شنبه]
+    abbr_day_names: [یک, دو, سه, چهار, پنج, آدینه, شنبه]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
+    abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%Y/%m/%d %p %I:%M"
+      time: "%p %I:%M"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "ق.ظ"
+    pm: "ب.ظ"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "نیم دقیقه"
+      less_than_x_seconds:
+        one:   "کمتر از 1 ثانیه"
+        other: "کمتر از %{count} ثانیه"
+      x_seconds:
+        one:   "1 ثانیه"
+        other: "%{count} ثانیه"
+      less_than_x_minutes:
+        one:   "کمتر از 1 دقیقه"
+        other: "کمتر از %{count} دقیقه"
+      x_minutes:
+        one:   "1 دقیقه"
+        other: "%{count} دقیقه"
+      about_x_hours:
+        one:   "نزدیک 1 ساعت"
+        other: "نزدیک %{count} ساعت"
+      x_days:
+        one:   "1 روز"
+        other: "%{count} روز"
+      about_x_months:
+        one:   "نزدیک 1 ماه"
+        other: "نزدیک %{count} ماه"
+      x_months:
+        one:   "1 ماه"
+        other: "%{count} ماه"
+      about_x_years:
+        one:   "نزدیک 1 سال"
+        other: "نزدیک %{count} سال"
+      over_x_years:
+        one:   "بیش از 1 سال"
+        other: "بیش از %{count} سال"
+      almost_x_years:
+        one:   "نزدیک 1 سال"
+        other: "نزدیک %{count} سال"
+
+  number:
+    # Default format for numbers
+    format:
+      separator: "٫" 
+      delimiter: ""
+      precision: 3
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "بایت"
+            other: "بایت"
+          kb: "کیلوبایت"
+          mb: "مگابایت"
+          gb: "گیگابایت"
+          tb: "ترابایت"
+
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "و"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "1 ایراد از ذخیره سازی این %{model} جلوگیری کرد"
+          other:  "%{count} ایراد از ذخیره سازی این %{model} جلوگیری کرد"
+      messages:
+        inclusion: "در فهرست نیامده است"
+        exclusion: "رزرو شده است"
+        invalid: "نادرست است"
+        confirmation: "با بررسی سازگاری ندارد"
+        accepted: "باید پذیرفته شود"
+        empty: "نمی‌تواند تهی باشد"
+        blank: "نمی‌تواند تهی باشد"
+        too_long: "خیلی بلند است (بیشترین اندازه %{count} نویسه است)"
+        too_short: "خیلی کوتاه است (کمترین اندازه %{count} نویسه است)"
+        wrong_length: "اندازه نادرست است (باید %{count} نویسه باشد)"
+        taken: "پیش از این گرفته شده است"
+        not_a_number: "شماره درستی نیست"
+        not_a_date: "تاریخ درستی نیست"
+        greater_than: "باید بزرگتر از %{count} باشد"
+        greater_than_or_equal_to: "باید بزرگتر از یا برابر با %{count} باشد"
+        equal_to: "باید برابر با %{count} باشد"
+        less_than: "باید کمتر از %{count} باشد"
+        less_than_or_equal_to: "باید کمتر از یا برابر با %{count} باشد"
+        odd: "باید فرد باشد"
+        even: "باید زوج باشد"
+        greater_than_start_date: "باید از تاریخ آغاز بزرگتر باشد"
+        not_same_project: "به همان پروژه وابسته نیست"
+        circular_dependency: "این وابستگی یک وابستگی دایره وار خواهد ساخت"
+        cant_link_an_issue_with_a_descendant: "یک پیامد نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
+
+  actionview_instancetag_blank_option: گزینش کنید
+  
+  general_text_No: 'خیر'
+  general_text_Yes: 'آری'
+  general_text_no: 'خیر'
+  general_text_yes: 'آری'
+  general_lang_name: 'Persian (پارسی)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
+  general_first_day_of_week: '6'
+  
+  notice_account_updated: حساب شما بروز شد.
+  notice_account_invalid_creditentials: نام کاربری یا گذرواژه نادرست است
+  notice_account_password_updated: گذرواژه بروز شد
+  notice_account_wrong_password: گذرواژه نادرست است
+  notice_account_register_done: حساب ساخته شد. برای فعال نمودن آن، روی پیوندی که به شما ایمیل شده کلیک کنید.
+  notice_account_unknown_email: کاربر شناخته نشد.
+  notice_can_t_change_password:  این حساب یک روش شناسایی بیرونی را به کار گرفته است. گذرواژه را نمی‌توان جایگزین کرد.
+  notice_account_lost_email_sent: یک ایمیل با راهنمایی درباره گزینش گذرواژه تازه برای شما فرستاده شد.
+  notice_account_activated: حساب شما فعال شده است. اکنون می‌توانید وارد شوید.
+  notice_successful_create: با موفقیت ساخته شد.
+  notice_successful_update: با موفقیت بروز شد.
+  notice_successful_delete: با موفقیت برداشته شد.
+  notice_successful_connection: با موفقیت متصل شد.
+  notice_file_not_found: برگه درخواستی شما در دسترس نیست یا پاک شده است.
+  notice_locking_conflict: داده‌ها را کاربر دیگری بروز کرده است.
+  notice_not_authorized: شما به این برگه دسترسی ندارید.
+  notice_not_authorized_archived_project: پروژه درخواستی شما بایگانی شده است.
+  notice_email_sent: "یک ایمیل به %{value} فرستاده شد."
+  notice_email_error: "یک ایراد در فرستادن ایمیل پیش آمد (%{value})."
+  notice_feeds_access_key_reseted: کلید دسترسی RSS شما بازنشانی شد.
+  notice_api_access_key_reseted: کلید دسترسی API شما بازنشانی شد.
+  notice_failed_to_save_issues: "ذخیره سازی %{count} پیامد از %{total} پیامد گزینش شده شکست خورد: %{ids}."
+  notice_failed_to_save_members: "ذخیره سازی اعضا شکست خورد: %{errors}."
+  notice_no_issue_selected: "هیچ پیامدی برگزیده نشده است! پیامدهایی که می‌خواهید ویرایش کنید را برگزینید."
+  notice_account_pending: "حساب شما ساخته شد و اکنون چشم به راه روادید سرپرست است."
+  notice_default_data_loaded: پیکربندی پیش‌گزیده با موفقیت بار شد.
+  notice_unable_delete_version: نگارش را نمی‌توان پاک کرد.
+  notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان پاک کرد.
+  notice_issue_done_ratios_updated: اندازه انجام شده پیامد بروز شد.
+  notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزگتر است (%{max})."
+  
+  error_can_t_load_default_data: "پیکربندی پیش‌گزیده نمی‌تواند بار شود: %{value}"
+  error_scm_not_found: "بخش یا نگارش در انباره پیدا نشد."
+  error_scm_command_failed: "ایرادی در دسترسی به انباره پیش آمد: %{value}"
+  error_scm_annotate: "بخش پیدا نشد یا نمی‌توان برای آن یادداشت نوشت."
+  error_issue_not_found_in_project: 'پیامد پیدا نشد یا به این پروژه وابسته نیست.'
+  error_no_tracker_in_project: 'هیچ پیگردی به این پروژه پیوسته نشده است. پیکربندی پروژه را بررسی کنید.'
+  error_no_default_issue_status: 'هیچ وضعیت پیامد پیش‌گزیده‌ای مشخص نشده است. پیکربندی را بررسی کنید (به «پیکربندی -> وضعیت‌های پیامد» بروید).'
+  error_can_not_delete_custom_field: فیلد سفارشی را نمی‌توان پاک کرد.
+  error_can_not_delete_tracker: "این پیگرد دارای پیامد است و نمی‌توان آن را پاک کرد."
+  error_can_not_remove_role: "این نقش به کار گرفته شده است و نمی‌توان آن را پاک کرد."
+  error_can_not_reopen_issue_on_closed_version: 'یک پیامد که به یک نگارش بسته شده وابسته است را نمی‌توان باز کرد.'
+  error_can_not_archive_project: این پروژه را نمی‌توان بایگانی کرد.
+  error_issue_done_ratios_not_updated: "اندازه انجام شده پیامد بروز نشد."
+  error_workflow_copy_source: 'یک پیگرد یا نقش منبع را برگزینید.'
+  error_workflow_copy_target: 'پیگردها یا نقش‌های مقصد را برگزینید.'
+  error_unable_delete_issue_status: 'وضعیت پیامد را نمی‌توان پاک کرد.'
+  error_unable_to_connect: "نمی‌توان متصل شد (%{value})"
+  warning_attachments_not_saved: "%{count} پرونده ذخیره نشد."
+  
+  mail_subject_lost_password: "گذرواژه حساب %{value} شما"
+  mail_body_lost_password: 'برای جایگزینی گذرواژه خود، بر روی پیوند زیر کلیک کنید:'
+  mail_subject_register: "فعالسازی حساب %{value} شما"
+  mail_body_register: 'برای فعالسازی حساب خود، بر روی پیوند زیر کلیک کنید:'
+  mail_body_account_information_external: "شما می‌توانید حساب %{value} خود را برای ورود به کار برید."
+  mail_body_account_information: داده‌های حساب شما
+  mail_subject_account_activation_request: "درخواست فعالسازی حساب %{value}"
+  mail_body_account_activation_request: "یک کاربر تازه (%{value}) نامنویسی کرده است. این حساب چشم به راه روادید شماست:"
+  mail_subject_reminder: "زمان رسیدگی به %{count} پیامد در %{days} روز آینده سر می‌رسد"
+  mail_body_reminder: "زمان رسیدگی به %{count} پیامد که به شما واگذار شده است، در %{days} روز آینده سر می‌رسد:"
+  mail_subject_wiki_content_added: "برگه ویکی «%{id}» افزوده شد"
+  mail_body_wiki_content_added: "برگه ویکی «%{id}» به دست %{author} افزوده شد."
+  mail_subject_wiki_content_updated: "برگه ویکی «%{id}» بروز شد"
+  mail_body_wiki_content_updated: "برگه ویکی «%{id}» به دست %{author} بروز شد."
+  
+  gui_validation_error: 1 ایراد
+  gui_validation_error_plural: "%{count} ایراد"
+  
+  field_name: نام
+  field_description: توضیح
+  field_summary: خلاصه
+  field_is_required: الزامی
+  field_firstname: نام کوچک
+  field_lastname: نام خانوادگی
+  field_mail: ایمیل
+  field_filename: پرونده
+  field_filesize: اندازه
+  field_downloads: دریافت‌ها
+  field_author: نویسنده
+  field_created_on: ساخته شده در
+  field_updated_on: بروز شده در
+  field_field_format: قالب
+  field_is_for_all: برای همه پروژه‌ها
+  field_possible_values: مقادیر ممکن
+  field_regexp: عبارت منظم
+  field_min_length: کمترین اندازه
+  field_max_length: بیشترین اندازه
+  field_value: مقدار
+  field_category: دسته
+  field_title: عنوان
+  field_project: پروژه
+  field_issue: پیامد
+  field_status: وضعیت
+  field_notes: یادداشت‌ها
+  field_is_closed: پیامد بسته شده
+  field_is_default: مقدار پیش‌گزیده
+  field_tracker: پیگرد
+  field_subject: موضوع
+  field_due_date: زمان سررسید
+  field_assigned_to: واگذار شده به
+  field_priority: برتری
+  field_fixed_version: نگارش هدف
+  field_user: کاربر
+  field_principal: دستور دهنده
+  field_role: نقش
+  field_homepage: برگه خانه
+  field_is_public: همگانی
+  field_parent: پروژه پدر
+  field_is_in_roadmap: این پیامدها در نقشه راه نشان داده شوند
+  field_login: ورود
+  field_mail_notification: آگاه سازی‌های ایمیلی
+  field_admin: سرپرست
+  field_last_login_on: آخرین ورود
+  field_language: زبان
+  field_effective_date: تاریخ
+  field_password: گذرواژه
+  field_new_password: گذرواژه تازه
+  field_password_confirmation: بررسی گذرواژه
+  field_version: نگارش
+  field_type: گونه
+  field_host: میزبان
+  field_port: درگاه
+  field_account: حساب
+  field_base_dn: DN پایه
+  field_attr_login: نشانه ورود
+  field_attr_firstname: نشانه نام کوچک
+  field_attr_lastname: نشانه نام خانوادگی
+  field_attr_mail: نشانه ایمیل
+  field_onthefly: ساخت کاربر بیدرنگ
+  field_start_date: تاریخ آغاز
+  field_done_ratio: ٪ انجام شده
+  field_auth_source: روش شناسایی
+  field_hide_mail: ایمیل من پنهان شود
+  field_comments: دیدگاه
+  field_url: نشانی
+  field_start_page: برگه آغاز
+  field_subproject: زیر پروژه
+  field_hours: ساعت‌
+  field_activity: فعالیت
+  field_spent_on: در تاریخ
+  field_identifier: شناسه
+  field_is_filter: پالایش پذیر
+  field_issue_to: پیامد وابسته
+  field_delay: دیرکرد
+  field_assignable: پیامدها می‌توانند به این نقش واگذار شوند
+  field_redirect_existing_links: پیوندهای پیشین  به پیوند تازه راهنمایی شوند
+  field_estimated_hours: زمان برآورد شده
+  field_column_names: ستون‌ها
+  field_time_entries: زمان نوشتن
+  field_time_zone: پهنه زمانی
+  field_searchable: جستجو پذیر
+  field_default_value: مقدار پیش‌گزیده
+  field_comments_sorting: نمایش دیدگاه‌ها
+  field_parent_title: برگه پدر
+  field_editable: ویرایش پذیر
+  field_watcher: دیده‌بان
+  field_identity_url: نشانی OpenID
+  field_content: محتوا
+  field_group_by: دسته بندی با
+  field_sharing: اشتراک گذاری
+  field_parent_issue: کار پدر
+  field_member_of_group: "دسته واگذار شونده"
+  field_assigned_to_role: "نقش واگذار شونده"
+  field_text: فیلد متنی
+  field_visible: آشکار
+  
+  setting_app_title: نام برنامه
+  setting_app_subtitle: زیرنام برنامه
+  setting_welcome_text: نوشتار خوش‌آمد گویی
+  setting_default_language: زبان پیش‌گزیده
+  setting_login_required: الزامی بودن ورود
+  setting_self_registration: خود نام نویسی
+  setting_attachment_max_size: بیشترین اندازه پیوست
+  setting_issues_export_limit: کرانه صدور پییامدها
+  setting_mail_from: نشانی فرستنده ایمیل
+  setting_bcc_recipients: گیرندگان ایمیل دیده نشوند (bcc)
+  setting_plain_text_mail: ایمیل نوشته ساده (بدون HTML)
+  setting_host_name: نام میزبان و نشانی
+  setting_text_formatting: قالب بندی نوشته
+  setting_wiki_compression: فشرده‌سازی پیشینه ویکی
+  setting_feeds_limit: کرانه محتوای خوراک
+  setting_default_projects_public: حالت پیش‌گزیده پروژه‌های تازه، همگانی است
+  setting_autofetch_changesets: دریافت خودکار تغییرات
+  setting_sys_api_enabled: فعال سازی وب سرویس برای سرپرستی انباره
+  setting_commit_ref_keywords: کلیدواژه‌های نشانه
+  setting_commit_fix_keywords: کلیدواژه‌های انجام
+  setting_autologin: ورود خودکار
+  setting_date_format: قالب تاریخ
+  setting_time_format: قالب زمان
+  setting_cross_project_issue_relations: توانایی وابستگی میان پروژه‌ای پیامدها
+  setting_issue_list_default_columns: ستون‌های پیش‌گزیده نمایش داده شده در فهرست پیامدها
+  setting_repositories_encodings: کدگذاری انباره‌ها
+  setting_commit_logs_encoding: کدگذاری پیام‌های انباره
+  setting_emails_header: سرنویس ایمیل‌ها
+  setting_emails_footer: پانویس ایمیل‌ها
+  setting_protocol: پیوندنامه
+  setting_per_page_options: گزینه‌های اندازه داده‌های هر برگ
+  setting_user_format: قالب نمایشی کاربران
+  setting_activity_days_default: روزهای نمایش داده شده در فعالیت پروژه
+  setting_display_subprojects_issues: پیش‌گزیده نمایش پیامدهای زیرپروژه در پروژه پدر
+  setting_enabled_scm: فعالسازی SCM
+  setting_mail_handler_body_delimiters: "بریدن ایمیل‌ها پس از یکی از این ردیف‌ها"
+  setting_mail_handler_api_enabled: فعالسازی وب سرویس برای ایمیل‌های آمده
+  setting_mail_handler_api_key: کلید API
+  setting_sequential_project_identifiers: ساخت پشت سر هم شناسه پروژه
+  setting_gravatar_enabled: کاربرد Gravatar برای عکس کاربر
+  setting_gravatar_default: عکس Gravatar پیش‌گزیده
+  setting_diff_max_lines_displayed: بیشترین اندازه ردیف‌های تفاوت نشان داده شده
+  setting_file_max_size_displayed: بیشترین اندازه پرونده‌های نمایش داده شده درون خطی
+  setting_repository_log_display_limit: بیشترین شمار نگارش‌های نمایش داده شده در گزارش پرونده
+  setting_openid: پذیرش ورود و نام نویسی با OpenID
+  setting_password_min_length: کمترین اندازه گذرواژه
+  setting_new_project_user_role_id: نقش داده شده به کاربری که سرپرست نیست و پروژه می‌سازد
+  setting_default_projects_modules: پیمانه‌های پیش‌گزیده فعال برای پروژه‌های تازه
+  setting_issue_done_ratio: برآورد اندازه انجام شده پیامد با
+  setting_issue_done_ratio_issue_field: کاربرد فیلد پیامد
+  setting_issue_done_ratio_issue_status: کاربرد وضعیت پیامد
+  setting_start_of_week: آغاز گاهشمار از
+  setting_rest_api_enabled: فعالسازی وب سرویس‌های REST
+  setting_cache_formatted_text: نهان سازی نوشته‌های قالب بندی شده
+  setting_default_notification_option: آگاه سازی پیش‌گزیده
+  setting_commit_logtime_enabled: فعالسازی زمان گذاشته شده
+  setting_commit_logtime_activity_id: فعالیت زمان گذاشته شده
+  setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
+  
+  permission_add_project: ساخت پروژه
+  permission_add_subprojects: ساخت زیرپروژه
+  permission_edit_project: ویرایش پروژه
+  permission_select_project_modules: گزینش پیمانه‌های پروژه
+  permission_manage_members: سرپرستی اعضا
+  permission_manage_project_activities: سرپرستی فعالیت‌های پروژه
+  permission_manage_versions: سرپرستی نگارش‌ها
+  permission_manage_categories: سرپرستی دسته‌های پیامد
+  permission_view_issues: دیدن پیامدها
+  permission_add_issues: افزودن پیامدها
+  permission_edit_issues: ویرایش پیامدها
+  permission_manage_issue_relations: سرپرستی وابستگی پیامدها
+  permission_add_issue_notes: افزودن یادداشت‌ها
+  permission_edit_issue_notes: ویرایش یادداشت‌ها
+  permission_edit_own_issue_notes: ویرایش یادداشت خود
+  permission_move_issues: جابجایی پیامدها
+  permission_delete_issues: پاک کردن پیامدها
+  permission_manage_public_queries: سرپرستی پرس‌وجوهای همگانی
+  permission_save_queries: ذخیره سازی پرس‌وجوها
+  permission_view_gantt: دیدن نمودار گانت
+  permission_view_calendar: دیدن گاهشمار
+  permission_view_issue_watchers: دیدن فهرست دیده‌بان‌ها
+  permission_add_issue_watchers: افزودن دیده‌بان‌ها
+  permission_delete_issue_watchers: پاک کردن دیده‌بان‌ها
+  permission_log_time: نوشتن زمان گذاشته شده
+  permission_view_time_entries: دیدن زمان گذاشته شده
+  permission_edit_time_entries: ویرایش زمان گذاشته شده
+  permission_edit_own_time_entries: ویرایش زمان گذاشته شده خود
+  permission_manage_news: سرپرستی رویدادها
+  permission_comment_news: گذاشتن دیدگاه روی رویدادها
+  permission_manage_documents: سرپرستی نوشتارها
+  permission_view_documents: دیدن نوشتارها
+  permission_manage_files: سرپرستی پرونده‌ها
+  permission_view_files: دیدن پرونده‌ها
+  permission_manage_wiki: سرپرستی ویکی
+  permission_rename_wiki_pages: نامگذاری برگه ویکی
+  permission_delete_wiki_pages: پاک کردن برگه ویکی
+  permission_view_wiki_pages: دیدن ویکی
+  permission_view_wiki_edits: دیدن پیشینه ویکی
+  permission_edit_wiki_pages: ویرایش برگه‌های ویکی
+  permission_delete_wiki_pages_attachments: پاک کردن پیوست‌های برگه ویکی
+  permission_protect_wiki_pages: نگه‌داری برگه‌های ویکی
+  permission_manage_repository: سرپرستی انباره
+  permission_browse_repository: چریدن در انباره
+  permission_view_changesets: دیدن تغییرات
+  permission_commit_access: دسترسی تغییر انباره
+  permission_manage_boards: سرپرستی انجمن‌ها
+  permission_view_messages: دیدن پیام‌ها
+  permission_add_messages: فرستادن پیام‌ها
+  permission_edit_messages: ویرایش پیام‌ها
+  permission_edit_own_messages: ویرایش پیام خود
+  permission_delete_messages: پاک کردن پیام‌ها
+  permission_delete_own_messages: پاک کردن پیام خود
+  permission_export_wiki_pages: صدور برگه‌های ویکی
+  permission_manage_subtasks: سرپرستی زیرکارها
+  
+  project_module_issue_tracking: پیگیری پیامدها
+  project_module_time_tracking: پیگیری زمان
+  project_module_news: رویدادها
+  project_module_documents: نوشتارها
+  project_module_files: پرونده‌ها
+  project_module_wiki: ویکی
+  project_module_repository: انباره
+  project_module_boards: انجمن‌ها
+  project_module_calendar: گاهشمار
+  project_module_gantt: گانت
+  
+  label_user: کاربر
+  label_user_plural: کاربر
+  label_user_new: کاربر تازه
+  label_user_anonymous: ناشناس
+  label_project: پروژه
+  label_project_new: پروژه تازه
+  label_project_plural: پروژه
+  label_x_projects:
+    zero:  بدون پروژه
+    one:   "1 پروژه"
+    other: "%{count} پروژه"
+  label_project_all: همه پروژه‌ها
+  label_project_latest: آخرین پروژه‌ها
+  label_issue: پیامد
+  label_issue_new: پیامد تازه
+  label_issue_plural: پیامد
+  label_issue_view_all: دیدن همه پیامدها
+  label_issues_by: "پیامدهای دست%{value}"
+  label_issue_added: پیامد افزوده شد
+  label_issue_updated: پیامد بروز شد
+  label_document: نوشتار
+  label_document_new: نوشتار تازه
+  label_document_plural: نوشتار
+  label_document_added: نوشتار افزوده شد
+  label_role: نقش
+  label_role_plural: نقش
+  label_role_new: نقش تازه
+  label_role_and_permissions: نقش‌ها و پروانه‌ها
+  label_member: عضو
+  label_member_new: عضو تازه
+  label_member_plural: عضو
+  label_tracker: پیگرد
+  label_tracker_plural: پیگرد
+  label_tracker_new: پیگرد تازه
+  label_workflow: گردش کار
+  label_issue_status: وضعیت پیامد
+  label_issue_status_plural: وضعیت پیامد
+  label_issue_status_new: وضعیت تازه
+  label_issue_category: دسته پیامد
+  label_issue_category_plural: دسته پیامد
+  label_issue_category_new: دسته تازه
+  label_custom_field: فیلد سفارشی
+  label_custom_field_plural: فیلد سفارشی
+  label_custom_field_new: فیلد سفارشی تازه
+  label_enumerations: برشمردنی‌ها
+  label_enumeration_new: مقدار تازه
+  label_information: داده
+  label_information_plural: داده
+  label_please_login: وارد شوید
+  label_register: نام نویسی کنید
+  label_login_with_open_id_option: یا با OpenID وارد شوید
+  label_password_lost: بازیافت گذرواژه
+  label_home: سرآغاز
+  label_my_page: برگه من
+  label_my_account: حساب من
+  label_my_projects: پروژه‌های من
+  label_my_page_block: بخش برگه من
+  label_administration: سرپرستی
+  label_login: ورود
+  label_logout: خروج
+  label_help: راهنما
+  label_reported_issues: پیامدهای گزارش شده
+  label_assigned_to_me_issues: پیامدهای واگذار شده به من
+  label_last_login: آخرین ورود
+  label_registered_on: نام نویسی شده در
+  label_activity: فعالیت
+  label_overall_activity: فعالیت روی هم رفته
+  label_user_activity: "فعالیت %{value}"
+  label_new: تازه
+  label_logged_as: "نام کاربری:"
+  label_environment: محیط
+  label_authentication: شناسایی
+  label_auth_source: روش شناسایی
+  label_auth_source_new: روش شناسایی تازه
+  label_auth_source_plural: روش شناسایی
+  label_subproject_plural: زیرپروژه
+  label_subproject_new: زیرپروژه تازه
+  label_and_its_subprojects: "%{value} و زیرپروژه‌هایش"
+  label_min_max_length: کمترین و بیشترین اندازه
+  label_list: فهرست
+  label_date: تاریخ
+  label_integer: شماره درست
+  label_float: شماره شناور
+  label_boolean: درست/نادرست
+  label_string: نوشته
+  label_text: نوشته بلند
+  label_attribute: نشانه
+  label_attribute_plural: نشانه
+  label_download: "%{count} بار دریافت شده"
+  label_download_plural: "%{count} بار دریافت شده"
+  label_no_data: هیچ داده‌ای برای نمایش نیست
+  label_change_status: جایگزینی وضعیت
+  label_history: پیشینه
+  label_attachment: پرونده
+  label_attachment_new: پرونده تازه
+  label_attachment_delete: پاک کردن پرونده
+  label_attachment_plural: پرونده
+  label_file_added: پرونده افزوده شد
+  label_report: گزارش
+  label_report_plural: گزارش
+  label_news: رویداد
+  label_news_new: افزودن رویداد
+  label_news_plural: رویداد
+  label_news_latest: آخرین رویدادها
+  label_news_view_all: دیدن همه رویدادها
+  label_news_added: رویداد افزوده شد
+  label_settings: پیکربندی
+  label_overview: دورنما
+  label_version: نگارش
+  label_version_new: نگارش تازه
+  label_version_plural: نگارش
+  label_close_versions: بستن نگارش‌های انجام شده
+  label_confirmation: بررسی
+  label_export_to: 'قالب‌های دیگر:'
+  label_read: خواندن...
+  label_public_projects: پروژه‌های همگانی
+  label_open_issues: باز
+  label_open_issues_plural: باز
+  label_closed_issues: بسته
+  label_closed_issues_plural: بسته
+  label_x_open_issues_abbr_on_total:
+    zero:  0 باز از %{total}
+    one:   1 باز از %{total}
+    other: "%{count} باز از %{total}"
+  label_x_open_issues_abbr:
+    zero:  0 باز
+    one:   1 باز
+    other: "%{count} باز"
+  label_x_closed_issues_abbr:
+    zero:  0 بسته
+    one:   1 بسته
+    other: "%{count} بسته"
+  label_total: جمله
+  label_permissions: پروانه‌ها
+  label_current_status: وضعیت کنونی
+  label_new_statuses_allowed: وضعیت‌های پذیرفتنی تازه
+  label_all: همه
+  label_none: هیچ
+  label_nobody: هیچکس
+  label_next: پسین
+  label_previous: پیشین
+  label_used_by: به کار رفته در
+  label_details: ریزه‌کاری
+  label_add_note: افزودن یادداشت
+  label_per_page: ردیف‌ها در هر برگه
+  label_calendar: گاهشمار
+  label_months_from: از ماه
+  label_gantt: گانت
+  label_internal: درونی
+  label_last_changes: "%{count} تغییر آخر"
+  label_change_view_all: دیدن همه تغییرات
+  label_personalize_page: سفارشی نمودن این برگه
+  label_comment: دیدگاه
+  label_comment_plural: دیدگاه
+  label_x_comments:
+    zero: بدون دیدگاه
+    one: 1 دیدگاه
+    other: "%{count} دیدگاه"
+  label_comment_add: افزودن دیدگاه
+  label_comment_added: دیدگاه افزوده شد
+  label_comment_delete: پاک کردن دیدگاه‌ها
+  label_query: پرس‌وجوی سفارشی
+  label_query_plural: پرس‌وجوی سفارشی
+  label_query_new: پرس‌وجوی تازه
+  label_filter_add: افزودن پالایه
+  label_filter_plural: پالایه
+  label_equals: برابر است با
+  label_not_equals: برابر نیست با
+  label_in_less_than: کمتر است از
+  label_in_more_than: بیشتر است از
+  label_greater_or_equal: بیشتر یا برابر است با
+  label_less_or_equal: کمتر یا برابر است با
+  label_in: در
+  label_today: امروز
+  label_all_time: همیشه
+  label_yesterday: دیروز
+  label_this_week: این هفته
+  label_last_week: هفته پیشین
+  label_last_n_days: "%{count} روز گذشته"
+  label_this_month: این ماه
+  label_last_month: ماه پیشین
+  label_this_year: امسال
+  label_date_range: بازه تاریخ
+  label_less_than_ago: کمتر از چند روز پیشین
+  label_more_than_ago: بیشتر از چند روز پیشین
+  label_ago: روز پیشین
+  label_contains: دارد
+  label_not_contains: ندارد
+  label_day_plural: روز
+  label_repository: انباره
+  label_repository_plural: انباره
+  label_browse: چریدن
+  label_modification: "%{count} جایگذاری"
+  label_modification_plural: "%{count} جایگذاری"
+  label_branch: شاخه
+  label_tag: برچسب
+  label_revision: بازبینی
+  label_revision_plural: بازبینی
+  label_revision_id: "بازبینی %{value}"
+  label_associated_revisions: بازبینی‌های وابسته
+  label_added: افزوده شده
+  label_modified: پیراسته شده
+  label_copied: رونویسی شده
+  label_renamed: نامگذاری شده
+  label_deleted: پاکسازی شده
+  label_latest_revision: آخرین بازبینی
+  label_latest_revision_plural: آخرین بازبینی
+  label_view_revisions: دیدن بازبینی‌ها
+  label_view_all_revisions: دیدن همه بازبینی‌ها
+  label_max_size: بیشترین اندازه
+  label_sort_highest: بردن به آغاز
+  label_sort_higher: بردن به بالا
+  label_sort_lower: بردن به پایین
+  label_sort_lowest: بردن به پایان
+  label_roadmap: نقشه راه
+  label_roadmap_due_in: "سررسید در %{value}"
+  label_roadmap_overdue: "%{value} دیرکرد"
+  label_roadmap_no_issues: هیچ پیامدی برای این نگارش نیست
+  label_search: جستجو
+  label_result_plural: دست‌آورد
+  label_all_words: همه واژه‌ها
+  label_wiki: ویکی
+  label_wiki_edit: ویرایش ویکی
+  label_wiki_edit_plural: ویرایش ویکی
+  label_wiki_page: برگه ویکی
+  label_wiki_page_plural: برگه ویکی
+  label_index_by_title: شاخص بر اساس نام
+  label_index_by_date: شاخص بر اساس تاریخ
+  label_current_version: نگارش کنونی
+  label_preview: پیش‌نمایش
+  label_feed_plural: خوراک
+  label_changes_details: ریز همه جایگذاری‌ها
+  label_issue_tracking: پیگیری پیامد
+  label_spent_time: زمان گذاشته شده
+  label_overall_spent_time: زمان گذاشته شده روی هم
+  label_f_hour: "%{value} ساعت"
+  label_f_hour_plural: "%{value} ساعت"
+  label_time_tracking: پیگیری زمان
+  label_change_plural: جایگذاری
+  label_statistics: سرشماری
+  label_commits_per_month: تغییر در هر ماه
+  label_commits_per_author: تغییر هر نویسنده
+  label_view_diff: دیدن تفاوت‌ها
+  label_diff_inline: همراستا
+  label_diff_side_by_side: کنار به کنار
+  label_options: گزینه‌ها
+  label_copy_workflow_from: رونویسی گردش کار از روی
+  label_permissions_report: گزارش پروانه‌ها
+  label_watched_issues: پیامدهای دیده‌بانی شده
+  label_related_issues: پیامدهای وابسته
+  label_applied_status: وضعیت به کار رفته
+  label_loading: بار گذاری...
+  label_relation_new: وابستگی تازه
+  label_relation_delete: پاک کردن وابستگی
+  label_relates_to: وابسته به
+  label_duplicates: نگارش دیگری از
+  label_duplicated_by: نگارشی دیگر در
+  label_blocks: بازداشت‌ها
+  label_blocked_by: بازداشت به دست
+  label_precedes: جلوتر است از
+  label_follows: پستر است از
+  label_end_to_start: پایان به آغاز
+  label_end_to_end: پایان به پایان
+  label_start_to_start: آغاز به آغاز
+  label_start_to_end: آغاز به پایان
+  label_stay_logged_in: وارد شده بمانید
+  label_disabled: غیرفعال
+  label_show_completed_versions: نمایش نگارش‌های انجام شده
+  label_me: من
+  label_board: انجمن
+  label_board_new: انجمن تازه
+  label_board_plural: انجمن
+  label_board_locked: قفل شده
+  label_board_sticky: چسبناک
+  label_topic_plural: سرفصل
+  label_message_plural: پیام
+  label_message_last: آخرین پیام
+  label_message_new: پیام تازه
+  label_message_posted: پیام افزوده شد
+  label_reply_plural: پاسخ
+  label_send_information: فرستادن داده‌های حساب به کاربر
+  label_year: سال
+  label_month: ماه
+  label_week: هفته
+  label_date_from: از
+  label_date_to: تا
+  label_language_based: بر اساس زبان کاربر
+  label_sort_by: "جور کرد با %{value}"
+  label_send_test_email: فرستادن ایمیل آزمایشی
+  label_feeds_access_key: کلید دسترسی RSS
+  label_missing_feeds_access_key: کلید دسترسی RSS در دسترس نیست
+  label_feeds_access_key_created_on: "کلید دسترسی RSS %{value} پیش ساخته شده است"
+  label_module_plural: پیمانه
+  label_added_time_by: "افزوده شده به دست %{author} در %{age} پیش"
+  label_updated_time_by: "بروز شده به دست %{author} در %{age} پیش"
+  label_updated_time: "بروز شده در %{value} پیش"
+  label_jump_to_a_project: پرش به یک پروژه...
+  label_file_plural: پرونده
+  label_changeset_plural: تغییر
+  label_default_columns: ستون‌های پیش‌گزیده
+  label_no_change_option: (بدون تغییر)
+  label_bulk_edit_selected_issues: ویرایش دسته‌ای پیامدهای گزینش شده
+  label_theme: پوسته
+  label_default: پیش‌گزیده
+  label_search_titles_only: تنها نام‌ها جستجو شود
+  label_user_mail_option_all: "برای هر رویداد در همه پروژه‌ها"
+  label_user_mail_option_selected: "برای هر رویداد تنها در پروژه‌های گزینش شده..."
+  label_user_mail_option_none: "هیچ رویدادی"
+  label_user_mail_option_only_my_events: "تنها برای چیزهایی که دیده‌بان هستم یا در آن‌ها درگیر هستم"
+  label_user_mail_option_only_assigned: "تنها برای چیزهایی که به من واگذار شده"
+  label_user_mail_option_only_owner: "تنها برای چیزهایی که من دارنده آن‌ها هستم"
+  label_user_mail_no_self_notified: "نمی‌خواهم از تغییراتی که خودم می‌دهم آگاه شوم"
+  label_registration_activation_by_email: فعالسازی حساب با ایمیل
+  label_registration_manual_activation: فعالسازی حساب دستی
+  label_registration_automatic_activation: فعالسازی حساب خودکار
+  label_display_per_page: "ردیف‌ها در هر برگه: %{value}"
+  label_age: سن
+  label_change_properties: ویرایش ویژگی‌ها
+  label_general: همگانی
+  label_more: بیشتر
+  label_scm: SCM
+  label_plugins: افزونه‌ها
+  label_ldap_authentication: شناساییLDAP
+  label_downloads_abbr: دریافت
+  label_optional_description: توضیح اختیاری
+  label_add_another_file: افزودن پرونده دیگر
+  label_preferences: پسندها
+  label_chronological_order: به ترتیب تاریخ
+  label_reverse_chronological_order: برعکس ترتیب تاریخ
+  label_planning: برنامه ریزی
+  label_incoming_emails: ایمیل‌های آمده
+  label_generate_key: ساخت کلید
+  label_issue_watchers: دیده‌بان‌ها
+  label_example: نمونه
+  label_display: نمایش
+  label_sort: جور کرد
+  label_ascending: افزایشی
+  label_descending: کاهشی
+  label_date_from_to: از %{start} تا %{end}
+  label_wiki_content_added: برگه ویکی افزوده شد
+  label_wiki_content_updated: برگه ویکی بروز شد
+  label_group: دسته
+  label_group_plural: دسته
+  label_group_new: دسته تازه
+  label_time_entry_plural: زمان گذاشته شده
+  label_version_sharing_none: بدون اشتراک
+  label_version_sharing_descendants: با زیر پروژه‌ها
+  label_version_sharing_hierarchy: با رشته پروژه‌ها
+  label_version_sharing_tree: با درخت پروژه
+  label_version_sharing_system: با همه پروژه‌ها
+  label_update_issue_done_ratios: بروز رسانی اندازه انجام شده پیامد
+  label_copy_source: منبع
+  label_copy_target: مقصد
+  label_copy_same_as_target: مانند مقصد
+  label_display_used_statuses_only: تنها وضعیت‌هایی نشان داده شوند که در این پیگرد به کار رفته‌اند
+  label_api_access_key: کلید دسترسی API
+  label_missing_api_access_key: کلید دسترسی API در دسترس نیست
+  label_api_access_key_created_on: "کلید دسترسی API %{value} پیش ساخته شده است"
+  label_profile: نمایه
+  label_subtask_plural: زیرکار
+  label_project_copy_notifications: در هنگام رونویسی پروژه ایمیل‌های آگاه‌سازی را بفرست
+  label_principal_search: "جستجو برای کاربر یا دسته:"
+  label_user_search: "جستجو برای کاربر:"
+  
+  button_login: ورود
+  button_submit: واگذاری
+  button_save: نگهداری
+  button_check_all: گزینش همه
+  button_uncheck_all: گزینش هیچ
+  button_delete: پاک
+  button_create: ساخت
+  button_create_and_continue: ساخت و ادامه
+  button_test: آزمایش
+  button_edit: ویرایش
+  button_edit_associated_wikipage: "ویرایش برگه ویکی وابسته: %{page_title}"
+  button_add: افزودن
+  button_change: ویرایش
+  button_apply: انجام
+  button_clear: پاک
+  button_lock: گذاشتن قفل
+  button_unlock: برداشتن قفل
+  button_download: دریافت
+  button_list: فهرست
+  button_view: دیدن
+  button_move: جابجایی
+  button_move_and_follow: جابجایی و ادامه
+  button_back: برگشت
+  button_cancel: بازگشت
+  button_activate: فعالسازی
+  button_sort: جور کرد
+  button_log_time: زمان‌نویسی
+  button_rollback: برگرد به این نگارش
+  button_watch: دیده‌بانی
+  button_unwatch: نا‌دیده‌بانی
+  button_reply: پاسخ
+  button_archive: بایگانی
+  button_unarchive: برگشت از بایگانی
+  button_reset: بازنشانی
+  button_rename: نامگذاری
+  button_change_password: جایگزینی گذرواژه
+  button_copy: رونوشت
+  button_copy_and_follow: رونوشت و ادامه
+  button_annotate: یادداشت
+  button_update: بروز رسانی
+  button_configure: پیکربندی
+  button_quote: نقل قول
+  button_duplicate: نگارش دیگر
+  button_show: نمایش
+  
+  status_active: فعال
+  status_registered: نام‌نویسی شده
+  status_locked: قفل
+  
+  version_status_open: باز
+  version_status_locked: قفل
+  version_status_closed: بسته
+
+  field_active: فعال
+  
+  text_select_mail_notifications: فرمان‌هایی که برای آن‌ها باید ایمیل فرستاده شود را برگزینید.
+  text_regexp_info: برای نمونه ^[A-Z0-9]+$
+  text_min_max_length_info: 0 یعنی بدون کران
+  text_project_destroy_confirmation: آیا براستی می‌خواهید این پروژه و همه داده‌های آن را پاک کنید؟
+  text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم پاک خواهند شد."
+  text_workflow_edit: یک نقش و یک پیگرد را برای ویرایش گردش کار برگزینید
+  text_are_you_sure: آیا این کار انجام شود؟
+  text_are_you_sure_with_children: "آیا پیامد و همه زیرپیامدهای آن پاک شوند؟"
+  text_journal_changed: "«%{label}» از «%{old}» به «%{new}» جایگزین شد"
+  text_journal_set_to: "«%{label}» به «%{value}» نشانده شد"
+  text_journal_deleted: "«%{label}» پاک شد (%{old})"
+  text_journal_added: "«%{label}»، «%{value}» را افزود"
+  text_tip_task_begin_day: روز آغاز پیامد
+  text_tip_task_end_day: روز پایان پیامد
+  text_tip_task_begin_end_day: روز آغاز و پایان پیامد
+  text_project_identifier_info: 'تنها نویسه‌های کوچک (a-z)، شماره‌ها و خط تیره پذیرفتنی است.<br />پس از ذخیره سازی، شناسه نمی‌تواند جایگزین شود.'
+  text_caracters_maximum: "بیشترین اندازه %{count} است."
+  text_caracters_minimum: "کمترین اندازه %{count} است."
+  text_length_between: "باید میان %{min} و %{max} نویسه باشد."
+  text_tracker_no_workflow: هیچ گردش کاری برای این پیگرد مشخص نشده است
+  text_unallowed_characters: نویسه‌های ناپسند
+  text_comma_separated: چند مقدار پذیرفتنی است (با «,» از هم جدا شوند).
+  text_line_separated: چند مقدار پذیرفتنی است (هر مقدار در یک خط).
+  text_issues_ref_in_commit_messages: نشانه روی و بستن پیامدها در پیام‌های انباره
+  text_issue_added: "پیامد %{id} به دست %{author} گزارش شد."
+  text_issue_updated: "پیامد %{id} به دست %{author} بروز شد."
+  text_wiki_destroy_confirmation: آیا براستی می‌خواهید این ویکی و همه محتوای آن را پاک کنید؟
+  text_issue_category_destroy_question: "برخی پیامدها (%{count}) به این دسته واگذار شده‌اند. می‌خواهید چه کنید؟"
+  text_issue_category_destroy_assignments: پاک کردن واگذاری به دسته
+  text_issue_category_reassign_to: واگذاری دوباره پیامدها به این دسته
+  text_user_mail_option: "برای پروژه‌های گزینش نشده، تنها ایمیل‌هایی درباره چیزهایی که دیده‌بان یا درگیر آن‌ها هستید دریافت خواهید کرد (مانند پیامدهایی که نویسنده آن‌ها هستید یا به شما واگذار شده‌اند)."
+  text_no_configuration_data: "نقش‌ها، پیگردها، وضعیت‌های پیامد و گردش کار هنوز پیکربندی نشده‌اند. \nبه سختی پیشنهاد می‌شود که پیکربندی پیش‌گزیده را بار کنید. سپس می‌توانید آن را ویرایش کنید."
+  text_load_default_configuration: بارگذاری پیکربندی پیش‌گزیده
+  text_status_changed_by_changeset: "در تغییر %{value} بروز شده است."
+  text_time_logged_by_changeset: "در تغییر %{value} نوشته شده است."
+  text_issues_destroy_confirmation: 'آیا براستی می‌خواهید پیامدهای گزینش شده را پاک کنید؟'
+  text_select_project_modules: 'پیمانه‌هایی که باید برای این پروژه فعال شوند را برگزینید:'
+  text_default_administrator_account_changed: حساب سرپرستی پیش‌گزیده جایگزین شد
+  text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
+  text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
+  text_rmagick_available: RMagick در دسترس است (اختیاری)
+  text_destroy_time_entries_question: "%{hours} ساعت روی پیامدهایی که می‌خواهید پاک کنید کار گزارش شده است. می‌خواهید چه کنید؟"
+  text_destroy_time_entries: ساعت‌های گزارش شده پاک شوند
+  text_assign_time_entries_to_project: ساعت‌های گزارش شده به پروژه واگذار شوند
+  text_reassign_time_entries: 'ساعت‌های گزارش شده به این پیامد واگذار شوند:'
+  text_user_wrote: "%{value} نوشت:"
+  text_enumeration_destroy_question: "%{count} داده به این برشمردنی وابسته شده‌اند."
+  text_enumeration_category_reassign_to: 'به این برشمردنی وابسته شوند:'
+  text_email_delivery_not_configured: "دریافت ایمیل پیکربندی نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml پیکربندی کنید و برنامه را بازنشانی کنید تا فعال شوند."
+  text_repository_usernames_mapping: "کاربر Redmine که به هر نام کاربری پیام‌های انباره نگاشت می‌شود را برگزینید.\nکاربرانی که نام کاربری یا ایمیل همسان دارند، خود به خود نگاشت می‌شوند."
+  text_diff_truncated: '... این تفاوت بریده شده چون بیشتر از بیشترین اندازه نمایش دادنی است.'
+  text_custom_field_possible_values_info: 'یک خط برای هر مقدار'
+  text_wiki_page_destroy_question: "این برگه %{descendants} زیربرگه دارد.می‌خواهید چه کنید؟"
+  text_wiki_page_nullify_children: "زیربرگه‌ها برگه ریشه شوند"
+  text_wiki_page_destroy_children: "زیربرگه‌ها و زیربرگه‌های آن‌ها پاک شوند"
+  text_wiki_page_reassign_children: "زیربرگه‌ها به زیر این برگه پدر بروند"
+  text_own_membership_delete_confirmation: "شما دارید برخی یا همه پروانه‌های خود را برمی‌دارید و شاید پس از این دیگر نتوانید این پروژه را ویرایش کنید.\nآیا می‌خواهید این کار را بکنید؟"
+  text_zoom_in: درشتنمایی
+  text_zoom_out: ریزنمایی
+  
+  default_role_manager: سرپرست
+  default_role_developer: برنامه‌نویس
+  default_role_reporter: گزارش‌دهنده
+  default_tracker_bug: ایراد
+  default_tracker_feature: ویژگی
+  default_tracker_support: پشتیبانی
+  default_issue_status_new: تازه
+  default_issue_status_in_progress: در گردش
+  default_issue_status_resolved: درست شده
+  default_issue_status_feedback: بازخورد
+  default_issue_status_closed: بسته
+  default_issue_status_rejected: برگشت خورده
+  default_doc_category_user: نوشتار کاربر
+  default_doc_category_tech: نوشتار فنی
+  default_priority_low: پایین
+  default_priority_normal: میانه
+  default_priority_high: بالا
+  default_priority_urgent: زود
+  default_priority_immediate: بیدرنگ
+  default_activity_design: طراحی
+  default_activity_development: ساخت
+  
+  enumeration_issue_priorities: برتری‌های پیامد
+  enumeration_doc_categories: دسته‌های نوشتار
+  enumeration_activities: فعالیت‌ها (پیگیری زمان)
+  enumeration_system_activity: فعالیت سامانه
+
+  text_tip_issue_begin_day: issue beginning this day
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_tip_issue_begin_end_day: issue beginning and ending this day
+  text_tip_issue_end_day: issue ending this day
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
