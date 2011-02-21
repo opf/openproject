@@ -955,3 +955,4 @@ de:
   setting_commit_logtime_enabled: Aktiviere Zeitlogging
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
+  text_powered_by: Powered by %{link}

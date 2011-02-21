@@ -938,3 +938,4 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
 
+  text_powered_by: Powered by %{link}
