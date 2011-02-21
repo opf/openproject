@@ -99,8 +99,8 @@ eu:
     errors:
       template:
         header:
-          one:    "1 error prohibited this %{model} from being saved"
-          other:  "%{count} errors prohibited this %{model} from being saved"
+          one:    "Errore batek %{model} hau godetzea galarazi du."
+          other:  "%{count} errorek %{model} hau gordetzea galarazi dute."
       messages:
         inclusion: "ez dago zerrendan"
         exclusion: "erreserbatuta dago"
@@ -125,7 +125,7 @@ eu:
         greater_than_start_date: "hasiera data baino handiagoa izan behar du"
         not_same_project: "ez dago proiektu berdinean"
         circular_dependency: "Erlazio honek mendekotasun zirkular bat sortuko luke"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Zeregin bat ezin da bere azpiataza batekin estekatu."
 
   actionview_instancetag_blank_option: Hautatu mesedez
   
@@ -276,7 +276,7 @@ eu:
   field_issue_to: Erlazionatutako zereginak
   field_delay: Atzerapena
   field_assignable: Arazoak rol honetara esleitu daitezke
-  field_redirect_existing_links: Existitzen diren estelak berbideratu
+  field_redirect_existing_links: Existitzen diren estekak berbideratu
   field_estimated_hours: Estimatutako denbora
   field_column_names: Zutabeak
   field_time_zone: Ordu zonaldea
@@ -317,7 +317,7 @@ eu:
   setting_cross_project_issue_relations: Zereginak proiektuen artean erlazionatzea baimendu
   setting_issue_list_default_columns: Zereginen zerrendan defektuz ikusten diren zutabeak
   setting_repositories_encodings: Biltegien kodeketak
-  setting_commit_logs_encoding: Commit-en mezuen kodetzea
+  setting_commit_logs_encoding: Commit-en egunkarien kodetzea
   setting_emails_footer: Eposten oina
   setting_protocol: Protokoloa
   setting_per_page_options: Orriko objektuen aukerak
@@ -362,7 +362,7 @@ eu:
   permission_delete_issues: Zereginak ezabatu
   permission_manage_public_queries: Galdera publikoak kudeatu
   permission_save_queries: Galderak gorde
-  permission_view_gantt: Gantt diagrama ikusi
+  permission_view_gantt: Gantt grafikoa ikusi
   permission_view_calendar: Egutegia ikusi
   permission_view_issue_watchers: Behatzaileen zerrenda ikusi
   permission_add_issue_watchers: Behatzaileak gehitu
@@ -440,7 +440,7 @@ eu:
   label_tracker: Aztarnaria
   label_tracker_plural: Aztarnariak
   label_tracker_new: Aztarnari berria
-  label_workflow: Workflow
+  label_workflow: Lan-fluxua
   label_issue_status: Zeregin egoera
   label_issue_status_plural: Zeregin egoerak
   label_issue_status_new: Egoera berria
@@ -505,7 +505,7 @@ eu:
   label_file_added: Fitxategia gehituta
   label_report: Berri ematea
   label_report_plural: Berri emateak
-  label_news: Beria
+  label_news: Berria
   label_news_new: Berria gehitu
   label_news_plural: Berriak
   label_news_latest: Azken berriak
@@ -552,7 +552,7 @@ eu:
   label_add_note: Oharra gehitu
   label_per_page: Orriko
   label_calendar: Egutegia
-  label_months_from: months from
+  label_months_from: hilabete noiztik
   label_gantt: Gantt
   label_internal: Barnekoa
   label_last_changes: "azken %{count} aldaketak"
@@ -783,7 +783,7 @@ eu:
   button_cancel: Ezeztatu
   button_activate: Gahitu
   button_sort: Ordenatu
-  button_log_time: Denbora apuntatu
+  button_log_time: Denbora erregistratu
   button_rollback: Itzuli bertsio honetara
   button_watch: Behatu
   button_unwatch: Behatzen utzi
@@ -823,9 +823,9 @@ eu:
   text_journal_set_to: "%{label}-k %{value} balioa hartu du"
   text_journal_deleted: "%{label} ezabatuta (%{old})"
   text_journal_added: "%{label} %{value} gehituta"
-  text_tip_issue_begin_day: gaur hasten diren atazak
-  text_tip_issue_end_day: gaur bukatzen diren atazak
-  text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren atazak
+  text_tip_issue_begin_day: gaur hasten diren zereginak
+  text_tip_issue_end_day: gaur bukatzen diren zereginak
+  text_tip_issue_begin_end_day: gaur hasi eta bukatzen diren zereginak
   text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} karaktere gehienez."
   text_caracters_minimum: "Gutxienez %{count} karaktereetako luzerakoa izan behar du."
@@ -896,7 +896,7 @@ eu:
   enumeration_doc_categories: Dokumentu kategoriak
   enumeration_activities: Jarduerak (denbora kontrola))
   enumeration_system_activity: Sistemako Jarduera
-  label_board_sticky: Itxaskorra
+  label_board_sticky: Itsaskorra
   label_board_locked: Blokeatuta
   permission_export_wiki_pages: Wiki orriak esportatu
   setting_cache_formatted_text: Formatudun testua katxeatu
@@ -904,43 +904,22 @@ eu:
   error_unable_delete_issue_status: Ezine da zereginaren egoera ezabatu
   label_profile: Profila
   permission_manage_subtasks: Azpiatazak kudeatu
-  field_parent_issue: Guraso ataza
+  field_parent_issue: Zeregin gurasoa
   label_subtask_plural: Azpiatazak
   label_project_copy_notifications: Proiektua kopiatzen den bitartean eposta jakinarazpenak bidali
-  error_can_not_delete_custom_field: Ezin da eremu pertsonallizatua ezabatu
+  error_can_not_delete_custom_field: Ezin da eremu pertsonalizatua ezabatu
   error_unable_to_connect: Ezin da konektatu (%{value})
   error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
   error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
-  field_principal: Principal
-  label_my_page_block: My page block
-  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
-  field_time_entries: Log time
+  field_principal: Ekintzaile
+  label_my_page_block: "Nire orriko blokea"
+  notice_failed_to_save_members: "Kidea(k) gordetzean errorea: %{errors}."
+  text_zoom_out: Zooma txikiagotu
+  text_zoom_in: Zooma handiagotu
+  notice_unable_delete_time_entry: "Ezin da hautatutako denbora erregistroa ezabatu."
+  label_overall_spent_time: Igarotako denbora guztira
+  field_time_entries: "Denbora erregistratu"
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: Powered by %{link}
   label_cvs_module: Module
   label_filesystem_path: Root directory
@@ -949,3 +928,24 @@ eu:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  project_module_calendar: Egutegia
+  button_edit_associated_wikipage: "Esleitutako wiki orria editatu: %{page_title}"
+  text_are_you_sure_with_children: "Zeregina eta azpi zeregin guztiak ezabatu?"
+  field_text: Testu eremua
+  label_user_mail_option_only_owner: "Jabea naizen gauzetarako barrarik"
+  setting_default_notification_option: "Lehenetsitako ohartarazpen aukera"
+  label_user_mail_option_only_my_events: "Behatzen ditudan edo partaide naizen gauzetarako bakarrik"
+  label_user_mail_option_only_assigned: "Niri esleitutako gauzentzat bakarrik"
+  label_user_mail_option_none: "Gertakaririk ez"
+  field_member_of_group: "Esleituta duenaren taldea"
+  field_assigned_to_role: "Esleituta duenaren rola"
+  notice_not_authorized_archived_project: "Atzitu nahi duzun proiektua artxibatua izan da."
+  label_principal_search: "Bilatu erabiltzaile edo taldea:"
+  label_user_search: "Erabiltzailea bilatu:"
+  field_visible: Ikusgai
+  setting_emails_header: "Eposten goiburua"
+  setting_commit_logtime_activity_id: "Erregistratutako denboraren jarduera"
+  text_time_logged_by_changeset: "%{value} aldaketan egindakoa."
+  setting_commit_logtime_enabled: "Erregistrutako denbora gaitu"
+  notice_gantt_chart_truncated: Grafikoa moztu da bistara daitekeen elementuen kopuru maximoa gainditu delako (%{max})
+  setting_gantt_items_limit: "Gantt grafikoan bistara daitekeen elementu kopuru maximoa"
