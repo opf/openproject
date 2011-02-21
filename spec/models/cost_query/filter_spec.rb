@@ -237,9 +237,74 @@ describe CostQuery do
         CostQuery::Filter.all.merge CostQuery::Filter::CustomFieldEntries.all
       end
 
+      def check_cache
+        CostReportsController.new.check_cache
+        CostQuery::Filter::CustomFieldEntries.all
+      end
+
+      def create_issue_custom_field(name)
+        IssueCustomField.create(:name => name,
+          :min_length => 1,
+          :regexp => "",
+          :is_for_all => true,
+          :max_length => 100,
+          :possible_values => "",
+          :is_required => false,
+          :field_format => "string",
+          :searchable => true,
+          :default_value => "Default string",
+          :editable => true)
+        check_cache
+      end
+
+      def delete_issue_custom_field(name)
+        IssueCustomField.find_by_name(name).destroy
+        check_cache
+      end
+
+      def update_issue_custom_field(name, options)
+        fld = IssueCustomField.find_by_name(name)
+        options.each_pair {|k, v| fld.send(:"#{k}=", v) }
+        fld.save!
+        check_cache
+      end
+
       it "should create classes for custom fields" do
         # Would raise a name error
         CostQuery::Filter::CustomFieldSearchableField
+      end
+
+      it "should create new classes for custom fields that get added after starting the server" do
+        create_issue_custom_field("AFreshCustomField")
+        # Would raise a name error
+        CostQuery::Filter::CustomFieldAfreshcustomfield
+        delete_issue_custom_field("AFreshCustomField")
+      end
+
+      it "should remove the custom field classes after it is deleted" do
+        create_issue_custom_field("AFreshCustomField")
+        delete_issue_custom_field("AFreshCustomField")
+        CostQuery::Filter.all.should_not include CostQuery::Filter::CustomFieldAfreshcustomfield
+      end
+
+      it "should provide the correct available values" do
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.null_operators.each do |o|
+          ao.should include o.name
+        end
+      end
+
+      it "should update the available values on change" do
+        update_issue_custom_field("Database", :field_format => "string")
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.string_operators.each do |o|
+          ao.should include o.name
+        end
+        update_issue_custom_field("Database", :field_format => "list")
+        ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
+        CostQuery::Operator.string_operators.each do |o|
+          ao.should include o.name
+        end
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
