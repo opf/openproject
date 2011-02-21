@@ -132,6 +132,10 @@ module RepositoriesHelper
         # do nothing here and try the next encoding
       end
     end
+    if str.respond_to?(:force_encoding)
+      str = str.encode("ASCII-8BIT", :invalid => :replace,
+              :undef => :replace, :replace => '?').encode("UTF-8")
+    end
     str
   end
   
