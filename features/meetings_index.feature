@@ -40,4 +40,5 @@ Feature: Show existing meetings
        Then I should see "Meetings" within "#content"
         But I should not see "No data to display" within "#content"
         # Die Reihenfolge der Meetings muss überprüft werden
-        And I should see 4 meetings # jedes meeting generiert 2 Tags mit der Klasse meeting
+        # jedes meeting generiert 2 Tags mit der Klasse meeting
+        And I should see 4 meetings
