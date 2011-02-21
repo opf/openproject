@@ -106,11 +106,27 @@ module IssuesHelper
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
       @sidebar_queries = Query.find(:all, 
-                                    :select => 'id, name',
+                                    :select => 'id, name, is_public',
                                     :order => "name ASC",
                                     :conditions => visible.conditions)
     end
     @sidebar_queries
+  end
+
+  def query_links(title, queries)
+    content_tag('h3', title) +
+      queries.collect {|query|
+          link_to(h(query.name), :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query)
+        }.join('<br />')
+  end
+  
+  def render_sidebar_queries
+    out = ''
+    queries = sidebar_queries.select {|q| !q.is_public?}
+    out << query_links(l(:label_my_queries), queries) if queries.any?
+    queries = sidebar_queries.select {|q| q.is_public?}
+    out << query_links(l(:label_query_plural), queries) if queries.any?
+    out
   end
 
   def show_detail(detail, no_html=false)

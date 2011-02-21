@@ -949,3 +949,4 @@ eu:
   setting_commit_logtime_enabled: "Erregistrutako denbora gaitu"
   notice_gantt_chart_truncated: Grafikoa moztu da bistara daitekeen elementuen kopuru maximoa gainditu delako (%{max})
   setting_gantt_items_limit: "Gantt grafikoan bistara daitekeen elementu kopuru maximoa"
+  label_my_queries: My custom queries

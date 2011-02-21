@@ -595,6 +595,7 @@ en:
   label_query: Custom query
   label_query_plural: Custom queries
   label_query_new: New query
+  label_my_queries: My custom queries
   label_filter_add: Add filter
   label_filter_plural: Filters
   label_equals: is

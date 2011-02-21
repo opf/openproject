@@ -941,3 +941,4 @@ fa:
   text_tip_issue_begin_end_day: issue beginning and ending this day
   text_tip_issue_end_day: issue ending this day
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  label_my_queries: My custom queries

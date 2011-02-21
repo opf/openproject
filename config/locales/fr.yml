@@ -596,6 +596,7 @@ fr:
   label_query: Rapport personnalisé
   label_query_plural: Rapports personnalisés
   label_query_new: Nouveau rapport
+  label_my_queries: Mes rapports personnalisés
   label_filter_add: "Ajouter le filtre "
   label_filter_plural: Filtres
   label_equals: égal

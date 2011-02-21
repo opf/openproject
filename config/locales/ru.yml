@@ -1058,3 +1058,4 @@ ru:
   label_cvs_path: CVSROOT
   label_git_path: Путь к каталогу .git
   label_mercurial_path: Каталог
+  label_my_queries: My custom queries
