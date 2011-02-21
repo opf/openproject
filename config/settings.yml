@@ -20,7 +20,7 @@
 # Settings can be defined through the application in Admin -> Settings
 
 app_title:
-  default: Redmine
+  default: ChiliProject
 app_subtitle:
   default: Project management
 welcome_text:
@@ -46,7 +46,7 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: redmine@example.net
+  default: chiliproject@example.net
 bcc_recipients:
   default: 1
 plain_text_mail:

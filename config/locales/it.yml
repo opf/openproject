@@ -939,3 +939,4 @@ it:
   setting_commit_logtime_enabled: Abilita registrazione del tempo di collegamento
   notice_gantt_chart_truncated: Il grafico è stato troncato perchè eccede il numero di oggetti (%{max}) da visualizzare
   setting_gantt_items_limit: Massimo numero di oggetti da visualizzare sul diagramma di gantt
+  text_powered_by: Powered by %{link}

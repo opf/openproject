@@ -47,7 +47,7 @@ class MailHandler < ActionMailer::Base
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]" if logger && logger.info
+      logger.info  "MailHandler: ignoring email from emission address [#{sender_email}]" if logger && logger.info
       return false
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
@@ -81,7 +81,7 @@ class MailHandler < ActionMailer::Base
   
   private
 
-  MESSAGE_ID_RE = %r{^<redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<chiliproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
   

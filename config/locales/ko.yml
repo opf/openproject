@@ -990,3 +990,4 @@ ko:
   setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
   notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  text_powered_by: Powered by %{link}

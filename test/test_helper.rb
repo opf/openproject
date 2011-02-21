@@ -361,11 +361,11 @@ class ActiveSupport::TestCase
       end
     end
     
-    context "should allow key based auth using X-Redmine-API-Key header for #{http_method} #{url}" do
+    context "should allow key based auth using X-ChiliProject-API-Key header for #{http_method} #{url}" do
       setup do
         @user = User.generate_with_protected!(:admin => true)
         @token = Token.generate!(:user => @user, :action => 'api')
-        send(http_method, url, parameters, {'X-Redmine-API-Key' => @token.value.to_s})
+        send(http_method, url, parameters, {'X-ChiliProject-API-Key' => @token.value.to_s})
       end
       
       should_respond_with success_code
