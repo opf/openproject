@@ -60,7 +60,7 @@ end
 # Width of the entire chart    
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
 
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height

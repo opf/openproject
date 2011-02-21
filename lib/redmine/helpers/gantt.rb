@@ -713,7 +713,10 @@ module Redmine
       end
       
       def html_subject(params, subject, options={})
-        output = "<div class=' #{options[:css] }' style='position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;'>"
+        style = "position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis;"
+        style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
+        
+        output = "<div class='#{options[:css]}' style='#{style}'>"
         output << subject
         output << "</div>"
         @subjects << output
