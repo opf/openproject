@@ -221,6 +221,25 @@ class ChangesetTest < ActiveSupport::TestCase
     end
   end
 
+  def test_comments_should_be_converted_all_latin1_to_utf8
+    with_settings :commit_logs_encoding => 'ISO-8859-1' do
+      c = Changeset.new
+      s1 = "\xC2\x80"
+      s2 = "\xc3\x82\xc2\x80"
+      if s1.respond_to?(:force_encoding)
+        s3 = s1
+        s4 = s2
+        s1.force_encoding('ASCII-8BIT')
+        s2.force_encoding('ASCII-8BIT')
+        s3.force_encoding('ISO-8859-1')
+        s4.force_encoding('UTF-8')
+        assert_equal s3.encode('UTF-8'), s4
+      end
+      c.comments = s1
+      assert_equal s2, c.comments
+    end
+  end
+
   def test_identifier
     c = Changeset.find_by_revision('1')
     assert_equal c.revision, c.identifier
