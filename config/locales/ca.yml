@@ -848,7 +848,7 @@ ca:
   text_tip_issue_begin_day: "tasca que s'inicia aquest dia"
   text_tip_issue_end_day: tasca que finalitza aquest dia
   text_tip_issue_begin_end_day: "tasca que s'inicia i finalitza aquest dia"
-  text_project_identifier_info: "Es permeten lletres en minúscules (a-z), números i guions.<br />Un cop desat, l'identificador no es pot modificar."
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir %{count} caràcters."
   text_length_between: "Longitud entre %{min} i %{max} caràcters."

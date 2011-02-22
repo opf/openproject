@@ -864,7 +864,7 @@ bg:
   text_tip_issue_begin_day: задача, започваща този ден
   text_tip_issue_end_day: задача, завършваща този ден
   text_tip_issue_begin_end_day: задача, започваща и завършваща този ден
-  text_project_identifier_info: 'Позволени са малки букви (a-z), цифри и тирета.<br />Невъзможна промяна след запис.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "До %{count} символа."
   text_caracters_minimum: "Минимум %{count} символа."
   text_length_between: "От %{min} до %{max} символа."

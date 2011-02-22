@@ -656,7 +656,7 @@
   text_tip_issue_begin_day: oppgaven starter denne dagen
   text_tip_issue_end_day: oppgaven avsluttes denne dagen
   text_tip_issue_begin_end_day: oppgaven starter og avsluttes denne dagen
-  text_project_identifier_info: 'Små bokstaver (a-z), nummer og bindestrek tillatt.<br />Identifikatoren kan ikke endres etter den er lagret.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} tegn maksimum."
   text_caracters_minimum: "Må være minst %{count} tegn langt."
   text_length_between: "Lengde mellom %{min} og %{max} tegn."

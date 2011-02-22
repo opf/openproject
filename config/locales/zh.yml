@@ -837,7 +837,7 @@ zh:
   text_tip_issue_begin_day: 今天开始的任务
   text_tip_issue_end_day: 今天结束的任务
   text_tip_issue_begin_end_day: 今天开始并结束的任务
-  text_project_identifier_info: '只允许使用小写字母（a-z），数字和连字符（-）。<br />请注意，标识符保存后将不可修改。'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "最多 %{count} 个字符。"
   text_caracters_minimum: "至少需要 %{count} 个字符。"
   text_length_between: "长度必须在 %{min} 到 %{max} 个字符之间。"

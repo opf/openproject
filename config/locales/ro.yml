@@ -743,7 +743,7 @@ ro:
   text_tip_issue_begin_day: sarcină care începe în această zi
   text_tip_issue_end_day: sarcină care se termină în această zi
   text_tip_issue_begin_end_day: sarcină care începe și se termină în această zi
-  text_project_identifier_info: 'Sunt permise doar litere mici (a-z), numere și cratime.<br />Odată salvat, identificatorul nu mai poate fi modificat.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "maxim %{count} caractere."
   text_caracters_minimum: "Trebuie să fie minim %{count} caractere."
   text_length_between: "Lungime între %{min} și %{max} caractere."

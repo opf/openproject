@@ -822,7 +822,7 @@ lv:
   text_tip_issue_begin_day: uzdevums sākas šodien
   text_tip_issue_end_day: uzdevums beidzas šodien
   text_tip_issue_begin_end_day: uzdevums sākas un beidzas šodien
-  text_project_identifier_info: 'Tikai mazie burti (a-z), cipari un domuzīmes ir atļauti.<br />Kad saglabāts, identifikators nevar tikt mainīts.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} simboli maksimāli."
   text_caracters_minimum: "Jābūt vismaz %{count} simbolu garumā."
   text_length_between: "Garums starp %{min} un %{max} simboliem."

@@ -730,7 +730,7 @@ vi:
   text_tip_issue_begin_day: ngày bắt đầu
   text_tip_issue_end_day: ngày kết thúc
   text_tip_issue_begin_end_day: bắt đầu và kết thúc cùng ngày
-  text_project_identifier_info: 'Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "Tối đa %{count} ký tự."
   text_caracters_minimum: "Phải gồm ít nhất %{count} ký tự."
   text_length_between: "Length between %{min} and %{max} characters."

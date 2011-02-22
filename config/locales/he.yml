@@ -857,7 +857,7 @@ he:
   text_tip_issue_begin_day: מטלה המתחילה היום
   text_tip_issue_end_day: מטלה המסתיימת היום
   text_tip_issue_begin_end_day: מטלה המתחילה ומסתיימת היום
-  text_project_identifier_info: 'אותיות לטיניות (a-z), מספרים ומקפים.<br />ברגע שנשמר, לא ניתן לשנות את המזהה.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "מקסימום %{count} תווים."
   text_caracters_minimum: "חייב להיות לפחות באורך של %{count} תווים."
   text_length_between: "אורך בין %{min} ל %{max} תווים."

@@ -854,7 +854,7 @@ lt:
   text_tip_issue_begin_day: užduotis, prasidedanti šią dieną
   text_tip_issue_end_day: užduotis, pasibaigianti šią dieną
   text_tip_issue_begin_end_day: užduotis, prasidedanti ir pasibaigianti šią dieną
-  text_project_identifier_info: 'Mažosios raidės (a-z), skaičiai ir brūkšniai galimi.<br/>Išsaugojus, identifikuotojas negali būti keičiamas.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} simbolių maksimumas."
   text_caracters_minimum: "Turi būti mažiausiai %{count} simbolių ilgio."
   text_length_between: "Ilgis tarp %{min} ir %{max} simbolių."

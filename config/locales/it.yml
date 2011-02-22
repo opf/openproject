@@ -576,7 +576,7 @@ it:
   text_tip_issue_begin_day: attività che iniziano in questa giornata
   text_tip_issue_end_day: attività che terminano in questa giornata
   text_tip_issue_begin_end_day: attività che iniziano e terminano in questa giornata
-  text_project_identifier_info: "Lettere minuscole (a-z), numeri e trattini permessi.<br />Una volta salvato, l'identificativo non può essere modificato."
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "massimo %{count} caratteri."
   text_length_between: "Lunghezza compresa tra %{min} e %{max} caratteri."
   text_tracker_no_workflow: Nessun workflow definito per questo tracker

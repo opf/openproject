@@ -821,7 +821,7 @@ hr:
   text_tip_issue_begin_day: Zadaci koji počinju ovog dana
   text_tip_issue_end_day: zadaci koji se završavaju ovog dana
   text_tip_issue_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
-  text_project_identifier_info: 'mala slova (a-z), brojevi i crtice su dozvoljeni.<br />Jednom snimljen identifikator se ne može mijenjati!'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "Najviše %{count} znakova."
   text_caracters_minimum: "Mora biti dugačko najmanje %{count} znakova."
   text_length_between: "Dužina izmedu %{min} i %{max} znakova."

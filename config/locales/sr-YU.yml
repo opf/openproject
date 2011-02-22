@@ -842,7 +842,7 @@ sr-YU:
   text_tip_issue_begin_day: zadatak počinje ovog dana
   text_tip_issue_end_day: zadatak se završava ovog dana
   text_tip_issue_begin_end_day: zadatak počinje i završava ovog dana
-  text_project_identifier_info: 'Dozvoljena su samo mala slova (a-š), brojevi i crtice.<br />Jednom snimljen identifikator više se ne može promeniti.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "Najviše %{count} znak(ova)."
   text_caracters_minimum: "Broj znakova mora biti najmanje %{count}."
   text_length_between: "Broj znakova mora biti između %{min} i %{max}."

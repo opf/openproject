@@ -731,7 +731,7 @@ sl:
   text_tip_issue_begin_day: naloga z začetkom na ta dan
   text_tip_issue_end_day: naloga z zaključkom na ta dan
   text_tip_issue_begin_end_day: naloga ki se začne in konča ta dan
-  text_project_identifier_info: 'Dovoljene so samo male črke (a-z), številke in vezaji.<br />Enkrat shranjen identifikator ne more biti spremenjen.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "največ %{count} znakov."
   text_caracters_minimum: "Mora biti vsaj dolg vsaj %{count} znakov."
   text_length_between: "Dolžina med %{min} in %{max} znakov."

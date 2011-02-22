@@ -655,7 +655,7 @@ sk:
   text_tip_issue_begin_day: úloha začína v tento deň
   text_tip_issue_end_day: úloha končí v tento deň
   text_tip_issue_begin_end_day: úloha začína a končí v tento deň
-  text_project_identifier_info: 'Povolené znaky sú malé písmena (a-z), čísla a pomlčka.<br />Po uložení už nieje možné identifikátor zmeniť.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} znakov maximálne."
   text_caracters_minimum: "Musí byť aspoň %{count} znaky/ov dlhé."
   text_length_between: "Dĺžka medzi %{min} až %{max} znakmi."

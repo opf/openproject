@@ -603,7 +603,7 @@ uk:
   text_tip_issue_begin_day: день початку задачі
   text_tip_issue_end_day: день завершення задачі
   text_tip_issue_begin_end_day: початок задачі і закінчення цього дня
-  text_project_identifier_info: 'Рядкові букви (a-z), допустимі цифри і дефіс.<br />Збережений ідентифікатор не може бути змінений.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} символів(а) максимум."
   text_caracters_minimum: "Повинно мати якнайменше  %{count} символів(а) у довжину."
   text_length_between: "Довжина між %{min} і %{max} символів."

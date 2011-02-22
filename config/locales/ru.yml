@@ -935,7 +935,7 @@ ru:
   text_no_configuration_data: "Роли, трекеры, статусы задач и оперативный план не были сконфигурированы.\nНастоятельно рекомендуется загрузить конфигурацию по-умолчанию. Вы сможете её изменить потом."
   text_plugin_assets_writable: Каталог для плагинов доступен по записи
   text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
-  text_project_identifier_info: 'Допустимы строчные буквы (a-z), цифры и дефис.<br />Сохраненный идентификатор не может быть изменен.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: напр. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Выберите или обновите пользователя Redmine, связанного с найденными именами в журнале хранилища.\nПользователи с одинаковыми именами или email в Redmine и хранилище связываются автоматически."

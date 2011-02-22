@@ -845,7 +845,7 @@ mk:
   text_tip_issue_begin_day: задачи што почнуваат овој ден
   text_tip_issue_end_day: задачи што завршуваат овој ден
   text_tip_issue_begin_end_day: задачи што почнуваат и завршуваат овој ден
-  text_project_identifier_info: 'Само мали букви (a-z), бројки и dashes се дозволени<br />По зачувувањето, идентификаторот неможе да се смени.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} знаци максимум."
   text_caracters_minimum: "Мора да е најмалку %{count} знаци долго."
   text_length_between: "Должина помеѓу %{min} и %{max} знаци."

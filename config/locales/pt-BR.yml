@@ -698,7 +698,7 @@ pt-BR:
   text_tip_issue_begin_day: tarefa inicia neste dia
   text_tip_issue_end_day: tarefa termina neste dia
   text_tip_issue_begin_end_day: tarefa inicia e termina neste dia
-  text_project_identifier_info: 'Letras minúsculas (a-z), números e hífens permitidos.<br />Uma vez salvo, o identificador não poderá ser alterado.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "máximo %{count} caracteres"
   text_caracters_minimum: "deve ter ao menos %{count} caracteres."
   text_length_between: "deve ter entre %{min} e %{max} caracteres."

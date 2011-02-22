@@ -638,7 +638,7 @@ fi:
   text_tip_issue_begin_day: tehtävä joka alkaa tänä päivänä
   text_tip_issue_end_day: tehtävä joka loppuu tänä päivänä
   text_tip_issue_begin_end_day: tehtävä joka alkaa ja loppuu tänä päivänä
-  text_project_identifier_info: 'Pienet kirjaimet (a-z), numerot ja viivat ovat sallittu.<br />Tallentamisen jälkeen tunnistetta ei voi muuttaa.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} merkkiä enintään."
   text_caracters_minimum: "Täytyy olla vähintään %{count} merkkiä pitkä."
   text_length_between: "Pituus välillä %{min} ja %{max} merkkiä."

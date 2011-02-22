@@ -790,7 +790,7 @@ gl:
   text_min_max_length_info: 0 para ningunha restrición
   text_no_configuration_data: "Inda non se configuraron perfiles, nin tipos, estados e fluxo de traballo asociado a peticións. Recoméndase encarecidamente cargar a configuración por defecto. Unha vez cargada, poderá modificala."
   text_project_destroy_confirmation: ¿Estás seguro de querer eliminar o proxecto?
-  text_project_identifier_info: 'Letras minúsculas (a-z), números e signos de puntuación permitidos.<br />Unha vez gardado, o identificador non pode modificarse.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_reassign_time_entries: 'Reasignar as horas a esta petición:'
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Estableza a correspondencia entre os usuarios de Redmine e os presentes no log do repositorio.\nOs usuarios co mesmo nome ou correo en Redmine e no repositorio serán asociados automaticamente."

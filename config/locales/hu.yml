@@ -684,7 +684,7 @@
   text_tip_issue_begin_day: a feladat ezen a napon kezdődik
   text_tip_issue_end_day: a feladat ezen a napon ér véget
   text_tip_issue_begin_end_day: a feladat ezen a napon kezdődik és ér véget
-  text_project_identifier_info: 'Kis betűk (a-z), számok és kötőjel megengedett.<br />Mentés után az azonosítót megváltoztatni nem lehet.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "maximum %{count} karakter."
   text_caracters_minimum: "Legkevesebb %{count} karakter hosszúnek kell lennie."
   text_length_between: "Legalább %{min} és legfeljebb %{max} hosszú karakter."

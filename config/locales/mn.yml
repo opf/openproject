@@ -827,7 +827,7 @@ mn:
   text_tip_issue_begin_day: энэ өдөр эхлэх ажил
   text_tip_issue_end_day: энэ өдөр дуусах ажил
   text_tip_issue_begin_end_day: энэ өдөр эхлээд мөн дуусч байгаа ажил
-  text_project_identifier_info: 'Зөвхөн жижиг үсгүүд болон (a-z), тоо and дундуур зураас ашиглаж болно.<br />Нэгэнт хадгалсан хойно, төслийн глобал нэрийг өөрлчөх боломжгүй.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "дээд тал нь %{count} үсэг."
   text_caracters_minimum: "Хамгийн багадаа ядаж %{count} тэмдэгт байх."
   text_length_between: "Урт нь багадаа %{min}, ихдээ %{max} тэмдэгт."

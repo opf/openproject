@@ -802,7 +802,7 @@ id:
   text_tip_issue_begin_day: tugas dimulai hari itu
   text_tip_issue_end_day: tugas berakhir hari itu
   text_tip_issue_begin_end_day: tugas dimulai dan berakhir hari itu
-  text_project_identifier_info: 'Yang diijinkan hanya huruf kecil (a-z), angka dan tanda minus.<br />Sekali disimpan, pengenal tidak bisa diubah.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "maximum %{count} karakter."
   text_caracters_minimum: "Setidaknya harus sepanjang %{count} karakter."
   text_length_between: "Panjang diantara %{min} dan %{max} karakter."

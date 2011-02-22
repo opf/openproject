@@ -101,6 +101,7 @@ class ProjectTest < ActiveSupport::TestCase
     to_test = {"abc" => true,
                "ab12" => true,
                "ab-12" => true,
+               "ab_12" => true,
                "12" => false,
                "new" => false}
                
