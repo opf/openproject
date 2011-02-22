@@ -10,6 +10,9 @@ begin
   class GitAdapterTest < ActiveSupport::TestCase
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
 
+    FELIX_UTF8 = "Felix Schäfer"
+    FELIX_HEX  = "Felix Sch\xC3\xA4fer"
+
     if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::GitAdapter.new(REPOSITORY_PATH)
@@ -81,9 +84,17 @@ begin
       def test_last_rev_with_spaces_in_filename
         last_rev = @adapter.lastrev("filemane with spaces.txt",
                                     "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
+        str_felix_utf8 = FELIX_UTF8
+        str_felix_hex  = FELIX_HEX
+        last_rev_author = last_rev.author
+        if last_rev_author.respond_to?(:force_encoding)
+          last_rev_author.force_encoding('UTF-8')
+        end
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
         assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
-        assert_equal "Felix Schäfer <felix@fachschaften.org>",
+        assert_equal "#{str_felix_utf8} <felix@fachschaften.org>",
+                       last_rev.author
+        assert_equal "#{str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
       end
