@@ -78,6 +78,11 @@ module Redmine
           end
         end
 
+        def initialize(url, root_url=nil, login=nil, password=nil)
+          super
+          @path_encoding = 'UTF-8'
+        end
+
         def info
           tip = summary['repository']['tip']
           Info.new(:root_url => CGI.unescape(summary['repository']['root']),
