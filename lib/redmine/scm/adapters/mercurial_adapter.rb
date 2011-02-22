@@ -55,6 +55,9 @@ module Redmine
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
             theversion = hgversion_from_command_line
+            if theversion.respond_to?(:force_encoding)
+              theversion.force_encoding('ASCII-8BIT')
+            end
             if m = theversion.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end

@@ -46,6 +46,9 @@ module Redmine
 
           def scm_command_version
             scm_version = scm_version_from_command_line
+            if scm_version.respond_to?(:force_encoding)
+              scm_version.force_encoding('ASCII-8BIT')
+            end
             if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
