@@ -118,5 +118,45 @@ rescue Gem::LoadError => load_error
   exit 1
 end
 
+# TODO: Workaround for rubygems > 1.5 compatibility (#133), to be removed
+# for Rails > 2.3.5
+#
+# Fixes the deprecation warning about removal of version_requirements for
+# rubygems < 1.5 and provide a workaround for rubygems >= 1.5 where that
+# method was finally removed.
+module Rails
+  # See lib/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb
+  class GemDependency < Gem::Dependency
+    def dependencies
+      return [] if framework_gem?
+      return [] unless installed?
+      specification.dependencies.reject do |dependency|
+        dependency.type == :development
+      end.map do |dependency|
+        GemDependency.new(dependency.name,
+                          :requirement => (dependency.respond_to?(:requirement) ?
+                           dependency.requirement :
+                           dependency.version_requirements))
+      end
+    end
+
+    if method_defined?(:requirement)
+      # rubygem > 1.5
+      def requirement
+        req = super
+        req unless req == Gem::Requirement.default
+      end
+      # bypass passenger error
+      alias :version_requirements :requirement
+    else
+      # rubygem < 1.5
+      def requirement
+        req = version_requirements
+        req unless req == Gem::Requirement.default
+      end
+    end
+  end
+end
+
 # All that for this:
 Rails.boot!
