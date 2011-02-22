@@ -119,11 +119,13 @@ module RepositoriesHelper
   def to_utf8(str)
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
-      return str if str.valid_encoding?
     else
+      # TODO:
+      # Japanese Shift_JIS(CP932) is not compatible with ASCII.      
+      # UTF-7 and Japanese ISO-2022-JP are 7bits clean.
       return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
     end
-    
+
     @encodings ||= Setting.repositories_encodings.split(',').collect(&:strip)
     @encodings.each do |encoding|
       begin
