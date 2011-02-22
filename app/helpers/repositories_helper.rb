@@ -132,14 +132,21 @@ module RepositoriesHelper
         # do nothing here and try the next encoding
       end
     end
+    str = replace_invalid_utf8(str)
+  end
+
+  def replace_invalid_utf8(str)
     if str.respond_to?(:force_encoding)
-      str = str.encode("ASCII-8BIT", :invalid => :replace,
+      str.force_encoding('UTF-8')
+      if ! str.valid_encoding?
+        str = str.encode("US-ASCII", :invalid => :replace,
               :undef => :replace, :replace => '?').encode("UTF-8")
+      end
     end
     str
   end
-  
-  def repository_field_tags(form, repository)    
+
+  def repository_field_tags(form, repository)
     method = repository.class.name.demodulize.underscore + "_field_tags"
     send(method, form, repository) if repository.is_a?(Repository) && respond_to?(method) && method != 'repository_field_tags'
   end
