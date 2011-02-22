@@ -25,7 +25,8 @@ module Redmine
           
           help_link = l(:setting_text_formatting) + ': ' +
             link_to(l(:label_help), url,
-                    :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;")
+                    :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;",
+                    :tabindex => -1)
       
           javascript_include_tag('jstoolbar/jstoolbar') +
             javascript_include_tag('jstoolbar/textile') +
