@@ -7,3 +7,7 @@
 <p><%= submit_tag l(:button_save) %> <%= link_to l(:button_cancel), "#", :onclick => "Element.show(\"#{content_type}-text\"); Element.hide(\"edit-#{content_type}\"); return false;" %></p>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
+<% end %>

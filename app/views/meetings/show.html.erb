@@ -22,3 +22,7 @@
 </div>
 
 <%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/tab', :label => :label_meeting_agenda, :content => @meeting.agenda, :content_type => "meeting_agenda"}, {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/tab', :label => :label_meeting_minutes, :content => @meeting.minutes, :content_type => "meeting_minutes"}] %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
+<% end %>
