@@ -253,12 +253,20 @@ class Changeset < ActiveRecord::Base
         # do nothing here
       end
     end
-    # removes invalid UTF8 sequences
-    begin
-      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-    rescue Iconv::InvalidEncoding
-      # "UTF-8//IGNORE" is not supported on some OS
-      str
+    if str.respond_to?(:force_encoding)
+      str.force_encoding('UTF-8')
+      if ! str.valid_encoding?
+        str = str.encode("US-ASCII", :invalid => :replace,
+              :undef => :replace, :replace => '?').encode("UTF-8")
+      end
+    else
+      # removes invalid UTF8 sequences
+      begin
+        str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
+      rescue Iconv::InvalidEncoding
+        # "UTF-8//IGNORE" is not supported on some OS
+      end
     end
+    str
   end
 end

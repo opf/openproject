@@ -216,8 +216,13 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_invalid_utf8_sequences_in_comments_should_be_stripped
     with_settings :commit_logs_encoding => 'UTF-8' do
       c = Changeset.new
-      c.comments = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      assert_equal "Texte encod en ISO-8859-1.", c.comments
+      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      c.comments = str
+      if str.respond_to?(:force_encoding)
+        assert_equal "Texte encod? en ISO-8859-1.", c.comments
+      else
+        assert_equal "Texte encod en ISO-8859-1.", c.comments
+      end
     end
   end
 
