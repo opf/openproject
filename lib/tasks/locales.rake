@@ -1,3 +1,10 @@
+desc 'Updates and checks locales against en.yml'
+task :locales do
+  %w(locales:update locales:check_interpolation).collect do |task|
+    Rake::Task[task].invoke
+  end
+end
+
 namespace :locales do
   desc 'Updates language files based on en.yml content (only works for new top level keys).'
   task :update do
@@ -26,6 +33,26 @@ namespace :locales do
       end
       
       lang.close
+    end
+  end
+  
+  desc 'Checks interpolation arguments in locals against en.yml'
+  task :check_interpolation do
+    dir = ENV['DIR'] || './config/locales'
+    en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
+    files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
+    files.each do |file|
+      file_strings = YAML.load(File.read(file))
+      file_strings = file_strings[file_strings.keys.first]
+      
+      file_strings.each do |key, string|
+        next unless string.is_a?(String)
+        string.scan /%\{\w+\}/ do |match|
+          unless en_strings[key].nil? || en_strings[key].include?(match)
+            puts "#{file}: #{key} uses #{match} not found in en.yml"
+          end
+        end
+      end
     end
   end
 
