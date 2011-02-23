@@ -228,7 +228,8 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          hg 'cat', '-r', hgrev(identifier), hgtarget(path) do |io|
+          p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
+          hg 'rhcat', '-r', hgrev(identifier), hgtarget(p) do |io|
             io.binmode
             io.read
           end
