@@ -238,9 +238,11 @@ module Redmine
         end
 
         def annotate(path, identifier=nil)
+          p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
           blame = Annotate.new
-          hg 'annotate', '-ncu', '-r', hgrev(identifier), hgtarget(path) do |io|
+          hg 'rhannotate', '-ncu', '-r', hgrev(identifier), hgtarget(p) do |io|
             io.each_line do |line|
+              line.force_encoding('ASCII-8BIT') if line.respond_to?(:force_encoding)
               next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
               r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
                                :identifier => $3)
