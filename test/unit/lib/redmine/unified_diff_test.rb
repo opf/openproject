@@ -60,8 +60,39 @@ DIFF
     assert_equal 1, diff.size
   end
 
+  def test_one_line_new_files
+    diff = Redmine::UnifiedDiff.new(<<-DIFF
+diff -r 000000000000 -r ea98b14f75f0 README1
+--- /dev/null
++++ b/README1
+@@ -0,0 +1,1 @@
++test1
+diff -r 000000000000 -r ea98b14f75f0 README2
+--- /dev/null
++++ b/README2
+@@ -0,0 +1,1 @@
++test2
+diff -r 000000000000 -r ea98b14f75f0 README3
+--- /dev/null
++++ b/README3
+@@ -0,0 +1,3 @@
++test4
++test5
++test6
+diff -r 000000000000 -r ea98b14f75f0 README4
+--- /dev/null
++++ b/README4
+@@ -0,0 +1,3 @@
++test4
++test5
++test6
+DIFF
+    )
+    assert_equal 4, diff.size
+  end
+
   private
-  
+
   def read_diff_fixture(filename)
     File.new(File.join(File.dirname(__FILE__), '/../../../fixtures/diffs', filename)).read
   end

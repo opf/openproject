@@ -36,7 +36,7 @@ module Redmine
         end
         unless diff_table.add_line line
           line.force_encoding(line_encoding) if line_encoding
-          self << diff_table if diff_table.length > 1
+          self << diff_table if diff_table.length > 0
           diff_table = DiffTable.new(diff_type)
         end
         lines += 1
