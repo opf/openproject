@@ -100,21 +100,6 @@
   vertical-align: top;
 }
 
-/* Aligning filter elements at the top. */
-.new_report fieldset#filters table td {
-  vertical-align: top;
-  border-spacing: 5px 5px;
-  border-color: white;
-  border-style: solid;
-  border-width: 2px 0px 0px;
-}
-
-.new_report fieldset#filters table td > label {
-  left: 3px;
-  top: 3px;
-  position: relative;
-}
-
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
 .new_report fieldset h3 {
@@ -208,11 +193,11 @@
   margin-top: 6px;
 }
 
-.new_report fieldset#filters table tr.filter:hover {
+fieldset#filter-settings table tr.filter:hover {
   background: #aaa;
 }
 
-.new_report fieldset#filters table tr.filter {
+fieldset#filter-settings table tr.filter {
   color: #000;
   background: #ededed;
   -webkit-border-radius: 5px;
@@ -220,6 +205,21 @@
   border-radius: 5px;
 }
 
+/* Aligning filter elements at the top. */
+fieldset#filter-settings table td {
+  vertical-align: top;
+  border-spacing: 5px 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 0px 0px;
+  padding: 2px;
+}
+
+fieldset#filter-settings table td > label {
+  left: 3px;
+  top: 3px;
+  position: relative;
+}
 
 .drag_element {
   /*cursor: move;*/
