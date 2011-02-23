@@ -157,7 +157,6 @@ class UserTest < ActiveSupport::TestCase
     user = User.try_to_login("admin", "hello")
     assert_kind_of User, user
     assert_equal "admin", user.login
-    assert_equal User.hash_password("hello"), user.hashed_password    
   end
   
   def test_name_format
@@ -177,6 +176,22 @@ class UserTest < ActiveSupport::TestCase
     
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
+  end
+  
+  context ".try_to_login" do
+    context "with good credentials" do
+      should "return the user" do
+        user = User.try_to_login("admin", "admin")
+        assert_kind_of User, user
+        assert_equal "admin", user.login
+      end
+    end
+    
+    context "with wrong credentials" do
+      should "return nil" do
+        assert_nil User.try_to_login("admin", "foo")
+      end
+    end
   end
   
   if ldap_configured?
@@ -522,6 +537,23 @@ class UserTest < ActiveSupport::TestCase
     context "other events" do
       should 'be added and tested'
     end
+  end
+
+  def test_salt_unsalted_passwords
+    # Restore a user with an unsalted password
+    user = User.find(1)
+    user.salt = nil
+    user.hashed_password = User.hash_password("unsalted")
+    user.save!
+    
+    User.salt_unsalted_passwords!
+    
+    user.reload
+    # Salt added
+    assert !user.salt.blank?
+    # Password still valid
+    assert user.check_password?("unsalted")
+    assert_equal user, User.try_to_login(user.login, "unsalted")
   end
   
   if Object.const_defined?(:OpenID)

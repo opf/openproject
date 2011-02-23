@@ -231,7 +231,7 @@ sub RedmineDSN {
   my ($self, $parms, $arg) = @_;
   $self->{RedmineDSN} = $arg;
   my $query = "SELECT 
-                 hashed_password, auth_source_id, permissions
+                 hashed_password, salt, auth_source_id, permissions
               FROM members, projects, users, roles, member_roles
               WHERE 
                 projects.id=members.project_id
@@ -426,11 +426,12 @@ sub is_member {
   $sth->execute($redmine_user, $project_id);
 
   my $ret;
-  while (my ($hashed_password, $auth_source_id, $permissions) = $sth->fetchrow_array) {
+  while (my ($hashed_password, $salt, $auth_source_id, $permissions) = $sth->fetchrow_array) {
 
       unless ($auth_source_id) {
-	  my $method = $r->method;
-          if ($hashed_password eq $pass_digest && ((request_is_read_only($r) && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
+        my $method = $r->method;
+        my $salted_password = Digest::SHA1::sha1_hex($salt.$pass_digest);
+        if ($hashed_password eq $salted_password && ((request_is_read_only($r) && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/) ) {
               $ret = 1;
               last;
           }

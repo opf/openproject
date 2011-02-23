@@ -81,7 +81,9 @@ class User < Principal
   
   def before_save
     # update hashed_password if password was set
-    self.hashed_password = User.hash_password(self.password) if self.password && self.auth_source_id.blank?
+    if self.password && self.auth_source_id.blank?
+      salt_password(password)
+    end
   end
   
   def reload(*args)
@@ -119,7 +121,7 @@ class User < Principal
         return nil unless user.auth_source.authenticate(login, password)
       else
         # authentication with local password
-        return nil unless User.hash_password(password) == user.hashed_password        
+        return nil unless user.check_password?(password)
       end
     else
       # user is not yet registered, try to authenticate with available sources
@@ -198,12 +200,20 @@ class User < Principal
     update_attribute(:status, STATUS_LOCKED)
   end
 
+  # Returns true if +clear_password+ is the correct user's password, otherwise false
   def check_password?(clear_password)
     if auth_source_id.present?
       auth_source.authenticate(self.login, clear_password)
     else
-      User.hash_password(clear_password) == self.hashed_password
+      User.hash_password("#{salt}#{User.hash_password clear_password}") == hashed_password
     end
+  end
+  
+  # Generates a random salt and computes hashed_password for +clear_password+
+  # The hashed password is stored in the following form: SHA1(salt + SHA1(password))
+  def salt_password(clear_password)
+    self.salt = User.generate_salt
+    self.hashed_password = User.hash_password("#{salt}#{User.hash_password clear_password}")
   end
 
   # Does the backend storage allow this user to change their password?
@@ -470,6 +480,20 @@ class User < Principal
     end
     anonymous_user
   end
+
+  # Salts all existing unsalted passwords
+  # It changes password storage scheme from SHA1(password) to SHA1(salt + SHA1(password))
+  # This method is used in the SaltPasswords migration and is to be kept as is
+  def self.salt_unsalted_passwords!
+    transaction do
+      User.find_each(:conditions => "salt IS NULL OR salt = ''") do |user|
+        next if user.hashed_password.blank?
+        salt = User.generate_salt
+        hashed_password = User.hash_password("#{salt}#{user.hashed_password}")
+        User.update_all("salt = '#{salt}', hashed_password = '#{hashed_password}'", ["id = ?", user.id] )
+      end
+    end
+  end
   
   protected
   
@@ -486,6 +510,12 @@ class User < Principal
   def self.hash_password(clear_password)
     Digest::SHA1.hexdigest(clear_password || "")
   end
+  
+  # Returns a 128bits random salt as a hex string (32 chars long)
+  def self.generate_salt
+    ActiveSupport::SecureRandom.hex(16)
+  end
+  
 end
 
 class AnonymousUser < User
