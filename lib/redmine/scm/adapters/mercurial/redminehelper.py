@@ -168,7 +168,7 @@ cmdtable = {
           ('n', 'number', None, 'list the revision number (default)'),
           ('c', 'changeset', None, 'list the changeset'),
          ],
-         'hg rhannotate [-r REV] [-f] [-a] [-u] [-d] [-n] [-c] [-l] FILE...'),
+         'hg rhannotate [-r REV] [-u] [-n] [-c] FILE...'),
     'rhcat': (rhcat,
                [('r', 'rev', '', 'revision')],
                'hg rhcat ([-r REV] ...) FILE...'),
