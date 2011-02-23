@@ -27,6 +27,7 @@ Reporting.require("filters");
 Reporting.require("group_bys");
 Reporting.require("restore_query");
 Reporting.require("controls");
+Reporting.require("table");
 
 //
 // function hide_category(tr_field) {

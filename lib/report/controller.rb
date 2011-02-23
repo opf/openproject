@@ -29,6 +29,10 @@ module Report::Controller
     render :partial => 'table' if set_filter?
   end
 
+  def table_without_progress_info
+    render :partial => 'table_without_progress_info' if set_filter?
+  end
+
   ##
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
