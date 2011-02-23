@@ -120,10 +120,10 @@ def _manifest(ui, repo, path, rev):
     ui.write('</manifest>\n')
 
 def rhannotate(ui, repo, *pats, **opts):
-    return commands.annotate(ui, repo, *map(urllib.unquote, pats), **opts)
+    return commands.annotate(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
 def rhcat(ui, repo, file1, *pats, **opts):
-    return commands.cat(ui, repo, urllib.unquote(file1), *map(urllib.unquote, pats), **opts)
+    return commands.cat(ui, repo, urllib.unquote_plus(file1), *map(urllib.unquote_plus, pats), **opts)
 
 def rhdiff(ui, repo, *pats, **opts):
     """diff repository (or selected files)"""
@@ -132,7 +132,7 @@ def rhdiff(ui, repo, *pats, **opts):
         base = repo.changectx(change).parents()[0].rev()
         opts['rev'] = [str(base), change]
     opts['nodates'] = True
-    return commands.diff(ui, repo, *map(urllib.unquote, pats), **opts)
+    return commands.diff(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
 def rhmanifest(ui, repo, path='', **opts):
     """output the sub-manifest of the specified directory"""
@@ -140,7 +140,7 @@ def rhmanifest(ui, repo, path='', **opts):
     ui.write('<rhmanifest>\n')
     ui.write('<repository root="%s">\n' % _u(repo.root))
     try:
-        _manifest(ui, repo, urllib.unquote(path), opts.get('rev'))
+        _manifest(ui, repo, urllib.unquote_plus(path), opts.get('rev'))
     finally:
         ui.write('</repository>\n')
         ui.write('</rhmanifest>\n')
