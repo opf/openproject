@@ -119,6 +119,9 @@ def _manifest(ui, repo, path, rev):
 
     ui.write('</manifest>\n')
 
+def rhannotate(ui, repo, *pats, **opts):
+    return commands.annotate(ui, repo, *map(urllib.unquote, pats), **opts)
+
 def rhcat(ui, repo, file1, *pats, **opts):
     return commands.cat(ui, repo, urllib.unquote(file1), *map(urllib.unquote, pats), **opts)
 
@@ -159,6 +162,13 @@ def rhsummary(ui, repo, **opts):
 # This extension should be compatible with Mercurial 0.9.5.
 # Note that Mercurial 0.9.5 doesn't have extensions.wrapfunction().
 cmdtable = {
+    'rhannotate': (rhannotate,
+         [('r', 'rev', '', 'revision'),
+          ('u', 'user', None, 'list the author (long with -v)'),
+          ('n', 'number', None, 'list the revision number (default)'),
+          ('c', 'changeset', None, 'list the changeset'),
+         ],
+         'hg rhannotate [-r REV] [-f] [-a] [-u] [-d] [-n] [-c] [-l] FILE...'),
     'rhcat': (rhcat,
                [('r', 'rev', '', 'revision')],
                'hg rhcat ([-r REV] ...) FILE...'),
