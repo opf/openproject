@@ -56,3 +56,20 @@ Feature: Create new meetings
        Then I should see "Successful creation."
         And I should see "FSR Sitzung 123"
             # TODO sollten hier noch die "Defaults" abgefragt werden? Wahrscheinlich eher eine RSpec Sache?
+  
+  @javascript
+  Scenario: The start-time should be selectable in 5-minute increments
+      Given the role "user" may have the following rights:
+            | view_meetings   |
+            | create_meetings |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "New Meeting"
+       Then I should see "New Meeting"
+        And I should not see "01" within "#meeting_start_time_5i"
+        And I should not see "14" within "#meeting_start_time_5i"
+            # TODO entweder ich habe einen Knick in der Optik, oder die beiden sollten klappen, geht aber auch mit den 2 nächsten Zeilen...
+       #And "00" should be selectable from "meeting_start_time_5i"
+       #And "05" should be selectable from "meeting_start_time_5i"
+        And I should see "00" within "#meeting_start_time_5i"
+        And I should see "05" within "#meeting_start_time_5i"

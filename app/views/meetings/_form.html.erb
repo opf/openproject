@@ -3,7 +3,7 @@
 <div class="box tabular">
   <p><%= f.text_field :title, :required => true, :size => 60 %></p>
   <p><%= f.text_field :location, :size => 60 %></p>
-  <p><%= f.text_field :start_date, :required => true, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= time_select("meeting", "start_time", :ignore_date => true) %></p>
+  <p><%= f.text_field :start_date, :required => true, :size => 10 %><%= calendar_for('meeting_start_date') %> <%= time_select "meeting", "start_time", :ignore_date => true, :minute_step => 5 %></p>
   <p><label for="meeting_duration"><%=l :field_duration %></label><%= text_field_tag "meeting[duration]", @meeting.duration, :size => 5 %> <em>(<%=l :text_in_hours %>)</em></p>
   <div><label><%=l :field_participants %></label>
     <table class="list">
