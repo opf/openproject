@@ -11,7 +11,10 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                             :multiple => "multiple" }
                             # multiple will be disabled/enabled later by JavaScript anyhow.
                             # We need to specify multiple here because of an IE6-bug.
-        select_options.merge! :"data-dependents" => filter_class.dependents.map {|d| d.underscore_name}.to_json if filter_class.has_dependents?
+        if filter_class.has_dependents?
+          dependents = filter_class.dependents.map {|d| d.underscore_name}.to_json
+          select_options.merge! :"data-dependents" => dependents.gsub!('"', "'")
+        end
         box = content_tag :select, select_options do
           first = true
           filter_class.available_values.collect do |name, id, *args|
