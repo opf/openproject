@@ -151,7 +151,7 @@ Reporting.onload(function () {
   });
   $$(".filter_rem").each(function (e) {
     e.observe("click", function () {
-      var filter_name = this.getAttribute("data-filter-name");
+      var filter_name = this.up('tr').getAttribute("data-filter-name");
       Reporting.Filters.remove_filter(filter_name);
     });
   });
