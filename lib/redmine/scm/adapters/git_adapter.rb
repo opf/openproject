@@ -21,6 +21,9 @@ module Redmine
   module Scm
     module Adapters
       class GitAdapter < AbstractAdapter
+
+        SCM_GIT_REPORT_LAST_COMMIT = true
+
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
@@ -57,6 +60,11 @@ module Redmine
           def scm_version_from_command_line
             shellout("#{sq_bin} --version --no-color") { |io| io.read }.to_s
           end
+        end
+
+        def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
+          super
+          @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
         end
 
         def info
@@ -110,7 +118,7 @@ module Redmine
                  :path => full_path,
                  :kind => (type == "tree") ? 'dir' : 'file',
                  :size => (type == "tree") ? nil : size,
-                 :lastrev => lastrev(full_path,identifier)
+                 :lastrev => @flag_report_last_commit ? lastrev(full_path,identifier) : Revision.new
                 }) unless entries.detect{|entry| entry.name == name}
               end
             end
