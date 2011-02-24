@@ -37,24 +37,12 @@ module ChiliProject
     end
 
     def self.revision
-      revision = nil
-      entries_path = "#{RAILS_ROOT}/.svn/entries"
-      if File.readable?(entries_path)
-        begin
-          f = File.open(entries_path, 'r')
-          entries = f.read
-          f.close
-     	  if entries.match(%r{^\d+})
-     	    revision = $1.to_i if entries.match(%r{^\d+\s+dir\s+(\d+)\s})
-     	  else
-   	        xml = REXML::Document.new(entries)
-   	        revision = xml.elements['wc-entries'].elements[1].attributes['revision'].to_i
-   	      end
-   	    rescue
-   	      # Could not find the current revision
-   	    end
- 	  end
- 	  revision
+      revision = `git rev-parse HEAD`
+      if revision.present?
+        revision.strip[0..8]
+      else
+        nil
+      end
     end
 
     REVISION = self.revision
