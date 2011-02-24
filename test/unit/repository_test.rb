@@ -96,9 +96,9 @@ class RepositoryTest < ActiveSupport::TestCase
     journal = fixed_issue.journals.last
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
-
-    # 2 email notifications
-    assert_equal 2, ActionMailer::Base.deliveries.size
+    
+    # 2 email notifications to 5 users
+    assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of TMail::Mail, mail
     assert mail.subject.starts_with?("[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")

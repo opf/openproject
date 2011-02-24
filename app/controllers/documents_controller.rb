@@ -69,7 +69,12 @@ class DocumentsController < ApplicationController
     attachments = Attachment.attach_files(@document, params[:attachments])
     render_attachment_warning_if_needed(@document)
 
-    Mailer.deliver_attachments_added(attachments[:files]) if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+    if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+      # TODO: refactor
+      attachments.first.container.recipients.each do |recipient|
+        Mailer.deliver_attachments_added(attachments[:files], recipient)
+      end
+    end
     redirect_to :action => 'show', :id => @document
   end
 

@@ -179,7 +179,7 @@ class UsersControllerTest < ActionController::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal [user.mail], mail.bcc
+    assert_equal [user.mail], mail.to
     assert mail.body.include?('secret')
   end
 
@@ -240,7 +240,7 @@ class UsersControllerTest < ActionController::TestCase
     assert u.reload.active?
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal ['foo.bar@somenet.foo'], mail.bcc
+    assert_equal ['foo.bar@somenet.foo'], mail.to
     assert mail.body.include?(ll('fr', :notice_account_activated))
   end
 
@@ -254,7 +254,7 @@ class UsersControllerTest < ActionController::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal [u.mail], mail.bcc
+    assert_equal [u.mail], mail.to
     assert mail.body.include?('newpass')
   end
 

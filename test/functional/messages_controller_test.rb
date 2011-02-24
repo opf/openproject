@@ -88,14 +88,19 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 2, message.author_id
     assert_equal 1, message.board_id
 
-    mail = ActionMailer::Base.deliveries.last
+    # author
+    mails_to_author = ActionMailer::Base.deliveries.select {|m| m.to.include?('jsmith@somenet.foo') }
+    assert_equal 1, mails_to_author.length
+    mail = mails_to_author.first
+    assert mail.to.include?('jsmith@somenet.foo')
     assert_kind_of TMail::Mail, mail
     assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
     assert mail.body.include?('Message body')
-    # author
-    assert mail.bcc.include?('jsmith@somenet.foo')
+
     # project member
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    mails_to_member = ActionMailer::Base.deliveries.select {|m| m.to.include?('dlopper@somenet.foo') }
+    assert_equal 1, mails_to_member.length
+    assert mails_to_member.first.to.include?('dlopper@somenet.foo')
   end
 
   def test_get_edit
