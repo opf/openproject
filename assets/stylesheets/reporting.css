@@ -168,11 +168,10 @@
 }
 
 .filter_rem {
+  color: transparent;
   overflow: hidden;
   cursor: pointer;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  background-position: 50%;
+  background: no-repeat center center transparent;
   height: 16px;
   width: 16px;
   border-style: none;
