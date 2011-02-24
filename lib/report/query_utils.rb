@@ -48,6 +48,10 @@ module Report::QueryUtils
     ActiveRecord::Base.connection.quote_string(str)
   end
 
+  def current_language
+    ::I18n.locale
+  end
+
   ##
   # Creates a SQL fragment representing a collection/array.
   #
