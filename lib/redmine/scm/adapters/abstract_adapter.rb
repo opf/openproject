@@ -200,7 +200,12 @@ module Redmine
             cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
           end
           begin
-            IO.popen(cmd, "r+") do |io|
+            if RUBY_VERSION < '1.9'
+              mode = "r+"
+            else
+              mode = "r+:ASCII-8BIT"
+            end
+            IO.popen(cmd, mode) do |io|
               io.close_write
               block.call(io) if block_given?
             end
