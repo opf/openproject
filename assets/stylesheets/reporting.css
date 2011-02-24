@@ -212,6 +212,7 @@ fieldset#filter-settings table td {
   border-style: solid;
   border-width: 2px 0px 0px;
   padding: 2px;
+  vertical-align: middle;
 }
 
 fieldset#filter-settings table td > label {
