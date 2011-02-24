@@ -142,6 +142,10 @@ Reporting.Filters = {
     Reporting.Filters.visible_filters().each(function (filter) {
       Reporting.Filters.remove_filter(filter);
     });
+  },
+
+  narrow_values: function (dependent_name) {
+    console.log("Narrowing values not implemented");
   }
 };
 
@@ -171,5 +175,13 @@ Reporting.onload(function () {
       return o.selected === true;
     }).size();
     s.multiple = (selected_size > 1);
+  });
+  $$('.filters-select[data-dependent]').each(function (dependency) {
+    dependency.observe("change", function () {
+      var dependent_name = this.getAttribute("data-dependent");
+      $("add_filter_select").select("option[value='" + dependent_name + "']").first().selected = true;
+      Reporting.Filters.add_filter($("add_filter_select"));
+      Reporting.Filters.narrow_values(dependent_name);
+    });
   });
 });

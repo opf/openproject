@@ -101,6 +101,22 @@ module Report::Controller
   end
 
   ##
+  # Determine the available values for the specified filter and return them as
+  # json
+  def values
+    dependency = params[:dependency].to_sym
+    dependent = params[:dependent]
+
+    query = CostQuery.new
+    query.filter(dependency,
+      :operator => params[:operators][dependency],
+      :values => params[:values][dependency])
+    query.column(dependent)
+    values = query.result.collect {|r| r.fields[dependent] }
+    render :text => values.to_json
+  end
+
+  ##
   # Determine the requested engine by constantizing from the :engine parameter
   # Sets @report_engine and @title based on that, and makes the engine available
   # to views and widgets via the #engine method.
