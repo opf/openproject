@@ -32,3 +32,7 @@
   </div>
   <%= hidden_field_tag "copy_from_id", params[:copy_from_id] if params[:copy_from_id].present? %>
 </div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
+<% end %>

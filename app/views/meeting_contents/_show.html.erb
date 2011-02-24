@@ -13,3 +13,7 @@
     <%= textilizable(content.present? ? content.text : "") %>
   </div>
 </div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
+<% end %>
