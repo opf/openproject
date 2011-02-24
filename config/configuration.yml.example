@@ -1,4 +1,4 @@
-# = Redmine configuration file
+# = ChiliProject configuration file
 #
 # Each environment has it's own configuration options.  If you are only
 # running in production, only the production block needs to be configured.
@@ -87,16 +87,16 @@ default:
       port: 25
       domain: example.net
       authentication: :login
-      user_name: "redmine@example.net"
-      password: "redmine"
+      user_name: "chiliproject@example.net"
+      password: "chiliproject"
   
   # Absolute path to the directory where attachments are stored.
-  # The default is the 'files' directory in your Redmine instance.
-  # Your Redmine instance needs to have write permission on this
+  # The default is the 'files' directory in your ChiliProject instance.
+  # Your ChiliProject instance needs to have write permission on this
   # directory.
   # Examples:
-  # attachments_storage_path: /var/redmine/files
-  # attachments_storage_path: D:/redmine/files
+  # attachments_storage_path: /var/chiliproject/files
+  # attachments_storage_path: D:/chiliproject/files
   attachments_storage_path:
   
   # Configuration of the autologin cookie.
@@ -110,12 +110,19 @@ default:
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
-  scm_subversion_command: svn                                       # (default: svn)
-  scm_mercurial_command:  "\"C:\Program Files\TortoiseHg\hg.exe\""  # (default: hg)
-  scm_git_command:        /usr/local/bin/git                        # (default: git)
-  scm_cvs_command:        cvs                                       # (default: cvs)
-  scm_bazaar_command:     bzr.exe                                   # (default: bzr)
-  scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
+  # Examples:
+  # scm_subversion_command: svn                                       # (default: svn)
+  # scm_mercurial_command:  C:\Program Files\TortoiseHg\hg.exe        # (default: hg)
+  # scm_git_command:        /usr/local/bin/git                        # (default: git)
+  # scm_cvs_command:        cvs                                       # (default: cvs)
+  # scm_bazaar_command:     bzr.exe                                   # (default: bzr)
+  # scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
+  scm_subversion_command:
+  scm_mercurial_command:
+  scm_git_command:
+  scm_cvs_command:
+  scm_bazaar_command:
+  scm_darcs_command:
   
 # specific configuration options for production environment
 # that overrides the default ones
