@@ -32,9 +32,10 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = with_trailling_slash(url)
-          @path_encoding = 'UTF-8'
+          @path_encoding = path_encoding || 'UTF-8'
         end
 
         def format_path_ends(path, leading=true, trailling=true)

@@ -57,7 +57,8 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @root_url = url
         end

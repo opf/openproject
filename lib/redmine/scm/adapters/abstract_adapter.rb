@@ -34,14 +34,14 @@ module Redmine
           def client_version
             []
           end
-          
+
           # Returns the version string of the scm client
           # Eg: '1.5.0' or 'Unknown version' if unknown
           def client_version_string
             v = client_version || 'Unknown version'
             v.is_a?(Array) ? v.join('.') : v.to_s
           end
-          
+
           # Returns true if the current client version is above
           # or equals the given one
           # If option is :unknown is set to true, it will return
@@ -63,17 +63,18 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
           @root_url = root_url.blank? ? retrieve_root_url : root_url
         end
-        
+
         def adapter_name
           'Abstract'
         end
-        
+
         def supports_cat?
           true
         end
@@ -81,11 +82,11 @@ module Redmine
         def supports_annotate?
           respond_to?('annotate')
         end
-        
+
         def root_url
           @root_url
         end
-      
+
         def url
           @url
         end

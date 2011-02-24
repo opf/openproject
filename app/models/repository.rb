@@ -26,12 +26,12 @@ class Repository < ActiveRecord::Base
   
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
-  
+
   # Removes leading and trailing whitespace
   def url=(arg)
     write_attribute(:url, arg ? arg.to_s.strip : nil)
   end
-  
+
   # Removes leading and trailing whitespace
   def root_url=(arg)
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
@@ -42,11 +42,12 @@ class Repository < ActiveRecord::Base
   end
 
   def scm
-    @scm ||= self.scm_adapter.new url, root_url, login, password
+    @scm ||= self.scm_adapter.new(url, root_url,
+                                  login, password, path_encoding)
     update_attribute(:root_url, @scm.root_url) if root_url.blank?
     @scm
   end
-  
+
   def scm_name
     self.class.scm_name
   end
@@ -248,7 +249,7 @@ class Repository < ActiveRecord::Base
   end
 
   private
-  
+
   def before_save
     # Strips url and root_url
     url.strip!

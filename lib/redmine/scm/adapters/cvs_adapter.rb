@@ -62,7 +62,8 @@ module Redmine
         #  root_url -> the good old, sometimes damned, CVSROOT
         #  login -> unnecessary
         #  password -> unnecessary too
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
