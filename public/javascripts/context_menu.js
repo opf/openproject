@@ -37,7 +37,6 @@ ContextMenu.prototype = {
   Click: function(e) {
   	this.hideMenu();
   	if (Event.element(e).tagName == 'A') { return; }
-    if (window.opera && e.altKey) {	return; }
     if (!Event.isRightClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
       var tr = Event.findElement(e, 'tr');
       if (tr!=null && tr!=document && tr.hasClassName('hascontextmenu')) {
