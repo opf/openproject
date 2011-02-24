@@ -2,7 +2,7 @@ class Widget::Controls::QueryName < Widget::Base
   def render
     options = { :id => "query_saved_name", "data-translations" => translations }
     if @query.new_record?
-      name = l(:label_save_this_query)
+      name = l(:label_new_report)
       icon = ""
     else
       name = @query.name
