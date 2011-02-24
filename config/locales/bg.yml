@@ -302,6 +302,7 @@ bg:
   field_assigned_to_role: Assignee's role
   field_text: Текстово поле
   field_visible: Видим
+  field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
   
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -593,6 +594,7 @@ bg:
   label_query: Потребителска справка
   label_query_plural: Потребителски справки
   label_query_new: Нова заявка
+  label_my_queries: Моите заявки
   label_filter_add: Добави филтър
   label_filter_plural: Филтри
   label_equals: е
@@ -907,6 +909,7 @@ bg:
   text_own_membership_delete_confirmation: "Вие сте на път да премахнете някои или всички ваши разрешения и е възможно след това да не можете да редактирате този проект.\nСигурен ли сте, че искате да продължите?"
   text_zoom_in: Увеличаване
   text_zoom_out: Намаляване
+  text_warn_on_leaving_unsaved: Страницата съдържа незаписано съдържание, което може да бъде загубено, ако я напуснете.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -945,4 +948,3 @@ bg:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
-  label_my_queries: My custom queries
