@@ -49,15 +49,34 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
+        Reporting.Filters.set_filter_value_widths(0);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
         field_el.removeAttribute('data-selected');
         $('rm_' + field).value = ""; // reset the value, so the serialized form will not return this filter
+        Reporting.Filters.set_filter_value_widths(5000);
       }
       Reporting.Filters.operator_changed(field, $("operators_" + field));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
   },
+
+  set_filter_value_widths: function (delay) {
+    window.clearTimeout(Reporting.Filters.set_filter_value_widths_timeout);
+    if ($$(".filter_values").size() > 1) {
+      Reporting.Filters.set_filter_value_widths_timeout = window.setTimeout(function () {
+        console.log("timeout fired");
+        $$(".filter_values").each(function (e) {
+          e.morph('width: auto');
+        });
+        var width = $$(".filter_values").first().getWidth();
+        $$(".filter_values").each(function (e) {
+          e.morph('width: ' + width + 'px;');
+        });
+      }, delay);
+    }
+  },
+  set_filter_value_widths_timeout: undefined,
 
   /* Display the given category if any of its filters are visible. Otherwise hide it */
   display_category: function (label) {
