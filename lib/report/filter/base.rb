@@ -47,7 +47,7 @@ class Report::Filter
     end
 
     ##
-    # all_dependents computes the depentends of this filter and recursively the
+    # all_dependents computes the depentends of this filter and recursively
     # all_dependents of this class' dependents.
     def self.all_dependents
       self.cached(:compute_injected_dependents)
