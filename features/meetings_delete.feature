@@ -13,12 +13,12 @@ Feature: Delete meetings
               | login    | bob |
           And there is a role "user"
           And the user "alice" is a "user" in the project "dingens"
-          And there is 1 meeting in project "dingens" created by "bob" with:
+          And there is 1 meeting in project "dingens" created by "alice" with:
               | title      | Alices Meeting      |
               | location   | Room 1              |
               | duration   | 1:30                |
               | start_time | 2011-02-11 12:30:00 |
-          And there is 1 meeting in project "dingens" created by "alice" with:
+          And there is 1 meeting in project "dingens" created by "bob" with:
               | title      | Bobs Meeting        |
               | location   | Room 2              |
               | duration   | 2:30                |
