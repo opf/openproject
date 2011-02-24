@@ -23,7 +23,7 @@ Feature: Close existing meetings
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
-       Then I should not see "Close Minutes"
+       Then I should not see "Close" within "#meeting_agenda"
 
   @javascript
   Scenario: Navigate to a meeting page with permission to close meetings
@@ -33,7 +33,7 @@ Feature: Close existing meetings
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
-       Then I should see "Close Minutes"
+       Then I should see "Close" within "#meeting_agenda"
   
   @javascript
   Scenario: Navigate to a meeting page with permission to close meetings
@@ -43,5 +43,5 @@ Feature: Close existing meetings
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
-        And I click on "Close Minutes"
+        And I click on "Close" within "#meeting_agenda"
        Then I should not see "Edit" within "#meeting_agenda"
