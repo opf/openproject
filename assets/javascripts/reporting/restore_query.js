@@ -66,7 +66,9 @@ Reporting.RestoreQuery = {
     // FIXME: rm_xxx values for filters have to be set after re-displaying them
     $$("tr[data-selected=true]").each(function (e) {
       var rm_box = e.select("input[id^=rm]").first();
-      rm_box.value = rm_box.getAttribute("data-filter-name");
+      var filter_name = e.getAttribute("data-filter-name");
+      rm_box.value = filter_name;
+      Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
     });
   }
 };

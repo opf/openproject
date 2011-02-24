@@ -134,7 +134,7 @@ Reporting.Filters = {
     return $("filter_table").childElements().first().select('tr').select(function (tr) {
       return tr.visible() === true;
     }).collect(function (filter) {
-      return filter.className;
+      return filter.getAttribute("data-filter-name");
     });
   },
 
