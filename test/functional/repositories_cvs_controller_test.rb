@@ -154,6 +154,24 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
                                :content => /watched.remove_all_watcher/
     end
+                               
+    def test_diff_new_files
+      @repository.fetch_changesets
+      @repository.reload
+      get :diff, :id => PRJ_ID, :rev => 1, :type => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
+                               :content => /watched.remove_watcher/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/README/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/images\/delete.png	/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/images\/edit.png/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/sources\/watchers_controller.rb/                        
+    end
 
     def test_annotate
       @repository.fetch_changesets

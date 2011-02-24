@@ -378,7 +378,11 @@ module Redmine
         private
         def buildRevision(rev)
           if rev== 0
-            @base
+            if @branchid.nil?
+              @base+".0"
+            else
+              @base
+            end
           elsif @branchid.nil? 
             @base+"."+rev.to_s
           else
