@@ -30,20 +30,19 @@ class Mailer < ActionMailer::Base
     { :host => h, :protocol => Setting.protocol }
   end
 
-  # Builds a tmail object used to email recipients of the added issue.
+  # Builds a tmail object used to email a recipient of the added issue.
   #
   # Example:
-  #   issue_add(issue) => tmail object
-  #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
-  def issue_add(issue)
+  #   issue_add(issue, 'user@example.com') => tmail object
+  #   Mailer.deliver_issue_add(issue, 'user@example.com') => sends an email to 'user@example.com'
+  def issue_add(issue, recipient)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Type' => "Issue"
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
-    recipients issue.recipients
-    cc(issue.watcher_recipients - @recipients)
+    recipients [recipient]
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
@@ -53,9 +52,9 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email recipients of the edited issue.
   #
   # Example:
-  #   issue_edit(journal) => tmail object
-  #   Mailer.deliver_issue_edit(journal) => sends an email to issue recipients
-  def issue_edit(journal)
+  #   issue_edit(journal, 'user@example.com') => tmail object
+  #   Mailer.deliver_issue_edit(journal, 'user@example.com') => sends an email to issue recipients
+  def issue_edit(journal, recipient)
     issue = journal.journaled.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -65,9 +64,7 @@ class Mailer < ActionMailer::Base
     message_id journal
     references issue
     @author = journal.user
-    recipients issue.recipients
-    # Watchers in cc
-    cc(issue.watcher_recipients - @recipients)
+    recipients [recipient]
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
     s << "(#{issue.status.name}) " if journal.details['status_id']
     s << issue.subject
@@ -93,12 +90,12 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email users belonging to the added document's project.
   #
   # Example:
-  #   document_added(document) => tmail object
-  #   Mailer.deliver_document_added(document) => sends an email to the document's project recipients
-  def document_added(document)
+  #   document_added(document, 'test@example.com') => tmail object
+  #   Mailer.deliver_document_added(document, 'test@example.com') => sends an email to the document's project recipients
+  def document_added(document, recipient)
     redmine_headers 'Project' => document.project.identifier,
                     'Type' => "Document"
-    recipients document.recipients
+    recipients [recipient]
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
@@ -110,7 +107,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   attachments_added(attachments) => tmail object
   #   Mailer.deliver_attachments_added(attachments) => sends an email to the project's recipients
-  def attachments_added(attachments)
+  def attachments_added(attachments, recipient)
     container = attachments.first.container
     added_to = ''
     added_to_url = ''
@@ -118,16 +115,14 @@ class Mailer < ActionMailer::Base
     when 'Project'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
       added_to = "#{l(:label_project)}: #{container}"
-      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
     when 'Version'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
       added_to = "#{l(:label_version)}: #{container.name}"
-      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
-      recipients container.recipients
     end
+    recipients [recipient]
     redmine_headers 'Project' => container.project.identifier,
                     'Type' => "Attachment"
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
@@ -142,11 +137,11 @@ class Mailer < ActionMailer::Base
   # Example:
   #   news_added(news) => tmail object
   #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
-  def news_added(news)
+  def news_added(news, recipient)
     redmine_headers 'Project' => news.project.identifier,
                     'Type' => "News"
     message_id news
-    recipients news.recipients
+    recipients [recipient]
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
@@ -176,14 +171,13 @@ class Mailer < ActionMailer::Base
   # Example:
   #   message_posted(message) => tmail object
   #   Mailer.deliver_message_posted(message) => sends an email to the recipients
-  def message_posted(message)
+  def message_posted(message, recipient)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id),
                     'Type' => "Forum"
     message_id message
     references message.parent unless message.parent.nil?
-    recipients(message.recipients)
-    cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
+    recipients [recipient]
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for({ :controller => 'messages', :action => 'show', :board_id => message.board, :id => message.root, :r => message, :anchor => "message-#{message.id}" })
@@ -195,13 +189,12 @@ class Mailer < ActionMailer::Base
   # Example:
   #   wiki_content_added(wiki_content) => tmail object
   #   Mailer.deliver_wiki_content_added(wiki_content) => sends an email to the project's recipients
-  def wiki_content_added(wiki_content)
+  def wiki_content_added(wiki_content, recipient)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id,
                     'Type' => "Wiki"
     message_id wiki_content
-    recipients wiki_content.recipients
-    cc(wiki_content.page.wiki.watcher_recipients - recipients)
+    recipients [recipient]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title)
@@ -213,13 +206,12 @@ class Mailer < ActionMailer::Base
   # Example:
   #   wiki_content_updated(wiki_content) => tmail object
   #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
-  def wiki_content_updated(wiki_content)
+  def wiki_content_updated(wiki_content, recipient)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id,
                     'Type' => "Wiki"
     message_id wiki_content
-    recipients wiki_content.recipients
-    cc(wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients)
+    recipients [recipient]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title),
@@ -403,13 +395,6 @@ class Mailer < ActionMailer::Base
     notified_users = [recipients, cc].flatten.compact.uniq
     # Rails would log recipients only, not cc and bcc
     mylogger.info "Sending email notification to: #{notified_users.join(', ')}" if mylogger
-
-    # Blind carbon copy recipients
-    if Setting.bcc_recipients?
-      bcc(notified_users)
-      recipients []
-      cc []
-    end
     super
   end
 

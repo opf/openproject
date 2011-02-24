@@ -74,7 +74,7 @@ class AdminControllerTest < ActionController::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
     user = User.find(1)
-    assert_equal [user.mail], mail.bcc
+    assert_equal [user.mail], mail.to
   end
 
   def test_no_plugins
