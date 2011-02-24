@@ -96,4 +96,11 @@ class BoardsControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_nil Board.find_by_id(2)
   end
+  
+  def test_index_should_404_with_no_board
+    Project.find(1).boards.each(&:destroy)
+    
+    get :index, :project_id => 1
+    assert_response 404
+  end
 end

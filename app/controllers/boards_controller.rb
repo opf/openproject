@@ -29,6 +29,7 @@ class BoardsController < ApplicationController
  
   def index
     @boards = @project.boards
+    render_404 if @boards.empty?
     # show the board if there is only one
     if @boards.size == 1
       @board = @boards.first
