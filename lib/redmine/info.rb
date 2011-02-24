@@ -3,7 +3,9 @@ module Redmine
     class << self
       def app_name; 'ChiliProject' end
       def url; 'https://www.chiliproject.org/' end
-      def help_url; 'https://www.chiliproject.org/guide' end
+      def help_url
+        "https://www.chiliproject.org/help/v#{Redmine::VERSION.to_semver}"
+      end
       def versioned_name; "#{app_name} #{Redmine::VERSION}" end
 
       # Creates the url string to a specific Redmine issue

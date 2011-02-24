@@ -42,5 +42,8 @@ module Redmine
     
     def self.to_a; ARRAY end
     def self.to_s; STRING end    
+    def self.to_semver
+      [MAJOR, MINOR, PATCH].join('.')
+    end
   end
 end
