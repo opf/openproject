@@ -3,14 +3,16 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
     content_tag :td do
       content_tag :div, :id => filter_class.underscore_name, :class => "filter_values" do
-        box = content_tag :select, :style => "vertical-align: top;", # FIXME: Do CSS
-                             :name => "values[#{filter_class.underscore_name}][]",
-                             :id => "#{filter_class.underscore_name}_arg_1_val",
-                             :class => "select-small filters-select",
-                             :"data-filter-name" => filter_class.underscore_name,
-                             :multiple => "multiple" do
-                             # multiple will be disabled/enabled later by JavaScript anyhow.
-                             # We need to specify multiple here because of an IE6-bug.
+        select_options = {  :style => "vertical-align: top;", # FIXME: Do CSS
+                            :name => "values[#{filter_class.underscore_name}][]",
+                            :id => "#{filter_class.underscore_name}_arg_1_val",
+                            :class => "select-small filters-select",
+                            :"data-filter-name" => filter_class.underscore_name,
+                            :multiple => "multiple" }
+                            # multiple will be disabled/enabled later by JavaScript anyhow.
+                            # We need to specify multiple here because of an IE6-bug.
+        select_options.merge! :"data-dependent" => filter_class.dependent.underscore_name if filter_class.has_dependent?
+        box = content_tag :select, select_options do
           first = true
           filter_class.available_values.collect do |name, id, *args|
             options = args.first || {} # optional configuration for values

@@ -23,6 +23,19 @@ class Report::Filter
       false
     end
 
+    ##
+    # A Filter may have a depentent filter. See the following example:
+    # Filter::Project.dependent --> Filter::Issue
+    # This could result in a UI where, if the Prject-filter was selected,
+    # the Issue-filter automatically shows up.
+    def self.dependent(dependent = nil)
+      @dependent_filter = dependent if dependent
+    end
+
+    def self.has_dependent?
+      !!@dependent_filter
+    end
+
     def value=(val)
       self.values = [val]
     end
