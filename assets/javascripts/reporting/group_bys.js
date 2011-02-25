@@ -12,7 +12,7 @@ Reporting.GroupBys = {
       axis = "rows";
     }
 
-    var selected_container = btn.form.select("#group_by_" + axis)[0];
+    var selected_container = $(btn.form).select("#group_by_" + axis)[0];
     var group_by_container = btn.form.group_by_container;
 
     var source_container, target_container;
@@ -31,7 +31,7 @@ Reporting.GroupBys = {
 
   attach_sort_button: function (direction, axis) {
     var btn = $$(".buttons.group_by.sort.sort" + direction + ".sort-" + axis)[0];
-    var box = btn.form.select("#group_by_" + axis)[0];
+    var box = $(btn.form).select("#group_by_" + axis)[0];
     btn.observe("click", function () {
       if (direction === "Up") {
         moveOptionUp(box);
