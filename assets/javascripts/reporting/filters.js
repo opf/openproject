@@ -238,9 +238,10 @@ Reporting.onload(function () {
     });
   });
   $$(".filter_operator").each(function (e) {
-    e.observe("change", function () {
+    e.observe("change", function (evt) {
       var filter_name = this.getAttribute("data-filter-name");
       Reporting.Filters.operator_changed(filter_name, this);
+      Reporting.fireEvent($(filter_name + "_arg_1_val"), "change");
     });
   });
   $$(".filter_multi-select").each(function (e) {
