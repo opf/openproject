@@ -131,7 +131,7 @@ Reporting.Filters = {
   },
 
   visible_filters: function () {
-    return $("filter_table").childElements().first().select('tr').select(function (tr) {
+    return $("filter_table").select("tr").select(function (tr) {
       return tr.visible() === true;
     }).collect(function (filter) {
       return filter.getAttribute("data-filter-name");
@@ -148,26 +148,31 @@ Reporting.Filters = {
   // Afterwards, collect the visible filters from the dependents list and start
   // narrowing down their values.
   activate_dependents: function () {
-    var dependents = this.getAttribute("data-dependents").replace(/'/g, '"'); // [String]
-    var active_filters = Reporting.Filters.visible_filters(); // [String]
+    var dependents = this.getAttribute("data-dependents").replace(/'/g, '"').evalJSON();
+    var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
-      $("add_filter_select").select("option[value='" + dependents.first() + "']").first().selected = true;
-      Reporting.Filters.add_filter($("add_filter_select"));
+      Reporting.Filters.show_filter(dependents.first(), { slowly: true });
+      active_filters.unshift(dependents.first());
     }
-    var active_dependents = dependents.select(function (d) {
-      return active_filters.include(d);
-    });
     var source = this.getAttribute("data-filter-name");
-    Reporting.Filters.narrow_values([source], active_dependents);
+    setTimeout(function () { // Make sure the newly shown filters are in the DOM
+      var active_dependents = dependents.select(function (d) {
+        return active_filters.include(d);
+      });
+      Reporting.Filters.narrow_values([source], active_dependents);
+    }, 1);
   },
 
   // Narrow down the available values for the [dependents] of [sources].
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
   narrow_values: function (sources, dependents) {
+    if (sources.size() === 0 || dependents.size === 0) {
+      return;
+    }
     var params = "?narrow_values=1&dependent=" + dependents.first();
-    sources.inject(params, function (string, filter) {
-      return string + "&sources[]=" + filter;
+    sources.each(function (filter) {
+      params = params + "&sources[]=" + filter;
     });
     var targetUrl = document.location.href + params;
     var updater = new Ajax.Request(targetUrl,
@@ -176,15 +181,15 @@ Reporting.Filters = {
         evalScripts: true,
         postBody: Form.serialize('query_form'),
         onSuccess: function (response) {
-          if (response.isJSON()) {
+          if (response.responseJSON !== undefined) {
             var selectBox = $(dependents.first() + "_arg_1_val");
             var selected = selectBox.select("option").collect(function (sel) {
               if (sel.selected) {
                 return sel.value;
               }
             }).compact();
-            var newOptions = response.evalJSON().inject("", function (str, o) {
-              return str + '<option value="' + o.value + '">' + o.label + '</option>';
+            var newOptions = response.responseJSON.inject("", function (str, o) {
+              return str + '<option value="' + o + '">' + o.escapeHTML() + '</option>';
             });
             selectBox.innerHTML = newOptions;
             selected.each(function (val) {
@@ -193,12 +198,9 @@ Reporting.Filters = {
                 opt.first().selected = true;
               }
             });
-            var newDependents = dependents.reverse();
-            newDependents.pop();
-            newDependents = newDependents.reverse();
-            var newSources = sources;
-            newSources.push(dependents.first());
-            Reporting.Filters.narrow_values(newSources, newDependents);
+            sources.push(dependents.first()); // Add as last element
+            dependents.splice(0, 1); // Delete first element
+            Reporting.Filters.narrow_values(sources, dependents);
           }
         }
       }
