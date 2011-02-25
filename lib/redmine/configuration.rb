@@ -70,6 +70,16 @@ module Redmine
         @config[name]
       end
       
+      # Yields a block with the specified hash configuration settings
+      def with(settings)
+        settings.stringify_keys!
+        load unless @config
+        was = settings.keys.inject({}) {|h,v| h[v] = @config[v]; h}
+        @config.merge! settings
+        yield if block_given?
+        @config.merge! was
+      end
+      
       private
       
       def load_from_yaml(filename, env)
