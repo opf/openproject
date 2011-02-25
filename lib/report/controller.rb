@@ -105,19 +105,19 @@ module Report::Controller
   # Determine the available values for the specified filter and return them as
   # json, if that was requested. This will be executed INSTEAD of the actual action
   def possibly_only_narrow_values
-    if params[:narrow_values] == 1
+    if params[:narrow_values] == "1"
       sources = params[:sources]
       dependent = params[:dependent]
 
-      query = CostQuery.new
+      query = report_engine.new
       sources.each do |dependency|
-        query.filter(dependency,
+        query.filter(dependency.to_sym,
           :operator => params[:operators][dependency],
           :values => params[:values][dependency])
       end
       query.column(dependent)
-      values = query.result.collect {|r| debugger; r.fields[dependent] }
-      render :text => values.to_json
+      values = query.result.collect {|r| r.fields[dependent] }
+      render :json => values.to_json
     end
   end
 
