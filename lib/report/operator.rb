@@ -174,6 +174,12 @@ class Report::Operator
       end
     end
 
+    new "any", :label => :label_any, :arity => 0 do
+      def modify(query, field, value)
+        query
+      end
+    end
+
   end
   #############################################################################################
 
