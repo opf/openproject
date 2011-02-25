@@ -18,4 +18,4 @@ en:
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
 
-  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try?"
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
