@@ -236,7 +236,7 @@ class Report::Operator
   end
 
   def self.default_operators
-    ["=", "!"].map { |s| s.to_operator}
+    ["=", "!", "any"].map { |s| s.to_operator}
   end
 
   attr_reader :name
