@@ -7,6 +7,8 @@ en:
   label_columns: "Columns"
   label_rows: "Rows"
   label_none: (no value)
+  label_yes: "Yes"
+  label_no: "No"
 
   label_count: Count
   label_sum: Sum
@@ -15,3 +17,5 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try?"

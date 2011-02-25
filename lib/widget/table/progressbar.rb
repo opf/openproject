@@ -4,16 +4,26 @@ class Widget::Table::Progressbar < Widget::Base
   def render
     @threshhold ||= 5
     size = @query.size
-    content_tag :div, :class => "progressbar", :style => "display:none",
+    content_tag :div, :id => "progressbar", :class => "form_controls",
                 :"data-query-size" => size do
       if size > @threshhold
-        content_tag :div, :id => "progressbar-load-table-question" do
-          tag(:span, ::I18n.t(:load_query_question, size), :id => "progressbar-text")
-          tag(:span, ::I18n.t(:label_yes), :id => "progressbar-yes")
-          tag(:span, ::I18n.t(:label_no), :id => "progressbar-no")
+        content_tag :div, :id => "progressbar-load-table-question", :class => "form_controls" do
+          content = content_tag :span, :id => "progressbar-text", :class => "form_controls" do
+            ::I18n.translate(:load_query_question, :size => size)
+          end
+          content += content_tag :span,
+            :id => "progressbar-yes",
+            :'data-load' => 'true',
+            :class => "form_controls",
+            :'data-target' => url_for(:action => 'index', :set_filter => '1', :immediately => true) do
+            ::I18n.t(:label_yes)
+          end
+          content += content_tag :span, :id => "progressbar-no", :'data-load' => 'false', :class => "form_controls" do
+            ::I18n.t(:label_no)
+          end
         end
       else
-        tag :span, :id => "progressbar-load-table-directly"
+        render :partial => 'table'
       end
     end
   end

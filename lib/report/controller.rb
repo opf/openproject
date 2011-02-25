@@ -26,7 +26,11 @@ module Report::Controller
   ##
   # Render the table partial, if we are setting filters/groups
   def table
-    render :partial => 'table' if set_filter?
+    if params[:immediately]
+      table_without_progress_info
+    else
+      render :partial => "table", :locals => { :query => @query } if set_filter?
+    end
   end
 
   def table_without_progress_info
