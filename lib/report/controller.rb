@@ -215,7 +215,6 @@ module Report::Controller
     if force_default?
       filters = default_filter_parameters
       groups  = default_group_parameters
-      clear_cache
     else
       filters = filter_params
       groups  = group_params
