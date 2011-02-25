@@ -107,7 +107,10 @@ Reporting.Filters = {
   },
 
   select_option_enabled: function (box, value, state) {
-    box.select("[value='" + value + "']").first().disabled = !state;
+    var option = box.select("[value='" + value + "']").first();
+    if (option !== undefined) {
+      option.disabled = !state;
+    }
   },
 
   multi_select: function (select, multi) {
@@ -127,6 +130,10 @@ Reporting.Filters = {
 
   remove_filter: function (field) {
     Reporting.Filters.show_filter(field, { show_filter: false });
+    var dependents = Reporting.Filters.get_dependents($(field + '_arg_1_val'));
+    if (dependents.size() !== 0) {
+      Reporting.Filters.remove_filter(dependents.first());
+    }
     Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
 
@@ -144,11 +151,19 @@ Reporting.Filters = {
     });
   },
 
+  get_dependents: function (element) {
+    if (element.hasAttribute("data-dependents")) {
+      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON();
+    } else {
+      return [];
+    }
+  },
+
   // Activate the first dependent of the changed filter, if it is not already active.
   // Afterwards, collect the visible filters from the dependents list and start
   // narrowing down their values.
   activate_dependents: function () {
-    var dependents = this.getAttribute("data-dependents").replace(/'/g, '"').evalJSON();
+    var dependents = Reporting.Filters.get_dependents(this);
     var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
       Reporting.Filters.show_filter(dependents.first(), { slowly: true });
