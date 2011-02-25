@@ -9,7 +9,7 @@ module Report::Controller
 
       before_filter :determine_engine
       before_filter :prepare_query, :only => [:index, :create]
-      before_filter :find_optional_report, :only => [:index, :show, :update, :delete]
+      before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
     end
   end
 
@@ -187,14 +187,14 @@ module Report::Controller
   ##
   # Prepare the query from the request
   def prepare_query
-    determine_filter_settings
+    determine_settings
     @query = build_query(session[report_engine.name.underscore.to_sym][:filters], session[report_engine.name.underscore.to_sym][:groups])
   end
 
   ##
   # Determine the query settings the current request and save it to
   # the session.
-  def determine_filter_settings
+  def determine_settings
     if force_default?
       filters = default_filter_parameters
       groups  = default_group_parameters

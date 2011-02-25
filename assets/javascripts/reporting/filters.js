@@ -44,15 +44,16 @@ Reporting.Filters = {
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
       // the following command might be included into the callback_function (which is called after the ajax request) later
-      $('rm_' + field).value = field;
       var display_functor;
       if (options.show_filter) {
-        display_functor = options.slowly ? Effect.Appear : Element.show;
+        (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
+        $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
       } else {
-        display_functor = options.slowly ? Effect.Fade : Element.hide;
+        (options.slowly ? Effect.Fade : Element.hide)(field_el);
+        field_el.removeAttribute('data-selected');
+        $('rm_' + field).value = ""; // reset the value, so the serialized form will not return this filter
       }
-      display_functor(field_el);
       Reporting.Filters.operator_changed(field, $("operators_" + field));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
@@ -133,7 +134,7 @@ Reporting.Filters = {
     return $("filter_table").childElements().first().select('tr').select(function (tr) {
       return tr.visible() === true;
     }).collect(function (filter) {
-      return filter.className;
+      return filter.getAttribute("data-filter-name");
     });
   },
 
@@ -150,7 +151,7 @@ Reporting.onload(function () {
   });
   $$(".filter_rem").each(function (e) {
     e.observe("click", function () {
-      var filter_name = this.getAttribute("data-filter-name");
+      var filter_name = this.up('tr').getAttribute("data-filter-name");
       Reporting.Filters.remove_filter(filter_name);
     });
   });

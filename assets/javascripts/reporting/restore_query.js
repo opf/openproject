@@ -60,9 +60,20 @@ Reporting.RestoreQuery = {
       var name = $(group_by).getAttribute("value");
       Reporting.RestoreQuery.show_group_by(name, $('group_by_' + axis + 's'));
     });
+  },
+
+  restore_filters: function () {
+    // FIXME: rm_xxx values for filters have to be set after re-displaying them
+    $$("tr[data-selected=true]").each(function (e) {
+      var rm_box = e.select("input[id^=rm]").first();
+      var filter_name = e.getAttribute("data-filter-name");
+      rm_box.value = filter_name;
+      Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
+    });
   }
 };
 
 Reporting.onload(function () {
   Reporting.RestoreQuery.restore_group_bys();
+  Reporting.RestoreQuery.restore_filters();
 });

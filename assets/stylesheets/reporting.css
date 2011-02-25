@@ -100,21 +100,6 @@
   vertical-align: top;
 }
 
-/* Aligning filter elements at the top. */
-.new_report fieldset#filters table td {
-  vertical-align: top;
-  border-spacing: 5px 5px;
-  border-color: white;
-  border-style: solid;
-  border-width: 2px 0px 0px;
-}
-
-.new_report fieldset#filters table td > label {
-  left: 3px;
-  top: 3px;
-  position: relative;
-}
-
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
 .new_report fieldset h3 {
@@ -183,11 +168,10 @@
 }
 
 .filter_rem {
+  color: transparent;
   overflow: hidden;
   cursor: pointer;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  background-position: 50%;
+  background: no-repeat center center transparent;
   height: 16px;
   width: 16px;
   border-style: none;
@@ -208,11 +192,11 @@
   margin-top: 6px;
 }
 
-.new_report fieldset#filters table tr.filter:hover {
+fieldset#filter-settings table tr.filter:hover {
   background: #aaa;
 }
 
-.new_report fieldset#filters table tr.filter {
+fieldset#filter-settings table tr.filter {
   color: #000;
   background: #ededed;
   -webkit-border-radius: 5px;
@@ -220,6 +204,22 @@
   border-radius: 5px;
 }
 
+/* Aligning filter elements at the top. */
+fieldset#filter-settings table td {
+  vertical-align: top;
+  border-spacing: 5px 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 0px 0px;
+  padding: 2px;
+  vertical-align: middle;
+}
+
+fieldset#filter-settings table td > label {
+  left: 3px;
+  top: 3px;
+  position: relative;
+}
 
 .drag_element {
   /*cursor: move;*/
@@ -356,7 +356,38 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
-div#button_form {
+.buttons .apply {
+  background-color: #9a9a9a;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  overflow: visible;
+  text-align: center;
+  white-space: nowrap;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.buttons .apply:hover {
+  background-color: #666666;
+}
+
+.buttons .apply span em {
+  color: white;
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 17px;
+}
+
+.buttons .apply span {
+  display: inline-block;
+  margin: 0px;
+}
+
+div.button_form {
   /* TODO IE Compatibility! */
   background-color: white;
   border: 1px solid grey;
@@ -365,16 +396,19 @@ div#button_form {
   left: 100px;
   position: absolute;
   padding: 5px;
-  margin-top: -10px;
 }
 
-div#button_form * input#name {
+div.button_form * input#name {
   width: 200px
 }
 
-div#button_form * input[type="button"] {
+div.button_form * input[type="button"] {
   float: right;
 } br { clear: right; }
+
+div.button_form p * {
+  margin: 2px;
+}
 
 /***** Ajax indicator ******/
 #ajax-indicator {

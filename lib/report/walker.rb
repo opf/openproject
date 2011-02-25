@@ -17,12 +17,10 @@ class Report::Walker
   end
 
   def for_empty_cell(&block)
-    puts __method__ unless block_given?
     access_block(:empty_cell, &block) || access_block(:cell)
   end
 
   def access_block(name, &block)
-    puts method.center(80, '= '), caller[0..1] unless block_given?
     @blocks ||= {}
     @blocks[name] = block if block
     @blocks[name]
