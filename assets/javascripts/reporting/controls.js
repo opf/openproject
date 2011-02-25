@@ -62,7 +62,12 @@ Reporting.Controls = {
     e.preventDefault();
   },
 
-  send_settings_data: function (targetUrl, callback) {
+  send_settings_data: function (targetUrl, callback, failureCallback) {
+    if (failureCallback === undefined) {
+      failureCallback = function () {
+        Reporting.flash("There was an error getting the results. The administrator has been informed.");
+      };
+    }
     selectAllOptions('group_by_rows');
     selectAllOptions('group_by_columns');
     var updater = new Ajax.Request(
@@ -70,7 +75,8 @@ Reporting.Controls = {
       { asynchronous: true,
         evalScripts: true,
         postBody: Form.serialize('query_form'),
-        onSuccess: callback });
+        onSuccess: callback,
+        onFailure: failureCallback});
   },
 
   attach_settings_callback: function (element, callback) {

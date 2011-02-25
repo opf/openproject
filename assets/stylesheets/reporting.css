@@ -410,6 +410,27 @@ div.button_form p * {
   margin: 2px;
 }
 
+/***** Flash ******/
+#flash_error {
+  font-size: large;
+  line-height: 1;
+  text-align: center;
+  width: 90%;
+  background-color: #D55;
+  padding: 5px;
+  margin-bottom: 1em;
+}
+
+#flash_info {
+  font-size: large;
+  line-height: 1;
+  text-align: center;
+  width: 90%;
+  background-color: #FC6;
+  padding: 5px;
+  margin-bottom: 1em;
+}
+
 /***** Ajax indicator ******/
 #ajax-indicator {
   font-family: Verdana, sans-serif;
