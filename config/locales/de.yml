@@ -6,6 +6,8 @@ de:
   label_report: "Report"
   label_columns: "Spalten"
   label_rows: "Zeilen"
+  label_yes: Ja
+  label_no: Nein
 
   label_count: Anzahl
   label_sum: Summe
@@ -14,3 +16,5 @@ de:
 
   validation_failure_date: "ist kein gültiges Datum"
   validation_failure_integer: "ist keine ganze Zahl"
+
+  load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"
