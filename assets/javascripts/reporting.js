@@ -20,6 +20,13 @@ window.Reporting = {
 
   onload: function (func) {
     document.observe("dom:loaded", func);
+  },
+
+  flash: function (string, type) {
+    if (type === undefined) {
+      type = "error";
+    }
+    $("content").insert({before: "<div onclick='$(this).remove();' id='flash_" + type + "'>" + string + "</div>"});
   }
 };
 
