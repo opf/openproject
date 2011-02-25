@@ -28,17 +28,16 @@ class Report::Filter
     # Filter::Project.dependent --> Filter::Issue
     # This could result in a UI where, if the Prject-filter was selected,
     # the Issue-filter automatically shows up.
-    def self.dependent(klass)
-      self.dependents << klass
+    # Arguments:
+    #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
+    #    or nil, if you want to remove the dependent relationship
+    def self.dependent(*args)
+      @dependent = args.first unless args.empty?
+      @dependent
     end
 
-    def self.has_dependents?
-      @dependents && !@dependents.empty?
-    end
-
-    def self.dependents(*args)
-      @dependents ||= []
-      @dependents += args
+    def self.has_dependent?
+      !!@dependent
     end
 
     def self.cached(*args)
@@ -50,17 +49,17 @@ class Report::Filter
     # all_dependents computes the depentends of this filter and recursively
     # all_dependents of this class' dependents.
     def self.all_dependents
-      self.cached(:compute_injected_dependents)
+      self.cached(:compute_all_dependents)
     end
 
     def self.compute_all_dependents
-      if self.has_dependents?
-        self.dependents.inject(self.dependents) do |ary, dep|
-          ary + dep.injected_dependents
-        end.uniq
-      else
-        []
+      dependents = []
+      dep = dependent
+      while !dep.nil? do
+        dependents << dep
+        dep = dep.dependent
       end
+      dependents
     end
 
     def value=(val)
