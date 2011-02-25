@@ -131,3 +131,8 @@ production:
 # specific configuration options for development environment
 # that overrides the default ones
 development:
+
+# Configuration for the test environment
+test:
+  email_delivery:
+    delivery_method: test
