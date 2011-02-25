@@ -54,7 +54,7 @@ Reporting.Filters = {
         field_el.removeAttribute('data-selected');
         $('rm_' + field).value = ""; // reset the value, so the serialized form will not return this filter
       }
-      Reporting.Filters.operator_changed(field, $("operators_" + field));
+      Reporting.Filters.operator_changed(field, $("operators[" + field + "]"));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
   },
