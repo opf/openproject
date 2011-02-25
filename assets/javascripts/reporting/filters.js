@@ -189,7 +189,8 @@ Reporting.Filters = {
               }
             }).compact();
             var newOptions = response.responseJSON.inject("", function (str, o) {
-              return str + '<option value="' + o + '">' + o.escapeHTML() + '</option>';
+              var value = (o === null ? "" : o);
+              return str + '<option value="' + value + '">' + value.escapeHTML() + '</option>';
             });
             selectBox.innerHTML = newOptions;
             selected.each(function (val) {
