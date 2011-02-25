@@ -85,7 +85,7 @@ Reporting.Filters = {
 
   change_argument_visibility: function (field, arg_nr) {
     var params, i;
-    params = [$(field + '_arg_1'), $(field + '_arg_2')];
+    params = [$(field + '_arg_1_val'), $(field + '_arg_2_val')];
 
     for (i = 0; i < 2; i += 1) {
       if (params[i] !== null) {
