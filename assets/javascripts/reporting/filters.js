@@ -152,6 +152,9 @@ Reporting.Filters = {
     var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
       Reporting.Filters.show_filter(dependents.first(), { slowly: true });
+      // change operator to any-operator to avoid unintended filterin
+      $('operators[' + dependents.first() + ']').value = 'any';
+      Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
       active_filters.unshift(dependents.first());
     }
     var source = this.getAttribute("data-filter-name");
