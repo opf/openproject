@@ -10,6 +10,7 @@ module Report::Controller
       before_filter :determine_engine
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
+      before_filter :possibly_only_narrow_values
     end
   end
 
@@ -102,18 +103,22 @@ module Report::Controller
 
   ##
   # Determine the available values for the specified filter and return them as
-  # json
-  def values
-    dependency = params[:dependency].to_sym
-    dependent = params[:dependent]
+  # json, if that was requested. This will be executed INSTEAD of the actual action
+  def possibly_only_narrow_values
+    if params[:narrow_values] == 1
+      sources = params[:sources]
+      dependent = params[:dependent]
 
-    query = CostQuery.new
-    query.filter(dependency,
-      :operator => params[:operators][dependency],
-      :values => params[:values][dependency])
-    query.column(dependent)
-    values = query.result.collect {|r| r.fields[dependent] }
-    render :text => values.to_json
+      query = CostQuery.new
+      sources.each do |dependency|
+        query.filter(dependency,
+          :operator => params[:operators][dependency],
+          :values => params[:values][dependency])
+      end
+      query.column(dependent)
+      values = query.result.collect {|r| debugger; r.fields[dependent] }
+      render :text => values.to_json
+    end
   end
 
   ##
