@@ -1,5 +1,5 @@
 /*jslint white: false, nomen: true, devel: true, on: true, debug: false, evil: true, onevar: false, browser: true, white: false, indent: 2 */
-/*global window, $, $$, Reporting, Effect, Ajax, Element */
+/*global window, $, $$, Reporting, Effect, Ajax, Element, Form */
 
 Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
@@ -144,8 +144,65 @@ Reporting.Filters = {
     });
   },
 
-  narrow_values: function (dependent_name) {
-    console.log("Narrowing values not implemented");
+  // Activate the first dependent of the changed filter, if it is not already active.
+  // Afterwards, collect the visible filters from the dependents list and start
+  // narrowing down their values.
+  activate_dependents: function () {
+    var dependents = this.getAttribute("data-dependents").replace(/'/g, '"'); // [String]
+    var active_filters = Reporting.Filters.visible_filters(); // [String]
+    if (!active_filters.include(dependents.first())) {
+      $("add_filter_select").select("option[value='" + dependents.first() + "']").first().selected = true;
+      Reporting.Filters.add_filter($("add_filter_select"));
+    }
+    var active_dependents = dependents.select(function (d) {
+      return active_filters.include(d);
+    });
+    var source = this.getAttribute("data-filter-name");
+    Reporting.Filters.narrow_values([source], active_dependents);
+  },
+
+  // Narrow down the available values for the [dependents] of [sources].
+  // This will narrow down for each dependent separately, adding each finished
+  // dependent to the sources array and removing it from the dependents array.
+  narrow_values: function (sources, dependents) {
+    var params = "?narrow_values=1&dependent=" + dependents.first();
+    sources.inject(params, function (string, filter) {
+      return string + "&sources[]=" + filter;
+    });
+    var targetUrl = document.location.href + params;
+    var updater = new Ajax.Request(targetUrl,
+      {
+        asynchronous: true,
+        evalScripts: true,
+        postBody: Form.serialize('query_form'),
+        onSuccess: function (response) {
+          if (response.isJSON()) {
+            var selectBox = $(dependents.first() + "_arg_1_val");
+            var selected = selectBox.select("option").collect(function (sel) {
+              if (sel.selected) {
+                return sel.value;
+              }
+            }).compact();
+            var newOptions = response.evalJSON().inject("", function (str, o) {
+              return str + '<option value="' + o.value + '">' + o.label + '</option>';
+            });
+            selectBox.innerHTML = newOptions;
+            selected.each(function (val) {
+              var opt = selectBox.select("option[value='" + val + "']");
+              if (opt.size() === 1) {
+                opt.first().selected = true;
+              }
+            });
+            var newDependents = dependents.reverse();
+            newDependents.pop();
+            newDependents = newDependents.reverse();
+            var newSources = sources;
+            newSources.push(dependents.first());
+            Reporting.Filters.narrow_values(newSources, newDependents);
+          }
+        }
+      }
+    );
   }
 };
 
@@ -176,12 +233,7 @@ Reporting.onload(function () {
     }).size();
     s.multiple = (selected_size > 1);
   });
-  $$('.filters-select[data-dependent]').each(function (dependency) {
-    dependency.observe("change", function () {
-      var dependent_name = this.getAttribute("data-dependent");
-      $("add_filter_select").select("option[value='" + dependent_name + "']").first().selected = true;
-      Reporting.Filters.add_filter($("add_filter_select"));
-      Reporting.Filters.narrow_values(dependent_name);
-    });
+  $$('.filters-select[data-dependents]').each(function (dependency) {
+    dependency.observe("change", Reporting.Filters.activate_dependents);
   });
 });
