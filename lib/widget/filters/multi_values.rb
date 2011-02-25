@@ -29,7 +29,13 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                 opts[:selected] = "selected"
               end
               first = false
-              content_tag(:option, opts) { name_prefix + h(name) }
+              # TODO: The following line was escaping some parts of the name. I
+              # don't exatly know why, but it was causing double escaping bugs
+              # in a Rails 3 context. Maybe this is needed for Rails 2. I don't
+              # know. Please review and remove this comment if feasible.
+              #
+              # content_tag(:option, opts) { name_prefix + h(name) }
+              content_tag(:option, opts) { name_prefix + name }
             else
               tag :optgroup, :label => l(:label_sector)
             end
