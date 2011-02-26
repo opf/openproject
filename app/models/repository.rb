@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Repository < ActiveRecord::Base
+  include Redmine::Ciphering
+  
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
@@ -24,6 +26,7 @@ class Repository < ActiveRecord::Base
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
   
+  validates_length_of :password, :maximum => 255, :allow_nil => true
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
 
@@ -35,6 +38,14 @@ class Repository < ActiveRecord::Base
   # Removes leading and trailing whitespace
   def root_url=(arg)
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
+  end
+  
+  def password
+    read_ciphered_attribute(:password)
+  end
+  
+  def password=(arg)
+    write_ciphered_attribute(:password, arg)
   end
 
   def scm_adapter

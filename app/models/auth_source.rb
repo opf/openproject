@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AuthSource < ActiveRecord::Base
+  include Redmine::Ciphering
+  
   has_many :users
   
   validates_presence_of :name
@@ -30,6 +32,14 @@ class AuthSource < ActiveRecord::Base
   
   def auth_method_name
     "Abstract"
+  end
+  
+  def account_password
+    read_ciphered_attribute(:account_password)
+  end
+  
+  def account_password=(arg)
+    write_ciphered_attribute(:account_password, arg)
   end
 
   def allow_password_changes?
