@@ -6,7 +6,7 @@ More documentation and user guides can be found on the official website[https://
 
 == Getting Started
 
-We have a complete {install guide}[https://www.chiliproject.org/projects/chiliproject/wiki/Installation] online. A short version of it is mirrored to doc/INSTALL for offline installations
+We have a complete {install guide}[https://www.chiliproject.org/projects/chiliproject/wiki/Installation] online.
 
 == Getting Help
 
