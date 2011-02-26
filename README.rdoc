@@ -1,5 +1,30 @@
-= Redmine
+= ChiliProject
 
-Redmine is a flexible project management web application written using Ruby on Rails framework.
+ChiliProject is a web based project management system. It supports your team throughout the complete project life cycle, from setting up and discussing a project plan, over tracking issues and reporting work progress to collaboratively sharing knowledge.
 
-More details can be found at in the doc directory or on the official website http://www.redmine.org
+More documentation and user guides can be found on the official website[https://www.chiliproject.org] and in the doc/ directory.
+
+== Getting Started
+
+We have a complete {install guide}[https://www.chiliproject.org/projects/chiliproject/wiki/Installation] online. A short version of it is mirrored to doc/INSTALL for offline installations
+
+== Getting Help
+
+ChiliProject is an run by a community of volunteers. We have set up different ways to get help depending on your preferences.
+
+* Self guided help and user documentation - https://www.chiliproject.org/projects/chiliproject/wiki/Help
+* Forums for specific questions - https://www.chiliproject.org/projects/chiliproject/boards
+* Real time chat using IRC - https://www.chiliproject.org/projects/chiliproject/wiki/IRC
+* Commercial support - https://www.chiliproject.org/projects/chiliproject/wiki/Commercial_Offerings
+
+== Contributing
+
+We welcome all help for the project, no task is too small.  Our documentation is editable by anyone on our wiki[https://www.chiliproject.org/projects/chiliproject/wiki], we accept patches on our {issue tracker}[https://www.chiliproject.org/projects/chiliproject/issues], and everyone is welcome to discuss the project in our forums[https://www.chiliproject.org/projects/chiliproject/boards].
+
+More details can be found on our Contribute page[https://www.chiliproject.org/projects/chiliproject/wiki/Contribute].
+
+== License
+
+ChiliProject is licensed under the GNU GPL v2.  See the doc directory for more details.
+
+ChiliProject is a fork based on Redmine. Redmine is Copyright Jean-Philippe Lang and others.
