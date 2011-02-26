@@ -43,7 +43,7 @@ Feature: Create new meetings
        Then I should see "Title can't be blank"
   
   @javascript
-  Scenario: Create a new meeting with no title
+  Scenario: Create a new meeting with a title
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |
