@@ -7,7 +7,7 @@
 <div class="splitcontentleft">
 <ul>
 	<% unless @user.pref.hide_mail %>
-		<li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
+		<li><%=l(:field_mail)%>: <%= mail_to(h(escape_javascript(@user.mail)), nil, :encode => 'javascript') %></li>
 	<% end %>
 	<% @user.visible_custom_field_values.each do |custom_value| %>
 	<% if !custom_value.value.blank? %>
