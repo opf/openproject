@@ -79,6 +79,7 @@ class MeetingsController < ApplicationController
   def convert_params
     params[:meeting][:start_time] = Date.parse(params[:meeting].delete(:start_date)) + params[:meeting].delete(:"start_time(4i)").to_i.hours + params[:meeting].delete(:"start_time(5i)").to_i.minutes
     params[:meeting][:duration] = params[:meeting][:duration].to_hours
+    # Force defaults on participants
     params[:meeting][:participants_attributes].each {|p| p.reverse_merge! :attended => false, :invited => false}
   end
 end

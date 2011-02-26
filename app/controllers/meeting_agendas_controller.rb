@@ -3,6 +3,11 @@ class MeetingAgendasController < MeetingContentsController
   
   menu_item :meetings
   
+  def close
+    @content.lock!
+    redirect_to :back
+  end
+  
   private
   
   def find_content

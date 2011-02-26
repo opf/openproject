@@ -2,8 +2,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :only => [] do |project|
     project.resources :meetings, :shallow => true do |meeting|
-      meeting.resource :meeting_agenda, :as => 'agenda', :only => [:update, :show], :collection => {:history => :get, :diff => :get}
-      meeting.resource :meeting_minutes, :as => 'minutes', :only => [:update, :show], :collection => {:history => :get, :diff => :get}
+      meeting.resource :agenda, :controller => 'meeting_agendas', :only => [:update, :show], :member => {:history => :get, :diff => :get, :close => :put}
+      meeting.resource :minutes, :controller => 'meeting_minutes', :only => [:update, :show], :member => {:history => :get, :diff => :get}
     end
   end
 end
