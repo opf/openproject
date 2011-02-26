@@ -97,11 +97,13 @@ class Changeset < ActiveRecord::Base
   
   TIMELOG_RE = /
     (
-    (\d+([.,]\d+)?)h?
+    ((\d+)(h|hours?))((\d+)(m|min)?)?
+    |
+    ((\d+)(h|hours?|m|min))
     |
     (\d+):(\d+)
     |
-    ((\d+)(h|hours?))?((\d+)(m|min)?)?
+    (\d+([\.,]\d+)?)h?
     )
     /x
   

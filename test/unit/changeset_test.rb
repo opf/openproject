@@ -72,24 +72,40 @@ class ChangesetTest < ActiveSupport::TestCase
     Setting.commit_ref_keywords = '*'
     Setting.commit_logtime_enabled = '1'
 
-    c = Changeset.new(:repository => Project.find(1).repository,
-                      :committed_on => 24.hours.ago,
-                      :comments => 'Worked on this issue #1 @2h',
-                      :revision => '520',
-                      :user => User.find(2))
-    assert_difference 'TimeEntry.count' do
-      c.scan_comment_for_issue_ids
+    {
+      '2' => 2.0,
+      '2h' => 2.0,
+      '2hours' => 2.0,
+      '15m' => 0.25,
+      '15min' => 0.25,
+      '3h15' => 3.25,
+      '3h15m' => 3.25,
+      '3h15min' => 3.25,
+      '3:15' => 3.25,
+      '3.25' => 3.25,
+      '3.25h' => 3.25,
+      '3,25' => 3.25,
+      '3,25h' => 3.25,
+    }.each do |syntax, expected_hours|
+      c = Changeset.new(:repository => Project.find(1).repository,
+                        :committed_on => 24.hours.ago,
+                        :comments => "Worked on this issue #1 @#{syntax}",
+                        :revision => '520',
+                        :user => User.find(2))
+      assert_difference 'TimeEntry.count' do
+        c.scan_comment_for_issue_ids
+      end
+      assert_equal [1], c.issue_ids.sort
+      
+      time = TimeEntry.first(:order => 'id desc')
+      assert_equal 1, time.issue_id
+      assert_equal 1, time.project_id
+      assert_equal 2, time.user_id
+      assert_equal expected_hours, time.hours, "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
+      assert_equal Date.yesterday, time.spent_on
+      assert time.activity.is_default?
+      assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
     end
-    assert_equal [1], c.issue_ids.sort
-    
-    time = TimeEntry.first(:order => 'id desc')
-    assert_equal 1, time.issue_id
-    assert_equal 1, time.project_id
-    assert_equal 2, time.user_id
-    assert_equal 2.0, time.hours
-    assert_equal Date.yesterday, time.spent_on
-    assert time.activity.is_default?
-    assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
   end
   
   def test_ref_keywords_closing_with_timelog
@@ -100,7 +116,7 @@ class ChangesetTest < ActiveSupport::TestCase
     
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'This is a comment. Fixes #1 @2.5, #2 @1',
+                      :comments => 'This is a comment. Fixes #1 @4.5, #2 @1',
                       :user => User.find(2))
     assert_difference 'TimeEntry.count', 2 do
       c.scan_comment_for_issue_ids
