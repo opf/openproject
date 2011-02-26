@@ -16,6 +16,7 @@ class MeetingContentsController < ApplicationController
   end
   
   def update
+    (render_403; return) unless @content.editable? # TODO: not tested!
     @content.attributes = params[:"#{@content_type}"]
     @content.author = User.current
     if @content.save

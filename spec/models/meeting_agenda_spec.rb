@@ -14,4 +14,25 @@ describe "MeetingAgenda" do
       @a.locked.should be_true
     end
   end
+  
+  describe "#unlock!" do
+    it "unlocks the agenda" do
+      @a.locked = true
+      @a.save
+      @a.unlock!
+      @a.reload
+      @a.locked.should be_false
+    end
+  end
+  
+  # a meeting agendat is editable when it is not locked
+  describe "#editable?" do
+    it "is editable when not locked" do
+      @a.editable?.should be_true
+    end
+    it "is not editable when locked" do
+      @a.locked = true
+      @a.editable?.should be_false
+    end
+  end
 end
