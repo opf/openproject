@@ -1,5 +1,28 @@
 = ChiliProject changelog
 
+== 2011-02-27 v1.1.0
+
+* Bug #109: Backport fix to display full TOC with present < p r e > tags
+* Bug #125: User profile does not keep email preferences
+* Bug #133: Add hack for rubygems > 1.5 compatibility
+* Bug #171: unit/user_test.rb:138 fails with mysql2 gem
+* Bug #178: Multiselect issues on Mac
+* Bug #190: Change the default Gantt limit to unlimited
+* Bug #64: Forums list shows even if the forum module is not active
+* Bug #81: Replace favicon
+* Bug #85: Crash when saving a wiki page with no content
+* Bug #89: MailHandler is changing the Tracker on issues even when there is no keyword for it
+* Bug #96: Wiki: H4 Headings are too small in toc
+* Feature #101: Change the Help link to point to the ChiliProject site
+* Feature #104: Add email header for the type of message
+* Feature #129: Change public strings of Redmine to ChiliProject
+* Feature #146: Allow underscores in project identifiers
+* Feature #149: Issues - Hide the File upload section
+* Feature #150: Skip the "Text Formatting: Help" link when tabbing
+* Feature #168: [PATCH] RSS autodiscovery for wiki pages
+* Feature #169: [PATCH] hiding form pages from search engines
+* Feature #170: [PATCH] Extensible MailHandler
+
 Note: Previous versions referred to Redmine, which ChiliProject forked from in December 2010.
 
 == 2011-01-30 v1.1.1
