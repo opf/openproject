@@ -24,7 +24,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
+  FELIX_HEX  = "Felix Sch\xC3\xA4fer"
+
   def setup
+    Setting.commit_logs_encoding = 'UTF-8'
     @project = Project.find(3)
     @repository = Repository::Git.create(:project => @project, :url => REPOSITORY_PATH)
     assert @repository
@@ -103,6 +106,17 @@ class RepositoryGitTest < ActiveSupport::TestCase
                         :comments => 'test')
       assert c.event_title.include?('abc7234c:')
       assert_equal 'abc7234cb2750b63f47bff735edc50a1c0a433c2', c.event_url[:rev]
+    end
+
+    def test_log_utf8
+      @repository.fetch_changesets
+      @repository.reload
+      str_felix_hex  = FELIX_HEX
+      if str_felix_hex.respond_to?(:force_encoding)
+          str_felix_hex.force_encoding('UTF-8')
+      end
+      c = @repository.changesets.find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+      assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
     end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
