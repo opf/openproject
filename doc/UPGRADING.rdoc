@@ -1,0 +1,3 @@
+= Upgrade
+
+The detailed upgrade instructions are located on the {official website}[https://www.chiliproject.org/projects/chiliproject/wiki/Upgrade]

@@ -1,8 +1,6 @@
-== Redmine changelog
+= ChiliProject changelog
 
-Redmine - project management software
-Copyright (C) 2006-2011  Jean-Philippe Lang
-http://www.redmine.org/
+Note: Previous versions referred to Redmine, which ChiliProject forked from in December 2010.
 
 == 2011-01-30 v1.1.1
 

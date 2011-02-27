@@ -19,3 +19,4 @@
 /tmp/test/*
 /vendor/rails
 *.rbc
+doc/app
