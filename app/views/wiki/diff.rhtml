@@ -12,6 +12,6 @@
 <em>(<%= @diff.content_to.author ? @diff.content_to.author.name : "anonyme" %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
 </p>
 
-<hr />
-
-<%= html_diff(@diff) %>
+<div class="text-diff">
+<%= @diff.to_html %>
+</div>

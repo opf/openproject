@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -149,17 +149,13 @@ class WikiPage < ActiveRecord::Base
   end
 end
 
-class WikiDiff
-  attr_reader :diff, :words, :content_to, :content_from
+class WikiDiff < Redmine::Helpers::Diff
+  attr_reader :content_to, :content_from
   
   def initialize(content_to, content_from)
     @content_to = content_to
     @content_from = content_from
-    @words = content_to.text.split(/(\s+)/)
-    @words = @words.select {|word| word != ' '}
-    words_from = content_from.text.split(/(\s+)/)
-    words_from = words_from.select {|word| word != ' '}    
-    @diff = words_from.diff @words
+    super(content_to.text, content_from.text)
   end
 end
 
