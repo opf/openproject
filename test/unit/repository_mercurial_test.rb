@@ -24,7 +24,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
   def setup
-    @project = Project.find(1)
+    @project = Project.find(3)
     @repository = Repository::Mercurial.create(:project => @project, :url => REPOSITORY_PATH)
     assert @repository
   end
