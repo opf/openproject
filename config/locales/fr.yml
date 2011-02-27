@@ -927,6 +927,7 @@ fr:
   error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   text_journal_changed: "%{label} changé de %{old} à %{new}"
+  text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_deleted: "%{label} %{old} supprimé"
   text_journal_added: "%{label} %{value} ajouté"

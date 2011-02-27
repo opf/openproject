@@ -20,3 +20,10 @@ journal_details_003:
   value: "6"
   prop_key: fixed_version_id
   journal_id: 4
+journal_details_004:
+  old_value: "This word was removed and an other was"
+  property: attr
+  id: 4
+  value: "This word was and an other was added"
+  prop_key: description
+  journal_id: 3

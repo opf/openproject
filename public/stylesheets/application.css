@@ -675,6 +675,13 @@ div.autocomplete ul li span.informal {
 .diff_out { background: #fcc; }
 .diff_in { background: #cfc; }
 
+.text-diff {
+padding: 1em;
+background-color:#f6f6f6;
+color:#505050;
+border: 1px solid #e4e4e4;
+}
+
 /***** Wiki *****/
 div.wiki table {
     border: 1px solid #505050;

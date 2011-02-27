@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -619,6 +619,27 @@ class IssueTest < ActiveSupport::TestCase
       stale.save
     end
     assert ActionMailer::Base.deliveries.empty?
+  end
+  
+  def test_journalized_description
+    i = Issue.first
+    old_description = i.description
+    new_description = "This is the new description"
+    
+    i.init_journal(User.find(2))
+    i.description = new_description
+    assert_difference 'Journal.count', 1 do
+      assert_difference 'JournalDetail.count', 1 do
+        i.save!
+      end
+    end
+    
+    detail = JournalDetail.first(:order => 'id DESC')
+    assert_equal i, detail.journal.journalized
+    assert_equal 'attr', detail.property
+    assert_equal 'description', detail.prop_key
+    assert_equal old_description, detail.old_value
+    assert_equal new_description, detail.value
   end
   
   def test_saving_twice_should_not_duplicate_journal_details

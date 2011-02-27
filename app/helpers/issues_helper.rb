@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -183,7 +183,16 @@ module IssuesHelper
       end
     end
     
-    if !detail.value.blank?
+    if detail.property == 'attr' && detail.prop_key == 'description'
+      s = l(:text_journal_changed_no_detail, :label => label)
+      unless no_html
+        diff_link = link_to 'diff', 
+          {:controller => 'journals', :action => 'diff', :id => detail.journal_id, :detail_id => detail.id},
+          :title => l(:label_view_diff)
+        s << " (#{ diff_link })"
+      end
+      s
+    elsif !detail.value.blank?
       case detail.property
       when 'attr', 'cf'
         if !detail.old_value.blank?
