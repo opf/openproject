@@ -137,6 +137,28 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert c.event_title.include?('123456789:')
       assert_equal '123456789', c.event_url[:rev]
     end
+
+    def test_log_encoding_ignore_setting
+      with_settings :commit_logs_encoding => 'windows-1252' do
+        s1 = "\xC2\x80"
+        s2 = "\xc3\x82\xc2\x80"
+        if s1.respond_to?(:force_encoding)
+          s3 = s1
+          s4 = s2
+          s1.force_encoding('ASCII-8BIT')
+          s2.force_encoding('ASCII-8BIT')
+          s3.force_encoding('ISO-8859-1')
+          s4.force_encoding('UTF-8')
+          assert_equal s3.encode('UTF-8'), s4
+        end
+        c = Changeset.new(:repository => @repository,
+                          :comments=>s2,
+                          :revision=>'123',
+                          :committed_on => Time.now)
+        assert c.save
+        assert_equal s2, c.comments
+      end
+    end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end

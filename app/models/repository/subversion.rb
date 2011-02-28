@@ -30,6 +30,10 @@ class Repository::Subversion < Repository
     'Subversion'
   end
 
+  def repo_log_encoding
+    'UTF-8'
+  end
+
   def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, rev, nil, :limit => limit)
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []

@@ -107,10 +107,11 @@ class Repository::Cvs < Repository
         tmp_time = revision.time.clone
         unless changes.find_by_path_and_revision(
 	           scm.with_leading_slash(revision.paths[0][:path]), revision.paths[0][:revision])
+          cmt = Changeset.normalize_comments(revision.message, repo_log_encoding)
           cs = changesets.find(:first, :conditions=>{
             :committed_on=>tmp_time - time_delta .. tmp_time + time_delta,
             :committer=>revision.author,
-            :comments=>Changeset.normalize_comments(revision.message)
+            :comments=>cmt
           })
         
           # create a new changeset.... 

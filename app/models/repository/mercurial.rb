@@ -34,6 +34,10 @@ class Repository::Mercurial < Repository
     'Mercurial'
   end
 
+  def repo_log_encoding
+    'UTF-8'
+  end
+
   # Returns the readable identifier for the given mercurial changeset
   def self.format_changeset_identifier(changeset)
     "#{changeset.revision}:#{changeset.scmid}"

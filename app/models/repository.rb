@@ -190,6 +190,11 @@ class Repository < ActiveRecord::Base
     end
   end
 
+  def repo_log_encoding
+    encoding = Setting.commit_logs_encoding.to_s.strip
+    encoding.blank? ? 'UTF-8' : encoding
+  end
+
   # Fetches new changesets for all repositories of active projects
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
@@ -217,7 +222,7 @@ class Repository < ActiveRecord::Base
   def self.available_scm
     subclasses.collect {|klass| [klass.scm_name, klass.name]}
   end
-  
+
   def self.factory(klass_name, *args)
     klass = "Repository::#{klass_name}".constantize
     klass.new(*args)

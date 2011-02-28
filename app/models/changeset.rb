@@ -56,10 +56,6 @@ class Changeset < ActiveRecord::Base
       revision.to_s
     end
   end
-  
-  def comments=(comment)
-    write_attribute(:comments, Changeset.normalize_comments(comment))
-  end
 
   def committed_on=(date)
     self.commit_date = date
@@ -75,10 +71,6 @@ class Changeset < ActiveRecord::Base
     end
   end
   
-  def committer=(arg)
-    write_attribute(:committer, self.class.to_utf8(arg.to_s))
-  end
-
   def project
     repository.project
   end
@@ -88,9 +80,11 @@ class Changeset < ActiveRecord::Base
   end
   
   def before_create
-    self.user = repository.find_committer_user(committer)
+    self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
+    self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
+    self.user = repository.find_committer_user(self.committer)
   end
-  
+
   def after_create
     scan_comment_for_issue_ids
   end
@@ -163,11 +157,6 @@ class Changeset < ActiveRecord::Base
     @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
   end
   
-  # Strips and reencodes a commit log before insertion into the database
-  def self.normalize_comments(str)
-    to_utf8(str.to_s.strip)
-  end
-
   # Creates a new Change from it's common parameters
   def create_change(change)
     Change.create(:changeset => self,
@@ -176,7 +165,7 @@ class Changeset < ActiveRecord::Base
                   :from_path => change[:from_path],
                   :from_revision => change[:from_revision])
   end
-  
+
   private
 
   # Finds an issue that can be referenced by the commit message
@@ -246,9 +235,17 @@ class Changeset < ActiveRecord::Base
     return @short_comments, @long_comments
   end
 
-  def self.to_utf8(str)
+  public
+
+  # Strips and reencodes a commit log before insertion into the database
+  def self.normalize_comments(str, encoding)
+    Changeset.to_utf8(str.to_s.strip, encoding)
+  end
+
+  private
+
+  def self.to_utf8(str, encoding)
     return str if str.blank?
-    encoding = Setting.commit_logs_encoding.to_s.strip
     unless encoding.blank? || encoding == 'UTF-8'
       begin
         str = Iconv.conv('UTF-8', encoding, str)
