@@ -127,14 +127,13 @@ module Redmine
           entries.sort_by_name
         end
 
-        def lastrev(path,rev)
+        def lastrev(path, rev)
           return nil if path.nil?
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} log --no-color --date=iso --pretty=fuller --no-merges -n 1 "
-          cmd << " #{shell_quote rev} " if rev 
-          cmd <<  "-- #{shell_quote path} " unless path.empty?
+          cmd_args = %w|log --no-color --date=iso --pretty=fuller --no-merges -n 1|
+          cmd_args << rev if rev 
+          cmd_args << "--" << path unless path.empty?
           lines = []
-          shellout(cmd) { |io| lines = io.readlines }
-          return nil if $? && $?.exitstatus != 0
+          scm_cmd(*cmd_args) { |io| lines = io.readlines }
           begin
               id = lines[0].split[1]
               author = lines[1].match('Author:\s+(.*)$')[1]
@@ -147,11 +146,13 @@ module Redmine
                 :time => time,
                 :message => nil, 
                 :paths => nil 
-              })
+                })
           rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
               return nil
           end
+        rescue ScmCommandAborted
+          nil
         end
 
         def revisions(path, identifier_from, identifier_to, options={})
@@ -165,7 +166,7 @@ module Redmine
           from_to << "#{identifier_to}" if identifier_to
           cmd_args << from_to if !from_to.empty?
           cmd_args << "--since=#{options[:since].strftime("%Y-%m-%d %H:%M:%S")}" if options[:since]
-          cmd_args << "--" << "#{path}" if path && !path.empty?
+          cmd_args << "--" << path if path && !path.empty?
 
           scm_cmd *cmd_args do |io|
             files=[]
