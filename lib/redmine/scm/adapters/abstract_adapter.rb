@@ -324,27 +324,6 @@ module Redmine
         def format_identifier
           identifier
         end
-
-        def save(repo)
-          Changeset.transaction do
-            changeset = Changeset.new(
-              :repository => repo,
-              :revision => identifier,
-              :scmid => scmid,
-              :committer => author, 
-              :committed_on => time,
-              :comments => message)
-            
-            if changeset.save
-              paths.each do |file|
-                Change.create(
-                  :changeset => changeset,
-                  :action => file[:action],
-                  :path => file[:path])
-              end
-            end
-          end
-        end
       end
 
       class Annotate

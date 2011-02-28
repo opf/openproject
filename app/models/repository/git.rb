@@ -79,7 +79,28 @@ class Repository::Git < Repository
     revisions.reject!{|r| recent_revisions.include?(r.scmid)}
 
     # Save the remaining ones to the database
-    revisions.each{|r| r.save(self)} unless revisions.nil?
+    unless revisions.nil?
+      revisions.each do |rev|
+        transaction do
+          changeset = Changeset.new(
+              :repository => self,
+              :revision   => rev.identifier,
+              :scmid      => rev.scmid,
+              :committer  => rev.author, 
+              :committed_on => rev.time,
+              :comments   => rev.message)
+            
+          if changeset.save
+            rev.paths.each do |file|
+              Change.create(
+                  :changeset => changeset,
+                  :action    => file[:action],
+                  :path      => file[:path])
+            end
+          end
+        end
+      end
+    end
   end
 
   def latest_changesets(path,rev,limit=10)
