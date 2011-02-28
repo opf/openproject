@@ -357,7 +357,7 @@ module Redmine
           subject = "<span class='#{css_classes}'>"
           if issue.assigned_to.present?
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
+            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string).to_s
           end
           subject << view.link_to_issue(issue)
           subject << '</span>'
