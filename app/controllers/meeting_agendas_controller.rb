@@ -16,7 +16,7 @@ class MeetingAgendasController < MeetingContentsController
   private
   
   def find_content
-    @content = @meeting.agenda || MeetingAgenda.new(:meeting => @meeting)
+    @content = @meeting.agenda || @meeting.build_agenda
     @content_type = "meeting_agenda"
   end
 end

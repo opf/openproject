@@ -52,7 +52,7 @@ Feature: Close and open meeting angedas
         And I should see "Close" within ".meeting_agenda"
   
   @javascript
-  Scenario: Navigate to a  meeting page with a closed meeting agenda and permission to edit meeting agendas
+  Scenario: Navigate to a meeting page with a closed meeting agenda and permission to edit meeting agendas
       Given the role "user" may have the following rights:
             | view_meetings          |
             | create_meeting_agendas |

@@ -1,17 +1,18 @@
+<% content, content_type = tab[:content], tab[:content_type] if defined?(tab) && tab.present? -%>
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if (authorize_for(content_type.pluralize, 'update') && (content.blank? || content.editable?)) %>
-  <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') unless content.blank? %>
-  <%= (content.present? && content.locked?) ? link_to_if_authorized(l(:label_open), {:controller => content_type.pluralize, :action => 'open', :meeting_id => @meeting}, :method => :put, :class => 'icon icon-lock') : link_to_if_authorized(l(:label_close), {:controller => content_type.pluralize, :action => 'close', :meeting_id => @meeting}, :method => :put, :class => 'icon icon-lock') %>
+  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); return false;" if authorize_for(content_type.pluralize, 'update') && content.editable? %>
+  <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => content.meeting}, :class => 'icon icon-history') %>
+  <%= content.locked? ? link_to_if_authorized(l(:label_open), {:controller => content_type.pluralize, :action => 'open', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-lock') : link_to_if_authorized(l(:label_close), {:controller => content_type.pluralize, :action => 'close', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-lock') %>
   </div>
-  <h2><%= title %></h2>
-  <% if authorize_for(content_type.pluralize, 'update') && (!content.present? || content.editable?) -%>
-  <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.present? && content.text.present? %>>
+  <h2><%=l :"label_#{content_type}" %></h2>
+  <% if authorize_for(content_type.pluralize, 'update') && content.editable? -%>
+  <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.text.present? %>>
   <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
   <% end -%>
   <div class="wiki" id="<%= content_type %>-text">
-    <%= textilizable(content.present? ? content.text : nil) %>
+    <%= textilizable(content.text) %>
   </div>
 </div>
 

@@ -6,7 +6,7 @@ class MeetingMinutesController < MeetingContentsController
   private
   
   def find_content
-    @content = @meeting.minutes || MeetingMinutes.new(:meeting => @meeting)
+    @content = @meeting.minutes || @meeting.build_minutes
     @content_type = "meeting_minutes"
   end
 end

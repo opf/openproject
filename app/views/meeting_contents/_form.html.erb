@@ -1,4 +1,4 @@
-<% form_for :"#{content_type}", content, :url => {:controller => content_type.pluralize, :action => 'update', :meeting_id => @meeting.id}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
+<% form_for :"#{content_type}", content, :url => {:controller => content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
 <%= f.hidden_field :version %>
 <%= error_messages_for content_type %>
 
