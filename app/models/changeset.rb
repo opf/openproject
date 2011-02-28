@@ -247,6 +247,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def self.to_utf8(str)
+    return str if str.blank?
     encoding = Setting.commit_logs_encoding.to_s.strip
     unless encoding.blank? || encoding == 'UTF-8'
       begin

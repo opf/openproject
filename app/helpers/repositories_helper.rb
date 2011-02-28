@@ -117,6 +117,7 @@ module RepositoriesHelper
   end
   
   def to_utf8(str)
+    return str if str.blank?
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
     else
