@@ -1,4 +1,4 @@
-Feature: Close and open meeting angedas
+Feature: Close and open meeting agendas
   
   Background:
         Given there is 1 project with the following:
