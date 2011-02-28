@@ -16,32 +16,32 @@ Feature: Close existing meetings
           And there is 1 meeting in project "dingens" created by "bob" with:
               | title | Bobs Meeting |
   
-  # @javascript
-  # Scenario: Navigate to a meeting page with no permission to close meetings
-  #     Given the role "user" may have the following rights:
-  #           | view_meetings  |
-  #      When I login as "alice"
-  #       And I go to the Meetings page for the project called "dingens"
-  #       And I click on "Bobs Meeting"
-  #      Then I should not see "Close" within ".meeting_agenda"
-  #
-  # @javascript
-  # Scenario: Navigate to a meeting page with permission to close meetings
-  #     Given the role "user" may have the following rights:
-  #           | view_meetings  |
-  #           | close_meetings |
-  #      When I login as "alice"
-  #       And I go to the Meetings page for the project called "dingens"
-  #       And I click on "Bobs Meeting"
-  #      Then I should see "Close" within ".meeting_agenda"
-  #
-  # @javascript
-  # Scenario: Navigate to a meeting page with permission to close meetings and close the meeting
-  #     Given the role "user" may have the following rights:
-  #           | view_meetings  |
-  #           | close_meetings |
-  #      When I login as "alice"
-  #       And I go to the Meetings page for the project called "dingens"
-  #       And I click on "Bobs Meeting"
-  #       And I click on "Close"
-  #      Then I should not see "Edit" within ".meeting_agenda"
+  @javascript
+  Scenario: Navigate to a meeting page with no permission to close meetings
+      Given the role "user" may have the following rights:
+            | view_meetings  |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+       Then I should not see "Close" within ".meeting_agenda"
+
+  @javascript
+  Scenario: Navigate to a meeting page with permission to close meetings
+      Given the role "user" may have the following rights:
+            | view_meetings  |
+            | close_meetings |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+       Then I should see "Close" within ".meeting_agenda"
+  
+  @javascript
+  Scenario: Navigate to a meeting page with permission to close meetings and close the meeting
+      Given the role "user" may have the following rights:
+            | view_meetings  |
+            | close_meetings |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+        And I click on "Close"
+       Then I should not see "Edit" within ".meeting_agenda"
