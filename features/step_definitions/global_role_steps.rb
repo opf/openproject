@@ -16,7 +16,7 @@ Given /^the global permission "(.+)?" of the module "(.+)?" is defined$/ do |per
 end
 
 Given /^there is a global [rR]ole "([^\"]*)"$/ do |name|
-  GlobalRole.spawn.tap { |r| r.name = name }.save! unless GlobalRole.find_by_name(name)
+  Factory.create(:global_role, :name => name) unless GlobalRole.find_by_name(name)
 end
 
 Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, table|
@@ -41,10 +41,11 @@ Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |ro
 end
 
 Given /^the [Uu]ser (.+) (?:is a|has the global role) (.+)$/ do |user, role|
-  u = User.find_by_login(user.gsub("\"", ""))
-  r = GlobalRole.find_by_name(role.gsub("\"", ""))
+  user = User.find_by_login(user.gsub("\"", ""))
+  role = GlobalRole.find_by_name(role.gsub("\"", ""))
+
   as_admin do
-    role = Factory.create(:principal_role, :principal => u, :role => r)
+    Factory.create(:principal_role, :principal => user, :role => role)
   end
 end
 
