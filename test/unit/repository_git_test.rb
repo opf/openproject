@@ -38,8 +38,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
 
-      assert_equal 15, @repository.changesets.count
-      assert_equal 24, @repository.changes.count
+      assert_equal 16, @repository.changesets.count
+      assert_equal 25, @repository.changes.count
 
       commit = @repository.changesets.find(:first, :order => 'committed_on ASC')
       assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -61,10 +61,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
       # Remove the 3 latest changesets
       @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
       @repository.reload
-      assert_equal 12, @repository.changesets.count
+      assert_equal 13, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 15, @repository.changesets.count
+      assert_equal 16, @repository.changesets.count
     end
 
     def test_find_changeset_by_name

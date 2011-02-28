@@ -29,6 +29,10 @@ class Repository::Git < Repository
     'Git'
   end
 
+  def repo_log_encoding
+    'UTF-8'
+  end
+
   # Returns the identifier for the given git changeset
   def self.changeset_identifier(changeset)
     changeset.scmid
