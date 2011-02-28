@@ -223,17 +223,32 @@ class ChangesetTest < ActiveSupport::TestCase
   
   def test_comments_should_be_converted_to_utf8
     with_settings :commit_logs_encoding => 'ISO-8859-1' do
-      c = Changeset.new
-      c.comments = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      proj = Project.find(3)
+      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
+      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => str)
+      assert( c.save )
       assert_equal "Texte encodé en ISO-8859-1.", c.comments
     end
   end
   
   def test_invalid_utf8_sequences_in_comments_should_be_stripped
     with_settings :commit_logs_encoding => 'UTF-8' do
-      c = Changeset.new
+      proj = Project.find(3)
       str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      c.comments = str
+      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => str)
+      assert( c.save )
       if str.respond_to?(:force_encoding)
         assert_equal "Texte encod? en ISO-8859-1.", c.comments
       else
@@ -256,7 +271,15 @@ class ChangesetTest < ActiveSupport::TestCase
         s4.force_encoding('UTF-8')
         assert_equal s3.encode('UTF-8'), s4
       end
-      c.comments = s1
+      proj = Project.find(3)
+      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => s1)
+      assert( c.save )
       assert_equal s2, c.comments
     end
   end
