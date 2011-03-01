@@ -19,25 +19,26 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryDarcsTest < ActiveSupport::TestCase
   fixtures :projects
-  
+
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
-  
+
   def setup
-    @project = Project.find(1)
-    assert @repository = Repository::Darcs.create(:project => @project, :url => REPOSITORY_PATH)
+    @project = Project.find(3)
+    @repository = Repository::Darcs.create(:project => @project, :url => REPOSITORY_PATH)
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      
+
       assert_equal 6, @repository.changesets.count
       assert_equal 13, @repository.changes.count
       assert_equal "Initial commit.", @repository.changesets.find_by_revision('1').comments
     end
-    
+
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 3
@@ -48,8 +49,10 @@ class RepositoryDarcsTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       assert_equal 6, @repository.changesets.count
     end
-    
+
     def test_deleted_files_should_not_be_listed
+      @repository.fetch_changesets
+      @repository.reload
       entries = @repository.entries('sources')
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
