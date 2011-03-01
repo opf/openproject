@@ -220,12 +220,13 @@ class ChangesetTest < ActiveSupport::TestCase
     changeset = Changeset.find_by_revision('10')
     assert_nil changeset.next
   end
-  
+
   def test_comments_should_be_converted_to_utf8
-    with_settings :commit_logs_encoding => 'ISO-8859-1' do
       proj = Project.find(3)
       str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
       assert r
       c = Changeset.new(:repository => r,
                         :committed_on => Time.now,
@@ -234,14 +235,14 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments => str)
       assert( c.save )
       assert_equal "Texte encodé en ISO-8859-1.", c.comments
-    end
   end
   
   def test_invalid_utf8_sequences_in_comments_should_be_stripped
-    with_settings :commit_logs_encoding => 'UTF-8' do
       proj = Project.find(3)
       str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'UTF-8' )
       assert r
       c = Changeset.new(:repository => r,
                         :committed_on => Time.now,
@@ -254,11 +255,9 @@ class ChangesetTest < ActiveSupport::TestCase
       else
         assert_equal "Texte encod en ISO-8859-1.", c.comments
       end
-    end
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
-    with_settings :commit_logs_encoding => 'ISO-8859-1' do
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
       if s1.respond_to?(:force_encoding)
@@ -271,7 +270,10 @@ class ChangesetTest < ActiveSupport::TestCase
         assert_equal s3.encode('UTF-8'), s4
       end
       proj = Project.find(3)
-      r = Repository::Bazaar.create!(:project => proj, :url => '/tmp/test/bazaar')
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
+      assert r
       assert r
       c = Changeset.new(:repository => r,
                         :committed_on => Time.now,
@@ -280,7 +282,6 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments => s1)
       assert( c.save )
       assert_equal s2, c.comments
-    end
   end
 
   def test_identifier

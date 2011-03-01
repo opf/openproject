@@ -41,7 +41,8 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     @project = Project.find(PRJ_ID)
     @repository  = Repository::Cvs.create(:project => Project.find(PRJ_ID),
                                           :root_url => REPOSITORY_PATH,
-                                          :url => MODULE_NAME)
+                                          :url => MODULE_NAME,
+                                          :log_encoding => 'UTF-8')
     assert @repository
   end
   

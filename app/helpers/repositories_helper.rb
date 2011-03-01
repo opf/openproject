@@ -186,7 +186,9 @@ module RepositoriesHelper
   end
 
   def darcs_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => :label_darcs_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+    content_tag('p', form.text_field(:url, :label => :label_darcs_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?))) +
+      content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
+                                   :label => 'Commit messages encoding', :required => true))
   end
   
   def mercurial_field_tags(form, repository)
@@ -201,11 +203,15 @@ module RepositoriesHelper
 
   def cvs_field_tags(form, repository)
       content_tag('p', form.text_field(:root_url, :label => :label_cvs_path, :size => 60, :required => true, :disabled => !repository.new_record?)) +
-      content_tag('p', form.text_field(:url, :label => :label_cvs_module, :size => 30, :required => true, :disabled => !repository.new_record?))
+      content_tag('p', form.text_field(:url, :label => :label_cvs_module, :size => 30, :required => true, :disabled => !repository.new_record?)) +
+      content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
+                                   :label => 'Commit messages encoding', :required => true))
   end
 
   def bazaar_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => :label_bazaar_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+    content_tag('p', form.text_field(:url, :label => :label_bazaar_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?))) +
+      content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
+                                   :label => 'Commit messages encoding', :required => true))
   end
   
   def filesystem_field_tags(form, repository)

@@ -32,9 +32,13 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Bazaar.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @project = Project.find(3)
+    @repository = Repository::Bazaar.create(
+                    :project => @project, :url => REPOSITORY_PATH,
+                    :log_encoding => 'UTF-8')
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
@@ -43,7 +47,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
     end
-    
+
     def test_browse_root
       get :show, :id => 3
       assert_response :success
@@ -53,7 +57,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'directory' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'doc-mkdir.txt' && e.kind == 'file'}
     end
-    
+
     def test_browse_directory
       get :show, :id => 3, :path => ['directory']
       assert_response :success

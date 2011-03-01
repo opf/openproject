@@ -28,9 +28,11 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   
   def setup
     @project = Project.find(3)
-    assert @repository = Repository::Cvs.create(:project => @project, 
-                                                :root_url => REPOSITORY_PATH,
-                                                :url => MODULE_NAME)
+    @repository = Repository::Cvs.create(:project => @project, 
+                                         :root_url => REPOSITORY_PATH,
+                                         :url => MODULE_NAME,
+                                         :log_encoding => 'UTF-8')
+    assert @repository
   end
   
   if File.directory?(REPOSITORY_PATH)  

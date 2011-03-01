@@ -126,16 +126,19 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_not_equal( comment, changeset.comments )
     assert_equal( 'This is a loooooooooooooooooooooooooooong comment', changeset.comments )
   end
-  
+
   def test_for_urls_strip
-    repository = Repository::Cvs.create(:project => Project.find(4), :url => ' :pserver:login:password@host:/path/to/the/repository',
-                                                                     :root_url => 'foo  ')
+    repository = Repository::Cvs.create(
+        :project => Project.find(4),
+        :url => ' :pserver:login:password@host:/path/to/the/repository',
+        :root_url => 'foo  ',
+        :log_encoding => 'UTF-8')
     assert repository.save
     repository.reload
     assert_equal ':pserver:login:password@host:/path/to/the/repository', repository.url
     assert_equal 'foo', repository.root_url
   end
-  
+
   def test_manual_user_mapping
     assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
       c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')

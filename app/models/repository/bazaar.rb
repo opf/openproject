@@ -19,10 +19,11 @@ require 'redmine/scm/adapters/bazaar_adapter'
 
 class Repository::Bazaar < Repository
   attr_protected :root_url
-  validates_presence_of :url
+  validates_presence_of :url, :log_encoding
 
   ATTRIBUTE_KEY_NAMES = {
       "url"          => "Root directory",
+      "log_encoding" => "Commit messages encoding",
     }
   def self.human_attribute_name(attribute_key_name)
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super

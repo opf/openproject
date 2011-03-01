@@ -191,7 +191,7 @@ class Repository < ActiveRecord::Base
   end
 
   def repo_log_encoding
-    encoding = Setting.commit_logs_encoding.to_s.strip
+    encoding = log_encoding.to_s.strip
     encoding.blank? ? 'UTF-8' : encoding
   end
 

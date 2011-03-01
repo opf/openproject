@@ -19,14 +19,17 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryBazaarTest < ActiveSupport::TestCase
   fixtures :projects
-  
+
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
   REPOSITORY_PATH.gsub!(/\/+/, '/')
 
   def setup
     @project = Project.find(3)
-    assert @repository = Repository::Bazaar.create(:project => @project, :url => "file:///#{REPOSITORY_PATH}")
+    @repository = Repository::Bazaar.create(
+              :project => @project, :url => "file:///#{REPOSITORY_PATH}",
+              :log_encoding => 'UTF-8')
+    assert @repository
   end
 
   if File.directory?(REPOSITORY_PATH)  

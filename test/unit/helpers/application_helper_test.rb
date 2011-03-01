@@ -292,7 +292,9 @@ RAW
       'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
      }
     @project = Project.find(3)
-    r = Repository::Darcs.create!(:project => @project, :url => '/tmp/test/darcs')
+    r = Repository::Darcs.create!(
+            :project => @project, :url => '/tmp/test/darcs',
+            :log_encoding => 'UTF-8')
     assert r
     c = Changeset.new(:repository => r,
                       :committed_on => Time.now,
