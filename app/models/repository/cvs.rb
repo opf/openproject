@@ -21,6 +21,14 @@ require 'digest/sha1'
 class Repository::Cvs < Repository
   validates_presence_of :url, :root_url
 
+  ATTRIBUTE_KEY_NAMES = {
+      "url"          => "CVSROOT",
+      "root_url"     => "Module",
+    }
+  def self.human_attribute_name(attribute_key_name)
+    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+  end
+
   def self.scm_adapter_class
     Redmine::Scm::Adapters::CvsAdapter
   end

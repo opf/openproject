@@ -21,6 +21,13 @@ class Repository::Bazaar < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  ATTRIBUTE_KEY_NAMES = {
+      "url"          => "Root directory",
+    }
+  def self.human_attribute_name(attribute_key_name)
+    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+  end
+
   def self.scm_adapter_class
     Redmine::Scm::Adapters::BazaarAdapter
   end
