@@ -190,11 +190,13 @@ module RepositoriesHelper
   end
   
   def mercurial_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => :label_mercurial_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+      content_tag('p', form.text_field(:url, :label => :label_mercurial_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
+                  '<br />local repository (e.g. /hgrepo, c:\hgrepo)' )
   end
 
   def git_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+      content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
+                  '<br />a bare and local repository (e.g. /gitrepo, c:\gitrepo)')
   end
 
   def cvs_field_tags(form, repository)
