@@ -25,7 +25,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   REPOSITORY_PATH.gsub!(/\/+/, '/')
 
   def setup
-    @project = Project.find(1)
+    @project = Project.find(3)
     assert @repository = Repository::Bazaar.create(:project => @project, :url => "file:///#{REPOSITORY_PATH}")
   end
 
