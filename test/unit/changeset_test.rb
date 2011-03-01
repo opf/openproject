@@ -185,12 +185,12 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [2], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end
-  
+
   def test_text_tag_revision
     c = Changeset.new(:revision => '520')
     assert_equal 'r520', c.text_tag
   end
-  
+
   def test_text_tag_hash
     c = Changeset.new(:scmid => '7234cb2750b63f47bff735edc50a1c0a433c2518', :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
@@ -236,7 +236,7 @@ class ChangesetTest < ActiveSupport::TestCase
       assert( c.save )
       assert_equal "Texte encodé en ISO-8859-1.", c.comments
   end
-  
+
   def test_invalid_utf8_sequences_in_comments_should_be_stripped
       proj = Project.find(3)
       str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
@@ -273,7 +273,6 @@ class ChangesetTest < ActiveSupport::TestCase
       r = Repository::Bazaar.create!(
             :project => proj, :url => '/tmp/test/bazaar',
             :log_encoding => 'ISO-8859-1' )
-      assert r
       assert r
       c = Changeset.new(:repository => r,
                         :committed_on => Time.now,
