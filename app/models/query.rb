@@ -566,9 +566,19 @@ class Query < ActiveRecord::Base
     sql = ''
     case operator
     when "="
-      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      if value.present?
+        sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+      else
+        # empty set of allowed values produces no result
+        sql = "0=1"
+      end
     when "!"
-      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+      if value.present?
+        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+      else
+        # empty set of forbidden values allows all results
+        sql = "1=1"
+      end
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
       sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
