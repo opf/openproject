@@ -19,22 +19,50 @@ Feature: Show meetings
   @javascript
   Scenario: Navigate to a meeting page with an open agenda
       Given the role "user" may have the following rights:
-            | view_meetings          |
+            | view_meetings |
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+        And I should see "No data to display" within ".meeting_agenda"
   
   @javascript
   Scenario: Navigate to a meeting page with a closed agenda
       Given the role "user" may have the following rights:
-            | view_meetings          |
+            | view_meetings |
         And the meeting "Bobs Meeting" has 1 agenda with:
             | locked | true |
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
+        And I should see "No data to display" within ".meeting_minutes"
+
+  @javascript
+  Scenario: Navigate to a meeting page with an open agenda and the permission to edit the agenda
+      Given the role "user" may have the following rights:
+            | view_meetings          |
+            | create_meeting_agendas |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+       Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+        And I should not see "No data to display" within "#meeting_agenda-text"
+        And I should see "Text formatting" within ".meeting_agenda"
+  
+  @javascript
+  Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes
+      Given the role "user" may have the following rights:
+            | view_meetings          |
+            | create_meeting_minutes |
+        And the meeting "Bobs Meeting" has 1 agenda with:
+            | locked | true |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+       Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
+        And I should not see "No data to display" within "#meeting_agenda-text"
+        And I should see "Text formatting" within ".meeting_minutes"
 
   @javascript
   Scenario: Navigate to a meeting page with an open agenda and the permission to edit the minutes

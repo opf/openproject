@@ -7,13 +7,17 @@
   </div>
   <h2><%=l :"label_#{content_type}" %></h2>
   <% if authorize_for(content_type.pluralize, 'update') && content.editable? -%>
-  <div id="edit-<%= content_type %>"<%= " style=\"display:none;\"" if content.text.present? %>>
+  <div id="edit-<%= content_type %>"<%= " style=\"display: none;\"" if content.text.present? && !content.text.empty? %>>
   <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
   <% end -%>
+  <% if !content.text.present? || content.text.empty? -%>
+  <p class="nodata" id="<%= content_type %>-text"<%= " style=\"display: none;\"" if authorize_for(content_type.pluralize, 'update') && content.editable? %>><%= l(:label_no_data) %></p>
+  <% else -%>
   <div class="wiki" id="<%= content_type %>-text">
     <%= textilizable(content.text) %>
   </div>
+  <% end -%>
 </div>
 
 <% content_for :header_tags do %>
