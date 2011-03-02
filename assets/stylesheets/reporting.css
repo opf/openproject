@@ -329,8 +329,10 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .form_controls {
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 11px;
+  line-height: 17px;
+  margin-top: 6px;
+  margin-bottom: 10px;
 }
 
 .buttons .reporting_button:hover {
