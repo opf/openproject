@@ -158,5 +158,8 @@ module Rails
   end
 end
 
+# working around deprecation in RubyGems 1.6
+require 'thread'
+
 # All that for this:
 Rails.boot!
