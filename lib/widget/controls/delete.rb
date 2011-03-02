@@ -1,8 +1,8 @@
 class Widget::Controls::Delete < Widget::Base
   def render
     return "" if @query.new_record?
-    button = link_to l(:button_delete), "#",
-          :class => 'breadcrumb_icon icon-delete',
+    button = link_to content_tag(:span, content_tag(:em, l(:button_delete), :class => "button-icon icon-delete")), "#",
+          :class => 'button secondary',
           :id => 'query-icon-delete',
           :title => l(:button_delete)
     popup = content_tag :div, :id => "delete_form", :class => "button_form" do

@@ -358,8 +358,7 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
-.buttons .apply {
-  background-color: #9a9a9a;
+.buttons .button {
   border: none;
   cursor: pointer;
   margin: 0px;
@@ -371,11 +370,23 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
+.buttons .apply {
+  background-color: #990000;
+}
+
 .buttons .apply:hover {
+  background-color: #CC0000;
+}
+
+.buttons .secondary {
+  background-color: #9a9a9a;
+}
+
+.buttons .secondary:hover {
   background-color: #666666;
 }
 
-.buttons .apply span em {
+.buttons .button span em {
   color: white;
   display: block;
   font-size: 11px;
@@ -384,9 +395,36 @@ td:hover .drill_down, th:hover .drill_down {
   line-height: 17px;
 }
 
-.buttons .apply span {
+.buttons .button span {
   display: inline-block;
-  margin: 0px;
+  margin: 3px;
+}
+
+
+.buttons .button-icon {
+  padding: 3px 5px 0 16px;
+  cursor: pointer;
+  background: no-repeat left center;
+  border-style: none;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.button .icon-save {
+  background-image: url(../images/disk.gif);
+}
+
+.button .icon-save-as {
+  background-image: url(../images/disks.gif);
+}
+
+.button .icon-delete {
+  background-image: url(../images/delete.gif);
+}
+
+.button .icon-clear {
+  background-image: url(../images/remove.gif);
 }
 
 div.button_form {
