@@ -229,7 +229,8 @@ module RepositoriesHelper
   def filesystem_field_tags(form, repository)
     content_tag('p', form.text_field(:url, :label => :label_filesystem_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(:path_encoding, [nil] + Setting::ENCODINGS,
-                                 :label => 'Path encoding'))
+                                 :label => 'Path encoding') +
+                                 '<br />Default: UTF-8')
 
   end
 end
