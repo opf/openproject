@@ -6,6 +6,7 @@ describe "MeetingAgenda" do
     @a = Factory.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end
   
+  # TODO: Test the right user and messages are set in the history
   describe "#lock!" do
     it "locks the agenda" do
       @a.save
@@ -25,7 +26,7 @@ describe "MeetingAgenda" do
     end
   end
   
-  # a meeting agendat is editable when it is not locked
+  # a meeting agenda is editable when it is not locked
   describe "#editable?" do
     it "is editable when not locked" do
       @a.editable?.should be_true

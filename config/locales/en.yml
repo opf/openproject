@@ -21,3 +21,4 @@ en:
   permission_create_meeting_agendas: "Manage agendas"
   permission_create_meeting_minutes: "Manage minutes"
   text_in_hours: "in hours"
+  text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"

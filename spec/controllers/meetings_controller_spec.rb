@@ -27,7 +27,8 @@ describe MeetingsController do
       before(:each) do
         @m = mock_model(Meeting)
         Meeting.stub!(:find).and_return(@m)
-        @m.stub(:project).and_return(@p)
+        @m.stub!(:project).and_return(@p)
+        @m.stub!(:agenda).stub!(:present?).and_return(false)
       end
       describe "html" do
         before(:each) do

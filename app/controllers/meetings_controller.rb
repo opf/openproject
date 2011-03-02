@@ -13,6 +13,7 @@ class MeetingsController < ApplicationController
   end
 
   def show
+    params[:tab] = "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
   end
 
   def create
