@@ -185,7 +185,7 @@ Reporting.Filters = {
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
   narrow_values: function (sources, dependents) {
-    if (sources.size() === 0 || dependents.size === 0) {
+    if (sources.size() === 0 || dependents.size === 0 || dependents.first() === undefined) {
       return;
     }
     var params = "?narrow_values=1&dependent=" + dependents.first();
