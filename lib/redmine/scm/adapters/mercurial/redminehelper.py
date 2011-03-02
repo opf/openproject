@@ -140,7 +140,7 @@ def rhmanifest(ui, repo, path='', **opts):
     ui.write('<rhmanifest>\n')
     ui.write('<repository root="%s">\n' % _u(repo.root))
     try:
-        _manifest(ui, repo, urllib.unquote_plus(path), opts.get('rev'))
+        _manifest(ui, repo, urllib.unquote_plus(path), urllib.unquote_plus(opts.get('rev')))
     finally:
         ui.write('</repository>\n')
         ui.write('</rhmanifest>\n')

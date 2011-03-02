@@ -130,7 +130,7 @@ module Redmine
 
         def entries(path=nil, identifier=nil)
           p1 = scm_iconv(@path_encoding, 'UTF-8', path)
-          manifest = hg('rhmanifest', '-r', hgrev(identifier),
+          manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
                         CGI.escape(without_leading_slash(p1.to_s))) do |io|
             begin
               ActiveSupport::XmlMini.parse(io.read)['rhmanifest']['repository']['manifest']
