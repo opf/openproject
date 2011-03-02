@@ -467,6 +467,7 @@ class QueryTest < ActiveSupport::TestCase
         @group2 = Group.generate!.reload
         @group2.users << @user_in_group2
         
+        @empty_group = Group.generate!.reload
       end
       
       should "search assigned to for users in the group" do
@@ -484,7 +485,6 @@ class QueryTest < ActiveSupport::TestCase
         # Users not in a group
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
-
       end
 
       should "search assigned to any group member (all)" do
@@ -494,7 +494,22 @@ class QueryTest < ActiveSupport::TestCase
         # Only users in a group
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}')"
         assert_find_issues_with_query_is_successful @query
-
+      end
+      
+      should "return no results on empty set" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '=', [@empty_group.id.to_s])
+        
+        assert_query_statement_includes @query, "(0=1)"
+        assert find_issues_with_query(@query).empty?
+      end
+      
+      should "return results on disallowed empty set" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('member_of_group', '!', [@empty_group.id.to_s])
+        
+        assert_query_statement_includes @query, "(1=1)"
+        assert_find_issues_with_query_is_successful @query
       end
     end
 
@@ -507,6 +522,7 @@ class QueryTest < ActiveSupport::TestCase
         
         @manager_role = Role.generate!(:name => 'Manager')
         @developer_role = Role.generate!(:name => 'Developer')
+        @empty_role = Role.generate!(:name => 'Empty')
 
         @project = Project.generate!
         @manager = User.generate!
@@ -538,6 +554,22 @@ class QueryTest < ActiveSupport::TestCase
         @query.add_filter('assigned_to_role', '*', [''])
 
         assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_find_issues_with_query_is_successful @query
+      end
+
+      should "return no results on empty set" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '=', [@empty_role.id.to_s])
+        
+        assert_query_statement_includes @query, "(0=1)"
+        assert find_issues_with_query(@query).empty?
+      end
+      
+      should "return results on disallowed empty set" do
+        @query = Query.new(:name => '_')
+        @query.add_filter('assigned_to_role', '!', [@empty_role.id.to_s])
+        
+        assert_query_statement_includes @query, "(1=1)"
         assert_find_issues_with_query_is_successful @query
       end
     end
