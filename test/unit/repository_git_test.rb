@@ -61,8 +61,18 @@ class RepositoryGitTest < ActiveSupport::TestCase
       # Remove the 3 latest changesets
       @repository.changesets.find(:all, :order => 'committed_on DESC', :limit => 3).each(&:destroy)
       @repository.reload
-      assert_equal 13, @repository.changesets.count
-      
+      cs1 = @repository.changesets
+      assert_equal 13, cs1.count
+
+      rev_a_commit = @repository.changesets.find(:first, :order => 'committed_on DESC')
+      assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.revision
+      # Mon Jul 5 22:34:26 2010 +0200
+      rev_a_committed_on = Time.gm(2010, 7, 5, 20, 34, 26)
+      assert_equal '4f26664364207fa8b1af9f8722647ab2d4ac5d43', rev_a_commit.scmid
+      assert_equal rev_a_committed_on, rev_a_commit.committed_on
+      latest_rev = @repository.latest_changeset
+      assert_equal rev_a_committed_on, latest_rev.committed_on
+
       @repository.fetch_changesets
       assert_equal 16, @repository.changesets.count
     end
