@@ -28,7 +28,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     @repository = Repository::Mercurial.create(:project => @project, :url => REPOSITORY_PATH)
     assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)  
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
@@ -38,7 +38,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    @repository.changesets.find_by_revision('0').comments
     end
-    
+
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 2
@@ -49,7 +49,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       assert_equal 17, @repository.changesets.count
     end
-    
+
     def test_isodatesec
       # Template keyword 'isodatesec' supported in Mercurial 1.0 and higher
       if @repository.scm.class.client_version_above?([1, 0])
