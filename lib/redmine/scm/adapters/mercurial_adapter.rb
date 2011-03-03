@@ -196,7 +196,9 @@ module Redmine
 
           as_ary(log['logentry']).each do |le|
             cpalist = as_ary(le['paths']['path-copied']).map do |e|
-              [e['__content__'], e['copyfrom-path']].map { |s| CGI.unescape(s) }
+              [e['__content__'], e['copyfrom-path']].map do |s|
+                scm_iconv('UTF-8', @path_encoding, CGI.unescape(s))
+              end
             end
             cpmap = Hash[*cpalist.flatten]
 
