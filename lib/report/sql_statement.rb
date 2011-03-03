@@ -30,8 +30,8 @@ class Report::SqlStatement
   # Generates new SqlStatement.
   #
   # @param [String, #to_s] table Table name (or subselect) for from part.
-  def initialize(table, desc = nil)
-    self.desc = desc || "unkown statement from #{caller.first}"
+  def initialize(table, desc = "")
+    self.desc = desc
     from table
   end
 
