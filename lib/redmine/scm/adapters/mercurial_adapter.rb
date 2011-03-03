@@ -210,7 +210,7 @@ module Redmine
             yield Revision.new(:revision => le['revision'],
                                :scmid => le['node'],
                                :author => (le['author']['__content__'] rescue ''),
-                               :time => Time.parse(le['date']['__content__']).localtime,
+                               :time => Time.parse(le['date']['__content__']),
                                :message => le['msg']['__content__'],
                                :paths => paths)
           end
