@@ -45,7 +45,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.table_joins
-      @table_joins ||= []
+      (@table_joins ||= []).clone
     end
 
     def self.table_from(value)
@@ -56,7 +56,7 @@ class Report < ActiveRecord::Base
 
     def self.join_table(*args)
       @last_table = table_from(args.last)
-      table_joins << args
+      (@table_joins ||= []) << args
     end
 
     def self.underscore_name
