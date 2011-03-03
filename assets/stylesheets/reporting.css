@@ -402,7 +402,7 @@ td:hover .drill_down, th:hover .drill_down {
 
 
 .buttons .button-icon {
-  padding: 3px 5px 0 16px;
+  padding: 0px 5px 0 16px;
   cursor: pointer;
   background: no-repeat left center;
   border-style: none;
