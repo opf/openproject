@@ -54,7 +54,7 @@ module Redmine
             # The hg version is expressed either as a
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
-            theversion = hgversion_from_command_line
+            theversion = hgversion_from_command_line.dup
             if theversion.respond_to?(:force_encoding)
               theversion.force_encoding('ASCII-8BIT')
             end

@@ -44,7 +44,7 @@ module Redmine
           end
 
           def svn_binary_version
-            scm_version = scm_version_from_command_line
+            scm_version = scm_version_from_command_line.dup
             if scm_version.respond_to?(:force_encoding)
               scm_version.force_encoding('ASCII-8BIT')
             end

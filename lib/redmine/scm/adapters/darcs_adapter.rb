@@ -43,7 +43,7 @@ module Redmine
           end
 
           def darcs_binary_version
-            darcsversion = darcs_binary_version_from_command_line
+            darcsversion = darcs_binary_version_from_command_line.dup
             if darcsversion.respond_to?(:force_encoding)
               darcsversion.force_encoding('ASCII-8BIT')
             end
