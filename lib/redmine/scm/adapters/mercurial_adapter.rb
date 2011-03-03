@@ -120,8 +120,12 @@ module Redmine
         def summary
           return @summary if @summary 
           hg 'rhsummary' do |io|
+            output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
-              @summary = ActiveSupport::XmlMini.parse(io.read)['rhsummary']
+              @summary = ActiveSupport::XmlMini.parse(output)['rhsummary']
             rescue
             end
           end
@@ -132,8 +136,12 @@ module Redmine
           p1 = scm_iconv(@path_encoding, 'UTF-8', path)
           manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
                         CGI.escape(without_leading_slash(p1.to_s))) do |io|
+            output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
-              ActiveSupport::XmlMini.parse(io.read)['rhmanifest']['repository']['manifest']
+              ActiveSupport::XmlMini.parse(output)['rhmanifest']['repository']['manifest']
             rescue
             end
           end
@@ -175,9 +183,13 @@ module Redmine
           hg_args << '--limit' << options[:limit] if options[:limit]
           hg_args << hgtarget(path) unless path.blank?
           log = hg(*hg_args) do |io|
+            output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               # Mercurial < 1.5 does not support footer template for '</log>'
-              ActiveSupport::XmlMini.parse("#{io.read}</log>")['log']
+              ActiveSupport::XmlMini.parse("#{output}</log>")['log']
             rescue
             end
           end

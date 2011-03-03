@@ -65,6 +65,9 @@ module Redmine
           info = nil
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               #root_url = doc.elements["info/entry/repository/root"].text          
@@ -94,6 +97,9 @@ module Redmine
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['lists']['list'], 'entry') do |entry|
@@ -134,6 +140,9 @@ module Redmine
           properties = {}
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
@@ -158,6 +167,9 @@ module Redmine
           cmd << ' ' + target(path)
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['log'], 'logentry') do |logentry|
