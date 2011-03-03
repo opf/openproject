@@ -185,7 +185,7 @@ Reporting.Filters = {
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
   narrow_values: function (sources, dependents) {
-    if (sources.size() === 0 || dependents.size === 0) {
+    if (sources.size() === 0 || dependents.size === 0 || dependents.first() === undefined) {
       return;
     }
     var params = "?narrow_values=1&dependent=" + dependents.first();
@@ -206,11 +206,14 @@ Reporting.Filters = {
                 return sel.value;
               }
             }).compact();
-            var newOptions = response.responseJSON.inject("", function (str, o) {
+            // remove old values
+            $(selectBox).childElements().each(function(o){o.remove();});
+            // insert new values
+            response.responseJSON.each(function(o){
               var value = (o === null ? "" : o);
-              return str + '<option value="' + value + '">' + value.escapeHTML() + '</option>';
+              // cannot use .innerhtml due to IE wierdness
+              $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
             });
-            selectBox.innerHTML = newOptions;
             selected.each(function (val) {
               var opt = selectBox.select("option[value='" + val + "']");
               if (opt.size() === 1) {
