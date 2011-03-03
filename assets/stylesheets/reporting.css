@@ -57,7 +57,10 @@
   background-color: #e8e8e8 !important;
 }
 
-.report tr:hover .inner {
+.report tr:hover .inner, 
+.report tr:hover .bottom, 
+.report tr:hover .empty, 
+.report tr:hover .right {
   background-color: #f5f5c5 !important;
 }
 
