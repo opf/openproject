@@ -171,7 +171,7 @@ tr.message.sticky td.subject { background: url(../images/bullet_go.png) no-repea
 tr.version.closed, tr.version.closed a { color: #999; }
 tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
-tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; }
+tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 tr.user td { width:13%; }
 tr.user td.email { width:18%; }
