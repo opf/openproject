@@ -212,6 +212,46 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets(path, nil)
       assert_equal %w|13 12 9|, changesets.collect(&:revision)
     end
+
+    def test_previous
+      @repository.fetch_changesets
+      @repository.reload
+      %w|26 3ae45e2d177d 3ae4|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        %w|25 afc61e85bde7 afc6|.each do |r2|
+          assert_equal @repository.find_changeset_by_name(r2), changeset.previous
+        end
+      end
+    end
+
+    def test_previous_nil
+      @repository.fetch_changesets
+      @repository.reload
+      %w|0 0885933ad4f6 0885|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        assert_nil changeset.previous
+      end
+    end
+
+    def test_next
+      @repository.fetch_changesets
+      @repository.reload
+      %w|25 afc61e85bde7 afc6|.each do |r2|
+        changeset = @repository.find_changeset_by_name(r2)
+        %w|26 3ae45e2d177d 3ae4|.each do |r1|
+        assert_equal @repository.find_changeset_by_name(r1), changeset.next
+        end
+      end
+    end
+
+    def test_next_nil
+      @repository.fetch_changesets
+      @repository.reload
+      %w|26 3ae45e2d177d 3ae4|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        assert_nil changeset.next
+      end
+    end
   else
     puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
