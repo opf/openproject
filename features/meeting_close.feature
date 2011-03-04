@@ -25,6 +25,18 @@ Feature: Close and open meeting agendas
         And I click on "Bobs Meeting"
         And I click on "Agenda"
        Then I should not see "Close" within ".meeting_agenda"
+       
+  @javascript
+  Scenario: Navigate to a meeting page with permission to close the meeting agenda and go to the minutes
+      Given the role "user" may have the following rights:
+            | view_meetings         |
+            | close_meeting_agendas |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+        And I click on "Minutes"
+       Then I should not see "Edit" within ".meeting_minutes"
+        And I should see "Close the agenda to begin the Minutes" within ".meeting_minutes"
 
   @javascript
   Scenario: Navigate to a meeting page with permission to close and close the meeting agenda
