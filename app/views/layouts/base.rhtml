@@ -29,10 +29,11 @@
         <%= render_menu :account_menu -%>
     </div>
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
-    <%= render_menu :top_menu -%>
+    <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
       
 <div id="header">
+    <% if User.current.logged? || !Setting.login_required? %>
     <div id="quick-search">
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
@@ -41,6 +42,7 @@
         <% end %>
         <%= render_project_jump_box %>
     </div>
+    <% end %>
     
     <h1><%= page_header_title %></h1>
     
