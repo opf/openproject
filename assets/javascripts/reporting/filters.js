@@ -219,9 +219,11 @@ Reporting.Filters = {
               }
             }).compact();
             // remove old values
-            $(selectBox).childElements().each(function(o){o.remove();});
+            $(selectBox).childElements().each(function (o) {
+              o.remove();
+            });
             // insert new values
-            response.responseJSON.each(function(o){
+            response.responseJSON.each(function (o) {
               var value = (o === null ? "" : o);
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
