@@ -37,8 +37,8 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      assert_equal 25, @repository.changesets.count
-      assert_equal 32, @repository.changes.count
+      assert_equal 27, @repository.changesets.count
+      assert_equal 34, @repository.changes.count
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    @repository.changesets.find_by_revision('0').comments
     end
@@ -51,7 +51,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 3, @repository.changesets.count
       
       @repository.fetch_changesets
-      assert_equal 25, @repository.changesets.count
+      assert_equal 27, @repository.changesets.count
     end
 
     def test_isodatesec
@@ -174,7 +174,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @repository.reload
       changesets = @repository.latest_changesets('README', nil)
-      assert_equal %w|17 8 6 1 0|, changesets.collect(&:revision)
+      assert_equal %w|26 17 8 6 1 0|, changesets.collect(&:revision)
 
       path = 'sql_escape/percent%dir/percent%file1.txt'
       changesets = @repository.latest_changesets(path, nil)

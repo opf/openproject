@@ -58,8 +58,8 @@ begin
           adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
           repo_path =  adp.info.root_url.gsub(/\\/, "/")
           assert_equal REPOSITORY_PATH, repo_path
-          assert_equal '24', adp.info.lastrev.revision
-          assert_equal '4cddb4e45f52',adp.info.lastrev.scmid
+          assert_equal '26', adp.info.lastrev.revision
+          assert_equal '3ae45e2d177d',adp.info.lastrev.scmid
         end
       end
 
@@ -241,18 +241,22 @@ begin
       end
 
       def test_branches
-        assert_equal ['default', @branch_char_1,
-                      'test_branch.latin-1', 'branch (1)[2]&,%.-3_4', 'test-branch-00'],
-                  @adapter.branches
+        assert_equal [
+            'default',
+            'branch (1)[2]&,%.-3_4',
+            @branch_char_1,
+            'test_branch.latin-1',
+            'test-branch-00',
+          ], @adapter.branches
       end
 
       def test_branchmap
         bm = {
-           'default'               => '4cddb4e45f52',
-           @branch_char_1          => 'c8d3e4887474',
+           'default'               => '3ae45e2d177d',
            'test_branch.latin-1'   => 'c2ffe7da686a',
-           'branch (1)[2]&,%.-3_4' => '933ca60293d7',
-           'test-branch-00'        => '3a330eb32958'
+           'branch (1)[2]&,%.-3_4' => 'afc61e85bde7',
+           'test-branch-00'        => '3a330eb32958',
+           @branch_char_1          => 'c8d3e4887474',
          }
         assert_equal bm, @adapter.branchmap
       end
