@@ -23,6 +23,8 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
+  CHAR_1_HEX = "\xc3\x9c"
+
   def setup
     @project = Project.find(3)
     @repository = Repository::Mercurial.create(
@@ -31,6 +33,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
                       :path_encoding => 'ISO-8859-1'
                       )
     assert @repository
+    @char_1        = CHAR_1_HEX.dup
+    if @char_1.respond_to?(:force_encoding)
+      @char_1.force_encoding('UTF-8')
+    end
   end
 
   if File.directory?(REPOSITORY_PATH)  
@@ -115,6 +121,13 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'A', c2[0].action
       assert_equal '/README (1)[2]&,%.-3_4', c2[0].path
       assert_equal '/README', c2[0].from_path
+
+      cs3 = @repository.changesets.find_by_revision('19')
+      c3  = cs3.changes
+      assert_equal 1, c3.size
+      assert_equal 'A', c3[0].action
+      assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path
+      assert_equal "/latin-1-dir/test-#{@char_1}.txt",    c3[0].from_path
     end
 
     def test_find_changeset_by_name
