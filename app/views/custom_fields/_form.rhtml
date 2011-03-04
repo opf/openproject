@@ -61,7 +61,6 @@ function toggle_custom_field_format() {
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
 <p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
 <p id="custom_field_possible_values"><%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"),
-																																			 :cols => 20,
 																																			 :rows => 15 %>
 <br /><em><%= l(:text_custom_field_possible_values_info) %></em></p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
