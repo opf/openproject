@@ -5,6 +5,6 @@ class MeetingMinutes < MeetingContent
   
   def after_initialize
     # set defaults
-    self.text = meeting.agenda.text if meeting.agenda.present?
+    self.text ||= meeting.agenda.text if meeting.agenda.present?
   end
 end

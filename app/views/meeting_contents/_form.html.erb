@@ -4,7 +4,7 @@
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label for="<%= content_type %>_comment"><%= l(:field_comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %> <%= link_to l(:button_cancel), "#", :onclick => "Element.show(\"#{content_type}-text\"); Element.hide(\"edit-#{content_type}\"); return false;" %></p>
+<p><%= submit_tag l(:button_save) %> <%= link_to l(:button_cancel), "#", :onclick => "Element.show(\"#{content_type}-text\"); if ($(\"close-#{content_type}-link\")) {Element.show(\"close-#{content_type}-link\")}; Element.hide(\"edit-#{content_type}\"); return false;" %></p>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>
 
