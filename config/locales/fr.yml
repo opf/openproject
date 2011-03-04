@@ -539,6 +539,7 @@ fr:
   label_news_latest: Dernières annonces
   label_news_view_all: Voir toutes les annonces
   label_news_added: Annonce ajoutée
+  label_news_comment_added: Commentaire ajouté à une annonce
   label_settings: Configuration
   label_overview: Aperçu
   label_version: Version

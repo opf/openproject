@@ -537,6 +537,7 @@ en:
   label_news_latest: Latest news
   label_news_view_all: View all news
   label_news_added: News added
+  label_news_comment_added: Comment added to a news
   label_settings: Settings
   label_overview: Overview
   label_version: Version

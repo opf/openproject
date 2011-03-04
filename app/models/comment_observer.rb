@@ -15,17 +15,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../test_helper', __FILE__)
-
-class Redmine::NotifiableTest < ActiveSupport::TestCase
-  def setup
-  end
-
-  def test_all
-    assert_equal 12, Redmine::Notifiable.all.length
-
-    %w(issue_added issue_updated issue_note_added issue_status_updated issue_priority_updated news_added news_comment_added document_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
-      assert Redmine::Notifiable.all.collect(&:name).include?(notifiable), "missing #{notifiable}"
+class CommentObserver < ActiveRecord::Observer
+  def after_create(comment)
+    if comment.commented.is_a?(News) && Setting.notified_events.include?('news_comment_added')
+      Mailer.deliver_news_comment_added(comment)
     end
   end
 end

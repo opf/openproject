@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,6 +24,8 @@ class NewsController < ApplicationController
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
+  
+  helper :watchers
   
   def index
     case params[:format]

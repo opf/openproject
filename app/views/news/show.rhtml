@@ -1,4 +1,5 @@
 <div class="contextual">
+<%= watcher_tag(@news, User.current) %>
 <%= link_to(l(:button_edit), 
       edit_news_path(@news),
       :class => 'icon icon-edit',

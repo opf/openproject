@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -153,6 +153,24 @@ class Mailer < ActionMailer::Base
     body :news => news,
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
     render_multipart('news_added', body)
+  end
+  
+  # Builds a tmail object used to email recipients of a news' project when a news comment is added.
+  #
+  # Example:
+  #   news_comment_added(comment) => tmail object
+  #   Mailer.news_comment_added(comment) => sends an email to the news' project recipients
+  def news_comment_added(comment)
+    news = comment.commented
+    redmine_headers 'Project' => news.project.identifier
+    message_id comment
+    recipients news.recipients
+    cc news.watcher_recipients
+    subject "Re: [#{news.project.name}] #{l(:label_news)}: #{news.title}"
+    body :news => news,
+         :comment => comment,
+         :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
+    render_multipart('news_comment_added', body)
   end
 
   # Builds a tmail object used to email the recipients of the specified message that was posted. 
