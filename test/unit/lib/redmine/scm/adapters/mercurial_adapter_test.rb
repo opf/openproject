@@ -10,10 +10,19 @@ begin
 
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
+    CHAR_1_HEX = "\xc3\x9c"
+
     if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(REPOSITORY_PATH)
         @diff_c_support = true
+
+        @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
+        @branch_char_1 = "branch-#{CHAR_1_HEX}-00"
+        if @tag_char_1.respond_to?(:force_encoding)
+          @tag_char_1.force_encoding('UTF-8')
+          @branch_char_1.force_encoding('UTF-8')
+        end
       end
 
       def test_hgversion
@@ -49,7 +58,7 @@ begin
           adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
           repo_path =  adp.info.root_url.gsub(/\\/, "/")
           assert_equal REPOSITORY_PATH, repo_path
-          assert_equal '16', adp.info.lastrev.revision
+          assert_equal '24', adp.info.lastrev.revision
           assert_equal '4cddb4e45f52',adp.info.lastrev.scmid
         end
       end
@@ -97,7 +106,7 @@ begin
 
       def test_diff_made_by_revision
         if @diff_c_support
-          [16, '16', '4cddb4e45f52'].each do |r1|
+          [24, '24', '4cddb4e45f52'].each do |r1|
             diff1 = @adapter.diff(nil, r1)
             assert_equal 5, diff1.size
             buf = diff1[4].gsub(/\r\n|\r|\n/, "")
@@ -219,24 +228,32 @@ begin
       end
 
       def test_tags
-        assert_equal ['tag_test.00', 'tag-init-revision'], @adapter.tags
+        assert_equal [@tag_char_1, 'tag_test.00', 'tag-init-revision'], @adapter.tags
       end
 
       def test_tagmap
-        tm = { 'tag_test.00'       => '6987191f453a',
-               'tag-init-revision' => '0885933ad4f6' }
+        tm = { 
+          @tag_char_1         => 'adf805632193',
+          'tag_test.00'       => '6987191f453a',
+          'tag-init-revision' => '0885933ad4f6',
+          }
         assert_equal tm, @adapter.tagmap
       end
 
       def test_branches
-        assert_equal ['default', 'branch (1)[2]&,%.-3_4', 'test-branch-00'],
-                     @adapter.branches
+        assert_equal ['default', @branch_char_1,
+                      'test_branch.latin-1', 'branch (1)[2]&,%.-3_4', 'test-branch-00'],
+                  @adapter.branches
       end
 
       def test_branchmap
-        bm = { 'default'               => '4cddb4e45f52',
-               'branch (1)[2]&,%.-3_4' => '933ca60293d7',
-               'test-branch-00'        => '3a330eb32958' }
+        bm = {
+           'default'               => '4cddb4e45f52',
+           @branch_char_1          => 'c8d3e4887474',
+           'test_branch.latin-1'   => 'c2ffe7da686a',
+           'branch (1)[2]&,%.-3_4' => '933ca60293d7',
+           'test-branch-00'        => '3a330eb32958'
+         }
         assert_equal bm, @adapter.branchmap
       end
 
