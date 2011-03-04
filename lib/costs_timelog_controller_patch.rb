@@ -11,7 +11,7 @@ module CostsTimelogControllerPatch
         alias_method_chain :details, :reports_view
       else
         # in chiliproject details was renamed to index
-        alias :details_without_report_view :index
+        alias :details_without_reports_view :index
         alias :index :details_with_reports_view
       end
     end
