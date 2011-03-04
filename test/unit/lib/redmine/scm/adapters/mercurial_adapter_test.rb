@@ -261,6 +261,18 @@ begin
         assert_equal bm, @adapter.branchmap
       end
 
+      def test_path_space
+        p = 'README (1)[2]&,%.-3_4'
+        [15, '933ca60293d7'].each do |r1|
+          assert @adapter.diff(p, r1)
+          assert @adapter.cat(p, r1)
+          assert_equal 1, @adapter.annotate(p, r1).lines.length
+          [25, 'afc61e85bde7'].each do |r2|
+            assert @adapter.diff(p, r1, r2)
+          end      
+        end      
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
