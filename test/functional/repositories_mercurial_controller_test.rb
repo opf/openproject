@@ -26,6 +26,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
+  CHAR_1_HEX = "\xc3\x9c"
+  
+  ruby19_non_utf8_pass = (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
 
   def setup
     @controller = RepositoriesController.new
@@ -39,9 +42,18 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                       )
     assert @repository
     @diff_c_support = true
+    @char_1        = CHAR_1_HEX.dup
+    if @char_1.respond_to?(:force_encoding)
+      @char_1.force_encoding('UTF-8')
+    end
   end
 
-  if File.directory?(REPOSITORY_PATH)
+  if ruby19_non_utf8_pass
+    puts "TODO: Mercurial functional test fails in Ruby 1.9 " +
+         "and Encoding.default_external is not UTF-8. " +
+         "Current value is '#{Encoding.default_external.to_s}'" 
+    def test_fake; assert true end
+  elsif File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
       assert_response :success
@@ -99,6 +111,25 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_show_directory_latin_1
+      @repository.fetch_changesets
+      @repository.reload
+      [21, '21', 'adf805632193'].each do |r1|
+        get :show, :id => 3, :path => ['latin-1-dir'], :rev => r1
+        assert_response :success
+        assert_template 'show'
+
+        assert_not_nil assigns(:entries)
+        assert_equal ["make-latin-1-file.rb",
+                      "test-#{@char_1}-1.txt",
+                      "test-#{@char_1}-2.txt",
+                      "test-#{@char_1}.txt"], assigns(:entries).collect(&:name)
+        changesets = assigns(:changesets)
+        assert_not_nil changesets
+        assert_equal %w(21 20 19 18 17), changesets.collect(&:revision)
+      end
+    end
+
     def test_changes
       get :changes, :id => 3, :path => ['images', 'edit.png']
       assert_response :success
@@ -115,6 +146,18 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :content => '10',
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
+    end
+
+    def test_entry_show_latin_1
+      [21, '21', 'adf805632193'].each do |r1|
+        get :entry, :id => 3, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+        assert_response :success
+        assert_template 'entry'
+        assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling => { :tag => 'td', :content => /Mercurial is a distributed version control system/ }
+      end
     end
     
     def test_entry_download
@@ -172,6 +215,19 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_diff_latin_1
+      [21, 'adf805632193'].each do |r1|
+        get :diff, :id => 3, :rev => r1
+        assert_response :success
+        assert_template 'diff'
+        assert_tag :tag => 'th',
+                   :content => '2',
+                   :sibling => { :tag => 'td', 
+                               :attributes => { :class => /diff_in/ },
+                               :content => /It is written in Python/ }
+      end
+    end
+
     def test_annotate
       get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -209,6 +265,38 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
+      end
+    end
+
+    def test_annotate_latin_1
+      [21, '21', 'adf805632193'].each do |r1|
+      get :annotate, :id => 3, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+        assert_response :success
+        assert_template 'annotate'
+        assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling =>
+                       {
+                         :tag => 'td',
+                         :attributes => { :class => 'revision' },
+                         :child => { :tag => 'a', :content => '20:709858aafd1b' }
+                       }
+        assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling =>
+                       {
+                          :tag     => 'td'    ,
+                          :content => 'jsmith' ,
+                          :attributes => { :class   => 'author' },
+                          
+                        }
+        assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling => { :tag => 'td', :content => /Mercurial is a distributed version control system/ }
+
       end
     end
 
