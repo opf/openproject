@@ -21,7 +21,7 @@ describe Issue do
   it "should update cost entries on move" do
     @example.project_id.should eql 1
     
-    @example.move_to(projects(:projects_002)).should_not be_false
+    @example.move_to_project(projects(:projects_002)).should_not be_false
     CostEntry.find(1).project_id.should eql 2
   end
   
