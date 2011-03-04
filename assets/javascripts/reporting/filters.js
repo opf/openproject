@@ -43,11 +43,13 @@ Reporting.Filters = {
     }
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
-      var last_filter = Reporting.Filters.last_visible_filter();
-      if (last_filter !== undefined) {
+      if (options.insert_after === undefined) {
+        options.insert_after = Reporting.Filters.last_visible_filter();
+      }
+      if (options.insert_after !== undefined) {
         // Move the filter down to appear after the last currently visible filter
         field_el.remove();
-        last_filter.insert({after: field_el});
+        options.insert_after.insert({after: field_el});
       }
       // the following command might be included into the callback_function (which is called after the ajax request) later
       var display_functor;
@@ -178,10 +180,14 @@ Reporting.Filters = {
     var dependents = Reporting.Filters.get_dependents(this);
     var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
-      Reporting.Filters.show_filter(dependents.first(), { slowly: true });
+      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(this.up(".filter")) });
       // change operator to any-operator to avoid unintended filterin
       $('operators[' + dependents.first() + ']').value = 'any';
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
+      // Hide remove box of dependent
+      $('rm_' + dependents.first()).hide();
+      $('tr_' + dependents.first()).addClassName("no-border");
+      // Remove border of dependent, so it "merges" with the filter before
       active_filters.unshift(dependents.first());
     }
     var source = this.getAttribute("data-filter-name");

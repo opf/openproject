@@ -218,6 +218,10 @@ fieldset#filter-settings table td {
   vertical-align: middle;
 }
 
+fieldset#filter-settings table .no-border td {
+  border-style: none !important;
+}
+
 fieldset#filter-settings table td > label {
   left: 3px;
   top: 3px;
