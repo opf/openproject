@@ -43,6 +43,12 @@ Reporting.Filters = {
     }
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
+      var last_filter = Reporting.Filters.last_visible_filter();
+      if (last_filter !== undefined) {
+        // Move the filter down to appear after the last currently visible filter
+        field_el.remove();
+        last_filter.insert({after: field_el});
+      }
       // the following command might be included into the callback_function (which is called after the ajax request) later
       var display_functor;
       if (options.show_filter) {
@@ -57,6 +63,12 @@ Reporting.Filters = {
       Reporting.Filters.operator_changed(field, $("operators[" + field + "]"));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
+  },
+
+  last_visible_filter: function () {
+    return $($$('.filter')).reverse().detect(function (f) {
+      return f.visible();
+    });
   },
 
   /* Display the given category if any of its filters are visible. Otherwise hide it */
