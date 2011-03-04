@@ -71,33 +71,39 @@ module CostsUserPatch
     # action can be:
     # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
     # * a permission Symbol (eg. :edit_project)
-    def allowed_to_with_inheritance?(action, project, options={})
+    def allowed_to_with_inheritance?(action, context, options={})
       allowed_for_role = Proc.new do |role, users|
-        self.allowed_for_role(action, project, role, users, options)
+        self.allowed_for_role(action, context, role, users, options)
       end
 
       options[:for] = self unless options.has_key?(:for)
 
-      if project
+      if context && context.is_a?(Project)
         # No action allowed on archived projects
-        return false unless project.active?
-
+        return false unless context.active?
         # No action allowed on disabled modules
-        return false unless project.allows_to?(action)
-
+        return false unless context.allows_to?(action)
         # Admin users are authorized for anything else
         return true if admin?
-
-        roles = granular_roles_for_project(project)
+        
+        roles = granular_roles_for_project(context)
         return false unless roles
         allowing_role_pair = roles.detect do |role, users|
-          if (project.is_public? || role.member?)
+          if (context.is_public? || role.member?)
             allowed_for_role.call(role, users)
           else
             false
           end
         end
         allowing_role_pair ? allowing_role_pair[0] : allowing_role_pair #the role
+      elsif context && context.is_a?(Array)
+        # Authorize if user is authorized on every element of the array
+        context.map do |project|
+          allowed_to?(action, project, options)
+        end.inject do |memo,allowed|
+          memo && allowed
+        end
+
       elsif options[:global]
         # Admin users are always authorized
         return true if admin?
