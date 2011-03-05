@@ -10,15 +10,14 @@
   <%= avatar(@meeting.author, :size => "64") %>
   <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
   <div class="splitcontentleft">
-  <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
-  <p><strong><%= l(:field_start_time) %></strong>: <%= format_time @meeting.start_time %></p>
-  <p><strong><%= l(:field_participants_attended) %></strong>: <%=h @meeting.participants.attended.join(", ") %></p>
+  <p><strong><%= l(:field_start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></p>
   </div>
   <div class="splitcontentright">
-  <p><strong><%= l(:field_duration) %></strong>: <%= l_hours(@meeting.duration) %></p>
-  <p><strong><%= l(:field_participants_invited) %></strong>: <%=h @meeting.participants.invited.join(", ") %></p>
+  <p><strong><%= l(:field_location) %></strong>: <%=h @meeting.location %></p>
   </div>
   <div style="clear:both;"> </div>
+  <p><strong><%= l(:field_participants_invited) %></strong>: <%=h @meeting.participants.invited.sort.join(", ") %></p>
+  <p><strong><%= l(:field_participants_attended) %></strong>: <%=h @meeting.participants.attended.sort.join(", ") %></p>
 </div>
 
 <%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @meeting.agenda || @meeting.build_agenda, :content_type => "meeting_agenda"}, {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/show', :label => :label_meeting_minutes, :content => @meeting.minutes || @meeting.build_minutes, :content_type => "meeting_minutes"}] %>

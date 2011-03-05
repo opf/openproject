@@ -11,5 +11,9 @@ class MeetingParticipant < ActiveRecord::Base
     user.present? ? user.name : self.name
   end
   
+  def <=>(participant)
+    self.to_s.downcase <=> participant.to_s.downcase
+  end
+  
   alias :to_s :name
 end
