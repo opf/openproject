@@ -21,6 +21,12 @@ class MeetingContent < ActiveRecord::Base
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
   
+  protected
+  
+  def after_initialize
+    self.comment = nil
+  end
+  
   class Version
     unloadable
     

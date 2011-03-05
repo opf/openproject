@@ -43,6 +43,8 @@ Feature: Close and open meeting agendas
       Given the role "user" may have the following rights:
             | view_meetings         |
             | close_meeting_agendas |
+        And the meeting "Bobs Meeting" has 1 agenda with:
+            | text | "blubber" |
        When I login as "alice"
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
