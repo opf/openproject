@@ -1,0 +1,5 @@
+
+#context-menu ul { background:#F4F4F4 none repeat scroll 0 0;}
+#context-menu a { border: none; }
+#context-menu li a:hover { border: none; background-color:#f4f4f4; color:#333333; }
+#context-menu li.folder a:hover { background-color:#f4f4f4; }	

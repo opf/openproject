@@ -1,0 +1,21 @@
+/* Reset some Redmine styles */
+
+.tabular p { height: auto; }
+#query_form_content { padding: 0; border: none; }
+#account { float:none; }
+#top-menu { padding: 0; }
+#top-menu a { margin-right: 0px; }
+#wrapper { background: none; }
+#main {background:#f3f3f3;}
+#main-menu { bottom: auto; }
+#main-menu li { float: none; margin: 0;}
+#main-menu li a { font-weight:normal; background: none; color: #222222; text-decoration: none; padding: 0 0 0 24px}
+#main-menu li a:hover { background: none; color: #222222; text-decoration: none; }
+ul.projects ul {border: none; }
+
+#sidebar { float:none; min-height: 0px; width: 100%; position: static; }
+#main-menu .calendar {border: none; cursor: pointer; font-family:'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;}
+
+
+/* Reset Questions */
+div.question { background: none; border: none; margin-bottom: 15px; padding: 0;}

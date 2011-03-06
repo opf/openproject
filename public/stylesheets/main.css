@@ -1,0 +1,1755 @@
+/**
+ * ToC
+ * 00 - Base Typography
+ * 01 - Header
+ * 02 - Main Menu
+ * 03 - Main Content
+ * 04 - Issue Tables
+ * 05 - Single Issue Page
+ * 06 - Projects Page
+ * 07 - Behavior Styles
+ * 08 - Reusable classes
+ * 09 - New Issue Form 
+ * 10 - Plugins and misc
+ * 11 - Appended from staging
+*/
+
+/*-------------------------------------------------------------------------------
+ * =00 - Base Typography
+ *
+ * This section includes the typography base for the body and heading elements.
+ ------------------------------------------------------------------------------*/
+
+body {
+	font: normal normal normal 12px/1.5 'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;
+	background:#f3f3f3;
+	color:#333;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight:bold;
+}
+h1 {
+	font-size:21px;
+}
+h2 {
+	font-size:18px;
+}
+h3 {
+	font-size:16px;
+	font-weight:normal;
+	margin-bottom:16px;
+}
+h4 {
+	font-size:14px;
+	margin-bottom:16px;
+}
+h5 {
+	font-size:12px;
+	text-transform: uppercase;
+	margin-bottom:18px;
+}
+a {
+	color:#226D81;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+
+/*-------------------------------------------------------------------------------
+ * =01 - Header
+ *
+ * This section includes the site logo, main navigation background, and styles 
+ * the header and navigation links.
+ ------------------------------------------------------------------------------*/
+
+
+#top-menu {
+	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom;
+	height: 88px;
+	position:relative;
+}
+#top-menu.open { /*IE 6-7 z-index stacking issue*/
+	z-index:5;
+}
+#account {
+	background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px;
+	height:67px;
+	border-bottom:1px solid #fff;
+}
+#account ul {
+	float:right;
+	color:#90C0D1;
+	font-size:11px;
+	background:#277D94;
+	border:1px solid #444;
+	border-top:0;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	height:22px;
+}
+#account ul#account-info {
+	margin-right:15px;
+}
+#account ul#account-nav {
+	margin-right:6px;
+}
+#account li {
+	float:left;
+	border-left:1px solid #444;
+	padding:2px 9px 3px;	
+	position:relative;
+	z-index:5;
+}
+#account li:first-child {
+	border:0;
+}
+#account li a {
+	text-decoration:none;
+	color:#fff;
+	height:17px;
+}
+#account li.drop-down a {
+	background:url(../images/arrow-down-white.png) no-repeat right center;
+	padding-right:24px;
+}
+#account-nav li{
+	padding:0;
+}
+#account-nav li a {
+	display:block;
+	padding:2px 9px 3px;
+}
+#account .search {
+	text-indent:-9999em;
+	width:17px;
+	background-image:url(../images/search.png);
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+#account li.open a {
+	background-color:#277D94;
+	position:relative;
+	top:1px;
+	z-index:21;
+}
+#account li ul {
+	display:none;
+	position:absolute;
+	border-top:1px solid #555;
+	top:22px;
+	height:auto;
+	left:-1px;
+	z-index:20;
+	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	box-shadow:1px 1px 3px rgba(0,0,0,.3);
+}
+#account li li {
+	float:none;
+	white-space:nowrap;
+	border-style:solid;
+	border-width:1px 0;
+	border-color:#5D9DAE #fff #1D5D6E;
+}
+#account li li:first-child {
+	border-bottom:1px solid #1D5D6E;
+}
+#account li li:last-child {
+	border-bottom:0;
+}
+#account li.drop-down li a {
+	padding:5px 9px;
+	background:none;
+	position:static;
+}
+#account-nav li a:hover, #account li li a:hover {
+	background-color:#2791AD;
+}
+#nav-search {
+	display:none;
+	position:absolute;
+	right:-1px;
+	top:23px;
+	background:#30849c url(../images/search-gradient.png) repeat-x left top;
+	border:1px solid #194E60;
+	border-top:0;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+#nav-search input 	{
+	margin:5px 5px;
+	width:94%;
+}
+
+/*-------------------------------------------------------------------------------
+ * =02 - Main Menu
+ *
+ * This section includes the layout and styles for the left navigation column.
+ ------------------------------------------------------------------------------*/
+
+#main-menu {
+	width:185px;
+	position:absolute;
+	margin:10px 0 0;
+	left:0;
+}
+#main-menu ul {
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #fff;
+}
+#main-menu ul ul {
+	border-top:2px solid #aaa;
+	border-bottom-color:#ddd;
+	background-color:#eee;
+	font-size:11px;
+	display:none;
+}
+#main-menu ul ul.menu-children.unattached {
+	border-top:1px solid #ddd;
+}
+#main-menu ul ul ul {
+	position:absolute;
+	left:185px;
+	z-index:20;
+	width:100%;
+	top:0;
+	border:1px solid #AFAFAF;
+	background:#f3f3f3;
+}
+#main-menu li {
+	border-top:1px solid #fff;
+	border-bottom:1px solid #ddd;
+	position:relative;
+}
+#main-menu li li {
+	border:0;
+}
+#main-menu li li li {
+	padding:0;
+	width:100%;
+	border-bottom:1px solid #DDDDDD;
+	border-top:1px solid #FFFFFF;
+}
+#main-menu li li li:first-child {
+	border-top:0;
+}
+#main-menu a {
+	color:#222;
+	text-decoration:none;
+	line-height:2.5;
+	padding-left:24px;
+	display:block;
+	position:relative;
+}
+#main-menu a.selected {
+	background-color:#fff;
+}
+#main-menu li li a {
+	padding-left:34px;
+}
+#main-menu li li.current a {
+	font-weight:bold;
+}
+#main-menu li li a span {
+	font-weight:normal;
+	color:#999;
+	float:right;
+	padding-right:9px;
+}
+#main-menu li li li a span {
+	padding:0;
+}
+#main-menu a:hover, #main-menu a.open:hover, #main-menu li a.selected:hover {
+	background-color:#fafafa !important;
+}
+#main-menu .toggler {
+	display:block;
+	position:absolute;
+	right:6px;
+	top:10px;
+	background:url(../images/arrow-right.png) no-repeat left top;
+	width:9px;
+	height:9px;
+}
+#main-menu .open .toggler {
+	background-image:url(../images/arrow-down.png);
+}
+#main-menu li li .toggler {
+	display:none;
+}
+#main-menu li li li a {
+	padding:0 12px;
+}
+#main-menu li li ul.profile-box li {
+	padding:6px 12px;
+}
+#main-menu li li ul.profile-box li a {
+	display:inline;
+	padding:0;
+	color:#226D81;
+	line-height:1.5;
+}
+#main-menu li li ul.profile-box li a:hover {
+	background-color:transparent;
+	text-decoration:underline;
+}
+
+#sidebar { padding-left: 24px; }
+#main-menu #sidebar a { display: inline; }
+/* Mimic ".icon .icon-time" */
+#main-menu li a.time-details, #main-menu li a.billable-time-details, #main-menu li a.overhead-time-details { background-image:url(../../../images/time.png); background-position:30px 40%; background-repeat:no-repeat; padding-left:50px; }
+
+#main-menu p.password { font-weight: bold; margin: 25px 0; }
+
+
+
+/*-------------------------------------------------------------------------------
+ * =03 - Main Content
+ *
+ * This section includes the layout and styles for the main content area.
+ ------------------------------------------------------------------------------*/
+h1.title {
+	margin:12px 24px 9px;
+}
+#content {
+	margin:0 15px 10px 185px;
+	background-color:#fff;
+	border:1px solid #e6e6e6;
+	padding:10px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	font-size:11px;
+    width: auto;
+}
+#content .title-bar {
+	background: #277D94;
+	position:relative;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-bottom:10px;
+}
+.title-bar h2 {
+	padding:9px 100px 9px 12px;
+	color:#fff;
+	font-weight:normal;
+	font-size:14px;
+	font-weight:bold;
+}
+.title-bar h2 span {
+	font-weight:bold;
+}
+
+.button-large {
+}
+
+/* .button-large was too generic and targeted other pages with it's positioning */
+.title-bar .button-large {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
+	border:1px solid #e5e5e5;
+	position:absolute;
+	top:8px;
+}
+
+.button-large:hover {
+	border-color:#6DABC2;
+}
+.button-large a {
+	padding:3px 9px;
+	text-decoration:none;
+	display:block;
+	color:#333;
+}
+.title-bar .add-filter {
+	right:155px;
+}
+/* Not used, add-filter is a select now an 'a' */
+.title-bar .add-filter a {
+	background:url(../images/arrow-down-2.png) no-repeat right 7px;
+	padding-right:26px;
+}
+
+fieldset#filters div.add-filter {
+    text-align: right;
+}
+
+.title-bar .new-issue {
+	right:10px;
+}
+.title-bar .new-issue a {
+	background:url(../images/add.png) no-repeat 6px center;
+	padding-left:26px;
+}
+.title-bar-extras {
+	background-color:#1F7086;
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	color:#fff;
+}
+.title-bar-extras ul {
+	padding:10px;
+	background:url(../images/shadow-down.png) repeat-x top left;
+	border-bottom:1px solid #154E5D;
+	overflow:auto;
+}
+.title-bar-extras li {
+	padding-bottom:5px;
+}
+.title-bar-extras select {
+	margin-right:10px;
+}
+.title-bar-extras label {
+	width:120px;
+	display:block;
+	float:left;
+}
+.title-bar-extras label input {
+	margin-right:5px;
+	
+}
+.extras-actions {
+	padding:5px 10px;
+	border-top:1px solid #408598;
+	position:relative;
+}
+.extras-actions a {
+	border:0;
+	color:#fff;
+	padding-left:18px;
+	margin-right:10px;
+	cursor:pointer;
+	font-family:inherit;
+	font-size:11px;
+}
+input.apply {
+	background-image:url(../images/check.png);
+}
+input.clear {
+	background-image:url(../images/refresh.png);
+}
+input.save {
+	background-image:url(../images/disk.png);
+}
+a#extras-close {
+	position:absolute;
+	color:#fff;
+	background:url(../images/arrow-up-white.png) no-repeat right center;
+	right:10px;
+	padding-right:15px;
+	display:none; /* Remove to show the Hide Filters thing */
+}
+
+/*-------------------------------------------------------------------------------
+ * =04 - Issue Table
+ *
+ * This section includes the layout and styles for the main issues table.
+ ------------------------------------------------------------------------------*/
+
+form#issue-list {
+	position:relative;
+}
+#content table {
+	width:100%;
+}
+#content table th {
+	font-weight:normal;
+	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
+}
+#content table td, #content table th {
+	border:1px solid #e6e6e6;
+	padding:6px;
+	text-align:left;
+	position:relative;
+	vertical-align:top;
+}
+#content table th a {
+	color:#111;
+	text-decoration:none;
+}
+#content table th.current-sort {
+	background:#fff url(../images/gradient-up.png) repeat-x;
+}
+#content table th.current-sort a {
+	background:url(../images/arrow-down-3.png) no-repeat right center;
+	padding-right:16px;
+	display:block;
+}
+#content table tr.even {
+	background-color:#f9f9f9;
+}
+#content table tr:hover {
+	background:#dbf0f7 url(../images/tr-hover.png) repeat-x left top;
+}
+#content table tr.context-menu-selection {
+	background:#FEFBD0 url(../images/selected-gradient.jpg) repeat-x left top;
+}
+#content table td a {
+	color:#333;
+	text-decoration:none;
+}
+#content table td.subject a {
+	color:#226D81;
+}
+#content table td.priority {
+	text-align:center;
+}
+#content table td.issue {
+	background:url(../images/arrow-bottom-right.png) no-repeat right bottom;
+	width:42px;
+	cursor:context-menu;
+}
+#content table td.updated {
+	width:80px;
+}
+#content table a.toggle-select {
+	background:url(../images/check.png) no-repeat center center;
+	display:block;
+	text-indent:-9999em;
+}
+/* Priority Coloring */
+.priority-5 td.priority {
+	background-color:#FFE5E5;
+}
+.priority-4 td.priority {
+	background-color:#FFEFCF;
+}
+#multiple-action-buttons {
+	float:left;
+	margin:10px 0;
+}
+#multiple-action-buttons li {
+	float:left;
+	margin-right:10px;
+}
+.pagination, .other-formats {
+	float:right;
+	clear:right;
+	margin:10px 0;
+}
+.pagination a {
+	padding:1px 2px;
+}
+
+/*-------------------------------------------------------------------------------
+ * =05 - Single Issue Page
+ *
+ * This section includes the layout and styles for the single issues page.
+ ------------------------------------------------------------------------------*/
+
+.title-bar-actions {
+	position:absolute; 
+	right:10px; 
+	top:0; 
+	padding:0 100px 0 10px;
+	border-left:1px solid #237084;
+	height:100%;
+}
+.title-bar-actions span {
+	line-height:3.5;
+}
+.title-bar-actions span a {
+	color:#fff;
+}
+.title-bar-actions span.meta-sep {
+	color:#6DABC2;
+	padding:0 2px;
+}
+.title-bar .update {
+	right:0;
+}
+.title-bar .update a {
+	padding-left:26px;
+	background:url(../images/edit.png) no-repeat 5px center;
+	font-weight:bold;
+}
+div.issue {
+	background:#E8F4F8;
+	border:1px solid #D5E6ED;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px;
+}
+div.issue hr {
+	height:0; 
+	border-style:solid;
+	border-width:1px 0;
+	border-color:#ddd #fff #fff;
+	margin:10px -10px;
+	clear:both;
+}
+div.issue h3 {
+	font-size:14px;
+}
+#content .meta table {
+	border:0 none;
+}
+#content .meta table tr:hover {
+	background:none;
+}
+#content .meta table td, #content .meta table th {
+  background: none;
+	border:0 none;
+	padding:0 3px;
+}
+#content .meta table .title {
+	font-weight:bold;
+}
+#content .meta table td a, #content .meta table th a {
+	color:#226D81;
+}
+#content .meta table td a:hover, #content .meta table th a:hover {
+	text-decoration:underline;
+}
+#content .meta table td.priority {
+	text-align:left; /* Is set to center above */
+}
+.gravatar {
+	border:1px solid #aaa;
+}
+.issue p {
+	margin-bottom:5px;
+}
+.issue .description {
+	float:left;
+	width:58%;
+}
+.issue #watchers {
+	float:right;
+	width:37%;
+}
+.issue #watchers .contextual {
+	float:right;
+}
+.issue #watchers li.user {
+	float:left;
+	margin-right:6px;
+}
+.user {
+	position:relative;
+}
+.attachments h4 {
+	margin-bottom:6px;
+	background:url(../images/files-showhide.png) no-repeat right bottom;
+	cursor:pointer;
+}
+.attachments h4.closed {
+	background-position:right 5px;
+}
+
+table.files {
+    display: table;
+}
+#content table.files td, #content table.files th, #content table.files {
+	border:0;
+	background:none;
+}
+#content table.files th {
+	font-weight:bold;
+	padding:1px;
+}
+#content table.files td {
+	color:#555;
+	padding:1px;
+}
+#content table.files .opt-desc {
+	width:60%;
+}
+#content table.files td a {
+	color:#226D81;
+	position:relative;
+}
+#history {
+	margin:20px 0;
+}
+#history h3 {
+	font-size:14px;
+	border-bottom:1px solid #ddd;
+	padding-left:10px;
+	margin-bottom:20px;
+}
+#history .journal {
+	position:relative;
+	padding-left:50px;
+	margin:0 0 15px;
+	clear:both;
+	min-height:40px;
+}
+.journal .profile-wrap {
+	float:none;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.journal h4 {
+	font-size:12px;
+	font-weight:normal;
+	margin-bottom:-1px;
+	padding-bottom:12px;
+	background:url(../images/speech-white.png) no-repeat 30px bottom;
+	position:relative;
+	z-index:5;
+}
+.journal.question h4 {
+	background-image:url(../images/speech-blue.png);
+}
+.journal h4 .history-id {
+	float:right;
+	color:#999;
+}
+.journal .wiki {
+	background-color:#f8f8f8;
+	border:1px solid #f5f5f5;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px 10px 5px;
+	overflow:auto;
+}
+.journal .contextual {
+	float:right;
+}
+.journal .contextual a {
+	float:left;
+	display:block;
+	margin:0 0 0 5px;
+	height:16px;
+	width:16px;
+	background-repeat:no-repeat;
+	background-position:center center;
+}
+.contextual .edit {
+	background-image:url(../images/edit.png);
+}
+.contextual .comment {
+	background-image:url(../images/comment.png);
+}
+.question-line {
+	display:block;
+}
+.question .wiki {
+	background:#277D94;
+	color:#fff;
+	margin:0px 10px;
+	padding:10px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+#content blockquote, .wiki ol, .wiki ul {
+	padding-left:40px;
+}
+.wiki p {
+	margin-bottom:5px;
+}
+blockquote {
+	font-style:italic;
+	color:#666;
+	background:url(../images/blockquote-bg.png) no-repeat 25px 3px;
+}
+.wiki ul li {
+	list-style: disc outside none;
+}
+.file-thumbs {
+	margin:20px 0 0;
+	overflow:hidden;
+    float: left;
+}
+.file-thumbs a {
+	display:block;
+	float:left;
+	margin-right:10px;
+	text-align:center;
+}
+.file-thumbs a img {
+	display:block;
+	margin:0 auto 5px;
+	border:1px solid #226D81;
+}
+.file-thumbs a img.pdf {
+	border:0;
+}
+
+.journal-attributes {color: #999999;}
+
+.journal > ul {
+/*	display:none;  Removed by Eric */
+} /*
+	TODO remove this once I know what to do with status updates, etc.
+*/
+
+/*-------------------------------------------------------------------------------
+ * =06 - Projects Page
+ *
+ * This section defines the styles for the projects "home" page.
+ ------------------------------------------------------------------------------*/
+
+#content.nosidebar {
+	margin-left:20px;
+	padding:15px 60px 15px 25px;
+	font-size:12px;
+}
+#project-links {
+	position:absolute;
+	right:30px;
+	top:110px;
+	color:#ccc;
+	font-weight:bold;
+}
+.nosidebar blockquote {
+	margin:1em 0;
+}
+.nosidebar p {
+	margin-bottom:1em;
+}
+li.root {
+	font-size:18px;
+	margin-bottom:24px;
+}
+li.child {
+	font-size:14px;
+}
+.nosidebar ul.projects {
+	margin:24px 0 0;
+}
+.nosidebar ul.projects ul {
+	margin:0;
+}
+ul.projects .description {
+	font-size:12px;
+}
+.nosidebar ul.projects li {
+	list-style:none outside none;
+    background: none;
+}
+.nosidebar ul.projects li .my-project {
+	padding:0 0 0 24px;
+	background:url(../images/star.png) no-repeat left top;
+}
+ul.projects a {
+	font-weight:bold;
+}
+ul.projects li div.root {
+	margin-bottom:12px;
+}
+.nosidebar ol li {
+	list-style: decimal outside none;
+	margin-left:24px;
+}
+.nosidebar ul li {
+	background:url(../images/dot-blue.png) no-repeat left top;
+}
+.nosidebar ol, .nosidebar ul {
+	margin:0 0 12px 18px;
+}
+
+
+/*-------------------------------------------------------------------------------
+ * =07 - Behavior Styles
+ *
+ * This section defines the styles for handling behaviors - popups, flyouts, etc.
+ ------------------------------------------------------------------------------*/
+
+.profile-wrap {
+	float:right;
+	position:relative;
+	width:42px;
+	height:42px;
+}
+.profile-box {
+	position:absolute;
+	right:0;
+	top:45px;
+	width:205px;
+	background:#f3f3f3;
+	border:1px solid #afafaf;
+	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	display:none;
+	z-index:10;
+}
+.issue .profile-box ul, .journal .profile-box ul {	
+	background:url(../images/profile-arrow-up.png) no-repeat 175px top;
+	position:relative;
+	z-index:11;
+	top:-8px;
+	padding-top:8px;
+	margin-bottom:-8px;
+}
+.journal .profile-box {
+	right:auto;
+	left:0;
+}
+.journal .profile-box ul {	
+	background-position: 13px top;
+}
+.profile-box ul li {
+	border-top:1px solid #fff;
+	border-bottom:1px solid #ddd;
+	padding:5px 10px;
+}
+.profile-box ul li:first-child {
+	border-top:0;
+}
+.profile-box ul li:last-child {
+	border-bottom:0;
+}
+.profile-box .gravatar {
+	border:0;
+	float:left;
+	margin-right:6px;
+}
+.profile-box .vcard {
+	padding-left:20px !important;
+	background:url(../images/vcard.png) no-repeat left center;
+	display:block;
+}
+
+/* file table hovers */
+a.has-thumb img {
+	position:absolute;
+	display:none;
+	border:1px solid #a6c6cf;
+	padding:4px;
+	background:#fff;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	
+}
+a.has-thumb.active {
+	left:-10px;
+	background:url(../images/thumb-arrow-right.png) no-repeat left center;
+	padding-left:10px;
+	margin-right:-10px;
+}
+
+td.issue div.issue-wrap-outer {
+	position:relative;
+}
+
+#context-menu {
+	position:absolute;
+	left:-7px;
+	top:-7px;
+	padding:6px;
+	z-index:21;
+}
+
+#context-menu ul {
+	width:140px;
+	position:absolute;
+	left:-7px;
+	z-index:20;
+	display:block;
+    /* From .menu */
+	background:#f4f4f4;
+	border:1px solid #afafaf;
+
+}
+#context-menu li {
+	padding:6px !important;
+	background-position:6px center;
+	background-repeat:no-repeat;
+	cursor:pointer;
+    /* From .menu */
+	border-top:1px solid #fff !important;
+	border-bottom:1px solid #ddd !important;
+}
+
+#context-menu .edit a.context_item  {background-image:url(../images/edit.png) !important; background-position: left center !important;}
+#context-menu .status a.context_item {background-image:url(../images/tag.png) !important; background-position: left center !important;}
+#context-menu .priority a.context_item {background-image:url(../images/clock.png) !important; background-position: left center !important;}
+#context-menu .assigned a.context_item {background-image:url(../images/user.png) !important; background-position: left center !important;}
+#context-menu .copy a.context_item {background-image:url(../images/copy.png) !important; background-position: left center !important;}
+#context-menu .move a.context_item {background-image:url(../images/move.png) !important; background-position: left center !important;}
+#context-menu .delete a.context_item {background-image:url(../images/delete.png) !important; background-position: left center !important;}
+
+#context-menu li.folder div.submenu {
+    background:url(../images/arrow-right.png) no-repeat right;
+    position: absolute;
+    height: 9px;
+    width: 7px;
+    top: 11px;
+    right: 6px;
+}
+#context-menu li.folder ul {
+	display:none;
+	left:140px;
+	top:-1px;
+	width:auto;
+	z-index:19;
+}
+#context-menu li li {
+	padding:6px 12px;
+	width:auto;
+	display:block;
+	white-space:nowrap;
+}
+#context-menu li:hover ul {
+	display:block;
+}
+
+/* table tooltips */
+.js-tooltip {
+	position:absolute;
+	left:-30px;
+	z-index:20;
+}
+.js-tooltip-inner {
+	position:absolute;
+	bottom:5px;
+	background:#F7F7F7;
+	padding:10px;
+	border:1px solid #c3c3c3;
+	width:500px;
+	font-size:11px;
+	max-height:200px;
+	overflow:hidden;
+	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	z-index:15;
+}
+.js-tooltip .arrow {
+	width:16px;
+	height:12px;
+	position:absolute;
+	bottom:-6px;
+	left:76px;
+	z-index:16;
+	background:url(../images/tooltip-arrow.png) no-repeat left top;
+}
+.js-tooltip .meta {
+	margin-top:20px;
+	overflow:hidden;
+}
+.js-tooltip .meta li {
+	float:left;
+	margin-right:30px;
+}
+.button-large ul {
+	position:absolute;
+	right:-1px;
+	top:20px;
+	z-index:5;
+	display:none;
+}
+.button-large ul li {
+	padding:0;
+	white-space:nowrap;
+}
+.title-bar .button-large ul li a {
+	background-image:none;
+	padding:6px 12px;
+}
+.title-bar .button-large ul li a:hover {
+	background-color:#fff;
+}
+
+/*-------------------------------------------------------------------------------
+ * =08 - Reusable Classes
+ *
+ * This section defines reusable classes for menus, etc.
+ ------------------------------------------------------------------------------*/
+
+/* Menus are assumed to be a <ul> element */
+.menu, .menu ul {
+	background:#f4f4f4;
+	border:1px solid #afafaf;
+	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
+}
+.menu li {
+	border-top:1px solid #fff;
+	border-bottom:1px solid #ddd;
+	position:relative;
+	padding:6px;
+}
+.menu li:first-child {
+	border-top:0;
+}
+.menu li:last-child {
+	border-bottom:0;
+}
+.inline {
+    display: inline;
+}
+
+/*-------------------------------------------------------------------------------
+ * =09 - New Ajax Issue Form
+ *
+ * This section defines reusable classes for menus, etc.
+ ------------------------------------------------------------------------------*/
+#TB_ajaxContent #issue-form-wrap {
+	display:none;
+}
+#TB_ajaxContent #issue-form {
+	background:#fff;
+	font-size:11px;
+	width:100%;
+	height:510px;
+	overflow:hidden;
+	position:absolute;
+}
+#TB_ajaxContent #issue-form label {
+	width:125px;
+	text-align:right;
+	float:left;
+	margin-left:-130px;
+	font-weight:bold;
+	font-size:12px;
+}
+#TB_ajaxContent #issue-form label.floating {
+	width:150px;
+	margin-left:0;
+	font-weight:normal;
+	font-size:11px;
+	text-align:left;
+}
+html > body .tabular p {
+	overflow:hidden;
+}
+#TB_ajaxContent #issue-form p {
+	clear:left;
+	margin:0;
+	padding:3px 0 5px 130px !important;
+}
+#TB_ajaxContent #issue-form .tracker p {
+	padding-top:10px !important;
+}
+#TB_ajaxContent #issue-form p.watchers {
+	width:300px;
+}
+.jstElements button {
+	background-color:#F7F7F7;
+	background-position:50% 50%;
+	background-repeat:no-repeat;
+	border:1px solid #DDDDDD;
+	height:24px;
+	margin-right:6px;
+	padding:4px;
+	width:24px;
+}
+.jstElements button span {
+	display:none;
+}
+#TB_ajaxContent #issue-form .help {
+	display:block;
+	float:right;
+	padding-right:20px;
+}
+#TB_ajaxContent #issue-form div.submit, #TB_ajaxContent #issue-form div.tracker {
+	position:absolute;
+	left:0;
+	height:45px;
+	width:100%;
+	overflow:hidden;
+}
+#TB_ajaxContent #issue-form div.box {
+	position: relative;
+	top:47px;
+	height:396px;
+	overflow:auto;
+	padding:10px 0;
+}
+#TB_ajaxContent #issue-form .tracker {
+	top:0;
+	border-bottom:2px solid #ccc;
+}
+#TB_ajaxContent #issue-form .submit {
+	bottom:0;
+	border-top:2px solid #ccc;
+	text-align:right;
+}
+#TB_ajaxContent #issue-form .submit input {
+	margin:8px 10px 0 0;
+	border:1px solid #ccc;
+	background:#F3F3F3 url(../images/gradient-down.png) repeat-x;
+	padding:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	font: 12px/1.5 'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;
+}
+#TB_ajaxContent #issue-form .submit input:hover {
+	border-color:#277D94;
+}
+#TB_ajaxContent #issue-form textarea {
+	width:570px;
+	height:100px;
+	overflow:auto;
+	margin-top:5px;
+}
+#TB_ajaxContent #issue-form .splitcontentleft {
+	width:45%;
+	float:left;
+}
+#TB_ajaxContent #issue-form .splitcontentright {
+	width:45%;
+	float:right;
+}
+#TB_ajaxContent #issue-form #attachments_fields input[type=file] {
+	margin-right:10px;
+}
+
+/*-------------------------------------------------------------------------------
+ * =10 - Plugins and misc
+ ------------------------------------------------------------------------------*/
+/* Billing */
+div#floating-counter { z-index: 10; } /* so dropdown menus will not mask it */
+div#floating-counter h3 { margin-top: 0px; }
+/* JS Calendar popup */
+div.calendar { z-index: 120 !important;} /* So it's above the lightbox overlay */
+
+/* Contracts use the newer Redmine th/td in the issues list */
+#content .meta table th.deliverable { font-weight: bold; }
+
+/*-------------------------------------------------------------------------------
+ * =11 - Appended from staging
+ ------------------------------------------------------------------------------*/
+/* ***** 2009-07-24 ***** */
+/* tooltip fix */
+form#issue-list {
+	display:block;
+}
+.js-tooltip, .js-tooltip-inner {width:100%;}
+.js-tooltip-inner {
+	max-height:none;
+}
+.js-tooltip .issue-tooltip-description {
+	max-height:200px;
+	overflow:hidden;
+}
+
+
+
+
+
+/* roadmap breathing */
+#roadmap h3 {
+	margin:21px 0 12px;
+}
+div#roadmap fieldset.related-issues {
+	border:1px solid #E6E6E6;
+	margin: 12px 0;
+	padding:6px 12px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+}
+#roadmap fieldset legend {
+	font-style: italic;
+}
+
+
+#TB_ajaxContent #issue-form div.box {
+	border:0;
+}
+#TB_ajaxContent #issue-form p {
+	padding:3px 0 5px 145px !important;
+}
+#TB_ajaxContent #preview .preview {
+	margin-left:130px;
+	border:1px solid #aaa;
+	padding:10px 15px;
+	width:550px;
+}
+#TB_ajaxContent #issue-form .preview p {
+	padding:0 !important;
+	margin-bottom:5px;
+}
+
+#TB_ajaxContent #issue_subject {
+	width:566px;
+}
+
+tr.context-menu-selection td.priority {
+	background:none !important;
+}
+
+/* Blue dots killed */
+.nosidebar ul li {
+	background:none;
+	list-style: disc outside none;
+}
+.nosidebar ul {
+	margin:12px 0 12px 18px;
+}
+
+/* login form cleanup */
+#login-form form {
+	background:#ECF6F9;
+	border:1px solid #6DABC2;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	display:block;
+	padding:10px;
+}
+ul.projects div.root a.project {
+	font-family:inherit;
+}
+#content #login-form table {
+	border:0 none;
+	background:none;
+	margin:0;
+}
+#content #login-form table tr:hover {
+	background:none;
+}
+#login-form table td, #login-form table th {
+	border:0 none;
+}
+
+/* tables don't all need border you know */
+#relations table td, #relations table th {
+	border:0 none;
+}
+
+
+/* sidebar cleanup */
+h1, h2, h3, h4, h5, h6 {
+	font-family:'lucida grande','lucida sans unicode',tahoma,arial,sans-serif !important;
+}
+div#sidebar {
+	width:150px;
+}
+#sidebar h3 {
+	margin:18px 0 6px;
+}
+#sidebar a {
+	padding:0;
+	line-height:1.5;
+}
+#sidebar a:hover {
+	background:none !important;
+	text-decoration:underline;
+}
+#sidebar input.button-small {
+	margin-top:6px;
+}
+#main-menu li a {
+	white-space:normal;
+}
+#main-menu li li a {
+	padding-left:40px;
+	padding-right:3px;
+	text-indent:-6px;
+	letter-spacing:-.01em;
+}
+#main-menu {
+	border-right:1px solid #E6E6E6;
+}
+#main-menu li a.time-details, #main-menu li a.overhead-time-details, #main-menu li a.billable-time-details {
+	padding-left:40px;
+	background-position:12px 45%;
+}
+
+/* custom query page */
+#content .box fieldset {
+	border:1px solid #ddd;
+	margin:18px 10px 6px;
+	padding:10px;
+}
+#content .box fieldset legend {
+	font-weight:bold;
+}
+.box fieldset li.filter {
+	padding-top:6px;
+	overflow:hidden;
+}
+.box fieldset select {
+	margin-right:6px;
+}
+.box fieldset #add_filter_select {
+	margin-bottom:6px;
+}
+.box li.filter label {
+	clear:left;
+	float:left;
+	width:170px;
+}
+fieldset#columns table {
+	width:auto;
+}
+fieldset#columns td {
+	border:0;
+	vertical-align:middle;
+}
+
+/* Flash notices */
+div.flash {
+	margin:0 0 10px;
+	border:1px solid;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+}
+div.flash.notice {
+	background-color:#ECF8E8;
+	border-color:#C1CBBE;
+	color:#406633;
+}
+div.flash.error {
+	background-color:#F8EEE8;
+	border-color:#CBA58F;
+	color:#664633;
+}
+div.flash.warning {
+	background-color:#F8F8E8;
+	border-color:#CBCB8E;
+	color:#666634;
+}
+
+/* my account */
+#my_account_form .splitcontentleft, #my_account_form .splitcontentright {
+	float:none;
+	width:auto;
+}
+#user_firstname, #user_lastname, #user_mail, #my_account_form select {
+	width:auto;
+}
+
+
+/* all kinds of wonderful tweaks */
+
+#account li li:last-child a:hover {
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+.question pre {
+	color:#111;
+}
+.box p {
+	padding-top:5px;
+	padding-bottom:8px;
+}
+#content .box h3 {
+	margin-top:3px;
+}
+div.issue hr {
+	width:auto;
+}
+.question .wiki {
+	margin:0;
+}
+.wiki {
+	font-size:12px;
+}
+.wiki ol, .wiki ul {
+	margin-bottom:6px;
+}
+#content h3 {
+	margin:12px 0 6px;
+}
+#content h2 + h3 {
+	margin-top:12px;
+}
+#content .issue h3 {
+	margin:0 0 16px;
+}
+div.issue img.gravatar, #history img.gravatar {
+	float:none;
+	margin:0;
+	padding:0;
+}
+p.author {
+	margin-bottom:3px;
+	font-style:italic;
+}
+/* add filter select box on non-issue pages */
+fieldset#filters div.add-filter {
+	text-align:left;
+	margin:0 0 6px 0;
+}
+.nosidebar #add_filter_select {
+	margin-bottom:6px;
+}
+.nosidebar .box fieldset {
+	line-height:1.5;
+	margin:0 0 12px 180px;
+}
+.nosidebar .box fieldset legend {
+	margin-bottom:6px;
+}
+.nosidebar fieldset ul li {
+	background:none;
+}
+.title-bar-extras {
+	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-bottomright:5px;
+	background-color:#ECF6F9;
+	color:#FFFFFF;
+}
+.title-bar .add-filter.button-large {
+	background:none;
+	border:none;
+}
+.title-bar .contextual {
+	border-left:1px solid #237084;
+	height:100%;
+	padding:0 140px 0 12px;
+	position:absolute;
+	right:10px;
+	top:0;
+	margin:0;
+}
+.title-bar .contextual a.icon {
+	color:#fff;
+	font-size:11px;
+	line-height:3.5;
+	margin-right:16px;
+}
+.title-bar .grouping {
+	padding:0 10px 10px;
+}
+.title-bar-extras {
+	color:#333333;
+}
+.extras-actions a {
+	color:#333333;
+}
+.title-bar-extras ul {
+	border-bottom:none;
+}
+.extras-actions {
+	border-top:none;
+}
+.title-bar-actions span a {
+	background:none;
+	padding:0;
+}
+#content .meta table.progress {
+	border:1px solid #bbb;
+	border-collapse:separate;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+table.progress td.closed {
+	background-color:#277D94;
+}
+fieldset#filters, fieldset#date-range {
+	margin-left:15px;
+}
+.nosidebar fieldset ul {
+	margin-left:0;
+}
+#content table tr:hover {
+	background:#F3F3F3;
+}
+#content table tr.context-menu-selection, #content table tr.context-menu-selection td {
+	background:#277D94 !important;
+}
+.nosidebar ol.ui-sortable li {
+	list-style: none outside none;
+}
+tr.time-entry {
+	white-space:normal;
+}
+.meta td.priority {
+	background:none !important;
+}
+
+/*===== Replacement Images =====*/
+
+.icon-edit, .title-bar .update a {
+	background-image:url(../images/pencil.png);
+}
+.icon-del {
+	background-image:url(../images/delete.png);
+}
+.journal .contextual a[title=Edit] img {
+	display:none;
+}
+.journal .contextual a[title=Edit] {
+	background:url(../images/pencil.png) no-repeat;
+}
+
+
+/* -- New #main-menu toggle CSS */
+#main-menu .toggle-follow {
+	padding:5px 5px 5px 0;
+}
+#main-menu .toggle-follow:hover {
+	text-decoration:underline;
+}
+
+
+
+/* IE6 is the bane */
+* html #TB_ajaxContent #issue-form div.box {
+	margin:0;
+}
+* html #TB_ajaxContent #issue-form {
+	right:0;
+	width:765px;
+}
+/* ***** END 2009-07-24 ***** */
+#TB_window #errorExplanation {position: absolute;}
+
+/* ***** Pulled 2009-09-17 ***** */
+/* Weird Safari cascade bug. More specificity */
+div.issue p, div.issue div, #content td {
+	font-size:11px;
+}
+
+/* thickbox */
+#TB_ajaxContent div#new_issue {
+	margin:0;
+	padding:0;
+}
+
+/* comments */
+.wiki ol li {
+	list-style: decimal outside;
+}
+
+/* questions */
+.question .wiki a {
+	color:#fff;
+	border-bottom:1px solid #68A4B4;
+	text-decoration:none;
+}
+.question .wiki a:hover {
+	border-color:#fff;
+}
+.question .wiki .contextual a {
+	border:0 none;
+}
+
+/* svn */
+#content table .changeset td a {
+	color:#226D81;
+}
+#content table .changeset td.id a:hover {
+	text-decoration:underline;
+}
+#history .journal {
+	clear:left;
+	margin-bottom:45px;
+}
+
+/* issue updates */
+#update form#issue-form .attributes p {
+	padding-bottom:5px;
+}
+#update fieldset .box {
+	padding:0;
+	border:0 none;
+}
+#update .tabular label {
+	width:140px;
+	margin-left:-147px;
+}
+#update .tabular p {
+	padding-left:140px;
+}
+
+/* color for blockquotes in questions */
+.question blockquote {
+	color:#fff;
+}
+
+
+/* Delete icon */
+table.files a.icon-delete {
+	float:left;
+	padding:0;
+	display:block;
+	text-indent:-9999em;
+	width:16px;
+	height:16px;
+	background:url(../../../images/delete.png) no-repeat 0 0;
+	margin-right:6px;
+}
+
+
+/* clearfix */
+html > body #content:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+	
+}
+#content table.files .opt-desc {
+	width:45%;
+}
+
+/* member settings [pc] */
+
+input#rate_amount {
+	width:75px;
+}
+
+select#member_role_id {
+	width:75px;
+}
+
+/* fix for thumbnail jankiness */
+a.has-thumb.active {
+	left:auto;
+	margin-left:-10px;
+	margin-right:0;
+	*left:-10px;    /* IE6 & 7 hacks */
+	*margin-left:0;
+}
+a.has-thumb img {
+	z-index:1001;
+}
+
+/* max height on menus */
+#context-menu li.assigned > ul {
+	max-height:250px;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+/* ***** End Pulled 2009-09-17 ***** */
+
+/* Make icons non repeating - does this need to be in core */
+#admin-menu a.projects { background-repeat: no-repeat;}
+#admin-menu a.users { background-repeat: no-repeat; }
+#admin-menu a.groups { background-repeat: no-repeat; }
+#admin-menu a.roles { background-repeat: no-repeat; }
+#admin-menu a.trackers { background-repeat: no-repeat; }
+#admin-menu a.issue_statuses { background-repeat: no-repeat; }
+#admin-menu a.workflows { background-repeat: no-repeat; }
+#admin-menu a.custom_fields { background-repeat: no-repeat; }
+#admin-menu a.enumerations { background-repeat: no-repeat; }
+#admin-menu a.settings { background-repeat: no-repeat; }
+#admin-menu a.plugins { background-repeat: no-repeat; }
+#admin-menu a.info { background-repeat: no-repeat; }
+
+#more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
