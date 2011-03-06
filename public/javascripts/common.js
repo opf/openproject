@@ -171,7 +171,6 @@ jQuery(document).ready(function($) {
 });
 
 /* Appended 2009-07-07 */
-var tb_pathToImage="../images/loadingAnimation.gif";
 var animRate = 100;
 
 // returns viewport height
