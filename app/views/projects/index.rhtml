@@ -2,7 +2,7 @@
     <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
 
-<div class="contextual">
+<div id="project-links"class="contextual">
     <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') + ' |' if User.current.allowed_to?(:add_project, nil, :global => true) %>
     <%= link_to(l(:label_issue_view_all), { :controller => 'issues' }) + ' |' if User.current.allowed_to?(:view_issues, nil, :global => true) %>
     <%= link_to(l(:label_overall_spent_time), { :controller => 'time_entries' }) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
@@ -10,6 +10,8 @@
 </div>
 
 <h2><%=l(:label_project_plural)%></h2>
+
+<%= textilizable Setting.welcome_text %>
 
 <%= render_project_hierarchy(@projects)%>
 
