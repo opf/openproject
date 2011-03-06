@@ -598,7 +598,7 @@ div.issue h3 {
 	border:0 none;
 	padding:0 3px;
 }
-#content .meta table .title {
+#content .meta table th {
 	font-weight:bold;
 }
 #content .meta table td a, #content .meta table th a {
