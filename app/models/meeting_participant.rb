@@ -11,6 +11,10 @@ class MeetingParticipant < ActiveRecord::Base
     user.present? ? user.name : self.name
   end
   
+  def mail
+    user.present? ? user.mail : self.mail
+  end
+  
   def <=>(participant)
     self.to_s.downcase <=> participant.to_s.downcase
   end

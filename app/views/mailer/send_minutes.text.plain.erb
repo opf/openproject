@@ -1,0 +1,4 @@
+<%= @meeting_url %>
+<%= @minutes.meeting.author %>
+
+<%=l :text_review_minutes, :author => User.current, :link => l(:text_minutes_for_meeting, :meeting => @minutes.meeting.title) + " (#{@minutes_url})" %>

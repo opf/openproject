@@ -46,6 +46,10 @@ class Meeting < ActiveRecord::Base
     title
   end
   
+  def recipients
+    participants.collect(&:mail)
+  end
+  
   protected
   
   def after_initialize

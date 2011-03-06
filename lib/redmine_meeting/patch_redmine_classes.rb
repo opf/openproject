@@ -12,9 +12,34 @@ module Plugin
         receiver.send :include, InstanceMethods
         receiver.class_eval do
           #unloadable
-          has_many :meetings, :include => [:author]
+          has_many :meetings, :include => [:author, :agenda, :minutes]
         end
       end
-    end    
+    end
+    
+    module Mailer
+      module ClassMethods
+      end
+      
+      module InstanceMethods
+        def send_minutes(minutes)
+          meeting = minutes.meeting
+          redmine_headers 'Project' => meeting.project.identifier,
+                          'Meeting-Id' => meeting.id
+          message_id minutes
+          cc meeting.recipients
+          subject "[#{meeting.project.name}] #{l(:label_minutes)}: #{meeting.title}"
+          body :minutes => minutes,
+               :minutes_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting, :tab => 'minutes'),
+               :meeting_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting)
+          render_multipart('send_minutes', body)
+        end
+      end
+      
+      def self.included(receiver)
+        receiver.extend         ClassMethods
+        receiver.send :include, InstanceMethods
+      end
+    end
   end
 end
