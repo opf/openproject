@@ -171,7 +171,7 @@ jQuery(document).ready(function($) {
 });
 
 /* Appended 2009-07-07 */
-var tb_pathToImage="/plugin_assets/redmine_shane_and_peter_design/images/loadingAnimation.gif";
+var tb_pathToImage="../images/loadingAnimation.gif";
 var animRate = 100;
 
 // returns viewport height
