@@ -141,16 +141,18 @@
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>
-    </div>
-  </div>
 
-  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+    </div>
+
+  </div>
 
   <div id="footer">
     <div class="bgl"><div class="bgr">
         <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>
       </div></div>
   </div>
+
+  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>

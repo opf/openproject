@@ -84,7 +84,7 @@ html>body #content { min-height: 600px; }
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto; border-right: 0; }
 
-#footer {clear: both; border-top: 1px solid #bbb; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
+#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center;}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
