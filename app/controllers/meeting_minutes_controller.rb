@@ -5,7 +5,7 @@ class MeetingMinutesController < MeetingContentsController
   
   def notify
     unless @content.new_record?
-      Mailer.send_minutes(@content)
+      Mailer.deliver_minutes_for_review(@content)
       flash[:notice] = l(:notice_successful_notification)
     end
     redirect_to :back

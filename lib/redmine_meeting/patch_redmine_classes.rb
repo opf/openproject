@@ -22,7 +22,7 @@ module Plugin
       end
       
       module InstanceMethods
-        def send_minutes(minutes)
+        def minutes_for_review(minutes)
           meeting = minutes.meeting
           redmine_headers 'Project' => meeting.project.identifier,
                           'Meeting-Id' => meeting.id
