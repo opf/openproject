@@ -416,15 +416,6 @@ fieldset#filters div.add-filter {
 .title-bar-extras select {
 	margin-right:10px;
 }
-.title-bar-extras label {
-	width:120px;
-	display:block;
-	float:left;
-}
-.title-bar-extras label input {
-	margin-right:5px;
-	
-}
 .extras-actions {
 	padding:5px 10px;
 	border-top:1px solid #408598;
@@ -466,14 +457,14 @@ a#extras-close {
 form#issue-list {
 	position:relative;
 }
-#content table {
+#content table.issues {
 	width:100%;
 }
 #content table th {
 	font-weight:normal;
 	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
 }
-#content table td, #content table th {
+#content table.issues td, #content table th {
 	border:1px solid #e6e6e6;
 	padding:6px;
 	text-align:left;
@@ -494,9 +485,6 @@ form#issue-list {
 }
 #content table tr.even {
 	background-color:#f9f9f9;
-}
-#content table tr:hover {
-	background:#dbf0f7 url(../images/tr-hover.png) repeat-x left top;
 }
 #content table tr.context-menu-selection {
 	background:#FEFBD0 url(../images/selected-gradient.jpg) repeat-x left top;
@@ -1549,16 +1537,13 @@ fieldset#filters div.add-filter {
 table.progress td.closed {
 	background-color:#277D94;
 }
-fieldset#filters, fieldset#date-range {
-	margin-left:15px;
-}
 .nosidebar fieldset ul {
 	margin-left:0;
 }
-#content table tr:hover {
+#content table.issues tr:hover {
 	background:#F3F3F3;
 }
-#content table tr.context-menu-selection, #content table tr.context-menu-selection td {
+#content table.issues tr.context-menu-selection, #content table tr.context-menu-selection td {
 	background:#277D94 !important;
 }
 .nosidebar ol.ui-sortable li {
@@ -1744,3 +1729,4 @@ a.has-thumb img {
 #admin-menu a.info { background-repeat: no-repeat; }
 
 #more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
+

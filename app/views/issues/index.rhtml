@@ -18,7 +18,7 @@
 		<div id="query_form_content" class="hide-when-print">
     <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
+    	<div class="filter-fields" style="<%= @query.new_record? ? "" : "display: none;" %>">
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
