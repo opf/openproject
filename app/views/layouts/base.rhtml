@@ -32,58 +32,126 @@
 </head>
 <body class="<%=h body_css_classes %>">
 <div id="wrapper">
-<div id="wrapper2">
-<div id="top-menu">
+  <div id="top-menu">
     <div id="account">
-        <%= render_menu :account_menu -%>
-    </div>
-    <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
-    <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-</div>
+      <% account_items =  menu_items_for(:account_menu) %>
 
-<div id="header">
-    <% if User.current.logged? || !Setting.login_required? %>
-    <div id="quick-search">
-        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-        <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
-        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+      <ul id="account-info">
+        <%= content_tag('li', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => '') if User.current.logged? %>
+        <% account_items.each do |item| %>
+            <%= render_menu_node(item) %>
         <% end %>
-        <%= render_project_jump_box %>
+      </ul>
+
+      <%
+        items_for_main_level = []
+        items_for_more_level = []
+        menu_items_for(:top_menu) do |item|
+          if item.name == :home || item.name == :my_page
+            items_for_main_level << item
+          elsif item.name == :projects
+            # Remove
+          else
+            items_for_more_level << item
+          end
+        end
+      %>
+      
+      <ul id="account-nav">
+        <% items_for_main_level.each do |item| %>
+            <%= render_menu_node(item) %>
+        <% end %>
+        <li class="drop-down">
+          <%= link_to l(:label_project_plural), { :controller => 'projects', :action => 'index' }, :class => "projects" %>
+          <ul style="display:none;">
+            <% 
+            project_content = ''
+            project_tree(User.current.projects.all) do |project, level|
+              name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
+              project_content << content_tag(:li,
+                                     link_to(name_prefix + h(project), {:controller => 'projects', :action => 'show', :id => project, :jump => current_menu_item}))
+            end
+            %>
+            <%= project_content %>
+          </ul>
+        </li>
+        <li class="drop-down" id="more-menu">
+          <a class="more" href="#">More</a>
+          <ul style="display:none;">
+            <% items_for_more_level.each do |item| %>
+            <%= render_menu_node(item) %>
+            <% end %>
+            <%# TODO: Redmine defines these in a view, should be moved to a helper or data structure %>
+            <% if User.current.admin? %>
+              <li><%= link_to l(:label_project_plural), {:controller => 'admin', :action => 'projects'}, :class => 'projects' %></li>
+              <li><%= link_to l(:label_user_plural), {:controller => 'users'}, :class => 'users' %></li>
+              <li><%= link_to l(:label_group_plural), {:controller => 'groups'}, :class => 'groups' %></li>
+              <li><%= link_to l(:label_role_and_permissions), {:controller => 'roles'}, :class => 'roles' %></li>
+              <li><%= link_to l(:label_tracker_plural), {:controller => 'trackers'}, :class => 'trackers' %></li>
+              <li><%= link_to l(:label_issue_status_plural), {:controller => 'issue_statuses'}, :class => 'issue_statuses' %></li>
+              <li><%= link_to l(:label_workflow), {:controller => 'workflows', :action => 'edit'}, :class => 'workflows' %></li>
+              <li><%= link_to l(:label_custom_field_plural), {:controller => 'custom_fields'}, :class => 'custom_fields' %></li>
+              <li><%= link_to l(:label_enumerations), {:controller => 'enumerations'}, :class => 'enumerations' %></li>
+              <li><%= link_to l(:label_settings), {:controller => 'settings'}, :class => 'settings' %></li>
+              <% menu_items_for(:admin_menu) do |item| -%>
+                <li><%= link_to h(item.caption), item.url, item.html_options %></li>
+              <% end -%>
+              <li><%= link_to l(:label_plugins), {:controller => 'admin', :action => 'plugins'}, :class => 'plugins' %></li>
+              <li><%= link_to l(:label_information_plural), {:controller => 'admin', :action => 'info'}, :class => 'info' %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li>
+          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search), :class => 'search' %>
+          <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'nav-search' ) do %>
+            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+
+          <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+        <% end %>
+        </li>
+      </ul>
     </div>
-    <% end %>
 
-    <h1><%= page_header_title %></h1>
-
-    <% if display_main_menu?(@project) %>
+  </div>
+      
+  <% main_menu = render_main_menu(@project) %>
+  <% if has_content?(:sidebar) || !main_menu.blank? %>
+  <% display_sidebar = true %>
+  <% else %>
+  <% display_sidebar = false %>
+  <% end %>
+  <div id="main" class="<%= display_sidebar ? '' : "nosidebar" %>">
+  
+    <h1 class="title"><%= page_header_title %></h1>
+    <% if display_sidebar %>
     <div id="main-menu">
-        <%= render_main_menu(@project) %>
-    </div>
-    <% end %>
-</div>
-
-<%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar">
+      <%= main_menu %>
+      <!-- Sidebar -->
+      <div id="sidebar">        
         <%= yield :sidebar %>
         <%= call_hook :view_layouts_base_sidebar %>
+      </div>
     </div>
 
-    <div id="content">
-				<%= render_flash_messages %>
-        <%= yield %>
-        <%= call_hook :view_layouts_base_content %>
-				<div style="clear:both;"></div>
+    <%= expand_current_menu %>
+    <% end %>
+
+    <div class="<%= display_sidebar ? '' : "nosidebar" %>" id="content">
+      <%= render_flash_messages %>
+      <%= yield %>
+      <%= call_hook :view_layouts_base_content %>
+      <div style="clear:both;">&nbsp;</div>
     </div>
-</div>
+  </div>
 
-<div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 
-<div id="footer">
-  <div class="bgl"><div class="bgr">
-    <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>
-  </div></div>
-</div>
-</div>
+  <div id="footer">
+    <div class="bgl"><div class="bgr">
+        <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>
+      </div></div>
+  </div>
+
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
