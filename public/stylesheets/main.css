@@ -1508,7 +1508,6 @@ fieldset#filters div.add-filter {
 }
 .title-bar .contextual {
 	border-left:1px solid #237084;
-	height:100%;
 	padding:0 140px 0 12px;
 	position:absolute;
 	right:10px;
