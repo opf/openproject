@@ -1,5 +1,23 @@
 = ChiliProject changelog
 
+== TBD v2.0.0
+
+* From Redmine v1.1.2
+* Defect #3132: Bulk editing menu non-functional in Opera browser
+* Defect #6090: Most binary files become corrupted when downloading from CVS repository browser when Redmine is running on a Windows server
+* Defect #7280: Issues subjects wrap in Gantt
+* Defect #7288: Non ASCII filename downloaded from repo is broken on Internet Explorer.
+* Defect #7317: Gantt tab gives internal error due to nil avatar icon
+* Defect #7497: Aptana Studio .project file added to version 1.1.1-stable
+* Defect #7611: Workflow summary shows X icon for workflow with exactly 1 status transition
+* Defect #7625: Syntax highlighting unavailable from board new topic or topic edit preview
+* Defect #7630: Spent time in commits not recognized
+* Defect #7656: MySQL SQL Syntax Error when filtering issues by Assignee's Group
+* Defect #7718: Minutes logged in commit message are converted to hours
+* Defect #7763: Email notification are sent to watchers even if 'No events' setting is chosen
+* Feature #7608: Add "retro" gravatars
+* Patch #7598: Extensible MailHandler
+
 == 2011-03-27 v1.2.0
 
 * Bug #209: Don't hardcode user viewable labels (like "Path to .git repository")
