@@ -547,18 +547,18 @@ form#issue-list {
 	right:10px; 
 	top:0; 
 	padding:0 100px 0 10px;
-	border-left:1px solid #237084;
 	height:100%;
 }
-.title-bar-actions span {
-	line-height:3.5;
+.title-bar .title-bar-actions .contextual {
+/*	line-height:3.5;*/
+   padding-right: 100px;
 }
-.title-bar-actions span a {
+.title-bar-actions .contextual a {
+/*	color:#fff;*/
+}
+.title-bar .title-bar-actions .contextual a.icon {
 	color:#fff;
-}
-.title-bar-actions span.meta-sep {
-	color:#6DABC2;
-	padding:0 2px;
+  margin-right: 0px;
 }
 .title-bar .update {
 	right:0;
@@ -1495,7 +1495,6 @@ fieldset#filters div.add-filter {
 	border:none;
 }
 .title-bar .contextual {
-	border-left:1px solid #237084;
 	padding:0 140px 0 12px;
 	position:absolute;
 	right:10px;
@@ -1522,10 +1521,6 @@ fieldset#filters div.add-filter {
 }
 .extras-actions {
 	border-top:none;
-}
-.title-bar-actions span a {
-	background:none;
-	padding:0;
 }
 #content .meta table.progress {
 	border:1px solid #bbb;
