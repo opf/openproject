@@ -27,3 +27,10 @@ journal_details_004:
   value: "This word was and an other was added"
   prop_key: description
   journal_id: 3
+journal_details_005:
+  old_value: Old value
+  property: cf
+  id: 5
+  value: New value
+  prop_key: 2
+  journal_id: 3

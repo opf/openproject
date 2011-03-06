@@ -24,6 +24,7 @@ class JournalsController < ApplicationController
   menu_item :issues
   
   helper :issues
+  helper :custom_fields
   helper :queries
   include QueriesHelper
   helper :sort
