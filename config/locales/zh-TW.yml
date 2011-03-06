@@ -384,6 +384,7 @@
   field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
   field_visible: 可被看見
+  field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -675,6 +676,7 @@
   label_query: 自訂查詢
   label_query_plural: 自訂查詢
   label_query_new: 建立新查詢
+  label_my_queries: 我的自訂查詢
   label_filter_add: 加入新篩選條件
   label_filter_plural: 篩選條件
   label_equals: 等於
@@ -939,6 +941,7 @@
   text_are_you_sure: 確定執行？
   text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
   text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
+  text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_deleted: "%{label} 已刪除 (%{old})"
   text_journal_added: "%{label} %{value} 已新增"
@@ -989,6 +992,7 @@
   text_own_membership_delete_confirmation: "您在專案中，所擁有的部分或全部權限即將被移除，在這之後可能無法再次編輯此專案。\n您確定要繼續執行這個動作？"
   text_zoom_in: 放大
   text_zoom_out: 縮小
+  text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
   
   default_role_manager: 管理人員
   default_role_developer: 開發人員

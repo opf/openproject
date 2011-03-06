@@ -5,25 +5,25 @@ nl:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      default: "%d-%m-%Y"
+      short: "%e %b"
+      long: "%d %B, %Y"
       
-    day_names: [Zondag, Maandag, Dinsdag, Woensdag, Donderdag, Vrijdag, Zaterdag]
-    abbr_day_names: [Zo, Ma, Di, Woe, Do, Vr, Zat]
+    day_names: [zondag, maandag, dinsdag, woensdag, donderdag, vrijdag, zaterdag]
+    abbr_day_names: [zo, ma, di, wo, do, vr, za]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Januari, Februari, Maart, April, Mei, Juni, Juli, Augustus, September, Oktober, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, Mei, Jun, Jul, Aug, Sep, Okt, Nov, Dec]
+    month_names: [~, januari, februari, maart, april, mei, juni, juli, augustus, september, oktober, november, december]
+    abbr_month_names: [~, jan, feb, mar, apr, mei, jun, jul, aug, sep, okt, nov, dec]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order: [ :day, :month, :year ]
 
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
       time: "%H:%M"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      short: "%e %b %H:%M"
+      long: "%d %B, %Y %H:%M"
     am: "am"
     pm: "pm"
       
@@ -32,7 +32,7 @@ nl:
       half_a_minute: "halve minuut"
       less_than_x_seconds:
         one:   "minder dan een seconde"
-        other: "mindera dan %{count} seconden"
+        other: "minder dan %{count} seconden"
       x_seconds:
         one:   "1 seconde"
         other: "%{count} seconden"
@@ -56,13 +56,13 @@ nl:
         other: "%{count} maanden"
       about_x_years:
         one:   "ongeveer 1 jaar"
-        other: "ongeveer %{count} jaren"
+        other: "ongeveer %{count} jaar"
       over_x_years:
-        one:   "over 1 jaar"
-        other: "over %{count} jaren"
+        one:   "meer dan 1 jaar"
+        other: "meer dan %{count} jaar"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost %{count} years"
+        one:   "bijna 1 jaar"
+        other: "bijna %{count} jaar"
 
   number:
     format:
@@ -94,8 +94,8 @@ nl:
     errors:
       template:
         header:
-          one:    "1 error prohibited this %{model} from being saved"
-          other:  "%{count} errors prohibited this %{model} from being saved"
+          one:    "Door een fout kon dit %{model} niet worden opgeslagen"
+          other:  "Door %{count} fouten kon dit %{model} niet worden opgeslagen"
       messages:
         inclusion: "staat niet in de lijst"
         exclusion: "is gereserveerd"
@@ -143,7 +143,7 @@ nl:
   button_edit: Bewerk
   button_list: Lijst
   button_lock: Sluit
-  button_log_time: Log tijd
+  button_log_time: Registreer tijd
   button_login: Inloggen
   button_move: Verplaatsen
   button_quote: Citaat
@@ -514,9 +514,9 @@ nl:
     one:   1 project
     other: "%{count} projects"
   label_public_projects: Publieke projecten
-  label_query: Eigen zoekvraag
-  label_query_new: Nieuwe zoekvraag
-  label_query_plural: Eigen zoekvragen
+  label_query: Eigen zoekopdracht
+  label_query_new: Nieuwe zoekopdracht
+  label_query_plural: Eigen zoekopdrachten
   label_read: Lees...
   label_register: Registreer
   label_registered_on: Geregistreerd op
@@ -582,7 +582,7 @@ nl:
   label_used_by: Gebruikt door
   label_user: Gebruiker
   label_user_activity: "%{value}'s activiteit"
-  label_user_mail_no_self_notified: "Ik wil niet op de hoogte gehouden worden van wijzigingen die ik zelf maak."
+  label_user_mail_no_self_notified: Ik wil niet op de hoogte gehouden worden van mijn eigen wijzigingen
   label_user_mail_option_all: "Bij elk gebeurtenis in al mijn projecten..."
   label_user_mail_option_selected: "Enkel bij elke gebeurtenis op het geselecteerde project..."
   label_user_new: Nieuwe gebruiker
@@ -719,7 +719,7 @@ nl:
   setting_mail_from: Afzender e-mail adres
   setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
   setting_mail_handler_api_key: API sleutel
-  setting_per_page_options: Objects per pagina-opties
+  setting_per_page_options: Aantal objecten per pagina (opties)
   setting_plain_text_mail: platte tekst (geen HTML)
   setting_protocol: Protocol
   setting_repositories_encodings: Repositories coderingen
@@ -743,7 +743,7 @@ nl:
   text_destroy_time_entries: Verwijder gerapporteerde uren
   text_destroy_time_entries_question: "%{hours} uren werden gerapporteerd op de issue(s) die u wilde verwijderen. Wat wil u doen?"
   text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
-  text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Notificaties zijn uitgeschakeld.\nConfigureer uw SMTP server in config/configuration.yml en herstart de applicatie om dit te activeren."
+  text_email_delivery_not_configured: "E-mailbezorging is niet geconfigureerd. Mededelingen zijn uitgeschakeld.\nConfigureer uw SMTP server in config/configuration.yml en herstart de applicatie om dit te activeren."
   text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
   text_enumeration_destroy_question: "%{count} objecten zijn toegewezen aan deze waarde."
   text_file_repository_writable: Bestandsrepository beschrijfbaar
@@ -774,7 +774,7 @@ nl:
   text_tip_issue_end_day: issue die op deze dag eindigt
   text_tracker_no_workflow: Geen workflow gedefinieerd voor deze tracker
   text_unallowed_characters: Niet toegestane tekens
-  text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel notificaties ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
+  text_user_mail_option: "Bij niet-geselecteerde projecten zult u enkel mededelingen ontvangen voor issues die u monitort of waar u bij betrokken bent (als auteur of toegewezen persoon)."
   text_user_wrote: "%{value} schreef:"
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en zijn inhoud wenst te verwijderen?
   text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
@@ -796,7 +796,7 @@ nl:
   label_date_from_to: Van %{start} tot %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Deze pagina heeft %{descendants} subpagina's en onderliggende pagina's?. Wil wil je ermee doen?
+  text_wiki_page_destroy_question: Deze pagina heeft %{descendants} subpagina's en onderliggende pagina's?. Wat wilt u hiermee doen?
   text_wiki_page_reassign_children: Alle subpagina's toewijzen aan deze hoofdpagina
   text_wiki_page_nullify_children: Behoud subpagina's als hoofdpagina's
   text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
@@ -805,9 +805,9 @@ nl:
   mail_subject_wiki_content_updated: "'%{id}' wiki pagina is bijgewerkt"
   label_wiki_content_added: Wiki pagina toegevoegd
   mail_subject_wiki_content_added: "'%{id}' wiki pagina is toegevoegd"
-  mail_body_wiki_content_added: The '%{id}' wiki pagina is toegevoegd door %{author}.
+  mail_body_wiki_content_added: De '%{id}' wiki pagina is toegevoegd door %{author}.
   label_wiki_content_updated: Wiki pagina bijgewerkt
-  mail_body_wiki_content_updated: The '%{id}' wiki pagina is bijgewerkt door %{author}.
+  mail_body_wiki_content_updated: De '%{id}' wiki pagina is bijgewerkt door %{author}.
   permission_add_project: Maak project
   setting_new_project_user_role_id: Rol van gebruiker die een project maakt
   label_view_all_revisions: Bekijk alle revisies
@@ -896,35 +896,30 @@ nl:
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Verwijderen niet mogelijk van tijd log invoer.
   label_overall_spent_time: Totaal bestede tijd
-  field_time_entries: Log tijd
+  field_time_entries: Registreer tijd
   project_module_gantt: Gantt
   project_module_calendar: Kalender
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
+  button_edit_associated_wikipage: "Bewerk bijbehorende wiki pagina: %{page_title}"
+  text_are_you_sure_with_children: Verwijder issue en alle onderliggende issues?
+  field_text: Tekst veld
+  label_user_mail_option_only_owner: Alleen voor dingen waarvan ik de auteur ben
+  setting_default_notification_option: Standaard instelling voor mededelingen
+  label_user_mail_option_only_my_events: Alleen voor dingen die ik volg of bij betrokken ben
+  label_user_mail_option_only_assigned: Alleen voor dingen die aan mij zijn toegewezen
+  label_user_mail_option_none: Bij geen enkele gebeurtenis
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
+  notice_not_authorized_archived_project: Het project dat u wilt bezoeken is gearchiveerd.
+  label_principal_search: "Zoek naar gebruiker of groep:"
+  label_user_search: "Zoek naar gebruiker:"
+  field_visible: Zichtbaar
   setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
-  label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-  label_my_queries: My custom queries
+  setting_commit_logtime_activity_id: Standaard activiteit voor tijdregistratie
+  text_time_logged_by_changeset: Toegepast in changeset %{value}.
+  setting_commit_logtime_enabled: Activeer tijdregistratie
+  notice_gantt_chart_truncated: De gantt chart is ingekort omdat het meer objecten bevat dan kan worden weergegeven, (%{max})
+  setting_gantt_items_limit: Max. aantal objecten op gantt chart
+  field_warn_on_leaving_unsaved: Waarschuw me wanneer ik een pagina verlaat waarvan de tekst niet opgeslagen is
+  text_warn_on_leaving_unsaved: De huidige pagina bevat tekst die niet is opgeslagen en dit zal verloren gaan als u deze pagina nu verlaat.
+  label_my_queries: Mijn aangepaste zoekopdrachten
+  label_news_comment_added: Commentaar toegevoegd aan een nieuwsitem
