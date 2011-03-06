@@ -978,14 +978,6 @@ td.issue div.issue-wrap-outer {
 	border-bottom:1px solid #ddd !important;
 }
 
-#context-menu .edit a.context_item  {background-image:url(../images/edit.png) !important; background-position: left center !important;}
-#context-menu .status a.context_item {background-image:url(../images/tag.png) !important; background-position: left center !important;}
-#context-menu .priority a.context_item {background-image:url(../images/clock.png) !important; background-position: left center !important;}
-#context-menu .assigned a.context_item {background-image:url(../images/user.png) !important; background-position: left center !important;}
-#context-menu .copy a.context_item {background-image:url(../images/copy.png) !important; background-position: left center !important;}
-#context-menu .move a.context_item {background-image:url(../images/move.png) !important; background-position: left center !important;}
-#context-menu .delete a.context_item {background-image:url(../images/delete.png) !important; background-position: left center !important;}
-
 #context-menu li.folder div.submenu {
     background:url(../images/arrow-right.png) no-repeat right;
     position: absolute;
