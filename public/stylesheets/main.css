@@ -1333,6 +1333,10 @@ div#sidebar {
 #sidebar input.button-small {
 	margin-top:6px;
 }
+#sidebar ul {border: none; }
+#sidebar li {border: none; }
+#sidebar li a {padding: 0px; }
+
 #main-menu li a {
 	white-space:normal;
 }
