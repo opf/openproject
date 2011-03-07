@@ -185,7 +185,7 @@ Reporting.Filters = {
       $('operators[' + dependents.first() + ']').value = 'any';
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
       // Hide remove box of dependent
-      $('rm_' + dependents.first()).hide();
+      $('rm_box_' + dependents.first()).hide();
       $('tr_' + dependents.first()).addClassName("no-border");
       // Remove border of dependent, so it "merges" with the filter before
       active_filters.unshift(dependents.first());
