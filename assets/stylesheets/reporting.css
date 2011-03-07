@@ -169,20 +169,33 @@
   margin-right: 0px;
   background-image: url(../images/arrow_B_down.gif);
 }
+.remove-box {
+  height: 20px;
+  width: 20px;
+  background: white;
+  float: right;
+  padding: 1px 0 0 0;
+  display: block;
+  margin-top: -5px;
+  margin-right: -2px;
+}
 
 .filter_rem {
   color: transparent;
   overflow: hidden;
   cursor: pointer;
   background: no-repeat center center transparent;
-  height: 16px;
-  width: 16px;
+  height: 18px;
+  width: 18px;
   border-style: none;
+  display: block;
+  margin: 0 0 0 2px;
 }
 
 .icon-filter-rem {
-  background-image: url(../images/remove.png);
+  background-image: url(../images/close.gif);
   position: relative;
+  float:right;
 }
 
 .filter {
@@ -214,8 +227,7 @@ fieldset#filter-settings table td {
   border-color: white;
   border-style: solid;
   border-width: 2px 0px 0px;
-  padding: 2px;
-  vertical-align: middle;
+  padding: 5px 2px 5px 2px;
 }
 
 fieldset#filter-settings table .no-border td {
