@@ -1,4 +1,5 @@
 <div class="contextual">
+  <%= watcher_tag @meeting, User.current %>
   <%= link_to_if_authorized(l(:button_edit), {:action => 'edit'}, :class => 'icon icon-edit')%>
   <%= link_to_if_authorized(l(:button_copy), {:controller => 'meetings', :action => 'new', :project_id => @project, :copy_from_id => @meeting}, :class => 'icon icon-copy')%>
   <%= link_to_if_authorized(l(:button_delete), {:action => 'destroy'}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>

@@ -5,6 +5,9 @@ class MeetingsController < ApplicationController
   before_filter :find_meeting, :except => [:index, :new, :create]
   before_filter :convert_params, :only => [:create, :update]
   before_filter :authorize
+  
+  helper :watchers
+  include WatchersHelper
 
   def index
     # Wo sollen Meetings ohne Termin hin?

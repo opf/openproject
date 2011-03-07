@@ -7,6 +7,8 @@ class MeetingParticipant < ActiveRecord::Base
   named_scope :invited, :conditions => {:invited => true}
   named_scope :attended, :conditions => {:attended => true}
   
+  after_create :add_participant_as_watcher
+  
   def name
     user.present? ? user.name : self.name
   end
@@ -20,4 +22,10 @@ class MeetingParticipant < ActiveRecord::Base
   end
   
   alias :to_s :name
+  
+  private
+  
+  def add_participant_as_watcher
+    meeting.add_watcher(user)
+  end
 end

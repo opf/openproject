@@ -7,9 +7,13 @@ class Meeting < ActiveRecord::Base
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
-  accepts_nested_attributes_for :participants
+  acts_as_watchable
+  
+  accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
   
   validates_presence_of :title, :start_time
+  
+  after_create :add_author_as_watcher
   
   def self.find_time_sorted(*args)
     by_start_year_month_date = ActiveSupport::OrderedHash.new
@@ -56,5 +60,11 @@ class Meeting < ActiveRecord::Base
     # set defaults
     self.start_time ||= Date.tomorrow + 10.hours
     self.duration   ||= 1
+  end
+  
+  private
+  
+  def add_author_as_watcher
+    add_watcher(author)
   end
 end
