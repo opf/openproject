@@ -58,10 +58,6 @@ module ReportingHelper
       {:name => :remove_filter, :filter_name => filter.underscore_name}]
   end
 
-  def link_to_project(project)
-    link_to project.name, :controller => 'projects', :action => 'show', :id => project
-  end
-
   def mapped(value, klass, default)
     id = value.to_i
     return default if id < 0
