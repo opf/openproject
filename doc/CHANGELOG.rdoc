@@ -17,6 +17,7 @@
 * Defect #7763: Email notification are sent to watchers even if 'No events' setting is chosen
 * Feature #7608: Add "retro" gravatars
 * Patch #7598: Extensible MailHandler
+* Patch #7795: Internal server error at journals#index with custom fields
 
 == 2011-03-27 v1.2.0
 
