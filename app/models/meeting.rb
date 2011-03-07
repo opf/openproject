@@ -11,7 +11,7 @@ class Meeting < ActiveRecord::Base
   
   accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
   
-  validates_presence_of :title, :start_time
+  validates_presence_of :title, :start_time, :duration
   
   after_create :add_author_as_watcher
   
@@ -31,7 +31,7 @@ class Meeting < ActiveRecord::Base
   
   def start_date
     # the text_field + calendar_for form helpers expect a Date
-    start_time.to_date
+    start_time.to_date if start_time.present?
   end
   
   def start_month
