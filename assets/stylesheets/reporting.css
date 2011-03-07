@@ -7,12 +7,19 @@
   font-weight: bold;
 }
 
+#content p, 
+#content label, 
+#content a, 
+#content div  {
+  font-size: 11px;
+  line-height: 16px;
+}
+
 .report {
   text-align:       center;
   border-collapse:  collapse;
   border:           solid 1px #ccc !important;
   width:            auto !important;
-  font-size: 11px;
 }
 
 .report td, .report th {
@@ -348,8 +355,6 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .form_controls {
-  font-size: 11px;
-  line-height: 17px;
   margin-top: 6px;
   margin-bottom: 10px;
 }
