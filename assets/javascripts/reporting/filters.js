@@ -46,7 +46,7 @@ Reporting.Filters = {
       if (options.insert_after === undefined) {
         options.insert_after = Reporting.Filters.last_visible_filter();
       }
-      if (options.insert_after !== undefined) {
+      if (options.insert_after !== undefined && options.show_filter) {
         // Move the filter down to appear after the last currently visible filter
         field_el.remove();
         options.insert_after.insert({after: field_el});
