@@ -8,6 +8,7 @@ de:
   label_meeting_close: "Schließen"
   label_meeting_open: "Öffnen"
   label_meeting_agenda_close: "Agenda schließen um mit dem Protokoll zu beginnen"
+  label_notify: "Zur Einsicht verschicken"
   field_participants: "Teilnehmer"
   field_participants_invited: "Eingeladen"
   field_participants_attended: "Anwesend"

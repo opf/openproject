@@ -27,8 +27,8 @@ module Plugin
           redmine_headers 'Project' => meeting.project.identifier,
                           'Meeting-Id' => meeting.id
           message_id minutes
-          cc meeting.recipients
-          subject "[#{meeting.project.name}] #{l(:label_minutes)}: #{meeting.title}"
+          cc meeting.watcher_recipients # works only in production environment
+          subject "[#{meeting.project.name}] #{l(:label_meeting_minutes)}: #{meeting.title}"
           body :minutes => minutes,
                :minutes_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting, :tab => 'minutes'),
                :meeting_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting)

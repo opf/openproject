@@ -8,6 +8,7 @@ en:
   label_meeting_close: "Close"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
+  label_notify: "Send for review"
   field_participants: "Participants"
   field_participants_invited: "Invitees"
   field_participants_attended: "Attendants"
