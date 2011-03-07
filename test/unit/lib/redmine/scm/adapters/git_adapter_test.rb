@@ -28,11 +28,16 @@ begin
       end
 
       def test_branches
-        assert_equal @adapter.branches, ['master', 'test-latin-1', 'test_branch']
+        assert_equal  [
+              'latin-1-path-encoding',
+              'master',
+              'test-latin-1',
+              'test_branch',
+            ], @adapter.branches
       end
 
       def test_getting_all_revisions
-        assert_equal 16, @adapter.revisions('',nil,nil,:all => true).length
+        assert_equal 20, @adapter.revisions('',nil,nil,:all => true).length
       end
 
       def test_getting_certain_revisions
