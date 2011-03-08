@@ -113,6 +113,9 @@ module Redmine
           cmd_args << "#{identifier}:#{p}" if identifier
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
+              if line.respond_to?(:force_encoding)
+                line.force_encoding('ASCII-8BIT')
+              end
               e = line.chomp.to_s
               if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
                 type = $1
