@@ -48,6 +48,13 @@ begin
             ], @adapter.branches
       end
 
+      def test_tags
+        assert_equal  [
+              "tag00.lightweight",
+              "tag01.annotated",
+            ], @adapter.tags
+      end
+
       def test_getting_all_revisions
         assert_equal 20, @adapter.revisions('',nil,nil,:all => true).length
       end
