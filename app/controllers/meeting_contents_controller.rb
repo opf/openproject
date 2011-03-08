@@ -4,6 +4,7 @@ class MeetingContentsController < ApplicationController
   menu_item :meetings
   
   helper :wiki
+  helper :meeting_contents
   
   before_filter :find_meeting, :find_content
   before_filter :authorize

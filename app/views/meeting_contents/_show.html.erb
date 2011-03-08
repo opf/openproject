@@ -1,25 +1,22 @@
-<% content, content_type = tab[:content], tab[:content_type] if defined?(tab) && tab.present? -%>
+<%- content, content_type = tab[:content], tab[:content_type] if defined?(tab) && tab.present? -%>
 <div class="meeting_content <%= content_type %>">
   <div class="contextual">
-  <%= link_to_if_authorized l(:label_meeting_agenda_close), {:controller => 'meeting_agendas', :action => 'close', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-lock' if content_type == "meeting_minutes" && !(content.meeting.agenda.present? && content.meeting.agenda.locked?) %>
-  <%= (content.locked? ? link_to_if_authorized(l(:label_meeting_open), {:controller => content_type.pluralize, :action => 'open', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-lock', :confirm => l(:text_meeting_agenda_open_are_you_sure)) : link_to_if_authorized(l(:label_meeting_close), {:controller => content_type.pluralize, :action => 'close', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-lock', :id => "close-#{content_type}-link", :style => (!content.new_record? && content.text.present? && !content.text.empty? ? "" : "display: none;"))) if content_type == "meeting_agenda" %>
-  <%= link_to l(:button_edit), "#", :class => 'icon icon-edit', :accesskey => accesskey(:edit), :onclick => "Element.show(\"edit-#{content_type}\"); Element.hide(\"#{content_type}-text\"); if ($(\"close-#{content_type}-link\")) {Element.hide(\"close-#{content_type}-link\")}; return false;" if authorize_for(content_type.pluralize, 'update') && content.editable? %>
-  <%= link_to_if_authorized(l(:label_history), {:controller => content_type.pluralize, :action => 'history', :meeting_id => content.meeting}, :class => 'icon icon-history') %>
-  <%= link_to_if_authorized(l(:label_notify), {:controller => content_type.pluralize, :action => 'notify', :meeting_id => content.meeting}, :method => :put, :class => 'icon icon-notification') unless content.new_record? || !content.editable? %>
+    <%= meeting_content_context_menu content, content_type %>
   </div>
   <h2><%=l :"label_#{content_type}" %></h2>
-  <% if authorize_for(content_type.pluralize, 'update') && content.editable? -%>
-  <div id="edit-<%= content_type %>"<%= " style=\"display: none;\"" if !content.new_record? && content.text.present? && !content.text.empty? %>>
+  <% if can_edit_meeting_content?(content, content_type) -%>
+  <div id="edit-<%= content_type %>" class="edit-<%= content_type %>"<%= " style=\"display: none;\"" unless show_meeting_content_editor?(content, content_type)%>>
   <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
   </div>
   <% end -%>
-  <% if !(!content.new_record? && content.text.present? && !content.text.empty?) -%>
-  <p class="nodata" id="<%= content_type %>-text"<%= " style=\"display: none;\"" if authorize_for(content_type.pluralize, 'update') && content.editable? %>><%= l(:label_no_data) %></p>
-  <% else -%>
-  <div class="wiki" id="<%= content_type %>-text">
+  <% if saved_meeting_content_text_present?(content) -%>
+  <div id="<%= content_type %>-text" class="wiki show-<%= content_type %>">
     <%= textilizable(content.text) %>
   </div>
+  <% else -%>
+  <p id="<%= content_type %>-text" class="nodata show-<%= content_type %>"><%= l(:label_no_data) %></p>
   <% end -%>
+  <%= javascript_tag(show_meeting_content_editor?(content, content_type) ? "$$('.show-#{content_type}').invoke('hide');" : "$$('.edit-#{content_type}').invoke('hide');") %>
 </div>
 
 <% content_for :header_tags do %>
