@@ -113,15 +113,15 @@ module Redmine
           cmd_args << "#{identifier}:#{p}" if identifier
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
-              if line.respond_to?(:force_encoding)
-                line.force_encoding('ASCII-8BIT')
-              end
               e = line.chomp.to_s
               if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
                 type = $1
                 sha  = $2
                 size = $3
                 name = $4
+                if name.respond_to?(:force_encoding)
+                  name.force_encoding(@path_encoding)
+                end
                 full_path = p.empty? ? name : "#{p}/#{name}"
                 n      = scm_iconv('UTF-8', @path_encoding, name)
                 full_p = scm_iconv('UTF-8', @path_encoding, full_path)
