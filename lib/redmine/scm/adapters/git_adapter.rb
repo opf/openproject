@@ -92,10 +92,12 @@ module Redmine
 
         def tags
           return @tags if @tags
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} tag"
-          shellout(cmd) do |io|
+          cmd_args = %w|tag|
+          scm_cmd(*cmd_args) do |io|
             @tags = io.readlines.sort!.map{|t| t.strip}
           end
+        rescue ScmCommandAborted
+          nil
         end
 
         def default_branch
