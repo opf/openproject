@@ -139,6 +139,22 @@ begin
         end
       end
 
+      def test_entries_tag
+        entries1 = @adapter.entries(nil, 'tag01.annotated')
+        assert entries1
+        assert_equal 3, entries1.size
+        assert_equal 'sources', entries1[1].name
+        assert_equal 'sources', entries1[1].path
+        assert_equal 'dir', entries1[1].kind
+        readme = entries1[2]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 27, readme.size
+        assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', readme.lastrev.identifier
+        assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
