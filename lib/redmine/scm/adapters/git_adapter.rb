@@ -79,13 +79,15 @@ module Redmine
         def branches
           return @branches if @branches
           @branches = []
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} branch --no-color"
-          shellout(cmd) do |io|
+          cmd_args = %w|branch --no-color|
+          scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
               @branches << line.match('\s*\*?\s*(.*)$')[1]
             end
           end
           @branches.sort!
+        rescue ScmCommandAborted
+          nil
         end
 
         def tags
