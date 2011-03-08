@@ -126,7 +126,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                       "test-#{@char_1}.txt"], assigns(:entries).collect(&:name)
         changesets = assigns(:changesets)
         assert_not_nil changesets
-        assert_equal %w(21 20 19 18 17), changesets.collect(&:revision)
+        assert_equal %w(27 21 20 19 18 17), changesets.collect(&:revision)
       end
     end
 

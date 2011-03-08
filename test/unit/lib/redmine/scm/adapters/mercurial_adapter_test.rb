@@ -18,9 +18,11 @@ begin
         @diff_c_support = true
 
         @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
-        @branch_char_1 = "branch-#{CHAR_1_HEX}-00"
+        @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
+        @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
         if @tag_char_1.respond_to?(:force_encoding)
           @tag_char_1.force_encoding('UTF-8')
+          @branch_char_0.force_encoding('UTF-8')
           @branch_char_1.force_encoding('UTF-8')
         end
       end
@@ -58,7 +60,7 @@ begin
           adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
           repo_path =  adp.info.root_url.gsub(/\\/, "/")
           assert_equal REPOSITORY_PATH, repo_path
-          assert_equal '26', adp.info.lastrev.revision
+          assert_equal '28', adp.info.lastrev.revision
           assert_equal '3ae45e2d177d',adp.info.lastrev.scmid
         end
       end
@@ -243,8 +245,9 @@ begin
       def test_branches
         assert_equal [
             'default',
-            'branch (1)[2]&,%.-3_4',
             @branch_char_1,
+            'branch (1)[2]&,%.-3_4',
+            @branch_char_0,
             'test_branch.latin-1',
             'test-branch-00',
           ], @adapter.branches
@@ -256,7 +259,8 @@ begin
            'test_branch.latin-1'   => 'c2ffe7da686a',
            'branch (1)[2]&,%.-3_4' => 'afc61e85bde7',
            'test-branch-00'        => '3a330eb32958',
-           @branch_char_1          => 'c8d3e4887474',
+           @branch_char_0          => 'c8d3e4887474',
+           @branch_char_1          => '7bbf4c738e71',
          }
         assert_equal bm, @adapter.branchmap
       end
