@@ -172,7 +172,6 @@ module Redmine
             files=[]
             changeset = {}
             parsing_descr = 0  #0: not parsing desc or files, 1: parsing desc, 2: parsing files
-            revno = 1
 
             io.each_line do |line|
               if line =~ /^commit ([0-9a-f]{40})$/
@@ -195,7 +194,6 @@ module Redmine
                   end
                   changeset = {}
                   files = []
-                  revno = revno + 1
                 end
                 changeset[:commit] = $1
               elsif (parsing_descr == 0) && line =~ /^(\w+):\s*(.*)$/
@@ -210,16 +208,16 @@ module Redmine
                 parsing_descr = 1
                 changeset[:description] = ""
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
+                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
-                fileaction = $1
-                filepath = $2
+                fileaction    = $1
+                filepath      = $2
                 files << {:action => fileaction, :path => filepath}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
-              && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
+                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
-                fileaction = $1
-                filepath = $3
+                fileaction    = $1
+                filepath      = $3
                 files << {:action => fileaction, :path => filepath}
               elsif (parsing_descr == 1) && line.chomp.to_s == ""
                 parsing_descr = 2
