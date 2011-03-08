@@ -171,7 +171,7 @@ begin
         assert_equal Time.gm(2009, 6, 19, 4, 37, 23), readme.lastrev.time
       end
 
-      def test_entries_latin_1_path
+      def test_entries_latin_1_files
         entries1 = @adapter.entries('latin-1-dir', '64f1f3e8')
         assert entries1
         assert_equal 3, entries1.size
@@ -179,6 +179,20 @@ begin
         assert_equal "test-#{@char_1}-2.txt", f1.name
         assert_equal "latin-1-dir/test-#{@char_1}-2.txt", f1.path
         assert_equal 'file', f1.kind
+      end
+
+      def test_entries_latin_1_dir
+        if Redmine::Platform.mswin?
+          # TODO
+        else
+          entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
+          assert entries1
+          assert_equal 3, entries1.size
+          f1 = entries1[1]
+          assert_equal "test-#{@char_1}-2.txt", f1.name
+          assert_equal "latin-1-dir/test-#{@char_1}-subdir/test-#{@char_1}-2.txt", f1.path
+          assert_equal 'file', f1.kind
+        end
       end
 
       private
