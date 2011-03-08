@@ -102,30 +102,34 @@ module Redmine
 
         def entries(path=nil, identifier=nil)
           path ||= ''
+          p = scm_iconv(@path_encoding, 'UTF-8', path)
           entries = Entries.new
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} ls-tree -l "
-          cmd << shell_quote("HEAD:" + path) if identifier.nil?
-          cmd << shell_quote(identifier + ":" + path) if identifier
-          shellout(cmd)  do |io|
+          cmd_args = %w|ls-tree -l|
+          cmd_args << "HEAD:#{p}"          if identifier.nil?
+          cmd_args << "#{identifier}:#{p}" if identifier
+          scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
               e = line.chomp.to_s
               if e =~ /^\d+\s+(\w+)\s+([0-9a-f]{40})\s+([0-9-]+)\t(.+)$/
                 type = $1
-                sha = $2
+                sha  = $2
                 size = $3
                 name = $4
                 full_path = path.empty? ? name : "#{path}/#{name}"
-                entries << Entry.new({:name => name,
-                 :path => full_path,
+                n      = scm_iconv('UTF-8', @path_encoding, name)
+                full_p = scm_iconv('UTF-8', @path_encoding, full_path)
+                entries << Entry.new({:name => n,
+                 :path => full_p,
                  :kind => (type == "tree") ? 'dir' : 'file',
                  :size => (type == "tree") ? nil : size,
-                 :lastrev => @flag_report_last_commit ? lastrev(full_path,identifier) : Revision.new
+                 :lastrev => @flag_report_last_commit ? lastrev(full_path, identifier) : Revision.new
                 }) unless entries.detect{|entry| entry.name == name}
               end
             end
           end
-          return nil if $? && $?.exitstatus != 0
           entries.sort_by_name
+        rescue ScmCommandAborted
+          nil
         end
 
         def lastrev(path, rev)
