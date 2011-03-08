@@ -27,7 +27,6 @@ class RepositoryGitTest < ActiveSupport::TestCase
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
 
   def setup
-    Setting.commit_logs_encoding = 'UTF-8'
     @project = Project.find(3)
     @repository = Repository::Git.create(
                       :project       => @project,
