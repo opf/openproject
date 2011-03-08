@@ -309,14 +309,16 @@ module Redmine
           if identifier.nil?
             identifier = 'HEAD'
           end
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} show --no-color #{shell_quote(identifier + ':' + path)}"
+          cmd_args = %w|show --no-color|
+          cmd_args << "#{identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
           cat = nil
-          shellout(cmd) do |io|
+          scm_cmd(*cmd_args) do |io|
             io.binmode
             cat = io.read
           end
-          return nil if $? && $?.exitstatus != 0
           cat
+        rescue ScmCommandAborted
+          nil
         end
 
         class Revision < Redmine::Scm::Adapters::Revision
