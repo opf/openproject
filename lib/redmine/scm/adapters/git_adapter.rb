@@ -167,7 +167,7 @@ module Redmine
           from_to << "#{identifier_to}" if identifier_to
           cmd_args << from_to if !from_to.empty?
           cmd_args << "--since=#{options[:since].strftime("%Y-%m-%d %H:%M:%S")}" if options[:since]
-          cmd_args << "--" << path if path && !path.empty?
+          cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
 
           scm_cmd *cmd_args do |io|
             files=[]
