@@ -7,7 +7,10 @@ class MeetingMinutes < MeetingContent
   def updated_on
     updated_at
   end
-    
+  
+  # The above breaks acts_as_versioned in some cases, this works around it
+  self.non_versioned_columns << 'updated_on'
+  
   protected
   
   def after_initialize
