@@ -25,6 +25,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
+  CHAR_1_HEX = "\xc3\x9c"
 
   def setup
     @project = Project.find(3)
@@ -34,6 +35,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
                       :path_encoding => 'ISO-8859-1'
                       )
     assert @repository
+    @char_1        = CHAR_1_HEX.dup
+    if @char_1.respond_to?(:force_encoding)
+      @char_1.force_encoding('UTF-8')
+    end
   end
 
   if File.directory?(REPOSITORY_PATH)  
