@@ -337,7 +337,10 @@ module Redmine
 
         def scm_cmd(*args, &block)
           repo_path = root_url || url
-          full_args = [GIT_BIN, '--git-dir', repo_path, '-c', 'core.quotepath=false']
+          full_args = [GIT_BIN, '--git-dir', repo_path]
+          if self.class.client_version_above?([1, 7, 2])
+            full_args << '-c' << 'core.quotepath=false'
+          end
           full_args += args
           ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
           if $? && $?.exitstatus != 0
