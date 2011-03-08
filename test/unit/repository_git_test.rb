@@ -197,6 +197,20 @@ class RepositoryGitTest < ActiveSupport::TestCase
           ], changesets.collect(&:revision)
     end
 
+    def test_latest_changesets_latin_1_dir
+      if Redmine::Platform.mswin?
+        # TODO
+      else
+        @repository.fetch_changesets
+        @repository.reload
+        changesets = @repository.latest_changesets(
+                    "latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
+        assert_equal [
+              '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127',
+          ], changesets.collect(&:revision)
+      end
+    end
+
     def test_find_changeset_by_name
       @repository.fetch_changesets
       @repository.reload
