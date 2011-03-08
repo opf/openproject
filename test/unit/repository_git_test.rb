@@ -29,7 +29,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
   def setup
     Setting.commit_logs_encoding = 'UTF-8'
     @project = Project.find(3)
-    @repository = Repository::Git.create(:project => @project, :url => REPOSITORY_PATH)
+    @repository = Repository::Git.create(
+                      :project       => @project,
+                      :url           => REPOSITORY_PATH,
+                      :path_encoding => 'ISO-8859-1'
+                      )
     assert @repository
   end
 
