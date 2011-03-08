@@ -1,5 +1,4 @@
 <% form_for :"#{content_type}", content, :url => {:controller => content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
-<%= f.hidden_field :version %>
 <%= error_messages_for content_type %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
