@@ -214,7 +214,11 @@ module RepositoriesHelper
 
   def git_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
-                  '<br />a bare and local repository (e.g. /gitrepo, c:\gitrepo)')
+                  '<br />a bare and local repository (e.g. /gitrepo, c:\gitrepo)') +
+    content_tag('p', form.select(
+                        :path_encoding, [nil] + Setting::ENCODINGS,
+                        :label => 'Path encoding') +
+                        '<br />Default: UTF-8')
   end
 
   def cvs_field_tags(form, repository)
