@@ -227,7 +227,7 @@ module Redmine
               elsif (parsing_descr == 1)
                 changeset[:description] << line[4..-1]
               end
-            end 
+            end
 
             if changeset[:commit]
               revision = Revision.new({
@@ -253,22 +253,22 @@ module Redmine
 
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
-
+          cmd_args = []
           if identifier_to
-            cmd = "#{self.class.sq_bin} --git-dir #{target('')} diff --no-color #{shell_quote identifier_to} #{shell_quote identifier_from}" 
+            cmd_args << "diff" << "--no-color" <<  identifier_to << identifier_from
           else
-            cmd = "#{self.class.sq_bin} --git-dir #{target('')} show --no-color #{shell_quote identifier_from}"
+            cmd_args << "show" << "--no-color" << identifier_from
           end
-
-          cmd << " -- #{shell_quote path}" unless path.empty?
+          cmd_args << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path) unless path.empty?
           diff = []
-          shellout(cmd) do |io|
+          scm_cmd *cmd_args do |io|
             io.each_line do |line|
               diff << line
             end
           end
-          return nil if $? && $?.exitstatus != 0
           diff
+        rescue ScmCommandAborted
+          nil
         end
         
         def annotate(path, identifier=nil)
