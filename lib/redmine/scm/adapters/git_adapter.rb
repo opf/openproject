@@ -64,6 +64,7 @@ module Redmine
 
         def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
           super
+          @path_encoding = path_encoding || 'UTF-8'
           @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
         end
 
