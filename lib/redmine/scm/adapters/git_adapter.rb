@@ -213,13 +213,15 @@ module Redmine
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $2
-                files << {:action => fileaction, :path => filepath}
+                p = scm_iconv('UTF-8', @path_encoding, filepath)
+                files << {:action => fileaction, :path => p}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
                   && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $3
-                files << {:action => fileaction, :path => filepath}
+                p = scm_iconv('UTF-8', @path_encoding, filepath)
+                files << {:action => fileaction, :path => p}
               elsif (parsing_descr == 1) && line.chomp.to_s == ""
                 parsing_descr = 2
               elsif (parsing_descr == 1)
