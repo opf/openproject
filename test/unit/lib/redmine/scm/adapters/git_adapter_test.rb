@@ -12,10 +12,22 @@ begin
 
     FELIX_UTF8 = "Felix Schäfer"
     FELIX_HEX  = "Felix Sch\xC3\xA4fer"
+    CHAR_1_HEX = "\xc3\x9c"
 
     if File.directory?(REPOSITORY_PATH)
       def setup
-        @adapter = Redmine::Scm::Adapters::GitAdapter.new(REPOSITORY_PATH)
+        @adapter = Redmine::Scm::Adapters::GitAdapter.new(
+                      REPOSITORY_PATH,
+                      nil,
+                      nil,
+                      nil,
+                      'ISO-8859-1'
+                      )
+        assert @adapter
+        @char_1        = CHAR_1_HEX.dup
+        if @char_1.respond_to?(:force_encoding)
+          @char_1.force_encoding('UTF-8')
+        end
       end
 
       def test_scm_version
@@ -102,6 +114,22 @@ begin
         assert_equal "#{str_felix_hex} <felix@fachschaften.org>",
                        last_rev.author
         assert_equal "2010-09-18 19:59:46".to_time, last_rev.time
+      end
+
+      def test_latin_1_path
+        if Redmine::Platform.mswin?
+          # TODO
+        else
+          p2 = "latin-1-dir/test-#{@char_1}-2.txt"
+          ['4fc55c43bf3d3dc2efb66145365ddc17639ce81e', '4fc55c43bf3'].each do |r1|
+            assert @adapter.diff(p2, r1)
+            assert @adapter.cat(p2, r1)
+            assert_equal 1, @adapter.annotate(p2, r1).lines.length
+            ['64f1f3e89ad1cb57976ff0ad99a107012ba3481d', '64f1f3e89ad1cb5797'].each do |r2|
+              assert @adapter.diff(p2, r1, r2)
+            end      
+          end      
+        end
       end
 
       private
