@@ -150,6 +150,32 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal [
               '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
           ], changesets.collect(&:revision)
+
+      # with path, branch and limit
+      changesets = @repository.latest_changesets('images', 'test_branch')
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('images', 'test_branch', 1)
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', 'test_branch')
+      assert_equal [
+              '713f4944648826f558cf548222f813dabe7cbb04',
+              '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', 'test_branch', 2)
+      assert_equal [
+              '713f4944648826f558cf548222f813dabe7cbb04',
+              '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+          ], changesets.collect(&:revision)
     end
 
     def test_find_changeset_by_name
