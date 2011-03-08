@@ -23,8 +23,7 @@ module CostsIssuePatch
 
       if Redmine::VERSION::MAJOR >= 1
       #chili 1.1.0 uses safe_attributes. Hence we must proclaim cost_object safe
-        safe_attributes "cost_object_id",
-                        :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
+        safe_attributes "cost_object_id"
       end
     end
   end
