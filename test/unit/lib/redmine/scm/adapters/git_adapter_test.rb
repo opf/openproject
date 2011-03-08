@@ -155,6 +155,22 @@ begin
         assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
       end
 
+      def test_entries_branch
+        entries1 = @adapter.entries(nil, 'test_branch')
+        assert entries1
+        assert_equal 4, entries1.size
+        assert_equal 'sources', entries1[1].name
+        assert_equal 'sources', entries1[1].path
+        assert_equal 'dir', entries1[1].kind
+        readme = entries1[2]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 159, readme.size
+        assert_equal '713f4944648826f558cf548222f813dabe7cbb04', readme.lastrev.identifier
+        assert_equal Time.gm(2009, 6, 19, 4, 37, 23), readme.lastrev.time
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
