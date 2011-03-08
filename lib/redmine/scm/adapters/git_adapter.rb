@@ -119,7 +119,7 @@ module Redmine
                 sha  = $2
                 size = $3
                 name = $4
-                full_path = path.empty? ? name : "#{path}/#{name}"
+                full_path = p.empty? ? name : "#{p}/#{name}"
                 n      = scm_iconv('UTF-8', @path_encoding, name)
                 full_p = scm_iconv('UTF-8', @path_encoding, full_path)
                 entries << Entry.new({:name => n,
