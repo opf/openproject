@@ -274,14 +274,14 @@ module Redmine
         rescue ScmCommandAborted
           nil
         end
-        
+
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
-          cmd = "#{self.class.sq_bin} --git-dir #{target('')} blame -p #{shell_quote identifier} -- #{shell_quote path}"
+          cmd_args = %w|blame|
+          cmd_args << "-p" << identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
-          shellout(cmd) { |io| io.binmode; content = io.read }
-          return nil if $? && $?.exitstatus != 0
+          scm_cmd(*cmd_args) { |io| io.binmode; content = io.read }
           # git annotates binary files
           return nil if content.is_binary_data?
           identifier = ''
@@ -293,12 +293,16 @@ module Redmine
             elsif line =~ /^author (.+)/
               authors_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
-              blame.add_line($1, Revision.new(:identifier => identifier, :author => authors_by_commit[identifier]))
+              blame.add_line($1, Revision.new(
+                                    :identifier => identifier,
+                                    :author => authors_by_commit[identifier]))
               identifier = ''
               author = ''
             end
           end
           blame
+        rescue ScmCommandAborted
+          nil
         end
 
         def cat(path, identifier=nil)
