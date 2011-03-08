@@ -81,6 +81,45 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 20, @repository.changesets.count
     end
 
+    def test_latest_changesets
+      @repository.fetch_changesets
+      @repository.reload
+      # with limit
+      changesets = @repository.latest_changesets('', nil, 2)
+      assert_equal 2, changesets.size
+
+      # with path
+      changesets = @repository.latest_changesets('images', nil)
+      assert_equal [
+              'deff712f05a90d96edbd70facc47d944be5897e3',
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', nil)
+      assert_equal [
+              '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf',
+              '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8',
+              '713f4944648826f558cf548222f813dabe7cbb04',
+              '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      # with path and revision
+      changesets = @repository.latest_changesets('images', '899a15dba')
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', '899a15dba')
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+              '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+    end
+
     def test_find_changeset_by_name
       @repository.fetch_changesets
       @repository.reload
