@@ -181,6 +181,20 @@ class RepositoryGitTest < ActiveSupport::TestCase
               '713f4944648826f558cf548222f813dabe7cbb04',
               '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
           ], changesets.collect(&:revision)
+
+      # latin-1 encoding path
+      changesets = @repository.latest_changesets(
+                    "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
+      assert_equal [
+              '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
+              '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets(
+                    "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
+      assert_equal [
+              '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
+          ], changesets.collect(&:revision)
     end
 
     def test_find_changeset_by_name
