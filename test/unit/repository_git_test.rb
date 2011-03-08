@@ -105,11 +105,16 @@ class RepositoryGitTest < ActiveSupport::TestCase
               '7234cb2750b63f47bff735edc50a1c0a433c2518',
           ], changesets.collect(&:revision)
 
-      # with path and revision
+      # with path, revision and limit
       changesets = @repository.latest_changesets('images', '899a15dba')
       assert_equal [
               '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
               '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('images', '899a15dba', 1)
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
           ], changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README', '899a15dba')
@@ -117,6 +122,12 @@ class RepositoryGitTest < ActiveSupport::TestCase
               '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
               '7234cb2750b63f47bff735edc50a1c0a433c2518',
           ], changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', '899a15dba', 1)
+      assert_equal [
+              '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+          ], changesets.collect(&:revision)
+
     end
 
     def test_find_changeset_by_name
