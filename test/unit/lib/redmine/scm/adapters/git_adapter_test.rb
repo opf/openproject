@@ -63,6 +63,19 @@ begin
         assert_equal 1, @adapter.revisions('','899a15d^','899a15d').length
       end
 
+      def test_revisions_reverse
+        revs1 = @adapter.revisions('',nil,nil,{:all => true, :reverse => true })
+        assert_equal 21, revs1.length
+        assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[0].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[20].identifier
+
+        since2 = Time.gm(2010, 9, 30, 0, 0, 0)
+        revs2 = @adapter.revisions('',nil,nil,{:all => true, :since => since2, :reverse => true })
+        assert_equal 6, revs2.length
+        assert_equal '67e7792ce20ccae2e4bb73eed09bb397819c8834', revs2[0].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[5].identifier
+      end
+
       def test_getting_revisions_with_spaces_in_filename
         assert_equal 1, @adapter.revisions("filemane with spaces.txt",
                                            nil, nil, :all => true).length
@@ -84,7 +97,8 @@ begin
         annotate = @adapter.annotate('sources/watchers_controller.rb')
         assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
         assert_equal 41, annotate.lines.size
-        assert_equal "# This program is free software; you can redistribute it and/or", annotate.lines[4].strip
+        assert_equal "# This program is free software; you can redistribute it and/or",
+                     annotate.lines[4].strip
         assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
                       annotate.revisions[4].identifier
         assert_equal "jsmith", annotate.revisions[4].author
