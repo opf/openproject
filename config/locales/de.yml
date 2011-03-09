@@ -14,6 +14,7 @@ de:
   label_closed: 'Geschlossen'
   label_less: "<"
   label_greater: ">"
+  label_sum: "Summe"
 
   text_costs_are_rounded_note: "Die angezeigten Werte sind gerundet. Alle Berechnungen basieren auf ungerundeten Werten."
   information_restricted_depending_on_permission: "Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein."
