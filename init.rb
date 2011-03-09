@@ -127,7 +127,7 @@ Redmine::Plugin.register :redmine_costs do
     :caption => :cost_types_title, :if => Proc.new { User.current.admin? }
 
   menu :project_menu, :cost_objects, {:controller => 'cost_objects', :action => 'index'},
-    :param => :project_id, :after => :new_issue, :caption => :cost_objects_title
+    :param => :project_id, :before => :settings, :caption => :cost_objects_title
 
   # Activities
   activity_provider :cost_objects
