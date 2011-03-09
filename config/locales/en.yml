@@ -19,7 +19,7 @@ en:
   button_add_cost_object: Add Cost Object
   button_add_cost_type: Add cost type
   button_add_rate: Add rate
-  button_log_costs: Log material costs
+  button_log_costs: Log unit costs
 
   caption_booked_on_project: "Booked on Project"
   caption_budget: Budget

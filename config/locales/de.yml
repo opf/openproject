@@ -19,7 +19,7 @@ de:
   button_add_cost_object: Liefergegenstand anlegen
   button_add_cost_type: Kostenart anlegen
   button_add_rate: "Satz hinzuf\xC3\xBCgen"
-  button_log_costs: Materialkosten buchen
+  button_log_costs: "Stückkosten buchen"
 
   caption_booked_on_project: "Auf das Projekt gebucht"
   caption_budget: Budget
