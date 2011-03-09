@@ -27,6 +27,12 @@ class RepositoryGitTest < ActiveSupport::TestCase
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
   CHAR_1_HEX = "\xc3\x9c"
 
+  ## Ruby uses ANSI api to fork a process on Windows.
+  ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
+  ## and these are incompatible with ASCII.
+  # WINDOWS_PASS = Redmine::Platform.mswin?
+  WINDOWS_PASS = false
+
   def setup
     @project = Project.find(3)
     @repository = Repository::Git.create(
@@ -41,7 +47,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
   end
 
-  if File.directory?(REPOSITORY_PATH)  
+  if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
@@ -198,8 +204,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_latest_changesets_latin_1_dir
-      if Redmine::Platform.mswin?
-        # TODO
+      if WINDOWS_PASS
+        #
       else
         @repository.fetch_changesets
         @repository.reload
