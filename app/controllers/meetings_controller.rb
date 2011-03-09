@@ -7,6 +7,7 @@ class MeetingsController < ApplicationController
   before_filter :authorize
   
   helper :watchers
+  helper :meeting_contents
   include WatchersHelper
 
   def index
@@ -16,7 +17,7 @@ class MeetingsController < ApplicationController
   end
 
   def show
-    params[:tab] = "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
+    params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
   end
 
   def create
