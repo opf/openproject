@@ -1,6 +1,6 @@
 class Redmine::MenuManager::Mapper
   def initialize(menu, items)
-    items[menu] ||= Tree::TreeNode.new(:root, {})
+    items[menu] ||= Redmine::MenuManager::TreeNode.new(:root, {})
     @menu = menu
     @menu_items = items[menu]
   end

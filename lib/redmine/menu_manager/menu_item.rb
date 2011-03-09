@@ -1,4 +1,4 @@
-class Redmine::MenuManager::MenuItem < Tree::TreeNode
+class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
   attr_reader :name, :url, :param, :condition, :parent, :child_menus, :last
   
