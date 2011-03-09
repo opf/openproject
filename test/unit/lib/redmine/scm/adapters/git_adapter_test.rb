@@ -14,6 +14,12 @@ begin
     FELIX_HEX  = "Felix Sch\xC3\xA4fer"
     CHAR_1_HEX = "\xc3\x9c"
 
+    ## Ruby uses ANSI api to fork a process on Windows.
+    ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
+    ## and these are incompatible with ASCII.
+    # WINDOWS_PASS = Redmine::Platform.mswin?
+    WINDOWS_PASS = false
+
     if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::GitAdapter.new(
@@ -138,8 +144,8 @@ begin
       end
 
       def test_latin_1_path
-        if Redmine::Platform.mswin?
-          # TODO
+        if WINDOWS_PASS
+          #
         else
           p2 = "latin-1-dir/test-#{@char_1}-2.txt"
           ['4fc55c43bf3d3dc2efb66145365ddc17639ce81e', '4fc55c43bf3'].each do |r1|
@@ -196,10 +202,11 @@ begin
       end
 
       def test_entries_latin_1_dir
-        if Redmine::Platform.mswin?
-          # TODO
+        if WINDOWS_PASS
+          #
         else
-          entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
+          entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir",
+                                      '1ca7f5ed')
           assert entries1
           assert_equal 3, entries1.size
           f1 = entries1[1]
