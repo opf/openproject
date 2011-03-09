@@ -1,6 +1,6 @@
 --- 
 en: 
-  cost_objects_title: Cost Objects
+  cost_objects_title: Budgets
   cost_types_title: Cost Types
   cost_reports_title: Cost Reports
   project_module_costs_module: Cost Control
@@ -15,15 +15,15 @@ en:
   week: week
   group_by_others: not in any group
 
-  button_add_budget_item: Add budget item
-  button_add_cost_object: Add Cost Object
+  button_add_budget_item: Add Planned Costs
+  button_add_cost_object: Add Budget
   button_add_cost_type: Add cost type
   button_add_rate: Add rate
   button_log_costs: Log unit costs
 
   caption_booked_on_project: "Booked on Project"
-  caption_budget: Budget
-  caption_budget_available: Available Budget
+  caption_budget: Planned Costs
+  caption_budget_available: Remaining Budget
   caption_budget_ratio: Spent Budget
   caption_comment: Comment
   caption_cost_type: Cost Type
@@ -40,11 +40,11 @@ en:
   caption_fixed_date: Fixed Date
   caption_issue: Issue
   caption_labor: Labor
-  caption_labor_budget: Labor Budget
-  caption_labor_costs: Labor Costs
-  caption_material_budget: Material Budget
-  caption_material_costs: Material Costs
-  caption_materials: Materials
+  caption_labor_budget: Planned Labor Costs
+  caption_labor_costs: Actual Labor Costs
+  caption_material_budget: Planned Unit Costs
+  caption_material_costs: Actual Unit Costs
+  caption_materials: Units
   caption_overall_costs: Overall Costs
   caption_progress: Progress
   caption_rate: Rate
@@ -54,25 +54,25 @@ en:
   caption_set_rate: Set Current Rate
   caption_spent: Spent
   caption_status: Status
-  caption_subject: Subject
+  caption_subject: Title
   caption_valid_from: Valid from
   
   error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
   
-  field_budget_ratio: Spent budget
+  field_budget_ratio: Spent Budget
   field_client_signoff: Client signoff
-  field_cost_object: Cost Object
-  field_cost_object_subject: Cost Object Subject
+  field_cost_object: Budget
+  field_cost_object_subject: Budget Title
   field_cost_type: Cost type
   field_costs: Costs
   field_default: Default
-  field_deliverable: Cost Object
+  field_deliverable: Budget
   field_fixed_date: Fixed Date
   field_kind: Type
-  field_labor_budget: Labor budget
-  field_labor_costs: Labor costs
-  field_material_budget: Material budget
-  field_material_costs: Material costs
+  field_labor_budget: Planned Labor Costs
+  field_labor_costs: Labor Costs
+  field_material_budget: Planned Unit Costs
+  field_material_costs: Unit Costs
   field_overall_costs: Overall costs
   field_overridden_costs: Overridden Costs
   field_project_manager_signoff: Project manager signoff
@@ -91,10 +91,10 @@ en:
   label_awaiting_manager: Awaiting manager response
   label_between: between
   label_cost_filter_add: Add cost entry filter
-  label_cost_object: Cost Object
-  label_cost_object_id: "Cost Object #{{id}}"
-  label_cost_object_new: New Cost Object
-  label_cost_object_plural: Cost Objects
+  label_cost_object: Budget
+  label_cost_object_id: "Budget #{{id}}"
+  label_cost_object_new: New Budget
+  label_cost_object_plural: Budgets
   label_cost_plural: Costs
   label_cost_report: Cost Report
   label_costs_per_page: Costs per page
@@ -103,7 +103,7 @@ en:
   label_current_default_rate: Current default rate
   label_date_on: "on"
   label_deleted_cost_types: Deleted Cost Types
-  label_deliverable: Cost Object
+  label_deliverable: Budget
   label_display_types: Display types
   label_edit: Edit
   label_fixed_cost_object: Fixed budget
@@ -129,29 +129,29 @@ en:
   label_until: until
   label_valid_from: Valid from
   label_variable_cost_object: Variable rate based budget
-  label_view_all_cost_objects: View all Cost Objects
+  label_view_all_cost_objects: View all Budgets
   label_yes: "Yes"
   
   notice_cost_object_conflict: "Issues must be of the same project."
-  notice_no_cost_objects_available: "No cost objects available."
+  notice_no_cost_objects_available: "No budgets available."
   notice_something_wrong: Something went wrong. Please try again.
   notice_successful_restore: Successful restore.
   
   permission_block_tickets: Block tickets
-  permission_edit_cost_entries: Edit booked material costs
-  permission_edit_cost_objects: Edit Cost Objects
-  permission_edit_own_cost_entries: Edit own booked material costs
+  permission_edit_cost_entries: Edit booked unit costs
+  permission_edit_cost_objects: Edit Budgets
+  permission_edit_own_cost_entries: Edit own booked unit costs
   permission_edit_rates: Edit rates
-  permission_log_costs: Book material costs
-  permission_log_own_costs: Book material costs for oneself
+  permission_log_costs: Book unit costs
+  permission_log_own_costs: Book unit costs for oneself
   permission_view_cost_entries: View booked costs
-  permission_view_cost_objects: View Cost Objects
+  permission_view_cost_objects: View Budgets
   permission_view_cost_rates: View cost rates
   permission_view_hourly_rates: View all hourly rates
   permission_view_own_hourly_rate: View own hourly rate
   
   text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
-  text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific cost object type.
+  text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific budget type.
   text_destroy_cost_entries_question: "{{cost_entries}} were reported on the issues you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: Delete reported hours and costs
   text_destroy_time_and_cost_entries_question: "{{hours}} hours, {{cost_entries}} were reported on the issues you are about to delete. What do you want to do ?"

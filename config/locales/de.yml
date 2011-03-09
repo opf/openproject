@@ -1,6 +1,6 @@
 --- 
 de: 
-  cost_objects_title: Liefergegenstände
+  cost_objects_title: Budgets
   cost_types_title: Kostenarten
   cost_reports_title: Reports
   project_module_costs_module: Controlling
@@ -16,10 +16,11 @@ de:
   group_by_others: In keiner der Gruppen
 
   button_add_budget_item: "Budgetposition hinzuf\xC3\xBCgen"
-  button_add_cost_object: Liefergegenstand anlegen
+  button_add_cost_object: Neues Budget anlegen
   button_add_cost_type: Kostenart anlegen
   button_add_rate: "Satz hinzuf\xC3\xBCgen"
   button_log_costs: "Stückkosten buchen"
+  button_log_time: "Zeit buchen"
 
   caption_booked_on_project: "Auf das Projekt gebucht"
   caption_budget: Budget
@@ -40,11 +41,11 @@ de:
   caption_fixed_date: Referenzdatum
   caption_issue: Ticket
   caption_labor: Personal
-  caption_labor_budget: Arbeitszeitbudget
-  caption_labor_costs: Personeneinzelkosten
-  caption_material_budget: Materialbudget
-  caption_material_costs: Materialeinzelkosten
-  caption_materials: Material
+  caption_labor_budget: Geplante Personaleinzelkosten
+  caption_labor_costs: Ist-Personaleinzelkosten
+  caption_material_budget: Geplante Stückkosten
+  caption_material_costs: Ist-Stückkosten
+  caption_materials: Stücke
   caption_overall_costs: Gesamtkosten
   caption_progress: Fortschritt
   caption_rate: Satz
@@ -54,31 +55,31 @@ de:
   caption_set_rate: Aktuellen Satz festlegen
   caption_spent: Gebucht
   caption_status: Status
-  caption_subject: Thema
+  caption_subject: Titel
   caption_valid_from: "G\xC3\xBCltig ab"
 
   error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"
 
   field_budget_ratio: Verbrauchtes Budget
   field_client_signoff: Genehmigt vom Kunden
-  field_cost_object: Liefergegenstand
-  field_cost_object_subject: Thema des Liefergegenstands
+  field_cost_object: Budget
+  field_cost_object_subject: Budgettitel
   field_cost_type: Kostenart
   field_costs: Kosten
   field_default: Standard
-  field_deliverable: Liefergegenstand
+  field_deliverable: Budget
   field_fixed_date: Referenzdatum
   field_kind: Typ
-  field_labor_budget: Arbeitszeitbudget
+  field_labor_budget: Geplante Personaleinzelkosten
   field_labor_costs: Personaleinzelkosten
-  field_material_budget: Materialbudget
-  field_material_costs: Materialeinzelkosten
+  field_material_budget: Geplante Stückkosten
+  field_material_costs: Stückkosten
   field_overall_costs: Gesamtkosten
   field_overridden_costs: "\xC3\x9Cberschriebene Kosten"
   field_project_manager_signoff: Genehmigt vom Projektmanager
   field_unit: Einheit
   field_unit_plural: Einheit Plural
-  field_unit_price: Materialeinzelpreis
+  field_unit_price: Stückeinzelpreis
   field_units: Einheiten
 
   help_click_to_edit: Hier Klicken zum bearbeiten.
@@ -90,10 +91,10 @@ de:
   label_awaiting_manager: Warten auf Managerantwort
   label_between: zwischen
   label_cost_filter_add: "Kostenfilter hinzuf\xC3\xBCgen"
-  label_cost_object: Liefergegenstand
-  label_cost_object_id: "Liefergegenstand #{{id}}"
-  label_cost_object_new: Neuer Liefergegenstand
-  label_cost_object_plural: "Liefergegenst\xC3\xA4nde"
+  label_cost_object: Budget
+  label_cost_object_id: "Budget #{{id}}"
+  label_cost_object_new: Neues Budget
+  label_cost_object_plural: "Budgets"
   label_cost_plural: Kosten
   label_cost_report: Report
   label_costs_per_page: Kosten dieser Seite
@@ -102,8 +103,8 @@ de:
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
   label_deleted_cost_types: "Gel\xC3\xB6schte Kostenarten"
-  label_deliverable: Liefergegenstand
-  label_display_cost_entries: Materialkosten anzeigen
+  label_deliverable: Budget
+  label_display_cost_entries: Stückkosten anzeigen
   label_display_time_entries: Personaleinzelkosten anzeigen
   label_display_types: Angezeigte Eintragsarten
   label_edit: Bearbeiten
@@ -130,29 +131,29 @@ de:
   label_until: bis
   label_valid_from: "G\xC3\xBCltig ab"
   label_variable_cost_object: Variables Budget
-  label_view_all_cost_objects: "Alle Liefergegenst\xC3\xA4nde anzeigen"
+  label_view_all_cost_objects: "Alle Budgets anzeigen"
   label_yes: Ja
 
   notice_cost_object_conflict: "Tickets müssen im gleichen Projekt sein."
-  notice_no_cost_objects_available: "Kein Liefergegenstand verfügbar."
+  notice_no_cost_objects_available: "Kein Budget verfügbar."
   notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
   notice_successful_restore: Erfolgreich wiederhergestellt.
 
   permission_block_tickets: Tickets blockieren
-  permission_edit_cost_entries: Bearbeiten gebuchter Materialkosten
-  permission_edit_cost_objects: "Liefergegenst\xC3\xA4nde bearbeiten"
-  permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Materialkosten
+  permission_edit_cost_entries: Bearbeiten gebuchter Stückkosten
+  permission_edit_cost_objects: "Budgets bearbeiten"
+  permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten
   permission_edit_rates: "Stundens\xC3\xA4tze editieren"
-  permission_log_costs: Materialkosten buchen
-  permission_log_own_costs: Eigene Materialkosten buchen
+  permission_log_costs: Stückkosten buchen
+  permission_log_own_costs: Eigene Stückkosten buchen
   permission_view_cost_entries: Gebuchte Kosten ansehen
-  permission_view_cost_objects: "Liefergegenst\xC3\xA4nde ansehen"
-  permission_view_cost_rates: Anzeigen von Materialeinzelpreisen
+  permission_view_cost_objects: "Budgets ansehen"
+  permission_view_cost_rates: Anzeigen von Stückpreisen
   permission_view_hourly_rates: "Alle Stundens\xC3\xA4tze ansehen"
   permission_view_own_hourly_rate: "Eigene Stundens\xC3\xA4tze ansehen"
 
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
-  text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Liefergegenstands l\xC3\xB6schen."
+  text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Budgets l\xC3\xB6schen."
   text_destroy_cost_entries_question: Es wurden bereits {{cost_entries}} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries:  Gebuchte Aufwände löschen
   text_destroy_time_and_cost_entries_question: Es wurden bereits {{hours}} Stunden sowie {{cost_entries}} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
