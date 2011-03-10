@@ -40,10 +40,4 @@ module GanttHelper
       end
     end
   end
-  
-  def number_of_issues_on_versions(gantt)
-    versions = gantt.events.collect {|event| (event.is_a? Version) ? event : nil}.compact
-
-    versions.sum {|v| v.fixed_issues.for_gantt.with_query(@query).count}
-  end
 end
