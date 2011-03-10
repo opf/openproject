@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -98,18 +98,11 @@ module Redmine
         common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months })
       end
 
-            ### Extracted from the HTML view/helpers
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
         return @number_of_rows if @number_of_rows
         
-        rows = if @project
-          number_of_rows_on_project(@project)
-        else
-          Project.roots.visible.has_module('issue_tracking').inject(0) do |total, project|
-            total += number_of_rows_on_project(project)
-          end
-        end
+        rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
 
         if @max_rows.present?
           rows > @max_rows ? @max_rows : rows
@@ -121,29 +114,10 @@ module Redmine
       # Returns the number of rows that will be used to list a project on
       # the Gantt chart.  This will recurse for each subproject.
       def number_of_rows_on_project(project)
-        # Remove the project requirement for Versions because it will
-        # restrict issues to only be on the current project.  This
-        # ends up missing issues which are assigned to shared versions.
-        @query.project = nil if @query.project
-
-        # One Root project
+        return 0 unless projects.include?(project)
         count = 1
-        # Issues without a Version
-        count += project.issues.for_gantt.without_version.with_query(@query).count
-
-        # Versions
-        count += project.versions.count
-
-        # Issues on the Versions
-        project.versions.each do |version|
-          count += version.fixed_issues.for_gantt.with_query(@query).count
-        end
-
-        # Subprojects
-        project.children.visible.has_module('issue_tracking').each do |subproject|
-          count += number_of_rows_on_project(subproject)
-        end
-
+        count += project_issues(project).size
+        count += project_versions(project).size
         count
       end
 
@@ -159,20 +133,60 @@ module Redmine
         @lines
       end
       
+      # Returns issues that will be rendered
+      def issues
+        @issues ||= @query.issues(
+          :include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+          :order => "#{Project.table_name}.lft ASC, #{Issue.table_name}.id ASC", 
+          :limit => @max_rows
+        )
+      end
+      
+      # Return all the project nodes that will be displayed
+      def projects
+        return @projects if @projects
+        
+        ids = issues.collect(&:project).uniq.collect(&:id)
+        if ids.any?
+          # All issues projects and their visible ancestors
+          @projects = Project.visible.all(
+            :joins => "LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt",
+            :conditions => ["child.id IN (?)", ids],
+            :order => "#{Project.table_name}.lft ASC"
+          ).uniq
+        else
+          @projects = []
+        end
+      end
+      
+      # Returns the issues that belong to +project+
+      def project_issues(project)
+        @issues_by_project ||= issues.group_by(&:project)
+        @issues_by_project[project] || []
+      end
+      
+      # Returns the distinct versions of the issues that belong to +project+
+      def project_versions(project)
+        project_issues(project).collect(&:fixed_version).compact.uniq
+      end
+      
+      # Returns the issues that belong to +project+ and are assigned to +version+
+      def version_issues(project, version)
+        project_issues(project).select {|issue| issue.fixed_version == version}
+      end
+      
       def render(options={})
-        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
+        options = {:top => 0, :top_increment => 20, :indent_increment => 20, :render => :subject, :format => :html}.merge(options)
+        indent = options[:indent] || 4
         
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
         @number_of_rows = 0
         
-        if @project
-          render_project(@project, options)
-        else
-          Project.roots.visible.has_module('issue_tracking').each do |project|
-            render_project(project, options)
-            break if abort?
-          end
+        Project.project_tree(projects) do |project, level|
+          options[:indent] = indent + level * options[:indent_increment]
+          render_project(project, options)
+          break if abort?
         end
         
         @subjects_rendered = true unless options[:only] == :lines
@@ -182,10 +196,6 @@ module Redmine
       end
 
       def render_project(project, options={})
-        options[:top] = 0 unless options.key? :top
-        options[:indent_increment] = 20 unless options.key? :indent_increment
-        options[:top_increment] = 20 unless options.key? :top_increment
-
         subject_for_project(project, options) unless options[:only] == :lines
         line_for_project(project, options) unless options[:only] == :subjects
         
@@ -194,25 +204,17 @@ module Redmine
         @number_of_rows += 1
         return if abort?
         
-        # Second, Issues without a version
-        issues = project.issues.for_gantt.without_version.with_query(@query).all(:limit => current_limit)
+        issues = project_issues(project).select {|i| i.fixed_version.nil?}
         sort_issues!(issues)
         if issues
           render_issues(issues, options)
           return if abort?
         end
-
-        # Third, Versions
-        project.versions.sort.each do |version|
-          render_version(version, options)
-          return if abort?
+        
+        versions = project_versions(project)
+        versions.each do |version|
+          render_version(project, version, options)
         end
-
-        # Fourth, subprojects
-        project.children.visible.has_module('issue_tracking').each do |project|
-          render_project(project, options)
-          return if abort?
-        end unless project.leaf?
 
         # Remove indent to hit the next sibling
         options[:indent] -= options[:indent_increment]
@@ -233,7 +235,7 @@ module Redmine
         options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
-      def render_version(version, options={})
+      def render_version(project, version, options={})
         # Version header
         subject_for_version(version, options) unless options[:only] == :lines
         line_for_version(version, options) unless options[:only] == :subjects
@@ -242,12 +244,7 @@ module Redmine
         @number_of_rows += 1
         return if abort?
         
-        # Remove the project requirement for Versions because it will
-        # restrict issues to only be on the current project.  This
-        # ends up missing issues which are assigned to shared versions.
-        @query.project = nil if @query.project
-        
-        issues = version.fixed_issues.for_gantt.with_query(@query).all(:limit => current_limit)
+        issues = version_issues(project, version)
         if issues
           sort_issues!(issues)
           # Indent issues
