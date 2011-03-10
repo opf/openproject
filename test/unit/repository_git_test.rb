@@ -268,6 +268,46 @@ class RepositoryGitTest < ActiveSupport::TestCase
       c = @repository.changesets.find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
       assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
     end
+
+    def test_previous
+      @repository.fetch_changesets
+      @repository.reload
+      %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
+          assert_equal @repository.find_changeset_by_name(r2), changeset.previous
+        end
+      end
+    end
+
+    def test_previous_nil
+      @repository.fetch_changesets
+      @repository.reload
+      %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        assert_nil changeset.previous
+      end
+    end
+
+    def test_next
+      @repository.fetch_changesets
+      @repository.reload
+      %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
+        changeset = @repository.find_changeset_by_name(r2)
+        %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+        assert_equal @repository.find_changeset_by_name(r1), changeset.next
+        end
+      end
+    end
+
+    def test_next_nil
+      @repository.fetch_changesets
+      @repository.reload
+      %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
+        changeset = @repository.find_changeset_by_name(r1)
+        assert_nil changeset.next
+      end
+    end
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
