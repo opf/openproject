@@ -68,11 +68,6 @@ class Issue < ActiveRecord::Base
   named_scope :with_limit, lambda { |limit| { :limit => limit} }
   named_scope :on_active_project, :include => [:status, :project, :tracker],
                                   :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
-  named_scope :for_gantt, lambda {
-    {
-      :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version]
-    }
-  }
 
   named_scope :without_version, lambda {
     {
