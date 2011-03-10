@@ -794,7 +794,7 @@ background-image:url('../images/close_hl.png');
 }
 
 .gantt_subjects { font-size: 0.8em; }
-.gantt_subjects div { line-height:1.2em;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
+.gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
 
 .task {
   position: absolute;
@@ -803,7 +803,7 @@ background-image:url('../images/close_hl.png');
   color:#888;
   padding:0;
   margin:0;
-  line-height:0.8em;
+  line-height:16px;
   white-space:nowrap;
 }
 
