@@ -107,6 +107,16 @@ module Redmine
               fields = line.chop.split('/',-1)
               logger.debug(">>InspectLine #{fields.inspect}")
               if fields[0]!="D"
+                time = nil
+                # Thu Dec 13 16:27:22 2007
+                time_l = fields[-3].split(' ')
+                if time_l.size == 5 && time_l[4].length == 4
+                  begin
+                    time = Time.parse(
+                             "#{time_l[1]} #{time_l[2]} #{time_l[3]} GMT #{time_l[4]}")
+                  rescue
+                  end
+                end
                 entries << Entry.new(
                  {
                   :name => fields[-5],
@@ -118,7 +128,7 @@ module Redmine
                       {
                         :revision => fields[-4],
                         :name => fields[-4],
-                        :time => Time.parse(fields[-3]),
+                        :time => time,
                         :author => ''
                       })
                   })

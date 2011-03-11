@@ -39,6 +39,14 @@ begin
         assert_equal 2, cnt
       end
 
+      def test_entries_rev3
+        rev3_committed_on = Time.gm(2007, 12, 13, 16, 27, 22)
+        entries = @adapter.entries('sources', rev3_committed_on)
+        assert_equal 2, entries.size
+        assert_equal entries[0].name, "watchers_controller.rb"
+        assert_equal entries[0].lastrev.time, Time.gm(2007, 12, 13, 16, 27, 22)
+      end
+
       private
 
       def test_scm_version_for(scm_command_version, version)
