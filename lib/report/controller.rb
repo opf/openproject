@@ -20,6 +20,7 @@ module Report::Controller
   def index
     if params[:report] && report = report_engine.find_by_name(params[:report].titleize)
       @query = report.deserialize
+      store_query(@query)
     end
     table
   end
@@ -223,7 +224,7 @@ module Report::Controller
   end
 
   ##
-  # Build the query from the passed hash
+  # Build the query from the passed session hash
   def build_query(filters, groups = {})
     query = report_engine.new
     query.tap do |q|
@@ -239,6 +240,22 @@ module Report::Controller
   end
 
   ##
+  # Store query in the session
+  def store_query(query)
+    cookie = {}
+    cookie[:groups] = @query.group_bys.inject({}) do |h, group|
+      ((h[:"#{group.type}s"] ||= []) << group.field.to_sym) && h
+    end
+    cookie[:filters] = @query.filters.inject({:operators => {}, :values => {}}) do |h, filter|
+      h[:operators][filter.field.to_sym] = filter.operator.to_s
+      h[:values][filter.field.to_sym] = filter.values
+      h
+    end
+    debugger
+    session[report_engine.name.underscore.to_sym] = cookie
+  end
+
+  ##
   # Find a report if :id was passed as parameter.
   # Raises RecordNotFound if an invalid :id was passed.
   def find_optional_report
@@ -247,6 +264,7 @@ module Report::Controller
         :conditions => ["(is_public = 1) OR (user_id = ?)", current_user_id])
       if @query
         @query.deserialize
+        store_query(@query)
       else
         raise ActiveRecord::RecordNotFound
       end
