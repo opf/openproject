@@ -87,7 +87,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       # with_limit
       changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
+      assert_equal %w|28 27|, changesets.collect(&:revision)
 
       # with_filepath
       changesets = @repository.latest_changesets('/sql_escape/percent%dir/percent%file1.txt', nil)
@@ -95,6 +95,21 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       changesets = @repository.latest_changesets('/sql_escape/underscore_dir/understrike_file.txt', nil)
       assert_equal %w|12 9|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README', nil)
+      assert_equal %w|28 17 8 6 1 0|, changesets.collect(&:revision)
+
+      # with_dirpath
+      changesets = @repository.latest_changesets('images', nil)
+      assert_equal %w|1 0|, changesets.collect(&:revision)
+
+      path = 'sql_escape/percent%dir'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
+
+      path = 'sql_escape/underscore_dir'
+      changesets = @repository.latest_changesets(path, nil)
+      assert_equal %w|13 12 9|, changesets.collect(&:revision)
     end
 
     def test_copied_files
@@ -181,36 +196,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.reload
       changesets = @repository.latest_changesets('', nil, 2)
       assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
-    end
-
-    def test_latest_changesets_with_filepath
-      @repository.fetch_changesets
-      @repository.reload
-      changesets = @repository.latest_changesets('README', nil)
-      assert_equal %w|28 17 8 6 1 0|, changesets.collect(&:revision)
-
-      path = 'sql_escape/percent%dir/percent%file1.txt'
-      changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|11 10 9|, changesets.collect(&:revision)
-
-      path = 'sql_escape/underscore_dir/understrike_file.txt'
-      changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|12 9|, changesets.collect(&:revision)
-    end
-
-    def test_latest_changesets_with_dirpath
-      @repository.fetch_changesets
-      @repository.reload
-      changesets = @repository.latest_changesets('images', nil)
-      assert_equal %w|1 0|, changesets.collect(&:revision)
-
-      path = 'sql_escape/percent%dir'
-      changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
-
-      path = 'sql_escape/underscore_dir'
-      changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|13 12 9|, changesets.collect(&:revision)
     end
 
     def test_previous
