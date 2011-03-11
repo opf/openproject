@@ -49,12 +49,14 @@ class Repository::Cvs < Repository
     if entries
       entries.each() do |entry|
         unless entry.lastrev.nil? || entry.lastrev.identifier
-          change=changes.find_by_revision_and_path( entry.lastrev.revision, scm.with_leading_slash(entry.path) )
+          change=changes.find_by_revision_and_path(
+                     entry.lastrev.revision,
+                     scm.with_leading_slash(entry.path) )
           if change
-            entry.lastrev.identifier=change.changeset.revision
-            entry.lastrev.author=change.changeset.committer
-            entry.lastrev.revision=change.revision
-            entry.lastrev.branch=change.branch
+            entry.lastrev.identifier = change.changeset.revision
+            entry.lastrev.author     = change.changeset.committer
+            entry.lastrev.revision   = change.revision
+            entry.lastrev.branch     = change.branch
           end
         end
       end
