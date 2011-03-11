@@ -25,6 +25,9 @@ module Redmine
         # CVS executable name
         CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
 
+        # raised if scm command exited with error, e.g. unknown revision.
+        class ScmCommandAborted < CommandFailed; end
+
         class << self
           def client_command
             @@bin    ||= CVS_BIN
@@ -338,8 +341,19 @@ module Redmine
         def normalize_path(path)
           path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
         end   
+
+        def scm_cmd(*args, &block)
+          full_args = [CVS_BIN, '-d', root_url]
+          full_args += args
+          ret = shellout(full_args.map { |e| shell_quote e.to_s }.join(' '), &block)
+          if $? && $?.exitstatus != 0
+            raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"
+          end
+          ret
+        end
+        private :scm_cmd
       end  
-  
+
       class CvsRevisionHelper
         attr_accessor :complete_rev, :revision, :base, :branchid
         
