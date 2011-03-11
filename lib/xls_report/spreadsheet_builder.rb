@@ -62,8 +62,10 @@ class SpreadsheetBuilder
     idx=0
     value.to_s.each_char do |c|
       case c
-      when '1', '.', ';', ':', ',', ' ', 'i', 'I', 'j', 'J', '(', ')', '[', ']', '!', '-', 't', 'l'
-        tot_w[idx] += 0.6
+      when '0'..'9'
+        tot_w[idx] += 1.2
+      when '.', ';', ':', ',', ' ', 'i', 'I', 'j', 'J', '(', ')', '[', ']', '!', '-', 't', 'l'
+        tot_w[idx] += 0.7
       when 'W', 'M', 'D'
         tot_w[idx] += 1.2
       when "\n"
