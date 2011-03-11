@@ -103,32 +103,36 @@ module Redmine
           cmd_args << "-D" << time_to_cvstime(identifier) if identifier
           cmd_args << path_with_project
           scm_cmd(*cmd_args) do |io|
-            io.each_line(){|line|
-              fields=line.chop.split('/',-1)
+            io.each_line() do |line|
+              fields = line.chop.split('/',-1)
               logger.debug(">>InspectLine #{fields.inspect}")
-
               if fields[0]!="D"
-                entries << Entry.new({:name => fields[-5],
+                entries << Entry.new(
+                 {
+                  :name => fields[-5],
                   #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
                   :path => "#{path}/#{fields[-5]}",
                   :kind => 'file',
                   :size => nil,
-                  :lastrev => Revision.new({
-                    :revision => fields[-4],
-                    :name => fields[-4],
-                    :time => Time.parse(fields[-3]),
-                    :author => ''
+                  :lastrev => Revision.new(
+                      {
+                        :revision => fields[-4],
+                        :name => fields[-4],
+                        :time => Time.parse(fields[-3]),
+                        :author => ''
+                      })
                   })
-                })
               else
-                entries << Entry.new({:name => fields[1],
+                entries << Entry.new(
+                 {
+                  :name => fields[1],
                   :path => "#{path}/#{fields[1]}",
                   :kind => 'dir',
                   :size => nil,
                   :lastrev => nil
-                })
+                 })
               end
-            }
+            end
           end
           entries.sort_by_name
         rescue ScmCommandAborted
