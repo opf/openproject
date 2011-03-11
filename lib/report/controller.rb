@@ -50,6 +50,7 @@ module Report::Controller
   # at :id does not exist
   def show
     if @query
+      store_query(@query)
       table
     else
       raise ActiveRecord::RecordNotFound
@@ -263,7 +264,6 @@ module Report::Controller
         :conditions => ["(is_public = 1) OR (user_id = ?)", current_user_id])
       if @query
         @query.deserialize
-        store_query(@query)
       else
         raise ActiveRecord::RecordNotFound
       end
