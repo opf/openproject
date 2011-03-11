@@ -29,6 +29,14 @@ class XlsViews
     end
   end
 
+  def cost_type_unit_label(cost_type_id, cost_type_inst = nil, plural = true)
+    case cost_type_id
+    when -1 then l_hours(2).split[1..-1].join(" ") # get the plural for hours
+    when 0  then Setting.plugin_redmine_costs['costs_currency']
+    else cost_type_label(cost_type_id, cost_type_inst, plural)
+    end
+  end
+
   def self.generate(opts)
     self.new.tap do |obj|
       obj.query = opts[:query]

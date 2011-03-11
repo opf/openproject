@@ -50,10 +50,9 @@ if require_dependency 'cost_reports_controller'
 
           if @query.group_bys.empty?
             sb = CostEntryTable.generate(options)
+          elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
+            sb = SimpleCostReportTable.generate(options)
           else
-            if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
-              @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
-            end
             sb = CostReportTable.generate(options)
           end
           sb.xls
