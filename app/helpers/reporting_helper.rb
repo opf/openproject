@@ -99,7 +99,7 @@ module ReportingHelper
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id  then link_to_user User.find(value.to_i)
-    when :tyear, :units                         then value
+    when :tyear, :units                         then value.to_s
     when :tweek                                 then "#{l(:label_week)} ##{value}"
     when :tmonth                                then month_name(value.to_i)
     when :category_id                           then IssueCategory.find(value.to_i).name
@@ -107,7 +107,7 @@ module ReportingHelper
     when :cost_object_id                        then cost_object_link value
     when :issue_id                              then link_to_issue Issue.find(value.to_i)
     when :spent_on                              then format_date(value.to_date)
-    when :tracker_id                            then Tracker.find(value.to_i)
+    when :tracker_id                            then Tracker.find(value.to_i).name
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then IssuePriority.find(value.to_i).name
     when :fixed_version_id                      then Version.find(value.to_i).name
