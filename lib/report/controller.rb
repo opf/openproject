@@ -251,7 +251,6 @@ module Report::Controller
       h[:values][filter.field.to_sym] = filter.values
       h
     end
-    debugger
     session[report_engine.name.underscore.to_sym] = cookie
   end
 
