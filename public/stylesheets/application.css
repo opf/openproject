@@ -675,7 +675,9 @@ div.autocomplete ul li span.informal {
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
+.diff_out span { background: #faa; }
 .diff_in { background: #cfc; }
+.diff_in span { background: #afa; }
 
 .text-diff {
 padding: 1em;
