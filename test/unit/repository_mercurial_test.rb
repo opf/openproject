@@ -191,13 +191,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal 'abc400bb8672', c.event_url[:rev]
     end
 
-    def test_latest_changesets_with_limit
-      @repository.fetch_changesets
-      @repository.reload
-      changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal @repository.latest_changesets('', nil)[0, 2], changesets
-    end
-
     def test_previous
       @repository.fetch_changesets
       @repository.reload
