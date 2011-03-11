@@ -145,10 +145,10 @@ module Redmine
           logger.debug "<cvs> revisions path:'#{path}',identifier_from #{identifier_from}, identifier_to #{identifier_to}"
 
           path_with_project="#{url}#{with_leading_slash(path)}"
-          cmd = "#{self.class.sq_bin} -d #{shell_quote root_url} rlog"
-          cmd << " -d\">#{time_to_cvstime_rlog(identifier_from)}\"" if identifier_from
-          cmd << " #{shell_quote path_with_project}"
-          shellout(cmd) do |io|
+          cmd_args = %w|rlog|
+          cmd_args << "-d" << ">#{time_to_cvstime_rlog(identifier_from)}" if identifier_from 
+          cmd_args << path_with_project
+          scm_cmd(*cmd_args) do |io|
             state="entry_start"
             
             commit_log=String.new
@@ -261,6 +261,8 @@ module Redmine
               end
             end
           end
+        rescue ScmCommandAborted
+          Revisions.new
         end
 
         def diff(path, identifier_from, identifier_to=nil)
