@@ -116,12 +116,12 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       get :diff, :id => 3, :rev => 3
       assert_response :success
       assert_template 'diff'
-      # Line 22 removed
+      # Line 11 removed
       assert_tag :tag => 'th',
-                 :content => /2/,
+                 :content => /11/,
                  :sibling => { :tag => 'td', 
-                               :attributes => { :class => /diff_in/ },
-                               :content => /Main purpose/ }
+                               :attributes => { :class => /diff_out/ },
+                               :content => /Display more information/ }
     end
     
     def test_annotate
