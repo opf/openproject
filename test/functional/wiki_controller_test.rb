@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -339,6 +339,7 @@ class WikiControllerTest < ActionController::TestCase
     pages = assigns(:pages)
     assert_not_nil pages
     assert_equal Project.find(1).wiki.pages.size, pages.size
+    assert_equal pages.first.content.updated_on, pages.first.updated_on
     
     assert_tag :ul, :attributes => { :class => 'pages-hierarchy' },
                     :child => { :tag => 'li', :child => { :tag => 'a', :attributes => { :href => '/projects/ecookbook/wiki/CookBook_documentation' },

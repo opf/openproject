@@ -41,6 +41,12 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
   
+  # eager load information about last updates, without loading text
+  named_scope :with_updated_on, {
+    :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
+  }
+  
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
   
@@ -119,6 +125,18 @@ class WikiPage < ActiveRecord::Base
   
   def text
     content.text if content
+  end
+  
+  def updated_on
+    unless @updated_on
+      if time = read_attribute(:updated_on)
+        # content updated_on was eager loaded with the page
+        @updated_on = Time.parse(time) rescue nil
+      else
+        @updated_on = content && content.updated_on
+      end
+    end
+    @updated_on
   end
   
   # Returns true if usr is allowed to edit the page, otherwise false
