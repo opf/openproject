@@ -707,11 +707,13 @@ class RedCloth3 < String
             atts = pba( atts )
 
             # pass to prefix handler
+            replacement = nil
             if respond_to? "textile_#{ tag }", true
-                text.gsub!( $&, method( "textile_#{ tag }" ).call( tag, atts, cite, content ) )
+              replacement = method( "textile_#{ tag }" ).call( tag, atts, cite, content )
             elsif respond_to? "textile_#{ tagpre }_", true
-                text.gsub!( $&, method( "textile_#{ tagpre }_" ).call( tagpre, num, atts, cite, content ) )
+              replacement = method( "textile_#{ tagpre }_" ).call( tagpre, num, atts, cite, content )  
             end
+            text.gsub!( $& ) { replacement } if replacement
         end
     end
     

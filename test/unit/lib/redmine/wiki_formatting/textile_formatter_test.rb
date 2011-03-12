@@ -64,11 +64,17 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
       '@<Location /redmine>@'    => '<code>&lt;Location /redmine&gt;</code>'
     )
   end
-  
+
   def test_escaping
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
     )
+  end
+
+  def test_use_of_backslashes_followed_by_numbers_in_headers
+    assert_html_output({
+      'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+    }, false)
   end
   
   def test_double_dashes_should_not_strikethrough
@@ -88,9 +94,9 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
   
   private
   
-  def assert_html_output(to_test)
+  def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal "<p>#{expected}</p>", @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n"
+      assert_equal(( expect_paragraph ? "<p>#{expected}</p>" : expected ), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
 end
