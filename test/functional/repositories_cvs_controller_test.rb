@@ -151,9 +151,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'diff'
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
-                               :content => /watched.remove_watcher/
+                               :content => /before_filter :require_login/
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
-                               :content => /watched.remove_all_watcher/
+                               :content => /with one change/
     end
 
     def test_diff_new_files
