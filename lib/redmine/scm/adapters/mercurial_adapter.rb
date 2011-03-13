@@ -219,6 +219,17 @@ module Redmine
           self
         end
 
+        # Returns list of nodes in the specified branch
+        def nodes_in_branch(branch, path=nil, identifier_from=nil, identifier_to=nil, options={})
+          p1 = scm_iconv(@path_encoding, 'UTF-8', path)
+          hg_args = ['rhlog', '--template', '{node|short}\n', '--rhbranch', CGI.escape(branch)]
+          hg_args << '--from' << CGI.escape(hgrev(identifier_from))
+          hg_args << '--to'   << CGI.escape(hgrev(identifier_to))
+          hg_args << '--limit' << options[:limit] if options[:limit]
+          hg_args << CGI.escape(hgtarget(p1)) unless path.blank?
+          hg(*hg_args) { |io| io.readlines.map { |e| e.chomp } }
+        end
+
         def diff(path, identifier_from, identifier_to=nil)
           hg_args = %w|rhdiff|
           if identifier_to
