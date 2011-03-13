@@ -220,13 +220,11 @@ module Redmine
         end
 
         # Returns list of nodes in the specified branch
-        def nodes_in_branch(branch, path=nil, identifier_from=nil, identifier_to=nil, options={})
-          p1 = scm_iconv(@path_encoding, 'UTF-8', path)
+        def nodes_in_branch(branch, options={})
           hg_args = ['rhlog', '--template', '{node|short}\n', '--rhbranch', CGI.escape(branch)]
-          hg_args << '--from' << CGI.escape(hgrev(identifier_from))
-          hg_args << '--to'   << CGI.escape(hgrev(identifier_to))
+          hg_args << '--from' << CGI.escape(branch)
+          hg_args << '--to'   << '0'
           hg_args << '--limit' << options[:limit] if options[:limit]
-          hg_args << CGI.escape(hgtarget(p1)) unless path.blank?
           hg(*hg_args) { |io| io.readlines.map { |e| e.chomp } }
         end
 
