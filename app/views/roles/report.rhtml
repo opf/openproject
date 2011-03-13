@@ -2,6 +2,7 @@
 
 <% form_tag({:action => 'report'}, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
+<div class="autoscroll">
 <table class="list">
 <thead>
     <tr>
@@ -45,6 +46,7 @@
 <% end %>
 </tbody>
 </table>
+</div>
 <p><%= check_all_links 'permissions_form' %></p>
 <p><%= submit_tag l(:button_save) %></p>
 <% end %>
