@@ -101,8 +101,35 @@ module Redmine #:nodoc:
       self.id.to_s <=> plugin.id.to_s
     end
 
-    # Sets a requirement on Redmine version
+    # Sets a requirement on the ChiliProject version.
+    # Raises a PluginRequirementError exception if the requirement is not met.
+    #
+    # It uses the same syntax as rubygems requirements.
+    # Examples
+    #   # Requires exactly ChiliProject 1.1.1
+    #   requires_chiliproject "1.1.1"
+    #   requires_chiliproject "= 1.1.1"
+
+    #   # Requires ChiliProject 1.1.x
+    #   requires_chiliproject "~> 1.1.0"
+
+    #   # Requires ChiliProject between 1.1.0 and 1.1.5 or higher
+    #   requires_chiliproject ">= 1.1.0", "<= 1.1.5"
+
+    def requires_chiliproject(*args)
+      required_version = Gem::Requirement.new(*args)
+      chili_version = Gem::Version.new(Redmine::VERSION.to_semver)
+
+      unless required_version.satisfied_by? chili_version
+        raise PluginRequirementError.new("#{id} plugin requires ChiliProject version #{required_version} but current version is #{chili_version}.")
+      end
+      true
+    end
+
+    # Sets a requirement on Redmine version.
     # Raises a PluginRequirementError exception if the requirement is not met
+    #
+    # THIS IS A REDMINE COMPATIBILITY INTERFACE
     #
     # Examples
     #   # Requires Redmine 0.7.3 or higher
