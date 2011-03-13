@@ -134,6 +134,18 @@ def rhdiff(ui, repo, *pats, **opts):
     opts['nodates'] = True
     return commands.diff(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
+def rhlog(ui, repo, *pats, **opts):
+    rev      = opts.pop('rev')
+    bra0     = opts.pop('branch')
+    from_rev = urllib.unquote_plus(opts.pop('from', None))
+    to_rev   = urllib.unquote_plus(opts.pop('to'  , None))
+    bra      = urllib.unquote_plus(opts.pop('rhbranch', None))
+    from_rev = from_rev.replace('"', '\\"')
+    to_rev   = to_rev.replace('"', '\\"')
+    opts['rev'] = ['"%s":"%s"' % (from_rev, to_rev)]
+    opts['branch'] = [bra]
+    return commands.log(ui, repo, *map(urllib.unquote_plus, pats), **opts)
+
 def rhmanifest(ui, repo, path='', **opts):
     """output the sub-manifest of the specified directory"""
     ui.write('<?xml version="1.0"?>\n')
@@ -176,6 +188,26 @@ cmdtable = {
                [('r', 'rev', [], 'revision'),
                 ('c', 'change', '', 'change made by revision')],
                'hg rhdiff ([-c REV] | [-r REV] ...) [FILE]...'),
+    'rhlog': (rhlog,
+                   [
+                    ('r', 'rev', [], 'show the specified revision'),
+                    ('b', 'branch', [],
+                       'show changesets within the given named branch', 'BRANCH'),
+                    ('l', 'limit', '',
+                         'limit number of changes displayed', 'NUM'),
+                    ('d', 'date', '',
+                         'show revisions matching date spec', 'DATE'),
+                    ('u', 'user', [],
+                      'revisions committed by user', 'USER'),
+                    ('', 'from', '',
+                      '', ''),
+                    ('', 'to', '',
+                      '', ''),
+                    ('', 'rhbranch', '',
+                      '', ''),
+                    ('', 'template', '',
+                       'display with template', 'TEMPLATE')],
+                   'hg rhlog [OPTION]... [FILE]'),
     'rhmanifest': (rhmanifest,
                    [('r', 'rev', '', 'show the specified revision')],
                    'hg rhmanifest [-r REV] [PATH]'),
