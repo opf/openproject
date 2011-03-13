@@ -22,7 +22,7 @@
     <% unless mod.blank? %>
         <tr class="group open">
         	<td colspan="<%= @roles.size + 1 %>">
-        		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
+        		<span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
         		<%= l_or_humanize(mod, :prefix => 'project_module_') %>
         	</td>
         </tr>
