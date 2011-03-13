@@ -1002,7 +1002,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  def test_put_update_with_invalid_spent_time
+  def test_put_update_with_invalid_spent_time_hours_only
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
     
@@ -1015,9 +1015,28 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     
-    assert_tag :textarea, :attributes => { :name => 'notes' },
-                          :content => notes
+    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
     assert_tag :input, :attributes => { :name => 'time_entry[hours]', :value => "2z" }
+  end
+  
+  def test_put_update_with_invalid_spent_time_comments_only
+    @request.session[:user_id] = 2
+    notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
+    
+    assert_no_difference('Journal.count') do
+      put :update,
+           :id => 1,
+           :notes => notes,
+           :time_entry => {"comments"=>"this is my comment", "activity_id"=>"", "hours"=>""}
+    end
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_error_tag :descendant => {:content => /Activity can't be blank/}
+    assert_error_tag :descendant => {:content => /Hours can't be blank/}
+    assert_tag :textarea, :attributes => { :name => 'notes' }, :content => notes
+    assert_tag :input, :attributes => { :name => 'time_entry[comments]', :value => "this is my comment" }
   end
   
   def test_put_update_should_allow_fixed_version_to_be_set_to_a_subproject
