@@ -90,10 +90,12 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal %w|28 27|, changesets.collect(&:revision)
 
       # with_filepath
-      changesets = @repository.latest_changesets('/sql_escape/percent%dir/percent%file1.txt', nil)
+      changesets = @repository.latest_changesets(
+                      '/sql_escape/percent%dir/percent%file1.txt', nil)
       assert_equal %w|11 10 9|, changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets('/sql_escape/underscore_dir/understrike_file.txt', nil)
+      changesets = @repository.latest_changesets(
+                      '/sql_escape/underscore_dir/understrike_file.txt', nil)
       assert_equal %w|12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README', nil)
