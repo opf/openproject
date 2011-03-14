@@ -91,6 +91,23 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assigns(:changesets).size > 0
     end
 
+    def test_browse_tag
+      @repository.fetch_changesets
+      @repository.reload
+       [
+        "tag00.lightweight",
+        "tag01.annotated",
+       ].each do |t1|
+        get :show, :id => 3, :rev => t1
+        assert_response :success
+        assert_template 'show'
+        assert_not_nil assigns(:entries)
+        assigns(:entries).size > 0
+        assert_not_nil assigns(:changesets)
+        assigns(:changesets).size > 0
+      end
+    end
+
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
