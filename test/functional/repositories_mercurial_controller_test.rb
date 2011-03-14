@@ -124,11 +124,9 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_not_nil assigns(:entries)
         assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
         changesets = assigns(:changesets)
+        assert_not_nil changesets
         assigns(:changesets).size > 0
-
-        ## This is not yet implemented.
-        # assert_not_nil changesets
-        # assert_equal %w(13 11 10 9), changesets.collect(&:revision)
+        assert_equal %w(13 11 10 9), changesets.collect(&:revision)
       end
     end
 
