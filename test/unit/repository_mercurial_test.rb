@@ -136,6 +136,19 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       changesets = @repository.latest_changesets(path, '12', 1)
       assert_equal %w|12|, changesets.collect(&:revision)
+
+      # tag
+      changesets = @repository.latest_changesets('', 'tag_test.00')
+      assert_equal %w|5 4 3 2 1 0|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('', 'tag_test.00', 2)
+      assert_equal %w|5 4|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('sources', 'tag_test.00')
+      assert_equal %w|4 3 2 1 0|, changesets.collect(&:revision)
+      
+      changesets = @repository.latest_changesets('sources', 'tag_test.00', 2)
+      assert_equal %w|4 3|, changesets.collect(&:revision)
     end
 
     def test_copied_files
