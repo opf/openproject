@@ -49,7 +49,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
     end
-    
+
     def test_browse_root
       get :show, :id => 3
       assert_response :success
@@ -90,7 +90,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
     end
-    
+
     def test_browse_at_given_revision
       get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
@@ -105,7 +105,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
-    
+
     def test_entry_show
       get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -116,14 +116,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :attributes => { :class => /line-num/ },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
-    
+
     def test_entry_download
       get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
-  
+
     def test_directory_entry
       get :entry, :id => 3, :path => ['sources']
       assert_response :success
