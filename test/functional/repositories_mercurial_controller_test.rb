@@ -69,6 +69,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_show_root
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3
       assert_response :success
       assert_template 'show'
@@ -77,9 +79,13 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'images'  && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README'  && e.kind == 'file'}
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_show_directory
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :path => ['images']
       assert_response :success
       assert_template 'show'
@@ -89,19 +95,27 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_not_nil entry
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_show_at_given_revision
+      @repository.fetch_changesets
+      @repository.reload
       [0, '0', '0885933ad4f6'].each do |r1|
         get :show, :id => 3, :path => ['images'], :rev => r1
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
         assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+        assert_not_nil assigns(:changesets)
+        assigns(:changesets).size > 0
       end
     end
 
     def test_show_directory_sql_escape_percent
+      @repository.fetch_changesets
+      @repository.reload
       [13, '13', '3a330eb32958'].each do |r1|
         get :show, :id => 3, :path => ['sql_escape', 'percent%dir'], :rev => r1
         assert_response :success
@@ -110,6 +124,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_not_nil assigns(:entries)
         assert_equal ['percent%file1.txt', 'percentfile1.txt'], assigns(:entries).collect(&:name)
         changesets = assigns(:changesets)
+        assigns(:changesets).size > 0
 
         ## This is not yet implemented.
         # assert_not_nil changesets
