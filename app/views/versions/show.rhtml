@@ -37,7 +37,7 @@
 <fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
 <ul>
 <% @issues.each do |issue| -%>
-    <li><%= link_to_issue(issue) %></li>
+    <li><%= link_to_issue(issue, :project => issue.project != @version.project) %></li>
 <% end -%>
 </ul>
 </fieldset>
