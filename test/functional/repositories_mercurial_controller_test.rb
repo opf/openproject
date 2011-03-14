@@ -43,8 +43,14 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     assert @repository
     @diff_c_support = true
     @char_1        = CHAR_1_HEX.dup
+    @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
+    @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
+    @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
+      @tag_char_1.force_encoding('UTF-8')
+      @branch_char_0.force_encoding('UTF-8')
+      @branch_char_1.force_encoding('UTF-8')
     end
   end
 
