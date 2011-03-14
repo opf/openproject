@@ -80,7 +80,6 @@ class Repository::Mercurial < Repository
   end
 
   # Returns the latest changesets for +path+; sorted by revision number
-  # Default behavior is to search in cached changesets
   #
   # Because :order => 'id DESC' is defined at 'has_many',
   # there is no need to set 'order'.
@@ -88,18 +87,31 @@ class Repository::Mercurial < Repository
   # Sqlite3 and PostgreSQL pass.
   # Is this MySQL bug?
   def latest_changesets(path, rev, limit=10)
-    if path.blank?
-      changesets.find(:all, :include => :user, :limit => limit, :order => 'id DESC')
-    else
-      changesets.find(:all, :select => "DISTINCT #{Changeset.table_name}.*",
-                      :joins => :changes,
-                      :conditions => ["#{Change.table_name}.path = ? OR #{Change.table_name}.path LIKE ? ESCAPE ?",
-                                      path.with_leading_slash,
-                                      "#{path.with_leading_slash.gsub(/[%_\\]/) { |s| "\\#{s}" }}/%", '\\'],
-                      :include => :user, :limit => limit, 
-                      :order => "#{Changeset.table_name}.id DESC" )
-    end
+    changesets.find(:all, :include => :user,
+                    :conditions => latest_changesets_cond(path, rev, limit),
+                    :limit => limit, :order => "#{Changeset.table_name}.id DESC")
   end
+
+  def latest_changesets_cond(path, rev, limit)
+    cond, args = [], []
+
+    if last = rev ? find_changeset_by_name(scm.tagmap[rev] || rev) : nil
+      cond << "#{Changeset.table_name}.id <= ?"
+      args << last.id
+    end
+
+    unless path.blank?
+      cond << "EXISTS (SELECT * FROM #{Change.table_name}
+                 WHERE #{Change.table_name}.changeset_id = #{Changeset.table_name}.id
+                 AND (#{Change.table_name}.path = ? 
+                       OR #{Change.table_name}.path LIKE ? ESCAPE ?))"
+      args << path.with_leading_slash
+      args << "#{path.with_leading_slash.gsub(/[%_\\]/) { |s| "\\#{s}" }}/%" << '\\'
+    end
+
+    [cond.join(' AND '), *args] unless cond.empty?
+  end
+  private :latest_changesets_cond
 
   def fetch_changesets
     scm_rev = scm.info.lastrev.revision.to_i
