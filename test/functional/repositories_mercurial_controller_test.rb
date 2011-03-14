@@ -170,6 +170,24 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_show_tag
+      @repository.fetch_changesets
+      @repository.reload
+       [
+        @tag_char_1,
+        'tag_test.00',
+        'tag-init-revision'
+      ].each do |tag|
+        get :show, :id => 3, :rev => tag
+        assert_response :success
+        assert_template 'show'
+        assert_not_nil assigns(:entries)
+        assert assigns(:entries).size > 0
+        assert_not_nil assigns(:changesets)
+        assigns(:changesets).size > 0
+      end
+    end
+
     def test_changes
       get :changes, :id => 3, :path => ['images', 'edit.png']
       assert_response :success
