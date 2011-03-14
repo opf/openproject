@@ -149,6 +149,27 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
 
+    def test_show_branch
+      @repository.fetch_changesets
+      @repository.reload
+       [
+          'default',
+          @branch_char_1,
+          'branch (1)[2]&,%.-3_4',
+          @branch_char_0,
+          'test_branch.latin-1',
+          'test-branch-00',
+      ].each do |bra|
+        get :show, :id => 3, :rev => bra
+        assert_response :success
+        assert_template 'show'
+        assert_not_nil assigns(:entries)
+        assert assigns(:entries).size > 0
+        assert_not_nil assigns(:changesets)
+        assigns(:changesets).size > 0
+      end
+    end
+
     def test_changes
       get :changes, :id => 3, :path => ['images', 'edit.png']
       assert_response :success
