@@ -16,6 +16,24 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert assigns(:issues).include?(Issue.find(13))
   end
+
+  test 'should return issues matching a given id' do
+    @project = Project.find('subproject1')
+    @issue_21 = Issue.generate_for_project!(@project, :id => 21)
+    @issue_101 = Issue.generate_for_project!(@project, :id => 101)
+    @issue_102 = Issue.generate_for_project!(@project, :id => 102)
+    @issue_with_subject = Issue.generate_for_project!(@project, :subject => 'This has 1 in the subject')
+
+    get :issues, :project_id => @project.id, :q => '1'
+
+    assert_response :success
+    assert_not_nil assigns(:issues)
+    assert assigns(:issues).include?(Issue.find(13))
+    assert assigns(:issues).include?(@issue_21)
+    assert assigns(:issues).include?(@issue_101)
+    assert assigns(:issues).include?(@issue_102)
+    assert assigns(:issues).include?(@issue_with_subject)
+  end
   
   def test_auto_complete_with_scope_all_and_cross_project_relations
     Setting.cross_project_issue_relations = '1'
