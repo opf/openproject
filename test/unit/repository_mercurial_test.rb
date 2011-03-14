@@ -107,6 +107,12 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets('README', nil)
       assert_equal %w|28 17 8 6 1 0|, changesets.collect(&:revision)
 
+      changesets = @repository.latest_changesets('README','8')
+      assert_equal %w|8 6 1 0|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets('README','8', 2)
+      assert_equal %w|8 6|, changesets.collect(&:revision)
+
       # with_dirpath
       changesets = @repository.latest_changesets('images', nil)
       assert_equal %w|1 0|, changesets.collect(&:revision)
@@ -115,9 +121,21 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets(path, nil)
       assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
 
+      changesets = @repository.latest_changesets(path, '11')
+      assert_equal %w|11 10 9|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets(path, '11', 2)
+      assert_equal %w|11 10|, changesets.collect(&:revision)
+
       path = 'sql_escape/underscore_dir'
       changesets = @repository.latest_changesets(path, nil)
       assert_equal %w|13 12 9|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets(path, '12')
+      assert_equal %w|12 9|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets(path, '12', 1)
+      assert_equal %w|12|, changesets.collect(&:revision)
     end
 
     def test_copied_files
