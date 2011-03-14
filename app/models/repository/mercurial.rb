@@ -94,8 +94,17 @@ class Repository::Mercurial < Repository
 
   def latest_changesets_cond(path, rev, limit)
     cond, args = [], []
-
-    if last = rev ? find_changeset_by_name(scm.tagmap[rev] || rev) : nil
+    if scm.branchmap.member? rev
+      # Mercurial named branch is *stable* in each revision.
+      # So, named branch can be stored in database.
+      # Mercurial provides *bookmark* which is equivalent with git branch.
+      # But, bookmark is not implemented.
+      cond << "#{Changeset.table_name}.scmid IN (?)"
+      # Revisions in root directory and sub directory are not equal.
+      # So, in order to get correct limit, we need to get all revisions.
+      # But, it is very heavy.
+      args << scm.nodes_in_branch(rev, :limit => limit)
+    elsif last = rev ? find_changeset_by_name(scm.tagmap[rev] || rev) : nil
       cond << "#{Changeset.table_name}.id <= ?"
       args << last.id
     end
