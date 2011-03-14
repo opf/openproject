@@ -290,6 +290,12 @@ begin
         assert_equal 1, @adapter.annotate(p, @tag_char_1).lines.length
       end
 
+      def test_branch_non_ascii
+        p = "latin-1-dir/test-#{@char_1}-subdir/test-#{@char_1}-1.txt"
+        assert @adapter.cat(p, @branch_char_1)
+        assert_equal 1, @adapter.annotate(p, @branch_char_1).lines.length
+      end
+
       def test_nodes_in_branch
          [
             'default',
