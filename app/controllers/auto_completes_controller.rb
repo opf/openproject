@@ -9,7 +9,10 @@ class AutoCompletesController < ApplicationController
       @issues << query.visible.find_by_id(q.to_i)
     end
     unless q.blank?
-      @issues += query.visible.find(:all, :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE ?", "%#{q.downcase}%"], :limit => 10)
+      @issues += query.visible.find(:all,
+                                    :limit => 10,
+                                    :order => "#{Issue.table_name}.id ASC",
+                                    :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE :q OR CAST(#{Issue.table_name}.id AS CHAR(13)) LIKE :q", {:q => "%#{q.downcase}%" }])
     end
     @issues.compact!
     render :layout => false
