@@ -246,7 +246,6 @@ eu:
   field_admin: Kudeatzailea
   field_last_login_on: Azken konexioa
   field_language: Hizkuntza
-  field_effective_date: Data
   field_password: Pasahitza
   field_new_password: Pasahitz berria
   field_password_confirmation: Berrespena

@@ -240,7 +240,6 @@ id:
   field_admin: Administrator
   field_last_login_on: Terakhir login
   field_language: Bahasa
-  field_effective_date: Tanggal
   field_password: Kata sandi
   field_new_password: Kata sandi baru
   field_password_confirmation: Konfirmasi

@@ -239,7 +239,6 @@ da:
   field_admin: Administrator
   field_last_login_on: Sidste forbindelse
   field_language: Sprog
-  field_effective_date: Dato
   field_password: Kodeord
   field_new_password: Nyt kodeord
   field_password_confirmation: Bekræft

@@ -41,9 +41,13 @@ class Version < ActiveRecord::Base
   def visible?(user=User.current)
     user.allowed_to?(:view_issues, self.project)
   end
-  
+
+  # When a version started.
+  #
+  # Can either be a set date stored in the database or a dynamic one
+  # based on the earlist start_date of the fixed_issues
   def start_date
-    @start_date ||= fixed_issues.minimum('start_date')
+    @start_date ||= (read_attribute(:start_date) || fixed_issues.minimum('start_date'))
   end
   
   def due_date

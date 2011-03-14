@@ -246,7 +246,7 @@ en-GB:
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
-  field_effective_date: Date
+  field_effective_date: Due date
   field_password: Password
   field_new_password: New password
   field_password_confirmation: Confirmation

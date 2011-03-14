@@ -267,7 +267,6 @@ de:
   field_admin: Administrator
   field_last_login_on: Letzte Anmeldung
   field_language: Sprache
-  field_effective_date: Datum
   field_password: Kennwort
   field_new_password: Neues Kennwort
   field_password_confirmation: Bestätigung

@@ -257,7 +257,6 @@ zh:
   field_admin: 管理员
   field_last_login_on: 最后登录
   field_language: 语言
-  field_effective_date: 日期
   field_password: 密码
   field_new_password: 新密码
   field_password_confirmation: 确认

@@ -222,7 +222,6 @@ th:
   field_admin: ผู้บริหารจัดการ
   field_last_login_on: เข้าระบบครั้งสุดท้าย
   field_language: ภาษา
-  field_effective_date: วันที่
   field_password: รหัสผ่าน
   field_new_password: รหัสผ่านใหม่
   field_password_confirmation: ยืนยันรหัสผ่าน

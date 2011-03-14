@@ -233,7 +233,6 @@ pl:
   field_done_ratio: % Wykonane
   field_downloads: Pobrań
   field_due_date: Data oddania
-  field_effective_date: Data
   field_estimated_hours: Szacowany czas
   field_field_format: Format
   field_filename: Plik

@@ -246,7 +246,6 @@ gl:
   field_done_ratio: % Realizado
   field_downloads: Descargas
   field_due_date: Data fin
-  field_effective_date: Data
   field_estimated_hours: Tempo estimado
   field_field_format: Formato
   field_filename: Arquivo

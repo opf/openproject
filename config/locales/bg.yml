@@ -252,7 +252,6 @@ bg:
   field_admin: Администратор
   field_last_login_on: Последно свързване
   field_language: Език
-  field_effective_date: Дата
   field_password: Парола
   field_new_password: Нова парола
   field_password_confirmation: Потвърждение

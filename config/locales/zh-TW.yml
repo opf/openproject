@@ -334,7 +334,6 @@
   field_admin: 管理者
   field_last_login_on: 最近連線日期
   field_language: 語系
-  field_effective_date: 日期
   field_password: 目前密碼
   field_new_password: 新密碼
   field_password_confirmation: 確認新密碼

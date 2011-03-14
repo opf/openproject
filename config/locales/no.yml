@@ -216,7 +216,6 @@
   field_admin: Administrator
   field_last_login_on: Sist innlogget
   field_language: Språk
-  field_effective_date: Dato
   field_password: Passord
   field_new_password: Nytt passord
   field_password_confirmation: Bekreft passord

@@ -241,7 +241,6 @@ bs:
   field_admin: Administrator
   field_last_login_on: Posljednja konekcija
   field_language: Jezik
-  field_effective_date: Datum
   field_password: Lozinka
   field_new_password: Nova lozinka
   field_password_confirmation: Potvrda

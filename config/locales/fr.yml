@@ -259,7 +259,6 @@ fr:
   field_admin: Administrateur
   field_last_login_on: "Dernière connexion "
   field_language: Langue
-  field_effective_date: Date
   field_password: Mot de passe
   field_new_password: Nouveau mot de passe
   field_password_confirmation: Confirmation
