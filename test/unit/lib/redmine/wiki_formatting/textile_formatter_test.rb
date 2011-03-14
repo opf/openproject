@@ -113,7 +113,7 @@ RAW
     expected = <<-EXPECTED
 <p>John said:</p>
 <blockquote>
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
 Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 <ul>
   <li>Donec odio lorem,</li>
