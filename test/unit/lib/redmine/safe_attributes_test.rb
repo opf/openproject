@@ -35,11 +35,16 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
   end
   
   class Book < Base
-    attr_accessor :title
+    attr_accessor :title, :isbn
     include Redmine::SafeAttributes
     safe_attributes :title
   end
   
+
+  class PublishedBook < Book
+    safe_attributes :isbn
+  end
+
   def test_safe_attribute_names
     p = Person.new
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names(User.anonymous)
@@ -83,5 +88,19 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
+  end
+
+  def test_use_safe_attributes_in_subclasses
+    b = Book.new
+    p = PublishedBook.new
+
+    b.safe_attributes = {'title' => 'My awesome Ruby Book', 'isbn' => '1221132343'}
+    p.safe_attributes = {'title' => 'The Pickaxe',          'isbn' => '1934356085'}
+
+    assert_equal 'My awesome Ruby Book', b.title
+    assert_nil b.isbn
+
+    assert_equal 'The Pickaxe', p.title
+    assert_equal '1934356085', p.isbn
   end
 end

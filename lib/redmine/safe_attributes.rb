@@ -31,14 +31,19 @@ module Redmine
       def safe_attributes(*args)
         @safe_attributes ||= []
         if args.empty?
-          @safe_attributes
+          if superclass < Redmine::SafeAttributes
+            superclass.safe_attributes + @safe_attributes
+          else
+            @safe_attributes
+          end
         else
           options = args.last.is_a?(Hash) ? args.pop : {}
           @safe_attributes << [args, options]
+          safe_attributes
         end
       end
     end
-    
+
     # Returns an array that can be safely set by user or current user
     #
     # Example:
