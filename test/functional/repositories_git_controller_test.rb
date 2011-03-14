@@ -43,14 +43,20 @@ class RepositoriesGitControllerTest < ActionController::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def test_show
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
+      assert assigns(:entries).size > 0
       assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_root
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3
       assert_response :success
       assert_template 'show'
@@ -65,9 +71,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'renamed_test.txt' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == 'filemane with spaces.txt' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == ' filename with a leading space.txt ' && e.kind == 'file'}
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_branch
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :rev => 'test_branch'
       assert_response :success
       assert_template 'show'
@@ -77,9 +87,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == 'test.txt' && e.kind == 'file'}
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_directory
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :path => ['images']
       assert_response :success
       assert_template 'show'
@@ -89,14 +103,20 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_not_nil entry
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_at_given_revision
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_changes
