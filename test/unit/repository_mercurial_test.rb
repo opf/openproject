@@ -149,6 +149,13 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       
       changesets = @repository.latest_changesets('sources', 'tag_test.00', 2)
       assert_equal %w|4 3|, changesets.collect(&:revision)
+
+      # named branch
+      changesets = @repository.latest_changesets('', @branch_char_1)
+      assert_equal %w|27 26|, changesets.collect(&:revision)
+
+      changesets = @repository.latest_changesets("latin-1-dir/test-#{@char_1}-subdir", @branch_char_1)
+      assert_equal %w|27|, changesets.collect(&:revision)
     end
 
     def test_copied_files
