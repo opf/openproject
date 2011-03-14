@@ -120,9 +120,13 @@ def _manifest(ui, repo, path, rev):
     ui.write('</manifest>\n')
 
 def rhannotate(ui, repo, *pats, **opts):
+    rev = urllib.unquote_plus(opts.pop('rev', None))
+    opts['rev'] = rev
     return commands.annotate(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
 def rhcat(ui, repo, file1, *pats, **opts):
+    rev = urllib.unquote_plus(opts.pop('rev', None))
+    opts['rev'] = rev
     return commands.cat(ui, repo, urllib.unquote_plus(file1), *map(urllib.unquote_plus, pats), **opts)
 
 def rhdiff(ui, repo, *pats, **opts):

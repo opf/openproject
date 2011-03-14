@@ -252,7 +252,7 @@ module Redmine
 
         def cat(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
-          hg 'rhcat', '-r', hgrev(identifier), hgtarget(p) do |io|
+          hg 'rhcat', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
             io.binmode
             io.read
           end
@@ -263,7 +263,7 @@ module Redmine
         def annotate(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
           blame = Annotate.new
-          hg 'rhannotate', '-ncu', '-r', hgrev(identifier), hgtarget(p) do |io|
+          hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
             io.each_line do |line|
               line.force_encoding('ASCII-8BIT') if line.respond_to?(:force_encoding)
               next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
