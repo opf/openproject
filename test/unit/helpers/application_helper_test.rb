@@ -526,6 +526,13 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
   
+  def test_headings
+    raw = 'h1. Some heading'
+    expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
+    
+    assert_equal expected, textilizable(raw)
+  end
+  
   def test_table_of_content
     raw = <<-RAW
 {{toc}}
