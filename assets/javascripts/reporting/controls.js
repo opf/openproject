@@ -68,6 +68,9 @@ Reporting.Controls = {
         Reporting.flash("There was an error getting the results. The administrator has been informed.");
       };
     }
+    $$('div[id^=flash]').each(function (oldMsg) {
+      oldMsg.remove();
+    });
     selectAllOptions('group_by_rows');
     selectAllOptions('group_by_columns');
     var updater = new Ajax.Request(
