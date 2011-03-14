@@ -10,17 +10,14 @@ class Task < Issue
   end
 
   def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
-    if Issue.const_defined? "SAFE_ATTRIBUTES"
-      attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
-    else
-      attribs = params.clone.delete_if {|k,v| !Task.safe_attributes.include?(k) }
-    end
-    attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
-    attribs['author_id'] = user_id
-    attribs['tracker_id'] = Task.tracker
-    attribs['project_id'] = project_id
+    task = new
 
-    task = new(attribs)
+    task.author_id  = user_id
+    task.project_id = project_id
+    task.tracker_id = Task.tracker
+
+    task.safe_attributes = params
+    task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
     valid_relationships = if is_impediment
                             task.validate_blocks_list(params[:blocks])
@@ -57,11 +54,8 @@ class Task < Issue
   end
 
   def update_with_relationships(params, is_impediment = false)
-    if Issue.const_defined? "SAFE_ATTRIBUTES"
-      attribs = params.clone.delete_if {|k,v| !Task::SAFE_ATTRIBUTES.include?(k) }
-    else
-      attribs = params.clone.delete_if {|k,v| !Task.safe_attributes.include?(k) }
-    end
+    attribs = params.clone.delete_if { |k, v| !safe_attribute_names.include?(k) }
+
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
     valid_relationships = if is_impediment && params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
