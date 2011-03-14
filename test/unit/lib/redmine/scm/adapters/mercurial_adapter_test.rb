@@ -14,13 +14,20 @@ begin
 
     if File.directory?(REPOSITORY_PATH)
       def setup
-        @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(REPOSITORY_PATH)
+        @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(
+                              REPOSITORY_PATH,
+                              nil,
+                              nil,
+                              nil,
+                             'ISO-8859-1')
         @diff_c_support = true
 
+        @char_1        = CHAR_1_HEX.dup
         @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
         @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
         @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
         if @tag_char_1.respond_to?(:force_encoding)
+          @char_1.force_encoding('UTF-8')
           @tag_char_1.force_encoding('UTF-8')
           @branch_char_0.force_encoding('UTF-8')
           @branch_char_1.force_encoding('UTF-8')
@@ -273,8 +280,8 @@ begin
           assert_equal 1, @adapter.annotate(p, r1).lines.length
           [25, 'afc61e85bde7'].each do |r2|
             assert @adapter.diff(p, r1, r2)
-          end      
-        end      
+          end
+        end
       end
 
       def test_nodes_in_branch
