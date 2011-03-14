@@ -55,14 +55,6 @@ class Repository::Mercurial < Repository
     changeset.scmid
   end
 
-  def branches
-    nil
-  end
-
-  def tags
-    nil
-  end
-
   def diff_format_revisions(cs, cs_to, sep=':')
     super(cs, cs_to, ' ')
   end
