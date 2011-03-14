@@ -90,6 +90,13 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_equal 'jsmith', p.login
   end
 
+  def test_with_indifferent_access
+    p = Person.new
+    p.safe_attributes = {'firstname' => 'Jack', :lastname => 'Miller'}
+    assert_equal 'Jack', p.firstname
+    assert_equal 'Miller', p.lastname
+  end
+
   def test_use_safe_attributes_in_subclasses
     b = Book.new
     p = PublishedBook.new
