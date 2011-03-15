@@ -3,4 +3,5 @@ _site
 _posts
 assets/styles
 lib/labels.yaml
+lib/labels-malformed.yaml
 graph.dot
