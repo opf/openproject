@@ -12,25 +12,31 @@
 
 <%= render_properties(@properties) %>
 
-<% if @changesets && !@changesets.empty? && authorize_for('repositories', 'revisions') %>
+<% if authorize_for('repositories', 'revisions') %>
+<%   if @changesets && !@changesets.empty? %>
 <h3><%= l(:label_latest_revision_plural) %></h3>
-<%= render :partial => 'revisions', :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => nil }%>
+<%=    render :partial => 'revisions',
+              :locals => {:project => @project, :path => @path,
+                          :revisions => @changesets, :entry => nil }%>
 
-<%   if @path.blank? %>
+<%     if @path.blank? %>
   <p><%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %></p>
-<%   else %>
-  <p><%= link_to l(:label_view_revisions), :action => 'changes', :path => to_path_param(@path), :id => @project %></p>
-<%   end %>
+<%     else %>
+  <p><%= link_to l(:label_view_revisions),
+                   :action => 'changes',
+                   :path => to_path_param(@path), :id => @project %></p>
+<%     end %>
 
-<%   content_for :header_tags do %>
+<%     content_for :header_tags do %>
   <%= auto_discovery_link_tag(
                    :atom, params.merge(
                       {:format => 'atom', :action => 'revisions',
                        :id => @project, :page => nil, :key => User.current.rss_key})) %>
-<%   end %>
+<%     end %>
 
-<%   other_formats_links do |f| %>
+<%     other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:action => 'revisions', :id => @project, :key => User.current.rss_key} %>
+<%     end %>
 <%   end %>
 <% end %>
 
