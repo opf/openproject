@@ -60,7 +60,7 @@ class Issue < ActiveRecord::Base
   validates_numericality_of :estimated_hours, :allow_nil => true
 
   named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+                                          :conditions => Issue.visible_condition(args.first || User.current) } }
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
@@ -86,6 +86,11 @@ class Issue < ActiveRecord::Base
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
   after_destroy :update_parent_attributes
   
+  # Returns a SQL conditions string used to find all issues visible by the specified user
+  def self.visible_condition(user, options={})
+    Project.allowed_to_condition(user, :view_issues, options)
+  end
+
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project)
