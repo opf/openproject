@@ -101,7 +101,9 @@ module Redmine
         end
 
         def default_branch
-          branches.include?('master') ? 'master' : branches.first
+          bras = self.branches
+          return if bras.nil?
+          bras.include?('master') ? 'master' : bras.first
         end
 
         def entries(path=nil, identifier=nil)
