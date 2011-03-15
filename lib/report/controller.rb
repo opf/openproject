@@ -36,7 +36,7 @@ module Report::Controller
   def create
     @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
     @query.is_public = !!params[:query_is_public]
-    @query.user_id = current_user_id.to_i
+    @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
       render :text => url_for(:action => "show", :id => @query.id)
@@ -139,6 +139,8 @@ module Report::Controller
   # Return the id of the current user, for saving queries. Must be overridden by
   # controllers.
   def current_user_id
+    super
+  rescue NameError
     raise NotImplementedError, "#{self.class.name} should have overwritten #current_user_id to return the active user's id"
   end
 
@@ -256,12 +258,18 @@ module Report::Controller
   end
 
   ##
+  # Override in subclass if user key
+  def user_key
+    'user_id'
+  end
+
+  ##
   # Find a report if :id was passed as parameter.
   # Raises RecordNotFound if an invalid :id was passed.
   def find_optional_report
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        :conditions => ["(is_public = 1) OR (user_id = ?)", current_user_id])
+        :conditions => ["(is_public = 1) OR (#{user_key} = ?)", current_user.id])
       if @query
         @query.deserialize
       else
