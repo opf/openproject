@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals, :journal_details
+  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :member_roles
 
   def setup
     @journal = Journal.find 1
@@ -46,5 +46,45 @@ class JournalTest < ActiveSupport::TestCase
     assert journal.save
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-
+  
+  def test_visible_scope_for_anonymous
+    # Anonymous user should see issues of public projects only
+    journals = Journal.visible(User.anonymous).all
+    assert journals.any?
+    assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
+    # Anonymous user should not see issues without permission
+    Role.anonymous.remove_permission!(:view_issues)
+    journals = Journal.visible(User.anonymous).all
+    assert journals.empty?
+  end
+  
+  def test_visible_scope_for_user
+    user = User.find(9)
+    assert user.projects.empty?
+    # Non member user should see issues of public projects only
+    journals = Journal.visible(user).all
+    assert journals.any?
+    assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
+    # Non member user should not see issues without permission
+    Role.non_member.remove_permission!(:view_issues)
+    user.reload
+    journals = Journal.visible(user).all
+    assert journals.empty?
+    # User should see issues of projects for which he has view_issues permissions only
+    Member.create!(:principal => user, :project_id => 1, :role_ids => [1])
+    user.reload
+    journals = Journal.visible(user).all
+    assert journals.any?
+    assert_nil journals.detect {|journal| journal.issue.project_id != 1}
+  end
+  
+  def test_visible_scope_for_admin
+    user = User.find(1)
+    user.members.each(&:destroy)
+    assert user.projects.empty?
+    journals = Journal.visible(user).all
+    assert journals.any?
+    # Admin should see issues on private projects that he does not belong to
+    assert journals.detect {|journal| !journal.issue.project.is_public?}
+  end
 end
