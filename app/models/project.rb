@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -135,7 +135,6 @@ class Project < ActiveRecord::Base
   end
   
   def self.allowed_to_condition(user, permission, options={})
-    statements = []
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
       unless perm.project_module.nil?
@@ -148,24 +147,31 @@ class Project < ActiveRecord::Base
       project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
+    
     if user.admin?
-      # no restriction
+      base_statement
     else
-      statements << "1=0"
+      statement_by_role = {}
       if user.logged?
         if Role.non_member.allowed_to?(permission) && !options[:member]
-          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.non_member] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
-        allowed_project_ids = user.memberships.select {|m| m.roles.detect {|role| role.allowed_to?(permission)}}.collect {|m| m.project_id}
-        statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
+        user.projects_by_role.each do |role, projects|
+          if role.allowed_to?(permission)
+            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
+          end
+        end
       else
         if Role.anonymous.allowed_to?(permission) && !options[:member]
-          # anonymous user allowed on public project
-          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.anonymous] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end 
       end
+      if statement_by_role.empty?
+        "1=0"
+      else
+        "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
+      end
     end
-    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end
 
   # Returns the Systemwide and project specific activities

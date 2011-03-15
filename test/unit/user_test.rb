@@ -318,6 +318,23 @@ class UserTest < ActiveSupport::TestCase
     assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
   end
   
+  def test_projects_by_role_for_user_with_role
+    user = User.find(2)
+    assert_kind_of Hash, user.projects_by_role
+    assert_equal 2, user.projects_by_role.size
+    assert_equal [1,5], user.projects_by_role[Role.find(1)].collect(&:id).sort
+    assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
+  end
+  
+  def test_projects_by_role_for_user_with_no_role
+    user = User.generate!
+    assert_equal({}, user.projects_by_role)
+  end
+  
+  def test_projects_by_role_for_anonymous
+    assert_equal({}, User.anonymous.projects_by_role)
+  end
+
   def test_valid_notification_options
     # without memberships
     assert_equal 5, User.find(7).valid_notification_options.size

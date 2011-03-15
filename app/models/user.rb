@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -88,6 +88,7 @@ class User < Principal
   
   def reload(*args)
     @name = nil
+    @projects_by_role = nil
     super
   end
   
@@ -356,6 +357,23 @@ class User < Principal
   # Return true if the user is a member of project
   def member_of?(project)
     !roles_for_project(project).detect {|role| role.member?}.nil?
+  end
+  
+  # Returns a hash of user's projects grouped by roles
+  def projects_by_role
+    return @projects_by_role if @projects_by_role
+    
+    @projects_by_role = Hash.new {|h,k| h[k]=[]}
+    memberships.each do |membership|
+      membership.roles.each do |role|
+        @projects_by_role[role] << membership.project if membership.project
+      end
+    end
+    @projects_by_role.each do |role, projects|
+      projects.uniq!
+    end
+  
+    @projects_by_role
   end
   
   # Return true if the user is allowed to do the specified action on a specific context
