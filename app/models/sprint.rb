@@ -241,6 +241,7 @@ class Sprint < Version
     end
 
     def has_burndown
+        return false
         return !!(self.effective_date and self.sprint_start_date)
     end
 
