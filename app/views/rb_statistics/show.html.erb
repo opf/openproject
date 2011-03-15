@@ -1,11 +1,11 @@
 <%- content_for :header_tags do %>
-  <%= stylesheet_link_tag 'statistics', 'smoothness/jquery-ui-1.8rc3.custom.css', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'rb_default/statistics', 'rb_default/jquery-ui', :plugin => 'redmine_backlogs' %>
   <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery-ui-1.8rc3.custom.min.js', :plugin => 'redmine_backlogs' %>
 <%- end %>
 
 <script>
     var $j = jQuery.noConflict();
-             
+
     $j(document).ready(function(){
         $j("#projects").accordion({ collapsible: true, header: 'h3'});
     });
