@@ -139,6 +139,8 @@ module Report::Controller
   # Return the id of the current user, for saving queries. Must be overridden by
   # controllers.
   def current_user_id
+    super
+  rescue NameError
     raise NotImplementedError, "#{self.class.name} should have overwritten #current_user_id to return the active user's id"
   end
 
