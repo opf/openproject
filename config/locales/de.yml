@@ -1,18 +1,18 @@
---- 
-de: 
+---
+de:
   label_webcal: "[[Webcal Feed]]"
-  rb_label_copy_tasks_open: "[[Open]]"
+  rb_label_copy_tasks_open: "Offene"
   event_sprint_summary: "{{project}}: {{summary}}"
   field_backlogs_issue_type: Backlog Typ
   field_remaining_hours: Verbleibende Stunden
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"
   button_edit_wiki: Wiki Seite bearbeiten
-  label_sprint_cards: "[[Sprint cards]]"
+  label_sprint_cards: "Sprint-Karten"
   label_points_burn_up: Hoch
   label_not_prioritized: nicht priorisiert
   points_resolved: Beschlossene Punkte
-  field_tracker_id: "[[Tracker ID]]"
-  field_name: "[[Name]]"
+  field_tracker_id: "Tracker ID"
+  field_name: "Name"
   error_must_have_comma_delimited_list: muss eine Kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten
   label_stories: Stories
   todo_issue_summary: "{{type}}: {{summary}}"
@@ -33,25 +33,25 @@ de:
   backlogs_inactive: "Projekt zeigt keine Aktivit\xC3\xA4t"
   field_story_points: Story Punkte
   label_Product_backlog: Produkt Backlog
-  rb_label_copy_tasks_none: "[[None]]"
+  rb_label_copy_tasks_none: "Keine"
   backlogs_task: Aufgabe
   backlogs_sprint_unsized: Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten
   points_committed: Punkte abgeschlossen
   label_sprint_impediments: Sprint Blockaden
-  field_blocks: "[[Blocks]]"
-  label_master_backlog: "[[Master Backlog]]"
+  field_blocks: "Blockiert"
+  label_master_backlog: "Master Backlog"
   points_to_resolve: Nicht beschlossene Punkte
   label_select_all: "Alle ausw\xC3\xA4hlen"
   backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgesch\xC3\xA4tzten Stories"
   label_scrum_statistics: Scrum Statistiken
   required_burn_rate_points: "ben\xC3\xB6tigte Burn-Rate (Punkte)"
-  error_blank: "[[cannot be blank]]"
+  error_blank: "darf nicht leer sein"
   points_to_accept: Nicht akzeptierte Punkte
   label_backlogs: Backlogs
   label_back_to_project: "Zur\xC3\xBCck zur Projektseite"
   backlogs_points_burn_direction: Burnup/-down Punkte
-  field_subject: "[[Subject]]"
-  rb_label_link_to_original: "[[Include link to original story]]"
+  field_subject: "Titel"
+  rb_label_link_to_original: "Link zur Original-Story einfügen"
   backlogs_product_backlog_unsized: Die Spitze des Produkt Backlogs hat Stories ohne Aufwandsangaben
   points_accepted: Akzeptierte Punkte
   backlogs_sprint_notes_missing: Geschlossene Sprints ohne Closed sprints without Retrospective-/Besprechungsnotizen
@@ -64,8 +64,8 @@ de:
   backlogs_sizing_inconsistent: "Story Aufwand weicht von den Sch\xC3\xA4tzwerten ab"
   error_intro_plural: "Die folgenden Fehler sind aufgetreten:"
   backlogs_velocity_varies: Die Geschwindigkeit variiert stark zwischen den Sprints
-  error_greater_than_start_date: "[[cannot be earlier than Start Date]]"
-  rb_label_copy_tasks: "[[Copy tasks]]"
+  error_greater_than_start_date: "darf nicht vor dem Startdatum liegen"
+  rb_label_copy_tasks: "Aufgaben kopieren"
   label_hours: Stunden
   label_points_burn_down: Runter
   backlogs_card_specification: "Etikettenart f\xC3\xBCr den Kartendruck"
@@ -74,8 +74,8 @@ de:
     {{summary}}: {{url}}
     {{description}}
   label_burndown: Burndown
-  label_product_cards: "[[Product backlog cards]]"
-  rb_label_copy_tasks_all: "[[All]]"
+  label_product_cards: "Produkt Backlog Karten"
+  rb_label_copy_tasks_all: "Alle"
   field_velocity_based_estimate: "Geschwindigkeitsbasierende Absch\xC3\xA4tzung"
   todo_issue_description: |-
     {{summary}}: {{url}}
