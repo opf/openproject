@@ -77,6 +77,7 @@ class RepositoriesController < ApplicationController
     @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
 
     @entries = @repository.entries(@path, @rev)
+    @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
       @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
     else
