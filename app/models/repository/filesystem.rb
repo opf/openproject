@@ -39,6 +39,10 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
+  def supports_all_revisions?
+    false
+  end
+
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end

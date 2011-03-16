@@ -70,6 +70,10 @@ class Repository < ActiveRecord::Base
   def supports_annotate?
     scm.supports_annotate?
   end
+
+  def supports_all_revisions?
+    true
+  end
   
   def entry(path=nil, identifier=nil)
     scm.entry(path, identifier)
@@ -90,15 +94,15 @@ class Repository < ActiveRecord::Base
   def default_branch
     scm.default_branch
   end
-  
+
   def properties(path, identifier=nil)
     scm.properties(path, identifier)
   end
-  
+
   def cat(path, identifier=nil)
     scm.cat(path, identifier)
   end
-  
+
   def diff(path, rev, rev_to)
     scm.diff(path, rev, rev_to)
   end
