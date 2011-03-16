@@ -28,7 +28,10 @@ module Report::Controller
   ##
   # Render the table partial, if we are setting filters/groups
   def table
-    render :partial => 'table' if set_filter?
+    if set_filter?
+      render :partial => 'table'
+      session[report_engine.name.underscore.to_sym].delete(:name)
+    end
   end
 
   ##
@@ -200,7 +203,8 @@ module Report::Controller
   # Prepare the query from the request
   def prepare_query
     determine_settings
-    @query = build_query(session[report_engine.name.underscore.to_sym][:filters], session[report_engine.name.underscore.to_sym][:groups])
+    @query = build_query(session[report_engine.name.underscore.to_sym][:filters],
+                         session[report_engine.name.underscore.to_sym][:groups])
   end
 
   ##
@@ -214,7 +218,7 @@ module Report::Controller
       filters = filter_params
       groups  = group_params
     end
-    session[report_engine.name.underscore.to_sym] = {:filters => filters, :groups => groups}
+    session[report_engine.name.underscore.to_sym].merge({:filters => filters, :groups => groups})
   end
 
   ##
@@ -245,6 +249,7 @@ module Report::Controller
       h[:values][filter.field.to_sym] = filter.values
       h
     end
+    cookie[:name] = @query.name if @query.name
     session[report_engine.name.underscore.to_sym] = cookie
   end
 
