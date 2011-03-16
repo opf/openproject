@@ -1,15 +1,19 @@
 Given /^I am a product owner of the project$/ do
-  role = Role.find(:first, :conditions => "name='Manager'")
+  @user = User.find(:first, :conditions => "login='jsmith'")
+  role = create_role_in_project
+
   role.permissions << :view_master_backlog
   role.permissions << :create_stories
   role.permissions << :update_stories
   role.permissions << :view_scrum_statistics
   role.save!
-  login_as_product_owner
+  login_as_user
 end
 
 Given /^I am a scrum master of the project$/ do
-  role = Role.find(:first, :conditions => "name='Manager'")
+  @user = User.find(:first, :conditions => "login='jsmith'")
+  role = create_role_in_project
+
   role.permissions << :view_master_backlog
   role.permissions << :view_taskboards
   role.permissions << :update_sprints
@@ -20,17 +24,7 @@ Given /^I am a scrum master of the project$/ do
   role.permissions << :view_wiki_pages        # NOTE: This is a Redmine core permission
   role.permissions << :edit_wiki_pages        # NOTE: This is a Redmine core permission
   role.save!
-  login_as_scrum_master
-end
-
-Given /^I am a team member of the project$/ do
-  role = Role.find(:first, :conditions => "name='Manager'")
-  role.permissions << :view_master_backlog
-  role.permissions << :view_taskboards
-  role.permissions << :create_tasks
-  role.permissions << :update_tasks
-  role.save!
-  login_as_team_member
+  login_as_user
 end
 
 Given /^I am logged out$/ do
@@ -75,9 +69,16 @@ Given /^I want to create a story$/ do
   @story_params = initialize_story_params
 end
 
-Given /^I want to create a task for (.+)$/ do |story_subject|
+Given /^I want to create a task for (.+)(?: in project "(.+?)")?$/ do |story_subject, *args|
+  args = args.compact
+  if args.empty?
+    project = @project
+  else
+    project = Project.find_by_name(args.first)
+  end
+
   story = Story.find(:first, :conditions => ["subject=?", story_subject])
-  @task_params = initialize_task_params(story.id)
+  @task_params = initialize_task_params(project, story)
 end
 
 Given /^I want to create an impediment for (.+)$/ do |sprint_subject|
@@ -124,11 +125,8 @@ Given /^I want to edit the story with subject (.+)$/ do |subject|
   @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
 
-Given /^the (.*) project has the backlogs plugin enabled$/ do |project_id|
-  @project = get_project(project_id)
-
-  # Enable the backlogs plugin
-  @project.enabled_modules << EnabledModule.new(:name => 'backlogs')
+Given /^the backlogs module is initialized in [pP]roject "(.*)"$/ do |project_name|
+  project = Project.find_by_name(project_name)
 
   # Configure the story and task trackers
   story_trackers = Tracker.find(:all).map{|s| "#{s.id}"}
@@ -137,13 +135,14 @@ Given /^the (.*) project has the backlogs plugin enabled$/ do |project_id|
   Setting["plugin_#{plugin.id}"] = {:story_trackers => story_trackers, :task_tracker => task_tracker }
 
   # Make sure these trackers are enabled in the project
-  @project.update_attributes :tracker_ids => (story_trackers << task_tracker)
+  project.update_attributes :tracker_ids => (story_trackers << task_tracker)
 end
 
-Given /^the project has the following sprints:$/ do |table|
-  @project.versions.delete_all
+Given /^the project "([^\"]*)" has the following sprints:$/ do |project_name, table|
+  project = Project.find_by_name(project_name)
+
   table.hashes.each do |version|
-    version['project_id'] = @project.id
+    version['project_id'] = project.id
     ['effective_date', 'sprint_start_date'].each do |date_attr|
       version[date_attr] = eval(version[date_attr]).strftime("%Y-%m-%d") if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
     end
@@ -151,8 +150,10 @@ Given /^the project has the following sprints:$/ do |table|
   end
 end
 
-Given /^the project has the following stories in the product backlog:$/ do |table|
-  @project.issues.delete_all
+Given /^the project has the following stories in the product backlog:$/ do |project_name, table|
+  project = Project.find_by_name(project_name)
+
+  project.issues.delete_all
   prev_id = ''
 
   table.hashes.each do |story|
@@ -168,12 +169,14 @@ Given /^the project has the following stories in the product backlog:$/ do |tabl
   end
 end
 
-Given /^the project has the following stories in the following sprints:$/ do |table|
-  @project.issues.delete_all
+Given /^the project "([^\"]*)" has the following stories in the following sprints:$/ do |project_name, table|
+  project = Project.find_by_name(project_name)
+
+  project.issues.delete_all
   prev_id = ''
 
   table.hashes.each do |story|
-    params = initialize_story_params
+    params = initialize_story_params(project)
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Sprint.find(:first, :conditions => [ "name=?", story['sprint'] ]).id
@@ -186,31 +189,39 @@ Given /^the project has the following stories in the following sprints:$/ do |ta
   end
 end
 
-Given /^the project has the following tasks:$/ do |table|
+Given /^the project "([^\"]*)" has the following tasks:$/ do |project_name, table|
+  project = Project.find_by_name(project_name)
+
+  author = User.find(:first)
+
   table.hashes.each do |task|
     story = Story.find(:first, :conditions => { :subject => task['parent'] })
-    params = initialize_task_params(story.id)
+    params = initialize_task_params(project, story, author)
     params['subject'] = task['subject']
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Task.create_with_relationships(params, @user.id, @project.id)
+    Task.create_with_relationships(params, author, project.id)
   end
 end
 
-Given /^the project has the following impediments:$/ do |table|
+Given /^the project "([^\"]*)" has the following impediments:$/ do |project_name, table|
+  project = Project.find_by_name(project_name)
+
+  author = User.find(:first)
+
   table.hashes.each do |impediment|
     sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
     blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
-    params = initialize_impediment_params(sprint.id)
+    params = initialize_impediment_params(project, sprint, author)
     params['subject'] = impediment['subject']
     params['blocks']  = blocks.join(',')
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Task.create_with_relationships(params, @user.id, @project.id)
+    Task.create_with_relationships(params, author.id, project.id)
   end
 end
 
@@ -254,4 +265,8 @@ end
 
 Given /^there are no stories in the project$/ do
   @project.issues.delete_all
+end
+
+Given /^I am working in project "(.+?)"$/ do |project_name|
+  @project = Project.find_by_name(project_name)
 end

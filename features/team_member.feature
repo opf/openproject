@@ -4,28 +4,45 @@ Feature: Team Member
   So that I can update everyone on the status of the project
 
   Background:
-    Given the ecookbook project has the backlogs plugin enabled
-      And I am a team member of the project
-      And the project has the following sprints:
+    Given there is 1 project with:
+        | name  | ecookbook |
+    And the project "ecookbook" uses the following modules:
+        | backlogs |
+    And the backlogs module is initialized in project "ecookbook"
+    And there is 1 user with:
+        | login | jsmith |
+    And there is a role "member"
+    And the role "member" may have the following rights:
+        | view_master_backlog |
+        | view_taskboards     |
+        | create_tasks        |
+        | update_tasks        |
+        | view_issues         |
+        | edit_issues         |
+        | manage_subtasks     |
+    And the user "jsmith" is a "member" in the Project "ecookbook"
+    And the project "ecookbook" has the following sprints:
         | name       | sprint_start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
-      And the project has the following stories in the following sprints:
+    And the project "ecookbook" has the following stories in the following sprints:
         | position | subject | sprint     |
         | 1        | Story 1 | Sprint 001 |
         | 2        | Story 2 | Sprint 001 |
         | 3        | Story 3 | Sprint 001 |
         | 4        | Story 4 | Sprint 002 |
-      And the project has the following tasks:
+    And the project "ecookbook" has the following tasks:
         | subject | parent  |
         | Task 1  | Story 1 |
-      And the project has the following impediments:
+    And the project "ecookbook" has the following impediments:
         | subject      | sprint     | blocks  |
         | Impediment 1 | Sprint 001 | Story 1 |
-        | Impediment 2 | Sprint 001 | Story 2 | 
-        
+        | Impediment 2 | Sprint 001 | Story 2 |
+    And I am logged in as "jsmith"
+    And I am working in project "ecookbook"
+
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
       And I want to create a task for Story 1
@@ -78,12 +95,12 @@ Feature: Team Member
      Then the request should complete successfully
       And the server should return 2 updated impediments
 
-  Scenario: Fetch zero updated impediments 
+  Scenario: Fetch zero updated impediments
     Given I am viewing the taskboard for Sprint 001
      When the browser fetches impediments updated since 1 week from now
      Then the request should complete successfully
       And the server should return 0 updated impediments
-      
+
   Scenario: Copy estimate to remaining
     Given I am viewing the taskboard for Sprint 001
       And I want to create a task for Story 1

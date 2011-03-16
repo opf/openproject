@@ -1,7 +1,7 @@
-#Seed the DB
-Before do
-  Fixtures.reset_cache
-  fixtures_folder = File.join(RAILS_ROOT, 'test', 'fixtures')
-  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-  Fixtures.create_fixtures(fixtures_folder, fixtures)
-end
+# #Seed the DB
+# Before do
+#   Fixtures.reset_cache
+#   fixtures_folder = File.join(RAILS_ROOT, 'test', 'fixtures')
+#   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+#   Fixtures.create_fixtures(fixtures_folder, fixtures)
+# end
