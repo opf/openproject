@@ -23,6 +23,6 @@ dirs.each do |dir|
   # For Mercurial *tip*, @rev and @changeset are nil.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
-<%= "@ #{h rev_text}" if rev_text %>
+<%= "@ #{h rev_text}" unless rev_text.blank? %>
 
 <% html_title(with_leading_slash(path)) -%>
