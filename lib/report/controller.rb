@@ -218,7 +218,8 @@ module Report::Controller
       filters = filter_params
       groups  = group_params
     end
-    session[report_engine.name.underscore.to_sym].merge({:filters => filters, :groups => groups})
+    cookie = session[report_engine.name.underscore.to_sym] || {}
+    session[report_engine.name.underscore.to_sym] = cookie.merge({:filters => filters, :groups => groups})
   end
 
   ##
