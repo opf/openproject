@@ -58,13 +58,13 @@ class UsersController < ApplicationController
                         :limit  =>  @limit,
                         :offset =>  @offset
 
-		respond_to do |format|
-		  format.html {
+    respond_to do |format|
+      format.html {
         @groups = Group.all.sort
         render :layout => !request.xhr?
       }
       format.api
-		end	
+    end	
   end
   
   def show
