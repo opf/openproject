@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,6 +38,9 @@ class UsersController < ApplicationController
       @limit = per_page_option
     end
     
+    scope = User
+    scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
+    
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -46,17 +49,20 @@ class UsersController < ApplicationController
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
     
-    @user_count = User.count(:conditions => c.conditions)
+    @user_count = scope.count(:conditions => c.conditions)
     @user_pages = Paginator.new self, @user_count, @limit, params['page']
     @offset ||= @user_pages.current.offset
-    @users =  User.find :all,
+    @users =  scope.find :all,
                         :order => sort_clause,
                         :conditions => c.conditions,
                         :limit  =>  @limit,
                         :offset =>  @offset
 
 		respond_to do |format|
-		  format.html { render :layout => !request.xhr? }
+		  format.html {
+        @groups = Group.all.sort
+        render :layout => !request.xhr?
+      }
       format.api
 		end	
   end
