@@ -99,7 +99,10 @@ class Repository::Mercurial < Repository
       # Revisions in root directory and sub directory are not equal.
       # So, in order to get correct limit, we need to get all revisions.
       # But, it is very heavy.
-      args << scm.nodes_in_branch(rev, :limit => limit)
+      # Mercurial does not treat direcotry.
+      # So, "hg log DIR" is very heavy.
+      branch_limit = path.blank? ? limit : ( limit * 5 )
+      args << scm.nodes_in_branch(rev, :limit => branch_limit)
     elsif last = rev ? find_changeset_by_name(scm.tagmap[rev] || rev) : nil
       cond << "#{Changeset.table_name}.id <= ?"
       args << last.id
