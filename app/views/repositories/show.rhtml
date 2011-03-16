@@ -18,15 +18,20 @@
 <%=    render :partial => 'revisions',
               :locals => {:project => @project, :path => @path,
                           :revisions => @changesets, :entry => nil }%>
-
-<%     if @path.blank? %>
-  <p><%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %></p>
-<%     else %>
-  <p><%= link_to l(:label_view_revisions),
+<%   end %>
+<p>
+<%   if @repository.supports_all_revisions? %>
+<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
+<%   end %>
+<%   if @repository.supports_directory_revisions? %>
+|
+<%= link_to l(:label_view_revisions),
                    :action => 'changes',
-                   :path => to_path_param(@path), :id => @project %></p>
-<%     end %>
+                   :path => to_path_param(@path), :id => @project %>
+<%   end %>
+</p>
 
+<%   if true # @path.blank? %>
 <%     content_for :header_tags do %>
   <%= auto_discovery_link_tag(
                    :atom, params.merge(
