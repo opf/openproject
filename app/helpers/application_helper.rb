@@ -223,8 +223,7 @@ module ApplicationHelper
   
   # Renders the project quick-jump box
   def render_project_jump_box
-    # Retrieve them now to avoid a COUNT query
-    projects = User.current.projects.all
+    projects = User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
       s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
