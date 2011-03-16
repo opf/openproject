@@ -270,11 +270,8 @@ module Report::Controller
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
         :conditions => ["(is_public = 1) OR (#{user_key} = ?)", current_user.id])
-      if @query
-        @query.deserialize
-      else
-        raise ActiveRecord::RecordNotFound
-      end
+      @query.deserialize if @query
     end
+  rescue ActiveRecord::RecordNotFound
   end
 end
