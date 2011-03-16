@@ -75,6 +75,10 @@ class Repository < ActiveRecord::Base
     true
   end
   
+  def supports_directory_revisions?
+    false
+  end
+  
   def entry(path=nil, identifier=nil)
     scm.entry(path, identifier)
   end

@@ -41,6 +41,10 @@ class Repository::Mercurial < Repository
     'Mercurial'
   end
 
+  def supports_directory_revisions?
+    true
+  end
+
   def repo_log_encoding
     'UTF-8'
   end
