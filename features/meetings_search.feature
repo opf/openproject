@@ -33,5 +33,4 @@ Feature: Search meetings through the global search
         And I fill in the following:
             | search-input | bob |
         And I click on "Submit"
-       Then I start debugging
-        And I should see "Bobs Meeting" within ".search-results#meeting"
+       Then I should see "Bobs Meeting" within "#search-results .meeting"
