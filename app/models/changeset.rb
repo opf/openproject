@@ -174,7 +174,7 @@ class Changeset < ActiveRecord::Base
     return nil if id.blank?
     issue = Issue.find_by_id(id.to_i, :include => :project)
     if issue
-      unless project == issue.project || project.is_ancestor_of?(issue.project) || project.is_descendant_of?(issue.project)
+      unless issue.project && (project == issue.project || project.is_ancestor_of?(issue.project) || project.is_descendant_of?(issue.project))
         issue = nil
       end
     end
