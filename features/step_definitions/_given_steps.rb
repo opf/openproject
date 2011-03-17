@@ -1,4 +1,4 @@
-Given /^I am a product owner of the project$/ do
+Given /^I am a product owner of the [pP]roject$/ do
   @user = User.find(:first, :conditions => "login='jsmith'")
   role = create_role_in_project
 
@@ -10,7 +10,7 @@ Given /^I am a product owner of the project$/ do
   login_as_user
 end
 
-Given /^I am a scrum master of the project$/ do
+Given /^I am a scrum master of the [pP]roject$/ do
   @user = User.find(:first, :conditions => "login='jsmith'")
   role = create_role_in_project
 
@@ -69,7 +69,7 @@ Given /^I want to create a story$/ do
   @story_params = initialize_story_params
 end
 
-Given /^I want to create a task for (.+)(?: in project "(.+?)")?$/ do |story_subject, project_name|
+Given /^I want to create a task for (.+)(?: in [pP]roject "(.+?)")?$/ do |story_subject, project_name|
   project = get_project(project_name)
 
   story = Story.find(:first, :conditions => ["subject=?", story_subject])
@@ -133,7 +133,7 @@ Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |proje
   project.update_attributes :tracker_ids => (story_trackers << task_tracker)
 end
 
-Given /^the project(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
   project = get_project(project_name)
 
   table.hashes.each do |version|
@@ -145,7 +145,7 @@ Given /^the project(?: "([^\"]*)")? has the following sprints:$/ do |project_nam
   end
 end
 
-Given /^the project(?: "(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
+Given /^the [pP]roject(?: "(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
   project = get_project(project_name)
 
   project.issues.delete_all
@@ -164,7 +164,7 @@ Given /^the project(?: "(.+?)")? has the following stories in the product backlo
   end
 end
 
-Given /^the project(?: "([^\"]*)")? has the following stories in the following sprints:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the following sprints:$/ do |project_name, table|
   project = get_project(project_name)
 
   project.issues.delete_all
@@ -184,7 +184,7 @@ Given /^the project(?: "([^\"]*)")? has the following stories in the following s
   end
 end
 
-Given /^the project(?: "([^\"]*)")? has the following tasks:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_name, table|
   project = get_project(project_name)
 
   author = User.find(:first)
@@ -201,7 +201,7 @@ Given /^the project(?: "([^\"]*)")? has the following tasks:$/ do |project_name,
   end
 end
 
-Given /^the project(?: "([^\"]*)")? has the following impediments:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |project_name, table|
   project = get_project(project_name)
 
   author = User.find(:first)
@@ -220,7 +220,7 @@ Given /^the project(?: "([^\"]*)")? has the following impediments:$/ do |project
   end
 end
 
-Given /^the project uses the following modules:$/ do |table|
+Given /^the [pP]roject uses the following modules:$/ do |table|
   Given %Q{the project "#{get_project}" uses the following modules:}, table
 end
 
@@ -267,10 +267,10 @@ Given /^I have made (.+) the template page for sprint notes/ do |title|
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge({:wiki_template => Wiki.titleize(title)})
 end
 
-Given /^there are no stories in the project$/ do
+Given /^there are no stories in the [pP]roject$/ do
   @project.issues.delete_all
 end
 
-Given /^I am working in project "(.+?)"$/ do |project_name|
+Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
   @project = Project.find_by_name(project_name)
 end
