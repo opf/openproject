@@ -65,8 +65,9 @@ Given /^I set the (.+) of the task to (.+)$/ do |attribute, value|
   @task_params[attribute] = value
 end
 
-Given /^I want to create a story$/ do
-  @story_params = initialize_story_params
+Given /^I want to create a story(?: in [pP]roject "(.+?)")?$/ do |project_name|
+  project = get_project(project_name)
+  @story_params = initialize_story_params(project)
 end
 
 Given /^I want to create a task for (.+)(?: in [pP]roject "(.+?)")?$/ do |story_subject, project_name|

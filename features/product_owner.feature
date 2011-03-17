@@ -38,6 +38,7 @@ Feature: Product Owner
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |
         | 6        | Story B | Sprint 001 |
+    And I am logged in as "mathias"
 
   Scenario: View the product backlog
     Given I am viewing the master backlog
