@@ -19,13 +19,14 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles 
-  
+
   def setup
     @project = Project.find(3)
-    assert @repository = Repository::Subversion.create(:project => @project,
+    @repository = Repository::Subversion.create(:project => @project,
              :url => "file://#{self.class.repository_path('subversion')}")
+    assert @repository
   end
-  
+
   if repository_configured?('subversion')
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
@@ -35,7 +36,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 20, @repository.changes.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
-    
+
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 5
@@ -46,7 +47,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       assert_equal 11, @repository.changesets.count
     end
-    
+
     def test_latest_changesets
       @repository.fetch_changesets
       
@@ -76,7 +77,9 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_directory_listing_with_square_brackets_in_base
       @project = Project.find(3)
-      @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
+      @repository = Repository::Subversion.create(
+                          :project => @project,
+                          :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
       @repository.fetch_changesets
       @repository.reload
