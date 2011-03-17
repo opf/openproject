@@ -65,6 +65,7 @@ Feature: Team Member
 
   Scenario: View the burndown chart
     Given I am viewing the burndown for Sprint 002
+      And we have reactivated the burndown chart
      Then I should see the burndown chart
 
   Scenario: View sprint stories in the issues tab
