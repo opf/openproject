@@ -24,7 +24,7 @@ class RepositoryHelperTest < HelperTestCase
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       s1 = "Texte encod\xc3\xa9"
       s2 = "Texte encod\xe9"
-      s3 = s2
+      s3 = s2.dup
       if s1.respond_to?(:force_encoding)
         s1.force_encoding("UTF-8")
         s2.force_encoding("ASCII-8BIT")
@@ -39,7 +39,7 @@ class RepositoryHelperTest < HelperTestCase
     with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
       s1 = "\xe3\x83\xac\xe3\x83\x83\xe3\x83\x89\xe3\x83\x9e\xe3\x82\xa4\xe3\x83\xb3"
       s2 = "\xa5\xec\xa5\xc3\xa5\xc9\xa5\xde\xa5\xa4\xa5\xf3"
-      s3 = s2
+      s3 = s2.dup
       if s1.respond_to?(:force_encoding)
         s1.force_encoding("UTF-8")
         s2.force_encoding("ASCII-8BIT")
@@ -54,7 +54,7 @@ class RepositoryHelperTest < HelperTestCase
     with_settings :repositories_encodings => 'ISO-8859-1' do
       s1 = "\xc3\x82\xc2\x80"
       s2 = "\xC2\x80"
-      s3 = s2
+      s3 = s2.dup
       if s1.respond_to?(:force_encoding)
         s1.force_encoding("UTF-8")
         s2.force_encoding("ASCII-8BIT")
@@ -63,6 +63,11 @@ class RepositoryHelperTest < HelperTestCase
       assert_equal s1, to_utf8(s2)
       assert_equal s1, to_utf8(s3)
     end
+  end
+
+  def test_to_utf8_blank_string
+    assert_equal "",  to_utf8("")
+    assert_equal nil, to_utf8(nil)
   end
 end
 
