@@ -55,6 +55,7 @@ module Report::Controller
     if @query
       store_query(@query)
       table
+      render :action => "index" unless performed?
     else
       raise ActiveRecord::RecordNotFound
     end
