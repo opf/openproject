@@ -14,7 +14,8 @@ class Meeting < ActiveRecord::Base
                      :include => [:contents, :project],
                      :date_column => "#{table_name}.created_at"
   
-  acts_as_event :description => "",
+  acts_as_event :title => Proc.new {|o| "#{l :label_meeting}: #{o.title} (#{format_date o.start_time} #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
+                :description => :text,
                 :datetime => :created_at,
                 :url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o}}
   
@@ -57,6 +58,10 @@ class Meeting < ActiveRecord::Base
   
   def to_s
     title
+  end
+  
+  def text
+    agenda.text if agenda.present?
   end
   
   protected
