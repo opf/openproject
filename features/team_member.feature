@@ -11,8 +11,8 @@ Feature: Team Member
     And the backlogs module is initialized in project "ecookbook"
     And there is 1 user with:
         | login | jsmith |
-    And there is a role "member"
-    And the role "member" may have the following rights:
+    And there is a role "team member"
+    And the role "team member" may have the following rights:
         | view_master_backlog |
         | view_taskboards     |
         | create_tasks        |
@@ -20,7 +20,7 @@ Feature: Team Member
         | view_issues         |
         | edit_issues         |
         | manage_subtasks     |
-    And the user "jsmith" is a "member" in the Project "ecookbook"
+    And the user "jsmith" is a "team member" in the Project "ecookbook"
     And the project "ecookbook" has the following sprints:
         | name       | sprint_start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
