@@ -64,13 +64,7 @@ Reporting.Controls = {
 
   send_settings_data: function (targetUrl, callback, failureCallback) {
     if (failureCallback === undefined) {
-      failureCallback = function (response) {
-        if ((response.status + "")[0] === "4") {
-          Reporting.flash(response.responseText);
-        } else {
-          Reporting.flash("There was an error getting the results. The administrator has been informed.");
-        }
-      };
+      failureCallback = Reporting.Controls.default_failure_callback;
     }
     $$('div[id^=flash]').each(function (oldMsg) {
       oldMsg.remove();
@@ -87,8 +81,12 @@ Reporting.Controls = {
   },
 
   attach_settings_callback: function (element, callback) {
+    failureCallback = function (response) {
+      $('result-table').update("");
+      Reporting.Controls.default_failure_callback(response);
+    }
     element.observe("click", function (e) {
-      Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback);
+      Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback, failureCallback);
       e.preventDefault();
     });
   },
@@ -102,6 +100,14 @@ Reporting.Controls = {
 
   update_result_table: function (response) {
     $('result-table').update(response.responseText);
+  },
+
+  default_failure_callback: function (response) {
+    if ((response.status + "")[0] === "4") {
+      Reporting.flash(response.responseText);
+    } else {
+      Reporting.flash("There was an error getting the results. The administrator has been informed.");
+    }
   }
 };
 
