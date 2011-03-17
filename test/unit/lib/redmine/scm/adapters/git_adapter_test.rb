@@ -128,8 +128,8 @@ begin
       def test_last_rev_with_spaces_in_filename
         last_rev = @adapter.lastrev("filemane with spaces.txt",
                                     "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
-        str_felix_utf8 = FELIX_UTF8
-        str_felix_hex  = FELIX_HEX
+        str_felix_utf8 = FELIX_UTF8.dup
+        str_felix_hex  = FELIX_HEX.dup
         last_rev_author = last_rev.author
         if last_rev_author.respond_to?(:force_encoding)
           last_rev_author.force_encoding('UTF-8')
