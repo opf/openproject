@@ -1,7 +1,7 @@
 require 'fileutils'
 
 namespace :redmine do
-  namespace :backlogs do 
+  namespace :backlogs do
 
     desc "Install and configure Redmine Backlogs"
     task :install => :environment do |t|
@@ -36,9 +36,9 @@ namespace :redmine do
           print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
         end
       else
-        if ! File.exist?(File.dirname(__FILE__) + '/../labels.yaml')
+        if ! File.exist?(File.dirname(__FILE__) + '/../labels.yml')
           print "Default labels installed\n"
-          FileUtils.cp(File.dirname(__FILE__) + '/../labels.yaml.default', File.dirname(__FILE__) + '/../labels.yaml')
+          FileUtils.cp(File.dirname(__FILE__) + '/../labels.yml.default', File.dirname(__FILE__) + '/../labels.yml')
         end
       end
       settings[:card_spec] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
@@ -55,7 +55,7 @@ namespace :redmine do
           print "Separate values with a space (e.g. 1 3): "
           STDOUT.flush
           selection = (STDIN.gets.chomp!).split(/\D+/)
-          
+
           # Check that all values correspond to an items in the list
           invalid = false
           invalid_value = nil
@@ -69,7 +69,7 @@ namespace :redmine do
               tracker_names << trackers[s.to_i-1].name
             end
           end
-        
+
           if invalid
             puts "Oooops! You entered an invalid value (#{invalid_value}). Please try again."
           else
@@ -82,7 +82,7 @@ namespace :redmine do
         settings[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
       end
 
-      
+
       if !Task.tracker
         # Check if there is at least one tracker available
         puts "-----------------------------------------------------"
@@ -98,7 +98,7 @@ namespace :redmine do
             print "Choose one from above (or choose none to create a new tracker): "
             STDOUT.flush
             selection = (STDIN.gets.chomp!).split(/\D+/)
-                  
+
             if selection.length > 0 and selection.first.to_i <= available_trackers.length
               # If the user picked one, use that
               print "You selected #{available_trackers[selection.first.to_i-1].name}. Is this correct? (y/n) "
@@ -128,9 +128,9 @@ namespace :redmine do
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
       Setting.plugin_redmine_backlogs = settings
-      
+
       puts "Story and task trackers are now set."
-      
+
       print "Migrating the database..."
       STDOUT.flush
       system('rake db:migrate_plugins --trace > redmine_backlogs_install.log')
@@ -146,7 +146,7 @@ namespace :redmine do
         puts "*******************************************************"
       end
     end
-    
+
     def create_new_tracker
       repeat = true
       puts "Creating a new task tracker."
@@ -160,7 +160,7 @@ namespace :redmine do
         end
         print "You typed '#{name}'. Is this correct? (y/n) "
         STDOUT.flush
-        
+
         if (STDIN.gets.chomp!).match("y")
           tracker = Tracker.new(:name => name)
           tracker.save!
