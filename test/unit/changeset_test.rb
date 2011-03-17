@@ -261,8 +261,8 @@ class ChangesetTest < ActiveSupport::TestCase
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
       if s1.respond_to?(:force_encoding)
-        s3 = s1
-        s4 = s2
+        s3 = s1.dup
+        s4 = s2.dup
         s1.force_encoding('ASCII-8BIT')
         s2.force_encoding('ASCII-8BIT')
         s3.force_encoding('ISO-8859-1')
