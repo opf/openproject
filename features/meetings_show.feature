@@ -105,3 +105,19 @@ Feature: Show meetings
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
         And I should see "Some minutes!" within "#meeting_minutes-text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
+  
+  @javascript
+  Scenario: Navigate to a meeting page and view an older version of an agenda
+      Given the role "user" may have the following rights:
+            | view_meetings |
+        And the Meeting "Bobs Meeting" has 1 agenda with:
+            | text | blah |
+        And the Meeting "Bobs Meeting" has 1 agenda with:
+            | text | foo  |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "Bobs Meeting"
+        And I click on "History"
+        And I click on "2"
+       Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
+        And I should see "blah" within ".meeting_agenda"

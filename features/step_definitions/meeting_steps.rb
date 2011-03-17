@@ -7,6 +7,6 @@ end
 
 Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting,table|
   m = Meeting.find_by_title(meeting)
-  m.agenda = Factory.build(:meeting_agenda)
+  m.agenda ||= Factory.build(:meeting_agenda)
   send_table_to_object(m.agenda, table)
 end
