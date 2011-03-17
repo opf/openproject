@@ -64,8 +64,12 @@ Reporting.Controls = {
 
   send_settings_data: function (targetUrl, callback, failureCallback) {
     if (failureCallback === undefined) {
-      failureCallback = function () {
-        Reporting.flash("There was an error getting the results. The administrator has been informed.");
+      failureCallback = function (response) {
+        if ((response.status + "")[0] === "4") {
+          Reporting.flash(response.responseText);
+        } else {
+          Reporting.flash("There was an error getting the results. The administrator has been informed.");
+        }
       };
     }
     $$('div[id^=flash]').each(function (oldMsg) {

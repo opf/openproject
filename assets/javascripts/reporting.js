@@ -26,7 +26,12 @@ window.Reporting = {
     if (type === undefined) {
       type = "error";
     }
-    $("content").insert({before: "<div onclick='$(this).remove();' id='flash_" + type + "'>" + string + "</div>"});
+    var flash = document.createElement('div');
+    flash.setAttribute('id', 'flash_' + type);
+    flash.setAttribute('onclick', '$(this).remove();');
+    flash.className = 'flash ' + type;
+    flash.innerHTML = string;
+    $("content").insert({before: flash});
   },
 
   fireEvent: function (element, event) {
