@@ -45,12 +45,14 @@ class Widget::GroupBys < Widget::Base
 
   #TODO: replace me with a drag&drop group_by selector
   def render
-    content_tag :table, :style => "border-collapse: collapse; border: 0pt none;",
-                        :id => "group_by_table" do
-      content_tag :tbody do
-        render_row_1_with_columns +
+    content_tag :div do
+      content_tag :table, :style => "border-collapse: collapse; border: 0pt none;",
+      :id => "group_by_table" do
+        content_tag :tbody do
+          render_row_1_with_columns +
           render_row_2_with_up_down +
           render_row_3_with_rows_and_group_bys
+        end
       end
     end
   end

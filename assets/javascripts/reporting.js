@@ -20,6 +20,32 @@ window.Reporting = {
 
   onload: function (func) {
     document.observe("dom:loaded", func);
+  },
+
+  flash: function (string, type) {
+    if (type === undefined) {
+      type = "error";
+    }
+    var flash = document.createElement('div');
+    flash.setAttribute('id', 'flash_' + type);
+    flash.setAttribute('onclick', '$(this).remove();');
+    flash.className = 'flash ' + type;
+    flash.innerHTML = string;
+    $("content").insert({before: flash});
+  },
+
+  fireEvent: function (element, event) {
+    var evt;
+    if (document.createEventObject) {
+      // dispatch for IE
+      evt = document.createEventObject();
+      return element.fireEvent('on' + event, evt);
+    } else {
+      // dispatch for firefox + others
+      evt = document.createEvent("HTMLEvents");
+      evt.initEvent(event, true, true); // event type,bubbling,cancelable
+      return !element.dispatchEvent(evt);
+    }
   }
 };
 

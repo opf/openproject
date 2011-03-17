@@ -168,10 +168,9 @@ module Report::QueryUtils
   end
 
   def map_field(key, value)
-    if key.to_s == "singleton_value"
-      value.to_i
-    else
-      value.to_s
+    case key.to_s
+    when "singleton_value", /_id$/ then value.to_i
+    else value.to_s
     end
   end
 

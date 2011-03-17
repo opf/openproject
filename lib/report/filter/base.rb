@@ -23,6 +23,45 @@ class Report::Filter
       false
     end
 
+    ##
+    # A Filter may have a depentent filter. See the following example:
+    # Filter::Project.dependent --> Filter::Issue
+    # This could result in a UI where, if the Prject-filter was selected,
+    # the Issue-filter automatically shows up.
+    # Arguments:
+    #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
+    #    or nil, if you want to remove the dependent relationship
+    def self.dependent(*args)
+      @dependent = args.first unless args.empty?
+      @dependent
+    end
+
+    def self.has_dependent?
+      !!@dependent
+    end
+
+    def self.cached(*args)
+      @cached ||= {}
+      @cached[args] ||= send(*args)
+    end
+
+    ##
+    # all_dependents computes the depentends of this filter and recursively
+    # all_dependents of this class' dependents.
+    def self.all_dependents
+      self.cached(:compute_all_dependents)
+    end
+
+    def self.compute_all_dependents
+      dependents = []
+      dep = dependent
+      while !dep.nil? do
+        dependents << dep
+        dep = dep.dependent
+      end
+      dependents
+    end
+
     def value=(val)
       self.values = [val]
     end

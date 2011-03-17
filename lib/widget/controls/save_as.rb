@@ -7,8 +7,8 @@ class Widget::Controls::SaveAs < Widget::Base
       link_name = l(:button_save_as)
       icon = "icon-save-as"
     end
-    button = link_to link_name, "#",
-        :class => "breadcrumb_icon #{icon}",
+    button = link_to content_tag(:span, content_tag(:em, link_name, :class => "button-icon icon-save-as")), "#",
+        :class => "button secondary",
         :id => 'query-icon-save-as', :title => link_name
     button + render_popup
   end

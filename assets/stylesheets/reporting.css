@@ -7,12 +7,19 @@
   font-weight: bold;
 }
 
+#content p, 
+#content label, 
+#content a, 
+#content div  {
+  font-size: 11px;
+  line-height: 16px;
+}
+
 .report {
   text-align:       center;
   border-collapse:  collapse;
   border:           solid 1px #ccc !important;
   width:            auto !important;
-  font-size: 11px;
 }
 
 .report td, .report th {
@@ -57,7 +64,10 @@
   background-color: #e8e8e8 !important;
 }
 
-.report tr:hover .inner {
+.report tr:hover .inner, 
+.report tr:hover .bottom, 
+.report tr:hover .empty, 
+.report tr:hover .right {
   background-color: #f5f5c5 !important;
 }
 
@@ -166,20 +176,33 @@
   margin-right: 0px;
   background-image: url(../images/arrow_B_down.gif);
 }
+.remove-box {
+  height: 20px;
+  width: 20px;
+  background: white;
+  float: right;
+  padding: 1px 0 0 0;
+  display: block;
+  margin-top: -5px;
+  margin-right: -2px;
+}
 
 .filter_rem {
   color: transparent;
   overflow: hidden;
   cursor: pointer;
   background: no-repeat center center transparent;
-  height: 16px;
-  width: 16px;
+  height: 18px;
+  width: 18px;
   border-style: none;
+  display: block;
+  margin: 0 0 0 2px;
 }
 
 .icon-filter-rem {
-  background-image: url(../images/remove.png);
+  background-image: url(../images/close.gif);
   position: relative;
+  float:right;
 }
 
 .filter {
@@ -211,8 +234,11 @@ fieldset#filter-settings table td {
   border-color: white;
   border-style: solid;
   border-width: 2px 0px 0px;
-  padding: 2px;
-  vertical-align: middle;
+  padding: 5px 2px 5px 2px;
+}
+
+fieldset#filter-settings table .no-border td {
+  border-style: none !important;
 }
 
 fieldset#filter-settings table td > label {
@@ -329,8 +355,8 @@ td:hover .drill_down, th:hover .drill_down {
 }
 
 .form_controls {
-  font-size: 13px;
-  line-height: 18px;
+  margin-top: 6px;
+  margin-bottom: 10px;
 }
 
 .buttons .reporting_button:hover {
@@ -356,8 +382,7 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
-.buttons .apply {
-  background-color: #9a9a9a;
+.buttons .button {
   border: none;
   cursor: pointer;
   margin: 0px;
@@ -369,11 +394,23 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
+.buttons .apply {
+  background-color: #990000;
+}
+
 .buttons .apply:hover {
+  background-color: #CC0000;
+}
+
+.buttons .secondary {
+  background-color: #9a9a9a;
+}
+
+.buttons .secondary:hover {
   background-color: #666666;
 }
 
-.buttons .apply span em {
+.buttons .button span em {
   color: white;
   display: block;
   font-size: 11px;
@@ -382,9 +419,36 @@ td:hover .drill_down, th:hover .drill_down {
   line-height: 17px;
 }
 
-.buttons .apply span {
+.buttons .button span {
   display: inline-block;
-  margin: 0px;
+  margin: 3px;
+}
+
+
+.buttons .button-icon {
+  padding: 0px 5px 0 16px;
+  cursor: pointer;
+  background: no-repeat left center;
+  border-style: none;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.button .icon-save {
+  background-image: url(../images/disk.gif);
+}
+
+.button .icon-save-as {
+  background-image: url(../images/disks.gif);
+}
+
+.button .icon-delete {
+  background-image: url(../images/delete.gif);
+}
+
+.button .icon-clear {
+  background-image: url(../images/remove.gif);
 }
 
 div.button_form {
