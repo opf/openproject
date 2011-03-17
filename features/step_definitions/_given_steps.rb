@@ -213,9 +213,9 @@ end
 
 Given /^I have set my API access key$/ do
   Setting[:rest_api_enabled] = 1
-  @user.reload
-  @user.api_key.should_not be_nil
-  @api_key = @user.api_key
+  User.current.reload
+  User.current.api_key.should_not be_nil
+  @api_key = User.current.api_key
 end
 
 Given /^I have guessed an API access key$/ do
