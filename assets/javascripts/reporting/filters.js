@@ -57,7 +57,7 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
-        Reporting.Filters.set_filter_value_widths(0);
+        Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
         field_el.removeAttribute('data-selected');
@@ -71,15 +71,30 @@ Reporting.Filters = {
 
   set_filter_value_widths: function (delay) {
     window.clearTimeout(Reporting.Filters.set_filter_value_widths_timeout);
-    if ($$(".filter_values").size() > 1) {
+    if (Reporting.Filters.visible_filters().size() > 0) {
       Reporting.Filters.set_filter_value_widths_timeout = window.setTimeout(function () {
-        console.log("timeout fired");
-        $$(".filter_values").each(function (e) {
-          e.morph('width: auto');
+        var table_data = $("tr_" + Reporting.Filters.visible_filters().first()).select(".filter_values").first().up();
+        var current_width = table_data.getWidth();
+        // First, reset all widths
+        $($$(".filter_values")).each(function (f) {
+          $(f).up().style.width = "auto";
         });
-        var width = $$(".filter_values").first().getWidth();
-        $$(".filter_values").each(function (e) {
-          e.morph('width: ' + width + 'px;');
+        // Now, get the current width
+        // Any width will be fine, as the table layout makes all elements the same width
+        var new_width = table_data.getWidth();
+        if (new_width < current_width) {
+          // Set all widths to previous, so we can animate
+          $($$(".filter_values")).each(function (f) {
+            $(f).up().style.width = current_width + "px";
+          });
+        }
+        // Now, set all widths to be the widest
+        $($$(".filter_values")).each(function (f) {
+          if (new_width < current_width) {
+            $(f).up().morph("width: " + new_width + "px;");
+          } else {
+            $(f).up().style.width = new_width + "px";
+          }
         });
       }, delay);
     }
