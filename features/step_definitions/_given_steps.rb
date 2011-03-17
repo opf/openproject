@@ -69,13 +69,8 @@ Given /^I want to create a story$/ do
   @story_params = initialize_story_params
 end
 
-Given /^I want to create a task for (.+)(?: in project "(.+?)")?$/ do |story_subject, *args|
-  args = args.compact
-  if args.empty?
-    project = @project
-  else
-    project = Project.find_by_name(args.first)
-  end
+Given /^I want to create a task for (.+)(?: in project "(.+?)")?$/ do |story_subject, project_name|
+  project = get_project(project_name)
 
   story = Story.find(:first, :conditions => ["subject=?", story_subject])
   @task_params = initialize_task_params(project, story)
@@ -125,8 +120,8 @@ Given /^I want to edit the story with subject (.+)$/ do |subject|
   @story_params = HashWithIndifferentAccess.new(@story.attributes)
 end
 
-Given /^the backlogs module is initialized in [pP]roject "(.*)"$/ do |project_name|
-  project = Project.find_by_name(project_name)
+Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |project_name|
+  project = get_project(project_name)
 
   # Configure the story and task trackers
   story_trackers = Tracker.find(:all).map{|s| "#{s.id}"}
@@ -138,8 +133,8 @@ Given /^the backlogs module is initialized in [pP]roject "(.*)"$/ do |project_na
   project.update_attributes :tracker_ids => (story_trackers << task_tracker)
 end
 
-Given /^the project "([^\"]*)" has the following sprints:$/ do |project_name, table|
-  project = Project.find_by_name(project_name)
+Given /^the project(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
+  project = get_project(project_name)
 
   table.hashes.each do |version|
     version['project_id'] = project.id
@@ -150,8 +145,8 @@ Given /^the project "([^\"]*)" has the following sprints:$/ do |project_name, ta
   end
 end
 
-Given /^the project has the following stories in the product backlog:$/ do |project_name, table|
-  project = Project.find_by_name(project_name)
+Given /^the project( :?"(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
+  project = get_project(project_name)
 
   project.issues.delete_all
   prev_id = ''
@@ -169,8 +164,8 @@ Given /^the project has the following stories in the product backlog:$/ do |proj
   end
 end
 
-Given /^the project "([^\"]*)" has the following stories in the following sprints:$/ do |project_name, table|
-  project = Project.find_by_name(project_name)
+Given /^the project(?: "([^\"]*)")? has the following stories in the following sprints:$/ do |project_name, table|
+  project = get_project(project_name)
 
   project.issues.delete_all
   prev_id = ''
@@ -189,8 +184,8 @@ Given /^the project "([^\"]*)" has the following stories in the following sprint
   end
 end
 
-Given /^the project "([^\"]*)" has the following tasks:$/ do |project_name, table|
-  project = Project.find_by_name(project_name)
+Given /^the project(?: "([^\"]*)")? has the following tasks:$/ do |project_name, table|
+  project = get_project(project_name)
 
   author = User.find(:first)
 
@@ -206,8 +201,8 @@ Given /^the project "([^\"]*)" has the following tasks:$/ do |project_name, tabl
   end
 end
 
-Given /^the project "([^\"]*)" has the following impediments:$/ do |project_name, table|
-  project = Project.find_by_name(project_name)
+Given /^the project(?: "([^\"]*)")? has the following impediments:$/ do |project_name, table|
+  project = get_project(project_name)
 
   author = User.find(:first)
 
@@ -223,6 +218,15 @@ Given /^the project "([^\"]*)" has the following impediments:$/ do |project_name
     # however, should NOT bypass the controller
     Task.create_with_relationships(params, author.id, project.id)
   end
+end
+
+Given /^the project uses the following modules:$/ do |table|
+  Given %Q{the project "#{get_project}" uses the following modules:}, table
+end
+
+
+Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
+  Given %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
 
 Given /^I am viewing the issues list$/ do

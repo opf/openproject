@@ -1,5 +1,9 @@
-def get_project(identifier)
-  Project.find(:first, :conditions => "identifier='#{identifier}'")
+def get_project(project_name = nil)
+  if project_name.blank?
+    project = @project
+  else
+    project = Project.find_by_name(project_name)
+  end
 end
 
 def initialize_story_params(project, user = User.find(:first))

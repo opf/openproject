@@ -6,9 +6,10 @@ Feature: Team Member
   Background:
     Given there is 1 project with:
         | name  | ecookbook |
-    And the project "ecookbook" uses the following modules:
+    And I am working in project "ecookbook"
+    And the project uses the following modules:
         | backlogs |
-    And the backlogs module is initialized in project "ecookbook"
+    And the backlogs module is initialized
     And there is 1 user with:
         | login | jsmith |
     And there is a role "team member"
@@ -20,28 +21,27 @@ Feature: Team Member
         | view_issues         |
         | edit_issues         |
         | manage_subtasks     |
-    And the user "jsmith" is a "team member" in the Project "ecookbook"
-    And the project "ecookbook" has the following sprints:
+    And the user "jsmith" is a "team member"
+    And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
-    And the project "ecookbook" has the following stories in the following sprints:
+    And the project has the following stories in the following sprints:
         | position | subject | sprint     |
         | 1        | Story 1 | Sprint 001 |
         | 2        | Story 2 | Sprint 001 |
         | 3        | Story 3 | Sprint 001 |
         | 4        | Story 4 | Sprint 002 |
-    And the project "ecookbook" has the following tasks:
+    And the project has the following tasks:
         | subject | parent  |
         | Task 1  | Story 1 |
-    And the project "ecookbook" has the following impediments:
+    And the project has the following impediments:
         | subject      | sprint     | blocks  |
         | Impediment 1 | Sprint 001 | Story 1 |
         | Impediment 2 | Sprint 001 | Story 2 |
     And I am logged in as "jsmith"
-    And I am working in project "ecookbook"
 
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
