@@ -175,13 +175,15 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_commit_referencing_a_parent_project_issue
     # repository of child project
-    r = Repository::Subversion.create!(:project => Project.find(3), :url => 'svn://localhost/test')
-      
+    r = Repository::Subversion.create!(
+          :project => Project.find(3),
+          :url     => 'svn://localhost/test')
+
     c = Changeset.new(:repository => r,
                       :committed_on => Time.now,
                       :comments => 'refs #2, an issue of a parent project')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [2], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end
@@ -192,7 +194,9 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_text_tag_hash
-    c = Changeset.new(:scmid => '7234cb2750b63f47bff735edc50a1c0a433c2518', :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
+    c = Changeset.new(
+          :scmid    => '7234cb2750b63f47bff735edc50a1c0a433c2518',
+          :revision => '7234cb2750b63f47bff735edc50a1c0a433c2518')
     assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
   end
 
