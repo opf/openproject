@@ -6,11 +6,12 @@ Feature: Common
   Background:
     Given there is 1 project with:
         | name  | ecookbook |
-    And the project "ecookbook" uses the following modules:
+    And I am working in project "ecookbook"
+    And the project uses the following modules:
         | backlogs |
-    And the backlogs module is initialized in project "ecookbook"
+    And the backlogs module is initialized
     And there is 1 user with:
-        | login | jsmith |
+        | login | paul |
     And there is a role "team member"
     And the role "team member" may have the following rights:
         | view_master_backlog |
@@ -20,9 +21,8 @@ Feature: Common
         | view_issues         |
         | edit_issues         |
         | manage_subtasks     |
-    And the user "jsmith" is a "team member" in the Project "ecookbook"
-    And I am logged in as "jsmith"
-    And I am working in project "ecookbook"
+    And the user "paul" is a "team member"
+    And I am logged in as "paul"
 
   Scenario: View the product backlog
     Given I am viewing the master backlog
