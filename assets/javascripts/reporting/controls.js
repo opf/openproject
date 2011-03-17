@@ -40,7 +40,10 @@ Reporting.Controls = {
       cancelText: translations.cancel,
       savingText: translations.saving,
       loadingText: translations.loading,
-      clickToEditText: translations.clickToEdit
+      clickToEditText: translations.clickToEdit,
+      onFailure: function (editor, response) {
+        Reporting.flash(response.responseText);
+      }
     });
   },
 
