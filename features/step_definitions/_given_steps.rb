@@ -145,14 +145,14 @@ Given /^the project(?: "([^\"]*)")? has the following sprints:$/ do |project_nam
   end
 end
 
-Given /^the project( :?"(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
+Given /^the project(?: "(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
   project = get_project(project_name)
 
   project.issues.delete_all
   prev_id = ''
 
   table.hashes.each do |story|
-    params = initialize_story_params
+    params = initialize_story_params(project)
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
 

@@ -4,21 +4,37 @@ Feature: Product Owner
   So that they get done according to my requirements
 
   Background:
-    Given the ecookbook project has the backlogs plugin enabled
-      And I am a product owner of the project
-      And the project has the following sprints:
+    Given there is 1 project with:
+        | name  | ecookbook |
+    And I am working in project "ecookbook"
+    And the project uses the following modules:
+        | backlogs |
+    And the backlogs module is initialized
+    And there is 1 user with:
+        | login | mathias |
+    And there is a role "product owner"
+    And the role "product owner" may have the following rights:
+        | view_master_backlog   |
+        | create_stories        |
+        | update_stories        |
+        | view_scrum_statistics |
+        | view_issues           |
+        | edit_issues           |
+        | manage_subtasks       |
+    And the user "mathias" is a "product owner"
+    And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
-      And the project has the following stories in the product backlog:
+    And the project has the following stories in the product backlog:
         | position | subject |
         | 1        | Story 1 |
         | 2        | Story 2 |
         | 3        | Story 3 |
         | 4        | Story 4 |
-      And the project has the following stories in the following sprints:
+    And the project has the following stories in the following sprints:
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |
         | 6        | Story B | Sprint 001 |
