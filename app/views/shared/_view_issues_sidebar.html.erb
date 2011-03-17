@@ -11,7 +11,7 @@
         <% end %>
     <% end %>
 
-    <% if project %>
+    <% if project.present? %>
       <h3><%= project.name %></h3>
       <%= link_to(l(:backlogs_product_backlog), {
               :controller => 'rb_queries',
@@ -39,7 +39,7 @@
                     :key        => key }) %>"><%= l(:label_webcal) %></a><br>
     <% end %>
 
-    <% if sprint && sprint.has_burndown %>
+    <% if sprint.present? %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
         <%= link_to(l(:label_task_board), {
                 :controller => 'rb_taskboards',
@@ -48,15 +48,7 @@
                 })
         %><br/>
 
-        <%= link_to(l(:label_burndown), {
-                :controller => 'rb_burndown_charts',
-                :action => 'show',
-                :project_id => project.id,
-                :sprint_id => sprint.id
-                })
-        %><br/>
-
-        <% if Cards::TaskboardCards.selected_label %>
+        <% if Cards::TaskboardCards.selected_label.present? %>
           <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',
@@ -66,17 +58,29 @@
                   })
           %><br/>
         <% end %>
-        <% if project.enabled_modules.any? {|m| m.name=="wiki"} %>
-            <%= link_to(l(:label_wiki), {
-                    :controller => 'rb_wikis',
-                    :action => 'show',
-                    :project_id => project.id,
-                    :sprint_id => sprint.id
-                    })
-            %><br/>
+
+        <% if project.module_enabled? "wiki" %>
+          <%= link_to(l(:label_wiki), {
+                  :controller => 'rb_wikis',
+                  :action => 'show',
+                  :project_id => project.id,
+                  :sprint_id => sprint.id
+                  })
+          %><br/>
         <% end %>
 
-        <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-left:0px; margin-top:20px; width:250px; height:192px;"></div>
-        <%= render :partial => "rb_burndown_charts/burndown", :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
+        <% if sprint.has_burndown %>
+          <%= link_to(l(:label_burndown), {
+                  :controller => 'rb_burndown_charts',
+                  :action => 'show',
+                  :project_id => project.id,
+                  :sprint_id => sprint.id
+                  })
+          %><br/>
+
+          <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-left:0px; margin-top:20px; width:250px; height:192px;"></div>
+          <%= render :partial => "rb_burndown_charts/burndown",
+                     :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
+        <% end %>
     <% end %>
 </div>
