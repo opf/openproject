@@ -11,7 +11,7 @@ Feature: Team Member
         | backlogs |
     And the backlogs module is initialized
     And there is 1 user with:
-        | login | jsmith |
+        | login | paul |
     And there is a role "team member"
     And the role "team member" may have the following rights:
         | view_master_backlog |
@@ -21,7 +21,7 @@ Feature: Team Member
         | view_issues         |
         | edit_issues         |
         | manage_subtasks     |
-    And the user "jsmith" is a "team member"
+    And the user "paul" is a "team member"
     And the project has the following sprints:
         | name       | sprint_start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
@@ -41,7 +41,7 @@ Feature: Team Member
         | subject      | sprint     | blocks  |
         | Impediment 1 | Sprint 001 | Story 1 |
         | Impediment 2 | Sprint 001 | Story 2 |
-    And I am logged in as "jsmith"
+    And I am logged in as "paul"
 
   Scenario: Create a task for a story
     Given I am viewing the taskboard for Sprint 001
