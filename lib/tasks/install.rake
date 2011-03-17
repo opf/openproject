@@ -3,44 +3,44 @@ require 'fileutils'
 namespace :redmine do
   namespace :backlogs do
 
+    desc "Install default label definitions"
+    task :default_labels => :environment do
+      FileUtils.cp(Cards::TaskboardCards::LABELS_FILE_NAME + '.default',
+                   Cards::TaskboardCards::LABELS_FILE_NAME)
+    end
+
+    desc "Install current label definitions git.gnome.org"
+    task :current_labels => :environment do
+      Cards::TaskboardCards.fetch_labels
+    end
+
     desc "Install and configure Redmine Backlogs"
     task :install => :environment do |t|
       ENV["RAILS_ENV"] ||= "development"
 
-      ['holidays', 'icalendar', 'prawn'].each{|gem|
+      ['holidays', 'icalendar', 'prawn'].each do |gem|
         begin
           require gem
         rescue LoadError
           raise "You are missing the '#{gem}' gem"
         end
-      }
+      end
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
       settings = Setting.plugin_redmine_backlogs
       settings[:points_burn_direction] ||= 'down'
       settings[:wiki_template]         ||= ''
 
-      puts "\n"
+      puts
       puts "====================================================="
       puts "             Redmine Backlogs Installer"
       puts "====================================================="
       puts "Installing to the #{ENV['RAILS_ENV']} environment."
 
-      if ! ['no', 'false'].include?("#{ENV['labels']}".downcase)
-        print "Fetching card labels from http://git.gnome.org..."
-        STDOUT.flush
-        begin
-          Cards::TaskboardCards.fetch_labels
-          print "done!\n"
-        rescue Exception => fetch_error
-          print "\nCard labels could not be fetched (#{fetch_error}). Please try again later. Proceeding anyway...\n"
-        end
-      else
-        if ! File.exist?(File.dirname(__FILE__) + '/../labels.yml')
-          print "Default labels installed\n"
-          FileUtils.cp(File.dirname(__FILE__) + '/../labels.yml.default', File.dirname(__FILE__) + '/../labels.yml')
-        end
+      unless ['no', 'false'].include? "#{ENV['labels']}".downcase
+        Rake::Task['redmine:backlogs:current_labels'].invoke
       end
+
       settings[:card_spec] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
 
       trackers = Tracker.find(:all)
@@ -94,8 +94,8 @@ namespace :redmine do
             available_trackers = trackers.select{|t| !settings[:story_trackers].include? t.id}
             j = 0
             available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
-            # puts "  #{ j + 1 }. <<new>>"
-            print "Choose one from above (or choose none to create a new tracker): "
+
+            print "Choose one from above: "
             STDOUT.flush
             selection = (STDIN.gets.chomp!).split(/\D+/)
 
@@ -107,17 +107,12 @@ namespace :redmine do
                 settings[:task_tracker] = available_trackers[selection.first.to_i-1].id
                 invalid = false
               end
-            # elsif selection.length == 0 or selection.first.to_i == j + 1
-            #   # If the user chose to create a new one, then ask for the name
-            #   settings[:task_tracker] = create_new_tracker
-            #   invalid = false
             else
               puts "Oooops! That's not a valid selection. Please try again."
             end
           end
         else
           # If there's none, ask to create one
-          # settings[:task_tracker] = create_new_tracker
           puts "You don't have any trackers available for use with tasks."
           puts "Please create a new tracker via the Redmine admin interface,"
           puts "then re-run this installer. Press any key to continue."
@@ -131,7 +126,7 @@ namespace :redmine do
 
       puts "Story and task trackers are now set."
 
-      print "Migrating the database..."
+      puts "Migrating the database..."
       STDOUT.flush
       system('rake db:migrate_plugins --trace > redmine_backlogs_install.log')
       if $?==0
@@ -145,29 +140,6 @@ namespace :redmine do
         puts " Please see redmine_backlogs_install.log for more info."
         puts "*******************************************************"
       end
-    end
-
-    def create_new_tracker
-      repeat = true
-      puts "Creating a new task tracker."
-      while repeat
-        print "Please type the tracker's name: "
-        STDOUT.flush
-        name = STDIN.gets.chomp!
-        if Tracker.find(:first, :conditions => "name='#{name}'")
-          puts "Ooops! That name is already taken."
-          next
-        end
-        print "You typed '#{name}'. Is this correct? (y/n) "
-        STDOUT.flush
-
-        if (STDIN.gets.chomp!).match("y")
-          tracker = Tracker.new(:name => name)
-          tracker.save!
-          repeat = false
-        end
-      end
-      tracker.id
     end
   end
 end

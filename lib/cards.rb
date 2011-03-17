@@ -11,7 +11,7 @@ module Cards
   class TaskboardCards
     include Redmine::I18n
 
-    LABELS_FILE_NAME = File.dirname(__FILE__) + '/labels.yml'
+    LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', 'config', 'labels.yml')
 
     if File.exist? LABELS_FILE_NAME
       LABELS = YAML::load_file(LABELS_FILE_NAME)
@@ -21,6 +21,10 @@ module Cards
     end
 
     class << self
+      def available?
+        selected_label.present?
+      end
+
       def selected_label
         LABELS[Setting.plugin_redmine_backlogs[:card_spec]]
       end
@@ -37,7 +41,7 @@ module Cards
 
       def fetch_labels
         LABELS.delete_if do |label|
-          TaskboardCards.malformed?(LABELS[label])
+          LABELS[label].blank? or TaskboardCards.malformed?(LABELS[label])
         end
 
         malformed_labels = {}
@@ -137,7 +141,7 @@ module Cards
           end
         end
 
-        File.open(File.dirname(__FILE__) + '/labels.yml', 'w') do |dump|
+        File.open(LABELS_FILE_NAME, 'w') do |dump|
           YAML.dump(LABELS, dump)
         end
         File.open(File.dirname(__FILE__) + '/labels-malformed.yml', 'w') do |dump|
@@ -331,5 +335,4 @@ module Cards
       [left, top]
     end
   end
-
 end

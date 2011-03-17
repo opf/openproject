@@ -2,6 +2,6 @@
 _site
 _posts
 assets/styles
-lib/labels.yml
-lib/labels-malformed.yml
+config/labels.yml
+config/labels-malformed.yml
 graph.dot

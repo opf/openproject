@@ -209,6 +209,15 @@ end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
   Setting.plugin_redmine_backlogs[:card_spec] = stock
+
+  # If this goes wrong, you are probably missing
+  #   vendor/plugins/redmine_backlogs/config/labels.yml
+  # Run
+  #   rake redmine:backlogs:default_labels
+  # to get the ones, shipped with the plugin or
+  #   rake redmine:backlogs:current_labels
+  # to get current one, downloaded from the internetz.
+  Cards::TaskboardCards.should be_available
 end
 
 Given /^I have set my API access key$/ do

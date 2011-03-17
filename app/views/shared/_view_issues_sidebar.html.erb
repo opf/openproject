@@ -48,7 +48,7 @@
                 })
         %><br/>
 
-        <% if Cards::TaskboardCards.selected_label.present? %>
+        <% if Cards::TaskboardCards.available? %>
           <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',
