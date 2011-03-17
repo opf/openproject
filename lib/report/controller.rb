@@ -15,13 +15,8 @@ module Report::Controller
   end
 
   ##
-  # Render the report. Provides named access to saved reports throught the :report
-  # parameter and renders either the complete index or the table only
+  # Render the report. Renders either the complete index or the table only
   def index
-    if params[:report] && report = report_engine.find_by_name(params[:report].titleize)
-      @query = report.deserialize
-      store_query(@query)
-    end
     table
   end
 
