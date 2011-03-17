@@ -261,7 +261,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
     def test_log_utf8
       @repository.fetch_changesets
       @repository.reload
-      str_felix_hex  = FELIX_HEX
+      str_felix_hex  = FELIX_HEX.dup
       if str_felix_hex.respond_to?(:force_encoding)
           str_felix_hex.force_encoding('UTF-8')
       end
