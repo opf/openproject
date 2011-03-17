@@ -4,27 +4,49 @@ Feature: Scrum Master
   So that they get done according the product owner's requirements
 
   Background:
-    Given the ecookbook project has the backlogs plugin enabled
-      And I am a scrum master of the project
-      And the project has the following sprints:
+    Given there is 1 project with:
+        | name  | ecookbook |
+    And I am working in project "ecookbook"
+    And the project uses the following modules:
+        | backlogs |
+    And the backlogs module is initialized
+    And there is a role "scrum master"
+    And the role "scrum master" may have the following rights:
+        | view_master_backlog     |
+        | view_taskboards         |
+        | update_sprints          |
+        | update_stories          |
+        | create_impediments      |
+        | update_impediments      |
+        | subscribe_to_calendars  |
+        | view_wiki_pages         |
+        | edit_wiki_pages         |
+        | view_issues             |
+        | edit_issues             |
+        | manage_subtasks         |
+    And there is 1 user with:
+        | login | markus |
+    And the user "markus" is a "scrum master"
+    And the project has the following sprints:
         | name       | sprint_start_date | effective_date  |
         | Sprint 001 | 2010-01-01        | 2010-01-31      |
         | Sprint 002 | 2010-02-01        | 2010-02-28      |
         | Sprint 003 | 2010-03-01        | 2010-03-31      |
         | Sprint 004 | 2.weeks.ago       | 1.week.from_now |
-      And the project has the following stories in the product backlog:
+    And the project has the following stories in the product backlog:
         | position | subject |
         | 1        | Story 1 |
         | 2        | Story 2 |
         | 3        | Story 3 |
         | 4        | Story 4 |
-      And the project has the following stories in the following sprints:
+    And the project has the following stories in the following sprints:
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |
         | 6        | Story B | Sprint 001 |
-      And the project has the following impediments:
+    And the project has the following impediments:
         | subject      | sprint     | blocks  |
-        | Impediment 1 | Sprint 001 | Story A | 
+        | Impediment 1 | Sprint 001 | Story A |
+    And I am logged in as "markus"
 
   Scenario: Create an impediment
     Given I am viewing the taskboard for Sprint 001
@@ -71,14 +93,14 @@ Feature: Scrum Master
      Then Story 4 should be in the 1st position of the sprint named Sprint 001
       And Story 1 should be in the 2nd position of the sprint named Sprint 001
       And Story 2 should be in the 1st position of the sprint named Sprint 002
-  
+
   Scenario: Move a story down in a sprint
     Given I am viewing the master backlog
      When I move the story named Story A below Story B
      Then the request should complete successfully
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
-     
+
   Scenario: Request the project calendar feed
     Given I have set my API access key
       And I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
@@ -88,7 +110,7 @@ Feature: Scrum Master
     Given I have guessed an API access key
      When I download the calendar feed
      Then the request should fail
-     
+
   Scenario: Download printable cards for the product backlog
     Given I have selected card label stock Avery 7169
       And I am viewing the issues list

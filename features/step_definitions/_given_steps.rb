@@ -1,32 +1,3 @@
-Given /^I am a product owner of the [pP]roject$/ do
-  @user = User.find(:first, :conditions => "login='jsmith'")
-  role = create_role_in_project
-
-  role.permissions << :view_master_backlog
-  role.permissions << :create_stories
-  role.permissions << :update_stories
-  role.permissions << :view_scrum_statistics
-  role.save!
-  login_as_user
-end
-
-Given /^I am a scrum master of the [pP]roject$/ do
-  @user = User.find(:first, :conditions => "login='jsmith'")
-  role = create_role_in_project
-
-  role.permissions << :view_master_backlog
-  role.permissions << :view_taskboards
-  role.permissions << :update_sprints
-  role.permissions << :update_stories
-  role.permissions << :create_impediments
-  role.permissions << :update_impediments
-  role.permissions << :subscribe_to_calendars
-  role.permissions << :view_wiki_pages        # NOTE: This is a Redmine core permission
-  role.permissions << :edit_wiki_pages        # NOTE: This is a Redmine core permission
-  role.save!
-  login_as_user
-end
-
 Given /^I am logged out$/ do
   logout
 end
@@ -77,9 +48,10 @@ Given /^I want to create a task for (.+)(?: in [pP]roject "(.+?)")?$/ do |story_
   @task_params = initialize_task_params(project, story)
 end
 
-Given /^I want to create an impediment for (.+)$/ do |sprint_subject|
+Given /^I want to create an impediment for (.+?)(?: in [pP]roject "(.+?)")?$/ do |sprint_subject, project_name|
+  project = get_project(project_name)
   sprint = Sprint.find(:first, :conditions => { :name => sprint_subject })
-  @impediment_params = initialize_impediment_params(sprint.id)
+  @impediment_params = initialize_impediment_params(project, sprint.id)
 end
 
 Given /^I want to edit the task named (.+)$/ do |task_subject|
