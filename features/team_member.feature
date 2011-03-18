@@ -69,17 +69,17 @@ Feature: Team Member
      Then I should see the burndown chart
 
   Scenario: View sprint stories in the issues tab
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I view the stories of Sprint 001 in the issues tab
      Then I should see the Issues page
 
   Scenario: View the project stories in the issues tab
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I view the stories in the issues tab
      Then I should see the Issues page
 
   Scenario: Fetch the updated stories
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When the browser fetches stories updated since 1 week ago
      Then the request should complete successfully
       And the server should return 4 updated stories

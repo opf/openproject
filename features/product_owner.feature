@@ -41,25 +41,25 @@ Feature: Product Owner
     And I am logged in as "mathias"
 
   Scenario: View the product backlog
-    Given I am viewing the master backlog
+     When I go to the master backlog
      Then I should see the product backlog
       And I should see 4 stories in the product backlog
       And I should see 4 sprint backlogs
 
   Scenario: View scrum statistics
-     When I visit the scrum statistics page
+     When I go to the scrum statistics page
      Then the request should complete successfully
 
   Scenario: Create a new story
-    Given I am viewing the master backlog
+     When I go to the master backlog
       And I want to create a story
       And I set the subject of the story to A Whole New Story
-     When I create the story
+      And I create the story
      Then the 1st story in the product backlog should be A Whole New Story
       And all positions should be unique
 
   Scenario: Update a story
-    Given I am viewing the master backlog
+    Given I am on the master backlog
       And I want to edit the story with subject Story 3
       And I set the subject of the story to Relaxdiego was here
       And I set the tracker of the story to Bug
@@ -69,31 +69,31 @@ Feature: Product Owner
       And the story should be at position 3
 
   Scenario: Close a story
-    Given I am viewing the master backlog
+    Given I am on the master backlog
       And I want to edit the story with subject Story 4
       And I set the status of the story to Closed
      When I update the story
      Then the status of the story should be set as closed
 
   Scenario: Move a story to the top
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the 3rd story to the 1st position
      Then the 1st story in the product backlog should be Story 3
 
   Scenario: Move a story to the bottom
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the 2nd story to the last position
      Then the 4th story in the product backlog should be Story 2
 
   Scenario: Move a story down
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the 2nd story to the 3rd position
      Then the 2nd story in the product backlog should be Story 3
       And the 3rd story in the product backlog should be Story 2
       And the 4th story in the product backlog should be Story 4
 
   Scenario: Move a story up
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the 4th story to the 2nd position
      Then the 2nd story in the product backlog should be Story 4
       And the 3rd story in the product backlog should be Story 2

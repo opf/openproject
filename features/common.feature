@@ -24,12 +24,17 @@ Feature: Common
     And the user "paul" is a "team member"
     And I am logged in as "paul"
 
+  Scenario: View the master backlog
+    Given I am on the overview page of the project
+      And I follow "Backlogs"
+     Then I should be on the master backlog
+
   Scenario: View the product backlog
-    Given I am viewing the master backlog
-     When I request the server_variables resource
+     When I go to the master backlog
+      And I request the server_variables resource
      Then the request should complete successfully
 
   Scenario: View the product backlog without any stories
     Given there are no stories in the project
-     When I view the master backlog
+     When I go to the master backlog
      Then the request should complete successfully

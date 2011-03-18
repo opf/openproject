@@ -67,7 +67,7 @@ Feature: Scrum Master
       And the sprint named Sprint 001 should have 1 impediment named Good Impediment
 
   Scenario: Update sprint details
-    Given I am viewing the master backlog
+    Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
       And I want to set the name of the sprint to sprint xxx
       And I want to set the sprint_start_date of the sprint to 2010-03-01
@@ -77,14 +77,14 @@ Feature: Scrum Master
       And the sprint should be updated accordingly
 
   Scenario: Update sprint with no name
-    Given I am viewing the master backlog
+    Given I am on the master backlog
       And I want to edit the sprint named Sprint 001
       And I want to set the name of the sprint to an empty string
      When I update the sprint
      Then the server should return an update error
 
   Scenario: Move a story from product backlog to sprint backlog
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the story named Story 1 up to the 1st position of the sprint named Sprint 001
      Then the request should complete successfully
      When I move the story named Story 4 up to the 2nd position of the sprint named Sprint 001
@@ -95,7 +95,7 @@ Feature: Scrum Master
       And Story 2 should be in the 1st position of the sprint named Sprint 002
 
   Scenario: Move a story down in a sprint
-    Given I am viewing the master backlog
+    Given I am on the master backlog
      When I move the story named Story A below Story B
      Then the request should complete successfully
       And Story A should be in the 2nd position of the sprint named Sprint 001

@@ -2,12 +2,6 @@ Given /^I am logged out$/ do
   logout
 end
 
-Given /^I am viewing the master backlog$/ do
-  visit url_for(:controller => :projects, :action => :show, :id => @project)
-  click_link("Backlogs")
-  page.driver.response.status.should == 200
-end
-
 Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => :rb_burndown_charts, :action => :show, :sprint_id => @sprint.id)
