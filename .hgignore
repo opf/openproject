@@ -30,3 +30,4 @@ vendor/rails
 doc/app
 /.bundle
 /Gemfile.lock
+/.rvmrc*
