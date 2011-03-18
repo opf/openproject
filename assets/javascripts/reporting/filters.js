@@ -215,8 +215,8 @@ Reporting.Filters = {
     var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
       Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(this.up(".filter")) });
-      // change operator to any-operator to avoid unintended filterin
-      $('operators[' + dependents.first() + ']').value = 'any';
+      // render filter inactive if possible to avoid unintended filtering
+      $(dependents.first() + '_arg_1_val').value = '<<inactive>>'
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
       // Hide remove box of dependent
       $('rm_box_' + dependents.first()).hide();

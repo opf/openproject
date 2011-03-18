@@ -3,7 +3,7 @@ en:
   units: Units
   label_less: "<"
   label_greater: ">"
-  label_any: "is any"
+  label_inactive: "<<inactive>>"
   label_report: "Report"
   label_columns: "Columns"
   label_rows: "Rows"
