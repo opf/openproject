@@ -64,7 +64,7 @@ Feature: Team Member
      Then I should see the taskboard
 
   Scenario: View the burndown chart
-    Given I am viewing the burndown for Sprint 002
+    Given I am on the burndown for "Sprint 002"
       And we have reactivated the burndown chart
      Then I should see the burndown chart
 

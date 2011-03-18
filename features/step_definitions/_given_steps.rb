@@ -2,12 +2,6 @@ Given /^I am logged out$/ do
   logout
 end
 
-Given /^I am viewing the burndown for (.+)$/ do |sprint_name|
-  @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_burndown_charts, :action => :show, :sprint_id => @sprint.id)
-  page.driver.response.status.should == 200
-end
-
 Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
   @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   visit url_for(:controller => :rb_taskboards, :action => :show, :sprint_id => @sprint.id)

@@ -15,6 +15,12 @@ module BacklogsNavigationHelpers
       project = get_project
       path_to %Q{the overview page of the project called "#{project.name}"}
 
+    when /^the burndown for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
+      project = get_project($2)
+      sprint = Sprint.find_by_name_and_project_id($1, project)
+
+      "/rb/burndown_charts/#{sprint.id}"
+
     when /^the scrum statistics page$/
       "/rb/statistics"
 
