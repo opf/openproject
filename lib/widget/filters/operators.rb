@@ -3,7 +3,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
     content_tag :td, :width => 100 do
       if filter_class.available_operators.count > 1
         content_tag :select, :class => "select-small filters-select filter_operator",
-        :style => "vertical-align: top", # FIXME: put into CSS
+                             :style => "vertical-align: top", # FIXME: put into CSS
                              :id => "operators[#{filter_class.underscore_name}]",
                              :name => "operators[#{filter_class.underscore_name}]",
                              :"data-filter-name" => filter_class.underscore_name do
@@ -14,6 +14,11 @@ class Widget::Filters::Operators < Widget::Filters::Base
           end.join.html_safe
         end
       else
+        content_tag :select, :class => "select-small filters-select filter_operator",
+                             :style => "display: none", # FIXME: put into CSS
+                             :id => "operators[#{filter_class.underscore_name}]",
+                             :name => "operators[#{filter_class.underscore_name}]",
+                             :"data-filter-name" => filter_class.underscore_name
         content_tag :label do
           l(filter_class.available_operators.first.label)
         end
