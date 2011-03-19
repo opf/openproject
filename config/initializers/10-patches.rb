@@ -86,7 +86,7 @@ module I18n
     module Base
       def warn_syntax_deprecation!(*args)
         return if @skip_syntax_deprecation
-        ActiveSupport::Deprecation.warn "The {{key}} interpolation syntax in I18n messages is deprecated and will be removed in ChiliProject 2.0 Redmine 1.2. Please use %{key} instead. See the notice at https://www.chiliproject.org/boards/2/topics/243 for more information."
+        ActiveSupport::Deprecation.warn "The {{key}} interpolation syntax in I18n messages is deprecated and will be removed in ChiliProject 2.0. Please use %{key} instead. See the notice at https://www.chiliproject.org/boards/2/topics/243 for more information."
         @skip_syntax_deprecation = true
       end
     end
