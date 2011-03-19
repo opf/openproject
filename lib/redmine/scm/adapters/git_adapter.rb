@@ -102,7 +102,7 @@ module Redmine
 
         def default_branch
           bras = self.branches
-          return if bras.nil?
+          return nil if bras.nil?
           bras.include?('master') ? 'master' : bras.first
         end
 
