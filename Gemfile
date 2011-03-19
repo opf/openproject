@@ -6,7 +6,7 @@ gem "coderay", "~> 0.9.7"
 gem "i18n", "< 0.5" # explicit version 0.4.2 is used in config!
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 
-group :development, :test do
+group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
