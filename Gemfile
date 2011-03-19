@@ -3,7 +3,7 @@ source :rubygems
 gem "rails", "2.3.11"
 
 gem "coderay", "~> 0.9.7"
-gem "i18n", "< 0.5" # explicit version 0.4.2 is used in config!
+gem "i18n", "~> 0.4.2"
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 
 group :test do
