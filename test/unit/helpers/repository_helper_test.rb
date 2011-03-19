@@ -69,5 +69,21 @@ class RepositoryHelperTest < HelperTestCase
     assert_equal "",  to_utf8("")
     assert_equal nil, to_utf8(nil)
   end
-end
 
+  def test_to_utf8_returns_ascii_as_utf8
+    s1 = "ASCII"
+    s2 = s1.dup
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding("UTF-8")
+      s2.force_encoding("ISO-8859-1")
+    end
+    str1 = to_utf8(s1)
+    str2 = to_utf8(s2)
+    assert_equal s1, str1
+    assert_equal s1, str2
+    if s1.respond_to?(:force_encoding)
+      assert_equal "UTF-8", str1.encoding.to_s
+      assert_equal "UTF-8", str2.encoding.to_s
+    end
+  end
+end
