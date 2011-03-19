@@ -4,7 +4,6 @@ gem "rails", "2.3.11"
 
 gem "coderay", "~> 0.9.7"
 gem "i18n", "< 0.5" # explicit version 0.4.2 is used in config!
-gem "ruby-openid"
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 
 group :development, :test do
@@ -13,6 +12,9 @@ group :development, :test do
   gem 'mocha'
 end
 
+group :openid do
+  gem "ruby-openid", '~> 2.1.4', :require => 'openid'
+end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
