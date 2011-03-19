@@ -211,6 +211,10 @@
   border-radius: 5px;
 }
 
+.inactive-filter {
+  background-color: #FCE29A !important;
+}
+
 #add_filter_block {
   margin-top: 6px;
 }

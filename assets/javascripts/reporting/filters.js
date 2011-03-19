@@ -57,6 +57,7 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
+        Reporting.Filters.value_changed(field)
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
@@ -129,6 +130,22 @@ Reporting.Filters = {
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
+  },
+
+  value_changed: function (field) {
+    var val, tr;
+    val = $(field + '_arg_1_val');
+    tr = $('tr_' + field);
+    if (!val) {
+      return
+    }
+    if (val.value == '<<inactive>>') {
+        tr.addClassName('inactive-filter')
+      }
+      else
+      {
+        tr.removeClassName('inactive-filter')
+      }
   },
 
   change_argument_visibility: function (field, arg_nr) {
@@ -311,6 +328,10 @@ Reporting.onload(function () {
       return o.selected === true;
     }).size();
     s.multiple = (selected_size > 1);
+    s.observe("change", function (evt) {
+    var filter_name = this.up('tr').getAttribute("data-filter-name");
+    Reporting.Filters.value_changed(filter_name);
+    });
   });
   $$('.filters-select[data-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
