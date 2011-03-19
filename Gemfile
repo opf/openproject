@@ -8,9 +8,9 @@ gem "ruby-openid"
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 
 group :development, :test do
+  gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
-  gem 'shoulda', '~> 2.10.3'
 end
 
 
