@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 module VersionsHelper
 
-  STATUS_BY_CRITERIAS = %w(category tracker priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(category tracker status priority author assigned_to)
   
   def render_issue_status_by(version, criteria)
     criteria ||= 'category'
