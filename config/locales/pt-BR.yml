@@ -965,3 +965,5 @@ pt-BR:
   label_my_queries: Minhas consultas personalizadas
   text_journal_changed_no_detail: "%{label} atualizado(a)"
   label_news_comment_added: Notícia recebeu um comentário
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all

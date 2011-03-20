@@ -923,3 +923,5 @@ nl:
   text_warn_on_leaving_unsaved: De huidige pagina bevat tekst die niet is opgeslagen en dit zal verloren gaan als u deze pagina nu verlaat.
   label_my_queries: Mijn aangepaste zoekopdrachten
   label_news_comment_added: Commentaar toegevoegd aan een nieuwsitem
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all

@@ -40,6 +40,37 @@ function toggleRowGroup(el) {
 	}
 }
 
+function collapseAllRowGroups(el) {
+  var tbody = Element.up(el, 'tbody');
+  tbody.childElements('tr').each(function(tr) {
+    if (tr.hasClassName('group')) {
+      tr.removeClassName('open');
+    } else {
+      tr.hide();
+    }
+  })
+}
+
+function expandAllRowGroups(el) {
+  var tbody = Element.up(el, 'tbody');
+  tbody.childElements('tr').each(function(tr) {
+    if (tr.hasClassName('group')) {
+      tr.addClassName('open');
+    } else {
+      tr.show();
+    }
+  })
+}
+
+function toggleAllRowGroups(el) {
+	var tr = Element.up(el, 'tr');
+  if (tr.hasClassName('open')) {
+    collapseAllRowGroups(el);
+  } else {
+    expandAllRowGroups(el);
+  }
+}
+
 function toggleFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');

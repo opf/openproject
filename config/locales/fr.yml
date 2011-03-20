@@ -792,6 +792,8 @@ fr:
   button_save: Sauvegarder
   button_check_all: Tout cocher
   button_uncheck_all: Tout décocher
+  button_collapse_all: Plier tout
+  button_expand_all: Déplier tout
   button_delete: Supprimer
   button_create: Créer
   button_create_and_continue: Créer et continuer

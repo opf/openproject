@@ -809,6 +809,8 @@ en:
   button_save: Save
   button_check_all: Check all
   button_uncheck_all: Uncheck all
+  button_collapse_all: Collapse all
+  button_expand_all: Expand all
   button_delete: Delete
   button_create: Create
   button_create_and_continue: Create and continue

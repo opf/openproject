@@ -194,6 +194,9 @@ table.plugins span.url { display: block; font-size: 0.9em; }
 
 table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; }
 table.list tbody tr.group span.count { color: #aaa; font-size: 80%; }
+tr.group a.toggle-all { color: #aaa; font-size: 80%; font-weight: normal; display:none;}
+tr.group:hover a.toggle-all { display:inline;}
+a.toggle-all:hover {text-decoration:none;}
 
 table.list tbody tr:hover { background-color:#ffffdd; }
 table.list tbody tr.group:hover { background-color:inherit; }
