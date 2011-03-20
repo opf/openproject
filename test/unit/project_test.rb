@@ -205,7 +205,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count
-    #assert_equal 0, Comment.count
+    assert_equal 0, Comment.count
     assert_equal 0, TimeEntry.count
     assert_equal 0, Version.count
     assert_equal 0, Watcher.count
