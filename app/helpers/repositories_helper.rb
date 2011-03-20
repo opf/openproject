@@ -154,6 +154,13 @@ module RepositoriesHelper
         str = str.encode("US-ASCII", :invalid => :replace,
               :undef => :replace, :replace => '?').encode("UTF-8")
       end
+    else
+      # removes invalid UTF8 sequences
+      begin
+        str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
+      rescue Iconv::InvalidEncoding
+        # "UTF-8//IGNORE" is not supported on some OS
+      end
     end
     str
   end
