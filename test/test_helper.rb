@@ -109,7 +109,7 @@ class ActiveSupport::TestCase
     File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
   end
   
-  # Returns the url of the subbversion test repository
+  # Returns the url of the subversion test repository
   def self.subversion_repository_url
     path = repository_path('subversion')
     path = '/' + path unless path.starts_with?('/')
