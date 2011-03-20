@@ -966,4 +966,6 @@ h2 img { vertical-align:middle; }
 	#wiki_add_attachment { display:none; }
   .hide-when-print { display: none; }
 	.autoscroll {overflow-x: visible;}
+	table.list {margin-top:0.5em;}
+	table.list th, table.list td {border: 1px solid #aaa;}
 }
