@@ -148,6 +148,7 @@ module RepositoriesHelper
   private :to_utf8_internal
 
   def replace_invalid_utf8(str)
+    return str if str.nil?
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
       if ! str.valid_encoding?
