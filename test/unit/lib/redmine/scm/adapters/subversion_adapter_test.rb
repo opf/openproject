@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,8 +24,7 @@ begin
   
     if repository_configured?('subversion')
       def setup
-        repo_path = "file://#{self.class.repository_path('subversion')}"
-        @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(repo_path)
+        @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
       end
 
       def test_client_version

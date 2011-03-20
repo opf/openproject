@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
     @project = Project.find(PRJ_ID)
     @repository = Repository::Subversion.create(:project => @project,
-               :url => "file://#{self.class.repository_path('subversion')}")
+               :url => self.class.subversion_repository_url)
     assert @repository
   end
 

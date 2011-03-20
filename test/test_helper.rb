@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -107,6 +107,13 @@ class ActiveSupport::TestCase
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+  end
+  
+  # Returns the url of the subbversion test repository
+  def self.subversion_repository_url
+    path = repository_path('subversion')
+    path = '/' + path unless path.starts_with?('/')
+    "file://#{path}"
   end
   
   # Returns true if the +vendor+ test repository is configured
