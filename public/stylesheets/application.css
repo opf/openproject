@@ -965,4 +965,5 @@ h2 img { vertical-align:middle; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
 	#wiki_add_attachment { display:none; }
   .hide-when-print { display: none; }
+	.autoscroll {overflow-x: visible;}
 }
