@@ -56,7 +56,7 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
                           
-  acts_as_nested_set :order => 'name'
+  acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
@@ -79,7 +79,7 @@ class Project < ActiveRecord::Base
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
-  before_destroy :delete_all_members, :destroy_children
+  before_destroy :delete_all_members
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
@@ -626,13 +626,6 @@ class Project < ActiveRecord::Base
   end
   
   private
-  
-  # Destroys children before destroying self
-  def destroy_children
-    children.each do |child|
-      child.destroy
-    end
-  end
   
   # Copies wiki from +project+
   def copy_wiki(project)
