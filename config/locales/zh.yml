@@ -2,7 +2,7 @@
 zh: 
   label_webcal: "[[Webcal Feed]]"
   rb_label_copy_tasks_open: "[[Open]]"
-  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_summary: "%{project}: %{summary}"
   field_backlogs_issue_type: !binary |
     QmFja2xvZ+exu+Weiw==
 
@@ -34,7 +34,7 @@ zh:
   label_stories: !binary |
     5Lu75Yqh
 
-  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: !binary |
     5Lqn5ZOBIGJhY2tsb2c=
 
@@ -191,8 +191,8 @@ zh:
     5pWF5LqL6Lef6Liq
 
   event_sprint_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_burndown: !binary |
     54eD5bC9
 
@@ -202,8 +202,8 @@ zh:
     6YCf5bqm6K6h6YeP5Y2V5L2N
 
   todo_issue_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_chart_options: !binary |
     6KGo5Y2V6YCJ6aG5
 

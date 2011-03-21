@@ -2,7 +2,7 @@
 de:
   label_webcal: "[[Webcal Feed]]"
   rb_label_copy_tasks_open: "Offene"
-  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_summary: "%{project}: %{summary}"
   field_backlogs_issue_type: Backlog Typ
   field_remaining_hours: Verbleibende Stunden
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"
@@ -15,15 +15,15 @@ de:
   field_name: "Name"
   error_must_have_comma_delimited_list: muss eine Kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten
   label_stories: Stories
-  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: Produkt Backlog
   required_burn_rate_hours: "ben\xC3\xB6tigte Burn-Rate (Stunden)"
   backlogs_velocity_missing: "Es konnte keine Geschwindigkeit f\xC3\xBCr dieses Projekt berechnet werden"
-  label_sprint_name: Sprint "{{name}}"
+  label_sprint_name: Sprint "%{name}"
   backlogs_any: beliebig
   label_stories_tasks: Stories/Aufgaben
   label_task_board: Aufgabenliste
-  label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf {{administration}} > {{plugins}}, klicken Sie dann auf den {{configure}} Link f\xC3\xBCr dieses Plugin. Kommen Sie hierher zur\xC3\xBCck, sobald sie die Felder konfiguriert haben."
+  label_backlogs_unconfigured: "Sie haben noch keine Backlogs konfiguriert. Bitte gehen Sie auf %{administration} > %{plugins}, klicken Sie dann auf den %{configure} Link f\xC3\xBCr dieses Plugin. Kommen Sie hierher zur\xC3\xBCck, sobald sie die Felder konfiguriert haben."
   backlogs_sprints: Sprints
   field_position: Position
   backlogs_active: aktiv
@@ -55,7 +55,7 @@ de:
   backlogs_product_backlog_unsized: Die Spitze des Produkt Backlogs hat Stories ohne Aufwandsangaben
   points_accepted: Akzeptierte Punkte
   backlogs_sprint_notes_missing: Geschlossene Sprints ohne Closed sprints without Retrospective-/Besprechungsnotizen
-  label_sprint_velocity: Geschwindigkeit {{velocity}}, basiert auf {{sprints}} Sprints mit einem Durchschnitt von {{days}} Tagen
+  label_sprint_velocity: Geschwindigkeit %{velocity}, basiert auf %{sprints} Sprints mit einem Durchschnitt von %{days} Tagen
   backlogs_story: Story
   label_sprint_backlog: Sprint Backlog
   backlogs_wiki_template: "Vorlage f\xC3\xBCr das Sprint-Wiki"
@@ -71,15 +71,15 @@ de:
   backlogs_card_specification: "Etikettenart f\xC3\xBCr den Kartendruck"
   backlogs_story_tracker: Story Tracker
   event_sprint_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_burndown: Burndown
   label_product_cards: "Produkt Backlog Karten"
   rb_label_copy_tasks_all: "Alle"
   field_velocity_based_estimate: "Geschwindigkeitsbasierende Absch\xC3\xA4tzung"
   todo_issue_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_chart_options: Chart-Optionen
   backlogs_product_backlog: Produkt Backlog
   remaining_hours: Verbleibende Stunden

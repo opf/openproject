@@ -2,7 +2,7 @@
 pt-BR: 
   label_webcal: "[[Webcal Feed]]"
   rb_label_copy_tasks_open: "[[Open]]"
-  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_summary: "%{project}: %{summary}"
   field_backlogs_issue_type: Tipo de backlog
   field_remaining_hours: Horas restantes
   error_intro_singular: "O seguinte erro foi encontrado:"
@@ -15,15 +15,15 @@ pt-BR:
   field_name: "[[Name]]"
   error_must_have_comma_delimited_list: "Deve haver uma lista separada por v\xC3\xADrgulas de est\xC3\xB3rias ou dos IDs das tarefas."
   label_stories: "Est\xC3\xB3rias"
-  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: Product backlog
   required_burn_rate_hours: "Taxa de horas necess\xC3\xA1rias"
   backlogs_velocity_missing: "A velocidade n\xC3\xA3o pode ser calculada para este projeto."
-  label_sprint_name: Sprint "{{name}}"
+  label_sprint_name: Sprint "%{name}"
   backlogs_any: Nenhum
   label_stories_tasks: "Est\xC3\xB3rias/Tarefas"
   label_task_board: Quadro de tarefas
-  label_backlogs_unconfigured: "Voc\xC3\xAA n\xC3\xA3o configurou os Backlogs ainda. Por Favor v\xC3\xA1 em, {{administration}} > {{plugins}}, e selecione {{configure}}. Uma vez definidos os campos, retorne para esta p\xC3\xA1gina para come\xC3\xA7ar a usar a ferramenta."
+  label_backlogs_unconfigured: "Voc\xC3\xAA n\xC3\xA3o configurou os Backlogs ainda. Por Favor v\xC3\xA1 em, %{administration} > %{plugins}, e selecione %{configure}. Uma vez definidos os campos, retorne para esta p\xC3\xA1gina para come\xC3\xA7ar a usar a ferramenta."
   backlogs_sprints: Sprints
   field_position: !binary |
     UG9zacOnw6Nv
@@ -57,7 +57,7 @@ pt-BR:
   backlogs_product_backlog_unsized: "O topo do Product Backlog possui est\xC3\xB3rias sem estimativas."
   points_accepted: Pontos aceitos
   backlogs_sprint_notes_missing: Sprints fechados sem notas de retrospectiva
-  label_sprint_velocity: "Velocidade {{velocity}}, baseada no {{sprints}} com a m\xC3\xA9dia de {{days}} Dias"
+  label_sprint_velocity: "Velocidade %{velocity}, baseada no %{sprints} com a m\xC3\xA9dia de %{days} Dias"
   backlogs_story: "Est\xC3\xB3ria"
   label_sprint_backlog: Sprint backlog
   backlogs_wiki_template: Template for sprint wiki page
@@ -73,15 +73,15 @@ pt-BR:
   backlogs_card_specification: "Tipo de r\xC3\xB3tulo para impress\xC3\xA3o no cart\xC3\xA3o"
   backlogs_story_tracker: "Seq\xC3\xBC\xC3\xAAncia da est\xC3\xB3ria"
   event_sprint_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_burndown: Burndown
   label_product_cards: "[[Product backlog cards]]"
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: Velocidade estimada
   todo_issue_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_chart_options: "Op\xC3\xA7\xC3\xB5es do gr\xC3\xA1fico"
   backlogs_product_backlog: Product backlog
   remaining_hours: Horas restantes

@@ -39,7 +39,7 @@ en:
   label_select_all: "Select all"
 
   label_back_to_project: "Back to project page"
-  label_sprint_name: "Sprint \"{{name}}\""
+  label_sprint_name: "Sprint \"%{name}\""
   label_backlogs: Backlogs
   label_scrum_statistics: "Scrum statistics"
 
@@ -61,14 +61,14 @@ en:
   label_points: points
   label_not_prioritized: "not prioritized"
 
-  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to {{administration}} > {{plugins}}, then click on the {{configure}} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
 
-  label_sprint_velocity: "Velocity {{velocity}}, based on {{sprints}} sprints with an average {{days}} days"
+  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
 
-  event_sprint_summary: "{{project}}: {{summary}}"
-  event_sprint_description: "{{summary}}: {{url}}\n{{description}}"
-  todo_issue_summary: "{{type}}: {{summary}}"
-  todo_issue_description: "{{summary}}: {{url}}\n{{description}}"
+  event_sprint_summary: "%{project}: %{summary}"
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  todo_issue_summary: "%{type}: %{summary}"
+  todo_issue_description: "%{summary}: %{url}\n%{description}"
 
   label_chart_options: "Chart Options"
 

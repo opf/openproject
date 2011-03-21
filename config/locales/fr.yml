@@ -2,7 +2,7 @@
 fr: 
   rb_label_copy_tasks_open: "[[Open]]"
   label_webcal: Fil Calendrier Web
-  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_summary: "%{project}: %{summary}"
   field_backlogs_issue_type: Type de carnet
   field_remaining_hours: Heures restantes
   error_intro_singular: "L'erreur suivante a été rencontrée:"
@@ -15,15 +15,15 @@ fr:
   field_tracker_id: Tracker ID
   error_must_have_comma_delimited_list: "doit avoir une liste de scénarios ou numéros de tâches séparées de virgules"
   label_stories: Scénarios
-  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: carnet du produit
   required_burn_rate_hours: taux progression requis (hours)
   backlogs_velocity_missing: "Aucune vélocité n'a pu être calcuée pour ce projet"
-  label_sprint_name: Sprint "{{name}}"
+  label_sprint_name: Sprint "%{name}"
   backlogs_any: tous
   label_stories_tasks: "Scénarios/Tâches"
   label_task_board: "Tableau des tâches"
-  label_backlogs_unconfigured: "Vous n'avez pas encore configuré les Carnets. Veuillez aller à {{administration}} > {{plugins}}, et cliquez sur le lien {{configure}} pour ce plugin. Une fois que vous aurez défini ces champs, revenez à cette page pour utiliser l'outil"
+  label_backlogs_unconfigured: "Vous n'avez pas encore configuré les Carnets. Veuillez aller à %{administration} > %{plugins}, et cliquez sur le lien %{configure} pour ce plugin. Une fois que vous aurez défini ces champs, revenez à cette page pour utiliser l'outil"
   backlogs_sprints: Sprints
   field_position: Position
   backlogs_active: actif
@@ -54,7 +54,7 @@ fr:
   backlogs_product_backlog_unsized: "La portion du haut du carnet de produit a des scénarios qui n'ont pas de taille définie"
   points_accepted: "points acceptés"
   backlogs_sprint_notes_missing: "Sprints fermés sans notes de rétrospective/revue"
-  label_sprint_velocity: "Vélocité {{velocity}}, basée sur  les sprints {{sprints}} avec une moyenne de {{days}} jours"
+  label_sprint_velocity: "Vélocité %{velocity}, basée sur  les sprints %{sprints} avec une moyenne de %{days} jours"
   field_subject: Sujet
   backlogs_story: Scéanario
   label_sprint_backlog: carnet du sprint
@@ -71,15 +71,15 @@ fr:
   backlogs_card_specification: "Types d'étiquettes pour impression de cartes"
   backlogs_story_tracker: Tracker de scénarios
   event_sprint_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_burndown: Progression
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: "Estimé basé sur la vélocité"
   label_product_cards: Cartes de carnet du produit
   todo_issue_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_chart_options: Options du graphique
   backlogs_product_backlog: Carnet de produit
   remaining_hours: heures restantes

@@ -2,7 +2,7 @@
 en-GB: 
   rb_label_copy_tasks_open: "[[Open]]"
   label_webcal: Webcal Feed
-  event_sprint_summary: "{{project}}: {{summary}}"
+  event_sprint_summary: "%{project}: %{summary}"
   field_backlogs_issue_type: Backlog type
   field_remaining_hours: Remaining hours
   error_intro_singular: "The following error was encountered:"
@@ -15,15 +15,15 @@ en-GB:
   field_tracker_id: Tracker ID
   error_must_have_comma_delimited_list: must have a comma delimited list of story or task IDs
   label_stories: Stories
-  todo_issue_summary: "{{type}}: {{summary}}"
+  todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: product backlog
   required_burn_rate_hours: required burn rate (hours)
   backlogs_velocity_missing: No velocity could be calculated for this project
-  label_sprint_name: Sprint "{{name}}"
+  label_sprint_name: Sprint "%{name}"
   backlogs_any: any
   label_stories_tasks: Stories/Tasks
   label_task_board: Task board
-  label_backlogs_unconfigured: You have not configured Backlogs yet. Please go to {{administration}} > {{plugins}}, then click on the {{configure}} link for this plugin. Once you have set the fields, come back to this page to start using the tool.
+  label_backlogs_unconfigured: You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool.
   backlogs_sprints: Sprints
   field_position: Position
   backlogs_active: active
@@ -54,7 +54,7 @@ en-GB:
   backlogs_product_backlog_unsized: The top of the product backlog has unsized stories
   points_accepted: points accepted
   backlogs_sprint_notes_missing: Closed sprints without retrospective/review notes
-  label_sprint_velocity: Velocity {{velocity}}, based on {{sprints}} sprints with an average {{days}} days
+  label_sprint_velocity: Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days
   field_subject: Subject
   backlogs_story: Story
   label_sprint_backlog: sprint backlog
@@ -71,15 +71,15 @@ en-GB:
   backlogs_card_specification: Label types for card printing
   backlogs_story_tracker: Story trackers
   event_sprint_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_burndown: Burndown
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: Velocity based estimate
   label_product_cards: Product backlog cards
   todo_issue_description: |-
-    {{summary}}: {{url}}
-    {{description}}
+    %{summary}: %{url}
+    %{description}
   label_chart_options: Chart Options
   backlogs_product_backlog: Product backlog
   remaining_hours: remaining hours
