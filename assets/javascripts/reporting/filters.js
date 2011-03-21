@@ -70,14 +70,20 @@ Reporting.Filters = {
     }
   },
 
+  /*
+    Smoothly sets the width of currently displayed filters.
+    Params:
+      delay:Int
+        Time to wait before resizing the filters width */
   set_filter_value_widths: function (delay) {
     window.clearTimeout(Reporting.Filters.set_filter_value_widths_timeout);
     if (Reporting.Filters.visible_filters().size() > 0) {
       Reporting.Filters.set_filter_value_widths_timeout = window.setTimeout(function () {
         var table_data = $("tr_" + Reporting.Filters.visible_filters().first()).select(".filter_values").first().up();
         var current_width = table_data.getWidth();
+        var filter_values = $($$(".filter_values"));
         // First, reset all widths
-        $($$(".filter_values")).each(function (f) {
+        filter_values.each(function (f) {
           $(f).up().style.width = "auto";
         });
         // Now, get the current width
@@ -85,12 +91,12 @@ Reporting.Filters = {
         var new_width = table_data.getWidth();
         if (new_width < current_width) {
           // Set all widths to previous, so we can animate
-          $($$(".filter_values")).each(function (f) {
+          filter_values.each(function (f) {
             $(f).up().style.width = current_width + "px";
           });
         }
         // Now, set all widths to be the widest
-        $($$(".filter_values")).each(function (f) {
+        filter_values.each(function (f) {
           if (new_width < current_width) {
             $(f).up().morph("width: " + new_width + "px;");
           } else {
