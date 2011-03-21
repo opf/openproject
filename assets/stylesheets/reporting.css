@@ -215,6 +215,10 @@
   background-color: #FCE29A !important;
 }
 
+.filter_values {
+  white-space: nowrap;
+}
+
 #add_filter_block {
   margin-top: 6px;
 }
