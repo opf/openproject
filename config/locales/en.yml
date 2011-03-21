@@ -85,13 +85,13 @@ en:
 
   field_tracker_id: Tracker ID
   inclusion: "is not included in the list"
-  
+
   label_webcal: Webcal Feed
   label_master_backlog: Master Backlog
 
   # Version fields
   field_name: "Name"
-  
+
   # Error messages
   error_blank: "cannot be blank"
   error_greater_than_start_date: "cannot be earlier than Start Date"
@@ -101,3 +101,6 @@ en:
   rb_label_copy_tasks_none: "None"
   rb_label_copy_tasks_all: "All"
   rb_label_copy_tasks_open: "Open"
+
+  backlogs:
+    show_statistics: 'Show Scrum statistics'

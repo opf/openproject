@@ -84,3 +84,5 @@ de:
   backlogs_product_backlog: Produkt Backlog
   remaining_hours: Verbleibende Stunden
   error_outro: Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken.
+  backlogs:
+    show_statistics: 'Scrum Statistiken anzeigen'

@@ -40,6 +40,12 @@
                  options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
 </p>
 <p>
+  <%= label_tag("settings[show_statistics]", l('backlogs.show_statistics')) %>
+  <%= check_box_tag("settings[show_statistics]",
+                    "1",
+                    Setting.plugin_redmine_backlogs[:show_statistics]) %>
+</p>
+<p>
   <%= label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>
   <%= select_tag("settings[points_burn_direction]",
                  options_for_select([[l(:label_points_burn_up), 'up'], [l(:label_points_burn_down), 'down']],
@@ -53,5 +59,6 @@
 </p>
 <p>
   <%= label_tag("settings[wiki_template]", l(:backlogs_wiki_template)) %>
-  <%= text_field_tag("settings[wiki_template]", Setting.plugin_redmine_backlogs[:wiki_template]) %>
+  <%= text_field_tag("settings[wiki_template]",
+                     Setting.plugin_redmine_backlogs[:wiki_template]) %>
 </p>
