@@ -49,7 +49,7 @@ Feature: Scrum Master
     And I am logged in as "markus"
 
   Scenario: Create an impediment
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to create an impediment for Sprint 001
       And I want to set the subject of the impediment to Bad Impediment
       And I want to indicate that the impediment blocks Story B
@@ -58,7 +58,7 @@ Feature: Scrum Master
       And the sprint named Sprint 001 should have 2 impediments named Bad Impediment
 
   Scenario: Update an impediment
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to edit the impediment named Impediment 1
       And I want to set the subject of the impediment to Good Impediment
       And I want to indicate that the impediment blocks Story B
@@ -113,14 +113,14 @@ Feature: Scrum Master
 
   Scenario: Download printable cards for the product backlog
     Given I have selected card label stock Avery 7169
-      And I am viewing the issues list
+      And I am on the issues index page
      When I follow "Product backlog cards"
      Then the request should complete successfully
 
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 7169
       And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-      And I am viewing the issues list
+      And I am on the issues index page
       And I follow "Sprint 001"
      Then the request should complete successfully
      When I follow "Sprint cards"
@@ -129,7 +129,7 @@ Feature: Scrum Master
   Scenario: view the sprint notes
     Given I have set the content for wiki page Sprint Template to Sprint Template
       And I have made Sprint Template the template page for sprint notes
-      And I am viewing the taskboard for Sprint 001
+      And I am on the taskboard for "Sprint 001"
      When I view the sprint notes
      Then the request should complete successfully
     Then the wiki page Sprint 001 should contain Sprint Template
@@ -137,7 +137,7 @@ Feature: Scrum Master
   Scenario: edit the sprint notes
     Given I have set the content for wiki page Sprint Template to Sprint Template
       And I have made Sprint Template the template page for sprint notes
-      And I am viewing the taskboard for Sprint 001
+      And I am on the taskboard for "Sprint 001"
      When I edit the sprint notes
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template

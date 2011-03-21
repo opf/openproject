@@ -15,11 +15,25 @@ module BacklogsNavigationHelpers
       project = get_project
       path_to %Q{the overview page of the project called "#{project.name}"}
 
+    when /^the issues index page$/
+      project = get_project
+      path_to %Q{the issues index page of the project called "#{project.name}"}
+
     when /^the burndown for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
       sprint = Sprint.find_by_name_and_project_id($1, project)
 
       "/rb/burndown_charts/#{sprint.id}"
+
+    when /^the task ?board for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
+      project = get_project($2)
+      sprint = Sprint.find_by_name_and_project_id($1, project)
+
+      # deprecated side effect to keep some old-style step definitions
+      # do not depend on @sprint being set in new step definitions
+      @sprint = sprint
+
+      "/rb/taskboards/#{sprint.id}"
 
     when /^the scrum statistics page$/
       "/rb/statistics"

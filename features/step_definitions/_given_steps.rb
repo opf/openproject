@@ -2,18 +2,12 @@ Given /^I am logged out$/ do
   logout
 end
 
-Given /^I am viewing the taskboard for (.+)$/ do |sprint_name|
-  @sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_taskboards, :action => :show, :sprint_id => @sprint.id)
-  page.driver.response.status.should == 200
-end
-
 Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
-  if attribute=="tracker"
-    attribute="tracker_id"
+  if attribute == "tracker"
+    attribute = "tracker_id"
     value = Tracker.find(:first, :conditions => ["name=?", value]).id
-  elsif attribute=="status"
-    attribute="status_id"
+  elsif attribute == "status"
+    attribute = "status_id"
     value = IssueStatus.find(:first, :conditions => ["name=?", value]).id
   end
   @story_params[attribute] = value
@@ -188,11 +182,6 @@ end
 
 Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
   Given %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
-end
-
-Given /^I am viewing the issues list$/ do
-  visit url_for(:controller => 'issues', :action=>'index', :project_id => @project)
-  page.driver.response.status.should == 200
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|

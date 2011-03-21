@@ -44,7 +44,7 @@ Feature: Team Member
     And I am logged in as "paul"
 
   Scenario: Create a task for a story
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
      When I create the task
@@ -52,7 +52,7 @@ Feature: Team Member
       And the 1st task for Story 1 should be A Whole New Task
 
   Scenario: Update a task for a story
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to edit the task named Task 1
       And I set the subject of the task to Whoa there, Sparky
      When I update the task
@@ -60,7 +60,7 @@ Feature: Team Member
       And the story named Story 1 should have 1 task named Whoa there, Sparky
 
   Scenario: View a taskboard
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
      Then I should see the taskboard
 
   Scenario: View the burndown chart
@@ -85,25 +85,25 @@ Feature: Team Member
       And the server should return 4 updated stories
 
   Scenario: Fetch the updated tasks
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
      When the browser fetches tasks updated since 1 week ago
      Then the request should complete successfully
       And the server should return 1 updated task
 
   Scenario: Fetch the updated impediments
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
      When the browser fetches impediments updated since 1 week ago
      Then the request should complete successfully
       And the server should return 2 updated impediments
 
   Scenario: Fetch zero updated impediments
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
      When the browser fetches impediments updated since 1 week from now
      Then the request should complete successfully
       And the server should return 0 updated impediments
 
   Scenario: Copy estimate to remaining
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
       And I set the estimated_hours of the task to 3
@@ -112,7 +112,7 @@ Feature: Team Member
       And task A Whole New Task should have remaining_hours set to 3
 
   Scenario: Copy remaining to estimate
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
       And I set the remaining_hours of the task to 3
@@ -121,7 +121,7 @@ Feature: Team Member
       And task A Whole New Task should have estimated_hours set to 3
 
   Scenario: Set both estimate and remaining
-    Given I am viewing the taskboard for Sprint 001
+    Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
       And I set the subject of the task to A Whole New Task
       And I set the remaining_hours of the task to 3
