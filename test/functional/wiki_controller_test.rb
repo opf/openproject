@@ -387,6 +387,11 @@ class WikiControllerTest < ActionController::TestCase
                     :child => { :tag => 'li', :child => { :tag => 'a', :attributes => { :href => '/projects/ecookbook/wiki/Another_page' },
                                                                        :content => 'Another page' } }
   end
+  
+  def test_index_should_include_atom_link
+    get :index, :project_id => 'ecookbook'
+    assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
+  end
 
   context "GET :export" do
     context "with an authorized user to export the wiki" do
@@ -426,6 +431,9 @@ class WikiControllerTest < ActionController::TestCase
     should_assign_to :pages_by_date
     should_render_template 'wiki/date_index'
     
+    should "include atom link" do
+      assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}
+    end
   end
   
   def test_not_found
