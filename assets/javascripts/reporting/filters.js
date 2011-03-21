@@ -274,6 +274,7 @@ Reporting.Filters = {
         evalScripts: true,
         postBody: Form.serialize('query_form'),
         onSuccess: function (response) {
+          Reporting.clearFlash();
           if (response.responseJSON !== undefined) {
             var selectBox = $(dependents.first() + "_arg_1_val");
             var selected = selectBox.select("option").collect(function (sel) {
@@ -313,6 +314,11 @@ Reporting.Filters = {
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
+        },
+        onException: function (response, error) {
+          Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
+          var selectBox = $(dependents.first() + "_arg_1_val");
+          $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
         }
       }
     );
