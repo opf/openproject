@@ -1,55 +1,57 @@
-    <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+<%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
 
-    <script type="text/javascript">
-        var $j = jQuery.noConflict();
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
 
-        function enable_apply()
-        {
-            tasktracker = $j("#settings_task_tracker").val();
-            submit = $j('input[type=submit]')
+  function enable_apply()
+  {
+    tasktracker = $j("#settings_task_tracker").val();
+    submit = $j('input[type=submit]')
 
 
-            disable = false;
-            log = tasktracker + '::'
-            $j("#settings_story_trackers :selected").each(function(i, selected){
-                disable = disable || ($j(selected).attr('value') == tasktracker);
-            });
-            if (disable) {
-                submit.attr('disabled', 'disabled');
-            } else {
-                submit.removeAttr('disabled');
-            }
-        }
+    disable = false;
+    log = tasktracker + '::'
+    $j("#settings_story_trackers :selected").each(function(i, selected){
+      disable = disable || ($j(selected).attr('value') == tasktracker);
+    });
+    if (disable) {
+      submit.attr('disabled', 'disabled');
+    } else {
+      submit.removeAttr('disabled');
+    }
+  }
 
-        $j(document).ready(function() {
-            $j("#settings_task_tracker").change(function() { enable_apply(); });
-            $j("#settings_story_trackers").change(function() { enable_apply(); });
+  $j(document).ready(function() {
+    $j("#settings_task_tracker").change(function() { enable_apply(); });
+    $j("#settings_story_trackers").change(function() { enable_apply(); });
 
-            enable_apply();
-        });
-    </script>
+    enable_apply();
+  });
+</script>
 
-    <p>
-        <%= content_tag(:label, l(:backlogs_story_tracker)) %>
-        <%= select_tag("settings[story_trackers]", options_from_collection_for_select(Tracker.all, :id, :name, Story.trackers), :multiple => true) %>
-    </p>
-    <p>
-        <%= content_tag(:label, l(:backlogs_task_tracker)) %>
-        <%= select_tag("settings[task_tracker]", options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
-    </p>
-    <p>
-        <%= content_tag(:label, l(:backlogs_points_burn_direction)) %>
-        <%= select_tag("settings[points_burn_direction]",
-            options_for_select([
-                    [l(:label_points_burn_up), 'up'],
-                    [l(:label_points_burn_down), 'down']
-                ], Setting.plugin_redmine_backlogs[:points_burn_direction])) %>
-    </p>
-    <p>
-        <%= content_tag(:label, l(:backlogs_card_specification)) %>
-        <%= select_tag("settings[card_spec]", options_for_select(Cards::TaskboardCards::LABELS.keys.sort.collect{|label| [label, label]}, Setting.plugin_redmine_backlogs[:card_spec])) %>
-    </p>
-    <p>
-        <%= content_tag(:label, l(:backlogs_wiki_template)) %>
-        <%= text_field_tag("settings[wiki_template]", Setting.plugin_redmine_backlogs[:wiki_template]) %>
-    </p>
+<p>
+  <%= label_tag("settings[story_trackers]", l(:backlogs_story_tracker)) %>
+  <%= select_tag("settings[story_trackers]",
+                 options_from_collection_for_select(Tracker.all, :id, :name, Story.trackers), :multiple => true) %>
+</p>
+<p>
+  <%= label_tag("settings[task_tracker]", l(:backlogs_task_tracker)) %>
+  <%= select_tag("settings[task_tracker]",
+                 options_from_collection_for_select(Tracker.all, :id, :name, Task.tracker)) %>
+</p>
+<p>
+  <%= label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>
+  <%= select_tag("settings[points_burn_direction]",
+                 options_for_select([[l(:label_points_burn_up), 'up'], [l(:label_points_burn_down), 'down']],
+                                    Setting.plugin_redmine_backlogs[:points_burn_direction])) %>
+</p>
+<p>
+  <%= label_tag("settings[card_spec]", l(:backlogs_card_specification)) %>
+  <%= select_tag("settings[card_spec]",
+                 options_for_select(Cards::TaskboardCards::LABELS.keys.sort.collect{|label| [label, label]},
+                                    Setting.plugin_redmine_backlogs[:card_spec])) %>
+</p>
+<p>
+  <%= label_tag("settings[wiki_template]", l(:backlogs_wiki_template)) %>
+  <%= text_field_tag("settings[wiki_template]", Setting.plugin_redmine_backlogs[:wiki_template]) %>
+</p>
