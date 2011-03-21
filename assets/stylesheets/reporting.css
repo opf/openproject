@@ -215,6 +215,10 @@
   background-color: #FCE29A !important;
 }
 
+.dependent-filter-label {
+  margin-left: 20px;
+}
+
 .filter_values {
   white-space: nowrap;
 }
