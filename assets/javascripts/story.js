@@ -17,9 +17,25 @@ RB.Story = RB.Object.create(RB.Issue, RB.EditableInplace, {
     j.find(".editable").live('mouseup', this.handleClick);
   },
 
+  /**
+   * Callbacks from model.js
+   **/
   beforeSave: function () {
-    // Do nothing
+    this.recalcVelocity();
   },
+
+  afterCreate: function (data, textStatus, xhr) {
+    this.recalcVelocity();
+  },
+
+  afterUpdate : function (data, textStatus, xhr) {
+    this.recalcVelocity();
+  },
+
+  refreshed: function () {
+    this.recalcVelocity();
+  },
+  /**/
 
   editDialogTitle: function () {
     return "Story #" + this.getID();
@@ -44,6 +60,10 @@ RB.Story = RB.Object.create(RB.Issue, RB.EditableInplace, {
 
   newDialogTitle: function () {
     return "New Story";
+  },
+
+  recalcVelocity: function () {
+    this.$.parents(".backlog").first().data('this').recalcVelocity();
   },
 
   saveDirectives: function () {
