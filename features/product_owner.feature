@@ -47,8 +47,15 @@ Feature: Product Owner
       And I should see 4 sprint backlogs
 
   Scenario: View scrum statistics
-     When I go to the scrum statistics page
-     Then the request should complete successfully
+    Given the scrum statistics are enabled
+     When I go to the home page
+      And I follow "Scrum statistics"
+     Then I should be on the scrum statistics page
+
+  Scenario: Hide scrum statistics
+    Given the scrum statistics are disabled
+     When I go to the home page
+     Then I should not see "Scrum statistics" within "#main-menu"
 
   Scenario: Create a new story
      When I go to the master backlog

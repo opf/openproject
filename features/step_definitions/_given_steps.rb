@@ -233,3 +233,11 @@ end
 Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
   @project = Project.find_by_name(project_name)
 end
+
+Given /^the scrum statistics are disabled$/ do
+  Setting.plugin_redmine_backlogs['show_statistics'] = false
+end
+
+Given /^the scrum statistics are enabled$/ do
+  Setting.plugin_redmine_backlogs['show_statistics'] = true
+end
