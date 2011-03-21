@@ -268,6 +268,7 @@ Reporting.Filters = {
       params = params + "&sources[]=" + filter;
     });
     var targetUrl = document.location.href + params;
+    var currentDependent = dependents.first();
     var updater = new Ajax.Request(targetUrl,
       {
         asynchronous: true,
@@ -276,7 +277,7 @@ Reporting.Filters = {
         onSuccess: function (response) {
           Reporting.clearFlash();
           if (response.responseJSON !== undefined) {
-            var currentDependent = dependents.first();
+            var continue_narrowing = true;
             var selectBox = $(currentDependent + "_arg_1_val");
             var selected = selectBox.select("option").collect(function (sel) {
               if (sel.selected) {
@@ -301,9 +302,14 @@ Reporting.Filters = {
                 opt.first().selected = true;
               }
             });
-            // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
             sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
+            // if we got no values besides the <<inactive>> value, do not show this selectBox
+            if (!selectBox.select("option").any(function (opt) { return opt.value != '<<inactive>>' })) {
+                Reporting.Filters.show_filter(currentDependent, { show_filter: false });
+                continue_narrowing = false;
+            }
+            // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
             if (selectBox.value == '<<inactive>>') {
               Reporting.Filters.value_changed(currentDependent);
               dependents.each(function (dependent) {
@@ -311,15 +317,16 @@ Reporting.Filters = {
                   slowly: true,
                   show_filter: false });
               });
+              continue_narrowing = false;
             }
-            else {
+            if (continue_narrowing) {
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
         },
         onException: function (response, error) {
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
-          var selectBox = $(dependents.first() + "_arg_1_val");
+          var selectBox = $(currentDependent + "_arg_1_val");
           $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
         }
       }
