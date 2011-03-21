@@ -276,7 +276,8 @@ Reporting.Filters = {
         onSuccess: function (response) {
           Reporting.clearFlash();
           if (response.responseJSON !== undefined) {
-            var selectBox = $(dependents.first() + "_arg_1_val");
+            var currentDependent = dependents.first();
+            var selectBox = $(currentDependent + "_arg_1_val");
             var selected = selectBox.select("option").collect(function (sel) {
               if (sel.selected) {
                 return sel.value;
@@ -303,6 +304,7 @@ Reporting.Filters = {
             // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
             dependents.splice(0, 1); // Delete first element
             if (selectBox.value == '<<inactive>>') {
+              Reporting.Filters.value_changed(currentDependent);
               dependents.each(function (dependent) {
                 Reporting.Filters.show_filter(dependent, {
                   slowly: true,
