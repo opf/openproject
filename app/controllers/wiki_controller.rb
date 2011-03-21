@@ -100,9 +100,6 @@ class WikiController < ApplicationController
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.version = @page.content.version
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
@@ -138,7 +135,8 @@ class WikiController < ApplicationController
 
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = l(:notice_locking_conflict)
+    render :action => 'edit'
   end
 
   # rename a page

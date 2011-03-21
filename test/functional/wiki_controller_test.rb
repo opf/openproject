@@ -155,6 +155,42 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
   end
   
+  def test_update_stale_page_should_not_raise_an_error
+    @request.session[:user_id] = 2
+    c = Wiki.find(1).find_page('Another_page').content
+    c.text = 'Previous text'
+    c.save!
+    assert_equal 2, c.version
+    
+    assert_no_difference 'WikiPage.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiContent::Version.count' do
+          put :update, :project_id => 1,
+            :id => 'Another_page',
+            :content => {
+              :comments => 'My comments',
+              :text => 'Text should not be lost',
+              :version => 1
+            }
+        end
+      end
+    end
+    assert_response :success
+    assert_template 'edit'
+    assert_tag :div,
+      :attributes => { :class => /error/ },
+      :content => /Data has been updated by another user/
+    assert_tag 'textarea', 
+      :attributes => { :name => 'content[text]' },
+      :content => /Text should not be lost/
+    assert_tag 'input', 
+      :attributes => { :name => 'content[comments]', :value => 'My comments' }
+    
+    c.reload
+    assert_equal 'Previous text', c.text
+    assert_equal 2, c.version
+  end
+  
   def test_preview
     @request.session[:user_id] = 2
     xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
