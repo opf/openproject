@@ -117,7 +117,7 @@ module Report::Controller
           :values => params[:values][dependency])
       end
       query.column(dependent)
-      values = [::I18n.t(:label_inactive)] + query.result.collect {|r| r.fields[dependent] }
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[dependent] }
       render :json => values.to_json
     end
   end

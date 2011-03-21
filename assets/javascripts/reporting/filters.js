@@ -287,7 +287,9 @@ Reporting.Filters = {
             });
             // insert new values
             response.responseJSON.each(function (o) {
-              var value = (o === null ? "" : o);
+              var ary = [ (o === null ? "" : o) ].flatten();
+              var label = ary.first();
+              var value = ary.last();
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
             });
