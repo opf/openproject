@@ -297,9 +297,19 @@ Reporting.Filters = {
                 opt.first().selected = true;
               }
             });
-            sources.push(dependents.first()); // Add as last element
+            // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
             dependents.splice(0, 1); // Delete first element
-            Reporting.Filters.narrow_values(sources, dependents);
+            if (selectBox.value == '<<inactive>>') {
+              dependents.each(function (dependent) {
+                Reporting.Filters.show_filter(dependent, {
+                  slowly: true,
+                  show_filter: false });
+              });
+            }
+            else {
+              sources.push(dependents.first()); // Add as last element
+              Reporting.Filters.narrow_values(sources, dependents);
+            }
           }
         }
       }
