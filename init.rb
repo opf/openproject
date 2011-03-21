@@ -97,5 +97,6 @@ Redmine::Plugin.register :redmine_backlogs do
   menu :application_menu,
        :backlogs,
        {:controller => :rb_statistics, :action => :show},
-       :caption => :label_scrum_statistics
+       :caption => :label_scrum_statistics,
+       :if => proc { Setting.plugin_redmine_backlogs['show_statistics'] }
 end
