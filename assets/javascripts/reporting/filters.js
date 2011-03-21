@@ -302,6 +302,7 @@ Reporting.Filters = {
               }
             });
             // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
+            sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
             if (selectBox.value == '<<inactive>>') {
               Reporting.Filters.value_changed(currentDependent);
@@ -312,7 +313,6 @@ Reporting.Filters = {
               });
             }
             else {
-              sources.push(dependents.first()); // Add as last element
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
