@@ -81,8 +81,7 @@ Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |proje
   # Configure the story and task trackers
   story_trackers = Tracker.find(:all).map{|s| "#{s.id}"}
   task_tracker = "#{Tracker.create!(:name => 'Task').id}"
-  plugin = Redmine::Plugin.find('redmine_backlogs')
-  Setting["plugin_#{plugin.id}"] = {:story_trackers => story_trackers, :task_tracker => task_tracker }
+  Setting.plugin_redmine_backlogs = {:story_trackers => story_trackers, :task_tracker => task_tracker }
 
   # Make sure these trackers are enabled in the project
   project.update_attributes :tracker_ids => (story_trackers << task_tracker)
@@ -235,9 +234,9 @@ Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
 end
 
 Given /^the scrum statistics are disabled$/ do
-  Setting.plugin_redmine_backlogs['show_statistics'] = false
+  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => false)
 end
 
 Given /^the scrum statistics are enabled$/ do
-  Setting.plugin_redmine_backlogs['show_statistics'] = true
+  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => true)
 end

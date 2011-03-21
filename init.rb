@@ -98,5 +98,5 @@ Redmine::Plugin.register :redmine_backlogs do
        :backlogs,
        {:controller => :rb_statistics, :action => :show},
        :caption => :label_scrum_statistics,
-       :if => proc { Setting.plugin_redmine_backlogs['show_statistics'] }
+       :if => proc { Setting.plugin_redmine_backlogs[:show_statistics] && User.current.allowed_to?(:view_scrum_statistics, nil, :global => true) }
 end
