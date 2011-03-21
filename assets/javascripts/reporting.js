@@ -37,6 +37,12 @@ window.Reporting = {
     $("content").insert({before: flash});
   },
 
+  clearFlash: function () {
+    $$('div[id^=flash]').each(function (oldMsg) {
+      oldMsg.remove();
+    });
+  },
+
   fireEvent: function (element, event) {
     var evt;
     if (document.createEventObject) {
