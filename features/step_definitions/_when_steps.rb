@@ -1,17 +1,17 @@
 When /^I create the impediment$/ do
-  page.driver.process :post, 
+  page.driver.process :post,
                       url_for(:controller => :rb_impediments, :action => :create),
                       @impediment_params
 end
 
 When /^I create the story$/ do
-  page.driver.process :post, 
+  page.driver.process :post,
                       url_for(:controller => :rb_stories, :action => :create),
                       @story_params
 end
 
 When /^I create the task$/ do
-  page.driver.process :post, 
+  page.driver.process :post,
                       url_for(:controller => :rb_tasks, :action => :create),
                       @task_params
 end
@@ -19,7 +19,7 @@ end
 When /^I move the story named (.+) below (.+)$/ do |story_subject, prev_subject|
   story = Story.find(:first, :conditions => ["subject=?", story_subject])
   prev  = Story.find(:first, :conditions => ["subject=?", prev_subject])
-  
+
   attributes = story.attributes
   attributes[:prev]             = prev.id
   attributes[:fixed_version_id] = prev.fixed_version_id
@@ -34,7 +34,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
   story = Story.find(:first, :conditions => ["subject=?", story_subject])
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
   story.fixed_version = sprint
-  
+
   attributes = story.attributes
   attributes[:prev] = if position == 1
                         ''
@@ -65,7 +65,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
            @story_ids[new_pos.to_i-1]
          end
 
-  page.driver.process :post, 
+  page.driver.process :post,
                       url_for(:controller => :rb_stories, :action => :update, :id => story.text),
                       {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
 
@@ -77,7 +77,7 @@ When /^I request the server_variables resource$/ do
 end
 
 When /^I update the impediment$/ do
-  page.driver.process :post, 
+  page.driver.process :post,
                       url_for(:controller => :rb_impediments, :action => :update),
                       @impediment_params.merge({ "_method" => "put" })
 end
@@ -122,10 +122,14 @@ When /^I view the stories in the issues tab/ do
   visit url_for(:controller => :rb_queries, :action => :show, :project_id=> @project.id)
 end
 
+# deprecation warning
+# Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I view the sprint notes$/ do
   visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint.id)
 end
 
+# deprecation warning
+# Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I edit the sprint notes$/ do
   visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint.id)
 end
