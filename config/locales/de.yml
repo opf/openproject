@@ -86,3 +86,8 @@ de:
   error_outro: Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken.
   backlogs:
     show_statistics: 'Scrum Statistiken anzeigen'
+  version_settings_display_option_none: kein
+  version_settings_display_option_left: links
+  version_settings_display_option_right: rechts
+  version_settings_display_label: Spalte im Backlog
+

@@ -104,3 +104,9 @@ en:
 
   backlogs:
     show_statistics: 'Show Scrum statistics'
+
+  version_settings_display_option_none: none
+  version_settings_display_option_left: left
+  version_settings_display_option_right: right
+  version_settings_display_label: Column in backlog
+
