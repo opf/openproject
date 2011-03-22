@@ -3,7 +3,7 @@
 
 Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
-    var select;
+    var select, radio_options;
     select = $('' + filter_name + '_arg_1_val');
     if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
       Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
@@ -25,7 +25,14 @@ Reporting.Filters = {
       callback_func();
     }
     // select first option by default
-    select.selectedIndex = 0;
+    // check if we might have a radio-box
+    radio_options = $$('.' + filter_name + '_radio_option');
+    if (select == null && radio_options && radio_options.size() != 0) {
+        radio_options.first().checked = true;
+    }
+    else {
+      select.selectedIndex = 0;
+    }
   },
 
   show_filter: function (field, options) {
