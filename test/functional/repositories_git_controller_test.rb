@@ -42,18 +42,6 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_show
-      @repository.fetch_changesets
-      @repository.reload
-      get :show, :id => 3
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert assigns(:entries).size > 0
-      assert_not_nil assigns(:changesets)
-      assigns(:changesets).size > 0
-    end
-
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
