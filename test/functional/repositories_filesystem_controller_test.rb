@@ -46,13 +46,23 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert assigns(:entries).size > 0
       assert_not_nil assigns(:changesets)
       assert assigns(:changesets).size == 0
+    end
+
+    def test_show_no_extension
+      get :entry, :id => PRJ_ID, :path => ['test']
+      assert_response :success
+      assert_template 'entry'
+      assert_tag :tag => 'th',
+                 :content => '1',
+                 :attributes => { :class => 'line-num' },
+                 :sibling => { :tag => 'td', :content => /TEST CAT/ }
     end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
