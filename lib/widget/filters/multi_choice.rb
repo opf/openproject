@@ -11,12 +11,4 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
       end
     end
   end
-  
-  def available_operators
-    "=".to_operator
-  end
-  
-  def is_multiple_choice?
-    true
-  end
 end
