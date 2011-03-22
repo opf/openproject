@@ -60,14 +60,6 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
          "Current value is '#{Encoding.default_external.to_s}'" 
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)
-    def test_show
-      get :show, :id => 3
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
-    end
-
     def test_show_root
       @repository.fetch_changesets
       @repository.reload
