@@ -219,6 +219,13 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
+    def test_entry_binary_force_download
+      get :entry, :id => PRJ_ID, :rev => 1, :path => ['images', 'edit.png']
+      assert_response :success
+      # TODO: 'image/png'
+      assert_equal 'application/octet-stream', @response.content_type
+    end
+
     def test_directory_entry
       get :entry, :id => PRJ_ID, :path => ['sources']
       assert_response :success
@@ -226,7 +233,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end
-    
+
     def test_diff
       @repository.fetch_changesets
       @repository.reload
