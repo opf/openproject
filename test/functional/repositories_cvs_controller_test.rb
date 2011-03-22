@@ -47,16 +47,6 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_show
-      @repository.fetch_changesets
-      @repository.reload
-      get :show, :id => PRJ_ID
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
-    end
-
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
