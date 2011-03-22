@@ -27,7 +27,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
   CHAR_1_HEX = "\xc3\x9c"
-  
+  PRJ_ID = 3
+
   ruby19_non_utf8_pass = (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
 
   def setup
@@ -36,7 +37,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     @response   = ActionController::TestResponse.new
     User.current = nil
     @repository = Repository::Mercurial.create(
-                      :project => Project.find(3),
+                      :project => Project.find(PRJ_ID),
                       :url     => REPOSITORY_PATH,
                       :path_encoding => 'ISO-8859-1'
                       )
@@ -63,7 +64,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_show_root
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -78,7 +79,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_show_directory
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => ['images']
+      get :show, :id => PRJ_ID, :path => ['images']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -95,7 +96,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [0, '0', '0885933ad4f6'].each do |r1|
-        get :show, :id => 3, :path => ['images'], :rev => r1
+        get :show, :id => PRJ_ID, :path => ['images'], :rev => r1
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
@@ -109,7 +110,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [13, '13', '3a330eb32958'].each do |r1|
-        get :show, :id => 3, :path => ['sql_escape', 'percent%dir'], :rev => r1
+        get :show, :id => PRJ_ID, :path => ['sql_escape', 'percent%dir'], :rev => r1
         assert_response :success
         assert_template 'show'
 
@@ -126,7 +127,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [21, '21', 'adf805632193'].each do |r1|
-        get :show, :id => 3, :path => ['latin-1-dir'], :rev => r1
+        get :show, :id => PRJ_ID, :path => ['latin-1-dir'], :rev => r1
         assert_response :success
         assert_template 'show'
 
@@ -152,7 +153,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           'test_branch.latin-1',
           'test-branch-00',
       ].each do |bra|
-        get :show, :id => 3, :rev => bra
+        get :show, :id => PRJ_ID, :rev => bra
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
@@ -170,7 +171,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         'tag_test.00',
         'tag-init-revision'
       ].each do |tag|
-        get :show, :id => 3, :rev => tag
+        get :show, :id => PRJ_ID, :rev => tag
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
@@ -181,14 +182,14 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => 3, :path => ['images', 'edit.png']
+      get :changes, :id => PRJ_ID, :path => ['images', 'edit.png']
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
     
     def test_entry_show
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'entry'
       # Line 10
@@ -200,25 +201,26 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_entry_show_latin_1
       [21, '21', 'adf805632193'].each do |r1|
-        get :entry, :id => 3, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+        get :entry, :id => PRJ_ID, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
         assert_response :success
         assert_template 'entry'
         assert_tag :tag => 'th',
                  :content => '1',
                  :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /Mercurial is a distributed version control system/ }
+                 :sibling => { :tag => 'td',
+                               :content => /Mercurial is a distributed version control system/ }
       end
     end
     
     def test_entry_download
-      get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
+      get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_directory_entry
-      get :entry, :id => 3, :path => ['sources']
+      get :entry, :id => PRJ_ID, :path => ['sources']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -228,13 +230,11 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_diff
       @repository.fetch_changesets
       @repository.reload
-
       [4, '4', 'def6d2f1254a'].each do |r1|
         # Full diff of changeset 4
-        get :diff, :id => 3, :rev => r1
+        get :diff, :id => PRJ_ID, :rev => r1
         assert_response :success
         assert_template 'diff'
-
         if @diff_c_support
           # Line 22 removed
           assert_tag :tag => 'th',
@@ -250,11 +250,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_diff_two_revs
       @repository.fetch_changesets
       @repository.reload
-
       [2, '400bb8672109', '400', 400].each do |r1|
         [4, 'def6d2f1254a'].each do |r2|
-          get :diff, :id => 3, :rev    => r1,
-                               :rev_to => r2
+          get :diff, :id => PRJ_ID, :rev    => r1,
+                                    :rev_to => r2
           assert_response :success
           assert_template 'diff'
 
@@ -267,7 +266,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_diff_latin_1
       [21, 'adf805632193'].each do |r1|
-        get :diff, :id => 3, :rev => r1
+        get :diff, :id => PRJ_ID, :rev => r1
         assert_response :success
         assert_template 'diff'
         assert_tag :tag => 'th',
@@ -279,7 +278,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => 3, :path => ['sources', 'watchers_controller.rb']
+      get :annotate, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
       assert_template 'annotate'
       # Line 23, revision 4:def6d2f1254a
@@ -311,7 +310,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       [2, '400bb8672109', '400', 400].each do |r1|
-        get :annotate, :id => 3, :rev => r1, :path => ['sources', 'watchers_controller.rb']
+        get :annotate, :id => PRJ_ID, :rev => r1, :path => ['sources', 'watchers_controller.rb']
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
@@ -320,7 +319,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
 
     def test_annotate_latin_1
       [21, '21', 'adf805632193'].each do |r1|
-      get :annotate, :id => 3, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
+      get :annotate, :id => PRJ_ID, :path => ['latin-1-dir', "test-#{@char_1}-2.txt"], :rev => r1
         assert_response :success
         assert_template 'annotate'
         assert_tag :tag => 'th',
@@ -345,7 +344,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_tag :tag => 'th',
                  :content => '1',
                  :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /Mercurial is a distributed version control system/ }
+                 :sibling => { :tag => 'td',
+                               :content => /Mercurial is a distributed version control system/ }
 
       end
     end
@@ -354,7 +354,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       ['', ' ', nil].each do |r|
-        get :revision, :id => 3, :rev => r
+        get :revision, :id => PRJ_ID, :rev => r
         assert_response 404
         assert_error_tag :content => /was not found/
       end
