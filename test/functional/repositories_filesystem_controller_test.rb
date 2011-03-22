@@ -92,7 +92,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       with_settings :file_max_size_displayed => 1 do
         get :entry, :id => PRJ_ID, :path => ['japanese', 'big-file.txt']
         assert_response :success
-        # TODO: 'image/png'
+        # TODO: 'text/plain'
         assert_equal 'application/octet-stream', @response.content_type
       end
     end
