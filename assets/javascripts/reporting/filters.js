@@ -57,6 +57,7 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
+        Reporting.Filters.value_changed(field)
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
@@ -69,14 +70,20 @@ Reporting.Filters = {
     }
   },
 
+  /*
+    Smoothly sets the width of currently displayed filters.
+    Params:
+      delay:Int
+        Time to wait before resizing the filters width */
   set_filter_value_widths: function (delay) {
     window.clearTimeout(Reporting.Filters.set_filter_value_widths_timeout);
     if (Reporting.Filters.visible_filters().size() > 0) {
       Reporting.Filters.set_filter_value_widths_timeout = window.setTimeout(function () {
         var table_data = $("tr_" + Reporting.Filters.visible_filters().first()).select(".filter_values").first().up();
         var current_width = table_data.getWidth();
+        var filter_values = $($$(".filter_values"));
         // First, reset all widths
-        $($$(".filter_values")).each(function (f) {
+        filter_values.each(function (f) {
           $(f).up().style.width = "auto";
         });
         // Now, get the current width
@@ -84,12 +91,12 @@ Reporting.Filters = {
         var new_width = table_data.getWidth();
         if (new_width < current_width) {
           // Set all widths to previous, so we can animate
-          $($$(".filter_values")).each(function (f) {
+          filter_values.each(function (f) {
             $(f).up().style.width = current_width + "px";
           });
         }
         // Now, set all widths to be the widest
-        $($$(".filter_values")).each(function (f) {
+        filter_values.each(function (f) {
           if (new_width < current_width) {
             $(f).up().morph("width: " + new_width + "px;");
           } else {
@@ -129,6 +136,22 @@ Reporting.Filters = {
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
+  },
+
+  value_changed: function (field) {
+    var val, tr;
+    val = $(field + '_arg_1_val');
+    tr = $('tr_' + field);
+    if (!val) {
+      return
+    }
+    if (val.value == '<<inactive>>') {
+        tr.addClassName('inactive-filter')
+      }
+      else
+      {
+        tr.removeClassName('inactive-filter')
+      }
   },
 
   change_argument_visibility: function (field, arg_nr) {
@@ -215,8 +238,8 @@ Reporting.Filters = {
     var active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
       Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(this.up(".filter")) });
-      // change operator to any-operator to avoid unintended filterin
-      $('operators[' + dependents.first() + ']').value = 'any';
+      // render filter inactive if possible to avoid unintended filtering
+      $(dependents.first() + '_arg_1_val').value = '<<inactive>>'
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
       // Hide remove box of dependent
       $('rm_box_' + dependents.first()).hide();
@@ -245,14 +268,17 @@ Reporting.Filters = {
       params = params + "&sources[]=" + filter;
     });
     var targetUrl = document.location.href + params;
+    var currentDependent = dependents.first();
     var updater = new Ajax.Request(targetUrl,
       {
         asynchronous: true,
         evalScripts: true,
         postBody: Form.serialize('query_form'),
         onSuccess: function (response) {
+          Reporting.clearFlash();
           if (response.responseJSON !== undefined) {
-            var selectBox = $(dependents.first() + "_arg_1_val");
+            var continue_narrowing = true;
+            var selectBox = $(currentDependent + "_arg_1_val");
             var selected = selectBox.select("option").collect(function (sel) {
               if (sel.selected) {
                 return sel.value;
@@ -264,7 +290,9 @@ Reporting.Filters = {
             });
             // insert new values
             response.responseJSON.each(function (o) {
-              var value = (o === null ? "" : o);
+              var ary = [ (o === null ? "" : o) ].flatten();
+              var label = ary.first();
+              var value = ary.last();
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
             });
@@ -274,10 +302,32 @@ Reporting.Filters = {
                 opt.first().selected = true;
               }
             });
-            sources.push(dependents.first()); // Add as last element
+            sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
-            Reporting.Filters.narrow_values(sources, dependents);
+            // if we got no values besides the <<inactive>> value, do not show this selectBox
+            if (!selectBox.select("option").any(function (opt) { return opt.value != '<<inactive>>' })) {
+                Reporting.Filters.show_filter(currentDependent, { show_filter: false });
+                continue_narrowing = false;
+            }
+            // if the current filter is inactive, hide dependent - otherwise recurisvely narrow dependent values
+            if (selectBox.value == '<<inactive>>') {
+              Reporting.Filters.value_changed(currentDependent);
+              dependents.each(function (dependent) {
+                Reporting.Filters.show_filter(dependent, {
+                  slowly: true,
+                  show_filter: false });
+              });
+              continue_narrowing = false;
+            }
+            if (continue_narrowing) {
+              Reporting.Filters.narrow_values(sources, dependents);
+            }
           }
+        },
+        onException: function (response, error) {
+          Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
+          var selectBox = $(currentDependent + "_arg_1_val");
+          $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
         }
       }
     );
@@ -311,6 +361,10 @@ Reporting.onload(function () {
       return o.selected === true;
     }).size();
     s.multiple = (selected_size > 1);
+    s.observe("change", function (evt) {
+    var filter_name = this.up('tr').getAttribute("data-filter-name");
+    Reporting.Filters.value_changed(filter_name);
+    });
   });
   $$('.filters-select[data-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);

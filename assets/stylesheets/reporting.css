@@ -211,6 +211,18 @@
   border-radius: 5px;
 }
 
+.inactive-filter {
+  background-color: #FCE29A !important;
+}
+
+.dependent-filter-label {
+  margin-left: 20px;
+}
+
+.filter_values {
+  white-space: nowrap;
+}
+
 #add_filter_block {
   margin-top: 6px;
 }
@@ -472,6 +484,11 @@ div.button_form * input[type="button"] {
 
 div.button_form p * {
   margin: 2px;
+}
+
+/***** Save and Delete Reports ****/
+#save_as_form, #delete_form {
+  z-index: 999;
 }
 
 /***** Ajax indicator ******/

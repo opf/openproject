@@ -174,12 +174,6 @@ class Report::Operator
       end
     end
 
-    new "any", :label => :label_any, :arity => 0 do
-      def modify(query, field, value = nil)
-        query
-      end
-    end
-
   end
   #############################################################################################
 
@@ -236,7 +230,7 @@ class Report::Operator
   end
 
   def self.default_operators
-    ["=", "!", "any"].map { |s| s.to_operator}
+    ["=", "!"].map { |s| s.to_operator}
   end
 
   attr_reader :name

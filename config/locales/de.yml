@@ -3,7 +3,7 @@ de:
   units: Einheiten
   label_less: "<"
   label_greater: ">"
-  label_any: "alle"
+  label_inactive: "«nicht aktiviert»"
   label_report: "Report"
   label_columns: "Spalten"
   label_rows: "Zeilen"

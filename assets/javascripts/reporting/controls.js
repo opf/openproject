@@ -69,9 +69,7 @@ Reporting.Controls = {
     if (failureCallback === undefined) {
       failureCallback = Reporting.Controls.default_failure_callback;
     }
-    $$('div[id^=flash]').each(function (oldMsg) {
-      oldMsg.remove();
-    });
+    Reporting.clearFlash();
     selectAllOptions('group_by_rows');
     selectAllOptions('group_by_columns');
     var updater = new Ajax.Request(

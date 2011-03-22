@@ -117,7 +117,7 @@ module Report::Controller
           :values => params[:values][dependency])
       end
       query.column(dependent)
-      values = query.result.collect {|r| r.fields[dependent] }
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[dependent] }
       render :json => values.to_json
     end
   end
@@ -224,9 +224,11 @@ module Report::Controller
     query = report_engine.new
     query.tap do |q|
       filters[:operators].each do |filter, operator|
-        q.filter(filter.to_sym,
-                 :operator => operator,
-                 :values => filters[:values][filter])
+        unless filters[:values][filter]==["<<inactive>>"]
+          q.filter(filter.to_sym,
+                   :operator => operator,
+                   :values => filters[:values][filter])
+        end
       end
     end
     groups[:rows].try(:reverse_each) {|r| query.row(r) }
