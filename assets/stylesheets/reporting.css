@@ -7,9 +7,9 @@
   font-weight: bold;
 }
 
-#content p, 
-#content label, 
-#content a, 
+#content p,
+#content label,
+#content a,
 #content div  {
   font-size: 11px;
   line-height: 16px;
@@ -64,9 +64,9 @@
   background-color: #e8e8e8 !important;
 }
 
-.report tr:hover .inner, 
-.report tr:hover .bottom, 
-.report tr:hover .empty, 
+.report tr:hover .inner,
+.report tr:hover .bottom,
+.report tr:hover .empty,
 .report tr:hover .right {
   background-color: #f5f5c5 !important;
 }
@@ -221,6 +221,11 @@
 
 .filter_values {
   white-space: nowrap;
+}
+
+.filter_radio_option {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #add_filter_block {

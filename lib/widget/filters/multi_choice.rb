@@ -7,13 +7,13 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
           radio_button = tag :input,
             :type => "radio", :name => "#{filter_class.underscore_name}_arg_1_val",
             :id => "#{filter_class.underscore_name}_radio_option_#{i}",
-            :class => "#{filter_class.underscore_name}_radio_option",
             :value => value
           content_tag :label, radio_button + label,
             :for => "#{filter_class.underscore_name}_radio_option_#{i}",
-            :'data-filter-name' => filter_class.underscore_name
+            :'data-filter-name' => filter_class.underscore_name,
+            :class => "#{filter_class.underscore_name}_radio_option filter_radio_option"
         end
-        choices.join(tag(:br)).html_safe
+        choices.join.html_safe
       end
     end
   end
