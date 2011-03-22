@@ -61,6 +61,9 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
 
       entry = assigns(:entries).detect {|e| e.name == 'README'}
       assert_equal 'file', entry.kind
+
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_directory
