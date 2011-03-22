@@ -65,6 +65,12 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /TEST CAT/ }
     end
 
+    def test_entry_download_no_extension
+      get :entry, :id => PRJ_ID, :path => ['test'], :format => 'raw'
+      assert_response :success
+      assert_equal 'application/octet-stream', @response.content_type
+    end
+
     def test_show_non_ascii_contents
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
         get :entry, :id => PRJ_ID, :path => ['japanese', 'euc-jp.txt']
