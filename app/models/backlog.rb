@@ -1,9 +1,12 @@
 class Backlog
+  unloadable
+
   attr_accessor :sprint
   attr_accessor :stories
 
-  def self.product_backlog(project, limit = nil)
-    new(:stories => Story.backlog(project, nil, :limit => limit))
+  def self.owner_backlogs(project, limit = nil)
+    stories = Story.backlog(project, nil, :limit => limit)
+    [new(:stories => stories, :owner_backlog => true)]
   end
 
   def self.sprint_backlogs(project)
@@ -14,9 +17,18 @@ class Backlog
     options = options.with_indifferent_access
     @sprint = options['sprint']
     @stories = options['stories']
+    @owner_backlog = options['owner_backlog']
   end
 
   def updated_on
-    @stories.max_by { |s| s.updated_on }.try(:updated_on)
+    @stories.max_by(&:updated_on).try(:updated_on)
+  end
+
+  def owner_backlog?
+    !!@owner_backlog
+  end
+
+  def sprint_backlog?
+    !owner_backlog?
   end
 end

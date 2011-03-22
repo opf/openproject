@@ -20,7 +20,7 @@
 <%- content_for :main do %>
   <div id="backlogs_container">
     <div id="owner_backlogs_container">
-      <%= render :partial => 'backlog', :object => @product_backlog %>
+      <%= render :partial => 'backlog', :collection => @owner_backlogs %>
     </div>
     <div id="sprint_backlogs_container">
       <%= render :partial => 'backlog', :collection => @sprint_backlogs %>

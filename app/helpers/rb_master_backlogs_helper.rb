@@ -1,20 +1,12 @@
 module RbMasterBacklogsHelper
   unloadable
+
   include Redmine::I18n
-  
-  def backlog_html_class(backlog)
-    is_sprint?(backlog) ? "sprint backlog" : "product backlog"
-  end
-  
-  def backlog_html_id(backlog)
-    is_sprint?(backlog) ? "sprint_#{backlog.id}" : "product_backlog"
-  end
 
-  def backlog_id_or_empty(backlog)
-    is_sprint?(backlog) ? backlog.id : ""
-  end
+  def render_backlog_menu(backlog)
+    items = backlog_menu_items_for(backlog)
+    is_sprint = backlog.sprint_backlog?
 
-  def backlog_menu(is_sprint, items = [])
     html = %{
       <div class="menu">
         <div class="icon ui-icon ui-icon-carat-1-s"></div>
@@ -33,29 +25,67 @@ module RbMasterBacklogsHelper
       </div>
     }
   end
-  
-  def date_or_nil(date)
-    date.blank? ? '' : date.strftime('%Y-%m-%d')
-  end
-  
-  def editable_if_sprint(backlog)
-    "editable" if is_sprint?(backlog)
-  end
-  
-  def is_sprint?(backlog)
-    backlog.class.to_s.downcase=='sprint'
-  end
 
-  def menu_link(label, options = {})
-    # options[:class] = "pureCssMenui"
-    link_to(label, options)
-  end
-  
-  def name_or_default(backlog)
-    is_sprint?(backlog) ? backlog.name : l(:label_Product_backlog)
-  end
-  
-  def stories(backlog)
-    backlog[:stories] || backlog.stories
+  def backlog_menu_items_for(backlog)
+    [
+      {
+        :item => "<a href='#' class='add_new_story'>New Story</a>",
+        :for  => :both
+      },
+      {
+        :item => link_to(l(:label_task_board), {
+                           :controller => 'rb_taskboards',
+                           :action => 'show',
+                           :sprint_id => backlog.sprint }),
+        :for => :sprint
+      },
+      {
+        :item => "<a href='#' class='show_burndown_chart'>Burndown chart</a>",
+        :for  => :sprint,
+        :condition => backlog.sprint && backlog.sprint.has_burndown
+      },
+      {
+        :item => link_to(l(:label_stories_tasks), {
+                           :controller => 'rb_queries',
+                           :action => 'show',
+                           :project_id => @project,
+                           :sprint_id => backlog.sprint }),
+        :for => :sprint
+      },
+      {
+        :item => link_to(l(:label_stories), {
+                           :controller => 'rb_queries',
+                           :action => 'show',
+                           :project_id => @project }),
+        :for => :product
+      },
+      {
+        :item => link_to(l(:label_sprint_cards), {
+                           :controller => 'rb_stories',
+                           :action => 'index',
+                           :project_id => @project,
+                           :sprint_id => backlog.sprint,
+                           :format => :pdf }),
+        :for => :sprint,
+        :condition => Cards::TaskboardCards.selected_label
+      },
+      {
+        :item => link_to(l(:label_product_cards), {
+                           :controller => 'rb_stories',
+                           :action => 'index',
+                           :project_id => @project,
+                           :format => :pdf }),
+        :for => :product
+      },
+      {
+        :item => link_to(l(:label_wiki), {
+                           :controller => 'rb_wikis',
+                           :action => 'edit',
+                           :project_id => @project.id,
+                           :sprint_id => backlog.sprint }),
+        :for => :sprint,
+        :condition => @project.module_enabled?("wiki")
+      }
+    ]
   end
 end

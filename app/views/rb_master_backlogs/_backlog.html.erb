@@ -1,13 +1,13 @@
 <div class="backlog">
   <div class="header">
-    <%= render :partial => "menu", :locals => {:backlog => backlog} %>
-    <%- if backlog.sprint %>
+    <%= render_backlog_menu backlog %>
+    <% if backlog.sprint_backlog? %>
       <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
       <div class="velocity"> </div>
-    <%- else %>
+    <% else %>
       <div class="label"><%=l(:label_product_backlog).titleize %></div>
       <a class="add_new_story" href="#">New Story</a>
-    <%- end %>
+    <% end %>
   </div>
   <ul class="stories">
     <%= render :partial => "rb_stories/story", :collection => backlog.stories %>
