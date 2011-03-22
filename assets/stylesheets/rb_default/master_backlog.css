@@ -39,10 +39,7 @@
   position:relative;
   width:100%;
 }
-#owner_backlogs_container .backlog{ /* Overrides style above */
-  position:absolute;
-  top:0;
-}
+
 #backlogs_container .backlog .header{
   -moz-border-radius:5px 5px 0px 0px;
   -webkit-border-radius:5px 5px 0px 0px;
