@@ -123,16 +123,31 @@ class RepositoriesController < ApplicationController
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
-    if 'raw' == params[:format] || @content.is_binary_data? ||
-         (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
+    if 'raw' == params[:format] ||
+         (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
+         ! is_entry_text_data?(@content, @path)
       # Force the download
       send_data @content, :filename => filename_for_content_disposition(@path.split('/').last)
     else
       # Prevent empty lines when displaying a file with Windows style eol
+      # TODO: UTF-16
+      # Is this needs? AttachmentsController reads file simply.
       @content.gsub!("\r\n", "\n")
       @changeset = @repository.find_changeset_by_name(@rev)
-   end
+    end
   end
+
+  def is_entry_text_data?(ent, path)
+    # UTF-16 contains "\x00".
+    # It is very strict that file contains less than 30% of ascii symbols 
+    # in non Western Europe.
+    return true if Redmine::MimeType.is_type?('text', path)
+    # Ruby 1.8.6 has a bug of integer divisions.
+    # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
+    return false if ent.is_binary_data?
+    true
+  end
+  private :is_entry_text_data?
 
   def annotate
     @entry = @repository.entry(@path, @rev)
