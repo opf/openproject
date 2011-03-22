@@ -8,7 +8,6 @@ rescue LoadError
 end
 
 begin
-  #require "config/environment" unless defined? RAILS_ROOT
   require 'spec/spec_helper'
 rescue LoadError => error
   puts <<-EOS
@@ -22,7 +21,5 @@ rescue LoadError => error
   EOS
   raise error
 end
-
-Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
 
 require 'redmine_factory_girl'
