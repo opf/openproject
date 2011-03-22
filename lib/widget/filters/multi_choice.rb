@@ -7,7 +7,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
           opts = {  :type => "radio",
                     :name => "#{filter_class.underscore_name}_arg_1_val",
                     :id => "#{filter_class.underscore_name}_radio_option_#{i}",
-                    :value => value }
+                    :value => value.to_json }
           opts[:checked] = "checked" if filter.values.first == value
           radio_button = tag :input, opts
           content_tag :label, radio_button + label,
