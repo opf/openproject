@@ -486,6 +486,11 @@ div.button_form p * {
   margin: 2px;
 }
 
+/***** Save and Delete Reports ****/
+#save_as_form, #delete_form {
+  z-index: 999;
+}
+
 /***** Ajax indicator ******/
 #ajax-indicator {
   font-family: Verdana, sans-serif;
