@@ -24,7 +24,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
 
   def setup
-    @project = Project.find(1)
+    @project = Project.find(3)
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     assert @repository = Repository::Filesystem.create(
                             :project => @project, :url => REPOSITORY_PATH)
