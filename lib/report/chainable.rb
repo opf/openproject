@@ -74,7 +74,7 @@ class Report < ActiveRecord::Base
     # The query will be given to the block as a parameter.
     # Example:
     # initialize_query_with { |query| query.filter Report::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
-    def self.initialize_query_with(&block)
+    def self.initialize_report_with(&block)
       engine.chain_initializer.push block
     end
 
