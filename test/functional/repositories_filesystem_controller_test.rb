@@ -64,6 +64,18 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /TEST CAT/ }
     end
+
+    def test_show_non_ascii_contents
+      with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
+        get :entry, :id => PRJ_ID, :path => ['japanese', 'euc-jp.txt']
+        assert_response :success
+        assert_template 'entry'
+        assert_tag :tag => 'th',
+                   :content => '2',
+                   :attributes => { :class => 'line-num' },
+                   :sibling => { :tag => 'td', :content => /japanese/ }
+      end
+    end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
