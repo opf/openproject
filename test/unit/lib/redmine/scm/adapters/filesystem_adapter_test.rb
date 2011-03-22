@@ -11,16 +11,16 @@ class FilesystemAdapterTest < ActiveSupport::TestCase
     end
 
     def test_entries
-      assert_equal 2, @adapter.entries.size
-      assert_equal ["dir", "test"], @adapter.entries.collect(&:name)
-      assert_equal ["dir", "test"], @adapter.entries(nil).collect(&:name)
-      assert_equal ["dir", "test"], @adapter.entries("/").collect(&:name)
+      assert_equal 3, @adapter.entries.size
+      assert_equal ["dir", "japanese", "test"], @adapter.entries.collect(&:name)
+      assert_equal ["dir", "japanese", "test"], @adapter.entries(nil).collect(&:name)
+      assert_equal ["dir", "japanese", "test"], @adapter.entries("/").collect(&:name)
       ["dir", "/dir", "/dir/", "dir/"].each do |path|
         assert_equal ["subdir", "dirfile"], @adapter.entries(path).collect(&:name)
       end
       # If y try to use "..", the path is ignored
       ["/../","dir/../", "..", "../", "/..", "dir/.."].each do |path|
-        assert_equal ["dir", "test"], @adapter.entries(path).collect(&:name),
+        assert_equal ["dir", "japanese", "test"], @adapter.entries(path).collect(&:name),
              ".. must be ignored in path argument"
       end
     end

@@ -40,7 +40,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     end
 
     def test_entries
-      assert_equal 2, @repository.entries("", 2).size
+      assert_equal 3, @repository.entries("", 2).size
       assert_equal 2, @repository.entries("dir", 3).size
     end
 
