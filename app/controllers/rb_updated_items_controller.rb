@@ -1,8 +1,6 @@
-include RbCommonHelper
-
 class RbUpdatedItemsController < RbApplicationController
   unloadable
-  
+
   # Returns all models that have changed since params[:since]
   # params[:only] limits the types of models that the method
   # should return
@@ -19,7 +17,7 @@ class RbUpdatedItemsController < RbApplicationController
         latest_updates << @items[:stories].sort{ |a,b| a.updated_on <=> b.updated_on }.last
       end
     end
-    
+
     if only.include? :tasks
       @items[:tasks] = Task.find_all_updated_since(params[:since], @project.id)
       if @items[:tasks].length > 0
@@ -33,11 +31,11 @@ class RbUpdatedItemsController < RbApplicationController
         latest_updates << @items[:impediments].sort{ |a,b| a.updated_on <=> b.updated_on }.last
       end
     end
-    
+
     if latest_updates.length > 0
       @last_update = latest_updates.sort{ |a,b| a.updated_on <=> b.updated_on }.last.updated_on
     end
-    
+
     respond_to do |format|
       format.html { render :layout => false }
     end
