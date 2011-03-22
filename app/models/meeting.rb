@@ -5,9 +5,19 @@ class Meeting < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_one :agenda, :dependent => :destroy, :class_name => 'MeetingAgenda'
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
+  has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
   acts_as_watchable
+  
+  acts_as_searchable :columns => ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
+                     :include => [:contents, :project],
+                     :date_column => "#{table_name}.created_at"
+  
+  acts_as_event :title => Proc.new {|o| "#{l :label_meeting}: #{o.title} (#{format_date o.start_time} #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
+                :description => :text,
+                :datetime => :created_at,
+                :url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o}}
   
   accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
   
@@ -48,6 +58,10 @@ class Meeting < ActiveRecord::Base
   
   def to_s
     title
+  end
+  
+  def text
+    agenda.text if agenda.present?
   end
   
   protected

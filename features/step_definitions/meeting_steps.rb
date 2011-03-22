@@ -10,3 +10,9 @@ Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting,table|
   m.agenda ||= Factory.build(:meeting_agenda)
   send_table_to_object(m.agenda, table)
 end
+
+Given /^the [Mm]eeting "(.+)" has minutes with:$/ do |meeting,table|
+  m = Meeting.find_by_title(meeting)
+  m.minutes = Factory.build(:meeting_minutes)
+  send_table_to_object(m.minutes, table)
+end

@@ -14,9 +14,9 @@ Redmine::Plugin.register :redmine_meeting do
   author_url 'http://finn.de/team'
   description 'This plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting.'
   url 'http://finn.de'
-  version '1.0.0'
+  version 'devel'
 
-  requires_redmine :version_or_higher => '0.9'
+  requires_redmine :version_or_higher => '1.0'
 
   project_module :meetings do
     permission :create_meetings, {:meetings => [:new, :create]}, :require => :member
@@ -29,6 +29,9 @@ Redmine::Plugin.register :redmine_meeting do
     permission :create_meeting_minutes, {:meeting_minutes => [:update]}, :require => :member
   end
 
-  menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
+  Redmine::Search.map do |search|
+    search.register :meetings
+  end
 
+  menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
 end

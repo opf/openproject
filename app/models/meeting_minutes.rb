@@ -15,7 +15,9 @@ class MeetingMinutes < MeetingContent
   
   def after_initialize
     # set defaults
-    self.text ||= meeting.agenda.text if meeting.present? && meeting.agenda.present?
+    # avoid too deep stacks by not using the association helper methods
+    ag = MeetingAgenda.find_by_meeting_id(meeting_id)
+    self.text ||= ag.text if ag.present?
     super
   end
 end
