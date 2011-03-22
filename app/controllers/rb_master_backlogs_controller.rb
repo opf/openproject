@@ -4,21 +4,14 @@ class RbMasterBacklogsController < RbApplicationController
   unloadable
 
   def show
-    product_backlog_stories = Story.product_backlog(@project)
-    sprints = Sprint.open_sprints(@project)
-    
-    last_story = Story.find(
-                          :first, 
-                          :conditions => ["project_id=? AND tracker_id in (?)", @project, Story.trackers],
-                          :order => "updated_on DESC"
-                          )
-    @last_update = (last_story ? last_story.updated_on : nil)
-    @product_backlog = { :sprint => nil, :stories => product_backlog_stories }
-    @sprint_backlogs = sprints.map{ |s| { :sprint => s, :stories => s.stories } }
+    @product_backlog = Backlog.product_backlog(@project)
+    @sprint_backlogs = Backlog.sprint_backlogs(@project)
 
-    respond_to do |format|
-      format.html { render :layout => "rb"}
-    end
+    last_updates = @sprint_backlogs.map &:updated_on
+    last_updates << @product_backlog.updated_on
+
+    @last_update = last_updates.compact.max
+
+    render :layout => "rb"
   end
-  
 end

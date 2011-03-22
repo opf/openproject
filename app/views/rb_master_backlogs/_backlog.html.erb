@@ -1,8 +1,8 @@
 <div class="backlog">
   <div class="header">
     <%= render :partial => "menu", :locals => {:backlog => backlog} %>
-    <%- if backlog[:sprint] %>
-      <%= render :partial => "rb_sprints/sprint", :object => backlog[:sprint] %>
+    <%- if backlog.sprint %>
+      <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
       <div class="velocity"> </div>
     <%- else %>
       <div class="label"><%=l(:label_product_backlog).titleize %></div>
@@ -10,6 +10,6 @@
     <%- end %>
   </div>
   <ul class="stories">
-    <%= render :partial => "rb_stories/story", :collection => backlog[:stories] %>
+    <%= render :partial => "rb_stories/story", :collection => backlog.stories %>
   </ul>
 </div>

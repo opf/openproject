@@ -1,4 +1,4 @@
-<%= backlog_menu backlog[:sprint],
+<%= backlog_menu backlog.sprint,
     [
       {
         :item => "<a href='#' class='add_new_story'>New Story</a>",
@@ -8,20 +8,20 @@
         :item => menu_link(l(:label_task_board), {
                            :controller => 'rb_taskboards',
                            :action => 'show',
-                           :sprint_id => backlog[:sprint] }),
+                           :sprint_id => backlog.sprint }),
         :for => :sprint
       },
       {
         :item => "<a href='#' class='show_burndown_chart'>Burndown chart</a>",
         :for  => :sprint,
-        :condition => backlog[:sprint] && backlog[:sprint].has_burndown
+        :condition => backlog.sprint && backlog.sprint.has_burndown
       },
       {
         :item => menu_link(l(:label_stories_tasks), {
                            :controller => 'rb_queries',
                            :action => 'show',
                            :project_id => @project,
-                           :sprint_id => backlog[:sprint] }),
+                           :sprint_id => backlog.sprint }),
         :for => :sprint
       },
       {
@@ -36,7 +36,7 @@
                            :controller => 'rb_stories',
                            :action => 'index',
                            :project_id => @project,
-                           :sprint_id => backlog[:sprint],
+                           :sprint_id => backlog.sprint,
                            :format => :pdf }),
         :for => :sprint,
         :condition => Cards::TaskboardCards.selected_label
@@ -54,7 +54,7 @@
                            :controller => 'rb_wikis',
                            :action => 'edit',
                            :project_id => @project.id,
-                           :sprint_id => backlog[:sprint] }),
+                           :sprint_id => backlog.sprint }),
         :for => :sprint,
         :condition => @project.enabled_modules.any? {|m| m.name=="wiki" }
       }
