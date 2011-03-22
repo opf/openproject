@@ -222,8 +222,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     def test_entry_binary_force_download
       get :entry, :id => PRJ_ID, :rev => 1, :path => ['images', 'edit.png']
       assert_response :success
-      # TODO: 'image/png'
-      assert_equal 'application/octet-stream', @response.content_type
+      assert_equal 'image/png', @response.content_type
     end
 
     def test_directory_entry
