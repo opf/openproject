@@ -4,7 +4,7 @@ class Report::Filter
     dont_inherit :available_operators
     use '='
 
-    def is_multiple_choice?
+    def self.is_multiple_choice?
       true
     end
   end
