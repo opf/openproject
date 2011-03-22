@@ -5,11 +5,16 @@ module Backlogs
     def self.included(base) # :nodoc:
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
+
+      base.class_eval do
+        has_one :version_setting
+        accepts_nested_attributes_for :version_setting
+      end
     end
-  
+
     module ClassMethods
     end
-  
+
     module InstanceMethods
       def touch_burndown
         BurndownDay.find(:all,
@@ -19,11 +24,11 @@ module Backlogs
           BurndownDay.destroy(bdd.id)
         }
       end
-  
+
       def burndown
         return Sprint.find_by_id(self.id).burndown
       end
-  
+
     end
   end
 end
