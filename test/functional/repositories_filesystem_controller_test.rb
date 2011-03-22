@@ -87,6 +87,15 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                    :sibling => { :tag => 'td', :content => /japanese/ }
       end
     end
+
+    def test_show_text_file_should_send_if_too_big
+      with_settings :file_max_size_displayed => 1 do
+        get :entry, :id => PRJ_ID, :path => ['japanese', 'big-file.txt']
+        assert_response :success
+        # TODO: 'image/png'
+        assert_equal 'application/octet-stream', @response.content_type
+      end
+    end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
