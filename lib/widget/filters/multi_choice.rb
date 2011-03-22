@@ -13,7 +13,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
             :for => "#{filter_class.underscore_name}_radio_option_#{i}",
             :'data-filter-name' => filter_class.underscore_name
         end
-        choices.join(content_tag(:br)).html_safe
+        choices.join(tag(:br)).html_safe
       end
     end
   end
