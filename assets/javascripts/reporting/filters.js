@@ -225,7 +225,7 @@ Reporting.Filters = {
 
   get_dependents: function (element) {
     if (element.hasAttribute("data-dependents")) {
-      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON();
+      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON(true);
     } else {
       return [];
     }
