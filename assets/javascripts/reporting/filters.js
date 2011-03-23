@@ -265,6 +265,18 @@ Reporting.Filters = {
     }, 1);
   },
 
+  // Select the given values of the selectBox.
+  // Toggle multi-select state of the selectBox depending on how many values were given.
+  select_values: function(selectBox, values_to_select) {
+    Reporting.Filters.multi_select(selectBox, values_to_select.size() > 1);
+    values_to_select.each(function (val) {
+      var opt = selectBox.select("option[value='" + val + "']");
+      if (opt.size() === 1) {
+        opt.first().selected = true;
+      }
+    });
+  },
+
   // Narrow down the available values for the [dependents] of [sources].
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
@@ -308,12 +320,7 @@ Reporting.Filters = {
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
             });
-            selected.each(function (val) {
-              var opt = selectBox.select("option[value='" + val + "']");
-              if (opt.size() === 1) {
-                opt.first().selected = true;
-              }
-            });
+            Reporting.Filters.select_values(selectBox, selected);
             sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
             // if we got no values besides the <<inactive>> value, do not show this selectBox
