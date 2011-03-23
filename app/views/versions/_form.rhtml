@@ -10,8 +10,10 @@
 <p><%= f.text_field :effective_date, :size => 10 %><%= calendar_for('version_effective_date') %></p>
 <p><%= f.select :sharing, @version.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
 
-<% f.fields_for :version_setting do |sf| %>
-	<p><%= sf.select :display, position_display_options %></p>
+<% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
+	<% f.fields_for :version_setting do |sf| %>
+		<p><%= sf.select :display, position_display_options %></p>
+	<% end %>
 <% end %>
 
 <% @version.custom_field_values.each do |value| %>

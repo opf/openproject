@@ -9,6 +9,14 @@ module Backlogs
       base.class_eval do
         has_one :version_setting
         accepts_nested_attributes_for :version_setting
+
+        named_scope :displayed_left, lambda { |project| { :include => :version_setting,
+                                                          :conditions => ["version_settings.display = ? AND versions.project_id = ?",
+                                                                          VersionSetting::DISPLAY_LEFT, project.id] } }
+
+        named_scope :displayed_right, lambda { |project| { :include => :version_setting,
+                                                          :conditions => ["version_settings.display = ? AND versions.project_id = ?",
+                                                                          VersionSetting::DISPLAY_RIGHT, project.id] } }
       end
     end
 

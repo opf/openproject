@@ -31,9 +31,15 @@ module RbMasterBacklogsHelper
   end
 
   def common_backlog_menu_items_for(backlog)
-    [
-      content_tag(:a, l('backlogs.add_new_story'), :href => '#', :class => 'add_new_story')
-    ]
+    items = []
+
+    items << content_tag(:a, l('backlogs.add_new_story'), :href => '#', :class => 'add_new_story')
+
+    items << link_to(l(:label_stories_tasks),
+                     :controller => 'rb_queries',
+                     :action => 'show',
+                     :project_id => @project,
+                     :sprint_id => backlog.sprint)
   end
 
   def sprint_backlog_menu_items_for(backlog)
@@ -47,12 +53,6 @@ module RbMasterBacklogsHelper
     if backlog.sprint_backlog? and backlog.sprint.has_burndown
       items << content_tag(:a, l('backlogs.show_burndown_chart'), :href => '#', :class => 'show_burndown_chart')
     end
-
-    items << link_to(l(:label_stories_tasks),
-                     :controller => 'rb_queries',
-                     :action => 'show',
-                     :project_id => @project,
-                     :sprint_id => backlog.sprint)
 
     if Cards::TaskboardCards.selected_label.present?
       items << link_to(l(:label_sprint_cards),
@@ -76,11 +76,6 @@ module RbMasterBacklogsHelper
 
   def owner_backlog_menu_items_for(backlog)
     items = []
-
-    items << link_to(l(:label_stories),
-                     :controller => 'rb_queries',
-                     :action => 'show',
-                     :project_id => @project)
 
     if Cards::TaskboardCards.selected_label.present?
       items << link_to(l(:label_product_cards),
