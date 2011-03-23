@@ -42,6 +42,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Create a new story in the backlog
     Given I am on the master backlog
-     When I hover over "#owner_backlogs_container .menu"
+     When I hover over "#product_backlog_container .menu"
       And I follow "New Story"
-     Then I start debugging
+      And I stop hovering over "#product_backlog_container .menu"
+      And I fill in "Alice in Wonderland" for "subject"
+      And I confirm the story form
+     Then the 1st story in the product backlog should be Alice in Wonderland

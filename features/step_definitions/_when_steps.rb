@@ -141,6 +141,15 @@ When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type
 end
 
 When /^I hover over "([^"]*)"$/ do |selector|
-  element = page.find(:css, selector)
-  element.native.hover
+  page.execute_script "jQuery(#{selector.inspect}).addClass('hover');"
+end
+
+When /^I stop hovering over "([^"]*)"$/ do |selector|
+  page.execute_script "jQuery(#{selector.inspect}).removeClass('hover');"
+end
+
+When /^I confirm the story form$/ do
+  find(:xpath, XPath::HTML.fillable_field("subject")).native.send_keys([:enter, :return])
+  sleep 0.5
+  steps 'Then I should not see ".saving"'
 end
