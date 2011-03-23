@@ -1,6 +1,6 @@
 <%= error_messages_for 'version' %>
 
-<% @version.build_version_setting if @version.version_setting.nil? %>
+<% @version.build_version_setting(:display => VersionSetting::DISPLAY_LEFT) if @version.version_setting.nil? %>
 
 <div class="box">
 <p><%= f.text_field :name, :size => 60, :required => true %></p>
