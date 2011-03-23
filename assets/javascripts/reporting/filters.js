@@ -260,9 +260,12 @@ Reporting.Filters = {
   // Narrow down the available values for the [dependents] of [sources].
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
-  narrow_values: function (sources, dependents) {
+  narrow_values: function (sources, dependents, callbackWhenFinished) {
     if (sources.size() === 0 || dependents.size === 0 || dependents.first() === undefined) {
       return;
+    }
+    if (callbackWhenFinished  === undefined) {
+      callbackWhenFinished = function() {};
     }
     var params = "?narrow_values=1&dependent=" + dependents.first();
     sources.each(function (filter) {
@@ -324,6 +327,7 @@ Reporting.Filters = {
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
+          callbackWhenFinished();
         },
         onException: function (response, error) {
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
