@@ -371,7 +371,7 @@ Reporting.Filters = {
         var sources, selected_values;
         Reporting.Filters.activate_dependents(selectBox, function() {
           sources = Reporting.Filters.get_dependents(selectBox).collect(function(field) {
-            return $('tr_' + field).select('select').first();
+            return $('tr_' + field).select('.filter_values select').first();
           });
           sources.each(function(source) {
             if (source.hasAttribute('data-initially-selected')) {
