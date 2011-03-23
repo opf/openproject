@@ -8,13 +8,24 @@ describe Version do
 
   describe "Class Methods" do
     describe :displayed_left do
-      before(:each) do
-        version.version_setting = Factory.build(:version_setting, :display => VersionSetting::DISPLAY_LEFT)
-        version.project = project
-        version.save!
+      describe "WITH display set to left" do
+        before(:each) do
+          version.version_setting = Factory.build(:version_setting, :display => VersionSetting::DISPLAY_LEFT)
+          version.project = project
+          version.save!
+        end
+
+        it { Version.displayed_left(project).should eql [version] }
       end
 
-      it { Version.displayed_left(project).should eql [version] }
+      describe "WITH no version setting defined" do
+        before(:each) do
+          version.project = project
+          version.save!
+        end
+
+        it { Version.displayed_left(project).should eql [version] }
+      end
     end
 
     describe :displayed_right do

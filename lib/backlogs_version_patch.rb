@@ -11,7 +11,7 @@ module Backlogs
         accepts_nested_attributes_for :version_setting
 
         named_scope :displayed_left, lambda { |project| { :include => :version_setting,
-                                                          :conditions => ["version_settings.display = ? AND versions.project_id = ?",
+                                                          :conditions => ["version_settings.display = ? AND versions.project_id = ? OR (version_settings.version_id is NULL)",
                                                                           VersionSetting::DISPLAY_LEFT, project.id] } }
 
         named_scope :displayed_right, lambda { |project| { :include => :version_setting,
