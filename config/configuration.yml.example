@@ -98,7 +98,19 @@ default:
   # attachments_storage_path: /var/chiliproject/files
   # attachments_storage_path: D:/chiliproject/files
   attachments_storage_path:
-  
+
+  # Path to the directories where themes are stored.
+  # Can be an absolute path or one relative to your ChiliProject instance.
+  # You can configure multiple paths.
+  # The default is the 'public/themes' directory in your ChiliProject instance.
+  # Examples:
+  # themes_storage_paths: public/themes
+  # themes_storage_paths:
+  #   - public/themes
+  #   - /opt/themes
+  #   - D:/chiliproject/themes
+  themes_storage_path:
+
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)

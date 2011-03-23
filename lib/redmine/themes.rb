@@ -89,11 +89,22 @@ module Redmine
     private
     
     def self.scan_themes
-      dirs = Dir.glob("#{Rails.public_path}/themes/*").select do |f|
-        # A theme should at least override application.css
-        File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
-      end
-      dirs.collect {|dir| Theme.new(dir)}.sort
+      theme_paths.inject([]) do |themes, path|
+        dirs = Dir.glob(File.join(path, '*')).select do |f|
+          # A theme should at least override application.css
+          File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
+        end
+        themes += dirs.collect { |dir| Theme.new(dir) }
+      end.sort
+    end
+
+    def self.theme_paths
+      paths = Redmine::Configuration['themes_storage_path']
+      paths = [paths] unless paths.is_a?(Array)
+      paths.flatten!; paths.compact!
+
+      paths = ["#{Rails.public_path}/themes"] if paths.empty?
+      paths.collect { |p| File.expand_path(p, Rails.root) }
     end
   end
 end
