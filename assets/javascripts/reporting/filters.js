@@ -234,11 +234,19 @@ Reporting.Filters = {
   // Activate the first dependent of the changed filter, if it is not already active.
   // Afterwards, collect the visible filters from the dependents list and start
   // narrowing down their values.
-  activate_dependents: function () {
-    var dependents = Reporting.Filters.get_dependents(this);
-    var active_filters = Reporting.Filters.visible_filters();
+  // Param: select [optional] - the select-box of the filter which should activate it's dependents
+  activate_dependents: function (selectBox, callbackWhenFinished) {
+    var dependents, active_filters, source;
+    if (selectBox  === undefined || selectBox.type == 'change') {
+      selectBox = this;
+    }
+    if (callbackWhenFinished  === undefined) {
+      callbackWhenFinished = function() {};
+    }
+    dependents = Reporting.Filters.get_dependents(selectBox);
+    active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
-      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(this.up(".filter")) });
+      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(selectBox.up(".filter")) });
       // render filter inactive if possible to avoid unintended filtering
       $(dependents.first() + '_arg_1_val').value = '<<inactive>>'
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
@@ -248,12 +256,12 @@ Reporting.Filters = {
       // Remove border of dependent, so it "merges" with the filter before
       active_filters.unshift(dependents.first());
     }
-    var source = this.getAttribute("data-filter-name");
+    source = selectBox.getAttribute("data-filter-name");
     setTimeout(function () { // Make sure the newly shown filters are in the DOM
       var active_dependents = dependents.select(function (d) {
         return active_filters.include(d);
       });
-      Reporting.Filters.narrow_values([source], active_dependents);
+      Reporting.Filters.narrow_values([source], active_dependents, callbackWhenFinished);
     }, 1);
   },
 
