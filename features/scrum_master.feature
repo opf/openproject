@@ -33,12 +33,15 @@ Feature: Scrum Master
         | Sprint 002 | 2010-02-01        | 2010-02-28      |
         | Sprint 003 | 2010-03-01        | 2010-03-31      |
         | Sprint 004 | 2.weeks.ago       | 1.week.from_now |
-    And the project has the following stories in the product backlog:
-        | position | subject |
-        | 1        | Story 1 |
-        | 2        | Story 2 |
-        | 3        | Story 3 |
-        | 4        | Story 4 |
+    And the project has the following product owner backlogs:
+        | Product Backlog |
+        | Wishlist        |
+    And the project has the following stories in the following backlogs:
+        | position | subject | backlog |
+        | 1        | Story 1 | Product Backlog |
+        | 2        | Story 2 | Product Backlog |
+        | 3        | Story 3 | Product Backlog |
+        | 4        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |

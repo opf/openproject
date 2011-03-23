@@ -25,7 +25,8 @@ Then /^I should see the product backlog$/ do
   page.should have_css('#owner_backlogs_container')
 end
 
-Then /^I should see (\d+) stories in the product backlog$/ do |count|
+Then /^I should see (\d+) stories in (?:the )?"(.+?)"$/ do |count, backlog_name|
+  pending "Need to find the right backlog on the page."
   page.all(:css, "#owner_backlogs_container .backlog .story").length.should == count.to_i
 end
 
@@ -72,9 +73,9 @@ Then /^the request should fail$/ do
   page.driver.response.status.should == 401
 end
 
-Then /^the (\d+)(?:st|nd|rd|th) story in (.+) should be (.+)$/ do |position, backlog, subject|
-  sprint = (backlog == 'the product backlog' ? nil : Version.find_by_name(backlog).id)
-  story = Story.at_rank(@project.id, sprint, position.to_i)
+Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
+  version = Version.find_by_name(version_name)
+  story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil
   story.subject.should == subject
 end

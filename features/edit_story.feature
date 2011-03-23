@@ -27,12 +27,15 @@ Feature: Edit story on backlogs view
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
-    And the project has the following stories in the product backlog:
-        | position | subject |
-        | 1        | Story 1 |
-        | 2        | Story 2 |
-        | 3        | Story 3 |
-        | 4        | Story 4 |
+    And the project has the following owner backlogs:
+        | Product Backlog |
+        | Wishlist        |
+    And the project has the following stories in the following owner backlogs:
+        | position | subject | backlog         |
+        | 1        | Story 1 | Product Backlog |
+        | 2        | Story 2 | Product Backlog |
+        | 3        | Story 3 | Product Backlog |
+        | 4        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |
@@ -42,9 +45,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Create a new story in the backlog
     Given I am on the master backlog
-     When I hover over "#product_backlog_container .menu"
+    When I hover over "#owner_backlogs_container .menu"
       And I follow "New Story"
-      And I stop hovering over "#product_backlog_container .menu"
+      And I stop hovering over "#owner_backlogs_container .menu"
       And I fill in "Alice in Wonderland" for "subject"
       And I confirm the story form
-     Then the 1st story in the product backlog should be Alice in Wonderland
+     Then the 1st story in the "Product Backlog" should be "Alice in Wonderland"

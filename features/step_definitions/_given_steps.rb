@@ -9,6 +9,9 @@ Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
   elsif attribute == "status"
     attribute = "status_id"
     value = IssueStatus.find(:first, :conditions => ["name=?", value]).id
+  elsif %w[backlog sprint].include? attribute
+    attribute = 'fixed_version_id'
+    value = Version.find_by_name(value).id
   end
   @story_params[attribute] = value
 end
@@ -95,26 +98,31 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_
     ['effective_date', 'sprint_start_date'].each do |date_attr|
       version[date_attr] = eval(version[date_attr]).strftime("%Y-%m-%d") if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
     end
-    Sprint.create! version
+    sprint = Sprint.create! version
+
+    sprint.build_version_setting
+    sprint.version_setting.display_left!
+    sprint.version_setting.save!
   end
 end
 
-Given /^the [pP]roject(?: "(.+?)")? has the following stories in the product backlog:$/ do |project_name, table|
+Given /^the [pP]roject(?: "([^\"]*)")? has the following (?:product )?(?:owner )?backlogs?:$/ do |project_name, table|
   project = get_project(project_name)
 
-  project.issues.delete_all
-  prev_id = ''
+  table.raw.each do |row|
+    version = Version.create!(:project_id => project, :name => row.first)
 
-  table.hashes.each do |story|
-    params = initialize_story_params(project)
-    params['subject'] = story['subject']
-    params['prev_id'] = prev_id
+    version.build_version_setting
+    version.version_setting.display_right!
+    version.version_setting.save!
+  end
+end
 
-    # NOTE: We're bypassing the controller here because we're just
-    # setting up the database for the actual tests. The actual tests,
-    # however, should NOT bypass the controller
-    s = Story.create_and_position params
-    prev_id = s.id
+Given /^the [pP]roject(?: "(.+?)")? has the following stories in the following (?:product )?(?:owner )?backlogs:$/ do |project_name, table|
+  if project_name
+    Given %Q{the project "#{project_name}" has the following stories in the following sprints:}, table
+  else
+    Given "the project has the following stories in the following sprints:", table
   end
 end
 
@@ -128,7 +136,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params = initialize_story_params(project)
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
-    params['fixed_version_id'] = Sprint.find(:first, :conditions => [ "name=?", story['sprint'] ]).id
+    params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
