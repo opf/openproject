@@ -40,6 +40,18 @@ class Report::Filter
       !!@dependent
     end
 
+    ##
+    # Returns an array of filters of which this filter is a dependent
+    def self.dependent_from
+      engine::Filter.all.select { |f| Array(f.dependent).include? self}
+    end
+
+    ##
+    # Returns true/false depending of wether any filter has this filter a a dependent
+    def self.is_dependent?
+      !dependent_from.empty?
+    end
+
     def self.cached(*args)
       @cached ||= {}
       @cached[args] ||= send(*args)
