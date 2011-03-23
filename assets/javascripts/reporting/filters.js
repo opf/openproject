@@ -5,6 +5,7 @@ Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
     var select;
     select = $('' + filter_name + '_arg_1_val');
+    //TODO: the following code ist cost report specific, we should refactor that to be general useful
     if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
       Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
         parameters: { filter_name: filter_name },
