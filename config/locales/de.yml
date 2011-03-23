@@ -88,7 +88,8 @@ de:
     show_statistics: 'Scrum Statistiken anzeigen'
     show_burndown_chart: 'Burndown-Chart'
     add_new_story: 'Neue Story'
-  version_settings_display_option_none: kein
+  version_settings_display_option_none: keine
   version_settings_display_option_left: links
   version_settings_display_option_right: rechts
   version_settings_display_label: Spalte im Backlog
+  field_display: Spalte im Backlog
