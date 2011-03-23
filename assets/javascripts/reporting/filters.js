@@ -351,6 +351,43 @@ Reporting.Filters = {
         }
       }
     );
+  },
+
+  // This is called the first time the report loads.
+  // Params:
+  //   elements: Array of visible filter-select-boxes that have dependents
+  // (and possibly are dependents themselfes)
+  initialize_load_dependent_filters: function(elements) {
+    var filters_to_load, dependent_filters;
+    dependent_filters = elements.findAll(function (select) { return select.value == '<<inactive>>' });
+    filters_to_load   = elements.reject( function (select) { return select.value == '<<inactive>>' });
+    // Filters which are <<inactive>> are probably dependents themselfes, so remove and forget them for now.
+    // This is OK as they get reloaded later
+    dependent_filters.each(function(select) {
+      Reporting.Filters.remove_filter(select.up('tr').getAttribute("data-filter-name"));
+    });
+    // For each dependent filter we reload its dependent chain
+    filters_to_load.each(function(selectBox) {
+        var sources, selected_values;
+        Reporting.Filters.activate_dependents(selectBox, function() {
+          sources = Reporting.Filters.get_dependents(selectBox).collect(function(field) {
+            return $('tr_' + field).select('select').first();
+          });
+          sources.each(function(source) {
+            if (source.hasAttribute('data-initially-selected')) {
+              selected_values = source.getAttribute('data-initially-selected').replace(/'/g, '"').evalJSON(true);
+              Reporting.Filters.select_values(source, selected_values);
+              Reporting.Filters.value_changed(source.up('tr').getAttribute("data-filter-name"));
+            }
+          });
+          if (sources.reject( function (select) { return select.value == '<<inactive>>' }).size() == 0) {
+            Reporting.Filters.activate_dependents(selectBox);
+          }
+          else {
+            Reporting.Filters.initialize_load_dependent_filters(sources);
+          }
+        });
+    });
   }
 };
 
@@ -389,4 +426,9 @@ Reporting.onload(function () {
   $$('.filters-select[data-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
   });
+
+  // on first loading restore values of dependent filters
+  Reporting.Filters.initialize_load_dependent_filters($$('.filters-select[data-dependents]').findAll(function(select) {
+      return select.up('tr').visible()
+    }));
 });
