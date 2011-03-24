@@ -24,6 +24,6 @@ en:
   permission_create_meeting_minutes: "Manage minutes"
   text_in_hours: "in hours"
   text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
-  text_review_minutes: "{{author}} has put the {{link}} up for review."
-  text_minutes_for_meeting: 'minutes for the meeting "{{meeting}}"'
+  text_review_minutes: "%{author} has put the %{link} up for review."
+  text_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   notice_successful_notification: "Notification sent successfully"
