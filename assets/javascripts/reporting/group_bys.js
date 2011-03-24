@@ -72,8 +72,11 @@ Reporting.GroupBys = {
 
   create_group_by: function(field) {
     group_by = document.createElement('span');
-    group_by.className = 'in_row drag_element group_by_element';
-    group_by.id = field;
+    %w('in_row drag_element group_by_element').each(function(klass) {
+      group_by.addClassName(klass);
+    });
+    group_by.identify(); // give it a unique id
+    group_by.writeAttribute('data-group-by', field);
     return group_by;
   },
 
