@@ -46,6 +46,66 @@ Reporting.GroupBys = {
       selectAllOptions(type);
       moveOptions(type, 'group_by_container');
     });
+  },
+//--------------------- delicious group_by --------------
+  sortable_options: function() {
+    return {
+      tag: 'span',
+      only: "drag_element",
+      overlap: 'horizontal',
+      constraint:'horizontal',
+      containment: ['group_by_columns','group_by_rows'],
+      dropOnEmpty: true,
+      format: /^(.*)$/,
+      hoverclass: 'drag_container_accept'
+    };
+  },
+
+  recreate_sortables: function() {
+    Sortable.create('group_by_columns', Reporting.GroupBys.sortable_options());
+    Sortable.create('group_by_rows', Reporting.GroupBys.sortable_options());
+  },
+
+  initialize_drag_and_drop_areas: function() {
+    Reporting.GroupBys.recreate_sortables();
+  },
+
+  create_group_by: function(field) {
+    group_by = document.createElement('span');
+    group_by.className = 'in_row drag_element group_by_element';
+    group_by.id = field;
+    return group_by;
+  },
+
+  create_label: function(group_by) {
+    group_by_label = document.createElement('label');
+    group_by_label.setAttribute('for', group_by.id);
+    group_by_label.setAttribute('class', 'in_row group_by_label');
+    group_by_label.setAttribute('id', group_by.id + '_label');
+    //init_group_by_hover_effects(group_by_label);
+    return group_by_label;
+  },
+
+  adding_group_by_enabled: function(field, state) {
+    Reporting.Filters.select_option_enabled($('add_group_by_columns'), field, state);
+    Reporting.Filters.select_option_enabled($('add_group_by_rows'),    field, state);
+  },
+
+  add_group_by: function(select) {
+    field = select.value;
+    group_by = Reporting.GroupBys.create_group_by(field + "_" + select.id);
+    group_by.setAttribute('value', field);
+    select.up().appendChild(group_by);
+    label = Reporting.GroupBys.create_label(group_by);
+    label.innerHTML = select.value // = sanitized_selected(select);
+    select.value = "";
+    group_by.appendChild(label);
+    //group_by.appendChild(init_arrow(group_by));
+    //if (!(first_in_row(group_by))) {
+    //    update_arrow(group_by.previous());
+    //}
+    Reporting.GroupBys.adding_group_by_enabled(field, false);
+    Reporting.GroupBys.recreate_sortables();
   }
 };
 
@@ -57,5 +117,13 @@ Reporting.onload(function () {
     ["rows", "columns"].each(function (axis) {
       Reporting.GroupBys.attach_sort_button(dir, axis);
     });
+  });
+//-------------------------------- delicious group_by --------------
+  Reporting.GroupBys.initialize_drag_and_drop_areas();
+  $('add_group_by_rows').observe("change", function () {
+    Reporting.GroupBys.add_group_by(this);
+  });
+  $('add_group_by_columns').observe("change", function () {
+    Reporting.GroupBys.add_group_by(this);
   });
 });
