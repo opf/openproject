@@ -37,7 +37,7 @@ de:
   backlogs_task: Aufgabe
   backlogs_sprint_unsized: Das Projekt hat Stories auf aktiven oder vor kurzem geschlossenen Sprints welche keine Aufwandsangaben enthalten
   points_committed: Punkte abgeschlossen
-  label_sprint_impediments: Sprint Blockaden
+  label_sprint_impediments: Sprint Hindernisse
   field_blocks: "Blockiert"
   label_master_backlog: "Master Backlog"
   points_to_resolve: Nicht beschlossene Punkte
