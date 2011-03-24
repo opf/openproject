@@ -13,7 +13,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
           }
           opts[:checked] = "checked" if filter.values == value
           radio_button = tag :input, opts
-          content_tag :label, radio_button + label,
+          content_tag :label, radio_button + translate(label),
             :for => "#{filterName}_radio_option_#{i}",
             :'data-filter-name' => filter_class.underscore_name,
             :class => "#{filterName}_radio_option filter_radio_option"
@@ -23,4 +23,15 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
       end
     end
   end
+  
+  private
+  
+  def translate(label)
+    if label.is_a?(Symbol)
+      ::I18n.t(label)
+    else
+      label
+    end
+  end
+  
 end
