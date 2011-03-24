@@ -5,6 +5,7 @@ Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
     var select, radio_options;
     select = $('' + filter_name + '_arg_1_val');
+    //TODO: the following code ist cost report specific, we should refactor that to be general useful
     if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
       Ajax.Updater({ success: select }, window.global_prefix + '/cost_reports/available_values', {
         parameters: { filter_name: filter_name },
@@ -231,7 +232,7 @@ Reporting.Filters = {
 
   get_dependents: function (element) {
     if (element.hasAttribute("data-dependents")) {
-      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON();
+      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON(true);
     } else {
       return [];
     }
@@ -240,11 +241,19 @@ Reporting.Filters = {
   // Activate the first dependent of the changed filter, if it is not already active.
   // Afterwards, collect the visible filters from the dependents list and start
   // narrowing down their values.
-  activate_dependents: function () {
-    var dependents = Reporting.Filters.get_dependents(this);
-    var active_filters = Reporting.Filters.visible_filters();
+  // Param: select [optional] - the select-box of the filter which should activate it's dependents
+  activate_dependents: function (selectBox, callbackWhenFinished) {
+    var dependents, active_filters, source;
+    if (selectBox  === undefined || selectBox.type == 'change') {
+      selectBox = this;
+    }
+    if (callbackWhenFinished  === undefined) {
+      callbackWhenFinished = function() {};
+    }
+    dependents = Reporting.Filters.get_dependents(selectBox);
+    active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependents.first())) {
-      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(this.up(".filter")) });
+      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(selectBox.up(".filter")) });
       // render filter inactive if possible to avoid unintended filtering
       $(dependents.first() + '_arg_1_val').value = '<<inactive>>'
       Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
@@ -254,21 +263,36 @@ Reporting.Filters = {
       // Remove border of dependent, so it "merges" with the filter before
       active_filters.unshift(dependents.first());
     }
-    var source = this.getAttribute("data-filter-name");
+    source = selectBox.getAttribute("data-filter-name");
     setTimeout(function () { // Make sure the newly shown filters are in the DOM
       var active_dependents = dependents.select(function (d) {
         return active_filters.include(d);
       });
-      Reporting.Filters.narrow_values([source], active_dependents);
+      Reporting.Filters.narrow_values([source], active_dependents, callbackWhenFinished);
     }, 1);
+  },
+
+  // Select the given values of the selectBox.
+  // Toggle multi-select state of the selectBox depending on how many values were given.
+  select_values: function(selectBox, values_to_select) {
+    Reporting.Filters.multi_select(selectBox, values_to_select.size() > 1);
+    values_to_select.each(function (val) {
+      var opt = selectBox.select("option[value='" + val + "']");
+      if (opt.size() === 1) {
+        opt.first().selected = true;
+      }
+    });
   },
 
   // Narrow down the available values for the [dependents] of [sources].
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
-  narrow_values: function (sources, dependents) {
+  narrow_values: function (sources, dependents, callbackWhenFinished) {
     if (sources.size() === 0 || dependents.size === 0 || dependents.first() === undefined) {
       return;
+    }
+    if (callbackWhenFinished  === undefined) {
+      callbackWhenFinished = function() {};
     }
     var params = "?narrow_values=1&dependent=" + dependents.first();
     sources.each(function (filter) {
@@ -303,12 +327,7 @@ Reporting.Filters = {
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
             });
-            selected.each(function (val) {
-              var opt = selectBox.select("option[value='" + val + "']");
-              if (opt.size() === 1) {
-                opt.first().selected = true;
-              }
-            });
+            Reporting.Filters.select_values(selectBox, selected);
             sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
             // if we got no values besides the <<inactive>> value, do not show this selectBox
@@ -330,6 +349,7 @@ Reporting.Filters = {
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
+          callbackWhenFinished();
         },
         onException: function (response, error) {
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");

@@ -15,6 +15,11 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
           dependents = filter_class.all_dependents.map {|d| d.underscore_name}.to_json
           select_options.merge! :"data-dependents" => dependents.gsub!('"', "'")
         end
+        # store selected value(s) in data-initially-selected if this filter is a dependent
+        # of another filter, as we have to restore values manually in the client js
+        if filter_class.is_dependent? && !Array(filter.values).empty?
+          select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
+        end
         box = content_tag :select, select_options do
           first = true
           filter_class.available_values.collect do |name, id, *args|
