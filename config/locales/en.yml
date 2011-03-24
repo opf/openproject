@@ -81,7 +81,7 @@ en:
   field_subject: "Subject"
 
   field_blocks: "Blocks"
-  error_must_have_comma_delimited_list: "must have a comma delimited list of story or task IDs"
+  error_must_have_comma_delimited_list: "must have a comma-separated list of story or task IDs"
 
   field_tracker_id: Tracker ID
   inclusion: "is not included in the list"

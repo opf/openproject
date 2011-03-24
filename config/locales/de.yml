@@ -13,7 +13,7 @@ de:
   points_resolved: Beschlossene Punkte
   field_tracker_id: "Tracker ID"
   field_name: "Name"
-  error_must_have_comma_delimited_list: muss eine Kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten
+  error_must_have_comma_delimited_list: muss eine kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten
   label_stories: Stories
   todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: Produkt Backlog
