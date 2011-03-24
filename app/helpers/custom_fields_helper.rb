@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ module CustomFieldsHelper
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
 
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
-    case field_format.edit_as
+    case field_format.try(:edit_as)
     when "date"
       text_field_tag(field_name, custom_value.value, :id => field_id, :size => 10) + 
       calendar_for(field_id)
@@ -72,7 +72,7 @@ module CustomFieldsHelper
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
-    case field_format.edit_as
+    case field_format.try(:edit_as)
       when "date"
         text_field_tag(field_name, '', :id => field_id, :size => 10) + 
         calendar_for(field_id)
