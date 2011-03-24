@@ -117,7 +117,7 @@
   border: none;
 }
 
-.group_by {
+.group_by { /* old group */
   background-color: transparent;
   background-position: 50%;
   background-repeat: no-repeat;
@@ -127,51 +127,51 @@
   margin: 1px;
 }
 
-.group_by:hover {
+.group_by:hover { /* old group */
   background-color: #EEE;
 }
 
-.move {
+.move { /* old group */
   height: 25px;
   width: 25px;
 }
 
-.sort {
+.sort { /* old group */
   height: 15px;
   width: 15px;
 }
 
-.moveUp {
+.moveUp { /* old group */
   margin-top: 0px;
   margin-bottom: 0px;
   background-image: url(../images/arrow_D_up.gif);
 }
 
-.moveDown {
+.moveDown { /* old group */
   margin-top: 0px;
   margin-bottom: 0px;
   background-image: url(../images/arrow_D_down.gif);
 }
 
-.moveLeft {
+.moveLeft { /* old group */
   margin-left: 0px;
   margin-right: 0px;
   background-image: url(../images/arrow_D_left.gif);
 }
 
-.moveRight {
+.moveRight { /* old group */
   margin-left: 0px;
   margin-right: 0px;
   background-image: url(../images/arrow_D_right.gif);
 }
 
-.sortUp {
+.sortUp { /* old group */
   margin-left: 0px;
   margin-right: 0px;
   background-image: url(../images/arrow_B_up.gif);
 }
 
-.sortDown {
+.sortDown { /* old group */
   margin-left: 0px;
   margin-right: 0px;
   background-image: url(../images/arrow_B_down.gif);
@@ -259,10 +259,7 @@ fieldset#filter-settings table td > label {
   position: relative;
 }
 
-.drag_element {
-  /*cursor: move;*/
-}
-
+/* ----- group by --- */
 .in_row {
   float: left;
   display: block;
@@ -280,6 +277,17 @@ fieldset#filter-settings table td > label {
   color: #fff;
 }
 
+.group_by_element {
+  background-color: #3F9ED7;
+  padding: 3px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.group_by_element:hover {
+  background-color: #398AD3;
+}
+
 .arrow {
   background-repeat: no-repeat;
   height: 19px !important;
@@ -290,31 +298,31 @@ fieldset#filter-settings table td > label {
 }
 
 .arrow_both {
-  background-image: url(../images/arrow_both.png);
+  background-image: url(../images/group_by_arrow_both.png);
 }
 
 .arrow_both_hover_left {
-  background-image: url(../images/arrow_both_hover_left.png);
+  background-image: url(../images/group_by_arrow_both_hover_left.png);
 }
 
 .arrow_both_remove {
-  background-image: url(../images/arrow_both_remove.png);
+  background-image: url(../images/group_by_arrow_both_remove.png);
 }
 
 .arrow_both_hover_right {
-  background-image: url(../images/arrow_both_hover_right.png);
+  background-image: url(../images/group_by_arrow_both_hover_right.png);
 }
 
 .arrow_left {
-  background-image: url(../images/arrow_left.png);
+  background-image: url(../images/group_by_arrow_left.png);
 }
 
 .arrow_left_remove {
-  background-image: url(../images/arrow_left_remove.png);
+  background-image: url(../images/group_by_arrow_left_remove.png);
 }
 
 .arrow_left_hover {
-  background-image: url(../images/arrow_left_hover.png);
+  background-image: url(../images/group_by_arrow_left_hover.png);
 }
 
 .drag_container {
@@ -338,6 +346,8 @@ fieldset#filter-settings table td > label {
   background-color: #F5F5C5;
   /*border: 1px solid #BBBBBB;*/
 }
+
+/* -- end group-by -- */
 
 td .drill_down, th .drill_down {
   font-size: 8px;
