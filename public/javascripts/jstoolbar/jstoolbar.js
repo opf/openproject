@@ -249,7 +249,29 @@ jsToolBar.prototype = {
       suffix = suffix || '';
       var start, end, sel, scrollPos, subst, res;
       if (typeof(document["selection"]) != "undefined") {
-          sel = document.selection.createRange().text;
+        // just makes it work in IE8 somehow
+        var range = document.selection.createRange();
+        var bookmark = range.getBookmark();
+        var origParent = range.parentElement();
+        // we move the starting point of the selection to the last newline
+        try {
+          while (range.text[0] != "\n" && range.text[0] != "\r") {
+            bookmark = range.getBookmark();
+            range.moveStart("character", -1);
+            if (origParent != range.parentElement()) {
+              throw "Outside of Textarea";
+            }
+          }
+          range.moveStart("character", 1);
+        } catch(err) {
+          if (err == "Outside of Textarea")
+            range.moveToBookmark(bookmark);
+          else
+            throw err;
+        }
+        if (range.text.match(/ $/))
+          range.moveEnd("character", -1);
+        sel = range.text;
       } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
           start = this.textarea.selectionStart;
           end = this.textarea.selectionEnd;
@@ -271,7 +293,7 @@ jsToolBar.prototype = {
       }
       subst = prefix + res + suffix;
       if (typeof(document["selection"]) != "undefined") {
-          var range = document.selection.createRange().text = subst;
+          range.text = subst;
           this.textarea.caretPos -= suffix.length;
       } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
           this.textarea.value = this.textarea.value.substring(0, start) + subst + this.textarea.value.substring(end);
