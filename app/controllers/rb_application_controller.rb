@@ -23,7 +23,7 @@ class RbApplicationController < ApplicationController
     settings = Setting.plugin_redmine_backlogs
     if settings[:story_trackers].blank? || settings[:task_tracker].blank?
       respond_to do |format|
-        format.html { render :file => "rb_common/not_configured" }
+        format.html { render :file => "shared/not_configured" }
       end
     end
   end
