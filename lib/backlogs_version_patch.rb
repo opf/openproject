@@ -7,7 +7,7 @@ module Backlogs
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        has_one :version_setting
+        has_one :version_setting, :dependent => :destroy
         accepts_nested_attributes_for :version_setting
 
         named_scope :displayed_left, lambda { |project| { :include => :version_setting,
