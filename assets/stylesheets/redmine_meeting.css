@@ -10,3 +10,6 @@ div.tabular > div { margin: 0;
                     height: 1%;
                     clear:left;
                   }
+
+#meeting_agenda_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png)}
+#meeting_minutes_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png)}

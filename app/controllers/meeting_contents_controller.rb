@@ -50,6 +50,12 @@ class MeetingContentsController < ApplicationController
     redirect_to :back
   end
   
+  def preview
+    (render_403; return) unless @content.editable?
+    @text = params[:text]
+    render :partial => 'common/preview'
+  end
+  
   private
     
   def find_meeting
