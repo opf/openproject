@@ -242,108 +242,85 @@ jsToolBar.prototype = {
 		
 		this.encloseSelection(stag,etag);
 	},
-	
-	encloseLineSelection: function(prefix, suffix, fn) {
-		this.textarea.focus();
-		
-		prefix = prefix || '';
-		suffix = suffix || '';
-		
-		var start, end, sel, scrollPos, subst, res;
-		
-		if (typeof(document["selection"]) != "undefined") {
-			sel = document.selection.createRange().text;
-		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
-			start = this.textarea.selectionStart;
-			end = this.textarea.selectionEnd;
-			scrollPos = this.textarea.scrollTop;
-			// go to the start of the line
-			start = this.textarea.value.substring(0, start).replace(/[^\r\n]*$/g,'').length;
-			// go to the end of the line
-            end = this.textarea.value.length - this.textarea.value.substring(end, this.textarea.value.length).replace(/^[^\r\n]*/, '').length;
-			sel = this.textarea.value.substring(start, end);
-		}
-		
-		if (sel.match(/ $/)) { // exclude ending space char, if any
-			sel = sel.substring(0, sel.length - 1);
-			suffix = suffix + " ";
-		}
-		
-		if (typeof(fn) == 'function') {
-			res = (sel) ? fn.call(this,sel) : fn('');
-		} else {
-			res = (sel) ? sel : '';
-		}
-		
-		subst = prefix + res + suffix;
-		
-		if (typeof(document["selection"]) != "undefined") {
-			document.selection.createRange().text = subst;
-			var range = this.textarea.createTextRange();
-			range.collapse(false);
-			range.move('character', -suffix.length);
-			range.select();
-		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
-			this.textarea.value = this.textarea.value.substring(0, start) + subst +
-			this.textarea.value.substring(end);
-			if (sel) {
-				this.textarea.setSelectionRange(start + subst.length, start + subst.length);
-			} else {
-				this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
-			}
-			this.textarea.scrollTop = scrollPos;
-		}
-	},
-	
-	encloseSelection: function(prefix, suffix, fn) {
-		this.textarea.focus();
-		
-		prefix = prefix || '';
-		suffix = suffix || '';
-		
-		var start, end, sel, scrollPos, subst, res;
-		
-		if (typeof(document["selection"]) != "undefined") {
-			sel = document.selection.createRange().text;
-		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
-			start = this.textarea.selectionStart;
-			end = this.textarea.selectionEnd;
-			scrollPos = this.textarea.scrollTop;
-			sel = this.textarea.value.substring(start, end);
-		}
-		
-		if (sel.match(/ $/)) { // exclude ending space char, if any
-			sel = sel.substring(0, sel.length - 1);
-			suffix = suffix + " ";
-		}
-		
-		if (typeof(fn) == 'function') {
-			res = (sel) ? fn.call(this,sel) : fn('');
-		} else {
-			res = (sel) ? sel : '';
-		}
-		
-		subst = prefix + res + suffix;
-		
-		if (typeof(document["selection"]) != "undefined") {
-			document.selection.createRange().text = subst;
-			var range = this.textarea.createTextRange();
-			range.collapse(false);
-			range.move('character', -suffix.length);
-			range.select();
-//			this.textarea.caretPos -= suffix.length;
-		} else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
-			this.textarea.value = this.textarea.value.substring(0, start) + subst +
-			this.textarea.value.substring(end);
-			if (sel) {
-				this.textarea.setSelectionRange(start + subst.length, start + subst.length);
-			} else {
-				this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
-			}
-			this.textarea.scrollTop = scrollPos;
-		}
-	},
-	
+  
+  encloseLineSelection: function (prefix, suffix, fn) {
+      this.textarea.focus();
+      prefix = prefix || '';
+      suffix = suffix || '';
+      var start, end, sel, scrollPos, subst, res;
+      if (typeof(document["selection"]) != "undefined") {
+          sel = document.selection.createRange().text;
+      } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          start = this.textarea.selectionStart;
+          end = this.textarea.selectionEnd;
+          scrollPos = this.textarea.scrollTop;
+          // go to the start of the line
+          start = this.textarea.value.substring(0, start).replace(/[^\r\n]*$/g,'').length;
+          // go to the end of the line
+          end = this.textarea.value.length - this.textarea.value.substring(end, this.textarea.value.length).replace(/^[^\r\n]*/, '').length;
+          sel = this.textarea.value.substring(start, end);
+      }
+      if (sel.match(/ $/)) {
+          sel = sel.substring(0, sel.length - 1);
+          suffix = suffix + " ";
+      }
+      if (typeof(fn) == 'function') {
+          res = (sel) ? fn.call(this, sel) : fn('');
+      } else {
+          res = (sel) ? sel : '';
+      }
+      subst = prefix + res + suffix;
+      if (typeof(document["selection"]) != "undefined") {
+          var range = document.selection.createRange().text = subst;
+          this.textarea.caretPos -= suffix.length;
+      } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          this.textarea.value = this.textarea.value.substring(0, start) + subst + this.textarea.value.substring(end);
+          if (sel) {
+              this.textarea.setSelectionRange(start + subst.length, start + subst.length);
+          } else {
+              this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
+          }
+          this.textarea.scrollTop = scrollPos;
+      }
+  },
+  
+  encloseSelection: function (prefix, suffix, fn) {
+      this.textarea.focus();
+      prefix = prefix || '';
+      suffix = suffix || '';
+      var start, end, sel, scrollPos, subst, res;
+      if (typeof(document["selection"]) != "undefined") {
+          sel = document.selection.createRange().text;
+      } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          start = this.textarea.selectionStart;
+          end = this.textarea.selectionEnd;
+          scrollPos = this.textarea.scrollTop;
+          sel = this.textarea.value.substring(start, end);
+      }
+      if (sel.match(/ $/)) {
+          sel = sel.substring(0, sel.length - 1);
+          suffix = suffix + " ";
+      }
+      if (typeof(fn) == 'function') {
+          res = (sel) ? fn.call(this, sel) : fn('');
+      } else {
+          res = (sel) ? sel : '';
+      }
+      subst = prefix + res + suffix;
+      if (typeof(document["selection"]) != "undefined") {
+          var range = document.selection.createRange().text = subst;
+          this.textarea.caretPos -= suffix.length;
+      } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          this.textarea.value = this.textarea.value.substring(0, start) + subst + this.textarea.value.substring(end);
+          if (sel) {
+              this.textarea.setSelectionRange(start + subst.length, start + subst.length);
+          } else {
+              this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
+          }
+          this.textarea.scrollTop = scrollPos;
+      }
+  },
+  
 	stripBaseURL: function(url) {
 		if (this.base_url != '') {
 			var pos = url.indexOf(this.base_url);
