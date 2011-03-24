@@ -23,10 +23,11 @@ Redmine::Plugin.register :redmine_meeting do
     permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
     permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
     permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show, :diff], :meeting_minutes => [:history, :show, :diff]}
+    permission :create_meeting_agendas, {:meeting_agendas => [:update, :preview]}, :require => :member
     permission :close_meeting_agendas, {:meeting_agendas => [:close, :open]}, :require => :member
-    permission :create_meeting_agendas, {:meeting_agendas => [:update]}, :require => :member
+    permission :send_meeting_agendas_notification, {:meeting_agendas => [:notify]}, :require => :member
+    permission :create_meeting_minutes, {:meeting_minutes => [:update, :preview]}, :require => :member
     permission :send_meeting_minutes_notification, {:meeting_minutes => [:notify]}, :require => :member
-    permission :create_meeting_minutes, {:meeting_minutes => [:update]}, :require => :member
   end
 
   Redmine::Search.map do |search|

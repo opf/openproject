@@ -22,23 +22,29 @@ module Plugin
       end
       
       module InstanceMethods
-        def minutes_for_review(minutes)
-          meeting = minutes.meeting
+        def content_for_review(content, content_type)
+          meeting = content.meeting
+          c_type = content_type.gsub(/^meeting_/, '')
           redmine_headers 'Project' => meeting.project.identifier,
                           'Meeting-Id' => meeting.id
-          message_id minutes
+          message_id content
           cc meeting.watcher_recipients # works only in production environment
-          subject "[#{meeting.project.name}] #{l(:label_meeting_minutes)}: #{meeting.title}"
-          body :minutes => minutes,
-               :minutes_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting, :tab => 'minutes'),
+          subject "[#{meeting.project.name}] #{l(:"label_#{content_type}")}: #{meeting.title}"
+          body :content => content,
+               :content_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting, :tab => c_type),
+               :c_type => c_type,
+               :meeting => meeting,
                :meeting_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting)
-          render_multipart('send_minutes', body)
+          render_multipart('send_content', body)
         end
       end
       
       def self.included(receiver)
         receiver.extend         ClassMethods
         receiver.send :include, InstanceMethods
+        receiver.class_eval do
+          helper :meetings
+        end
       end
     end
   end

@@ -1,4 +1,0 @@
-<h1><%=h @minutes.meeting.project.name %>: <%= link_to(h(@minutes.meeting.title), @meeting_url) %></h1>
-<em><%=h @minutes.meeting.author %></em>
-
-<p><%=l :text_review_minutes, :author => h(User.current), :link => link_to(l(:text_minutes_for_meeting, :meeting => @minutes.meeting.title), @minutes_url) %></p>

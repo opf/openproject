@@ -1,0 +1,9 @@
+<%= @meeting.project.name %>: <%= @meeting.title %> (<%= @meeting_url %>)
+<%= @meeting.author %>
+
+<%=l :field_start_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %>
+<%=l :field_location %>: <%=h @meeting.location %>
+<%=l :field_participants_invited %>: <%= @meeting.participants.invited.sort.join("; ") %>
+<%=l :field_participants_attended %>: <%= @meeting.participants.attended.sort.join("; ") %>
+
+<%=l :"text_review_#{@c_type}", :author => User.current, :link => l(:"text_#{@c_type}_for_meeting", :meeting => @meeting.title) + " (#{@content_url})" %>

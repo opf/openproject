@@ -21,9 +21,14 @@ de:
   permission_delete_meetings: "Meetings löschen"
   permission_view_meetings: "Meetings ansehen"
   permission_create_meeting_agendas: "Agenden anlegen/bearbeiten"
+  permission_close_meeting_agendas: "Agenden schließen"
+  permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
   permission_create_meeting_minutes: "Protokolle anlegen/bearbeiten"
+  permission_send_meeting_minutess_notification: "Benachrichtigungen für Protokolle verschicken"
   text_in_hours: "in Stunden"
   text_meeting_agenda_open_are_you_sure: "Nicht-gespeicherte Inhalte des Protokolls werden durch diese Aktion verworfen! Weitermachen?"
-  text_review_minutes: "{{author}} hat das {{link}} zur Einsicht freigegeben."
-  text_minutes_for_meeting: 'Protokoll für das Meeting "{{meeting}}"'
+  text_review_agenda: "%{author} hat die %{link} zur Einsicht freigegeben."
+  text_agenda_for_meeting: 'Agenda für das Meeting "%{meeting}"'
+  text_review_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_minutes_for_meeting: 'Protokoll für das Meeting "%{meeting}"'
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
