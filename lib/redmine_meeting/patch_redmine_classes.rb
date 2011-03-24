@@ -31,6 +31,7 @@ module Plugin
           subject "[#{meeting.project.name}] #{l(:label_meeting_minutes)}: #{meeting.title}"
           body :minutes => minutes,
                :minutes_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting, :tab => 'minutes'),
+               :meeting => meeting,
                :meeting_url => url_for(:controller => 'meetings', :action => 'show', :id => meeting)
           render_multipart('send_minutes', body)
         end
@@ -39,6 +40,9 @@ module Plugin
       def self.included(receiver)
         receiver.extend         ClassMethods
         receiver.send :include, InstanceMethods
+        receiver.class_eval do
+          helper :meetings
+        end
       end
     end
   end

@@ -1,4 +1,11 @@
-<h1><%=h @minutes.meeting.project.name %>: <%= link_to(h(@minutes.meeting.title), @meeting_url) %></h1>
-<em><%=h @minutes.meeting.author %></em>
+<h1><%=h @meeting.project.name %>: <%= link_to h(@meeting.title), @meeting_url %></h1>
+<em><%=h @meeting.author %></em>
 
-<p><%=l :text_review_minutes, :author => h(User.current), :link => link_to(l(:text_minutes_for_meeting, :meeting => @minutes.meeting.title), @minutes_url) %></p>
+<ul>
+<li><%=l :field_start_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></li>
+<li><%=l :field_location %>: <%=h @meeting.location %></li>
+<li><%=l :field_participants_invited %>: <%=h @meeting.participants.invited.sort.join("; ") %></li>
+<li><%=l :field_participants_attended %>: <%=h @meeting.participants.attended.sort.join("; ") %></li>
+</ul>
+
+<p><%=l :text_review_minutes, :author => h(User.current), :link => link_to(l(:text_minutes_for_meeting, :meeting => @meeting.title), @minutes_url) %></p>
