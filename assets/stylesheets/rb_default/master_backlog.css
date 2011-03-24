@@ -4,7 +4,7 @@
   position:relative;
   width:1190px;
 }
-#product_backlog_container{
+#owner_backlogs_container{
   position:absolute;
   right:0;
   top:0;
@@ -16,7 +16,7 @@
   top:0;
   width:590px;
 }
-#product_backlog_container .backlog .header > .add_new_story {
+#owner_backlogs_container .backlog .header > .add_new_story {
   font-size:11px;
   height:28px;
   line-height:31px;
@@ -39,10 +39,7 @@
   position:relative;
   width:100%;
 }
-#product_backlog_container .backlog{ /* Overrides style above */
-  position:absolute;
-  top:0;
-}
+
 #backlogs_container .backlog .header{
   -moz-border-radius:5px 5px 0px 0px;
   -webkit-border-radius:5px 5px 0px 0px;
@@ -122,7 +119,7 @@
   color:#FFFFFF;
   text-decoration:none;
 }
-#product_backlog_container .backlog .header .label{
+#owner_backlogs_container .backlog .header .label{
   font-size:15px;
   font-weight:bold;
   height:28px;
@@ -451,7 +448,7 @@
 .debug .backlog .header .actions,
 .debug .backlog .menu,
 .debug .backlog .velocity,
-.debug #product_backlog_container .backlog .header .label,
+.debug #owner_backlogs_container .backlog .header .label,
 .debug #new_story{
   background-color:red;
 }

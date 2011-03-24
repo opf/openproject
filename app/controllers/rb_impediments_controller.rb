@@ -1,5 +1,3 @@
-include RbCommonHelper
-
 class RbImpedimentsController < RbApplicationController
   unloadable
 

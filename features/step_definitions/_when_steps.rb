@@ -50,7 +50,7 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
-  @story_ids = page.all(:css, "#product_backlog_container .stories .story .id")
+  @story_ids = page.all(:css, "#owner_backlogs_container .stories .story .id")
 
   story = @story_ids[old_pos.to_i-1]
   story.should_not == nil

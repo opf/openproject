@@ -104,5 +104,13 @@ en:
 
   backlogs:
     show_statistics: 'Show Scrum statistics'
+    show_burndown_chart: 'Burndown Chart'
+    add_new_story: 'New Story'
 
   project_module_backlogs: Backlogs (Beta)
+
+  version_settings_display_option_none: none
+  version_settings_display_option_left: left
+  version_settings_display_option_right: right
+  version_settings_display_label: Column in backlog
+  field_display: Column in backlog

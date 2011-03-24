@@ -22,11 +22,11 @@ Then /^I should see the taskboard$/ do
 end
 
 Then /^I should see the product backlog$/ do
-  page.should have_css('#product_backlog_container')
+  page.should have_css('#owner_backlogs_container')
 end
 
 Then /^I should see (\d+) stories in the product backlog$/ do |count|
-  page.all(:css, "#product_backlog_container .backlog .story").length.should == count.to_i
+  page.all(:css, "#owner_backlogs_container .backlog .story").length.should == count.to_i
 end
 
 Then /^show me the list of sprints$/ do
@@ -34,7 +34,7 @@ Then /^show me the list of sprints$/ do
 
   puts "\n"
   puts "\t| #{'id'.ljust(3)} | #{'name'.ljust(18)} | #{'sprint_start_date'.ljust(18)} | #{'effective_date'.ljust(18)} | #{'updated_on'.ljust(20)}"
-  sprints.each do |sprint|  
+  sprints.each do |sprint|
     puts "\t| #{sprint.id.to_s.ljust(3)} | #{sprint.name.to_s.ljust(18)} | #{sprint.sprint_start_date.to_s.ljust(18)} | #{sprint.effective_date.to_s.ljust(18)} | #{sprint.updated_on.to_s.ljust(20)} |"
   end
   puts "\n\n"
@@ -57,10 +57,10 @@ end
 Then /^(.+) should be the higher item of (.+)$/ do |higher_subject, lower_subject|
   higher = Story.find(:all, :conditions => { :subject => higher_subject })
   higher.length.should == 1
-  
+
   lower = Story.find(:all, :conditions => { :subject => lower_subject })
   lower.length.should == 1
-  
+
   lower.first.higher_item.id.should == higher.first.id
 end
 
@@ -99,13 +99,13 @@ end
 Then /^the sprint named (.+) should have (\d+) impediments? named (.+)$/ do |sprint_name, count, impediment_subject|
   sprints = Sprint.find(:all, :conditions => { :name => sprint_name })
   sprints.length.should == 1
-  
+
   sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == count.to_i
 end
 
 Then /^the sprint should be updated accordingly$/ do
   sprint = Sprint.find(@sprint_params['id'])
-  
+
   sprint.attributes.each_key do |key|
     unless ['updated_on', 'created_on'].include?(key)
       (key.include?('_date') ? sprint[key].strftime("%Y-%m-%d") : sprint[key]).should == @sprint_params[key]
@@ -121,10 +121,10 @@ end
 Then /^the story named (.+) should have (\d+) task named (.+)$/ do |story_subject, count, task_subject|
   stories = Story.find(:all, :conditions => { :subject => story_subject })
   stories.length.should == 1
-  
+
   tasks = Task.find(:all, :conditions => { :parent_id => stories.first.id })
   tasks.length.should == 1
-  
+
   tasks.first.subject.should == task_subject
 end
 
@@ -154,7 +154,7 @@ Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
   page = @project.wiki.find_page(title)
   page.should_not be_nil
 
-  raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/) 
+  raise "\"#{content}\" not found on page \"#{title}\"" unless page.content.text.match(/#{content}/)
 end
 
 Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|

@@ -1,6 +1,6 @@
 module RbCommonHelper
   unloadable
-  
+
   def assignee_id_or_empty(story)
     story.new_record? ? "" : story.assigned_to_id
   end
@@ -52,7 +52,7 @@ module RbCommonHelper
   def record_id_or_empty(story)
     story.new_record? ? "" : story.id
   end
-  
+
   def sprint_status_id_or_default(sprint)
     sprint.new_record? ? Version::VERSION_STATUSES.first : sprint.status
   end
@@ -60,7 +60,7 @@ module RbCommonHelper
   def sprint_status_label_or_default(sprint)
     sprint.new_record? ? l("version_status_#{Version::VERSION_STATUSES.first}") : l("version_status_#{sprint.status}")
   end
-  
+
   def status_id_or_default(story)
     story.new_record? ? IssueStatus.find(:first, :order => "position ASC").id : story.status.id
   end
@@ -100,7 +100,7 @@ module RbCommonHelper
   def tracker_name_or_empty(story)
     story.new_record? ? "" : story.tracker.name
   end
-  
+
   def updated_on_with_milliseconds(story)
     date_string_with_milliseconds(story.updated_on, 0.001) unless story.blank?
   end

@@ -63,7 +63,7 @@ class Burndown
         backlog.inject(0) {|sum, story| sum + story.story_points.to_f },
         backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0}.inject(0) {|sum, story| sum + story.story_points.to_f },
         backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f },
-        backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f } 
+        backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f }
       ]
       cache(days[-1], _series[-1])
     end
@@ -179,7 +179,7 @@ class Sprint < Version
     named_scope :open_sprints, lambda { |project|
         {
             :order => 'sprint_start_date ASC, effective_date ASC',
-            :conditions => [ "status = 'open' and project_id = ?", project.id ]
+            :conditions => [ "versions.status = 'open' and versions.project_id = ?", project.id ]
         }
     }
 
@@ -190,7 +190,7 @@ class Sprint < Version
     def points
         return stories.inject(0){|sum, story| sum + story.story_points.to_i}
     end
-   
+
     def has_wiki_page
         return false if wiki_page_title.blank?
 
@@ -274,7 +274,7 @@ class Sprint < Version
     end
 
     def impediments
-        return Issue.find(:all, 
+        return Issue.find(:all,
             :conditions => ["id in (
                             select issue_from_id
                             from issue_relations ir

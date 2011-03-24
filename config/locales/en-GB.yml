@@ -1,5 +1,5 @@
---- 
-en-GB: 
+---
+en-GB:
   rb_label_copy_tasks_open: "[[Open]]"
   label_webcal: Webcal Feed
   event_sprint_summary: "%{project}: %{summary}"
@@ -84,3 +84,9 @@ en-GB:
   backlogs_product_backlog: Product backlog
   remaining_hours: remaining hours
   error_outro: Please correct the above errors before submitting again.
+  version_settings_display_option_none: none
+  version_settings_display_option_left: left
+  version_settings_display_option_right: right
+  version_settings_display_label: Column in backlog
+  field_display: Column in backlog
+
