@@ -66,7 +66,7 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
-        Reporting.Filters.value_changed(field)
+        Reporting.Filters.value_changed(field);
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
@@ -152,15 +152,13 @@ Reporting.Filters = {
     val = $(field + '_arg_1_val');
     tr = $('tr_' + field);
     if (!val) {
-      return
+      return;
     }
-    if (val.value == '<<inactive>>') {
-        tr.addClassName('inactive-filter')
-      }
-      else
-      {
-        tr.removeClassName('inactive-filter')
-      }
+    if (val.value === '<<inactive>>') {
+      tr.addClassName('inactive-filter');
+    } else {
+      tr.removeClassName('inactive-filter');
+    }
   },
 
   change_argument_visibility: function (field, arg_nr) {
