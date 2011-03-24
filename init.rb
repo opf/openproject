@@ -91,8 +91,8 @@ Redmine::Plugin.register :redmine_backlogs do
   menu :project_menu,
        :backlogs,
        {:controller => :rb_master_backlogs, :action => :show},
-       :caption => :label_backlogs,
        :after => :issues,
+       :caption => :project_module_backlogs,
        :param => :project_id
   menu :application_menu,
        :backlogs,

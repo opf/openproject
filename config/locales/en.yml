@@ -104,3 +104,5 @@ en:
 
   backlogs:
     show_statistics: 'Show Scrum statistics'
+
+  project_module_backlogs: Backlogs (Beta)

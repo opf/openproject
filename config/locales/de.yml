@@ -86,3 +86,5 @@ de:
   error_outro: Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken.
   backlogs:
     show_statistics: 'Scrum Statistiken anzeigen'
+
+  project_module_backlogs: Backlogs (Beta)
