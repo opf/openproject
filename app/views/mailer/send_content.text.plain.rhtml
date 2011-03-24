@@ -6,4 +6,4 @@
 <%=l :field_participants_invited %>: <%= @meeting.participants.invited.sort.join("; ") %>
 <%=l :field_participants_attended %>: <%= @meeting.participants.attended.sort.join("; ") %>
 
-<%=l :text_review_minutes, :author => User.current, :link => l(:text_minutes_for_meeting, :meeting => @meeting.title) + " (#{@minutes_url})" %>
+<%=l :"text_review_#{@c_type}", :author => User.current, :link => l(:"text_#{@c_type}_for_meeting", :meeting => @meeting.title) + " (#{@content_url})" %>

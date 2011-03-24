@@ -42,6 +42,14 @@ class MeetingContentsController < ApplicationController
     render_404
   end
   
+  def notify
+    unless @content.new_record?
+      Mailer.deliver_content_for_review(@content, @content_type)
+      flash[:notice] = l(:notice_successful_notification)
+    end
+    redirect_to :back
+  end
+  
   private
     
   def find_meeting

@@ -21,9 +21,14 @@ en:
   permission_delete_meetings: "Delete meetings"
   permission_view_meetings: "View meetings"
   permission_create_meeting_agendas: "Manage agendas"
+  permission_close_meeting_agendas: "Close agendas"
+  permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
+  permission_send_meeting_minutess_notification: "Send review notification for minutes"
   text_in_hours: "in hours"
   text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
+  text_review_agenda: "%{author} has put the %{link} up for review."
+  text_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
   text_review_minutes: "%{author} has put the %{link} up for review."
   text_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   notice_successful_notification: "Notification sent successfully"
