@@ -19,6 +19,9 @@ require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
+
+  protected
+  
   include Redmine::I18n
 
   layout 'base'
