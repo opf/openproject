@@ -19,19 +19,16 @@
               :locals => {:project => @project, :path => @path,
                           :revisions => @changesets, :entry => nil }%>
 <%   end %>
-<p>
-<%   if @repository.supports_all_revisions? %>
-<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
-<%   end %>
-<%   if @repository.supports_directory_revisions? %>
-|
-<%= link_to l(:label_view_revisions),
-                   :action => 'changes',
-                   :path => to_path_param(@path), :id => @project %>
-<%   end %>
-</p>
 
-<%   if true # @path.blank? %>
+<% if @path.blank? && @repository.supports_all_revisions? %>
+  <p><%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
+<% elsif @repository.supports_directory_revisions? %>
+  <p><%= link_to l(:label_view_revisions),
+	                   :action => 'changes',
+	                   :path => to_path_param(@path), :id => @project %></p>
+<% end %>
+
+<% if @repository.supports_all_revisions? %>
 <%     content_for :header_tags do %>
   <%= auto_discovery_link_tag(
                    :atom, params.merge(
