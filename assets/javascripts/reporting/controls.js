@@ -80,14 +80,17 @@ Reporting.Controls = {
   },
 
   serialize_settings_form: function() {
-    var ret_str = Form.serialize('query_form');
-    var rows = Sortable.serialize('group_by_rows');
-    var columns = Sortable.serialize('group_by_columns');
-    if (rows !== null && rows != "") {
-        ret_str += "&" + rows;
-    }
-    if(columns !== null && columns != "") {
-        ret_str += "&" + columns;
+    var ret_str, grouping_str;
+    ret_str = Form.serialize('query_form');
+    grouping_str = $w('rows columns').inject('', function(grouping, type) {
+      return grouping + $('group_by_' + type).select('.group_by_element').map(function(group_by) {
+        return 'groups[' + type + '][]=' + group_by.readAttribute('data-group-by');
+      }).inject('', function(all_group_str, group_str) {
+        return all_group_str + '&' + group_str;
+      });
+    });
+    if (grouping_str.length > 0) {
+        ret_str += grouping_str;
     }
     return ret_str;
   },

@@ -5,7 +5,7 @@ class Widget::GroupBys < Widget::Base
     content_tag :div, :id => "group_by_#{type}", :class => 'drag_target drag_container' do
       out = ''
       #TODO render existing group_bys of type <type>
-      out += content_tag :select, :id => "add_group_by_#{type}", :name => "groups[#{type}][]", :class => 'select-small' do
+      out += content_tag :select, :id => "add_group_by_#{type}", :class => 'select-small' do
         options  = tag :option, :value => ''
         engine::GroupBy.all.each do |group_by_class|
           options += content_tag :option, :value => group_by_class.underscore_name, :'data-label' => "#{l(group_by_class.label)}" do

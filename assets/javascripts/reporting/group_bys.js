@@ -10,7 +10,6 @@ Reporting.GroupBys = {
       constraint:'horizontal',
       containment: ['group_by_columns','group_by_rows'],
       dropOnEmpty: true,
-      format: /^(.*)$/,
       hoverclass: 'drag_container_accept',
       onUpdate: Reporting.GroupBys.ordering_changed
     };
