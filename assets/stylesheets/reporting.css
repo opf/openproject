@@ -304,7 +304,7 @@ fieldset#filter-settings table td > label {
   background-image: url(../images/group_by_arrow_both_hover_left.png);
 }
 
-.arrow_both_remove {
+.arrow_both.arrow_removal_hover {
   background-image: url(../images/group_by_arrow_both_remove.png);
 }
 
@@ -316,7 +316,7 @@ fieldset#filter-settings table td > label {
   background-image: url(../images/group_by_arrow_left.png);
 }
 
-.arrow_left_remove {
+.arrow_left.arrow_removal_hover {
   background-image: url(../images/group_by_arrow_left_remove.png);
 }
 

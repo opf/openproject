@@ -102,12 +102,24 @@ Reporting.GroupBys = {
     });
   },
 
+  arrow_removal_hover: function(arrow, status) {
+    if (status) {
+      $(arrow).addClassName('arrow_removal_hover');
+    }
+    else {
+      $(arrow).removeClassName('arrow_removal_hover');
+    }
+  },
+
   init_arrow: function(group_by) {
     var arrow = new Element('img', {
       'class': 'arrow in_row arrow_left',
       'id': group_by.identify() + '_arrow'
     });
     //init_arrow_hover_effects(arrow);
+    arrow.observe('mouseover', function() { Reporting.GroupBys.arrow_removal_hover(arrow, true)  });
+    arrow.observe('mouseout',  function() { Reporting.GroupBys.arrow_removal_hover(arrow, false) });
+    arrow.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(arrow) });
     return arrow;
   },
 
