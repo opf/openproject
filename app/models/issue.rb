@@ -532,6 +532,8 @@ class Issue < ActiveRecord::Base
     s = "issue status-#{status.position} priority-#{priority.position}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
+    s << ' child' if child?
+    s << ' parent' unless leaf?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
