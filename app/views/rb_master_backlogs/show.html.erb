@@ -12,9 +12,12 @@
 <%- end %>
 
 <%- content_for :view_specific_links do %>
+<% if false %>
+  <%# TODO i18n %>
   <a id="project_info">Info<a>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
+<% end %>
 <%- end %>
 
 <%- content_for :main do %>

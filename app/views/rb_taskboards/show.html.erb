@@ -17,9 +17,14 @@
   <% if @sprint.has_burndown %>
     <a id='show_charts'><%= l(:label_burndown) %></a>
   <% end %>
+  <%# TODO i18n %>
   <span id="col_width">Column width: <input name="col_width"/></span>
+
+<% if false %>
+  <%# TODO i18n %>
   <a id="disable_autorefresh">Disable Auto-refresh</a>
   <a id="refresh">Refresh</a>
+<% end %>
 <%- end %>
 
 <%- content_for :main do %>
