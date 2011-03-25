@@ -86,14 +86,35 @@ Reporting.GroupBys = {
     return group_by;
   },
 
-  create_label: function(group_by) {
-    var group_by_label = new Element('label', {
+  group_by_hover_effect: function(event, do_hover) {
+    var group_by = $(Event.element(event));
+    // we possibly hit a tag inside the group_by, so go search the group_by then
+    if (!group_by.hasClassName('group_by_element')) {
+      group_by = group_by.up('.group_by_element');
+    }
+    if (group_by !== null) {
+      Reporting.GroupBys.group_by_hover(group_by, do_hover);
+    }
+  },
+
+  // on mouse_over of a group_by or it's label, change the color of the group_by
+  // also change the color of the arrows
+  init_group_by_hover_effects: function(elements) {
+    elements.each(function(element) {
+      ['mouseover', 'mouseout'].each(function(event_type) {
+        element.observe(event_type, function(event) {
+          Reporting.GroupBys.group_by_hover_effect(event, event_type == 'mouseover');
+        });
+      });
+    });
+  },
+
+  create_label: function(group_by, text) {
+    return new Element('label', {
       'class': 'in_row group_by_label',
       'for': group_by.identify(),
       'id': group_by.identify() + '_label'
-    });
-    //init_group_by_hover_effects(group_by_label);
-    return group_by_label;
+    }).update(text);
   },
 
   adding_group_by_enabled: function(field, state) {
@@ -111,15 +132,38 @@ Reporting.GroupBys = {
     }
   },
 
+  group_by_hover: function(group_by, state) {
+    var arrow, previous_groups_arrow;
+    arrow = $(group_by.identify() + '_arrow');
+    previous_groups_arrow = $(group_by.previous().identify() + '_arrow');
+    if (Reporting.GroupBys.is_last(group_by)) {
+        state ? arrow.addClassName('hover') : arrow.removeClassName('hover');
+    } else {
+        state ? arrow.addClassName('hover_left') : arrow.removeClassName('hover_left');
+    }
+    if (!Reporting.GroupBys.is_first(group_by)) {
+        state ?  previous_groups_arrow.addClassName('hover_right') : previous_groups_arrow.removeClassName('hover_right');
+    }
+  },
+
+  remove_group_by: function(group_by) {
+    var previous_group = group_by.previous();
+    Reporting.GroupBys.adding_group_by_enabled(group_by.readAttribute('data-group-by'), true);
+    group_by.remove();
+    if (previous_group !== null && previous_group.hasClassName('group_by_element')) {
+      Reporting.GroupBys.update_arrow(previous_group);
+    }
+  },
+
   init_arrow: function(group_by) {
     var arrow = new Element('img', {
       'class': 'arrow in_row arrow_left',
       'id': group_by.identify() + '_arrow'
     });
-    //init_arrow_hover_effects(arrow);
+    //initialize callbacks for hover-effects and removal of group_by
     arrow.observe('mouseover', function() { Reporting.GroupBys.arrow_removal_hover(arrow, true)  });
     arrow.observe('mouseout',  function() { Reporting.GroupBys.arrow_removal_hover(arrow, false) });
-    arrow.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(arrow) });
+    arrow.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(arrow.up('.group_by_element')) });
     return arrow;
   },
 
@@ -147,8 +191,8 @@ Reporting.GroupBys = {
     group_by = Reporting.GroupBys.create_group_by(field);
     selected_option = select.select("[value='" + select.getValue() + "']").first();
     select.up('.drag_container').appendChild(group_by);
-    label = Reporting.GroupBys.create_label(group_by);
-    label.update(selected_option.readAttribute('data-label'));
+    label = Reporting.GroupBys.create_label(group_by, selected_option.readAttribute('data-label'));
+    Reporting.GroupBys.init_group_by_hover_effects([group_by, label]);
     select.select("[value='']").first().selected = true;
     group_by.appendChild(label);
     group_by.appendChild(Reporting.GroupBys.init_arrow(group_by));

@@ -300,15 +300,15 @@ fieldset#filter-settings table td > label {
   background-image: url(../images/group_by_arrow_both.png);
 }
 
-.arrow_both_hover_left {
+.arrow_both.arrow_removal_hover {
+  background-image: url(../images/group_by_arrow_both_remove.png) !important;
+}
+
+.arrow_both.hover_left {
   background-image: url(../images/group_by_arrow_both_hover_left.png);
 }
 
-.arrow_both.arrow_removal_hover {
-  background-image: url(../images/group_by_arrow_both_remove.png);
-}
-
-.arrow_both_hover_right {
+.arrow_both.hover_right {
   background-image: url(../images/group_by_arrow_both_hover_right.png);
 }
 
@@ -317,10 +317,10 @@ fieldset#filter-settings table td > label {
 }
 
 .arrow_left.arrow_removal_hover {
-  background-image: url(../images/group_by_arrow_left_remove.png);
+  background-image: url(../images/group_by_arrow_left_remove.png) !important;
 }
 
-.arrow_left_hover {
+.arrow_left.hover {
   background-image: url(../images/group_by_arrow_left_hover.png);
 }
 
