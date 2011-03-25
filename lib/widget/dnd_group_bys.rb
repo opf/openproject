@@ -9,7 +9,7 @@ class Widget::DndGroupBys < Widget::Base
       out += content_tag :select, :id => "add_group_by_#{type}", :name => "groups[#{type}][]", :class => 'select-small' do
         options  = tag :option, :value => ''
         engine::GroupBy.all.each do |group_by_class|
-          options += content_tag :option, :value => group_by_class.underscore_name do
+          options += content_tag :option, :value => group_by_class.underscore_name, :'data-label' => "#{l(group_by_class.label)}" do
             l(group_by_class.label)
           end
         end

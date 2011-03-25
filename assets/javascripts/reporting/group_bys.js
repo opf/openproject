@@ -57,8 +57,15 @@ Reporting.GroupBys = {
       containment: ['group_by_columns','group_by_rows'],
       dropOnEmpty: true,
       format: /^(.*)$/,
-      hoverclass: 'drag_container_accept'
+      hoverclass: 'drag_container_accept',
+      onUpdate: Reporting.GroupBys.ordering_changed
     };
+  },
+
+  ordering_changed: function(container) {
+    container.select('.group_by_element').each(function(group_by) {
+      Reporting.GroupBys.update_arrow(group_by);
+    });
   },
 
   recreate_sortables: function() {
@@ -71,42 +78,71 @@ Reporting.GroupBys = {
   },
 
   create_group_by: function(field) {
-    group_by = document.createElement('span');
-    %w('in_row drag_element group_by_element').each(function(klass) {
-      group_by.addClassName(klass);
+    var group_by = new Element('span', {
+      'class': 'in_row drag_element group_by_element',
+      'data-group-by': field
     });
     group_by.identify(); // give it a unique id
-    group_by.writeAttribute('data-group-by', field);
     return group_by;
   },
 
   create_label: function(group_by) {
-    group_by_label = document.createElement('label');
-    group_by_label.setAttribute('for', group_by.id);
-    group_by_label.setAttribute('class', 'in_row group_by_label');
-    group_by_label.setAttribute('id', group_by.id + '_label');
+    var group_by_label = new Element('label', {
+      'class': 'in_row group_by_label',
+      'for': group_by.identify(),
+      'id': group_by.identify() + '_label'
+    });
     //init_group_by_hover_effects(group_by_label);
     return group_by_label;
   },
 
   adding_group_by_enabled: function(field, state) {
-    Reporting.Filters.select_option_enabled($('add_group_by_columns'), field, state);
-    Reporting.Filters.select_option_enabled($('add_group_by_rows'),    field, state);
+    $w('add_group_by_columns add_group_by_rows').each(function(container_id) {
+      Reporting.Filters.select_option_enabled($(container_id), field, state);
+    });
+  },
+
+  init_arrow: function(group_by) {
+    var arrow = new Element('img', {
+      'class': 'arrow in_row arrow_left',
+      'id': group_by.identify() + '_arrow'
+    });
+    //init_arrow_hover_effects(arrow);
+    return arrow;
+  },
+
+  // returns true if the given group is the first group in its container
+  is_first: function(group_by) {
+    return (($(group_by).previous() == null) || (!($(group_by).previous().className.include('group_by'))));
+  },
+
+  // returns true if the given group is the last group in its container
+  is_last: function(group_by) {
+    return (($(group_by).next() == null) || (!($(group_by).next().className.include('group_by'))));
+  },
+
+  update_arrow: function(group_by) {
+    if (Reporting.GroupBys.is_last(group_by)) {
+        $(group_by.identify() + "_arrow").className = "arrow in_row arrow_left";
+    } else {
+        $(group_by.identify() + "_arrow").className = "arrow in_row arrow_both";
+    }
   },
 
   add_group_by: function(select) {
-    field = select.value;
-    group_by = Reporting.GroupBys.create_group_by(field + "_" + select.id);
-    group_by.setAttribute('value', field);
-    select.up().appendChild(group_by);
+    var field, group_by, label, selected_option;
+    field = $(select).getValue();
+    group_by = Reporting.GroupBys.create_group_by(field);
+    selected_option = select.select("[value='" + select.getValue() + "']").first();
+    select.up('.drag_container').appendChild(group_by);
     label = Reporting.GroupBys.create_label(group_by);
-    label.innerHTML = select.value // = sanitized_selected(select);
-    select.value = "";
+    label.update(selected_option.readAttribute('data-label'));
+    select.select("[value='']").first().selected = true;
     group_by.appendChild(label);
-    //group_by.appendChild(init_arrow(group_by));
-    //if (!(first_in_row(group_by))) {
-    //    update_arrow(group_by.previous());
-    //}
+    group_by.appendChild(Reporting.GroupBys.init_arrow(group_by));
+    if (!(Reporting.GroupBys.is_first(group_by))) {
+      Reporting.GroupBys.update_arrow(group_by.previous());
+    }
     Reporting.GroupBys.adding_group_by_enabled(field, false);
     Reporting.GroupBys.recreate_sortables();
   }
