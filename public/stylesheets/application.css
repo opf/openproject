@@ -430,7 +430,7 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings textarea { width: 99%; }
 
 fieldset.settings label { display: block; }
-.parent { padding-left: 20px; }
+fieldset#notified_events .parent { padding-left: 20px; }
 
 .required {color: #bb0000;}
 .summary {font-style: italic;}
