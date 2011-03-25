@@ -24,10 +24,10 @@ RB.urlFor = function(route_name, options){
 
 RB.routes = {
   update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
-  
+
   create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
   update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
-  
+
   create_task: '<%= url_for(:controller => 'rb_tasks', :action => 'create') %>',
   update_task: '<%= url_for(:controller => 'rb_tasks', :action => 'update', :id => ":id") %>',
 
@@ -37,5 +37,3 @@ RB.routes = {
   show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :project_id => ":id") %>',
   show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id") %>'
 }
-
-if(typeof console != "undefined" && console != null) console.log('*** server variables loaded ***');
