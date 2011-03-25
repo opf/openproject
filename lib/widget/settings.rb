@@ -8,11 +8,11 @@ class Widget::Settings < Widget::Base
         end
 
         fieldsets += render_widget Widget::Settings::Fieldset, @query, { :type => "group_by" } do
-          render_widget Widget::DndGroupBys, @query
+          render_widget Widget::GroupBys, @query
         end
 
         fieldsets += render_widget Widget::Settings::Fieldset, @query, { :type => "group_by" } do
-          render_widget Widget::GroupBys, @query
+          render_widget Widget::OldGroupBys, @query
         end
 
         controls = content_tag :div, :class => "buttons form_controls" do
