@@ -5,8 +5,7 @@ class Task < Issue
 
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
-    return nil if task_tracker.blank?
-    return Integer(task_tracker)
+    task_tracker.blank? ? nil : task_tracker.to_i
   end
 
   def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
