@@ -297,7 +297,7 @@ Reporting.Filters = {
       {
         asynchronous: true,
         evalScripts: true,
-        postBody: Form.serialize('query_form'),
+        postBody: Reporting.Controls.serialize_settings_form(),
         onSuccess: function (response) {
           Reporting.clearFlash();
           if (response.responseJSON !== undefined) {

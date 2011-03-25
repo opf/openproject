@@ -70,15 +70,26 @@ Reporting.Controls = {
       failureCallback = Reporting.Controls.default_failure_callback;
     }
     Reporting.clearFlash();
-    selectAllOptions('group_by_rows');
-    selectAllOptions('group_by_columns');
     var updater = new Ajax.Request(
       targetUrl,
       { asynchronous: true,
         evalScripts: true,
-        postBody: Form.serialize('query_form'),
+        postBody: Reporting.Controls.serialize_settings_form(),
         onSuccess: callback,
         onFailure: failureCallback});
+  },
+
+  serialize_settings_form: function() {
+    var ret_str = Form.serialize('query_form');
+    var rows = Sortable.serialize('group_by_rows');
+    var columns = Sortable.serialize('group_by_columns');
+    if (rows !== null && rows != "") {
+        ret_str += "&" + rows;
+    }
+    if(columns !== null && columns != "") {
+        ret_str += "&" + columns;
+    }
+    return ret_str;
   },
 
   attach_settings_callback: function (element, callback) {
