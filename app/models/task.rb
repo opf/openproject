@@ -51,6 +51,10 @@ class Task < Issue
     return tasks
   end
 
+  def impediment?
+    parent_issue_id.nil?
+  end
+
   def update_with_relationships(params, is_impediment = false)
     attribs = params.clone.delete_if { |k, v| !safe_attribute_names.include?(k) }
 
