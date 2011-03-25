@@ -59,15 +59,8 @@ class Task < Issue
 
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    valid_relationships = if is_impediment && params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
-                            validate_blocks_list(params[:blocks])
-                          else
-                            true
-                          end
-
-    if valid_relationships && result = journalized_update_attributes!(attribs)
+    if result = journalized_update_attributes!(attribs)
       move_after params[:prev]
-      update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
       result
     else
       false
