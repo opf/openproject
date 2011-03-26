@@ -70,13 +70,13 @@ Reporting.Controls = {
       failureCallback = Reporting.Controls.default_failure_callback;
     }
     Reporting.clearFlash();
-    var updater = new Ajax.Request(
+    new Ajax.Request(
       targetUrl,
       { asynchronous: true,
         evalScripts: true,
         postBody: Reporting.Controls.serialize_settings_form(),
         onSuccess: callback,
-        onFailure: failureCallback});
+        onFailure: failureCallback });
   },
 
   serialize_settings_form: function() {
@@ -90,7 +90,7 @@ Reporting.Controls = {
       });
     });
     if (grouping_str.length > 0) {
-        ret_str += grouping_str;
+      ret_str += grouping_str;
     }
     return ret_str;
   },
@@ -99,7 +99,7 @@ Reporting.Controls = {
     failureCallback = function (response) {
       $('result-table').update("");
       Reporting.Controls.default_failure_callback(response);
-    }
+    };
     element.observe("click", function (e) {
       Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback, failureCallback);
       e.preventDefault();

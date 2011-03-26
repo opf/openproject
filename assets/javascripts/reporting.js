@@ -28,7 +28,7 @@ window.Reporting = {
     }
     if ($("flash_" + type) !== null) {
       $("flash_" + type).remove();
-    };
+    }
     var flash = document.createElement('div');
     flash.setAttribute('id', 'flash_' + type);
     flash.setAttribute('onclick', '$(this).remove();');
