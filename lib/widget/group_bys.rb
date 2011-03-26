@@ -13,7 +13,9 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render_group(type, initially_selected)
-    initially_selected = initially_selected.map { |group_by| group_by.class.underscore_name }
+    initially_selected = initially_selected.map do |group_by|
+      [group_by.class.underscore_name, l(group_by.class.label)]
+    end
     content_tag :div,
         :id => "group_by_#{type}",
         :class => 'drag_target drag_container',

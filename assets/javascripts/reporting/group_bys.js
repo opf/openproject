@@ -2,13 +2,17 @@
 /*global window, $, $$, Reporting, Effect, Ajax, selectAllOptions, moveOptions, moveOptionUp, moveOptionDown */
 
 Reporting.GroupBys = {
+  group_by_container_ids: function() {
+    return $w('group_by_columns group_by_rows');
+  },
+
   sortable_options: function() {
     return {
       tag: 'span',
       only: "drag_element",
       overlap: 'horizontal',
       constraint:'horizontal',
-      containment: ['group_by_columns','group_by_rows'],
+      containment: Reporting.GroupBys.group_by_container_ids(),
       dropOnEmpty: true,
       hoverclass: 'drag_container_accept',
       onUpdate: Reporting.GroupBys.ordering_changed
@@ -22,8 +26,9 @@ Reporting.GroupBys = {
   },
 
   recreate_sortables: function() {
-    Sortable.create('group_by_columns', Reporting.GroupBys.sortable_options());
-    Sortable.create('group_by_rows', Reporting.GroupBys.sortable_options());
+    Reporting.GroupBys.group_by_container_ids().each(function(id) {
+      Sortable.create(id, Reporting.GroupBys.sortable_options());
+    });
   },
 
   initialize_drag_and_drop_areas: function() {
@@ -138,15 +143,22 @@ Reporting.GroupBys = {
     }
   },
 
-  add_group_by: function(select) {
-    var field, group_by, label, selected_option;
+  add_group_by_from_select: function(select) {
+    var field, caption, container, selected_option;
     field = $(select).getValue();
-    group_by = Reporting.GroupBys.create_group_by(field);
-    selected_option = select.select("[value='" + select.getValue() + "']").first();
-    select.up('.drag_container').appendChild(group_by);
-    label = Reporting.GroupBys.create_label(group_by, selected_option.readAttribute('data-label'));
-    Reporting.GroupBys.init_group_by_hover_effects([group_by, label]);
+    container = select.up('.drag_container');
+    selected_option = select.select("[value='" + field + "']").first();
+    caption = selected_option.readAttribute('data-label');
+    Reporting.GroupBys.add_group_by(field, caption, container);
     select.select("[value='']").first().selected = true;
+  },
+
+  add_group_by: function(field, caption, container) {
+    var group_by, label;
+    group_by = Reporting.GroupBys.create_group_by(field);
+    container.appendChild(group_by);
+    label = Reporting.GroupBys.create_label(group_by, caption);
+    Reporting.GroupBys.init_group_by_hover_effects([group_by, label]);
     group_by.appendChild(label);
     group_by.appendChild(Reporting.GroupBys.init_arrow(group_by));
     if (!(Reporting.GroupBys.is_first(group_by))) {
@@ -160,9 +172,9 @@ Reporting.GroupBys = {
 Reporting.onload(function () {
   Reporting.GroupBys.initialize_drag_and_drop_areas();
   $('add_group_by_rows').observe("change", function () {
-    Reporting.GroupBys.add_group_by(this);
+    Reporting.GroupBys.add_group_by_from_select(this);
   });
   $('add_group_by_columns').observe("change", function () {
-    Reporting.GroupBys.add_group_by(this);
+    Reporting.GroupBys.add_group_by_from_select(this);
   });
 });
