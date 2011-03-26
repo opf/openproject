@@ -20,16 +20,21 @@
                           :revisions => @changesets, :entry => nil }%>
 <%   end %>
 <p>
-<%   if @repository.supports_all_revisions? %>
-<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
-<%   end %>
 <%
      has_branches = (!@repository.branches.nil? && @repository.branches.length > 0)
+     sep = ''
+ %>
+<%   if @repository.supports_all_revisions? && @path.blank? %>
+<%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project %>
+<%   sep = '|' %>
+<%   end %>
+<%
      if @repository.supports_directory_revisions? &&
          ( has_branches || !@path.blank? || !@rev.blank? )
  %>
-|
-<%= link_to l(:label_view_revisions),
+<%= sep %>
+<%=
+    link_to l(:label_view_revisions),
                    :action => 'changes',
                    :path   => to_path_param(@path),
                    :id     => @project,
