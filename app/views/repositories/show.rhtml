@@ -31,7 +31,10 @@
 |
 <%= link_to l(:label_view_revisions),
                    :action => 'changes',
-                   :path => to_path_param(@path), :id => @project %>
+                   :path   => to_path_param(@path),
+                   :id     => @project,
+                   :rev    => @rev
+                   %>
 <%   end %>
 </p>
 
