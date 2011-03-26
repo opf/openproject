@@ -8,7 +8,7 @@
                     {:url => {:controller => content_type.pluralize, :action => 'preview', :meeting_id => content.meeting},
                      :method => :post,
                      :update => "#{content_type}_preview",
-                     :with => "'text=' + $('#{content_type}_text').value",
+                     :with => "'text=' + encodeURIComponent($('#{content_type}_text').value)",
                      :complete => "Element.scrollTo('#{content_type}_preview')"
                     }, :accesskey => accesskey(:preview) %> | 
 <%= link_to l(:button_cancel), "#", :onclick => "$$('.show-#{content_type}').invoke('show'); $$('.edit-#{content_type}').invoke('hide'); return false;" %></p>
