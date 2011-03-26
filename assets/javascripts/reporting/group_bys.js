@@ -114,7 +114,7 @@ Reporting.GroupBys = {
   },
 
   init_arrow: function(group_by) {
-    var arrow = new Element('img', {
+    var arrow = new Element('span', {
       'class': 'arrow in_row arrow_left',
       'id': group_by.identify() + '_arrow'
     });
