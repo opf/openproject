@@ -210,7 +210,7 @@ function observeParentIssueField(url) {
   new Ajax.Autocompleter('issue_parent_issue_id',
                          'parent_issue_candidates',
                          url,
-                         { minChars: 3,
+                         { minChars: 1,
                            frequency: 0.5,
                            paramName: 'q',
                            updateElement: function(value) {
@@ -222,7 +222,7 @@ function observeRelatedIssueField(url) {
   new Ajax.Autocompleter('relation_issue_to_id',
                          'related_issue_candidates',
                          url,
-                         { minChars: 3,
+                         { minChars: 1,
                            frequency: 0.5,
                            paramName: 'q',
                            updateElement: function(value) {

@@ -172,27 +172,27 @@ module RepositoriesHelper
   end
 
   def darcs_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+      content_tag('p', form.text_field(:url, :label => :label_darcs_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
   end
   
   def mercurial_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+      content_tag('p', form.text_field(:url, :label => :label_mercurial_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
 
   def git_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Path to .git directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+      content_tag('p', form.text_field(:url, :label => :label_git_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
 
   def cvs_field_tags(form, repository)
-      content_tag('p', form.text_field(:root_url, :label => 'CVSROOT', :size => 60, :required => true, :disabled => !repository.new_record?)) +
-      content_tag('p', form.text_field(:url, :label => 'Module', :size => 30, :required => true, :disabled => !repository.new_record?))
+      content_tag('p', form.text_field(:root_url, :label => :label_cvs_path, :size => 60, :required => true, :disabled => !repository.new_record?)) +
+      content_tag('p', form.text_field(:url, :label => :label_cvs_module, :size => 30, :required => true, :disabled => !repository.new_record?))
   end
 
   def bazaar_field_tags(form, repository)
-      content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
+      content_tag('p', form.text_field(:url, :label => :label_bazaar_path, :size => 60, :required => true, :disabled => (repository && !repository.new_record?)))
   end
   
   def filesystem_field_tags(form, repository)
-    content_tag('p', form.text_field(:url, :label => 'Root directory', :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
+    content_tag('p', form.text_field(:url, :label => :label_filesystem_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)))
   end
 end

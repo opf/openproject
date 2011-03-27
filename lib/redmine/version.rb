@@ -3,18 +3,10 @@ require 'rexml/document'
 module Redmine
   module VERSION #:nodoc:
     MAJOR = 1
-    MINOR = 1
+    MINOR = 2
     PATCH = 0 
     TINY  = PATCH # Redmine compat
     
-    # Branches:
-    # * stable - released version
-    # * master - stable development
-    # * unstable - future development
-    #
-    # Source: https://www.chiliproject.org/projects/chiliproject/wiki/ChiliProject_Repository
-    BRANCH = 'master'
-
     def self.revision
       revision = nil
       entries_path = "#{RAILS_ROOT}/.svn/entries"
@@ -37,7 +29,7 @@ module Redmine
     end
 
     REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, BRANCH, REVISION].compact
+    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
     STRING = ARRAY.join('.')
     
     def self.to_a; ARRAY end

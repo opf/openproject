@@ -50,7 +50,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_equal user, token.user
     assert_equal 'autologin', token.action
     assert_equal user.id, session[:user_id]
-    assert_equal token.value, cookies['autologin']
+    assert_equal token.value, cookies[Redmine::Configuration['autologin_cookie_name']]
     
     # Session is cleared
     reset!
@@ -60,7 +60,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_nil user.reload.last_login_on
     
     # User comes back with his autologin cookie
-    cookies[:autologin] = token.value
+    cookies[Redmine::Configuration['autologin_cookie_name']] = token.value
     get '/my/page'
     assert_response :success
     assert_template 'my/page'

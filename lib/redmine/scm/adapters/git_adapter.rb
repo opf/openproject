@@ -19,10 +19,24 @@ require 'redmine/scm/adapters/abstract_adapter'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class GitAdapter < AbstractAdapter
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
+
+        class << self
+          def client_command
+            @@bin    ||= GIT_BIN
+          end
+
+          def sq_bin
+            @@sq_bin ||= shell_quote(GIT_BIN)
+          end
+
+          def client_available
+            !client_version.empty?
+          end
+        end
 
         def info
           begin
@@ -35,7 +49,7 @@ module Redmine
         def branches
           return @branches if @branches
           @branches = []
-          cmd = "#{GIT_BIN} --git-dir #{target('')} branch --no-color"
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} branch --no-color"
           shellout(cmd) do |io|
             io.each_line do |line|
               @branches << line.match('\s*\*?\s*(.*)$')[1]
@@ -46,7 +60,7 @@ module Redmine
 
         def tags
           return @tags if @tags
-          cmd = "#{GIT_BIN} --git-dir #{target('')} tag"
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} tag"
           shellout(cmd) do |io|
             @tags = io.readlines.sort!.map{|t| t.strip}
           end
@@ -59,7 +73,7 @@ module Redmine
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "#{GIT_BIN} --git-dir #{target('')} ls-tree -l "
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} ls-tree -l "
           cmd << shell_quote("HEAD:" + path) if identifier.nil?
           cmd << shell_quote(identifier + ":" + path) if identifier
           shellout(cmd)  do |io|
@@ -86,7 +100,7 @@ module Redmine
 
         def lastrev(path,rev)
           return nil if path.nil?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --date=iso --pretty=fuller --no-merges -n 1 "
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} log --no-color --date=iso --pretty=fuller --no-merges -n 1 "
           cmd << " #{shell_quote rev} " if rev 
           cmd <<  "-- #{shell_quote path} " unless path.empty?
           lines = []
@@ -114,7 +128,7 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revisions = Revisions.new
 
-          cmd = "#{GIT_BIN} --git-dir #{target('')} log --no-color --raw --date=iso --pretty=fuller "
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} log --no-color --raw --date=iso --pretty=fuller "
           cmd << " --reverse " if options[:reverse]
           cmd << " --all " if options[:all]
           cmd << " -n #{options[:limit].to_i} " if options[:limit]
@@ -209,9 +223,9 @@ module Redmine
           path ||= ''
 
           if identifier_to
-            cmd = "#{GIT_BIN} --git-dir #{target('')} diff --no-color #{shell_quote identifier_to} #{shell_quote identifier_from}" 
+            cmd = "#{self.class.sq_bin} --git-dir #{target('')} diff --no-color #{shell_quote identifier_to} #{shell_quote identifier_from}" 
           else
-            cmd = "#{GIT_BIN} --git-dir #{target('')} show --no-color #{shell_quote identifier_from}"
+            cmd = "#{self.class.sq_bin} --git-dir #{target('')} show --no-color #{shell_quote identifier_from}"
           end
 
           cmd << " -- #{shell_quote path}" unless path.empty?
@@ -227,7 +241,7 @@ module Redmine
         
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
-          cmd = "#{GIT_BIN} --git-dir #{target('')} blame -p #{shell_quote identifier} -- #{shell_quote path}"
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} blame -p #{shell_quote identifier} -- #{shell_quote path}"
           blame = Annotate.new
           content = nil
           shellout(cmd) { |io| io.binmode; content = io.read }
@@ -255,7 +269,7 @@ module Redmine
           if identifier.nil?
             identifier = 'HEAD'
           end
-          cmd = "#{GIT_BIN} --git-dir #{target('')} show --no-color #{shell_quote(identifier + ':' + path)}"
+          cmd = "#{self.class.sq_bin} --git-dir #{target('')} show --no-color #{shell_quote(identifier + ':' + path)}"
           cat = nil
           shellout(cmd) do |io|
             io.binmode

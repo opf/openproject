@@ -67,8 +67,13 @@
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
-    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => @project}) %> |
-    <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => @project}) %></p>
+    <p>
+      <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => @project}) %> |
+      <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => @project}) %>
+      <% if authorize_for('timelog', 'new') %>
+        | <%= link_to l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project} %>
+      <% end %>
+    </p>
     <% end %>
     <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>

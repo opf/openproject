@@ -19,15 +19,25 @@ require 'redmine/scm/adapters/abstract_adapter'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class BazaarAdapter < AbstractAdapter
-      
+
         # Bazaar executable name
         BZR_BIN = Redmine::Configuration['scm_bazaar_command'] || "bzr"
-        
+
+        class << self
+          def client_command
+            @@bin    ||= BZR_BIN
+          end
+
+          def sq_bin
+            @@sq_bin ||= shell_quote(BZR_BIN)
+          end
+        end
+
         # Get info about the repository
         def info
-          cmd = "#{BZR_BIN} revno #{target('')}"
+          cmd = "#{self.class.sq_bin} revno #{target('')}"
           info = nil
           shellout(cmd) do |io|
             if io.read =~ %r{^(\d+)\r?$}
@@ -43,13 +53,13 @@ module Redmine
         rescue CommandFailed
           return nil
         end
-        
+
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "#{BZR_BIN} ls -v --show-ids"
+          cmd = "#{self.class.sq_bin} ls -v --show-ids"
           identifier = -1 unless identifier && identifier.to_i > 0 
           cmd << " -r#{identifier.to_i}" 
           cmd << " #{target(path)}"
@@ -71,13 +81,13 @@ module Redmine
           logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
         end
-    
+
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : 'last:1'
           identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
-          cmd = "#{BZR_BIN} log -v --show-ids -r#{identifier_to}..#{identifier_from} #{target(path)}"
+          cmd = "#{self.class.sq_bin} log -v --show-ids -r#{identifier_to}..#{identifier_from} #{target(path)}"
           shellout(cmd) do |io|
             revision = nil
             parsing = nil
@@ -132,7 +142,7 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           revisions
         end
-        
+
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           if identifier_to
@@ -143,7 +153,7 @@ module Redmine
           if identifier_from
             identifier_from = identifier_from.to_i
           end
-          cmd = "#{BZR_BIN} diff -r#{identifier_to}..#{identifier_from} #{target(path)}"
+          cmd = "#{self.class.sq_bin} diff -r#{identifier_to}..#{identifier_from} #{target(path)}"
           diff = []
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -153,9 +163,9 @@ module Redmine
           #return nil if $? && $?.exitstatus != 0
           diff
         end
-        
+
         def cat(path, identifier=nil)
-          cmd = "#{BZR_BIN} cat"
+          cmd = "#{self.class.sq_bin} cat"
           cmd << " -r#{identifier.to_i}" if identifier && identifier.to_i > 0
           cmd << " #{target(path)}"
           cat = nil
@@ -166,9 +176,9 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           cat
         end
-        
+
         def annotate(path, identifier=nil)
-          cmd = "#{BZR_BIN} annotate --all"
+          cmd = "#{self.class.sq_bin} annotate --all"
           cmd << " -r#{identifier.to_i}" if identifier && identifier.to_i > 0
           cmd << " #{target(path)}"
           blame = Annotate.new
