@@ -68,6 +68,8 @@ module Redmine
         case Setting.start_of_week.to_i
         when 1
           @first_dow ||= (1 - 1)%7 + 1
+        when 6
+          @first_dow ||= (6 - 1)%7 + 1
         when 7
           @first_dow ||= (7 - 1)%7 + 1
         else

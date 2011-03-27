@@ -854,6 +854,8 @@ module ApplicationHelper
           'Calendar._FD = 1;' # Monday
         when 7
           'Calendar._FD = 0;' # Sunday
+        when 6
+          'Calendar._FD = 6;' # Saturday
         else
           '' # use language
         end
