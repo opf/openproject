@@ -205,7 +205,7 @@ end
 log("retrieved #{projects.size} projects", :level => 1)
 
 def set_owner_and_rights(project, repos_path, &block)
-  if RUBY_PLATFORM =~ /mswin/
+  if mswin?
     yield if block_given?
   else
     uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : Etc.getgrnam($svn_group).gid)
