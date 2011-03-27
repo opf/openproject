@@ -118,11 +118,11 @@ class Mailer < ActionMailer::Base
     added_to_url = ''
     case container.class.name
     when 'Project'
-      added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container)
+      added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
       added_to = "#{l(:label_project)}: #{container}"
       recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
     when 'Version'
-      added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container.project_id)
+      added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
       added_to = "#{l(:label_version)}: #{container.name}"
       recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
     when 'Document'

@@ -26,6 +26,7 @@ class MailerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
+    Setting.plain_text_mail = '0'
   end
   
   def test_generated_links_in_emails
@@ -278,6 +279,9 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+    end
   end
   
   def test_project_file_added
@@ -285,6 +289,9 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+    end
   end
   
   def test_news_added
