@@ -1091,6 +1091,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
     
+    assert_tag :input, :attributes => {:name => 'issue[parent_issue_id]'}
+    
     # Project specific custom field, date type
     field = CustomField.find(9)
     assert !field.is_for_all?
@@ -1107,6 +1109,9 @@ class IssuesControllerTest < ActionController::TestCase
     get :bulk_edit, :ids => [1, 2, 6]
     assert_response :success
     assert_template 'bulk_edit'
+    
+    # Can not set issues from different projects as children of an issue
+    assert_no_tag :input, :attributes => {:name => 'issue[parent_issue_id]'}
     
     # Project specific custom field, date type
     field = CustomField.find(9)
@@ -1196,6 +1201,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
     issue = Issue.find(1)
     assert issue.closed?
+  end
+  
+  def test_bulk_update_parent_id
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 3],
+      :notes => 'Bulk editing parent',
+      :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_issue_id => '2'}
+    
+    assert_response 302
+    parent = Issue.find(2)
+    assert_equal parent.id, Issue.find(1).parent_id
+    assert_equal parent.id, Issue.find(3).parent_id
+    assert_equal [1, 3], parent.children.collect(&:id).sort
   end
 
   def test_bulk_update_custom_field
