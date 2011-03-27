@@ -92,7 +92,7 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
+    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
 
     # TODO: Similar to My#account
     @user.pref.attributes = params[:pref]
@@ -135,10 +135,10 @@ class UsersController < ApplicationController
   def update
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
-    if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
+    @user.safe_attributes = params[:user]
+    if params[:user][:password].present? && @user.change_password_allowed?
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
-    @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
@@ -151,7 +151,7 @@ class UsersController < ApplicationController
 
       if was_activated
         Mailer.deliver_account_activated(@user)
-      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.auth_source_id.nil?
+      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
         Mailer.deliver_account_information(@user, params[:user][:password])
       end
       

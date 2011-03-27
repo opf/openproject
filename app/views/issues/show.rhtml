@@ -1,6 +1,6 @@
 <%= render :partial => 'action_menu' %>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
+<h2><%= @issue.tracker.name %> #<%= @issue.id %><%= call_hook(:view_issues_show_identifier, :issue => @issue) %></h2>
 
 <div class="<%= @issue.css_classes %> details">
         <%= avatar(@issue.author, :size => "50") %>

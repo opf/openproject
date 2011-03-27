@@ -23,12 +23,13 @@ module TreeNodePatch
     base.class_eval do
       attr_reader :last_items_count
       
-      alias :old_initilize :initialize
-      def initialize(name, content = nil)
-        old_initilize(name, content)
+      def initialize_with_redmine(name, content = nil)
+        extend InstanceMethods
         @last_items_count = 0
-        extend(InstanceMethods)
+
+        initialize_without_redmine(name, content)
       end
+      alias_method_chain :initialize, :redmine
     end
   end
   
@@ -99,7 +100,9 @@ module TreeNodePatch
     end
   end
 end
-Tree::TreeNode.send(:include, TreeNodePatch)
+unless Tree::TreeNode.included_modules.include?(TreeNodePatch)
+  Tree::TreeNode.send(:include, TreeNodePatch)
+end
 
 module Redmine
   module MenuManager

@@ -25,7 +25,12 @@ module Redmine
   module Scm
     module Adapters    
       class FilesystemAdapter < AbstractAdapter
-        
+
+        class << self
+          def client_available
+            true
+          end
+        end
 
         def initialize(url, root_url=nil, login=nil, password=nil)
           @url = with_trailling_slash(url)

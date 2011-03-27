@@ -20,7 +20,11 @@ module Redmine
     
     # Configuration default values
     @defaults = {
-      'email_delivery' => nil
+      'email_delivery' => nil,
+      # Autologin cookie defaults:
+      'autologin_cookie_name'   => 'autologin',
+      'autologin_cookie_path'   => '/',
+      'autologin_cookie_secure' => false,
     }
     
     @config = nil

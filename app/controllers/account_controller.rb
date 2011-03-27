@@ -129,7 +129,7 @@ class AccountController < ApplicationController
   
   def logout_user
     if User.current.logged?
-      cookies.delete :autologin
+      cookies.delete Redmine::Configuration['autologin_cookie_name']
       Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
       self.logged_user = nil
     end
@@ -211,15 +211,14 @@ class AccountController < ApplicationController
   
   def set_autologin_cookie(user)
     token = Token.create(:user => user, :action => 'autologin')
-    cookie_name = Redmine::Configuration['autologin_cookie_name'] || 'autologin'
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
-      :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
-      :secure => (Redmine::Configuration['autologin_cookie_secure'] ? true : false),
+      :path => Redmine::Configuration['autologin_cookie_path'],
+      :secure => Redmine::Configuration['autologin_cookie_secure'],
       :httponly => true
     }
-    cookies[cookie_name] = cookie_options
+    cookies[Redmine::Configuration['autologin_cookie_name']] = cookie_options
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes

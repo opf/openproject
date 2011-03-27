@@ -1,5 +1,32 @@
 = ChiliProject changelog
 
+== 2011-03-27 v1.2.0
+
+* Bug #209: Don't hardcode user viewable labels (like "Path to .git repository")
+* Bug #225: Support spaces in scm commands
+* Bug #250: Filter assignee group to Team leaders
+* Bug #251: Make Chili work with RubyGems 1.6
+* Bug #266: Fix monkey patching of rubytree in lib/redmine/menu_manager.rb
+* Bug #267: /issues/changes?format=atom is returning 500 Internal Error
+* Bug #270: Reposman.rb does not consider underscore to be valid char for a project identifier
+* Bug #273: custom autologin cookie name not read
+* Bug #278: Issue Form: Parent autocomplete won't work with issues under 3 charactors
+* Bug #280: Issues AutoComplete isn't searching issue ids
+* Bug #281: Cross project issues aren't showing their project on the Version page
+* Bug #282: Enhance Redmine::SafeAttributes to work for subclasses
+* Bug #302: Protect methods in ApplicationController
+* Bug #305: Toolbar for textile edit fields is buggy in IE8
+* Feature #199: [PATCH] Adding a hook in the heading on showing an issue
+* Feature #219: Add plugin hooks to the mailer layout
+* Feature #230: Allow the loadpaths of themes to be specified in configuration.yml
+* Feature #245: Merge Redmine.pm git smart-http functionality
+* Feature #271: Replace checks for "auth_source_id" with "change_password_allowed?" in UsersController
+* Feature #276: Add Log Time link to the sidebar on Project Overview
+* Feature #283: Check pre-i18n 0.4.2 depreciation
+* Feature #307: Add retro style gravatars
+* Task #246: Document git-smart-http integration
+* Task #308: Remove Redmine::VERSION::BRANCH
+
 == 2011-02-27 v1.1.0
 
 * Bug #109: Backport fix to display full TOC with present < p r e > tags

@@ -793,7 +793,14 @@ en:
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
-  
+  label_git_path: Path to .git directory
+  label_darcs_path: Root directory
+  label_mercurial_path: Root directory
+  label_cvs_path: CVSROOT
+  label_cvs_module: Module
+  label_bazaar_path: Root directory
+  label_filesystem_path: Root directory
+
   button_login: Login
   button_submit: Submit
   button_save: Save

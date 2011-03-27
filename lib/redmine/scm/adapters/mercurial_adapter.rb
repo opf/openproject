@@ -20,7 +20,7 @@ require 'cgi'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class MercurialAdapter < AbstractAdapter
 
         # Mercurial executable name
@@ -30,11 +30,23 @@ module Redmine
         TEMPLATE_EXTENSION = "tmpl"
 
         class << self
+          def client_command
+            @@bin    ||= HG_BIN
+          end
+
+          def sq_bin
+            @@sq_bin ||= shell_quote(HG_BIN)
+          end
+
           def client_version
             @@client_version ||= (hgversion || [])
           end
 
-          def hgversion  
+          def client_available
+            !client_version.empty?
+          end
+
+          def hgversion
             # The hg version is expressed either as a
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
@@ -45,7 +57,7 @@ module Redmine
           end
 
           def hgversion_from_command_line
-            shellout("#{HG_BIN} --version") { |io| io.read }.to_s
+            shellout("#{sq_bin} --version") { |io| io.read }.to_s
           end
 
           def template_path
@@ -63,7 +75,7 @@ module Redmine
         end
 
         def info
-          cmd = "#{HG_BIN} -R #{target('')} root"
+          cmd = "#{self.class.sq_bin} -R #{target('')} root"
           root_url = nil
           shellout(cmd) do |io|
             root_url = io.read
@@ -80,7 +92,7 @@ module Redmine
         def entries(path=nil, identifier=nil)
           path ||= ''
           entries = Entries.new
-          cmd = "#{HG_BIN} -R #{target('')} --cwd #{target('')} locate"
+          cmd = "#{self.class.sq_bin} -R #{target('')} --cwd #{target('')} locate"
           cmd << " -r #{hgrev(identifier)}"
           cmd << " " + shell_quote("path:#{path}") unless path.empty?
           shellout(cmd) do |io|
@@ -106,7 +118,7 @@ module Redmine
         # makes Mercurial produce a xml output.
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})  
           revisions = Revisions.new
-          cmd = "#{HG_BIN} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
+          cmd = "#{self.class.sq_bin} --debug --encoding utf8 -R #{target('')} log -C --style #{shell_quote self.class.template_path}"
           if identifier_from && identifier_to
             cmd << " -r #{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
           elsif identifier_from
@@ -164,7 +176,7 @@ module Redmine
               return []
             end
           end
-          cmd = "#{HG_BIN} -R #{target('')} --config diff.git=false diff --nodates #{diff_args}"
+          cmd = "#{self.class.sq_bin} -R #{target('')} --config diff.git=false diff --nodates #{diff_args}"
           cmd << " -I #{target(path)}" unless path.empty?
           shellout(cmd) do |io|
             io.each_line do |line|
@@ -176,7 +188,7 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          cmd = "#{HG_BIN} -R #{target('')} cat"
+          cmd = "#{self.class.sq_bin} -R #{target('')} cat"
           cmd << " -r #{hgrev(identifier)}"
           cmd << " #{target(path)}"
           cat = nil
@@ -190,7 +202,7 @@ module Redmine
 
         def annotate(path, identifier=nil)
           path ||= ''
-          cmd = "#{HG_BIN} -R #{target('')}"
+          cmd = "#{self.class.sq_bin} -R #{target('')}"
           cmd << " annotate -ncu"
           cmd << " -r #{hgrev(identifier)}"
           cmd << " #{target(path)}"
