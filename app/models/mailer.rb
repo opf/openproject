@@ -359,7 +359,7 @@ class Mailer < ActionMailer::Base
                                           :conditions => s.conditions
                                     ).group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
-      deliver_reminder(assignee, issues, days) unless assignee.nil?
+      deliver_reminder(assignee, issues, days) if assignee && assignee.active?
     end
   end
   
