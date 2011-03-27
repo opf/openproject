@@ -3,9 +3,7 @@ class Impediment < Task
 
   acts_as_list :scope => :project
 
-  attr_accessor :blocks_ids_list
-
-  before_validation :update_blocked_list, :unless => Proc.new { |i| i.blocks_ids_list.nil? }
+  before_validation :update_blocks_list, :unless => Proc.new { |i| i.blocks_ids.nil? }
 
   def self.create_with_relationships(params, user_id, project_id)
     task = new
@@ -31,13 +29,13 @@ class Impediment < Task
   end
 
   def blocks_ids=(ids)
-    blocks_ids_list = [ids] if ids.is_a?(Integer)
-    blocks_ids_list = ids.split(/\D+/).map{|id| id.to_i} if ids.is_a?(String)
-    blocks_ids_list = ids.map {|id| id.to_i} if ids.is_a?(Array)
+    @blocks_ids_list = [ids] if ids.is_a?(Integer)
+    @blocks_ids_list = ids.split(/\D+/).map{|id| id.to_i} if ids.is_a?(String)
+    @blocks_ids_list = ids.map {|id| id.to_i} if ids.is_a?(Array)
   end
 
   def blocks_ids
-    blocks_ids_list
+    @blocks_ids_list
   end
 
   def update_with_relationships(params)
@@ -45,24 +43,13 @@ class Impediment < Task
 
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    blocks_ids = params[:blocks] if params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
+    attribs[:blocks_ids] = params[:blocks] if params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
 
-    if valid? && result = journalized_update_attributes!(attribs)
-      move_after params[:prev]
-      result
-    else
-      false
-    end
-    #blocks_ids =
-    #valid_relationships = params[:blocks] ? validate_blocks_list(params[:blocks]) : true #if blocks param was not sent, that means the impediment was just dragged
+    result = journalized_update_attributes(attribs)
 
-#    if valid_relationships && result = journalized_update_attributes!(attribs)
-#      move_after params[:prev]
-#      update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
-#      result
-#    else
-#      false
-#    end
+    move_after params[:prev] if result
+
+    result
   end
 
   def move_after(prev_id)
@@ -92,28 +79,26 @@ class Impediment < Task
     end
   end
 
-  def update_blocked_list
-    for_blocking = blocks_ids_list
+  private
+
+  def update_blocks_list
     # Existing relationships not in for_blocking should be removed from the 'blocks' list
     remove_from_blocks_list
-    # Non-existing relationships that are in for_blocking should be added to the 'blocks' list
     add_to_blocks_list
-
-    reload
   end
 
   def remove_from_blocks_list
-    relations_from.find(:all, :conditions => "relation_type='blocks'").each{ |ir|
-      relations_from.reject{|rel| !blocks_ids.include?(rel.issue_to_id) }  # ir.destroy unless blocks_ids.include?( ir[:issue_to_id] )
-    }
+    self.relations_from = self.relations_from.reject{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.issue_to_id) }
   end
 
   def add_to_blocks_list
-    currently_blocking = relations_from.find(:all, :conditions => "relation_type='blocks'").map{|ir| ir.issue_to_id}
+    currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:issue_to_id)
 
-    blocks_ids.select{ |id| !currently_blocking.include?(id) }.each{ |id|
-      relations_from.build(:relation_type=>'blocks', :issue_to_id => id)
+    self.blocks_ids.select{ |id| !currently_blocking.include?(id) }.each{ |id|
+      rel = relations_from.build(:relation_type => IssueRelation::TYPE_BLOCKS)
+      rel.issue_to_id = id
     }
+    true
   end
 
   def validate_blocks_list(block_list)
