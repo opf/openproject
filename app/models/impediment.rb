@@ -24,6 +24,21 @@ class Impediment < Task
     return task
   end
 
+  def self.find(*args)
+    if args[1] && args[1][:conditions]
+      if args[1][:conditions].is_a?(Hash)
+        args[1][:conditions][:parent_id] = nil
+        args[1][:conditions][:tracker_id] = self.tracker
+      elsif args[1][:conditions].is_a?(Array)
+        args[1][:conditions][0] += " AND parent_id is NULL AND tracker_id = #{self.tracker}"
+      end
+    else
+      args << {:conditions => {:parent_id => nil, :tracker_id => self.tracker}}
+    end
+
+    super
+  end
+
   def self.find_all_updated_since(since, project_id)
     super(since, project_id, true)
   end

@@ -274,7 +274,7 @@ class Sprint < Version
     end
 
     def impediments
-      Issue.find(:all, :conditions => ["parent_id is NULL AND fixed_version_id = ? AND tracker_id = ?", self, Task.tracker])
+      Impediment.find(:all, :conditions => {:fixed_version_id => self})
     end
 
 end
