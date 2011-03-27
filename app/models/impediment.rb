@@ -101,9 +101,11 @@ class Impediment < Task
     true
   end
 
-  def validate_blocks_list(block_list)
-    ids = block_list.split(/\D+/)
-    errors.add :blocks, :must_have_comma_delimited_list if ids.length==0
-    errors.add :blocks, :can_only_contain_tasks_of_current_sprint  if Task.find(ids).any?{|t| t.impediment? || t.fixed_version != self.fixed_version }
+  def validate
+    validate_blocks_list
+  end
+
+  def validate_blocks_list
+    errors.add :blocks, :can_only_contain_tasks_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
   end
 end
