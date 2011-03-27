@@ -46,7 +46,7 @@ class CalendarTest < ActiveSupport::TestCase
       with_settings :start_of_week => day do
         c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
         assert_equal day , c.startdt.cwday
-        assert_equal (day + 5) % 7, c.enddt.cwday
+        assert_equal (day + 5) % 7 + 1, c.enddt.cwday
       end
     end
   end
