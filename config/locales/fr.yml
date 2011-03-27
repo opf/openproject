@@ -961,7 +961,7 @@ fr:
   label_user_mail_option_none: Aucune notification
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
-  setting_emails_header: Emails header
+  setting_emails_header: En-tête des emails
   text_powered_by: Powered by %{link}
   label_cvs_module: Module
   label_filesystem_path: Root directory
