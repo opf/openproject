@@ -121,6 +121,6 @@ class Impediment < Task
   end
 
   def validate_blocks_list
-    errors.add :blocks, :can_only_contain_tasks_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
+    errors.add :blocks_ids, :can_only_contain_tasks_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
   end
 end
