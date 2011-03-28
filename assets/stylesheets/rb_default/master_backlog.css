@@ -1,22 +1,22 @@
-#backlogs_container{
+#rb #backlogs_container {
   display:block;
   margin:10px auto;
   position:relative;
   width:1190px;
 }
-#owner_backlogs_container{
+#rb #owner_backlogs_container {
   position:absolute;
   right:0;
   top:0;
   width:590px;
 }
-#sprint_backlogs_container{
+#rb #sprint_backlogs_container {
   left:0;
   position:absolute;
   top:0;
   width:590px;
 }
-#owner_backlogs_container .backlog .header > .add_new_story {
+#rb #owner_backlogs_container .backlog .header > .add_new_story {
   font-size:11px;
   height:28px;
   line-height:31px;
@@ -27,7 +27,7 @@
   top:1px;
   width:100px;
 }
-#backlogs_container .backlog{
+#rb #backlogs_container .backlog {
   -moz-box-shadow: 3px 3px 4px #A0A0A0;
   -webkit-box-shadow: 3px 3px 4px #A0A0A0;
   box-shadow: 3px 3px 4px #A0A0A0;
@@ -40,7 +40,7 @@
   width:100%;
 }
 
-#backlogs_container .backlog .header{
+#rb #backlogs_container .backlog .header {
   -moz-border-radius:5px 5px 0px 0px;
   -webkit-border-radius:5px 5px 0px 0px;
   border-radius:5px 5px 0px 0px;
@@ -49,7 +49,7 @@
   position:relative;
   width:100%;
 }
-.backlog .header .menu{
+#rb .backlog .header .menu {
   -moz-box-shadow: 1px 0px 0px #DEDEDE;
   -webkit-box-shadow: 1px 0px 0px #DEDEDE;
   box-shadow: 1px 0px 0px #DEDEDE;
@@ -65,8 +65,8 @@
   top:0;
   width:29px;
 }
-.backlog .header .menu.hover,
-.backlog .header .menu:hover {
+#rb .backlog .header .menu.hover,
+#rb .backlog .header .menu:hover {
   -moz-box-shadow: 2px 2px 3px #999999;
   -webkit-box-shadow: 2px 2px 3px #999999;
   box-shadow: 2px 2px 3px #999999;
@@ -75,16 +75,17 @@
   width:30px;
   z-index:1000;
 }
-.backlog .header .menu .icon{
+#rb .backlog .header .menu .icon {
   left:7px;
   position:absolute;
   top:7px;
+  padding: 0;
 }
-.backlog .header .menu .items{
+#rb .backlog .header .menu .items {
   display:none;
 }
-.backlog .header .menu.hover .items,
-.backlog .header .menu:hover .items {
+#rb .backlog .header .menu.hover .items,
+#rb .backlog .header .menu:hover .items {
   -moz-box-shadow: 2px 2px 3px #999999;
   -webkit-box-shadow: 2px 2px 3px #999999;
   box-shadow: 2px 2px 3px #999999;
@@ -97,7 +98,7 @@
   position:absolute;
   top:30px;
 }
-.backlog .header .menu .item{
+#rb .backlog .header .menu .item {
   display: block;
   height:24px;
   overflow:hidden;
@@ -107,23 +108,23 @@
   white-space: nowrap;
   width:160px;
 }
-.backlog .header .menu .item.hover,
-.backlog .header .menu .item:hover {
+#rb .backlog .header .menu .item.hover,
+#rb .backlog .header .menu .item:hover {
   background-color:#CC0000;
 }
-.backlog .header .menu .item a{
+#rb .backlog .header .menu .item a {
   display:block;
   font-size:12px;
   height:100%;
   padding:6px;
   width:100%;
 }
-.backlog .header .menu .item.hover a,
-.backlog .header .menu .item:hover a {
+#rb .backlog .header .menu .item.hover a,
+#rb .backlog .header .menu .item:hover a {
   color:#FFFFFF;
   text-decoration:none;
 }
-#owner_backlogs_container .backlog .header .label{
+#rb #owner_backlogs_container .backlog .header .label {
   font-size:15px;
   font-weight:bold;
   height:28px;
@@ -134,7 +135,7 @@
   top:1px;
   width:450px;
 }
-#backlogs_container .backlog .header .velocity {
+#rb #backlogs_container .backlog .header .velocity {
   font-size:12px;
   height:28px;
   line-height:31px;
@@ -145,7 +146,7 @@
   top:1px;
   width:28px;
 }
-#backlogs_container .backlog .sprint{
+#rb #backlogs_container .backlog .sprint {
   background-color:transparent;
   cursor:pointer;
   display:block;
@@ -155,22 +156,22 @@
   top:0;
   width:560px;
 }
-#backlogs_container .backlog .sprint.saving{
+#rb #backlogs_container .backlog .sprint.saving {
   background-image:url('images/ajax.gif');
   background-repeat:no-repeat;
   background-position:center;
 }
-#backlogs_container .backlog .sprint.error{
+#rb #backlogs_container .backlog .sprint.error {
   background-image:url('images/error.png');
   background-repeat:no-repeat;
   background-position:center;
 }
-#backlogs_container .backlog .sprint .id,
-#backlogs_container .backlog .sprint .description,
-#backlogs_container .backlog .sprint .status{
+#rb #backlogs_container .backlog .sprint .id,
+#rb #backlogs_container .backlog .sprint .description,
+#rb #backlogs_container .backlog .sprint .status {
   display:none;
 }
-#backlogs_container .backlog .sprint .name{
+#rb #backlogs_container .backlog .sprint .name {
   font-size:15px;
   font-weight:bold;
   height:28px;
@@ -181,28 +182,28 @@
   top:1px;
   width:330px;
 }
-#backlogs_container .backlog .sprint .sprint_start_date,
-#backlogs_container .backlog .sprint .effective_date{
+#rb #backlogs_container .backlog .sprint .sprint_start_date,
+#rb #backlogs_container .backlog .sprint .effective_date {
   font-size:12px;
   height:28px;
   line-height:31px;
   position:absolute;
   top:2px;
 }
-#backlogs_container .backlog .sprint .sprint_start_date{
+#rb #backlogs_container .backlog .sprint .sprint_start_date {
   left:340px;
 }
-#backlogs_container .backlog .sprint .effective_date{
+#rb #backlogs_container .backlog .sprint .effective_date {
   left:430px;
 }
-#backlogs_container .backlog .stories{
+#rb #backlogs_container .backlog .stories {
   list-style:none;
   min-height:26px;
   margin:0;
   padding:0 0 0px 0;
   z-index:500;
 }
-#backlogs_container .stories .story{
+#rb #backlogs_container .stories .story {
   background-color:#FFFFF6;
   cursor:move;
   display:block;
@@ -213,27 +214,27 @@
   position:relative;
   width:100%;
 }
-#backlogs_container .stories .story.saving{
+#rb #backlogs_container .stories .story.saving {
   background-image:url('images/ajax.gif');
   background-repeat:no-repeat;
   background-position:center;
 }
-#backlogs_container .stories .story.error{
+#rb #backlogs_container .stories .story.error {
   background-image:url('images/error.png');
   background-repeat:no-repeat;
   background-position:center;
 }
-#backlogs_container .stories .story:nth-child(even){
+#rb #backlogs_container .stories .story:nth-child(even) {
   background-color:#DEDED5;
 }
-#backlogs_container .stories .story.hover,
-#backlogs_container .stories .story:hover {
+#rb #backlogs_container .stories .story.hover,
+#rb #backlogs_container .stories .story:hover {
   background-color:rgb(254,248,168);
 }
-#backlogs_container .stories .story .tracker_id{
+#rb #backlogs_container .stories .story .tracker_id {
   display:none;
 }
-#backlogs_container .stories .story .id{
+#rb #backlogs_container .stories .story .id {
   display:block;
   height:24px;
   left:10px;
@@ -242,7 +243,7 @@
   width:55px;
   white-space:nowrap;
 }
-#backlogs_container .stories .story .id .t * {
+#rb #backlogs_container .stories .story .id .t * {
   background-color:#cfc;
   display:block;
   font-size:10px;
@@ -260,10 +261,10 @@
   -moz-border-radius:4px;
   -webkit-border-radius:4px;
 }
-#backlogs_container .stories .story .id .v {
+#rb #backlogs_container .stories .story .id .v {
   display:none;
 }
-#backlogs_container .stories .story .subject {
+#rb #backlogs_container .stories .story .subject {
   display:block;
   height:15px;
   left:70px;
@@ -274,19 +275,19 @@
   width:375px;
   white-space:nowrap;
 }
-#backlogs_container .stories .story.too_long .subject{
+#rb #backlogs_container .stories .story.too_long .subject {
   width:333px;
 }
-#backlogs_container .stories .story .elipses{
+#rb #backlogs_container .stories .story .elipses {
   display:none;
 }
-#backlogs_container .stories .story.too_long .elipses{
+#rb #backlogs_container .stories .story.too_long .elipses {
   display:block;
   left:409px;
   position:absolute;
   top:4px;
 }
-#backlogs_container .stories .story .status_id.editable {
+#rb #backlogs_container .stories .story .status_id.editable {
   display:block;
   height:15px;
   left:455px;
@@ -295,10 +296,10 @@
   top:1px;
   width:68px;
 }
-#backlogs_container .stories .story .status_id .v {
+#rb #backlogs_container .stories .story .status_id .v {
   display:none;
 }
-#backlogs_container .stories .story .story_points {
+#rb #backlogs_container .stories .story .story_points {
   display:block;
   height:15px;
   right:10px;
@@ -309,60 +310,60 @@
   top:1px;
   width:28px;
 }
-#backlogs_container .stories .story .fixed_version_id,
-#backlogs_container .stories .story .higher_item_id {
+#rb #backlogs_container .stories .story .fixed_version_id,
+#rb #backlogs_container .stories .story .higher_item_id {
   display:none;
 }
 
 /* dialog */
 
-.ui-dialog .ui-dialog-titlebar-close{
+#rb .ui-dialog .ui-dialog-titlebar-close {
   display:none;
 }
-.ui-dialog .ui-dialog-title{
+#rb .ui-dialog .ui-dialog-title {
   float:left;
   margin-right:0;
 }
-.ui-dialog.ui-widget-content{
+#rb .ui-dialog.ui-widget-content {
   -moz-box-shadow: 2px 2px 5px #777777;
   -webkit-box-shadow: 2px 2px 5px #777777;
   box-shadow: 2px 2px 5px #777777;
   border:none;
 }
-.ui-dialog .ui-dialog-buttonpane.ui-widget-content{
+#rb .ui-dialog .ui-dialog-buttonpane.ui-widget-content {
   border:none;
 }
 
-.ui-dialog label{
+#rb .ui-dialog label {
   display:block;
   font-size:11px;
   text-transform:capitalize;
   width:100%;
 }
-.ui-dialog  .editor{
+#rb .ui-dialog  .editor {
   font-size:12px;
   margin-bottom:10px;
   width:100%;
 }
-#sprint_editor .description{
+#rb #sprint_editor .description {
   height:65px;
 }
 /* In-place Sprint Editor */
-#backlogs_container .sprint.editing .editors{
+#rb #backlogs_container .sprint.editing .editors {
   display:block;
   position:absolute;
   top:0;
 }
-#backlogs_container .sprint.editing .editor{
+#rb #backlogs_container .sprint.editing .editor {
   display:block;
   font-family:Verdana, Arial, sans-serif;
   position:absolute;
 }
-#backlogs_container .sprint.editing label,
-#backlogs_container .sprint.editing .id.editor{
+#rb #backlogs_container .sprint.editing label,
+#rb #backlogs_container .sprint.editing .id.editor {
   display:none;
 }
-#backlogs_container .backlog .sprint.editing .name.editor{
+#rb #backlogs_container .backlog .sprint.editing .name.editor {
   display:block;
   height:21px;
   left:1px;
@@ -371,7 +372,7 @@
   top:2px;
   width:320px;
 }
-#backlogs_container .backlog .sprint.editing .sprint_start_date.editor{
+#rb #backlogs_container .backlog .sprint.editing .sprint_start_date.editor {
   display:block;
   height:23px;
   left:338px;
@@ -381,7 +382,7 @@
   top:2px;
   width:75px;
 }
-#backlogs_container .backlog .sprint.editing .effective_date.editor{
+#rb #backlogs_container .backlog .sprint.editing .effective_date.editor {
   display:block;
   height:23px;
   left:428px;
@@ -391,47 +392,47 @@
   top:2px;
   width:75px;
 }
-#backlogs_container .backlog .sprint.editing .description.editor{
+#rb #backlogs_container .backlog .sprint.editing .description.editor {
   display:none;
 }
 /* In-place Story Editor */
-#backlogs_container .stories .story.editing .id{
+#rb #backlogs_container .stories .story.editing .id {
   display:none;
 }
-#backlogs_container .stories .story.editing .editors{
+#rb #backlogs_container .stories .story.editing .editors {
   display:block;
   position:absolute;
   top:0;
 }
-#backlogs_container .stories .story.editing .editors label{
+#rb #backlogs_container .stories .story.editing .editors label {
   display:none;
 }
-#backlogs_container .stories .story.editing .editor{
+#rb #backlogs_container .stories .story.editing .editor {
   font-family:Verdana, Arial, sans-serif;
   position:absolute;
 }
-#backlogs_container .stories .story.editing .tracker_id.editor{
+#rb #backlogs_container .stories .story.editing .tracker_id.editor {
   display:block;
   left:10px;
   margin:0;
   top:4px;
   width:55px;
 }
-#backlogs_container .stories .story.editing .subject.editor{
+#rb #backlogs_container .stories .story.editing .subject.editor {
   display:block;
   height:10px;
   left:67px;
   margin:0;
   top:1px;
 }
-#backlogs_container .stories .story.editing .status_id.editor{
+#rb #backlogs_container .stories .story.editing .status_id.editor {
   display:block;
   left:456px;
   margin:0;
   top:4px;
   width:68px;
 }
-#backlogs_container .stories .story.editing .story_points.editor{
+#rb #backlogs_container .stories .story.editing .story_points.editor {
   display:block;
   height:10px;
   left:540px;
@@ -439,21 +440,6 @@
   top:1px;
 }
 
-
-#helpers{
+#rb #helpers {
   display:none;
-}
-.debug .story .id,
-.debug .story .subject,
-.debug .story .status_id,
-.debug .story .story_points,
-.debug .sprint .name,
-.debug .sprint .sprint_start_date,
-.debug .sprint .effective_date,
-.debug .backlog .header .actions,
-.debug .backlog .menu,
-.debug .backlog .velocity,
-.debug #owner_backlogs_container .backlog .header .label,
-.debug #new_story{
-  background-color:red;
 }

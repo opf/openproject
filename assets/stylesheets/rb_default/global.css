@@ -1,5 +1,5 @@
 /* GLOBAL */
-body{
+#rb {
   background-color:#FFFFFF;
   font-family:Verdana, Arial, sans-serif;
   font-size:1em;
@@ -7,15 +7,15 @@ body{
   margin:0;
   width:100%;
 }
-a{
+#rb a {
   color:#CC0000;
   text-decoration:none;
 }
-a:hover{
+#rb a:hover {
   text-decoration:underline;
 }
 /* TOOLBAR */
-#toolbar{
+#rb #toolbar {
   background-color:#CCCCCC;
   display:block;
   height:30px;
@@ -23,60 +23,60 @@ a:hover{
   position:relative;
   width:100%;
 }
-#toolbar .breadcrumbs{
+#rb #toolbar .breadcrumbs {
   bottom:5px;
   display:block;
   font-size:0.8em;
   left:10px;
   position:absolute;
 }
-#toolbar .breadcrumbs .home{
+#rb #toolbar .breadcrumbs .home {
   font-size:1.2em;
 }
-#toolbar .breadcrumbs .separator{
+#rb #toolbar .breadcrumbs .separator {
   bottom:2px;
   color: #999999;
   font-size:0.7em;
   font-weight:bold;
   position:relative;
 }
-#toolbar .links{
+#rb #toolbar .links {
   bottom:5px;
   display:block;
   font-size:0.7em;
   right:10px;
   position:absolute;
 }
-#toolbar .links a{
+#rb #toolbar .links a {
   cursor:pointer;
   padding-left:5px;
 }
-body.loading #refresh{
+#rb body.loading #refresh {
   background-image:url('images/bouncer.gif');
   background-repeat:no-repeat;
   background-position:-6px 1px;
   padding-top:5px;
 }
 /* MAIN */
-#main{
+#rb #main {
   display:block;
   height:100%;
   width:100%;
 }
-.meta{
+#rb .meta {
   display:none;
 }
-#helpers{
+#rb #helpers {
   display:none;
 }
-/* 
+/*
   .editor is the classname for field editors of sprint,
   story, task, impediment. These field editors get created
   at runtime whenever any of the above models are edited.
 */
-.editors{
+#rb .editors {
   display:none;
 }
-.ui-dialog .editor{
+#rb .ui-dialog .editor {
   display:block;
 }
