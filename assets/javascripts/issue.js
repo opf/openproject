@@ -1,24 +1,30 @@
+/*jslint indent: 2*/
+/*globals window, document, jQuery, RB*/
+
 /**************************************
   ISSUE
 ***************************************/
-RB.Issue = RB.Object.create(RB.Model, {
-  
-  initialize: function(el){
-    var j;
-    this.$ = j = $(el);
-    this.el = el;
-  },
-  
-  beforeSaveDragResult: function(){
-    // Do nothing
-  },
-  
-  getType: function(){
-    return "Issue";
-  },
+RB.Issue = (function ($) {
+  return RB.Object.create(RB.Model, {
 
-  saveDragResult: function(){
-    this.beforeSaveDragResult();
-    if(!this.$.hasClass('editing')) this.saveEdits();
-  }
-});
+    initialize: function (el) {
+      this.$ = $(el);
+      this.el = el;
+    },
+
+    beforeSaveDragResult: function () {
+      // Do nothing
+    },
+
+    getType: function () {
+      return "Issue";
+    },
+
+    saveDragResult: function () {
+      this.beforeSaveDragResult();
+      if (!this.$.hasClass('editing')) {
+        this.saveEdits();
+      }
+    }
+  });
+}(jQuery));

@@ -1,101 +1,100 @@
+/*jslint indent: 2*/
+/*globals window, document, jQuery, RB*/
+
 /**************************************
   STORY
 ***************************************/
-/*jslint eqeqeq: false, indent: 2, onevar: false*/
-/*globals $, RB, document*/
-RB.Story = RB.Object.create(RB.Issue, RB.EditableInplace, {
-  initialize: function (el) {
-    var j;  // This ensures that we use a local 'j' variable, not a global one.
-    var self = this;
+RB.Story = (function ($) {
+  return RB.Object.create(RB.Issue, RB.EditableInplace, {
+    initialize: function (el) {
+      this.$ = $(el);
+      this.el = el;
 
-    this.$ = j = $(el);
-    this.el = el;
+      // Associate this object with the element for later retrieval
+      this.$.data('this', this);
+      this.$.find(".editable").live('mouseup', this.handleClick);
+    },
 
-    // Associate this object with the element for later retrieval
-    j.data('this', this);
+    /**
+     * Callbacks from model.js
+     **/
+    beforeSave: function () {
+      this.recalcVelocity();
+    },
 
-    j.find(".editable").live('mouseup', this.handleClick);
-  },
+    afterCreate: function (data, textStatus, xhr) {
+      this.recalcVelocity();
+    },
 
-  /**
-   * Callbacks from model.js
-   **/
-  beforeSave: function () {
-    this.recalcVelocity();
-  },
+    afterUpdate : function (data, textStatus, xhr) {
+      this.recalcVelocity();
+    },
 
-  afterCreate: function (data, textStatus, xhr) {
-    this.recalcVelocity();
-  },
+    refreshed: function () {
+      this.recalcVelocity();
+    },
+    /**/
 
-  afterUpdate : function (data, textStatus, xhr) {
-    this.recalcVelocity();
-  },
+    editDialogTitle: function () {
+      return "Story #" + this.getID();
+    },
 
-  refreshed: function () {
-    this.recalcVelocity();
-  },
-  /**/
+    editorDisplayed: function (editor) {
+      // editor.dialog("option", "position", "center");
+    },
 
-  editDialogTitle: function () {
-    return "Story #" + this.getID();
-  },
+    getPoints: function () {
+      var points = parseInt(this.$.find('.story_points').first().text(), 10);
+      return isNaN(points) ? 0 : points;
+    },
 
-  editorDisplayed: function (editor) {
-    // editor.dialog("option", "position", "center");
-  },
+    getType: function () {
+      return "Story";
+    },
 
-  getPoints: function () {
-    var points = parseInt(this.$.find('.story_points').first().text(), 10);
-    return isNaN(points) ? 0 : points;
-  },
+    markIfClosed: function () {
+      // Do nothing
+    },
 
-  getType: function () {
-    return "Story";
-  },
+    newDialogTitle: function () {
+      return "New Story";
+    },
 
-  markIfClosed: function () {
-    // Do nothing
-  },
+    recalcVelocity: function () {
+      this.$.parents(".backlog").first().data('this').recalcVelocity();
+    },
 
-  newDialogTitle: function () {
-    return "New Story";
-  },
+    saveDirectives: function () {
+      var url, prev, sprintId, data;
 
-  recalcVelocity: function () {
-    this.$.parents(".backlog").first().data('this').recalcVelocity();
-  },
+      prev = this.$.prev();
+      sprintId = this.$.parents('.backlog').data('this').isSprintBacklog() ?
+                   this.$.parents('.backlog').data('this').getSprint().data('this').getID() :
+                   '';
 
-  saveDirectives: function () {
-    var url;
-    var j = this.$;
-    var prev = this.$.prev();
-    var sprint_id = this.$.parents('.backlog').data('this').isSprintBacklog() ?
-                    this.$.parents('.backlog').data('this').getSprint().data('this').getID() : '';
+      data = "prev=" +
+             (prev.length === 1 ?  prev.data('this').getID() : '') +
+             "&fixed_version_id=" + sprintId;
 
-    var data = "prev=" + (prev.length == 1 ? this.$.prev().data('this').getID() : '') +
-               "&fixed_version_id=" + sprint_id;
+      if (this.$.find('.editor').length > 0) {
+        data += "&" + this.$.find('.editor').serialize();
+      }
 
-    if (j.find('.editor').length > 0) {
-      data += "&" + j.find('.editor').serialize();
+      if (this.isNew()) {
+        url = RB.urlFor('create_story');
+      } else {
+        url = RB.urlFor('update_story', {id: this.getID()});
+        data += "&_method=put";
+      }
+
+      return {
+        url: url,
+        data: data
+      };
+    },
+
+    beforeSaveDragResult: function () {
+      // Do nothing
     }
-
-
-    if (this.isNew()) {
-      url = RB.urlFor('create_story');
-    } else {
-      url = RB.urlFor('update_story', {id: this.getID()});
-      data += "&_method=put";
-    }
-
-    return {
-      url: url,
-      data: data
-    };
-  },
-
-  beforeSaveDragResult: function () {
-    // Do nothing
-  }
-});
-
+  });
+}(jQuery));

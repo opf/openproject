@@ -1,39 +1,36 @@
-if(RB==null){
-  var RB = {};
-}
-
 RB.constants = {
   project_id: <%= @project.id %>,
   sprint_id: <%= @sprint ? @sprint.id : "null" %>,
   protect_against_forgery: <%= protect_against_forgery? ? "true" : "false" %>,
   request_forgery_protection_token: '<%= request_forgery_protection_token %>',
   form_authenticity_token: '<%= form_authenticity_token %>'
-}
+};
 
-RB.buildImageTag = function(name){
-  return "<img src='<%= Engines::RailsExtensions::AssetHelpers.plugin_asset_path('redmine_backlogs', 'images', nil) %>" + name + "'/>"
-}
+RB.urlFor = (function () {
+  var routes = {
+    update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
 
-RB.urlFor = function(route_name, options){
-  route = RB.routes[route_name];
-  if(options != null && options['id'] != null){
-    route = route.replace(":id", options['id']);
+    create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
+    update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
+
+    create_task: '<%= url_for(:controller => 'rb_tasks', :action => 'create') %>',
+    update_task: '<%= url_for(:controller => 'rb_tasks', :action => 'update', :id => ":id") %>',
+
+    create_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'create') %>',
+    update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>',
+
+    show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :project_id => ":id") %>',
+    show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id") %>'
+  };
+
+  return function (routeName, options) {
+    route = routes[routeName];
+
+    if (options && options.id) {
+      route = route.replace(":id", options.id);
+    }
+
+    return route;
   }
-  return route;
-}
+}());
 
-RB.routes = {
-  update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',
-
-  create_story: '<%= url_for(:controller => 'rb_stories', :action => 'create') %>',
-  update_story: '<%= url_for(:controller => 'rb_stories', :action => 'update', :id => ":id") %>',
-
-  create_task: '<%= url_for(:controller => 'rb_tasks', :action => 'create') %>',
-  update_task: '<%= url_for(:controller => 'rb_tasks', :action => 'update', :id => ":id") %>',
-
-  create_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'create') %>',
-  update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>',
-
-  show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :project_id => ":id") %>',
-  show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id") %>'
-}

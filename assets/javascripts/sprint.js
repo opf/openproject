@@ -1,53 +1,52 @@
+/*jslint indent: 2*/
+/*globals window, document, jQuery, RB*/
+
 /***************************************
   SPRINT
 ***************************************/
 
-RB.Sprint = RB.Object.create(RB.Model, RB.EditableInplace, {
+RB.Sprint = (function ($) {
+  return RB.Object.create(RB.Model, RB.EditableInplace, {
 
-  initialize: function(el){
-    var j;  // This ensures that we use a local 'j' variable, not a global one.
-    var self = this;
-    
-    this.$ = j = $(el);
-    this.el = el;
-    
-    // Associate this object with the element for later retrieval
-    j.data('this', this);
+    initialize: function (el) {
+      this.$ = $(el);
+      this.el = el;
 
-    j.find(".editable").bind('mouseup', this.handleClick);
-  },
+      // Associate this object with the element for later retrieval
+      this.$.data('this', this);
+      this.$.find(".editable").mouseup(this.handleClick);
+    },
 
-  beforeSave: function(){
-    // Do nothing
-  },
+    beforeSave: function () {
+      // Do nothing
+    },
 
-  getType: function(){
-    return "Sprint";
-  },
+    getType: function () {
+      return "Sprint";
+    },
 
-  markIfClosed: function(){
-    // Do nothing
-  },
-  
-  refreshed: function(){
-    // We have to do this since .live() does not work for some reason
-    j.find(".editable").bind('mouseup', this.handleClick);
-  },
+    markIfClosed: function () {
+      // Do nothing
+    },
 
-  saveDirectives: function(){
-    var j = this.$;
+    refreshed: function () {
+      // We have to do this since .live() does not work for some reason
+      this.$.find(".editable").mouseup(this.handleClick);
+    },
 
-    var data = j.find('.editor').serialize() + "&_method=put";
-    var url = RB.urlFor('update_sprint', { id: this.getID() });
-    
-    return {
-      url : url,
-      data: data
+    saveDirectives: function () {
+      var j = this.$,
+          data = j.find('.editor').serialize() + "&_method=put",
+          url = RB.urlFor('update_sprint', { id: this.getID() });
+
+      return {
+        url : url,
+        data: data
+      };
+    },
+
+    beforeSaveDragResult: function () {
+      // Do nothing
     }
-  },
-
-  beforeSaveDragResult: function(){
-    // Do nothing
-  }
-  
-});
+  });
+}(jQuery));
