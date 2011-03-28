@@ -57,11 +57,12 @@ module IssuesHelper
     
   def render_issue_subject_with_tree(issue)
     s = ''
-    issue.ancestors.each do |ancestor|
+    ancestors = issue.root? ? [] : issue.ancestors.all
+    ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor))
     end
     s << '<div>' + content_tag('h3', h(issue.subject))
-    s << '</div>' * (issue.ancestors.size + 1)
+    s << '</div>' * (ancestors.size + 1)
     s
   end
   
