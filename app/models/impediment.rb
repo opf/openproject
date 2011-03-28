@@ -98,6 +98,7 @@ class Impediment < Task
 
   def update_blocks_list
     # Existing relationships not in for_blocking should be removed from the 'blocks' list
+    relations_from = [] if relations_from.nil?
     remove_from_blocks_list
     add_to_blocks_list
   end
@@ -109,11 +110,10 @@ class Impediment < Task
   def add_to_blocks_list
     currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:issue_to_id)
 
-    self.blocks_ids.select{ |id| !currently_blocking.include?(id) }.each{ |id|
-      rel = relations_from.build(:relation_type => IssueRelation::TYPE_BLOCKS)
-      rel.issue_to_id = id
+    (self.blocks_ids - currently_blocking).each{ |id|
+      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_to => Issue.find(id), :issue_from => self)
+      self.relations_from << rel
     }
-    true
   end
 
   def validate
