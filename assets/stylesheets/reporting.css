@@ -249,7 +249,7 @@ fieldset#filter-settings table td > label {
   height: 0;
   width: 0;
   border-style: solid;
-  border-width: 9px;
+  border-width: 9px 11px 9px 7px;
 }
 
 .arrow_left {
