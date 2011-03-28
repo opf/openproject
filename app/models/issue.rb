@@ -106,7 +106,7 @@ class Issue < ActiveRecord::Base
   
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && tracker) ? project.all_issue_custom_fields.select {|c| tracker.custom_fields.include? c } : []
+    (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
   end
   
   def copy_from(arg)
