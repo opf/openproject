@@ -6,7 +6,5 @@ class RbMasterBacklogsController < RbApplicationController
     @sprint_backlogs = Backlog.sprint_backlogs(@project)
 
     @last_update = (@sprint_backlogs + @owner_backlogs).map(&:updated_on).compact.max
-
-    render :layout => "rb"
   end
 end
