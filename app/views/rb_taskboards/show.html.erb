@@ -55,7 +55,7 @@
     <tr>
       <td>
         <div class="story <%= mark_if_closed(story) %>">
-          <div class="id"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id}, { :target => "_blank" } %></div>
+          <div class="id"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id} %></div>
           <div class="subject"><%= story.subject %></div>
         </div>
       </td>

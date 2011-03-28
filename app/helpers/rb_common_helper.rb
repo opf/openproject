@@ -32,13 +32,13 @@ module RbCommonHelper
   def issue_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? "" : link_to(text, {:controller => "issues", :action => "show", :id => item}, {:target => "_blank", :class => "prevent_edit"})
+    item.new_record? ? "" : link_to(text, {:controller => "issues", :action => "show", :id => item}, {:class => "prevent_edit"})
   end
 
   def sprint_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? "" : link_to(text, {:controller => "sprint", :action => "show", :id => item}, {:target => "_blank", :class => "prevent_edit"})
+    item.new_record? ? "" : link_to(text, {:controller => "sprint", :action => "show", :id => item}, {:class => "prevent_edit"})
   end
 
   def mark_if_closed(story)
@@ -85,6 +85,8 @@ module RbCommonHelper
     'rb_default'
   end
 
+  # TODO: get rid of theme_stylesheet_link_tag, no themeing neccessary, when
+  # view becomes part of default layout
   def theme_stylesheet_link_tag(*args)
     themed_args = args.select{ |a| a.class!=Hash }.map{ |s| "#{theme_name}/#{s.to_s}"}
     options = args.select{ |a| a.class==Hash}.first || { }
