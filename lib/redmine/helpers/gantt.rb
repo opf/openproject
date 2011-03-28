@@ -643,10 +643,10 @@ module Redmine
           end
         
           if progress
-            progress_date = start_date + (end_date - start_date) * (progress / 100.0)
+            progress_date = start_date + (end_date - start_date + 1) * (progress / 100.0)
             if progress_date > self.date_from && progress_date > start_date
               if progress_date < self.date_to
-                coords[:bar_progress_end] = progress_date - self.date_from + 1
+                coords[:bar_progress_end] = progress_date - self.date_from
               else
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end

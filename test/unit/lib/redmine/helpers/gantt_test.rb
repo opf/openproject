@@ -547,9 +547,9 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.version.task_done[style*=left:28px]", true, @response.body
         end
 
-        should "Be the total done width of the version"  do
+        should "be the total done width of the version"  do
           @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_done[style*=width:18px]", true, @response.body
+          assert_select "div.version.task_done[style*=width:16px]", true, @response.body
         end
       end
 
@@ -707,9 +707,10 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.task_done[style*=left:28px]", true, @response.body
         end
 
-        should "Be the total done width of the issue"  do
+        should "be the total done width of the issue"  do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=width:18px]", true, @response.body
+          # 15 days * 4 px * 30% - 2 px for borders = 16 px
+          assert_select "div.task_done[style*=width:16px]", true, @response.body
         end
 
         should "not be the total done width if the chart starts after issue start date"  do
@@ -717,7 +718,24 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task_done[style*=left:0px]", true, @response.body
-          assert_select "div.task_done[style*=width:10px]", true, @response.body
+          assert_select "div.task_done[style*=width:8px]", true, @response.body
+        end
+        
+        context "for completed issue" do
+          setup do
+            @issue.done_ratio = 100
+          end
+
+          should "be the total width of the issue"  do
+            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:58px]", true, @response.body
+          end
+  
+          should "be the total width of the issue with due_date=start_date"  do
+            @issue.due_date = @issue.start_date
+            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:2px]", true, @response.body
+          end
         end
       end
 
