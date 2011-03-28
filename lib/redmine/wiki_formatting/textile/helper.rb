@@ -20,6 +20,7 @@ module Redmine
     module Textile
       module Helper
         def wikitoolbar_for(field_id)
+          heads_for_wiki_formatter
           # Is there a simple way to link to a public resource?
           url = "#{Redmine::Utils.relative_url_root}/help/wiki_syntax.html"
           
@@ -36,11 +37,15 @@ module Redmine
         end
       
         def heads_for_wiki_formatter
-          @@heads_for_wiki_formatter ||=
-            javascript_include_tag('jstoolbar/jstoolbar') +
-            javascript_include_tag('jstoolbar/textile') +
-            javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
-            stylesheet_link_tag('jstoolbar')
+          unless @heads_for_wiki_formatter_included
+            content_for :header_tags do
+              javascript_include_tag('jstoolbar/jstoolbar') +
+              javascript_include_tag('jstoolbar/textile') +
+              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
+              stylesheet_link_tag('jstoolbar')
+            end
+            @heads_for_wiki_formatter_included = true
+          end
         end
       end
     end
