@@ -107,8 +107,8 @@ class Report < ActiveRecord::Base
     @table = self.class::Table.new(self)
   end
 
-  def group_bys
-    chain.select { |c| c.group_by? }
+  def group_bys(type=nil)
+    chain.select { |c| c.group_by? && (type.nil? || c.type == type) }
   end
 
   def filters

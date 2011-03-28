@@ -70,22 +70,36 @@ Reporting.Controls = {
       failureCallback = Reporting.Controls.default_failure_callback;
     }
     Reporting.clearFlash();
-    selectAllOptions('group_by_rows');
-    selectAllOptions('group_by_columns');
-    var updater = new Ajax.Request(
+    new Ajax.Request(
       targetUrl,
       { asynchronous: true,
         evalScripts: true,
-        postBody: Form.serialize('query_form'),
+        postBody: Reporting.Controls.serialize_settings_form(),
         onSuccess: callback,
-        onFailure: failureCallback});
+        onFailure: failureCallback });
+  },
+
+  serialize_settings_form: function() {
+    var ret_str, grouping_str;
+    ret_str = Form.serialize('query_form');
+    grouping_str = $w('rows columns').inject('', function(grouping, type) {
+      return grouping + $('group_by_' + type).select('.group_by_element').map(function(group_by) {
+        return 'groups[' + type + '][]=' + group_by.readAttribute('data-group-by');
+      }).inject('', function(all_group_str, group_str) {
+        return all_group_str + '&' + group_str;
+      });
+    });
+    if (grouping_str.length > 0) {
+      ret_str += grouping_str;
+    }
+    return ret_str;
   },
 
   attach_settings_callback: function (element, callback) {
     failureCallback = function (response) {
       $('result-table').update("");
       Reporting.Controls.default_failure_callback(response);
-    }
+    };
     element.observe("click", function (e) {
       Reporting.Controls.send_settings_data(this.getAttribute("data-target"), callback, failureCallback);
       e.preventDefault();
@@ -104,7 +118,7 @@ Reporting.Controls = {
   },
 
   default_failure_callback: function (response) {
-    if ((response.status + "")[0] === "4") {
+    if (response.status >= 400 && response.status < 500) {
       Reporting.flash(response.responseText);
     } else {
       Reporting.flash("There was an error getting the results. The administrator has been informed.");
