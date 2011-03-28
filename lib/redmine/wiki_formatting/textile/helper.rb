@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,11 +23,10 @@ module Redmine
           heads_for_wiki_formatter
           # Is there a simple way to link to a public resource?
           url = "#{Redmine::Utils.relative_url_root}/help/wiki_syntax.html"
-          
-          help_link = l(:setting_text_formatting) + ': ' +
-            link_to(l(:label_help), url,
-                    :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;",
-                    :tabindex => -1)
+
+          help_link = link_to(l(:setting_text_formatting), url,
+                              :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;",
+                              :tabindex => -1)
       
           javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{help_link}'); wikiToolbar.draw();")
         end
