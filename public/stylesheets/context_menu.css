@@ -21,6 +21,7 @@
 	position:relative;
 	padding:1px;
 	z-index:39;
+	border:1px solid white;
 }
 #context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
 #context-menu li.folder>ul { left:148px; }
@@ -30,7 +31,6 @@
 #context-menu.reverse-x li.folder>ul { right:148px; }
 
 #context-menu a {
-	border:1px solid white;
 	text-decoration:none !important;
 	background-repeat: no-repeat;
 	background-position: 1px 50%;
@@ -40,8 +40,8 @@
 #context-menu li>a { width:auto; } /* others */
 #context-menu a.disabled, #context-menu a.disabled:hover {color: #ccc;}
 #context-menu li a.submenu { background:url("../images/bullet_arrow_right.png") right no-repeat; }
-#context-menu a:hover { border-color:gray; background-color:#eee; color:#2A5685; }
-#context-menu li.folder a:hover { background-color:#eee; }	
+#context-menu li:hover { border:1px solid gray; background-color:#eee; }
+#context-menu a:hover {color:#2A5685;}
 #context-menu li.folder:hover { z-index:40; }		
 #context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
 #context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
