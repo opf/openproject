@@ -34,6 +34,14 @@ describe Impediment do
                                                  :old_status => issue_status1,
                                                  :new_status => issue_status2,
                                                  :role => role) }
+  let(:impediment) { Factory.build(:impediment, :author => user,
+                                                :fixed_version => version,
+                                                :assigned_to => user,
+                                                :priority => issue_priority,
+                                                :project => project,
+                                                :tracker => tracker_task,
+                                                :status => issue_status1,
+                                                :blocks_ids => feature.id.to_s)}
 
   before(:each) do
     Setting.plugin_redmine_backlogs  = {:points_burn_direction => "down",
@@ -140,15 +148,7 @@ describe Impediment do
       before(:each) do
         feature.fixed_version = version
         feature.save
-        @impediment = Factory.create(:impediment,
-                                     :author => user,
-                                     :fixed_version => version,
-                                     :assigned_to => user,
-                                     :priority => issue_priority,
-                                     :project => project,
-                                     :tracker => tracker_task,
-                                     :status => issue_status1,
-                                     :blocks_ids => feature.id.to_s)
+        @impediment = impediment
         @impediment.save
       end
 
@@ -226,6 +226,29 @@ describe Impediment do
         it_should_behave_like "impediment update with unchanged blocking relationship"
         it { @impediment.should be_changed }
         it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+      end
+    end
+
+    describe "blocks_ids=/blocks_ids" do
+      describe "WITH an integer" do
+        it do
+          impediment.blocks_ids = 2
+          impediment.blocks_ids.should eql [2]
+        end
+      end
+
+      describe "WITH a string" do
+        it do
+          impediment.blocks_ids = "1, 2, 3"
+          impediment.blocks_ids.should eql [1,2,3]
+        end
+      end
+
+      describe "WITH an array" do
+        it do
+          impediment.blocks_ids = [1,2,3]
+          impediment.blocks_ids.should eql [1,2,3]
+        end
       end
     end
   end
