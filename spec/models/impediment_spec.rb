@@ -43,37 +43,71 @@ describe Impediment do
                                         :task_tracker => tracker_task.id.to_s }
 
     User.current = user
+    issue_priority.save
     project.save
     tracker_workflow.save
   end
 
   describe "class methods" do
     describe :create_with_relationships do
-      describe "WITH a blocking relationship to a story" do
-        before(:each) do
-          feature.save
-          @impediment_subject = "Impediment A"
-          @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
-                                                              :assigned_to_id => user.id,
-                                                              :blocks => feature.id.to_s,
-                                                              :status_id => issue_status1.id,
-                                                              :fixed_version_id => version.id},
-                                                              user.id,
-                                                              project.id)
+      before(:each) do
+        @impediment_subject = "Impediment A"
+      end
 
-        end
-
-        it { @impediment.should_not be_new_record }
+      shared_examples_for "impediment creation" do
         it { @impediment.subject.should eql @impediment_subject }
         it { @impediment.author.should eql user }
         it { @impediment.project.should eql project }
         it { @impediment.fixed_version.should eql version }
+        it { @impediment.priority.should eql issue_priority}
         it { @impediment.status.should eql issue_status1 }
         it { @impediment.tracker.should eql tracker_task }
         it { @impediment.assigned_to.should eql user }
+      end
+
+      shared_examples_for "impediment creation with 1 blocking relationship" do
+        it_should_behave_like "impediment creation"
         it { @impediment.should have(1).relations_from }
         it { @impediment.relations_from[0].issue_to.should eql feature }
         it { @impediment.relations_from[0].relation_type.should eql IssueRelation::TYPE_BLOCKS }
+      end
+
+      describe "WITH a blocking relationship to a story" do
+        describe "WITH the story having the same version" do
+          before(:each) do
+            feature.fixed_version = version
+            feature.save
+            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
+                                                                :assigned_to_id => user.id,
+                                                                :blocks => feature.id.to_s,
+                                                                :status_id => issue_status1.id,
+                                                                :fixed_version_id => version.id},
+                                                                user.id,
+                                                                project.id)
+
+          end
+
+          it_should_behave_like "impediment creation with 1 blocking relationship"
+          it { @impediment.should_not be_new_record }
+          it { @impediment.relations_from[0].should_not be_new_record }
+        end
+      end
+
+      describe "WITHOUT a blocking relationship defined" do
+        before(:each) do
+          @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
+                                                              :assigned_to_id => user.id,
+                                                              :blocks => "",
+                                                              :status_id => issue_status1.id,
+                                                              :fixed_version_id => version.id},
+                                                              user.id,
+                                                              project.id)
+        end
+
+        it { @impediment.should be_new_record }
+        it_should_behave_like "impediment creation"
+        it { @impediment.should have(0).relations_from }
+        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
       end
     end
   end
