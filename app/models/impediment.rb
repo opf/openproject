@@ -7,7 +7,6 @@ class Impediment < Task
 
   def self.create_with_relationships(params, user_id, project_id)
     task = new
-
     task.author_id  = user_id
     task.project_id = project_id
     task.tracker_id = Task.tracker
@@ -125,6 +124,6 @@ class Impediment < Task
   end
 
   def validate_blocks_list
-    errors.add :blocks_ids, :can_only_contain_tasks_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
+    errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
   end
 end
