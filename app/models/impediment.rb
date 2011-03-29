@@ -49,15 +49,13 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }
+    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:issue_to_id)
   end
 
   def update_with_relationships(params)
-    attribs = params.clone.delete_if { |k, v| !safe_attribute_names.include?(k) }
+    attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
-
-    attribs[:blocks_ids] = params[:blocks] if params[:blocks] #if blocks param was not sent, that means the impediment was just dragged
 
     result = journalized_update_attributes(attribs)
 

@@ -250,6 +250,21 @@ describe Impediment do
           impediment.blocks_ids.should eql [1,2,3]
         end
       end
+
+      describe "WITH only prior blockers defined" do
+        before(:each) do
+          feature.fixed_version = version
+          feature.save
+          task.fixed_version = version
+          task.save
+
+          impediment.relations_from = [IssueRelation.new(:issue_from => impediment, :issue_to => feature, :relation_type => IssueRelation::TYPE_BLOCKS),
+                                       IssueRelation.new(:issue_from => impediment, :issue_to => task, :relation_type => IssueRelation::TYPE_BLOCKS)]
+          true
+        end
+
+        it { impediment.blocks_ids.should eql [feature.id, task.id] }
+      end
     end
   end
 end
