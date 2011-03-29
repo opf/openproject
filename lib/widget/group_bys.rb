@@ -12,6 +12,16 @@ class Widget::GroupBys < Widget::Base
     end.join.html_safe
   end
 
+  def render_group_caption(type)
+    content_tag :span do
+      out = content_tag :span, :class => 'in_row group_by_caption' do
+        l("label_#{type}".to_sym) # :label_rows, :label_columns
+      end
+      out += tag :span, :class => 'arrow in_row arrow_group_by_caption'
+      out.html_safe
+    end
+  end
+
   def render_group(type, initially_selected)
     initially_selected = initially_selected.map do |group_by|
       [group_by.class.underscore_name, l(group_by.class.label)]
@@ -20,7 +30,8 @@ class Widget::GroupBys < Widget::Base
         :id => "group_by_#{type}",
         :class => 'drag_target drag_container',
         :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
-      content_tag :select, :id => "add_group_by_#{type}", :class => 'select-small' do
+      out = render_group_caption type
+      out += content_tag :select, :id => "add_group_by_#{type}", :class => 'select-small' do
         content = content_tag :option, :value => '' do
           "-- #{l(:label_group_by_add)} --"
         end
@@ -32,15 +43,14 @@ class Widget::GroupBys < Widget::Base
           end
         end.join.html_safe
         content
-      end.html_safe
+      end
+      out.html_safe
     end
   end
 
   def render
     content_tag :div, :id => 'group_by_area' do
-      out  = l(:label_columns)
-      out += render_group 'columns', @query.group_bys(:column)
-      out += l(:label_rows)
+      out =  render_group 'columns', @query.group_bys(:column)
       out += render_group 'rows', @query.group_bys(:row)
       out.html_safe
     end
