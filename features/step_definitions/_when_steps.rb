@@ -150,6 +150,6 @@ end
 
 When /^I confirm the story form$/ do
   find(:xpath, XPath::HTML.fillable_field("subject")).native.send_keys([:enter, :return])
-  sleep 0.5
+  sleep 1.5
   steps 'Then I should not see ".saving"'
 end
