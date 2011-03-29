@@ -5,16 +5,21 @@ class Impediment < Task
 
   after_save :update_blocks_list
 
+  safe_attributes "blocks", #change to blocks_ids once ui can be manipulated
+                  :if => lambda {|impediment, user|
+                            (impediment.new_record? && user.allowed_to?(:create_impediments, impediment.project)) ||
+                            user.allowed_to?(:update_impediments, impediment.project)
+                          }
+
   def self.create_with_relationships(params, user_id, project_id)
     task = new
+
     task.author_id  = user_id
     task.project_id = project_id
     task.tracker_id = Task.tracker
 
     task.safe_attributes = params
     task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
-
-    task.blocks_ids = params[:blocks]
 
     if task.save
       task.move_after params[:prev]
@@ -40,6 +45,10 @@ class Impediment < Task
 
   def self.find_all_updated_since(since, project_id)
     super(since, project_id, true)
+  end
+
+  def blocks=(ids)
+    self.blocks_ids = ids
   end
 
   def blocks_ids=(ids)

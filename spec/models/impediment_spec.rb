@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Impediment do
   let(:user) { @user ||= Factory.create(:user) }
-  let(:role) { @role ||= Factory.create(:role, :permissions => [:edit_issues]) }
+  let(:role) { @role ||= Factory.create(:role) }
   let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
   let(:tracker_task) { @tracker_task ||= Factory.create(:tracker_task) }
   let(:issue_priority) { @issue_priority ||= Factory.create(:priority, :is_default => true) }
@@ -40,8 +40,7 @@ describe Impediment do
                                                 :priority => issue_priority,
                                                 :project => project,
                                                 :tracker => tracker_task,
-                                                :status => issue_status1,
-                                                :blocks_ids => feature.id.to_s)}
+                                                :status => issue_status1)}
 
   before(:each) do
     Setting.plugin_redmine_backlogs  = {:points_burn_direction => "down",
@@ -61,6 +60,8 @@ describe Impediment do
     describe :create_with_relationships do
       before(:each) do
         @impediment_subject = "Impediment A"
+        role.permissions = [:create_impediments]
+        role.save
       end
 
       shared_examples_for "impediment creation" do
@@ -146,9 +147,14 @@ describe Impediment do
   describe "instance methods" do
     describe :update_with_relationships do
       before(:each) do
+        role.permissions = [:update_impediments]
+        role.save
+
         feature.fixed_version = version
         feature.save
+
         @impediment = impediment
+        @impediment.blocks_ids = feature.id.to_s
         @impediment.save
       end
 
