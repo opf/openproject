@@ -3,7 +3,7 @@ class Impediment < Task
 
   acts_as_list :scope => :project
 
-  before_validation :update_blocks_list, :unless => Proc.new { |i| i.blocks_ids.nil? }
+  after_save :update_blocks_list
 
   def self.create_with_relationships(params, user_id, project_id)
     task = new
@@ -49,7 +49,7 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list
+    @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }
   end
 
   def update_with_relationships(params)
@@ -96,22 +96,20 @@ class Impediment < Task
   private
 
   def update_blocks_list
-    # Existing relationships not in for_blocking should be removed from the 'blocks' list
     relations_from = [] if relations_from.nil?
     remove_from_blocks_list
     add_to_blocks_list
   end
 
   def remove_from_blocks_list
-    self.relations_from = self.relations_from.reject{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.issue_to_id) }
+    self.relations_from.delete(self.relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && !blocks_ids.include?(rel.issue_to_id) })
   end
 
   def add_to_blocks_list
     currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:issue_to_id)
 
     (self.blocks_ids - currently_blocking).each{ |id|
-      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_to => Issue.find(id), :issue_from => self)
-      self.relations_from << rel
+      self.relations_from.create(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_to => Issue.find(id), :issue_from => self)
     }
   end
 
@@ -120,7 +118,7 @@ class Impediment < Task
   end
 
   def validate_blocks_list
-    errors.add :blocks_ids, :must_block_at_least_one_issue if relations_from.size == 0
-    errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if relations_from.any?{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS && rel.issue_to.fixed_version != self.fixed_version }
+    errors.add :blocks_ids, :must_block_at_least_one_issue if blocks_ids.size == 0
+    errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if Issue.find(blocks_ids).any?{|i| i.fixed_version != self.fixed_version }
   end
 end
