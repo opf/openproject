@@ -1,33 +1,38 @@
-<%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
+  <script type="text/javascript">
+    jQuery.noConflict();
 
-<script type="text/javascript">
-  var $j = jQuery.noConflict();
+    jQuery(function($) {
+      var enable_apply = function () {
+        var tasktracker,
+            submit,
+            disable;
 
-  function enable_apply()
-  {
-    tasktracker = $j("#settings_task_tracker").val();
-    submit = $j('input[type=submit]')
+        tasktracker = $("#settings_task_tracker").val();
+        submit = $('input[type=submit]');
 
+        disable = false;
 
-    disable = false;
-    log = tasktracker + '::'
-    $j("#settings_story_trackers :selected").each(function(i, selected){
-      disable = disable || ($j(selected).attr('value') == tasktracker);
+        $("#settings_story_trackers :selected").each(function(i, selected) {
+          disable = disable || ($(selected).attr('value') === tasktracker);
+        });
+
+        if (disable) {
+          submit.attr('disabled', 'disabled');
+        }
+        else {
+          submit.removeAttr('disabled');
+        }
+      };
+
+      $("#settings_task_tracker").change(enable_apply);
+      $("#settings_story_trackers").change(enable_apply);
+
+      enable_apply();
     });
-    if (disable) {
-      submit.attr('disabled', 'disabled');
-    } else {
-      submit.removeAttr('disabled');
-    }
-  }
-
-  $j(document).ready(function() {
-    $j("#settings_task_tracker").change(function() { enable_apply(); });
-    $j("#settings_story_trackers").change(function() { enable_apply(); });
-
-    enable_apply();
-  });
-</script>
+  </script>
+<% end %>
 
 <p>
   <%= label_tag("settings[story_trackers]", l(:backlogs_story_tracker)) %>

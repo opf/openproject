@@ -1,95 +1,117 @@
-<!-- TASKBOARD VIEW -->
-<% content_for :head_tags do %>
-  <%= javascript_include_tag  'show_main', 'board_updater', 'taskboard_updater', 'taskboard', 'model', 'issue', 'task', 'impediment', :plugin => 'redmine_backlogs' %>
+<%= render :partial => 'shared/backlogs_header' %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag  'app/show_main',
+                              'app/board_updater',
+                              'app/taskboard_updater',
+                              'app/taskboard',
+                              'app/model',
+                              'app/issue',
+                              'app/task',
+                              'app/impediment',
+                              :plugin => 'redmine_backlogs' %>
+
+  <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
+                                     :action => 'show',
+                                     :project_id => @project,
+                                     :sprint_id => @sprint) %>
+
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
   <%= theme_stylesheet_link_tag 'taskboard.css', :media => 'print,screen' %>
   <%= theme_stylesheet_link_tag 'taskboard_print.css', :media => 'print' %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :project_id => @project.id, :sprint_id => @sprint.id) %>"></script>
 <% end %>
 
-<% content_for :breadcrumbs do %>
-  <%= link_to l(:label_master_backlog), :controller => "rb_master_backlogs", :action => "show", :project_id => @project %>
-  <%= breadcrumb_separator %>
-  <%= @sprint.name %>
-<% end %>
+<div id='rb'>
+  <div class="breadcrumbs">
+    <%= link_to l(:label_master_backlog), :controller => "rb_master_backlogs", :action => "show", :project_id => @project %>
+    <%= breadcrumb_separator %>
+    <%= @sprint.name %>
+  </div>
 
-<%- content_for :view_specific_links do %>
-  <% if @sprint.has_burndown %>
-    <a id='show_charts'><%= l(:label_burndown) %></a>
-  <% end %>
-  <%# TODO i18n %>
-  <span id="col_width">Column width: <input name="col_width"/></span>
+  <div class="links">
+    <% if @sprint.has_burndown %>
+      <a id='show_charts'><%= l(:label_burndown) %></a>
+    <% end %>
+    <%# TODO i18n %>
+    <span id="col_width">Column width: <input name="col_width"/></span>
 
-<% if false %>
-  <%# TODO i18n %>
-  <a id="disable_autorefresh">Disable Auto-refresh</a>
-  <a id="refresh">Refresh</a>
-<% end %>
-<%- end %>
+    <% if false %>
+      <%# TODO i18n %>
+      <a id="disable_autorefresh">Disable Auto-refresh</a>
+      <a id="refresh">Refresh</a>
+    <% end %>
+  </div>
 
-<%- content_for :main do %>
-<div id="taskboard">
-  <table id="board_header" cellspacing="0">
-    <tr>
-      <td><%= l(:backlogs_story) %></td>
-      <%- @statuses.each do |status| %>
-      <td class="swimlane"><%= status.name %></td>
-      <%- end %>
-    </tr>
-  </table>
+  <div id="main">
+    <div id="taskboard">
+      <table id="board_header" cellspacing="0">
+        <tr>
+          <td><%= l(:backlogs_story) %></td>
+          <% @statuses.each do |status| %>
+            <td class="swimlane"><%= status.name %></td>
+          <% end %>
+        </tr>
+      </table>
 
-  <table id="impediments" class="board" cellspacing="0">
-    <tr>
-      <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
-      <td class="add_new">+</td>
-      <%- @statuses.each do |status| %>
-      <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
-        <%= render :partial => "rb_impediments/impediment", :collection => @sprint.impediments.select{|impediment| impediment.status_id==status.id} %>
-      </td>
-      <%- end %>
-    </tr>
-  </table>
+      <table id="impediments" class="board" cellspacing="0">
+        <tr>
+          <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+          <td class="add_new">+</td>
+          <% @statuses.each do |status| %>
+            <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
+              <%= render :partial => "rb_impediments/impediment",
+                         :collection => @sprint.impediments.select { |impediment| impediment.status_id == status.id } %>
+            </td>
+          <% end %>
+        </tr>
+      </table>
 
-  <table id="tasks" class="board" cellspacing="0">
-    <%- @sprint.stories.each do |story| %>
-    <tr>
-      <td>
-        <div class="story <%= mark_if_closed(story) %>">
-          <div class="id"><%= link_to story.id, {:controller => 'issues', :action => 'show', :id => story.id}, { :target => "_blank" } %></div>
-          <div class="subject"><%= story.subject %></div>
-        </div>
-      </td>
-      <td class="add_new">+</td>
-      <%- @statuses.each do |status| %>
-      <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-        <%= render :partial => "rb_tasks/task", :collection => story.descendants.select{|task| task.status.id==status.id} %>
-      </td>
-      <%- end %>
-    </tr>
-    <%- end %>
-  </table>
+      <table id="tasks" class="board" cellspacing="0">
+        <% @sprint.stories.each do |story| %>
+          <tr>
+            <td>
+              <div class="story <%= mark_if_closed(story) %>">
+                <div class="id">
+                  <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+                </div>
+                <div class="subject"><%= story.subject %></div>
+              </div>
+            </td>
+            <td class="add_new">+</td>
+            <% @statuses.each do |status| %>
+              <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
+                <%= render :partial => "rb_tasks/task",
+                           :collection => story.descendants.select { |task| task.status.id == status.id } %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+
+  <div id="helpers">
+    <select class="assigned_to_id template" id="assigned_to_id_options">
+      <option value=""> </option>
+      <% @project.members.each do |member| %>
+        <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>">
+          <%= member.name %>
+        </option>
+      <% end %>
+    </select>
+    <div id="task_template">
+      <%= render :partial => "rb_tasks/task", :object => Task.new %>
+    </div>
+    <div id="impediment_template">
+      <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
+    </div>
+
+    <div id="issue_editor"> </div>
+    <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_on) )  %></div>
+    <div id="charts"> </div>
+    <div id="preloader">
+      <div id="spinner"> </div>
+      <div id="warning"> </div>
+    </div>
+  </div>
 </div>
-<%- end %>
-
-<%- content_for :helpers do %>
-  <select class="assigned_to_id template" id="assigned_to_id_options">
-    <option value=""> </option>
-    <%- @project.members.each do |member| %>
-    <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>"><%= member.name %></option>
-    <%- end %>
-  </select>
-  <div id="task_template">
-    <%= render :partial => "rb_tasks/task", :object => Task.new %>
-  </div>
-  <div id="impediment_template">
-    <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
-  </div>
-  <!-- end of templates -->
-  <div id="issue_editor"> </div>
-  <div class="meta" id="last_updated"><%= date_string_with_milliseconds( (@last_updated.blank? ? Time.now : @last_updated.updated_on) )  %></div>
-  <div id="charts"> </div>
-  <div id="preloader">
-    <div id="spinner"> </div>
-    <div id="warning"> </div>
-  </div>
-<%- end %>

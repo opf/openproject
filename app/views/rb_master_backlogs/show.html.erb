@@ -1,37 +1,45 @@
-<!-- MASTER BACKLOG VIEW -->
-<%- content_for :head_tags do %>
-  <script type="text/javascript" src="<%= url_for(:controller => 'rb_server_variables', :action => 'show', :id => @project.id, :format => :js) %>"></script>
-  <%= javascript_include_tag    'master_backlog', 'backlog', 'model', 'editable_inplace', 'sprint', 'issue', 'story', 'board_updater', 'master_backlog_updater', :plugin => 'redmine_backlogs' %>
+<%= render :partial => 'shared/backlogs_header' %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'app/master_backlog',
+                             'app/backlog',
+                             'app/model',
+                             'app/editable_inplace',
+                             'app/sprint',
+                             'app/issue',
+                             'app/story',
+                             'app/board_updater',
+                             'app/master_backlog_updater',
+                             :plugin => 'redmine_backlogs' %>
+
+  <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
+                                     :action => 'show',
+                                     :id => @project,
+                                     :format => :js) %>
+
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
   <%= theme_stylesheet_link_tag 'master_backlog.css', :media => 'print,screen' %>
   <%= theme_stylesheet_link_tag 'master_backlog_print.css', :media => 'print' %>
-<%- end %>
-
-<%- content_for :breadcrumbs do %>
-  <%= l(:label_master_backlog) %>
-<%- end %>
-
-<%- content_for :view_specific_links do %>
-<% if false %>
-  <%# TODO i18n %>
-  <a id="project_info">Info<a>
-  <a id="disable_autorefresh">Disable Auto-refresh</a>
-  <a id="refresh">Refresh</a>
 <% end %>
-<%- end %>
 
-<%- content_for :main do %>
-  <div id="backlogs_container">
-    <div id="owner_backlogs_container">
-      <%= render :partial => 'backlog', :collection => @owner_backlogs %>
-    </div>
-    <div id="sprint_backlogs_container">
-      <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+<div id="rb">
+  <div class="breadcrumbs">
+    <%= l(:label_master_backlog) %>
+  </div>
+
+  <div id="main">
+    <div id="backlogs_container">
+      <div id="owner_backlogs_container">
+        <%= render :partial => 'backlog', :collection => @owner_backlogs %>
+      </div>
+      <div id="sprint_backlogs_container">
+        <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+      </div>
     </div>
   </div>
-<%- end %>
 
-<%- content_for :helpers do %>
-<%= render :partial => "rb_stories/helpers" %>
-<div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
-<%- end %>
+  <div id="helpers">
+    <%= render :partial => "rb_stories/helpers" %>
+    <div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
+  </div>
+</div>
