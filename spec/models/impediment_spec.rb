@@ -16,7 +16,7 @@ describe Impediment do
                                         :author => user,
                                         :priority => issue_priority,
                                         :status => issue_status1) }
-  let(:version) { @version ||= Factory.create(:version, :project => project) }
+  let(:version) { Factory.create(:version, :project => project) }
 
   let(:project) do
     unless @project
@@ -91,6 +91,25 @@ describe Impediment do
           it { @impediment.should_not be_new_record }
           it { @impediment.relations_from[0].should_not be_new_record }
         end
+
+        describe "WITH the story having another version" do
+          before(:each) do
+            feature.fixed_version = Factory.create(:version, :project => project, :name => "another version")
+            feature.save
+            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
+                                                                :assigned_to_id => user.id,
+                                                                :blocks => feature.id.to_s,
+                                                                :status_id => issue_status1.id,
+                                                                :fixed_version_id => version.id},
+                                                                user.id,
+                                                                project.id)
+          end
+
+          it_should_behave_like "impediment creation with 1 blocking relationship"
+          it { @impediment.should be_new_record }
+          it { @impediment.relations_from[0].should be_new_record }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+        end
       end
 
       describe "WITHOUT a blocking relationship defined" do
@@ -104,8 +123,8 @@ describe Impediment do
                                                               project.id)
         end
 
-        it { @impediment.should be_new_record }
         it_should_behave_like "impediment creation"
+        it { @impediment.should be_new_record }
         it { @impediment.should have(0).relations_from }
         it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
       end
