@@ -1,15 +1,15 @@
 <%= render :partial => 'shared/backlogs_header' %>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'master_backlog',
-                             'backlog',
-                             'model',
-                             'editable_inplace',
-                             'sprint',
-                             'issue',
-                             'story',
-                             'board_updater',
-                             'master_backlog_updater',
+  <%= javascript_include_tag 'app/master_backlog',
+                             'app/backlog',
+                             'app/model',
+                             'app/editable_inplace',
+                             'app/sprint',
+                             'app/issue',
+                             'app/story',
+                             'app/board_updater',
+                             'app/master_backlog_updater',
                              :plugin => 'redmine_backlogs' %>
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',

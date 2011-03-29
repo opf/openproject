@@ -3,7 +3,9 @@
 
 // Initialize everything after DOM is loaded
 jQuery(function ($) {
-  var showCharts = function (e) {
+  var showCharts, defaultDialogColor;
+
+  showCharts = function (e) {
     e.preventDefault();
 
     if ($("#charts").length === 0) {
@@ -31,6 +33,10 @@ jQuery(function ($) {
   $('#show_charts').click(showCharts);
 
   $('#assigned_to_id_options').change(function () {
-    $(this).parents('.ui-dialog').css('background-color', $(this).children(':selected').attr('color'));
+    var selected = $(this).children(':selected');
+    if (!defaultDialogColor) {
+      defaultDialogColor = $('<div id="rb"><div class="model issue task"></div></div>').children().css('background-color');
+    }
+    $(this).parents('.ui-dialog').css('background-color', selected.attr('color') || defaultDialogColor);
   });
 });

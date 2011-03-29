@@ -2,11 +2,11 @@
   <%= theme_stylesheet_link_tag 'global.css', 'jquery-ui.css', :media => 'print,screen' %>
   <%= theme_stylesheet_link_tag 'global_print.css', :media => 'print' %>
 
-  <%= javascript_include_tag 'jquery-1.4.2.min.js',
-                             'jquery-ui-1.8rc3.custom.min.js',
-                             'jquery.jeditable.mini.js',
-                             'jquery.cookie.js',
-                             'common.js',
+  <%= javascript_include_tag 'lib/jquery-1.5.1.js',# 'jquery-1.4.2.min.js',
+                             'lib/jquery-ui-1.8rc3.custom.min.js',
+                             'lib/jquery.jeditable.mini.js',
+                             'lib/jquery.cookie.js',
+                             'app/common.js',
                              :plugin => 'redmine_backlogs' %>
 
   <%= javascript_tag "jQuery.noConflict();" %>
