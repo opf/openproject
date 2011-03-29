@@ -8,7 +8,7 @@ class Task < Issue
     task_tracker.blank? ? nil : task_tracker.to_i
   end
 
-  def self.create_with_relationships(params, user_id, project_id, is_impediment = false)
+  def self.create_with_relationships(params, user_id, project_id)
     task = new
 
     task.author_id  = user_id
@@ -18,15 +18,8 @@ class Task < Issue
     task.safe_attributes = params
     task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    valid_relationships = if is_impediment
-                            task.validate_blocks_list(params[:blocks])
-                          else
-                            true
-                          end
-
-    if valid_relationships && task.save
+    if task.save
       task.move_after params[:prev]
-      task.update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
     end
 
     return task
@@ -59,12 +52,11 @@ class Task < Issue
 
     attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    if result = journalized_update_attributes!(attribs)
-      move_after params[:prev]
-      result
-    else
-      false
-    end
+    result = journalized_update_attributes!(attribs)
+
+    move_after params[:prev] if result
+
+    result
   end
 
   # assumes the task is already under the same story as 'id'
