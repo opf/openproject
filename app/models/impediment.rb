@@ -14,13 +14,9 @@ class Impediment < Task
     task.safe_attributes = params
     task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
-    #an issue relation can not be established between new nodes because their relationship can not be
-    #evaluated and issue relations between parent and descendant are prohibited. Therefore we need to
-    #save two times in a transaction
-    task.transaction do
-      task.save
-      task.blocks_ids = params[:blocks]
-      task.save
+    task.blocks_ids = params[:blocks]
+
+    if task.save
       task.move_after params[:prev]
     end
 
