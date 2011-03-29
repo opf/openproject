@@ -1,10 +1,10 @@
-#assigned_to_id_options{
+#rb #assigned_to_id_options {
   display:none;
 }
-#col_width{
+#rb #col_width {
   margin-left:5px;
 }
-#col_width input{
+#rb #col_width input {
   text-align:right;
   width:20px;
 }
@@ -13,25 +13,25 @@
  swimlane class is used by:
   - #board_header
   - .board
-  
+
 Also use by the Column Width preference to
 determine the unit width of the swimlanes.
 See RB.Taskboard.initialize()
 */
-.swimlane{
+#rb .swimlane {
   min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .issue */
   padding:5px;
   width:105px; /* Must be the same as min-width */
 }
 
 /* status labels */
-#board_header{
+#rb #board_header {
   background-color:#EBEBEB;
   border:1px solid #CCCCCC;
   margin-bottom:0;
   margin-right:10px;
 }
-#board_header td{
+#rb #board_header td {
   background-color:#EBEBEB;
   border-right:1px dotted #CFCFCF;
   color:#7E7E7E;
@@ -41,42 +41,42 @@ See RB.Taskboard.initialize()
   text-align:center;
   vertical-align:middle;
 }
-#board_header td:first-child{
+#rb #board_header td:first-child {
   min-width:231px;
   padding:10px;
   width:231px;
 }
-#board_header td:last-child{
+#rb #board_header td:last-child {
   border-right:none;
 }
 
 /* shared #impediments and #tasks */
-.board{
+#rb .board {
   background-color:#FCFCFC;
   border:1px solid #CCCCCC;
   border-top:none;
   margin-right:10px;
 }
-.board tr:hover{
+#rb .board tr:hover {
   background-color:#ffffff;
 }
-.board td{
+#rb .board td {
   border-right:1px dotted #CFCFCF;
   border-bottom:1px dotted #CFCFCF;
   vertical-align:top;
 }
-.board td:first-child{
+#rb .board td:first-child {
   min-width:210px;
   padding:5px;
-  width:210px; 
+  width:210px;
 }
-.board td:last-child{
+#rb .board td:last-child {
   border-right:none;
 }
-.board tr:last-child td{
+#rb .board tr:last-child td {
   border-bottom:none;
 }
-.board .add_new{
+#rb .board .add_new {
   margin:0;
   min-width:30px;
   padding:0;
@@ -84,12 +84,12 @@ See RB.Taskboard.initialize()
   vertical-align:middle;
   width:30px;
 }
-.board .add_new:hover{
+#rb .board .add_new:hover {
   cursor:pointer;
   background-color:#ffffcc;
 }
-.story,
-.label_sprint_impediments{
+#rb .story,
+#rb .label_sprint_impediments {
   -moz-box-shadow: 2px 2px 2px #CCCCCC;
   -webkit-box-shadow: 2px 2px 2px #CCCCCC;;
   box-shadow: 2px 2px 2px #CCCCCC;;
@@ -104,7 +104,7 @@ See RB.Taskboard.initialize()
   position:relative;
   width:190px;
 }
-.story .id{
+#rb .story .id {
   -moz-border-radius:4px 4px 4px 4px;
   -webkit-border-radius:4px 4px 4px 4px;
   border-radius:4px 4px 4px 4px;
@@ -117,7 +117,7 @@ See RB.Taskboard.initialize()
   text-align:right;
   width:187px;
 }
-.story .subject{
+#rb .story .subject {
   height:63px;
   line-height:13px;
   margin-top:0;
@@ -125,12 +125,13 @@ See RB.Taskboard.initialize()
   padding:2px;
   width:186px;
 }
-.story.closed .subject{
+#rb .story.closed .subject {
   text-decoration:line-through;
 }
 
 /* item styles used by .task and .impediment */
-.issue, .placeholder{
+#rb .issue,
+#rb .placeholder {
   background-color:#AFAFAF;
   border:none;
   cursor:move;
@@ -143,18 +144,18 @@ See RB.Taskboard.initialize()
   position:relative;
   width:85px;
 }
-.issue{
+#rb .issue {
   -moz-box-shadow: 2px 2px 2px #CCCCCC;
   -webkit-box-shadow: 2px 2px 2px #CCCCCC;
   box-shadow: 2px 2px 2px #CCCCCC;
 }
-.placeholder{
+#rb .placeholder {
   background-color:#FFFF00;
   border:1px dashed #333300;
   height:78px;
   width:83px;
 }
-.issue .id{
+#rb .issue .id {
   -moz-border-radius:4px 4px 4px 4px;
   -webkit-border-radius:4px 4px 4px 4px;
   border-radius:4px 4px 4px 4px;
@@ -168,13 +169,13 @@ See RB.Taskboard.initialize()
   text-align:right;
   width:82px;
 }
-.issue .id a{
+#rb .issue .id a {
   opacity:1.0;
 }
-.issue .editable:hover{
+#rb .issue .editable:hover {
   background-color:transparent;
 }
-.issue .subject.editable{
+#rb .issue .subject.editable {
   height:52px;
   line-height:13px;
   margin-top:0;
@@ -182,10 +183,10 @@ See RB.Taskboard.initialize()
   padding:2px;
   width:81px;
 }
-.issue.closed .subject.editable{
+#rb .issue.closed .subject.editable {
   text-decoration:line-through;
 }
-.issue .assigned_to_id.editable{
+#rb .issue .assigned_to_id.editable {
   font-size:9px;
   height:10px;
   margin-top:2px;
@@ -194,10 +195,10 @@ See RB.Taskboard.initialize()
   padding-top:0;
   width:81px;
 }
-.issue .assigned_to_id .v{
+#rb .issue .assigned_to_id .v {
   display:none;
 }
-.issue .remaining_hours.editable{
+#rb .issue .remaining_hours.editable {
   -moz-border-radius:15px 15px 15px 15px;
   -webkit-border-radius:15px 15px 15px 15px;
   border-radius:15px 15px 15px 15px;
@@ -212,13 +213,13 @@ See RB.Taskboard.initialize()
   position:absolute;
   right:-5px;
 }
-.issue .blocks{
+#rb .issue .blocks {
   display:none;
 }
-.issue .remaining_hours.editable:empty{
+#rb .issue .remaining_hours.editable:empty {
   display:none;
 }
-.issue .indicator{
+#rb .issue .indicator {
   -moz-border-radius:12px 12px 12px 12px;
   -webkit-border-radius:12px 12px 12px 12px;
   border-radius:12px 12px 12px 12px;
@@ -234,85 +235,85 @@ See RB.Taskboard.initialize()
   top:38px;
   width:16px;
 }
-.issue.saving .indicator{
+#rb .issue.saving .indicator {
   background-image:url('images/indicator.gif');
   display:block;
 }
-.issue.error .indicator{
+#rb .issue.error .indicator {
   background-image:url('images/warning.png');
   background-position:2px 0;
   border-color:#CC0000;
   display:block;
 }
-.issue .editors{
+#rb .issue .editors {
   display:none;
 }
 
 /* dialog */
 
-.ui-dialog .ui-dialog-titlebar-close{
+.ui-dialog .ui-dialog-titlebar-close {
   display:none;
 }
-.ui-dialog .ui-widget-header{
+.ui-dialog .ui-widget-header {
   background:none;
   background-color:#FFFFFF;
   opacity:0.5;
 }
-.ui-dialog .ui-dialog-title{
+.ui-dialog .ui-dialog-title {
   float:right;
   margin-right:0;
 }
-.ui-dialog.ui-widget-content{
+.ui-dialog.ui-widget-content {
   -moz-box-shadow: 2px 2px 5px #777777;
   -webkit-box-shadow: 2px 2px 5px #777777;
   box-shadow: 2px 2px 5px #777777;
   background:none;
   border:none;
 }
-.ui-dialog .ui-dialog-buttonpane.ui-widget-content{
+.ui-dialog .ui-dialog-buttonpane.ui-widget-content {
   background:none;
   background-color:none;
   border:none;
 }
 
 /* item editor */
-#task_editor label{
+#task_editor label {
   display:block;
   font-size:11px;
   text-transform:capitalize;
   width:100%;
 }
-#task_editor .editor{
+#task_editor .editor {
   font-size:11px;
   margin-bottom:10px;
   width:100%;
 }
-#task_editor .subject{
+#task_editor .subject {
   height:65px;
   width:272px;
 }
 #task_editor .remaining_hours,
-#task_editor .blocks{
+#task_editor .blocks {
   width:268px;
 }
 
 /* compact view */
-.compact .story,
-.compact .label_sprint_impediments{
+#rb .compact .story,
+#rb .compact .label_sprint_impediments {
   height:15px;
 }
-.compact .story .subject{
+#rb .compact .story .subject {
   display:none;
 }
-.compact .issue{
+#rb .compact .issue {
   height:21px;
   padding:0;
   width:21px;
 }
-.compact .issue *{
+#rb .compact .issue * {
   display:none;
 }
-.compact .placeholder{
+#rb .compact .placeholder {
   background-color:#FFFF00;
   border:1px dashed #333300;
   height:19px;
@@ -320,17 +321,17 @@ See RB.Taskboard.initialize()
 }
 
 /* others */
-#impediment_template,
-#task_template{
+#rb #impediment_template,
+#rb #task_template {
   display:none;
 }
-#preloader{
+#rb #preloader {
   left:-500px;
   position:absolute;
 }
-#spinner{
+#rb #spinner {
   background-image:url('images/indicator.gif');
 }
-#warning{
+#rb #warning {
   background-image:url('images/warning.png');
 }
