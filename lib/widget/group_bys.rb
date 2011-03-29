@@ -21,7 +21,9 @@ class Widget::GroupBys < Widget::Base
         :class => 'drag_target drag_container',
         :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
       content_tag :select, :id => "add_group_by_#{type}", :class => 'select-small' do
-        content = tag :option, :value => ''
+        content = content_tag :option, :value => '' do
+          "-- #{l(:label_group_by_add)} --"
+        end
         content += engine::GroupBy.all_grouped.sort_by do |label, group_by_ary|
           l(label)
         end.collect do |label, group_by_ary|
