@@ -52,8 +52,7 @@ class Task < Issue
   end
 
   def update_with_relationships(params, is_impediment = false)
-    attribs = params.clone.delete_if { |k, v| !safe_attribute_names.include?(k) }
-
+    attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
     result = journalized_update_attributes!(attribs)
 
