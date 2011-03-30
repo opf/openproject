@@ -214,6 +214,10 @@ class Report::Operator
     all[name.to_s] or raise ArgumentError, "Operator #{name.inspect} not defined"
   end
 
+  def self.exists?(name)
+    all.has_key?(name.to_s)
+  end
+
   def self.defaults(&block)
     class_eval &block
   end
@@ -279,12 +283,29 @@ class Report::Operator
     self.name <=> other.name
   end
 
+  ## Creates an alias for a given operator.
+  def aka(alt_name, alt_label)
+    all = self.class.all
+    alt = alt_name.to_s
+    raise ArgumentError, "Can't alias operator with an existing one's name ( #{alt} )." if all.has_key?(alt)
+    op = all[name].clone
+    op.send(:rename_to, alt_name)
+    op.singleton_class.send(:define_method, 'label') { alt_label }
+    all[alt] = op
+  end
+
   module DateRange
     def modify(query, field, from, to)
       query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.end_of_day)] if from
       query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.end_of_day)] if to
       query
     end
+  end
+
+  private
+
+  def rename_to(new_name)
+    @name = new_name
   end
 
   # Done with class method definition, let's initialize the operators
