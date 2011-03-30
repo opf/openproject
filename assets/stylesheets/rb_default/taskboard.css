@@ -3,15 +3,14 @@
   line-height: inherit;
 }
 
+.contextual #col_width input {
+  text-align:right;
+  width : 2em;
+  margin-top: -1px;
+}
+
 #rb #assigned_to_id_options {
   display:none;
-}
-#rb #col_width {
-  margin-left:5px;
-}
-#rb #col_width input {
-  text-align:right;
-  width:20px;
 }
 
 /*
