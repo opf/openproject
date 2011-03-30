@@ -19,7 +19,9 @@
 
 require 'iconv'
 require 'rfpdf/fpdf'
-require 'rfpdf/chinese'
+require 'fpdf/chinese'
+require 'fpdf/japanese'
+require 'fpdf/korean'
 
 module Redmine
   module Export
