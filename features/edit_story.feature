@@ -45,9 +45,22 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Create a new story in the backlog
     Given I am on the master backlog
-    When I hover over "#owner_backlogs_container .menu"
-      And I follow "New Story"
-      And I stop hovering over "#owner_backlogs_container .menu"
+     When I open the "Product Backlog" menu
+      And I follow "New Story" within the "Product Backlog" menu
+      And I close the "Product Backlog" menu
       And I fill in "Alice in Wonderland" for "subject"
       And I confirm the story form
      Then the 1st story in the "Product Backlog" should be "Alice in Wonderland"
+      And I should see 5 stories in "Product Backlog"
+
+  @javascript
+  Scenario: Create a new story in a sprint
+    Given I am on the master backlog
+     When I open the "Sprint 001" menu
+      And I follow "New Story" within the "Sprint 001" menu
+      And I close the "Sprint 001" menu
+      And I fill in "The Wizard of Oz" for "subject"
+      And I confirm the story form
+     Then the 1st story in the "Sprint 001" should be "The Wizard of Oz"
+      And I should see 3 stories in "Sprint 001"
+

@@ -140,7 +140,22 @@ When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type
   visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project.id, :only => object_type, :since => date)
 end
 
-When /^I hover over "([^"]*)"$/ do |selector|
+When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
+  sprint = Sprint.find_by_name(backlog_name)
+  When %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
+end
+
+When /^I open the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
+  sprint = Sprint.find_by_name(backlog_name)
+  When %Q{I hover over "#backlog_#{sprint.id} .menu"}
+end
+
+When /^I close the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
+  sprint = Sprint.find_by_name(backlog_name)
+  When %Q{I stop hovering over "#backlog_#{sprint.id} .menu"}
+end
+
+When /^I hover over "([^"]+)"$/ do |selector|
   page.execute_script "jQuery(#{selector.inspect}).addClass('hover');"
 end
 
