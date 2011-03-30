@@ -1,3 +1,8 @@
+#rb .task {
+  color: #484848;
+  line-height: inherit;
+}
+
 #rb #assigned_to_id_options {
   display:none;
 }
