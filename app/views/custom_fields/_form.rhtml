@@ -18,33 +18,33 @@ function toggle_custom_field_format() {
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.show(p_values);
+      Element.show(p_values.parentNode);
       break;
     case "bool":
       p_default.setAttribute('type','checkbox');
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "date":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "float":
     case "int":
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
   }
 }
