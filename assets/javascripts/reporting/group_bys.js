@@ -142,9 +142,10 @@ Reporting.GroupBys = {
   },
 
   add_group_by: function(field, caption, container) {
-    var group_by;
+    var group_by, add_groups_select_box;
+    add_groups_select_box = container.select('select').first();
     group_by = Reporting.GroupBys.create_group_by(field, caption);
-    container.appendChild(group_by);
+    add_groups_select_box.insert({ before: group_by });
     Reporting.GroupBys.adding_group_by_enabled(field, false);
     Reporting.GroupBys.recreate_sortables();
   }
