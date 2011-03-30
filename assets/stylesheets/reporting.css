@@ -298,7 +298,8 @@ fieldset#filter-settings table td > label {
 }
 
 .drag_container select {
-    margin-right: 20px;
+  margin-right: 20px;
+  float: right;
 }
 
 .drag_target {
