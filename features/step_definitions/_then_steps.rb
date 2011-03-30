@@ -4,8 +4,13 @@ Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (
   story_position(story).should == position.to_i
 end
 
+Then /^I should see (\d+) (?:product )?owner backlogs$/ do |count|
+  sprint_backlogs = page.all(:css, "#owner_backlogs_container .sprint")
+  sprint_backlogs.length.should == count.to_i
+end
+
 Then /^I should see (\d+) sprint backlogs$/ do |count|
-  sprint_backlogs = page.all(:css, ".sprint")
+  sprint_backlogs = page.all(:css, "#sprint_backlogs_container .sprint")
   sprint_backlogs.length.should == count.to_i
 end
 
@@ -26,8 +31,8 @@ Then /^I should see the product backlog$/ do
 end
 
 Then /^I should see (\d+) stories in (?:the )?"(.+?)"$/ do |count, backlog_name|
-  pending "Need to find the right backlog on the page."
-  page.all(:css, "#owner_backlogs_container .backlog .story").length.should == count.to_i
+  sprint = Sprint.find_by_name(backlog_name)
+  page.all(:css, "#backlog_#{sprint.id} .story").size.should == count.to_i
 end
 
 Then /^show me the list of sprints$/ do

@@ -47,6 +47,7 @@ Feature: Product Owner
      Then I should see the product backlog
       And I should see 4 stories in the "Product Backlog"
       And I should see 4 sprint backlogs
+      And I should see 2 product owner backlogs
 
   Scenario: Create a new story
      When I go to the master backlog
