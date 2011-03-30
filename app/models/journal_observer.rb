@@ -16,12 +16,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalObserver < ActiveRecord::Observer
+  attr_accessor :send_notification
+  
   def after_create(journal)
     if Setting.notified_events.include?('issue_updated') ||
         (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
         (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
         (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
-      Mailer.deliver_issue_edit(journal)
+      Mailer.deliver_issue_edit(journal) if self.send_notification
     end
+    clear_notification
+  end
+
+   # Wrap send_notification so it defaults to true, when it's nil
+  def send_notification
+    return true if @send_notification.nil?
+    return @send_notification
+  end
+  
+  private
+
+  # Need to clear the notification setting after each usage otherwise it might be cached
+  def clear_notification
+    @send_notification = true
   end
 end

@@ -430,6 +430,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Value for field 2', v.value
   end
   
+  def test_post_new_should_not_send_a_notification_if_send_notification_is_off
+    ActionMailer::Base.deliveries.clear
+    @request.session[:user_id] = 2
+    post :create, :project_id => 1, 
+               :send_notification => 0,
+               :issue => {:tracker_id => 3,
+                          :subject => 'This is the test_new issue',
+                          :description => 'This is the description',
+                          :priority_id => 5,
+                          :estimated_hours => '',
+                          :custom_field_values => {'2' => 'Value for field 2'}}
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+    
+    assert_equal 0, ActionMailer::Base.deliveries.size
+    end
+
   def test_post_create_without_start_date
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
@@ -1001,6 +1017,22 @@ class IssuesControllerTest < ActionController::TestCase
                                     }
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
+
+  def test_put_update_should_not_send_a_notification_if_send_notification_is_off
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.find(1)
+    old_subject = issue.subject
+    new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
+    
+    put :update, :id => 1,
+                 :send_notification => 0,
+                 :issue => {:subject => new_subject,
+                            :priority_id => '6',
+                            :category_id => '1' # no change
+                           }
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
   
   def test_put_update_with_invalid_spent_time
     @request.session[:user_id] = 2
@@ -1113,6 +1145,25 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
+  end
+
+  def test_bullk_update_should_not_send_a_notification_if_send_notification_is_off
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+    post(:bulk_update,
+         {
+           :ids => [1, 2],
+           :issue => {
+             :priority_id => 7,
+             :assigned_to_id => '',
+             :custom_field_values => {'2' => ''}
+           },
+           :notes => 'Bulk editing',
+           :send_notification => '0'
+         })
+
+    assert_response 302
+    assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
   def test_bulk_update_on_different_projects

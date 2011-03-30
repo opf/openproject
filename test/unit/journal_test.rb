@@ -47,4 +47,14 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
+  def test_create_should_not_send_email_notification_if_told_not_to
+    ActionMailer::Base.deliveries.clear
+    issue = Issue.find(:first)
+    user = User.find(:first)
+    journal = issue.init_journal(user, issue)
+    JournalObserver.instance.send_notification = false
+
+    assert journal.save
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
 end

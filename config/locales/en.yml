@@ -800,6 +800,7 @@ en:
   label_cvs_module: Module
   label_bazaar_path: Root directory
   label_filesystem_path: Root directory
+  label_notify_member_plural: Email issue updates
 
   button_login: Login
   button_submit: Submit
