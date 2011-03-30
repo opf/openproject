@@ -146,13 +146,13 @@ module PDF_Japanese
   			b2='LR'
   		else
   			b2=''
-  			if(border.index('L').nil?)
+  			if(border.to_s.index('L'))
   				b2+='L'
       	end  
-  			if(border.index('R').nil?)
+  			if(border.to_s.index('R'))
   				b2+='R'
       	end  
-  			b=border.index('T').nil? ? b2+'T' : b2
+  			b=border.to_s.index('T') ? b2+'T' : b2
   		end
   	end
   	sep=-1
@@ -163,7 +163,7 @@ module PDF_Japanese
   	while(i<nb)
   		#Get next character
   		c=s[i]
-  		o=ord(c)
+  		o=c #o=ord(c)
   		if(o==10)
   			#Explicit line break
   			Cell(w,h,s[j,i-j],b,2,align,fill)
@@ -221,7 +221,7 @@ module PDF_Japanese
   		end
   	end
   	#Last chunk
-  	if(border and not border.index('B').nil?)
+  	if(border and not border.to_s.index('B').nil?)
   		b+='B'
   	end  
   	Cell(w,h,s[j,i-j],b,2,align,fill)
