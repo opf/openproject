@@ -21,27 +21,23 @@
   <%= theme_stylesheet_link_tag 'taskboard_print.css', :media => 'print' %>
 <% end %>
 
+<div class="contextual">
+  <% if @sprint.has_burndown %>
+    <a id='show_charts'><%= l(:label_burndown) %></a>
+  <% end %>
+
+  <%# TODO i18n %>
+  <span id="col_width">
+    <label for="col_width_input">Column width:</label>
+    <input id="col_width_input" name="col_width" type='text' />
+  </span>
+</div>
+
+<h2>
+  <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>
+</h2>
+
 <div id='rb'>
-  <div class="breadcrumbs">
-    <%= link_to l(:label_master_backlog), :controller => "rb_master_backlogs", :action => "show", :project_id => @project %>
-    <%= breadcrumb_separator %>
-    <%= @sprint.name %>
-  </div>
-
-  <div class="links">
-    <% if @sprint.has_burndown %>
-      <a id='show_charts'><%= l(:label_burndown) %></a>
-    <% end %>
-    <%# TODO i18n %>
-    <span id="col_width">Column width: <input name="col_width"/></span>
-
-    <% if false %>
-      <%# TODO i18n %>
-      <a id="disable_autorefresh">Disable Auto-refresh</a>
-      <a id="refresh">Refresh</a>
-    <% end %>
-  </div>
-
   <div id="main">
     <div id="taskboard">
       <table id="board_header" cellspacing="0">

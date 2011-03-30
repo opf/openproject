@@ -22,11 +22,10 @@
   <%= theme_stylesheet_link_tag 'master_backlog_print.css', :media => 'print' %>
 <% end %>
 
-<div id="rb">
-  <div class="breadcrumbs">
-    <%= l(:label_master_backlog) %>
-  </div>
+<div class='contextual'></div>
+<h2><%= link_to l(:label_master_backlog), rb_master_backlog_path(@project) %></h2>
 
+<div id="rb">
   <div id="main">
     <div id="backlogs_container">
       <div id="owner_backlogs_container">

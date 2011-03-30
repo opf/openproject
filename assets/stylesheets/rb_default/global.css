@@ -14,49 +14,6 @@
 #rb a:hover {
   text-decoration:underline;
 }
-/* TOOLBAR */
-#rb #toolbar {
-  background-color:#CCCCCC;
-  display:block;
-  height:30px;
-  overflow:hidden;
-  position:relative;
-  width:100%;
-}
-#rb #toolbar .breadcrumbs {
-  bottom:5px;
-  display:block;
-  font-size:0.8em;
-  left:10px;
-  position:absolute;
-}
-#rb #toolbar .breadcrumbs .home {
-  font-size:1.2em;
-}
-#rb #toolbar .breadcrumbs .separator {
-  bottom:2px;
-  color: #999999;
-  font-size:0.7em;
-  font-weight:bold;
-  position:relative;
-}
-#rb #toolbar .links {
-  bottom:5px;
-  display:block;
-  font-size:0.7em;
-  right:10px;
-  position:absolute;
-}
-#rb #toolbar .links a {
-  cursor:pointer;
-  padding-left:5px;
-}
-#rb body.loading #refresh {
-  background-image:url('images/bouncer.gif');
-  background-repeat:no-repeat;
-  background-position:-6px 1px;
-  padding-top:5px;
-}
 /* MAIN */
 #rb #main {
   display:block;
@@ -79,4 +36,9 @@
 }
 #rb .ui-dialog .editor {
   display:block;
+}
+
+.contextual #col_width input {
+  width : 3em;
+  margin-top: -1px;
 }
