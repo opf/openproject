@@ -262,7 +262,7 @@ fieldset#filter-settings table td > label {
   padding: 0 7px;
   height: 22px;
   line-height: 22px;
-  min-width: 45px;
+  min-width: 55px;
 }
 
 .arrow {
@@ -294,13 +294,10 @@ fieldset#filter-settings table td > label {
 
 .drag_container {
   padding: 7px 0;
-  /*background-color: #ededed;
-  border: 1px dotted #CCCCCC;*/
   height: 23px;
 }
 
 .drag_container select {
-    float: right;
     margin-right: 20px;
 }
 
