@@ -137,6 +137,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
+    params['story_points'] = story['story_points']
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,

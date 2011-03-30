@@ -35,6 +35,11 @@ Then /^I should see (\d+) stories in (?:the )?"(.+?)"$/ do |count, backlog_name|
   page.all(:css, "#backlog_#{sprint.id} .story").size.should == count.to_i
 end
 
+Then /^the velocity of "(.+?)" should be "(.+?)"$/ do |backlog_name, velocity|
+  sprint = Sprint.find_by_name(backlog_name)
+  page.find(:css, "#backlog_#{sprint.id} .velocity").text.should == velocity
+end
+
 Then /^show me the list of sprints$/ do
   sprints = Sprint.find(:all, :conditions => ["project_id=?", @project.id])
 

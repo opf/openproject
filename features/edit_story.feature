@@ -37,9 +37,9 @@ Feature: Edit story on backlogs view
         | 3        | Story 3 | Product Backlog |
         | 4        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 5        | Story A | Sprint 001 |
-        | 6        | Story B | Sprint 001 |
+        | position | subject | sprint     | story_points |
+        | 5        | Story A | Sprint 001 | 10           |
+        | 6        | Story B | Sprint 001 | 20           |
     And I am logged in as "mathias"
 
   @javascript
@@ -60,9 +60,11 @@ Feature: Edit story on backlogs view
       And I follow "New Story" within the "Sprint 001" menu
       And I close the "Sprint 001" menu
       And I fill in "The Wizard of Oz" for "subject"
+      And I fill in "3" for "story_points"
       And I confirm the story form
      Then the 1st story in the "Sprint 001" should be "The Wizard of Oz"
       And I should see 3 stories in "Sprint 001"
+      And the velocity of "Sprint 001" should be "33"
 
   @javascript
   Scenario: Edit story in the backlog
@@ -78,6 +80,8 @@ Feature: Edit story on backlogs view
     Given I am on the master backlog
      When I click on the text "Story A"
       And I fill in "Story A revisited" for "subject"
+      And I fill in "11" for "story_points"
       And I confirm the story form
      Then the 1st story in the "Sprint 001" should be "Story A revisited"
       And I should see 2 stories in "Sprint 001"
+      And the velocity of "Sprint 001" should be "31"
