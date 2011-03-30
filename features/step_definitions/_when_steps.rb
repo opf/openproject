@@ -155,6 +155,11 @@ When /^I close the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
   When %Q{I stop hovering over "#backlog_#{sprint.id} .menu"}
 end
 
+When /^I click on the text "(.+?)"$/ do |locator|
+  msg = "no element with title, id or text '#{locator}' found"
+  page.all(:xpath, %Q{//*[contains(., "#{locator}")]}, :message => msg).last.click
+end
+
 When /^I hover over "([^"]+)"$/ do |selector|
   page.execute_script "jQuery(#{selector.inspect}).addClass('hover');"
 end

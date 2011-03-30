@@ -64,3 +64,20 @@ Feature: Edit story on backlogs view
      Then the 1st story in the "Sprint 001" should be "The Wizard of Oz"
       And I should see 3 stories in "Sprint 001"
 
+  @javascript
+  Scenario: Edit story in the backlog
+    Given I am on the master backlog
+     When I click on the text "Story 2"
+      And I fill in "Story 2 revisited" for "subject"
+      And I confirm the story form
+     Then the 2nd story in the "Product Backlog" should be "Story 2 revisited"
+      And I should see 4 stories in "Product Backlog"
+
+  @javascript
+  Scenario: Edit story in a sprint
+    Given I am on the master backlog
+     When I click on the text "Story A"
+      And I fill in "Story A revisited" for "subject"
+      And I confirm the story form
+     Then the 1st story in the "Sprint 001" should be "Story A revisited"
+      And I should see 2 stories in "Sprint 001"
