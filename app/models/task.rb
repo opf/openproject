@@ -44,7 +44,7 @@ class Task < Issue
 
   def status_id=(id)
     super
-    task.remaining_hours = 0 if IssueStatus.find(id).is_closed?
+    self.remaining_hours = 0 if IssueStatus.find(id).is_closed?
   end
 
   def impediment?

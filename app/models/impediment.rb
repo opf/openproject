@@ -47,8 +47,6 @@ class Impediment < Task
   def update_with_relationships(params)
     attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
-    attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
-
     result = journalized_update_attributes(attribs)
 
     move_after params[:prev] if result
