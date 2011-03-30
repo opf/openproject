@@ -54,7 +54,7 @@ class Task < Issue
   def update_with_relationships(params, is_impediment = false)
     attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
-    result = journalized_update_attributes!(attribs)
+    result = journalized_update_attributes(attribs)
 
     move_after params[:prev] if result
 

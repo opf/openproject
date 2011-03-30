@@ -44,16 +44,6 @@ class Impediment < Task
     @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:issue_to_id)
   end
 
-  def update_with_relationships(params)
-    attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
-
-    result = journalized_update_attributes(attribs)
-
-    move_after params[:prev] if result
-
-    result
-  end
-
   def move_after(prev_id)
     #our super's, move after is using awesome_nested_set which is inapproriate for impediments.
     #Impediments always have a parent_id of nil, it is their defining criteria.
