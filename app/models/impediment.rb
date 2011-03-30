@@ -55,6 +55,11 @@ class Impediment < Task
   end
 
   def move_after(prev_id)
+    #our super's, move after is using awesome_nested_set which is inapproriate for impediments.
+    #Impediments always have a parent_id of nil, it is their defining criteria.
+    #Therefore we use the acts_as_list method
+    #TODO: create a module to be included by story and impediment, for now this code is just copy&paste
+
     # remove so the potential 'prev' has a correct position
     remove_from_list
 
