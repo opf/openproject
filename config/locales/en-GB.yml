@@ -303,8 +303,8 @@ en-GB:
   field_group_by: Group results by
   field_sharing: Sharing
   field_parent_issue: Parent task
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
+  field_member_of_group: "Assignee's group"
+  field_assigned_to_role: "Assignee's role"
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
