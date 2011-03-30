@@ -139,13 +139,13 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   			b2='LR'
   		else
   			b2=''
-  			if(border.index('L').nil?)
+  			if(border.to_s.index('L').nil?)
   				b2+='L'
         end
-  			if(border.index('R').nil?)
+  			if(border.to_s.index('R').nil?)
   				b2+='R'
         end
-  			b=border.index('T').nil? ? b2+'T' : b2
+  			b=border.to_s.index('T').nil? ? b2+'T' : b2
   		end
   	end
   	sep=-1
@@ -178,7 +178,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   			sep=i
   			ls=l
   		end
-  		l+=ascii ? cw[c.chr] : 1000
+  		l+=(ascii ? cw[c.chr] : 1000) || 0
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
@@ -202,7 +202,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
       end
   	end
   	#Last chunk
-  	if(border and not border.index('B').nil?)
+  	if(border and not border.to_s.index('B').nil?)
   		b+='B'
     end
   	Cell(w,h,s[j,i-j],b,2,align,fill)
