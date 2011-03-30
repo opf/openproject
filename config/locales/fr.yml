@@ -786,6 +786,8 @@ fr:
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
   label_principal_search: "Rechercher un utilisateur ou un groupe :"
   label_user_search: "Rechercher un utilisateur :"
+  label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
+  label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
   
   button_login: Connexion
   button_submit: Soumettre
