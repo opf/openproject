@@ -189,7 +189,7 @@ module PDF_Chinese
   		c=s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
-  		if(c=="\n")
+  		if(c.chr=="\n")
   			#Explicit line break
   			Cell(w,h,s[j,i-j],b,2,align,fill)
   			i+=1
@@ -209,12 +209,12 @@ module PDF_Chinese
   			sep=i
   			ls=l
   		end
-  		l+=ascii ? (cw[c.chr] || 0) : 1000
+  		l+=ascii ? (cw[c.chr] || 0) : 1100
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
   				if(i==j)
-  					i+=ascii ? 1 : 2
+  					i+=ascii ? 1 : 3
 					end
   				Cell(w,h,s[j,i-j],b,2,align,fill)
   			else
@@ -229,7 +229,7 @@ module PDF_Chinese
   				b=b2
   			end
   		else
-  			i+=ascii ? 1 : 2
+  			i+=ascii ? 1 : 3
   		end
   	end
   	#Last chunk
@@ -265,7 +265,7 @@ module PDF_Chinese
   		c=s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
-  		if(c=="\n")
+  		if(c.chr=="\n")
   			#Explicit line break
   			Cell(w,h,s[j,i-j],0,2,'',0,link)
   			i+=1
@@ -283,7 +283,7 @@ module PDF_Chinese
   		if(!ascii or c==' ')
   			sep=i
 			end
-  		l+=ascii ? cw[c.chr] : 1000
+  		l+=ascii ? cw[c.chr] : 1100
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
@@ -298,7 +298,7 @@ module PDF_Chinese
   					next
   				end
   				if(i==j)
-  					i+=ascii ? 1 : 2
+  					i+=ascii ? 1 : 3
 					end
   				Cell(w,h,s[j,i-j],0,2,'',0,link)
   			else
@@ -315,7 +315,7 @@ module PDF_Chinese
   			end
   			nl+=1
   		else
-  			i+=ascii ? 1 : 2
+  			i+=ascii ? 1 : 3
 			end
   	end
   	#Last chunk
