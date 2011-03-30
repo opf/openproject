@@ -389,13 +389,21 @@ class FPDF
         end
         @ColorFlag=(@FillColor!=@TextColor)
     end
+    
+    def GetCharWidth(widths, index)
+      if index.is_a?(String)
+        widths[index.ord]
+      else
+        widths[index]
+      end
+    end
 
     def GetStringWidth(s)
         # Get width of a string in the current font
         cw=@CurrentFont['cw']
         w=0
         s.each_byte do |c|
-            w=w+cw[c]
+            w=w+GetCharWidth(cw, c)
         end
         w*@FontSize/1000.0
     end
@@ -790,7 +798,7 @@ class FPDF
                     ls=l
                     ns=ns+1
                 end
-                l=l+cw[char]
+                l=l+GetCharWidth(cw, char)
                 if l>wmax
                     # Automatic line break
                     if sep==-1
@@ -866,7 +874,7 @@ class FPDF
                 sep=i
                 ls=l
             end
-            l=l+cw[c];
+            l=l+GetCharWidth(cw, c);
             if l>wmax
                 # Automatic line break
                 if sep==-1
@@ -1159,7 +1167,7 @@ class FPDF
                 cw=font['cw']
                 s='['
                 32.upto(255) do |i|
-                    s << cw[i].to_s+' '
+                    s << GetCharWidth(cw, i).to_s + ' '
                 end
                 out(s+']')
                 out('endobj')
