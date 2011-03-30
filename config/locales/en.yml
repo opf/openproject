@@ -66,11 +66,11 @@ en:
         other: "almost %{count} years"
 
   number:
-    # Default format for numbers
     format:
       separator: "." 
       delimiter: ""
       precision: 3
+
     human:
       format:
         delimiter: ""
@@ -123,7 +123,7 @@ en:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Please select
   
@@ -172,15 +172,15 @@ en:
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
-  error_scm_annotate: "The entry does not exist or can not be annotated."
+  error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_can_not_delete_tracker: "This tracker contains issues and can't be deleted."
-  error_can_not_remove_role: "This role is in use and can not be deleted."
-  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
-  error_can_not_archive_project: This project can not be archived
+  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_remove_role: "This role is in use and cannot be deleted."
+  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
+  error_can_not_archive_project: This project cannot be archived
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
@@ -210,8 +210,8 @@ en:
   field_description: Description
   field_summary: Summary
   field_is_required: Required
-  field_firstname: Firstname
-  field_lastname: Lastname
+  field_firstname: First name
+  field_lastname: Last name
   field_mail: Email
   field_filename: File
   field_filesize: Size
@@ -410,7 +410,7 @@ en:
   permission_browse_repository: Browse repository
   permission_view_changesets: View changesets
   permission_commit_access: Commit access
-  permission_manage_boards: Manage boards
+  permission_manage_boards: Manage forums
   permission_view_messages: View messages
   permission_add_messages: Post messages
   permission_edit_messages: Edit messages
@@ -427,7 +427,7 @@ en:
   project_module_files: Files
   project_module_wiki: Wiki
   project_module_repository: Repository
-  project_module_boards: Boards
+  project_module_boards: Forums
   project_module_calendar: Calendar
   project_module_gantt: Gantt
   
@@ -864,10 +864,10 @@ en:
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
-  text_project_destroy_confirmation: Are you sure you want to delete this project and related data ?
+  text_project_destroy_confirmation: Are you sure you want to delete this project and related data?
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
-  text_are_you_sure: Are you sure ?
+  text_are_you_sure: Are you sure?
   text_are_you_sure_with_children: "Delete issue and all child issues?"
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -877,7 +877,7 @@ en:
   text_tip_issue_begin_day: issue beginning this day
   text_tip_issue_end_day: issue ending this day
   text_tip_issue_begin_end_day: issue beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."
@@ -888,8 +888,8 @@ en:
   text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
   text_issue_added: "Issue %{id} has been reported by %{author}."
   text_issue_updated: "Issue %{id} has been updated by %{author}."
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
-  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do ?"
+  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content?
+  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Reassign issues to this category
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
@@ -897,13 +897,13 @@ en:
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick available (optional)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
@@ -952,4 +952,3 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
-
