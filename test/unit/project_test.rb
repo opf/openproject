@@ -589,6 +589,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil Project.next_identifier
   end
   
+  def test_enabled_module_names
+    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+      project = Project.new
+      
+      project.enabled_module_names = %w(issue_tracking news)
+      assert_equal %w(issue_tracking news), project.enabled_module_names.sort
+    end
+  end
 
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)
