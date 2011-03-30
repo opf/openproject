@@ -101,7 +101,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   	while(i<nb)
   		c=s[i]
   		if(c<128)
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] if cw[c.chr]
   			i+=1
   		else
   			l+=1000
@@ -139,13 +139,9 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   			b2='LR'
   		else
   			b2=''
-  			if(border.to_s.index('L').nil?)
-  				b2+='L'
-        end
-  			if(border.to_s.index('R').nil?)
-  				b2+='R'
-        end
-  			b=border.to_s.index('T').nil? ? b2+'T' : b2
+  			b2='L' unless border.to_s.index('L').nil?
+  			b2=b2+'R' unless border.to_s.index('R').nil?
+  			b=(border.to_s.index('T')) ? (b2+'T') : b2
   		end
   	end
   	sep=-1
@@ -158,7 +154,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   		c=s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
-  		if(c=="\n")
+  		if(c.chr=="\n")
   			#Explicit line break
   			Cell(w,h,s[j,i-j],b,2,align,fill)
   			i+=1
@@ -174,7 +170,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   		if(!ascii)
   			sep=i
   			ls=l
-  		elsif(c==' ')
+  		elsif(c.chr==' ')
   			sep=i
   			ls=l
   		end
@@ -188,7 +184,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   				Cell(w,h,s[j,i-j],b,2,align,fill)
   			else
   				Cell(w,h,s[j,sep-j],b,2,align,fill)
-  				i=(s[sep]==' ') ? sep+1 : sep
+  				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
   			j=i
@@ -234,7 +230,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   		c=s[i]
   		#Check if ASCII or MB
   		ascii=(c<128)
-  		if(c=="\n")
+  		if(c.chr=="\n")
   			#Explicit line break
   			Cell(w,h,s[j,i-j],0,2,'',0,link)
   			i+=1
@@ -249,10 +245,10 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   			nl+=1
   			next
   		end
-  		if(!ascii or c==' ')
+  		if(!ascii or c.chr==' ')
   			sep=i
       end
-  		l+=ascii ? cw[c.chr] : 1000
+  		l+=(ascii ? cw[c.chr] : 1000) || 0
   		if(l>wmax)
   			#Automatic line break
   			if(sep==-1 or i==j)
@@ -272,7 +268,7 @@ UHC_widths={' ' => 333, '!' => 416, '"' => 416, '#' => 833, '$' => 625, '%' => 9
   				Cell(w,h,s[j,i-j],0,2,'',0,link)
   			else
   				Cell(w,h,s[j,sep-j],0,2,'',0,link)
-  				i=(s[sep]==' ') ? sep+1 : sep
+  				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
   			j=i

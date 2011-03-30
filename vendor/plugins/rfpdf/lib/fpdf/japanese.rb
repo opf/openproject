@@ -103,7 +103,7 @@ module PDF_Japanese
   		o=s[i]
   		if(o<128)
   			#ASCII
-  			l+=cw[o.chr]
+  			l+=cw[o.chr] if cw[o.chr]
   			i+=1
   		elsif(o>=161 and o<=223)
   			#Half-width katakana
@@ -146,13 +146,9 @@ module PDF_Japanese
   			b2='LR'
   		else
   			b2=''
-  			if(border.to_s.index('L'))
-  				b2+='L'
-      	end  
-  			if(border.to_s.index('R'))
-  				b2+='R'
-      	end  
-  			b=border.to_s.index('T') ? b2+'T' : b2
+  			b2='L' unless border.to_s.index('L').nil?
+  			b2=b2+'R' unless border.to_s.index('R').nil?
+  			b=(border.to_s.index('T')) ? (b2+'T') : b2
   		end
   	end
   	sep=-1
@@ -179,7 +175,7 @@ module PDF_Japanese
   		end
   		if(o<128)
   			#ASCII
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] || 0
   			n=1
   			if(o==32)
   				sep=i
@@ -204,7 +200,7 @@ module PDF_Japanese
   				Cell(w,h,s[j,i-j],b,2,align,fill)
   			else
   				Cell(w,h,s[j,sep-j],b,2,align,fill)
-  				i=(s[sep]==' ') ? sep+1 : sep
+  				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
   			j=i
@@ -230,9 +226,9 @@ module PDF_Japanese
 
   def Write(h,txt,link='')
   	if(@CurrentFont['type']=='Type0')
-  		SJISWrite(h,txt,link)
-  	else
-  		super(h,txt,link)
+ 		SJISWrite(h,txt,link)
+ 	else
+ 		super(h,txt,link)
   	end  
   end
 
@@ -270,7 +266,7 @@ module PDF_Japanese
   		end
   		if(o<128)
   			#ASCII
-  			l+=cw[c.chr]
+  			l+=cw[c.chr] || 0
   			n=1
   			if(o==32)
   				sep=i
@@ -305,7 +301,7 @@ module PDF_Japanese
   				Cell(w,h,s[j,i-j],0,2,'',0,link)
   			else
   				Cell(w,h,s[j,sep-j],0,2,'',0,link)
-  				i=(s[sep]==' ') ? sep+1 : sep
+  				i=(s[sep].chr==' ') ? sep+1 : sep
   			end
   			sep=-1
   			j=i
