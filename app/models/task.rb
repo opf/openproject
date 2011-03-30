@@ -16,7 +16,6 @@ class Task < Issue
     task.tracker_id = Task.tracker
 
     task.safe_attributes = params
-    task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
     if task.save
       task.move_after params[:prev]
@@ -43,6 +42,11 @@ class Task < Issue
     return tasks
   end
 
+  def status_id=(id)
+    super
+    task.remaining_hours = 0 if IssueStatus.find(id).is_closed?
+  end
+
   def impediment?
     parent_issue_id.nil?
   end
@@ -50,7 +54,6 @@ class Task < Issue
   def update_with_relationships(params, is_impediment = false)
     attribs = params.clone.delete_if { |k, v| !safe_attribute_names.include?(k) }
 
-    attribs[:remaining_hours] = 0 if IssueStatus.find(params[:status_id]).is_closed?
 
     result = journalized_update_attributes!(attribs)
 
