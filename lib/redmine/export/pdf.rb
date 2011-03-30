@@ -29,6 +29,58 @@ module Redmine
       include ActionView::Helpers::TextHelper
       include ActionView::Helpers::NumberHelper
       
+      class ITCPDF < TCPDF
+        include Redmine::I18n
+        attr_accessor :footer_date
+        
+        def initialize(lang)
+          super()
+          set_language_if_valid lang
+          @font_for_content = 'FreeSans'
+          @font_for_footer = 'FreeSans'              
+          SetCreator(Redmine::Info.app_name)
+          SetFont(@font_for_content)
+        end
+        
+        def SetFontStyle(style, size)
+          SetFont(@font_for_content, style, size)
+        end
+        
+        def SetTitle(txt)
+          txt = begin
+            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            hextxt = "<FEFF"  # FEFF is BOM
+            hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
+            hextxt << ">"
+          rescue
+            txt
+          end || ''
+          super(txt)
+        end
+    
+        def textstring(s)
+          # Format a text string
+          if s =~ /^</  # This means the string is hex-dumped.
+            return s
+          else
+            return '('+escape(s)+')'
+          end
+        end
+         
+        alias RDMCell Cell
+        alias RDMMultiCell MultiCell
+         
+        def Footer
+          SetFont(@font_for_footer, 'I', 8)
+          SetY(-15)
+          SetX(15)
+          RDMCell(0, 5, @footer_date, 0, 0, 'L')
+          SetY(-15)
+          SetX(-30)
+          RDMCell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
+        end
+      end
+
       class IFPDF < FPDF
         include Redmine::I18n
         attr_accessor :footer_date
@@ -90,7 +142,7 @@ module Redmine
           end
         end
           
-        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
+        def fix_text_encoding(txt)
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
           txt = txt.gsub(/[â€œâ€�]/, '"') if txt
@@ -102,27 +154,37 @@ module Redmine
           rescue
             txt
           end || ''
-          super w,h,txt,border,ln,align,fill,link
+            return txt
+        end
+        
+        def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
+            Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
+        end
+        
+        def RDMMultiCell(w,h=0,txt='',border=0,align='',fill=0)
+            MultiCell(w,h,fix_text_encoding(txt),border,align,fill)
         end
         
         def Footer
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
           SetX(15)
-          Cell(0, 5, @footer_date, 0, 0, 'L')
+          RDMCell(0, 5, @footer_date, 0, 0, 'L')
           SetY(-15)
           SetX(-30)
-          Cell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
+          RDMCell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
         end
+        alias alias_nb_pages AliasNbPages
       end
-      
+
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
         pdf = IFPDF.new(current_language)
+
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
-        pdf.AliasNbPages
+        pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
         
@@ -136,15 +198,15 @@ module Redmine
         
         # title
         pdf.SetFontStyle('B',11)    
-        pdf.Cell(190,10, title)
+        pdf.RDMCell(190,10, title)
         pdf.Ln
         
         # headers
         pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
-        pdf.Cell(15, row_height, "#", 1, 0, 'L', 1)
+        pdf.RDMCell(15, row_height, "#", 1, 0, 'L', 1)
         query.columns.each_with_index do |column, i|
-          pdf.Cell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
+          pdf.RDMCell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
         end
         pdf.Ln
         
@@ -155,13 +217,13 @@ module Redmine
         issues.each do |issue|
           if query.grouped? && (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
-            pdf.Cell(277, row_height, 
+            pdf.RDMCell(277, row_height, 
               (group.blank? ? 'None' : group.to_s) + " (#{query.issue_count_by_group[group]})",
               1, 1, 'L')
             pdf.SetFontStyle('',8)
             previous_group = group
           end
-          pdf.Cell(15, row_height, issue.id.to_s, 1, 0, 'L', 1)
+          pdf.RDMCell(15, row_height, issue.id.to_s, 1, 0, 'L', 1)
           query.columns.each_with_index do |column, i|
             s = if column.is_a?(QueryCustomFieldColumn)
               cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
@@ -176,13 +238,13 @@ module Redmine
                 value
               end
             end
-            pdf.Cell(col_width[i], row_height, s.to_s, 1, 0, 'L', 1)
+            pdf.RDMCell(col_width[i], row_height, s.to_s, 1, 0, 'L', 1)
           end
           pdf.Ln
         end
         if issues.size == Setting.issues_export_limit.to_i
           pdf.SetFontStyle('B',10)
-          pdf.Cell(0, row_height, '...')
+          pdf.RDMCell(0, row_height, '...')
         end
         pdf.Output
       end
@@ -191,73 +253,73 @@ module Redmine
       def issue_to_pdf(issue)
         pdf = IFPDF.new(current_language)
         pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
-        pdf.AliasNbPages
+        pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
         
         pdf.SetFontStyle('B',11)    
-        pdf.Cell(190,10, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
+        pdf.RDMCell(190,10, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
         
         y0 = pdf.GetY
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_status) + ":","LT")
+        pdf.RDMCell(35,5, l(:field_status) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.status.to_s,"RT")
+        pdf.RDMCell(60,5, issue.status.to_s,"RT")
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_priority) + ":","LT")
+        pdf.RDMCell(35,5, l(:field_priority) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.priority.to_s,"RT")        
+        pdf.RDMCell(60,5, issue.priority.to_s,"RT")        
         pdf.Ln
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_author) + ":","L")
+        pdf.RDMCell(35,5, l(:field_author) + ":","L")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.author.to_s,"R")
+        pdf.RDMCell(60,5, issue.author.to_s,"R")
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_category) + ":","L")
+        pdf.RDMCell(35,5, l(:field_category) + ":","L")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.category.to_s,"R")
+        pdf.RDMCell(60,5, issue.category.to_s,"R")
         pdf.Ln   
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_created_on) + ":","L")
+        pdf.RDMCell(35,5, l(:field_created_on) + ":","L")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, format_date(issue.created_on),"R")
+        pdf.RDMCell(60,5, format_date(issue.created_on),"R")
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_assigned_to) + ":","L")
+        pdf.RDMCell(35,5, l(:field_assigned_to) + ":","L")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.assigned_to.to_s,"R")
+        pdf.RDMCell(60,5, issue.assigned_to.to_s,"R")
         pdf.Ln
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_updated_on) + ":","LB")
+        pdf.RDMCell(35,5, l(:field_updated_on) + ":","LB")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, format_date(issue.updated_on),"RB")
+        pdf.RDMCell(60,5, format_date(issue.updated_on),"RB")
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_due_date) + ":","LB")
+        pdf.RDMCell(35,5, l(:field_due_date) + ":","LB")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, format_date(issue.due_date),"RB")
+        pdf.RDMCell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
         
         for custom_value in issue.custom_field_values
           pdf.SetFontStyle('B',9)
-          pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
+          pdf.RDMCell(35,5, custom_value.custom_field.name + ":","L")
           pdf.SetFontStyle('',9)
-          pdf.MultiCell(155,5, (show_value custom_value),"R")
+          pdf.RDMMultiCell(155,5, (show_value custom_value),"R")
         end
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_subject) + ":","LTB")
+        pdf.RDMCell(35,5, l(:field_subject) + ":","LTB")
         pdf.SetFontStyle('',9)
-        pdf.Cell(155,5, issue.subject,"RTB")
+        pdf.RDMCell(155,5, issue.subject,"RTB")
         pdf.Ln    
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_description) + ":")
+        pdf.RDMCell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
-        pdf.MultiCell(155,5, issue.description.to_s,"BR")
+        pdf.RDMMultiCell(155,5, issue.description.to_s,"BR")
         
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
@@ -265,49 +327,49 @@ module Redmine
         
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
           pdf.SetFontStyle('B',9)
-          pdf.Cell(190,5, l(:label_associated_revisions), "B")
+          pdf.RDMCell(190,5, l(:label_associated_revisions), "B")
           pdf.Ln
           for changeset in issue.changesets
             pdf.SetFontStyle('B',8)
-            pdf.Cell(190,5, format_time(changeset.committed_on) + " - " + changeset.author.to_s)
+            pdf.RDMCell(190,5, format_time(changeset.committed_on) + " - " + changeset.author.to_s)
             pdf.Ln
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
-              pdf.MultiCell(190,5, changeset.comments.to_s)
+              pdf.RDMMultiCell(190,5, changeset.comments.to_s)
             end   
             pdf.Ln
           end
         end
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(190,5, l(:label_history), "B")
+        pdf.RDMCell(190,5, l(:label_history), "B")
         pdf.Ln  
         for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
           pdf.SetFontStyle('B',8)
-          pdf.Cell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
+          pdf.RDMCell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
-            pdf.Cell(190,5, "- " + show_detail(detail, true))
+            pdf.RDMCell(190,5, "- " + show_detail(detail, true))
             pdf.Ln
           end
           if journal.notes?
             pdf.SetFontStyle('',8)
-            pdf.MultiCell(190,5, journal.notes.to_s)
+            pdf.RDMMultiCell(190,5, journal.notes.to_s)
           end   
           pdf.Ln
         end
         
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
-          pdf.Cell(190,5, l(:label_attachment_plural), "B")
+          pdf.RDMCell(190,5, l(:label_attachment_plural), "B")
           pdf.Ln
           for attachment in issue.attachments
             pdf.SetFontStyle('',8)
-            pdf.Cell(80,5, attachment.filename)
-            pdf.Cell(20,5, number_to_human_size(attachment.filesize),0,0,"R")
-            pdf.Cell(25,5, format_date(attachment.created_on),0,0,"R")
-            pdf.Cell(65,5, attachment.author.name,0,0,"R")
+            pdf.RDMCell(80,5, attachment.filename)
+            pdf.RDMCell(20,5, number_to_human_size(attachment.filesize),0,0,"R")
+            pdf.RDMCell(25,5, format_date(attachment.created_on),0,0,"R")
+            pdf.RDMCell(65,5, attachment.author.name,0,0,"R")
             pdf.Ln
           end
         end

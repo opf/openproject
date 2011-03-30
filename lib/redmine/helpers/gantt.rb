@@ -513,12 +513,12 @@ module Redmine
       def to_pdf
         pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
-        pdf.AliasNbPages
+        pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
         pdf.SetFontStyle('B',12)
         pdf.SetX(15)
-        pdf.Cell(PDF::LeftPaneWidth, 20, project.to_s)
+        pdf.RDMCell(PDF::LeftPaneWidth, 20, project.to_s)
         pdf.Ln
         pdf.SetFontStyle('B',9)
         
@@ -553,7 +553,7 @@ module Redmine
           width = ((month_f >> 1) - month_f) * zoom 
           pdf.SetY(y_start)
           pdf.SetX(left)
-          pdf.Cell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
+          pdf.RDMCell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
           left = left + width
           month_f = month_f >> 1
         end  
@@ -571,14 +571,14 @@ module Redmine
             width = (7 - self.date_from.cwday + 1) * zoom-1
             pdf.SetY(y_start + header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width + 1, height, "", "LTR")
+            pdf.RDMCell(width + 1, height, "", "LTR")
             left = left + width+1
           end
           while week_f <= self.date_to
             width = (week_f + 6 <= self.date_to) ? 7 * zoom : (self.date_to - week_f + 1) * zoom
             pdf.SetY(y_start + header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
+            pdf.RDMCell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
             left = left + width
             week_f = week_f+7
           end
@@ -594,7 +594,7 @@ module Redmine
             width = zoom
             pdf.SetY(y_start + 2 * header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width, height, day_name(wday).first, "LTR", 0, "C")
+            pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
             left = left + width
             wday = wday + 1
             wday = 1 if wday > 7
@@ -603,7 +603,7 @@ module Redmine
         
         pdf.SetY(y_start)
         pdf.SetX(15)
-        pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
+        pdf.RDMCell(subject_width+g_width-15, headers_heigth, "", 1)
         
         # Tasks
         top = headers_heigth + y_start
@@ -723,11 +723,11 @@ module Redmine
         params[:pdf].SetX(15)
         
         char_limit = PDF::MaxCharactorsForSubject - params[:indent]
-        params[:pdf].Cell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+        params[:pdf].RDMCell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
       
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(params[:subject_width])
-        params[:pdf].Cell(params[:g_width], 5, "", "LR")
+        params[:pdf].RDMCell(params[:g_width], 5, "", "LR")
       end
       
       def image_subject(params, subject, options={})
@@ -784,19 +784,19 @@ module Redmine
           params[:pdf].SetY(params[:top]+1.5)
           params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
           params[:pdf].SetFillColor(200,200,200)
-          params[:pdf].Cell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          params[:pdf].RDMCell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
             
           if coords[:bar_late_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(255,100,100)
-            params[:pdf].Cell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
           if coords[:bar_progress_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(90,200,90)
-            params[:pdf].Cell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
         end
         # Renders the markers
@@ -805,19 +805,19 @@ module Redmine
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
             params[:pdf].SetFillColor(50,50,200)
-            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+            params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1) 
           end
           if coords[:end]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:end] - 1)
             params[:pdf].SetFillColor(50,50,200)
-            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+            params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1) 
           end
         end
         # Renders the label on the right
         if options[:label]
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
-          params[:pdf].Cell(30, 2, options[:label])
+          params[:pdf].RDMCell(30, 2, options[:label])
         end
       end
 
