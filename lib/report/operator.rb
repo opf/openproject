@@ -88,16 +88,6 @@ class Report::Operator
       end
     end
 
-    new "?=", :label => :label_null_or_equal do
-      def modify(query, field, *values)
-        where_clause = "(#{field} IS NULL"
-        where_clause += " OR #{field} IN #{collection(*values)}" unless values.compact.empty?
-        where_clause += ")"
-        query.where where_clause
-        query
-      end
-    end
-
     new "~", :arity => 1, :label => :label_contains do
       def modify(query, field, *values)
         value = values.first || ''
@@ -181,6 +171,16 @@ class Report::Operator
       def modify(query, field, value)
         return query if value.to_s.empty?
         "=".to_operator.modify query, field, quoted_date(value)
+      end
+    end
+
+    new "?=", :label => :label_null_or_equal do
+      def modify(query, field, *values)
+        where_clause = "(#{field} IS NULL"
+        where_clause += " OR #{field} IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += ")"
+        query.where where_clause
+        query
       end
     end
 
