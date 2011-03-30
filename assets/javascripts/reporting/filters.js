@@ -26,13 +26,13 @@ Reporting.Filters = {
       callback_func();
     }
     // select first option by default
-    if (select.localName === "div") {
+    if (select.tagName.toLowerCase() === "div") {
       // check if we might have a radio-box
       radio_options = $$('.' + filter_name + '_radio_option input');
       if (radio_options && radio_options.size() !== 0) {
         radio_options.first().checked = true;
       }
-    } else if (select.localName === "select") {
+    } else if (select.tagName.toLowerCase() === "select") {
       select.selectedIndex = 0;
     }
   },
