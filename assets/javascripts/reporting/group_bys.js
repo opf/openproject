@@ -41,9 +41,6 @@ Reporting.GroupBys = {
       'class': 'group_by_remove in_row',
       'id': group_by.identify() + '_remove'
     });
-    Reporting.GroupBys.remove_button_hover(button, false);
-    button.observe('mouseover', function() { Reporting.GroupBys.remove_button_hover(this, true); });
-    button.observe('mouseout',  function() { Reporting.GroupBys.remove_button_hover(this, false); });
     button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
     return button;
   },
@@ -115,15 +112,6 @@ Reporting.GroupBys = {
     $w('add_group_by_columns add_group_by_rows').each(function(container_id) {
       Reporting.Filters.select_option_enabled($(container_id), field, state);
     });
-  },
-
- remove_button_hover: function(button, status) {
-    if (status) {
-      $(button).update('✖');
-    }
-    else {
-      $(button).update('⤫');
-    }
   },
 
   remove_group_by: function(group_by) {

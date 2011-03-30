@@ -225,7 +225,7 @@ fieldset#filter-settings table td > label {
 /* have #content here to overwrite line-heigth of other themes through being more specific*/
 #content .group_by_label {
   margin: 0px;
-  padding: 0px 5px 0 5px;
+  padding: 0px 18px 0 0;
   min-width: 60px;
   text-align: center;
   white-space: nowrap;
@@ -242,12 +242,15 @@ fieldset#filter-settings table td > label {
 }
 
 .group_by_remove {
-  padding-right: 3px;
   background-color: #9A9A9A;
-  height: 22px;
-  min-width: 1.4em;
-  text-align: center;
+  height: 7px;
+  width: 8px;
+  position: absolute;
+  top: 7px;
+  right: 18px;
   cursor: pointer;
+  background: no-repeat left center;
+  background-image: url(../images/remove.gif);
 }
 
 .group_by_remove.hover {
