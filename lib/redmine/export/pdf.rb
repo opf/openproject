@@ -37,7 +37,7 @@ module Redmine
           super()
           set_language_if_valid lang
           @font_for_content = 'FreeSans'
-          @font_for_footer = 'FreeSans'              
+          @font_for_footer  = 'FreeSans'
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
@@ -93,7 +93,7 @@ module Redmine
             extend(PDF_Korean)
             AddUHCFont()
             @font_for_content = 'UHC'
-            @font_for_footer = 'UHC'
+            @font_for_footer  = 'UHC'
           when 'ja'
             extend(PDF_Japanese)
             AddSJISFont()
@@ -111,7 +111,7 @@ module Redmine
             @font_for_footer = 'Big5'
           else
             @font_for_content = 'Arial'
-            @font_for_footer = 'Helvetica'              
+            @font_for_footer  = 'Helvetica'
           end
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
@@ -179,8 +179,16 @@ module Redmine
 
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
-        pdf = IFPDF.new(current_language)
-
+        if Redmine::Platform.mswin? ||
+           ( current_language.to_s.downcase == 'ko'    ||
+             current_language.to_s.downcase == 'ja'    ||
+             current_language.to_s.downcase == 'zh'    ||
+             current_language.to_s.downcase == 'zh-tw' ||
+             current_language.to_s.downcase == 'th'    )
+          pdf = IFPDF.new(current_language)
+        else
+          pdf = ITCPDF.new(current_language)
+        end
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
         pdf.SetTitle(title)
@@ -251,7 +259,16 @@ module Redmine
 
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
-        pdf = IFPDF.new(current_language)
+        if Redmine::Platform.mswin? ||
+           ( current_language.to_s.downcase == 'ko'    ||
+             current_language.to_s.downcase == 'ja'    ||
+             current_language.to_s.downcase == 'zh'    ||
+             current_language.to_s.downcase == 'zh-tw' ||
+             current_language.to_s.downcase == 'th'    )
+          pdf = IFPDF.new(current_language)
+        else
+          pdf = ITCPDF.new(current_language)
+        end
         pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)

@@ -511,7 +511,16 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
+        if Redmine::Platform.mswin? ||
+           ( current_language.to_s.downcase == 'ko'    ||
+             current_language.to_s.downcase == 'ja'    ||
+             current_language.to_s.downcase == 'zh'    ||
+             current_language.to_s.downcase == 'zh-tw' ||
+             current_language.to_s.downcase == 'th'    )
+          pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
+        else
+          pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
+        end
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
