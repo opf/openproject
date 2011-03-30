@@ -1,6 +1,8 @@
 class RbMasterBacklogsController < RbApplicationController
   unloadable
 
+  menu_item :backlogs
+
   def show
     @owner_backlogs = Backlog.owner_backlogs(@project)
     @sprint_backlogs = Backlog.sprint_backlogs(@project)

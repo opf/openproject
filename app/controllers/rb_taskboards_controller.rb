@@ -1,6 +1,8 @@
 class RbTaskboardsController < RbApplicationController
   unloadable
 
+  menu_item :backlogs
+
   def show
     @statuses     = Tracker.find_by_id(Task.tracker).issue_statuses
     @story_ids    = @sprint.stories.map{|s| s.id}
