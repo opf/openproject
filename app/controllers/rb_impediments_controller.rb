@@ -2,7 +2,7 @@ class RbImpedimentsController < RbApplicationController
   unloadable
 
   def create
-    @impediment = Impediment.create_with_relationships(params, User.current.id, @project.id)
+    @impediment = Impediment.create_with_relationships(params, @project.id)
     result = @impediment.errors.length
     status = (result == 0 ? 200 : 400)
     @include_meta = true

@@ -66,7 +66,7 @@ describe Impediment do
 
       shared_examples_for "impediment creation" do
         it { @impediment.subject.should eql @impediment_subject }
-        it { @impediment.author.should eql user }
+        it { @impediment.author.should eql User.current }
         it { @impediment.project.should eql project }
         it { @impediment.fixed_version.should eql version }
         it { @impediment.priority.should eql issue_priority}
@@ -97,7 +97,6 @@ describe Impediment do
                                                                 :blocks => feature.id.to_s,
                                                                 :status_id => issue_status1.id,
                                                                 :fixed_version_id => version.id},
-                                                                user.id,
                                                                 project.id)
 
           end
@@ -116,7 +115,6 @@ describe Impediment do
                                                                 :blocks => feature.id.to_s,
                                                                 :status_id => issue_status1.id,
                                                                 :fixed_version_id => version.id},
-                                                                user.id,
                                                                 project.id)
           end
 
@@ -133,7 +131,6 @@ describe Impediment do
                                                               :blocks => "",
                                                               :status_id => issue_status1.id,
                                                               :fixed_version_id => version.id},
-                                                              user.id,
                                                               project.id)
         end
 

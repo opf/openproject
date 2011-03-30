@@ -11,23 +11,6 @@ class Impediment < Task
                             user.allowed_to?(:update_impediments, impediment.project)
                           }
 
-  def self.create_with_relationships(params, user_id, project_id)
-    task = new
-
-    task.author_id  = user_id
-    task.project_id = project_id
-    task.tracker_id = Task.tracker
-
-    task.safe_attributes = params
-    task.remaining_hours = 0 if IssueStatus.find(params[:status_id]).is_closed?
-
-    if task.save
-      task.move_after params[:prev]
-    end
-
-    return task
-  end
-
   def self.find(*args)
     if args[1] && args[1][:conditions]
       if args[1][:conditions].is_a?(Hash)
