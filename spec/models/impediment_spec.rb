@@ -94,7 +94,7 @@ describe Impediment do
             feature.save
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
-                                                                :blocks => feature.id.to_s,
+                                                                :blocks_ids => feature.id.to_s,
                                                                 :status_id => issue_status1.id,
                                                                 :fixed_version_id => version.id},
                                                                 project.id)
@@ -112,7 +112,7 @@ describe Impediment do
             feature.save
             @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                                 :assigned_to_id => user.id,
-                                                                :blocks => feature.id.to_s,
+                                                                :blocks_ids => feature.id.to_s,
                                                                 :status_id => issue_status1.id,
                                                                 :fixed_version_id => version.id},
                                                                 project.id)
@@ -128,7 +128,7 @@ describe Impediment do
         before(:each) do
           @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
                                                               :assigned_to_id => user.id,
-                                                              :blocks => "",
+                                                              :blocks_ids => "",
                                                               :status_id => issue_status1.id,
                                                               :fixed_version_id => version.id},
                                                               project.id)
@@ -196,7 +196,7 @@ describe Impediment do
             @story.fixed_version = version
             @story.save
             @blocks = @story.id.to_s
-            @impediment.update_with_relationships({:blocks => @blocks,
+            @impediment.update_with_relationships({:blocks_ids => @blocks,
                                                    :status_id => issue_status1.id.to_s})
           end
 
@@ -209,7 +209,7 @@ describe Impediment do
             @story.fixed_version = Factory.create(:version, :project => project, :name => "another version")
             @story.save
             @blocks = @story.id.to_s
-            @impediment.update_with_relationships({:blocks => @blocks,
+            @impediment.update_with_relationships({:blocks_ids => @blocks,
                                                    :status_id => issue_status1.id.to_s})
           end
 
@@ -222,7 +222,7 @@ describe Impediment do
       describe "WITHOUT a blocking relationship defined" do
         before(:each) do
           @blocks = ""
-          @impediment.update_with_relationships({:blocks => @blocks,
+          @impediment.update_with_relationships({:blocks_ids => @blocks,
                                                  :status_id => issue_status1.id.to_s})
         end
 

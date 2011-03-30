@@ -9,8 +9,8 @@ module RbCommonHelper
     story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
   end
 
-  def blocked_ids(blocked)
-    blocked.map{|b| b.id }.join(',')
+  def blocks_ids(ids)
+    ids.sort.join(',')
   end
 
   def build_inline_style(task)

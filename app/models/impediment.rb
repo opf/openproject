@@ -5,7 +5,7 @@ class Impediment < Task
 
   after_save :update_blocks_list
 
-  safe_attributes "blocks", #change to blocks_ids once ui can be manipulated
+  safe_attributes "blocks_ids",
                   :if => lambda {|impediment, user|
                             (impediment.new_record? && user.allowed_to?(:create_impediments, impediment.project)) ||
                             user.allowed_to?(:update_impediments, impediment.project)
@@ -28,10 +28,6 @@ class Impediment < Task
 
   def self.find_all_updated_since(since, project_id)
     super(since, project_id, true)
-  end
-
-  def blocks=(ids)
-    self.blocks_ids = ids
   end
 
   def blocks_ids=(ids)
