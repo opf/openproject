@@ -1699,7 +1699,7 @@ def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
     s += "    def FontDef.cw\n#{w}\n    end\n"
 
     s += "    def FontDef.enc\n        '#{enc}'\n    end\n"
-    s += "    def FontDef.diff\n        #{(diff == nil) || (diff == '') ? 'nil' : '\'' + diff + '\''}\n    end\n"
+    s += "    def FontDef.diff\n        #{(diff == nil) || (diff == '') ? 'nil' : '\'' + diff '\''}\n    end\n"
 
     basename = File.basename(afmfile, '.*')
 
