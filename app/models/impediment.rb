@@ -88,7 +88,9 @@ class Impediment < Task
     currently_blocking = relations_from.select{|rel| rel.relation_type == IssueRelation::TYPE_BLOCKS}.collect(&:issue_to_id)
 
     (self.blocks_ids - currently_blocking).each{ |id|
-      self.relations_from.create(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_to => Issue.find(id), :issue_from => self)
+      rel = IssueRelation.new(:relation_type => IssueRelation::TYPE_BLOCKS, :issue_from => self)
+      rel.issue_to_id = id #attr_protected
+      self.relations_from << rel
     }
   end
 
