@@ -34,19 +34,6 @@ def initialize_impediment_params(project, sprint, user = User.find(:first))
   params
 end
 
-def create_role_in_project
-  role = Role.find(:first, :conditions => "name='Manager'")
-
-  @user.memberships.destroy_all
-
-  membership = @user.memberships.create(:project_id => @project)
-  require 'ruby-debug'; debugger
-  membership.member_roles << MemberRole.new(:role => role)
-  membership.save!
-
-  role
-end
-
 def task_position(task)
   p1 = task.story.tasks.select{|t| t.id == task.id}[0].rank
   p2 = task.rank
