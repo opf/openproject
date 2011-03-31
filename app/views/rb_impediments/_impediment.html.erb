@@ -4,7 +4,7 @@
     <div class="v"><%= id_or_empty(impediment) %></div>
   </div>
   <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= impediment.subject %></div>
-  <div class="blocks editable" fieldname="blocks"><%= blocked_ids(impediment.blocks) %></div>
+  <div class="blocks editable" fieldname="blocks_ids" fieldlabel="<%= l(:field_blocks_ids) %>"><%= blocks_ids(impediment.blocks_ids) %></div>
   <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
     <div class="t"><%= assignee_name_or_empty(impediment) %></div>
     <div class="v"><%= assignee_id_or_empty(impediment) %></div>

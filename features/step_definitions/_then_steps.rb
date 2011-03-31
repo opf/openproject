@@ -114,6 +114,26 @@ Then /^the sprint named (.+) should have (\d+) impediments? named (.+)$/ do |spr
   sprints.first.impediments.map{ |i| i.subject==impediment_subject}.length.should == count.to_i
 end
 
+Then /^the impediment "(.+)" should signal( | un)successful saving$/ do |impediment_subject, negative|
+  negative = !negative.blank?
+
+  element = {}
+  begin
+    wait_until(5) do
+      element = page.find(:xpath, "//div[contains(concat(' ',normalize-space(@class),' '),' impediment ') and contains(., '#{impediment_subject}')]")
+      !element[:class].include?('saving') || element[:class].include?('error')
+    end
+  rescue Capybara::TimeoutError
+    fail "The impediment '#{impediment_subject}' did not finish saving within within 5 sec"
+  end
+
+  if negative
+    element[:class].should be_include('error')
+  else
+    element[:class].should_not be_include('error')
+  end
+end
+
 Then /^the sprint should be updated accordingly$/ do
   sprint = Sprint.find(@sprint_params['id'])
 
@@ -171,4 +191,8 @@ end
 Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject, attribute, value|
   issue = Issue.find_by_subject(subject)
   issue[attribute].should == value.to_i
+end
+
+Then /^the error alert should show "(.+?)"$/ do |msg|
+  Then %Q{I should see "#{msg}" within "#msgBox"}
 end

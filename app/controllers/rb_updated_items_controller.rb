@@ -26,7 +26,7 @@ class RbUpdatedItemsController < RbApplicationController
     end
 
     if only.include? :impediments
-      @items[:impediments] = Task.find_all_updated_since(params[:since], @project.id, true)
+      @items[:impediments] = Impediment.find_all_updated_since(params[:since], @project.id)
       if @items[:impediments].length > 0
         latest_updates << @items[:impediments].sort{ |a,b| a.updated_on <=> b.updated_on }.last
       end

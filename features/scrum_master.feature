@@ -1,7 +1,7 @@
 Feature: Scrum Master
   As a scrum master
   I want to manage sprints and their stories
-  So that they get done according the product owner's requirements
+  So that they get done according the product owner´s requirements
 
   Background:
     Given there is 1 project with:
@@ -26,6 +26,8 @@ Feature: Scrum Master
         | manage_subtasks         |
     And there is 1 user with:
         | login | markus |
+        | firstname | Markus |
+        | Lastname | Master |
     And the user "markus" is a "scrum master"
     And the project has the following sprints:
         | name       | sprint_start_date | effective_date  |
@@ -46,28 +48,116 @@ Feature: Scrum Master
         | position | subject | sprint     |
         | 5        | Story A | Sprint 001 |
         | 6        | Story B | Sprint 001 |
+        | 7        | Story C | Sprint 002 |
+    And there are the following trackers:
+        | name         |
+        | Task         |
+    And the tracker "Task" is configured to track tasks
+    And there are the following issue status:
+        | name        | is_closed  | is_default  |
+        | New         | false      | true        |
+        | In Progress | false      | false       |
+        | Resolved    | false      | false       |
+        | Closed      | true       | false       |
+        | Rejected    | true       | false       |
+    And the tracker "Task" has the default workflow for the role "scrum master"
+    And the project has the following tasks:
+        | subject      | sprint     | parent     |
+        | Task 1       | Sprint 001 | Story A    |
     And the project has the following impediments:
-        | subject      | sprint     | blocks  |
-        | Impediment 1 | Sprint 001 | Story A |
+        | subject      | sprint     | blocks     |
+        | Impediment 1 | Sprint 001 | Story A    |
     And I am logged in as "markus"
 
+  @javascript
   Scenario: Create an impediment
     Given I am on the taskboard for "Sprint 001"
-      And I want to create an impediment for Sprint 001
-      And I want to set the subject of the impediment to Bad Impediment
-      And I want to indicate that the impediment blocks Story B
-     When I create the impediment
-     Then the request should complete successfully
-      And the sprint named Sprint 001 should have 2 impediments named Bad Impediment
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the tasks "Task 1" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal successful saving
 
+  @javascript
+  Scenario: Create an impediment blocking an issue of another sprint
+    Given I am on the taskboard for "Sprint 001"
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the stories "Story C" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Create an impediment blocking a non existent issue
+    Given I am on the taskboard for "Sprint 001"
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Create an impediment without specifying what it blocks
+    Given I am on the taskboard for "Sprint 001"
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) must contain the ID of at least one ticket"
+
+  @javascript
   Scenario: Update an impediment
     Given I am on the taskboard for "Sprint 001"
-      And I want to edit the impediment named Impediment 1
-      And I want to set the subject of the impediment to Good Impediment
-      And I want to indicate that the impediment blocks Story B
-     When I update the impediment
-     Then the request should complete successfully
-      And the sprint named Sprint 001 should have 1 impediment named Good Impediment
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the tasks "Task 1" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal successful saving
+
+  @javascript
+  Scenario: Update an impediment to block an issue of another sprint
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the stories "Story C" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Update an impediment to block a non existent issue
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Update an impediment to not block anything
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) must contain the ID of at least one ticket"
 
   Scenario: Update sprint details
     Given I am on the master backlog

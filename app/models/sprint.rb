@@ -274,19 +274,7 @@ class Sprint < Version
     end
 
     def impediments
-        return Issue.find(:all,
-            :conditions => ["id in (
-                            select issue_from_id
-                            from issue_relations ir
-                            join issues blocked
-                                on blocked.id = ir.issue_to_id
-                                and blocked.tracker_id in (?)
-                                and blocked.fixed_version_id = (?)
-                            where ir.relation_type = 'blocks'
-                            )",
-                        Story.trackers + [Task.tracker],
-                        self.id]
-            ) #.sort {|a,b| a.closed? == b.closed? ?  a.updated_on <=> b.updated_on : (a.closed? ? 1 : -1) }
+      Impediment.find(:all, :conditions => {:fixed_version_id => self})
     end
 
 end

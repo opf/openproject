@@ -5,7 +5,7 @@ module Backlogs
     def self.included(base) # :nodoc:
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
-  
+
       base.class_eval do
         unloadable
 
@@ -15,10 +15,10 @@ module Backlogs
         after_save  :backlogs_after_save
       end
     end
-  
+
     module ClassMethods
     end
-  
+
     module InstanceMethods
       def move_to_project_without_transaction_with_autolink(new_project, new_tracker = nil, options = {})
         newissue = move_to_project_without_transaction_without_autolink(new_project, new_tracker, options)
@@ -29,33 +29,33 @@ module Backlogs
           relation.issue_to = newissue
           relation.save
         end
-  
+
         return newissue
       end
-  
+
       def journalized_update_attributes!(attribs)
         self.init_journal(User.current)
         return self.update_attributes!(attribs)
       end
-  
+
       def journalized_update_attributes(attribs)
         self.init_journal(User.current)
         return self.update_attributes(attribs)
       end
-  
+
       def journalized_update_attribute(attrib, v)
         self.init_journal(User.current)
         self.update_attribute(attrib, v)
       end
-  
+
       def is_story?
         return Story.trackers.include?(self.tracker_id)
       end
-  
+
       def is_task?
         return (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
       end
-  
+
       def story
         if self.is_story?
           return self
@@ -63,13 +63,13 @@ module Backlogs
           return self.ancestors.find_by_tracker_id(Story.trackers)
         end
       end
-  
+
       def blocks
         # return issues that I block that aren't closed
         return [] if closed?
         relations_from.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_to.closed? ? ir.issue_to : nil}.compact
       end
-  
+
       def blockers
         # return issues that block me
         return [] if closed?
@@ -78,23 +78,23 @@ module Backlogs
 
       def velocity_based_estimate
         return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
-  
+
         dpp = self.project.scrum_statistics.info[:average_days_per_point]
         return nil if ! dpp
-  
+
         return Integer(self.story_points * dpp)
       end
-  
+
       def recalculate_attributes_for_with_remaining_hours(issue_id)
         recalculate_attributes_for_without_remaining_hours(issue_id)
-  
+
         if issue_id && p = Issue.find_by_id(issue_id)
           if p.left != (p.right + 1) # this node has children
             p.update_attribute(:remaining_hours, p.leaves.sum(:remaining_hours).to_f)
           end
         end
       end
-  
+
       def backlogs_before_validation
         if self.tracker_id == Task.tracker
           self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
@@ -108,9 +108,9 @@ module Backlogs
         ## Normally one of the _before_save hooks ought to take
         ## care of this, but appearantly neither root_id nor
         ## parent_id are set at that point
-  
+
         touched_sprints = []
-  
+
         if self.is_story?
           # raw sql here because it's efficient and not
           # doing so causes an update loop when Issue calls
@@ -125,7 +125,7 @@ module Backlogs
 
           touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact.uniq
           touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}.compact
-  
+
         elsif self.is_task?
           begin
             story = self.story
@@ -136,7 +136,7 @@ module Backlogs
             touched_sprints = [self.root_id, self.root_id_was].compact.uniq.collect{|s| Story.find(s).fixed_version}.compact
           end
         end
-  
+
         touched_sprints.each {|sprint|
           sprint.touch_burndown
         }

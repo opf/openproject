@@ -17,8 +17,8 @@
                                      :sprint_id => @sprint) %>
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
-  <%= theme_stylesheet_link_tag 'taskboard.css', :media => 'print,screen' %>
-  <%= theme_stylesheet_link_tag 'taskboard_print.css', :media => 'print' %>
+  <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'taskboard_print.css', :media => 'print', :plugin => 'redmine_backlogs' %>
 <% end %>
 
 <div class="contextual">
@@ -26,17 +26,13 @@
     <a id='show_charts'><%= l(:label_burndown) %></a>
   <% end %>
 
-  <%# TODO i18n %>
   <span id="col_width">
-    <label for="col_width_input">Column width:</label>
+    <label for="col_width_input"><%= l('backlogs.column_with') %></label>
     <input id="col_width_input" name="col_width" type='text' />
   </span>
 </div>
 
-<div class="breadcrumb">
-  <%= link_to l(:label_backlogs), rb_master_backlog_path(@project) %>
-  »
-</div>
+<%= breadcrumb(link_to l(:label_backlogs), rb_master_backlog_path(@project)) %>
 
 <h2>
   <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>
@@ -60,7 +56,7 @@
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <%= render :partial => "rb_impediments/impediment",
-                       :collection => @sprint.impediments.select { |impediment| impediment.status_id == status.id } %>
+                       :collection => @sprint.impediments.select{ |i| i.status_id == status.id }.sort_by {|i| i.position } %>
           </td>
         <% end %>
       </tr>
@@ -102,7 +98,7 @@
       <%= render :partial => "rb_tasks/task", :object => Task.new %>
     </div>
     <div id="impediment_template">
-      <%= render :partial => "rb_impediments/impediment", :object => Task.new %>
+      <%= render :partial => "rb_impediments/impediment", :object => Impediment.new %>
     </div>
 
     <div id="issue_editor"> </div>

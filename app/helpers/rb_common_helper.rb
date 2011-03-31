@@ -9,8 +9,8 @@ module RbCommonHelper
     story.blank? || story.assigned_to.blank? ? "" : "#{story.assigned_to.firstname} #{story.assigned_to.lastname}"
   end
 
-  def blocked_ids(blocked)
-    blocked.map{|b| b.id }.join(',')
+  def blocks_ids(ids)
+    ids.sort.join(',')
   end
 
   def build_inline_style(task)
@@ -79,20 +79,6 @@ module RbCommonHelper
 
   def textile_description_or_empty(story)
     story.new_record? ? "" : h(story.description).gsub(/&lt;(\/?pre)&gt;/, '<\1>')
-  end
-
-  def theme_name
-    'rb_default'
-  end
-
-  # TODO: get rid of theme_stylesheet_link_tag, no themeing neccessary, when
-  # view becomes part of default layout
-  def theme_stylesheet_link_tag(*args)
-    themed_args = args.select{ |a| a.class!=Hash }.map{ |s| "#{theme_name}/#{s.to_s}"}
-    options = args.select{ |a| a.class==Hash}.first || { }
-    options[:plugin] = 'redmine_backlogs'
-    themed_args << options
-    stylesheet_link_tag *themed_args
   end
 
   def tracker_id_or_empty(story)

@@ -2,7 +2,7 @@ class RbTasksController < RbApplicationController
   unloadable
 
   def create
-    @task  = Task.create_with_relationships(params, User.current.id, @project.id)
+    @task  = Task.create_with_relationships(params, @project.id)
     result = @task.errors.length
     status = (result == 0 ? 200 : 400)
     @include_meta = true

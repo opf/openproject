@@ -150,36 +150,36 @@ end
 Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_name, table|
   project = get_project(project_name)
 
-  author = User.find(:first)
+  User.current = User.find(:first)
 
   table.hashes.each do |task|
     story = Story.find(:first, :conditions => { :subject => task['parent'] })
-    params = initialize_task_params(project, story, author)
+    params = initialize_task_params(project, story)
     params['subject'] = task['subject']
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Task.create_with_relationships(params, author, project.id)
+    Task.create_with_relationships(params, project.id)
   end
 end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |project_name, table|
   project = get_project(project_name)
 
-  author = User.find(:first)
+  User.current = User.find(:first)
 
   table.hashes.each do |impediment|
     sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
     blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
-    params = initialize_impediment_params(project, sprint, author)
+    params = initialize_impediment_params(project, sprint)
     params['subject'] = impediment['subject']
-    params['blocks']  = blocks.join(',')
+    params['blocks_ids']  = blocks.join(',')
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Task.create_with_relationships(params, author.id, project.id)
+    Impediment.create_with_relationships(params, project.id)
   end
 end
 
@@ -248,4 +248,9 @@ end
 
 Given /^the scrum statistics are enabled$/ do
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => true)
+end
+
+Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
+  tracker = Tracker.find_by_name(tracker_name)
+  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:task_tracker => tracker.id)
 end
