@@ -11,8 +11,6 @@ module Backlogs
 
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
-        alias_method_chain :is_descendant_of?, :new_record
-        alias_method_chain :is_ancestor_of?, :new_record
         before_validation :backlogs_before_validation
         after_save  :backlogs_after_save
       end
@@ -56,22 +54,6 @@ module Backlogs
 
       def is_task?
         return (self.parent_id && self.tracker_id == Task.tracker)
-      end
-
-      def is_descendant_of_with_new_record?(other)
-        if self.new_record?
-          self.parent && (self.parent == other || self.parent.is_decendant_of?(other))
-        else
-          is_descendant_of_without_new_record?(other)
-        end
-      end
-
-      def is_ancestor_of_with_new_record?(other)
-        if self.new_record?
-          false
-        else
-          is_ancestor_of_without_new_record?(other)
-        end
       end
 
       def story
