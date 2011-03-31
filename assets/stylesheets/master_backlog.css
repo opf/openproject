@@ -110,7 +110,7 @@
 }
 #rb .backlog .header .menu .item.hover,
 #rb .backlog .header .menu .item:hover {
-  background-color:#CC0000;
+  background-color: #999;
 }
 #rb .backlog .header .menu .item a {
   display:block;
