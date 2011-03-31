@@ -122,6 +122,21 @@ describe Impediment do
           it { @impediment.should be_new_record }
           it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
         end
+
+        describe "WITH the story being non existent" do
+          before(:each) do
+            @impediment = Impediment.create_with_relationships({:subject => @impediment_subject,
+                                                                :assigned_to_id => user.id,
+                                                                :blocks_ids => "0",
+                                                                :status_id => issue_status1.id,
+                                                                :fixed_version_id => version.id},
+                                                                project.id)
+          end
+
+          it_should_behave_like "impediment creation with no blocking relationship"
+          it { @impediment.should be_new_record }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+        end
       end
 
       describe "WITHOUT a blocking relationship defined" do
@@ -209,6 +224,18 @@ describe Impediment do
             @story.fixed_version = Factory.create(:version, :project => project, :name => "another version")
             @story.save
             @blocks = @story.id.to_s
+            @impediment.update_with_relationships({:blocks_ids => @blocks,
+                                                   :status_id => issue_status1.id.to_s})
+          end
+
+          it_should_behave_like "impediment update with unchanged blocking relationship"
+          it { @impediment.should be_changed }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+        end
+
+        describe "WITH the story beeing non existent" do
+          before(:each) do
+            @blocks = "0"
             @impediment.update_with_relationships({:blocks_ids => @blocks,
                                                    :status_id => issue_status1.id.to_s})
           end

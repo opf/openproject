@@ -99,7 +99,11 @@ class Impediment < Task
   end
 
   def validate_blocks_list
-    errors.add :blocks_ids, :must_block_at_least_one_issue if blocks_ids.size == 0
-    errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if Issue.find(blocks_ids).any?{|i| i.fixed_version != self.fixed_version }
+    if blocks_ids.size == 0
+      errors.add :blocks_ids, :must_block_at_least_one_issue
+    else
+      issues = Issue.find_all_by_id(blocks_ids)
+      errors.add :blocks_ids, :can_only_contain_issues_of_current_sprint if issues.size == 0 || issues.any?{|i| i.fixed_version != self.fixed_version }
+    end
   end
 end
