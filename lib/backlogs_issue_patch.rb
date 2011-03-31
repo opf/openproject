@@ -53,7 +53,7 @@ module Backlogs
       end
   
       def is_task?
-        return (self.parent_id && self.tracker_id == Task.tracker)
+        return (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
       end
   
       def story
@@ -126,7 +126,7 @@ module Backlogs
           touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact.uniq
           touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}.compact
   
-        elsif not Task.tracker.nil?
+        elsif self.is_task?
           begin
             story = self.story
             if not story.blank?
