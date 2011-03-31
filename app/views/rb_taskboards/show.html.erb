@@ -26,17 +26,13 @@
     <a id='show_charts'><%= l(:label_burndown) %></a>
   <% end %>
 
-  <%# TODO i18n %>
   <span id="col_width">
     <label for="col_width_input"><%= l('backlogs.column_with') %></label>
     <input id="col_width_input" name="col_width" type='text' />
   </span>
 </div>
 
-<div class="breadcrumb">
-  <%= link_to l(:label_backlogs), rb_master_backlog_path(@project) %>
-  »
-</div>
+<%= breadcrumb(link_to l(:label_backlogs), rb_master_backlog_path(@project)) %>
 
 <h2>
   <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>
