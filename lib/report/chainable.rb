@@ -133,7 +133,7 @@ class Report < ActiveRecord::Base
       options.each do |key, value|
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
-          send "#{key}=", value if value
+          send "#{key}=", value
         end
       end
       self.child, child.parent = child, self if child
