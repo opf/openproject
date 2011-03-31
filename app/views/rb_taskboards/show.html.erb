@@ -33,57 +33,60 @@
   </span>
 </div>
 
+<div class="breadcrumb">
+  <%= link_to l(:label_backlogs), rb_master_backlog_path(@project) %>
+  »
+</div>
+
 <h2>
   <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>
 </h2>
 
 <div id='rb'>
-  <div id="main">
-    <div id="taskboard">
-      <table id="board_header" cellspacing="0">
-        <tr>
-          <td><%= l(:backlogs_story) %></td>
-          <% @statuses.each do |status| %>
-            <td class="swimlane"><%= status.name %></td>
-          <% end %>
-        </tr>
-      </table>
+  <div id="taskboard">
+    <table id="board_header" cellspacing="0">
+      <tr>
+        <td><%= l(:backlogs_story) %></td>
+        <% @statuses.each do |status| %>
+          <td class="swimlane"><%= status.name %></td>
+        <% end %>
+      </tr>
+    </table>
 
-      <table id="impediments" class="board" cellspacing="0">
+    <table id="impediments" class="board" cellspacing="0">
+      <tr>
+        <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+        <td class="add_new">+</td>
+        <% @statuses.each do |status| %>
+          <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
+            <%= render :partial => "rb_impediments/impediment",
+                       :collection => @sprint.impediments.select { |impediment| impediment.status_id == status.id } %>
+          </td>
+        <% end %>
+      </tr>
+    </table>
+
+    <table id="tasks" class="board" cellspacing="0">
+      <% @sprint.stories.each do |story| %>
         <tr>
-          <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
+          <td>
+            <div class="story <%= mark_if_closed(story) %>">
+              <div class="id">
+                <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+              </div>
+              <div class="subject"><%= story.subject %></div>
+            </div>
+          </td>
           <td class="add_new">+</td>
           <% @statuses.each do |status| %>
-            <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
-              <%= render :partial => "rb_impediments/impediment",
-                         :collection => @sprint.impediments.select { |impediment| impediment.status_id == status.id } %>
+            <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
+              <%= render :partial => "rb_tasks/task",
+                         :collection => story.descendants.select { |task| task.status.id == status.id } %>
             </td>
           <% end %>
         </tr>
-      </table>
-
-      <table id="tasks" class="board" cellspacing="0">
-        <% @sprint.stories.each do |story| %>
-          <tr>
-            <td>
-              <div class="story <%= mark_if_closed(story) %>">
-                <div class="id">
-                  <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
-                </div>
-                <div class="subject"><%= story.subject %></div>
-              </div>
-            </td>
-            <td class="add_new">+</td>
-            <% @statuses.each do |status| %>
-              <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
-                <%= render :partial => "rb_tasks/task",
-                           :collection => story.descendants.select { |task| task.status.id == status.id } %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+      <% end %>
+    </table>
   </div>
 
   <div id="helpers">
