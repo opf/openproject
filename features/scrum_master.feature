@@ -102,14 +102,35 @@ Feature: Scrum Master
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
 
+  @javascript
   Scenario: Update an impediment
     Given I am on the taskboard for "Sprint 001"
-      And I want to edit the impediment named Impediment 1
-      And I want to set the subject of the impediment to Good Impediment
-      And I want to indicate that the impediment blocks Story B
-     When I update the impediment
-     Then the request should complete successfully
-      And the sprint named Sprint 001 should have 1 impediment named Good Impediment
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the tasks "Task 1" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal successful saving
+
+  @javascript
+  Scenario: Update an impediment to block an issue of another sprint
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in the ids of the stories "Story C" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+
+  @javascript
+  Scenario: Update an impediment to block a non existent issue
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
 
   Scenario: Update sprint details
     Given I am on the master backlog

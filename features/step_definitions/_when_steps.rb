@@ -180,3 +180,7 @@ When /^I fill in the ids of the (tasks|issues|stories) "(.+?)" for "(.+?)"$/ do 
 
   When %{I fill in "#{ids.join(", ")}" for "#{field}"}
 end
+
+When /^I click on the impediment called "(.+?)"$/ do |impediment_name|
+  When %Q{I click on the text "#{impediment_name}"}
+end
