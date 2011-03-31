@@ -18,8 +18,8 @@
                                      :format => :js) %>
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
-  <%= theme_stylesheet_link_tag 'master_backlog.css', :media => 'print,screen' %>
-  <%= theme_stylesheet_link_tag 'master_backlog_print.css', :media => 'print' %>
+  <%= stylesheet_link_tag 'master_backlog.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'master_backlog_print.css', :media => 'print', :plugin => 'redmine_backlogs' %>
 <% end %>
 
 <div class='contextual'></div>
