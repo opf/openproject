@@ -244,35 +244,23 @@
   white-space:nowrap;
 }
 #rb #backlogs_container .stories .story .id .t * {
-  background-color:#cfc;
-  display:block;
-  font-size:10px;
-  height:14px;
-  left:0px;
-  line-height:14px;
-  overflow:hidden;
-  padding-right:3px;
-  position:absolute;
-  text-align:right;
-  text-decoration:none;
-  top:5px;
-  vertical-align:middle;
-  width:52px;
-  -moz-border-radius:4px;
-  -webkit-border-radius:4px;
+  position: absolute;
+  text-align: right;
+  top: 5px;
+  left: 0;
+  width: 3em;
 }
 #rb #backlogs_container .stories .story .id .v {
   display:none;
 }
 #rb #backlogs_container .stories .story .subject {
-  display:block;
-  height:15px;
-  left:70px;
   overflow:hidden;
-  padding:5px 2px 4px 2px;
-  position:absolute;
-  top:1px;
-  width:375px;
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 4.5em;
+  padding: 5px 2px 4px 2px;
+  width: 375px;
   white-space:nowrap;
 }
 #rb #backlogs_container .stories .story.too_long .subject {

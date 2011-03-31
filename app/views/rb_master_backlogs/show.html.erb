@@ -23,17 +23,17 @@
 <% end %>
 
 <div class='contextual'></div>
-<h2><%= link_to l(:label_master_backlog), rb_master_backlog_path(@project) %></h2>
+<h2>
+  <%= link_to l(:label_backlogs), rb_master_backlog_path(@project) %>
+</h2>
 
 <div id="rb">
-  <div id="main">
-    <div id="backlogs_container">
-      <div id="owner_backlogs_container">
-        <%= render :partial => 'backlog', :collection => @owner_backlogs %>
-      </div>
-      <div id="sprint_backlogs_container">
-        <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
-      </div>
+  <div id="backlogs_container">
+    <div id="owner_backlogs_container">
+      <%= render :partial => 'backlog', :collection => @owner_backlogs %>
+    </div>
+    <div id="sprint_backlogs_container">
+      <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
     </div>
   </div>
 

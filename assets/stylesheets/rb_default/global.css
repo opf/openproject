@@ -1,25 +1,3 @@
-/* GLOBAL */
-#rb {
-  background-color:#FFFFFF;
-  font-family:Verdana, Arial, sans-serif;
-  font-size:1em;
-  height:100%;
-  margin:0;
-  width:100%;
-}
-#rb a {
-  color:#CC0000;
-  text-decoration:none;
-}
-#rb a:hover {
-  text-decoration:underline;
-}
-/* MAIN */
-#rb #main {
-  display:block;
-  height:100%;
-  width:100%;
-}
 #rb .meta {
   display:none;
 }
