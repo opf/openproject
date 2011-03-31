@@ -192,3 +192,7 @@ Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject,
   issue = Issue.find_by_subject(subject)
   issue[attribute].should == value.to_i
 end
+
+Then /^the error alert should show "(.+?)"$/ do |msg|
+  Then %Q{I should see "#{msg}" within "#msgBox"}
+end

@@ -97,3 +97,7 @@ de:
   version_settings_display_option_right: rechts
   version_settings_display_label: Spalte im Backlog
   field_display: Spalte im Backlog
+
+  field_blocks_ids: Blockiert (IDs)
+  error_can_only_contain_issues_of_current_sprint: kann nur IDs von Tickets des aktuellen Sprints enthalten
+  error_must_block_at_least_one_issue: muss die ID wenigstens eines Tickets enthalten

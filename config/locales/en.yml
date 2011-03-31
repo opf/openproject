@@ -115,3 +115,9 @@ en:
   version_settings_display_option_right: right
   version_settings_display_label: Column in backlog
   field_display: Column in backlog
+
+  field_blocks_ids: Blocks (IDs)
+
+  error_can_only_contain_issues_of_current_sprint: can only contain the IDs of current sprint's tickets
+  error_must_block_at_least_one_issue: must contain the ID of at least one ticket
+

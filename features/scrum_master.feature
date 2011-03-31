@@ -70,17 +70,6 @@ Feature: Scrum Master
     And I am logged in as "markus"
 
   @javascript
-  Scenario: Create an impediment blocking a non existent issue
-    Given I am on the taskboard for "Sprint 001"
-    When I press "td.add_new" within "#impediments"
-    And I fill in "Bad Company" for "subject"
-    And I fill in "1918817726612" for "blocks_ids"
-    And I select "Markus Master" from "assigned_to_id"
-    And I press "OK"
-    Then I should see "Bad Company" within "#impediments"
-    And the impediment "Bad Company" should signal unsuccessful saving
-
-  @javascript
   Scenario: Create an impediment
     Given I am on the taskboard for "Sprint 001"
     When I press "td.add_new" within "#impediments"
@@ -101,6 +90,31 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Create an impediment blocking a non existent issue
+    Given I am on the taskboard for "Sprint 001"
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "0" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Create an impediment without specifying what it blocks
+    Given I am on the taskboard for "Sprint 001"
+    When I press "td.add_new" within "#impediments"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I select "Markus Master" from "assigned_to_id"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) must contain the ID of at least one ticket"
 
   @javascript
   Scenario: Update an impediment
@@ -121,6 +135,7 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
 
   @javascript
   Scenario: Update an impediment to block a non existent issue
@@ -131,6 +146,18 @@ Feature: Scrum Master
     And I press "OK"
     Then I should see "Bad Company" within "#impediments"
     And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) can only contain the IDs of current sprint's tickets"
+
+  @javascript
+  Scenario: Update an impediment to not block anything
+    Given I am on the taskboard for "Sprint 001"
+    When I click on the impediment called "Impediment 1"
+    And I fill in "Bad Company" for "subject"
+    And I fill in "" for "blocks_ids"
+    And I press "OK"
+    Then I should see "Bad Company" within "#impediments"
+    And the impediment "Bad Company" should signal unsuccessful saving
+    And the error alert should show "Blocks (IDs) must contain the ID of at least one ticket"
 
   Scenario: Update sprint details
     Given I am on the master backlog
