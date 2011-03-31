@@ -105,14 +105,18 @@ RB.Model = (function ($) {
 
 
       this.$.find('.editable').each(function (index) {
-        var field, fieldType, fieldName, input;
+        var field, fieldType, fieldLabel, fieldName, input;
 
         field = $(this);
         fieldName = field.attr('fieldname');
+        fieldLabel = field.attr('fieldlabel');
         fieldType = field.attr('fieldtype') || 'input';
 
-        $("<label></label>").text(fieldName.replace(/_/ig, " ").replace(/ id$/ig, "")).
-                             appendTo(editor);
+				if (!fieldLabel) {
+	        fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
+				}
+
+        $("<label></label>").text(fieldLabel).appendTo(editor);
 
         if (fieldType === 'select') {
           input = $('#' + fieldName + '_options').clone(true);
