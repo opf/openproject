@@ -106,6 +106,7 @@ en:
     show_statistics: 'Show Scrum statistics'
     show_burndown_chart: 'Burndown Chart'
     add_new_story: 'New Story'
+    column_with: "Column width:"
 
   project_module_backlogs: Backlogs (Beta)
 
