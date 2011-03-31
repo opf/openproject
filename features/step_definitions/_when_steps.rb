@@ -173,3 +173,10 @@ When /^I confirm the story form$/ do
   sleep 1.5
   steps 'Then I should not see ".saving"'
 end
+
+When /^I fill in the ids of the (tasks|issues|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
+  model = Kernel.const_get(model_name.classify)
+  ids = subjects.split(/,/).collect { |subject| model.find_by_subject(subject).id }
+
+  When %{I fill in "#{ids.join(", ")}" for "#{field}"}
+end
