@@ -13,6 +13,13 @@ module Backlogs
         alias_method_chain :recalculate_attributes_for, :remaining_hours
         before_validation :backlogs_before_validation
         after_save  :backlogs_after_save
+
+        validates_each :parent_issue_id do |issue, attr, id|
+          if issue.is_task? and not Issue.find_by_id(id).is_story?
+            tracker_names = Tracker.find_all_by_id(Story.trackers).map(&:name).join(", ")
+            issue.errors.add(:parent_issue_id, :tracker_must_be_one_of_the_following, {:tracker_names => tracker_names})
+          end
+        end   
       end
     end
 
@@ -49,11 +56,11 @@ module Backlogs
       end
 
       def is_story?
-        return Story.trackers.include?(self.tracker_id)
+        backlogs_enabled? and Story.trackers.include?(self.tracker_id)
       end
 
       def is_task?
-        return (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
+        backlogs_enabled? and (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
       end
 
       def story
@@ -95,6 +102,7 @@ module Backlogs
         end
       end
 
+      private
       def backlogs_before_validation
         if self.tracker_id == Task.tracker
           self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
@@ -127,19 +135,27 @@ module Backlogs
           touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}.compact
 
         elsif self.is_task?
-          begin
-            story = self.story
-            if not story.blank?
-              connection.execute "update issues set tracker_id = #{connection.quote(Task.tracker)}, fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
-            end
-
-            touched_sprints = [self.root_id, self.root_id_was].compact.uniq.collect{|s| Story.find(s).fixed_version}.compact
+          story = self.story
+          if not story.blank?
+            connection.execute "update issues set fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
           end
+          
+          touched_sprints.push(self.story.fixed_version)
+          if self.parent_id_was
+            story_was = Issue.find(self.parent_id_was).story || nil
+            touched_sprints.push(story_was.fixed_version) if story_was
+          end
+            
+          touched_sprints = touched_sprints.uniq.compact
         end
 
         touched_sprints.each {|sprint|
           sprint.touch_burndown
         }
+      end
+
+      def backlogs_enabled?
+        self.project.module_enabled?("backlogs")
       end
 
     end

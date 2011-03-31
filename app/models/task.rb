@@ -55,8 +55,7 @@ class Task < Issue
     attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
     result = journalized_update_attributes(attribs)
-
-    move_after params[:prev] if result
+    move_after params[:prev] if result and not self.descendants.find_by_id(params[:prev])
 
     result
   end
