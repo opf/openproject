@@ -212,7 +212,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       get :annotate, :id => 3, :path => ['images', 'edit.png']
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                                :content => /can not be annotated/
+                              :content => /cannot be annotated/
     end
 
     def test_revision
