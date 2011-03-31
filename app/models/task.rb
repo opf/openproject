@@ -43,13 +43,11 @@ class Task < Issue
 
   def self.tasks_for(story_id)
     tasks = []
-    Task.find(:all,
-              :conditions => ['tracker_id = ? and not parent_id is NULL and root_id = ?', Task.tracker, story_id],
-              :order => :lft
-              ).each_with_index {|task, i|
-      task.rank = i + 1
-      tasks << task
-    }
+    Story.find_by_id(story_id).children.
+      find_all_by_tracker_id(Task.tracker, :order => :lft).each_with_index {|task, i|
+        task.rank = i + 1
+        tasks << task
+      }
     return tasks
   end
 

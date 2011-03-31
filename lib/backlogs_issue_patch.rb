@@ -49,7 +49,7 @@ module Backlogs
       end
   
       def is_story?
-        return (Story.trackers.include?(self.tracker_id) and self.root?)
+        return Story.trackers.include?(self.tracker_id)
       end
   
       def is_task?
@@ -57,8 +57,11 @@ module Backlogs
       end
   
       def story
-        return Issue.find(:first,
-          :conditions => [ "id = ? and tracker_id in (?)", self.root_id, Story.trackers ])
+        if self.is_story?
+          return self
+        else
+          return self.ancestors.find_by_tracker_id(Story.trackers)
+        end
       end
   
       def blocks

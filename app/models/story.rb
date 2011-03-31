@@ -6,15 +6,13 @@ class Story < Issue
     def self.condition(project_id, sprint_id, extras=[])
       if sprint_id.nil?  
         c = ["
-          parent_id is NULL
-          and project_id = ?
+          project_id = ?
           and tracker_id in (?)
           and fixed_version_id is NULL
           and is_closed = ?", project_id, Story.trackers, false]
       else
         c = ["
-          parent_id is NULL
-          and project_id = ?
+          project_id = ?
           and tracker_id in (?)
           and fixed_version_id = ?",
           project_id, Story.trackers, sprint_id]

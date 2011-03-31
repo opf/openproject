@@ -78,7 +78,7 @@ module Backlogs
                 selected_values.each { |val|
                     case val
                         when "story"
-                            sql << "(#{db_table}.tracker_id in (#{story_trackers}) and #{db_table}.parent_id is NULL)"
+                            sql << "(#{db_table}.tracker_id in (#{story_trackers}))"
                         when "task"
                             sql << "(#{db_table}.tracker_id = #{Task.tracker} and not #{db_table}.parent_id is NULL)"
                         when "impediment"
