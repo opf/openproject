@@ -3,11 +3,11 @@
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
 
-  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs' %>
-  <!--[if IE]><%= javascript_include_tag 'jquery.jqplot/excanvas.js', :plugin => 'redmine_backlogs' %><![endif]-->
-  <%= javascript_include_tag 'jquery.jqplot/jquery.jqplot.js', :plugin => 'redmine_backlogs' %>
-  <%= javascript_include_tag 'jquery.jqplot/plugins/jqplot.highlighter.js', :plugin => 'redmine_backlogs' %>
-  <%= javascript_include_tag 'jquery.cookies.2.2.0.min.js', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag_backlogs 'lib/jquery.js' %>
+  <!--[if IE]><%= javascript_include_tag_backlogs 'jquery.jqplot/excanvas.js' %><![endif]-->
+  <%= javascript_include_tag_backlogs 'lib/jquery.cookies.js',
+                                      'lib/jquery.jqplot/jquery.jqplot.js',
+                                      'lib/jquery.jqplot/plugins/jqplot.highlighter.js' %>
 
   <style type="text/css" media="screen">
     .jqplot-axis {

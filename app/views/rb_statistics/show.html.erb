@@ -1,6 +1,7 @@
 <%- content_for :header_tags do %>
   <%= stylesheet_link_tag 'rb_default/statistics', 'rb_default/jquery-ui', :plugin => 'redmine_backlogs' %>
-  <%= javascript_include_tag 'jquery-1.4.2.min.js', 'jquery-ui-1.8rc3.custom.min.js', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag_backlogs 'lib/jquery.js',
+                                      'lib/jquery-ui.js' %>
 <%- end %>
 
 <script>

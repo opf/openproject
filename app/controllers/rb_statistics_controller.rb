@@ -1,4 +1,4 @@
-class RbStatisticsController < ApplicationController
+class RbStatisticsController < RbApplicationController
   unloadable
 
   before_filter :authorize_global
