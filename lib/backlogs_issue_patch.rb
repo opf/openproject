@@ -58,10 +58,12 @@ module Backlogs
 
       def story
         if self.is_story?
-          return self
-        else
-          return self.ancestors.find_by_tracker_id(Story.trackers)
+          return Story.find(self.id)
+        elsif self.is_task?
+          story_issue = self.ancestors.find_by_tracker_id(Story.trackers)
+          return Story.find(story_issue.id) if story_issue
         end
+        nil
       end
 
       def blocks
@@ -104,47 +106,28 @@ module Backlogs
       end
 
       def backlogs_after_save
-        ## automatically sets the tracker to the task tracker for
-        ## any descendant of story, and follow the version_id
+        ## automatically sets the version to the story's
+        ## version on any descendant of story.
         ## Normally one of the _before_save hooks ought to take
         ## care of this, but appearantly neither root_id nor
         ## parent_id are set at that point
 
         touched_sprints = []
+        story = self.story
+        story.inherit_version_to_subtasks if story
 
         if self.is_story?
-          # raw sql here because it's efficient and not
-          # doing so causes an update loop when Issue calls
-          # update_parent
-
-          if not Task.tracker.nil?
-            # we don't want to overwrite the tracker of all descandants. instead we only set the
-            # version of all tasks of the story to the version of the story
-            tasks = Story.find(self.id).tasks.collect{|t| connection.quote(t.id)}.join(",")
-            if tasks != ""
-              connection.execute("update issues set fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
-            end
-          end
-
-          touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact.uniq
-          touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}.compact
-
+          touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact
+          touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}
         elsif self.is_task?
-          story = self.story
-          if not story.blank?
-            connection.execute "update issues set fixed_version_id = #{connection.quote(story.fixed_version_id)} where id = #{connection.quote(self.id)}"
-          end
-          
-          touched_sprints.push(self.story.fixed_version)
+          touched_sprints.push(story.fixed_version)
           if self.parent_id_was
             story_was = Issue.find(self.parent_id_was).story || nil
             touched_sprints.push(story_was.fixed_version) if story_was
           end
-            
-          touched_sprints = touched_sprints.uniq.compact
         end
 
-        touched_sprints.each {|sprint|
+        touched_sprints.compact.uniq.each {|sprint|
           sprint.touch_burndown
         }
       end
