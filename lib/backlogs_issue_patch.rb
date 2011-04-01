@@ -118,7 +118,7 @@ module Backlogs
 
         if self.is_story?
           # for stories we touch the current and former sprints
-          touched_sprints = Sprint.find_by_id(
+          touched_sprints = Sprint.find_all_by_id(
             [self.fixed_version_id, self.fixed_version_id_was].compact)
         elsif self.is_task?
           # for tasks we touch the sprints of the current and former stories
