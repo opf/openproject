@@ -362,14 +362,11 @@ module ApplicationHelper
   end
   
   def per_page_links(selected=nil)
-    url_param = params.dup
-    url_param.clear if url_param.has_key?(:set_filter)
-
     links = Setting.per_page_options_array.collect do |n|
       n == selected ? n : link_to_remote(n, {:update => "content",
-                                             :url => params.dup.merge(:per_page => n),
+                                             :url => params.merge(:per_page => n),
                                              :method => :get},
-                                            {:href => url_for(url_param.merge(:per_page => n))})
+                                            {:href => url_for(params.merge(:per_page => n))})
     end
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
