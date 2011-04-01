@@ -10,10 +10,8 @@ RB.EditableInplace = (function ($) {
     },
 
     getEditor: function () {
-      // Create the model editor if it does not yet exist
-      //
-      // TODO: Review usage of editor and editor.length
-      var editor = this.$.children(".editors").first();
+      // Create the model editor container if it does not yet exist
+      var editor = this.$.children(".editors").first().html('');
 
       if (editor.length === 0) {
         editor = $("<div class='editors'></div>").appendTo(this.$);
