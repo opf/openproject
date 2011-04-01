@@ -1,20 +1,17 @@
 #rb #backlogs_container {
-  display:block;
-  margin:10px auto;
   position:relative;
-  width:1190px;
+  width:100%;
+  min-width: 950px;
 }
 #rb #owner_backlogs_container {
-  position:absolute;
-  right:0;
-  top:0;
-  width:590px;
+  float: right;
+  width: 49.5%;
+  min-width: 470px;
 }
 #rb #sprint_backlogs_container {
-  left:0;
-  position:absolute;
-  top:0;
-  width:590px;
+  float: left;
+  width: 49.5%;
+  min-width: 470px;
 }
 #rb #owner_backlogs_container .backlog .header > .add_new_story {
   font-size:11px;
@@ -231,73 +228,38 @@
 #rb #backlogs_container .stories .story:hover {
   background-color:rgb(254,248,168);
 }
-#rb #backlogs_container .stories .story .tracker_id {
-  display:none;
-}
 #rb #backlogs_container .stories .story .id {
-  display:block;
-  height:24px;
-  left:10px;
-  position:absolute;
-  top:1px;
-  width:55px;
-  white-space:nowrap;
-}
-#rb #backlogs_container .stories .story .id .t * {
-  position: absolute;
+  float: left;
+  margin-left: 1em;
+  margin-right: 1em;
+  padding: 5px 2px 4px 2px;
+  width: 2em;
   text-align: right;
-  top: 5px;
-  left: 0;
-  width: 3em;
-}
-#rb #backlogs_container .stories .story .id .v {
-  display:none;
+  white-space: nowrap;
 }
 #rb #backlogs_container .stories .story .subject {
   overflow:hidden;
-  display: block;
-  position: absolute;
-  top: 1px;
-  left: 4.5em;
+  margin-left: 4em;
   padding: 5px 2px 4px 2px;
-  width: 375px;
-  white-space:nowrap;
+  white-space: nowrap;
 }
-#rb #backlogs_container .stories .story.too_long .subject {
-  width:333px;
-}
-#rb #backlogs_container .stories .story .elipses {
-  display:none;
-}
-#rb #backlogs_container .stories .story.too_long .elipses {
-  display:block;
-  left:409px;
-  position:absolute;
-  top:4px;
-}
-#rb #backlogs_container .stories .story .status_id.editable {
-  display:block;
-  height:15px;
-  left:455px;
-  padding:5px 2px 4px 9px;
-  position:absolute;
-  top:1px;
+#rb #backlogs_container .stories .story .status_id {
+  float: right;
+  padding: 5px 2px 4px 2px;
+  margin-left: 1em;
   width:68px;
 }
-#rb #backlogs_container .stories .story .status_id .v {
-  display:none;
-}
 #rb #backlogs_container .stories .story .story_points {
-  display:block;
-  height:15px;
-  right:10px;
-  overflow:hidden;
-  padding:5px 3px 4px 9px;
-  position:absolute;
-  text-align:right;
-  top:1px;
+  float: right;
+  padding:5px 3px 4px 2px;
+  margin-right: 0.7em;
   width:28px;
+  text-align:right;
 }
+
+#rb #backlogs_container .stories .story .tracker_id,
+#rb #backlogs_container .stories .story .id .v,
+#rb #backlogs_container .stories .story .status_id .v,
 #rb #backlogs_container .stories .story .fixed_version_id,
 #rb #backlogs_container .stories .story .higher_item_id {
   display:none;
@@ -344,7 +306,7 @@
 }
 #rb #backlogs_container .sprint.editing .editor {
   display:block;
-  font-family:Verdana, Arial, sans-serif;
+  font-family: Verdana, Arial, sans-serif;
   position:absolute;
 }
 #rb #backlogs_container .sprint.editing label,
@@ -384,50 +346,31 @@
   display:none;
 }
 /* In-place Story Editor */
-#rb #backlogs_container .stories .story.editing .id {
+#rb #backlogs_container .stories .story.editing > *,
+#rb #backlogs_container .stories .story.editing > .editors label {
   display:none;
 }
 #rb #backlogs_container .stories .story.editing .editors {
-  display:block;
-  position:absolute;
-  top:0;
+  display: block;
 }
-#rb #backlogs_container .stories .story.editing .editors label {
-  display:none;
-}
-#rb #backlogs_container .stories .story.editing .editor {
-  font-family:Verdana, Arial, sans-serif;
-  position:absolute;
+#rb #backlogs_container .stories .story.editing select,
+#rb #backlogs_container .stories .story.editing input {
+  display: inline-block;
+  float: none;
+  margin: 5px 3px 4px 2px;
+  padding: 0;
 }
 #rb #backlogs_container .stories .story.editing .tracker_id.editor {
-  display:block;
-  left:10px;
-  margin:0;
-  top:4px;
   width:55px;
 }
 #rb #backlogs_container .stories .story.editing .subject.editor {
-  display:block;
-  height:10px;
-  left:67px;
-  margin:0;
-  top:1px;
+  min-width: 26em;
+  width: 61%;
 }
 #rb #backlogs_container .stories .story.editing .status_id.editor {
-  display:block;
-  left:456px;
-  margin:0;
-  top:4px;
-  width:68px;
+  width: 68px;
+  float: right;
 }
 #rb #backlogs_container .stories .story.editing .story_points.editor {
-  display:block;
-  height:10px;
-  left:540px;
-  margin:0;
-  top:1px;
-}
-
-#rb #helpers {
-  display:none;
+  float: right;
 }
