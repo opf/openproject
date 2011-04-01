@@ -53,6 +53,8 @@ Feature: Scrum Master
     And there are the following trackers:
         | name         |
         | Task         |
+    And the project has the following trackers:
+        | name         |
         | Epic         |
     And the tracker "Task" is configured to track tasks
     And there are the following issue status:
@@ -261,12 +263,31 @@ Feature: Scrum Master
      And I should not see "Task 10"
      And I should not see "Subtask 1"
 
-   @javascript
-   Scenario: View tasks that have subtasks
-    Given I am on the taskboard for "Sprint 005"
-     Then I should see "Task 10" within "#tasks"
-      And I should see "Task 11" within "#tasks"
-      And I should not see "Subtask 1"
-      And I should not see "Subtask 2"
-      And I should not see "Subtask 3"
-      And I should not see "Epic 1"
+  Scenario: View tasks that have subtasks
+   Given I am on the taskboard for "Sprint 005"
+    Then I should see "Task 10" within "#tasks"
+     And I should see "Task 11" within "#tasks"
+     And I should not see "Subtask 1"
+     And I should not see "Subtask 2"
+     And I should not see "Subtask 3"
+     And I should not see "Epic 1"
+
+  Scenario: Move stories around in the backlog that have a parent ticket
+   Given I am on the master backlog
+    When I move the story named Story D below Story E
+    Then the request should complete successfully
+     And Story D should be in the 2nd position of the sprint named Sprint 005
+     And Story E should be the higher item of Story D
+
+  @javascript
+  Scenario: View epic, stories, tasks, subtasks in the issue list
+   Given I am on the issues index page
+    Then show me the page
+    Then I should see "Epic 1" within "#content"
+     And I should see "Story D" within "#content"
+     And I should see "Story E" within "#content"
+     And I should see "Task 10" within "#content"
+     And I should see "Task 11" within "#content"
+     And I should see "Subtask 1" within "#content"
+     And I should see "Subtask 2" within "#content"
+     And I should see "Subtask 3" within "#content"

@@ -179,7 +179,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Issue.create(params)
+    Issue.create!(params)
   end
 end
 
@@ -199,6 +199,20 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
     Impediment.create_with_relationships(params, project.id)
+  end
+end
+
+
+Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project_name, table|
+  p = get_project(project_name)
+  table.hashes.each_with_index do |t, i|
+    tracker = Tracker.find_by_name(t['name'])
+    tracker = Tracker.new :name => t['name'] if tracker.nil?
+    tracker.position = t['position'] ? t['position'] : i
+    tracker.is_in_roadmap = t['is_in_roadmap'] ? t['is_in_roadmap'] : true
+    tracker.save!
+    p.trackers << tracker
+    p.save!
   end
 end
 
