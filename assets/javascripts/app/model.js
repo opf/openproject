@@ -112,9 +112,9 @@ RB.Model = (function ($) {
         fieldLabel = field.attr('fieldlabel');
         fieldType = field.attr('fieldtype') || 'input';
 
-				if (!fieldLabel) {
-	        fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
-				}
+        if (!fieldLabel) {
+          fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
+        }
 
         $("<label></label>").text(fieldLabel).appendTo(editor);
 
