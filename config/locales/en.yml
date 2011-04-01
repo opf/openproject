@@ -35,7 +35,7 @@ en:
   label_stories: "Stories"
   label_burndown: "Burndown"
   label_product_cards: "Product backlog cards"
-  label_sprint_cards: "Sprint cards"
+  label_sprint_cards: Export cards
   label_select_all: "Select all"
 
   label_back_to_project: "Back to project page"
