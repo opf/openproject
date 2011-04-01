@@ -33,8 +33,8 @@ Reporting.RestoreQuery = {
   // (and possibly are dependents themselfes)
   initialize_load_dependent_filters: function(elements) {
     var filters_to_load, dependent_filters;
-    dependent_filters = elements.findAll(function (select) { return select.value == '<<inactive>>' });
-    filters_to_load   = elements.reject( function (select) { return select.value == '<<inactive>>' });
+    dependent_filters = elements.findAll(function (select) { return select.getValue() == '<<inactive>>' || select.select('option[selected]').size()==0 });
+    filters_to_load   = elements.reject( function (select) { return select.getValue() == '<<inactive>>' });
     // Filters which are <<inactive>> are probably dependents themselfes, so remove and forget them for now.
     // This is OK as they get reloaded later
     dependent_filters.each(function(select) {
