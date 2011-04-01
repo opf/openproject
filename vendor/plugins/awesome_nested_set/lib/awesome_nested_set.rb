@@ -466,6 +466,9 @@ module CollectiveIdea #:nodoc:
               ["#{quoted_right_column_name} >= ?", right]
             )
           end
+          
+          # Reload is needed because children may have updated their parent (self) during deletion.
+          reload
         end
 
         # reload left, right, and parent
