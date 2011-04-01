@@ -1,6 +1,7 @@
 #rb .task {
   color: #484848;
   line-height: inherit;
+  white-space: inherit;
 }
 
 .contextual #col_width input {
