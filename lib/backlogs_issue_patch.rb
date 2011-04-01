@@ -117,14 +117,14 @@ module Backlogs
         story.inherit_version_to_subtasks if story
 
         if self.is_story?
-          touched_sprints = [self.fixed_version_id, self.fixed_version_id_was].compact
-          touched_sprints = touched_sprints.collect{|s| Sprint.find(s)}
+          # for stories we touch the current and former sprints
+          touched_sprints = Sprint.find_by_id(
+            [self.fixed_version_id, self.fixed_version_id_was].compact)
         elsif self.is_task?
-          touched_sprints.push(story.fixed_version)
-          if self.parent_id_was
-            story_was = Issue.find(self.parent_id_was).story || nil
-            touched_sprints.push(story_was.fixed_version) if story_was
-          end
+          # for tasks we touch the sprints of the current and former stories
+          story_was = nil
+          story_was = Issue.find(self.parent_id_was).story if self.parent_id_was
+          touched_sprints = [story, story_was].compact.collect{ |s| s.fixed_version }
         end
 
         touched_sprints.compact.uniq.each {|sprint|
