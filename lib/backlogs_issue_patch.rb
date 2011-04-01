@@ -99,7 +99,7 @@ module Backlogs
 
       private
       def backlogs_before_validation
-        if self.tracker_id == Task.tracker
+        if self.is_task?
           self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
           self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
         end
