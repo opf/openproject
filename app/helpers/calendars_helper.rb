@@ -37,7 +37,7 @@ module CalendarsHelper
     link_target = calendar_path(:year => year, :month => month, :project_id => project_id)
 
     link_to_remote(link_name,
-                   {:update => "content", :url => link_target, :method => :put},
+                   {:update => "content", :url => link_target, :method => :get},
                    {:href => link_target})
 
   end
