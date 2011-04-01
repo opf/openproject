@@ -35,6 +35,7 @@ Feature: Scrum Master
         | Sprint 002 | 2010-02-01        | 2010-02-28      |
         | Sprint 003 | 2010-03-01        | 2010-03-31      |
         | Sprint 004 | 2.weeks.ago       | 1.week.from_now |
+        | Sprint 005 | 3.weeks.ago       | 2.weeks.from_now|
     And the project has the following product owner backlogs:
         | Product Backlog |
         | Wishlist        |
@@ -52,6 +53,7 @@ Feature: Scrum Master
     And there are the following trackers:
         | name         |
         | Task         |
+        | Epic         |
     And the tracker "Task" is configured to track tasks
     And there are the following issue status:
         | name        | is_closed  | is_default  |
@@ -67,7 +69,22 @@ Feature: Scrum Master
     And the project has the following impediments:
         | subject      | sprint     | blocks     |
         | Impediment 1 | Sprint 001 | Story A    |
+    And the project has the following issues:
+        | subject      | sprint     | tracker    |
+        | Epic 1       | Sprint 005 | Epic       |
+    And the project has the following stories in the following sprints:
+        | subject      | sprint     | parent     |
+        | Story D      | Sprint 005 | Epic 1     |
+        | Story E      | Sprint 005 | Epic 1     |
+    And the project has the following tasks:
+        | subject      | sprint     | parent     |
+        | Task 10      | Sprint 005 | Story D    |
+        | Task 11      | Sprint 005 | Story D    |
+        | Subtask 1    | Sprint 005 | Task 10    |
+        | Subtask 2    | Sprint 005 | Task 10    |
+        | Subtask 3    | Sprint 005 | Task 11    |
     And I am logged in as "markus"
+    Then show me the page
 
   @javascript
   Scenario: Create an impediment
@@ -235,3 +252,21 @@ Feature: Scrum Master
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
 
+  @javascript
+  Scenario: View stories that have a parent ticket
+   Given I am on the master backlog
+    When I open the "Sprint 005" menu
+    Then I should see 2 stories in "Sprint 005"
+     And I should not see "Epic 1"
+     And I should not see "Task 10"
+     And I should not see "Subtask 1"
+
+   @javascript
+   Scenario: View tasks that have subtasks
+    Given I am on the taskboard for "Sprint 005"
+     Then I should see "Task 10" within "#tasks"
+      And I should see "Task 11" within "#tasks"
+      And I should not see "Subtask 1"
+      And I should not see "Subtask 2"
+      And I should not see "Subtask 3"
+      And I should not see "Epic 1"
