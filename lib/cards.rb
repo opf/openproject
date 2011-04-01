@@ -312,7 +312,7 @@ module Cards
 
     def add(story, add_tasks = true)
       if add_tasks
-        story.descendants.each do |task|
+        story.tasks.each do |task|
           card(task, :task)
         end
       end

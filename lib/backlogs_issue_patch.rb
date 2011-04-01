@@ -19,7 +19,7 @@ module Backlogs
             tracker_names = Tracker.find_all_by_id(Story.trackers).map(&:name).join(", ")
             issue.errors.add(:parent_issue_id, :tracker_must_be_one_of_the_following, {:tracker_names => tracker_names})
           end
-        end   
+        end
       end
     end
 
@@ -125,9 +125,11 @@ module Backlogs
           # update_parent
 
           if not Task.tracker.nil?
-            tasks = self.descendants.collect{|t| connection.quote(t.id)}.join(",")
+            # we don't want to overwrite the tracker of all descandants. instead we only set the
+            # version of all tasks of the story to the version of the story
+            tasks = Story.find(self.id).tasks.collect{|t| connection.quote(t.id)}.join(",")
             if tasks != ""
-              connection.execute("update issues set tracker_id=#{connection.quote(Task.tracker)}, fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
+              connection.execute("update issues set fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
             end
           end
 

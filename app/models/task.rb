@@ -36,6 +36,7 @@ class Task < Issue
     tasks = []
     Story.find_by_id(story_id).children.
       find_all_by_tracker_id(Task.tracker, :order => :lft).each_with_index {|task, i|
+        task = Task.find(task.id)
         task.rank = i + 1
         tasks << task
       }
@@ -55,7 +56,7 @@ class Task < Issue
     attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
     result = journalized_update_attributes(attribs)
-    move_after params[:prev] if result and not self.descendants.find_by_id(params[:prev])
+    move_after params[:prev] if result
 
     result
   end

@@ -77,7 +77,7 @@
           <% @statuses.each do |status| %>
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
               <%= render :partial => "rb_tasks/task",
-                         :collection => story.descendants.select { |task| task.status.id == status.id } %>
+                         :collection => story.tasks.select { |task| task.status.id == status.id } %>
             </td>
           <% end %>
         </tr>

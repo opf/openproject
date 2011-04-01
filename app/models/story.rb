@@ -137,7 +137,7 @@ class Story < Issue
     def task_status
         closed = 0
         open = 0
-        self.descendants.each {|task|
+        self.tasks.each {|task|
             if task.closed?
                 closed += 1
             else
