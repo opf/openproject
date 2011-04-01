@@ -81,26 +81,26 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
        options = filter[1] %>
     <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
     <td style="width:200px;">
-        <%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
+        <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
         <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
     <td style="width:150px;">
-        <%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
+        <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
     <td>    
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
-        <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
+        <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
         </select>
         <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{field}');", :style => "vertical-align: bottom;" %>
     <% when :date, :date_past %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
+        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
     <% when :string, :text %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
+        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
     <% when :integer %>
-        <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
+        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
     <% end %>
     </div>
     <script type="text/javascript">toggle_filter('<%= field %>');</script>
@@ -118,4 +118,4 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 </td>
 </tr>
 </table>
-<%= hidden_field_tag 'fields[]', '' %>
+<%= hidden_field_tag 'f[]', '' %>

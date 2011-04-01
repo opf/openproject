@@ -139,9 +139,9 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_index_with_project_and_filter
     get :index, :project_id => 1, :set_filter => 1, 
-      :fields => ['tracker_id'],
-      :operators => {'tracker_id' => '='},
-      :values => {'tracker_id' => ['1']} 
+      :f => ['tracker_id'],
+      :op => {'tracker_id' => '='},
+      :v => {'tracker_id' => ['1']} 
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)

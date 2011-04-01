@@ -27,7 +27,7 @@ class QueriesController < ApplicationController
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.column_names = nil if params[:default_columns]
     
-    @query.add_filters(params[:fields], params[:operators], params[:values]) if params[:fields]
+    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
     @query.group_by ||= params[:group_by]
     
     if request.post? && params[:confirm] && @query.save
@@ -41,7 +41,7 @@ class QueriesController < ApplicationController
   def edit
     if request.post?
       @query.filters = {}
-      @query.add_filters(params[:fields], params[:operators], params[:values]) if params[:fields]
+      @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
       @query.attributes = params[:query]
       @query.project = nil if params[:query_is_for_all]
       @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
