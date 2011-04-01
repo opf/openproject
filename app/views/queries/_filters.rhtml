@@ -21,10 +21,14 @@ function toggle_filter(field) {
     
     if (check_box.checked) {
         Element.show("operators_" + field);
+				Form.Element.enable("operators_" + field);
+        Form.Element.enable("values_" + field);
         toggle_operator(field);
     } else {
         Element.hide("operators_" + field);
         Element.hide("div_values_" + field);
+        Form.Element.disable("operators_" + field);
+        Form.Element.disable("values_" + field);
   }
 }
 
