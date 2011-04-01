@@ -13,13 +13,6 @@ module Backlogs
         alias_method_chain :recalculate_attributes_for, :remaining_hours
         before_validation :backlogs_before_validation
         after_save  :backlogs_after_save
-
-        validates_each :parent_issue_id do |issue, attr, id|
-          if issue.is_task? and not Issue.find_by_id(id).is_story?
-            tracker_names = Tracker.find_all_by_id(Story.trackers).map(&:name).join(", ")
-            issue.errors.add(:parent_issue_id, :tracker_must_be_one_of_the_following, {:tracker_names => tracker_names})
-          end
-        end
       end
     end
 
