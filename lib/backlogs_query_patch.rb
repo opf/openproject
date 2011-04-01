@@ -5,8 +5,8 @@ module Backlogs
     def self.included(base) # :nodoc:
         base.extend(ClassMethods)
         base.send(:include, InstanceMethods)
-  
-        # Same as typing in the class 
+
+        # Same as typing in the class
         base.class_eval do
             unloadable # Send unloadable so it will not be unloaded in development
             base.add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
@@ -55,7 +55,7 @@ module Backlogs
             else
                 backlogs_filters = {
                         "backlogs_issue_type" => {  :type => :list,
-                                                    :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"], [l(:backlogs_impediment), "impediment"], [l(:backlogs_any), "any"]],
+                                                    :values => [[l(:story, :scope => [:backlogs]), "story"], [l(:task, :scope => [:backlogs]), "task"], [l(:impediment, :scope => [:backlogs]), "impediment"], [l(:any, :scope => [:backlogs]), "any"]],
                                                     :order => 20 }
                     }
             end

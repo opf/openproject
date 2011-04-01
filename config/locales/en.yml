@@ -106,6 +106,10 @@ en:
     show_burndown_chart: 'Burndown Chart'
     add_new_story: 'New Story'
     column_with: "Column width:"
+    impediment: Impediment
+    task: Task
+    story: Story
+    any: any
 
   project_module_backlogs: Backlogs (Beta)
 
