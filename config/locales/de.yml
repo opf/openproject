@@ -88,6 +88,11 @@ de:
     show_burndown_chart: 'Burndown-Chart'
     add_new_story: 'Neue Story'
     column_with: "Spaltenbreite:"
+    impediment: Hindernis
+    task: Aufgabe
+    story: Story
+    any: beliebig
+
 
   project_module_backlogs: Backlogs (Beta)
 

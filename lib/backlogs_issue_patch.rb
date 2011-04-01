@@ -11,7 +11,7 @@ module Backlogs
 
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
-        before_validation :backlogs_before_validation
+        before_validation :backlogs_before_validation, :if => lambda {|i| i.project.module_enabled?("backlogs")}
         after_save  :backlogs_after_save
       end
     end

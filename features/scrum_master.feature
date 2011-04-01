@@ -223,12 +223,6 @@ Feature: Scrum Master
      When I download the calendar feed
      Then the request should fail
 
-  Scenario: Download printable cards for the product backlog
-    Given I have selected card label stock Avery 7169
-      And I am on the issues index page
-     When I follow "Product backlog cards"
-     Then the request should complete successfully
-
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 7169
       And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001

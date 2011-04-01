@@ -189,7 +189,6 @@ module BacklogsPlugin
           end
         end
       end
-
     end
   end
 end
