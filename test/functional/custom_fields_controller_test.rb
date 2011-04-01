@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,6 +31,31 @@ class CustomFieldsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1
   end
   
+  def test_get_new_issue_custom_field
+    get :new, :type => 'IssueCustomField'
+    assert_response :success
+    assert_template 'new'
+    assert_tag :select,
+      :attributes => {:name => 'custom_field[field_format]'},
+      :child => {
+        :tag => 'option',
+        :attributes => {:value => 'user'},
+        :content => 'User'
+      }
+    assert_tag :select,
+      :attributes => {:name => 'custom_field[field_format]'},
+      :child => {
+        :tag => 'option',
+        :attributes => {:value => 'version'},
+        :content => 'Version'
+      }
+  end
+  
+  def test_get_new_with_invalid_custom_field_class_should_redirect_to_list
+    get :new, :type => 'UnknownCustomField'
+    assert_redirected_to '/custom_fields'
+  end
+  
   def test_post_new_list_custom_field
     assert_difference 'CustomField.count' do
       post :new, :type => "IssueCustomField",
@@ -52,10 +77,5 @@ class CustomFieldsControllerTest < ActionController::TestCase
     assert_not_nil field
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
-  end
-  
-  def test_invalid_custom_field_class_should_redirect_to_list
-    get :new, :type => 'UnknownCustomField'
-    assert_redirected_to '/custom_fields'
   end
 end

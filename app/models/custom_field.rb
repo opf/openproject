@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,6 +48,33 @@ class CustomField < ActiveRecord::Base
     errors.add(:default_value, :invalid) unless v.valid?
   end
   
+  def possible_values_options(obj=nil)
+    case field_format
+    when 'user', 'version'
+      if obj.respond_to?(:project)
+        case field_format
+        when 'user'
+          obj.project.users.sort.collect {|u| [u.to_s, u.id.to_s]}
+        when 'version'
+          obj.project.versions.sort.collect {|u| [u.to_s, u.id.to_s]}
+        end
+      else
+        []
+      end
+    else
+      read_attribute :possible_values
+    end
+  end
+  
+  def possible_values(obj=nil)
+    case field_format
+    when 'user'
+      possible_values_options(obj).collect(&:last)
+    else
+      read_attribute :possible_values
+    end
+  end
+  
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
@@ -71,6 +98,8 @@ class CustomField < ActiveRecord::Base
         casted = value.to_i
       when 'float'
         casted = value.to_f
+      when 'user', 'version'
+        casted = (value.blank? ? nil : field_format.classify.constantize.find_by_id(value.to_i))
       end
     end
     casted

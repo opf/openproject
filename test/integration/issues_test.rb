@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -125,5 +125,76 @@ class IssuesTest < ActionController::IntegrationTest
     assert_tag :a, :content => '2',
                    :attributes => { :href => '/projects/ecookbook/issues?page=2' }
     
+  end
+  
+  def test_issue_with_user_custom_field
+    @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    Role.anonymous.add_permission! :add_issues, :edit_issues
+    users = Project.find(1).users
+    tester = users.first
+    
+    # Issue form
+    get '/projects/ecookbook/issues/new'
+    assert_response :success
+    assert_tag :select,
+      :attributes => {:name => "issue[custom_field_values][#{@field.id}]"},
+      :children => {:count => (users.size + 1)}, # +1 for blank value
+      :child => {
+        :tag => 'option',
+        :attributes => {:value => tester.id.to_s},
+        :content => tester.name
+      }
+    
+    # Create issue
+    assert_difference 'Issue.count' do
+      post '/projects/ecookbook/issues', 
+        :issue => {
+          :tracker_id => '1',
+          :priority_id => '4',
+          :subject => 'Issue with user custom field',
+          :custom_field_values => {@field.id.to_s => users.first.id.to_s}
+        }
+    end
+    issue = Issue.first(:order => 'id DESC')
+    assert_response 302
+    
+    # Issue view
+    follow_redirect!
+    assert_tag :th,
+      :content => /Tester/,
+      :sibling => {
+        :tag => 'td',
+        :content => tester.name
+      }
+    assert_tag :select,
+      :attributes => {:name => "issue[custom_field_values][#{@field.id}]"},
+      :children => {:count => (users.size + 1)}, # +1 for blank value
+      :child => {
+        :tag => 'option',
+        :attributes => {:value => tester.id.to_s, :selected => 'selected'},
+        :content => tester.name
+      }
+    
+    # Update issue
+    new_tester = users[1]
+    assert_difference 'Journal.count' do
+      put "/issues/#{issue.id}",
+        :notes => 'Updating custom field',
+        :issue => {
+          :custom_field_values => {@field.id.to_s => new_tester.id.to_s}
+        }
+    end
+    assert_response 302
+    
+    # Issue view
+    follow_redirect!
+    assert_tag :content => 'Tester',
+      :ancestor => {:tag => 'ul', :attributes => {:class => /details/}},
+      :sibling => {
+        :content => tester.name,
+        :sibling => {
+          :content => new_tester.name
+        }
+      }
   end
 end

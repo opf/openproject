@@ -41,6 +41,8 @@ Redmine::CustomFieldFormat.map do |fields|
   fields.register Redmine::CustomFieldFormat.new('list', :label => :label_list, :order => 5)
   fields.register Redmine::CustomFieldFormat.new('date', :label => :label_date, :order => 6)
   fields.register Redmine::CustomFieldFormat.new('bool', :label => :label_boolean, :order => 7)
+  fields.register Redmine::CustomFieldFormat.new('user', :label => :label_user, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 8)
+  fields.register Redmine::CustomFieldFormat.new('version', :label => :label_version, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 9)
 end
 
 # Permissions

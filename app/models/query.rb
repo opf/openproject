@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -636,6 +636,9 @@ class Query < ActiveRecord::Base
         options = { :type => :date, :order => 20 }
       when "bool"
         options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+      when "user", "version"
+        next unless project
+        options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
       else
         options = { :type => :string, :order => 20 }
       end
