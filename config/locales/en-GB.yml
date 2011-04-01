@@ -76,7 +76,6 @@ en-GB:
   label_burndown: Burndown
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: Velocity based estimate
-  label_product_cards: Product backlog cards
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

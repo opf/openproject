@@ -1,5 +1,5 @@
---- 
-zh: 
+---
+zh:
   label_webcal: "[[Webcal Feed]]"
   rb_label_copy_tasks_open: "[[Open]]"
   event_sprint_summary: "%{project}: %{summary}"
@@ -196,7 +196,6 @@ zh:
   label_burndown: !binary |
     54eD5bC9
 
-  label_product_cards: "[[Product backlog cards]]"
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: !binary |
     6YCf5bqm6K6h6YeP5Y2V5L2N

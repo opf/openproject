@@ -1,5 +1,5 @@
---- 
-fr: 
+---
+fr:
   rb_label_copy_tasks_open: "[[Open]]"
   label_webcal: Fil Calendrier Web
   event_sprint_summary: "%{project}: %{summary}"
@@ -76,7 +76,6 @@ fr:
   label_burndown: Progression
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: "Estimé basé sur la vélocité"
-  label_product_cards: Cartes de carnet du produit
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

@@ -74,7 +74,6 @@ de:
     %{summary}: %{url}
     %{description}
   label_burndown: Burndown
-  label_product_cards: "Produkt Backlog Karten"
   rb_label_copy_tasks_all: "Alle"
   field_velocity_based_estimate: "Geschwindigkeitsbasierende Absch\xC3\xA4tzung"
   todo_issue_description: |-

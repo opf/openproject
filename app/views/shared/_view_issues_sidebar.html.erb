@@ -11,23 +11,6 @@
         <% end %>
     <% end %>
 
-    <% if project.present? %>
-      <h3><%= project.name %></h3>
-      <%= link_to(l(:backlogs_product_backlog), {
-              :controller => 'rb_queries',
-              :action => 'show',
-              :project_id => project.id
-              }) %><br/>
-      <% if Cards::TaskboardCards.selected_label %>
-        <%= link_to(l(:label_product_cards), {
-                :controller => 'rb_stories',
-                :action => 'index',
-                :project_id => project.id,
-                :format => 'pdf'
-                }) %><br/>
-      <% end %>
-    <% end %>
-
     <% if Setting.rest_api_enabled? && key %>
       <a href="<%= url_for({
                     :only_path  => false,
