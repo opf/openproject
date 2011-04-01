@@ -495,3 +495,27 @@ html>body #ajax-indicator { position: fixed; }
   padding-left: 26px;
   vertical-align: bottom;
 }
+
+a.help {
+	margin-left: 10px;
+}
+
+a.help span {
+	display: none;
+	text-decoration: none;
+}
+
+a.help:hover span {
+	display: block;
+	position: absolute;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding: 3px;
+	width: 300px;
+	z-index: 9999;
+	color: #000000;
+	border: 1px dashed #000000;
+	background: #FFFFCC;
+	font: 12px Verdana, sans-serif;
+	text-align: left;
+}

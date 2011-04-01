@@ -12,10 +12,12 @@ class Widget::Filters < Widget::Base
       end
     end
     select = content_tag :div, :id => "add_filter_block" do
-      select_tag 'add_filter_select',
+      add_filter = select_tag 'add_filter_select',
           options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
             :class => "select-small",
             :name => nil
+      help = render_widget Widget::Controls::Help, :help_filters
+      add_filter + help
     end
     content_tag(:div, table + select)
   end

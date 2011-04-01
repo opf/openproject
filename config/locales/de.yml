@@ -9,7 +9,7 @@ de:
   label_rows: "Zeilen"
 
   label_group_by: "Gruppieren nach"
-  label_group_by_add: "Grouppierung hinzufügen"
+  label_group_by_add: "Gruppierung hinzufügen"
   label_filter: "Filter"
   label_filter_plural: "Filter"
   label_filter_add: "Filter hinzufügen"
@@ -18,7 +18,11 @@ de:
   label_sum: Summe
   label_none: "(no value)"
 
+  label_help: Hilfe
+
   description_drill_down: Details anzeigen
 
   validation_failure_date: "ist kein gültiges Datum"
   validation_failure_integer: "ist keine ganze Zahl"
+  
+  help_filters: <b>Über Filter:</b><br/>Mit Hilfe von Filtern kann die Ergebnismenge reduziert werden. Beispielsweise möchte man vielleicht einen Bericht nur für ein bestimmtes Land erhalten ...
