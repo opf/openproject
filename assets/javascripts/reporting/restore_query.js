@@ -67,10 +67,13 @@ Reporting.RestoreQuery = {
   restore_filters: function () {
     // FIXME: rm_xxx values for filters have to be set after re-displaying them
     $$("tr[data-selected=true]").each(function (e) {
-      var rm_box = e.select("input[id^=rm]").first();
-      var filter_name = e.getAttribute("data-filter-name");
+      var rm_box, filter_name;
+      rm_box = e.select("input[id^=rm]").first();
+      filter_name = e.getAttribute("data-filter-name");
       rm_box.value = filter_name;
       Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
+      // correctly display number of arguments of filters depending on their arity
+      Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));
     });
     // restore values of dependent filters
     Reporting.RestoreQuery.initialize_load_dependent_filters($$('.filters-select[data-dependents]').findAll(function(select) {

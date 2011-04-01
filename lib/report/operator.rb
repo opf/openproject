@@ -79,7 +79,10 @@ class Report::Operator
 
     new "=", :label => :label_equals do
       def modify(query, field, *values)
-        if values.compact.empty?
+        case
+        when values.size == 1 && values.first.nil?
+          query.where "#{field} IS NULL"
+        when values.compact.empty?
           query.where "1=0"
         else
           query.where "#{field} IN #{collection(*values)}"

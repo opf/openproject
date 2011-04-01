@@ -41,9 +41,6 @@ Reporting.GroupBys = {
       'class': 'group_by_remove in_row',
       'id': group_by.identify() + '_remove'
     });
-    Reporting.GroupBys.remove_button_hover(button, false);
-    button.observe('mouseover', function() { Reporting.GroupBys.remove_button_hover(this, true); });
-    button.observe('mouseout',  function() { Reporting.GroupBys.remove_button_hover(this, false); });
     button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
     return button;
   },
@@ -117,15 +114,6 @@ Reporting.GroupBys = {
     });
   },
 
- remove_button_hover: function(button, status) {
-    if (status) {
-      $(button).update('✖');
-    }
-    else {
-      $(button).update('⤫');
-    }
-  },
-
   remove_group_by: function(group_by) {
     Reporting.GroupBys.adding_group_by_enabled(group_by.readAttribute('data-group-by'), true);
     group_by.remove();
@@ -142,9 +130,10 @@ Reporting.GroupBys = {
   },
 
   add_group_by: function(field, caption, container) {
-    var group_by;
+    var group_by, add_groups_select_box;
+    add_groups_select_box = container.select('select').first();
     group_by = Reporting.GroupBys.create_group_by(field, caption);
-    container.appendChild(group_by);
+    add_groups_select_box.insert({ before: group_by });
     Reporting.GroupBys.adding_group_by_enabled(field, false);
     Reporting.GroupBys.recreate_sortables();
   }

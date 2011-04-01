@@ -324,7 +324,7 @@ Reporting.Filters = {
               var label = ary.first();
               var value = ary.last();
               // cannot use .innerhtml due to IE wierdness
-              $(selectBox).insert(new Element('option', {value: value}).update(value.escapeHTML()));
+              $(selectBox).insert(new Element('option', {value: value}).update(label.escapeHTML()));
             });
             Reporting.Filters.select_values(selectBox, selected);
             sources.push(currentDependent); // Add as last element

@@ -118,6 +118,7 @@ module Report::Controller
       end
       query.column(dependent)
       values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[dependent] }
+      values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
       render :json => values.to_json
     end
   end
@@ -225,9 +226,10 @@ module Report::Controller
     query.tap do |q|
       filters[:operators].each do |filter, operator|
         unless filters[:values][filter]==["<<inactive>>"]
+          values = filters[:values][filter].map{ |v| v=='<<null>>' ? nil : v }
           q.filter(filter.to_sym,
                    :operator => operator,
-                   :values => filters[:values][filter])
+                   :values => values )
         end
       end
     end

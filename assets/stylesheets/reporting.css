@@ -1,3 +1,11 @@
+#content p,
+#content label,
+#content a,
+#content div  {
+  font-size: 11px;
+  line-height: 16px;
+}
+
 .cost_types {
   padding-bottom: 3px;
 }
@@ -165,6 +173,10 @@
   margin-top: 6px;
 }
 
+#add_filter_select {
+  margin-bottom: 10px;
+}
+
 fieldset#filter-settings table tr.filter:hover {
   background: #aaa;
 }
@@ -200,6 +212,7 @@ fieldset#filter-settings table td > label {
 /* ----- group by --- */
 #group_by_area {
   font-family: Arial,Geneva,Helvetica,sans-serif;
+  margin: 5px 0 10px 0;
 }
 
 .in_row {
@@ -210,21 +223,22 @@ fieldset#filter-settings table td > label {
 }
 
 .group_by_element {
-  margin-right: -15px;
+  margin-left: -15px;
   cursor: move;
 }
 
-.group_by_label {
+/* have #content here to overwrite line-heigth of other themes through being more specific*/
+#content .group_by_label {
   margin: 0px;
-  padding: 0px 5px 0 5px;
+  padding: 0px 18px 0 0;
   min-width: 60px;
   text-align: center;
   white-space: nowrap;
   font-weight: bold;
   color: #fff;
   background-color: #9A9A9A;
-  height: 18px;
-  line-height: 18px;
+  height: 22px;
+  line-height: 22px;
   cursor: move;
 }
 
@@ -233,23 +247,37 @@ fieldset#filter-settings table td > label {
 }
 
 .group_by_remove {
-  padding-right: 3px;
   background-color: #9A9A9A;
-  height: 18px;
-  min-width: 1.4em;
-  text-align: center;
+  height: 7px;
+  width: 8px;
+  position: absolute;
+  top: 7px;
+  right: 18px;
   cursor: pointer;
+  background: no-repeat left center;
+  background-image: url(../images/remove.gif);
 }
 
 .group_by_remove.hover {
   background-color: #009999 !important;
 }
 
+/* have #content here to overwrite line-heigth of other themes through being more specific*/
+#content .group_by_caption {
+  color: #FFFFFF;
+  background-color: #000000;
+  font-weight: bold;
+  padding: 0 7px;
+  height: 22px;
+  line-height: 22px;
+  min-width: 55px;
+}
+
 .arrow {
   height: 0;
   width: 0;
   border-style: solid;
-  border-width: 9px 11px 9px 7px;
+  border-width: 11px 11px 11px 7px;
 }
 
 .arrow_left {
@@ -268,17 +296,18 @@ fieldset#filter-settings table td > label {
   border-color: transparent transparent transparent #009999 !important;
 }
 
+.arrow_group_by_caption {
+  border-color: transparent transparent transparent #000000;
+}
+
 .drag_container {
-  padding: 5px 0 3px 10px;
-  background-color: #ededed;
-  border: 1px dotted #CCCCCC;
-  margin-bottom: 4px;
-  height: 23px;
+  padding: 7px 0;
+  height: 22px;
 }
 
 .drag_container select {
-    float: right;
-    margin-right: 20px;
+  margin-right: 20px;
+  float: right;
 }
 
 .drag_target {
@@ -287,7 +316,6 @@ fieldset#filter-settings table td > label {
 
 .drag_container_accept {
   background-color: #F5F5C5;
-  /*border: 1px solid #BBBBBB;*/
 }
 
 /* -- end group-by -- */
@@ -472,6 +500,7 @@ html>body #ajax-indicator { position: fixed; }
   padding-left: 26px;
   vertical-align: bottom;
 }
+<<<<<<< HEAD
 
 #content p, 
 #content label, 
@@ -480,3 +509,5 @@ html>body #ajax-indicator { position: fixed; }
   font-size: 11px;
   line-height: 16px;
 }
+=======
+>>>>>>> feature/widgets
