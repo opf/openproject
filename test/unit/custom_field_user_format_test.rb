@@ -36,6 +36,11 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     assert_equal project.users.sort.collect(&:id).map(&:to_s), possible_values
   end
   
+  def test_possible_values_with_nil_project_resource
+    project = Project.find(1)
+    assert_equal [], @field.possible_values(Issue.new)
+  end
+  
   def test_possible_values_options_with_no_arguments
     assert_equal [], @field.possible_values_options
     assert_equal [], @field.possible_values_options(nil)

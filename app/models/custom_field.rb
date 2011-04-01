@@ -51,7 +51,7 @@ class CustomField < ActiveRecord::Base
   def possible_values_options(obj=nil)
     case field_format
     when 'user', 'version'
-      if obj.respond_to?(:project)
+      if obj.respond_to?(:project) && obj.project
         case field_format
         when 'user'
           obj.project.users.sort.collect {|u| [u.to_s, u.id.to_s]}
