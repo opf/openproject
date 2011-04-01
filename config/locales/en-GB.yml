@@ -9,7 +9,7 @@ en-GB:
   button_edit_wiki: Edit wiki page
   label_points_burn_up: Up
   label_not_prioritized: not prioritized
-  label_sprint_cards: Sprint cards
+  label_sprint_cards: Export Cards
   points_resolved: points resolved
   field_name: Name
   field_tracker_id: Tracker ID
@@ -76,7 +76,6 @@ en-GB:
   label_burndown: Burndown
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: Velocity based estimate
-  label_product_cards: Product backlog cards
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

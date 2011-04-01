@@ -22,67 +22,64 @@ module RbMasterBacklogsHelper
     items = common_backlog_menu_items_for(backlog)
 
     if backlog.sprint_backlog?
-      items += sprint_backlog_menu_items_for(backlog)
-    else
-      items += owner_backlog_menu_items_for(backlog)
+      items.merge!(sprint_backlog_menu_items_for(backlog))
     end
 
-    items
+    menu = []
+    [:new_story, :stories_tasks, :task_board, :cards, :wiki].each do |key|
+      menu << items[key] if items.keys.include?(key)
+    end
+
+    menu
   end
 
   def common_backlog_menu_items_for(backlog)
-    items = []
+    items = {}
 
-    items << content_tag(:a, l('backlogs.add_new_story'), :href => '#', :class => 'add_new_story')
+    items[:new_story] = content_tag(:a,
+                                    l('backlogs.add_new_story'),
+                                    :href => '#',
+                                    :class => 'add_new_story')
 
-    items << link_to(l(:label_stories_tasks),
-                     :controller => 'rb_queries',
-                     :action => 'show',
-                     :project_id => @project,
-                     :sprint_id => backlog.sprint)
-  end
-
-  def sprint_backlog_menu_items_for(backlog)
-    items = []
-
-    items << link_to(l(:label_task_board),
-                     :controller => 'rb_taskboards',
-                     :action => 'show',
-                     :sprint_id => backlog.sprint)
-
-    if backlog.sprint_backlog? and backlog.sprint.has_burndown
-      items << content_tag(:a, l('backlogs.show_burndown_chart'), :href => '#', :class => 'show_burndown_chart')
-    end
+    items[:stories_tasks] = link_to(l(:label_stories_tasks),
+                                    :controller => 'rb_queries',
+                                    :action => 'show',
+                                    :project_id => @project,
+                                    :sprint_id => backlog.sprint)
 
     if Cards::TaskboardCards.selected_label.present?
-      items << link_to(l(:label_sprint_cards),
-                       :controller => 'rb_stories',
-                       :action => 'index',
-                       :project_id => @project,
-                       :sprint_id => backlog.sprint,
-                       :format => :pdf)
-    end
-
-    if @project.module_enabled? "wiki"
-      items << link_to(l(:label_wiki),
-                       :controller => 'rb_wikis',
-                       :action => 'edit',
-                       :project_id => @project.id,
-                       :sprint_id => backlog.sprint)
+      items[:cards] = link_to(l(:label_sprint_cards),
+                              :controller => 'rb_stories',
+                              :action => 'index',
+                              :project_id => @project,
+                              :sprint_id => backlog.sprint,
+                              :format => :pdf)
     end
 
     items
   end
 
-  def owner_backlog_menu_items_for(backlog)
-    items = []
+  def sprint_backlog_menu_items_for(backlog)
+    items = {}
 
-    if Cards::TaskboardCards.selected_label.present?
-      items << link_to(l(:label_product_cards),
-                       :controller => 'rb_stories',
-                       :action => 'index',
-                       :project_id => @project,
-                       :format => :pdf)
+    items[:task_board] = link_to(l(:label_task_board),
+                                 :controller => 'rb_taskboards',
+                                 :action => 'show',
+                                 :sprint_id => backlog.sprint)
+
+    if backlog.sprint_backlog? and backlog.sprint.has_burndown
+      items[:burndown] = content_tag(:a,
+                                     l('backlogs.show_burndown_chart'),
+                                     :href => '#',
+                                     :class => 'show_burndown_chart')
+    end
+
+    if @project.module_enabled? "wiki"
+      items[:wiki] = link_to(l(:label_wiki),
+                             :controller => 'rb_wikis',
+                             :action => 'edit',
+                             :project_id => @project.id,
+                             :sprint_id => backlog.sprint)
     end
 
     items

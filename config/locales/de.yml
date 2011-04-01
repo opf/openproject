@@ -7,7 +7,7 @@ de:
   field_remaining_hours: Verbleibende Stunden
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"
   button_edit_wiki: Wiki Seite bearbeiten
-  label_sprint_cards: "Sprint-Karten"
+  label_sprint_cards: Karten exportieren
   label_points_burn_up: Hoch
   label_not_prioritized: nicht priorisiert
   points_resolved: Beschlossene Punkte
@@ -74,7 +74,6 @@ de:
     %{summary}: %{url}
     %{description}
   label_burndown: Burndown
-  label_product_cards: "Produkt Backlog Karten"
   rb_label_copy_tasks_all: "Alle"
   field_velocity_based_estimate: "Geschwindigkeitsbasierende Absch\xC3\xA4tzung"
   todo_issue_description: |-
@@ -101,3 +100,11 @@ de:
   field_blocks_ids: Blockiert (IDs)
   error_can_only_contain_issues_of_current_sprint: kann nur IDs von Tickets des aktuellen Sprints enthalten
   error_must_block_at_least_one_issue: muss die ID wenigstens eines Tickets enthalten
+
+  activerecord:
+    errors:
+      models:
+        issue:
+          attributes:
+            parent_issue_id:
+              tracker_must_be_one_of_the_following: "muss aus einem der folgenden Trackern sein: %{tracker_names}"

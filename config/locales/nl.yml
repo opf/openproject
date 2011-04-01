@@ -1,5 +1,5 @@
---- 
-nl: 
+---
+nl:
   rb_label_copy_tasks_open: "Open"
   event_sprint_summary: "%{project}: %{summary}"
   label_webcal: Agenda
@@ -80,7 +80,6 @@ nl:
     %{description}
   label_chart_options: Grafiek Opties
   field_velocity_based_estimate: Schatting obv velocity
-  label_product_cards: Product backlog kaarten
   backlogs_product_backlog: Product backlog
   remaining_hours: resterende uren
   error_outro: Verbeter a.u.b de eerdergenoemde problemen voordat u nogmaals verzend.

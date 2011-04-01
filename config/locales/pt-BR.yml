@@ -1,5 +1,5 @@
---- 
-pt-BR: 
+---
+pt-BR:
   label_webcal: "[[Webcal Feed]]"
   rb_label_copy_tasks_open: "[[Open]]"
   event_sprint_summary: "%{project}: %{summary}"
@@ -76,7 +76,6 @@ pt-BR:
     %{summary}: %{url}
     %{description}
   label_burndown: Burndown
-  label_product_cards: "[[Product backlog cards]]"
   rb_label_copy_tasks_all: "[[All]]"
   field_velocity_based_estimate: Velocidade estimada
   todo_issue_description: |-

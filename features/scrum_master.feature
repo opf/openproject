@@ -233,7 +233,7 @@ Feature: Scrum Master
       And I am on the issues index page
       And I follow "Sprint 001"
      Then the request should complete successfully
-     When I follow "Sprint cards"
+     When I follow "Export cards"
      Then the request should complete successfully
 
   Scenario: view the sprint notes
