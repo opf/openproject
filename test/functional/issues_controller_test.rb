@@ -1323,6 +1323,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
   end
   
+  def test_destroy_parent_and_child_issues
+    parent = Issue.generate!(:project_id => 1, :tracker_id => 1)
+    child = Issue.generate!(:project_id => 1, :tracker_id => 1, :parent_issue_id => parent.id)
+    assert child.is_descendant_of?(parent.reload)
+    
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', -2 do
+      post :destroy, :ids => [parent.id, child.id], :todo => 'destroy'
+    end
+    assert_response 302
+  end
+  
   def test_default_search_scope
     get :index
     assert_tag :div, :attributes => {:id => 'quick-search'},
