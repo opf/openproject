@@ -19,7 +19,7 @@ RB.Taskboard = (function ($) {
 
       // Initialize column widths
       this.colWidthUnit = $(".swimlane").width();
-      this.defaultColWidth = 2;
+      this.defaultColWidth = 1;
       this.loadColWidthPreference();
       this.updateColWidths();
 
