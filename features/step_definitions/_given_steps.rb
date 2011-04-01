@@ -134,6 +134,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
 
   table.hashes.each do |story|
     params = initialize_story_params(project)
+    params['parent'] = Issue.find_by_subject(story['parent'])
     params['subject'] = story['subject']
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
@@ -161,6 +162,24 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
     Task.create_with_relationships(params, project.id)
+  end
+end
+
+Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_name, table|
+  project = get_project(project_name)
+
+  User.current = User.find(:first)
+
+  table.hashes.each do |task|
+    parent = Issue.find(:first, :conditions => { :subject => task['parent'] })
+    tracker = Tracker.find_by_name(task['tracker'])
+    params = initialize_issue_params(project, tracker, parent)
+    params['subject'] = task['subject']
+
+    # NOTE: We're bypassing the controller here because we're just
+    # setting up the database for the actual tests. The actual tests,
+    # however, should NOT bypass the controller
+    Issue.create(params)
   end
 end
 
