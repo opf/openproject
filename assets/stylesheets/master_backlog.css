@@ -121,37 +121,25 @@
   color:#FFFFFF;
   text-decoration:none;
 }
-#rb #owner_backlogs_container .backlog .header .label {
-  font-size:15px;
-  font-weight:bold;
-  height:28px;
-  left:35px;
-  line-height:28px;
-  overflow:hidden;
-  position:absolute;
-  top:1px;
-  width:450px;
-}
 #rb #backlogs_container .backlog .header .velocity {
-  font-size:12px;
-  height:28px;
-  line-height:31px;
-  padding:0 3px 0 9px;
-  position:absolute;
-  right:9px;
+  font-size: 12px;
+  height: 28px;
+  line-height: 31px;
+  padding: 0 3px 0 9px;
+  position: absolute;
+  right: 9px;
   text-align:right;
-  top:1px;
-  width:28px;
+  top: 0px;
+  width: 28px;
 }
 #rb #backlogs_container .backlog .sprint {
-  background-color:transparent;
-  cursor:pointer;
-  display:block;
-  height:30px;
-  left:30px;
-  position:absolute;
-  top:0;
-  width:560px;
+  background-color: transparent;
+  cursor: pointer;
+  display: block;
+  height: 30px;
+  width: auto;
+  margin-left: 30px;
+  margin-right: 40px;
 }
 #rb #backlogs_container .backlog .sprint.saving {
   background-image:url('images/ajax.gif');
@@ -164,34 +152,25 @@
   background-position:center;
 }
 #rb #backlogs_container .backlog .sprint .id,
-#rb #backlogs_container .backlog .sprint .description,
 #rb #backlogs_container .backlog .sprint .status {
-  display:none;
+  display: none;
 }
 #rb #backlogs_container .backlog .sprint .name {
-  font-size:15px;
-  font-weight:bold;
-  height:28px;
-  left:5px;
-  line-height:28px;
-  overflow:hidden;
-  position:absolute;
-  top:1px;
-  width:330px;
+  font-size: 15px;
+  line-height: 29px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-left: 0.5em;
 }
 #rb #backlogs_container .backlog .sprint .sprint_start_date,
 #rb #backlogs_container .backlog .sprint .effective_date {
-  font-size:12px;
-  height:28px;
-  line-height:31px;
-  position:absolute;
-  top:2px;
-}
-#rb #backlogs_container .backlog .sprint .sprint_start_date {
-  left:340px;
-}
-#rb #backlogs_container .backlog .sprint .effective_date {
-  left:430px;
+  float: right;
+  font-size: 12px;
+  height: 28px;
+  line-height: 31px;
+  width: 6.5em;
+  margin-left: 0.5em;
 }
 #rb #backlogs_container .backlog .stories {
   list-style:none;
@@ -299,51 +278,30 @@
   height:65px;
 }
 /* In-place Sprint Editor */
-#rb #backlogs_container .sprint.editing .editors {
+#rb #backlogs_container .sprint.editing .editors,
+#rb #backlogs_container .sprint.editing > .editor {
   display:block;
-  position:absolute;
-  top:0;
-}
-#rb #backlogs_container .sprint.editing .editor {
-  display:block;
-  font-family: Verdana, Arial, sans-serif;
-  position:absolute;
 }
 #rb #backlogs_container .sprint.editing label,
-#rb #backlogs_container .sprint.editing .id.editor {
-  display:none;
+#rb #backlogs_container .sprint.editing > *,
+#rb #backlogs_container .sprint.editing + .velocity,
+#rb #backlogs_container .sprint.editing + .add_new_story {
+  display: none;
 }
 #rb #backlogs_container .backlog .sprint.editing .name.editor {
-  display:block;
-  height:21px;
-  left:1px;
-  line-height:15px;
-  margin:0;
-  top:2px;
-  width:320px;
+  height: 21px;
+  line-height: 15px;
+  margin: 0;
+  min-width: 15em;
+  width: 57%;
 }
-#rb #backlogs_container .backlog .sprint.editing .sprint_start_date.editor {
-  display:block;
-  height:23px;
-  left:338px;
-  line-height:27px;
-  margin:0;
-  padding:0;
-  top:2px;
-  width:75px;
-}
+#rb #backlogs_container .backlog .sprint.editing .sprint_start_date.editor,
 #rb #backlogs_container .backlog .sprint.editing .effective_date.editor {
-  display:block;
-  height:23px;
-  left:428px;
-  line-height:27px;
-  margin:0;
-  padding:0;
-  top:2px;
-  width:75px;
-}
-#rb #backlogs_container .backlog .sprint.editing .description.editor {
-  display:none;
+  height: 23px;
+  line-height: 27px;
+  margin: 0;
+  padding: 0;
+  width: 75px;
 }
 /* In-place Story Editor */
 #rb #backlogs_container .stories .story.editing > *,

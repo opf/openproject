@@ -3,10 +3,9 @@
     <div class="t"><%= sprint_link_or_empty(sprint) %></div>
     <div class="v"><%= id_or_empty(sprint) %></div>
   </div>
-  <div class="name editable" fieldname="name"><%= sprint.name %></div>
-  <div class="sprint_start_date editable date" fieldname="sprint_start_date"><%= sprint.sprint_start_date %></div>
   <div class="effective_date editable date" fieldname="effective_date"><%= sprint.effective_date %></div>
-  <div class="description editable" fieldname="description" fieldtype="textarea"><%= sprint.description %></div>
+  <div class="sprint_start_date editable date" fieldname="sprint_start_date"><%= sprint.sprint_start_date %></div>
+  <div class="name editable" fieldname="name"><%= sprint.name %></div>
   <div class="meta">
     <%= render :partial => "shared/model_errors", :object => sprint.errors %>
   </div>
