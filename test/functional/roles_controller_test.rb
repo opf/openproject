@@ -114,7 +114,7 @@ class RolesControllerTest < ActionController::TestCase
   def test_destroy_role_in_use
     post :destroy, :id => 1
     assert_redirected_to '/roles'
-    assert flash[:error] == 'This role is in use and can not be deleted.'
+    assert flash[:error] == 'This role is in use and cannot be deleted.'
     assert_not_nil Role.find_by_id(1)
   end
   
