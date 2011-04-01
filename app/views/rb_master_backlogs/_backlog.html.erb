@@ -2,11 +2,7 @@
   <div class="header">
     <%= render_backlog_menu backlog %>
     <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
-    <% if backlog.sprint_backlog? %>
-			<div class="velocity"> </div>
-		<% else %>
-			<a class="add_new_story" href="#"><%= l('backlogs.add_new_story') %></a>
-		<% end %>
+    <div class="velocity"> </div>
   </div>
   <ul class="stories">
     <%= render :partial => "rb_stories/story", :collection => backlog.stories %>
