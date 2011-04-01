@@ -19,7 +19,17 @@ def initialize_task_params(project, story, user = User.find(:first))
   params['project_id'] = project.id
   params['tracker_id'] = Task.tracker
   params['author_id']  = user.id
-  params['parent_issue_id']  = story.id
+  params['parent_issue_id']  = story.id if story
+  params['status_id'] = IssueStatus.find(:first).id
+  params
+end
+
+def initialize_issue_params(project, tracker = Tracker.find(:first), parent = nil, user = User.find(:first))
+  params = HashWithIndifferentAccess.new
+  params['project_id'] = project.id
+  params['tracker_id'] = tracker.id
+  params['author_id']  = user.id
+  params['parent_issue_id']  = parent.id if parent
   params['status_id'] = IssueStatus.find(:first).id
   params
 end
