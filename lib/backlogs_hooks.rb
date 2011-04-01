@@ -5,6 +5,7 @@ module BacklogsPlugin
       # the entire queries toolbar is disabled if you don't have
       # custom queries
 
+      include RbCommonHelper
       def view_issues_sidebar_planning_bottom(context={ })
         locals = {}
         locals[:sprints] = context[:project] ? Sprint.open_sprints(context[:project]) : []
@@ -72,7 +73,7 @@ module BacklogsPlugin
           snippet += '</p>'
 
           if issue.descendants.length != 0
-            snippet += javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs'
+            snippet += javascript_include_tag_backlogs 'lib/jquery.js'
             snippet += <<-generatedscript
 
               <script type="text/javascript">
@@ -125,7 +126,7 @@ module BacklogsPlugin
 
           # this wouldn't be necesary if the schedules plugin
           # didn't disable the contextual hook
-          snippet += javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'redmine_backlogs'
+          snippet += javascript_include_tag_backlogs 'lib/jquery.js'
           snippet += <<-generatedscript
 
             <script type="text/javascript">
