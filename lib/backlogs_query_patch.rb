@@ -39,36 +39,36 @@ module Backlogs
                                       ],
                                       :default_order => 'asc'))
 
-  
+
             alias_method_chain :available_filters, :backlogs_issue_type
             alias_method_chain :sql_for_field, :backlogs_issue_type
         end
-  
+
     end
-  
+
     module InstanceMethods
         def available_filters_with_backlogs_issue_type
             @available_filters = available_filters_without_backlogs_issue_type
-  
+
             if Story.trackers.length == 0 or Task.tracker.blank?
                 backlogs_filters = { }
             else
                 backlogs_filters = {
                         "backlogs_issue_type" => {  :type => :list,
                                                     :values => [[l(:backlogs_story), "story"], [l(:backlogs_task), "task"], [l(:backlogs_impediment), "impediment"], [l(:backlogs_any), "any"]],
-                                                    :order => 20 } 
+                                                    :order => 20 }
                     }
             end
-  
+
             return @available_filters.merge(backlogs_filters)
         end
-  
+
         def sql_for_field_with_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter=false)
             if field == "backlogs_issue_type"
                 db_table = Issue.table_name
-  
+
                 sql = []
-  
+
                 selected_values = values_for(field)
                 selected_values = ['story', 'task'] if selected_values.include?('any')
 
@@ -85,36 +85,37 @@ module Backlogs
                             sql << "(#{db_table}.id in (
                                   select issue_from_id
                                   from issue_relations ir
-                                  join issues blocked on
+                                  join issues blocked
+                                  on
                                     blocked.id = ir.issue_to_id
                                     and blocked.tracker_id in (#{all_trackers})
                                   where ir.relation_type = 'blocks'
-                                )"
+                                ) and #{db_table}.parent_id is NULL)"
                     end
                 }
-  
+
                 case operator
                     when "="
                         sql = sql.join(" or ")
                     when "!"
                         sql = "not (" + sql.join(" or ") + ")"
                 end
-  
+
                 return sql
-        
+
             else
                 return sql_for_field_without_backlogs_issue_type(field, operator, v, db_table, db_field, is_custom_filter)
             end
-      
+
         end
     end
-    
+
     module ClassMethods
         # Setter for +available_columns+ that isn't provided by the core.
         def available_columns=(v)
             self.available_columns = (v)
         end
-  
+
         # Method to add a column to the +available_columns+ that isn't provided by the core.
         def add_available_column(column)
             self.available_columns << (column)
