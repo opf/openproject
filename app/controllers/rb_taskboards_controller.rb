@@ -3,6 +3,8 @@ class RbTaskboardsController < RbApplicationController
 
   menu_item :backlogs
 
+  helper :taskboards
+
   def show
     @statuses     = Tracker.find_by_id(Task.tracker).issue_statuses
     @story_ids    = @sprint.stories.map{|s| s.id}

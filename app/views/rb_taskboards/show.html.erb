@@ -56,7 +56,7 @@
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <%= render :partial => "rb_impediments/impediment",
-                       :collection => @sprint.impediments.select{ |i| i.status_id == status.id }.sort_by {|i| i.position } %>
+                       :collection => impediments_by_position_for_status(@sprint, status) %>
           </td>
         <% end %>
       </tr>
