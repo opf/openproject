@@ -179,8 +179,7 @@ module Redmine
 
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
-        if Redmine::Platform.mswin? ||
-           ( current_language.to_s.downcase == 'ko'    ||
+        if ( current_language.to_s.downcase == 'ko'    ||
              current_language.to_s.downcase == 'ja'    ||
              current_language.to_s.downcase == 'zh'    ||
              current_language.to_s.downcase == 'zh-tw' ||
@@ -259,8 +258,7 @@ module Redmine
 
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
-        if Redmine::Platform.mswin? ||
-           ( current_language.to_s.downcase == 'ko'    ||
+        if ( current_language.to_s.downcase == 'ko'    ||
              current_language.to_s.downcase == 'ja'    ||
              current_language.to_s.downcase == 'zh'    ||
              current_language.to_s.downcase == 'zh-tw' ||

@@ -511,8 +511,7 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        if Redmine::Platform.mswin? ||
-           ( current_language.to_s.downcase == 'ko'    ||
+        if ( current_language.to_s.downcase == 'ko'    ||
              current_language.to_s.downcase == 'ja'    ||
              current_language.to_s.downcase == 'zh'    ||
              current_language.to_s.downcase == 'zh-tw' ||
