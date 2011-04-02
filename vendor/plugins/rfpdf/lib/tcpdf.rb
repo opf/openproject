@@ -3063,7 +3063,7 @@ class TCPDF
 			out('/Filter /FlateDecode');
 		end
 		out('>>');
-    open(ctgfile) do |f|
+    open(ctgfile, "rb") do |f|
       putstream(f.read())
     end
 		out('endobj');
