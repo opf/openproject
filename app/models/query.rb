@@ -216,14 +216,19 @@ class Query < ActiveRecord::Base
   
     if project
       # project specific filters
-      unless @project.issue_categories.empty?
-        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      categories = @project.issue_categories.all
+      unless categories.empty?
+        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => categories.collect{|s| [s.name, s.id.to_s] } }
       end
-      unless @project.shared_versions.empty?
-        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
+      versions = @project.shared_versions.all
+      unless versions.empty?
+        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
       end
-      unless @project.descendants.active.empty?
-        @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
+      unless @project.leaf?
+        subprojects = @project.descendants.visible.all
+        unless subprojects.empty?
+          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
+        end
       end
       add_custom_fields_filters(@project.all_issue_custom_fields)
     else
