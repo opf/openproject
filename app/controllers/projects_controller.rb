@@ -143,7 +143,7 @@ class ProjectsController < ApplicationController
     end
     
     @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible
+    @subprojects = @project.children.visible.all
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
     
