@@ -200,8 +200,7 @@ module SortHelper
     caption = column.to_s.humanize unless caption
     
     sort_options = { :sort => @sort_criteria.add(column.to_s, order).to_param }
-    # don't reuse params if filters are present
-    url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
+    url_options = params.merge(sort_options)
     
      # Add project_id to url_options
     url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
