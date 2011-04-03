@@ -87,7 +87,7 @@ module QueriesHelper
           end
         end
         @query.group_by = params[:group_by]
-        @query.column_names = params[:query] && params[:query][:column_names]
+        @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
         session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]

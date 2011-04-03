@@ -248,7 +248,7 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_index_with_columns
     columns = ['tracker', 'subject', 'assigned_to']
-    get :index, :set_filter => 1, :query => { 'column_names' => columns}
+    get :index, :set_filter => 1, :c => columns
     assert_response :success
     
     # query should use specified columns
