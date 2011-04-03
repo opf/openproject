@@ -210,7 +210,7 @@ module PDF_Chinese
   			#Automatic line break
   			if(sep==-1 or i==j)
   				if(i==j)
-  					i+=ascii ? 1 : 3
+  					i+=ascii ? 1 : 2
 					end
   				Cell(w,h,s[j,i-j],b,2,align,fill)
   			else
@@ -225,7 +225,7 @@ module PDF_Chinese
   				b=b2
   			end
   		else
-  			i+=ascii ? 1 : 3
+  			i+=ascii ? 1 : 2
   		end
   	end
   	#Last chunk
@@ -294,7 +294,7 @@ module PDF_Chinese
   					next
   				end
   				if(i==j)
-  					i+=ascii ? 1 : 3
+  					i+=ascii ? 1 : 2
 					end
   				Cell(w,h,s[j,i-j],0,2,'',0,link)
   			else
@@ -311,7 +311,7 @@ module PDF_Chinese
   			end
   			nl+=1
   		else
-  			i+=ascii ? 1 : 3
+  			i+=ascii ? 1 : 2
 			end
   	end
   	#Last chunk
