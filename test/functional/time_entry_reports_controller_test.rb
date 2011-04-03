@@ -4,16 +4,20 @@ require File.expand_path('../../test_helper', __FILE__)
 class TimeEntryReportsControllerTest < ActionController::TestCase
   fixtures :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses, :custom_fields, :custom_values
 
-  def test_report_no_criteria
-    get :report, :project_id => 1
+  def test_report_at_project_level
+    get :report, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'report'
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries/report", :id => 'query_form'}
   end
   
   def test_report_all_projects
     get :report
     assert_response :success
     assert_template 'report'
+    assert_tag :form,
+      :attributes => {:action => "/time_entries/report", :id => 'query_form'}
   end
   
   def test_report_all_projects_denied
@@ -80,6 +84,8 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_template 'report'
     assert_not_nil assigns(:total_hours)
     assert_equal "154.25", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries/report", :id => 'query_form'}
   end
   
   def test_report_custom_field_criteria

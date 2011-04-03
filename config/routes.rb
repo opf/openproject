@@ -14,14 +14,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help'
 
-  map.connect 'projects/:project_id/time_entries/report', :controller => 'time_entry_reports', :action => 'report'
   map.with_options :controller => 'time_entry_reports', :action => 'report',:conditions => {:method => :get} do |time_report|
+    time_report.connect 'projects/:project_id/issues/:issue_id/time_entries/report'
+    time_report.connect 'projects/:project_id/issues/:issue_id/time_entries/report.:format'
+    time_report.connect 'projects/:project_id/time_entries/report'
+    time_report.connect 'projects/:project_id/time_entries/report.:format'
     time_report.connect 'time_entries/report'
     time_report.connect 'time_entries/report.:format'
-    time_report.connect 'projects/:project_id/time_entries/report.:format'
   end
 
-  # TODO: wasteful since this is also nested under issues, projects, and projects/issues
   map.resources :time_entries, :controller => 'timelog'
   
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
