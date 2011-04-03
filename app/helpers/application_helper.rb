@@ -340,15 +340,15 @@ module ApplicationHelper
 
     html = ''
     if paginator.current.previous
-      html << link_to_remote_content_update('&#171; ' + l(:label_previous), url_param.merge(page_param => paginator.current.previous)) + ' '
+      html << link_to_content_update('&#171; ' + l(:label_previous), url_param.merge(page_param => paginator.current.previous)) + ' '
     end
 
     html << (pagination_links_each(paginator, options) do |n|
-      link_to_remote_content_update(n.to_s, url_param.merge(page_param => n))
+      link_to_content_update(n.to_s, url_param.merge(page_param => n))
     end || '')
     
     if paginator.current.next
-      html << ' ' + link_to_remote_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
+      html << ' ' + link_to_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
     end
 
     unless count.nil?
@@ -363,10 +363,7 @@ module ApplicationHelper
   
   def per_page_links(selected=nil)
     links = Setting.per_page_options_array.collect do |n|
-      n == selected ? n : link_to_remote(n, {:update => "content",
-                                             :url => params.merge(:per_page => n),
-                                             :method => :get},
-                                            {:href => url_for(params.merge(:per_page => n))})
+      n == selected ? n : link_to_content_update(n, params.merge(:per_page => n))
     end
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
@@ -944,11 +941,10 @@ module ApplicationHelper
     return self
   end
   
-  def link_to_remote_content_update(text, url_params)
+  def link_to_content_update(text, url_params = {}, html_options = {})
     link_to_remote(text,
       {:url => url_params, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'},
-      {:href => url_for(:params => url_params)}
+      {:href => url_for(:params => url_params)}.merge(html_options)
     )
   end
-  
 end
