@@ -132,7 +132,7 @@ module Redmine
           end || ''
           super(txt)
         end
-    
+
         def textstring(s)
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
@@ -141,7 +141,7 @@ module Redmine
             return '('+escape(s)+')'
           end
         end
-          
+
         def fix_text_encoding(txt)
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
@@ -154,17 +154,17 @@ module Redmine
           rescue
             txt
           end || ''
-            return txt
+          return txt
         end
-        
+
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
             Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
         end
-        
+
         def RDMMultiCell(w,h=0,txt='',border=0,align='',fill=0)
             MultiCell(w,h,fix_text_encoding(txt),border,align,fill)
         end
-        
+
         def Footer
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
