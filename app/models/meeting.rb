@@ -64,6 +64,13 @@ class Meeting < ActiveRecord::Base
     agenda.text if agenda.present?
   end
   
+  def copy
+    copy = self.clone
+    copy.start_time = Date.tomorrow + 10.hours
+    copy.participants = self.participants.invited.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
+    copy
+  end
+  
   protected
   
   def after_initialize

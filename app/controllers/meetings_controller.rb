@@ -39,13 +39,11 @@ class MeetingsController < ApplicationController
   end
 
   def new
-    begin
-      copy_from = Meeting.find(params[:copy_from_id])
-      @meeting.attributes = copy_from.attributes.reject {|k,v| !%w(duration location title).include? k}
-      @meeting.start_time += (copy_from.start_time.hour - 10).hours
-      @meeting.participants = copy_from.participants.collect(&:clone) # Make sure the participants have no id
-    rescue ActiveRecord::RecordNotFound
-    end if params[:copy_from_id].present?
+  end
+  
+  def copy
+    @meeting = @meeting.copy
+    render :action => 'new', :project_id => @project
   end
 
   def destroy
