@@ -12,6 +12,6 @@ class CreateVersionSetting < ActiveRecord::Migration
 
   def self.down
     remove_index :version_settings, [:project_id, :version_id]
-    drop_table :table_name
+    drop_table :version_settings
   end
 end
