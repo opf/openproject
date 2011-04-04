@@ -24,5 +24,4 @@ de:
 
   validation_failure_date: "ist kein gültiges Datum"
   validation_failure_integer: "ist keine ganze Zahl"
-  
-  help_filters: <b>Über Filter:</b><br/>Mit Hilfe von Filtern kann die Ergebnismenge reduziert werden. Beispielsweise möchte man vielleicht einen Bericht nur für ein bestimmtes Land erhalten ...
+
