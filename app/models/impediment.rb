@@ -1,7 +1,10 @@
+require_dependency 'backlogs_list'
+
 class Impediment < Task
   unloadable
 
-  acts_as_list :scope => :project
+  include Backlogs::List
+  acts_as_backlogs_list(Setting.plugin_redmine_backlogs[:task_tracker])
 
   after_save :update_blocks_list
 
@@ -38,38 +41,6 @@ class Impediment < Task
 
   def blocks_ids
     @blocks_ids_list ||= relations_from.select{ |rel| rel.relation_type == IssueRelation::TYPE_BLOCKS }.collect(&:issue_to_id)
-  end
-
-  def move_after(prev_id)
-    #our super's, move after is using awesome_nested_set which is inapproriate for impediments.
-    #Impediments always have a parent_id of nil, it is their defining criteria.
-    #Therefore we use the acts_as_list method
-    #TODO: create a module to be included by story and impediment, for now this code is just copy&paste
-
-    # remove so the potential 'prev' has a correct position
-    remove_from_list
-
-    begin
-      prev = self.class.find(prev_id)
-    rescue ActiveRecord::RecordNotFound
-      prev = nil
-    end
-
-    # if it's the first story, move it to the 1st position
-    if prev.blank?
-      insert_at
-      move_to_top
-
-    # if its predecessor has no position (shouldn't happen), make it
-    # the last story
-    elsif !prev.in_list?
-      insert_at
-      move_to_bottom
-
-    # there's a valid predecessor
-    else
-      insert_at(prev.position + 1)
-    end
   end
 
   private

@@ -1,10 +1,13 @@
+require_dependency 'backlogs_list'
+
 class Story < Issue
     unloadable
 
-    acts_as_list :scope => :project
+    include Backlogs::List
+    acts_as_backlogs_list(Setting.plugin_redmine_backlogs[:story_trackers])
 
     def self.condition(project_id, sprint_id, extras=[])
-      if sprint_id.nil?  
+      if sprint_id.nil?
         c = ["
           project_id = ?
           and tracker_id in (?)
@@ -92,33 +95,6 @@ class Story < Issue
       tasks = self.tasks_and_subtasks.collect{|t| connection.quote(t.id)}.join(",")
       if tasks != ""
         connection.execute("update issues set fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
-      end
-    end
-
-    def move_after(prev_id)
-      # remove so the potential 'prev' has a correct position
-      remove_from_list
-
-      begin
-        prev = self.class.find(prev_id)
-      rescue ActiveRecord::RecordNotFound
-        prev = nil
-      end
-
-      # if it's the first story, move it to the 1st position
-      if prev.blank?
-        insert_at
-        move_to_top
-
-      # if its predecessor has no position (shouldn't happen), make it
-      # the last story
-      elsif !prev.in_list?
-        insert_at
-        move_to_bottom
-
-      # there's a valid predecessor
-      else
-        insert_at(prev.position + 1)
       end
     end
 
