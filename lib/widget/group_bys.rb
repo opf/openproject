@@ -24,7 +24,7 @@ class Widget::GroupBys < Widget::Base
     end
   end
 
-  def render_group(type, initially_selected)
+  def render_group(type, initially_selected, show_help = false)
     initially_selected = initially_selected.map do |group_by|
       [group_by.class.underscore_name, l(group_by.class.label)]
     end
@@ -46,20 +46,24 @@ class Widget::GroupBys < Widget::Base
         end.join.html_safe
         content
       end
-      maybe_with_help out.html_safe, {
-        :icon => {
-          :class => 'group-by-icon'
-        },
-        :tooltip => {
-          :class => 'group-by-tip'
+      if show_help
+        maybe_with_help out.html_safe, {
+          :icon => {
+            :class => 'group-by-icon'
+            },
+          :tooltip => {
+            :class => 'group-by-tip'
+          }
         }
-      }
+      else
+        out.html_safe
+      end
     end
   end
 
   def render
     content_tag :div, :id => 'group_by_area' do
-      out =  render_group 'columns', @query.group_bys(:column)
+      out =  render_group 'columns', @query.group_bys(:column), true
       out += render_group 'rows', @query.group_bys(:row)
       out.html_safe
     end
