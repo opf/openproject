@@ -32,11 +32,12 @@ class Report::Filter
     ##
     # A Filter may have depentent filters. See the following example:
     # Filter::Project.dependents --> [Filter::IssueId]
-    # This could result in a UI where, if the Prject-Filter was selected,
+    # This could result in a UI where, if the Project-Filter was selected,
     # the IssueId-filter automatically shows up.
     # Arguments:
     #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
-    #    or nil, if you want to remove the dependent relationship
+    #  - OR multiple Filters if there are multiple possible dependents and you
+    #    want the application-js to decide which dependent to follow
     def self.dependent(*args)
       @dependents ||= []
       @dependents += args unless args.empty?
@@ -53,7 +54,7 @@ class Report::Filter
     ##
     # Returns an array of filters of which this filter is a dependent
     def self.dependent_from
-      engine::Filter.all.select { |f| f.dependents.include? self}
+      engine::Filter.all.select { |f| f.dependents.include? self }
     end
 
     ##
