@@ -3,7 +3,7 @@
 
 Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
-    var select;
+    var select, radio_options;
     select = $('' + filter_name + '_arg_1_val');
     //TODO: the following code ist cost report specific, we should refactor that to be general useful
     if (select !== null && select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
@@ -26,7 +26,15 @@ Reporting.Filters = {
       callback_func();
     }
     // select first option by default
-    select.selectedIndex = 0;
+    if (select.tagName.toLowerCase() === "div") {
+      // check if we might have a radio-box
+      radio_options = $$('.' + filter_name + '_radio_option input');
+      if (radio_options && radio_options.size() !== 0) {
+        radio_options.first().checked = true;
+      }
+    } else if (select.tagName.toLowerCase() === "select") {
+      select.selectedIndex = 0;
+    }
   },
 
   show_filter: function (field, options) {
@@ -58,7 +66,7 @@ Reporting.Filters = {
         (options.slowly ? Effect.Appear : Element.show)(field_el);
         Reporting.Filters.load_available_values_for_filter(field, options.callback_func);
         $('rm_' + field).value = field; // set the value, so the serialized form will return this filter
-        Reporting.Filters.value_changed(field)
+        Reporting.Filters.value_changed(field);
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
@@ -144,15 +152,13 @@ Reporting.Filters = {
     val = $(field + '_arg_1_val');
     tr = $('tr_' + field);
     if (!val) {
-      return
+      return;
     }
-    if (val.value == '<<inactive>>') {
-        tr.addClassName('inactive-filter')
-      }
-      else
-      {
-        tr.removeClassName('inactive-filter')
-      }
+    if (val.value === '<<inactive>>') {
+      tr.addClassName('inactive-filter');
+    } else {
+      tr.removeClassName('inactive-filter');
+    }
   },
 
   change_argument_visibility: function (field, arg_nr) {

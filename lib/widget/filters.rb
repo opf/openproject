@@ -66,7 +66,11 @@ class Widget::Filters < Widget::Base
         render_widget Filters::MultiValues, f, :to => html
       end
     else
-      render_widget Filters::MultiValues, f, :to => html
+      if f_cls.is_multiple_choice?
+        render_widget Filters::MultiChoice, f, :to => html
+      else
+        render_widget Filters::MultiValues, f, :to => html
+      end
     end
     render_widget Filters::RemoveButton, f, :to => html
   end
