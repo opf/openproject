@@ -23,6 +23,12 @@ class Report::Filter
       false
     end
 
+    # Indicates whether this Filter is a multiple choice filter,
+    # meaning that the user must select a value of a given set of choices.
+    def self.is_multiple_choice?
+      false
+    end
+
     ##
     # A Filter may have depentent filters. See the following example:
     # Filter::Project.dependents --> [Filter::IssueId]
