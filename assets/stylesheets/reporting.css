@@ -524,11 +524,3 @@ a.help:hover span {
 	font: 12px Verdana, sans-serif;
 	text-align: left;
 }
-
-#content p,
-#content label,
-#content a,
-#content div {
-  font-size: 11px;
-  line-height: 16px;
-}
