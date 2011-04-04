@@ -46,7 +46,14 @@ class Widget::GroupBys < Widget::Base
         end.join.html_safe
         content
       end
-      out.html_safe
+      maybe_with_help out.html_safe, {
+        :icon => {
+          :class => 'group-by-icon'
+        },
+        :tooltip => {
+          :class => 'group-by-tip'
+        }
+      }
     end
   end
 

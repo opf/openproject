@@ -16,8 +16,14 @@ class Widget::Filters < Widget::Base
           options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
             :class => "select-small",
             :name => nil
-      help = render_widget Widget::Controls::Help, :help_filters
-      add_filter + help
+      maybe_with_help add_filter, {
+        :icon => {
+          :class => 'filter-icon'
+        },
+        :tooltip => {
+          :class => 'filter-tip'
+        }
+      }
     end
     content_tag(:div, table + select)
   end

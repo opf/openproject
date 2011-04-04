@@ -505,6 +505,10 @@ a.help {
 	margin-left: 10px;
 }
 
+a.help div {
+	position: relative;
+}
+
 a.help span {
 	display: none;
 	text-decoration: none;
@@ -519,8 +523,26 @@ a.help:hover span {
 	width: 300px;
 	z-index: 9999;
 	color: #000000;
-	border: 1px dashed #000000;
+	border: 1px solid #000000;
 	background: #FFFFCC;
 	font: 12px Verdana, sans-serif;
 	text-align: left;
+	padding: -50px;
+}
+
+.filter-icon {
+
+}
+
+.filter-tip {
+	top: -120px;
+}
+
+.group-by-icon {
+	float: right;
+	margin-right: 5px;
+}
+
+.group-by-tip {
+	left: -315px;
 }
