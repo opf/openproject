@@ -6,7 +6,7 @@ class Widget::Controls::Help < Widget::Base
   def render
     options = {:icon => {}, :tooltip => {}}
     options.merge!(yield) if block_given?
-    icon = tag :img, :src => '/images/help.png'
+    icon = tag :img, :src => '/images/icon_info_red.gif'
     span = content_tag_string :span, l(@query), options[:tooltip], false
     hull = content_tag :div, span
     icon_options = icon_config(options[:icon])
