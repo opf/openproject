@@ -12,8 +12,10 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                             # multiple will be disabled/enabled later by JavaScript anyhow.
                             # We need to specify multiple here because of an IE6-bug.
         if filter_class.has_dependent?
-          dependents = filter_class.all_dependents.map {|d| d.underscore_name}.to_json
-          select_options.merge! :"data-dependents" => dependents.gsub!('"', "'")
+          all_dependents = filter_class.all_dependents.map {|d| d.underscore_name}.to_json
+          select_options.merge! :"data-all-dependents" => all_dependents.gsub!('"', "'")
+          next_dependents = filter_class.dependents.map {|d| d.underscore_name}.to_json
+          select_options.merge! :"data-next-dependents" => next_dependents.gsub!('"', "'")
         end
         # store selected value(s) in data-initially-selected if this filter is a dependent
         # of another filter, as we have to restore values manually in the client js

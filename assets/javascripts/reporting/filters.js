@@ -229,9 +229,16 @@ Reporting.Filters = {
     });
   },
 
-  get_dependents: function (element) {
-    if (element.hasAttribute("data-dependents")) {
-      return element.getAttribute("data-dependents").replace(/'/g, '"').evalJSON(true);
+  // Returns an array of dependents of the given element
+  // get_all -> Boolean: whether to return all dependends (even the
+  //                     dependents of this filters dependents) or not
+  get_dependents: function (element, get_all) {
+    var dependent_field = "data-all-dependents";
+    if (get_all === false) {
+      dependent_field = "data-next-dependents";
+    }
+    if (element.hasAttribute(dependent_field)) {
+      return element.getAttribute(dependent_field).replace(/'/g, '"').evalJSON(true);
     } else {
       return [];
     }
@@ -242,29 +249,31 @@ Reporting.Filters = {
   // narrowing down their values.
   // Param: select [optional] - the select-box of the filter which should activate it's dependents
   activate_dependents: function (selectBox, callbackWhenFinished) {
-    var dependents, active_filters, source;
+    var all_dependents, next_dependents, dependent, active_filters, source;
     if (selectBox  === undefined || selectBox.type.toLowerCase() == 'change') {
       selectBox = this;
     }
     if (callbackWhenFinished  === undefined) {
       callbackWhenFinished = function() {};
     }
-    dependents = Reporting.Filters.get_dependents(selectBox);
+    all_dependents = Reporting.Filters.get_dependents(selectBox);
+    next_dependents = Reporting.Filters.get_dependents(selectBox, false);
+    dependent = Reporting.Filters.which_dependent_shall_i_take(next_dependents);
     active_filters = Reporting.Filters.visible_filters();
-    if (!active_filters.include(dependents.first())) {
-      Reporting.Filters.show_filter(dependents.first(), { slowly: true, insert_after: $(selectBox.up(".filter")) });
+    if (!active_filters.include(dependent)) {
+      Reporting.Filters.show_filter(dependent, { slowly: true, insert_after: $(selectBox.up(".filter")) });
       // render filter inactive if possible to avoid unintended filtering
-      $(dependents.first() + '_arg_1_val').value = '<<inactive>>'
-      Reporting.Filters.operator_changed(dependents.first(), $('operators[' + dependents.first() + ']'));
+      $(dependent + '_arg_1_val').value = '<<inactive>>'
+      Reporting.Filters.operator_changed(dependent, $('operators[' + dependent + ']'));
       // Hide remove box of dependent
-      $('rm_box_' + dependents.first()).hide();
-      $('tr_' + dependents.first()).addClassName("no-border");
+      $('rm_box_' + dependent).hide();
       // Remove border of dependent, so it "merges" with the filter before
-      active_filters.unshift(dependents.first());
+      $('tr_' + dependent).addClassName("no-border");
+      active_filters.unshift(dependent);
     }
     source = selectBox.getAttribute("data-filter-name");
     setTimeout(function () { // Make sure the newly shown filters are in the DOM
-      var active_dependents = dependents.select(function (d) {
+      var active_dependents = all_dependents.select(function (d) {
         return active_filters.include(d);
       });
       Reporting.Filters.narrow_values([source], active_dependents, callbackWhenFinished);
@@ -357,6 +366,13 @@ Reporting.Filters = {
         }
       }
     );
+  },
+
+  // This method may be overridden by the actual application to define custon behavior
+  // If there are multiple possible dependents to follow.
+  // The dependent to follow should be returned.
+  which_dependent_shall_i_take: function(dependents) {
+    return dependents.first();
   }
 };
 
@@ -392,7 +408,7 @@ Reporting.onload(function () {
     Reporting.Filters.value_changed(filter_name);
     });
   });
-  $$('.filters-select[data-dependents]').each(function (dependency) {
+  $$('.filters-select[data-all-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
   });
 });
