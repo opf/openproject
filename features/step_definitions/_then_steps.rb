@@ -90,8 +90,8 @@ Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )"(.+?)" should be "(.+)"$/ do |
   story.subject.should == subject
 end
 
-Then /^all positions should be unique$/ do
-  Story.find_by_sql("select project_id, position, count(*) as dups from issues where not position is NULL group by project_id, position having count(*) > 1").length.should == 0
+Then /^all positions should be unique within versions$/ do
+  Story.find_by_sql("select project_id, fixed_version_id, position, count(*) as dups from issues where not position is NULL group by project_id, fixed_version_id, position having count(*) > 1").length.should == 0
 end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|

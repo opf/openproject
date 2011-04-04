@@ -8,10 +8,26 @@ module Backlogs
     end
 
     module ClassMethods
-      def acts_as_backlogs_list(trackers)
-        self.class_eval do
-          acts_as_list :scope => :project #TODO: consider changing the scope to project, version and tracker
-          @trackers = trackers
+      def acts_as_backlogs_list(tracker_method)
+        scope_string = 'project_id = #{self.project_id}' +
+                       ' AND fixed_version_id = #{self.fixed_version_id}' +
+                       ' AND tracker_id in (#{self.class.trackers_in_scope})'
+
+        trackers_method = "def self.trackers_method() \"#{tracker_method}\" end"
+
+        class_eval <<-EOV
+          acts_as_list :scope => scope_string
+
+          #{ trackers_method }
+        EOV
+      end
+
+      def trackers_in_scope
+        trackers = self.send(self.trackers_method().to_sym)
+        if trackers.is_a?(Array)
+          trackers.join(', ')
+        else
+          trackers
         end
       end
     end
@@ -47,7 +63,7 @@ module Backlogs
 
       private
       def set_default_prev_positions_silently(prev)
-        stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => @trackers})
+        stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => self.class.trackers_in_scope})
 
         self.class.record_timestamps = false #temporarily turn off column updates
 

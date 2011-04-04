@@ -4,7 +4,7 @@ class Impediment < Task
   unloadable
 
   include Backlogs::List
-  acts_as_backlogs_list(Setting.plugin_redmine_backlogs[:task_tracker])
+  acts_as_backlogs_list(:tracker)
 
   after_save :update_blocks_list
 
