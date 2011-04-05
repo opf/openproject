@@ -309,12 +309,26 @@ class Report < ActiveRecord::Base
       value.to_s
     end
 
-
     def self.mapping_for(field)
       @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
         hash[cbl.field] << cbl.mapping
       end
       @field_map[field]
+    end
+
+    def help_text
+      self.class.help_text
+    end
+
+    ##
+    # Sets a help text to be displayed for this kind of Chainable.
+    def self.help_text=(sym)
+      @help_text = sym
+    end
+
+    def self.help_text(sym = nil)
+      @help_text = sym if sym
+      @help_text
     end
 
   end
