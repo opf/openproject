@@ -472,6 +472,13 @@ div.button_form p * {
   z-index: 999;
 }
 
+#progressbar {
+  border: 2px solid #ddd;
+  padding: 2px;
+  width: 45%;
+  background-color: #ededed;
+}
+
 /***** Ajax indicator ******/
 #ajax-indicator {
   font-family: Verdana, sans-serif;
