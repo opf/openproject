@@ -18,6 +18,10 @@ class Report < ActiveRecord::Base
     @@accepted_properties ||= []
   end
 
+  def self.reporting_connection
+    connection
+  end
+
   def self.chain_initializer
     @chain_initializer ||= []
   end
@@ -136,19 +140,19 @@ class Report < ActiveRecord::Base
 
   def hash
     report_string = ""
-    
+
     report_string.concat('filters: [')
-    report_string.concat(filters.map { |f| 
-      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "") 
+    report_string.concat(filters.map { |f|
+      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
     }.sort.join(', '))
     report_string.concat(']')
 
     report_string.concat(', group_bys: {')
 
-    report_string.concat(group_bys.group_by(&:type).map { |t, gbs| 
+    report_string.concat(group_bys.group_by(&:type).map { |t, gbs|
       "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
     }.join(', '))
-    
+
     report_string.concat('}')
 
     report_string.hash
