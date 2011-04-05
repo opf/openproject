@@ -105,11 +105,12 @@ RB.Model = (function ($) {
 
 
       this.$.find('.editable').each(function (index) {
-        var field, fieldType, fieldLabel, fieldName, input;
+        var field, fieldType, fieldLabel, fieldName, fieldOrder, input;
 
         field = $(this);
         fieldName = field.attr('fieldname');
         fieldLabel = field.attr('fieldlabel');
+        fieldOrder = field.attr('fieldorder');
         fieldType = field.attr('fieldtype') || 'input';
 
         if (!fieldLabel) {
@@ -126,6 +127,7 @@ RB.Model = (function ($) {
         }
         input.removeAttr('id');
         input.attr('name', fieldName);
+        input.attr('tabindex', fieldOrder);
         input.addClass(fieldName);
         input.addClass('editor');
         input.removeClass('template');
