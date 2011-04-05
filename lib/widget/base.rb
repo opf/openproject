@@ -7,7 +7,7 @@ class Widget::Base < Widget
   end
 
   def render
-    raise NotImplementedError,  "#render is missing in my subclass"
+    raise NotImplementedError,  "#render is missing in my subclass #{self.class}"
   end
 
   def render_with_options(options = {}, &block)
