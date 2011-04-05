@@ -322,7 +322,7 @@
   width:55px;
 }
 #rb #backlogs_container .stories .story.editing .subject.editor {
-  min-width: 26em;
+  min-width: 20em;
   width: 61%;
 }
 #rb #backlogs_container .stories .story.editing .status_id.editor {
