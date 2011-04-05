@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
   end
 
   def self.reporting_connection
-    ConnectionSwitcher.connection
+    ConnectionSwitcher.connection || connection
   end
 
   def self.chain_initializer
