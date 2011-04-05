@@ -3,16 +3,16 @@
     <div class="t"><%= issue_link_or_empty(story) %></div>
     <div class="v"><%= id_or_empty(story) %></div>
   </div>
-  <div class="tracker_id editable" fieldtype="select" fieldname="tracker_id">
+  <div class="tracker_id editable" fieldtype="select" fieldname="tracker_id" fieldorder="1">
     <div class="t"><%= tracker_name_or_empty(story) %></div>
     <div class="v"><%= tracker_id_or_empty(story) %></div>
   </div>
-  <div class="subject editable" fieldname="subject"><%=h story.subject %></div>
-  <div class="status_id editable" fieldtype="select" fieldname="status_id">
+  <div class="story_points editable" fieldname="story_points" fieldorder="4"><%= story_points_or_empty(story) %></div>
+  <div class="status_id editable" fieldtype="select" fieldname="status_id" fieldorder="3">
     <div class="t"><%= status_label_or_default(story) %></div>
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
-  <div class="story_points editable" fieldname="story_points"><%= story_points_or_empty(story) %></div>
+  <div class="subject editable" fieldname="subject" fieldorder="2"><%=h story.subject %></div>
   <div class="fixed_version_id"><%= story.fixed_version_id %></div>
   <div class="higher_item_id"><%= story.higher_item.blank? ? '' : story.higher_item.id %></div>
   <div class="meta">
