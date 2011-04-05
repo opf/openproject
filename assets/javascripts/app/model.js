@@ -103,6 +103,16 @@ RB.Model = (function ($) {
       var editor = this.getEditor(),
           self = this;
 
+      var maxTabIndex = 0;
+      $('.stories .editors .editor').each(function(index) {
+        var value;
+
+        value = parseInt($(this).attr('tabindex'), 10);
+
+        if (maxTabIndex < value) {
+          maxTabIndex = value;
+        }
+      });
 
       this.$.find('.editable').each(function (index) {
         var field, fieldType, fieldLabel, fieldName, fieldOrder, input;
@@ -110,7 +120,7 @@ RB.Model = (function ($) {
         field = $(this);
         fieldName = field.attr('fieldname');
         fieldLabel = field.attr('fieldlabel');
-        fieldOrder = field.attr('fieldorder');
+        fieldOrder = parseInt(field.attr('fieldorder'), 10);
         fieldType = field.attr('fieldtype') || 'input';
 
         if (!fieldLabel) {
@@ -127,7 +137,7 @@ RB.Model = (function ($) {
         }
         input.removeAttr('id');
         input.attr('name', fieldName);
-        input.attr('tabindex', fieldOrder);
+        input.attr('tabindex', fieldOrder + maxTabIndex);
         input.addClass(fieldName);
         input.addClass('editor');
         input.removeClass('template');
