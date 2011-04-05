@@ -521,6 +521,10 @@ a.help span {
 	text-decoration: none;
 }
 
+a.help div {
+	display: none;
+}
+
 a.help:hover span {
 	display: block;
 	position: absolute;
