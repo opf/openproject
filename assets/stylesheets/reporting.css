@@ -514,6 +514,10 @@ a.help span {
 	text-decoration: none;
 }
 
+a.help div {
+	display: none;
+}
+
 a.help:hover span {
 	display: block;
 	position: absolute;
@@ -528,6 +532,10 @@ a.help:hover span {
 	font: 12px Verdana, sans-serif;
 	text-align: left;
 	padding: -50px;
+}
+
+a.help:hover div {
+	display: block;
 }
 
 .filter-icon {
