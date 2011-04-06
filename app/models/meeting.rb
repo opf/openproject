@@ -19,6 +19,10 @@ class Meeting < ActiveRecord::Base
                 :datetime => :created_at,
                 :url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o}}
   
+  acts_as_activity_provider :timestamp => "#{table_name}.created_at",
+                            :author_key => :author_id,
+                            :find_options => {:include => [:agenda, :project, :author]}
+  
   accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
   
   validates_presence_of :title, :start_time, :duration

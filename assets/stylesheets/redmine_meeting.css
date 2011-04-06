@@ -11,5 +11,7 @@ div.tabular > div { margin: 0;
                     clear:left;
                   }
 
-#meeting_agenda_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png)}
-#meeting_minutes_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png)}
+#meeting_agenda_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png);}
+#meeting_minutes_preview fieldset {margin-top: 1em; background: url(../../../images/draft.png);}
+
+dt.meeting, dt.meeting-agenda, dt.meeting-minutes {/*background-image: url(../../../images/CHANGEME.png);*/}
