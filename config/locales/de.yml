@@ -9,7 +9,7 @@ de:
   label_rows: "Zeilen"
 
   label_group_by: "Gruppieren nach"
-  label_group_by_add: "Grouppierung hinzufügen"
+  label_group_by_add: "Gruppierung hinzufügen"
   label_filter: "Filter"
   label_filter_plural: "Filter"
   label_filter_add: "Filter hinzufügen"

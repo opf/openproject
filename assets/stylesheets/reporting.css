@@ -500,14 +500,3 @@ html>body #ajax-indicator { position: fixed; }
   padding-left: 26px;
   vertical-align: bottom;
 }
-<<<<<<< HEAD
-
-#content p, 
-#content label, 
-#content a, 
-#content div {
-  font-size: 11px;
-  line-height: 16px;
-}
-=======
->>>>>>> feature/widgets
