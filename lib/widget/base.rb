@@ -9,6 +9,7 @@ class Widget::Base < Widget
   def write(str)
     @output ||= "".html_safe
     @output.write str.html_safe
+    @cache_output.write(str.html_safe) if @cache_output
   end
 
   def render
@@ -16,9 +17,13 @@ class Widget::Base < Widget
   end
 
   def render_with_options(options = {}, &block)
-    @output = options[:to] if options.has_key? :to
+    set_canvas(options[:to]) if options.has_key? :to
     render_with_cache(options, &block)
     @output
+  end
+
+  def cache_key
+    "#{self.class.name}/#{subject.hash}"
   end
 
   def render_with_cache(options = {}, &block)
@@ -26,11 +31,17 @@ class Widget::Base < Widget
       Rails.cache.fetch(cache_key)
     else
       render(&block)
-      Rails.cache.write(cache_key, @output)
+      Rails.cache.write(cache_key, @cache_output || @output)
     end
   end
 
-  def cache_key
-    "#{self.class.name}/#{subject.hash}"
+  ##
+  # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
+  # a @cache_output String is created, that will mirror what is being written to the canvas.
+  def set_canvas(canvas)
+    unless canvas.respond_to? :to_str
+      @cache_output = @output || "".html_safe
+    end
+    @output = canvas
   end
 end
