@@ -30,8 +30,8 @@ class Widget < ActionView::Base
         i.output_buffer = ""
       end
       i._content_for = @_content_for
-      i.controller = respond_to? :controller ? controller : self
-      i.render_with_options(options, &block).html_safe
+      i.controller = respond_to?(:controller) ? controller : self
+      i.render_with_options(options, &block)
     end
   end
 end
