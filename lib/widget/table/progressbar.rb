@@ -4,9 +4,9 @@ class Widget::Table::Progressbar < Widget::Base
   def render
     @threshhold ||= 500
     size = @query.size
-    write (content_tag :div, :id => "progressbar", :class => "form_controls",
-    :"data-query-size" => size do
-      if size >= @threshhold
+    if size >= @threshhold
+      write (content_tag :div, :id => "progressbar", :class => "form_controls",
+      :"data-query-size" => size do
         content_tag :div, :id => "progressbar-load-table-question", :class => "form_controls" do
           content = content_tag :span, :id => "progressbar-text", :class => "form_controls" do
             ::I18n.translate(:label_load_query_question, :size => size)
@@ -38,9 +38,9 @@ class Widget::Table::Progressbar < Widget::Base
           end
           content
         end
-      else
-        render_widget Widget::Table::ReportTable, @query, :to => (@output ||= "".html_safe)
-      end
-    end)
+      end)
+    else
+      render_widget Widget::Table::ReportTable, @query, :to => (@output ||= "".html_safe)
+    end
   end
 end
