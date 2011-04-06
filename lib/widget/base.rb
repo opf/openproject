@@ -17,7 +17,20 @@ class Widget::Base < Widget
 
   def render_with_options(options = {}, &block)
     @output = options[:to] if options.has_key? :to
-    render(&block)
+    render_with_cache(options, &block)
     @output
+  end
+
+  def render_with_cache(options = {}, &block)
+    if Rails.cache.exist? cache_key
+      Rails.cache.fetch(cache_key)
+    else
+      render(&block)
+      Rails.cache.write(cache_key, @output)
+    end
+  end
+
+  def cache_key
+    "#{self.class.name}/#{subject.hash}"
   end
 end
