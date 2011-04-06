@@ -379,6 +379,7 @@ td:hover .drill_down, th:hover .drill_down {
   border: none;
   cursor: pointer;
   margin: 0px;
+  margin-right: 4px;
   overflow: visible;
   text-align: center;
   white-space: nowrap;
