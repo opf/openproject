@@ -256,9 +256,10 @@ Reporting.Filters = {
     if (callbackWhenFinished  === undefined) {
       callbackWhenFinished = function() {};
     }
+    source = selectBox.getAttribute("data-filter-name");
     all_dependents = Reporting.Filters.get_dependents(selectBox);
     next_dependents = Reporting.Filters.get_dependents(selectBox, false);
-    dependent = Reporting.Filters.which_dependent_shall_i_take(next_dependents);
+    dependent = Reporting.Filters.which_dependent_shall_i_take(source, next_dependents);
     active_filters = Reporting.Filters.visible_filters();
     if (!active_filters.include(dependent)) {
       Reporting.Filters.show_filter(dependent, { slowly: true, insert_after: $(selectBox.up(".filter")) });
@@ -271,7 +272,6 @@ Reporting.Filters = {
       $('tr_' + dependent).addClassName("no-border");
       active_filters.unshift(dependent);
     }
-    source = selectBox.getAttribute("data-filter-name");
     setTimeout(function () { // Make sure the newly shown filters are in the DOM
       var active_dependents = all_dependents.select(function (d) {
         return active_filters.include(d);
@@ -371,7 +371,7 @@ Reporting.Filters = {
   // This method may be overridden by the actual application to define custon behavior
   // If there are multiple possible dependents to follow.
   // The dependent to follow should be returned.
-  which_dependent_shall_i_take: function(dependents) {
+  which_dependent_shall_i_take: function(source, dependents) {
     return dependents.first();
   }
 };
