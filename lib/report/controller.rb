@@ -21,15 +21,34 @@ module Report::Controller
   ##
   # Render the report. Renders either the complete index or the table only
   def table
-    if params[:immediately]
-      table_without_progress_info
-    else
-      render :partial => "table", :locals => { :query => @query } if set_filter?
+    if set_filter?
+      if params[:immediately]
+        table_without_progress_info
+      else
+        table_with_progress_info
+      end
+      session[report_engine.name.underscore.to_sym].delete(:name)
     end
   end
 
   def table_without_progress_info
-    render :partial => 'table_without_progress_info' if set_filter?
+    stream do |response, output|
+      render_widget Widget::Table::ReportTable, @query, :to => output
+    end
+  end
+
+  def table_with_progress_info
+    render_widget Widget::Table::Progressbar, @query
+  end
+
+  if Rails.version.start_with? "3"
+    def stream(&block)
+      self.response_body = block
+    end
+  else
+    def stream(&block)
+      render :text => block, :layout => false
+    end
   end
 
   ##
