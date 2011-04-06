@@ -19,7 +19,7 @@ class Widget::Settings < Widget::Base
           render_widget(Widget::Controls::Delete, @query, :to => widgets)
         end
 
-        fieldsets + controls
+        write(fieldsets + controls)
       end
     end
   end
