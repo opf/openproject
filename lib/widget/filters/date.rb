@@ -1,6 +1,6 @@
 class Widget::Filters::Date < Widget::Filters::Base
   def calendar_for(field_id)
-    include_calendar_headers_tags
+    write include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
