@@ -53,7 +53,7 @@ class Widget::Base < Widget
   # Render this widget or serve it from cache
   def render_with_cache(options = {}, &block)
     if Rails.cache.exist? cache_key and cache?
-      Rails.cache.fetch(cache_key)
+      write Rails.cache.fetch(cache_key)
     else
       render(&block)
       Rails.cache.write(cache_key, @cache_output || @output)
