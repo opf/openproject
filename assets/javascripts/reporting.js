@@ -20,6 +20,41 @@ window.Reporting = {
 
   onload: function (func) {
     document.observe("dom:loaded", func);
+  },
+
+  flash: function (string, type) {
+    if (type === undefined) {
+      type = "error";
+    }
+    if ($("flash_" + type) !== null) {
+      $("flash_" + type).remove();
+    }
+    var flash = document.createElement('div');
+    flash.setAttribute('id', 'flash_' + type);
+    flash.setAttribute('onclick', '$(this).remove();');
+    flash.className = 'flash ' + type;
+    flash.innerHTML = string;
+    $("content").insert({before: flash});
+  },
+
+  clearFlash: function () {
+    $$('div[id^=flash]').each(function (oldMsg) {
+      oldMsg.remove();
+    });
+  },
+
+  fireEvent: function (element, event) {
+    var evt;
+    if (document.createEventObject) {
+      // dispatch for IE
+      evt = document.createEventObject();
+      return element.fireEvent('on' + event, evt);
+    } else {
+      // dispatch for firefox + others
+      evt = document.createEvent("HTMLEvents");
+      evt.initEvent(event, true, true); // event type,bubbling,cancelable
+      return !element.dispatchEvent(evt);
+    }
   }
 };
 
@@ -27,54 +62,3 @@ Reporting.require("filters");
 Reporting.require("group_bys");
 Reporting.require("restore_query");
 Reporting.require("controls");
-Reporting.require("table");
-
-//
-// function hide_category(tr_field) {
-//     var label = $(tr_field.getAttribute("data-label"));
-//     if (label !== null) {
-//         label.hide();
-//     }
-// }
-//
-// function restore_select_values(select, values) {
-//     var i, j;
-//     if (values.length > 1) {
-//         make_select_accept_multiple_values(select);
-//     } else {
-//         make_select_accept_single_value(select);
-//     }
-//     for (i = 0; i < values.length; i += 1) {
-//         for (j = 0; j < select.options.length; j += 1) {
-//             if (select.options[j].value === values[i].toString()) {
-//                 try {
-//                     select.options[j].selected = true;
-//                     break;
-//                 } catch(e) {
-//                     window.setTimeout('$("' + select.id + '").childElements()[' + j + '].selected = true;', 1);
-//                 }
-//             }
-//         }
-//     }
-// }
-//
-// function defineElementGetter() {
-//     if (document.getElementsByClassName === undefined) {
-//         document.getElementsByClassName = function (className)
-//         {
-//             var hasClassName, allElements, results, element, elementClass, i;
-//             hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
-//             allElements = document.getElementsByTagName("*");
-//             results = [];
-//             for (i = 0; (element = allElements[i]) !== null; i += 1) {
-//                 elementClass = element.className;
-//                 if (elementClass && elementClass.indexOf(className) !== -1 && hasClassName.test(elementClass)) {
-//                     results.push(element);
-//                 }
-//             }
-//             return results;
-//         };
-//     }
-// }
-//
-// // defineElementGetter();

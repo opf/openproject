@@ -9,24 +9,24 @@ module Report::Controller
 
       before_filter :determine_engine
       before_filter :prepare_query, :only => [:index, :create]
-      before_filter :find_optional_report, :only => [:index, :show, :update, :delete]
+      before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
+      before_filter :possibly_only_narrow_values
     end
   end
 
   ##
-  # Render the report. Provides named access to saved reports throught the :report
-  # parameter and renders either the complete index or the table only
+  # Render the report. Renders either the complete index or the table only
   def index
-    if params[:report] && report = report_engine.find_by_name(params[:report].titleize)
-      @query = report.deserialize
-    end
     table
   end
 
   ##
   # Render the table partial, if we are setting filters/groups
   def table
-    render :partial => 'table' if set_filter?
+    if set_filter?
+      render :partial => 'table'
+      session[report_engine.name.underscore.to_sym].delete(:name)
+    end
   end
 
   def table_without_progress_info
@@ -38,7 +38,7 @@ module Report::Controller
   def create
     @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
     @query.is_public = !!params[:query_is_public]
-    @query.user_id = current_user_id.to_i
+    @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
       render :text => url_for(:action => "show", :id => @query.id)
@@ -52,7 +52,9 @@ module Report::Controller
   # at :id does not exist
   def show
     if @query
+      store_query(@query)
       table
+      render :action => "index" unless performed?
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -105,6 +107,27 @@ module Report::Controller
   end
 
   ##
+  # Determine the available values for the specified filter and return them as
+  # json, if that was requested. This will be executed INSTEAD of the actual action
+  def possibly_only_narrow_values
+    if params[:narrow_values] == "1"
+      sources = params[:sources]
+      dependent = params[:dependent]
+
+      query = report_engine.new
+      sources.each do |dependency|
+        query.filter(dependency.to_sym,
+          :operator => params[:operators][dependency],
+          :values => params[:values][dependency])
+      end
+      query.column(dependent)
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[dependent] }
+      values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
+      render :json => values.to_json
+    end
+  end
+
+  ##
   # Determine the requested engine by constantizing from the :engine parameter
   # Sets @report_engine and @title based on that, and makes the engine available
   # to views and widgets via the #engine method.
@@ -114,13 +137,6 @@ module Report::Controller
     @title = "label_#{@report_engine.name.underscore}"
   rescue NameError
     raise ActiveRecord::RecordNotFound, "No engine found - override #determine_engine"
-  end
-
-  ##
-  # Return the id of the current user, for saving queries. Must be overridden by
-  # controllers.
-  def current_user_id
-    raise NotImplementedError, "#{self.class.name} should have overwritten #current_user_id to return the active user's id"
   end
 
   ##
@@ -187,34 +203,38 @@ module Report::Controller
   ##
   # Prepare the query from the request
   def prepare_query
-    determine_filter_settings
-    @query = build_query(session[report_engine.name.underscore.to_sym][:filters], session[report_engine.name.underscore.to_sym][:groups])
+    determine_settings
+    @query = build_query(session[report_engine.name.underscore.to_sym][:filters],
+                         session[report_engine.name.underscore.to_sym][:groups])
   end
 
   ##
   # Determine the query settings the current request and save it to
   # the session.
-  def determine_filter_settings
+  def determine_settings
     if force_default?
       filters = default_filter_parameters
       groups  = default_group_parameters
-      clear_cache
     else
       filters = filter_params
       groups  = group_params
     end
-    session[report_engine.name.underscore.to_sym] = {:filters => filters, :groups => groups}
+    cookie = session[report_engine.name.underscore.to_sym] || {}
+    session[report_engine.name.underscore.to_sym] = cookie.merge({:filters => filters, :groups => groups})
   end
 
   ##
-  # Build the query from the passed hash
+  # Build the query from the passed session hash
   def build_query(filters, groups = {})
     query = report_engine.new
     query.tap do |q|
       filters[:operators].each do |filter, operator|
-        q.filter(filter.to_sym,
-                 :operator => operator,
-                 :values => filters[:values][filter])
+        unless filters[:values][filter]==["<<inactive>>"]
+          values = filters[:values][filter].map{ |v| v=='<<null>>' ? nil : v }
+          q.filter(filter.to_sym,
+                   :operator => operator,
+                   :values => values )
+        end
       end
     end
     groups[:rows].try(:reverse_each) {|r| query.row(r) }
@@ -223,17 +243,36 @@ module Report::Controller
   end
 
   ##
+  # Store query in the session
+  def store_query(query)
+    cookie = {}
+    cookie[:groups] = @query.group_bys.inject({}) do |h, group|
+      ((h[:"#{group.type}s"] ||= []) << group.field.to_sym) && h
+    end
+    cookie[:filters] = @query.filters.inject({:operators => {}, :values => {}}) do |h, filter|
+      h[:operators][filter.field.to_sym] = filter.operator.to_s
+      h[:values][filter.field.to_sym] = filter.values
+      h
+    end
+    cookie[:name] = @query.name if @query.name
+    session[report_engine.name.underscore.to_sym] = cookie
+  end
+
+  ##
+  # Override in subclass if user key
+  def user_key
+    'user_id'
+  end
+
+  ##
   # Find a report if :id was passed as parameter.
   # Raises RecordNotFound if an invalid :id was passed.
   def find_optional_report
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        :conditions => ["(is_public = 1) OR (user_id = ?)", current_user_id])
-      if @query
-        @query.deserialize
-      else
-        raise ActiveRecord::RecordNotFound
-      end
+        :conditions => ["(is_public = 1) OR (#{user_key} = ?)", current_user.id])
+      @query.deserialize if @query
     end
+  rescue ActiveRecord::RecordNotFound
   end
 end

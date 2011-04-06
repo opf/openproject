@@ -2,15 +2,25 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
 
   def render
     content_tag :td do
-      content_tag :div, :id => filter_class.underscore_name, :class => "filter_values" do
-        box = content_tag :select, :style => "vertical-align: top;", # FIXME: Do CSS
-                             :name => "values[#{filter_class.underscore_name}][]",
-                             :id => "#{filter_class.underscore_name}_arg_1_val",
-                             :class => "select-small filters-select",
-                             :"data-filter-name" => filter_class.underscore_name,
-                             :multiple => "multiple" do
-                             # multiple will be disabled/enabled later by JavaScript anyhow.
-                             # We need to specify multiple here because of an IE6-bug.
+      content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
+        select_options = {  :style => "vertical-align: top;", # FIXME: Do CSS
+                            :name => "values[#{filter_class.underscore_name}][]",
+                            :id => "#{filter_class.underscore_name}_arg_1_val",
+                            :class => "select-small filters-select",
+                            :"data-filter-name" => filter_class.underscore_name,
+                            :multiple => "multiple" }
+                            # multiple will be disabled/enabled later by JavaScript anyhow.
+                            # We need to specify multiple here because of an IE6-bug.
+        if filter_class.has_dependent?
+          dependents = filter_class.all_dependents.map {|d| d.underscore_name}.to_json
+          select_options.merge! :"data-dependents" => dependents.gsub!('"', "'")
+        end
+        # store selected value(s) in data-initially-selected if this filter is a dependent
+        # of another filter, as we have to restore values manually in the client js
+        if filter_class.is_dependent? && !Array(filter.values).empty?
+          select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
+        end
+        box = content_tag :select, select_options do
           first = true
           filter_class.available_values.collect do |name, id, *args|
             options = args.first || {} # optional configuration for values
@@ -24,7 +34,13 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                 opts[:selected] = "selected"
               end
               first = false
-              content_tag(:option, opts) { name_prefix + h(name) }
+              # TODO: The following line was escaping some parts of the name. I
+              # don't exatly know why, but it was causing double escaping bugs
+              # in a Rails 3 context. Maybe this is needed for Rails 2. I don't
+              # know. Please review and remove this comment if feasible.
+              #
+              # content_tag(:option, opts) { name_prefix + h(name) }
+              content_tag(:option, opts) { name_prefix + name }
             else
               tag :optgroup, :label => l(:label_sector)
             end

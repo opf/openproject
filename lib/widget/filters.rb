@@ -17,7 +17,7 @@ class Widget::Filters < Widget::Base
             :class => "select-small",
             :name => nil
     end
-    (table + select)
+    content_tag(:div, table + select)
   end
 
   def selectables
@@ -34,7 +34,9 @@ class Widget::Filters < Widget::Base
   def render_filters
     active_filters = @query.filters.select { |f| f.class.display? }
     engine::Filter.all.collect do |filter|
-      opts = {:id => "tr_#{filter.underscore_name}", :class => "#{filter.underscore_name}"}
+      opts = {:id => "tr_#{filter.underscore_name}",
+              :class => "#{filter.underscore_name} filter",
+              :"data-filter-name" => filter.underscore_name }
       active_instance = active_filters.detect { |f| f.class == filter }
       if active_instance
         opts[:"data-selected"] = true
@@ -62,7 +64,11 @@ class Widget::Filters < Widget::Base
         render_widget Filters::MultiValues, f, :to => html
       end
     else
-      render_widget Filters::MultiValues, f, :to => html
+      if f_cls.is_multiple_choice?
+        render_widget Filters::MultiChoice, f, :to => html
+      else
+        render_widget Filters::MultiValues, f, :to => html
+      end
     end
     render_widget Filters::RemoveButton, f, :to => html
   end

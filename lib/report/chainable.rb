@@ -45,7 +45,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.table_joins
-      @table_joins ||= []
+      (@table_joins ||= []).clone
     end
 
     def self.table_from(value)
@@ -56,7 +56,7 @@ class Report < ActiveRecord::Base
 
     def self.join_table(*args)
       @last_table = table_from(args.last)
-      table_joins << args
+      (@table_joins ||= []) << args
     end
 
     def self.underscore_name
@@ -133,7 +133,7 @@ class Report < ActiveRecord::Base
       options.each do |key, value|
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
-          send "#{key}=", value if value
+          send "#{key}=", value
         end
       end
       self.child, child.parent = child, self if child
@@ -206,7 +206,7 @@ class Report < ActiveRecord::Base
     end
 
     def compute_result
-      engine::Result.new ActiveRecord::Base.connection.select_all(sql_statement.to_s), {}, type
+      engine::Result.new engine.connection.select_all(sql_statement.to_s), {}, type
     end
 
     def table_joins
@@ -299,6 +299,22 @@ class Report < ActiveRecord::Base
 
     def field
       self.class.field
+    end
+
+    def mapping
+      self.class.method(:mapping).to_proc
+    end
+
+    def self.mapping(value)
+      value.to_s
+    end
+
+
+    def self.mapping_for(field)
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+        hash[cbl.field] << cbl.mapping
+      end
+      @field_map[field]
     end
 
   end

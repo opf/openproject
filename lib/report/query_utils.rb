@@ -1,7 +1,7 @@
 module Report::QueryUtils
   alias singleton_class metaclass unless respond_to? :singleton_class
 
-  delegate :quoted_false, :quoted_true, :to => "ActiveRecord::Base.connection"
+  delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
   attr_writer :engine
 
   module PropagationHook
@@ -43,7 +43,11 @@ module Report::QueryUtils
   # @return [Object] Quoted version
   def quote_string(str)
     return str unless str.respond_to? :to_str
-    ActiveRecord::Base.connection.quote_string(str)
+    engine.reporting_connection.quote_string(str)
+  end
+
+  def current_language
+    ::I18n.locale
   end
 
   ##
@@ -71,7 +75,7 @@ module Report::QueryUtils
   end
 
   def quoted_date(date)
-    ActiveRecord::Base.connection.quoted_date date.to_dateish
+    engine.reporting_connection.quoted_date date.to_dateish
   end
 
   ##
@@ -164,15 +168,14 @@ module Report::QueryUtils
   end
 
   def map_field(key, value)
-    if key.to_s == "singleton_value"
-      value.to_i
-    else
-      value.to_s
+    case key.to_s
+    when "singleton_value", /_id$/ then value.to_i
+    else value.to_s
     end
   end
 
   def adapter_name
-    ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+    engine.reporting_connection.adapter_name.downcase.to_sym
   end
 
   def cache

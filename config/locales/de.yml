@@ -3,12 +3,20 @@ de:
   units: Einheiten
   label_less: "<"
   label_greater: ">"
+  label_inactive: "«nicht aktiviert»"
   label_report: "Report"
   label_columns: "Spalten"
   label_rows: "Zeilen"
 
+  label_group_by: "Gruppieren nach"
+  label_group_by_add: "Gruppierung hinzufügen"
+  label_filter: "Filter"
+  label_filter_plural: "Filter"
+  label_filter_add: "Filter hinzufügen"
+
   label_count: Anzahl
   label_sum: Summe
+  label_none: "(no value)"
 
   description_drill_down: Details anzeigen
 

@@ -23,6 +23,64 @@ class Report::Filter
       false
     end
 
+    ##
+    # Indicates whether this Filter is a multiple choice filter,
+    # meaning that the user must select a value of a given set of choices.
+    def self.is_multiple_choice?
+      false
+    end
+
+    ##
+    # A Filter may have a depentent filter. See the following example:
+    # Filter::Project.dependent --> Filter::Issue
+    # This could result in a UI where, if the Prject-filter was selected,
+    # the Issue-filter automatically shows up.
+    # Arguments:
+    #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
+    #    or nil, if you want to remove the dependent relationship
+    def self.dependent(*args)
+      @dependent = args.first unless args.empty?
+      @dependent
+    end
+
+    def self.has_dependent?
+      !!@dependent
+    end
+
+    ##
+    # Returns an array of filters of which this filter is a dependent
+    def self.dependent_from
+      engine::Filter.all.select { |f| Array(f.dependent).include? self}
+    end
+
+    ##
+    # Returns true/false depending of wether any filter has this filter a a dependent
+    def self.is_dependent?
+      !dependent_from.empty?
+    end
+
+    def self.cached(*args)
+      @cached ||= {}
+      @cached[args] ||= send(*args)
+    end
+
+    ##
+    # all_dependents computes the depentends of this filter and recursively
+    # all_dependents of this class' dependents.
+    def self.all_dependents
+      self.cached(:compute_all_dependents)
+    end
+
+    def self.compute_all_dependents
+      dependents = []
+      dep = dependent
+      while !dep.nil? do
+        dependents << dep
+        dep = dep.dependent
+      end
+      dependents
+    end
+
     def value=(val)
       self.values = [val]
     end
@@ -117,6 +175,8 @@ class Report::Filter
       super.tap do |query|
         arity   = operator.arity
         values  = [*self.values].compact
+        #if there is just the nil it might be actually intendet to be there
+        values.unshift nil if Array(self.values).size==1 && Array(self.values).first.nil?
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
         operator.modify(query, field, *values) unless field.empty?
       end

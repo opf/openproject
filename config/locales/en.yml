@@ -3,13 +3,20 @@ en:
   units: Units
   label_less: "<"
   label_greater: ">"
+  label_inactive: "«inactive»"
   label_report: "Report"
   label_columns: "Columns"
   label_rows: "Rows"
-  label_none: (no value)
+
+  label_group_by: "Group by"
+  label_group_by_add: "Add Group-by Attribute"
+  label_filter: "Filter"
+  label_filter_plural: "Filters"
+  label_filter_add: Add Filter
 
   label_count: Count
   label_sum: Sum
+  label_none: "(no value)"
 
   description_drill_down: Show details
 
