@@ -135,9 +135,6 @@ class Report < ActiveRecord::Base
   end
 
   def hash
-    # serialize.tap do |serialized_query|
-    #   serialized_query[:filters] = serialized_query[:filters].sort!
-    # end
     (self.class.name + serialize.inspect).hash
   end
 
