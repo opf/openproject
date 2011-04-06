@@ -10,7 +10,7 @@ class Widget::Controls::SaveAs < Widget::Base
     button = link_to content_tag(:span, content_tag(:em, link_name, :class => "button-icon icon-save-as")), "#",
         :class => "button secondary",
         :id => 'query-icon-save-as', :title => link_name
-    button + render_popup
+    write(button + render_popup)
   end
 
   def render_popup_form

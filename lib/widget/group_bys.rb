@@ -51,10 +51,10 @@ class Widget::GroupBys < Widget::Base
   end
 
   def render
-    content_tag :div, :id => 'group_by_area' do
+    write(content_tag :div, :id => 'group_by_area' do
       out =  render_group 'columns', @query.group_bys(:column)
       out += render_group 'rows', @query.group_bys(:row)
       out.html_safe
-    end
+    end)
   end
 end
