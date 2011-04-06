@@ -116,7 +116,11 @@ class Report::Filter
     end
 
     def self.available_values(params = {})
-      []
+      [] #array of [:label_of_value, value]-kind arrays
+    end
+
+    def self.label_for_value(value)
+      available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?
