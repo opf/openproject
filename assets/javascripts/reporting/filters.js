@@ -263,7 +263,15 @@ Reporting.Filters = {
     next_dependents = Reporting.Filters.get_dependents(selectBox, false);
     dependent = Reporting.Filters.which_dependent_shall_i_take(source, next_dependents);
     active_filters = Reporting.Filters.visible_filters();
+
     if (!active_filters.include(dependent)) {
+      // in case we run into a situation where the dependent to show is not in the currently selected dependency chain
+      // we have to remove all filters until we reach the source and add the new dependent
+      if (next_dependents.any( function(d){ return active_filters.include(d) } )) {
+        while (active_filters.last() !== source) {
+          Reporting.Filters.show_filter(active_filters.pop(1), { show_filter: false, slowly: true });
+        }
+      }
       Reporting.Filters.show_filter(dependent, { slowly: true, insert_after: $(selectBox.up(".filter")) });
       // render filter inactive if possible to avoid unintended filtering
       $(dependent + '_arg_1_val').value = '<<inactive>>'
