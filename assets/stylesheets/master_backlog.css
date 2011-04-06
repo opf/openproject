@@ -232,7 +232,8 @@
   float: right;
   padding:5px 3px 4px 2px;
   margin-right: 0.7em;
-  width:28px;
+  width: 28px;
+  min-height: 14px;
   text-align:right;
 }
 
