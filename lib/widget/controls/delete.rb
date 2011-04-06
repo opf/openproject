@@ -19,6 +19,6 @@ class Widget::Controls::Delete < Widget::Base
       end
       question + options
     end
-    button + popup
+    write(button + popup)
   end
 end

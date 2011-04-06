@@ -1,6 +1,6 @@
 class Widget::Settings < Widget::Base
   def render
-    form_tag("#", {:id => 'query_form', :method => :post}) do
+    write(form_tag("#", {:id => 'query_form', :method => :post}) do
       content_tag :div, :id => "query_form_content" do
 
         fieldsets = render_widget Widget::Settings::Fieldset, @query, { :type => "filter" } do
@@ -21,6 +21,6 @@ class Widget::Settings < Widget::Base
 
         fieldsets + controls
       end
-    end
+    end)
   end
 end

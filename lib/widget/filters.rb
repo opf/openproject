@@ -17,7 +17,7 @@ class Widget::Filters < Widget::Base
             :class => "select-small",
             :name => nil
     end
-    content_tag(:div, table + select)
+    write content_tag(:div, table + select)
   end
 
   def selectables

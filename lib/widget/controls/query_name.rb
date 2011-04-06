@@ -14,7 +14,7 @@ class Widget::Controls::QueryName < Widget::Base
       options["data-update-url"] = url_for(:action => "rename", :id => @query.id)
       options["data-is_new"] = @query.new_record?
     end
-    content_tag(:span, name, options) + icon
+    write(content_tag(:span, name, options) + icon)
   end
 
   def translations

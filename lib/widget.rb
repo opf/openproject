@@ -4,10 +4,17 @@ class Widget < ActionView::Base
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
 
-  attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes
+  attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
 
   extend ProactiveAutoloader
 
+  def self.new(subject)
+    super(subject).tap do |o|
+      o.subject = subject
+    end
+  end
+
+  # FIXME: There's a better one in ReportingHelper, remove this one
   def l(s)
     ::I18n.t(s.to_sym, :default => s.to_s.humanize)
   end

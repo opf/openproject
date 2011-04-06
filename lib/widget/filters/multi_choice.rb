@@ -1,8 +1,9 @@
+
 class Widget::Filters::MultiChoice < Widget::Filters::Base
 
   def render
     filterName = filter_class.underscore_name
-    content_tag :td do
+    write(content_tag :td do
       content_tag :div, :id => "#{filterName}_arg_1", :class => "filter_values" do
         choices = filter_class.available_values.each_with_index.map do |(label, value), i|
           opts = {
@@ -21,11 +22,11 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
         content_tag :div, choices.join.html_safe,
           :id => "#{filter_class.underscore_name}_arg_1_val"
       end
-    end
+    end)
   end
-  
+
   private
-  
+
   def translate(label)
     if label.is_a?(Symbol)
       ::I18n.t(label)
@@ -33,5 +34,5 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
       label
     end
   end
-  
+
 end

@@ -1,4 +1,6 @@
 class Widget::Settings::Fieldset < Widget::Base
+  dont_cache!
+
   def render_with_options(options, &block)
     @type = options.delete(:type) || "filter"
     @id = "#{@type}-settings"
@@ -7,9 +9,9 @@ class Widget::Settings::Fieldset < Widget::Base
   end
 
   def render
-    content_tag :fieldset, :id => @id, :class => "collapsible collapsed" do
+    write(content_tag :fieldset, :id => @id, :class => "collapsible collapsed" do
       html = content_tag :legend, l(@label), :onclick => "toggleFieldset(this);" #FIXME: onclick
       html + yield
-    end
+    end)
   end
 end
