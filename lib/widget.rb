@@ -17,6 +17,8 @@ if Rails.version.start_with? "2"
   class ::String; def html_safe; self; end; end
 end
 
+class ::String; def write(s); concat(s); end; end
+
 class Widget < ActionView::Base
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::AssetTagHelper
