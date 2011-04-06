@@ -17,7 +17,9 @@ class Widget::Filters::Operators < Widget::Filters::Base
         end.join.html_safe
       end
       label = content_tag :label do
-        l(filter_class.available_operators.first.label)
+        if filter_class.available_operators.any?
+          l(filter_class.available_operators.first.label)
+        end
       end
       hide_select_box ? select_box + label : select_box
     end)
