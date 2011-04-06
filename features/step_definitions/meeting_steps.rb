@@ -16,3 +16,17 @@ Given /^the [Mm]eeting "(.+)" has minutes with:$/ do |meeting,table|
   m.minutes = Factory.build(:meeting_minutes)
   send_table_to_object(m.minutes, table)
 end
+
+Given /^"(.+)" is invited to the [Mm]eeting "(.+)"$/ do |user,meeting|
+  m = Meeting.find_by_title(meeting)
+  p = m.participants.detect{|p| p.user_id = User.find_by_login(user).id} || Factory.build(:meeting_participant, :meeting => m)
+  p.invited = true
+  p.save
+end
+
+Given /^"(.+)" attended the [Mm]eeting "(.+)"$/ do |user,meeting|
+  m = Meeting.find_by_title(meeting)
+  p = m.participants.detect{|p| p.user_id = User.find_by_login(user).id} || Factory.build(:meeting_participant, :meeting => m)
+  p.attended = true
+  p.save
+end

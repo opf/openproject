@@ -21,6 +21,7 @@ class MeetingsController < ApplicationController
   end
 
   def create
+    @meeting.participants.clear # Start with a clean set of participants
     @meeting.attributes = params[:meeting]
     begin
       if (agenda = Meeting.find(params[:copy_from_id]).agenda).present?
@@ -42,7 +43,8 @@ class MeetingsController < ApplicationController
   end
   
   def copy
-    @meeting = @meeting.copy
+    params[:copy_from_id] = @meeting.id
+    @meeting = @meeting.copy(:author => User.current, :start_time => nil)
     render :action => 'new', :project_id => @project
   end
 

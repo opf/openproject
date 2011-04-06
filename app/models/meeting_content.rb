@@ -32,7 +32,7 @@ class MeetingContent < ActiveRecord::Base
   protected
   
   def after_initialize
-    self.comment = nil
+    self.comment = nil unless self.new_record? # Don't reset the comment if we haven't been saved with it yet
   end
   
   class Version

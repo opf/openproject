@@ -64,10 +64,12 @@ class Meeting < ActiveRecord::Base
     agenda.text if agenda.present?
   end
   
-  def copy
+  def copy(attrs)
     copy = self.clone
-    copy.start_time = Date.tomorrow + 10.hours
-    copy.participants = self.participants.invited.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
+    copy.attributes = attrs
+    copy.send(:after_initialize)
+    copy_participant_user_ids = copy.participants.collect(&:user_id)
+    copy.participants << self.participants.invited.reject{|p| copy_participant_user_ids.include? p.user_id}.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
     copy
   end
   
@@ -77,6 +79,7 @@ class Meeting < ActiveRecord::Base
     # set defaults
     self.start_time ||= Date.tomorrow + 10.hours
     self.duration   ||= 1
+    self.participants.build(:user => self.author, :invited => true) if (self.new_record? && self.participants.empty? && self.author) # Don't add the author as participant if we already have some through nested attributes
   end
   
   private
