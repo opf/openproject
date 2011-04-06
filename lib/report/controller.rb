@@ -38,7 +38,7 @@ module Report::Controller
   end
 
   def table_with_progress_info
-    render_widget Widget::Table::Progressbar, @query
+    render :text => render_widget(Widget::Table::Progressbar, @query), :layout => false
   end
 
   if Rails.version.start_with? "3"
