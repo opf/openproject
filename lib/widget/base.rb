@@ -8,7 +8,7 @@ class Widget::Base < Widget
 
   def write(str)
     @output ||= "".html_safe
-    @output.write str
+    @output.write str.html_safe
   end
 
   def render
