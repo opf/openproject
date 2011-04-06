@@ -4,10 +4,10 @@ class Widget::Base < Widget
   def initialize(query)
     @query = query
     @engine = query.class
-    @output = "".html_safe
   end
 
   def write(str)
+    @output ||= "".html_safe
     @output.write str
   end
 
@@ -16,13 +16,8 @@ class Widget::Base < Widget
   end
 
   def render_with_options(options = {}, &block)
-    if canvas = options[:to]
-      @output = canvas
-    end
-    result = render(&block)
-    if @output.respond_to? :to_str and @output.empty? # FIXME: Transitional support
-      @output += "\n#{result}".html_safe
-    end
+    @output = options[:to] if options.has_key? :to
+    render(&block)
     @output
   end
 end
