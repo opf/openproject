@@ -293,7 +293,8 @@ Reporting.Filters = {
     if (callbackWhenFinished  === undefined) {
       callbackWhenFinished = function() {};
     }
-    var params = "?narrow_values=1&dependent=" + dependents.first();
+    var params = document.location.href.include('?') ? '&' : '?'
+    params = params + "narrow_values=1&dependent=" + dependents.first();
     sources.each(function (filter) {
       params = params + "&sources[]=" + filter;
     });
