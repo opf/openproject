@@ -208,9 +208,11 @@ Reporting.Filters = {
 
   remove_filter: function (field) {
     Reporting.Filters.show_filter(field, { show_filter: false });
-    var dependents = Reporting.Filters.get_dependents($(field + '_arg_1_val'));
-    if (dependents.size() !== 0) {
-      Reporting.Filters.remove_filter(dependents.first());
+    var dependent = Reporting.Filters.get_dependents($(field + '_arg_1_val'), false).find(function(d) {
+      return Reporting.Filters.visible_filters().include(d);
+    });
+    if (dependent !== undefined) {
+      Reporting.Filters.remove_filter(dependent);
     }
     Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
