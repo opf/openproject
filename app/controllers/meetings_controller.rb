@@ -23,14 +23,10 @@ class MeetingsController < ApplicationController
   def create
     @meeting.participants.clear # Start with a clean set of participants
     @meeting.attributes = params[:meeting]
-    begin
-      if (agenda = Meeting.find(params[:copy_from_id]).agenda).present?
-        @meeting.agenda = MeetingAgenda.new(:text => agenda.text,
-                                            :comment => "Copied from Meeting ##{params[:copy_from_id]}",
-                                            :author => User.current)
-      end
-    rescue ActiveRecord::RecordNotFound
-    end if params[:copy_from_id].present?
+    @meeting.agenda = MeetingAgenda.new(:text => params[:copied_meeting_agenda_text],
+                                        :comment => "Copied from Meeting ##{params[:copied_from_meeting_id]}",
+                                        :author => User.current
+                                       ) if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
     if @meeting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'show', :id => @meeting
@@ -43,7 +39,8 @@ class MeetingsController < ApplicationController
   end
   
   def copy
-    params[:copy_from_id] = @meeting.id
+    params[:copied_from_meeting_id] = @meeting.id
+    params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
     @meeting = @meeting.copy(:author => User.current, :start_time => nil)
     render :action => 'new', :project_id => @project
   end

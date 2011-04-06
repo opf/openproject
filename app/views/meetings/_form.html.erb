@@ -30,7 +30,8 @@
       </tbody>
     </table>
   </div>
-  <%= hidden_field_tag "copy_from_id", params[:copy_from_id] if params[:copy_from_id].present? %>
+  <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
+  <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </div>
 
 <% content_for :header_tags do %>
