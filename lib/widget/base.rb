@@ -50,10 +50,14 @@ class Widget::Base < Widget
     !self.class.dont_cache?
   end
 
+  def cached?
+    Rails.cache.exist? cache_key and cache?
+  end
+
   ##
   # Render this widget or serve it from cache
   def render_with_cache(options = {}, &block)
-    if Rails.cache.exist? cache_key and cache?
+    if cached?
       write Rails.cache.fetch(cache_key)
     else
       render(&block)

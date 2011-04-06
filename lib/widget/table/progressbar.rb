@@ -3,8 +3,8 @@ class Widget::Table::Progressbar < Widget::Base
 
   def render
     size = @query.size
-    if size >= THRESHHOLD
-      write (content_tag :div, :id => "progressbar", :class => "form_controls",
+    if size >= THRESHHOLD || cached?
+      write(content_tag :div, :id => "progressbar", :class => "form_controls",
       :"data-query-size" => size do
         content_tag :div, :id => "progressbar-load-table-question", :class => "form_controls" do
           content = content_tag :span, :id => "progressbar-text", :class => "form_controls" do
