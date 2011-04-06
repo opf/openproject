@@ -1,4 +1,6 @@
 class Widget::Settings::Fieldset < Widget::Base
+  dont_cache!
+
   def render_with_options(options, &block)
     @type = options.delete(:type) || "filter"
     @id = "#{@type}-settings"

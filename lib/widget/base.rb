@@ -1,6 +1,14 @@
 class Widget::Base < Widget
   attr_reader :engine, :output
 
+  def self.dont_cache!
+    @dont_cache = true
+  end
+
+  def self.dont_cache?
+    @dont_cache
+  end
+
   def initialize(query)
     @query = query
     @engine = query.class
@@ -37,10 +45,14 @@ class Widget::Base < Widget
 
   private
 
+  def cache?
+    !self.class.dont_cache?
+  end
+
   ##
   # Render this widget or serve it from cache
   def render_with_cache(options = {}, &block)
-    if Rails.cache.exist? cache_key
+    if Rails.cache.exist? cache_key and cache?
       Rails.cache.fetch(cache_key)
     else
       render(&block)
