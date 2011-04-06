@@ -26,7 +26,7 @@ class Widget::Base < Widget
   ##
   # Render this widget. Abstract method. Needs to call #write at least once
   def render
-    raise NotImplementedError,  "#render is missing in my subclass"
+    raise NotImplementedError,  "#render is missing in my subclass #{self.class}"
   end
 
   ##

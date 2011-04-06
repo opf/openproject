@@ -379,6 +379,7 @@ td:hover .drill_down, th:hover .drill_down {
   border: none;
   cursor: pointer;
   margin: 0px;
+  margin-right: 4px;
   overflow: visible;
   text-align: center;
   white-space: nowrap;
@@ -470,6 +471,13 @@ div.button_form p * {
 /***** Save and Delete Reports ****/
 #save_as_form, #delete_form {
   z-index: 999;
+}
+
+#progressbar {
+  border: 2px solid #ddd;
+  padding: 2px;
+  width: 45%;
+  background-color: #ededed;
 }
 
 /***** Ajax indicator ******/

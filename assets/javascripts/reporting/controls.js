@@ -115,6 +115,7 @@ Reporting.Controls = {
 
   update_result_table: function (response) {
     $('result-table').update(response.responseText);
+    Reporting.Progress.attach_listeners();
   },
 
   default_failure_callback: function (response) {

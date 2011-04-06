@@ -13,6 +13,8 @@ en:
   label_filter: "Filter"
   label_filter_plural: "Filters"
   label_filter_add: Add Filter
+  label_yes: "Yes"
+  label_no: "No"
 
   label_count: Count
   label_sum: Sum
@@ -22,3 +24,5 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"

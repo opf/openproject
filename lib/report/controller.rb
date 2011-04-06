@@ -14,18 +14,17 @@ module Report::Controller
     end
   end
 
-  ##
-  # Render the report. Renders either the complete index or the table only
   def index
     table
   end
 
   ##
-  # Render the table partial, if we are setting filters/groups
+  # Render the report. Renders either the complete index or the table only
   def table
-    if set_filter?
-      render :partial => 'table'
-      session[report_engine.name.underscore.to_sym].delete(:name)
+    if params[:immediately]
+      table_without_progress_info
+    else
+      render :partial => "table", :locals => { :query => @query } if set_filter?
     end
   end
 
