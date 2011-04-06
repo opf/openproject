@@ -11,6 +11,7 @@ module Report::Controller
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
+      before_filter { @no_progress = no_progress? }
     end
   end
 
@@ -22,7 +23,7 @@ module Report::Controller
   # Render the report. Renders either the complete index or the table only
   def table
     if set_filter?
-      if params[:immediately]
+      if no_progress?
         table_without_progress_info
       else
         table_with_progress_info
@@ -161,6 +162,12 @@ module Report::Controller
   # Determines if the request contains filters to set
   def set_filter? #FIXME: rename to set_query?
     params[:set_filter].to_i == 1
+  end
+
+  ##
+  # Determines if the requested table should be rendered with a progressbar
+  def no_progress?
+    !!params[:immediately]
   end
 
   ##
