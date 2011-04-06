@@ -18,6 +18,7 @@ class Widget::Base < Widget
   # Write a string to the canvas. The string is marked as html_safe.
   # This will write twice, if @cache_output is set.
   def write(str)
+    str ||= ""
     @output ||= "".html_safe
     @output.write str.html_safe
     @cache_output.write(str.html_safe) if @cache_output
