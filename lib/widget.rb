@@ -8,6 +8,7 @@ class Widget < ActionView::Base
 
   extend ProactiveAutoloader
 
+  # FIXME: There's a better one in ReportingHelper, remove this one
   def l(s)
     ::I18n.t(s.to_sym, :default => s.to_s.humanize)
   end
