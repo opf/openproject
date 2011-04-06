@@ -31,7 +31,7 @@ class Report < ActiveRecord::Base
 
   def serialize
     # have to take the reverse to retain the original order when deserializing
-    self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
+    self.serialized = { :filters => filters.collect(&:serialize).sort, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
   def deserialize
@@ -135,6 +135,9 @@ class Report < ActiveRecord::Base
   end
 
   def hash
+    # serialize.tap do |serialized_query|
+    #   serialized_query[:filters] = serialized_query[:filters].sort!
+    # end
     (self.class.name + serialize.inspect).hash
   end
 
