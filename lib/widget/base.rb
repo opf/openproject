@@ -6,16 +6,25 @@ class Widget::Base < Widget
     @engine = query.class
   end
 
+  ##
+  # Write a string to the canvas. The string is marked as html_safe.
+  # This will write twice, if @cache_output is set.
   def write(str)
     @output ||= "".html_safe
     @output.write str.html_safe
     @cache_output.write(str.html_safe) if @cache_output
   end
 
+  ##
+  # Render this widget. Abstract method. Needs to call #write at least once
   def render
     raise NotImplementedError,  "#render is missing in my subclass"
   end
 
+  ##
+  # Render this widget, passing options.
+  # Available options:
+  #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
   def render_with_options(options = {}, &block)
     set_canvas(options[:to]) if options.has_key? :to
     render_with_cache(options, &block)
@@ -26,6 +35,10 @@ class Widget::Base < Widget
     "#{self.class.name}/#{subject.hash}"
   end
 
+  private
+
+  ##
+  # Render this widget or serve it from cache
   def render_with_cache(options = {}, &block)
     if Rails.cache.exist? cache_key
       Rails.cache.fetch(cache_key)
