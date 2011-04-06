@@ -73,3 +73,13 @@ Feature: Create new meetings
        #And "05" should be selectable from "meeting_start_time_5i"
         And I should see "00" within "#meeting_start_time_5i"
         And I should see "05" within "#meeting_start_time_5i"
+
+  @javascript
+  Scenario: Visit the new meeting page to make sure the author is selected as invited
+      Given the role "user" may have the following rights:
+            | view_meetings   |
+            | create_meetings |
+       When I login as "alice"
+        And I go to the Meetings page for the project called "dingens"
+        And I click on "New Meeting"
+       Then the "meeting[participants_attributes][][invited]" checkbox should be checked

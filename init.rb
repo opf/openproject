@@ -19,7 +19,7 @@ Redmine::Plugin.register :redmine_meeting do
   requires_redmine :version_or_higher => '1.0'
 
   project_module :meetings do
-    permission :create_meetings, {:meetings => [:new, :create]}, :require => :member
+    permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
     permission :edit_meetings, {:meetings => [:edit, :update]}, :require => :member
     permission :delete_meetings, {:meetings => [:destroy]}, :require => :member
     permission :view_meetings, {:meetings => [:index, :show], :meeting_agendas => [:history, :show, :diff], :meeting_minutes => [:history, :show, :diff]}
