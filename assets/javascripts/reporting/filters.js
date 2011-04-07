@@ -286,8 +286,18 @@ Reporting.Filters = {
       var active_dependents = all_dependents.select(function (d) {
         return active_filters.include(d);
       });
-      Reporting.Filters.narrow_values([source], active_dependents, callbackWhenFinished);
+      Reporting.Filters.narrow_values(Reporting.Filters.dependent_for(source), active_dependents, callbackWhenFinished);
     }, 1);
+  },
+
+  // return an array of all filters that depend on the given filter plus the given filter
+  dependent_for: function(field) {
+    var deps = $$('.filters-select[data-all-dependents]').findAll(function(selectBox) {
+        return Reporting.Filters.get_dependents(selectBox).include(field)
+      }).map(function(selectBox) {
+        return selectBox.getAttribute("data-filter-name");
+      });
+    return deps === undefined ? [ field ] : [ field ].concat(deps)
   },
 
   // Select the given values of the selectBox.
