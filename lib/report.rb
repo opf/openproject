@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
   end
 
   def serialize
-    # have to take the reverse to retain the original order when deserializing
+    # have to take the reverse group_bys to retain the original order when deserializing
     self.serialized = { :filters => filters.collect(&:serialize).sort, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
