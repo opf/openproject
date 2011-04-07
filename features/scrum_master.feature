@@ -18,6 +18,7 @@ Feature: Scrum Master
         | update_stories          |
         | create_impediments      |
         | update_impediments      |
+        | update_tasks            |
         | subscribe_to_calendars  |
         | view_wiki_pages         |
         | edit_wiki_pages         |
@@ -87,6 +88,13 @@ Feature: Scrum Master
         | Subtask 3    | Sprint 005 | Task 11    |
     And I am logged in as "markus"
     Then show me the page
+
+
+    Scenario: Move around tasks that have subtasks
+      Given I am on the taskboard for "Sprint 005"
+       When I move the task named Task 10  below Task 11
+       Then the request should complete successfully
+        And Task 11 should be the higher task of Task 10
 
   @javascript
   Scenario: Create an impediment
@@ -248,6 +256,7 @@ Feature: Scrum Master
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
 
+  @javascript
   Scenario: View stories that have a parent ticket
    Given I am on the master backlog
     When I open the "Sprint 005" menu
