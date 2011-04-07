@@ -179,6 +179,25 @@ class Sprint < Version
         }
     }
 
+    named_scope :order_by_date, :order => 'sprint_start_date ASC, effective_date ASC'
+    named_scope :apply_to, lambda { |project| {:include => :project,
+                                  :conditions => ["#{Version.table_name}.project_id = #{project.id}" +
+                                  " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
+                                  " #{Version.table_name}.sharing = 'system'" +
+                                  " OR (#{Project.table_name}.lft >= #{project.root.lft} AND #{Project.table_name}.rgt <= #{project.root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                                  " OR (#{Project.table_name}.lft < #{project.lft} AND #{Project.table_name}.rgt > #{project.rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                                  " OR (#{Project.table_name}.lft > #{project.lft} AND #{Project.table_name}.rgt < #{project.rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+                                  "))"]}}
+
+    named_scope :displayed_left, lambda { |project| { :include => :version_setting,
+                                                      :conditions => ["version_settings.display = ? AND versions.project_id = ? OR (version_settings.version_id is NULL)",
+                                                                      VersionSetting::DISPLAY_LEFT, project.id] } }
+
+    named_scope :displayed_right, lambda { |project| { :include => :version_setting,
+                                                      :conditions => ["version_settings.display = ? AND versions.project_id = ?",
+                                                                      VersionSetting::DISPLAY_RIGHT, project.id] } }
+
+
     def stories
         return Story.sprint_backlog(self)
     end
