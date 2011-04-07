@@ -1,7 +1,5 @@
 <%= error_messages_for 'version' %>
 
-<% @version.build_version_setting(:display => VersionSetting::DISPLAY_LEFT) if @version.version_setting.nil? %>
-
 <div class="box">
 <p><%= f.text_field :name, :size => 60, :required => true %></p>
 <p><%= f.text_field :description, :size => 60 %></p>
@@ -11,9 +9,7 @@
 <p><%= f.select :sharing, @version.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
 
 <% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
-	<% f.fields_for :version_setting do |sf| %>
-		<p><%= sf.select :display, position_display_options %></p>
-	<% end %>
+	<%= version_settings_fields f, @version %>
 <% end %>
 
 <% @version.custom_field_values.each do |value| %>
