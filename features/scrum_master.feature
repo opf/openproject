@@ -90,12 +90,6 @@ Feature: Scrum Master
     Then show me the page
 
 
-    Scenario: Move around tasks that have subtasks
-      Given I am on the taskboard for "Sprint 005"
-       When I move the task named Task 10  below Task 11
-       Then the request should complete successfully
-        And Task 11 should be the higher task of Task 10
-
   @javascript
   Scenario: Create an impediment
     Given I am on the taskboard for "Sprint 001"
@@ -291,3 +285,9 @@ Feature: Scrum Master
      And I should see "Subtask 1" within "#content"
      And I should see "Subtask 2" within "#content"
      And I should see "Subtask 3" within "#content"
+
+  Scenario: Move around tasks that have subtasks
+   Given I am on the taskboard for "Sprint 005"
+    When I move the task named Task 10  below Task 11
+    Then the request should complete successfully
+     And Task 11 should be the higher task of Task 10
