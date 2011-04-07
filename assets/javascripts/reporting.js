@@ -62,4 +62,6 @@ Reporting.require("filters");
 Reporting.require("group_bys");
 Reporting.require("restore_query");
 Reporting.require("controls");
+Reporting.require("prototype_progress_bar");
 Reporting.require("progressbar");
+

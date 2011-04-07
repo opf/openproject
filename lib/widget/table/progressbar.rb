@@ -20,6 +20,7 @@ class Widget::Table::Progressbar < Widget::Base
               :id => "progressbar-yes",
               :'data-load' => 'true',
               :class => "form_controls",
+              :'data-size' => size,
               :'data-target' => url_for(:action => 'index', :set_filter => '1', :immediately => true) do
                 content_tag :em do
                   ::I18n.t(:label_yes)
