@@ -20,7 +20,7 @@ describe Backlog do
           @project = project
           @issues = [Factory.create(:issue, :subject => "issue1", :project => @project, :tracker => @feature, :status => @status)]
           @version = Factory.create(:version, :project => project, :fixed_issues => @issues)
-          @version_settings = VersionSetting.create :display => VersionSetting::DISPLAY_RIGHT, :version => @version
+          @version_settings = VersionSetting.create :display => VersionSetting::DISPLAY_RIGHT, :project => project, :version => @version
         end
 
         it { Backlog.owner_backlogs(@project)[0].should be_owner_backlog }

@@ -9,7 +9,7 @@
 <p><%= f.select :sharing, @version.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
 
 <% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
-	<%= version_settings_fields f, @version %>
+	<%= version_settings_fields @version, @project %>
 <% end %>
 
 <% @version.custom_field_values.each do |value| %>

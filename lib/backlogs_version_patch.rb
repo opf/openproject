@@ -7,8 +7,8 @@ module Backlogs
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        has_one :version_setting, :dependent => :destroy
-        accepts_nested_attributes_for :version_setting
+        has_many :version_settings, :dependent => :destroy
+        accepts_nested_attributes_for :version_settings
       end
     end
 
