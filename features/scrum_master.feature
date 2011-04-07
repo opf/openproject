@@ -276,7 +276,6 @@ Feature: Scrum Master
   @javascript
   Scenario: View epic, stories, tasks, subtasks in the issue list
    Given I am on the issues index page
-    Then show me the page
     Then I should see "Epic 1" within "#content"
      And I should see "Story D" within "#content"
      And I should see "Story E" within "#content"
