@@ -44,15 +44,16 @@ class Widget::Base < Widget
     "#{self.class.name}/#{subject.hash}"
   end
 
+  def cached?
+    Rails.cache.exist? cache_key and cache?
+  end
+
   private
 
   def cache?
     !self.class.dont_cache?
   end
 
-  def cached?
-    Rails.cache.exist? cache_key and cache?
-  end
 
   ##
   # Render this widget or serve it from cache
