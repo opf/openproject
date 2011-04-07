@@ -145,7 +145,20 @@ class Report < ActiveRecord::Base
   end
 
   def hash
-    (self.class.name + serialize.inspect).hash
+    report_string = ""
+    report_string.concat('filters: [')
+    report_string.concat(filters.map do |f|
+      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
+    end.sort.join(', '))
+    report_string.concat(']')
+    report_string.concat(', group_bys: {')
+
+    report_string.concat(group_bys.group_by(&:type).map do |t, gbs|
+      "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
+    end.join(', '))
+
+    report_string.concat('}')
+    report_string.hash
   end
 
   def == another_report
