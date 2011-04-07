@@ -65,14 +65,20 @@ Then /^show me the list of stories$/ do
   puts "\n\n"
 end
 
-Then /^(.+) should be the higher item of (.+)$/ do |higher_subject, lower_subject|
-  higher = Story.find(:all, :conditions => { :subject => higher_subject })
+Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject, type, lower_subject|
+  issue_class = (type == 'task') ? Task : Story
+
+  higher = issue_class.find(:all, :conditions => { :subject => higher_subject })
   higher.length.should == 1
 
-  lower = Story.find(:all, :conditions => { :subject => lower_subject })
+  lower = issue_class.find(:all, :conditions => { :subject => lower_subject })
   lower.length.should == 1
 
-  lower.first.higher_item.id.should == higher.first.id
+  if type == "task"
+    lower.first.id.should == higher.first.right_sibling.id
+  else
+    lower.first.higher_item.id.should == higher.first.id
+  end
 end
 
 Then /^the request should complete successfully$/ do
