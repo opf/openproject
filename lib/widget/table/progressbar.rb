@@ -1,8 +1,14 @@
 class Widget::Table::Progressbar < Widget::Base
   THRESHHOLD = 500
 
+  def cache?
+    false
+  end
+
   def render
-    if !Widget::Table::ReportTable.new(@query).cached? && (size = @query.size) >= THRESHHOLD
+    if Widget::Table::ReportTable.new(@query).cached? || (size = @query.size) <= THRESHHOLD
+      render_widget Widget::Table::ReportTable, @query, :to => (@output ||= "".html_safe)
+    else
       write(content_tag :div, :id => "progressbar", :class => "form_controls",
       :"data-query-size" => size do
         content_tag :div, :id => "progressbar-load-table-question", :class => "form_controls" do
@@ -37,8 +43,6 @@ class Widget::Table::Progressbar < Widget::Base
           content
         end
       end)
-    else
-      render_widget Widget::Table::ReportTable, @query, :to => (@output ||= "".html_safe)
     end
   end
 end
