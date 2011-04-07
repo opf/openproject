@@ -155,14 +155,12 @@ Then /^the status of the story should be set as (.+)$/ do |status|
   @story.status.name.downcase.should == status
 end
 
-Then /^the story named (.+) should have (\d+) task named (.+)$/ do |story_subject, count, task_subject|
+Then /^the story named (.+) should have 1 task named (.+)$/ do |story_subject, task_subject|
   stories = Story.find(:all, :conditions => { :subject => story_subject })
   stories.length.should == 1
 
-  tasks = Task.find(:all, :conditions => { :parent_id => stories.first.id })
+  tasks = Task.find(:all, :conditions => { :parent_id => stories.first.id, :subject => task_subject })
   tasks.length.should == 1
-
-  tasks.first.subject.should == task_subject
 end
 
 Then /^the story should be at the (top|bottom)$/ do |position|
