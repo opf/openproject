@@ -175,6 +175,8 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
     tracker = Tracker.find_by_name(task['tracker'])
     params = initialize_issue_params(project, tracker, parent)
     params['subject'] = task['subject']
+    version = Version.find_by_name(task['sprint'] || task['backlog'])
+    params['fixed_version_id'] = version.id if version
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
