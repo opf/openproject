@@ -63,6 +63,7 @@ Feature: Team Member
     Given I am on the taskboard for "Sprint 001"
      Then I should see the taskboard
 
+  @wip
   Scenario: View the burndown chart
     Given I am on the burndown for "Sprint 002"
       And we have reactivated the burndown chart
