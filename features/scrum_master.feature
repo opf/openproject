@@ -248,7 +248,6 @@ Feature: Scrum Master
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
 
-  @javascript
   Scenario: View stories that have a parent ticket
    Given I am on the master backlog
     When I open the "Sprint 005" menu
@@ -273,7 +272,6 @@ Feature: Scrum Master
      And Story D should be in the 2nd position of the sprint named Sprint 005
      And Story E should be the higher item of Story D
 
-  @javascript
   Scenario: View epic, stories, tasks, subtasks in the issue list
    Given I am on the issues index page
     Then I should see "Epic 1" within "#content"
