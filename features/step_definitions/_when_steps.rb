@@ -16,16 +16,18 @@ When /^I create the task$/ do
                       @task_params
 end
 
-When /^I move the story named (.+) below (.+)$/ do |story_subject, prev_subject|
-  story = Story.find(:first, :conditions => ["subject=?", story_subject])
-  prev  = Story.find(:first, :conditions => ["subject=?", prev_subject])
+When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
+  issue_class, controller_name =
+    if type == "task" then [Task, "rb_tasks"] else [Story, "rb_stories"] end
+  story = issue_class.find(:first, :conditions => ["subject=?", story_subject])
+  prev  = issue_class.find(:first, :conditions => ["subject=?", prev_subject])
 
   attributes = story.attributes
   attributes[:prev]             = prev.id
-  attributes[:fixed_version_id] = prev.fixed_version_id
+  attributes[:fixed_version_id] = prev.fixed_version_id unless type == "task"
 
   page.driver.process :post,
-                      url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
+                      url_for(:controller => controller_name, :action => "update", :id => story.id),
                       attributes.merge({ "_method" => "put" })
 end
 
