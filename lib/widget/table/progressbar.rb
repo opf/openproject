@@ -1,9 +1,7 @@
 class Widget::Table::Progressbar < Widget::Base
   THRESHHOLD = 500
 
-  def cache?
-    false
-  end
+  dont_cache!
 
   def render
     if Widget::Table::ReportTable.new(@query).cached? || (size = @query.size) <= THRESHHOLD
