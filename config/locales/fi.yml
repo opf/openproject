@@ -247,7 +247,6 @@ fi:
   field_admin: Ylläpitäjä
   field_last_login_on: Viimeinen yhteys
   field_language: Kieli
-  field_effective_date: Päivä
   field_password: Salasana
   field_new_password: Uusi salasana
   field_password_confirmation: Vahvistus

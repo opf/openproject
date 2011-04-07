@@ -279,7 +279,6 @@ vi:
   field_admin: Quản trị
   field_last_login_on: Kết nối cuối
   field_language: Ngôn ngữ
-  field_effective_date: Ngày
   field_password: Mật mã
   field_new_password: Mật mã mới
   field_password_confirmation: Khẳng định lại

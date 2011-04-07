@@ -274,7 +274,6 @@ ja:
   field_admin: 管理者
   field_last_login_on: 最終接続日
   field_language: 言語
-  field_effective_date: 期日
   field_password: パスワード
   field_new_password: 新しいパスワード
   field_password_confirmation: パスワードの確認

@@ -284,7 +284,6 @@ ko:
   field_admin: 관리자
   field_last_login_on: 마지막 로그인
   field_language: 언어
-  field_effective_date: 일자
   field_password: 비밀번호
   field_new_password: 새 비밀번호
   field_password_confirmation: 비밀번호 확인

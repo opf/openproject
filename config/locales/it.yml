@@ -218,7 +218,6 @@ it:
   field_admin: Amministratore
   field_last_login_on: Ultima connessione
   field_language: Lingua
-  field_effective_date: Data
   field_password: Password
   field_new_password: Nuova password
   field_password_confirmation: Conferma

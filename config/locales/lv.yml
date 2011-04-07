@@ -237,7 +237,6 @@ lv:
   field_admin: Administrators
   field_last_login_on: Pēdējo reizi pieslēdzies
   field_language: Valoda
-  field_effective_date: Datums
   field_password: Parole
   field_new_password: Janā parole
   field_password_confirmation: Paroles apstiprinājums

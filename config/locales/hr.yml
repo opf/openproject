@@ -242,7 +242,6 @@ hr:
   field_admin: Administrator
   field_last_login_on: Zadnja prijava
   field_language: Primarni jezik
-  field_effective_date: Datum
   field_password: Zaporka
   field_new_password: Nova zaporka
   field_password_confirmation: Potvrda zaporke

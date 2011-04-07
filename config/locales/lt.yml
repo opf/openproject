@@ -295,7 +295,6 @@ lt:
   field_admin: Administratorius
   field_last_login_on: Paskutinis ryšys
   field_language: Kalba
-  field_effective_date: Data
   field_password: Slaptažodis
   field_new_password: Naujas slaptažodis
   field_password_confirmation: Patvirtinimas

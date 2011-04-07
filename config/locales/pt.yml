@@ -234,7 +234,6 @@ pt:
   field_admin: Administrador
   field_last_login_on: Última visita
   field_language: Língua
-  field_effective_date: Data
   field_password: Palavra-chave
   field_new_password: Nova palavra-chave
   field_password_confirmation: Confirmação

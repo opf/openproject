@@ -241,7 +241,6 @@ mn:
   field_admin: Администратор
   field_last_login_on: Сүүлийн холбоо
   field_language: Хэл
-  field_effective_date: Огноо
   field_password: Нууц үг
   field_new_password: Шннэ нууц үг
   field_password_confirmation: Баталгаажуулах

@@ -236,7 +236,6 @@ el:
   field_admin: Διαχειριστής
   field_last_login_on: Τελευταία σύνδεση
   field_language: Γλώσσα
-  field_effective_date: Ημερομηνία
   field_password: Κωδικός πρόσβασης
   field_new_password: Νέος κωδικός πρόσβασης
   field_password_confirmation: Επιβεβαίωση

@@ -294,7 +294,6 @@ sv:
   field_admin: Administratör
   field_last_login_on: Senaste inloggning
   field_language: Språk
-  field_effective_date: Datum
   field_password: Lösenord
   field_new_password: Nytt lösenord
   field_password_confirmation: Bekräfta lösenord

@@ -226,7 +226,6 @@ cs:
   field_admin: Administrátor
   field_last_login_on: Poslední přihlášení
   field_language: Jazyk
-  field_effective_date: Datum
   field_password: Heslo
   field_new_password: Nové heslo
   field_password_confirmation: Potvrzení

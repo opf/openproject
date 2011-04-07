@@ -245,7 +245,6 @@
   field_admin: Adminisztrátor
   field_last_login_on: Utolsó bejelentkezés
   field_language: Nyelv
-  field_effective_date: Dátum
   field_password: Jelszó
   field_new_password: Új jelszó
   field_password_confirmation: Megerősítés

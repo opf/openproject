@@ -216,7 +216,6 @@ uk:
   field_admin: Адміністратор 
   field_last_login_on: Останнє підключення
   field_language: Мова
-  field_effective_date: Дата
   field_password: Пароль
   field_new_password: Новий пароль
   field_password_confirmation: Підтвердження

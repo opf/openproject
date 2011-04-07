@@ -250,7 +250,6 @@ mk:
   field_admin: Администратор
   field_last_login_on: Последна најава
   field_language: Јазик
-  field_effective_date: Дата
   field_password: Лозинка
   field_new_password: Нова лозинка
   field_password_confirmation: Потврда

@@ -34,6 +34,31 @@ class VersionTest < ActiveSupport::TestCase
     assert !v.save
     assert_equal I18n.translate('activerecord.errors.messages.not_a_date'), v.errors.on(:effective_date)
   end
+
+  context "#start_date" do
+    context "with no value saved" do
+      should "be the date of the earlist issue" do
+        project = Project.find(1)
+        v = Version.create!(:project => project, :name => 'Progress')
+        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+        Issue.generate_for_project!(project, :subject => 'not assigned', :start_date => '2010-01-01')
+
+        assert_equal '2010-03-01', v.start_date.to_s
+      end
+    end
+
+    context "with a value saved" do
+      should "be the value" do
+        project = Project.find(1)
+        v = Version.create!(:project => project, :name => 'Progress', :start_date => '2010-01-05')
+        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+
+        assert_equal '2010-01-05', v.start_date.to_s
+      end
+    end
+    
+  end
+  
   
   def test_progress_should_be_0_with_no_assigned_issues
     project = Project.find(1)

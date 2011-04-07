@@ -245,7 +245,6 @@ tr:
   field_admin: Yönetici
   field_last_login_on: Son Bağlantı
   field_language: Dil
-  field_effective_date: Tarih
   field_password: Parola
   field_new_password: Yeni Parola
   field_password_confirmation: Onay

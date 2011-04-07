@@ -221,7 +221,6 @@ ro:
   field_admin: Administrator
   field_last_login_on: Ultima autentificare în
   field_language: Limba
-  field_effective_date: Data
   field_password: Parola
   field_new_password: Parola nouă
   field_password_confirmation: Confirmare

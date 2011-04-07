@@ -255,7 +255,6 @@ he:
   field_admin: ניהול
   field_last_login_on: התחברות אחרונה
   field_language: שפה
-  field_effective_date: תאריך
   field_password: סיסמה
   field_new_password: סיסמה חדשה
   field_password_confirmation: אישור

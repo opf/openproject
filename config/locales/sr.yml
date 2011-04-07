@@ -250,7 +250,6 @@ sr:
   field_admin: Администратор
   field_last_login_on: Последње повезивање
   field_language: Језик
-  field_effective_date: Датум
   field_password: Лозинка
   field_new_password: Нова лозинка
   field_password_confirmation: Потврда лозинке

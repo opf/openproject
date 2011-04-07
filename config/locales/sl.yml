@@ -225,7 +225,6 @@ sl:
   field_admin: Administrator
   field_last_login_on: Zadnjič povezan(a)
   field_language: Jezik
-  field_effective_date: Datum
   field_password: Geslo
   field_new_password: Novo geslo
   field_password_confirmation: Potrditev

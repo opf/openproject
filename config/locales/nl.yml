@@ -216,7 +216,6 @@ nl:
   field_done_ratio: % Gereed
   field_downloads: Downloads
   field_due_date: Verwachte datum gereed
-  field_effective_date: Datum
   field_estimated_hours: Geschatte tijd
   field_field_format: Formaat
   field_filename: Bestand
