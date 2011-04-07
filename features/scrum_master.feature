@@ -86,9 +86,21 @@ Feature: Scrum Master
         | Subtask 1    | Sprint 005 | Task 10    |
         | Subtask 2    | Sprint 005 | Task 10    |
         | Subtask 3    | Sprint 005 | Task 11    |
+    And the project has the following issues:
+        | subject      | sprint     | parent     | tracker    |
+        | Subfeature   | Sprint 005 | Task 10    | Bug        |
+        | Subsubtask   | Sprint 005 | Subfeature | Task       |
     And I am logged in as "markus"
-    Then show me the page
 
+  @javascript
+  Scenario: View stories that have a parent ticket
+   Given I am on the master backlog
+    When I open the "Sprint 005" menu
+    Then I should see 2 stories in "Sprint 005"
+     And I should not see "Epic 1"
+     And I should not see "Task 10"
+     And I should not see "Subtask 1"
+     And I should not see "Subfeature"
 
   @javascript
   Scenario: Create an impediment
@@ -250,23 +262,18 @@ Feature: Scrum Master
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
 
-  @javascript
-  Scenario: View stories that have a parent ticket
-   Given I am on the master backlog
-    When I open the "Sprint 005" menu
-    Then I should see 2 stories in "Sprint 005"
-     And I should not see "Epic 1"
-     And I should not see "Task 10"
-     And I should not see "Subtask 1"
+#here was it
 
   Scenario: View tasks that have subtasks
-   Given I am on the taskboard for "Sprint 005"
-    Then I should see "Task 10" within "#tasks"
-     And I should see "Task 11" within "#tasks"
-     And I should not see "Subtask 1"
-     And I should not see "Subtask 2"
-     And I should not see "Subtask 3"
-     And I should not see "Epic 1"
+  Given I am on the taskboard for "Sprint 005"
+   Then I should see "Task 10" within "#tasks"
+    And I should see "Task 11" within "#tasks"
+    And I should not see "Subtask 1"
+    And I should not see "Subtask 2"
+    And I should not see "Subtask 3"
+    And I should not see "Epic 1"
+    And I should not see "Subfeature"
+    And I should not see "Subsubtask"
 
   Scenario: Move stories around in the backlog that have a parent ticket
    Given I am on the master backlog
@@ -285,6 +292,8 @@ Feature: Scrum Master
      And I should see "Subtask 1" within "#content"
      And I should see "Subtask 2" within "#content"
      And I should see "Subtask 3" within "#content"
+     And I should see "Subfeature" within "#content"
+     And I should see "Subsubtask" within "#content"
 
   Scenario: Move a task with subtasks around in the taskboard
    Given I am on the taskboard for "Sprint 005"
