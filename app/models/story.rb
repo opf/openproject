@@ -41,6 +41,7 @@ class Story < Issue
             :conditions => Story.condition(project_id, sprint_id),
             :joins => :status,
             :limit => options[:limit]).each_with_index {|story, i|
+        next if story.ancestors.any? {|ancestor| ancestor.is_task? }
         story.rank = i + 1
         stories << story
       }
