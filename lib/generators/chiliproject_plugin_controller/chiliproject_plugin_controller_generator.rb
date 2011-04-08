@@ -1,13 +1,13 @@
 require 'rails_generator/base'
 require 'rails_generator/generators/components/controller/controller_generator'
 
-class RedminePluginControllerGenerator < ControllerGenerator
+class ChiliprojectPluginControllerGenerator < ControllerGenerator
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
   
   def initialize(runtime_args, runtime_options = {})
     runtime_args = runtime_args.dup
     usage if runtime_args.empty?
-    @plugin_name = "redmine_" + runtime_args.shift.underscore
+    @plugin_name = "chiliproject_" + runtime_args.shift.underscore
     @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
     super(runtime_args, runtime_options)

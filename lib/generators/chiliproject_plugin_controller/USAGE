@@ -2,4 +2,4 @@ Description:
     Generates a plugin controller.
 
 Example:
-    ./script/generate redmine_plugin_controller MyPlugin Pools index show vote
+    ./script/generate chiliproject_plugin_controller MyPlugin Pools index show vote
