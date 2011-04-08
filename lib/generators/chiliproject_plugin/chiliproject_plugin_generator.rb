@@ -1,9 +1,9 @@
-class RedminePluginGenerator < Rails::Generator::NamedBase
+class ChiliprojectPluginGenerator < Rails::Generator::NamedBase
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
   
   def initialize(runtime_args, runtime_options = {})
     super
-    @plugin_name = "redmine_#{file_name.underscore}"
+    @plugin_name = "chiliproject_#{file_name.underscore}"
     @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
   end

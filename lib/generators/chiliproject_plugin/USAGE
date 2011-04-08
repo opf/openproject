@@ -1,20 +1,20 @@
 Description:
-    The plugin generator creates stubs for a new Redmine plugin.
+    The plugin generator creates stubs for a new ChiliProject plugin.
 	
 Example:
-    ./script/generate redmine_plugin meetings
-      create  vendor/plugins/redmine_meetings/app/controllers
-      create  vendor/plugins/redmine_meetings/app/helpers
-      create  vendor/plugins/redmine_meetings/app/models
-      create  vendor/plugins/redmine_meetings/app/views
-      create  vendor/plugins/redmine_meetings/db/migrate
-      create  vendor/plugins/redmine_meetings/lib/tasks
-      create  vendor/plugins/redmine_meetings/assets/images
-      create  vendor/plugins/redmine_meetings/assets/javascripts
-      create  vendor/plugins/redmine_meetings/assets/stylesheets
-      create  vendor/plugins/redmine_meetings/lang
-      create  vendor/plugins/redmine_meetings/README
-      create  vendor/plugins/redmine_meetings/init.rb
-      create  vendor/plugins/redmine_meetings/lang/en.yml
-      create  vendor/plugins/redmine_meetings/config/locales/en.yml
-      create  vendor/plugins/redmine_meetings/test/test_helper.rb
+    ./script/generate chliproject_plugin meetings
+      create  vendor/plugins/chiliproject_meetings/app/controllers
+      create  vendor/plugins/chiliproject_meetings/app/helpers
+      create  vendor/plugins/chiliproject_meetings/app/models
+      create  vendor/plugins/chiliproject_meetings/app/views
+      create  vendor/plugins/chiliproject_meetings/db/migrate
+      create  vendor/plugins/chiliproject_meetings/lib/tasks
+      create  vendor/plugins/chiliproject_meetings/assets/images
+      create  vendor/plugins/chiliproject_meetings/assets/javascripts
+      create  vendor/plugins/chiliproject_meetings/assets/stylesheets
+      create  vendor/plugins/chiliproject_meetings/lang
+      create  vendor/plugins/chiliproject_meetings/README
+      create  vendor/plugins/chiliproject_meetings/init.rb
+      create  vendor/plugins/chiliproject_meetings/lang/en.yml
+      create  vendor/plugins/chiliproject_meetings/config/locales/en.yml
+      create  vendor/plugins/chiliproject_meetings/test/test_helper.rb
