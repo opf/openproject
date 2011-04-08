@@ -110,6 +110,11 @@
   vertical-align: top;
 }
 
+#query_form_content {
+  width: 916px;
+}
+
+
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
 .new_report fieldset h3 {
