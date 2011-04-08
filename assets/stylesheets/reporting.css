@@ -501,31 +501,18 @@ html>body #ajax-indicator { position: fixed; }
   vertical-align: bottom;
 }
 
-a.help {
-	margin-left: 10px;
+.help {
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
-a.help div {
-	position: relative;
-}
-
-a.help span {
-	display: none;
-	text-decoration: none;
-}
-
-a.help div {
-	display: none;
-}
-
-a.help:hover span {
-	display: block;
+.tooltip {
 	position: absolute;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	padding: 3px;
-	width: 300px;
-	z-index: 9999;
+	width: 400px;
+	z-index: 256;
 	color: #000000;
 	border: 1px solid #000000;
 	background: #FFFFCC;
@@ -534,16 +521,12 @@ a.help:hover span {
 	padding: -50px;
 }
 
-a.help:hover div {
-	display: block;
-}
-
 .filter-icon {
 
 }
 
 .filter-tip {
-	top: -120px;
+
 }
 
 .group-by-icon {
@@ -552,5 +535,6 @@ a.help:hover div {
 }
 
 .group-by-tip {
-	left: -315px;
+	margin-top: -300px;
+	margin-left: -475px;
 }
