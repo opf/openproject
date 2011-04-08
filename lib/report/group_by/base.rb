@@ -4,11 +4,6 @@ class Report::GroupBy
 
     inherited_attributes :group_fields, :list => true, :merge => false
 
-    def self.inherited(klass)
-      klass.group_fields klass.field
-      super
-    end
-
     def correct_position?
       type == :row or !child.is_a?(engine::GroupBy::Base) or child.type == :column
     end
@@ -71,6 +66,7 @@ class Report::GroupBy
     def initialize(child = nil, optios = {})
       super
       extend aggregation_mixin
+      group_fields field
     end
 
     def result

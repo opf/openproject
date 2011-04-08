@@ -1,7 +1,7 @@
 module Report::QueryUtils
   alias singleton_class metaclass unless respond_to? :singleton_class
 
-  delegate :quoted_false, :quoted_true, :to => "engine.connection"
+  delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
   attr_writer :engine
 
   module PropagationHook
@@ -43,7 +43,7 @@ module Report::QueryUtils
   # @return [Object] Quoted version
   def quote_string(str)
     return str unless str.respond_to? :to_str
-    engine.connection.quote_string(str)
+    engine.reporting_connection.quote_string(str)
   end
 
   def current_language
@@ -75,7 +75,7 @@ module Report::QueryUtils
   end
 
   def quoted_date(date)
-    engine.connection.quoted_date date.to_dateish
+    engine.reporting_connection.quoted_date date.to_dateish
   end
 
   ##
@@ -175,7 +175,7 @@ module Report::QueryUtils
   end
 
   def adapter_name
-    engine.connection.adapter_name.downcase.to_sym
+    engine.reporting_connection.adapter_name.downcase.to_sym
   end
 
   def cache

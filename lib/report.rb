@@ -18,6 +18,10 @@ class Report < ActiveRecord::Base
     @@accepted_properties ||= []
   end
 
+  def self.reporting_connection
+    connection
+  end
+
   def self.chain_initializer
     @chain_initializer ||= []
   end
@@ -31,7 +35,7 @@ class Report < ActiveRecord::Base
 
   def serialize
     # have to take the reverse to retain the original order when deserializing
-    self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
+    self.serialized = { :filters => filters.collect(&:serialize).sort, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
   def deserialize
@@ -135,23 +139,7 @@ class Report < ActiveRecord::Base
   end
 
   def hash
-    report_string = ""
-    
-    report_string.concat('filters: [')
-    report_string.concat(filters.map { |f| 
-      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "") 
-    }.sort.join(', '))
-    report_string.concat(']')
-
-    report_string.concat(', group_bys: {')
-
-    report_string.concat(group_bys.group_by(&:type).map { |t, gbs| 
-      "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
-    }.join(', '))
-    
-    report_string.concat('}')
-
-    report_string.hash
+    (self.class.name + serialize.inspect).hash
   end
 
   def == another_report

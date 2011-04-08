@@ -71,7 +71,7 @@ class Report::Result
     end
 
     def final?(type)
-      type? type and (direct? or first.type != type)
+      type? type and (direct? or size == 0 or first.type != type)
     end
 
     def type?(type)

@@ -76,7 +76,7 @@ Reporting.RestoreQuery = {
       Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));
     });
     // restore values of dependent filters
-    Reporting.RestoreQuery.initialize_load_dependent_filters($$('.filters-select[data-dependents]').findAll(function(select) {
+    Reporting.RestoreQuery.initialize_load_dependent_filters($$('.filters-select[data-all-dependents]').findAll(function(select) {
       return select.up('tr').visible()
     }));
   },

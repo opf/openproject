@@ -117,8 +117,21 @@ module Report::Controller
           :values => params[:values][dependency])
       end
       query.column(dependent)
-      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[dependent] }
+      values = [[::I18n.t(:label_inactive), '<<inactive>>']] + query.result.collect {|r| r.fields[query.group_bys.first.field] }
+      # replace null-values with corresponding placeholder
       values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
+      # try to find corresponding labels to the given values
+      values = values.map do |value|
+        filter = report_engine::Filter.const_get(dependent.camelcase.to_sym)
+        filter_value = filter.label_for_value value
+        if filter_value && filter_value.first.is_a?(Symbol)
+          [::I18n.t(filter_value.first), filter_value.second]
+        elsif filter_value && filter_value.first.is_a?(String)
+          [filter_value.first, filter_value.second]
+        else
+          value
+        end
+      end
       render :json => values.to_json
     end
   end
