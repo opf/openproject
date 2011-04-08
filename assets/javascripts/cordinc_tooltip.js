@@ -71,11 +71,14 @@ var Tooltip = Class.create({
     parentId.insertBefore(this.clone, successorId);
     
     this.clone.setStyle({
-			position:'absolute',
+      position: 'absolute',
       top: position.top + "px",
       left: position.left + "px",
       display: "inline",
-      zIndex:this.options.zindex
+      zIndex:this.options.zindex,
+      /* fix for ur dashboard */
+      visibility: 'visible',
+      width: "400px"
 		});
                       
     if (this.options.start_effect) {
