@@ -2,4 +2,4 @@ Description:
     Generates a plugin model.
 
 Examples:
-    ./script/generate redmine_plugin_model MyPlugin pool title:string question:text
+    ./script/generate chiliproject_plugin_model MyPlugin pool title:string question:text
