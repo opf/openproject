@@ -247,7 +247,7 @@ class Changeset < ActiveRecord::Base
     end
     enc = encoding.blank? ? "UTF-8" : encoding
     if str.respond_to?(:force_encoding)
-      if enc != "UTF-8"
+      if enc.upcase != "UTF-8"
         str.force_encoding(enc)
         str = str.encode("UTF-8", :invalid => :replace,
               :undef => :replace, :replace => '?')
