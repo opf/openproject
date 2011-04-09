@@ -245,8 +245,8 @@ class Changeset < ActiveRecord::Base
       str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
       return str
     end
+    enc = encoding.blank? ? "UTF-8" : encoding
     if str.respond_to?(:force_encoding)
-      enc = encoding.blank? ? "UTF-8" : encoding
       if enc != "UTF-8"
         str.force_encoding(enc)
         str = str.encode("UTF-8", :invalid => :replace,
@@ -259,19 +259,18 @@ class Changeset < ActiveRecord::Base
         end
       end
     else
-      unless encoding.blank? || encoding == 'UTF-8'
-        begin
-          str = Iconv.conv('UTF-8', encoding, str)
-        rescue Iconv::Failure
-          # do nothing here
-        end
-      end
-      # removes invalid UTF8 sequences
+      ic = Iconv.new('UTF-8', enc)
+      txtar = ""
       begin
-        str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-      rescue Iconv::InvalidEncoding
-        # "UTF-8//IGNORE" is not supported on some OS
+        txtar += ic.iconv(str)
+      rescue Iconv::IllegalSequence
+        txtar += $!.success
+        str = '?' + $!.failed[1,$!.failed.length]
+        retry
+      rescue
+        txtar += $!.success
       end
+      str = txtar
     end
     str
   end
