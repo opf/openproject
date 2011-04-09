@@ -258,9 +258,9 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_comments_should_be_converted_all_latin1_to_utf8
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
+      s4 = s2.dup
       if s1.respond_to?(:force_encoding)
         s3 = s1.dup
-        s4 = s2.dup
         s1.force_encoding('ASCII-8BIT')
         s2.force_encoding('ASCII-8BIT')
         s3.force_encoding('ISO-8859-1')
@@ -278,7 +278,7 @@ class ChangesetTest < ActiveSupport::TestCase
                         :scmid => '12345',
                         :comments => s1)
       assert( c.save )
-      assert_equal s2, c.comments
+      assert_equal s4, c.comments
   end
 
   def test_identifier

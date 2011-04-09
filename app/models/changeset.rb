@@ -239,21 +239,28 @@ class Changeset < ActiveRecord::Base
   private
 
   def self.to_utf8(str, encoding)
-    return str if str.blank?
-    unless encoding.blank? || encoding == 'UTF-8'
-      begin
-        str = Iconv.conv('UTF-8', encoding, str)
-      rescue Iconv::Failure
-        # do nothing here
-      end
-    end
+    return str if str.nil?
+    str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+    return str if str.empty?
+    str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
     if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
+      enc = encoding.blank? ? "UTF-8" : encoding
+      if enc != "UTF-8"
+        str.force_encoding(enc)
+        str = str.encode("UTF-8")
+      end
       if ! str.valid_encoding?
         str = str.encode("US-ASCII", :invalid => :replace,
               :undef => :replace, :replace => '?').encode("UTF-8")
       end
     else
+      unless encoding.blank? || encoding == 'UTF-8'
+        begin
+          str = Iconv.conv('UTF-8', encoding, str)
+        rescue Iconv::Failure
+          # do nothing here
+        end
+      end
       # removes invalid UTF8 sequences
       begin
         str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
