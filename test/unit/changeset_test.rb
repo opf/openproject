@@ -281,6 +281,42 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal s4, c.comments
   end
 
+  def test_comments_nil
+      proj = Project.find(3)
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => nil)
+      assert( c.save )
+      assert_equal "", c.comments
+      if c.comments.respond_to?(:force_encoding)
+        assert_equal "UTF-8", c.comments.encoding.to_s
+      end
+  end
+
+  def test_comments_empty
+      proj = Project.find(3)
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => "")
+      assert( c.save )
+      assert_equal "", c.comments
+      if c.comments.respond_to?(:force_encoding)
+        assert_equal "UTF-8", c.comments.encoding.to_s
+      end
+  end
+
   def test_identifier
     c = Changeset.find_by_revision('1')
     assert_equal c.revision, c.identifier
