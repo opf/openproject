@@ -245,17 +245,18 @@ class Changeset < ActiveRecord::Base
       str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
       return str
     end
-    str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
     if str.respond_to?(:force_encoding)
       enc = encoding.blank? ? "UTF-8" : encoding
       if enc != "UTF-8"
         str.force_encoding(enc)
         str = str.encode("UTF-8", :invalid => :replace,
               :undef => :replace, :replace => '?')
-      end
-      if ! str.valid_encoding?
-        str = str.encode("US-ASCII", :invalid => :replace,
-              :undef => :replace, :replace => '?').encode("UTF-8")
+      else
+        str.force_encoding("UTF-8")
+        if ! str.valid_encoding?
+          str = str.encode("US-ASCII", :invalid => :replace,
+                :undef => :replace, :replace => '?').encode("UTF-8")
+        end
       end
     else
       unless encoding.blank? || encoding == 'UTF-8'
