@@ -255,6 +255,30 @@ class ChangesetTest < ActiveSupport::TestCase
       end
   end
 
+  def test_invalid_utf8_sequences_in_comments_should_be_stripped_ja_jis
+      proj = Project.find(3)
+      str = "test\xb5\xfetest\xb5\xfe"
+      if str.respond_to?(:force_encoding)
+        str.force_encoding('ASCII-8BIT')
+      end
+      r = Repository::Bazaar.create!(
+            :project => proj,
+            :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-2022-JP' )
+      assert r
+      c = Changeset.new(:repository   => r,
+                        :committed_on => Time.now,
+                        :revision     => '123',
+                        :scmid        => '12345',
+                        :comments     => str)
+      assert( c.save )
+      if str.respond_to?(:force_encoding)
+        assert_equal "test??test??", c.comments
+      else
+        assert_equal "testtest", c.comments
+      end
+  end
+
   def test_comments_should_be_converted_all_latin1_to_utf8
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
