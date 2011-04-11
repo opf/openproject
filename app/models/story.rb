@@ -7,46 +7,33 @@ class Story < Issue
     acts_as_backlogs_list(:trackers)
 
     def self.condition(project_id, sprint_id, extras=[])
-      if sprint_id.nil?
-        c = ["
-          project_id = ?
-          and tracker_id in (?)
-          and fixed_version_id is NULL
-          and is_closed = ?", project_id, Story.trackers, false]
-      else
-        c = ["
-          project_id = ?
-          and tracker_id in (?)
-          and fixed_version_id = ?",
-          project_id, Story.trackers, sprint_id]
-      end
+      c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
+            project_id, Story.trackers, sprint_id]
 
       if extras.size > 0
         c[0] += ' ' + extras.shift
         c += extras
       end
 
-      return c
+      c
     end
 
     # this forces NULLS-LAST ordering
     ORDER = 'case when issues.position is null then 1 else 0 end ASC, case when issues.position is NULL then issues.id else issues.position end ASC'
 
     def self.backlog(project_id, sprint_id, options={})
-      stories = []
+      stories = Story.find(:all,
+                           :order => Story::ORDER,
+                           :conditions => Story.condition(project_id, sprint_id),
+                           :joins => :status,
+                           :limit => options[:limit])
 
-
-      Story.find(:all,
-            :order => Story::ORDER,
-            :conditions => Story.condition(project_id, sprint_id),
-            :joins => :status,
-            :limit => options[:limit]).each_with_index {|story, i|
+      stories.each_with_index {|story, i|
         next if story.ancestors.any? {|ancestor| ancestor.is_task? }
         story.rank = i + 1
-        stories << story
       }
 
-      return stories
+      stories
     end
 
     def self.product_backlog(project, limit=nil)
