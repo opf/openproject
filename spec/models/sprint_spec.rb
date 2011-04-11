@@ -8,9 +8,24 @@ describe Sprint do
     describe :displayed_left do
       describe "WITH display set to left" do
         before(:each) do
-          sprint.version_settings = [Factory.build(:version_setting, :project => project, :display => VersionSetting::DISPLAY_LEFT)]
+          sprint.version_settings = [Factory.build(:version_setting, :project => project,
+                                                                     :display => VersionSetting::DISPLAY_LEFT)]
           sprint.project = project
           sprint.save!
+        end
+
+        it { Sprint.displayed_left(project).should eql [sprint] }
+      end
+
+      describe "WITH a version setting defined for another project" do
+        before(:each) do
+          another_project = Factory.build(:project, :name => 'another project',
+                                                   :identifier => 'another project')
+
+          sprint.version_settings = [Factory.build(:version_setting, :project => another_project,
+                                                                     :display => VersionSetting::DISPLAY_RIGHT)]
+          sprint.project = project
+          sprint.save
         end
 
         it { Sprint.displayed_left(project).should eql [sprint] }

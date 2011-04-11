@@ -190,12 +190,14 @@ class Sprint < Version
                                                 "))"]}}
 
     named_scope :displayed_left, lambda { |project| { :include => :version_settings,
-                                                      :conditions => ["(version_settings.display = ? AND version_settings.project_id = ?) OR (version_settings.id is NULL)",
-                                                                      VersionSetting::DISPLAY_LEFT, project.id] } }
+                                                      :conditions => ["((version_settings.project_id = ? AND version_settings.display = ?)" +
+                                                                      " OR (version_settings.project_id <> ?)" +
+                                                                      " OR (version_settings.project_id is NULL))",
+                                                                      project.id, VersionSetting::DISPLAY_LEFT, project.id] } }
 
     named_scope :displayed_right, lambda { |project| { :include => :version_settings,
-                                                      :conditions => ["version_settings.display = ? AND version_settings.project_id = ?",
-                                                                      VersionSetting::DISPLAY_RIGHT, project.id] } }
+                                                      :conditions => ["version_settings.project_id = ? AND version_settings.display = ?",
+                                                                      project.id, VersionSetting::DISPLAY_RIGHT] } }
 
 
 
