@@ -40,8 +40,8 @@ class Story < Issue
       return Story.backlog(project.id, nil, :limit => limit)
     end
 
-    def self.sprint_backlog(sprint, options={})
-      return Story.backlog(sprint.project.id, sprint.id, options)
+    def self.sprint_backlog(project, sprint, options={})
+      Story.backlog(project.id, sprint.id, options)
     end
 
     def self.create_and_position(params)

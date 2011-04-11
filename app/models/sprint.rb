@@ -203,8 +203,8 @@ class Sprint < Version
 
 
 
-    def stories
-        return Story.sprint_backlog(self)
+    def stories(project, options = {} )
+        return Story.sprint_backlog(project, self, options)
     end
 
     def points

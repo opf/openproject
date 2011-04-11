@@ -3,7 +3,6 @@ Feature: Project Admin
   I want to configure the backlogs plugin
   So that my team and I can work effectively
 
-
   Background:
     Given there is 1 project with:
         | name  | ecookbook |

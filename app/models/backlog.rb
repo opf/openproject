@@ -5,13 +5,13 @@ class Backlog
   attr_accessor :stories
 
   def self.owner_backlogs(project, limit = nil)
-    versions = Sprint.apply_to(project).open.displayed_right(project).order_by_name
-    versions.map{ |version| new(:stories => Story.backlog(project, version.id, :limit => limit), :owner_backlog => true, :sprint => version)}
+    backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name
+    backlogs.map{ |sprint| new(:stories => sprint.stories(project, :limit => limit), :owner_backlog => true, :sprint => sprint)}
   end
 
   def self.sprint_backlogs(project)
     sprints = Sprint.apply_to(project).open.displayed_left(project).order_by_date
-    sprints.map{ |sprint| new(:stories => sprint.stories, :sprint => sprint) }
+    sprints.map{ |sprint| new(:stories => sprint.stories(project), :sprint => sprint) }
   end
 
   def initialize(options = {})
