@@ -65,6 +65,7 @@ module RbMasterBacklogsHelper
     items[:task_board] = link_to(l(:label_task_board),
                                  :controller => 'rb_taskboards',
                                  :action => 'show',
+                                 :project_id => @project.id,
                                  :sprint_id => backlog.sprint)
 
     if backlog.sprint_backlog? and backlog.sprint.has_burndown

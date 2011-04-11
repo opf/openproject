@@ -13,8 +13,8 @@
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
-                                     :project_id => @project,
-                                     :sprint_id => @sprint) %>
+                                     :project_id => @project.id,
+                                     :sprint_id => @sprint.id) %>
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
   <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>
@@ -56,14 +56,14 @@
         <% @statuses.each do |status| %>
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <%= render :partial => "rb_impediments/impediment",
-                       :collection => impediments_by_position_for_status(@sprint, status) %>
+                       :collection => impediments_by_position_for_status(@sprint, @project, status) %>
           </td>
         <% end %>
       </tr>
     </table>
 
     <table id="tasks" class="board" cellspacing="0">
-      <% @sprint.stories.each do |story| %>
+      <% @sprint.stories(@project).each do |story| %>
         <tr>
           <td>
             <div class="story <%= mark_if_closed(story) %>">

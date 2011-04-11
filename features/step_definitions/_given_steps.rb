@@ -100,9 +100,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_
     end
     sprint = Sprint.create! version
 
-    sprint.build_version_setting
-    sprint.version_setting.display_left!
-    sprint.version_setting.save!
+    vs = sprint.version_settings.build
+    vs.project = project
+    vs.display_left!
+    vs.save!
   end
 end
 
@@ -112,9 +113,10 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following (?:product )?(?:owner )
   table.raw.each do |row|
     version = Version.create!(:project_id => project, :name => row.first)
 
-    version.build_version_setting
-    version.version_setting.display_right!
-    version.version_setting.save!
+    vs = version.version_settings.build
+    vs.project = project
+    vs.display_right!
+    vs.save!
   end
 end
 

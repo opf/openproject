@@ -293,8 +293,8 @@ class Sprint < Version
         }
     end
 
-    def impediments
-      Impediment.find(:all, :conditions => {:fixed_version_id => self})
+    def impediments(project)
+      Impediment.find(:all, :conditions => {:fixed_version_id => self, :project_id => project})
     end
 
     private

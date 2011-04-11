@@ -19,7 +19,6 @@ module VersionSettingsHelper
   def version_setting_for_project(version, project)
     setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? } if version.version_settings.present?
     #nil? because some settings in the active codebase do have that right now
-    debugger
     setting = VersionSetting.new(:display => VersionSetting::DISPLAY_LEFT, :project => project) if setting.nil?
 
     setting
