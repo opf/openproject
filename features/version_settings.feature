@@ -1,4 +1,4 @@
-Feature: Project Admin
+Feature: Version Settings
   As a Project Admin
   I want to configure the backlogs plugin
   So that my team and I can work effectively
@@ -26,5 +26,5 @@ Feature: Project Admin
 
   Scenario: One can select whether versions are displayed left or right (left is default) in the backlogs page
     When I go to the edit page of the version called "Sprint 001"
-    Then there should be a "version_version_setting_attributes_display" field within "#content form"
-    And the "version_version_setting_attributes_display" field within "#content form" should contain "2"
+    Then there should be a "version[version_settings_attributes][][display]" field within "#content form"
+    And the "version[version_settings_attributes][][display]" field within "#content form" should contain "2"
