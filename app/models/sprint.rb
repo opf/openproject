@@ -180,6 +180,8 @@ class Sprint < Version
     }
 
     named_scope :order_by_date, :order => 'sprint_start_date ASC, effective_date ASC'
+    named_scope :order_by_name, :order => "#{Version.table_name}.name ASC"
+
     named_scope :apply_to, lambda { |project| {:include => :project,
                                                 :conditions => ["#{Version.table_name}.project_id = #{project.id}" +
                                                 " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
