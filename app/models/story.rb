@@ -71,6 +71,15 @@ class Story < Issue
            :order => "updated_on ASC")
     end
 
+    def self.at_rank(project_id, sprint_id, rank)
+      return Story.find(:first,
+                        :order => Story::ORDER,
+                        :conditions => Story.condition(project_id, sprint_id),
+                        :joins => :status,
+                        :limit => 1,
+                        :offset => rank - 1)
+    end
+
     def self.trackers
         trackers = Setting.plugin_redmine_backlogs[:story_trackers]
         return [] if trackers.blank?
@@ -165,14 +174,5 @@ class Story < Issue
     @rank ||= Issue.count(:conditions => Story.condition(self.project.id, self.fixed_version_id, extras), :joins => :status)
 
     return @rank
-  end
-
-  def self.at_rank(project_id, sprint_id, rank)
-    return Story.find(:first,
-                      :order => Story::ORDER,
-                      :conditions => Story.condition(project_id, sprint_id),
-                      :joins => :status,
-                      :limit => 1,
-                      :offset => rank - 1)
   end
 end
