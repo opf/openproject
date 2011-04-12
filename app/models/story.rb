@@ -22,16 +22,17 @@ class Story < Issue
     ORDER = 'case when issues.position is null then 1 else 0 end ASC, case when issues.position is NULL then issues.id else issues.position end ASC'
 
     def self.backlog(project_id, sprint_id, options={})
-      stories = Story.find(:all,
-                           :order => Story::ORDER,
-                           :conditions => Story.condition(project_id, sprint_id),
-                           :joins => :status,
-                           :limit => options[:limit])
+      stories = []
 
-      stories.each_with_index {|story, i|
-        next if story.ancestors.any? {|ancestor| ancestor.is_task? }
-        story.rank = i + 1
-      }
+      Story.find(:all,
+                 :order => Story::ORDER,
+                 :conditions => Story.condition(project_id, sprint_id),
+                 :joins => :status,
+                 :limit => options[:limit]).each_with_index {|story, i|
+                        next if story.ancestors.any? {|ancestor| ancestor.is_task? }
+                        story.rank = i + 1
+                        stories << story
+                      }
 
       stories
     end
