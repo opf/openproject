@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe UsersController do
   before(:each) do
     @controller.stub!(:require_admin).and_return(true)
+    @controller.stub!(:check_if_login_required)
+    @controller.stub!(:set_localization)
     @global_roles = [mock_model(GlobalRole), mock_model(GlobalRole)]
     GlobalRole.stub!(:all).and_return(@global_roles)
     User.stub!(:find).with("1").and_return(mock_model User)
