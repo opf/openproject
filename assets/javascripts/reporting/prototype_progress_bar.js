@@ -71,7 +71,7 @@ Control.ProgressBar = Class.create({
         this.active = true;
         this.poller = new PeriodicalExecuter(function () {
             var a = new Ajax.Request(url, ajaxOptions);
-        }.bind(this), interval || 3);
+        }.bindAsEventListener(this), interval || 3);
     },
     start: function () {
         this.active = true;
