@@ -1,0 +1,7 @@
+<%= error_messages_for 'version' %>
+
+<div class="box">
+<% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
+	<%= version_settings_fields @version, @project %>
+<% end %>
+</div>

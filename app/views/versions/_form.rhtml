@@ -1,6 +1,8 @@
 <%= error_messages_for 'version' %>
 
 <div class="box">
+<% if @version.project == @project %>
+
 <p><%= f.text_field :name, :size => 60, :required => true %></p>
 <p><%= f.text_field :description, :size => 60 %></p>
 <p><%= f.select :status, Version::VERSION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
@@ -8,12 +10,15 @@
 <p><%= f.text_field :effective_date, :size => 10 %><%= calendar_for('version_effective_date') %></p>
 <p><%= f.select :sharing, @version.allowed_sharings.collect {|v| [format_version_sharing(v), v]} %></p>
 
+<% end %>
 <% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
 	<%= version_settings_fields @version, @project %>
 <% end %>
 
+<% if @version.project == @project %>
 <% @version.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :version, value %></p>
+<% end %>
 <% end %>
 
 </div>

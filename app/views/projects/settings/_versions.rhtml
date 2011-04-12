@@ -1,0 +1,44 @@
+<% if @project.shared_versions.any? %>
+<table class="list versions">
+	<thead><tr>
+    <th><%= l(:label_version) %></th>
+    <th><%= l(:field_effective_date) %></th>
+    <th><%= l(:field_description) %></th>
+    <th><%= l(:field_status) %></th>
+    <th><%= l(:field_sharing) %></th>
+    <th><%= l(:label_wiki_page) %></th>
+    <th style="width:15%"></th>
+    </tr></thead>
+	<tbody>
+<% for version in @project.shared_versions.sort %>
+    <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %> <%= 'shared' if version.project != @project %>">
+    <td class="name"><%= link_to_version version %></td>
+    <td class="date"><%= format_date(version.effective_date) %></td>
+    <td class="description"><%=h version.description %></td>
+    <td class="status"><%= l("version_status_#{version.status}") %></td>
+    <td class="sharing"><%=h format_version_sharing(version.sharing) %></td>
+    <td><%= link_to_if_authorized(h(version.wiki_page_title), {:controller => 'wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
+    <td class="buttons" style="text-align:left">
+      <% if version.project == @project %>
+    	  <%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version}, :class => 'icon icon-edit' %>
+
+    		<%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+    	<% elsif @project.enabled_modules.collect(&:name).include?("backlogs") %>
+    	  <%= link_to_if_authorized l(:button_edit),   {:controller => 'versions', :action => 'edit', :id => version, :project_id => @project.id }, :class => 'icon icon-edit' %>
+    	<% end %>
+   	</td>
+    </tr>
+<% end; reset_cycle %>
+    </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<div class="contextual">
+<% if @project.versions.any? %>
+	<%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
+<% end %>
+</div>
+
+<p><%= link_to_if_authorized l(:label_version_new), :controller => 'versions', :action => 'new', :project_id => @project %></p>

@@ -21,4 +21,5 @@ ActionController::Routing::Routes.draw do |map|
     rb.resource   :master_backlog,   :only => :show,               :controller => :rb_master_backlogs,  :as => "master_backlogs/:project_id"
   end
 
+  map.connect 'projects/:project_id/versions/:id/edit', :controller => 'version_settings', :action => 'edit'
 end
