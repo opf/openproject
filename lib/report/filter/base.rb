@@ -23,7 +23,6 @@ class Report::Filter
       false
     end
 
-    ##
     # Indicates whether this Filter is a multiple choice filter,
     # meaning that the user must select a value of a given set of choices.
     def self.is_multiple_choice?
@@ -31,26 +30,31 @@ class Report::Filter
     end
 
     ##
-    # A Filter may have a depentent filter. See the following example:
-    # Filter::Project.dependent --> Filter::Issue
-    # This could result in a UI where, if the Prject-filter was selected,
-    # the Issue-filter automatically shows up.
+    # A Filter may have depentent filters. See the following example:
+    # Filter::Project.dependents --> [Filter::IssueId]
+    # This could result in a UI where, if the Project-Filter was selected,
+    # the IssueId-filter automatically shows up.
     # Arguments:
     #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
-    #    or nil, if you want to remove the dependent relationship
+    #  - OR multiple Filters if there are multiple possible dependents and you
+    #    want the application-js to decide which dependent to follow
     def self.dependent(*args)
-      @dependent = args.first unless args.empty?
-      @dependent
+      @dependents ||= []
+      @dependents += args unless args.empty?
+      @dependents
+    end
+    class << self
+      alias :dependents :dependent
     end
 
     def self.has_dependent?
-      !!@dependent
+      !dependents.empty?
     end
 
     ##
     # Returns an array of filters of which this filter is a dependent
     def self.dependent_from
-      engine::Filter.all.select { |f| Array(f.dependent).include? self}
+      engine::Filter.all.select { |f| f.dependents.include? self }
     end
 
     ##
@@ -71,14 +75,11 @@ class Report::Filter
       self.cached(:compute_all_dependents)
     end
 
-    def self.compute_all_dependents
-      dependents = []
-      dep = dependent
-      while !dep.nil? do
-        dependents << dep
-        dep = dep.dependent
+    def self.compute_all_dependents(starting_from = nil)
+      starting_from ||= dependents
+      starting_from.inject([]) do |list,dependent|
+        list + Array(dependent) + dependent.all_dependents
       end
-      dependents
     end
 
     def value=(val)
@@ -115,7 +116,11 @@ class Report::Filter
     end
 
     def self.available_values(params = {})
-      []
+      [] #array of [:label_of_value, value]-kind arrays
+    end
+
+    def self.label_for_value(value)
+      available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?

@@ -59,17 +59,17 @@ Reporting.GroupBys = {
       'data-group-by': field
     });
     group_by.identify(); // give it a unique id
-    
+
     left_arrow = Reporting.GroupBys.create_arrow(group_by, 'left');
     group_by.appendChild(left_arrow);
-    
+
     label = Reporting.GroupBys.create_label(group_by, caption);
     Reporting.GroupBys.init_group_by_hover_effects([group_by, label]);
     group_by.appendChild(label);
-    
+
     remove_button = Reporting.GroupBys.create_remove_button(group_by);
     group_by.appendChild(remove_button);
-    
+
     right_arrow = Reporting.GroupBys.create_arrow(group_by, 'right');
     group_by.appendChild(right_arrow);
     return group_by;
@@ -136,6 +136,14 @@ Reporting.GroupBys = {
     add_groups_select_box.insert({ before: group_by });
     Reporting.GroupBys.adding_group_by_enabled(field, false);
     Reporting.GroupBys.recreate_sortables();
+  },
+
+  clear: function() {
+    Reporting.GroupBys.group_by_container_ids().each(function (container) {
+      $(container).select('[data-group-by]').each(function (group_by) {
+        Reporting.GroupBys.remove_group_by(group_by);
+      });
+    });
   }
 };
 
