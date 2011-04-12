@@ -9,19 +9,23 @@
 
 /*global document, Prototype, Ajax, Class, PeriodicalExecuter, $, $A, Control */
 
-if(typeof(Prototype) == "undefined") {
-    throw "Control.ProgressBar requires Prototype to be loaded."; }
-if(typeof(Event) == "undefined") {
-    throw "Control.ProgressBar requires Event to be loaded."; }
+if (typeof(Prototype) === "undefined") {
+    throw "Control.ProgressBar requires Prototype to be loaded.";
+}
+if (typeof(Event) === "undefined") {
+    throw "Control.ProgressBar requires Event to be loaded.";
+}
 
 Control.ProgressBar = Class.create({
-    initialize: function(container,options){
+    initialize: function(container, options) {
         this.progress = 0;
         this.executer = false;
         this.active = false;
         this.poller = false;
         this.container = $(container);
-        this.containerWidth = this.container.getDimensions().width - (parseInt(this.container.getStyle('border-right-width').replace(/px/,''), 10) + parseInt(this.container.getStyle('border-left-width').replace(/px/,''), 10));
+        this.containerWidth = this.container.getDimensions().width -
+            (parseInt(this.container.getStyle('border-right-width').replace(/px/, ''), 10) +
+            parseInt(this.container.getStyle('border-left-width').replace(/px/, ''), 10));
         this.progressContainer = $(document.createElement('div'));
         this.progressContainer.setStyle({
             width: this.containerWidth + 'px',
@@ -40,63 +44,69 @@ Control.ProgressBar = Class.create({
                 inactive: 'progress_bar_inactive'
             }
         };
-        Object.extend(this.options,options || {});
+        Object.extend(this.options, options || {});
         this.container.addClassName(this.options.classNames.inactive);
         this.active = false;
     },
-    setProgress: function(value){
+    setProgress: function (value) {
         this.progress = value;
         this.draw();
-        if(this.progress >= 100) {
-            this.stop(false); }
-        this.notify('afterChange',this.progress,this.active);
+        if (this.progress >= 100) {
+            this.stop(false);
+        }
+        this.notify('afterChange', this.progress, this.active);
     },
-    poll: function (url, interval, ajaxOptions){
+    poll: function (url, interval, ajaxOptions) {
         // Extend the passed ajax options and success callback with our own.
         ajaxOptions = ajaxOptions || {};
         var success = ajaxOptions.onSuccess || Prototype.emptyFunction;
         ajaxOptions.onSuccess = success.wrap(function (callOriginal, request) {
             this.setProgress(parseInt(request.responseText, 10));
-            if(!this.active) { this.poller.stop(); }
+            if (!this.active) {
+                this.poller.stop();
+            }
             callOriginal(request);
         }).bind(this);
 
         this.active = true;
-        this.poller = new PeriodicalExecuter(function(){
+        this.poller = new PeriodicalExecuter(function () {
             var a = new Ajax.Request(url, ajaxOptions);
-        }.bind(this),interval || 3);
+        }.bind(this), interval || 3);
     },
-    start: function(){
+    start: function () {
         this.active = true;
         this.container.removeClassName(this.options.classNames.inactive);
         this.container.addClassName(this.options.classNames.active);
-        this.executer = new PeriodicalExecuter(this.step.bind(this,this.options.step),this.options.interval);
+        this.executer = new PeriodicalExecuter(this.step.bind(this, this.options.step), this.options.interval);
     },
-    stop: function(reset){
+    stop: function (reset) {
         this.active = false;
-        if(this.executer) {
-            this.executer.stop(); }
+        if (this.executer) {
+            this.executer.stop();
+        }
         this.container.removeClassName(this.options.classNames.active);
         this.container.addClassName(this.options.classNames.inactive);
         if (typeof reset  === 'undefined' || reset === true) {
-            this.reset(); }
+            this.reset();
+        }
     },
-    step: function(amount){
+    step: function (amount) {
         this.active = true;
-        this.setProgress(Math.min(100,this.progress + amount));
+        this.setProgress(Math.min(100, this.progress + amount));
     },
-    reset: function(){
+    reset: function () {
         this.active = false;
         this.setProgress(0);
     },
-    draw: function(){
+    draw: function () {
         this.progressContainer.setStyle({
             width: (this.containerWidth - Math.floor((parseInt(this.progress, 10) / 100) * this.containerWidth)) + 'px'
         });
     },
-    notify: function(event_name){
-        if(this.options[event_name]) {
-            return [this.options[event_name].apply(this.options[event_name],$A(arguments).slice(1))]; }
+    notify: function (event_name) {
+        if (this.options[event_name]) {
+            return [this.options[event_name].apply(this.options[event_name], $A(arguments).slice(1))];
+        }
     }
 });
 Event.extend(Control.ProgressBar);

@@ -15,7 +15,7 @@ Reporting.Progress = {
     }));
     new Control.ProgressBar('progressbar_container', {
       // Speed determined through laborous experimentation!
-      interval: (size * (Math.log(size)^3)) / 80000
+      interval: (size * (Math.log(size) * Math.log(size) * Math.log(size))) / 80000
     }).start();
   },
 
