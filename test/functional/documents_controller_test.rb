@@ -83,6 +83,70 @@ LOREM
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
+  context "#new" do
+    should "allow adding watchers" do
+      @request.session[:user_id] = 2
+      set_tmp_attachments_directory
+    
+      post(:new,
+           :project_id => 'ecookbook',
+           :document => {
+             :title => 'DocumentsControllerTest#test_post_new',
+             :description => 'This is a new document',
+             :category_id => 2,
+             :watcher_user_ids => ['2','3']
+           },
+           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}})
+
+      assert_redirected_to '/projects/ecookbook/documents'
+    
+      document = Document.find_by_title('DocumentsControllerTest#test_post_new')
+      assert_not_nil document
+      assert document.watched_by?(User.find(2))
+      assert document.watched_by?(User.find(3))
+    end
+  end
+  
+  context "POST #edit" do
+    setup do
+      @request.session[:user_id] = 2
+      set_tmp_attachments_directory
+
+      @document = Document.generate!(:project => Project.find('ecookbook'),
+                                     :title => 'Test')
+    end
+    
+    should "update the document" do
+      post(:edit,
+           :id => @document.id,
+           :document => {
+             :title => 'Change'
+           })
+
+      assert_response :redirect
+
+      @document.reload
+      assert_not_nil @document
+      assert_equal 'Change', @document.title
+    end
+    
+    should "allow adding watchers" do
+      post(:edit,
+           :id => @document.id,
+           :document => {
+             :title => 'Change',
+             :watcher_user_ids => ['2','3']
+           })
+
+      assert_response :redirect
+
+      @document.reload
+      assert_not_nil @document
+      assert @document.watched_by?(User.find(2))
+      assert @document.watched_by?(User.find(3))
+    end
+  end
+  
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1

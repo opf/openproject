@@ -116,6 +116,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
+    map.permission :view_document_watchers, {}
+    map.permission :add_document_watchers, {:watchers => :new}
+    map.permission :delete_document_watchers, {:watchers => :destroy}
   end
 
   map.project_module :files do |map|

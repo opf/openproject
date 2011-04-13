@@ -34,6 +34,9 @@ roles_001:
     - :comment_news
     - :view_documents
     - :manage_documents
+    - :view_document_watchers
+    - :add_document_watchers
+    - :delete_document_watchers
     - :view_wiki_pages
     - :export_wiki_pages
     - :view_wiki_edits
