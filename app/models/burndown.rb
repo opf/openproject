@@ -96,10 +96,6 @@ class Burndown
 
   def make_date_series sprint
     @days = sprint.days
-    # end date for graph
-    days = @days
-    daycount = days.size
-    days = sprint.days(Date.today) if sprint.effective_date > Date.today
   end
 
   def collect_for_series(sprint, project, collect)
