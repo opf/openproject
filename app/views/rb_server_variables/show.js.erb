@@ -20,14 +20,19 @@ RB.urlFor = (function () {
     update_impediment: '<%= url_for(:controller => 'rb_impediments', :action => 'update', :id => ":id") %>',
 
     show_updated_items: '<%= url_for(:controller => 'rb_updated_items', :action => 'show', :project_id => ":id") %>',
-    show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id") %>'
+    show_burndown_chart: '<%= url_for(:controller => 'rb_burndown_charts', :action => 'show', :sprint_id => ":id", :project_id =>":project_id") %>'
   };
 
   return function (routeName, options) {
     route = routes[routeName];
 
-    if (options && options.id) {
-      route = route.replace(":id", options.id);
+    if (options){
+      if (options.id) {
+        route = route.replace(":id", options.id);
+      }
+      if (options.project_id){
+        route = route.replace(":project_id", options.project_id);
+      }
     }
 
     return route;

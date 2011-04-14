@@ -1,11 +1,11 @@
-<%- charts = (burndown.is_a?(Array) ? burndown : [burndown]) %>
-<%- dataseries = charts[0].series(:all).collect{|series| series.name } %>
+<%- charts = burndown.is_a?(Array) ? burndown : [burndown] %>
+<%- dataseries = charts[0].series(:all).collect(&:name) %>
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
 
   <%= javascript_include_tag_backlogs 'lib/jquery.js' %>
   <!--[if IE]><%= javascript_include_tag_backlogs 'jquery.jqplot/excanvas.js' %><![endif]-->
-  <%= javascript_include_tag_backlogs 'lib/jquery.cookies.js',
+  <%= javascript_include_tag_backlogs 'lib/jquery.cookies.2.2.0.min.js',
                                       'lib/jquery.jqplot/jquery.jqplot.js',
                                       'lib/jquery.jqplot/plugins/jqplot.highlighter.js' %>
 
@@ -50,7 +50,7 @@
             axesDefaults: {showTick: decoration},
             series: this.series,
             axes:{
-              xaxis:{min:1, max:<%= chart.days.length %>, tickInterval:1, ticks: this.xticks}, 
+              xaxis:{min:1, max:<%= chart.days.length %>, tickInterval:1, ticks: this.xticks},
               yaxis:{min:0, max: this.max_y, tickOptions:{formatString:'%d'}},
               y2axis:{min:0, max: this.max_y2, tickOptions:{formatString:'%d'}}
               },

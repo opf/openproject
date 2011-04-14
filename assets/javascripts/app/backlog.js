@@ -127,13 +127,18 @@ RB.Backlog = (function ($) {
     },
 
     showBurndownChart: function (e) {
+      var backlogs;
+
       e.preventDefault();
+
+      backlogs = $(this).parents('.backlog').data('this');
 
       if ($("#charts").length === 0) {
         $('<div id="charts"></div>').appendTo("body");
       }
       $('#charts').html("<div class='loading'>Loading data...</div>");
-      $('#charts').load(RB.urlFor('show_burndown_chart', { id: this.getSprint().data('this').getID() }));
+      $('#charts').load(RB.urlFor('show_burndown_chart', { id: backlogs.getSprint().data('this').getID(),
+                                                           project_id: RB.constants['project_id']}));
       $('#charts').dialog({
         buttons: {
           Close: function () {
