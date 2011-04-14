@@ -23,9 +23,7 @@ Control.ProgressBar = Class.create({
         this.active = false;
         this.poller = false;
         this.container = $(container);
-        this.containerWidth = this.container.getDimensions().width -
-            (parseInt(this.container.getStyle('border-right-width').replace(/px/, ''), 10) +
-            parseInt(this.container.getStyle('border-left-width').replace(/px/, ''), 10));
+        this.containerWidth = this.container.getDimensions().width;
         this.progressContainer = $(document.createElement('div'));
         this.progressContainer.setStyle({
             width: this.containerWidth + 'px',
@@ -100,7 +98,7 @@ Control.ProgressBar = Class.create({
     },
     draw: function () {
         this.progressContainer.setStyle({
-            width: (this.containerWidth - Math.floor((parseInt(this.progress, 10) / 100) * this.containerWidth)) + 'px'
+            width: (100 - this.progress) + "%"
         });
     },
     notify: function (event_name) {
