@@ -481,7 +481,7 @@ div.button_form p * {
 #progressbar {
   border: 2px solid #ddd;
   padding: 2px;
-  width: 45%;
+  width: 400px;
   background-color: #ededed;
 }
 
