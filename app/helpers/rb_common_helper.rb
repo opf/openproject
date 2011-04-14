@@ -89,6 +89,21 @@ module RbCommonHelper
     story.new_record? ? "" : story.tracker.name
   end
 
+  def tracker_abbreviation(story)
+    if story.new_record?
+      ""
+    else
+      words = story.tracker.name.split(" ")
+      abbreviation = case words.size
+        when 0 then ""
+        when 1 then words[0][0..2]
+        when 2 then words[0][0..1] + words[1][0..0]
+        else words[0][0..0] + words[1][0..0] + words[2][0..0]
+      end
+      abbreviation.upcase
+    end
+  end
+
   def updated_on_with_milliseconds(story)
     date_string_with_milliseconds(story.updated_on, 0.001) unless story.blank?
   end
