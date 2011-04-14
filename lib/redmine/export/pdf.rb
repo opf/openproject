@@ -280,13 +280,13 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
-        for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
+        for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
           pdf.SetFontStyle('B',8)
-          pdf.Cell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
+          pdf.Cell(190,5, format_time(journal.created_at) + " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
-            pdf.Cell(190,5, "- " + show_detail(detail, true))
+            pdf.Cell(190,5, "- " + show_detail(journal, detail, true))
             pdf.Ln
           end
           if journal.notes?

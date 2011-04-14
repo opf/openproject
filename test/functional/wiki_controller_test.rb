@@ -22,8 +22,8 @@ require 'wiki_controller'
 class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions, :attachments
-  
+  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :journals, :attachments
+
   def setup
     @controller = WikiController.new
     @request    = ActionController::TestRequest.new
@@ -83,8 +83,7 @@ class WikiControllerTest < ActionController::TestCase
     put :update, :project_id => 1,
                 :id => 'New page',
                 :content => {:comments => 'Created the page',
-                             :text => "h1. New page\n\nThis is a new page",
-                             :version => 0}
+                             :text => "h1. New page\n\nThis is a new page" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?
@@ -100,7 +99,7 @@ class WikiControllerTest < ActionController::TestCase
                     :id => 'New page',
                     :content => {:comments => 'Created the page',
                                  :text => "h1. New page\n\nThis is a new page",
-                                 :version => 0},
+                                 :lock_version => 0},
                     :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end

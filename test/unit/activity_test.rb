@@ -18,11 +18,16 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ActivityTest < ActiveSupport::TestCase
-  fixtures :projects, :versions, :attachments, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
+  fixtures :projects, :versions, :attachments, :users, :roles, :members, :member_roles, :issues, :journals,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages
 
   def setup
     @project = Project.find(1)
+    [1,4,5,6].each do |issue_id|
+      i = Issue.find(issue_id)
+      i.init_journal(User.current, "A journal to find")
+      i.save!
+    end
   end
   
   def test_activity_without_subprojects
@@ -51,7 +56,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert events.include?(Issue.find(1))
     assert events.include?(Message.find(5))
     # Issue of a private project
-    assert !events.include?(Issue.find(4))
+    assert !events.include?(Issue.find(6))
   end
   
   def test_global_activity_logged_user
@@ -60,7 +65,7 @@ class ActivityTest < ActiveSupport::TestCase
     
     assert events.include?(Issue.find(1))
     # Issue of a private project the user belongs to
-    assert events.include?(Issue.find(4))
+    assert events.include?(Issue.find(6))
   end
   
   def test_user_activity
@@ -78,15 +83,18 @@ class ActivityTest < ActiveSupport::TestCase
     events = f.events
     
     assert_kind_of Array, events
-    assert events.include?(Attachment.find_by_container_type_and_container_id('Project', 1))
-    assert events.include?(Attachment.find_by_container_type_and_container_id('Version', 1))
-    assert_equal [Attachment], events.collect(&:class).uniq
-    assert_equal %w(Project Version), events.collect(&:container_type).uniq.sort
+    assert events.include?(Attachment.find_by_container_type_and_container_id('Project', 1).last_journal)
+    assert events.include?(Attachment.find_by_container_type_and_container_id('Version', 1).last_journal)
+    assert_equal [Attachment], events.collect(&:journaled).collect(&:class).uniq
+    assert_equal %w(Project Version), events.collect(&:journaled).collect(&:container_type).uniq.sort
   end
   
   private
   
   def find_events(user, options={})
-    Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
+    events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
+    # Because events are provided by the journals, but we want to test for
+    # their targets here, transform that
+    events.group_by(&:journaled).keys
   end
 end

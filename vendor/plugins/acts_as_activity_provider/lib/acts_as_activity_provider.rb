@@ -68,12 +68,12 @@ module Redmine
             scope_options[:conditions] = cond.conditions
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{table_name}.id DESC"
+              scope_options[:order] = "#{journal_class.table_name}.id DESC"
               scope_options[:limit] = options[:limit]
             end
-            
-            with_scope(:find => scope_options) do
-              find(:all, provider_options[:find_options].dup)
+
+            journal_class.with_scope(:find => scope_options) do
+              journal_class.find(:all, provider_options[:find_options].dup)
             end
           end
         end

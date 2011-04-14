@@ -603,18 +603,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_difference 'Journal.count' do
       assert i.save
     end
+    assert i.current_journal.changes.has_key? "subject"
+    assert i.current_journal.changes.has_key? "done_ratio"
+
     # 1 more change
     i.priority = IssuePriority.find(:first, :conditions => ["id <> ?", i.priority_id])
-    assert_no_difference 'Journal.count' do
-      assert_difference 'JournalDetail.count', 1 do
-        i.save
-      end
+    assert_difference 'Journal.count' do
+      i.save
     end
+    assert i.current_journal.changes.has_key? "priority_id"
+
     # no more change
     assert_no_difference 'Journal.count' do
-      assert_no_difference 'JournalDetail.count' do
-        i.save
-      end
+      i.save
     end
   end
 

@@ -92,7 +92,7 @@ class WikiController < ApplicationController
     @content.comments = nil
 
     # To prevent StaleObjectError exception when reverting to a previous version
-    @content.version = @page.content.version
+    @content.lock_version = @page.content.lock_version
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash[:error] = l(:notice_locking_conflict)
@@ -117,6 +117,7 @@ class WikiController < ApplicationController
       redirect_to :action => 'show', :project_id => @project, :id => @page.title
       return
     end
+    params[:content].delete(:version) # The version count is automatically increased
     @content.attributes = params[:content]
     @content.author = User.current
     # if page is new @page.save will also save content, but not if page isn't a new record
@@ -157,7 +158,7 @@ class WikiController < ApplicationController
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text    
     @versions = @page.content.versions.find :all, 
-                                            :select => "id, author_id, comments, updated_on, version",
+                                            :select => "id, user_id, notes, created_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
                                             :offset =>  @version_pages.current.offset

@@ -20,8 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionController::Assertions::SelectorAssertions
-  fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
-  
+  fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
+
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
@@ -171,7 +171,7 @@ class MailerTest < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(journal), mail.message_id
-    assert_equal Mailer.message_id_for(journal.issue), mail.references.first.to_s
+    assert_equal Mailer.message_id_for(journal.journaled), mail.references.first.to_s
   end
   
   def test_message_posted_message_id

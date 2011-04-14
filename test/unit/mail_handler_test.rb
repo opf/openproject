@@ -308,7 +308,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
     assert journal.is_a?(Journal)
-    issue = Issue.find(journal.issue.id)
+    issue = Issue.find(journal.journalized.id)
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journalized
     assert_match /This is reply/, journal.notes

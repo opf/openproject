@@ -39,7 +39,6 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :custom_fields_trackers,
     :time_entries,
     :journals,
-    :journal_details,
     :queries
 
   def setup
