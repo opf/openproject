@@ -43,8 +43,9 @@ module BacklogsPlugin
 
         if issue.is_story?
           snippet += "<tr><th>#{l(:field_story_points)}</th><td>#{Story.find(issue.id).points_display}</td></tr>"
-          vbe = issue.velocity_based_estimate
-          snippet += "<tr><th>#{l(:field_velocity_based_estimate)}</th><td>#{vbe ? vbe.to_s + ' days' : '-'}</td></tr>"
+          #disabled as long as scrum statistics are disabled
+          #vbe = issue.velocity_based_estimate
+          #snippet += "<tr><th>#{l(:field_velocity_based_estimate)}</th><td>#{vbe ? vbe.to_s + ' days' : '-'}</td></tr>"
         end
 
         if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
