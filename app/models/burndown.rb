@@ -24,52 +24,11 @@ class Burndown
 
     days = make_date_series sprint
 
-    _series = ([nil] * days.size)
-
     collect = [:remaining_hours]
 
     series_data = collect_for_series(sprint, project, collect)
 
-    collect.each do |c|
-      make_series c, :hours, series_data[c].to_a.sort_by{ |a| a.first}.collect(&:last) #need to differentiate between hours and sp
-    end
-
-    # load cache
-    #load_from_cache(_series, sprint)
-
-    #calculate_last_and_first_day(sprint, project, _series)
-
-    # fill out series
-    #last = nil
-    #_series = _series.enum_for(:each_with_index).collect{|v, i| v.nil? ? last : (last = v; v) }
-
-    # make registered series
-    #points_committed, points_resolved, points_accepted, remaining_hours = _series.transpose
-    #make_series :points_committed, :points, points_committed
-    #make_series :points_resolved, :points, points_resolved
-    #make_series :points_accepted, :points, points_accepted
-    #make_series :remaining_hours, :hours, remaining_hours
-
-    # calculate burn-up ideal
-    #calculate_series_burn_up_ideal(daycount, points_commited)
-
-    # burn-down equivalents to the burn-up chart
-    #make_series :points_to_resolve, :points, points_committed.zip(points_resolved).collect{|c, r| c - r}
-    #make_series :points_to_accept, :points, points_committed.zip(points_accepted).collect{|c, a| c - a}
-
-    # required burn-rate
-    #make_series :required_burn_rate_points, :points, @points_to_resolve.enum_for(:each_with_index).collect{|p, i| p / (daycount - i) }
-    #make_series :required_burn_rate_hours, :hours, remaining_hours.enum_for(:each_with_index).collect{|r, i| r / (daycount-i) }
-
-    # mark series to be displayed if they're not constant-zero, or
-    # just constant in case of points-committed
-    # @available_series.values.each{|s|
-    #       const_val = (s.name == :points_committed ? s[0] : 0)
-    #       @available_series[s.name].display = (s.select{|v| v != const_val}.size != 0)
-    #     }
-
-    # decide whether you want burn-up or down
-    #decide_burn_up_or_down burn_direction
+    calculate_series collect, series_data
 
     determine_max
   end
@@ -152,6 +111,28 @@ class Burndown
     changes
   end
 
+  def calculate_series collect, series_data
+    collect.each do |c|
+      make_series c, :hours, series_data[c].to_a.sort_by{ |a| a.first}.collect(&:last) #need to differentiate between hours and sp
+    end
+
+    calculate_ideals(collect)
+  end
+
+  def calculate_ideals(collect)
+    if collect.include?(:remaining_hours)
+      max = self.remaining_hours.first
+      delta = max / (self.days.size - 1)
+
+      ideal = []
+      days.each_with_index do |d, i|
+        ideal[i] = max - delta * i
+      end
+
+      make_series :ideal, :hours, ideal
+    end
+  end
+
   def load_from_cache(_series, sprint)
     day_index = to_h(days, (0..(days.size - 1)).to_a)
     BurndownDay.find(:all, :order=>'created_at', :conditions => ["version_id = ?", sprint.id]).each {|data|
@@ -162,75 +143,12 @@ class Burndown
     }
   end
 
-  def calculate_last_and_first_day(sprint, project, _series)
-    backlog = sprint.stories(project) unless _series[0] && _series[-1]
-
-    # calculate first day if not loaded from cache
-    calculate_first_day(backlog, days[0], _series) unless _series[0]
-
-    # calculate last day if not loaded from cache
-    calculate_last_day(backlog, days[-1], _series) unless _series[-1]
-  end
-
-  def calculate_first_day(backlog, first_day, _series)
-    assume = (first_day != Date.today)
-
-    _series[0] = [
-      backlog.inject(0) {|sum, story| sum + story.story_points.to_f }, # committed
-      (assume ? 0 : backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0 }.inject(0) {|sum, story| sum + story.story_points.to_f }),
-      (assume ? 0 : backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f }),
-      backlog.inject(0) {|sum, story| sum + story.estimated_hours.to_f } # remaining
-    ]
-    cache(first_day, _series[0])
-  end
-
-  def calculate_last_day(backlog, last_day, _series)
-    _series[-1] = [
-      backlog.inject(0) {|sum, story| sum + story.story_points.to_f },
-      backlog.select {|s| s.descendants.select{|t| !t.closed?}.size == 0}.inject(0) {|sum, story| sum + story.story_points.to_f },
-      backlog.select {|s| s.closed? }.inject(0) {|sum, story| sum + story.story_points.to_f },
-      backlog.select {|s| not s.closed? && s.descendants.select{|t| !t.closed?}.size != 0}.inject(0) {|sum, story| sum + story.remaining_hours.to_f }
-    ]
-    cache(last_day, _series[-1])
-  end
-
-  def cache(day, datapoint)
-    BurndownDay.create! :points_committed => datapoint[0],
-                        :points_resolved => datapoint[1],
-                        :points_accepted => datapoint[2],
-                        :remaining_hours => datapoint[3],
-                        :created_at => day,
-                        :version_id => @sprint_id
-  end
-
-  def calculate_series_burn_up_ideal(daycount, points_commited)
-    if daycount == 1 # should never happen
-      make_series :ideal, :points, [points_committed]
-    else
-      make_series :ideal, :points, points_committed.enum_for(:each_with_index).collect{|c, i| c * i * (1.0 / (daycount - 1)) }
-    end
-  end
 
   def make_series(name, units, data)
     @available_series ||= {}
     s = Burndown::Series.new(data, name, units)
     @available_series[name] = s
     instance_variable_set("@#{name}", s)
-  end
-
-  def decide_burn_up_or_down(burn_direction)
-    if burn_direction == 'down'
-      @ideal.each_with_index{|v, i| @ideal[i] = @points_committed[i] - v}
-      @points_accepted.display = false
-      @points_resolved.display = false
-      @available_series.delete(:points_accepted)
-      @available_series.delete(:points_resolved)
-    else
-      @points_to_accept.display = false
-      @points_to_resolve.display = false
-      @available_series.delete(:points_to_accept)
-      @available_series.delete(:points_to_resolve)
-    end
   end
 
   def determine_max
