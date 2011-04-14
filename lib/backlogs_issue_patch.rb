@@ -86,10 +86,10 @@ module Backlogs
       end
 
       def velocity_based_estimate
-        return nil if !self.is_story? || ! self.story_points || self.story_points <= 0
+        return nil if !self.is_story? || !self.story_points || self.story_points <= 0
 
         dpp = self.project.scrum_statistics.info[:average_days_per_point]
-        return nil if ! dpp
+        return nil if !dpp
 
         return Integer(self.story_points * dpp)
       end
