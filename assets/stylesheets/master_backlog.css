@@ -216,16 +216,6 @@
   text-align: right;
   white-space: nowrap;
 }
-#rb #backlogs_container .stories .story .tracker_id .s {
-  float: left;
-  overflow:hidden;
-  white-space: nowrap;
-  margin-left: 1em;
-  margin-right: 0em;
-  padding: 5px 2px 4px 2px;
-  width: 2em;
-  text-align: right;
-}
 #rb #backlogs_container .stories .story .subject {
   overflow:hidden;
   margin-left: 4em;
@@ -247,8 +237,7 @@
   text-align:right;
 }
 
-#rb #backlogs_container .stories .story .tracker_id .v,
-#rb #backlogs_container .stories .story .tracker_id .t,
+#rb #backlogs_container .stories .story .tracker_id,
 #rb #backlogs_container .stories .story .id .v,
 #rb #backlogs_container .stories .story .status_id .v,
 #rb #backlogs_container .stories .story .fixed_version_id,
