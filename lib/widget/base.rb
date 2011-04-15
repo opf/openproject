@@ -45,7 +45,7 @@ class Widget::Base < Widget
   end
 
   def cached?
-    Rails.cache.exist? cache_key and cache?
+    Rails.cache.exist?(cache_key) and cache?
   end
 
   private
