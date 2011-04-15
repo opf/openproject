@@ -96,14 +96,55 @@ describe Burndown do
                 end
 
                 it { @burndown.remaining_hours.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
+                it { @burndown.remaining_hours.unit.should eql :hours }
                 it { @burndown.days.should eql(sprint.days()) }
                 it { @burndown.max[:hours].should eql 90.0 }
                 it { @burndown.max[:points].should eql 0.0 }
-                it { @burndown.ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+                it { @burndown.remaining_hours_ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+              end
+            end
+          end
+
+          describe "WITH each story having story points defined at start" do
+            before(:each) do
+              @remaining_hours_sum = 0
+
+              @stories.each_with_index do |s, i|
+                s.instance_eval do @current_journal = nil end
+                s.init_journal(user)
+                s.story_points = 10
+                s.current_journal.created_on = version.sprint_start_date - 3.days
+                s.save!
               end
             end
 
+            describe "WITH 5 stories having been reduced to 0 story points, one story per day" do
+              before(:each) do
+                @finished_hours
+                (0..4).each do |i|
+                  @stories[i].instance_eval do @current_journal = nil end
+                  @stories[i].init_journal(user)
+                  @stories[i].story_points = 0
+                  @stories[i].current_journal.created_on = version.sprint_start_date + i.days + 1.hour
+                  @stories[i].save!
+                end
+              end
+
+              describe "THEN" do
+                before(:each) do
+                  @burndown = Burndown.new(sprint, project)
+                end
+
+                it { @burndown.story_points.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
+                it { @burndown.story_points.unit.should eql :points }
+                it { @burndown.days.should eql(sprint.days()) }
+                it { @burndown.max[:hours].should eql 0.0 }
+                it { @burndown.max[:points].should eql 90.0 }
+                #it { @burndown.ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+              end
+            end
           end
+
         end
       end
     end
