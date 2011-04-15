@@ -48,39 +48,39 @@ class Burndown
       end
 
       stories.each do |story|
-        changes = last_changes_on_value_per_day story
+        journals_a = story.journals.to_a.sort_by{ |j| j.created_on }
 
-        changes.each_pair do |attribute, values_by_day|
-          collected_days.each do |day|
+        prop_set_on = {}
+        current_prop_value = {}
 
-            valued_day = values_by_day[day] ? day : values_by_day.keys.select{ |d| d < day }.sort.last
+        collect_names.each do |c|
+          prop_set_on[c] = story.created_on.to_date < collected_days.first ? collected_days.first : story.created_on.to_date
+          current_prop_value[c] = story.send(c).to_f
+        end
 
-            self[attribute.to_sym][day] += values_by_day[valued_day].to_f
+        journals_a.each do |journal|
+          journal.details.select{|d| collect_names.include?(d.prop_key.to_sym) }.each do |detail|
+
+            current_prop_value[detail.prop_key.to_sym] = detail.value.to_f
+
+            next if prop_set_on[detail.prop_key.to_sym] == journal.created_on.to_date
+
+            collected_days.select{|d| d < journal.created_on.to_date}.each do |date|
+              self[detail.prop_key.to_sym][date] = 0.0 if self[detail.prop_key.to_sym][date].nil?
+              self[detail.prop_key.to_sym][date] += detail.old_value.to_f
+            end
+
+            prop_set_on[detail.prop_key.to_sym] = journal.created_on.to_date
+          end
+        end
+
+        collect_names.each do |c|
+          collected_days.select{ |d| d >= prop_set_on[c] }.each do |date|
+            self[c][date] = 0.0 if self[c][date].nil?
+            self[c][date] += current_prop_value[c]
           end
         end
       end
-    end
-
-    private
-
-    def last_changes_on_value_per_day(story)
-      changes = {}
-      self.collect_names.each do |c|
-        changes[c.to_s] = {}
-        changes[c.to_s][story.created_on.to_date] = story.send(c)
-      end
-
-      days_with_change = story.journals.group_by{ |j| j.created_on.to_date }
-
-      days_with_change.each_pair do |date, journals|
-        journals.sort_by{ |j| j.created_on }.each do |journal| #by that, we only take the last value of the day
-          journal.details.each do |d|
-            changes[d.prop_key][date] = d.value if changes.keys.include?(d.prop_key)
-          end
-        end
-      end
-
-      changes
     end
   end
 

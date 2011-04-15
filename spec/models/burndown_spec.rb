@@ -1,6 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Burndown do
+  def set_attribute_journalized story, attribute, value, day
+    story.instance_eval do @current_journal = nil end
+    story.init_journal(user)
+    story.send(attribute, value)
+    story.current_journal.created_on = day
+    story.save!
+  end
+
   let(:user) { @user ||= Factory.create(:user) }
   let(:role) { @role ||= Factory.create(:role) }
   let(:tracker_feature) { @tracker_feature ||= Factory.create(:tracker_feature) }
@@ -48,6 +56,41 @@ describe Burndown do
           version.save!
         end
 
+        describe "WITH 1 story assigned to the sprint" do
+          before(:each) do
+            @story = Factory.create(:story, :subject => "Story 1",
+                                            :project => project,
+                                            :fixed_version => version,
+                                            :tracker => tracker_feature,
+                                            :status => issue_open,
+                                            :priority => issue_priority,
+                                            :created_on => Date.today - (20).days,
+                                            :updated_on => Date.today - (20).days)
+          end
+
+          describe "WITH the story having a time_remaining defined on creation" do
+            before(:each) do
+              @story.update_attributes(:remaining_hours => 9)
+            end
+
+            describe "WITH updating time_remaining three days ago" do
+              before(:each) do
+                set_attribute_journalized @story, :remaining_hours=, 5, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 9.0, 9.0, 9.0, 5.0, 5.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+
+            end
+          end
+        end
+
         describe "WITH 10 stories assigned to the sprint" do
           before(:each) do
             @stories = []
@@ -61,7 +104,6 @@ describe Burndown do
                                                    :priority => issue_priority,
                                                    :created_on => Date.today - (20 - i).days,
                                                    :updated_on => Date.today - (20 - i).days)
-
             end
           end
 
@@ -70,11 +112,7 @@ describe Burndown do
               @remaining_hours_sum = 0
 
               @stories.each_with_index do |s, i|
-                s.instance_eval do @current_journal = nil end
-                s.init_journal(user)
-                s.remaining_hours = 10
-                s.current_journal.created_on = version.sprint_start_date - 3.days
-                s.save!
+                set_attribute_journalized s, :remaining_hours=, 10, version.sprint_start_date - 3.days
               end
             end
 
@@ -82,11 +120,7 @@ describe Burndown do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
-                  @stories[i].instance_eval do @current_journal = nil end
-                  @stories[i].init_journal(user)
-                  @stories[i].remaining_hours = 0
-                  @stories[i].current_journal.created_on = version.sprint_start_date + i.days + 1.hour
-                  @stories[i].save!
+                  set_attribute_journalized @stories[i], :remaining_hours=, 0, version.sprint_start_date + i.days + 1.hour
                 end
               end
 
@@ -110,11 +144,7 @@ describe Burndown do
               @remaining_hours_sum = 0
 
               @stories.each_with_index do |s, i|
-                s.instance_eval do @current_journal = nil end
-                s.init_journal(user)
-                s.story_points = 10
-                s.current_journal.created_on = version.sprint_start_date - 3.days
-                s.save!
+                set_attribute_journalized s, :story_points=, 10, version.sprint_start_date - 3.days
               end
             end
 
@@ -122,11 +152,7 @@ describe Burndown do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
-                  @stories[i].instance_eval do @current_journal = nil end
-                  @stories[i].init_journal(user)
-                  @stories[i].story_points = 0
-                  @stories[i].current_journal.created_on = version.sprint_start_date + i.days + 1.hour
-                  @stories[i].save!
+                  set_attribute_journalized @stories[i], :story_points=, 0, version.sprint_start_date + i.days + 1.hour
                 end
               end
 
