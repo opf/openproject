@@ -479,10 +479,7 @@ div.button_form p * {
 }
 
 #progressbar {
-  border: 2px solid #ddd;
-  padding: 2px;
-  width: 45%;
-  background-color: #ededed;
+  display: none;
 }
 
 /***** Ajax indicator ******/
