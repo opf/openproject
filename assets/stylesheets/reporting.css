@@ -479,20 +479,18 @@ div.button_form p * {
 }
 
 #progressbar {
-  border: 2px solid #ddd;
-  padding: 2px;
-  width: 400px;
-  background-color: #ededed;
+  display: none;
 }
 
 #progressbar_container {
-    height: 16px;
-    border: 1px solid #ccc;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    background-color: #9A9A9A;
-    background-repeat: repeat-x;
+  width: 300px;
+  height: 16px;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #9A9A9A;
+  background-repeat: repeat-x;
 }
 
 #progressbar_container div {

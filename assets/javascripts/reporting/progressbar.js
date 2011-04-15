@@ -4,11 +4,9 @@
 Reporting.Progress = {
 
   replace_with_bar: function (element) {
-    var parent = $('progressbar');
+    var parent = element.up();
     var size = parseInt(element.getAttribute('data-size'), 10) || 500;
-    parent.descendants().each(function (elem) {
-      elem.remove();
-    });
+    element.remove();
     parent.appendChild(new Element('div', {
       'id': 'progressbar_container',
       'class': 'progressbar_container'
@@ -19,22 +17,22 @@ Reporting.Progress = {
     }).start();
   },
 
-  attach_listeners: function () {
-    if ($('progressbar') !== null && $('progressbar') !== undefined) {
-      $('progressbar').select('span[data-load]').each(function (element) {
-        element.observe("click", function (e) {
-          if (this.getAttribute("data-load") === "true") {
-            Reporting.Progress.replace_with_bar(this);
-            Reporting.Controls.send_settings_data(this.getAttribute("data-target"), Reporting.Controls.update_result_table);
-          } else {
-            $('progressbar').toggle();
-          }
-        });
-      });
+  confirm_question: function () {
+    var bar = $('progressbar');
+    if (bar !== null && bar !== undefined) {
+      var size = bar.getAttribute('data-size');
+      var question = bar.getAttribute('data-translation');
+      if (confirm(question)) {
+        var target = bar.getAttribute("data-target");
+        Reporting.Progress.replace_with_bar(bar);
+        Reporting.Controls.send_settings_data(target, Reporting.Controls.update_result_table);
+      } else {
+        bar.toggle();
+      }
     }
   }
-};
+}
 
 Reporting.onload(function () {
-  Reporting.Progress.attach_listeners();
+  Reporting.Progress.confirm_question();
 });
