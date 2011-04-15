@@ -166,7 +166,7 @@ describe Burndown do
                 it { @burndown.days.should eql(sprint.days()) }
                 it { @burndown.max[:hours].should eql 0.0 }
                 it { @burndown.max[:points].should eql 90.0 }
-                #it { @burndown.ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
+                it { @burndown.story_points_ideal.should eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
               end
             end
           end

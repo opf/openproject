@@ -40,23 +40,14 @@ class Burndown
       collected_days = days.sort.select{ |d| d <= Date.today }
 
       collect_names.each do |c|
-        self[c] = {}
-
-        collected_days.each do |day|
-          self[c][day] = 0
-        end
+        self[c] = Hash.new 0.0
       end
 
       stories.each do |story|
         journals_a = story.journals.to_a.sort_by{ |j| j.created_on }
 
-        prop_set_on = {}
-        current_prop_value = {}
-
-        collect_names.each do |c|
-          prop_set_on[c] = story.created_on.to_date < collected_days.first ? collected_days.first : story.created_on.to_date
-          current_prop_value[c] = story.send(c).to_f
-        end
+        prop_set_on = Hash.new(story.created_on.to_date < collected_days.first ? collected_days.first : story.created_on.to_date)
+        current_prop_value = Hash.new{ |hash, key| hash[key] = story.send(key).to_f }
 
         journals_a.each do |journal|
           journal.details.select{|d| collect_names.include?(d.prop_key.to_sym) }.each do |detail|
@@ -66,7 +57,6 @@ class Burndown
             next if prop_set_on[detail.prop_key.to_sym] == journal.created_on.to_date
 
             collected_days.select{|d| d < journal.created_on.to_date}.each do |date|
-              self[detail.prop_key.to_sym][date] = 0.0 if self[detail.prop_key.to_sym][date].nil?
               self[detail.prop_key.to_sym][date] += detail.old_value.to_f
             end
 
@@ -76,7 +66,6 @@ class Burndown
 
         collect_names.each do |c|
           collected_days.select{ |d| d >= prop_set_on[c] }.each do |date|
-            self[c][date] = 0.0 if self[c][date].nil?
             self[c][date] += current_prop_value[c]
           end
         end
