@@ -4,15 +4,34 @@ begin
 
   class MercurialAdapterTest < ActiveSupport::TestCase
 
-    TEMPLATES_DIR = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATES_DIR
+    HELPERS_DIR = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
     TEMPLATE_NAME = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
     TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
 
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
+    CHAR_1_HEX = "\xc3\x9c"
+
     if File.directory?(REPOSITORY_PATH)
       def setup
-        @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(REPOSITORY_PATH)
+        @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(
+                              REPOSITORY_PATH,
+                              nil,
+                              nil,
+                              nil,
+                             'ISO-8859-1')
+        @diff_c_support = true
+
+        @char_1        = CHAR_1_HEX.dup
+        @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
+        @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
+        @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
+        if @tag_char_1.respond_to?(:force_encoding)
+          @char_1.force_encoding('UTF-8')
+          @tag_char_1.force_encoding('UTF-8')
+          @branch_char_0.force_encoding('UTF-8')
+          @branch_char_1.force_encoding('UTF-8')
+        end
       end
 
       def test_hgversion
@@ -42,6 +61,31 @@ begin
         end
       end
 
+      def test_info
+        [REPOSITORY_PATH, REPOSITORY_PATH + "/",
+             REPOSITORY_PATH + "//"].each do |repo|
+          adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
+          repo_path =  adp.info.root_url.gsub(/\\/, "/")
+          assert_equal REPOSITORY_PATH, repo_path
+          assert_equal '28', adp.info.lastrev.revision
+          assert_equal '3ae45e2d177d',adp.info.lastrev.scmid
+        end
+      end
+
+      def test_revisions
+        revisions = @adapter.revisions(nil, 2, 4)
+        assert_equal 3, revisions.size
+        assert_equal '2', revisions[0].revision
+        assert_equal '400bb8672109', revisions[0].scmid
+        assert_equal '4', revisions[2].revision
+        assert_equal 'def6d2f1254a', revisions[2].scmid
+
+        revisions = @adapter.revisions(nil, 2, 4, {:limit => 2})
+        assert_equal 2, revisions.size
+        assert_equal '2', revisions[0].revision
+        assert_equal '400bb8672109', revisions[0].scmid
+      end
+
       def test_diff
         if @adapter.class.client_version_above?([1, 2])
           assert_nil @adapter.diff(nil, '100000')
@@ -49,7 +93,7 @@ begin
         assert_nil @adapter.diff(nil, '100000', '200000')
         [2, '400bb8672109', '400', 400].each do |r1|
           diff1 = @adapter.diff(nil, r1)
-          if @adapter.class.client_version_above?([1, 2])
+          if @diff_c_support
             assert_equal 28, diff1.size
             buf = diff1[24].gsub(/\r\n|\r|\n/, "")
             assert_equal "+    return true unless klass.respond_to?('watched_by')", buf
@@ -70,8 +114,8 @@ begin
       end
 
       def test_diff_made_by_revision
-        if @adapter.class.client_version_above?([1, 2])
-          [16, '16', '4cddb4e45f52'].each do |r1|
+        if @diff_c_support
+          [24, '24', '4cddb4e45f52'].each do |r1|
             diff1 = @adapter.diff(nil, r1)
             assert_equal 5, diff1.size
             buf = diff1[4].gsub(/\r\n|\r|\n/, "")
@@ -104,9 +148,12 @@ begin
         end
       end
 
-      # TODO filesize etc.
       def test_entries
         assert_nil @adapter.entries(nil, '100000')
+
+        assert_equal 1, @adapter.entries("sources", 3).size
+        assert_equal 1, @adapter.entries("sources", 'b3a615152df8').size
+
         [2, '400bb8672109', '400', 400].each do |r|
           entries1 = @adapter.entries(nil, r)
           assert entries1
@@ -114,9 +161,15 @@ begin
           assert_equal 'sources', entries1[1].name
           assert_equal 'sources', entries1[1].path
           assert_equal 'dir', entries1[1].kind
-          assert_equal 'README', entries1[2].name
-          assert_equal 'README', entries1[2].path
-          assert_equal 'file', entries1[2].kind
+          readme = entries1[2]
+          assert_equal 'README', readme.name
+          assert_equal 'README', readme.path
+          assert_equal 'file', readme.kind
+          assert_equal 27, readme.size
+          assert_equal '1', readme.lastrev.revision
+          assert_equal '9d5b5b004199', readme.lastrev.identifier
+          # 2007-12-14 10:24:01 +0100
+          assert_equal Time.gm(2007, 12, 14, 9, 24, 1), readme.lastrev.time
 
           entries2 = @adapter.entries('sources', r)
           assert entries2
@@ -130,6 +183,48 @@ begin
         end
       end
 
+      def test_entries_tag
+        entries1 = @adapter.entries(nil, 'tag_test.00')
+        assert entries1
+        assert_equal 3, entries1.size
+        assert_equal 'sources', entries1[1].name
+        assert_equal 'sources', entries1[1].path
+        assert_equal 'dir', entries1[1].kind
+        readme = entries1[2]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 21, readme.size
+        assert_equal '0', readme.lastrev.revision
+        assert_equal '0885933ad4f6', readme.lastrev.identifier
+        # 2007-12-14 10:22:52 +0100
+        assert_equal Time.gm(2007, 12, 14, 9, 22, 52), readme.lastrev.time
+      end
+
+      def test_entries_branch
+        entries1 = @adapter.entries(nil, 'test-branch-00')
+        assert entries1
+        assert_equal 5, entries1.size
+        assert_equal 'sql_escape', entries1[2].name
+        assert_equal 'sql_escape', entries1[2].path
+        assert_equal 'dir', entries1[2].kind
+        readme = entries1[4]
+        assert_equal 'README', readme.name
+        assert_equal 'README', readme.path
+        assert_equal 'file', readme.kind
+        assert_equal 365, readme.size
+        assert_equal '8', readme.lastrev.revision
+        assert_equal 'c51f5bb613cd', readme.lastrev.identifier
+        # 2001-02-01 00:00:00 -0900
+        assert_equal Time.gm(2001, 2, 1, 9, 0, 0), readme.lastrev.time
+      end
+
+      def test_locate_on_outdated_repository
+        assert_equal 1, @adapter.entries("images", 0).size
+        assert_equal 2, @adapter.entries("images").size
+        assert_equal 2, @adapter.entries("images", 2).size
+      end
+
       def test_access_by_nodeid
         path = 'sources/welcome_controller.rb'
         assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400bb8672109')
@@ -141,6 +236,96 @@ begin
         assert_equal @adapter.cat(path, 2), @adapter.cat(path, '400')
       end
 
+      def test_tags
+        assert_equal [@tag_char_1, 'tag_test.00', 'tag-init-revision'], @adapter.tags
+      end
+
+      def test_tagmap
+        tm = { 
+          @tag_char_1         => 'adf805632193',
+          'tag_test.00'       => '6987191f453a',
+          'tag-init-revision' => '0885933ad4f6',
+          }
+        assert_equal tm, @adapter.tagmap
+      end
+
+      def test_branches
+        assert_equal [
+            'default',
+            @branch_char_1,
+            'branch (1)[2]&,%.-3_4',
+            @branch_char_0,
+            'test_branch.latin-1',
+            'test-branch-00',
+          ], @adapter.branches
+      end
+
+      def test_branchmap
+        bm = {
+           'default'               => '3ae45e2d177d',
+           'test_branch.latin-1'   => 'c2ffe7da686a',
+           'branch (1)[2]&,%.-3_4' => 'afc61e85bde7',
+           'test-branch-00'        => '3a330eb32958',
+           @branch_char_0          => 'c8d3e4887474',
+           @branch_char_1          => '7bbf4c738e71',
+         }
+        assert_equal bm, @adapter.branchmap
+      end
+
+      def test_path_space
+        p = 'README (1)[2]&,%.-3_4'
+        [15, '933ca60293d7'].each do |r1|
+          assert @adapter.diff(p, r1)
+          assert @adapter.cat(p, r1)
+          assert_equal 1, @adapter.annotate(p, r1).lines.length
+          [25, 'afc61e85bde7'].each do |r2|
+            assert @adapter.diff(p, r1, r2)
+          end
+        end
+      end
+
+      def test_tag_non_ascii
+        p = "latin-1-dir/test-#{@char_1}-1.txt"
+        assert @adapter.cat(p, @tag_char_1)
+        assert_equal 1, @adapter.annotate(p, @tag_char_1).lines.length
+      end
+
+      def test_branch_non_ascii
+        p = "latin-1-dir/test-#{@char_1}-subdir/test-#{@char_1}-1.txt"
+        assert @adapter.cat(p, @branch_char_1)
+        assert_equal 1, @adapter.annotate(p, @branch_char_1).lines.length
+      end
+
+      def test_nodes_in_branch
+         [
+            'default',
+            @branch_char_1,
+            'branch (1)[2]&,%.-3_4',
+            @branch_char_0,
+            'test_branch.latin-1',
+            'test-branch-00',
+               ].each do |bra|
+          nib0 = @adapter.nodes_in_branch(bra)
+          assert nib0
+          nib1 = @adapter.nodes_in_branch(bra, :limit => 1)
+          assert_equal 1, nib1.size
+          case bra
+            when 'branch (1)[2]&,%.-3_4'
+              assert_equal 3, nib0.size
+              assert_equal nib0[0], 'afc61e85bde7'
+              nib2 = @adapter.nodes_in_branch(bra, :limit => 2)
+              assert_equal 2, nib2.size
+              assert_equal nib2[1], '933ca60293d7'
+            when @branch_char_1
+              assert_equal 2, nib0.size
+              assert_equal nib0[1], '08ff3227303e'
+              nib2 = @adapter.nodes_in_branch(bra, :limit => 1)
+              assert_equal 1, nib2.size
+              assert_equal nib2[0], '7bbf4c738e71'
+          end
+        end
+      end
+
       private
 
       def test_hgversion_for(hgversion, version)
@@ -149,7 +334,7 @@ begin
       end
 
       def test_template_path_for(version, template)
-        assert_equal "#{TEMPLATES_DIR}/#{TEMPLATE_NAME}-#{template}.#{TEMPLATE_EXTENSION}",
+        assert_equal "#{HELPERS_DIR}/#{TEMPLATE_NAME}-#{template}.#{TEMPLATE_EXTENSION}",
                      @adapter.class.template_path_for(version)
         assert File.exist?(@adapter.class.template_path_for(version))
       end

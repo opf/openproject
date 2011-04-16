@@ -37,6 +37,7 @@ module Redmine
       'text/xml' => 'xml,xsd,mxml',
       'text/yaml' => 'yml,yaml',
       'text/csv' => 'csv',
+      'text/x-po' => 'po',
       'image/gif' => 'gif',
       'image/jpeg' => 'jpg,jpeg,jpe',
       'image/png' => 'png',

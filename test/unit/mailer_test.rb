@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,12 +20,13 @@ require File.expand_path('../../test_helper', __FILE__)
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionController::Assertions::SelectorAssertions
-  fixtures :projects, :enabled_modules, :issues, :users, :members, :member_roles, :roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
+  fixtures :all
   
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
+    Setting.plain_text_mail = '0'
   end
   
   def test_generated_links_in_emails
@@ -278,6 +279,9 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+    end
   end
   
   def test_project_file_added
@@ -285,6 +289,9 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
+    assert_select_email do
+      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+    end
   end
   
   def test_news_added
@@ -292,6 +299,14 @@ class MailerTest < ActiveSupport::TestCase
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert Mailer.deliver_news_added(news)
+    end
+  end
+  
+  def test_news_comment_added
+    comment = Comment.find(2)
+    valid_languages.each do |lang|
+      Setting.default_language = lang.to_s
+      assert Mailer.deliver_news_comment_added(comment)
     end
   end
   

@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,6 +38,11 @@ class TimeEntry < ActiveRecord::Base
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
+  
+  named_scope :visible, lambda {|*args| { 
+    :include => :project,
+    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries) 
+  }}
 
   def after_initialize
     if new_record? && self.activity.nil?
@@ -79,7 +84,9 @@ class TimeEntry < ActiveRecord::Base
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
   
+  # TODO: remove this method in 1.3.0
   def self.visible_by(usr)
+    ActiveSupport::Deprecation.warn "TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead."
     with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_time_entries) }) do
       yield
     end

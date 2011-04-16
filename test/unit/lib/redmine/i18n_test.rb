@@ -58,13 +58,36 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
   
+  def test_time_format
+    set_language_if_valid 'en'
+    now = Time.parse('2011-02-20 15:45:22')
+    with_settings :time_format => '%H:%M' do
+      with_settings :date_format => '' do
+        assert_equal '02/20/2011 15:45', format_time(now)
+        assert_equal '15:45', format_time(now, false)
+      end
+      
+      with_settings :date_format => '%Y-%m-%d' do
+        assert_equal '2011-02-20 15:45', format_time(now)
+        assert_equal '15:45', format_time(now, false)
+      end
+    end
+  end
+  
   def test_time_format_default
     set_language_if_valid 'en'
-    now = Time.now
-    Setting.date_format = ''
-    Setting.time_format = ''    
-    assert_equal I18n.l(now), format_time(now)
-    assert_equal I18n.l(now, :format => :time), format_time(now, false)
+    now = Time.parse('2011-02-20 15:45:22')
+    with_settings :time_format => '' do
+      with_settings :date_format => '' do
+        assert_equal '02/20/2011 03:45 pm', format_time(now)
+        assert_equal '03:45 pm', format_time(now, false)
+      end
+      
+      with_settings :date_format => '%Y-%m-%d' do
+        assert_equal '2011-02-20 03:45 pm', format_time(now)
+        assert_equal '03:45 pm', format_time(now, false)
+      end
+    end
   end
   
   def test_time_format

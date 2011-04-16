@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -216,14 +216,19 @@ class Query < ActiveRecord::Base
   
     if project
       # project specific filters
-      unless @project.issue_categories.empty?
-        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      categories = @project.issue_categories.all
+      unless categories.empty?
+        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => categories.collect{|s| [s.name, s.id.to_s] } }
       end
-      unless @project.shared_versions.empty?
-        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.shared_versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
+      versions = @project.shared_versions.all
+      unless versions.empty?
+        @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] } }
       end
-      unless @project.descendants.active.empty?
-        @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
+      unless @project.leaf?
+        subprojects = @project.descendants.visible.all
+        unless subprojects.empty?
+          @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => subprojects.collect{|s| [s.name, s.id.to_s] } }
+        end
       end
       add_custom_fields_filters(@project.all_issue_custom_fields)
     else
@@ -411,7 +416,7 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  Project.allowed_to_condition(User.current, :view_issues)
+    project_clauses <<  Issue.visible_condition(User.current)
     project_clauses.join(' AND ')
   end
 
@@ -636,6 +641,9 @@ class Query < ActiveRecord::Base
         options = { :type => :date, :order => 20 }
       when "bool"
         options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
+      when "user", "version"
+        next unless project
+        options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
       else
         options = { :type => :string, :order => 20 }
       end

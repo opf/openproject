@@ -159,9 +159,10 @@ class MailHandler < ActionMailer::Base
     # ignore CLI-supplied defaults for new issues
     @@handler_options[:issue].clear
     
-    journal = issue.init_journal(user, cleaned_up_text_body)
+    journal = issue.init_journal(user)
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
+    journal.notes = cleaned_up_text_body
     add_attachments(issue)
     issue.save!
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info

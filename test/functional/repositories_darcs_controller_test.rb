@@ -26,26 +26,25 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
 
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/darcs_repository'
+  PRJ_ID = 3
 
   def setup
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Darcs.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @project = Project.find(PRJ_ID)
+    @repository = Repository::Darcs.create(
+                        :project => @project, :url => REPOSITORY_PATH,
+                        :log_encoding => 'UTF-8')
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
-    def test_show
-      get :show, :id => 3
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
-    end
-    
     def test_browse_root
-      get :show, :id => 3
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -54,9 +53,11 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
     end
-    
+
     def test_browse_directory
-      get :show, :id => 3, :path => ['images']
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID, :path => ['images']
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -66,27 +67,31 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
     end
-    
+
     def test_browse_at_given_revision
-      Project.find(3).repository.fetch_changesets
-      get :show, :id => 3, :path => ['images'], :rev => 1
+      @repository.fetch_changesets
+      @repository.reload
+      get :show, :id => PRJ_ID, :path => ['images'], :rev => 1
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
     end
-    
+
     def test_changes
-      get :changes, :id => 3, :path => ['images', 'edit.png']
+      @repository.fetch_changesets
+      @repository.reload
+      get :changes, :id => PRJ_ID, :path => ['images', 'edit.png']
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
-  
+
     def test_diff
-      Project.find(3).repository.fetch_changesets
+      @repository.fetch_changesets
+      @repository.reload
       # Full diff of changeset 5
-      get :diff, :id => 3, :rev => 5
+      get :diff, :id => PRJ_ID, :rev => 5
       assert_response :success
       assert_template 'diff'
       # Line 22 removed

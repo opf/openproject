@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -87,6 +87,7 @@ class ActiveSupport::TestCase
     saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}
     yield
+  ensure
     saved_settings.each {|k, v| Setting[k] = v}
   end
 
@@ -107,6 +108,13 @@ class ActiveSupport::TestCase
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+  end
+  
+  # Returns the url of the subversion test repository
+  def self.subversion_repository_url
+    path = repository_path('subversion')
+    path = '/' + path unless path.starts_with?('/')
+    "file://#{path}"
   end
   
   # Returns true if the +vendor+ test repository is configured
@@ -416,7 +424,7 @@ class ActiveSupport::TestCase
   # Checks that the response is a valid JSON string
   def self.should_be_a_valid_json_string
     should "be a valid JSON string (or empty)" do
-      assert (response.body.blank? || ActiveSupport::JSON.decode(response.body))
+      assert(response.body.blank? || ActiveSupport::JSON.decode(response.body))
     end
   end
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -98,18 +98,11 @@ module Redmine
         common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months })
       end
 
-            ### Extracted from the HTML view/helpers
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
         return @number_of_rows if @number_of_rows
         
-        rows = if @project
-          number_of_rows_on_project(@project)
-        else
-          Project.roots.visible.has_module('issue_tracking').inject(0) do |total, project|
-            total += number_of_rows_on_project(project)
-          end
-        end
+        rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
 
         if @max_rows.present?
           rows > @max_rows ? @max_rows : rows
@@ -121,29 +114,10 @@ module Redmine
       # Returns the number of rows that will be used to list a project on
       # the Gantt chart.  This will recurse for each subproject.
       def number_of_rows_on_project(project)
-        # Remove the project requirement for Versions because it will
-        # restrict issues to only be on the current project.  This
-        # ends up missing issues which are assigned to shared versions.
-        @query.project = nil if @query.project
-
-        # One Root project
+        return 0 unless projects.include?(project)
         count = 1
-        # Issues without a Version
-        count += project.issues.for_gantt.without_version.with_query(@query).count
-
-        # Versions
-        count += project.versions.count
-
-        # Issues on the Versions
-        project.versions.each do |version|
-          count += version.fixed_issues.for_gantt.with_query(@query).count
-        end
-
-        # Subprojects
-        project.children.visible.has_module('issue_tracking').each do |subproject|
-          count += number_of_rows_on_project(subproject)
-        end
-
+        count += project_issues(project).size
+        count += project_versions(project).size
         count
       end
 
@@ -159,20 +133,60 @@ module Redmine
         @lines
       end
       
+      # Returns issues that will be rendered
+      def issues
+        @issues ||= @query.issues(
+          :include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+          :order => "#{Project.table_name}.lft ASC, #{Issue.table_name}.id ASC", 
+          :limit => @max_rows
+        )
+      end
+      
+      # Return all the project nodes that will be displayed
+      def projects
+        return @projects if @projects
+        
+        ids = issues.collect(&:project).uniq.collect(&:id)
+        if ids.any?
+          # All issues projects and their visible ancestors
+          @projects = Project.visible.all(
+            :joins => "LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt",
+            :conditions => ["child.id IN (?)", ids],
+            :order => "#{Project.table_name}.lft ASC"
+          ).uniq
+        else
+          @projects = []
+        end
+      end
+      
+      # Returns the issues that belong to +project+
+      def project_issues(project)
+        @issues_by_project ||= issues.group_by(&:project)
+        @issues_by_project[project] || []
+      end
+      
+      # Returns the distinct versions of the issues that belong to +project+
+      def project_versions(project)
+        project_issues(project).collect(&:fixed_version).compact.uniq
+      end
+      
+      # Returns the issues that belong to +project+ and are assigned to +version+
+      def version_issues(project, version)
+        project_issues(project).select {|issue| issue.fixed_version == version}
+      end
+      
       def render(options={})
-        options = {:indent => 4, :render => :subject, :format => :html}.merge(options)
+        options = {:top => 0, :top_increment => 20, :indent_increment => 20, :render => :subject, :format => :html}.merge(options)
+        indent = options[:indent] || 4
         
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
         @number_of_rows = 0
         
-        if @project
-          render_project(@project, options)
-        else
-          Project.roots.visible.has_module('issue_tracking').each do |project|
-            render_project(project, options)
-            break if abort?
-          end
+        Project.project_tree(projects) do |project, level|
+          options[:indent] = indent + level * options[:indent_increment]
+          render_project(project, options)
+          break if abort?
         end
         
         @subjects_rendered = true unless options[:only] == :lines
@@ -182,10 +196,6 @@ module Redmine
       end
 
       def render_project(project, options={})
-        options[:top] = 0 unless options.key? :top
-        options[:indent_increment] = 20 unless options.key? :indent_increment
-        options[:top_increment] = 20 unless options.key? :top_increment
-
         subject_for_project(project, options) unless options[:only] == :lines
         line_for_project(project, options) unless options[:only] == :subjects
         
@@ -194,25 +204,17 @@ module Redmine
         @number_of_rows += 1
         return if abort?
         
-        # Second, Issues without a version
-        issues = project.issues.for_gantt.without_version.with_query(@query).all(:limit => current_limit)
+        issues = project_issues(project).select {|i| i.fixed_version.nil?}
         sort_issues!(issues)
         if issues
           render_issues(issues, options)
           return if abort?
         end
-
-        # Third, Versions
-        project.versions.sort.each do |version|
-          render_version(version, options)
-          return if abort?
+        
+        versions = project_versions(project)
+        versions.each do |version|
+          render_version(project, version, options)
         end
-
-        # Fourth, subprojects
-        project.children.visible.has_module('issue_tracking').each do |project|
-          render_project(project, options)
-          return if abort?
-        end unless project.leaf?
 
         # Remove indent to hit the next sibling
         options[:indent] -= options[:indent_increment]
@@ -233,7 +235,7 @@ module Redmine
         options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
-      def render_version(version, options={})
+      def render_version(project, version, options={})
         # Version header
         subject_for_version(version, options) unless options[:only] == :lines
         line_for_version(version, options) unless options[:only] == :subjects
@@ -242,12 +244,7 @@ module Redmine
         @number_of_rows += 1
         return if abort?
         
-        # Remove the project requirement for Versions because it will
-        # restrict issues to only be on the current project.  This
-        # ends up missing issues which are assigned to shared versions.
-        @query.project = nil if @query.project
-        
-        issues = version.fixed_issues.for_gantt.with_query(@query).all(:limit => current_limit)
+        issues = version_issues(project, version)
         if issues
           sort_issues!(issues)
           # Indent issues
@@ -357,11 +354,11 @@ module Redmine
           subject = "<span class='#{css_classes}'>"
           if issue.assigned_to.present?
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string)
+            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string).to_s
           end
           subject << view.link_to_issue(issue)
           subject << '</span>'
-          html_subject(options, subject, :css => "issue-subject") + "\n"
+          html_subject(options, subject, :css => "issue-subject", :title => issue.subject) + "\n"
         when :image
           image_subject(options, issue.subject)
         when :pdf
@@ -514,14 +511,22 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
+        if ( current_language.to_s.downcase == 'ko'    ||
+             current_language.to_s.downcase == 'ja'    ||
+             current_language.to_s.downcase == 'zh'    ||
+             current_language.to_s.downcase == 'zh-tw' ||
+             current_language.to_s.downcase == 'th'    )
+          pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
+        else
+          pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
+        end
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
-        pdf.AliasNbPages
+        pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
         pdf.SetFontStyle('B',12)
         pdf.SetX(15)
-        pdf.Cell(PDF::LeftPaneWidth, 20, project.to_s)
+        pdf.RDMCell(PDF::LeftPaneWidth, 20, project.to_s)
         pdf.Ln
         pdf.SetFontStyle('B',9)
         
@@ -556,7 +561,7 @@ module Redmine
           width = ((month_f >> 1) - month_f) * zoom 
           pdf.SetY(y_start)
           pdf.SetX(left)
-          pdf.Cell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
+          pdf.RDMCell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
           left = left + width
           month_f = month_f >> 1
         end  
@@ -574,14 +579,14 @@ module Redmine
             width = (7 - self.date_from.cwday + 1) * zoom-1
             pdf.SetY(y_start + header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width + 1, height, "", "LTR")
+            pdf.RDMCell(width + 1, height, "", "LTR")
             left = left + width+1
           end
           while week_f <= self.date_to
             width = (week_f + 6 <= self.date_to) ? 7 * zoom : (self.date_to - week_f + 1) * zoom
             pdf.SetY(y_start + header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
+            pdf.RDMCell(width, height, (width >= 5 ? week_f.cweek.to_s : ""), "LTR", 0, "C")
             left = left + width
             week_f = week_f+7
           end
@@ -597,7 +602,7 @@ module Redmine
             width = zoom
             pdf.SetY(y_start + 2 * header_heigth)
             pdf.SetX(left)
-            pdf.Cell(width, height, day_name(wday).first, "LTR", 0, "C")
+            pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
             left = left + width
             wday = wday + 1
             wday = 1 if wday > 7
@@ -606,7 +611,7 @@ module Redmine
         
         pdf.SetY(y_start)
         pdf.SetX(15)
-        pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
+        pdf.RDMCell(subject_width+g_width-15, headers_heigth, "", 1)
         
         # Tasks
         top = headers_heigth + y_start
@@ -646,10 +651,10 @@ module Redmine
           end
         
           if progress
-            progress_date = start_date + (end_date - start_date) * (progress / 100.0)
+            progress_date = start_date + (end_date - start_date + 1) * (progress / 100.0)
             if progress_date > self.date_from && progress_date > start_date
               if progress_date < self.date_to
-                coords[:bar_progress_end] = progress_date - self.date_from + 1
+                coords[:bar_progress_end] = progress_date - self.date_from
               else
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end
@@ -713,9 +718,10 @@ module Redmine
       end
       
       def html_subject(params, subject, options={})
-        output = "<div class=' #{options[:css] }' style='position: absolute;line-height:1.2em;height:16px;top:#{params[:top]}px;left:#{params[:indent]}px;overflow:hidden;'>"
-        output << subject
-        output << "</div>"
+        style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
+        style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
+        
+        output = view.content_tag 'div', subject, :class => options[:css], :style => style, :title => options[:title]
         @subjects << output
         output
       end
@@ -725,11 +731,11 @@ module Redmine
         params[:pdf].SetX(15)
         
         char_limit = PDF::MaxCharactorsForSubject - params[:indent]
-        params[:pdf].Cell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+        params[:pdf].RDMCell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
       
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(params[:subject_width])
-        params[:pdf].Cell(params[:g_width], 5, "", "LR")
+        params[:pdf].RDMCell(params[:g_width], 5, "", "LR")
       end
       
       def image_subject(params, subject, options={})
@@ -786,19 +792,19 @@ module Redmine
           params[:pdf].SetY(params[:top]+1.5)
           params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
           params[:pdf].SetFillColor(200,200,200)
-          params[:pdf].Cell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          params[:pdf].RDMCell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
             
           if coords[:bar_late_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(255,100,100)
-            params[:pdf].Cell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
           if coords[:bar_progress_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(90,200,90)
-            params[:pdf].Cell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
         end
         # Renders the markers
@@ -807,19 +813,19 @@ module Redmine
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
             params[:pdf].SetFillColor(50,50,200)
-            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+            params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1) 
           end
           if coords[:end]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:end] - 1)
             params[:pdf].SetFillColor(50,50,200)
-            params[:pdf].Cell(2, 2, "", 0, 0, "", 1) 
+            params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1) 
           end
         end
         # Renders the label on the right
         if options[:label]
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
-          params[:pdf].Cell(30, 2, options[:label])
+          params[:pdf].RDMCell(30, 2, options[:label])
         end
       end
 

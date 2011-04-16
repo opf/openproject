@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,9 +22,9 @@ class Redmine::NotifiableTest < ActiveSupport::TestCase
   end
 
   def test_all
-    assert_equal 11, Redmine::Notifiable.all.length
+    assert_equal 12, Redmine::Notifiable.all.length
 
-    %w(issue_added issue_updated issue_note_added issue_status_updated issue_priority_updated news_added document_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
+    %w(issue_added issue_updated issue_note_added issue_status_updated issue_priority_updated news_added news_comment_added document_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
       assert Redmine::Notifiable.all.collect(&:name).include?(notifiable), "missing #{notifiable}"
     end
   end

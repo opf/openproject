@@ -39,17 +39,22 @@ module Redmine
             @@client_version ||= (svn_binary_version || [])
           end
 
+          def client_available
+            !client_version.empty?
+          end
+
           def svn_binary_version
-            cmd = "#{sq_bin} --version"
-            version = nil
-            shellout(cmd) do |io|
-              # Read svn version in first returned line
-              if m = io.read.to_s.match(%r{\A(.*?)((\d+\.)+\d+)})
-                version = m[2].scan(%r{\d+}).collect(&:to_i)
-              end
+            scm_version = scm_version_from_command_line.dup
+            if scm_version.respond_to?(:force_encoding)
+              scm_version.force_encoding('ASCII-8BIT')
             end
-            return nil if $? && $?.exitstatus != 0
-            version
+            if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
+            end
+          end
+
+          def scm_version_from_command_line
+            shellout("#{sq_bin} --version") { |io| io.read }.to_s
           end
         end
 
@@ -60,6 +65,9 @@ module Redmine
           info = nil
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               #root_url = doc.elements["info/entry/repository/root"].text          
@@ -89,6 +97,9 @@ module Redmine
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['lists']['list'], 'entry') do |entry|
@@ -129,6 +140,9 @@ module Redmine
           properties = {}
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
@@ -153,6 +167,9 @@ module Redmine
           cmd << ' ' + target(path)
           shellout(cmd) do |io|
             output = io.read
+            if output.respond_to?(:force_encoding)
+              output.force_encoding('UTF-8')
+            end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
               each_xml_element(doc['log'], 'logentry') do |logentry|
@@ -183,6 +200,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil, type="inline")
           path ||= ''
           identifier_from = (identifier_from and identifier_from.to_i > 0) ? identifier_from.to_i : ''
+
           identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : (identifier_from.to_i - 1)
 
           cmd = "#{self.class.sq_bin} diff -r "

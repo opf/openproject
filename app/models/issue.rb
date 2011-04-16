@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ class Issue < ActiveRecord::Base
   validates_numericality_of :estimated_hours, :allow_nil => true
 
   named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+                                          :conditions => Issue.visible_condition(args.first || User.current) } }
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
@@ -68,11 +68,6 @@ class Issue < ActiveRecord::Base
   named_scope :with_limit, lambda { |limit| { :limit => limit} }
   named_scope :on_active_project, :include => [:status, :project, :tracker],
                                   :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
-  named_scope :for_gantt, lambda {
-    {
-      :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version]
-    }
-  }
 
   named_scope :without_version, lambda {
     {
@@ -91,6 +86,11 @@ class Issue < ActiveRecord::Base
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
   after_destroy :update_parent_attributes
   
+  # Returns a SQL conditions string used to find all issues visible by the specified user
+  def self.visible_condition(user, options={})
+    Project.allowed_to_condition(user, :view_issues, options)
+  end
+
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project)
@@ -106,7 +106,7 @@ class Issue < ActiveRecord::Base
   
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && tracker) ? project.all_issue_custom_fields.select {|c| tracker.custom_fields.include? c } : []
+    (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
   end
   
   def copy_from(arg)
@@ -422,7 +422,12 @@ class Issue < ActiveRecord::Base
   
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
-    statuses = status.find_new_statuses_allowed_to(user.roles_for_project(project), tracker)
+    statuses = status.find_new_statuses_allowed_to(
+      user.roles_for_project(project),
+      tracker,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+      )
     statuses << status unless statuses.empty?
     statuses << IssueStatus.default if include_default
     statuses = statuses.uniq.sort
@@ -455,11 +460,11 @@ class Issue < ActiveRecord::Base
     (relations_from + relations_to).sort
   end
   
-  def all_dependent_issues(except=nil)
-    except ||= self
+  def all_dependent_issues(except=[])
+    except << self
     dependencies = []
     relations_from.each do |relation|
-      if relation.issue_to && relation.issue_to != except
+      if relation.issue_to && !except.include?(relation.issue_to) 
         dependencies << relation.issue_to
         dependencies += relation.issue_to.all_dependent_issues(except)
       end
@@ -527,6 +532,8 @@ class Issue < ActiveRecord::Base
     s = "issue status-#{status.position} priority-#{priority.position}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
+    s << ' child' if child?
+    s << ' parent' unless leaf?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
@@ -536,7 +543,7 @@ class Issue < ActiveRecord::Base
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
     Issue.transaction do
-      if params[:time_entry] && params[:time_entry][:hours].present? && User.current.allowed_to?(:log_time, project)
+      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
         @time_entry.issue = self
@@ -824,7 +831,7 @@ class Issue < ActiveRecord::Base
   def create_journal
     if @current_journal
       # attributes changes
-      (Issue.column_names - %w(id description root_id lft rgt lock_version created_on updated_on)).each {|c|
+      (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),

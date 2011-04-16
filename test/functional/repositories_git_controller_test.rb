@@ -33,20 +33,18 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    @repository = Repository::Git.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @repository = Repository::Git.create(
+                      :project => Project.find(3),
+                      :url     => REPOSITORY_PATH,
+                      :path_encoding => 'ISO-8859-1'
+                      )
     assert @repository
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_show
-      get :show, :id => 3
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
-    end
-    
     def test_browse_root
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3
       assert_response :success
       assert_template 'show'
@@ -61,9 +59,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'renamed_test.txt' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == 'filemane with spaces.txt' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == ' filename with a leading space.txt ' && e.kind == 'file'}
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_browse_branch
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :rev => 'test_branch'
       assert_response :success
       assert_template 'show'
@@ -73,9 +75,30 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'sources' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'README' && e.kind == 'file'}
       assert assigns(:entries).detect {|e| e.name == 'test.txt' && e.kind == 'file'}
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
+    end
+
+    def test_browse_tag
+      @repository.fetch_changesets
+      @repository.reload
+       [
+        "tag00.lightweight",
+        "tag01.annotated",
+       ].each do |t1|
+        get :show, :id => 3, :rev => t1
+        assert_response :success
+        assert_template 'show'
+        assert_not_nil assigns(:entries)
+        assigns(:entries).size > 0
+        assert_not_nil assigns(:changesets)
+        assigns(:changesets).size > 0
+      end
     end
 
     def test_browse_directory
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :path => ['images']
       assert_response :success
       assert_template 'show'
@@ -85,14 +108,20 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_not_nil entry
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
-    
+
     def test_browse_at_given_revision
+      @repository.fetch_changesets
+      @repository.reload
       get :show, :id => 3, :path => ['images'], :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png'], assigns(:entries).collect(&:name)
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
 
     def test_changes
@@ -101,7 +130,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
-    
+
     def test_entry_show
       get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -112,14 +141,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  :attributes => { :class => /line-num/ },
                  :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
     end
-    
+
     def test_entry_download
       get :entry, :id => 3, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
-  
+
     def test_directory_entry
       get :entry, :id => 3, :path => ['sources']
       assert_response :success
@@ -183,7 +212,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       get :annotate, :id => 3, :path => ['images', 'edit.png']
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                                :content => /can not be annotated/
+                              :content => /cannot be annotated/
     end
 
     def test_revision

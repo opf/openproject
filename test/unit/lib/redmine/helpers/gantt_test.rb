@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -95,26 +95,14 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     setup do
       create_gantt
     end
-    
-    should "clear the @query.project so cross-project issues and versions can be counted" do
-      assert @gantt.query.project
-      @gantt.number_of_rows_on_project(@project)
-      assert_nil @gantt.query.project
-    end
 
-    should "count 1 for the project itself" do
-      assert_equal 1, @gantt.number_of_rows_on_project(@project)
+    should "count 0 for an empty the project" do
+      assert_equal 0, @gantt.number_of_rows_on_project(@project)
     end
 
     should "count the number of issues without a version" do
       @project.issues << Issue.generate_for_project!(@project, :fixed_version => nil)
       assert_equal 2, @gantt.number_of_rows_on_project(@project)
-    end
-
-    should "count the number of versions" do
-      @project.versions << Version.generate!
-      @project.versions << Version.generate!
-      assert_equal 3, @gantt.number_of_rows_on_project(@project)
     end
 
     should "count the number of issues on versions, including cross-project" do
@@ -123,21 +111,6 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       @project.issues << Issue.generate_for_project!(@project, :fixed_version => version)
       
       assert_equal 3, @gantt.number_of_rows_on_project(@project)
-    end
-    
-    should "recursive and count the number of rows on each subproject" do
-      @project.versions << Version.generate! # +1
-
-      @subproject = Project.generate!(:enabled_module_names => ['issue_tracking']) # +1
-      @subproject.set_parent!(@project)
-      @subproject.issues << Issue.generate_for_project!(@subproject) # +1
-      @subproject.issues << Issue.generate_for_project!(@subproject) # +1
-
-      @subsubproject = Project.generate!(:enabled_module_names => ['issue_tracking']) # +1
-      @subsubproject.set_parent!(@subproject)
-      @subsubproject.issues << Issue.generate_for_project!(@subsubproject) # +1
-
-      assert_equal 7, @gantt.number_of_rows_on_project(@project) # +1 for self
     end
   end
 
@@ -183,6 +156,18 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         @response.body = @gantt.subjects
         assert_select "div.version-name[style*=left:24px]"
       end
+      
+      context "without assigned issues" do
+        setup do
+          @version = Version.generate!(:effective_date => 2.week.from_now.to_date, :sharing => 'none', :name => 'empty_version')
+          @project.versions << @version
+        end
+      
+        should "not be rendered" do
+          @response.body = @gantt.subjects
+          assert_select "div.version-name a", :text => /#{@version.name}/, :count => 0
+        end
+      end
     end
   
     context "issue" do
@@ -194,6 +179,31 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       should "be indented 44 (two levels)" do
         @response.body = @gantt.subjects
         assert_select "div.issue-subject[style*=left:44px]"
+      end
+      
+      context "assigned to a shared version of another project" do
+        setup do
+          p = Project.generate!
+          p.trackers << @tracker
+          p.enabled_module_names = [:issue_tracking]
+          @shared_version = Version.generate!(:sharing => 'system')
+          p.versions << @shared_version
+          # Reassign the issue to a shared version of another project
+          
+          @issue = Issue.generate!(:fixed_version => @shared_version,
+                                   :subject => "gantt#assigned_to_shared_version",
+                                   :tracker => @tracker,
+                                   :project => @project,
+                                   :done_ratio => 30,
+                                   :start_date => Date.yesterday,
+                                   :due_date => 1.week.from_now.to_date)
+          @project.issues << @issue
+        end
+        
+        should "be rendered" do
+          @response.body = @gantt.subjects
+          assert_select "div.issue-subject", /#{@issue.subject}/
+        end
       end
       
       context "with subtasks" do
@@ -537,9 +547,9 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.version.task_done[style*=left:28px]", true, @response.body
         end
 
-        should "Be the total done width of the version"  do
+        should "be the total done width of the version"  do
           @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_done[style*=width:18px]", true, @response.body
+          assert_select "div.version.task_done[style*=width:16px]", true, @response.body
         end
       end
 
@@ -697,9 +707,10 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.task_done[style*=left:28px]", true, @response.body
         end
 
-        should "Be the total done width of the issue"  do
+        should "be the total done width of the issue"  do
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=width:18px]", true, @response.body
+          # 15 days * 4 px * 30% - 2 px for borders = 16 px
+          assert_select "div.task_done[style*=width:16px]", true, @response.body
         end
 
         should "not be the total done width if the chart starts after issue start date"  do
@@ -707,7 +718,24 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task_done[style*=left:0px]", true, @response.body
-          assert_select "div.task_done[style*=width:10px]", true, @response.body
+          assert_select "div.task_done[style*=width:8px]", true, @response.body
+        end
+        
+        context "for completed issue" do
+          setup do
+            @issue.done_ratio = 100
+          end
+
+          should "be the total width of the issue"  do
+            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:58px]", true, @response.body
+          end
+  
+          should "be the total width of the issue with due_date=start_date"  do
+            @issue.due_date = @issue.start_date
+            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:2px]", true, @response.body
+          end
         end
       end
 

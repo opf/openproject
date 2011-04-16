@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,11 +57,12 @@ module IssuesHelper
     
   def render_issue_subject_with_tree(issue)
     s = ''
-    issue.ancestors.each do |ancestor|
+    ancestors = issue.root? ? [] : issue.ancestors.all
+    ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor))
     end
     s << '<div>' + content_tag('h3', h(issue.subject))
-    s << '</div>' * (issue.ancestors.size + 1)
+    s << '</div>' * (ancestors.size + 1)
     s
   end
   
@@ -106,11 +107,30 @@ module IssuesHelper
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
       @sidebar_queries = Query.find(:all, 
-                                    :select => 'id, name',
+                                    :select => 'id, name, is_public',
                                     :order => "name ASC",
                                     :conditions => visible.conditions)
     end
     @sidebar_queries
+  end
+
+  def query_links(title, queries)
+    # links to #index on issues/show
+    url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : params
+  
+    content_tag('h3', title) +
+      queries.collect {|query|
+          link_to(h(query.name), url_params.merge(:query_id => query))
+        }.join('<br />')
+  end
+  
+  def render_sidebar_queries
+    out = ''
+    queries = sidebar_queries.select {|q| !q.is_public?}
+    out << query_links(l(:label_my_queries), queries) if queries.any?
+    queries = sidebar_queries.select {|q| q.is_public?}
+    out << query_links(l(:label_query_plural), queries) if queries.any?
+    out
   end
 
   def show_detail(detail, no_html=false)
@@ -164,7 +184,16 @@ module IssuesHelper
       end
     end
     
-    if !detail.value.blank?
+    if detail.property == 'attr' && detail.prop_key == 'description'
+      s = l(:text_journal_changed_no_detail, :label => label)
+      unless no_html
+        diff_link = link_to 'diff', 
+          {:controller => 'journals', :action => 'diff', :id => detail.journal_id, :detail_id => detail.id},
+          :title => l(:label_view_diff)
+        s << " (#{ diff_link })"
+      end
+      s
+    elsif !detail.value.blank?
       case detail.property
       when 'attr', 'cf'
         if !detail.old_value.blank?

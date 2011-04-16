@@ -288,6 +288,22 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
   
+  def test_create_should_preserve_modules_on_validation_failure
+    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+      @request.session[:user_id] = 1
+      assert_no_difference 'Project.count' do
+        post :create, :project => {
+          :name => "blog",
+          :identifier => "",
+          :enabled_module_names => %w(issue_tracking news)
+        }
+      end
+      assert_response :success
+      project = assigns(:project)
+      assert_equal %w(issue_tracking news), project.enabled_module_names.sort
+    end
+  end
+  
   def test_create_should_not_accept_get
     @request.session[:user_id] = 1
     get :create

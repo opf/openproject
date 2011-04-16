@@ -107,7 +107,8 @@ table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%;
 table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
 table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
-table.list td.checkbox { width: 15px; padding: 0px;}
+table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
+table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
@@ -171,7 +172,7 @@ tr.message.sticky td.subject { background: url(../images/bullet_go.png) no-repea
 tr.version.closed, tr.version.closed a { color: #999; }
 tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
-tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; }
+tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 tr.user td { width:13%; }
 tr.user td.email { width:18%; }
@@ -194,6 +195,9 @@ table.plugins span.url { display: block; font-size: 0.9em; }
 
 table.list tbody tr.group td { padding: 0.8em 0 0.5em 0.3em; font-weight: bold; border-bottom: 1px solid #ccc; }
 table.list tbody tr.group span.count { color: #aaa; font-size: 80%; }
+tr.group a.toggle-all { color: #aaa; font-size: 80%; font-weight: normal; display:none;}
+tr.group:hover a.toggle-all { display:inline;}
+a.toggle-all:hover {text-decoration:none;}
 
 table.list tbody tr:hover { background-color:#ffffdd; }
 table.list tbody tr.group:hover { background-color:inherit; }
@@ -370,6 +374,8 @@ ul.properties li span {font-style:italic;}
 
 #workflow_copy_form select { width: 200px; }
 
+textarea#custom_field_possible_values {width: 99%} 
+
 .pagination {font-size: 90%}
 p.pagination {margin-top:8px;}
 
@@ -424,7 +430,7 @@ input#time_entry_comments { width: 90%;}
 .tabular.settings textarea { width: 99%; }
 
 fieldset.settings label { display: block; }
-.parent { padding-left: 20px; }
+fieldset#notified_events .parent { padding-left: 20px; }
 
 .required {color: #bb0000;}
 .summary {font-style: italic;}
@@ -673,7 +679,16 @@ div.autocomplete ul li span.informal {
 
 /***** Diff *****/
 .diff_out { background: #fcc; }
+.diff_out span { background: #faa; }
 .diff_in { background: #cfc; }
+.diff_in span { background: #afa; }
+
+.text-diff {
+padding: 1em;
+background-color:#f6f6f6;
+color:#505050;
+border: 1px solid #e4e4e4;
+}
 
 /***** Wiki *****/
 div.wiki table {
@@ -785,6 +800,7 @@ background-image:url('../images/close_hl.png');
 }
 
 .gantt_subjects { font-size: 0.8em; }
+.gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
 
 .task {
   position: absolute;
@@ -793,7 +809,7 @@ background-image:url('../images/close_hl.png');
   color:#888;
   padding:0;
   margin:0;
-  line-height:0.8em;
+  line-height:16px;
   white-space:nowrap;
 }
 
@@ -950,4 +966,7 @@ h2 img { vertical-align:middle; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
 	#wiki_add_attachment { display:none; }
   .hide-when-print { display: none; }
+	.autoscroll {overflow-x: visible;}
+	table.list {margin-top:0.5em;}
+	table.list th, table.list td {border: 1px solid #aaa;}
 }

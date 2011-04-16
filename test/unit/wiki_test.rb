@@ -20,7 +20,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WikiTest < ActiveSupport::TestCase
-  fixtures :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
+  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
   
   def test_create
     wiki = Wiki.new(:project => Project.find(2))
@@ -49,6 +49,9 @@ class WikiTest < ActiveSupport::TestCase
     
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика_менеджмента')
+    
+    page = WikiPage.generate!(:wiki => wiki, :title => '2009\\02\\09')
+    assert_equal page, wiki.find_page('2009\\02\\09')
   end
   
   def test_titleize

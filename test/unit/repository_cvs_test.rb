@@ -28,9 +28,11 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   
   def setup
     @project = Project.find(3)
-    assert @repository = Repository::Cvs.create(:project => @project, 
-                                                :root_url => REPOSITORY_PATH,
-                                                :url => MODULE_NAME)
+    @repository = Repository::Cvs.create(:project => @project, 
+                                         :root_url => REPOSITORY_PATH,
+                                         :url => MODULE_NAME,
+                                         :log_encoding => 'UTF-8')
+    assert @repository
   end
   
   if File.directory?(REPOSITORY_PATH)  
@@ -86,6 +88,18 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       entries = @repository.entries('sources')
       assert entries.detect {|e| e.name == 'watchers_controller.rb'}
       assert_nil entries.detect {|e| e.name == 'welcome_controller.rb'}
+    end
+
+    def test_entries_rev3
+      @repository.fetch_changesets
+      @repository.reload
+      entries = @repository.entries('', '3')
+      assert_equal 3, entries.size
+      assert_equal entries[2].name, "README"
+      assert_equal entries[2].lastrev.time, Time.gm(2007, 12, 13, 16, 27, 22)
+      assert_equal entries[2].lastrev.identifier, '3'
+      assert_equal entries[2].lastrev.revision, '3'
+      assert_equal entries[2].lastrev.author, 'LANG'
     end
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"

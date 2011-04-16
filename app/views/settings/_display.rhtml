@@ -5,7 +5,7 @@
 
 <p><%= setting_select :default_language, lang_options_for_select(false) %></p>
 
-<p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(7),'7']], :blank => :label_language_based %></p>
+<p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], :blank => :label_language_based %></p>
 
 <p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, :blank => :label_language_based %></p>
 
@@ -15,7 +15,7 @@
 
 <p><%= setting_check_box :gravatar_enabled %></p>
 
-<p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", "retro"]], :blank => :label_none %></p>
+<p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

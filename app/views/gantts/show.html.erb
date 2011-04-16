@@ -1,11 +1,11 @@
 <% @gantt.view = self %>
-<h2><%= l(:label_gantt) %></h2>
+<h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 
 <% form_tag(gantt_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :put, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
-<fieldset id="filters" class="collapsible">
+<fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-	<div>
+	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
@@ -23,16 +23,16 @@
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
 <%= link_to_remote l(:button_apply), 
-                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) },
+                   { :url => { :set_filter => 1 },
                      :update => "content",
                      :with => "Form.serialize('query_form')"
                    }, :class => 'icon icon-checked' %>
                    
 <%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   { :url => { :project_id => @project, :set_filter => 1 }, 
                    	 :method => :put,
                      :update => "content",
-                   }, :class => 'icon icon-reload' if @query.new_record? %>
+                   }, :class => 'icon icon-reload' %>
 </p>
 <% end %>
 
@@ -60,7 +60,7 @@ end
 # Width of the entire chart    
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
 
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
@@ -178,8 +178,8 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 
 <table width="100%">
 <tr>
-<td align="left"><%= link_to_remote ('&#171; ' + l(:label_previous)), {:url => @gantt.params_previous, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_previous)} %></td>
-<td align="right"><%= link_to_remote (l(:label_next) + ' &#187;'), {:url => @gantt.params_next, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_next)} %></td>
+<td align="left"><%= link_to_content_update('&#171; ' + l(:label_previous), params.merge(@gantt.params_previous)) %></td>
+<td align="right"><%= link_to_content_update(l(:label_next) + ' &#187;', params.merge(@gantt.params_next)) %></td>
 </tr>
 </table>
 

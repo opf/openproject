@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,6 +40,12 @@ class WikiPage < ActiveRecord::Base
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
+  
+  # eager load information about last updates, without loading text
+  named_scope :with_updated_on, {
+    :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
+  }
   
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
@@ -121,6 +127,18 @@ class WikiPage < ActiveRecord::Base
     content.text if content
   end
   
+  def updated_on
+    unless @updated_on
+      if time = read_attribute(:updated_on)
+        # content updated_on was eager loaded with the page
+        @updated_on = Time.parse(time) rescue nil
+      else
+        @updated_on = content && content.updated_on
+      end
+    end
+    @updated_on
+  end
+  
   # Returns true if usr is allowed to edit the page, otherwise false
   def editable_by?(usr)
     !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
@@ -149,17 +167,13 @@ class WikiPage < ActiveRecord::Base
   end
 end
 
-class WikiDiff
-  attr_reader :diff, :words, :content_to, :content_from
+class WikiDiff < Redmine::Helpers::Diff
+  attr_reader :content_to, :content_from
   
   def initialize(content_to, content_from)
     @content_to = content_to
     @content_from = content_from
-    @words = content_to.text.split(/(\s+)/)
-    @words = @words.select {|word| word != ' '}
-    words_from = content_from.text.split(/(\s+)/)
-    words_from = words_from.select {|word| word != ' '}    
-    @diff = words_from.diff @words
+    super(content_to.text, content_from.text)
   end
 end
 

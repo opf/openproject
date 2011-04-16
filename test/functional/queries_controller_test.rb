@@ -64,9 +64,9 @@ class QueriesControllerTest < ActionController::TestCase
          :project_id => 'ecookbook', 
          :confirm => '1',
          :default_columns => '1',
-         :fields => ["status_id", "assigned_to_id"],
-         :operators => {"assigned_to_id" => "=", "status_id" => "o"},
-         :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
+         :f => ["status_id", "assigned_to_id"],
+         :op => {"assigned_to_id" => "=", "status_id" => "o"},
+         :v => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
          :query => {"name" => "test_new_project_public_query", "is_public" => "1"}
          
     q = Query.find_by_name('test_new_project_public_query')
@@ -101,7 +101,8 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_global_private_query", "is_public" => "1", "column_names" => ["", "tracker", "subject", "priority", "category"]}
+         :query => {"name" => "test_new_global_private_query", "is_public" => "1"},
+         :c => ["", "tracker", "subject", "priority", "category"]
          
     q = Query.find_by_name('test_new_global_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q

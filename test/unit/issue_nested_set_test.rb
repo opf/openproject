@@ -223,6 +223,16 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [issue1.id, 2, 3], [issue4.root_id, issue4.lft, issue4.rgt]
   end
   
+  def test_destroy_parent_issue_updated_during_children_destroy
+    parent = create_issue!
+    create_issue!(:start_date => Date.today, :parent_issue_id => parent.id)
+    create_issue!(:start_date => 2.days.from_now, :parent_issue_id => parent.id)
+    
+    assert_difference 'Issue.count', -3 do
+      Issue.find(parent.id).destroy
+    end
+  end
+  
   def test_destroy_child_issue_with_children
     root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root')
     child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id)

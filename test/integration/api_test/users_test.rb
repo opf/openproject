@@ -141,7 +141,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
             
           assert_response :unprocessable_entity
           assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "Firstname can't be blank"}
+          assert_tag 'errors', :child => {:tag => 'error', :content => "First name can't be blank"}
         end
       end
       
@@ -226,7 +226,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
             
           assert_response :unprocessable_entity
           assert_equal 'application/xml', @response.content_type
-          assert_tag 'errors', :child => {:tag => 'error', :content => "Firstname can't be blank"}
+          assert_tag 'errors', :child => {:tag => 'error', :content => "First name can't be blank"}
         end
       end
       

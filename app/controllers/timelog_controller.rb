@@ -40,60 +40,56 @@ class TimelogController < ApplicationController
                 'hours' => 'hours'
     
     cond = ARCondition.new
-    if @project.nil?
-      cond << Project.allowed_to_condition(User.current, :view_time_entries)
-    elsif @issue.nil?
-      cond << @project.project_condition(Setting.display_subprojects_issues?)
-    else
+    if @issue
       cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+    elsif @project
+      cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
     
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
-    TimeEntry.visible_by(User.current) do
-      respond_to do |format|
-        format.html {
-          # Paginate results
-          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
-          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => :tracker}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause,
-                                    :limit  =>  @entry_pages.items_per_page,
-                                    :offset =>  @entry_pages.current.offset)
-          @total_hours = TimeEntry.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
+    respond_to do |format|
+      format.html {
+        # Paginate results
+        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entries = TimeEntry.visible.find(:all, 
+                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause,
+                                  :limit  =>  @entry_pages.items_per_page,
+                                  :offset =>  @entry_pages.current.offset)
+        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
 
-          render :layout => !request.xhr?
-        }
-        format.api  {
-          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
-          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => :tracker}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause,
-                                    :limit  =>  @entry_pages.items_per_page,
-                                    :offset =>  @entry_pages.current.offset)
-        }
-        format.atom {
-          entries = TimeEntry.find(:all,
-                                   :include => [:project, :activity, :user, {:issue => :tracker}],
-                                   :conditions => cond.conditions,
-                                   :order => "#{TimeEntry.table_name}.created_on DESC",
-                                   :limit => Setting.feeds_limit.to_i)
-          render_feed(entries, :title => l(:label_spent_time))
-        }
-        format.csv {
-          # Export all entries
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause)
-          send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
-        }
-      end
+        render :layout => !request.xhr?
+      }
+      format.api  {
+        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entries = TimeEntry.visible.find(:all, 
+                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause,
+                                  :limit  =>  @entry_pages.items_per_page,
+                                  :offset =>  @entry_pages.current.offset)
+      }
+      format.atom {
+        entries = TimeEntry.visible.find(:all,
+                                 :include => [:project, :activity, :user, {:issue => :tracker}],
+                                 :conditions => cond.conditions,
+                                 :order => "#{TimeEntry.table_name}.created_on DESC",
+                                 :limit => Setting.feeds_limit.to_i)
+        render_feed(entries, :title => l(:label_spent_time))
+      }
+      format.csv {
+        # Export all entries
+        @entries = TimeEntry.visible.find(:all, 
+                                  :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause)
+        send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+      }
     end
   end
   

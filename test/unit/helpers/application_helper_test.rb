@@ -292,7 +292,9 @@ RAW
       'commit:20080308225258-98289-abcd456efg.gz' => changeset_link,
      }
     @project = Project.find(3)
-    r = Repository::Darcs.create!(:project => @project, :url => '/tmp/test/darcs')
+    r = Repository::Darcs.create!(
+            :project => @project, :url => '/tmp/test/darcs',
+            :log_encoding => 'UTF-8')
     assert r
     c = Changeset.new(:repository => r,
                       :committed_on => Time.now,
@@ -524,6 +526,13 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
   
+  def test_headings
+    raw = 'h1. Some heading'
+    expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
+    
+    assert_equal expected, textilizable(raw)
+  end
+  
   def test_table_of_content
     raw = <<-RAW
 {{toc}}
@@ -598,111 +607,6 @@ RAW
 
     @project = Project.find(1)
     assert textilizable(raw).gsub("\n", "").include?(expected)
-  end
-  
-  def test_blockquote
-    # orig raw text
-    raw = <<-RAW
-John said:
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-> Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-> * Donec odio lorem,
-> * sagittis ac,
-> * malesuada in,
-> * adipiscing eu, dolor.
->
-> >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
-> Proin a tellus. Nam vel neque.
-
-He's right.
-RAW
-    
-    # expected html
-    expected = <<-EXPECTED
-<p>John said:</p>
-<blockquote>
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-<ul>
-  <li>Donec odio lorem,</li>
-  <li>sagittis ac,</li>
-  <li>malesuada in,</li>
-  <li>adipiscing eu, dolor.</li>
-</ul>
-<blockquote>
-<p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
-</blockquote>
-<p>Proin a tellus. Nam vel neque.</p>
-</blockquote>
-<p>He's right.</p>
-EXPECTED
-    
-    assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
-  end
-  
-  def test_table
-    raw = <<-RAW
-This is a table with empty cells:
-
-|cell11|cell12||
-|cell21||cell23|
-|cell31|cell32|cell33|
-RAW
-
-    expected = <<-EXPECTED
-<p>This is a table with empty cells:</p>
-
-<table>
-  <tr><td>cell11</td><td>cell12</td><td></td></tr>
-  <tr><td>cell21</td><td></td><td>cell23</td></tr>
-  <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
-</table>
-EXPECTED
-
-    assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
-  end
-  
-  def test_table_with_line_breaks
-    raw = <<-RAW
-This is a table with line breaks:
-
-|cell11
-continued|cell12||
-|-cell21-||cell23
-cell23 line2
-cell23 *line3*|
-|cell31|cell32
-cell32 line2|cell33|
-
-RAW
-
-    expected = <<-EXPECTED
-<p>This is a table with line breaks:</p>
-
-<table>
-  <tr>
-    <td>cell11<br />continued</td>
-    <td>cell12</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><del>cell21</del></td>
-    <td></td>
-    <td>cell23<br/>cell23 line2<br/>cell23 <strong>line3</strong></td>
-  </tr>
-  <tr>
-    <td>cell31</td>
-    <td>cell32<br/>cell32 line2</td>
-    <td>cell33</td>
-  </tr>
-</table>
-EXPECTED
-
-    assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
-  end
-  
-  def test_textile_should_not_mangle_brackets
-    assert_equal '<p>[msg1][msg2]</p>', textilizable('[msg1][msg2]')
   end
   
   def test_default_formatter

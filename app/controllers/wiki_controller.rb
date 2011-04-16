@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -44,7 +44,14 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    load_pages_grouped_by_date_without_content
+    load_pages_for_index
+    @pages_by_parent_id = @pages.group_by(&:parent_id)
+  end
+  
+  # List of page, by last update
+  def date_index
+    load_pages_for_index
+    @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
   end
 
   # display a page (in editing mode if it doesn't exist)
@@ -93,9 +100,6 @@ class WikiController < ApplicationController
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.version = @page.content.version
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
@@ -131,7 +135,8 @@ class WikiController < ApplicationController
 
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = l(:notice_locking_conflict)
+    render :action => 'edit'
   end
 
   # rename a page
@@ -215,10 +220,6 @@ class WikiController < ApplicationController
       redirect_to :action => 'show', :project_id => @project, :id => nil
     end
   end
-
-  def date_index
-    load_pages_grouped_by_date_without_content
-  end
   
   def preview
     page = @wiki.find_page(params[:id])
@@ -266,14 +267,8 @@ private
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
-
-  # eager load information about last updates, without loading text
-  def load_pages_grouped_by_date_without_content
-    @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
-                                    :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
-                                    :order => 'title'
-    @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
-    @pages_by_parent_id = @pages.group_by(&:parent_id)
-  end
   
+  def load_pages_for_index
+    @pages = @wiki.pages.with_updated_on.all(:order => 'title', :include => {:wiki => :project})
+  end
 end

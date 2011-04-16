@@ -11,7 +11,7 @@ ContextMenu.prototype = {
 
 	if (!observingContextMenuClick) {
 		Event.observe(document, 'click', this.Click.bindAsEventListener(this));
-		Event.observe(document, (window.opera ? 'click' : 'contextmenu'), this.RightClick.bindAsEventListener(this));
+		Event.observe(document, 'contextmenu', this.RightClick.bindAsEventListener(this));
 		observingContextMenuClick = true;
 	}
 	
@@ -23,8 +23,6 @@ ContextMenu.prototype = {
 		this.hideMenu();
 		// do not show the context menu on links
 		if (Event.element(e).tagName == 'A') { return; }
-		// right-click simulated by Alt+Click with Opera
-		if (window.opera && !e.altKey) { return; }
 		var tr = Event.findElement(e, 'tr');
 		if (tr == document || tr == undefined  || !tr.hasClassName('hascontextmenu')) { return; }
 		Event.stop(e);
@@ -39,7 +37,6 @@ ContextMenu.prototype = {
   Click: function(e) {
   	this.hideMenu();
   	if (Event.element(e).tagName == 'A') { return; }
-    if (window.opera && e.altKey) {	return; }
     if (!Event.isRightClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
       var tr = Event.findElement(e, 'tr');
       if (tr!=null && tr!=document && tr.hasClassName('hascontextmenu')) {

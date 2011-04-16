@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -181,6 +181,41 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil Member.first(:conditions => {:project_id => @ecookbook.id})
     assert_nil Board.first(:conditions => {:project_id => @ecookbook.id})
     assert_nil Issue.first(:conditions => {:project_id => @ecookbook.id})
+  end
+  
+  def test_destroying_root_projects_should_clear_data
+    Project.roots.each do |root|
+      root.destroy
+    end
+    
+    assert_equal 0, Project.count, "Projects were not deleted: #{Project.all.inspect}"
+    assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
+    assert_equal 0, MemberRole.count
+    assert_equal 0, Issue.count
+    assert_equal 0, Journal.count
+    assert_equal 0, JournalDetail.count
+    assert_equal 0, Attachment.count
+    assert_equal 0, EnabledModule.count
+    assert_equal 0, IssueCategory.count
+    assert_equal 0, IssueRelation.count
+    assert_equal 0, Board.count
+    assert_equal 0, Message.count
+    assert_equal 0, News.count
+    assert_equal 0, Query.count(:conditions => "project_id IS NOT NULL")
+    assert_equal 0, Repository.count
+    assert_equal 0, Changeset.count
+    assert_equal 0, Change.count
+    assert_equal 0, Comment.count
+    assert_equal 0, TimeEntry.count
+    assert_equal 0, Version.count
+    assert_equal 0, Watcher.count
+    assert_equal 0, Wiki.count
+    assert_equal 0, WikiPage.count
+    assert_equal 0, WikiContent.count
+    assert_equal 0, WikiContent::Version.count
+    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
+    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
+    assert_equal 0, CustomValue.count(:conditions => {:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']})
   end
   
   def test_move_an_orphan_project_to_a_root_project
@@ -554,6 +589,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil Project.next_identifier
   end
   
+  def test_enabled_module_names
+    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+      project = Project.new
+      
+      project.enabled_module_names = %w(issue_tracking news)
+      assert_equal %w(issue_tracking news), project.enabled_module_names.sort
+    end
+  end
 
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)

@@ -55,6 +55,14 @@
 </div>
 
 <div class="splitcontentright">
+<% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
+<p>
+	<label><%= l(:field_parent_issue) %></label>
+	<%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
+</p>
+<div id="parent_issue_candidates" class="autocomplete"></div>
+<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:project_id => @project) }')" %>
+<% end %>
 <p>
 	<label><%= l(:field_start_date) %></label>
 	<%= text_field_tag 'issue[start_date]', '', :size => 10 %><%= calendar_for('issue_start_date') %>

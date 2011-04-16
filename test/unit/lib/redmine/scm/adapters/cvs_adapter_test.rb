@@ -13,6 +13,15 @@ begin
         @adapter = Redmine::Scm::Adapters::CvsAdapter.new(MODULE_NAME, REPOSITORY_PATH)
       end
 
+      def test_scm_version
+        to_test = { "\nConcurrent Versions System (CVS) 1.12.13 (client/server)\n"  => [1,12,13],
+                    "\r\n1.12.12\r\n1.12.11"                   => [1,12,12],
+                    "1.12.11\r\n1.12.10\r\n"                   => [1,12,11]}
+        to_test.each do |s, v|
+          test_scm_version_for(s, v)
+        end
+      end
+
       def test_revisions_all
         cnt = 0
         @adapter.revisions('', nil, nil, :with_paths => true) do |revision|
@@ -28,6 +37,21 @@ begin
           cnt += 1
         end
         assert_equal 2, cnt
+      end
+
+      def test_entries_rev3
+        rev3_committed_on = Time.gm(2007, 12, 13, 16, 27, 22)
+        entries = @adapter.entries('sources', rev3_committed_on)
+        assert_equal 2, entries.size
+        assert_equal entries[0].name, "watchers_controller.rb"
+        assert_equal entries[0].lastrev.time, Time.gm(2007, 12, 13, 16, 27, 22)
+      end
+
+      private
+
+      def test_scm_version_for(scm_command_version, version)
+        @adapter.class.expects(:scm_version_from_command_line).returns(scm_command_version)
+        assert_equal version, @adapter.class.scm_command_version
       end
     else
       puts "Cvs test repository NOT FOUND. Skipping unit tests !!!"

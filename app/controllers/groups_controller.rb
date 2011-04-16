@@ -132,7 +132,7 @@ class GroupsController < ApplicationController
   
   def autocomplete_for_user
     @group = Group.find(params[:id])
-    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @group.users
+    @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
   

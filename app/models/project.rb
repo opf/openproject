@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
   has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
-  has_many :news, :dependent => :delete_all, :include => :author
+  has_many :news, :dependent => :destroy, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
@@ -56,7 +56,7 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
                           
-  acts_as_nested_set :order => 'name'
+  acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
@@ -79,7 +79,7 @@ class Project < ActiveRecord::Base
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
-  before_destroy :delete_all_members, :destroy_children
+  before_destroy :delete_all_members
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
@@ -135,7 +135,6 @@ class Project < ActiveRecord::Base
   end
   
   def self.allowed_to_condition(user, permission, options={})
-    statements = []
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
       unless perm.project_module.nil?
@@ -148,24 +147,31 @@ class Project < ActiveRecord::Base
       project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
+    
     if user.admin?
-      # no restriction
+      base_statement
     else
-      statements << "1=0"
+      statement_by_role = {}
       if user.logged?
         if Role.non_member.allowed_to?(permission) && !options[:member]
-          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.non_member] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
-        allowed_project_ids = user.memberships.select {|m| m.roles.detect {|role| role.allowed_to?(permission)}}.collect {|m| m.project_id}
-        statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
+        user.projects_by_role.each do |role, projects|
+          if role.allowed_to?(permission)
+            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
+          end
+        end
       else
         if Role.anonymous.allowed_to?(permission) && !options[:member]
-          # anonymous user allowed on public project
-          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+          statement_by_role[Role.anonymous] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end 
       end
+      if statement_by_role.empty?
+        "1=0"
+      else
+        "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
+      end
     end
-    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
   end
 
   # Returns the Systemwide and project specific activities
@@ -347,7 +353,7 @@ class Project < ActiveRecord::Base
   # Returns an array of the trackers used by the project and its active sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
-      Tracker.find(:all, :include => :projects,
+      Tracker.find(:all, :joins => :projects,
                          :select => "DISTINCT #{Tracker.table_name}.*",
                          :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
                          :order => "#{Tracker.table_name}.position")
@@ -373,15 +379,17 @@ class Project < ActiveRecord::Base
   
   # Returns a scope of the Versions used by the project
   def shared_versions
-    @shared_versions ||= 
+    @shared_versions ||= begin
+      r = root? ? self : root
       Version.scoped(:include => :project,
                      :conditions => "#{Project.table_name}.id = #{id}" +
                                     " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                           " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{root.lft} AND #{Project.table_name}.rgt <= #{root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
                                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
                                           "))")
+    end
   end
 
   # Returns a hash of project users grouped by role
@@ -509,10 +517,7 @@ class Project < ActiveRecord::Base
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
       module_names = module_names.collect(&:to_s).reject(&:blank?)
-      # remove disabled modules
-      enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
-      # add new modules
-      module_names.reject {|name| module_enabled?(name)}.each {|name| enabled_modules << EnabledModule.new(:name => name)}
+      self.enabled_modules = module_names.collect {|name| enabled_modules.detect {|mod| mod.name == name} || EnabledModule.new(:name => name)}
     else
       enabled_modules.clear
     end
@@ -620,13 +625,6 @@ class Project < ActiveRecord::Base
   end
   
   private
-  
-  # Destroys children before destroying self
-  def destroy_children
-    children.each do |child|
-      child.destroy
-    end
-  end
   
   # Copies wiki from +project+
   def copy_wiki(project)

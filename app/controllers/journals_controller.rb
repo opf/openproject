@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,13 +16,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit]
+  before_filter :find_journal, :only => [:edit, :diff]
   before_filter :find_issue, :only => [:new]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit]
+  before_filter :authorize, :only => [:new, :edit, :diff]
   accept_key_auth :index
-
+  menu_item :issues
+  
   helper :issues
+  helper :custom_fields
   helper :queries
   include QueriesHelper
   helper :sort
@@ -42,6 +44,17 @@ class JournalsController < ApplicationController
     render :layout => false, :content_type => 'application/atom+xml'
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def diff
+    @issue = @journal.issue
+    if params[:detail_id].present?
+      @detail = @journal.details.find_by_id(params[:detail_id])
+    else
+      @detail = @journal.details.detect {|d| d.prop_key == 'description'}
+    end
+    (render_404; return false) unless @issue && @detail
+    @diff = Redmine::Helpers::Diff.new(@detail.value, @detail.old_value)
   end
   
   def new
@@ -68,6 +81,7 @@ class JournalsController < ApplicationController
   end
   
   def edit
+    (render_403; return false) unless @journal.editable_by?(User.current)
     if request.post?
       @journal.update_attributes(:notes => params[:notes]) if params[:notes]
       @journal.destroy if @journal.details.empty? && @journal.notes.blank?
@@ -76,13 +90,21 @@ class JournalsController < ApplicationController
         format.html { redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized_id }
         format.js { render :action => 'update' }
       end
+    else
+      respond_to do |format|
+        format.html {
+          # TODO: implement non-JS journal update
+          render :nothing => true 
+        }
+        format.js
+      end
     end
   end
   
-private
+  private
+  
   def find_journal
     @journal = Journal.find(params[:id])
-    (render_403; return false) unless @journal.editable_by?(User.current)
     @project = @journal.journalized.project
   rescue ActiveRecord::RecordNotFound
     render_404

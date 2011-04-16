@@ -24,7 +24,7 @@
 </div>
 
 <div class="splitcontentright">
-<% users = User.active.find(:all, :limit => 100) - @group.users %>
+<% users = User.active.not_in_group(@group).all(:limit => 100) %>
 <% if users.any? %>
   <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>

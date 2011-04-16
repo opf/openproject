@@ -33,6 +33,28 @@ module Redmine
           def sq_bin
             @@sq_bin ||= shell_quote(BZR_BIN)
           end
+
+          def client_version
+            @@client_version ||= (scm_command_version || [])
+          end
+
+          def client_available
+            !client_version.empty?
+          end
+
+          def scm_command_version
+            scm_version = scm_version_from_command_line.dup
+            if scm_version.respond_to?(:force_encoding)
+              scm_version.force_encoding('ASCII-8BIT')
+            end
+            if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
+            end
+          end
+
+          def scm_version_from_command_line
+            shellout("#{sq_bin} --version") { |io| io.read }.to_s
+          end
         end
 
         # Get info about the repository

@@ -4,7 +4,9 @@ users_004:
   status: 1
   last_login_on: 
   language: en
-  hashed_password: 4e4aeb7baaf0706bd670263fef42dad15763b608
+  # password = foo
+  salt: 3126f764c3c5ac61cbfc103f25f934cf
+  hashed_password: 9e4dd7eeb172c12a0691a6d9d3a269f7e9fe671b
   updated_on: 2006-07-19 19:34:07 +02:00
   admin: false
   mail: rhill@somenet.foo
@@ -20,7 +22,9 @@ users_001:
   status: 1
   last_login_on: 2006-07-19 22:57:52 +02:00
   language: en
-  hashed_password: d033e22ae348aeb5660fc2140aec35850c4da997
+  # password = admin
+  salt: 82090c953c4a0000a7db253b0691a6b4
+  hashed_password: b5b6ff9543bf1387374cdfa27a54c96d236a7150
   updated_on: 2006-07-19 22:57:52 +02:00
   admin: true
   mail: admin@somenet.foo
@@ -36,7 +40,9 @@ users_002:
   status: 1
   last_login_on: 2006-07-19 22:42:15 +02:00
   language: en
-  hashed_password: a9a653d4151fa2c081ba1ffc2c2726f3b80b7d7d
+  # password = jsmith
+  salt: 67eb4732624d5a7753dcea7ce0bb7d7d
+  hashed_password: bfbe06043353a677d0215b26a5800d128d5413bc
   updated_on: 2006-07-19 22:42:15 +02:00
   admin: false
   mail: jsmith@somenet.foo
@@ -52,7 +58,9 @@ users_003:
   status: 1
   last_login_on: 
   language: en
-  hashed_password: 7feb7657aa7a7bf5aef3414a5084875f27192415
+  # password = foo
+  salt: 7599f9963ec07b5a3b55b354407120c0
+  hashed_password: 8f659c8d7c072f189374edacfa90d6abbc26d8ed
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper@somenet.foo
@@ -70,7 +78,7 @@ users_005:
   status: 3
   last_login_on: 
   language: en
-  hashed_password: 7feb7657aa7a7bf5aef3414a5084875f27192415
+  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper2@somenet.foo

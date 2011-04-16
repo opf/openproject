@@ -302,6 +302,7 @@ bg:
   field_assigned_to_role: Assignee's role
   field_text: Текстово поле
   field_visible: Видим
+  field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
   
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -535,6 +536,7 @@ bg:
   label_news_latest: Последни новини
   label_news_view_all: Виж всички
   label_news_added: Добавена новина
+  label_news_comment_added: Добавен коментар към новина
   label_settings: Настройки
   label_overview: Общ изглед
   label_version: Версия
@@ -593,6 +595,7 @@ bg:
   label_query: Потребителска справка
   label_query_plural: Потребителски справки
   label_query_new: Нова заявка
+  label_my_queries: Моите заявки
   label_filter_add: Добави филтър
   label_filter_plural: Филтри
   label_equals: е
@@ -857,6 +860,7 @@ bg:
   text_are_you_sure: Сигурни ли сте?
   text_are_you_sure_with_children: Изтриване на задачата и нейните подзадачи?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
+  text_journal_changed_no_detail: "%{label} променен"
   text_journal_set_to: "%{label} установен на %{value}"
   text_journal_deleted: "%{label} изтрит (%{old})"
   text_journal_added: "Добавено %{label} %{value}"
@@ -907,6 +911,7 @@ bg:
   text_own_membership_delete_confirmation: "Вие сте на път да премахнете някои или всички ваши разрешения и е възможно след това да не можете да редактирате този проект.\nСигурен ли сте, че искате да продължите?"
   text_zoom_in: Увеличаване
   text_zoom_out: Намаляване
+  text_warn_on_leaving_unsaved: Страницата съдържа незаписано съдържание, което може да бъде загубено, ако я напуснете.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -945,3 +950,8 @@ bg:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date

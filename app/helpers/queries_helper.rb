@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -78,16 +78,16 @@ module QueriesHelper
         # Give it a name, required to be valid
         @query = Query.new(:name => "_")
         @query.project = @project
-        if params[:fields]
+        if params[:fields] || params[:f]
           @query.filters = {}
-          @query.add_filters(params[:fields], params[:operators], params[:values])
+          @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
         else
           @query.available_filters.keys.each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
         @query.group_by = params[:group_by]
-        @query.column_names = params[:query] && params[:query][:column_names]
+        @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
         session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]

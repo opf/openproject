@@ -21,7 +21,7 @@ require 'rexml/document'
 module Redmine
   module Scm
     module Adapters
-      class DarcsAdapter < AbstractAdapter      
+      class DarcsAdapter < AbstractAdapter
         # Darcs executable name
         DARCS_BIN = Redmine::Configuration['scm_darcs_command'] || "darcs"
 
@@ -38,8 +38,15 @@ module Redmine
             @@client_version ||= (darcs_binary_version || [])
           end
 
+          def client_available
+            !client_version.empty?
+          end
+
           def darcs_binary_version
-            darcsversion = darcs_binary_version_from_command_line
+            darcsversion = darcs_binary_version_from_command_line.dup
+            if darcsversion.respond_to?(:force_encoding)
+              darcsversion.force_encoding('ASCII-8BIT')
+            end
             if m = darcsversion.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -50,7 +57,8 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @root_url = url
         end
@@ -73,7 +81,7 @@ module Redmine
           if path.blank?
             path = ( self.class.client_version_above?([2, 2, 0]) ? @url : '.' )
           end
-          entries = Entries.new          
+          entries = Entries.new
           cmd = "#{self.class.sq_bin} annotate --repodir #{shell_quote @url} --xml-output"
           cmd << " --match #{shell_quote("hash #{identifier}")}" if identifier
           cmd << " #{shell_quote path}"
@@ -164,7 +172,7 @@ module Redmine
           if modified_element.elements['modified_how'].text.match(/removed/)
             return nil
           end
-          
+
           Entry.new({:name => element.attributes['name'],
                      :path => path_prefix + element.attributes['name'],
                      :kind => element.name == 'file' ? 'file' : 'dir',
@@ -173,7 +181,7 @@ module Redmine
                        :identifier => nil,
                        :scmid => modified_element.elements['patch'].attributes['hash']
                        })
-                     })        
+                     })
         end
 
         def get_paths_for_patch(hash)

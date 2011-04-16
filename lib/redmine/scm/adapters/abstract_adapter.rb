@@ -19,10 +19,10 @@ require 'cgi'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class CommandFailed < StandardError #:nodoc:
       end
-      
+
       class AbstractAdapter #:nodoc:
         class << self
           def client_command
@@ -34,14 +34,14 @@ module Redmine
           def client_version
             []
           end
-          
+
           # Returns the version string of the scm client
           # Eg: '1.5.0' or 'Unknown version' if unknown
           def client_version_string
             v = client_version || 'Unknown version'
             v.is_a?(Array) ? v.join('.') : v.to_s
           end
-          
+
           # Returns true if the current client version is above
           # or equals the given one
           # If option is :unknown is set to true, it will return
@@ -63,17 +63,18 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
           @root_url = root_url.blank? ? retrieve_root_url : root_url
         end
-        
+
         def adapter_name
           'Abstract'
         end
-        
+
         def supports_cat?
           true
         end
@@ -81,11 +82,11 @@ module Redmine
         def supports_annotate?
           respond_to?('annotate')
         end
-        
+
         def root_url
           @root_url
         end
-      
+
         def url
           @url
         end
@@ -188,11 +189,11 @@ module Redmine
         def shellout(cmd, &block)
           self.class.shellout(cmd, &block)
         end
-        
+
         def self.logger
           RAILS_DEFAULT_LOGGER
         end
-        
+
         def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{strip_credential(cmd)}" if logger && logger.debug?
           if Rails.env == 'development'
@@ -200,7 +201,12 @@ module Redmine
             cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
           end
           begin
-            IO.popen(cmd, "r+") do |io|
+            if RUBY_VERSION < '1.9'
+              mode = "r+"
+            else
+              mode = "r+:ASCII-8BIT"
+            end
+            IO.popen(cmd, mode) do |io|
               io.close_write
               block.call(io) if block_given?
             end
@@ -210,8 +216,8 @@ module Redmine
             logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
             raise CommandFailed.new(msg)
           end
-        end  
-        
+        end
+
         # Hides username/password in a given command
         def self.strip_credential(cmd)
           q = (Redmine::Platform.mswin? ? '"' : "'")
@@ -221,8 +227,19 @@ module Redmine
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
         end
+
+        def scm_iconv(to, from, str)
+          return nil if str.nil?
+          return str if to == from
+          begin
+            Iconv.conv(to, from, str)
+          rescue Iconv::Failure => err
+            logger.error("failed to convert from #{from} to #{to}. #{err}")
+            nil
+          end
+        end
       end
-      
+
       class Entries < Array
         def sort_by_name
           sort {|x,y| 
@@ -231,7 +248,7 @@ module Redmine
             else
               x.kind <=> y.kind
             end
-          }   
+          }
         end
         
         def revisions
@@ -307,29 +324,8 @@ module Redmine
         def format_identifier
           identifier
         end
-
-        def save(repo)
-          Changeset.transaction do
-            changeset = Changeset.new(
-              :repository => repo,
-              :revision => identifier,
-              :scmid => scmid,
-              :committer => author, 
-              :committed_on => time,
-              :comments => message)
-            
-            if changeset.save
-              paths.each do |file|
-                Change.create(
-                  :changeset => changeset,
-                  :action => file[:action],
-                  :path => file[:path])
-              end
-            end
-          end
-        end
       end
-        
+
       class Annotate
         attr_reader :lines, :revisions
         

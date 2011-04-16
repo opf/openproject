@@ -314,7 +314,7 @@ pt-BR:
   setting_issue_list_default_columns: Colunas padrão visíveis na lista de tarefas
   setting_repositories_encodings: Codificação dos repositórios
   setting_commit_logs_encoding: Codificação das mensagens de commit
-  setting_emails_footer: Rodapé dos e-mails
+  setting_emails_footer: Rodapé do e-mail
   setting_protocol: Protocolo
   setting_per_page_options: Número de itens exibidos por página
   setting_user_format: Formato de exibição de nome de usuário
@@ -353,6 +353,9 @@ pt-BR:
   label_issues_by: "Tarefas por %{value}"
   label_issue_added: Tarefa adicionada
   label_issue_updated: Tarefa atualizada
+  label_issue_note_added: Nota adicionada
+  label_issue_status_updated: Situação atualizada
+  label_issue_priority_updated: Prioridade atualizada
   label_document: Documento
   label_document_new: Novo documento
   label_document_plural: Documentos
@@ -556,7 +559,7 @@ pt-BR:
   label_spent_time: Tempo gasto
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
-  label_time_tracking: Controle de horas
+  label_time_tracking: Registro de horas
   label_change_plural: Alterações
   label_statistics: Estatísticas
   label_commits_per_month: Commits por mês
@@ -755,7 +758,7 @@ pt-BR:
 
   enumeration_issue_priorities: Prioridade das tarefas
   enumeration_doc_categories: Categorias de documento
-  enumeration_activities: Atividades (time tracking)
+  enumeration_activities: Atividades (registro de horas)
   notice_unable_delete_version: Não foi possível excluir a versão
   label_renamed: renomeado
   label_copied: copiado
@@ -944,24 +947,34 @@ pt-BR:
   setting_default_notification_option: Opção padrão de notificação
   label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
   label_user_mail_option_only_assigned: Somente para as coisas que estejam atribuídas a mim
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  text_powered_by: Powered by %{link}
+  label_user_mail_option_none: Sem eventos
+  field_member_of_group: Grupo do responsável
+  field_assigned_to_role: Papel do responsável
+  notice_not_authorized_archived_project: O projeto que você está tentando acessar foi arquivado.
+  label_principal_search: "Pesquisar por usuários ou grupos:"
+  label_user_search: "Pesquisar por usuário:"
+  field_visible: Visível
+  setting_emails_header: Cabeçalho do e-mail
+  setting_commit_logtime_activity_id: Atividade para registrar horas
+  text_time_logged_by_changeset: Aplicado no changeset %{value}.
+  setting_commit_logtime_enabled: Habilitar registro de horas
+  notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
+  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
+  field_warn_on_leaving_unsaved: Alertar-me ao sarir de uma página sem salvar o texto
+  text_warn_on_leaving_unsaved: A página atual contem texto que não foi salvo e será perdido se você sair desta página.
+  label_my_queries: Minhas consultas personalizadas
+  text_journal_changed_no_detail: "%{label} atualizado(a)"
+  label_news_comment_added: Notícia recebeu um comentário
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_cvs_module: Module
   label_filesystem_path: Root directory
   label_darcs_path: Root directory
+  field_effective_date: Due date
   label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
+  text_powered_by: Powered by %{link}
   label_mercurial_path: Root directory

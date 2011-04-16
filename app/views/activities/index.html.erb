@@ -21,16 +21,14 @@
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
 
 <div style="float:left;">
-<%= link_to_remote(('&#171; ' + l(:label_previous)), 
-                   {:update => "content", :url => params.merge(:from => @date_to - @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to - @days - 1)),
-                    :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))}) %>
+<%= link_to_content_update('&#171; ' + l(:label_previous), 
+                   params.merge(:from => @date_to - @days - 1),
+                   :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))) %>
 </div>
 <div style="float:right;">
-<%= link_to_remote((l(:label_next) + ' &#187;'), 
-                   {:update => "content", :url => params.merge(:from => @date_to + @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to + @days - 1)),
-                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))}) unless @date_to >= Date.today %>
+<%= link_to_content_update(l(:label_next) + ' &#187;', 
+                   params.merge(:from => @date_to + @days - 1),
+                   :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))) unless @date_to >= Date.today %>
 </div>
 &nbsp;
 <% other_formats_links do |f| %>

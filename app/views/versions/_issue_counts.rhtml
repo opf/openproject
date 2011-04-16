@@ -19,8 +19,8 @@
                                         :action => 'index',
                                         :project_id => version.project,
                                         :set_filter => 1,
-                                        :fixed_version_id => version,
-                                        "#{criteria}_id" => count[:group]} %>
+                                        :status_id => '*',
+                                        :fixed_version_id => version}.merge("#{criteria}_id".to_sym => count[:group]) %>
         </td>
         <td width="240px">
             <%= progress_bar((count[:closed].to_f / count[:total])*100, 

@@ -70,6 +70,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
+    assert !issue.description.match(/^Start Date:/i)
     # Email notification should be sent
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -318,6 +319,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal '2010-12-31', issue.due_date.to_s
     assert_equal User.find_by_login('jsmith'), issue.assigned_to
     assert_equal "52.6", issue.custom_value_for(CustomField.find_by_name('Float field')).value
+    # keywords should be removed from the email body
+    assert !journal.notes.match(/^Status:/i)
+    assert !journal.notes.match(/^Start Date:/i)
   end
 
   def test_add_issue_note_should_send_email_notification

@@ -10,12 +10,19 @@ dirs.each do |dir|
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}" 
     %>
-    / <%= link_to h(dir), :action => 'show', :id => @project, :path => to_path_param(link_path), :rev => @rev %>
+    / <%= link_to h(dir), :action => 'show', :id => @project,
+                :path => to_path_param(link_path), :rev => @rev %>
 <% end %>
 <% if filename %>
-    / <%= link_to h(filename), :action => 'changes', :id => @project, :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
+    / <%= link_to h(filename),
+                   :action => 'changes', :id => @project,
+                   :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
-
-<%= "@ #{h format_revision(@changeset)}" if @changeset %>
+<%
+  # @rev is revsion or Git and Mercurial branch or tag.
+  # For Mercurial *tip*, @rev and @changeset are nil.
+  rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
+%>
+<%= "@ #{h rev_text}" unless rev_text.blank? %>
 
 <% html_title(with_leading_slash(path)) -%>

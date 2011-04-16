@@ -306,6 +306,7 @@ fr:
   field_active: Actif
   field_parent_issue: Tâche parente
   field_visible: Visible
+  field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
   
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -538,6 +539,7 @@ fr:
   label_news_latest: Dernières annonces
   label_news_view_all: Voir toutes les annonces
   label_news_added: Annonce ajoutée
+  label_news_comment_added: Commentaire ajouté à une annonce
   label_settings: Configuration
   label_overview: Aperçu
   label_version: Version
@@ -595,6 +597,7 @@ fr:
   label_query: Rapport personnalisé
   label_query_plural: Rapports personnalisés
   label_query_new: Nouveau rapport
+  label_my_queries: Mes rapports personnalisés
   label_filter_add: "Ajouter le filtre "
   label_filter_plural: Filtres
   label_equals: égal
@@ -783,12 +786,16 @@ fr:
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
   label_principal_search: "Rechercher un utilisateur ou un groupe :"
   label_user_search: "Rechercher un utilisateur :"
+  label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
+  label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
   
   button_login: Connexion
   button_submit: Soumettre
   button_save: Sauvegarder
   button_check_all: Tout cocher
   button_uncheck_all: Tout décocher
+  button_collapse_all: Plier tout
+  button_expand_all: Déplier tout
   button_delete: Supprimer
   button_create: Créer
   button_create_and_continue: Créer et continuer
@@ -888,6 +895,7 @@ fr:
   text_wiki_page_destroy_children: "Supprimer les sous-pages et toutes leurs descedantes"
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
+  text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
   
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
@@ -924,6 +932,7 @@ fr:
   error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   text_journal_changed: "%{label} changé de %{old} à %{new}"
+  text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_deleted: "%{label} %{old} supprimé"
   text_journal_added: "%{label} %{value} ajouté"
@@ -954,7 +963,7 @@ fr:
   label_user_mail_option_none: Aucune notification
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
-  setting_emails_header: Emails header
+  setting_emails_header: En-tête des emails
   text_powered_by: Powered by %{link}
   label_cvs_module: Module
   label_filesystem_path: Root directory
@@ -963,3 +972,4 @@ fr:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  field_effective_date: Due date

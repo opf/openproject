@@ -40,10 +40,47 @@ function toggleRowGroup(el) {
 	}
 }
 
+function collapseAllRowGroups(el) {
+  var tbody = Element.up(el, 'tbody');
+  tbody.childElements('tr').each(function(tr) {
+    if (tr.hasClassName('group')) {
+      tr.removeClassName('open');
+    } else {
+      tr.hide();
+    }
+  })
+}
+
+function expandAllRowGroups(el) {
+  var tbody = Element.up(el, 'tbody');
+  tbody.childElements('tr').each(function(tr) {
+    if (tr.hasClassName('group')) {
+      tr.addClassName('open');
+    } else {
+      tr.show();
+    }
+  })
+}
+
+function toggleAllRowGroups(el) {
+	var tr = Element.up(el, 'tr');
+  if (tr.hasClassName('open')) {
+    collapseAllRowGroups(el);
+  } else {
+    expandAllRowGroups(el);
+  }
+}
+
 function toggleFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
 	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
+}
+
+function hideFieldset(el) {
+	var fieldset = Element.up(el, 'fieldset');
+	fieldset.toggleClassName('collapsed');
+	fieldset.down('div').hide();
 }
 
 var fileFieldCount = 1;
@@ -249,10 +286,71 @@ function observeProjectModules() {
   Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
 }
 
+/*
+ * Class used to warn user when leaving a page with unsaved textarea
+ * Author: mathias.fischer@berlinonline.de
+*/
 
-/* shows and hides ajax indicator */
+var WarnLeavingUnsaved = Class.create({
+	observedForms: false,
+	observedElements: false,
+	changedForms: false,
+	message: null,
+	
+	initialize: function(message){
+		this.observedForms = $$('form');
+		this.observedElements =  $$('textarea');
+		this.message = message;
+		
+		this.observedElements.each(this.observeChange.bind(this));
+		this.observedForms.each(this.submitAction.bind(this));
+		
+		window.onbeforeunload = this.unload.bind(this);
+	},
+	
+	unload: function(){
+		if(this.changedForms)
+      return this.message;
+	},
+	
+	setChanged: function(){
+    this.changedForms = true;
+	},
+	
+	setUnchanged: function(){
+    this.changedForms = false;
+	},
+	
+	observeChange: function(element){
+    element.observe('change',this.setChanged.bindAsEventListener(this));
+	},
+	
+	submitAction: function(element){
+    element.observe('submit',this.setUnchanged.bindAsEventListener(this));
+	}
+});
+
+/* 
+ * 1 - registers a callback which copies the csrf token into the
+ * X-CSRF-Token header with each ajax request.  Necessary to 
+ * work with rails applications which have fixed
+ * CVE-2011-0447
+ * 2 - shows and hides ajax indicator
+ */
 Ajax.Responders.register({
-    onCreate: function(){
+    onCreate: function(request){
+        var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
+
+        if (csrf_meta_tag) {
+            var header = 'X-CSRF-Token',
+                token = csrf_meta_tag.readAttribute('content');
+
+            if (!request.options.requestHeaders) {
+              request.options.requestHeaders = {};
+            }
+            request.options.requestHeaders[header] = token;
+          }
+
         if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
             Element.show('ajax-indicator');
         }

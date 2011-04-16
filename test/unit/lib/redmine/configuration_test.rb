@@ -41,6 +41,15 @@ class Redmine::ConfigurationTest < ActiveSupport::TestCase
     assert_equal 'bar', @conf['somesetting']
   end
   
+  def test_with
+    load_conf('default.yml', 'test')
+    assert_equal 'foo', @conf['somesetting']
+    @conf.with 'somesetting' => 'bar' do
+      assert_equal 'bar', @conf['somesetting']
+    end
+    assert_equal 'foo', @conf['somesetting']
+  end
+  
   private
   
   def load_conf(file, env)

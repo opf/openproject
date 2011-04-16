@@ -157,7 +157,6 @@ class UserTest < ActiveSupport::TestCase
     user = User.try_to_login("admin", "hello")
     assert_kind_of User, user
     assert_equal "admin", user.login
-    assert_equal User.hash_password("hello"), user.hashed_password    
   end
   
   def test_name_format
@@ -177,6 +176,22 @@ class UserTest < ActiveSupport::TestCase
     
     user = User.try_to_login("jsmith", "jsmith")
     assert_equal nil, user  
+  end
+  
+  context ".try_to_login" do
+    context "with good credentials" do
+      should "return the user" do
+        user = User.try_to_login("admin", "admin")
+        assert_kind_of User, user
+        assert_equal "admin", user.login
+      end
+    end
+    
+    context "with wrong credentials" do
+      should "return nil" do
+        assert_nil User.try_to_login("admin", "foo")
+      end
+    end
   end
   
   if ldap_configured?
@@ -303,6 +318,23 @@ class UserTest < ActiveSupport::TestCase
     assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
   end
   
+  def test_projects_by_role_for_user_with_role
+    user = User.find(2)
+    assert_kind_of Hash, user.projects_by_role
+    assert_equal 2, user.projects_by_role.size
+    assert_equal [1,5], user.projects_by_role[Role.find(1)].collect(&:id).sort
+    assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
+  end
+  
+  def test_projects_by_role_for_user_with_no_role
+    user = User.generate!
+    assert_equal({}, user.projects_by_role)
+  end
+  
+  def test_projects_by_role_for_anonymous
+    assert_equal({}, User.anonymous.projects_by_role)
+  end
+
   def test_valid_notification_options
     # without memberships
     assert_equal 5, User.find(7).valid_notification_options.size
@@ -522,6 +554,23 @@ class UserTest < ActiveSupport::TestCase
     context "other events" do
       should 'be added and tested'
     end
+  end
+
+  def test_salt_unsalted_passwords
+    # Restore a user with an unsalted password
+    user = User.find(1)
+    user.salt = nil
+    user.hashed_password = User.hash_password("unsalted")
+    user.save!
+    
+    User.salt_unsalted_passwords!
+    
+    user.reload
+    # Salt added
+    assert !user.salt.blank?
+    # Password still valid
+    assert user.check_password?("unsalted")
+    assert_equal user, User.try_to_login(user.login, "unsalted")
   end
   
   if Object.const_defined?(:OpenID)

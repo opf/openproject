@@ -104,4 +104,13 @@ class GroupsControllerTest < ActionController::TestCase
       post :destroy_membership, :id => 10, :membership_id => 6
     end
   end
+  
+  def test_autocomplete_for_user
+    get :autocomplete_for_user, :id => 10, :q => 'mis'
+    assert_response :success
+    users = assigns(:users)
+    assert_not_nil users
+    assert users.any?
+    assert !users.include?(Group.find(10).users.first)
+  end
 end

@@ -163,10 +163,12 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/time_entries", :id => 'query_form'}
   end
   
   def test_index_at_project_level
-    get :index, :project_id => 1
+    get :index, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
@@ -178,10 +180,12 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time by default
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
   
   def test_index_at_project_level_with_date_range
-    get :index, :project_id => 1, :from => '2007-03-20', :to => '2007-04-30'
+    get :index, :project_id => 'ecookbook', :from => '2007-03-20', :to => '2007-04-30'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
@@ -190,24 +194,30 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
     assert_equal '2007-03-20'.to_date, assigns(:from)
     assert_equal '2007-04-30'.to_date, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_at_project_level_with_period
-    get :index, :project_id => 1, :period => '7_days'
+    get :index, :project_id => 'ecookbook', :period => '7_days'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_one_day
-    get :index, :project_id => 1, :from => "2007-03-23", :to => "2007-03-23"
+    get :index, :project_id => 'ecookbook', :from => "2007-03-23", :to => "2007-03-23"
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "4.25", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
   
   def test_index_at_issue_level
@@ -221,6 +231,10 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
+    # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
+    # to use /issues/:issue_id/time_entries
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
   end
   
   def test_index_atom_feed

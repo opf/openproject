@@ -21,12 +21,27 @@ class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
-  def scm_adapter
+  ATTRIBUTE_KEY_NAMES = {
+      "url"          => "Path to repository",
+    }
+  def self.human_attribute_name(attribute_key_name)
+    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+  end
+
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::GitAdapter
   end
-  
+
   def self.scm_name
     'Git'
+  end
+
+  def supports_directory_revisions?
+    true
+  end
+
+  def repo_log_encoding
+    'UTF-8'
   end
 
   # Returns the identifier for the given git changeset
@@ -47,6 +62,13 @@ class Repository::Git < Repository
     scm.tags
   end
 
+  def find_changeset_by_name(name)
+    return nil if name.nil? || name.empty?
+    e = changesets.find(:first, :conditions => ['revision = ?', name.to_s])
+    return e if e
+    changesets.find(:first, :conditions => ['scmid LIKE ?', "#{name}%"])
+  end
+
   # With SCM's that have a sequential commit numbering, redmine is able to be
   # clever and only fetch changesets going forward from the most recent one
   # it knows about.  However, with git, you never know if people have merged
@@ -59,7 +81,7 @@ class Repository::Git < Repository
     c = changesets.find(:first, :order => 'committed_on DESC')
     since = (c ? c.committed_on - 7.days : nil)
 
-    revisions = scm.revisions('', nil, nil, :all => true, :since => since)
+    revisions = scm.revisions('', nil, nil, {:all => true, :since => since, :reverse => true})
     return if revisions.nil? || revisions.empty?
 
     recent_changesets = changesets.find(:all, :conditions => ['committed_on >= ?', since])
@@ -72,7 +94,28 @@ class Repository::Git < Repository
     revisions.reject!{|r| recent_revisions.include?(r.scmid)}
 
     # Save the remaining ones to the database
-    revisions.each{|r| r.save(self)} unless revisions.nil?
+    unless revisions.nil?
+      revisions.each do |rev|
+        transaction do
+          changeset = Changeset.new(
+              :repository => self,
+              :revision   => rev.identifier,
+              :scmid      => rev.scmid,
+              :committer  => rev.author, 
+              :committed_on => rev.time,
+              :comments   => rev.message)
+            
+          if changeset.save
+            rev.paths.each do |file|
+              Change.create(
+                  :changeset => changeset,
+                  :action    => file[:action],
+                  :path      => file[:path])
+            end
+          end
+        end
+      end
+    end
   end
 
   def latest_changesets(path,rev,limit=10)

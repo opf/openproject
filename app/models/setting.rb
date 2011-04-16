@@ -65,6 +65,7 @@ class Setting < ActiveRecord::Base
                   UTF-16LE
                   EUC-JP
                   Shift_JIS
+                  CP932
                   GB18030
                   GBK
                   ISCII91

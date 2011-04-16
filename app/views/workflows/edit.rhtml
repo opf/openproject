@@ -20,54 +20,31 @@
 </p>
 <% end %>
 
-
 <% if @tracker && @role && @statuses.any? %>
-<% form_tag({}, :id => 'workflow_form' ) do %>
-<%= hidden_field_tag 'tracker_id', @tracker.id %>
-<%= hidden_field_tag 'role_id', @role.id %>
-<div class="autoscroll">
-<table class="list">
-<thead>
-	<tr>
-		<th align="left"><%=l(:label_current_status)%></th>
-		<th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
-	</tr>
-	<tr>
-		<td></td>
-		<% for new_status in @statuses %>
-		<td width="<%= 75 / @statuses.size %>%" align="center">
-			<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.new-status-#{new_status.id}')",
-	                                              			:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-			<%= new_status.name %>
-		</td>
-		<% end %>
-	</tr>
-</thead>
-<tbody>
-	<% for old_status in @statuses %>
-	<tr class="<%= cycle("odd", "even") %>">
-		<td>
-			<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.old-status-#{old_status.id}')",
-			                                              			:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-			
-			<%= old_status.name %>
-		</td>
-		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to([@role], @tracker).collect(&:id) -%>
-		<% for new_status in @statuses -%>
-		<td align="center">
-			<%= check_box_tag "issue_status[#{ old_status.id }][]", new_status.id, new_status_ids_allowed.include?(new_status.id),
-						:class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>			
-		</td>
-		<% end -%>
-	</tr>
-	<% end %>
-</tbody>
-</table>
-</div>
-<p><%= check_all_links 'workflow_form' %></p>
-
-<%= submit_tag l(:button_save) %>
-<% end %>
+  <% form_tag({}, :id => 'workflow_form' ) do %>
+    <%= hidden_field_tag 'tracker_id', @tracker.id %>
+    <%= hidden_field_tag 'role_id', @role.id %>
+    <div class="autoscroll">
+      <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+      
+      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
+        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_author) %></legend>
+        <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
+          <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
+        </div>
+      </fieldset>
+      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
+      
+      <fieldset class="collapsible" style="padding: 0;">
+        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_assignee) %></legend>
+        <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
+      <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+        </div>
+      </fieldset>
+      <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
+    </div>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
 <% end %>
 
 <% html_title(l(:label_workflow)) -%>

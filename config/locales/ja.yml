@@ -324,6 +324,7 @@ ja:
   field_assigned_to_role: 担当者のロール
   field_text: テキスト
   field_visible: 表示
+  field_warn_on_leaving_unsaved: セーブされていないページから移動するときに警告する
   
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
@@ -558,6 +559,7 @@ ja:
   label_news_latest: 最新ニュース
   label_news_view_all: 全てのニュースを見る
   label_news_added: ニュースが追加されました
+  label_news_comment_added: ニュースにコメントが追加されました
   label_settings: 設定
   label_overview: 概要
   label_version: バージョン
@@ -616,6 +618,7 @@ ja:
   label_query: カスタムクエリ
   label_query_plural: カスタムクエリ
   label_query_new: 新しいクエリ
+  label_my_queries: マイカスタムクエリ
   label_filter_add: フィルタ追加
   label_filter_plural: フィルタ
   label_equals: 等しい
@@ -820,6 +823,8 @@ ja:
   button_save: 保存
   button_check_all: 全てにチェックをつける
   button_uncheck_all: 全てのチェックを外す
+  button_expand_all: 展開
+  button_collapse_all: 折りたたみ
   button_delete: 削除
   button_create: 作成
   button_create_and_continue: 連続作成
@@ -879,6 +884,7 @@ ja:
   text_are_you_sure: よろしいですか？
   text_are_you_sure_with_children: チケットとその子チケット全てを削除しますか?
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
+  text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"
   text_journal_deleted: "%{label} を削除 (%{old})"
   text_journal_added: "%{label} %{value} を追加"
@@ -929,6 +935,7 @@ ja:
   text_own_membership_delete_confirmation: "いくつかまたはすべての権限をあなた自身から剥奪しようとしているため、このプロジェクトを編集できなくなるかもしれません。\n本当に続けてもよろしいですか？"
   text_zoom_in: 拡大
   text_zoom_out: 縮小
+  text_warn_on_leaving_unsaved: このページから移動すると、セーブされていないデータが失われます。
   
   default_role_manager: 管理者
   default_role_developer: 開発者
@@ -966,3 +973,7 @@ ja:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date

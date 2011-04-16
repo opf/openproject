@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# Redmine - project management software
+# Copyright (C) 2006-2011  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,12 +19,14 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
   fixtures :projects, :repositories, :enabled_modules, :users, :roles 
-  
+
   def setup
-    @project = Project.find(1)
-    assert @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}")
+    @project = Project.find(3)
+    @repository = Repository::Subversion.create(:project => @project,
+             :url => self.class.subversion_repository_url)
+    assert @repository
   end
-  
+
   if repository_configured?('subversion')
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
@@ -34,7 +36,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_equal 20, @repository.changes.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
-    
+
     def test_fetch_changesets_incremental
       @repository.fetch_changesets
       # Remove changesets with revision > 5
@@ -45,7 +47,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       assert_equal 11, @repository.changesets.count
     end
-    
+
     def test_latest_changesets
       @repository.fetch_changesets
       
@@ -74,8 +76,10 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
 
     def test_directory_listing_with_square_brackets_in_base
-      @project = Project.find(1)
-      @repository = Repository::Subversion.create(:project => @project, :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
+      @project = Project.find(3)
+      @repository = Repository::Subversion.create(
+                          :project => @project,
+                          :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
 
       @repository.fetch_changesets
       @repository.reload
@@ -135,6 +139,52 @@ class RepositorySubversionTest < ActiveSupport::TestCase
                         :revision => '123456789', :comments => 'test')
       assert c.event_title.include?('123456789:')
       assert_equal '123456789', c.event_url[:rev]
+    end
+
+    def test_log_encoding_ignore_setting
+      with_settings :commit_logs_encoding => 'windows-1252' do
+        s1 = "\xC2\x80"
+        s2 = "\xc3\x82\xc2\x80"
+        if s1.respond_to?(:force_encoding)
+          s1.force_encoding('ISO-8859-1')
+          s2.force_encoding('UTF-8')
+          assert_equal s1.encode('UTF-8'), s2
+        end
+        c = Changeset.new(:repository => @repository,
+                          :comments   => s2,
+                          :revision   => '123',
+                          :committed_on => Time.now)
+        assert c.save
+        assert_equal s2, c.comments
+      end
+    end
+
+    def test_previous
+      @repository.fetch_changesets
+      @repository.reload
+      changeset = @repository.find_changeset_by_name('3')
+      assert_equal @repository.find_changeset_by_name('2'), changeset.previous
+    end
+
+    def test_previous_nil
+      @repository.fetch_changesets
+      @repository.reload
+      changeset = @repository.find_changeset_by_name('1')
+      assert_nil changeset.previous
+    end
+
+    def test_next
+      @repository.fetch_changesets
+      @repository.reload
+      changeset = @repository.find_changeset_by_name('2')
+      assert_equal @repository.find_changeset_by_name('3'), changeset.next
+    end
+
+    def test_next_nil
+      @repository.fetch_changesets
+      @repository.reload
+      changeset = @repository.find_changeset_by_name('11')
+      assert_nil changeset.next
     end
   else
     puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"

@@ -18,33 +18,41 @@ function toggle_custom_field_format() {
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.show(p_values);
+      Element.show(p_values.parentNode);
       break;
     case "bool":
       p_default.setAttribute('type','checkbox');
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "date":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "float":
     case "int":
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
+		case "user":
+    case "version":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      Element.hide(p_values.parentNode);
+      Element.hide(p_default.parentNode);
+		  break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
   }
 }
@@ -54,16 +62,16 @@ function toggle_custom_field_format() {
 
 <div class="box">
 <p><%= f.text_field :name, :required => true %></p>
-<p><%= f.select :field_format, custom_field_formats_for_select, {}, :onchange => "toggle_custom_field_format();",
+<p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :onchange => "toggle_custom_field_format();",
 																																		:disabled => !@custom_field.new_record? %></p>
 <p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
    <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
 <p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
-<p id="custom_field_possible_values"><%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"),
-																																			 :cols => 20,
-																																			 :rows => 15 %>
-<br /><em><%= l(:text_custom_field_possible_values_info) %></em></p>
+<p>
+	<%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"), :rows => 15 %>
+  <br /><em><%= l(:text_custom_field_possible_values_info) %></em>
+</p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
