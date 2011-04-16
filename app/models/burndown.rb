@@ -19,57 +19,108 @@ class Burndown
   class SeriesRawData < Hash
     def initialize(*args)
       @collect = args.pop
+      @sprint = args.pop
+      @project = args.pop
       super(*args)
     end
 
     attr_reader :collect
+    attr_reader :sprint
+    attr_reader :project
 
     def collect_names
       @names ||= @collect.to_a.collect(&:last).flatten
     end
 
-    def unit_for name
-      return :hours if @collect[:hours].include? name.to_sym
-      return :points if @collect[:points].include? name.to_sym
+    def out_names
+      @out_names ||= ["project_id", "fixed_version_id", "tracker_id"]
     end
 
-    def collect(sprint, project)
-      stories = sprint.stories(project) # TODO: also have to look for stories that have been moved between sprints
+    def unit_for name
+      return :hours if @collect[:hours].include? name
+      return :points if @collect[:points].include? name
+    end
+
+    def collect()
+      stories = Story.find(:all, :include => {:journals => :details},
+                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
+                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
+                                           " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
+                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, Story.trackers, Story.trackers, Story.trackers])
 
       days = sprint.days(nil)
       collected_days = days.sort.select{ |d| d <= Date.today }
 
+      date_hash = {}
+      collected_days.each do |date|
+        date_hash[date] = 0.0
+      end
+
       collect_names.each do |c|
-        self[c] = Hash.new 0.0
+        self[c] = date_hash.dup
       end
 
       stories.each do |story|
-        journals_a = story.journals.to_a.sort_by{ |j| j.created_on }
+        collect_for_story story, collected_days
+      end
+    end
 
-        prop_set_on = Hash.new(story.created_on.to_date < collected_days.first ? collected_days.first : story.created_on.to_date)
-        current_prop_value = Hash.new{ |hash, key| hash[key] = story.send(key).to_f }
+    def collect_for_story story, collected_days
 
-        journals_a.each do |journal|
-          journal.details.select{|d| collect_names.include?(d.prop_key.to_sym) }.each do |detail|
+      details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
+      details_by_prop = details.group_by{ |d| d.prop_key }
 
-            current_prop_value[detail.prop_key.to_sym] = detail.value.to_f
+      details_by_prop.each {|key_value| key_value.last.sort_by{ |d| d.journal.created_on } }
 
-            next if prop_set_on[detail.prop_key.to_sym] == journal.created_on.to_date
+      current_prop_index = Hash.new{ |hash, key| hash[key] = details_by_prop[key] ? 0 : nil }
 
-            collected_days.select{|d| d < journal.created_on.to_date}.each do |date|
-              self[detail.prop_key.to_sym][date] += detail.old_value.to_f
-            end
+      collected_days.each do |date|
+        (out_names + collect_names).each do |key|
 
-            prop_set_on[detail.prop_key.to_sym] = journal.created_on.to_date
-          end
-        end
+          current_prop_index[key] = determine_prop_index(key, date, current_prop_index, details_by_prop)
 
-        collect_names.each do |c|
-          collected_days.select{ |d| d >= prop_set_on[c] }.each do |date|
-            self[c][date] += current_prop_value[c]
+          unless not_to_be_collected?(key, date, details_by_prop, current_prop_index, story)
+            self[key][date] += value_for_prop(date, details_by_prop[key], current_prop_index[key], story.send(key)).to_f
           end
         end
       end
+    end
+
+    private
+
+    def determine_prop_index(key, date, current_prop_index, details_by_prop)
+      prop_index = current_prop_index[key]
+
+      until prop_index.nil? ||
+            details_by_prop[key][prop_index].journal.created_on.to_date > date ||
+            prop_index == details_by_prop[key].size - 1
+
+          prop_index += 1
+      end
+
+      prop_index
+    end
+
+    def not_to_be_collected?(key, date, details_by_prop, current_prop_index, story)
+      ((collect_names.include?(key) &&
+        (project.id != value_for_prop(date, details_by_prop["project_id"], current_prop_index["project_id"], story.send("project_id")).to_i ||
+        sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i ||
+        !Story.trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i))) ||
+      ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed) ||
+      out_names.include?(key))
+    end
+
+    def value_for_prop(date, details, index, default)
+      if details.nil?
+        value = default
+      elsif date < details[index].journal.created_on.to_date
+        value = details[index].old_value
+      else
+        #debugger
+        value = details[index].value
+      end
+
+      value
     end
   end
 
@@ -80,10 +131,10 @@ class Burndown
 
     days = make_date_series sprint
 
-    series_data = SeriesRawData.new({:hours => [:remaining_hours],
-                                     :points => [:story_points]})
-
-    series_data.collect(sprint, project)
+    series_data = SeriesRawData.new(project, sprint,
+                                   {:hours => ["remaining_hours"], :points => ["story_points"]})
+    #
+    series_data.collect
 
     calculate_series series_data
 
@@ -120,20 +171,20 @@ class Burndown
 
   def calculate_series series_data
     series_data.collect_names.each do |c|
-      make_series c, series_data.unit_for(c), series_data[c].to_a.sort_by{ |a| a.first}.collect(&:last) #need to differentiate between hours and sp
+      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by{ |a| a.first}.collect(&:last) #need to differentiate between hours and sp
     end
 
     calculate_ideals(series_data)
   end
 
   def calculate_ideals(data)
-    ([:remaining_hours, :story_points] & data.collect_names).each do |ideal|
+    (["remaining_hours", "story_points"] & data.collect_names).each do |ideal|
       calculate_ideal(ideal, data.unit_for(ideal))
     end
   end
 
   def calculate_ideal(name, unit)
-    max = self.send(name).first
+    max = self.send(name).first || 0.0
     delta = max / (self.days.size - 1)
 
     ideal = []

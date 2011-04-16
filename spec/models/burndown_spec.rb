@@ -88,7 +88,25 @@ describe Burndown do
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
 
             end
+
+            describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
+              before(:each) do
+                other_version = Factory.create(:version, :name => "other_version", :project => project)
+                set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
+                set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
           end
+
         end
 
         describe "WITH 10 stories assigned to the sprint" do
