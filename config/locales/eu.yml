@@ -950,3 +950,12 @@ eu:
   notice_gantt_chart_truncated: Grafikoa moztu da bistara daitekeen elementuen kopuru maximoa gainditu delako (%{max})
   setting_gantt_items_limit: "Gantt grafikoan bistara daitekeen elementu kopuru maximoa"
   label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.

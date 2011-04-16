@@ -942,3 +942,19 @@ fa:
   text_tip_issue_end_day: issue ending this day
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   label_my_queries: My custom queries
+  label_cvs_module: Module
+  label_filesystem_path: Root directory
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_darcs_path: Root directory
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_news_comment_added: Comment added to a news
+  label_bazaar_path: Root directory
+  label_cvs_path: CVSROOT
+  label_git_path: Path to .git directory
+  default_role_anonymous: Anonymous
+  text_powered_by: Powered by %{link}
+  default_role_non_member: Non member
+  label_mercurial_path: Root directory
