@@ -127,7 +127,7 @@ describe Burndown do
               before(:each) do
                 other_tracker = Factory.create(:tracker_bug)
                 project.trackers << other_tracker
-                debugger unless project.trackers.include?(other_tracker)
+
                 set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
                 set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.day
 
@@ -143,6 +143,27 @@ describe Burndown do
             end
           end
 
+          describe "WITH the story having story_point defined on creation" do
+            before(:each) do
+              @story.update_attributes(:story_points => 9)
+            end
+
+            describe "WITH the story beeing closed and opened again within the sprint duration" do
+              before(:each) do
+                set_attribute_journalized @story, :status_id=, issue_closed.id, Time.now - 6.day
+                set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.story_points.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.story_points.unit.should eql :points }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 0.0 }
+              it { @burndown.max[:points].should eql 9.0 }
+              it { @burndown.story_points_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
+          end
         end
 
         describe "WITH 10 stories assigned to the sprint" do

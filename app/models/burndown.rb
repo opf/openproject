@@ -33,7 +33,7 @@ class Burndown
     end
 
     def out_names
-      @out_names ||= ["project_id", "fixed_version_id", "tracker_id"]
+      @out_names ||= ["project_id", "fixed_version_id", "tracker_id", "status_id"]
     end
 
     def unit_for name
@@ -116,7 +116,6 @@ class Burndown
       elsif date < details[index].journal.created_on.to_date
         value = details[index].old_value
       else
-        #debugger
         value = details[index].value
       end
 
@@ -132,8 +131,8 @@ class Burndown
     days = make_date_series sprint
 
     series_data = SeriesRawData.new(project, sprint,
-                                   {:hours => ["remaining_hours"], :points => ["story_points"]})
-    #
+                                    {:hours => ["remaining_hours"], :points => ["story_points"]})
+
     series_data.collect
 
     calculate_series series_data
@@ -150,14 +149,6 @@ class Burndown
 
   attr_reader :story_points
   attr_reader :story_points_ideal
-
-  # attr_reader :points_committed
-  #   attr_reader :points_resolved
-  #   attr_reader :points_accepted
-  #   attr_reader :points_to_resolve
-  #   attr_reader :points_to_accept
-  #   attr_reader :required_burn_rate_points
-  #   attr_reader :required_burn_rate_hours
 
   def series(select = :active)
     @available_series.values.select{|s| (select == :all) || s.display }.sort{|x,y| "#{x.name}" <=> "#{y.name}"}
