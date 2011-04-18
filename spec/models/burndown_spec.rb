@@ -227,7 +227,7 @@ describe Burndown do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
-                  set_attribute_journalized @stories[i], :story_points=, 0, version.sprint_start_date + i.days + 1.hour
+                  set_attribute_journalized @stories[i], :story_points=, nil, version.sprint_start_date + i.days + 1.hour
                 end
               end
 
