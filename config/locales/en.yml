@@ -8,13 +8,13 @@ en:
   field_remaining_hours: "Remaining hours"
   button_edit_wiki: "Edit wiki page"
   field_backlogs_issue_type: "Backlog type"
-  backlogs_story: Story
-  backlogs_task: Task
-  backlogs_any: any
+  backlogs_story: "Story"
+  backlogs_task: "Task"
+  backlogs_any: "any"
   backlogs_points_burn_direction: "Points burn up/down"
-  label_points_burn_up: Up
-  label_points_burn_down: Down
-  field_position: Position
+  label_points_burn_up: "Up"
+  label_points_burn_down: "Down"
+  field_position: "Position"
   backlogs_product_backlog: "Product backlog"
   backlogs_wiki_template: "Template for sprint wiki page"
   points_committed: "points committed"
@@ -28,18 +28,18 @@ en:
   remaining_hours: "remaining hours"
   field_velocity_based_estimate: "Velocity based estimate"
 
-  backlogs_active: active
+  backlogs_active: "active"
 
   label_task_board: "Task board"
   label_stories_tasks: "Stories/Tasks"
   label_stories: "Stories"
   label_burndown: "Burndown"
-  label_sprint_cards: Export cards
+  label_sprint_cards: "Export cards"
   label_select_all: "Select all"
 
   label_back_to_project: "Back to project page"
   label_sprint_name: "Sprint \"%{name}\""
-  label_backlogs: Backlogs
+  label_backlogs: "Backlogs"
   label_scrum_statistics: "Scrum statistics"
 
   label_sprint_backlog: "sprint backlog"
@@ -56,8 +56,8 @@ en:
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
 
-  label_hours: hours
-  label_points: points
+  label_hours: "hours"
+  label_points: "points"
   label_not_prioritized: "not prioritized"
 
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
@@ -81,11 +81,11 @@ en:
 
   field_blocks: "Blocks"
 
-  field_tracker_id: Tracker ID
+  field_tracker_id: "Tracker ID"
   inclusion: "is not included in the list"
 
-  label_webcal: Webcal Feed
-  label_master_backlog: Master Backlog
+  label_webcal: "Webcal Feed"
+  label_master_backlog: "Master Backlog"
 
   # Version fields
   field_name: "Name"
@@ -97,25 +97,25 @@ en:
   rb_label_copy_tasks_open: "Open"
 
   backlogs:
-    show_statistics: 'Show Scrum statistics'
-    show_burndown_chart: 'Burndown Chart'
-    add_new_story: 'New Story'
+    show_statistics: "Show Scrum statistics"
+    show_burndown_chart: "Burndown Chart"
+    add_new_story: "New Story"
     column_with: "Column width:"
-    impediment: Impediment
-    task: Task
-    story: Story
-    any: any
+    impediment: "Impediment"
+    task: "Task"
+    story: "Story"
+    any: "any"
 
-  project_module_backlogs: Backlogs (Beta)
+  project_module_backlogs: "Backlogs (Beta)"
 
-  version_settings_display_option_none: none
-  version_settings_display_option_left: left
-  version_settings_display_option_right: right
-  version_settings_display_label: Column in backlog
+  version_settings_display_option_none: "none"
+  version_settings_display_option_left: "left"
+  version_settings_display_option_right: "right"
+  version_settings_display_label: "Column in backlog"
 
-  field_display: Column in backlog
+  field_display: "Column in backlog"
 
-  field_blocks_ids: Blocks (IDs)
+  field_blocks_ids: "Blocks (IDs)"
 
   activerecord:
     errors:
@@ -125,5 +125,5 @@ en:
             parent_issue_id:
               tracker_must_be_one_of_the_following: "Tracker must be one of the following: %{tracker_names}"
             blocks_ids:
-              can_only_contain_issues_of_current_sprint: can only contain the IDs of current sprint's tickets
-              must_block_at_least_one_issue: must contain the ID of at least one ticket
+              can_only_contain_issues_of_current_sprint: "can only contain the IDs of current sprint's tickets"
+              must_block_at_least_one_issue: "must contain the ID of at least one ticket"
