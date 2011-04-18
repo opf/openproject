@@ -11,7 +11,7 @@ jQuery(function ($) {
     if ($("#charts").length === 0) {
       $("<div id='charts'></div>").appendTo("body");
     }
-    $('#charts').html("<div class='loading'>Loading data...</div>");
+    $('#charts').html("<div class='loading'>" + RB.i18n['generating_graph'] + "</div>");
     $('#charts').load(RB.urlFor('show_burndown_chart', {id: RB.constants.sprint_id}));
     $('#charts').dialog({
       buttons: {
@@ -20,7 +20,7 @@ jQuery(function ($) {
         }
       },
       modal: true,
-      title: 'Charts',
+      title: RB.i18n['burndown_graph'],
       height: 790,
       width: 710
     });

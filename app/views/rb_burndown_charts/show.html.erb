@@ -1,14 +1,14 @@
 <% if @burndown %>
   <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
 
-  <div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>"><div class="loading">Generating chart...</div></div>
+  <div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>"><div class="loading"><%=l('backlogs.generating_chart')%></div></div>
 
   <fieldset>
-      <legend><%= l(:label_chart_options) %></legend>
+      <legend><%= l('backlogs.chart_options') %></legend>
       <% @burndown.series(:all).each do |series| %>
-          <input class="series_enabled" type="checkbox" onclick="burndown_configure(this)" id="<%= series.name %>_enabled" name="<%= series.name %>_enabled" value="<%= series.name %>"><%= l(series.name) %><br/>
+          <input class="series_enabled" type="checkbox" onclick="burndown_configure(this)" id="<%= series.name %>_enabled" name="<%= series.name %>_enabled" value="<%= series.name %>"><%= l('backlogs.' + series.name.to_s) %><br/>
       <% end %>
   </fieldset>
 <% else %>
-  No burndown data available -- are the sprint start- and end dates set?
+  <%= l('backlogs.no_burndown_data')%>
 <% end %>

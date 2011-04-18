@@ -6,6 +6,12 @@ RB.constants = {
   form_authenticity_token: '<%= form_authenticity_token %>'
 };
 
+RB.i18n = {
+  generating_graph: '<%= l("backlogs.generating_chart") %>',
+  burndown_graph: '<%= l("backlogs.burndown_graph") %>'
+
+};
+
 RB.urlFor = (function () {
   var routes = {
     update_sprint: '<%= url_for(:controller => 'rb_sprints', :action => 'update', :sprint_id => ":id") %>',

@@ -33,7 +33,7 @@
         chart: null,
         dataset_position: {<%= chart.series.enum_for(:each_with_index).collect{|s, i| "#{s.name}: #{i}"}.join(', ') %>},
         datasets: [<%= chart.series.collect{|s| "[#{s.join(',')}]"}.join(', ') %>],
-        series: [<%= chart.series.collect{|s| "{ label: '#{escape_javascript(l(s.name))}', yaxis: 'y#{s.unit == :points ? '' : '2'}axis' }"}.join(',') %>],
+        series: [<%= chart.series.collect{|s| "{ label: '#{escape_javascript(l('backlogs.' + s.name.to_s))}', yaxis: 'y#{s.unit == :points ? '' : '2'}axis' }"}.join(',') %>],
         xticks: [<%= chart.days.enum_for(:each_with_index).collect{|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %>],
 
         // add a little clearance to the chart
