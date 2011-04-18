@@ -206,7 +206,7 @@ class Report < ActiveRecord::Base
     end
 
     def compute_result
-      engine::Result.new engine.connection.select_all(sql_statement.to_s), {}, type
+      engine::Result.new engine.reporting_connection.select_all(sql_statement.to_s), {}, type
     end
 
     def table_joins

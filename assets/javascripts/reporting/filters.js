@@ -293,7 +293,7 @@ Reporting.Filters = {
   // return an array of all filters that depend on the given filter plus the given filter
   dependent_for: function(field) {
     var deps = $$('.filters-select[data-all-dependents]').findAll(function(selectBox) {
-        return Reporting.Filters.get_dependents(selectBox).include(field)
+        return selectBox.up('tr').visible() && Reporting.Filters.get_dependents(selectBox).include(field)
       }).map(function(selectBox) {
         return selectBox.getAttribute("data-filter-name");
       });
