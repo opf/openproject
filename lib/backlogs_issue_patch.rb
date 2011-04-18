@@ -18,7 +18,7 @@ module Backlogs
                                                  :allow_nil    => true,
                                                  :greater_than => 0,
                                                  :less_than    => 10_000,
-                                                 :if => lambda { |i| puts; p i.class; i.project.module_enabled? 'backlogs' }
+                                                 :if => lambda { |i| i.project.module_enabled? 'backlogs' }
 
       end
     end

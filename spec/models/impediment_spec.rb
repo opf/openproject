@@ -120,7 +120,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story being non existent" do
@@ -135,7 +135,7 @@ describe Impediment do
 
           it_should_behave_like "impediment creation with no blocking relationship"
           it { @impediment.should be_new_record }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
       end
 
@@ -151,7 +151,7 @@ describe Impediment do
 
         it_should_behave_like "impediment creation with no blocking relationship"
         it { @impediment.should be_new_record }
-        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
       end
     end
   end
@@ -230,7 +230,7 @@ describe Impediment do
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it { @impediment.should be_changed }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
@@ -242,7 +242,7 @@ describe Impediment do
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
           it { @impediment.should be_changed }
-          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+          it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
       end
 
@@ -255,7 +255,7 @@ describe Impediment do
 
         it_should_behave_like "impediment update with unchanged blocking relationship"
         it { @impediment.should be_changed }
-        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :impediment, :attributes, :blocks_ids]) }
+        it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
       end
     end
 
