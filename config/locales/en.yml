@@ -1,4 +1,4 @@
-# English strings go here for Rails i18n
+---
 en:
   backlogs_story_tracker: "Story trackers"
   backlogs_task_tracker: "Task tracker"
@@ -80,7 +80,6 @@ en:
   field_subject: "Subject"
 
   field_blocks: "Blocks"
-  error_must_have_comma_delimited_list: "must have a comma-separated list of story or task IDs"
 
   field_tracker_id: Tracker ID
   inclusion: "is not included in the list"
@@ -90,10 +89,6 @@ en:
 
   # Version fields
   field_name: "Name"
-
-  # Error messages
-  error_blank: "cannot be blank"
-  error_greater_than_start_date: "cannot be earlier than Start Date"
 
   rb_label_link_to_original: "Include link to original story"
   rb_label_copy_tasks: "Copy tasks"
@@ -117,10 +112,18 @@ en:
   version_settings_display_option_left: left
   version_settings_display_option_right: right
   version_settings_display_label: Column in backlog
+
   field_display: Column in backlog
 
   field_blocks_ids: Blocks (IDs)
 
-  error_can_only_contain_issues_of_current_sprint: can only contain the IDs of current sprint's tickets
-  error_must_block_at_least_one_issue: must contain the ID of at least one ticket
-
+  activerecord:
+    errors:
+      models:
+        issue:
+          attributes:
+            parent_issue_id:
+              tracker_must_be_one_of_the_following: "Tracker must be one of the following: %{tracker_names}"
+            blocks_ids:
+              can_only_contain_issues_of_current_sprint: can only contain the IDs of current sprint's tickets
+              must_block_at_least_one_issue: must contain the ID of at least one ticket

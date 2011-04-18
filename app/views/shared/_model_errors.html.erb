@@ -1,5 +1,5 @@
 <div class="errors">
-  <%- model_errors.each_error do |a, err| %>
-  <div><%= "#{l('field_' + a)} #{l('error_' + err.type.to_s)}" %></div>
-  <%- end %>
+  <% model_errors.each_error do |a, err| %>
+    <div><%= err.full_message %></div>
+  <% end %>
 </div>

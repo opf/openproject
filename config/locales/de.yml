@@ -13,7 +13,6 @@ de:
   points_resolved: Beschlossene Punkte
   field_tracker_id: "Tracker ID"
   field_name: "Name"
-  error_must_have_comma_delimited_list: muss eine kommaseparierte Liste mit Story- oder Aufgaben-IDs enthalten
   label_stories: Stories
   todo_issue_summary: "%{type}: %{summary}"
   label_product_backlog: Produkt Backlog
@@ -45,7 +44,6 @@ de:
   backlogs_sprint_unestimated: "Geschlossene oder aktive Sprints mit nicht abgesch\xC3\xA4tzten Stories"
   label_scrum_statistics: Scrum Statistiken
   required_burn_rate_points: "ben\xC3\xB6tigte Burn-Rate (Punkte)"
-  error_blank: "darf nicht leer sein"
   points_to_accept: Nicht akzeptierte Punkte
   label_backlogs: Backlogs
   label_back_to_project: "Zur\xC3\xBCck zur Projektseite"
@@ -64,7 +62,6 @@ de:
   backlogs_sizing_inconsistent: "Story Aufwand weicht von den Sch\xC3\xA4tzwerten ab"
   error_intro_plural: "Die folgenden Fehler sind aufgetreten:"
   backlogs_velocity_varies: Die Geschwindigkeit variiert stark zwischen den Sprints
-  error_greater_than_start_date: "darf nicht vor dem Startdatum liegen"
   rb_label_copy_tasks: "Aufgaben kopieren"
   label_hours: Stunden
   label_points_burn_down: Runter
@@ -103,8 +100,6 @@ de:
   field_display: Spalte im Backlog
 
   field_blocks_ids: Blockiert (IDs)
-  error_can_only_contain_issues_of_current_sprint: kann nur IDs von Tickets des aktuellen Sprints enthalten
-  error_must_block_at_least_one_issue: muss die ID wenigstens eines Tickets enthalten
 
   activerecord:
     errors:
@@ -113,3 +108,6 @@ de:
           attributes:
             parent_issue_id:
               tracker_must_be_one_of_the_following: "muss aus einem der folgenden Trackern sein: %{tracker_names}"
+            blocks_ids:
+              can_only_contain_issues_of_current_sprint: kann nur IDs von Tickets des aktuellen Sprints enthalten
+              must_block_at_least_one_issue: muss die ID wenigstens eines Tickets enthalten
