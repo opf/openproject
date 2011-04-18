@@ -105,6 +105,42 @@ describe Burndown do
               it { @burndown.max[:points].should eql 0.0 }
               it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
+
+            describe "WITH the story beeing moved out of the project within the sprint duration and also moved back in" do
+              before(:each) do
+                other_project = Factory.create(:project, :name => "other_project")
+                set_attribute_journalized @story, :project_id=, other_project.id, Time.now - 6.day
+                set_attribute_journalized @story, :project_id=, project.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
+
+            describe "WITH the story beeing moved to another tracker within the sprint duration and also moved back in" do
+              before(:each) do
+                other_tracker = Factory.create(:tracker_bug)
+                project.trackers << other_tracker
+                debugger unless project.trackers.include?(other_tracker)
+                set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
+                set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
           end
 
         end
