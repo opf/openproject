@@ -13,7 +13,7 @@ require 'spreadsheet'
 #
 class SpreadsheetBuilder
 
-  Worksheet = Struct.new(:sheet, :column_widths)
+  Worksheet = Struct.new(:sheet, :column_widths) unless defined? Worksheet
 
   def initialize(name = nil)
     Spreadsheet.client_encoding = 'UTF-8'
