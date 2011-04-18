@@ -100,7 +100,7 @@ en:
     show_statistics: "Show Scrum statistics"
     show_burndown_chart: "Burndown Chart"
     generating_chart: "Generating Graph..."
-    chart_options: "Chart-Options"
+    chart_options: "Active series"
     remaining_hours: "Remaining hours"
     remaining_hours_ideal: "Remaining hours (ideal)"
     story_points: "Story Points"
@@ -113,6 +113,9 @@ en:
     task: "Task"
     story: "Story"
     any: "any"
+    close: "Close"
+    points: "Points"
+    hours: "Hours"
 
   project_module_backlogs: "Backlogs (Beta)"
 

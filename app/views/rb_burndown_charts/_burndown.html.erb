@@ -35,7 +35,6 @@
         datasets: [<%= chart.series.collect{|s| "[#{s.join(',')}]"}.join(', ') %>],
         series: [<%= chart.series.collect{|s| "{ label: '#{escape_javascript(l('backlogs.' + s.name.to_s))}', yaxis: 'y#{s.unit == :points ? '' : '2'}axis' }"}.join(',') %>],
         xticks: [<%= chart.days.enum_for(:each_with_index).collect{|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') %>],
-
         // add a little clearance to the chart
         max_y: <%= chart.max[:points] == 0 ? 1 : 1.01 * chart.max[:points] %>,
         max_y2: <%= chart.max[:hours] == 0 ? 1 : 1.01 * chart.max[:hours] %>,
@@ -45,14 +44,23 @@
 
           this.chart = burndown_charts.jquery.jqplot('<%= "#{div}#{chart.sprint_id}" %>', this.datasets, {
             legend: {show: decoration, location: 'sw'},
-            grid: {shadow:false},
+            grid: {shadow: false,
+                   drawGridlines: false},
             seriesDefaults: {showMarker: decoration, shadow:false},
             axesDefaults: {showTick: decoration},
             series: this.series,
             axes:{
               xaxis:{min:1, max:<%= chart.days.length %>, tickInterval:1, ticks: this.xticks},
-              yaxis:{min:0, max: this.max_y, tickOptions:{formatString:'%d'}},
-              y2axis:{min:0, max: this.max_y2, tickOptions:{formatString:'%d'}}
+              yaxis:{min:0,
+                     max: this.max_y,
+                     tickOptions:{formatString:'%d'},
+                     label: "<%= l('backlogs.points') %>",
+                     tickInterval: 50},
+              y2axis:{min:0,
+                      max: this.max_y2,
+                      tickOptions:{formatString:'%d'},
+                      label: "<%= l('backlogs.hours') %>",
+                      tickInterval: 50}
               },
             highlighter:{
               tooltipAxes: 'y',
