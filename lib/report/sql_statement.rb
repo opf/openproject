@@ -72,6 +72,18 @@ class Report::SqlStatement
   # @return [String] The query
   def to_s
     # FIXME I'm ugly
+    #select("CASE WHEN COUNT(*) >= 10 THEN '10+' ELSE COUNT(*) END as number_of_assessments")
+
+    #select("(CASE WHEN users.number_of_assessments >= 10 THEN 10 ELSE users.number_of_assessments END) as number_of_assessments")
+    #unselect("users.number_of_assessments")
+
+    #group_by("number_of_assessments")
+
+    #group_not_by("users.sector_id")
+    #group_by("number_of_assessments")
+    #group_not_by("users.number_of_assessments")
+    #group_by("users.sector_id")
+
     @sql ||= begin
       sql = "\n-- BEGIN #{desc}\n" \
       "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
@@ -192,6 +204,13 @@ class Report::SqlStatement
     end
   end
 
+  def unselect(*fields)
+    @sql = nil
+    @select = @select.reject do |field|
+      fields.find { |f| f == field }
+    end
+  end
+
   ##
   # Return the names which have been bound through select statements
   # @return [Array<String>] All fields for select part
@@ -217,6 +236,13 @@ class Report::SqlStatement
         end
       end
       @group_by.uniq!
+    end
+  end
+
+  def group_not_by(*fields)
+    @sql = nil
+    @group_by = @group_by.reject do |field|
+      fields.find { |f| f == field }
     end
   end
 
