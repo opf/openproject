@@ -13,6 +13,13 @@ module Backlogs
         alias_method_chain :recalculate_attributes_for, :remaining_hours
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project.module_enabled?("backlogs")}
         after_save  :backlogs_after_save
+
+        validates_numericality_of :story_points, :only_integer => true,
+                                                 :allow_nil    => true,
+                                                 :greater_than => 0,
+                                                 :less_than    => 10_000,
+                                                 :if => lambda { |i| puts; p i.class; i.project.module_enabled? 'backlogs' }
+
       end
     end
 
