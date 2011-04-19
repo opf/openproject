@@ -53,7 +53,7 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
+    @watched.set_watcher(Principal.find(params[:user_id]), false) if request.post?
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do

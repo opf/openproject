@@ -42,7 +42,7 @@ module Redmine
         
         # Removes user from the watchers list
         def remove_watcher(user)
-          return nil unless user && user.is_a?(User)
+          return nil unless user && user.is_a?(Principal)
           Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND user_id = #{user.id}"
         end
         
