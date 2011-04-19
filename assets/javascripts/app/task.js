@@ -75,6 +75,12 @@ RB.Task = (function ($) {
         this.$.children('.remaining_hours.editor').val('');
         this.$.children('.remaining_hours.editable').text('');
       }
+    },
+
+    refreshed : function () {
+      var remainingHours = this.$.children('.remaining_hours.editable');
+
+      remainingHours.toggleClass('empty', remainingHours.is(':empty'));
     }
   });
 }(jQuery));

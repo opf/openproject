@@ -204,7 +204,7 @@ See RB.Taskboard.initialize()
 #rb .issue .blocks {
   display:none;
 }
-#rb .issue .remaining_hours.editable:empty {
+#rb .issue .remaining_hours.editable.empty {
   display:none;
 }
 #rb .issue .indicator {
