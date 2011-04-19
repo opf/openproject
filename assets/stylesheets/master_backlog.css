@@ -236,37 +236,12 @@
 
 /* dialog */
 
-#rb .ui-dialog .ui-dialog-titlebar-close {
-  display:none;
-}
-#rb .ui-dialog .ui-dialog-title {
-  float:left;
-  margin-right:0;
-}
-#rb .ui-dialog.ui-widget-content {
-  -moz-box-shadow: 2px 2px 5px #777777;
-  -webkit-box-shadow: 2px 2px 5px #777777;
-  box-shadow: 2px 2px 5px #777777;
-  border:none;
-}
-#rb .ui-dialog .ui-dialog-buttonpane.ui-widget-content {
-  border:none;
-}
+.ui-dialog .ui-dialog-titlebar-close { display:none; }
+.ui-dialog .ui-dialog-title { float:left; margin-right:0; }
+.ui-dialog.ui-widget-content { border:none; }
+.ui-dialog .ui-dialog-buttonpane.ui-widget-content { border:none; }
 
-#rb .ui-dialog label {
-  display:block;
-  font-size:11px;
-  text-transform:capitalize;
-  width:100%;
-}
-#rb .ui-dialog  .editor {
-  font-size:12px;
-  margin-bottom:10px;
-  width:100%;
-}
-#rb #sprint_editor .description {
-  height:65px;
-}
+
 /* In-place Sprint Editor */
 #rb #backlogs_container .sprint.editing .editors,
 #rb #backlogs_container .sprint.editing > .editor {
