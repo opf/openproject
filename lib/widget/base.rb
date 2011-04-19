@@ -11,7 +11,7 @@ class Widget::Base < Widget
   end
 
   def render_with_options(options = {}, &block)
-    help_text = options[:help_text]
+    self.help_text = options[:help_text]
     if canvas = options[:to]
       canvas << "\n" << render(&block)
     else
