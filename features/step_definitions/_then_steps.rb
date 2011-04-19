@@ -14,8 +14,10 @@ Then /^I should see (\d+) sprint backlogs$/ do |count|
   sprint_backlogs.length.should == count.to_i
 end
 
-Then /^I should see the burndown chart$/ do
-  page.should have_css("#burndown_#{@sprint.id.to_s}")
+Then /^I should see the burndown chart for sprint "(.+?)"$/ do |sprint|
+  sprint = Sprint.find_by_name(sprint)
+
+  page.should have_css("#burndown_#{sprint.id.to_s}")
 end
 
 Then /^I should see the Issues page$/ do

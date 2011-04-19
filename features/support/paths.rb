@@ -23,7 +23,7 @@ module BacklogsNavigationHelpers
       project = get_project($2)
       sprint = Sprint.find_by_name_and_project_id($1, project)
 
-      "/rb/burndown_charts/#{sprint.id}"
+      "/rb/projects/#{project.id}/burndown_charts/#{sprint.id}"
 
     when /^the task ?board for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
