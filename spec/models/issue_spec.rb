@@ -27,7 +27,10 @@ describe Issue do
         issue.should be_valid
       end
 
-      it 'allows values greater than 0' do
+      it 'allows values greater than or equal to 0' do
+        issue.story_points = '0'
+        issue.should be_valid
+
         issue.story_points = '1'
         issue.should be_valid
       end
@@ -38,14 +41,6 @@ describe Issue do
       end
 
       it 'disallows negative values' do
-        issue.story_points = '-1'
-        issue.should_not be_valid
-      end
-
-      it 'disallows 0 and negative values' do
-        issue.story_points = '0'
-        issue.should_not be_valid
-
         issue.story_points = '-1'
         issue.should_not be_valid
       end

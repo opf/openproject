@@ -14,10 +14,10 @@ module Backlogs
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
         after_save  :backlogs_after_save
 
-        validates_numericality_of :story_points, :only_integer => true,
-                                                 :allow_nil    => true,
-                                                 :greater_than => 0,
-                                                 :less_than    => 10_000,
+        validates_numericality_of :story_points, :only_integer             => true,
+                                                 :allow_nil                => true,
+                                                 :greater_than_or_equal_to => 0,
+                                                 :less_than                => 10_000,
                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
       end
