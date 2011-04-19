@@ -7,9 +7,12 @@ class Widget::Controls::Help < Widget::Base
     id = "tip:#{@query}"
     options = {:icon => {}, :tooltip => {}}
     options.merge!(yield) if block_given?
+    sai = options[:show_at_id] ? ", show_at_id: '#{options[:show_at_id]}'" : ""
+
     icon = tag :img, :src => '/images/icon_info_red.gif', :id => "target:#{@query}"
     tip = content_tag_string :div, l(@query), tip_config(options[:tooltip]), false
-    script = content_tag_string :script, "new Tooltip('target:#{@query}', 'tip:#{@query}', {className: 'tooltip'});",
+    script = content_tag :script,
+      "new Tooltip('target:#{@query}', 'tip:#{@query}', {className: 'tooltip'#{sai}});",
       {:type => 'text/javascript'}, false
     target = content_tag :a, icon + tip, icon_config(options[:icon])
     target + script
