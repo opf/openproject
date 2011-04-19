@@ -912,6 +912,12 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
+      if user.is_a?(Group)
+        size = options[:size] || 50
+        size = "#{size}x#{size}" # image_tag uses WxH
+        options[:class] ||= 'gravatar'
+        return image_tag("group.png", options.merge(:size => size))
+      end
       options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
