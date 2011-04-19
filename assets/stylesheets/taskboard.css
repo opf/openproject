@@ -109,7 +109,8 @@ See RB.Taskboard.initialize()
 #rb .story .id {
   background-color:#FFFFFF;
   font-size:9px;
-  opacity:0.8;
+  opacity: 0.8;
+  filter: alpha(opacity = 80);
   overflow:hidden;
   padding-bottom:1px;
   padding-right:3px;
@@ -153,7 +154,8 @@ See RB.Taskboard.initialize()
   background-color:#FFFFFF;
   font-size:9px;
   height:12px;
-  opacity:0.5;
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
   overflow:hidden;
   padding-bottom:1px;
   padding-right:3px;
@@ -161,7 +163,8 @@ See RB.Taskboard.initialize()
   width:82px;
 }
 #rb .issue .id a {
-  opacity:1.0;
+  opacity: 1.0;
+  filter: alpha(opacity = 100);
 }
 #rb .issue .editable:hover {
   background-color:transparent;
@@ -242,7 +245,8 @@ See RB.Taskboard.initialize()
 .ui-dialog .ui-widget-header {
   background:none;
   background-color:#FFFFFF;
-  opacity:0.5;
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
 }
 .ui-dialog .ui-dialog-title {
   float:right;
