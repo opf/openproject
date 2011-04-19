@@ -19,19 +19,19 @@ RB.Story = (function ($) {
      * Callbacks from model.js
      **/
     beforeSave: function () {
-      this.recalcVelocity();
+      this.refresh();
     },
 
     afterCreate: function (data, textStatus, xhr) {
-      this.recalcVelocity();
+      this.refresh();
     },
 
     afterUpdate : function (data, textStatus, xhr) {
-      this.recalcVelocity();
+      this.refresh();
     },
 
     refreshed: function () {
-      this.recalcVelocity();
+      this.refresh();
     },
     /**/
 
@@ -60,8 +60,12 @@ RB.Story = (function ($) {
       return "New Story";
     },
 
+    refresh : function () {
+      this.recalcVelocity();
+    },
+
     recalcVelocity: function () {
-      this.$.parents(".backlog").first().data('this').recalcVelocity();
+      this.$.parents(".backlog").first().data('this').refresh();
     },
 
     saveDirectives: function () {

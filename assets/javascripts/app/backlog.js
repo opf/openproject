@@ -51,12 +51,12 @@ RB.Backlog = (function ($) {
       });
 
       if (this.isSprintBacklog()) {
-        this.recalcVelocity();
+        this.refresh();
       }
     },
 
     dragChanged: function (e, ui) {
-      $(this).parents('.backlog').data('this').recalcVelocity();
+      $(this).parents('.backlog').data('this').refresh();
     },
 
     dragComplete: function (e, ui) {
@@ -110,6 +110,10 @@ RB.Backlog = (function ($) {
       o.edit();
 
       story.find('.editor').first().focus();
+    },
+
+    refresh : function () {
+      this.recalcVelocity();
     },
 
     recalcVelocity: function () {
