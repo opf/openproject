@@ -114,6 +114,7 @@ RB.Backlog = (function ($) {
 
     refresh : function () {
       this.recalcVelocity();
+      this.recalcOddity();
     },
 
     recalcVelocity: function () {
@@ -128,6 +129,11 @@ RB.Backlog = (function ($) {
         total += $(this).data('this').getPoints();
       });
       this.$.children('.header').children('.velocity').text(total);
+    },
+
+    recalcOddity : function () {
+      this.$.find('.story:even').removeClass('odd').addClass('even');
+      this.$.find('.story:odd').removeClass('even').addClass('odd');
     },
 
     showBurndownChart: function (e) {
