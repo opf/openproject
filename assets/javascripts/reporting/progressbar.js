@@ -7,14 +7,18 @@ Reporting.Progress = {
     var parent = element.up();
     var size = parseInt(element.getAttribute('data-size'), 10) || 500;
     element.remove();
+    var bar = Reporting.Progress.add_bar_to_parent(parent);
+    // Speed determined through laborous experimentation!
+    bar.interval = (size * (Math.log(size))) / 100000;
+    bar.start();
+  },
+
+  add_bar_to_parent: function (parent) {
     parent.appendChild(new Element('div', {
       'id': 'progressbar_container',
       'class': 'progressbar_container'
     }));
-    new Control.ProgressBar('progressbar_container', {
-      // Speed determined through laborous experimentation!
-      interval: (size * (Math.log(size))) / 100000
-    }).start();
+    return new Control.ProgressBar('progressbar_container');
   },
 
   confirm_question: function () {
@@ -31,7 +35,7 @@ Reporting.Progress = {
       }
     }
   }
-}
+};
 
 Reporting.onload(function () {
   Reporting.Progress.confirm_question();
