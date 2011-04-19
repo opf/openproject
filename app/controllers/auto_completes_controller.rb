@@ -48,8 +48,14 @@ class AutoCompletesController < ApplicationController
     end
 
     @removed_users ||= []
+
+    if params[:include_groups]
+      user_finder = Principal
+    else
+      user_finder = User
+    end
     
-    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @removed_users
+    @users = user_finder.active.like(params[:q]).find(:all, :limit => 100) - @removed_users
     render :layout => false
   end
   

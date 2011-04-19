@@ -92,6 +92,20 @@ class AutoCompletesControllerTest < ActionController::TestCase
       end
     end
 
+    context "including groups" do
+      setup do
+        @group = Group.generate(:lastname => 'Complete Group').reload
+        get :users, :q => 'complete', :include_groups => true
+      end
+      
+      should_respond_with :success
+      
+      should "include matching groups" do
+        assert_select "input[type=checkbox][value=?]", @group.id
+      end
+
+    end
+
     context "restrict by removing group members" do
       setup do
         @group = Group.first
