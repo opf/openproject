@@ -50,7 +50,7 @@ class Widget::GroupBys < Widget::Base
         maybe_with_help out.html_safe, {
           :icon => {
             :class => 'group-by-icon'
-            },
+          },
           :tooltip => {
             :class => 'group-by-tip'
           }
