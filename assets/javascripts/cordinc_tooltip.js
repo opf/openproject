@@ -31,8 +31,8 @@ var Tooltip = Class.create({
       className: false,
       delay: {}
     }, arguments[2] || {});
-
     this.target = $(target);
+    this.show_at = (options.show_at_id !== undefined) ? $(options.show_at_id) : undefined
     this.tooltip = $(tooltip);
     this.options = options;
     this.event_target = this.options.trigger?$(this.options.trigger):this.target;
@@ -62,12 +62,13 @@ var Tooltip = Class.create({
   },
 
   showTooltip: function(event) {
+    var show_at = (this.show_at !== undefined) ? this.show_at : this.target
     this.display=true;
     position = this.positionTooltip(event);
     
     this.clone = this.tooltip.cloneNode(true);
-    parentId = this.options.DOM_location?$(this.options.DOM_location.parentId):this.target.parentNode;
-    successorId = this.options.DOM_location?$(this.options.DOM_location.successorId):this.target;
+    parentId = this.options.DOM_location?$(this.options.DOM_location.parentId):show_at.parentNode;
+    successorId = this.options.DOM_location?$(this.options.DOM_location.successorId):show_at.target;
     parentId.insertBefore(this.clone, successorId);
     
     this.clone.setStyle({
