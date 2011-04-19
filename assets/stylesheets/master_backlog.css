@@ -25,23 +25,15 @@
   width:100px;
 }
 #rb #backlogs_container .backlog {
-  -moz-box-shadow: 3px 3px 4px #A0A0A0;
-  -webkit-box-shadow: 3px 3px 4px #A0A0A0;
-  box-shadow: 3px 3px 4px #A0A0A0;
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
-  border-radius:5px 5px 0px 0px;
-  display:block;
-  margin:0 0 10px 0;
-  position:relative;
-  width:100%;
+  border: 1px solid #E4E4E4;
+  display: block;
+  margin: 0 0 10px 0;
+  position: relative;
+  width: 100%;
 }
 
 #rb #backlogs_container .backlog .header {
-  -moz-border-radius:5px 5px 0px 0px;
-  -webkit-border-radius:5px 5px 0px 0px;
-  border-radius:5px 5px 0px 0px;
-  background-color:#CCCCCC;
+  background-color: #eee;
   height:30px;
   position:relative;
   width:100%;
@@ -180,7 +172,6 @@
   z-index:500;
 }
 #rb #backlogs_container .stories .story {
-  background-color:#FFFFF6;
   cursor:move;
   display:block;
   font-size:11px;
@@ -190,6 +181,13 @@
   position:relative;
   width:100%;
 }
+#rb #backlogs_container .stories .story.odd {
+  background-color: #F6F7F8;
+}
+#rb #backlogs_container .stories .story.even {
+  background-color: #FFF;
+}
+
 #rb #backlogs_container .stories .story.saving {
   background-image:url('images/ajax.gif');
   background-repeat:no-repeat;
@@ -199,9 +197,6 @@
   background-image:url('images/error.png');
   background-repeat:no-repeat;
   background-position:center;
-}
-#rb #backlogs_container .stories .story:nth-child(even) {
-  background-color:#DEDED5;
 }
 #rb #backlogs_container .stories .story.hover,
 #rb #backlogs_container .stories .story:hover {
