@@ -64,7 +64,14 @@ module Redmine
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
           end
-          notified.collect(&:mail).compact
+
+          notified.collect {|w|
+            if w.respond_to?(:mail) && w.mail.present? # Single mail
+              w.mail
+            elsif w.respond_to?(:mails) && w.mails.present? # Multiple mail
+              w.mails
+            end
+          }.flatten.compact
         end
 
         module ClassMethods; end

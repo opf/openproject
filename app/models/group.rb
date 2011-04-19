@@ -22,6 +22,11 @@ class Group < Principal
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30
 
+  # Returns an array of all of the email addresses of the group's users
+  def mails
+    users.collect(&:mail)
+  end
+  
   def to_s
     lastname.to_s
   end

@@ -125,4 +125,34 @@ class WatcherTest < ActiveSupport::TestCase
     assert Issue.find(1).watched_by?(user)
     assert !Issue.find(4).watched_by?(user)
   end
+
+  context "group watch" do
+    setup do
+      @group = Group.generate!
+      Member.generate!(:project => Project.find(1), :roles => [Role.find(1)], :principal => @group)
+      @group.users << @user = User.find(1)
+      @group.users << @user2 = User.find(2)
+    end
+    
+    should "be valid" do
+      assert @issue.add_watcher(@group)
+      @issue.reload
+      assert @issue.watchers.detect { |w| w.user == @group }
+    end
+    
+    should "add all group members to recipients" do
+      @issue.watchers.delete_all
+      @issue.reload
+    
+      assert @issue.watcher_recipients.empty?
+      assert @issue.add_watcher(@group)
+
+      @user.save    
+      @issue.reload
+      assert @issue.watcher_recipients.include?(@user.mail)
+      assert @issue.watcher_recipients.include?(@user2.mail)
+
+    end
+    
+  end
 end

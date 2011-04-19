@@ -14,8 +14,8 @@
 
 class Watcher < ActiveRecord::Base
   belongs_to :watchable, :polymorphic => true
-  belongs_to :user
-
+  belongs_to :user, :class_name => 'Principal', :foreign_key => 'user_id'
+  
   validates_presence_of :user
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
 
