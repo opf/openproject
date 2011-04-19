@@ -39,63 +39,51 @@
   width:100%;
 }
 #rb .backlog .header .menu {
-  -moz-box-shadow: 1px 0px 0px #DEDEDE;
-  -webkit-box-shadow: 1px 0px 0px #DEDEDE;
-  box-shadow: 1px 0px 0px #DEDEDE;
-  -moz-border-radius:5px 0px 0px 0px;
-  -webkit-border-radius:5px 0px 0px 0px;
-  border-radius:5px 0px 0px 0px;
-  border-right:1px solid #999999;
-  cursor:pointer;
-  height:30px;
-  left:0;
-  overflow:visible;
-  position:absolute;
-  top:0;
-  width:29px;
+  border-right: 1px solid #E4E4E4;
+  cursor: pointer;
+  height: 30px;
+  overflow: visible;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 29px;
 }
 #rb .backlog .header .menu.hover,
 #rb .backlog .header .menu:hover {
-  -moz-box-shadow: 2px 2px 3px #999999;
-  -webkit-box-shadow: 2px 2px 3px #999999;
-  box-shadow: 2px 2px 3px #999999;
-  background-color:#EFEFEF;
-  border-right:none;
   width:30px;
   z-index:1000;
 }
 #rb .backlog .header .menu .icon {
-  left:7px;
   position:absolute;
-  top:7px;
+  top: 7px;
+  left: 7px;
   padding: 0;
 }
 #rb .backlog .header .menu .items {
-  display:none;
+  display: none;
 }
 #rb .backlog .header .menu.hover .items,
 #rb .backlog .header .menu:hover .items {
-  -moz-box-shadow: 2px 2px 3px #999999;
-  -webkit-box-shadow: 2px 2px 3px #999999;
-  box-shadow: 2px 2px 3px #999999;
-  background-color:#EFEFEF;
-  display:block;
-  left:0;
-  list-style:none;
-  margin:0;
-  padding:0;
-  position:absolute;
-  top:30px;
+  background-color: #EEEEEE;
+  border: 1px solid #E4E4E4;
+  display: block;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 #rb .backlog .header .menu .item {
   display: block;
-  height:24px;
-  overflow:hidden;
+  width: 160px;
+  height: 24px;
   text-align: left;
   text-decoration: none;
   vertical-align: middle;
+  overflow: hidden;
   white-space: nowrap;
-  width:160px;
 }
 #rb .backlog .header .menu .item.hover,
 #rb .backlog .header .menu .item:hover {
