@@ -22,7 +22,7 @@
 <% end %>
 
 <div class="contextual">
-  <% if @sprint.has_burndown %>
+  <% if @sprint.has_burndown? %>
     <a id='show_charts'><%= l(:label_burndown) %></a>
   <% end %>
 

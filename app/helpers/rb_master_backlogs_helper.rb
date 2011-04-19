@@ -68,7 +68,7 @@ module RbMasterBacklogsHelper
                                  :project_id => @project.id,
                                  :sprint_id => backlog.sprint)
 
-    if backlog.sprint.has_burndown
+    if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,
                                      l('backlogs.show_burndown_chart'),
                                      :href => '#',

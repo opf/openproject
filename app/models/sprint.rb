@@ -95,7 +95,7 @@ class Sprint < Version
         return self.start_date + Integer(self.points * dpp * 7.0/5)
     end
 
-    def has_burndown
+    def has_burndown?
       !!(self.effective_date and self.sprint_start_date)
     end
 
@@ -110,7 +110,7 @@ class Sprint < Version
     end
 
     def burndown(project, burn_direction = nil)
-        return nil if not self.has_burndown
+        return nil if not self.has_burndown?
         @cached_burndown ||= Burndown.new(self, project, burn_direction)
         return @cached_burndown
     end
