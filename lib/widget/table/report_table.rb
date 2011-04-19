@@ -54,53 +54,6 @@ class Widget::Table::ReportTable < Widget::Table
     write "</table>"
   end
 
-  def render_thead
-    write "<thead>"
-    walker.headers do |list, first, first_in_col, last_in_col|
-      write '<tr>' if first_in_col
-      write "<th rowspan='#{@query.depth_of(:column)}' colspan='#{@query.depth_of(:row)}'></th>" if first
-      list.each do |column|
-        write "<th colspan=#{column.final_number(:column)}"
-        write ' class="inner"' if column.final?(:column)
-        write ">"
-        write show_row(column)
-        write "</th>"
-      end
-      write "<th rowspan='#{@query.depth_of(:column)}' colspan='#{@query.depth_of(:row)}'></th>" if first
-      write '</tr>' if last_in_col
-    end
-    write "</thead>"
-  end
-
-  def render_tfoot
-    write "<tfoot>"
-    walker.reverse_headers do |list, first, first_in_col, last_in_col|
-      write "<tr>" if first_in_col
-      if first
-        write "<th rowspan='#{@query.depth_of(:column)}'
-                              colspan='#{@query.depth_of(:row)}' class='top'>&nbsp;</th>"
-      end
-      list.each do |column|
-        write "<th colspan='#{column.final_number(:column)}'"
-        write ' class="inner"' if first
-        write '>'
-        write show_result(column)
-        # FIXME: write debug_fields(column)
-        write "</th>"
-      end
-      if last_in_col
-        if first
-          write "<th rowspan='#{@query.depth_of(:column)}'
-                              colspan='#{@query.depth_of(:row)}' class='top result'>"
-          write show_result(@query)
-          write "</th>"
-        end
-        write "</tr>"
-      end
-    end
-    write "</tfoot>"
-  end
-
   def render_tbody
     write "<tbody>"
     first = true
@@ -114,6 +67,66 @@ class Widget::Table::ReportTable < Widget::Table
       odd = !odd
     end
     write "</tbody>"
+  end
+
+  def render_thead
+    write "<thead>"
+    walker.headers do |list, first, first_in_col, last_in_col|
+      write '<tr>' if first_in_col
+      if first
+        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+          ""
+        end)
+      end
+      list.each do |column|
+        opts = { :colspan => column.final_number(:column) }
+        opts.merge!(:class => "inner") if column.final?(:column)
+        write (content_tag :th, opts do
+          show_row column
+        end)
+      end
+      if first
+        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+          ""
+        end)
+      end
+      write '</tr>' if last_in_col
+    end
+    write "</thead>"
+  end
+
+  def render_tfoot
+    write "<tfoot>"
+    walker.reverse_headers do |list, first, first_in_col, last_in_col|
+      if first_in_col
+        write '<tr>'
+        if first
+          write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
+            " "
+          end)
+        end
+      end
+
+      list.each do |column|
+        opts = { :colspan => column.final_number(:column) }
+        opts.merge!(:class => "inner") if first
+        write (content_tag :th, opts do
+          "#{show_result(column)}" #{debug_fields(column)}
+        end)
+      end
+      if last_in_col
+        if first
+          write (content_tag :th,
+          :rowspan => @query.depth_of(:column),
+          :colspan => @query.depth_of(:row),
+          :class => 'top result' do
+            show_result @query
+          end)
+        end
+        write '</tr>'
+      end
+    end
+    write "</tfoot>"
   end
 
   def debug_content
