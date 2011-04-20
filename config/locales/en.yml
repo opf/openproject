@@ -16,7 +16,7 @@ en:
 
   label_count: Count
   label_sum: Sum
-  label_none: "(no value)"
+  label_none: "(no data)"
 
   description_drill_down: Show details
 
