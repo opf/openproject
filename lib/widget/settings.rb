@@ -1,4 +1,6 @@
 class Widget::Settings < Widget::Base
+  dont_cache! # Settings may change due to permissions
+
   def render
     write(form_tag("#", {:id => 'query_form', :method => :post}) do
       content_tag :div, :id => "query_form_content" do
