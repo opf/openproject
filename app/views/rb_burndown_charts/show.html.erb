@@ -9,9 +9,7 @@
 
   <fieldset class="burndown_control">
       <legend><%= l('backlogs.chart_options') %></legend>
-      <% @burndown.series(:all).each do |key_series| %>
-        <input class="series_enabled" type="checkbox" id="<%= key_series.first %>" name="<%= key_series.first %>" value="<%= key_series.first %>" checked><%= l('backlogs.' + key_series.first.to_s) %><br/>
-      <% end %>
+      <%= burndown_series_checkboxes(@burndown) %>
   </fieldset>
 <% else %>
   <%= l('backlogs.no_burndown_data')%>
