@@ -163,7 +163,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_activities
-      c = Changeset.new(:repository   => @repository,
+      c = Changeset.create(:repository   => @repository,
                         :committed_on => Time.now,
                         :revision     => '123',
                         :scmid        => 'abc400bb8672',

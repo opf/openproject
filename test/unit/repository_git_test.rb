@@ -95,7 +95,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
 
     def test_activities
-      c = Changeset.new(:repository => @repository,
+      c = Changeset.create(:repository => @repository,
                         :committed_on => Time.now,
                         :revision => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                         :scmid    => 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
