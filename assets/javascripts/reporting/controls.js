@@ -133,12 +133,16 @@ Reporting.onload(function () {
   }
   // don't concern ourselves with new queries
   if ($('query_saved_name').getAttribute("data-is_new") !== null) {
-    Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
-    Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
-    $('delete_form').hide();
+    if ($('query-icon-delete') !== null) {
+      Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
+      Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
+      $('delete_form').hide();
+    }
 
-    // When saving an update of an exisiting query or apply filters, we replace the table on success
-    Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+    if ($("query-breadcrumb-save") !== null) {
+      // When saving an update of an exisiting query or apply filters, we replace the table on success
+      Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+    }
   }
 
   Reporting.Controls.observe_click("query-icon-save-as", Reporting.Controls.toggle_save_as_form);
