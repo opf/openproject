@@ -18,11 +18,15 @@ class Widget::Controls::SaveAs < Widget::Base
       label_tag(:query_name, l(:field_name)) +
       text_field_tag(:query_name, @query.name)
     end
-    box = content_tag :p do
-      label_tag(:query_is_public, l(:field_is_public)) +
-      check_box_tag(:query_is_public)
+    if @options[:can_save_as_public]
+      box = content_tag :p do
+        label_tag(:query_is_public, l(:field_is_public)) +
+          check_box_tag(:query_is_public)
+      end
+      name + box
+    else
+      name
     end
-    name + box
   end
 
   def render_popup_buttons
