@@ -43,7 +43,7 @@ class Widget::Base < Widget
   end
 
   def cache_key
-    "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options}"
+    @cache_key ||= "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
   end
 
   def cached?
