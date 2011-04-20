@@ -41,7 +41,7 @@ class Widget::Base < Widget
   end
 
   def cache_key
-    subject.cache_key
+    "#{self.class.name}/#{subject.cache_key}"
   end
 
   def cached?
