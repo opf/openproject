@@ -174,7 +174,7 @@ class Report::SqlStatement
     return(@select || default_select) if fields.empty?
     (@select ||= []).tap do
       @sql = nil
-      fields.each do |f|
+      fields.reject {|f| never_select.include? f}.each do |f|
         case f
         when Array
           if f.size == 2 and f.first.respond_to? :table_name then select field_name_for(f)
@@ -199,6 +199,15 @@ class Report::SqlStatement
     end
   end
 
+  def never_select(*fields)
+    (@never_select ||= []).tap do
+      unless fields.empty?
+        @never_select += fields
+        unselect *fields
+      end
+    end
+  end
+
   ##
   # Return the names which have been bound through select statements
   # @return [Array<String>] All fields for select part
@@ -216,7 +225,7 @@ class Report::SqlStatement
   def group_by(*fields)
     @sql = nil unless fields.empty?
     (@group_by ||= []).tap do
-      fields.each do |e|
+      fields.reject {|f| never_group_by.include? f}.each do |e|
         if e.is_a? Array and (e.size != 2 or !e.first.respond_to? :table_name)
           group_by(*e)
         else
@@ -231,6 +240,15 @@ class Report::SqlStatement
     @sql = nil
     @group_by = @group_by.reject do |field|
       fields.find { |f| f == field }
+    end
+  end
+
+  def never_group_by(*fields)
+    (@never_group_by ||= []).tap do
+      unless fields.empty?
+        @never_group_by += fields
+        group_not_by *fields
+      end
     end
   end
 
