@@ -241,6 +241,19 @@
 .ui-dialog.ui-widget-content { border:none; }
 .ui-dialog .ui-dialog-buttonpane.ui-widget-content { border:none; }
 
+.rb_dialog .burndown_chart {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.rb_dialog #charts {
+  overflow: hidden;
+}
+
+.rb_dialog #charts .axislabel{
+  font-weight: bold;
+}
 
 /* In-place Sprint Editor */
 #rb #backlogs_container .sprint.editing .editors,
@@ -296,14 +309,4 @@
 }
 #rb #backlogs_container .stories .story.editing .story_points.editor {
   float: right;
-}
-
-.rb_dialog .burndown_chart {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-}
-
-.rb_dialog #charts .axislabel{
-  font-weight: bold;
 }
