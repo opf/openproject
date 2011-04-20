@@ -1,6 +1,5 @@
 <%- charts = burndown.is_a?(Array) ? burndown : [burndown] %>
 <%- dataseries = charts[0].series(:all).keys %>
-<%- datasets = charts[0].series.collect{|s| "#{s.first.to_s}: {label: '#{l('backlogs.' + s.first.to_s)}', data: [#{s.last.enum_for(:each_with_index).collect{|s, i| "[#{i+1}, #{s}] "}.join(', ')}]} "}%>
 <%- chart = charts[0] %>
 
 <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
@@ -14,7 +13,7 @@
   jQuery(function ($) {
     var datasets;
 
-    datasets = { <%= datasets.join(', ') %> };
+    datasets = { <%= burndown_dataseries(chart).join(', ') %> };
 
     var i = 0;
     $.each(datasets, function(key, val) {
@@ -44,9 +43,9 @@
       if (data.length > 0){
         $.plot($(".burndown_chart"), data, {
           yaxis: { min: 0,
-            ticks: [ <%= yaxis_labels [chart.max[:hours], chart.max[:points]].max %> ] },
+            ticks: [ <%= burndown_yaxis_labels([chart.max[:hours], chart.max[:points]].max) %> ] },
           xaxis: {
-              ticks: [<%= chart.days.enum_for(:each_with_index).collect{|d,i| "[#{i+1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])}']"}.join(',') + ", [#{chart.days.length + 1}, '<span class=\"axislabel\">#{I18n.t('backlogs.date')}</span>']" %>],
+              ticks: [<%= burndown_xaxis_labels(chart) %>],
               tickDecimals: 0,
               max: <%= chart.days.length + 1 %>
             }
@@ -55,7 +54,7 @@
     };
 
     $(document).ready(function(){
-      $('#charts').height(470);
+      $('#charts').height(470); //haven't figured out yet how to do this with css
       $('.burndown_control input').click(plotAccordingToChoices);
 
       plotAccordingToChoices();
