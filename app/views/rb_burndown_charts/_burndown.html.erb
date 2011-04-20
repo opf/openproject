@@ -9,12 +9,15 @@
   jQuery(function ($) {
     var Burndown = {
       datasets: { <%= dataseries(burndown).join(', ') %> },
+      previousPoint: null,
 
       setDatasetColor: function () {
         var i = 0;
 
         $.each(Burndown.datasets, function (key, val) {
           val.color = i;
+          val.points = {show: true, radius: 2};
+          val.lines = {show: true};
           ++i;
         });
       },
@@ -47,8 +50,43 @@
               tickDecimals: 0,
               max: <%= burndown.days.length + 1 %>,
               min: 1
-            }
+            },
+            grid: { hoverable: true, clickable: true }
           });
+        }
+      },
+
+      showTooltip: function(x, y, contents) {
+         $('<div id="tooltip">' + contents + '</div>').css( {
+             position: 'absolute',
+             display: 'none',
+             top: y + 5,
+             left: x + 5,
+             border: '1px solid #fdd',
+             padding: '2px',
+             'background-color': '#fee',
+             opacity: 0.80
+         }).appendTo("body").css('z-index', 2000).fadeIn(200);
+      },
+
+
+      showTooltipOnHover: function (event, pos, item) {
+
+        if (item) {
+          if (Burndown.previousPoint != item.dataIndex) {
+            Burndown.previousPoint = item.dataIndex;
+
+            $("#tooltip").remove();
+            var x = item.datapoint[0].toFixed(0),
+                y = item.datapoint[1].toFixed(0);
+
+            Burndown.showTooltip(item.pageX, item.pageY,
+                                 item.series.label + ": " + y);
+          }
+        }
+        else {
+          $("#tooltip").remove();
+          Burndown.previousPoint = null;
         }
       },
 
@@ -56,6 +94,7 @@
         Burndown.setDatasetColor();
 
         $('.burndown_control input').click(Burndown.plotAccordingToChoices);
+        $(".burndown_chart").bind("plothover", Burndown.showTooltipOnHover);
 
         Burndown.plotAccordingToChoices();
       }
