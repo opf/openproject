@@ -77,7 +77,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template "account/lost_password"
     
     post "account/lost_password", :mail => 'jSmith@somenet.foo'
-    assert_redirected_to "/login"
+    assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2F"
     
     token = Token.find(:first)
     assert_equal 'recovery', token.action
@@ -143,6 +143,30 @@ class AccountTest < ActionController::IntegrationTest
     assert_redirected_to '/login'
     log_user('newuser', 'newpass')
   end
+
+  should_eventually "login after losing password should redirect back to home" do
+    visit "/login"
+    assert_response :success
+
+    click_link "Lost password"
+    assert_response :success
+
+    # Lost password form
+    fill_in "mail", :with => "admin@somenet.foo"
+    click_button "Submit"
+    
+    assert_response :success # back to login page
+    assert_equal "/login", current_path
+
+    fill_in "Login:", :with => 'admin'
+    fill_in "Password:", :with => 'test'
+    click_button "login"
+
+    assert_response :success
+    assert_equal "/", current_path
+    
+  end
+  
   
   if Object.const_defined?(:Mocha)
   
