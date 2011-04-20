@@ -1,4 +1,6 @@
 class Widget::Controls::QueryName < Widget::Base
+  dont_cache! # The name might change, but the query stays the same...
+
   def render
     options = { :id => "query_saved_name", "data-translations" => translations }
     if @query.new_record?
