@@ -301,6 +301,7 @@
 .rb_dialog .burndown_chart {
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .rb_dialog #charts .axislabel{

@@ -7,58 +7,60 @@
 
 <script type="text/javascript" language="javascript">
   jQuery(function ($) {
-    var datasets;
+    var Burndown = {
+      datasets: { <%= burndown_dataseries(burndown).join(', ') %> },
 
-    datasets = { <%= burndown_dataseries(burndown).join(', ') %> };
+      setDatasetColor: function () {
+        var i = 0;
 
-    function setDatasetColor() {
-      var i = 0;
+        $.each(Burndown.datasets, function (key, val) {
+          val.color = i;
+          ++i;
+        });
+      },
 
-      $.each(datasets, function(key, val) {
-        val.color = i;
-        ++i;
-      });
-    }
+      plotAccordingToChoices: function () {
+        var data = [];
 
-    function plotAccordingToChoices() {
-      var data = [];
+        $('.burndown_control').find("input:checked").each(function () {
+          var key = $(this).attr('value');
 
-      $('.burndown_control').find("input:checked").each(function () {
-        var key = $(this).attr('value');
+          if (key && Burndown.datasets[key]) {
+            data.push(Burndown.datasets[key]);
+          }
+        });
 
-        if (key && datasets[key]){
-          data.push(datasets[key]);
+        if (data.length === 0) { //in order to render an empty graph if no data is selected
+          data.push({data : []});
         }
-      });
 
-      if(data.length == 0){ //in order to render an empty graph if no data is selected
-        data.push({data : []});
-      }
+        Burndown.plot(data);
+      },
 
-      plot(data);
-    };
-
-    function plot(data) {
-      if (data.length > 0){
-        $.plot($(".burndown_chart"), data, {
-          yaxis: { min: 0,
-            ticks: [ <%= burndown_yaxis_labels([burndown.max[:hours], burndown.max[:points]].max) %> ] },
-          xaxis: {
+      plot: function (data) {
+        if (data.length > 0) {
+          $.plot($(".burndown_chart"), data, {
+            yaxis: { min: 0,
+              ticks: [ <%= burndown_yaxis_labels(burndown) %> ] },
+            xaxis: {
               ticks: [<%= burndown_xaxis_labels(burndown) %>],
               tickDecimals: 0,
               max: <%= burndown.days.length + 1 %>,
               min: 1
             }
-        });
-      };
+          });
+        }
+      },
+
+      init: function () {
+        Burndown.setDatasetColor();
+        $('#charts').height(470); //haven't figured out yet how to do this with css
+        $('.burndown_control input').click(Burndown.plotAccordingToChoices);
+
+        Burndown.plotAccordingToChoices();
+      }
     };
 
-    $(document).ready(function(){
-      setDatasetColor();
-      $('#charts').height(470); //haven't figured out yet how to do this with css
-      $('.burndown_control input').click(plotAccordingToChoices);
-
-      plotAccordingToChoices();
-    });
+    $(document).ready(Burndown.init);
   });
 </script>
