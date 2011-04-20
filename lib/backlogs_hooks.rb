@@ -72,61 +72,55 @@ module BacklogsPlugin
         snippet
       end
 
-      def view_issues_form_details_bottom(context={ })
+      def view_issues_form_details_bottom(context = {})
         snippet = ''
         issue = context[:issue]
 
         return '' unless issue.project.module_enabled? 'backlogs'
 
-        #project = context[:project]
-
-        #developers = project.members.select {|m| m.user.allowed_to?(:log_time, project)}.collect{|m| m.user}
-        #developers = select_tag("time_entry[user_id]", options_from_collection_for_select(developers, :id, :name, User.current.id))
-        #developers = developers.gsub(/\n/, '')
+        snippet << %(<div id="backlogs-attributes" class="attributes">)
+        snippet << %(<div class="splitcontentleft">)
 
         if issue.is_story?
-          snippet += '<p>'
-          #snippet += context[:form].label(:story_points)
-          snippet += context[:form].text_field(:story_points, :size => 3)
-          snippet += '</p>'
+          snippet << '<p>'
+          snippet << context[:form].text_field(:story_points, :size => 3)
+          snippet << '</p>'
 
           if issue.descendants.length != 0
-            snippet += javascript_include_tag_backlogs 'lib/jquery.js'
-            snippet += <<-generatedscript
+            snippet << javascript_include_tag_backlogs('lib/jquery.js')
+            snippet << javascript_tag(<<-JS)
+              var $j = jQuery.noConflict();
 
-              <script type="text/javascript">
-                var $j = jQuery.noConflict();
-
-                $j(document).ready(function() {
-                  $j('#issue_estimated_hours').attr('disabled', 'disabled');
-                  $j('#issue_done_ratio').attr('disabled', 'disabled');
-                  $j('#issue_start_date').parent().hide();
-                  $j('#issue_due_date').parent().hide();
-                });
-              </script>
-            generatedscript
+              $j(document).ready(function() {
+                $j('#issue_estimated_hours').attr('disabled', 'disabled');
+                $j('#issue_done_ratio').attr('disabled', 'disabled');
+                $j('#issue_start_date').parent().hide();
+                $j('#issue_due_date').parent().hide();
+              });
+            JS
           end
         end
 
         if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
-          snippet += '<p>'
-          #snippet += context[:form].label(:remaining_hours)
-          snippet += context[:form].text_field(:remaining_hours, :size => 3)
-          snippet += '</p>'
+          snippet << '<p>'
+          snippet << context[:form].text_field(:remaining_hours, :size => 3)
+          snippet << '</p>'
         end
 
         params = context[:controller].params
         if issue.is_story? && params[:copy_from]
-          snippet += "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
-          snippet += "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
+          snippet << "<p><label for='link_to_original'>#{l(:rb_label_link_to_original)}</label>"
+          snippet << "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
 
-          snippet += "<p><label>#{l(:rb_label_copy_tasks)}</label>"
-          snippet += "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true)} #{l(:rb_label_copy_tasks_open)}<br />"
-          snippet += "#{radio_button_tag('copy_tasks', 'none', false)} #{l(:rb_label_copy_tasks_none)}<br />"
-          snippet += "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false)} #{l(:rb_label_copy_tasks_all)}</p>"
+          snippet << "<p><label>#{l(:rb_label_copy_tasks)}</label>"
+          snippet << "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true)} #{l(:rb_label_copy_tasks_open)}<br />"
+          snippet << "#{radio_button_tag('copy_tasks', 'none', false)} #{l(:rb_label_copy_tasks_none)}<br />"
+          snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false)} #{l(:rb_label_copy_tasks_all)}</p>"
         end
 
-        return snippet
+        snippet << %(</div>) * 2
+
+        snippet
       end
 
       def view_versions_show_bottom(context={ })
@@ -144,16 +138,13 @@ module BacklogsPlugin
 
           # this wouldn't be necesary if the schedules plugin
           # didn't disable the contextual hook
-          snippet += javascript_include_tag_backlogs 'lib/jquery.js'
-          snippet += <<-generatedscript
-
-            <script type="text/javascript">
-                var $j = jQuery.noConflict();
-              $j(document).ready(function() {
-                $j('#edit_wiki_page_action').detach().appendTo("div.contextual");
-              });
-            </script>
-          generatedscript
+          snippet += javascript_include_tag_backlogs('lib/jquery.js')
+          snippet += javascript_tag(<<-JS)
+            var $j = jQuery.noConflict();
+            $j(document).ready(function() {
+              $j('#edit_wiki_page_action').detach().appendTo("div.contextual");
+            });
+          JS
         end
       end
 
