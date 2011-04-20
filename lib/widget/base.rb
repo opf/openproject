@@ -35,13 +35,14 @@ class Widget::Base < Widget
   # Available options:
   #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
   def render_with_options(options = {}, &block)
-    set_canvas(options[:to]) if options.has_key? :to
+    set_canvas(options.delete(:to)) if options.has_key? :to
+    @options = options
     render_with_cache(options, &block)
     @output
   end
 
   def cache_key
-    "#{self.class.name}/#{subject.cache_key}"
+    "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options}"
   end
 
   def cached?
