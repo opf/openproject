@@ -1,3 +1,5 @@
+require 'abbrev'
+
 class Report::GroupBy
   class Base < Report::Chainable
     include Report::QueryUtils
@@ -14,6 +16,17 @@ class Report::GroupBy
 
     def sql_aggregation?
       child.filter?
+    end
+
+    def self.cache_key
+      @cache_key ||= begin
+        abbrev = Abbrev.abbrev(engine::GroupBy.all.map(&:underscore_name))
+        abbrev.keys.detect { |key| abbrev[key] == underscore_name }.to_s
+      end
+    end
+
+    def cache_key
+      self.class.cache_key + type.to_s[0,1]
     end
 
     ##

@@ -144,21 +144,11 @@ class Report < ActiveRecord::Base
     size
   end
 
-  def hash
-    report_string = ""
-    report_string.concat('filters: [')
-    report_string.concat(filters.map do |f|
-      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "")
-    end.sort.join(', '))
-    report_string.concat(']')
-    report_string.concat(', group_bys: {')
-
-    report_string.concat(group_bys.group_by(&:type).map do |t, gbs|
-      "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
-    end.join(', '))
-
-    report_string.concat('}')
-    report_string.hash
+  def cache_key
+    deserialize unless @chain
+    parts = [self.class.table_name.sub('_reports', '')]
+    parts.concat [filters, group_bys].map { |l| l.map(&:cache_key).sort.join(" ") }
+    parts.join '/'
   end
 
   def == another_report
