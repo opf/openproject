@@ -152,10 +152,11 @@ RB.Backlog = (function ($) {
       $('#charts').dialog({
         dialogClass: "rb_dialog",
         height: 500,
+        width: 710,
         position: 'center',
         modal: true,
         title: RB.i18n.burndown_graph,
-        width: 710
+        resizable: false
       });
     }
   });
