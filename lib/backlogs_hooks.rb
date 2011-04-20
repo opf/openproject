@@ -34,7 +34,7 @@ module BacklogsPlugin
           })
       end
 
-      def view_issues_show_details_bottom(context={ })
+      def view_issues_show_details_bottom(context = {})
         issue = context[:issue]
 
         return '' unless issue.project.module_enabled? 'backlogs'
@@ -42,17 +42,29 @@ module BacklogsPlugin
         snippet = ''
 
         if issue.is_story?
-          snippet += "<tr><th>#{l(:field_story_points)}</th><td>#{Story.find(issue.id).points_display}</td></tr>"
-          #disabled as long as scrum statistics are disabled
-          #vbe = issue.velocity_based_estimate
-          #snippet += "<tr><th>#{l(:field_velocity_based_estimate)}</th><td>#{vbe ? vbe.to_s + ' days' : '-'}</td></tr>"
+          snippet += %Q{
+            <tr>
+              <th class="story-points">#{l(:field_story_points)}:</th>
+              <td class="story-points">#{Story.find(issue.id).points_display}</td>
+            </tr>
+          }
+
+          if Setting.plugin_redmine_backlogs[:show_statistics]
+            vbe = issue.velocity_based_estimate
+            snippet += %Q{
+              <tr>
+                <th class="velocity-based-estimate">#{l(:field_velocity_based_estimate)}:</th>
+                <td class="velocity-based-estimate">#{vbe ? vbe.to_s + ' days' : '-'}</td>
+              </tr>
+            }
+          end
         end
 
         if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
           snippet += "<tr><th>#{l(:field_remaining_hours)}</th><td>#{issue.remaining_hours}</td></tr>"
         end
 
-        return snippet
+        snippet
       end
 
       def view_issues_form_details_bottom(context={ })
