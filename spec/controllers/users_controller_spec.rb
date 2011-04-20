@@ -8,6 +8,8 @@ describe UsersController do
     @global_roles = [mock_model(GlobalRole), mock_model(GlobalRole)]
     GlobalRole.stub!(:all).and_return(@global_roles)
     User.stub!(:find).with("1").and_return(mock_model User)
+    
+    disable_log_requesting_user
   end
 
   describe "get" do
