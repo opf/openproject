@@ -104,6 +104,8 @@ module BacklogsPlugin
         if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
           snippet << '<p>'
           snippet << context[:form].text_field(:remaining_hours, :size => 3)
+          snippet << ' '
+          snippet << l(:field_hours)
           snippet << '</p>'
         end
 
