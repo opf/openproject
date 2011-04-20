@@ -116,6 +116,7 @@ de:
     close: "Schließen"
     points: "Punkte"
     hours: "Stunden"
+    date: "Tag"
 
   project_module_backlogs: "Backlogs (Beta)"
 

@@ -1,12 +1,16 @@
+<h3>
+  <%= "#{@sprint.name}: #{I18n.l(@sprint.sprint_start_date)} - #{I18n.l(@sprint.effective_date)}" %>
+</h3>
+
 <% if @burndown %>
   <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
 
-  <div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>"><div class="loading"><%=l('backlogs.generating_chart')%></div></div>
+  <div class="burndown_chart" id="burndown_<%= @burndown.sprint_id %>" style="width:600px;height:300px;"><div class="loading"><%=l('backlogs.generating_chart')%></div></div>
 
-  <fieldset>
+  <fieldset class="burndown_control">
       <legend><%= l('backlogs.chart_options') %></legend>
-      <% @burndown.series(:all).each do |series| %>
-          <input class="series_enabled" type="checkbox" onclick="burndown_configure(this)" id="<%= series.name %>_enabled" name="<%= series.name %>_enabled" value="<%= series.name %>"><%= l('backlogs.' + series.name.to_s) %><br/>
+      <% @burndown.series(:all).each do |key_series| %>
+        <input class="series_enabled" type="checkbox" id="<%= key_series.first %>" name="<%= key_series.first %>" value="<%= key_series.first %>" checked><%= l('backlogs.' + key_series.first.to_s) %><br/>
       <% end %>
   </fieldset>
 <% else %>

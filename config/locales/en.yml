@@ -116,6 +116,7 @@ en:
     close: "Close"
     points: "Points"
     hours: "Hours"
+    date: "Day"
 
   project_module_backlogs: "Backlogs (Beta)"
 

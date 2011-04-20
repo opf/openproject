@@ -297,3 +297,12 @@
 #rb #backlogs_container .stories .story.editing .story_points.editor {
   float: right;
 }
+
+.rb_dialog .burndown_chart {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.rb_dialog #charts .axislabel{
+  font-weight: bold;
+}

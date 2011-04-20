@@ -151,7 +151,7 @@ class Burndown
   attr_reader :story_points_ideal
 
   def series(select = :active)
-    @available_series.values.select{|s| (select == :all) || s.display }.sort{|x,y| "#{x.name}" <=> "#{y.name}"}
+    @available_series
   end
 
   private
