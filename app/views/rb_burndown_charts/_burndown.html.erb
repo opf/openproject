@@ -8,7 +8,7 @@
 <script type="text/javascript" language="javascript">
   jQuery(function ($) {
     var Burndown = {
-      datasets: { <%= burndown_dataseries(burndown).join(', ') %> },
+      datasets: { <%= dataseries(burndown).join(', ') %> },
 
       setDatasetColor: function () {
         var i = 0;
@@ -41,9 +41,9 @@
         if (data.length > 0) {
           $.plot($(".burndown_chart"), data, {
             yaxis: { min: 0,
-              ticks: [ <%= burndown_yaxis_labels(burndown) %> ] },
+              ticks: [ <%= yaxis_labels(burndown) %> ] },
             xaxis: {
-              ticks: [<%= burndown_xaxis_labels(burndown) %>],
+              ticks: [<%= xaxis_labels(burndown) %>],
               tickDecimals: 0,
               max: <%= burndown.days.length + 1 %>,
               min: 1
@@ -61,6 +61,6 @@
       }
     };
 
-    $(document).ready(Burndown.init);
+    Burndown.init();
   });
 </script>
