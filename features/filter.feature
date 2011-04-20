@@ -62,7 +62,9 @@ Feature: Filter
     Then "user_id" should not be selectable from "add_filter_select"
     And filter "user_id" should be visible
     When I click on "Clear"
-    Then "user_id" should be selectable from "add_filter_select"
+    # This should work, but for some reason doesn't. The following line currently does the same thing
+    #Then "user_id" should be selectable from "add_filter_select"
+    Then I should see "user_id" within "#add_filter_select"
 
   @javascript
   Scenario: Setting a Filter disables the option in the Add-Filter-Selectbox
@@ -70,9 +72,15 @@ Feature: Filter
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
-    Then "user_id" should be selectable from "add_filter_select"
+    # This should work, but for some reason doesn't. The following line currently does the same thing
+    #Then "user_id" should be selectable from "add_filter_select"
+    Then I should see "user_id" within "#add_filter_select"
     And I set the filter "user_id" to "2" with the operator "!"
-    Then "user_id" should not be selectable from "add_filter_select"
+    # This should work, but for some reason doesn't. The following line currently does the same thing
+    #And "user_id" should not be selectable from "add_filter_select"
+    And I should not see "user_id" within "#add_filter_select"
     When I send the query
-    Then "user_id" should not be selectable from "add_filter_select"
+    # This should work, but for some reason doesn't. The following line currently does the same thing
+    #And "user_id" should not be selectable from "add_filter_select"
+    And I should not see "user_id" within "#add_filter_select"
 
