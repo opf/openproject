@@ -116,4 +116,18 @@ module RbCommonHelper
     args.push(:plugin => 'redmine_backlogs')
     javascript_include_tag *args
   end
+
+  def yaxis_labels(max)
+    labels = []
+
+    mvalue = (max / 25) + 1
+
+    (0..mvalue).each do |i|
+      labels << "[#{i*25}, #{i*25}]"
+    end
+
+    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.hours')}/<br>#{l('backlogs.points')}</span>']"
+
+    labels.join(', ')
+  end
 end

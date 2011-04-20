@@ -3,38 +3,21 @@
 <%- datasets = charts[0].series.collect{|s| "#{s.first.to_s}: {label: '#{l('backlogs.' + s.first.to_s)}', data: [#{s.last.enum_for(:each_with_index).collect{|s, i| "[#{i+1}, #{s}] "}.join(', ')}]} "}%>
 <%- chart = charts[0] %>
 
-<%- def yaxis_labels(max)
-  labels = []
+<%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
 
-  mvalue = (max / 25) + 1
+<%= javascript_include_tag_backlogs 'lib/jquery.js' %>
+<!--[if IE]><%= javascript_include_tag_backlogs 'lib/jquery.flot/excanvas.js' %><![endif]-->
+<%= javascript_include_tag_backlogs 'lib/jquery.cookies.2.2.0.min.js',
+                                    'lib/jquery.flot/jquery.flot.js' %>
 
-  (0..mvalue).each do |i|
-    labels << "[#{i*25}, #{i*25}]"
-  end
-
-  labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.hours')}/<br>#{l('backlogs.points')}</span>']"
-
-  labels.join(', ')
-end %>
-
-  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
-
-  <%= javascript_include_tag_backlogs 'lib/jquery.js' %>
-  <!--[if IE]><%= javascript_include_tag_backlogs 'lib/jquery.flot/excanvas.js' %><![endif]-->
-  <%= javascript_include_tag_backlogs 'lib/jquery.cookies.2.2.0.min.js',
-                                      'lib/jquery.flot/jquery.flot.js' %>
-
-  <script type="text/javascript" language="javascript">
-    var burndown_charts, ticks, datasets;
-    // chart objects
-    burndown_charts = new Object();
-    // TODO: I have no idea why plain 'jQuery' doesn't work
-    burndown_charts.jquery = jQuery.noConflict();
+<script type="text/javascript" language="javascript">
+  jQuery(function ($) {
+    var datasets;
 
     datasets = { <%= datasets.join(', ') %> };
 
     var i = 0;
-    burndown_charts.jquery.each(datasets, function(key, val) {
+    $.each(datasets, function(key, val) {
       val.color = i;
       ++i;
     });
@@ -42,8 +25,8 @@ end %>
     function plotAccordingToChoices() {
       var data = [];
 
-      burndown_charts.jquery('.burndown_control').find("input:checked").each(function () {
-        var key = burndown_charts.jquery(this).attr('value');
+      $('.burndown_control').find("input:checked").each(function () {
+        var key = $(this).attr('value');
 
         if (key && datasets[key]){
           data.push(datasets[key]);
@@ -59,7 +42,7 @@ end %>
 
     function plot(data) {
       if (data.length > 0){
-        burndown_charts.jquery.plot(burndown_charts.jquery(".burndown_chart"), data, {
+        $.plot($(".burndown_chart"), data, {
           yaxis: { min: 0,
             ticks: [ <%= yaxis_labels [chart.max[:hours], chart.max[:points]].max %> ] },
           xaxis: {
@@ -71,10 +54,11 @@ end %>
       };
     };
 
-    burndown_charts.jquery(document).ready(function(){
-      burndown_charts.jquery('#charts').height(470);
-      burndown_charts.jquery('.burndown_control input').click(plotAccordingToChoices);
+    $(document).ready(function(){
+      $('#charts').height(470);
+      $('.burndown_control input').click(plotAccordingToChoices);
 
       plotAccordingToChoices();
     });
-  </script>
+  });
+</script>
