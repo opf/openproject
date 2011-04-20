@@ -72,9 +72,7 @@ class Widget::Base < Widget
   # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
   # a @cache_output String is created, that will mirror what is being written to the canvas.
   def set_canvas(canvas)
-    unless canvas.respond_to? :to_str
-      @cache_output = @output || "".html_safe
-    end
+    @cache_output = "".html_safe
     @output = canvas
   end
 end
