@@ -84,6 +84,10 @@ module GlobalRoles
      @controller.instance_eval{flash.stub!(:sweep)}
     end
 
+    def disable_log_requesting_user
+      @controller.stub!(:log_requesting_user)
+    end
+
     def response_should_render method, *params
       unless @page
         @page ||= mock("page")

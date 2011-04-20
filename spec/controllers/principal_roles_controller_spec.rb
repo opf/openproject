@@ -17,6 +17,7 @@ describe PrincipalRolesController do
     @principal_role.stub!(:id).and_return(23)
     PrincipalRole.stub!(:find).and_return @principal_role
     disable_flash_sweep
+    disable_log_requesting_user
   end
 
   describe :post do
