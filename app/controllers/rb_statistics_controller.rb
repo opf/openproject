@@ -1,6 +1,7 @@
 class RbStatisticsController < RbApplicationController
   unloadable
 
+  skip_before_filter :authorize
   before_filter :authorize_global
 
   def show
@@ -10,5 +11,4 @@ class RbStatisticsController < RbApplicationController
                                 :joins => :project).collect { |mod| mod.project }
     @projects.sort! {|a, b| a.scrum_statistics.score <=> b.scrum_statistics.score}
   end
-
 end
