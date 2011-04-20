@@ -150,12 +150,6 @@ RB.Backlog = (function ($) {
       $('#charts').load(RB.urlFor('show_burndown_chart', { id: backlogs.getSprint().data('this').getID(),
                                                            project_id: RB.constants.project_id}));
       $('#charts').dialog({
-        buttons: [{
-          text: RB.i18n.close,
-          click: function () {
-            $(this).dialog("close");
-          }
-        }],
         dialogClass: "rb_dialog",
         height: 500,
         position: 'center',
