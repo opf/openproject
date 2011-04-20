@@ -1,5 +1,4 @@
 class ContextMenusController < ApplicationController
-  helper :watchers
   
   def issues
     @issues = Issue.visible.all(:conditions => {:id => params[:ids]}, :include => :project)

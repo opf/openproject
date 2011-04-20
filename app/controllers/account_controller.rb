@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AccountController < ApplicationController
-  helper :custom_fields
   include CustomFieldsHelper   
   
   # prevents login action to be filtered by check_if_login_required application scope filter

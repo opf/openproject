@@ -20,7 +20,6 @@ class AdminController < ApplicationController
   
   before_filter :require_admin
 
-  helper :sort
   include SortHelper	
 
   def index

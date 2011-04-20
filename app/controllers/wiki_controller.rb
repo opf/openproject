@@ -38,9 +38,7 @@ class WikiController < ApplicationController
   
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
 
-  helper :attachments
   include AttachmentsHelper   
-  helper :watchers
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index

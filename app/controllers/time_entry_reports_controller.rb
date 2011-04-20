@@ -3,12 +3,8 @@ class TimeEntryReportsController < ApplicationController
   before_filter :find_optional_project
   before_filter :load_available_criterias
 
-  helper :sort
   include SortHelper
-  helper :issues
-  helper :timelog
   include TimelogHelper
-  helper :custom_fields
   include CustomFieldsHelper
 
   def report

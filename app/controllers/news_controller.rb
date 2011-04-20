@@ -25,7 +25,6 @@ class NewsController < ApplicationController
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
   
-  helper :watchers
   
   def index
     case params[:format]

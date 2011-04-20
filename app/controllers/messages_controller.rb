@@ -25,8 +25,6 @@ class MessagesController < ApplicationController
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
   verify :xhr => true, :only => :quote
 
-  helper :watchers
-  helper :attachments
   include AttachmentsHelper   
 
   REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)

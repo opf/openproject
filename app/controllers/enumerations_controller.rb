@@ -20,7 +20,6 @@ class EnumerationsController < ApplicationController
   
   before_filter :require_admin
 
-  helper :custom_fields
   include CustomFieldsHelper
   
   def index

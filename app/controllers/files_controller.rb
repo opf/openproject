@@ -4,7 +4,6 @@ class FilesController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
 
-  helper :sort
   include SortHelper
 
   def index

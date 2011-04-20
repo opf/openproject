@@ -32,14 +32,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-  helper :sort
   include SortHelper
-  helper :custom_fields
   include CustomFieldsHelper   
-  helper :issues
-  helper :queries
   include QueriesHelper
-  helper :repositories
   include RepositoriesHelper
   include ProjectsHelper
   

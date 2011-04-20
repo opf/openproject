@@ -18,7 +18,6 @@
 class SearchController < ApplicationController
   before_filter :find_optional_project
 
-  helper :messages
   include MessagesHelper
 
   def index

@@ -20,11 +20,8 @@ class BoardsController < ApplicationController
   before_filter :find_project, :find_board_if_available, :authorize
   accept_key_auth :index, :show
 
-  helper :messages
   include MessagesHelper
-  helper :sort
   include SortHelper
-  helper :watchers
   include WatchersHelper
  
   def index

@@ -23,13 +23,8 @@ class JournalsController < ApplicationController
   accept_key_auth :index
   menu_item :issues
   
-  helper :issues
-  helper :custom_fields
-  helper :queries
   include QueriesHelper
-  helper :sort
   include SortHelper
-  helper :custom_fields
 
   def index
     retrieve_query

@@ -18,9 +18,6 @@
 class MyController < ApplicationController
   before_filter :require_login
 
-  helper :issues
-  helper :users
-  helper :custom_fields
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
              'issuesreportedbyme' => :label_reported_issues,

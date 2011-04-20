@@ -22,9 +22,7 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
   accept_key_auth :index, :show, :create, :update
 
-  helper :sort
   include SortHelper
-  helper :custom_fields
   include CustomFieldsHelper   
 
   def index

@@ -23,11 +23,8 @@ class TimelogController < ApplicationController
   before_filter :find_optional_project, :only => [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
   
-  helper :sort
   include SortHelper
-  helper :issues
   include TimelogHelper
-  helper :custom_fields
   include CustomFieldsHelper
   
   def index

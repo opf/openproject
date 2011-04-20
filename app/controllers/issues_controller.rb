@@ -31,26 +31,15 @@ class IssuesController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
   
-  helper :journals
-  helper :projects
   include ProjectsHelper   
-  helper :custom_fields
   include CustomFieldsHelper
-  helper :issue_relations
   include IssueRelationsHelper
-  helper :watchers
   include WatchersHelper
-  helper :attachments
   include AttachmentsHelper
-  helper :queries
   include QueriesHelper
-  helper :repositories
   include RepositoriesHelper
-  helper :sort
   include SortHelper
   include IssuesHelper
-  helper :timelog
-  helper :gantt
   include Redmine::Export::PDF
 
   verify :method => [:post, :delete],

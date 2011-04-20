@@ -4,12 +4,7 @@ class GanttsController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
-  helper :gantt
-  helper :issues
-  helper :projects
-  helper :queries
   include QueriesHelper
-  helper :sort
   include SortHelper
   include Redmine::Export::PDF
   

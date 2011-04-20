@@ -23,8 +23,6 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
-  helper :custom_fields
-  helper :projects
 
   def index
     @trackers = @project.trackers.find(:all, :order => 'position')

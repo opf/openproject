@@ -4,11 +4,7 @@ class CalendarsController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
-  helper :issues
-  helper :projects
-  helper :queries
   include QueriesHelper
-  helper :sort
   include SortHelper
 
   def show

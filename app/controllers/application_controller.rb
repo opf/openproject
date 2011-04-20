@@ -19,6 +19,7 @@ require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
+  helper :all
 
   protected
   
