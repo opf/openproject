@@ -35,7 +35,7 @@ class Report::Table
 
   ##
   # @param [Array] expected Fields expected
-  # @param [Array,Hash,Resul] given Fields/result to be tested
+  # @param [Array,Hash,Result] given Fields/result to be tested
   # @return [TrueClass,FalseClass]
   def satisfies?(type, expected, given)
     given  = fields_from(given, type) if given.respond_to? :to_hash
