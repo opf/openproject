@@ -95,9 +95,6 @@ See RB.Taskboard.initialize()
 }
 #rb .story,
 #rb .label_sprint_impediments {
-  -moz-box-shadow: 2px 2px 2px #CCCCCC;
-  -webkit-box-shadow: 2px 2px 2px #CCCCCC;;
-  box-shadow: 2px 2px 2px #CCCCCC;;
   background-color:#F8F6A5;
   border:none;
   display:block;
@@ -110,12 +107,10 @@ See RB.Taskboard.initialize()
   width:190px;
 }
 #rb .story .id {
-  -moz-border-radius:4px 4px 4px 4px;
-  -webkit-border-radius:4px 4px 4px 4px;
-  border-radius:4px 4px 4px 4px;
   background-color:#FFFFFF;
   font-size:9px;
-  opacity:0.8;
+  opacity: 0.8;
+  filter: alpha(opacity = 80);
   overflow:hidden;
   padding-bottom:1px;
   padding-right:3px;
@@ -149,11 +144,6 @@ See RB.Taskboard.initialize()
   position:relative;
   width:85px;
 }
-#rb .issue {
-  -moz-box-shadow: 2px 2px 2px #CCCCCC;
-  -webkit-box-shadow: 2px 2px 2px #CCCCCC;
-  box-shadow: 2px 2px 2px #CCCCCC;
-}
 #rb .placeholder {
   background-color:#FFFF00;
   border:1px dashed #333300;
@@ -161,13 +151,11 @@ See RB.Taskboard.initialize()
   width:83px;
 }
 #rb .issue .id {
-  -moz-border-radius:4px 4px 4px 4px;
-  -webkit-border-radius:4px 4px 4px 4px;
-  border-radius:4px 4px 4px 4px;
   background-color:#FFFFFF;
   font-size:9px;
   height:12px;
-  opacity:0.5;
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
   overflow:hidden;
   padding-bottom:1px;
   padding-right:3px;
@@ -175,7 +163,8 @@ See RB.Taskboard.initialize()
   width:82px;
 }
 #rb .issue .id a {
-  opacity:1.0;
+  opacity: 1.0;
+  filter: alpha(opacity = 100);
 }
 #rb .issue .editable:hover {
   background-color:transparent;
@@ -204,9 +193,6 @@ See RB.Taskboard.initialize()
   display:none;
 }
 #rb .issue .remaining_hours.editable {
-  -moz-border-radius:15px 15px 15px 15px;
-  -webkit-border-radius:15px 15px 15px 15px;
-  border-radius:15px 15px 15px 15px;
   border:2px solid #FFFFFF;
   background-color:#EE0000;
   bottom:-5px;
@@ -221,17 +207,14 @@ See RB.Taskboard.initialize()
 #rb .issue .blocks {
   display:none;
 }
-#rb .issue .remaining_hours.editable:empty {
+#rb .issue .remaining_hours.editable.empty {
   display:none;
 }
 #rb .issue .indicator {
-  -moz-border-radius:12px 12px 12px 12px;
-  -webkit-border-radius:12px 12px 12px 12px;
-  border-radius:12px 12px 12px 12px;
   background-color:#FFFFFF;
   background-position:center;
   background-repeat:no-repeat;
-  border:2px solid #000000;
+  border: 2px solid #000000;
   display:none;
   height:16px;
   left:36px;
@@ -262,16 +245,14 @@ See RB.Taskboard.initialize()
 .ui-dialog .ui-widget-header {
   background:none;
   background-color:#FFFFFF;
-  opacity:0.5;
+  opacity: 0.5;
+  filter: alpha(opacity = 50);
 }
 .ui-dialog .ui-dialog-title {
   float:right;
   margin-right:0;
 }
 .ui-dialog.ui-widget-content {
-  -moz-box-shadow: 2px 2px 5px #777777;
-  -webkit-box-shadow: 2px 2px 5px #777777;
-  box-shadow: 2px 2px 5px #777777;
   background:none;
   border:none;
 }

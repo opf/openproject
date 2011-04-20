@@ -51,12 +51,12 @@ RB.Backlog = (function ($) {
       });
 
       if (this.isSprintBacklog()) {
-        this.recalcVelocity();
+        this.refresh();
       }
     },
 
     dragChanged: function (e, ui) {
-      $(this).parents('.backlog').data('this').recalcVelocity();
+      $(this).parents('.backlog').data('this').refresh();
     },
 
     dragComplete: function (e, ui) {
@@ -112,6 +112,11 @@ RB.Backlog = (function ($) {
       story.find('.editor').first().focus();
     },
 
+    refresh : function () {
+      this.recalcVelocity();
+      this.recalcOddity();
+    },
+
     recalcVelocity: function () {
       var total;
 
@@ -126,6 +131,11 @@ RB.Backlog = (function ($) {
       this.$.children('.header').children('.velocity').text(total);
     },
 
+    recalcOddity : function () {
+      this.$.find('.story:even').removeClass('odd').addClass('even');
+      this.$.find('.story:odd').removeClass('even').addClass('odd');
+    },
+
     showBurndownChart: function (e) {
       var backlogs;
 
@@ -136,19 +146,21 @@ RB.Backlog = (function ($) {
       if ($("#charts").length === 0) {
         $('<div id="charts"></div>').appendTo("body");
       }
-      $('#charts').html("<div class='loading'>" + RB.i18n['generating_graph'] + "</div>");
+      $('#charts').html("<div class='loading'>" + RB.i18n.generating_graph + "</div>");
       $('#charts').load(RB.urlFor('show_burndown_chart', { id: backlogs.getSprint().data('this').getID(),
-                                                           project_id: RB.constants['project_id']}));
+                                                           project_id: RB.constants.project_id}));
       $('#charts').dialog({
         buttons: [{
-          text: RB.i18n['close'],
-          click: function() { $(this).dialog("close"); }
+          text: RB.i18n.close,
+          click: function () {
+            $(this).dialog("close");
+          }
         }],
         dialogClass: "rb_dialog",
         height: 500,
         position: 'center',
         modal: true,
-        title: RB.i18n['burndown_graph'],
+        title: RB.i18n.burndown_graph,
         width: 710
       });
     }

@@ -5,6 +5,7 @@
     <div class="velocity"> </div>
   </div>
   <ul class="stories">
+    <% reset_cycle 'stories' %>
     <%= render :partial => "rb_stories/story", :collection => backlog.stories %>
   </ul>
 </div>

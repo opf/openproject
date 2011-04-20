@@ -41,9 +41,9 @@ RB.BacklogsUpdater = (function ($) {
       }
 
       if (oldParent !== null && oldParent !== undefined) {
-        oldParent.recalcVelocity();
+        oldParent.refresh();
       }
-      target.$.parents(".backlog").first().data('this').recalcVelocity();
+      target.$.parents(".backlog").first().data('this').refresh();
 
       // Retain edit mode and focus if user was editing the
       // story before an update was received from the server
