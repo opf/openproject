@@ -61,7 +61,12 @@ module BacklogsPlugin
         end
 
         if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
-          snippet += "<tr><th>#{l(:field_remaining_hours)}</th><td>#{issue.remaining_hours}</td></tr>"
+          snippet += %Q{
+            <tr>
+              <th class="remaining_hours">#{l(:field_remaining_hours)}:</th>
+              <td class="remaining_hours">#{l_hours(issue.remaining_hours)}</td>
+            </tr>
+          }
         end
 
         snippet
