@@ -1,7 +1,3 @@
-<%- charts = burndown.is_a?(Array) ? burndown : [burndown] %>
-<%- dataseries = charts[0].series(:all).keys %>
-<%- chart = charts[0] %>
-
 <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
 
 <%= javascript_include_tag_backlogs 'lib/jquery.js' %>
@@ -13,13 +9,16 @@
   jQuery(function ($) {
     var datasets;
 
-    datasets = { <%= burndown_dataseries(chart).join(', ') %> };
+    datasets = { <%= burndown_dataseries(burndown).join(', ') %> };
 
-    var i = 0;
-    $.each(datasets, function(key, val) {
-      val.color = i;
-      ++i;
-    });
+    function setDatasetColor() {
+      var i = 0;
+
+      $.each(datasets, function(key, val) {
+        val.color = i;
+        ++i;
+      });
+    }
 
     function plotAccordingToChoices() {
       var data = [];
@@ -43,17 +42,19 @@
       if (data.length > 0){
         $.plot($(".burndown_chart"), data, {
           yaxis: { min: 0,
-            ticks: [ <%= burndown_yaxis_labels([chart.max[:hours], chart.max[:points]].max) %> ] },
+            ticks: [ <%= burndown_yaxis_labels([burndown.max[:hours], burndown.max[:points]].max) %> ] },
           xaxis: {
-              ticks: [<%= burndown_xaxis_labels(chart) %>],
+              ticks: [<%= burndown_xaxis_labels(burndown) %>],
               tickDecimals: 0,
-              max: <%= chart.days.length + 1 %>
+              max: <%= burndown.days.length + 1 %>,
+              min: 1
             }
         });
       };
     };
 
     $(document).ready(function(){
+      setDatasetColor();
       $('#charts').height(470); //haven't figured out yet how to do this with css
       $('.burndown_control input').click(plotAccordingToChoices);
 
