@@ -150,7 +150,7 @@ class Report < ActiveRecord::Base
   def cache_key
     deserialize unless @chain
     parts = [self.class.table_name.sub('_reports', '')]
-    parts.concat [filters, group_bys].map { |l| l.map(&:cache_key).sort.join(" ") }
+    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") }
     parts.join '/'
   end
 
