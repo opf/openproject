@@ -31,33 +31,6 @@ class JournalsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
-  def test_index
-    get :index, :project_id => 1
-    assert_response :success
-    assert_not_nil assigns(:journals)
-    assert_equal 'application/atom+xml', @response.content_type
-  end
-  
-  def test_reply_to_issue
-    @request.session[:user_id] = 2
-    get :new, :id => 6
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-  
-  def test_reply_to_issue_without_permission
-    @request.session[:user_id] = 7
-    get :new, :id => 6
-    assert_response 403
-  end
-
-  def test_reply_to_note
-    @request.session[:user_id] = 2
-    get :new, :id => 6, :journal_id => 4
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-
   def test_get_edit
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2
