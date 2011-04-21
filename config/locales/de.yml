@@ -139,3 +139,5 @@ de:
             blocks_ids:
               can_only_contain_issues_of_current_sprint: "kann nur IDs von Tickets des aktuellen Sprints enthalten"
               must_block_at_least_one_issue: "muss die ID wenigstens eines Tickets enthalten"
+        sprint:
+          cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat"
