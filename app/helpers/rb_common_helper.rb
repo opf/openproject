@@ -116,4 +116,13 @@ module RbCommonHelper
     args.push(:plugin => 'redmine_backlogs')
     javascript_include_tag *args
   end
+
+  def available_story_trackers
+    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_redmine_backlogs[:story_trackers]},
+                                  :order => 'position')
+
+    trackers &= @project.trackers if @project
+
+    trackers
+  end
 end

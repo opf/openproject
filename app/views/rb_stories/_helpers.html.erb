@@ -8,7 +8,7 @@
 </select>
 
 <select class="tracker_id helper" id="tracker_id_options">
-  <% Tracker.find_all_by_id(Setting.plugin_redmine_backlogs[:story_trackers]).each do |tracker| %>
+  <% available_story_trackers.each do |tracker| %>
     <option value="<%= tracker.id %>">
       <%= tracker.name %>
     </option>
