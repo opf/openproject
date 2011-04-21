@@ -154,10 +154,6 @@ class Report < ActiveRecord::Base
     parts.join '/'
   end
 
-  def == another_report
-    hash == another_report.hash
-  end
-
   private
 
   def minimal_chain!
