@@ -26,7 +26,7 @@ class Report::Filter
     end
 
     def cache_key
-      self.class.cache_key + operator.to_s + values.join(',')
+      self.class.cache_key + operator.to_s + Array(values).join(',')
     end
 
     ##
@@ -58,6 +58,12 @@ class Report::Filter
     end
     class << self
       alias :dependents :dependent
+    end
+
+
+    # need this for sort
+    def <=> other
+      self.class.underscore_name <=> other.class.underscore_name
     end
 
     def self.has_dependent?
