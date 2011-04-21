@@ -10,7 +10,7 @@ de:
   
   x_entries:
     one: "1 Eintrag"
-    other: "{{count}} Einträge"
+    other: "%{count} Einträge"
 
   week: Woche
   group_by_others: In keiner der Gruppen
@@ -35,7 +35,7 @@ de:
   caption_costs: Kosten
   caption_current_rate: Aktueller Satz
   caption_default: Standard
-  caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr {{user}}"
+  caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr %{user}"
   caption_default_rates: "Standards\xC3\xA4tze"
   caption_deleted_at: "Gel\xC3\xB6scht am"
   caption_fixed_date: Referenzdatum
@@ -50,8 +50,8 @@ de:
   caption_progress: Fortschritt
   caption_rate: Satz
   caption_rate_history: Stundensatz-Historie
-  caption_rate_history_for: "Stundensatz-Historie f\xC3\xBCr {{user}}"
-  caption_rate_history_for_project: "Studensatz-Historie f\xC3\xBCr {{user}} in Projekt {{project}}"
+  caption_rate_history_for: "Stundensatz-Historie f\xC3\xBCr %{user}"
+  caption_rate_history_for_project: "Studensatz-Historie f\xC3\xBCr %{user} in Projekt %{project}"
   caption_set_rate: Aktuellen Satz festlegen
   caption_spent: Gebucht
   caption_status: Status
@@ -92,7 +92,7 @@ de:
   label_between: zwischen
   label_cost_filter_add: "Kostenfilter hinzuf\xC3\xBCgen"
   label_cost_object: Budget
-  label_cost_object_id: "Budget #{{id}}"
+  label_cost_object_id: "Budget #%{id}"
   label_cost_object_new: Neues Budget
   label_cost_object_plural: "Budgets"
   label_cost_plural: Kosten
@@ -154,8 +154,8 @@ de:
 
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_cost_object_change_type_confirmation: "Sind Sie sicher? Diese Operation wird einige Informationen des aktuellen Budgets l\xC3\xB6schen."
-  text_destroy_cost_entries_question: Es wurden bereits {{cost_entries}} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
+  text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries:  Gebuchte Aufwände löschen
-  text_destroy_time_and_cost_entries_question: Es wurden bereits {{hours}} Stunden sowie {{cost_entries}} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
+  text_destroy_time_and_cost_entries_question: Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_reassign_time_and_cost_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
