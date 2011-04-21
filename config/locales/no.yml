@@ -13,7 +13,10 @@
     abbr_day_names: [søn, man, tir, ons, tor, fre, lør]
     month_names: [~, januar, februar, mars, april, mai, juni, juli, august, september, oktober, november, desember]
     abbr_month_names: [~, jan, feb, mar, apr, mai, jun, jul, aug, sep, okt, nov, des]
-    order: [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
   time:
     formats:
       default: "%A, %e. %B %Y, %H:%M"

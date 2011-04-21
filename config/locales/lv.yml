@@ -13,7 +13,10 @@ lv:
       
     month_names: [~, Janvāris, Februāris, Marts, Aprīlis , Maijs, Jūnijs, Jūlijs, Augusts, Septembris, Oktobris, Novembris, Decembris]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Mai, Jūn, Jūl, Aug, Sep, Okt, Nov, Dec]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:

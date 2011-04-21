@@ -16,7 +16,10 @@ mn:
     month_names: [~, 1-р сар, 2-р сар, 3-р сар, 4-р сар, 5-р сар, 6-р сар, 7-р сар, 8-р сар, 9-р сар, 10-р сар, 11-р сар, 12-р сар]
     abbr_month_names: [~, 1сар, 2сар, 3сар, 4сар, 5сар, 6сар, 7сар, 8сар, 9сар, 10сар, 11сар, 12сар]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:

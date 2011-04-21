@@ -19,7 +19,10 @@ hr:
     month_names: [~, Sijecanj, Veljaca, Ožujak, Travanj, Svibanj, Lipanj, Srpanj, Kolovoz, Rujan, Listopad, Studeni, Prosinac]
     abbr_month_names: [~, Sij, Velj, Ožu, Tra, Svi, Lip, Srp, Kol, Ruj, List, Stu, Pro]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:

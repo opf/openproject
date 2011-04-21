@@ -17,7 +17,10 @@ mk:
     month_names: [~, јануари, февруари, март, април, мај, јуни, јули, август, септември, октомври, ноември, декември]
     abbr_month_names: [~, јан, фев, мар, апр, мај, јун, јул, авг, сеп, окт, ное, дек]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
