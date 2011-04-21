@@ -112,13 +112,13 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_difference 'WikiContent::Version.count' do
+        assert_difference 'WikiContentJournal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => "my comments",
               :text => "edited",
-              :version => 1
+              :lock_version => 1
             }
         end
       end
@@ -135,13 +135,13 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'WikiContent::Version.count' do
+        assert_no_difference 'WikiContentJournal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => 'a' * 300,  # failure here, comment is too long
               :text => 'edited',
-              :version => 1
+              :lock_version => 1
             }
           end
         end
@@ -151,7 +151,7 @@ class WikiControllerTest < ActionController::TestCase
     
     assert_error_tag :descendant => {:content => /Comment is too long/}
     assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => 'edited'
-    assert_tag :tag => 'input', :attributes => {:id => 'content_version', :value => '1'}
+    assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
   
   def test_preview
@@ -159,7 +159,7 @@ class WikiControllerTest < ActionController::TestCase
     xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
                                    :content => { :comments => '',
                                                  :text => 'this is a *previewed text*',
-                                                 :version => 3 }
+                                                 :lock_version => 3 }
     assert_response :success
     assert_template 'common/_preview'
     assert_tag :tag => 'strong', :content => /previewed text/
@@ -170,7 +170,7 @@ class WikiControllerTest < ActionController::TestCase
     xhr :post, :preview, :project_id => 1, :id => 'New page',
                                    :content => { :text => 'h1. New page',
                                                  :comments => '',
-                                                 :version => 0 }
+                                                 :lock_version => 0 }
     assert_response :success
     assert_template 'common/_preview'
     assert_tag :tag => 'h1', :content => /New page/
