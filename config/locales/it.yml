@@ -16,7 +16,10 @@ it:
     abbr_day_names: [Dom, Lun, Mar, Mer, Gio, Ven, Sab]
     month_names: [~, Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
     abbr_month_names: [~, Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Set, Ott, Nov, Dic]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
   
   time:
     formats:
@@ -233,7 +236,7 @@ it:
   field_attr_mail: Attributo email
   field_onthefly: Creazione utente "al volo"
   field_start_date: Inizio
-  field_done_ratio: % completato
+  field_done_ratio: "% completato"
   field_auth_source: Modalità di autenticazione
   field_hide_mail: Nascondi il mio indirizzo email
   field_comments: Commento

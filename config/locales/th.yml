@@ -16,7 +16,10 @@ th:
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -237,7 +240,7 @@ th:
   field_attr_mail: อีเมล์ attribute
   field_onthefly: สร้างผู้ใช้ทันที
   field_start_date: เริ่ม
-  field_done_ratio: % สำเร็จ
+  field_done_ratio: "% สำเร็จ"
   field_auth_source: วิธีการยืนยันตัวตน
   field_hide_mail: ซ่อนอีเมล์ของฉัน
   field_comments: ความเห็น

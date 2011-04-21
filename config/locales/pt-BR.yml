@@ -12,7 +12,10 @@ pt-BR:
     abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
     month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
     abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
-    order: [:day,:month,:year]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -264,7 +267,7 @@ pt-BR:
   field_attr_mail: Atributo para e-mail
   field_onthefly: Criar usuários dinamicamente ("on-the-fly")
   field_start_date: Início
-  field_done_ratio: % Terminado
+  field_done_ratio: "% Terminado"
   field_auth_source: Modo de autenticação
   field_hide_mail: Ocultar meu e-mail
   field_comments: Comentário

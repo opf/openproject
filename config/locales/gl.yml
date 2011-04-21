@@ -55,7 +55,10 @@ gl:
     abbr_day_names:   [Dom, Lun, Mar, Mer, Xov, Ven, Sab]
     month_names:      [~, Xaneiro, Febreiro, Marzo, Abril, Maio, Xunio, Xullo, Agosto, Setembro, Outubro, Novembro, Decembro]
     abbr_month_names: [~, Xan, Feb, Maz, Abr, Mai, Xun, Xul, Ago, Set, Out, Nov, Dec]
-    order:            [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -243,7 +246,7 @@ gl:
   field_default_value: Estado por defecto
   field_delay: Retraso
   field_description: Descrición
-  field_done_ratio: % Realizado
+  field_done_ratio: "% Realizado"
   field_downloads: Descargas
   field_due_date: Data fin
   field_estimated_hours: Tempo estimado

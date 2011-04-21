@@ -18,7 +18,10 @@ tr:
     abbr_day_names: [Pzr, Pzt, Sal, Çrş, Prş, Cum, Cts]
     month_names: [~, Ocak, Şubat, Mart, Nisan, Mayıs, Haziran, Temmuz, Ağustos, Eylül, Ekim, Kasım, Aralık]
     abbr_month_names: [~, Oca, Şub, Mar, Nis, May, Haz, Tem, Ağu, Eyl, Eki, Kas, Ara]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
   
   time:
     formats:
@@ -260,7 +263,7 @@ tr:
   field_attr_mail: E-Posta Niteliği
   field_onthefly: Anında kullanıcı oluşturma
   field_start_date: Başlangıç
-  field_done_ratio: % tamamlandı
+  field_done_ratio: "% tamamlandı "
   field_auth_source: Kimlik Denetim Modu
   field_hide_mail: E-posta adresimi gizle
   field_comments: Açıklama

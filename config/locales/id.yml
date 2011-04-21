@@ -14,7 +14,10 @@ id:
       
     month_names: [~, Januari, Februari, Maret, April, Mei, Juni, Juli, Agustus, September, Oktober, November, Desember]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Mei, Jun, Jul, Agu, Sep, Okt, Nov, Des]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -255,7 +258,7 @@ id:
   field_attr_mail: Atribut email
   field_onthefly: Pembuatan pengguna seketika
   field_start_date: Mulai
-  field_done_ratio: % Selesai
+  field_done_ratio: "% Selesai"
   field_auth_source: Mode otentikasi
   field_hide_mail: Sembunyikan email saya
   field_comments: Komentar

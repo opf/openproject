@@ -15,7 +15,10 @@ bs:
 
     month_names: [~, Januar, Februar, Mart, April, Maj, Jun, Jul, Avgust, Septembar, Oktobar, Novembar, Decembar]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Maj, Jun, Jul, Avg, Sep, Okt, Nov, Dec]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
   
   time:
     formats:
@@ -256,7 +259,7 @@ bs:
   field_attr_mail: Atribut za email
   field_onthefly: 'Kreiranje korisnika "On-the-fly"'
   field_start_date: Početak
-  field_done_ratio: % Realizovano
+  field_done_ratio: "% Realizovano"
   field_auth_source: Mod za authentifikaciju
   field_hide_mail: Sakrij moju email adresu
   field_comments: Komentar

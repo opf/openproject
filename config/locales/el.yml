@@ -19,7 +19,10 @@ el:
     month_names: [~, Ιανουάριος, Φεβρουάριος, Μάρτιος, Απρίλιος, Μάϊος, Ιούνιος, Ιούλιος, Αύγουστος, Σεπτέμβριος, Οκτώβριος, Νοέμβριος, Δεκέμβριος]
     abbr_month_names: [~, Ιαν, Φεβ, Μαρ, Απρ, Μαϊ, Ιον, Ιολ, Αυγ, Σεπ, Οκτ, Νοε, Δεκ]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -251,7 +254,7 @@ el:
   field_attr_mail: Ιδιότητα email
   field_onthefly: Άμεση δημιουργία χρήστη
   field_start_date: Εκκίνηση
-  field_done_ratio: % επιτεύχθη
+  field_done_ratio: "% επιτεύχθη"
   field_auth_source: Τρόπος πιστοποίησης
   field_hide_mail: Απόκρυψη διεύθυνσης email
   field_comments: Σχόλιο

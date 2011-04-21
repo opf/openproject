@@ -18,7 +18,10 @@ sr:
     month_names: [~, јануар, фебруар, март, април, мај, јун, јул, август, септембар, октобар, новембар, децембар]
     abbr_month_names: [~, јан, феб, мар, апр, мај, јун, јул, авг, сеп, окт, нов, дец]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -265,7 +268,7 @@ sr:
   field_attr_mail: Атрибут е-адресе
   field_onthefly: Креирање корисника у току рада
   field_start_date: Почетак
-  field_done_ratio: % урађено
+  field_done_ratio: "% урађено"
   field_auth_source: Режим потврде идентитета
   field_hide_mail: Сакриј моју е-адресу
   field_comments: Коментар

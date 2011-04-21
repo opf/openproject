@@ -19,7 +19,10 @@ de:
     month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
     abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
     # Used in date_select and datime_select.
-    order: [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -282,7 +285,7 @@ de:
   field_attr_mail: E-Mail-Attribut
   field_onthefly: On-the-fly-Benutzererstellung
   field_start_date: Beginn
-  field_done_ratio: % erledigt
+  field_done_ratio: "% erledigt"
   field_auth_source: Authentifizierungs-Modus
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_comments: Kommentar
