@@ -166,7 +166,7 @@ he:
   notice_email_error: "ארעה שגיאה בעת שליחת הדואל (%{value})"
   notice_feeds_access_key_reseted: מפתח ה־RSS שלך אופס.
   notice_api_access_key_reseted: מפתח הגישה שלך ל־API אופס.
-  notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושא\ים ב %{total} נבחרו: %{ids}."
+  notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושאים ב %{total} נבחרו: %{ids}."
   notice_failed_to_save_members: "כשלון בשמירת חבר(ים): %{errors}."
   notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
   notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
@@ -848,7 +848,7 @@ he:
   text_regexp_info: כגון. ^[A-Z0-9]+$
   text_min_max_length_info: 0 משמעו ללא הגבלות
   text_project_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הפרויקט ואת כל המידע הקשור אליו?
-  text_subprojects_destroy_warning: "תת־הפרויקט\ים: %{value} ימחקו גם כן."
+  text_subprojects_destroy_warning: "תת־הפרויקטים: %{value} ימחקו גם כן."
   text_workflow_edit: בחר תפקיד וסיווג כדי לערוך את זרימת העבודה
   text_are_you_sure: האם אתה בטוח?
   text_are_you_sure_with_children: האם למחוק את הנושא ואת כל בניו?
@@ -878,7 +878,7 @@ he:
   text_no_configuration_data: "לא הוגדרה תצורה עבור תפקידים, סיווגים, מצבי נושא וזרימת עבודה.\nמומלץ מאד לטעון את תצורת ברירת המחדל. תוכל לשנותה מאוחר יותר."
   text_load_default_configuration: טען את אפשרויות ברירת המחדל
   text_status_changed_by_changeset: "הוחל בסדרת השינויים %{value}."
-  text_issues_destroy_confirmation: 'האם אתה בטוח שברצונך למחוק את הנושא\ים?'
+  text_issues_destroy_confirmation: 'האם אתה בטוח שברצונך למחוק את הנושאים?'
   text_select_project_modules: 'בחר מודולים להחיל על פרויקט זה:'
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
