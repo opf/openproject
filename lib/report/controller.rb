@@ -86,7 +86,7 @@ module Report::Controller
   # RecordNotFound if the query at :id does not exist
   def delete
     if @query
-      @query.destroy
+      @query.destroy if allowed_to? :delete, @query
     else
       raise ActiveRecord::RecordNotFound
     end
