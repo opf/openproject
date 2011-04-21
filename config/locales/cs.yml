@@ -274,7 +274,7 @@ cs:
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváření uživatelů
   field_start_date: Začátek
-  field_done_ratio: % Hotovo
+  field_done_ratio: "% Hotovo"
   field_auth_source: Autentifikační mód
   field_hide_mail: Nezobrazovat můj email
   field_comments: Komentář

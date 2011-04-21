@@ -259,7 +259,7 @@ mn:
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
   field_start_date: Эхлэл
-  field_done_ratio: %% Гүйцэтгэсэн
+  field_done_ratio: "%% Гүйцэтгэсэн"
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
   field_comments: Тайлбар

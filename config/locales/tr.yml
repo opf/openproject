@@ -263,7 +263,7 @@ tr:
   field_attr_mail: E-Posta Niteliği
   field_onthefly: Anında kullanıcı oluşturma
   field_start_date: Başlangıç
-  field_done_ratio: % tamamlandı
+  field_done_ratio: "% tamamlandı "
   field_auth_source: Kimlik Denetim Modu
   field_hide_mail: E-posta adresimi gizle
   field_comments: Açıklama

@@ -312,7 +312,7 @@ sv:
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
   field_start_date: Startdatum
-  field_done_ratio: % Klart
+  field_done_ratio: "% Klart"
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
   field_comments: Kommentar

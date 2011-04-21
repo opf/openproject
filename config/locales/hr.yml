@@ -260,7 +260,7 @@ hr:
   field_attr_mail: Atribut e-pošte
   field_onthefly: "Izrada korisnika \"u hodu\""
   field_start_date: Pocetak
-  field_done_ratio: % Učinjeno
+  field_done_ratio: "% Učinjeno"
   field_auth_source: Vrsta prijavljivanja
   field_hide_mail: Sakrij moju adresu e-pošte
   field_comments: Komentar

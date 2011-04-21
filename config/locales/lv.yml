@@ -255,7 +255,7 @@ lv:
   field_attr_mail: "E-pasta atribūts"
   field_onthefly: "Lietotāja izveidošana on-the-fly"
   field_start_date: Sākuma datums
-  field_done_ratio: % padarīti
+  field_done_ratio: "% padarīti"
   field_auth_source: Pilnvarošanas režīms
   field_hide_mail: "Paslēpt manu e-pasta adresi"
   field_comments: Komentārs

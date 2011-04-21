@@ -273,7 +273,7 @@ he:
   field_attr_mail: תכונת דוא"ל
   field_onthefly: יצירת משתמשים זריזה
   field_start_date: תאריך התחלה
-  field_done_ratio: % גמור
+  field_done_ratio: "% גמור"
   field_auth_source: מקור הזדהות
   field_hide_mail: החבא את כתובת הדוא"ל שלי
   field_comments: הערות

@@ -243,7 +243,7 @@ sl:
   field_attr_mail: Oznaka za e-naslov
   field_onthefly: Sprotna izdelava uporabnikov
   field_start_date: Začetek
-  field_done_ratio: % Narejeno
+  field_done_ratio: "% Narejeno"
   field_auth_source: Način overovljanja
   field_hide_mail: Skrij moj e-naslov
   field_comments: Komentar

@@ -252,7 +252,7 @@ pt:
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
   field_start_date: Início
-  field_done_ratio: % Completo
+  field_done_ratio: "% Completo"
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
   field_comments: Comentário

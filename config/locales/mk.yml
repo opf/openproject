@@ -268,7 +268,7 @@ mk:
   field_attr_mail: Email attribute
   field_onthefly: Моментално (On-the-fly) креирање на корисници
   field_start_date: Почеток
-  field_done_ratio: % Завршено
+  field_done_ratio: "% Завршено"
   field_auth_source: Режим на автентикација
   field_hide_mail: Криј ја мојата адреса на е-пошта
   field_comments: Коментар

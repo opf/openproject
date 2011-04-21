@@ -238,7 +238,7 @@ sk:
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváranie užívateľov
   field_start_date: Začiatok
-  field_done_ratio: % hotovo
+  field_done_ratio: "% hotovo"
   field_auth_source: Autentifikačný mód
   field_hide_mail: Nezobrazovať môj email
   field_comments: Komentár

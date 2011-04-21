@@ -313,7 +313,7 @@ lt:
   field_attr_mail: Elektroninio pašto požymis
   field_onthefly: Automatinis vartotojų registravimas
   field_start_date: Pradėti
-  field_done_ratio: % atlikta
+  field_done_ratio: "% atlikta"
   field_auth_source: Autentiškumo nustatymo būdas
   field_hide_mail: Paslėpkite mano elektroninio pašto adresą
   field_comments: Komentaras

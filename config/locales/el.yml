@@ -254,7 +254,7 @@ el:
   field_attr_mail: Ιδιότητα email
   field_onthefly: Άμεση δημιουργία χρήστη
   field_start_date: Εκκίνηση
-  field_done_ratio: % επιτεύχθη
+  field_done_ratio: "% επιτεύχθη"
   field_auth_source: Τρόπος πιστοποίησης
   field_hide_mail: Απόκρυψη διεύθυνσης email
   field_comments: Σχόλιο

@@ -285,7 +285,7 @@ de:
   field_attr_mail: E-Mail-Attribut
   field_onthefly: On-the-fly-Benutzererstellung
   field_start_date: Beginn
-  field_done_ratio: % erledigt
+  field_done_ratio: "% erledigt"
   field_auth_source: Authentifizierungs-Modus
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_comments: Kommentar

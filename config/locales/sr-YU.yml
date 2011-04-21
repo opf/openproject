@@ -268,7 +268,7 @@ sr-YU:
   field_attr_mail: Atribut e-adrese
   field_onthefly: Kreiranje korisnika u toku rada
   field_start_date: Početak
-  field_done_ratio: % urađeno
+  field_done_ratio: "% urađeno"
   field_auth_source: Režim potvrde identiteta
   field_hide_mail: Sakrij moju e-adresu
   field_comments: Komentar

@@ -233,7 +233,7 @@ pl:
   field_default_value: Domyślny
   field_delay: Opóźnienie
   field_description: Opis
-  field_done_ratio: % Wykonane
+  field_done_ratio: "% Wykonane"
   field_downloads: Pobrań
   field_due_date: Data oddania
   field_estimated_hours: Szacowany czas
