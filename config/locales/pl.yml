@@ -868,7 +868,7 @@ pl:
   button_show: Pokaż
   error_can_not_archive_project: Ten projekt nie może zostać zarchiwizowany
   error_can_not_reopen_issue_on_closed_version: Zagadnienie przydzielone do zakończonej wersji nie może zostać ponownie otwarte
-  error_issue_done_ratios_not_updated: % wykonania zagadnienia nie został uaktualniony.
+  error_issue_done_ratios_not_updated: "% wykonania zagadnienia nie został uaktualniony."
   error_workflow_copy_source: Proszę wybrać źródłowy typ zagadnienia lub rolę
   error_workflow_copy_target: Proszę wybrać docelowe typ(y) zagadnień i rolę(e)
   field_sharing: Współdzielenie
@@ -899,7 +899,7 @@ pl:
   setting_default_projects_modules: Domyślnie włączone moduły dla nowo tworzonych projektów
   setting_gravatar_default: Domyślny obraz Gravatar
   setting_issue_done_ratio: Obliczaj postęp realizacji zagadnień za pomocą
-  setting_issue_done_ratio_issue_field: % Wykonania zagadnienia
+  setting_issue_done_ratio_issue_field: "% Wykonania zagadnienia"
   setting_issue_done_ratio_issue_status: Statusu zagadnienia
   setting_mail_handler_body_delimiters: Przycinaj e-maile po jednej z tych linii
   setting_rest_api_enabled: Uaktywnij usługę sieciową REST
