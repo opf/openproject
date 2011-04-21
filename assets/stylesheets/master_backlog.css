@@ -234,12 +234,6 @@
   display:none;
 }
 
-/* dialog */
-
-.ui-dialog .ui-dialog-title { float:left; margin-right:0; }
-.ui-dialog.ui-widget-content { border:none; }
-.ui-dialog .ui-dialog-buttonpane.ui-widget-content { border:none; }
-
 .rb_dialog .burndown_chart {
   margin-top: 20px;
   margin-bottom: 20px;

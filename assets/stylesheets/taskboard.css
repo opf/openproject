@@ -239,24 +239,24 @@ See RB.Taskboard.initialize()
 
 /* dialog */
 
-.ui-dialog .ui-dialog-titlebar-close {
+.task_editor_dialog.ui-dialog .ui-dialog-titlebar-close {
   display:none;
 }
-.ui-dialog .ui-widget-header {
+.task_editor_dialog.ui-dialog .ui-widget-header {
   background:none;
   background-color:#FFFFFF;
   opacity: 0.5;
   filter: alpha(opacity = 50);
 }
-.ui-dialog .ui-dialog-title {
+.task_editor_dialog.ui-dialog .ui-dialog-title {
   float:right;
   margin-right:0;
 }
-.ui-dialog.ui-widget-content {
+.task_editor_dialog.ui-dialog.ui-widget-content {
   background:none;
   border:none;
 }
-.ui-dialog .ui-dialog-buttonpane.ui-widget-content {
+.task_editor_dialog.ui-dialog .ui-dialog-buttonpane.ui-widget-content {
   background:none;
   background-color:none;
   border:none;

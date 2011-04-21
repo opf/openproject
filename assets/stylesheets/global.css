@@ -15,3 +15,9 @@
 #rb .ui-dialog .editor {
   display:block;
 }
+
+/* dialog */
+.ui-dialog .ui-dialog-titlebar-close { display:none; }
+.ui-dialog .ui-dialog-title { float:left; margin-right:0; }
+.ui-dialog.ui-widget-content { border:none; }
+.ui-dialog .ui-dialog-buttonpane.ui-widget-content { border:none; }
