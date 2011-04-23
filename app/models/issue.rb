@@ -27,7 +27,6 @@ class Issue < ActiveRecord::Base
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
 
-  has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
   
@@ -38,20 +37,24 @@ class Issue < ActiveRecord::Base
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
+
+  acts_as_journalized :event_title => Proc.new {|o| "#{o.tracker.name} ##{o.journaled_id} (#{o.status}): #{o.subject}"},
+                      :event_type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '')}
+
+  register_on_journal_formatter(:id, 'parent_id')
+  register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
+      'priority_id', 'category_id', 'fixed_version_id')
+  register_on_journal_formatter(:fraction, 'estimated_hours')
+  register_on_journal_formatter(:decimal, 'done_ratio')
+  register_on_journal_formatter(:datetime, 'due_date', 'start_date')
+  register_on_journal_formatter(:plaintext, 'subject', 'description')
+
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
                      :include => [:project, :journals],
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
-  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
-                :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
-  
-  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
-                            :author_key => :author_id
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
-
-  attr_reader :current_journal
 
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 
@@ -83,7 +86,7 @@ class Issue < ActiveRecord::Base
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status
-  after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes, :create_journal
+  after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes
   after_destroy :update_parent_attributes
   
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -346,15 +349,11 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  def init_journal(user, notes = "")
-    @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
-    @issue_before_change = self.clone
-    @issue_before_change.status = self.status
-    @custom_values_before_change = {}
-    self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
-    # Make sure updated_on is updated when adding a note.
-    updated_on_will_change!
-    @current_journal
+  # Callback on attachment deletion
+  def attachment_removed(obj)
+    init_journal(User.current)
+    create_journal
+    last_journal.update_attribute(:changes, {obj.id => [obj.filename, nil]}.to_yaml)
   end
   
   # Return true if the issue is closed, otherwise false
@@ -556,13 +555,12 @@ class Issue < ActiveRecord::Base
       if valid?
         attachments = Attachment.attach_files(self, params[:attachments])
   
-        attachments[:files].each {|a| @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
         # TODO: Rename hook
-        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+        Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
         begin
           if save
             # TODO: Rename hook
-            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => @current_journal})
+            Redmine::Hook.call_hook(:controller_issues_edit_after_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
           else
             raise ActiveRecord::Rollback
           end
@@ -777,20 +775,10 @@ class Issue < ActiveRecord::Base
               ).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?
       unless issue.project.shared_versions.include?(issue.fixed_version)
-        issue.init_journal(User.current)
         issue.fixed_version = nil
         issue.save
       end
     end
-  end
-  
-  # Callback on attachment deletion
-  def attachment_removed(obj)
-    journal = init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'attachment',
-                                         :prop_key => obj.id,
-                                         :old_value => obj.filename)
-    journal.save
   end
   
   # Default assignment based on category
@@ -817,38 +805,12 @@ class Issue < ActiveRecord::Base
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
-        # Same user and notes
-        if @current_journal
-          duplicate.init_journal(@current_journal.user, @current_journal.notes)
-        end
+        # Implicitely creates a new journal
         duplicate.update_attribute :status, self.status
+        # Same user and notes
+        duplicate.journals.last.user = current_journal.user
+        duplicate.journals.last.notes = current_journal.notes
       end
-    end
-  end
-  
-  # Saves the changes in a Journal
-  # Called after_save
-  def create_journal
-    if @current_journal
-      # attributes changes
-      (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on)).each {|c|
-        @current_journal.details << JournalDetail.new(:property => 'attr',
-                                                      :prop_key => c,
-                                                      :old_value => @issue_before_change.send(c),
-                                                      :value => send(c)) unless send(c)==@issue_before_change.send(c)
-      }
-      # custom fields changes
-      custom_values.each {|c|
-        next if (@custom_values_before_change[c.custom_field_id]==c.value ||
-                  (@custom_values_before_change[c.custom_field_id].blank? && c.value.blank?))
-        @current_journal.details << JournalDetail.new(:property => 'cf', 
-                                                      :prop_key => c.custom_field_id,
-                                                      :old_value => @custom_values_before_change[c.custom_field_id],
-                                                      :value => c.value)
-      }      
-      @current_journal.save
-      # reset current journal
-      init_journal @current_journal.user, @current_journal.notes
     end
   end
 
@@ -879,5 +841,14 @@ class Issue < ActiveRecord::Base
                                               group by s.id, s.is_closed, j.id")
   end
   
+
+  IssueJournal.class_eval do
+    # Shortcut
+    def new_status
+      if details.keys.include? 'status_id'
+        (newval = details['status_id'].last) ? IssueStatus.find_by_id(newval.to_i) : nil
+      end
+    end
+  end
 
 end

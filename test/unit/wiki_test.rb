@@ -20,8 +20,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WikiTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-  
+  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :journals
+
   def test_create
     wiki = Wiki.new(:project => Project.find(2))
     assert !wiki.save

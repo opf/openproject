@@ -22,9 +22,8 @@ require 'journals_controller'
 class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :journal_details, :enabled_modules,
-    :trackers, :issue_statuses, :enumerations, :custom_fields, :custom_values, :custom_fields_projects
-  
+  fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :enabled_modules
+
   def setup
     @controller = JournalsController.new
     @request    = ActionController::TestRequest.new
@@ -32,46 +31,6 @@ class JournalsControllerTest < ActionController::TestCase
     User.current = nil
   end
   
-  def test_index
-    get :index, :project_id => 1
-    assert_response :success
-    assert_not_nil assigns(:journals)
-    assert_equal 'application/atom+xml', @response.content_type
-  end
-  
-  def test_diff
-    get :diff, :id => 3, :detail_id => 4
-    assert_response :success
-    assert_template 'diff'
-    
-    assert_tag 'span',
-      :attributes => {:class => 'diff_out'},
-      :content => /removed/
-    assert_tag 'span',
-      :attributes => {:class => 'diff_in'},
-      :content => /added/
-  end
-  
-  def test_reply_to_issue
-    @request.session[:user_id] = 2
-    get :new, :id => 6
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-  
-  def test_reply_to_issue_without_permission
-    @request.session[:user_id] = 7
-    get :new, :id => 6
-    assert_response 403
-  end
-
-  def test_reply_to_note
-    @request.session[:user_id] = 2
-    get :new, :id => 6, :journal_id => 4
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-
   def test_get_edit
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2

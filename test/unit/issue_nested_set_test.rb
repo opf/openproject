@@ -208,10 +208,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3.save!
     
     assert_difference 'Issue.count', -2 do
-      assert_difference 'Journal.count', -1 do
-        assert_difference 'JournalDetail.count', -1 do
-          Issue.find(issue2.id).destroy
-        end
+      assert_difference 'IssueJournal.count', -3 do
+        Issue.find(issue2.id).destroy
       end
     end
     
@@ -242,10 +240,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     leaf.save!
     
     assert_difference 'Issue.count', -2 do
-      assert_difference 'Journal.count', -1 do
-        assert_difference 'JournalDetail.count', -1 do
-          Issue.find(child.id).destroy
-        end
+      assert_difference 'IssueJournal.count', -3 do
+        Issue.find(child.id).destroy
       end
     end
     
