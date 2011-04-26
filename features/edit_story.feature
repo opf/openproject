@@ -59,6 +59,7 @@ Feature: Edit story on backlogs view
       And I fill in "Alice in Wonderland" for "subject"
       And I confirm the story form
      Then the 1st story in the "Product Backlog" should be "Alice in Wonderland"
+      And the 1st story in the "Product Backlog" should have the ID of "Alice in Wonderland"
       And I should see 5 stories in "Product Backlog"
 
   @javascript
@@ -71,6 +72,7 @@ Feature: Edit story on backlogs view
       And I fill in "3" for "story_points"
       And I confirm the story form
      Then the 1st story in the "Sprint 001" should be "The Wizard of Oz"
+      And the 1st story in the "Sprint 001" should have the ID of "The Wizard of Oz"
       And I should see 3 stories in "Sprint 001"
       And the velocity of "Sprint 001" should be "33"
 
