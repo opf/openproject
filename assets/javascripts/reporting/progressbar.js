@@ -3,18 +3,39 @@
 
 Reporting.Progress = {
 
+  replace_with_bar: function (element) {
+    var parent = element.up();
+    var size = parseInt(element.getAttribute('data-size'), 10) || 500;
+    element.remove();
+    var bar = Reporting.Progress.add_bar_to_parent(parent);
+    // Speed determined through laborous experimentation!
+    bar.interval = (size * (Math.log(size))) / 100000;
+    bar.start();
+  },
+
+  add_bar_to_parent: function (parent) {
+    parent.appendChild(new Element('div', {
+      'id': 'progressbar_container',
+      'class': 'progressbar_container'
+    }));
+    return new Control.ProgressBar('progressbar_container');
+  },
+
   confirm_question: function () {
-    if ($('progressbar') !== null && $('progressbar') !== undefined) {
-      var size = $('progressbar').getAttribute('data-size');
-      var question = $('progressbar').getAttribute('data-translation');
+    var bar = $('progressbar');
+    if (bar !== null && bar !== undefined) {
+      var size = bar.getAttribute('data-size');
+      var question = bar.getAttribute('data-translation');
       if (confirm(question)) {
-        Reporting.Controls.send_settings_data($('progressbar').getAttribute("data-target"), Reporting.Controls.update_result_table);
+        var target = bar.getAttribute("data-target");
+        Reporting.Progress.replace_with_bar(bar);
+        Reporting.Controls.send_settings_data(target, Reporting.Controls.update_result_table);
       } else {
-        $('progressbar').toggle();
+        bar.toggle();
       }
     }
   }
-}
+};
 
 Reporting.onload(function () {
   Reporting.Progress.confirm_question();

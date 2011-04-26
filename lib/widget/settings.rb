@@ -1,4 +1,6 @@
 class Widget::Settings < Widget::Base
+  dont_cache! # Settings may change due to permissions
+
   def render
     write(form_tag("#", {:id => 'query_form', :method => :post}) do
       content_tag :div, :id => "query_form_content" do
@@ -13,10 +15,13 @@ class Widget::Settings < Widget::Base
 
         controls = content_tag :div, :class => "buttons form_controls" do
           widgets = render_widget(Widget::Controls::Apply, @query)
-          render_widget(Widget::Controls::Save, @query, :to => widgets)
-          render_widget(Widget::Controls::SaveAs, @query, :to => widgets)
+          render_widget(Widget::Controls::Save, @query, :to => widgets,
+                        :can_save => allowed_to?(:save, @query, current_user))
+          render_widget(Widget::Controls::SaveAs, @query, :to => widgets,
+                        :can_save_as_public => allowed_to?(:save_as_public, @query, current_user))
           render_widget(Widget::Controls::Clear, @query, :to => widgets)
-          render_widget(Widget::Controls::Delete, @query, :to => widgets)
+          render_widget(Widget::Controls::Delete, @query, :to => widgets,
+                        :can_delete => allowed_to?(:delete, @query, current_user))
         end
 
         fieldsets + controls

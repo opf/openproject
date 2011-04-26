@@ -40,6 +40,7 @@ class Widget::Table::ReportTable < Widget::Table
     @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
 
     @walker.for_cell do |result|
+      write(' '.html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
       "<td class='normal right'>#{show_result result}#{debug_fields(result)}</td>".html_safe
     end
   end

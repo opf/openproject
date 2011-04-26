@@ -12,6 +12,7 @@ class Widget::Base < Widget
   def initialize(query)
     @query = query
     @engine = query.class
+    @options = {}
   end
 
   ##
@@ -35,17 +36,18 @@ class Widget::Base < Widget
   # Available options:
   #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
   def render_with_options(options = {}, &block)
-    set_canvas(options[:to]) if options.has_key? :to
+    set_canvas(options.delete(:to)) if options.has_key? :to
+    @options = options
     render_with_cache(options, &block)
     @output
   end
 
   def cache_key
-    "#{self.class.name}/#{subject.hash}"
+    @cache_key ||= "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
   end
 
   def cached?
-    Rails.cache.exist?(cache_key) and cache?
+    cache? and Rails.cache.exist?(cache_key)
   end
 
   private
@@ -70,9 +72,7 @@ class Widget::Base < Widget
   # Set the canvas. If the canvas object isn't a string (e.g. cannot be cached easily),
   # a @cache_output String is created, that will mirror what is being written to the canvas.
   def set_canvas(canvas)
-    unless canvas.respond_to? :to_str
-      @cache_output = @output || "".html_safe
-    end
+    @cache_output = "".html_safe
     @output = canvas
   end
 end
