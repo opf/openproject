@@ -7,4 +7,4 @@ require 'to_date_patch'
 # Defines the minimum number of cells for a 'big' report
 # Big reports may be handled differently in the UI - i.e. ask the user
 # if he's really sure to execute such a heavy report
-Widget::Table::Progressbar.const_set 'THRESHHOLD', 500
+Widget::Table::Progressbar.const_set 'THRESHHOLD', 2000
