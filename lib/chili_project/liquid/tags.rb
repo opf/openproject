@@ -25,8 +25,12 @@ module ChiliProject::Liquid
 
     # TODO: reimplement old macros as tags and register them here
     # child_pages
-    # hello_world
+    register_tag('hello_world', HelloWorld)
     # include
     # macro_list
   end
 end
+
+# FIXME: remove the deprecated syntax for 4.0, provide a way to migrate
+# existing pages to the new syntax.
+ChiliProject::Liquid::Legacy.add('hello_world', :tag)

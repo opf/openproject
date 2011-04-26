@@ -68,11 +68,6 @@ module Redmine
       end
 
       # Builtin macros
-      desc "Sample macro."
-      macro :hello_world do |obj, args|
-        "Hello world! Object: #{obj.class.name}, " + (args.empty? ? "Called with no argument." : "Arguments: #{args.join(', ')}")
-      end
-
       desc "Displays a list of all available macros, including description if available."
       macro :macro_list do
         out = ''
