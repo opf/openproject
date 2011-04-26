@@ -31,6 +31,10 @@ class Principal < ActiveRecord::Base
 
   before_create :set_default_empty_values
 
+  def to_liquid
+    PrincipalDrop.new(self)
+  end
+
   def name(formatter = nil)
     to_s
   end
