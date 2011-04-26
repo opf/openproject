@@ -9,7 +9,13 @@ Feature: Team Member
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the backlogs module is initialized
+    And the following trackers are configured to track stories:
+        | Story |
+        | Epic  |
+    And the tracker "Task" is configured to track tasks
+    And the project uses the following trackers:
+        | Story |
+        | Task  |
     And there is 1 user with:
         | login | paul |
     And there is a role "team member"

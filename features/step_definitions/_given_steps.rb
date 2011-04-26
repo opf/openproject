@@ -81,13 +81,23 @@ end
 Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |project_name|
   project = get_project(project_name)
 
-  # Configure the story and task trackers
-  story_trackers = Tracker.find(:all).map{|s| "#{s.id}"}
-  task_tracker = "#{Tracker.create!(:name => 'Task').id}"
-  Setting.plugin_redmine_backlogs = {:story_trackers => story_trackers, :task_tracker => task_tracker }
+  Given 'the following trackers are configured to track stories:', Cucumber::Ast::Table.new([['Story'], ['Epic']])
+  Given 'the tracker "Task" is configured to track tasks'
+  Given "the project \"#{project.name}\" uses the following trackers:", Cucumber::Ast::Table.new([['Story', 'Task']])
+end
 
-  # Make sure these trackers are enabled in the project
-  project.update_attributes :tracker_ids => (story_trackers << task_tracker)
+Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
+  project = get_project(project)
+
+  trackers = table.raw.map do |line|
+    name = line.first
+    tracker = Tracker.find_by_name(name)
+
+    tracker = Factory.create(:tracker, :name => name) if tracker.blank?
+    tracker
+  end
+
+  project.update_attributes :tracker_ids => trackers.map(&:id).map(&:to_s)
 end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
@@ -145,7 +155,12 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position params
+    begin
+      s = Story.create_and_position params
+    rescue
+      debugger
+      true
+    end
     prev_id = s.id
   end
 end
@@ -183,7 +198,12 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    Issue.create!(params)
+    begin
+      Issue.create!(params)
+    rescue
+      debugger
+      raise
+    end
   end
 end
 
@@ -289,5 +309,20 @@ end
 
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
+  tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?
+
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:task_tracker => tracker.id)
+end
+
+Given /^the following trackers are configured to track stories:$/ do |table|
+  story_trackers = []
+  table.raw.each do |line|
+    name = line.first
+    tracker = Tracker.find_by_name(name)
+
+    tracker = Factory.create(:tracker, :name => name) if tracker.blank?
+    story_trackers << tracker
+  end
+
+  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))
 end

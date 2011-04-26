@@ -6,16 +6,24 @@ Feature: Shared Versions
   Background:
     Given there is 1 project with:
         | name  | parent    |
-    And I am working in project "parent"
-    And the project has the following sprints:
+    And the project "parent" has the following sprints:
         | name          | sharing     | sprint_start_date | effective_date |
         | ParentSprint  | system      | 2010-01-01        | 2010-01-31     |
     And there is 1 project with:
         | name  | child |
-    And I am working in project "child"
-    And the project uses the following modules:
+    And the project "child" uses the following modules:
         | backlogs |
-    And the backlogs module is initialized
+    And the following trackers are configured to track stories:
+        | story |
+        | epic  |
+    And the tracker "task" is configured to track tasks
+    And the project "parent" uses the following trackers:
+        | story |
+        | task  |
+    And the project "child" uses the following trackers:
+        | story |
+        | task  |
+    And I am working in project "child"
     And there is 1 user with:
         | login | padme |
     And there is a role "project admin"

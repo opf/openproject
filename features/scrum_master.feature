@@ -9,7 +9,6 @@ Feature: Scrum Master
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the backlogs module is initialized
     And there is a role "scrum master"
     And the role "scrum master" may have the following rights:
         | view_master_backlog     |
@@ -25,6 +24,16 @@ Feature: Scrum Master
         | view_issues             |
         | edit_issues             |
         | manage_subtasks         |
+    And the backlogs module is initialized
+    And the following trackers are configured to track stories:
+        | Story |
+    And the tracker "Task" is configured to track tasks
+    And the project uses the following trackers:
+        | Story |
+        | Epic  |
+        | Task  |
+        | Bug   |
+    And the tracker "Task" has the default workflow for the role "scrum master"
     And there is 1 user with:
         | login | markus |
         | firstname | Markus |
@@ -51,13 +60,6 @@ Feature: Scrum Master
         | 5        | Story A | Sprint 001 |
         | 6        | Story B | Sprint 001 |
         | 7        | Story C | Sprint 002 |
-    And there are the following trackers:
-        | name         |
-        | Task         |
-    And the project has the following trackers:
-        | name         |
-        | Epic         |
-    And the tracker "Task" is configured to track tasks
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
@@ -65,7 +67,6 @@ Feature: Scrum Master
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And the tracker "Task" has the default workflow for the role "scrum master"
     And the project has the following tasks:
         | subject      | sprint     | parent     |
         | Task 1       | Sprint 001 | Story A    |

@@ -9,7 +9,14 @@ Feature: Product Owner
     And I am working in project "ecookbook"
     And the project uses the following modules:
         | backlogs |
-    And the backlogs module is initialized
+    And the following trackers are configured to track stories:
+        | Story |
+        | Epic  |
+    And the tracker "Task" is configured to track tasks
+    And the project uses the following trackers:
+        | Story |
+        | Epic  |
+        | Task  |
     And there is 1 user with:
         | login | mathias |
     And there is a role "product owner"
@@ -62,10 +69,10 @@ Feature: Product Owner
     Given I am on the master backlog
       And I want to edit the story with subject Story 3
       And I set the subject of the story to Relaxdiego was here
-      And I set the tracker of the story to Bug
+      And I set the tracker of the story to Epic
      When I update the story
      Then the story should have a subject of Relaxdiego was here
-      And the story should have a tracker of Bug
+      And the story should have a tracker of Epic
       And the story should be at position 3
 
   Scenario: Close a story
