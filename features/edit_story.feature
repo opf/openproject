@@ -12,9 +12,11 @@ Feature: Edit story on backlogs view
     And the following trackers are configured to track stories:
         | Story |
         | Epic  |
+        | Bug   |
     And the tracker "Task" is configured to track tasks
     And the project uses the following trackers:
         | Story |
+        | Bug   |
         | Task  |
     And there is 1 user with:
         | login | mathias |
@@ -91,3 +93,23 @@ Feature: Edit story on backlogs view
      Then the 1st story in the "Sprint 001" should be "Story A revisited"
       And I should see 2 stories in "Sprint 001"
       And the velocity of "Sprint 001" should be "31"
+
+  @javascript
+  Scenario: Setting trackers of a story
+    Given I am on the master backlog
+     When I open the "Sprint 001" menu
+      And I follow "New Story" within the "Sprint 001" menu
+      And I close the "Sprint 001" menu
+      And I fill in "The Wizard of Oz" for "subject"
+      And I select "Bug" from "tracker_id"
+      And I confirm the story form
+     Then the 1st story in "Sprint 001" should be "The Wizard of Oz"
+      And the 1st story in "Sprint 001" should be in the "Bug" tracker
+
+  @javascript
+  Scenario: Hiding trackers, that are not active in the project
+    Given I am on the master backlog
+     When I open the "Sprint 001" menu
+      And I follow "New Story" within the "Sprint 001" menu
+      And I close the "Sprint 001" menu
+     Then I should not see "Epic" within "select[name=tracker_id]"

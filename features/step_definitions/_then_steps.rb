@@ -91,11 +91,19 @@ Then /^the request should fail$/ do
   page.driver.response.status.should == 401
 end
 
-Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
+Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be "(.+)"$/ do |position, version_name, subject|
   version = Version.find_by_name(version_name)
   story = Story.at_rank(@project.id, version.id, position.to_i)
   story.should_not be_nil
   story.subject.should == subject
+end
+
+Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should be in the "(.+?)" tracker$/ do |position, version_name, tracker_name|
+  version = Version.find_by_name(version_name)
+  tracker = Tracker.find_by_name(tracker_name)
+  story = Story.at_rank(@project.id, version.id, position.to_i)
+  story.should_not be_nil
+  story.tracker.should == tracker
 end
 
 Then /^all positions should be unique within versions$/ do
