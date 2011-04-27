@@ -50,30 +50,37 @@ class Report::Result
               hash.merge key => val # entry.fields[key]
             end
           end
-          if data.keys.size > 0
-            num = data.keys[0].keys.find { |key| key =~ /^number_of.*/ }
-            data.keys.find_all { |key| key[num].to_i >= 10 }.each do |key|
-              unique_results = []
-              data[key].each do |result|
-                pkey = result.fields.except num, "count"
-                if (tuple = unique_results.find { |t| t[0] == pkey })
-                  ures = tuple[1]
-                  ures.fields["count"] = (ures.fields["count"].to_i + result.fields["count"].to_i).to_s
-                else
-                  ures = result
-                  ures.fields[num] = "10+"
-                  unique_results << [pkey, ures]
-                end
-              end
-              data[key] = unique_results.collect { |tuple| tuple[1] }
-            end
-          end
+          partition(data)
           # map group back to array, all fields with same key get grouped into one list
           data.keys.map { |f| engine::Result.new data[f], f, type, important_fields }
         end
       end
       # create a single result from that list
       engine::Result.new list, {}, type, important_fields
+    end
+
+    def partition(data, skip_keys=[])
+      if data.keys.size > 0
+        num = data.keys[0].keys.find { |key| !skip_keys.include?(key) and key =~ /^number_of.*/ }
+        if num
+          data.keys.find_all { |key| key[num].to_i >= 10 }.each do |key|
+            unique_results = []
+            data[key].each do |result|
+              pkey = result.fields.except num, "count"
+              if (tuple = unique_results.find { |t| t[0] == pkey })
+                ures = tuple[1]
+                ures.fields["count"] = (ures.fields["count"].to_i + result.fields["count"].to_i).to_s
+              else
+                ures = result
+                ures.fields[num] = "10+"
+                unique_results << [pkey, ures]
+              end
+            end
+            data[key] = unique_results.collect { |tuple| tuple[1] }
+          end
+          partition(data, skip_keys + [num])
+        end
+      end
     end
 
     def inspect
