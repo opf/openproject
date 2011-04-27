@@ -13,7 +13,7 @@ class Widget::Controls::Delete < Widget::Base
             l(:button_delete)
           end
         end
-        opt1 =  link_to delete_button, url_for(:action => 'delete', :id => @query.id), :class => "button apply"
+        opt1 =  link_to delete_button, url_for(:action => 'delete', :id => @query.id), :method => :delete, :class => "button apply"
         opt2 = link_to l(:button_cancel), "#", :id => "query-icon-delete-cancel", :class => 'icon icon-cancel'
         opt1 + opt2
       end
