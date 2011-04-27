@@ -26,3 +26,4 @@ en:
   validation_failure_integer: "is not a valid integer"
 
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
+  label_progress_bar_explanation: "Generating report..."

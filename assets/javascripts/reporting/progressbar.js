@@ -28,6 +28,7 @@ Reporting.Progress = {
       var question = bar.getAttribute('data-translation');
       if (confirm(question)) {
         var target = bar.getAttribute("data-target");
+        bar.up().show();
         Reporting.Progress.replace_with_bar(bar);
         Reporting.Controls.send_settings_data(target, Reporting.Controls.update_result_table);
       } else {
