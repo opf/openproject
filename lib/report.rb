@@ -77,7 +77,10 @@ class Report < ActiveRecord::Base
 
   def chain(klass = nil, options = {})
     build_new_chain unless @chain
-    @chain = klass.new @chain, options if klass
+    if klass
+      @chain = klass.new @chain, options
+      @chain.engine = self.class
+    end
     @chain = @chain.parent until @chain.top?
     @chain
   end

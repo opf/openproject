@@ -39,7 +39,7 @@ class Widget::Controls::SaveAs < Widget::Base
   end
 
   def render_popup
-    content_tag :div, :id => 'save_as_form', :class => "button_form" do
+    content_tag :div, :id => 'save_as_form', :class => "button_form", :style => "display:none" do
       render_popup_form + render_popup_buttons
     end
   end
