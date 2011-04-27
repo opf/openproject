@@ -68,7 +68,7 @@ var Tooltip = Class.create({
     
     this.clone = this.tooltip.cloneNode(true);
     parentId = this.options.DOM_location?$(this.options.DOM_location.parentId):show_at.parentNode;
-    successorId = this.options.DOM_location?$(this.options.DOM_location.successorId):show_at.target;
+    successorId = this.options.DOM_location?$(this.options.DOM_location.successorId):show_at;
     parentId.insertBefore(this.clone, successorId);
     
     this.clone.setStyle({
