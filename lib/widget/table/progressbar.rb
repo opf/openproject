@@ -1,6 +1,4 @@
 class Widget::Table::Progressbar < Widget::Base
-  THRESHHOLD = 500
-
   dont_cache!
 
   def render
