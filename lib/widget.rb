@@ -31,7 +31,7 @@ class Widget < ActionView::Base
     begin
       controller.send(name, *args, &block)
     rescue NoMethodError
-      throw NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{self.object_id}>"
+      raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{self.object_id}>"
     end
   end
 
