@@ -11,9 +11,12 @@ class Widget::Base < Widget
   end
 
   def render_with_options(options = {}, &block)
-    set_canvas(options[:to]) if options.has_key? :to
-    render_with_cache(options, &block)
-    @output
+    self.help_text = options[:help_text]
+    if canvas = options[:to]
+      canvas << "\n" << render(&block)
+    else
+      render(&block)
+    end
   end
 
   def cache_key
