@@ -20,6 +20,8 @@ de:
   label_sum: Summe
   label_none: "(Keine Angabe)"
 
+  label_help: Hilfe
+
   description_drill_down: Details anzeigen
 
   validation_failure_date: "ist kein gültiges Datum"

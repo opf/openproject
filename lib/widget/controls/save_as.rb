@@ -11,6 +11,7 @@ class Widget::Controls::SaveAs < Widget::Base
         :class => "button secondary",
         :id => 'query-icon-save-as', :title => link_name
     write(button + render_popup)
+    maybe_with_help(button)
   end
 
   def render_popup_form
@@ -43,7 +44,7 @@ class Widget::Controls::SaveAs < Widget::Base
   end
 
   def render_popup
-    content_tag :div, :id => 'save_as_form', :class => "button_form" do
+    content_tag :div, :id => 'save_as_form', :class => "button_form", :style => "display:none" do
       render_popup_form + render_popup_buttons
     end
   end

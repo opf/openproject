@@ -36,18 +36,35 @@ class Widget::Base < Widget
   # Available options:
   #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
   def render_with_options(options = {}, &block)
+    @help_text = options[:help_text]
     set_canvas(options.delete(:to)) if options.has_key? :to
     @options = options
     render_with_cache(options, &block)
     @output
   end
 
+  ##
+  # An optional help text. If defined the Help Widget
+  # displaying the given text is going to be placed
+  # next to this Widget, if it supports that.
+  def help_text
+    @help_text
+  end
+
+  def help_text=(text)
+    @help_text = text
+  end
+
   def cache_key
-    @cache_key ||= "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+    @cache_key ||= if subject.respond_to? :cache_key
+      "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+    else
+      subject
+    end
   end
 
   def cached?
-    cache? and Rails.cache.exist?(cache_key)
+    cache? && Rails.cache.exist?(cache_key)
   end
 
   private
@@ -64,7 +81,7 @@ class Widget::Base < Widget
       write Rails.cache.fetch(cache_key)
     else
       render(&block)
-      Rails.cache.write(cache_key, @cache_output || @output)
+      Rails.cache.write(cache_key, @cache_output || @output) if cache?
     end
   end
 
@@ -74,5 +91,19 @@ class Widget::Base < Widget
   def set_canvas(canvas)
     @cache_output = "".html_safe
     @output = canvas
+  end
+
+  ##
+  # Appends the Help Widget with this Widget's help text
+  # if it is defined to the input.
+  # If the help text is not defined the input is returned.
+  def maybe_with_help(html, options = {})
+    if text = options[:help_text] || help_text
+      write render_widget Widget::Controls::Help, text do
+        options
+      end
+    else
+      html
+    end
   end
 end

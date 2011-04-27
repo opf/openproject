@@ -32,8 +32,14 @@ module Report::QueryUtils
   #
   # @return [Class] subclass
   def engine
-    return self.class.engine unless is_a? Module
-    @engine ||= Object.const_get(name[/^[^:]+/] || :Report)
+    return @engine if @engine
+    if is_a? Module
+      @engine = Object.const_get(name[/^[^:]+/] || :Report)
+    elsif respond_to? :parent and parent.respond_to? :engine
+      parent.engine
+    else
+      self.class.engine
+    end
   end
 
   ##
