@@ -141,8 +141,17 @@ class Report < ActiveRecord::Base
     chain.to_s
   end
 
-  def hash
-    (self.class.name + serialize.inspect).hash
+  def size
+    size = 0
+    recursive_each {|r| size += r.size }
+    size
+  end
+
+  def cache_key
+    deserialize unless @chain
+    parts = [self.class.table_name.sub('_reports', '')]
+    parts.concat [filters, group_bys].map { |l| l.map(&:cache_key).sort.join(" ") }
+    parts.join '/'
   end
 
   def == another_report
