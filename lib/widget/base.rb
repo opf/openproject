@@ -95,16 +95,26 @@ class Widget::Base < Widget
   end
 
   ##
-  # Appends the Help Widget with this Widget's help text
-  # if it is defined to the input.
-  # If the help text is not defined the input is returned.
-  def maybe_with_help(html, options = {})
+  # Appends the Help Widget with this Widget's help text.
+  # If no help-text was given and no default help-text is set,
+  # the given default html will be printed instead.
+  # Params:
+  #  - fallback_html - the html code to render if no help-text was found
+  #  - options-hash
+  #    - :help_text (string) - the help text to render
+  #    - :instant_write (bool, default: true) - wether to write
+  #          the help-widget instantly to the output-buffer.
+  #          If set to false you should care to save the rendered text.
+  def maybe_with_help(fallback_html, options = {})
+    output = "".html_safe
     if text = options[:help_text] || help_text
-      write render_widget Widget::Controls::Help, text do
+      output += render_widget Widget::Controls::Help, text do
         options
       end
     else
-      html
+      output += fallback_html
     end
+    write output if options[:instant_write]
+    output
   end
 end
