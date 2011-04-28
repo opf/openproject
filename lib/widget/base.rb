@@ -23,6 +23,7 @@ class Widget::Base < Widget
     @output ||= "".html_safe
     @output.write str.html_safe
     @cache_output.write(str.html_safe) if @cache_output
+    str.html_safe
   end
 
   ##
