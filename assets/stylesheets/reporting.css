@@ -306,12 +306,14 @@ fieldset#filter-settings table td > label {
 }
 
 .drag_container {
-  padding: 7px 0;
+  padding: 0;
   height: 22px;
+  margin-bottom: 1em;
+  background-color: #EEE;
 }
 
 .drag_container select {
-  margin-right: 20px;
+  margin-right: 3px;
   float: right;
 }
 

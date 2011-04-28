@@ -7,8 +7,14 @@ class Widget::Settings::Fieldset < Widget::Base
   end
 
   def render
+    hash = self.hash
     content_tag :fieldset, :id => @id, :class => "collapsible collapsed" do
-      html = content_tag :legend, l(@label), :onclick => "toggleFieldset(this);" #FIXME: onclick
+      content = maybe_with_help l(@label),
+        :show_at_id => hash.to_s,
+        :icon => { :class => "#{@type}-legend-icon" },
+        :tooltip => { :class => "#{@type}-legend-tip" }
+      html = content_tag :legend, content,
+        {:onclick => "toggleFieldset(this);", :id => hash.to_s}, false #FIXME: onclick
       html + yield
     end
   end

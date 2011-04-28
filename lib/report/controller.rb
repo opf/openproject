@@ -65,7 +65,7 @@ module Report::Controller
     else
       raise ActiveRecord::RecordNotFound
     end
-    redirect_to :action => "index"
+    redirect_to :action => "index", :default => 1
   end
 
   ##

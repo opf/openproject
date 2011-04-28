@@ -74,6 +74,7 @@ class Report::SqlStatement
     # FIXME I'm ugly
     @sql ||= begin
       sql = "\n-- BEGIN #{desc}\n" \
+      "-- DB: #{ConnectionSwitcher.config_name}\n" \
       "SELECT\n#{select.map { |e| "\t#{e}" }.join ",\n"}" \
       "\nFROM\n\t#{from.gsub("\n", "\n\t")}" \
       "\n\t#{joins.map { |e| e.gsub("\n", "\n\t") }.join "\n\t"}" \

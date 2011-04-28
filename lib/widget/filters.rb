@@ -12,10 +12,18 @@ class Widget::Filters < Widget::Base
       end
     end
     select = content_tag :div, :id => "add_filter_block" do
-      select_tag 'add_filter_select',
+      add_filter = select_tag 'add_filter_select',
           options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
             :class => "select-small",
             :name => nil
+      maybe_with_help add_filter, {
+        :icon => {
+          :class => 'filter-icon'
+        },
+        :tooltip => {
+          :class => 'filter-tip'
+        }
+      }
     end
     content_tag(:div, table + select)
   end
@@ -70,6 +78,20 @@ class Widget::Filters < Widget::Base
         render_widget Filters::MultiValues, f, :to => html
       end
     end
+    render_filter_help f, :to => html
     render_widget Filters::RemoveButton, f, :to => html
+  end
+
+  def render_filter_help(filter, options = {})
+    html = content_tag :td, :width => "25px" do
+      if filter.help_text
+        render_widget Widget::Controls::Help, filter.help_text
+      end
+    end
+    if canvas = options[:to]
+      canvas << "\n" << html
+    else
+      html
+    end
   end
 end
