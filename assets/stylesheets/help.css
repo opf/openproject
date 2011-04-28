@@ -4,20 +4,21 @@
 }
 
 .tooltip {
-	position: absolute;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	padding: 3px;
-	width: 400px;
-	z-index: 256;
-	color: #000000;
-	border: 1px solid #000000;
-	background: #FFFFCC;
-	font: 12px Verdana, sans-serif;
-	text-align: left;
-	padding: -50px;
-	line-height: 16px;
-	font-size: 11px;
+  position: absolute;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 3px;
+  width: 400px;
+  z-index: 256;
+  color: #000000;
+  border: 1px solid #000000;
+  background: #FFFFCC;
+  font: 12px Verdana, sans-serif;
+  text-align: left;
+  padding: -50px;
+  line-height: 16px;
+  font-size: 11px;
+  white-space: normal;
 }
 
 .filter-icon {
