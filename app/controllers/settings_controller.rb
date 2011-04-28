@@ -36,16 +36,16 @@ class SettingsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'edit', :tab => params[:tab]
-      return
-    end
-    @options = {}
-    @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
-    @deliveries = ActionMailer::Base.perform_deliveries
+    else
+      @options = {}
+      @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
+      @deliveries = ActionMailer::Base.perform_deliveries
 
-    @guessed_host_and_path = request.host_with_port.dup
-    @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+      @guessed_host_and_path = request.host_with_port.dup
+      @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
     
-    Redmine::Themes.rescan
+      Redmine::Themes.rescan
+    end
   end
 
   def plugin
@@ -54,9 +54,10 @@ class SettingsController < ApplicationController
       Setting["plugin_#{@plugin.id}"] = params[:settings]
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'plugin', :id => @plugin.id
+    else
+      @partial = @plugin.settings[:partial]
+      @settings = Setting["plugin_#{@plugin.id}"]
     end
-    @partial = @plugin.settings[:partial]
-    @settings = Setting["plugin_#{@plugin.id}"]
   rescue Redmine::PluginNotFound
     render_404
   end

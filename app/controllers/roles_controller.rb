@@ -38,9 +38,10 @@ class RolesController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
+    else
+      @permissions = @role.setable_permissions
+      @roles = Role.find :all, :order => 'builtin, position'
     end
-    @permissions = @role.setable_permissions
-    @roles = Role.find :all, :order => 'builtin, position'
   end
 
   def edit
@@ -48,8 +49,9 @@ class RolesController < ApplicationController
     if request.post? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
+    else
+      @permissions = @role.setable_permissions  
     end
-    @permissions = @role.setable_permissions
   end
 
   def destroy
