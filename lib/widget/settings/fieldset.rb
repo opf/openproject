@@ -16,8 +16,7 @@ class Widget::Settings::Fieldset < Widget::Base
         :icon => "#{@type}-legend-icon",
         :tooltip => "#{@type}-legend-tip",
         :onclick => "toggleFieldset(this);", :id => hash.to_s do #FIXME: onclick
-        maybe_with_help l(@label)
-        l(@label)
+        (l(@label) + maybe_with_help(l(@label), :instant_write => false)).html_safe
       end
       html + yield
     end)
