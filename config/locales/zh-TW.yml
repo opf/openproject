@@ -1040,3 +1040,8 @@
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   field_effective_date: Due date
   label_news_comment_added: Comment added to a news
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
