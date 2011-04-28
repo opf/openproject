@@ -31,6 +31,24 @@ class Report::Result
       fields[key]
     end
 
+    ##
+    # Override if you want to influence the result grouping.
+    #
+    # @return A value for grouping or nil if the given field should
+    #         not be considered for grouping.
+    def map_group_by_value(key, value)
+      value
+    end
+
+    ##
+    # This method is called when this result is requested as #grouped_by something
+    # just before the result is returned.
+    #
+    # @param data This result's grouped data.
+    def group_by_data_ready(data)
+      # good to know!
+    end
+
     def grouped_by(fields, type, important_fields = [])
       @grouped_by ||= {}
       list = begin
@@ -41,46 +59,17 @@ class Report::Result
             # index for group is a hash
             # i.e. { :foo => 10, :bar => 20 } <= this is just the KEY!!!!
             fields.inject({}) do |hash, key|
-              val = entry.fields[key]
-              if key =~ /^number_of.*/
-                if val.to_i >= 10
-                  val = "10+"
-                end
-              end
-              hash.merge key => val # entry.fields[key]
+              val = map_group_by_value(key, entry.fields[key])
+              hash.merge key => val
             end
           end
-          partition(data)
+          group_by_data_ready(data)
           # map group back to array, all fields with same key get grouped into one list
           data.keys.map { |f| engine::Result.new data[f], f, type, important_fields }
         end
       end
       # create a single result from that list
       engine::Result.new list, {}, type, important_fields
-    end
-
-    def partition(data, skip_keys=[])
-      if data.keys.size > 0
-        num = data.keys[0].keys.find { |key| !skip_keys.include?(key) and key =~ /^number_of.*/ }
-        if num
-          data.keys.find_all { |key| key[num].to_i >= 10 }.each do |key|
-            unique_results = []
-            data[key].each do |result|
-              pkey = result.fields.except num, "count"
-              if (tuple = unique_results.find { |t| t[0] == pkey })
-                ures = tuple[1]
-                ures.fields["count"] = (ures.fields["count"].to_i + result.fields["count"].to_i).to_s
-              else
-                ures = result
-                ures.fields[num] = "10+"
-                unique_results << [pkey, ures]
-              end
-            end
-            data[key] = unique_results.collect { |tuple| tuple[1] }
-          end
-          partition(data, skip_keys + [num])
-        end
-      end
     end
 
     def inspect
