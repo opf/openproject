@@ -106,7 +106,7 @@ See RB.Taskboard.initialize()
   position:relative;
   width:190px;
 }
-#rb .story .id {
+#rb .story .story-bar {
   background-color:#FFFFFF;
   font-size:9px;
   opacity: 0.8;
@@ -116,7 +116,16 @@ See RB.Taskboard.initialize()
   padding-right:3px;
   text-align:right;
   width:187px;
+  clear: both;
 }
+#rb .story .story-bar .id {
+  float:right;
+}
+#rb .story .story-bar .status {
+  float: left;
+}
+
+
 #rb .story .subject {
   height: 52px;
   line-height:13px;

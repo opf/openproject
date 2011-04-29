@@ -67,8 +67,13 @@
         <tr>
           <td>
             <div class="story <%= mark_if_closed(story) %>">
-              <div class="id">
-                <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+              <div class='story-bar'>
+                <div class="status">
+                  <%= story.status.name %>
+                </div>
+                <div class="id">
+                  <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+                </div>
               </div>
               <div class="subject"><%= story.subject %></div>
               <div class="assigned_to_id">
