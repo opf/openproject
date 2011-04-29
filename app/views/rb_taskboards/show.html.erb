@@ -75,7 +75,7 @@
                 <% if story.assigned_to.present? %>
                   <%= link_to_user(story.assigned_to) %>
                 <% else %>
-                  <em>unassigned</em>
+                  <em><%= l('backlogs.unassigned') %></em>
                 <% end %>
               </div>
             </div>

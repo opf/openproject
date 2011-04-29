@@ -117,6 +117,7 @@ en:
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
     task: "Task"
+    unassigned: "Unassigned"
 
   project_module_backlogs: "Backlogs (Beta)"
 
