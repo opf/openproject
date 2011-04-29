@@ -289,4 +289,14 @@ module IssuesHelper
     end
     export
   end
+  
+  def send_notification_option
+    content_tag(:p,
+                content_tag(:label,
+                            l(:label_notify_member_plural)) + 
+                hidden_field_tag('send_notification', '0') +
+                check_box_tag('send_notification', '1', true))
+
+
+  end
 end

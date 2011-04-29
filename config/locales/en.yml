@@ -808,6 +808,7 @@ en:
   label_filesystem_path: Root directory
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  label_notify_member_plural: Email issue updates
 
   button_login: Login
   button_submit: Submit
