@@ -10,7 +10,8 @@ class Widget::Controls::SaveAs < Widget::Base
     button = link_to content_tag(:span, content_tag(:em, link_name, :class => "button-icon icon-save-as")), "#",
         :class => "button secondary",
         :id => 'query-icon-save-as', :title => link_name
-    maybe_with_help(button) + render_popup
+    write(button + render_popup)
+    maybe_with_help(button)
   end
 
   def render_popup_form
@@ -18,11 +19,15 @@ class Widget::Controls::SaveAs < Widget::Base
       label_tag(:query_name, l(:field_name)) +
       text_field_tag(:query_name, @query.name)
     end
-    box = content_tag :p do
-      label_tag(:query_is_public, l(:field_is_public)) +
-      check_box_tag(:query_is_public)
+    if @options[:can_save_as_public]
+      box = content_tag :p do
+        label_tag(:query_is_public, l(:field_is_public)) +
+          check_box_tag(:query_is_public)
+      end
+      name + box
+    else
+      name
     end
-    name + box
   end
 
   def render_popup_buttons

@@ -1,4 +1,6 @@
 class Widget::Settings::Fieldset < Widget::Base
+  dont_cache!
+
   def render_with_options(options, &block)
     @type = options.delete(:type) || "filter"
     @id = "#{@type}-settings"
@@ -8,14 +10,15 @@ class Widget::Settings::Fieldset < Widget::Base
 
   def render
     hash = self.hash
-    content_tag :fieldset, :id => @id, :class => "collapsible collapsed" do
-      content = maybe_with_help l(@label),
+    write(content_tag :fieldset, :id => @id, :class => "collapsible collapsed" do
+      html = content_tag :legend,
         :show_at_id => hash.to_s,
-        :icon => { :class => "#{@type}-legend-icon" },
-        :tooltip => { :class => "#{@type}-legend-tip" }
-      html = content_tag :legend, content,
-        {:onclick => "toggleFieldset(this);", :id => hash.to_s}, false #FIXME: onclick
+        :icon => "#{@type}-legend-icon",
+        :tooltip => "#{@type}-legend-tip",
+        :onclick => "toggleFieldset(this);", :id => hash.to_s do #FIXME: onclick
+        (l(@label) + maybe_with_help(l(@label), :instant_write => false)).html_safe
+      end
       html + yield
-    end
+    end)
   end
 end

@@ -25,7 +25,7 @@ class Widget::Filters < Widget::Base
         }
       }
     end
-    content_tag(:div, table + select)
+    write content_tag(:div, table + select)
   end
 
   def selectables
@@ -78,20 +78,6 @@ class Widget::Filters < Widget::Base
         render_widget Filters::MultiValues, f, :to => html
       end
     end
-    render_filter_help f, :to => html
     render_widget Filters::RemoveButton, f, :to => html
-  end
-
-  def render_filter_help(filter, options = {})
-    html = content_tag :td, :width => "25px" do
-      if filter.help_text
-        render_widget Widget::Controls::Help, filter.help_text
-      end
-    end
-    if canvas = options[:to]
-      canvas << "\n" << html
-    else
-      html
-    end
   end
 end

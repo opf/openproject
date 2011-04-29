@@ -3,6 +3,8 @@
 #
 # Where :text is a i18n key.
 class Widget::Controls::Help < Widget::Base
+  dont_cache!
+
   def render
     id = "tip:#{@query}"
     options = {:icon => {}, :tooltip => {}}
@@ -15,7 +17,7 @@ class Widget::Controls::Help < Widget::Base
       "new Tooltip('target:#{@query}', 'tip:#{@query}', {className: 'tooltip'#{sai}});",
       {:type => 'text/javascript'}, false
     target = content_tag :a, icon + tip, icon_config(options[:icon])
-    target + script
+    write(target + script)
   end
 
   def icon_config(options)
