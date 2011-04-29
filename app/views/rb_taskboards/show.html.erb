@@ -71,6 +71,13 @@
                 <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
               </div>
               <div class="subject"><%= story.subject %></div>
+              <div class="assigned_to_id">
+                <% if story.assigned_to.present? %>
+                  <%= link_to_user(story.assigned_to) %>
+                <% else %>
+                  <em>unassigned</em>
+                <% end %>
+              </div>
             </div>
           </td>
           <td class="add_new">+</td>

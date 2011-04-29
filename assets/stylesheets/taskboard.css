@@ -118,13 +118,15 @@ See RB.Taskboard.initialize()
   width:187px;
 }
 #rb .story .subject {
-  height:63px;
+  height: 52px;
   line-height:13px;
   margin-top:0;
   overflow:hidden;
   padding:2px;
   width:186px;
 }
+
+
 #rb .story.closed .subject {
   text-decoration:line-through;
 }
@@ -180,6 +182,7 @@ See RB.Taskboard.initialize()
 #rb .issue.closed .subject.editable {
   text-decoration:line-through;
 }
+#rb .story .assigned_to_id,
 #rb .issue .assigned_to_id.editable {
   font-size:9px;
   height:10px;
@@ -189,6 +192,10 @@ See RB.Taskboard.initialize()
   padding-top:0;
   width:81px;
 }
+#rb .story .assigned_to_id {
+  width: auto;
+}
+
 #rb .issue .assigned_to_id .v {
   display:none;
 }
