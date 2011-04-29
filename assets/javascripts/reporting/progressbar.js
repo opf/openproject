@@ -5,11 +5,11 @@ Reporting.Progress = {
 
   replace_with_bar: function (element) {
     var parent = element.up();
-    var size = parseInt(element.getAttribute('data-size'), 10) || 500;
+    var size = parseInt(element.getAttribute('data-query-size'), 10) || 500;
     element.remove();
     var bar = Reporting.Progress.add_bar_to_parent(parent);
     // Speed determined through laborous experimentation!
-    bar.interval = (size * (Math.log(size))) / 100000;
+    bar.options.interval = (size * (Math.log(size))) / 100000;
     bar.start();
   },
 

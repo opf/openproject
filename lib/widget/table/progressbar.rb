@@ -5,7 +5,7 @@ class Widget::Table::Progressbar < Widget::Base
     if Widget::Table::ReportTable.new(@query).cached? || @query.size <= THRESHHOLD
       render_widget Widget::Table::ReportTable, @query, :to => (@output ||= "".html_safe)
     else
-      write(content_tag :div, :style => "display:none" do
+      write(content_tag :label, :style => "display:none" do
               content_tag(:div, l(:label_progress_bar_explanation).html_safe) +
                 render_progress_bar
             end)
