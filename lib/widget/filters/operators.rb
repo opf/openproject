@@ -1,6 +1,7 @@
+
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
-    content_tag :td, :width => 100 do
+    write(content_tag :td, :width => 100 do
       hide_select_box = filter_class.available_operators.count == 1
       options = {:class => "select-small filters-select filter_operator",
                  :style => "vertical-align: top", # FIXME: put into CSS
@@ -16,9 +17,11 @@ class Widget::Filters::Operators < Widget::Filters::Base
         end.join.html_safe
       end
       label = content_tag :label do
-        l(filter_class.available_operators.first.label)
+        if filter_class.available_operators.any?
+          l(filter_class.available_operators.first.label)
+        end
       end
       hide_select_box ? select_box + label : select_box
-    end
+    end)
   end
 end

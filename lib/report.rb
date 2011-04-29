@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
   end
 
   def serialize
-    # have to take the reverse to retain the original order when deserializing
+    # have to take the reverse group_bys to retain the original order when deserializing
     self.serialized = { :filters => filters.collect(&:serialize).sort, :group_bys => group_bys.collect(&:serialize).reverse }
   end
 
@@ -130,7 +130,7 @@ class Report < ActiveRecord::Base
   def_delegators  :transformer, :column_first, :row_first
   def_delegators  :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
   def_delegators  :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
-                    :units, :size, :final_number
+                    :units, :final_number
   def_delegators  :table, :row_index, :colum_index
 
   def to_a
@@ -141,12 +141,17 @@ class Report < ActiveRecord::Base
     chain.to_s
   end
 
-  def hash
-    (self.class.name + serialize.inspect).hash
+  def size
+    size = 0
+    recursive_each {|r| size += r.size }
+    size
   end
 
-  def == another_report
-    hash == another_report.hash
+  def cache_key
+    deserialize unless @chain
+    parts = [self.class.table_name.sub('_reports', '')]
+    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") }
+    parts.join '/'
   end
 
   private

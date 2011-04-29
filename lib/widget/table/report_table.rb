@@ -7,129 +7,134 @@ class Widget::Table::ReportTable < Widget::Table
     @walker = query.walker
   end
 
-  def render
-    configure_walker
-    content = content_tag :table, :class => 'list report' do
-      header + footer + body
+  def configure_query
+    if @query.depth_of(:row) == 0
+      @query.row(:singleton_value)
+    elsif @query.depth_of(:column) == 0
+      @query.column(:singleton_value)
     end
-    content += (debug_content if debug?)
   end
 
   def configure_walker
-    walker.for_final_row do |row, cells|
-      final_row_html = content_tag :th, :class => 'normal inner left' do
-        "#{show_row(row)}#{debug_fields(row)}"
-      end
-      final_row_html += cells.join.html_safe
-      final_row_html += content_tag :th, :class => 'normal inner right' do
-        "#{show_result(row)}#{debug_fields(row)}"
-      end
-      final_row_html
+    @walker.for_final_row do |row, cells|
+      html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
+      html << cells.join
+      html << "<th class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
+      html.html_safe
     end
 
-    walker.for_row do |row, subrows|
+    @walker.for_row do |row, subrows|
       subrows.flatten!
       unless row.fields.empty?
-        subrows[0] = ''
-        subrows[0] += content_tag(:th, :class => 'top left', :rowspan => subrows.size) do
-          "#{show_row(row)}#{debug_fields(row)}"
-        end
-        subrows[0].gsub("class='normal'", "class='top'")
-        subrows[0] += content_tag(:th, :class => 'top right', :rowspan => subrows.size) do
-          "#{show_result(row)}#{debug_fields(row)}"
-        end
+        subrows[0] = %Q{
+            <th class='top left' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
+              #{subrows[0].gsub("class='normal", "class='top")}
+            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row )}</th>
+          }.html_safe
       end
       subrows.last.gsub!("class='normal", "class='bottom")
       subrows.last.gsub!("class='top", "class='bottom top")
       subrows
     end
 
-    walker.for_empty_cell do
-      content_tag(:td, :class =>'normal empty') do
-        " "
-      end
-    end
+    @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
 
-    walker.for_cell do |result|
-      content_tag :td, :class => 'normal right' do
-        "#{show_result(result)}#{debug_fields(result)}"
-      end
+    @walker.for_cell do |result|
+      write(' '.html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
+      "<td class='normal right'>#{show_result result}#{debug_fields(result)}</td>".html_safe
     end
   end
 
-  def header
-    header_content = ""
-    walker.headers do |list, first, first_in_col, last_in_col|
-      header_content += '<tr>' if first_in_col
+  def render
+    configure_query
+    configure_walker
+    write "<table class='list report'>"
+    render_thead
+    render_tfoot
+    render_tbody
+    write "</table>"
+    render_xls_export
+  end
+
+  def render_tbody
+    write "<tbody>"
+    first = true
+    odd = true
+    walker.body do |line|
       if first
-        header_content += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+        line.gsub!("class='normal", "class='top")
+        first = false
+      end
+      write "<tr class='#{odd ? "odd" : "even"}'>#{line}</tr>"
+      odd = !odd
+    end
+    write "</tbody>"
+  end
+
+  def render_thead
+    write "<thead>"
+    walker.headers do |list, first, first_in_col, last_in_col|
+      write '<tr>' if first_in_col
+      if first
+        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
           ""
-        end
+        end)
       end
       list.each do |column|
         opts = { :colspan => column.final_number(:column) }
         opts.merge!(:class => "inner") if column.final?(:column)
-        header_content += content_tag :th, opts do
+        write (content_tag :th, opts do
           show_row column
-        end
+        end)
       end
       if first
-        header_content += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
           ""
-        end
+        end)
       end
-      header_content += '</tr>' if last_in_col
+      write '</tr>' if last_in_col
     end
-    content_tag :thead, header_content.html_safe
+    write "</thead>"
   end
 
-  def footer
-    reverse_headers = ""
+  def render_tfoot
+    write "<tfoot>"
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
-        reverse_headers += '<tr>'
+        write '<tr>'
         if first
-          reverse_headers += content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
+          write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
             " "
-          end
+          end)
         end
       end
 
       list.each do |column|
         opts = { :colspan => column.final_number(:column) }
         opts.merge!(:class => "inner") if first
-        reverse_headers += content_tag :th, opts do
-          "#{show_result(column)}#{debug_fields(column)}"
-        end
+        write (content_tag :th, opts do
+          "#{show_result(column)}" #{debug_fields(column)}
+        end)
       end
       if last_in_col
         if first
-          reverse_headers += content_tag :th,
-            :rowspan => @query.depth_of(:column),
-            :colspan => @query.depth_of(:row),
-            :class => 'top result' do
-              show_result @query
-          end
+          write (content_tag :th,
+          :rowspan => @query.depth_of(:column),
+          :colspan => @query.depth_of(:row),
+          :class => 'top result' do
+            show_result @query
+          end)
         end
-        reverse_headers += '</tr>'
+        write '</tr>'
       end
     end
-    content_tag :tfoot, reverse_headers.html_safe
+    write "</tfoot>"
   end
 
-  def body
-    first = true
-    walker_body = ""
-    walker.body do |line|
-      if first
-        line.gsub!("class='normal", "class='top")
-        first = false
-      end
-      walker_body += content_tag :tr, :class => cycle("odd", "even") do
-        line.html_safe
-      end
-    end
-    content_tag :tbody, walker_body.html_safe
+  def render_xls_export
+    write (content_tag :div, :id => "result-formats", :style => "font-size: 14px; line-height: 2;" do
+      link_to l(:export_as_excel), :action => :index, :format => "xls"
+    end)
   end
 
   def debug_content

@@ -2,6 +2,8 @@ module Report::Controller
   def self.included(base)
     base.class_eval do
       attr_accessor :report_engine
+      helper_method :current_user
+      helper_method :allowed_to?
 
       include ReportingHelper
       helper ReportingHelper
@@ -11,21 +13,44 @@ module Report::Controller
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
+      before_filter { @no_progress = no_progress? }
     end
   end
 
-  ##
-  # Render the report. Renders either the complete index or the table only
   def index
     table
   end
 
   ##
-  # Render the table partial, if we are setting filters/groups
+  # Render the report. Renders either the complete index or the table only
   def table
     if set_filter?
-      render :partial => 'table'
+      if no_progress?
+        table_without_progress_info
+      else
+        table_with_progress_info
+      end
       session[report_engine.name.underscore.to_sym].delete(:name)
+    end
+  end
+
+  def table_without_progress_info
+    stream do |response, output|
+      render_widget Widget::Table::ReportTable, @query, :to => output
+    end
+  end
+
+  def table_with_progress_info
+    render :text => render_widget(Widget::Table::Progressbar, @query), :layout => false
+  end
+
+  if Rails.version.start_with? "3"
+    def stream(&block)
+      self.response_body = block
+    end
+  else
+    def stream(&block)
+      render :text => block, :layout => false
     end
   end
 
@@ -61,7 +86,7 @@ module Report::Controller
   # RecordNotFound if the query at :id does not exist
   def delete
     if @query
-      @query.destroy
+      @query.destroy if allowed_to? :delete, @query
     else
       raise ActiveRecord::RecordNotFound
     end
@@ -152,6 +177,12 @@ module Report::Controller
   # Determines if the request contains filters to set
   def set_filter? #FIXME: rename to set_query?
     params[:set_filter].to_i == 1
+  end
+
+  ##
+  # Determines if the requested table should be rendered with a progressbar
+  def no_progress?
+    !!params[:immediately]
   end
 
   ##
@@ -271,6 +302,21 @@ module Report::Controller
   # Override in subclass if user key
   def user_key
     'user_id'
+  end
+
+  ##
+  # Fallback: @current_user needs to be set for the engine
+  def current_user
+    if @current_user.nil?
+      raise NotImplementedError, "The #{self.class} should have set @current_user before this request"
+    end
+    @current_user
+  end
+
+  ##
+  # Abstract: Implementation required in application
+  def allowed_to?(action, subject, user = current_user)
+    raise NotImplementedError, "The #{self.class} should have implemented #allowed_to?(action, subject, user)"
   end
 
   ##

@@ -1,3 +1,5 @@
+require 'abbrev'
+
 class Report::Filter
   class Base < Report::Chainable
     include Report::QueryUtils
@@ -15,6 +17,17 @@ class Report::Filter
     self.skip_inherited_operators = [:time_operators, "y", "n"]
 
     attr_accessor :values
+
+    def self.cache_key
+      @cache_key ||= begin
+        abbrev = Abbrev.abbrev(engine::Filter.all.map(&:underscore_name))
+        abbrev.keys.detect { |key| abbrev[key] == underscore_name }.to_s
+      end
+    end
+
+    def cache_key
+      self.class.cache_key + operator.to_s + Array(values).join(',')
+    end
 
     ##
     # A Filter is 'heavy' if it possibly returns a _hughe_ number of available_values.
@@ -45,6 +58,12 @@ class Report::Filter
     end
     class << self
       alias :dependents :dependent
+    end
+
+
+    # need this for sort
+    def <=> other
+      self.class.underscore_name <=> other.class.underscore_name
     end
 
     def self.has_dependent?

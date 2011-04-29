@@ -1,7 +1,8 @@
+
 class Widget::Filters::MultiValues < Widget::Filters::Base
 
   def render
-    content_tag :td do
+    write(content_tag :td do
       content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
         select_options = {  :style => "vertical-align: top;", # FIXME: Do CSS
                             :name => "values[#{filter_class.underscore_name}][]",
@@ -54,6 +55,6 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
                   :"data-filter-name" => filter_class.underscore_name
         box + plus
       end
-    end
+    end)
   end
 end
