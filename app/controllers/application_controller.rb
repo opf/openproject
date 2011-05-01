@@ -274,6 +274,7 @@ class ApplicationController < ActionController::Base
       end
     end
     redirect_to default
+    false
   end
   
   def render_403(options={})
