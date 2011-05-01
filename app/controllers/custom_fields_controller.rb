@@ -38,8 +38,9 @@ class CustomFieldsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
+    else
+      @trackers = Tracker.find(:all, :order => 'position')
     end
-    @trackers = Tracker.find(:all, :order => 'position')
   end
 
   def edit
@@ -48,8 +49,9 @@ class CustomFieldsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
+    else
+      @trackers = Tracker.find(:all, :order => 'position')
     end
-    @trackers = Tracker.find(:all, :order => 'position')
   end
   
   def destroy
