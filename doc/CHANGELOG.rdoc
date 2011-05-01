@@ -19,6 +19,12 @@
 * Patch #7598: Extensible MailHandler
 * Patch #7795: Internal server error at journals#index with custom fields
 
+== 2011-05-01 v1.3.0
+
+* Bug #309: The login screen after lost_password redirects back to lost_password after you login
+* Bug #347: Potential Security Vulnerability - Execution After Redirect
+* Bug #352: Errorpage should be modified
+
 == 2011-03-27 v1.2.0
 
 * Bug #209: Don't hardcode user viewable labels (like "Path to .git repository")
