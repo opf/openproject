@@ -9,7 +9,7 @@
     <div class="t"><%= assignee_name_or_empty(impediment) %></div>
     <div class="v"><%= assignee_id_or_empty(impediment) %></div>
   </div>
-  <div class="remaining_hours editable" fieldname="remaining_hours"><%= remaining_hours(impediment) %></div>
+  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>" fieldname="remaining_hours"><%= remaining_hours(impediment) %></div>
   <div class="indicator"> </div>
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>

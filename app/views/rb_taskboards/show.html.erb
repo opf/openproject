@@ -66,11 +66,23 @@
       <% @sprint.stories(@project).each do |story| %>
         <tr>
           <td>
-            <div class="story <%= mark_if_closed(story) %>">
-              <div class="id">
-                <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+            <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
+              <div class='story-bar'>
+                <div class="status">
+                  <%= story.status.name %>
+                </div>
+                <div class="id">
+                  <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+                </div>
               </div>
               <div class="subject"><%= story.subject %></div>
+              <div class="assigned_to_id">
+                <% if story.assigned_to.present? %>
+                  <%= link_to_user(story.assigned_to) %>
+                <% else %>
+                  <em><%= l('backlogs.unassigned') %></em>
+                <% end %>
+              </div>
             </div>
           </td>
           <td class="add_new">+</td>
