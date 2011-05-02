@@ -1,9 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<title>Wiki Formatting</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<style type="text/css">
+<% content_for :styles do %>
     body { font:80% Verdana,Tahoma,Arial,sans-serif; }
     h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
     pre, code { font-size:120%; }
@@ -19,24 +14,22 @@
     a.new { color: #b73535; }
 
     .CodeRay .c  { color:#666; }
-    
+
     .CodeRay .cl { color:#B06; font-weight:bold }
     .CodeRay .dl { color:black }
     .CodeRay .fu { color:#06B; font-weight:bold }
-    
+
     .CodeRay .il { background: #eee }
     .CodeRay .il .idl { font-weight: bold; color: #888 }
-    
+
     .CodeRay .iv { color:#33B }
     .CodeRay .r  { color:#080; font-weight:bold }
-    
+
     .CodeRay .s  { background-color:#fff0f0 }
     .CodeRay .s  .dl { color:#710 }
-</style>
-</head>
+<% end %>
 
-<body>
-<h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+<h1><a name="1" class="wiki-page"></a><%= html_title "Wiki Formatting" %></h1>
 
     <h2><a name="2" class="wiki-page"></a>Links</h2>
 
@@ -266,5 +259,3 @@ To go live, all you need to add is a database and a web server.
 <span class="no"><strong>10</strong></span> <span class="r">end</span>
 </code>
 </pre>
-</body>
-</html>

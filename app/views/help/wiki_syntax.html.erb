@@ -1,9 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Wiki Syntax Quick Reference</title>
-<style type="text/css">
+<% content_for :styles do %>
     h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
     body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
     table th { padding-top: 1em; }
@@ -12,11 +7,9 @@
     table td h1 { font-size: 1.8em; text-align: left; }
     table td h2 { font-size: 1.4em; text-align: left; }
     table td h3 { font-size: 1.2em; text-align: left; }
-</style>
-</head>
-<body>
+<% end %>
 
-<h1>Wiki Syntax Quick Reference</h1>
+<h1><%= html_title "Wiki Syntax Quick Reference" %></h1>
 
 <table width="100%">
 <tr><th colspan="3">Font Styles</th></tr>
@@ -59,6 +52,3 @@
 </table>
 
 <p><a href="wiki_syntax_detailed" onclick="window.open('wiki_syntax_detailed', '', ''); return false;">More Information</a></p>
-
-</body>
-</html>
