@@ -68,16 +68,6 @@ module Redmine
       end
 
       # Builtin macros
-      desc "Displays a list of all available macros, including description if available."
-      macro :macro_list do
-        out = ''
-        @@available_macros.keys.collect(&:to_s).sort.each do |macro|
-          out << content_tag('dt', content_tag('code', macro))
-          out << content_tag('dd', textilizable(@@available_macros[macro.to_sym]))
-        end
-        content_tag('dl', out)
-      end
-
       desc "Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:\n\n" +
              "  !{{child_pages}} -- can be used from a wiki page only\n" +
              "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +

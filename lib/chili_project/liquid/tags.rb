@@ -27,7 +27,8 @@ module ChiliProject::Liquid
     # child_pages
     register_tag('hello_world', HelloWorld)
     # include
-    # macro_list
+    register_tag('tag_list', TagList, :html => true)
+    register_tag('variable_list', VariableList, :html => true)
   end
 end
 
