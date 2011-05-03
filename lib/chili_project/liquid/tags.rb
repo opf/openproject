@@ -24,7 +24,7 @@ module ChiliProject::Liquid
     end
 
     # TODO: reimplement old macros as tags and register them here
-    # child_pages
+    register_tag('child_pages', ChildPages, :html => true)
     register_tag('hello_world', HelloWorld)
     # include
     register_tag('tag_list', TagList, :html => true)
@@ -34,4 +34,5 @@ end
 
 # FIXME: remove the deprecated syntax for 4.0, provide a way to migrate
 # existing pages to the new syntax.
+ChiliProject::Liquid::Legacy.add('child_pages', :tag)
 ChiliProject::Liquid::Legacy.add('hello_world', :tag)
