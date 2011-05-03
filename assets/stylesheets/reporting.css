@@ -52,12 +52,13 @@
 .report th {
   border: dotted 1px #ccc;
   background-color: #e3e3e3 !important;
-  text-align: right !important;
+  text-align: center;
 }
 
 .report th.inner {
   border: solid 1px #ccc;
   background-color: #efefef !important;
+  text-align: right;
 }
 
 .report .odd th.inner {
