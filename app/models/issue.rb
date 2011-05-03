@@ -103,6 +103,10 @@ class Issue < ActiveRecord::Base
     (usr || User.current).allowed_to?(:view_issues, self.project)
   end
 
+  def to_liquid
+    IssueDrop.new(self)
+  end
+
   def after_initialize
     if new_record?
       # set default values for new records only
