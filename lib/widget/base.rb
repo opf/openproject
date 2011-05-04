@@ -46,10 +46,6 @@ class Widget::Base < Widget
     @output
   end
 
-  def cache_key
-    subject.cache_key
-  end
-
   ##
   # An optional help text. If defined the Help Widget
   # displaying the given text is going to be placed
@@ -65,7 +61,7 @@ class Widget::Base < Widget
   def cache_key
     @cache_key ||= Digest::SHA1::hexdigest begin
       if subject.respond_to? :cache_key
-        "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+        "#{I18n.locale.to_s}/#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
       else
         subject.inspect
       end
