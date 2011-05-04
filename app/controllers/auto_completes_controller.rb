@@ -15,6 +15,7 @@ class AutoCompletesController < ApplicationController
                                     :conditions => ["LOWER(#{Issue.table_name}.subject) LIKE :q OR CAST(#{Issue.table_name}.id AS CHAR(13)) LIKE :q", {:q => "%#{q.downcase}%" }])
     end
     @issues.compact!
+    @issues.uniq!
     render :layout => false
   end
 
