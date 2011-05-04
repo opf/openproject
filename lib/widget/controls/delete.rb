@@ -1,4 +1,6 @@
 class Widget::Controls::Delete < Widget::Controls
+  dont_cache!
+
   def render
     return "" if @query.new_record? or !@options[:can_delete]
     button = link_to content_tag(:span, content_tag(:em, l(:button_delete), :class => "button-icon icon-delete")), "#",
