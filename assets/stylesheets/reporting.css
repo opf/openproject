@@ -531,3 +531,26 @@ html>body #ajax-indicator { position: fixed; }
   padding-left: 26px;
   vertical-align: bottom;
 }
+
+/* Calendar Fixes */
+div.calendar /* let calendar expand properly */
+{
+  font-size: medium;
+  line-height: normal;
+}
+
+div.calendar table div { /* make sure the nested divs are large enough, too */
+  font-size: medium;
+  line-height: normal;
+}
+
+.calendar .combo .label, .calendar .combo .label-IEfix { /* set the proper size for the combo boxes with months and years */
+  font-size: 10px;
+  line-height: normal;
+}
+
+.calendar tbody .day { /* avoid jitter during quick mouse-overs over days */
+  border: 1px dotted transparent;
+  padding: 1px 3px 1px 1px;
+}
+
