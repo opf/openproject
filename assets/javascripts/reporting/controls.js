@@ -121,8 +121,10 @@ Reporting.Controls = {
   default_failure_callback: function (response) {
     if (response.status >= 400 && response.status < 500) {
       Reporting.flash(response.responseText);
+      Reporting.Progress.abort();
     } else {
       Reporting.flash("There was an error getting the results. The administrator has been informed.");
+      Reporting.Progress.abort();
     }
   }
 };
