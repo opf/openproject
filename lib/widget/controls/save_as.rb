@@ -1,4 +1,5 @@
 class Widget::Controls::SaveAs < Widget::Controls
+  dont_cache!
 
   def render
     if @query.new_record?
