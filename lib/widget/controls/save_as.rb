@@ -1,4 +1,5 @@
-class Widget::Controls::SaveAs < Widget::Base
+class Widget::Controls::SaveAs < Widget::Controls
+
   def render
     if @query.new_record?
       link_name = l(:button_save)
