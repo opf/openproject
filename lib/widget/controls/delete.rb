@@ -5,7 +5,7 @@ class Widget::Controls::Delete < Widget::Controls
           :class => 'button secondary',
           :id => 'query-icon-delete',
           :title => l(:button_delete)
-    popup = content_tag :div, :id => "delete_form", :class => "button_form" do
+    popup = content_tag :div, :id => "delete_form", :style => "display:none", :class => "button_form" do
       question = content_tag :p, l(:label_really_delete_question)
       options = content_tag :p do
         delete_button = content_tag :span do
