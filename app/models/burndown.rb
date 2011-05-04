@@ -42,11 +42,11 @@ class Burndown
     end
 
     def collect()
-      stories = Story.find(:all, :include => {:journals => :details},
+      stories = Issue.find(:all, :include => {:journals => :details},
                            :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
                                            " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
                                            " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
-                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, Story.trackers, Story.trackers, Story.trackers])
+                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers, collected_trackers])
 
       days = sprint.days(nil)
       collected_days = days.sort.select{ |d| d <= Date.today }
@@ -66,7 +66,6 @@ class Burndown
     end
 
     def collect_for_story story, collected_days
-
       details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
       details_by_prop = details.group_by{ |d| d.prop_key }
 
@@ -80,6 +79,7 @@ class Burndown
           current_prop_index[key] = determine_prop_index(key, date, current_prop_index, details_by_prop)
 
           unless not_to_be_collected?(key, date, details_by_prop, current_prop_index, story)
+
             self[key][date] += value_for_prop(date, details_by_prop[key], current_prop_index[key], story.send(key)).to_f
           end
         end
@@ -88,6 +88,10 @@ class Burndown
 
     private
 
+    def collected_trackers
+      @collected_trackers ||= Story.trackers << Task.tracker
+    end
+
     def determine_prop_index(key, date, current_prop_index, details_by_prop)
       prop_index = current_prop_index[key]
 
@@ -95,7 +99,7 @@ class Burndown
             details_by_prop[key][prop_index].journal.created_on.to_date > date ||
             prop_index == details_by_prop[key].size - 1
 
-          prop_index += 1
+        prop_index += 1
       end
 
       prop_index
@@ -105,9 +109,15 @@ class Burndown
       ((collect_names.include?(key) &&
         (project.id != value_for_prop(date, details_by_prop["project_id"], current_prop_index["project_id"], story.send("project_id")).to_i ||
         sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i ||
-        !Story.trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i))) ||
+        !collected_trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i))) ||
       ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed) ||
-      out_names.include?(key))
+      out_names.include?(key) ||
+      collected_from_children?(key, story) ||
+      story.created_on.to_date > date)
+    end
+
+    def collected_from_children?(key, story)
+      key == "remaining_hours" && story.descendants.size > 0
     end
 
     def value_for_prop(date, details, index, default)
