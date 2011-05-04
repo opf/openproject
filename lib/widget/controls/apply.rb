@@ -1,5 +1,5 @@
 
-class Widget::Controls::Apply < Widget::Base
+class Widget::Controls::Apply < Widget::Controls
   def render
     write link_to content_tag(:span, content_tag(:em, l(:button_apply))), {},
       :href => "#", :id => "query-icon-apply-button",

@@ -1,4 +1,4 @@
-class Widget::Controls::QueryName < Widget::Base
+class Widget::Controls::QueryName < Widget::Controls
   dont_cache! # The name might change, but the query stays the same...
 
   def render
