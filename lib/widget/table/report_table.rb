@@ -65,10 +65,17 @@ class Widget::Table::ReportTable < Widget::Table
         line.gsub!("class='normal", "class='top")
         first = false
       end
+      mark_penultimate_column! line
       write "<tr class='#{odd ? "odd" : "even"}'>#{line}</tr>"
       odd = !odd
     end
     write "</tbody>"
+  end
+
+  def mark_penultimate_column!(line)
+    line.gsub! /(<td class='([^']+)'[^<]+<\/td>)[^<]*<th .+/ do |m|
+      m.sub /class='([^']+)'/, 'class=\'\1 penultimate\''
+    end
   end
 
   def render_thead
