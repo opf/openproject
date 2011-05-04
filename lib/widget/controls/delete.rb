@@ -1,4 +1,4 @@
-class Widget::Controls::Delete < Widget::Base
+class Widget::Controls::Delete < Widget::Controls
   dont_cache!
 
   def render

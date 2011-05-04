@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class Widget::Base < Widget
   attr_reader :engine, :output
 
@@ -61,10 +63,12 @@ class Widget::Base < Widget
   end
 
   def cache_key
-    @cache_key ||= if subject.respond_to? :cache_key
-      "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
-    else
-      subject
+    @cache_key ||= Digest::SHA1::hexdigest begin
+      if subject.respond_to? :cache_key
+        "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+      else
+        subject.inspect
+      end
     end
   end
 
@@ -77,7 +81,6 @@ class Widget::Base < Widget
   def cache?
     !self.class.dont_cache?
   end
-
 
   ##
   # Render this widget or serve it from cache
@@ -103,22 +106,25 @@ class Widget::Base < Widget
   # If no help-text was given and no default help-text is set,
   # the given default html will be printed instead.
   # Params:
-  #  - fallback_html - the html code to render if no help-text was found
+  #  - html
   #  - options-hash
+  #    - :fallback_html (string, default: '') - the html code to render if no help-text was found
   #    - :help_text (string) - the help text to render
   #    - :instant_write (bool, default: true) - wether to write
   #          the help-widget instantly to the output-buffer.
   #          If set to false you should care to save the rendered text.
-  def maybe_with_help(fallback_html, options = {})
+  def maybe_with_help(options = {})
+    options[:instant_write] = true if options[:instant_write].nil?
+    options[:fallback_html] ||= ''
     output = "".html_safe
     if text = options[:help_text] || help_text
-      output += render_widget Widget::Controls::Help, text do
+      output += render_widget Widget::Help, text do
         options
       end
     else
-      output += fallback_html
+      output += options[:fallback_html]
     end
     write output if options[:instant_write]
-    output
+    output.html_safe
   end
 end

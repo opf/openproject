@@ -1,4 +1,4 @@
-class Widget::Controls::Save < Widget::Base
+class Widget::Controls::Save < Widget::Controls
   dont_cache!
 
   def render

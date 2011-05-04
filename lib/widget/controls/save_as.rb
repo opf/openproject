@@ -1,4 +1,4 @@
-class Widget::Controls::SaveAs < Widget::Base
+class Widget::Controls::SaveAs < Widget::Controls
   dont_cache!
 
   def render
@@ -13,7 +13,7 @@ class Widget::Controls::SaveAs < Widget::Base
         :class => "button secondary",
         :id => 'query-icon-save-as', :title => link_name
     write(button + render_popup)
-    maybe_with_help(button)
+    maybe_with_help
   end
 
   def render_popup_form
