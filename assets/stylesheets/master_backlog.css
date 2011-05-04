@@ -1,5 +1,4 @@
 #rb #backlogs_container {
-  position:relative;
   width:100%;
   min-width: 950px;
 }
@@ -28,7 +27,6 @@
   border: 1px solid #E4E4E4;
   display: block;
   margin: 0 0 10px 0;
-  position: relative;
   width: 100%;
 }
 
