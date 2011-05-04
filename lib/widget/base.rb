@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class Widget::Base < Widget
   attr_reader :engine, :output
 
@@ -57,10 +59,12 @@ class Widget::Base < Widget
   end
 
   def cache_key
-    @cache_key ||= if subject.respond_to? :cache_key
-      "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
-    else
-      subject
+    @cache_key ||= Digest::SHA1::hexdigest begin
+      if subject.respond_to? :cache_key
+        "#{self.class.name.demodulize}/#{subject.cache_key}/#{@options.sort_by(&:to_s)}"
+      else
+        subject.inspect
+      end
     end
   end
 
@@ -73,7 +77,6 @@ class Widget::Base < Widget
   def cache?
     !self.class.dont_cache?
   end
-
 
   ##
   # Render this widget or serve it from cache
