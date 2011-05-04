@@ -111,7 +111,7 @@ class Widget::Base < Widget
     options[:fallback_html] ||= ''
     output = "".html_safe
     if text = options[:help_text] || help_text
-      output += render_widget Widget::Controls::Help, text do
+      output += render_widget Widget::Help, text do
         options
       end
     else

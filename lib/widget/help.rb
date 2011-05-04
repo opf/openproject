@@ -1,8 +1,8 @@
 ##
-# Usgae: render_widget Widget::Controls::Help, :text
+# Usage: render_widget Widget::Help, :text
 #
 # Where :text is a i18n key.
-class Widget::Controls::Help < Widget::Base
+class Widget::Help < Widget::Base
   dont_cache!
 
   def render
