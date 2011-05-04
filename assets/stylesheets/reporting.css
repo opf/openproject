@@ -51,24 +51,35 @@
 
 .report th {
   border: solid 1px #ccc;
-  background-color: #e3e3e3 !important;
+  background-color: #e3e3e3;
   text-align: center;
+}
+
+.report .odd th.inner {
+  background-color: #e8e8e8;
+}
+
+.report .even th.inner {
+  background-color: #e3e3e3;
 }
 
 .report th.inner {
   border: solid 1px #ccc;
-  background-color: #efefef !important;
+  background-color: #efefef;
   text-align: right;
 }
 
-.report .odd th.inner {
-  background-color: #e8e8e8 !important;
+.report tr.even:hover .inner,
+.report tr.even:hover .bottom,
+.report tr.even:hover .empty,
+.report tr.even:hover .right {
+  background-color: #f5f5c5 !important;
 }
-
-.report tr:hover .inner,
-.report tr:hover .bottom,
-.report tr:hover .empty,
-.report tr:hover .right {
+/* IE7 made me do it! */
+.report tr.odd:hover .inner,
+.report tr.odd:hover .bottom,
+.report tr.odd:hover .empty,
+.report tr.odd:hover .right {
   background-color: #f5f5c5 !important;
 }
 
@@ -103,7 +114,7 @@
 }
 
 .report thead tr:hover .inner, .report tfoot tr:hover .inner {
-  background-color: #efefef !important;
+  background-color: #efefef;
 }
 
 .report .left {
