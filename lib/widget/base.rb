@@ -46,10 +46,6 @@ class Widget::Base < Widget
     @output
   end
 
-  def cache_key
-    subject.cache_key
-  end
-
   ##
   # An optional help text. If defined the Help Widget
   # displaying the given text is going to be placed
