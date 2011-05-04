@@ -60,14 +60,12 @@ module BacklogsPlugin
           end
         end
 
-        if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
-          snippet += %Q{
-            <tr>
-              <th class="remaining_hours">#{l(:field_remaining_hours)}:</th>
-              <td class="remaining_hours">#{l_hours(issue.remaining_hours)}</td>
-            </tr>
-          }
-        end
+        snippet += %Q{
+          <tr>
+            <th class="remaining_hours">#{l(:field_remaining_hours)}:</th>
+            <td class="remaining_hours">#{l_hours(issue.remaining_hours)}</td>
+          </tr>
+        }
 
         snippet
       end
@@ -93,6 +91,7 @@ module BacklogsPlugin
 
               $j(document).ready(function() {
                 $j('#issue_estimated_hours').attr('disabled', 'disabled');
+                $j('#issue_remaining_hours').attr('disabled', 'disabled');
                 $j('#issue_done_ratio').attr('disabled', 'disabled');
                 $j('#issue_start_date').parent().hide();
                 $j('#issue_due_date').parent().hide();
@@ -101,13 +100,11 @@ module BacklogsPlugin
           end
         end
 
-        if issue.is_task? || (issue.is_story? && issue.descendants.length == 0)
-          snippet << '<p>'
-          snippet << context[:form].text_field(:remaining_hours, :size => 3)
-          snippet << ' '
-          snippet << l(:field_hours)
-          snippet << '</p>'
-        end
+        snippet << '<p>'
+        snippet << context[:form].text_field(:remaining_hours, :size => 3)
+        snippet << ' '
+        snippet << l(:field_hours)
+        snippet << '</p>'
 
         params = context[:controller].params
         if issue.is_story? && params[:copy_from]
