@@ -90,6 +90,10 @@
   text-align: right;
 }
 
+#result-table {
+  margin-top: 10px !important;
+}
+
 .report thead tr:hover .inner, .report tfoot tr:hover .inner {
   background-color: #efefef !important;
 }
@@ -357,7 +361,6 @@ td:hover .drill_down, th:hover .drill_down {
 
 .form_controls {
   margin-top: 6px;
-  margin-bottom: 10px;
 }
 
 .buttons .reporting_button:hover {
