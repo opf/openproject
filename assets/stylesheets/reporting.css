@@ -478,7 +478,7 @@ td:hover .drill_down, th:hover .drill_down {
 div.button_form {
   /* TODO IE Compatibility! */
   background-color: white;
-  border: 1px solid grey;
+  border: 1px solid gray;
   -moz-border-radius: 3px;
   border-radius: 3px;
   left: 100px;
