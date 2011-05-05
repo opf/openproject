@@ -6,7 +6,7 @@ module BurndownChartsHelper
 
     labels = (0..mvalue).collect{ |i| "[#{i*25}, #{i*25}]"}
 
-    mvalue = mvalue + 1 if mvalue == 1
+    mvalue = mvalue + 1 if mvalue == 1 || ((max % 25) == 0)
 
     labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{l('backlogs.hours')}/<br>#{l('backlogs.points')}</span>']"
 
