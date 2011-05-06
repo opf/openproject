@@ -18,7 +18,6 @@ module Report::Controller
   end
 
   def index
-    session[report_engine.name.underscore.to_sym].delete(:name)
     table
   end
 
@@ -31,7 +30,6 @@ module Report::Controller
       else
         table_with_progress_info
       end
-      session[report_engine.name.underscore.to_sym].delete(:name)
     end
   end
 
@@ -121,6 +119,7 @@ module Report::Controller
       @query.is_public = params[:query_is_public] == 'true'
     end
     @query.save!
+    store_query(@query)
     unless request.xhr?
       redirect_to :action => "show", :id => @query.id
     else
@@ -256,6 +255,7 @@ module Report::Controller
     if force_default?
       filters = default_filter_parameters
       groups  = default_group_parameters
+      session[report_engine.name.underscore.to_sym].delete(:name)
     else
       filters = filter_params
       groups  = group_params
