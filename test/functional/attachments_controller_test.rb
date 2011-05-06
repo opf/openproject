@@ -121,8 +121,8 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook'
     assert_nil Attachment.find_by_id(1)
     j = issue.journals.find(:first, :order => 'created_at DESC')
-    assert_equal [1], j.details.keys
-    assert_equal 'error281.txt', j.details[1].first
+    assert_equal ['attachments_1'], j.details.keys
+    assert_equal 'error281.txt', j.details['attachments_1'].first
   end
   
   def test_destroy_wiki_page_attachment
