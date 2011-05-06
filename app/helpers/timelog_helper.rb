@@ -144,7 +144,7 @@ module TimelogHelper
       headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
       headers += periods
       headers << l(:label_total)
-      csv << headers.collect {|c| to_utf8(c) }
+      csv << headers.collect {|c| to_utf8_for_timelogs(c) }
       # Content
       report_criteria_to_csv(csv, criterias, periods, hours)
       # Total row
@@ -166,7 +166,7 @@ module TimelogHelper
       hours_for_value = select_hours(hours, criterias[level], value)
       next if hours_for_value.empty?
       row = [''] * level
-      row << to_utf8(format_criteria_value(criterias[level], value))
+      row << to_utf8_for_timelogs(format_criteria_value(criterias[level], value))
       row += [''] * (criterias.length - level - 1)
       total = 0
       periods.each do |period|
@@ -183,7 +183,7 @@ module TimelogHelper
     end
   end
   
-  def to_utf8(s)
+  def to_utf8_for_timelogs(s)
     @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
     begin; @ic.iconv(s.to_s); rescue; s.to_s; end
   end
