@@ -49,7 +49,7 @@ class Story < Issue
       attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
       s = Story.new(attribs)
-      s.move_after(params['prev_id']) if s.save!
+      s.move_after(params['prev_id']) if s.save
       return s
     end
 

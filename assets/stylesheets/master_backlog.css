@@ -208,6 +208,7 @@
   margin-left: 4em;
   padding: 5px 2px 4px 2px;
   white-space: nowrap;
+  min-height: 1em;
 }
 #rb #backlogs_container .stories .story .status_id {
   float: right;
