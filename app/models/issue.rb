@@ -353,7 +353,7 @@ class Issue < ActiveRecord::Base
   def attachment_removed(obj)
     init_journal(User.current)
     create_journal
-    last_journal.update_attribute(:changes, {obj.id => [obj.filename, nil]}.to_yaml)
+    last_journal.update_attribute(:changes, {"attachments_" + obj.id.to_s => [obj.filename, nil]}.to_yaml)
   end
   
   # Return true if the issue is closed, otherwise false
