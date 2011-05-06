@@ -18,6 +18,7 @@ module Report::Controller
   end
 
   def index
+    session[report_engine.name.underscore.to_sym].delete(:name)
     table
   end
 
