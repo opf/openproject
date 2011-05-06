@@ -21,7 +21,7 @@ class JournalTest < ActiveSupport::TestCase
   fixtures :issues, :issue_statuses, :journals
 
   def setup
-    @journal = IssueJournal.first
+    @journal = IssueJournal.find(1)
   end
 
   def test_journalized_is_an_issue
