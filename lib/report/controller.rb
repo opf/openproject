@@ -255,7 +255,7 @@ module Report::Controller
     if force_default?
       filters = default_filter_parameters
       groups  = default_group_parameters
-      session[report_engine.name.underscore.to_sym].delete(:name)
+      session[report_engine.name.underscore.to_sym].try :delete, :name
     else
       filters = filter_params
       groups  = group_params
