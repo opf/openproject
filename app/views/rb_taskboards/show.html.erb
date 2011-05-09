@@ -100,9 +100,9 @@
   <div id="helpers">
     <select class="assigned_to_id template" id="assigned_to_id_options">
       <option value=""> </option>
-      <% @project.assignable_users.each do |member| %>
-        <option value="<%= member.user_id %>" color="<%= member.user.backlogs_preference(:task_color) %>">
-          <%= member.name %>
+      <% @project.assignable_users.each do |user| %>
+        <option value="<%= user.id %>" color="<%= user.backlogs_preference(:task_color) %>">
+          <%= user.name %>
         </option>
       <% end %>
     </select>
