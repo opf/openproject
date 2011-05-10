@@ -16,6 +16,8 @@ module GlobalRoles
           create_global_role
         else
           new
+
+          render :template => 'roles/new' if @role.errors.size > 0
         end
       end
 
@@ -53,6 +55,7 @@ module GlobalRoles
           @roles = Role.all :order => 'builtin, position'
           @member_permissions = Role.new.setable_permissions
           @global_permissions = GlobalRole.setable_permissions
+          render :template => 'roles/new'
         end
       end
 

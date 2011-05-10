@@ -32,7 +32,7 @@ describe RolesController do
 
   shared_examples_for "failed create" do
     it {response.should be_success}
-    it {response.should render_template "create"}
+    it {response.should render_template "new"}
   end
 
 
@@ -129,6 +129,7 @@ describe RolesController do
             before(:each) do
               Role.should_receive(:new).with(@params["role"]).and_return(@member_role)
               @member_role.stub!(:save).and_return(true)
+              @member_role.stub!(:errors).and_return([])
             end
 
             describe "html" do
@@ -145,6 +146,7 @@ describe RolesController do
             before(:each) do
               Role.should_receive(:new).with(@params["role"]).and_return(@member_role)
               @member_role.stub!(:save).and_return(false)
+              @member_role.stub!(:errors).and_return(["something is wrong"])
             end
 
             describe "html" do
