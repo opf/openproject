@@ -16,9 +16,6 @@ module GlobalRoles
           create_global_role
         else
           new
-
-          @member_permissions = (@role.setable_permissions || @permissions)
-          @global_permissions = GlobalRole.setable_permissions
         end
       end
 

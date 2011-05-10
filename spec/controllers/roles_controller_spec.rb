@@ -13,12 +13,6 @@ describe RolesController do
     it {response.should render_template "roles/index"}
   end
 
-  shared_examples_for "member assigns" do
-    it {assigns(:member_permissions).should eql @member_role.setable_permissions}
-    it {assigns(:roles).should eql @roles}
-    it {assigns(:role).should eql @member_role}
-  end
-
   shared_examples_for "global assigns" do
     it {assigns(:global_permissions).should eql @global_role.setable_permissions}
     it {assigns(:global_roles).should eql @global_roles}
@@ -143,7 +137,7 @@ describe RolesController do
               end
 
               it_should_behave_like "successful create"
-              it_should_behave_like "member assigns" #because it is defined like this in core
+              it {assigns(:role).should eql @member_role}
             end
           end
 
