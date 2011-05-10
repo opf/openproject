@@ -151,14 +151,14 @@ class Report::Operator
     new "<d", :label => :label_less_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        "<".to_operator.modify query, field, quoted_date(value)
+        "<=".to_operator.modify query, field, quoted_date(value)
       end
     end
 
     new ">d", :label => :label_greater_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        ">".to_operator.modify query, field, quoted_date(value)
+        ">=".to_operator.modify query, field, quoted_date(value)
       end
     end
 
