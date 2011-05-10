@@ -43,7 +43,7 @@ class Report::Operator
           1 # assume mondays
         end
 
-        from  = Time.now.utc.at_beginning_of_week + (first_day % 7) - 1).days
+        from  = Time.now.utc.at_beginning_of_week + ((first_day % 7) - 1).days
         from -= offset.days
         '<>d'.to_operator.modify query, field, from, from + 7.days
       end
