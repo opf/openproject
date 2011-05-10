@@ -247,12 +247,25 @@ describe RolesController do
           describe "html" do
             before (:each) do
               @role.should_receive(:update_attributes).with(@params["role"]).and_return(true)
+              @role.stub!(:errors).and_return([])
               post :update, @params
             end
 
             it {response.should be_redirect}
             it {response.should redirect_to "/roles"}
             it {flash[:notice].should eql I18n.t(:notice_successful_update)}
+          end
+        end
+
+        describe "failure" do
+          describe "html" do
+            before(:each) do
+              @role.should_receive(:update_attributes).with(@params["role"]).and_return(false)
+              @role.stub!(:errors).and_return(["something is wrong"])
+              post :update, @params
+            end
+
+            it { response.should render_template "roles/edit" }
           end
         end
       end

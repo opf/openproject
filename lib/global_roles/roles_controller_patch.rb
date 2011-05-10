@@ -42,6 +42,8 @@ module GlobalRoles
 
       def update
         edit
+
+        render :template => 'roles/edit' if @role.errors.size > 0
       end
 
       private
