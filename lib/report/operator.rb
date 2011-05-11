@@ -36,8 +36,14 @@ class Report::Operator
 
     new "w", :arity => 0, :label => :label_this_week do
       def modify(query, field, offset = nil)
-        offset ||= 0
-        from = Time.now.at_beginning_of_week - ((I18n.t(:general_first_day_of_week).to_i % 7) + 1).days
+        offset  ||= 0
+        first_day = begin
+          Integer I18n.t(:general_first_day_of_week)
+        rescue ArgumentError
+          1 # assume mondays
+        end
+
+        from  = Time.now.utc.at_beginning_of_week + ((first_day % 7) - 1).days
         from -= offset.days
         '<>d'.to_operator.modify query, field, from, from + 7.days
       end
@@ -148,14 +154,14 @@ class Report::Operator
     new "<d", :label => :label_less_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        "<".to_operator.modify query, field, quoted_date(value)
+        "<=".to_operator.modify query, field, quoted_date(value)
       end
     end
 
     new ">d", :label => :label_greater_or_equal, :validate => :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        ">".to_operator.modify query, field, quoted_date(value)
+        ">=".to_operator.modify query, field, quoted_date(value)
       end
     end
 
@@ -271,8 +277,8 @@ class Report::Operator
 
   module DateRange
     def modify(query, field, from, to)
-      query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.end_of_day)] if from
-      query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.end_of_day)] if to
+      query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.utc.end_of_day)] if from
+      query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.utc.end_of_day)] if to
       query
     end
   end
