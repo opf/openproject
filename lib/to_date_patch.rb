@@ -9,11 +9,6 @@ module ToDatePatch
       return Date.today if blank?
       Date.parse self
     end
-
-    def force_utc
-      return self if utc?
-      utc - utc_offset
-    end
   end
 
   module DateAndTime
@@ -22,6 +17,12 @@ module ToDatePatch
   
     def to_dateish
       self
+    end
+
+    def force_utc
+      return to_time.force_utc unless repond_to? :utc_offset
+      return self if utc?
+      utc - utc_offset
     end
   end
 end
