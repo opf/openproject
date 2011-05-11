@@ -78,6 +78,10 @@ class Report < ActiveRecord::Base
       engine.chain_initializer.push block
     end
 
+    def self.cache_key
+      @cache_key ||= underscore_name
+    end
+
     inherited_attribute :label, :default => :translation_needed
     inherited_attribute :properties, :list => true
 

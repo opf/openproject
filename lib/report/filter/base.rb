@@ -16,10 +16,6 @@ class Report::Filter
 
     attr_accessor :values
 
-    def self.cache_key
-      @cache_key ||= underscore_name
-    end
-
     def cache_key
       self.class.cache_key + operator.to_s + Array(values).join(',')
     end

@@ -16,10 +16,6 @@ class Report::GroupBy
       child.filter?
     end
 
-    def self.cache_key
-      @cache_key ||= underscore_name
-    end
-
     def cache_key
       self.class.cache_key + type.to_s[0,1]
     end
