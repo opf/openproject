@@ -43,7 +43,7 @@ class Report::Operator
           1 # assume mondays
         end
 
-        from  = Time.now.utc.at_beginning_of_week + ((first_day % 7) - 1).days
+        from  = Time.now.force_utc.at_beginning_of_week + ((first_day % 7) - 1).days
         from -= offset.days
         '<>d'.to_operator.modify query, field, from, from + 7.days
       end
@@ -277,8 +277,8 @@ class Report::Operator
 
   module DateRange
     def modify(query, field, from, to)
-      query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.utc.end_of_day)] if from
-      query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.utc.end_of_day)] if to
+      query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.force_utc.end_of_day)] if from
+      query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.force_utc.end_of_day)] if to
       query
     end
   end
