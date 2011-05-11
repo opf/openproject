@@ -36,8 +36,14 @@ class Report::Operator
 
     new "w", :arity => 0, :label => :label_this_week do
       def modify(query, field, offset = nil)
-        offset ||= 0
-        from = Time.now.at_beginning_of_week - ((I18n.t(:general_first_day_of_week).to_i % 7) + 1).days
+        offset  ||= 0
+        first_day = begin
+          Integer I18n.t(:general_first_day_of_week)
+        rescue ArgumentError
+          1 # assume mondays
+        end
+
+        from  = Time.now.utc.at_beginning_of_week + ((first_day % 7) - 1).days
         from -= offset.days
         '<>d'.to_operator.modify query, field, from, from + 7.days
       end
