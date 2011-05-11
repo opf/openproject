@@ -462,6 +462,7 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
 
     begin
+      ChiliProject::Liquid::Legacy.run_macros(text)
       liquid_template = ChiliProject::Liquid::Template.parse(text)
       liquid_variables = get_view_instance_variables_for_liquid
       liquid_variables.merge!({'current_user' => User.current})
