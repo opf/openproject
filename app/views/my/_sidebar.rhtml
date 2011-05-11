@@ -1,6 +1,6 @@
 <h3><%=l(:label_my_account)%></h3>
 
-<p><%=l(:field_login)%>: <strong><%= link_to(h(@user.login), user_path(@user) %></strong><br />
+<p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
 <%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
 
 
