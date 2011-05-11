@@ -1,5 +1,3 @@
-require 'abbrev'
-
 class Report::Filter
   class Base < Report::Chainable
     include Report::QueryUtils
@@ -17,13 +15,6 @@ class Report::Filter
     self.skip_inherited_operators = [:time_operators, "y", "n"]
 
     attr_accessor :values
-
-    def self.cache_key
-      @cache_key ||= begin
-        abbrev = Abbrev.abbrev(engine::Filter.all.map(&:underscore_name))
-        abbrev.keys.detect { |key| abbrev[key] == underscore_name }.to_s
-      end
-    end
 
     def cache_key
       self.class.cache_key + operator.to_s + Array(values).join(',')
