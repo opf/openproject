@@ -20,7 +20,7 @@ module ToDatePatch
     end
 
     def force_utc
-      return to_time.force_utc unless repond_to? :utc_offset
+      return to_time.force_utc unless respond_to? :utc_offset
       return self if utc?
       utc - utc_offset
     end
