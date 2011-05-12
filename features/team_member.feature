@@ -87,6 +87,12 @@ Feature: Team Member
      When I follow "Burndown Chart" within "#sidebar"
      Then I should see the burndown chart for sprint "Sprint 002"
 
+  @javascript
+  Scenario: View the burndown chart from the taskboard
+    Given I am on the taskboard for "Sprint 002"
+     When I follow "Burndown Chart"
+     Then I should see the burndown chart for sprint "Sprint 002"
+
   Scenario: View sprint stories in the issues tab
     Given I am on the master backlog
      When I view the stories of Sprint 001 in the issues tab
