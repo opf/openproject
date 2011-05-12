@@ -1,0 +1,3 @@
+<% html_id = "modal_issue_#{issue.id}" %>
+<%= link_to shortened_id(issue), rb_issue_box_path(issue), :class => "prevent_edit", :id => html_id %>
+<%= javascript_tag "new Backlogs.Modal($('#{html_id}'));" %>

@@ -1,0 +1,8 @@
+<%
+  @issue      = issue      if defined? issue
+  @changesets = changesets if defined? changesets
+  @journals   = journals   if defined? journals
+%>
+<%= ChiliProject::Nissue::IssueView.new(@issue).render(self) %>
+<%= ChiliProject::Nissue::ChangesetView.new(@changesets, @issue).render(self) %>
+<%= ChiliProject::Nissue::JournalView.new(@journals, @issue).render(self) %>

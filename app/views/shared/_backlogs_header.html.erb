@@ -10,4 +10,7 @@
                               :plugin => 'redmine_backlogs' %>
 
   <%= javascript_tag "jQuery.noConflict();" %>
+
+  <%= javascript_include_tag 'lib/livepipe-ui/livepipe', 'lib/livepipe-ui/window', 'app/modal', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'livepipe-ui/base', :plugin => 'redmine_backlogs' %>
 <% end %>

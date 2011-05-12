@@ -1,0 +1,90 @@
+#control_overlay {
+    background-color:#000;
+}
+
+.modal {
+    background-color:#fff;
+    padding:10px;
+    border:1px solid #333;
+}
+
+.tooltip {
+    border:1px solid #000;
+    background-color:#fff;
+    height:25px;
+    width:200px;
+    font-family:"Lucida Grande",Verdana;
+    font-size:10px;
+    color:#333;
+}
+
+.simple_window {
+    width:250px;
+    height:50px;
+    border:1px solid #000;
+    background-color:#fff;
+    padding:10px;
+    text-align:left;
+    font-family:"Lucida Grande",Verdana;
+    font-size:12px;
+    color:#333;
+}
+
+.window {
+    background-image:url(../../images/livepipe-ui/window_background.png);
+    background-position:top left;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding:10px;
+    font-family:"Lucida Grande",Verdana;
+    font-size:13px;
+    font-weight:bold;
+    color:#fff;
+    text-align:center;
+    min-width:150px;
+    min-height:100px;
+}
+
+.window .window_contents {
+    margin-top:10px;
+    width:100%;
+    height:100%;
+}
+
+.window .window_header {
+    text-align:center;
+}
+
+.window .window_title {
+    margin-top:-7px;
+    margin-bottom:7px;
+    font-size:11px;
+    cursor:move;
+}
+
+.window .window_close {
+    display:block;
+    position:absolute;
+    top:4px;
+    left:5px;
+    height:13px;
+    width:13px;
+    background-image: url(../../images/livepipe-ui/window_close.gif);
+    cursor:pointer;
+    cursor:hand;
+}
+
+
+/**
+ * Custom Additions
+ **/
+
+#livepipe-modal-closer {
+  width: 33px;
+  height: 33px;
+  background-image: url(../../images/livepipe-ui/modal_close.png);
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  cursor: pointer;
+}

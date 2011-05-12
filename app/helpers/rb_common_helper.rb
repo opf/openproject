@@ -29,10 +29,15 @@ module RbCommonHelper
     item.new_record? ? "" : item.id
   end
 
-  def issue_link_or_empty(item)
-    item_id = item.id.to_s
-    text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? "" : link_to(text, {:controller => "issues", :action => "show", :id => item}, {:class => "prevent_edit"})
+  def shortened_id(record)
+    id = record.id.to_s
+    (id.length > 8 ? "#{id[0..1]}...#{id[-4..-1]}" : id)
+  end
+
+  def issue_link_or_empty(issue)
+    unless issue.new_record?
+      render :partial => 'issue_boxes/link', :locals => {:issue => issue}
+    end
   end
 
   def sprint_link_or_empty(item)

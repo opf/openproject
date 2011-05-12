@@ -47,7 +47,8 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
                                        :rb_burndown_charts  => :show,
-                                       :rb_updated_items    => :show
+                                       :rb_updated_items    => :show,
+                                       :issue_boxes         => :show
                                      }
 
     permission :view_taskboards,     {
