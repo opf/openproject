@@ -101,10 +101,10 @@ RB.Model = (function ($) {
 
     edit: function () {
       var editor = this.getEditor(),
-          self = this;
+          self = this,
+          maxTabIndex = 0;
 
-      var maxTabIndex = 0;
-      $('.stories .editors .editor').each(function(index) {
+      $('.stories .editors .editor').each(function (index) {
         var value;
 
         value = parseInt($(this).attr('tabindex'), 10);
