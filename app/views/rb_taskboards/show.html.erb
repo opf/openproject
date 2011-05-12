@@ -24,16 +24,7 @@
 
 <div class="contextual">
   <% if @sprint.has_burndown? %>
-    <%= link_to(l('backlogs.show_burndown_chart'),
-                {},
-                :class => 'show_burndown_chart')%>
-
-    <%= javascript_tag "
-      jQuery(document).ready(function($){
-        console.log('ready');
-        var burndown = RB.Factory.initialize(RB.Burndown, $('.show_burndown_chart'));
-        burndown.setSprintId(#{@sprint.id});
-      });"%>
+    <%= show_burndown_link(@sprint.id) %>
   <% end %>
 
   <span id="col_width">
