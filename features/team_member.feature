@@ -69,8 +69,22 @@ Feature: Team Member
     Given I am on the taskboard for "Sprint 001"
      Then I should see the taskboard
 
-  Scenario: View the burndown chart
+  Scenario: View the burndown chart from the backlogs dashboard
     Given I am on the burndown for "Sprint 002"
+     Then I should see the burndown chart for sprint "Sprint 002"
+
+  @javascript
+  Scenario: View the burndown chart from the issue index page
+  #using this way because there is a bug in the issues page:
+  #the sidebar is not updated on applying filters
+  #hence the parameters needed for showing the "Burndown Chart" link
+  #do not apply when issue index is initially opened and the bug prevent the link
+  #from appearing when they do
+    Given I am on the master backlog
+      And I open the "Sprint 002" backlogs menu
+      And I follow "Stories/Tasks" within the "Sprint 002" menu
+     Then I should see "Burndown Chart" within "#sidebar"
+     When I follow "Burndown Chart" within "#sidebar"
      Then I should see the burndown chart for sprint "Sprint 002"
 
   Scenario: View sprint stories in the issues tab

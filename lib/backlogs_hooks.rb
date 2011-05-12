@@ -28,10 +28,10 @@ module BacklogsPlugin
           end
         end
 
-        return context[:controller].send(:render_to_string, {
+        context[:controller].send(:render_to_string, {
             :partial => 'shared/view_issues_sidebar',
             :locals => locals
-          })
+        })
       end
 
       def view_issues_show_details_bottom(context = {})
