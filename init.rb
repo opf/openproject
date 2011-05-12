@@ -28,6 +28,8 @@ Redmine::Plugin.register :redmine_backlogs do
   description 'A plugin for agile teams'
   version '0.7.0'
 
+  requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
+
   settings :default => {
                          :story_trackers  => nil,
                          :task_tracker    => nil,
