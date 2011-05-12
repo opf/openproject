@@ -21,11 +21,7 @@ RB.Burndown = (function ($) {
     },
 
     show: function (e) {
-      //var backlogs;
-
       e.preventDefault();
-
-      //backlogs = $(this).parents('.backlog').data('this');
 
       if ($("#charts").length === 0) {
         $('<div id="charts"></div>').appendTo("body");
