@@ -38,10 +38,11 @@ RB.Backlog = (function ($) {
 
       // Observe menu items
       this.$.find('.add_new_story').click(this.handleNewStoryClick);
-      this.$.find('.show_burndown_chart').click(this.showBurndownChart);
 
       if (this.isSprintBacklog()) {
         RB.Factory.initialize(RB.Sprint, this.getSprint());
+        this.burndown = RB.Factory.initialize(RB.Burndown, this.$.find('.show_burndown_chart'));
+        this.burndown.setSprintId(this.getSprint().data('this').getID());
       }
 
       // Initialize each item in the backlog
@@ -134,30 +135,6 @@ RB.Backlog = (function ($) {
     recalcOddity : function () {
       this.$.find('.story:even').removeClass('odd').addClass('even');
       this.$.find('.story:odd').removeClass('even').addClass('odd');
-    },
-
-    showBurndownChart: function (e) {
-      var backlogs;
-
-      e.preventDefault();
-
-      backlogs = $(this).parents('.backlog').data('this');
-
-      if ($("#charts").length === 0) {
-        $('<div id="charts"></div>').appendTo("body");
-      }
-      $('#charts').html("<div class='loading'>" + RB.i18n.generating_graph + "</div>");
-      $('#charts').load(RB.urlFor('show_burndown_chart', { id: backlogs.getSprint().data('this').getID(),
-                                                           project_id: RB.constants.project_id}));
-      $('#charts').dialog({
-        dialogClass: "rb_dialog",
-        height: 500,
-        width: 710,
-        position: 'center',
-        modal: true,
-        title: RB.i18n.burndown_graph,
-        resizable: false
-      });
     }
   });
 }(jQuery));
