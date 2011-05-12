@@ -123,7 +123,7 @@ module Cards
               end
             end
 
-            next if label.nil?
+            next if label.nil? || label['across'] != 1 || label['down'] != 1
 
             key = "#{specs.attributes['brand']} #{specs.attributes['part']}"
 
