@@ -68,8 +68,11 @@
                       :class => 'show_burndown_chart')
           %><br/>
 
-          <%= javascript_tag "var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
-            burndown.setSprintId(#{sprint.id});" %>
+          <%= javascript_tag "
+                jQuery(document).ready(function(){
+                  var burndown = RB.Factory.initialize(RB.Burndown,       jQuery('.show_burndown_chart'));
+                  burndown.setSprintId(#{sprint.id});
+                });" %>
         <% end %>
     <% end %>
 </div>
