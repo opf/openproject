@@ -291,6 +291,17 @@ RB.Model = (function ($) {
     refresh: function (obj) {
       this.$.html(obj.$.html());
 
+      if (obj.$.length > 1) {
+        // execute script tags, that were attached to the sources
+        obj.$.filter('script').each(function () {
+          try {
+            $.globalEval($(this).text());
+          }
+          catch (e) {
+          }
+        });
+      }
+
       if (obj.isClosed()) {
         this.close();
       } else {
