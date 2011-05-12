@@ -1,9 +1,14 @@
 <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
 
-<%= javascript_include_tag_backlogs 'lib/jquery.js' %>
-<!--[if IE]><%= javascript_include_tag_backlogs 'lib/jquery.flot/excanvas.js' %><![endif]-->
-<%= javascript_include_tag_backlogs 'lib/jquery.cookies.2.2.0.min.js',
-                                    'lib/jquery.flot/jquery.flot.js' %>
+<%= javascript_include_tag 'lib/jquery-1.5.1.min.js',
+                           :plugin => 'redmine_backlogs' %>
+<!--[if IE]><%= javascript_include_tag 'lib/jquery.flot/excanvas.js',
+                                       :plugin => 'redmine_backlogs' %>
+<![endif]-->
+
+<%= javascript_include_tag 'lib/jquery.cookies.2.2.0.min.js',
+                           'lib/jquery.flot/jquery.flot.js',
+                           :plugin => 'redmine_backlogs' %>
 
 <script type="text/javascript" language="javascript">
   jQuery(function ($) {
