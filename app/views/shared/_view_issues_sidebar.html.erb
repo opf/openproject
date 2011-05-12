@@ -52,18 +52,24 @@
           %><br/>
         <% end %>
 
-        <% if sprint.has_burndown %>
-          <%= link_to(l(:label_burndown), {
-                  :controller => 'rb_burndown_charts',
-                  :action => 'show',
-                  :project_id => project.id,
-                  :sprint_id => sprint.id
-                  })
+        <% if sprint.has_burndown? %>
+          <%= render :partial => 'shared/backlogs_header' %>
+
+          <%= javascript_include_tag 'app/burndown',
+                                     :plugin => 'redmine_backlogs' %>
+
+          <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
+                                             :action => 'show',
+                                             :id => project,
+                                             :format => :js) %>
+
+          <%= link_to(l('backlogs.show_burndown_chart'),
+                      {},
+                      :class => 'show_burndown_chart')
           %><br/>
 
-          <div id="burndown_<%= sprint.id %>" class="minimal" style="margin-left:0px; margin-top:20px; width:250px; height:192px;"></div>
-          <%= render :partial => "rb_burndown_charts/burndown",
-                     :locals => {:div => 'burndown_', :burndown => sprint.burndown } %>
+          <%= javascript_tag "var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
+            burndown.setSprintId(#{sprint.id});" %>
         <% end %>
     <% end %>
 </div>
