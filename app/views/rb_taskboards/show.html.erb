@@ -73,7 +73,7 @@
                   <%= story.status.name %>
                 </div>
                 <div class="id">
-                  <%= link_to story.id, :controller => 'issues', :action => 'show', :id => story %>
+                  <%= issue_link_or_empty(story) %>
                 </div>
               </div>
               <div class="subject"><%= story.subject %></div>
