@@ -69,8 +69,11 @@ Feature: Team Member
     Given I am on the taskboard for "Sprint 001"
      Then I should see the taskboard
 
+  @javascript
   Scenario: View the burndown chart from the backlogs dashboard
-    Given I am on the burndown for "Sprint 002"
+    Given I am on the master backlog
+      And I open the "Sprint 002" backlogs menu
+     When I follow "Burndown Chart" within the "Sprint 002" menu
      Then I should see the burndown chart for sprint "Sprint 002"
 
   @javascript
