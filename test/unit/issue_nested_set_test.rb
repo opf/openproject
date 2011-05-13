@@ -239,8 +239,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     leaf.subject = 'leaf with journal'
     leaf.save!
 
+    total_journals_on_children = leaf.reload.journals.count + child.reload.journals.count
     assert_difference 'Issue.count', -2 do
-      assert_difference 'IssueJournal.count', -3 do
+      assert_difference 'IssueJournal.count', -total_journals_on_children do
         Issue.find(child.id).destroy
       end
     end
