@@ -192,8 +192,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Member.count, "Members were not deleted: #{Member.all.inspect}"
     assert_equal 0, MemberRole.count
     assert_equal 0, Issue.count
-    assert_equal 0, Journal.count
-    assert_equal 0, JournalDetail.count
+    assert_equal 0, IssueJournal.count
     assert_equal 0, Attachment.count
     assert_equal 0, EnabledModule.count
     assert_equal 0, IssueCategory.count
@@ -212,7 +211,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Wiki.count
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
-    assert_equal 0, WikiContent::Version.count
+    assert_equal 0, WikiContentJournal.count
     assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
     assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
     assert_equal 0, CustomValue.count(:conditions => {:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']})

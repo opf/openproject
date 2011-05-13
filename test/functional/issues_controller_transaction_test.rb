@@ -43,7 +43,6 @@ class IssuesControllerTransactionTest < ActionController::TestCase
            :custom_fields_trackers,
            :time_entries,
            :journals,
-           :journal_details,
            :queries
 
   self.use_transactional_fixtures = false

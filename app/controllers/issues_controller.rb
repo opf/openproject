@@ -31,6 +31,9 @@ class IssuesController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
   
+  helper :journals
+  include JournalsHelper
+  helper :projects
   include ProjectsHelper   
   include CustomFieldsHelper
   include IssueRelationsHelper
@@ -92,8 +95,7 @@ class IssuesController < ApplicationController
   end
   
   def show
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @journals.each_with_index {|j,i| j.indice = i+1}
+    @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -144,6 +146,7 @@ class IssuesController < ApplicationController
   end
     
   def edit
+    return render_reply(@journal) if @journal
     update_issue_from_params
 
     @journal = @issue.current_journal
@@ -159,7 +162,7 @@ class IssuesController < ApplicationController
     JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
     if @issue.save_issue_with_child_records(params, @time_entry)
       render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
 
       respond_to do |format|
         format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
@@ -167,7 +170,7 @@ class IssuesController < ApplicationController
       end
     else
       render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
+      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal == @journal
       @journal = @issue.current_journal
 
       respond_to do |format|
@@ -268,6 +271,7 @@ private
     @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
     @issue.init_journal(User.current, @notes)
     @issue.safe_attributes = params[:issue]
+    @journal = @issue.current_journal
   end
 
   # TODO: Refactor, lots of extra code in here

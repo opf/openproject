@@ -43,7 +43,6 @@ class IssuesControllerTest < ActionController::TestCase
            :custom_fields_trackers,
            :time_entries,
            :journals,
-           :journal_details,
            :queries
   
   def setup
@@ -663,14 +662,14 @@ class IssuesControllerTest < ActionController::TestCase
     
     context "#update" do
       should "ignore status change" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 1, Issue.find(1).status_id
       end
       
       should "ignore attributes changes" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -690,21 +689,21 @@ class IssuesControllerTest < ActionController::TestCase
     
     context "#update" do
       should "accept authorized status" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
       
       should "ignore unauthorized status" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
       
       should "accept authorized attributes changes" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -712,7 +711,7 @@ class IssuesControllerTest < ActionController::TestCase
       end
       
       should "ignore unauthorized attributes changes" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed'}
         end
         issue = Issue.find(1)
@@ -726,21 +725,21 @@ class IssuesControllerTest < ActionController::TestCase
       end
 
       should "accept authorized status" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 3}
         end
         assert_equal 3, Issue.find(1).status_id
       end
       
       should "ignore unauthorized status" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:status_id => 2}
         end
         assert_equal 1, Issue.find(1).status_id
       end
       
       should "accept authorized attributes changes" do
-        assert_difference 'Journal.count' do
+        assert_difference 'IssueJournal.count' do
           put :update, :id => 1, :notes => 'just trying', :issue => {:subject => 'changed', :assigned_to_id => 2}
         end
         issue = Issue.find(1)
@@ -838,15 +837,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal '125', issue.custom_value_for(2).value
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
-    
-    assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 2) do
-        put :update, :id => 1, :issue => {:subject => new_subject,
-                                         :priority_id => '6',
-                                         :category_id => '1' # no change
-                                        }
-      end
+
+    assert_difference('IssueJournal.count') do
+      put :update, :id => 1, :issue => {:subject => new_subject,
+        :priority_id => '6',
+        :category_id => '1' # no change
+      }
     end
+    assert issue.current_journal.changes.has_key? "subject"
+    assert issue.current_journal.changes.has_key? "priority_id"
+    assert !issue.current_journal.changes.has_key?("category_id")
+
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal new_subject, issue.subject
@@ -862,17 +863,21 @@ class IssuesControllerTest < ActionController::TestCase
   def test_put_update_with_custom_field_change
     @request.session[:user_id] = 2
     issue = Issue.find(1)
+    ActionMailer::Base.deliveries.clear
     assert_equal '125', issue.custom_value_for(2).value
     
-    assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 3) do
-        put :update, :id => 1, :issue => {:subject => 'Custom field change',
-                                         :priority_id => '6',
-                                         :category_id => '1', # no change
-                                         :custom_field_values => { '2' => 'New custom value' }
-                                        }
-      end
+    assert_difference('IssueJournal.count') do
+      put :update, :id => 1, :issue => {:subject => 'Custom field change',
+        :priority_id => '6',
+        :category_id => '1', # no change
+        :custom_field_values => { '2' => 'New custom value' }
+      }
     end
+    assert issue.current_journal.changes.has_key? "subject"
+    assert issue.current_journal.changes.has_key? "priority_id"
+    assert !issue.current_journal.changes.has_key?("category_id")
+    assert issue.current_journal.changes.has_key? "custom_values2"
+
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal 'New custom value', issue.custom_value_for(2).value
@@ -896,7 +901,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal 2, issue.status_id
-    j = Journal.find(:first, :order => 'id DESC')
+    j = IssueJournal.find(:first, :order => 'id DESC')
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
     
@@ -913,7 +918,7 @@ class IssuesControllerTest < ActionController::TestCase
          :id => 1,
          :notes => notes
     assert_redirected_to :action => 'show', :id => '1'
-    j = Journal.find(:first, :order => 'id DESC')
+    j = IssueJournal.find(:first, :order => 'id DESC')
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -935,7 +940,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     issue = Issue.find(1)
     
-    j = Journal.find(:first, :order => 'id DESC')
+    j = IssueJournal.find(:first, :order => 'id DESC')
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
     
@@ -947,10 +952,6 @@ class IssuesControllerTest < ActionController::TestCase
   
   def test_put_update_with_attachment_only
     set_tmp_attachments_directory
-    
-    # Delete all fixtured journals, a race condition can occur causing the wrong
-    # journal to get fetched in the next find.
-    Journal.delete_all
 
     # anonymous user
     put :update,
@@ -958,10 +959,10 @@ class IssuesControllerTest < ActionController::TestCase
          :notes => '',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     assert_redirected_to :action => 'show', :id => '1'
-    j = Issue.find(1).journals.find(:first, :order => 'id DESC')
+    j = Issue.find(1).last_journal
     assert j.notes.blank?
     assert_equal 1, j.details.size
-    assert_equal 'testfile.txt', j.details.first.value
+    assert_equal 'testfile.txt', j.value(j.details.first)
     assert_equal User.anonymous, j.user
     
     mail = ActionMailer::Base.deliveries.last
@@ -973,7 +974,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     # Delete all fixtured journals, a race condition can occur causing the wrong
     # journal to get fetched in the next find.
-    Journal.delete_all
+    IssueJournal.delete_all
 
     # Mock out the unsaved attachment
     Attachment.any_instance.stubs(:create).returns(Attachment.new)
@@ -990,16 +991,16 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_no_change
     issue = Issue.find(1)
-    issue.journals.clear
     ActionMailer::Base.deliveries.clear
     
-    put :update,
-         :id => 1,
-         :notes => ''
+    assert_no_difference('IssueJournal.count') do
+      put :update,
+           :id => 1,
+           :notes => ''
+    end
     assert_redirected_to :action => 'show', :id => '1'
     
     issue.reload
-    assert issue.journals.empty?
     # No email should be sent
     assert ActionMailer::Base.deliveries.empty?
   end
@@ -1038,7 +1039,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
     
-    assert_no_difference('Journal.count') do
+    assert_no_difference('IssueJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1056,7 +1057,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     notes = 'Note added by IssuesControllerTest#test_post_edit_with_invalid_spent_time'
     
-    assert_no_difference('Journal.count') do
+    assert_no_difference('IssueJournal.count') do
       put :update,
            :id => 1,
            :notes => notes,
@@ -1165,7 +1166,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
     
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -1203,7 +1204,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
     
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.find(:first, :order => 'created_at DESC')
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -1220,7 +1221,7 @@ class IssuesControllerTest < ActionController::TestCase
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
     assert_response 403
-    assert_not_equal "Bulk should fail", Journal.last.notes
+    assert_not_equal "Bulk should fail", IssueJournal.last.notes
   end
     
   def test_bullk_update_should_send_a_notification
@@ -1278,11 +1279,11 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 302
     
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_on DESC')
+    journal = issue.journals.last
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
-    assert_equal '125', journal.details.first.old_value
-    assert_equal '777', journal.details.first.value
+    assert_equal '125', journal.old_value(journal.details.first)
+    assert_equal '777', journal.value(journal.details.first)
   end
 
   def test_bulk_update_unassign
@@ -1392,4 +1393,12 @@ class IssuesControllerTest < ActionController::TestCase
                      :child => {:tag => 'form',
                                 :child => {:tag => 'input', :attributes => {:name => 'issues', :type => 'hidden', :value => '1'}}}
   end
+
+  def test_reply_to_note
+    @request.session[:user_id] = 2
+    get :edit, :id => 1, :journal_id => 1
+    assert_response :success
+    assert_select_rjs :show, "update"
+  end
+
 end

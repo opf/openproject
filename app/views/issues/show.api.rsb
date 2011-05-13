@@ -49,9 +49,9 @@ api.issue do
         api.created_on journal.created_on
         api.array :details do
           journal.details.each do |detail|
-            api.detail :property => detail.property, :name => detail.prop_key do
-              api.old_value detail.old_value
-              api.new_value detail.value
+            api.detail :property => journal.property(detail), :name => journal.prop_key(detail) do
+              api.old_value journal.old_value(detail)
+              api.new_value journal.value(detail)
             end
           end
         end

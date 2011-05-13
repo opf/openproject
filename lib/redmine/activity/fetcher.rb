@@ -38,7 +38,17 @@ module Redmine
         return @event_types unless @event_types.nil?
         
         @event_types = Redmine::Activity.available_event_types
-        @event_types = @event_types.select {|o| @project.self_and_descendants.detect {|p| @user.allowed_to?("view_#{o}".to_sym, p)}} if @project
+        if @project
+          @event_types = @event_types.select do |o|
+            @project.self_and_descendants.detect do |p|
+              permissions = constantized_providers(o).collect do |p|
+                p.activity_provider_options[o].try(:[], :permission)
+              end.compact
+              return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
+              permissions.all? {|p| @user.allowed_to?(p, @project) } if @project
+            end
+          end
+        end
         @event_types
       end
       

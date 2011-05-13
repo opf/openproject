@@ -208,12 +208,12 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :issues, :class_name => %w(Issue Journal)
+  activity.register :issues, :class_name => 'Issue'
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
   activity.register :files, :class_name => 'Attachment'
-  activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => false
+  activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
   activity.register :messages, :default => false
   activity.register :time_entries, :default => false
 end

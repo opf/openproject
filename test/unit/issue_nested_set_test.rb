@@ -208,10 +208,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3.save!
     
     assert_difference 'Issue.count', -2 do
-      assert_difference 'Journal.count', -1 do
-        assert_difference 'JournalDetail.count', -1 do
-          Issue.find(issue2.id).destroy
-        end
+      assert_difference 'IssueJournal.count', -3 do
+        Issue.find(issue2.id).destroy
       end
     end
     
@@ -234,18 +232,17 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
   
   def test_destroy_child_issue_with_children
-    root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root')
-    child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id)
-    leaf = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id)
+    root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
+    child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
+    leaf = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
     leaf.init_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
-    
+
+    total_journals_on_children = leaf.reload.journals.count + child.reload.journals.count
     assert_difference 'Issue.count', -2 do
-      assert_difference 'Journal.count', -1 do
-        assert_difference 'JournalDetail.count', -1 do
-          Issue.find(child.id).destroy
-        end
+      assert_difference 'IssueJournal.count', -total_journals_on_children do
+        Issue.find(child.id).destroy
       end
     end
     

@@ -18,14 +18,14 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details, :users, :members, :member_roles
+  fixtures :issues, :issue_statuses, :journals
 
   def setup
-    @journal = Journal.find 1
+    @journal = IssueJournal.find(1)
   end
 
   def test_journalized_is_an_issue
-    issue = @journal.issue
+    issue = @journal.journalized
     assert_kind_of Issue, issue
     assert_equal 1, issue.id
   end
@@ -40,14 +40,18 @@ class JournalTest < ActiveSupport::TestCase
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
+    if issue.journals.empty?
+      issue.init_journal(User.current, "This journal represents the creational journal version 1")
+      issue.save
+    end
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
 
-    assert journal.save
+    assert_equal 0, ActionMailer::Base.deliveries.size
+    issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  def test_visible_scope_for_anonymous
+  should_eventually "test_visible_scope_for_anonymous" do
     # Anonymous user should see issues of public projects only
     journals = Journal.visible(User.anonymous).all
     assert journals.any?
@@ -57,8 +61,8 @@ class JournalTest < ActiveSupport::TestCase
     journals = Journal.visible(User.anonymous).all
     assert journals.empty?
   end
-  
-  def test_visible_scope_for_user
+
+  should_eventually "test_visible_scope_for_user" do
     user = User.find(9)
     assert user.projects.empty?
     # Non member user should see issues of public projects only
@@ -78,7 +82,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_nil journals.detect {|journal| journal.issue.project_id != 1}
   end
   
-  def test_visible_scope_for_admin
+  should_eventually "test_visible_scope_for_admin" do
     user = User.find(1)
     user.members.each(&:destroy)
     assert user.projects.empty?
@@ -92,10 +96,12 @@ class JournalTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
+    journal = issue.init_journal(user, "A note")
     JournalObserver.instance.send_notification = false
 
-    assert journal.save
+    assert_difference("Journal.count") do
+      assert issue.save
+    end
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 end
