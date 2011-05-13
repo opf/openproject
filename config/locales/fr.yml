@@ -17,7 +17,10 @@ fr:
     abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
     month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
     abbr_month_names: [~, jan., fév., mar., avr., mai, juin, juil., août, sept., oct., nov., déc.]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
   
   time:
     formats:
@@ -274,7 +277,7 @@ fr:
   field_attr_mail: Attribut Email
   field_onthefly: Création des utilisateurs à la volée
   field_start_date: Début
-  field_done_ratio: % réalisé
+  field_done_ratio: "% réalisé"
   field_auth_source: Mode d'authentification
   field_hide_mail: Cacher mon adresse mail
   field_comments: Commentaire
@@ -973,3 +976,8 @@ fr:
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
   field_effective_date: Due date
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

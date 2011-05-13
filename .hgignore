@@ -27,3 +27,7 @@ vendor/rails
 *.rbc
 .svn/
 .git/
+doc/app
+/.bundle
+/Gemfile.lock
+/.rvmrc*

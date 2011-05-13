@@ -21,7 +21,10 @@ ko:
     month_names: [~, 1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
     abbr_month_names: [~, 1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -1007,3 +1010,8 @@ ko:
   label_news_comment_added: Comment added to a news
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

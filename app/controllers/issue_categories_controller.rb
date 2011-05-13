@@ -65,10 +65,12 @@ class IssueCategoriesController < ApplicationController
       # No issue assigned to this category
       @category.destroy
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+      return
     elsif params[:todo]
       reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
+      return
     end
     @categories = @project.issue_categories - [@category]
   end

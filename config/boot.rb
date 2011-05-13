@@ -36,6 +36,15 @@ module Rails
   class Boot
     def run
       load_initializer
+
+      # This block was added for bundler support while following setup
+      # instructions from http://gembundler.com/rails23.html
+      Rails::Initializer.class_eval do
+        def load_gems
+          @bundler_loaded ||= Bundler.require :default, Rails.env
+        end
+      end
+
       Rails::Initializer.run(:set_load_path)
     end
   end
@@ -62,8 +71,12 @@ module Rails
         gem 'rails'
       end
     rescue Gem::LoadError => load_error
-      $stderr.puts %(Missing the Rails #{version} gem. Please `gem install -v=#{version} rails`, update your RAILS_GEM_VERSION setting in config/environment.rb for the Rails version you do have installed, or comment out RAILS_GEM_VERSION to use the latest version installed.)
-      exit 1
+      if load_error.message =~ /Could not find RubyGem rails/
+        STDERR.puts %(Missing the Rails #{version} gem. Please `gem install -v=#{version} rails`, update your RAILS_GEM_VERSION setting in config/environment.rb for the Rails version you do have installed, or comment out RAILS_GEM_VERSION to use the latest version installed.)
+        exit 1
+      else
+        raise
+      end
     end
 
     class << self
@@ -105,61 +118,6 @@ module Rails
     end
   end
 end
-
-# TODO: Workaround for #7013 to be removed for 1.2.0
-# Loads i18n 0.4.2 before Rails loads any more recent gem
-# 0.5.0 is not compatible with the old interpolation syntax
-# Plugins will have to migrate to the new syntax for 1.2.0
-require 'rubygems'
-begin
-  gem 'i18n', '0.4.2'
-rescue Gem::LoadError => load_error
-  $stderr.puts %(Missing the i18n 0.4.2 gem. Please `gem install -v=0.4.2 i18n`)
-  exit 1
-end
-
-# TODO: Workaround for rubygems > 1.5 compatibility (#133), to be removed
-# for Rails > 2.3.5
-#
-# Fixes the deprecation warning about removal of version_requirements for
-# rubygems < 1.5 and provide a workaround for rubygems >= 1.5 where that
-# method was finally removed.
-module Rails
-  # See lib/gems/1.8/gems/rails-2.3.5/lib/rails/gem_dependency.rb
-  class GemDependency < Gem::Dependency
-    def dependencies
-      return [] if framework_gem?
-      return [] unless installed?
-      specification.dependencies.reject do |dependency|
-        dependency.type == :development
-      end.map do |dependency|
-        GemDependency.new(dependency.name,
-                          :requirement => (dependency.respond_to?(:requirement) ?
-                           dependency.requirement :
-                           dependency.version_requirements))
-      end
-    end
-
-    if method_defined?(:requirement)
-      # rubygem > 1.5
-      def requirement
-        req = super
-        req unless req == Gem::Requirement.default
-      end
-      # bypass passenger error
-      alias :version_requirements :requirement
-    else
-      # rubygem < 1.5
-      def requirement
-        req = version_requirements
-        req unless req == Gem::Requirement.default
-      end
-    end
-  end
-end
-
-# working around deprecation in RubyGems 1.6
-require 'thread'
 
 # All that for this:
 Rails.boot!

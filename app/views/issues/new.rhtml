@@ -5,6 +5,7 @@
     <%= error_messages_for 'issue' %>
     <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    <%= send_notification_option %>
     </div>
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>

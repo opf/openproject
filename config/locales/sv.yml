@@ -149,7 +149,10 @@ sv:
     month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
     abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -207,7 +210,7 @@ sv:
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
-  notice_issue_done_ratios_updated: % klart uppdaterade.
+  notice_issue_done_ratios_updated: "% klart uppdaterade."
   notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
   
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
@@ -309,7 +312,7 @@ sv:
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
   field_start_date: Startdatum
-  field_done_ratio: % Klart
+  field_done_ratio: "% Klart"
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
   field_comments: Kommentar
@@ -997,3 +1000,8 @@ sv:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   field_effective_date: Due date
   label_news_comment_added: Comment added to a news
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

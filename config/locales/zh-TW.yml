@@ -20,7 +20,10 @@
     month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
     abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
     # 使用於 date_select 與 datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
   
   time:
     formats:
@@ -1037,3 +1040,8 @@
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   field_effective_date: Due date
   label_news_comment_added: Comment added to a news
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

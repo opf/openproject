@@ -17,7 +17,10 @@ pt:
     abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
     month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
     abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
-    order: [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
     
   time:
     formats:        
@@ -249,7 +252,7 @@ pt:
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
   field_start_date: Início
-  field_done_ratio: % Completo
+  field_done_ratio: "% Completo"
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
   field_comments: Comentário
@@ -959,3 +962,8 @@ pt:
   label_news_comment_added: Comment added to a news
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

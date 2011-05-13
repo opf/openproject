@@ -24,3 +24,6 @@
 /vendor/rails
 *.rbc
 doc/app
+/.bundle
+/Gemfile.lock
+/.rvmrc*

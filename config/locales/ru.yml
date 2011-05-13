@@ -28,7 +28,10 @@ ru:
     abbr_month_names: [~, янв., февр., марта, апр., мая, июня, июля, авг., сент., окт., нояб., дек.]
     standalone_abbr_month_names: [~, янв., февр., март, апр., май, июнь, июль, авг., сент., окт., нояб., дек.]
 
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -1068,3 +1071,8 @@ ru:
   label_news_comment_added: Comment added to a news
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

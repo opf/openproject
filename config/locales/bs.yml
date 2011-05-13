@@ -15,7 +15,10 @@ bs:
 
     month_names: [~, Januar, Februar, Mart, April, Maj, Jun, Jul, Avgust, Septembar, Oktobar, Novembar, Decembar]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Maj, Jun, Jul, Avg, Sep, Okt, Nov, Dec]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
   
   time:
     formats:
@@ -256,7 +259,7 @@ bs:
   field_attr_mail: Atribut za email
   field_onthefly: 'Kreiranje korisnika "On-the-fly"'
   field_start_date: Početak
-  field_done_ratio: % Realizovano
+  field_done_ratio: "% Realizovano"
   field_auth_source: Mod za authentifikaciju
   field_hide_mail: Sakrij moju email adresu
   field_comments: Komentar
@@ -969,3 +972,8 @@ bs:
   label_news_comment_added: Comment added to a news
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

@@ -28,7 +28,7 @@ module AttachmentsHelper
     end
   end
   
-  def to_utf8(str)
+  def to_utf8_for_attachments(str)
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
       return str if str.valid_encoding?

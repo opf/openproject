@@ -16,7 +16,10 @@ en-GB:
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -272,7 +275,7 @@ en-GB:
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
   field_start_date: Start date
-  field_done_ratio: % Done
+  field_done_ratio: "% Done"
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
   field_comments: Comment
@@ -959,3 +962,8 @@ en-GB:
   label_mercurial_path: Root directory
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
