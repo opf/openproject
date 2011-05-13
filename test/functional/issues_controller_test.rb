@@ -962,7 +962,7 @@ class IssuesControllerTest < ActionController::TestCase
     j = Issue.find(1).last_journal
     assert j.notes.blank?
     assert_equal 1, j.details.size
-    assert_equal 'testfile.txt', j.value(j.details.first)
+    assert_equal 'testfile.txt', j.value(j.details.to_a.first)
     assert_equal User.anonymous, j.user
     
     mail = ActionMailer::Base.deliveries.last
@@ -1282,8 +1282,8 @@ class IssuesControllerTest < ActionController::TestCase
     journal = issue.journals.last
     assert_equal '777', issue.custom_value_for(2).value
     assert_equal 1, journal.details.size
-    assert_equal '125', journal.old_value(journal.details.first)
-    assert_equal '777', journal.value(journal.details.first)
+    assert_equal '125', journal.old_value(journal.details.to_a.first)
+    assert_equal '777', journal.value(journal.details.to_a.first)
   end
 
   def test_bulk_update_unassign
