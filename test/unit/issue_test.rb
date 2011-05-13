@@ -641,32 +641,6 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal new_description, journal.value("description")
   end
   
-  # TODO: This test has become somewhat obsolete with the new journalized scheme
-  def test_saving_twice_should_not_duplicate_journal_details
-    i = Issue.find(:first)
-    i.init_journal(User.find(2), 'Some notes')
-    # initial changes
-    i.subject = 'New subject'
-    i.done_ratio = i.done_ratio + 10
-    assert_difference 'IssueJournal.count' do
-      assert i.save
-    end
-    assert i.current_journal.changes.has_key? "subject"
-    assert i.current_journal.changes.has_key? "done_ratio"
-
-    # 1 more change
-    i.priority = IssuePriority.find(:first, :conditions => ["id <> ?", i.priority_id])
-    assert_difference 'IssueJournal.count' do
-      i.save
-    end
-    assert i.current_journal.changes.has_key? "priority_id"
-
-    # no more change
-    assert_no_difference 'IssueJournal.count' do
-      i.save
-    end
-  end
-
   def test_all_dependent_issues
     IssueRelation.delete_all
     assert IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => IssueRelation::TYPE_PRECEDES)
