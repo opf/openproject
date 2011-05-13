@@ -19,7 +19,7 @@
 
 
 Dir[File.expand_path("../redmine/acts/journalized/*.rb", __FILE__)].each{|f| require f }
-require_dependency 'lib/ar_condition'
+require_dependency File.expand_path('lib/ar_condition', Rails.root)
 
 module Redmine
   module Acts
