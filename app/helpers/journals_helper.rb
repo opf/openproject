@@ -75,7 +75,7 @@ module JournalsHelper
     end
 
     unless journal.notes.blank?
-      links = returning [] do |l|
+      links = [].tap do |l|
         if reply_links
           l << link_to_remote(image_tag('comment.png'), :title => l(:button_quote),
             :url => {:controller => controller, :action => action, :id => model, :journal_id => journal})
