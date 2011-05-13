@@ -76,6 +76,7 @@ module BacklogsPlugin
 
         return '' unless issue.project.module_enabled? 'backlogs'
 
+        snippet << %(<p>)
         snippet << %(<div id="backlogs-attributes" class="attributes">)
         snippet << %(<div class="splitcontentleft">)
 
@@ -118,6 +119,7 @@ module BacklogsPlugin
         end
 
         snippet << %(</div>) * 2
+        snippet << %(</p>)
 
         snippet
       end
