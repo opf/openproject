@@ -51,7 +51,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  def test_visible_scope_for_anonymous
+  should_eventually "test_visible_scope_for_anonymous" do
     # Anonymous user should see issues of public projects only
     journals = Journal.visible(User.anonymous).all
     assert journals.any?
@@ -61,8 +61,8 @@ class JournalTest < ActiveSupport::TestCase
     journals = Journal.visible(User.anonymous).all
     assert journals.empty?
   end
-  
-  def test_visible_scope_for_user
+
+  should_eventually "test_visible_scope_for_user" do
     user = User.find(9)
     assert user.projects.empty?
     # Non member user should see issues of public projects only
@@ -82,7 +82,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_nil journals.detect {|journal| journal.issue.project_id != 1}
   end
   
-  def test_visible_scope_for_admin
+  should_eventually "test_visible_scope_for_admin" do
     user = User.find(1)
     user.members.each(&:destroy)
     assert user.projects.empty?
