@@ -128,7 +128,6 @@ class Report::Result
     def set_key(index = [])
       self.key = index.map { |k| map_field(k, fields[k]) }
     end
-
   end
 
   class DirectResult < Base
@@ -177,7 +176,7 @@ class Report::Result
 
     def sort!(force = false)
       return false if @sorted and not force
-      values.sort! { |a,b| a.key <=> b.key }
+      values.sort! { |a,b| compare a.key, b.key }
       values.each { |e| e.sort! force }
       @sorted = true
     end
