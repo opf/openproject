@@ -70,12 +70,18 @@ var Backlogs = (function () {
             Control.Modal.current.close();
           }
         });
+      },
+      onError : function (klass, error) {
+        this.isOpen = true; // assume, we are open, otherwise, we cannot be closed.
+        this.close();
+        this.remoteContentLoaded = false;
       }
     },
 
     InstanceMethods : {
       beforeInitialize : function () {
         this.observe('beforeOpen', Modal.Observers.beforeOpen.bind(this));
+        this.observe('onFailure',  Modal.Observers.onError.bind(this));
       }
     }
   });
