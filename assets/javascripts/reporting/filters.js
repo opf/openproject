@@ -312,6 +312,10 @@ Reporting.Filters = {
     });
   },
 
+  exists: function (filter) {
+    return Reporting.Filters.visible_filters().include(filter);
+  },
+
   // Narrow down the available values for the [dependents] of [sources].
   // This will narrow down for each dependent separately, adding each finished
   // dependent to the sources array and removing it from the dependents array.
@@ -399,7 +403,9 @@ Reporting.Filters = {
 
 Reporting.onload(function () {
   $("add_filter_select").observe("change", function () {
-    Reporting.Filters.add_filter(this);
+    if (!(Reporting.Filters.exists(this.value))) {
+      Reporting.Filters.add_filter(this);
+    };
   });
   $$(".filter_rem").each(function (e) {
     e.observe("click", function () {

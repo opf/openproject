@@ -139,20 +139,31 @@ Reporting.GroupBys = {
   },
 
   clear: function() {
-    Reporting.GroupBys.group_by_container_ids().each(function (container) {
-      $(container).select('[data-group-by]').each(function (group_by) {
-        Reporting.GroupBys.remove_group_by(group_by);
-      });
+    Reporting.GroupBys.visible_group_bys().each(function (group_by) {
+      Reporting.GroupBys.remove_group_by(group_by);
+    });
+  },
+
+  visible_group_bys: function() {
+    return Reporting.GroupBys.group_by_container_ids().collect(function (container) {
+      return $(container).select('[data-group-by]')
+    }).flatten();
+  },
+
+  exists: function(group_by_name) {
+    return Reporting.GroupBys.visible_group_bys().any(function (grp) {
+      return grp.getAttribute('data-group-by') == group_by_name;
     });
   }
 };
 
 Reporting.onload(function () {
   Reporting.GroupBys.initialize_drag_and_drop_areas();
-  $('add_group_by_rows').observe("change", function () {
-    Reporting.GroupBys.add_group_by_from_select(this);
-  });
-  $('add_group_by_columns').observe("change", function () {
-    Reporting.GroupBys.add_group_by_from_select(this);
+  [$('add_group_by_rows'), $('add_group_by_columns')].each(function (select) {
+    select.observe("change", function () {
+      if (!(Reporting.GroupBys.exists(this.value))) {
+        Reporting.GroupBys.add_group_by_from_select(this);
+      };
+    });
   });
 });
