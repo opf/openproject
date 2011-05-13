@@ -1,4 +1,6 @@
 module Report::QueryUtils
+  Infinity = 1.0/0
+
   alias singleton_class metaclass unless respond_to? :singleton_class
 
   delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
@@ -186,6 +188,15 @@ module Report::QueryUtils
 
   def cache
     Report::QueryUtils.cache
+  end
+
+  def compare(first, second)
+    first  = Array(first).flatten
+    second = Array(second).flatten
+    first.zip second do |a, b|
+      return (a <=> b) || (a == Infinity ? 1 : -1) if a != b
+    end
+    second.size > first.size ? -1 : 0
   end
 
   def mysql?
