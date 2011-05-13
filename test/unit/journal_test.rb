@@ -96,10 +96,12 @@ class JournalTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     user = User.find(:first)
-    journal = issue.init_journal(user, issue)
+    journal = issue.init_journal(user, "A note")
     JournalObserver.instance.send_notification = false
 
-    assert journal.save
+    assert_difference("Journal.count") do
+      assert issue.save
+    end
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 end
