@@ -103,7 +103,7 @@ module Backlogs
     
       def active_sprint
         return Sprint.find(:first,
-          :conditions => ["project_id = ? and status = 'open' and ? between sprint_start_date and effective_date", self.id, Time.now])
+          :conditions => ["project_id = ? and status = 'open' and ? between start_date and effective_date", self.id, Time.now])
       end
     
       def scrum_statistics
@@ -116,7 +116,7 @@ module Backlogs
         backlog = Story.product_backlog(self, 10)
         active_sprint = self.active_sprint
         closed_sprints = Sprint.find(:all,
-          :conditions => ["project_id = ? and status in ('closed', 'locked') and not(effective_date is null or sprint_start_date is null)", self.id],
+          :conditions => ["project_id = ? and status in ('closed', 'locked') and not(effective_date is null or start_date is null)", self.id],
           :order => "effective_date desc",
           :limit => 5)
         all_sprints = ([active_sprint] + closed_sprints).compact

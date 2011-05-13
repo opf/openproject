@@ -17,7 +17,7 @@ Feature: Version Settings
         | manage_versions   |
     And the user "padme" is a "project admin"
     And the project has the following sprints:
-        | name       | sprint_start_date | effective_date |
+        | name       | start_date | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
@@ -39,7 +39,7 @@ Feature: Version Settings
     And the project uses the following modules:
         | backlogs |
     And the project has the following sprints:
-        | name       | sprint_start_date | effective_date | sharing       |
+        | name       | start_date | effective_date | sharing       |
         | shared     | 2010-01-01        | 2010-01-31     | system        |
     And I am working in project "ecookbook"
     When I go to the settings/versions page of the project called "ecookbook"
