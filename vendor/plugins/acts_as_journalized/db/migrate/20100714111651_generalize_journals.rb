@@ -87,18 +87,8 @@ class GeneralizeJournals < ActiveRecord::Migration
 
     custom_field_names = CustomField.all.group_by(&:type)[IssueCustomField].collect(&:name)
     Journal.all.each do |j|
-      j.update_attribute(:journalized_type, j.journalized.class.name)
-    #   j.changes.each_pair do |prop_key, values|
-    #     if Issue.columns.collect(&:name).include? prop_key.to_s
-    #       property = :attr
-    #     elsif CustomField.find_by_id(prop_key.to_s)
-    #       property = :cf
-    #     else
-    #       property = :attachment
-    #     end
-    #     JournalDetail.create(:journal_id => j.id, :property => property,
-    #       :prop_key => prop_key, :old_value => values.first, :value => values.last)
-    #   end
+      # Can't used j.journalized.class.name because the model changes make it nil
+      j.update_attribute(:journalized_type, j.type.to_s.sub("Journal","")) if j.type.present?
     end
 
     change_table "journals" do |t|
