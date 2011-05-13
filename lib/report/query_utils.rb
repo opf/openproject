@@ -175,10 +175,39 @@ module Report::QueryUtils
     "-- code specific for #{adapter_name}\n\t" << super(field)
   end
 
+  ##
+  # Converts value with a given behavior, but treats nil differently.
+  # Params
+  #  - value: the value to convert
+  #  - weight_of_nil (optional): How a nil should be treated.
+  #    :infinit - makes a nil weight really heavy, which will make it stay
+  #               at the very end when sorting
+  #    :negative_infinit - opposite of :infinit, let's the nil stay at the very beginning
+  #    any other object - nil's will be replaced by thyt object
+  #  - block (optional) - defines how to convert values which are not nil
+  #               if no block is given, values stay untouched
+  def convert_unless_nil(value, weight_of_nil = :infinit)
+    if value.nil?
+      if weight_of_nil == :infinit
+        1.0/0 # Infinity, which is greater than any string or number
+      elsif weight_of_nil == :negative_infinit
+        -1.0/0 # negative Infinity, which is smaller than any string or number
+      else
+        weight_of_nil
+      end
+    else
+      if block_given?
+        yield value
+      else
+        value
+      end
+    end
+  end
+
   def map_field(key, value)
     case key.to_s
-    when "singleton_value", /_id$/ then value.to_i
-    else value.to_s
+    when "singleton_value", /_id$/ then convert_unless_nil(value) {|v| v.to_i }
+    else convert_unless_nil(value) {|v| v.to_s }
     end
   end
 
