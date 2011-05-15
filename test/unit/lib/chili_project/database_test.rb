@@ -22,7 +22,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     ChiliProject::Database.stubs(:adapter_name).returns "SQLite"
     SQLite3::Driver::Native::API.stubs(:sqlite3_libversion).returns "3.6.12"
   end
-  
+
   should "return the correct identifier" do
     assert_equal :sqlite, ChiliProject::Database.name
   end
@@ -32,19 +32,19 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     assert_equal false, ChiliProject::Database.postgresql?
     assert_equal true, ChiliProject::Database.sqlite?
   end
-  
+
   should "return a version string" do
     assert_equal "3.6.12", ChiliProject::Database.version
   end
-  
+
   should "return long version string for raw==true" do
     ChiliProject::Database.stubs(:adapter_name).returns "PostgreSQL"
 
     raw_version = "PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2"
     ActiveRecord::Base.connection.stubs(:select_value).returns raw_version
-    
+
     assert_equal "8.3.11", ChiliProject::Database.version
     assert_equal raw_version, ChiliProject::Database.version(true)
   end
-  
+
 end

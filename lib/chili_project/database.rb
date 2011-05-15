@@ -46,7 +46,7 @@ module ChiliProject
         self.adapter_name =~ regex
       }[0]
     end
-    
+  
     # Provide helper methods to quickly check the database type
     # ChiliProject::Database.mysql? returns true, if we have a MySQL DB
     supported_adapters.keys.each do |adapter|
