@@ -64,7 +64,7 @@ module ChiliProject
         version = ActiveRecord::Base.connection.select_value('SELECT VERSION()')
       when :postgresql
         version = ActiveRecord::Base.connection.select_value('SELECT version()')
-        version.match(/^PostgreSQL (\S+)/i)[1] unless raw
+        raw ? version : version.match(/^PostgreSQL (\S+)/i)[1]
       when :sqlite
         if SQLite3.const_defined? 'SQLITE_VERSION'
           SQLite3::SQLITE_VERSION
