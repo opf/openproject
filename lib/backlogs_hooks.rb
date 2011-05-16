@@ -45,7 +45,7 @@ module BacklogsPlugin
           snippet += %Q{
             <tr>
               <th class="story-points">#{l(:field_story_points)}:</th>
-              <td class="story-points">#{Story.find(issue.id).points_display}</td>
+              <td class="story-points">#{issue.story_points || '-'}</td>
             </tr>
           }
 
