@@ -21,6 +21,7 @@ class ProjectsController < ApplicationController
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
+  before_filter :load_project_settings, :only => :settings
   accept_key_auth :index, :show, :create, :update, :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
@@ -154,7 +155,6 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    load_project_settings
   end
 
   def edit
