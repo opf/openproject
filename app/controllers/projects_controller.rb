@@ -219,8 +219,7 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    # hide project in layout
-    @project = nil
+    hide_project_in_layout
   end
 
 private
@@ -262,5 +261,8 @@ private
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
-  
+
+  def hide_project_in_layout
+    @project = nil
+  end
 end
