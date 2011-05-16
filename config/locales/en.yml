@@ -42,9 +42,9 @@ en:
   label_backlogs: "Backlogs"
   label_scrum_statistics: "Scrum statistics"
 
+  label_backlog: "Backlog"
   label_sprint_backlog: "sprint backlog"
   label_product_backlog: "product backlog"
-  label_Product_backlog: "Product backlog"
 
   backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
