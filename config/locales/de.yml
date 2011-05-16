@@ -2,7 +2,6 @@
 de:
   backlogs_story_tracker: "Story Tracker"
   backlogs_task_tracker: "Aufgaben Tracker"
-  backlogs_card_specification: "Etikettenart f\xC3\xBCr den Kartendruck"
   backlogs_sprints: "Sprints"
   field_story_points: "Story Punkte"
   field_remaining_hours: "Verbleibende Stunden"
@@ -100,6 +99,7 @@ de:
     add_new_story: "Neue Story"
     any: "beliebig"
     burndown_graph: "Burndown Graph"
+    card_paper_size: "Format für Kartendruck"
     chart_options: "Aktive Wertereihen"
     close: "Schließen"
     column_with: "Spaltenbreite:"
@@ -118,6 +118,7 @@ de:
     story_points_ideal: "Story Points (ideal)"
     task: "Aufgabe"
     unassigned: "Nicht zugewiesen"
+
 
   project_module_backlogs: "Backlogs (Beta)"
 

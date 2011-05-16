@@ -1,14 +1,14 @@
 class RbStoriesController < RbApplicationController
   unloadable
-  include Cards
+  include TaskboardCard
 
   def index
-    cards = TaskboardCards.new(current_language)
+    cards_document = TaskboardCard::Document.new(current_language)
 
-    @sprint.stories(@project).each { |story| cards.add(story) }
+    @sprint.stories(@project).each { |story| cards_document.add_story(story) }
 
     respond_to do |format|
-      format.pdf { send_data(cards.pdf.render, :disposition => 'attachment', :type => 'application/pdf') }
+      format.pdf { send_data(cards_document.render, :disposition => 'attachment', :type => 'application/pdf') }
     end
   end
 

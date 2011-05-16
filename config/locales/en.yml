@@ -2,7 +2,6 @@
 en:
   backlogs_story_tracker: "Story trackers"
   backlogs_task_tracker: "Task tracker"
-  backlogs_card_specification: "Label types for card printing"
   backlogs_sprints: "Sprints"
   field_story_points: "Story points"
   field_remaining_hours: "Remaining hours"
@@ -100,6 +99,7 @@ en:
     add_new_story: "New Story"
     any: "any"
     burndown_graph: "Burndown Graph"
+    card_paper_size: "Paper size for card printing"
     chart_options: "Active series"
     close: "Close"
     column_with: "Column width:"
