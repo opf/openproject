@@ -176,7 +176,7 @@ class ProjectsController < ApplicationController
     else
       respond_to do |format|
         format.html {
-          settings
+          load_project_settings
           render :action => 'settings'
         }
         format.api  { render_validation_errors(@project) }
