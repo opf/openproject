@@ -35,9 +35,10 @@ module BacklogsPlugin
       end
 
       def view_issues_show_details_bottom(context = {})
-        issue = context[:issue]
+        return '' unless context[:issue].project.module_enabled? 'backlogs'
+        return '' if context[:from] == 'RedmineBacklogs::IssueView::FieldsParagraph'
 
-        return '' unless issue.project.module_enabled? 'backlogs'
+        issue = context[:issue]
 
         snippet = ''
 
