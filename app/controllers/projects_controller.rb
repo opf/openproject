@@ -20,6 +20,7 @@ class ProjectsController < ApplicationController
   before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_filter :jump_to_project_menu_item, :only => :show
   accept_key_auth :index, :show, :create, :update, :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
@@ -128,11 +129,6 @@ class ProjectsController < ApplicationController
 
   # Show @project
   def show
-    if params[:jump]
-      # try to redirect to the requested menu item
-      redirect_to_project_menu_item(@project, params[:jump]) && return
-    end
-
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
@@ -255,4 +251,12 @@ private
     end
     true
   end
+
+  def jump_to_project_menu_item
+    if params[:jump]
+      # try to redirect to the requested menu item
+      redirect_to_project_menu_item(@project, params[:jump]) && return
+    end
+  end
+  
 end
