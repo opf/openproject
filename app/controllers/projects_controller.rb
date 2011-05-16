@@ -70,12 +70,7 @@ class ProjectsController < ApplicationController
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-      # Add current user as a project member if he is not admin
-      unless User.current.admin?
-        r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-        m = Member.new(:user => User.current, :roles => [r])
-        @project.members << m
-      end
+      add_current_user_to_project_if_not_admin(@project)
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
@@ -265,4 +260,13 @@ private
   def hide_project_in_layout
     @project = nil
   end
+
+  def add_current_user_to_project_if_not_admin(project)
+    unless User.current.admin?
+      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      m = Member.new(:user => User.current, :roles => [r])
+      project.members << m
+    end
+  end
+  
 end
