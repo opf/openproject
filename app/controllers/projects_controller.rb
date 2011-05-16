@@ -154,12 +154,7 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @issue_category ||= IssueCategory.new
-    @member ||= @project.members.new
-    @trackers = Tracker.all
-    @repository ||= @project.repository
-    @wiki ||= @project.wiki
+    load_project_settings
   end
 
   def edit
@@ -257,6 +252,15 @@ private
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
+  end
+
+  def load_project_settings
+    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_category ||= IssueCategory.new
+    @member ||= @project.members.new
+    @trackers = Tracker.all
+    @repository ||= @project.repository
+    @wiki ||= @project.wiki
   end
   
 end
