@@ -86,10 +86,6 @@ private
       replace_selectors = ['#watcher']
     end
 
-    watcher_partial = lambda do
-      render_to_string(:partial => 'watchers/watchers', :locals => {:watched => @watched})
-    end
-
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
@@ -99,9 +95,7 @@ private
 
             case selector
             when '#watchers'
-              page.select('#watchers').each do |node|
-                node.update watcher_partial.call
-              end
+              page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
             else
               page.select(selector).each do |node|
                 options = {:replace => replace_selectors}
