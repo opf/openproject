@@ -1,5 +1,7 @@
 class MeetingAgenda < MeetingContent
   
+  acts_as_journalized :except => ['comment'], :activity_type => 'meetings'
+  
   # TODO: internationalize the comments
   def lock!(user = User.current)
     update_attributes :locked => true, :author => user, :comment => "Agenda closed"
