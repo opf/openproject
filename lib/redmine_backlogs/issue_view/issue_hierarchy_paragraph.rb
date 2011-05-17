@@ -50,15 +50,10 @@ class RedmineBacklogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue
 
     if @issue == issue
       issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
-                             '',
-                             :id => "modal_issue_#{issue.id}",
+                             'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold")
     else
-      html_id = "modal_issue_#{ActiveSupport::SecureRandom.hex(10)}"
-      issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
-                             t.send(:rb_issue_box_path, issue),
-                             :id => html_id)
-      issue_text << javascript_tag("new Backlogs.Modal($('#{html_id}'));")
+      issue_text = t.link_to_issue_box("#{issue.tracker.name} ##{issue.id}", issue)
     end
     issue_text << ": "
     issue_text << t.truncate(issue.subject, :length => 60)

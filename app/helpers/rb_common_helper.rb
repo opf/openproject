@@ -35,9 +35,14 @@ module RbCommonHelper
   end
 
   def issue_link_or_empty(issue)
-    unless issue.new_record?
-      render :partial => 'issue_boxes/link', :locals => {:issue => issue}
-    end
+    link_to_issue_box(issue.id, issue, :class => 'prevent_edit') unless issue.new_record?
+  end
+
+  def link_to_issue_box(title, issue, options = {})
+    html_id = "modal_issue_#{ActiveSupport::SecureRandom.hex(10)}"
+
+    link_to(title, rb_issue_box_path(issue), options.merge(:id => html_id)) +
+      javascript_tag("new Backlogs.Modal($('#{html_id}'));")
   end
 
   def sprint_link_or_empty(item)

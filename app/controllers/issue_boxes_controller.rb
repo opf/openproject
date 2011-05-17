@@ -1,6 +1,8 @@
 class IssueBoxesController < IssuesController
   unloadable
 
+  helper :rb_common
+
   def show
     return redirect_to issue_path(params[:id]) unless request.xhr?
 
