@@ -118,6 +118,7 @@ de:
     story_points_ideal: "Story Points (ideal)"
     task: "Aufgabe"
     unassigned: "Nicht zugewiesen"
+    x_more: "%{count} mehr..."
 
 
   project_module_backlogs: "Backlogs (Beta)"

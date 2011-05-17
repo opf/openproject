@@ -65,12 +65,22 @@ module TaskboardCard
                             {:height => pdf.font.height,
                              :at => offset})
 
-          issue.children.each do |child|
-            offset = text_box(pdf,
-                              "#{child.tracker.name} ##{child.id} #{child.subject}",
-                              {:width => pdf.bounds.width,
-                               :height => pdf.font.height,
-                               :at => offset})
+          issue.children.each_with_index do |child, i|
+            subtask_text = "#{child.tracker.name} ##{child.id}: #{child.subject}"
+            offset[0] = 10 #indentation
+
+            if offset[1] - pdf.font.height < pdf.font.height && issue.children.size - i != 1
+              offset = text_box(pdf,
+                                l('backlogs.x_more', :count => issue.children.size - i),
+                                :height => pdf.font.height,
+                                :at => offset)
+              break
+            else
+              offset = text_box(pdf,
+                                "#{child.tracker.name} ##{child.id}: #{child.subject}",
+                                {:height => pdf.font.height,
+                                 :at => offset})
+            end
           end
         end
 
