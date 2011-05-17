@@ -19,8 +19,7 @@ module TaskboardCard
     attr_reader :width
     attr_reader :across
     attr_reader :down
-    attr_accessor :card_count
-    attr_reader :cards
+    attr_reader :issues
 
     def initialize(lang)
       set_language_if_valid lang
@@ -82,31 +81,46 @@ module TaskboardCard
       )
       @pdf.font "DejaVuSans"
 
-      @card_count = 0
-      @cards = []
+      @issues = []
     end
 
     def add_story(story, add_tasks = true)
-      add_issue(story, :story)
+      add_issue(story)
 
       if add_tasks
         story.tasks.each do |task|
-          add_issue(task, :task)
+          add_issue(task)
         end
       end
     end
 
-    def add_issue(story, type)
-      self.cards << Card.new(story, type, self, self.card_count)
-      self.card_count += 1
+    def add_issue(story)
+      self.issues << story
     end
 
     def render
-      self.cards.each do |card|
-        card.print
-      end
-
+      render_cards
       self.pdf.render
+    end
+
+    def render_cards
+      self.issues.each_with_index do |issue, i|
+        row = (i % self.down) + 1
+        col = ((i / self.down) % self.across) + 1
+
+        self.pdf.start_new_page if row == 1 and col == 1 and self.issues != 1
+
+        Card.render(pdf, issue, {:height => self.paper_height,
+                                 :width => self.paper_width,
+                                 :at => card_top_left(row, col)})
+      end
+    end
+
+    def card_top_left(row, col)
+      top = self.paper_height - (self.top_margin + self.vertical_pitch * (row - 1))
+      left = self.left_margin + (self.horizontal_pitch * (col - 1))
+
+      [left, top]
     end
   end
 end
