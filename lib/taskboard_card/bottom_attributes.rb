@@ -31,7 +31,7 @@ module TaskboardCard
 
       def render_assigned_to(pdf, issue, offset)
         pdf.font_size(12) do
-          assigned_to = "#{l(:field_assigned_to)}: #{issue.assigned_to}"
+          assigned_to = "#{l(:field_assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
 
           offset = text_box(pdf,
                             assigned_to,
@@ -45,7 +45,7 @@ module TaskboardCard
 
       def render_category(pdf, issue, offset)
         pdf.font_size(12) do
-          category = "#{l(:field_category)}: #{issue.category}"
+          category = "#{l(:field_category)}: #{issue.category ? issue.category : "-"}"
 
           offset = text_box(pdf,
                             category,
@@ -61,7 +61,7 @@ module TaskboardCard
       def render_sub_issues(pdf, issue, offset)
         pdf.font_size(12) do
           offset = text_box(pdf,
-                            "#{l(:label_subtask_plural)}:",
+                            "#{l(:label_subtask_plural)}: #{issue.children.size == 0 ? "-" : ""}",
                             {:height => pdf.font.height,
                              :at => offset})
 
