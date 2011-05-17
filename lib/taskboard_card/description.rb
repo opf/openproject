@@ -2,6 +2,8 @@ module TaskboardCard
   class Description < CardArea
     unloadable
 
+    include Redmine::I18n
+
     class << self
       def min_size_total
         [500, 300]
@@ -23,11 +25,23 @@ module TaskboardCard
           pdf.font_size(20) do
             description = issue.description ? issue.description : ""
 
-            offset = text_box(pdf,
-                              description,
-                              {:width => pdf.bounds.width,
-                               :height => pdf.font.height * 3,
-                               :at => offset})
+            description.split("\n").each do |line|
+              height = pdf.height_of(line)
+              if offset[1] - height > pdf.font.height
+                offset = text_box(pdf,
+                                  line,
+                                  {:height => height,
+                                   :at => offset})
+                offset[1] += 10 #unfortunately I havent't found a way to reduce line spacing when placing
+                                #the text line by line
+              else
+                offset = text_box(pdf,
+                                  "[...]",
+                                  {:height => pdf.font.height,
+                                   :at => [0, pdf.font.height]})
+                break
+              end
+            end
           end
 
           offset
