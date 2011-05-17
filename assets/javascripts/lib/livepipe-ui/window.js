@@ -813,6 +813,10 @@ Control.Modal = Class.create(Control.Window,{
     initialize: function($super,container,options){
         Control.Modal.InstanceMethods.beforeInitialize.bind(this)();
         $super(container,Object.extend(Object.clone(Control.Modal.defaultOptions),options || {}));
+    },
+    closeWithoutOverlay: function(){
+        this.keepOverlay = true;
+        this.close();
     }
 });
 Object.extend(Control.Modal,{
@@ -833,7 +837,6 @@ Object.extend(Control.Modal,{
     InstanceMethods: {
         beforeInitialize: function(){
             Control.Overlay.load();
-            this.overlayFinishedOpening = false;
             this.observe('beforeOpen',Control.Modal.Observers.beforeOpen.bind(this));
             this.observe('afterOpen',Control.Modal.Observers.afterOpen.bind(this));
             this.observe('afterClose',Control.Modal.Observers.afterClose.bind(this));
@@ -841,23 +844,34 @@ Object.extend(Control.Modal,{
     },
     Observers: {
         beforeOpen: function(){
-            if(!this.overlayFinishedOpening){
+            Control.Window.windows.without(this).each(function(w){
+                if(w.closeWithoutOverlay && w.isOpen){
+                    w.closeWithoutOverlay();
+                }else{
+                    w.close();
+                }
+            });
+            if(!Control.Overlay.overlayFinishedOpening){
                 Control.Overlay.observeOnce('afterShow',function(){
-                    this.overlayFinishedOpening = true;
+                    Control.Overlay.overlayFinishedOpening = true;
                     this.open();
                 }.bind(this));
                 Control.Overlay.show(this.options.overlayOpacity,this.options.fade ? this.options.fadeDuration : false);
                 throw $break;
-            }else
-            Control.Window.windows.without(this).invoke('close');
+            }
         },
         afterOpen: function(){
+            Control.Overlay.show(this.options.overlayOpacity);
+            Control.Overlay.overlayFinishedOpening = true;
             Control.Modal.current = this;
         },
         afterClose: function(){
-            Control.Overlay.hide(this.options.fade ? this.options.fadeDuration : false);
+            if(!this.keepOverlay){
+                Control.Overlay.hide(this.options.fade ? this.options.fadeDuration : false);
+                Control.Overlay.overlayFinishedOpening = false;
+            }
+            this.keepOverlay = false;
             Control.Modal.current = false;
-            this.overlayFinishedOpening = false;
         }
     }
 });
