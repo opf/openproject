@@ -50,7 +50,7 @@ module TaskboardCard
       0
     end
 
-    def self.render
+    def self.render(pdf, issue, offset)
       raise NotImplementedError.new('Subclasses need to implement this methods')
     end
   end
