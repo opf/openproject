@@ -183,6 +183,14 @@ class Report::Operator
       end
     end
 
+    new ">=d", :label => :label_between_now_and_date, :validate => :dates do
+      def modify(query, field, value)
+        now = Time.now
+        from = value.to_dateish
+        '<>d'.to_operator.modify query, field, from, now
+      end
+    end
+
     new "?=", :label => :label_null_or_equal do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
@@ -249,7 +257,7 @@ class Report::Operator
 
   def self.time_operators
     #["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-    ["t", "w", "<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
+    ["t", "w", "<>d", ">d", "<d", "=d", ">=d"].map { |s| s.to_operator}
   end
 
   def self.default_operators
