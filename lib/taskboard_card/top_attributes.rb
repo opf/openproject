@@ -9,7 +9,7 @@ module TaskboardCard
       end
 
       def pref_size_percent
-        [1.0, 0.15]
+        [1.0, 0.1]
       end
 
       def margin
@@ -21,7 +21,6 @@ module TaskboardCard
 
            offset = [0, pdf.bounds.height]
 
-           offset = render_empty_line(pdf, 12, offset)
            render_parent_issue(pdf, issue, offset)
            offset = render_sprint(pdf, issue, offset)
            render_subject(pdf, issue, offset)

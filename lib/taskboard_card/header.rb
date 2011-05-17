@@ -24,6 +24,7 @@ module TaskboardCard
                              :at => offset})
         end
 
+        offset[1] += 10
         pdf.line offset, [pdf.bounds.width, offset[1]]
       end
 

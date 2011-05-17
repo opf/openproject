@@ -34,7 +34,7 @@ module TaskboardCard
       end
 
       def margin
-        9
+        20
       end
 
       def render(pdf, issue, options)
@@ -45,7 +45,7 @@ module TaskboardCard
             height = pdf.bounds.height * card.pref_size_percent[1]
             card.render(pdf, issue, {:at => [0, y_offset],
                                             :height => height})
-            y_offset -= height + margin
+            y_offset -= height + pdf.bounds.height * 0.01
           end
         end
       end
