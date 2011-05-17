@@ -1,4 +1,7 @@
 class MeetingMinutes < MeetingContent
+  
+  acts_as_journalized :except => ['comment'], :activity_type => 'meetings'
+  
   def editable?
     meeting.agenda.present? && meeting.agenda.locked?
   end

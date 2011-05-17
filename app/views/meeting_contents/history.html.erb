@@ -19,9 +19,9 @@
     <td class="id"><%= link_to content_version.version, :action => 'show', :meeting_id => @meeting, :version => (content_version.version == @content.version ? nil : content_version.version) %></td>
     <td class="checkbox"><%= radio_button_tag('version_to', content_version.version, (index==0), :id => "checkbox-from-#{index}", :onclick => "$('checkbox-to-#{index+1}').checked=true;") if show_diff && (index < @content_versions.size-1) %></td>
     <td class="checkbox"><%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}") if show_diff && (index > 0) %></td>
-    <td align="center"><%= format_time(content_version.updated_at) %></td>
-    <td><em><%= content_version.author %></em></td>
-    <td><%=h content_version.comment %></td>
+    <td align="center"><%= format_time(content_version.created_at) %></td>
+    <td><em><%= User.find content_version.user_id %></em></td>
+    <td><%=h content_version.notes %></td>
 </tr>
 <% end %>
 </tbody>
