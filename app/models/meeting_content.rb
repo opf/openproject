@@ -4,6 +4,8 @@ class MeetingContent < ActiveRecord::Base
   belongs_to :meeting
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   
+  attr_accessor :comment
+  
   before_save :comment_to_journal_notes
   
   def editable?
@@ -26,11 +28,6 @@ class MeetingContent < ActiveRecord::Base
     updated_at
   end
   
-  # Backward compatibility
-  def versions
-    journals
-  end
-  
   # Provided for compatibility of the old pre-journalized migration
   def self.create_versioned_table
   end
@@ -39,16 +36,10 @@ class MeetingContent < ActiveRecord::Base
   def self.drop_versioned_table
   end
   
-  protected
-  
-  def after_initialize
-    self.comment = nil unless self.new_record? # Don't reset the comment if we haven't been saved with it yet
-  end
-  
   private
   
   def comment_to_journal_notes
-    init_journal(author, comment)
+    init_journal(author, comment) unless changes.empty?
   end
   
   # FIXME: Leftover from pre-journalized meeting contents
