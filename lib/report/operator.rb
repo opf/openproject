@@ -1,6 +1,7 @@
 class Report::Operator
   include Report::QueryUtils
   include Report::Validation
+  extend Forwardable
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
@@ -8,6 +9,9 @@ class Report::Operator
 
     # Defaults
     defaults do
+
+      def_delegators :'singleton_class', :enforced?, :enforce!, :enforced
+
       def sql_operator
         name
       end
@@ -183,10 +187,12 @@ class Report::Operator
       end
     end
 
-    new ">=d", :label => :label_between_now_and_date, :validate => :dates do
+    new ">=d", :label => :label_days_ago, :validate => :integers do
+      enforce! :integers
+
       def modify(query, field, value)
         now = Time.now
-        from = value.to_dateish
+        from = (now - value.to_i.days).beginning_of_day
         '<>d'.to_operator.modify query, field, from, now
       end
     end
@@ -210,6 +216,18 @@ class Report::Operator
     def to_operator
       Report::Operator.find self
     end
+  end
+
+  def self.enforce!(type)
+    @enforced = type
+  end
+
+  def self.enforced?
+    !!@enforced
+  end
+
+  def self.enforced
+    @enforced
   end
 
   def self.new(name, values = {}, &block)
