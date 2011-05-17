@@ -7,9 +7,8 @@ module TaskboardCard
     end
 
     def self.text_box(pdf, text, options)
-      options.merge!(:overflow => :ellipses, :document => pdf)
-      box = Prawn::Text::Box.new(text, options)
-      box.render
+      options.merge!(:overflow => :ellipses)
+      box = pdf.text_box(text, options)
       [0, options[:at][1] - (options[:height] + (options[:size] || pdf.font_size) / 2)]
     end
 
