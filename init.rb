@@ -34,7 +34,5 @@ Redmine::Plugin.register :redmine_meeting do
     search.register :meetings
   end
 
-  activity_provider :meetings, :default => false, :class_name => ['Meeting']
-
   menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
 end

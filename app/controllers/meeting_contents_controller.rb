@@ -12,7 +12,7 @@ class MeetingContentsController < ApplicationController
   def show
     # Redirect links to the last version
     (redirect_to :controller => @content_type.pluralize, :action => :show, :meeting_id => @meeting and return) if params[:version].present? && @content.version == params[:version].to_i
-    @content = @content.find_version(params[:version]) unless params[:version].blank?
+    @content = @content.journals.at params[:version].to_i unless params[:version].blank?
     render 'meeting_contents/show'
   end
   
@@ -28,10 +28,10 @@ class MeetingContentsController < ApplicationController
   end
   
   def history
-    @version_count = @content.versions.count
+    @version_count = @content.journals.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
-    @content_versions = @content.versions.all :select => "id, user_id, notes, created_at, version", :order => 'version DESC', :limit => @version_pages.items_per_page + 1, :offset =>  @version_pages.current.offset
+    @content_versions = @content.journals.all :select => "id, user_id, notes, created_at, version", :order => 'version DESC', :limit => @version_pages.items_per_page + 1, :offset =>  @version_pages.current.offset
     render 'meeting_contents/history', :layout => !request.xhr?
   end
   

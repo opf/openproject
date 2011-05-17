@@ -11,20 +11,22 @@ class MergeMeetingContentVersionsWithJournals < ActiveRecord::Migration
       MeetingAgenda
       MeetingMinutes
       
-      MeetingContent::Version.find_by_sql("SELECT * FROM meeting_content_versions").each do |mcv|
+      cache = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = {}}}}
+      
+      MeetingContent::Version.find_by_sql('SELECT * FROM meeting_content_versions ORDER BY version ASC').each do |mcv|
         options = {:journaled_id => mcv.meeting_content_id, :created_at => mcv.created_at, 
-                   :user_id => mcv.author_id, :notes => mcv.comment, :activity_type => "meetings"}
+                   :user_id => mcv.author_id, :notes => mcv.comment, :activity_type => 'meetings',
+                   :version => mcv.version}
+        ft = [cache[mcv.meeting_content_id][mcv.versioned_type][mcv.version-1][:locked], mcv.locked]
+        options[:changes] = {'locked' => ft} unless mcv.version == 1 || ft.first == ft.last
         journal = case mcv.versioned_type
         when 'MeetingAgenda'
           MeetingAgendaJournal.create! options
         when 'MeetingMinutes'
           MeetingMinutesJournal.create! options
         end
-        changes = {}
-        changes["text"] = mcv.text
-        changes["locked"] = mcv.locked
-        journal.update_attribute(:changes, changes.to_yaml)
-        journal.update_attribute(:version, mcv.version)
+        journal.text = mcv.text unless mcv.text == cache[mcv.meeting_content_id][mcv.versioned_type][mcv.version-1][:text]
+        cache[mcv.meeting_content_id][mcv.versioned_type][mcv.version] = {:text => mcv.text, :locked => mcv.locked}
       end
             
       drop_table :meeting_content_versions
@@ -32,6 +34,7 @@ class MergeMeetingContentVersionsWithJournals < ActiveRecord::Migration
     
     change_table :meeting_contents do |t|
       t.rename :version, :lock_version
+      t.remove :comment
     end
   end
 
