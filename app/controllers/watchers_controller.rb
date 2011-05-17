@@ -78,23 +78,43 @@ private
     @watched.set_watcher(user, watching)
     if params[:replace].present?
       if params[:replace].is_a? Array
-        replace_ids = params[:replace]
+        replace_selectors = params[:replace]
       else
-        replace_ids = [params[:replace]]
+        replace_selectors = params[:replace].split(',').map(&:strip)
       end
     else
-      replace_ids = ['watcher']
+      replace_selectors = ['#watcher']
     end
+
+    watcher_partial = lambda do
+      render_to_string(:partial => 'watchers/watchers', :locals => {:watched => @watched})
+    end
+
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
         render(:update) do |page|
-          replace_ids.each do |replace_id|
-            case replace_id
-            when 'watchers'
-              page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+          replace_selectors.each do |selector|
+            next if selector.blank?
+
+            case selector
+            when '#watchers'
+              page.select('#watchers').each do |node|
+                node.update watcher_partial.call
+              end
             else
-              page.replace_html replace_id, watcher_link(@watched, user, :replace => replace_ids)
+              page.select(selector).each do |node|
+                options = {:replace => replace_selectors}
+
+                last_selector = selector.split(' ').last
+                if last_selector.starts_with? '.'
+                  options[:class] = last_selector[1..-1]
+                elsif last_selector.starts_with? '#'
+                  options[:id] = last_selector[1..-1]
+                end
+
+                node.replace watcher_link(@watched, user, options)
+              end
             end
           end
         end

@@ -17,32 +17,28 @@
 
 module WatchersHelper
 
-  # Valid options
-  # * :id - the element id
-  # * :replace - a string or array of element ids that will be
-  #   replaced
-  def watcher_tag(object, user, options={:replace => 'watcher'})
-    id = options[:id]
-    id ||= options[:replace] if options[:replace].is_a? String
-    content_tag("span", watcher_link(object, user, options), :id => id)
-  end
-  
-  # Valid options
-  # * :replace - a string or array of element ids that will be
-  #   replaced
-  def watcher_link(object, user, options={:replace => 'watcher'})
+  # Create a link to watch/unwatch object
+  #
+  # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
+  def watcher_link(object, user, options = {:replace => '.watcher_link', :class => 'watcher_link'})
+    options = options.with_indifferent_access
+    raise ArgumentError, 'Missing :replace option in options hash' if options['replace'].blank?
+
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
+
     watched = object.watched_by?(user)
     url = {:controller => 'watchers',
            :action => (watched ? 'unwatch' : 'watch'),
            :object_type => object.class.to_s.underscore,
            :object_id => object.id,
-           :replace => options[:replace]}
-    link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
-                   {:url => url},
-                   :href => url_for(url),
-                   :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
-  
+           :replace => options.delete('replace')}
+
+    url_options = {:url => url}
+
+    html_options = options.merge(:href => url_for(url))
+    html_options[:class] += watched ? ' icon icon-fav' : ' icon icon-fav-off'
+
+    link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)), url_options, html_options)
   end
   
   # Returns a comma separated list of users watching the given object
