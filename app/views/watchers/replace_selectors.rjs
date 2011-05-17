@@ -1,0 +1,22 @@
+@replace_selectors.each do |selector|
+  next if selector.blank?
+
+  case selector
+  when '#watchers'
+    page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+  else
+    page.select(selector).each do |node|
+      options = {:replace => @replace_selectors}
+
+      last_selector = selector.split(' ').last
+      if last_selector.starts_with? '.'
+        options[:class] = last_selector[1..-1]
+      elsif last_selector.starts_with? '#'
+        options[:id] = last_selector[1..-1]
+      end
+
+      node.replace watcher_link(@watched, @user, options)
+    end
+  end
+end
+
