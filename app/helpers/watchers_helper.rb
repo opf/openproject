@@ -17,6 +17,19 @@
 
 module WatchersHelper
 
+  # Deprecated method. Use watcher_link instead
+  #
+  # This method will be removed in ChiliProject 3.0 or later
+  def watcher_tag(object, user, options={:replace => 'watcher'})
+    ActiveSupport::Deprecation.warn "The WatchersHelper#watcher_tag is deprecated and will be removed in ChiliProject 3.0. Please use WatchersHelper#watcher_link instead. Please also note the differences between the APIs.", caller
+
+    options[:id] ||= options[:replace] if options[:replace].is_a? String
+
+    options[:replace] = Array(options[:replace]).map { |id| "##{id}" }
+
+    watcher_link(object, user, options)
+  end
+
   # Create a link to watch/unwatch object
   #
   # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
