@@ -49,7 +49,7 @@ module WatchersHelper
     url_options = {:url => url}
 
     html_options = options.merge(:href => url_for(url))
-    html_options[:class] += watched ? ' icon icon-fav' : ' icon icon-fav-off'
+    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-fav' : ' icon icon-fav-off')
 
     link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)), url_options, html_options)
   end
