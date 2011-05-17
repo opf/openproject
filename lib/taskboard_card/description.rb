@@ -26,6 +26,10 @@ module TaskboardCard
             description = issue.description ? issue.description : ""
 
             description.split("\n").each do |line|
+              r = RedCloth3.new(line)
+              line = r.to_html
+              line = Description.strip_tags(line)
+
               height = pdf.height_of(line)
               if offset[1] - height > pdf.font.height
                 offset = text_box(pdf,

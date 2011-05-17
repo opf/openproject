@@ -54,5 +54,9 @@ module TaskboardCard
     def self.render(pdf, issue, offset)
       raise NotImplementedError.new('Subclasses need to implement this methods')
     end
+
+    def self.strip_tags(string)
+      ActionController::Base.helpers.strip_tags(string)
+    end
   end
 end
