@@ -20,8 +20,7 @@ module TaskboardCard
 
           offset = text_box(pdf,
                             issue_identification,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
+                            {:height => pdf.font.height,
                              :at => offset})
         end
 

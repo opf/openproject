@@ -35,8 +35,7 @@ module TaskboardCard
 
           offset = text_box(pdf,
                             parent_name,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
+                            {:height => pdf.font.height,
                              :at => offset})
         end
 
@@ -44,29 +43,20 @@ module TaskboardCard
       end
 
       def render_sprint(pdf, issue, offset)
-        pdf.font_size(12) do
-          offset = text_box(pdf,
-                            issue.fixed_version.name,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
-                             :align => :right,
-                             :at => offset})
-        end
-
-        offset
+        text_box(pdf,
+                 issue.fixed_version.name,
+                 {:height => pdf.font.height,
+                  :align => :right,
+                  :at => offset,
+                  :size => 12})
       end
 
       def render_subject(pdf, issue, offset)
-        pdf.font_size(20) do
-
-          offset = text_box(pdf,
-                            issue.subject,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height * 2,
-                             :at => offset})
-        end
-
-        offset
+        text_box(pdf,
+                 issue.subject,
+                 {:height => pdf.font.height * 2,
+                  :at => offset,
+                  :size => 20})
       end
 
       def render_effort(pdf, issue, offset)
@@ -77,11 +67,10 @@ module TaskboardCard
 
         pdf.font_size(20) do
           offset = text_box(pdf,
-                            score,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
-                             :align => :right,
-                             :at => offset})
+                   score,
+                   {:height => pdf.font.height,
+                    :align => :right,
+                    :at => offset})
         end
 
         offset

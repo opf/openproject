@@ -62,8 +62,7 @@ module TaskboardCard
         pdf.font_size(12) do
           offset = text_box(pdf,
                             "#{l(:label_subtask_plural)}:",
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
+                            {:height => pdf.font.height,
                              :at => offset})
 
           issue.children.each do |child|
