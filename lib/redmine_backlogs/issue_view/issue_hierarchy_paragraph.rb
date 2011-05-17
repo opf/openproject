@@ -54,7 +54,7 @@ class RedmineBacklogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue
                              :id => "modal_issue_#{issue.id}",
                              :style => "color:inherit; font-weight: bold")
     else
-      html_id = "modal_issue_#{issue.id}_from_#{@issue.id}"
+      html_id = "modal_issue_#{ActiveSupport::SecureRandom.hex(10)}"
       issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
                              t.send(:rb_issue_box_path, issue),
                              :id => html_id)
