@@ -34,16 +34,29 @@ module TaskboardCard
       geom = Prawn::Document::PageGeometry::SIZES[label['papersize']]
       raise "Paper size '#{label['papersize']}' not supported" if geom.nil?
 
-      @paper_width = geom[0]
-      @paper_height = geom[1]
+      page_layout = :landscape
 
-      @top_margin = Card.topts(label['top_margin'])
-      @vertical_pitch = Card.topts(label['vertical_pitch'])
-      @height = Card.topts(label['height'])
+      if page_layout == :portrait
+        @paper_width = geom[0]
+        @paper_height = geom[1]
+        @top_margin = Card.topts(label['top_margin'])
+        @vertical_pitch = Card.topts(label['vertical_pitch'])
+        @height = Card.topts(label['height'])
 
-      @left_margin = Card.topts(label['left_margin'])
-      @horizontal_pitch = Card.topts(label['horizontal_pitch'])
-      @width = Card.topts(label['width'])
+        @left_margin = Card.topts(label['left_margin'])
+        @horizontal_pitch = Card.topts(label['horizontal_pitch'])
+        @width = Card.topts(label['width'])
+      else
+        @paper_width = geom[1]
+        @paper_height = geom[0]
+        @left_margin = Card.topts(label['top_margin'])
+        @horizontal_pitch = Card.topts(label['vertical_pitch'])
+        @width = Card.topts(label['height'])
+
+        @top_margin = Card.topts(label['left_margin'])
+        @vertical_pitch = Card.topts(label['horizontal_pitch'])
+        @height = Card.topts(label['width'])
+      end
 
       @across = label['across']
       @down = label['down']
@@ -51,7 +64,7 @@ module TaskboardCard
       @inner_margin = Card.topts(label['inner_margin']) || 1.mm
 
       @pdf = Prawn::Document.new(
-        :page_layout => :portrait,
+        :page_layout => page_layout,
         :left_margin => 0,
         :right_margin => 0,
         :top_margin => 0,
