@@ -94,13 +94,15 @@ module TaskboardCard
       end
     end
 
-    def add_issue(story)
-      self.issues << story
-    end
-
     def render
       render_cards
       self.pdf.render
+    end
+
+    private
+
+    def add_issue(story)
+      self.issues << story
     end
 
     def render_cards
@@ -108,7 +110,7 @@ module TaskboardCard
         row = (i % self.down) + 1
         col = ((i / self.down) % self.across) + 1
 
-        self.pdf.start_new_page if row == 1 and col == 1 and self.issues != 1
+        self.pdf.start_new_page if row == 1 and col == 1 and i != 0
 
         Card.render(pdf, issue, {:height => self.paper_height,
                                  :width => self.paper_width,
