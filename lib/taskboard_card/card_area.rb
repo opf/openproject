@@ -7,20 +7,11 @@ module TaskboardCard
     end
 
     def self.text_box(pdf, text, options)
-      align = options.delete(:align)
-      if align == :right
-        options[:width] = pdf.width_of(text, options)
-        options[:at][0] = pdf.bounds.width - options[:width]
-      end
+      options = adapted_text_box_options(pdf, text, options)
 
-      opts = {:width => pdf.bounds.width,
-              :overflow => :ellipses,
-              :padding_bottom => 10}
-      opts.merge!(options)
+      pdf.text_box(text, options)
 
-      pdf.text_box(text, opts)
-
-      Box.new(opts[:at][0], opts[:at][1], opts[:width], opts[:height] + opts[:padding_bottom])
+      Box.new(options[:at][0], options[:at][1], options[:width], options[:height] + options[:padding_bottom])
     end
 
     def self.render_bounding_box(pdf, options)
@@ -58,6 +49,22 @@ module TaskboardCard
 
     def self.strip_tags(string)
       ActionController::Base.helpers.strip_tags(string)
+    end
+
+    private
+
+    def self.adapted_text_box_options(pdf, text, options)
+      align = options.delete(:align)
+      if align == :right
+        options[:width] = pdf.width_of(text, options)
+        options[:at][0] = pdf.bounds.width - options[:width]
+      end
+
+      opts = {:width => pdf.bounds.width,
+              :overflow => :ellipses,
+              :padding_bottom => 10}
+
+      opts.merge(options)
     end
   end
 end
