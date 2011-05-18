@@ -35,7 +35,7 @@ describe 'rb_taskboards/show' do
 
       stories.each do |story|
         template.should have_tag "#story_#{story.id}" do
-          with_tag ".id", story.id.to_s
+          with_tag ".id", Regexp.new(story.id.to_s)
         end
       end
     end
