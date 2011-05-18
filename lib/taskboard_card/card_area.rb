@@ -9,6 +9,11 @@ module TaskboardCard
     def self.text_box(pdf, text, options)
       options = adapted_text_box_options(pdf, text, options)
 
+      text_box = Prawn::Text::Box.new(text, options)
+      left_over = text_box.render(:dry_run => true)
+
+      text = text[0, text.size-left_over.size-5] + "[...]" if left_over.size > 0
+
       pdf.text_box(text, options)
 
       Box.new(options[:at][0], options[:at][1], options[:width], options[:height] + options[:padding_bottom])
@@ -62,7 +67,8 @@ module TaskboardCard
 
       opts = {:width => pdf.bounds.width,
               :overflow => :ellipses,
-              :padding_bottom => 10}
+              :padding_bottom => 10,
+              :document => pdf}
 
       opts.merge(options)
     end
