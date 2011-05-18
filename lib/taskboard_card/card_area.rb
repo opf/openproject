@@ -8,11 +8,7 @@ module TaskboardCard
 
     def self.text_box(pdf, text, options)
       options = adapted_text_box_options(pdf, text, options)
-
-      text_box = Prawn::Text::Box.new(text, options)
-      left_over = text_box.render(:dry_run => true)
-
-      text = text[0, text.size-left_over.size-5] + "[...]" if left_over.size > 0
+      text = abbreviate_text(pdf, text, options)
 
       pdf.text_box(text, options)
 
@@ -71,6 +67,13 @@ module TaskboardCard
               :document => pdf}
 
       opts.merge(options)
+    end
+
+    def self.abbreviate_text(pdf, text, options)
+      text_box = Prawn::Text::Box.new(text, options)
+      left_over = text_box.render(:dry_run => true)
+
+      left_over.size > 0 ? text[0, text.size-left_over.size-5] + "[...]" : text
     end
   end
 end
