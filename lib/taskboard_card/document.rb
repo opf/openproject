@@ -1,11 +1,11 @@
 require 'prawn'
-require 'prawn/measurement_extensions'
 
 module TaskboardCard
   class Document
     unloadable
 
     include Redmine::I18n
+    include TaskboardCard::Measurement
 
     attr_reader :pdf
     attr_reader :paper_width
@@ -38,29 +38,29 @@ module TaskboardCard
       if page_layout == :portrait
         @paper_width = geom[0]
         @paper_height = geom[1]
-        @top_margin = Card.topts(label['top_margin'])
-        @vertical_pitch = Card.topts(label['vertical_pitch'])
-        @height = Card.topts(label['height'])
+        @top_margin = Document.to_pts(label['top_margin'])
+        @vertical_pitch = Document.to_pts(label['vertical_pitch'])
+        @height = Document.to_pts(label['height'])
 
-        @left_margin = Card.topts(label['left_margin'])
-        @horizontal_pitch = Card.topts(label['horizontal_pitch'])
-        @width = Card.topts(label['width'])
+        @left_margin = Document.to_pts(label['left_margin'])
+        @horizontal_pitch = Document.to_pts(label['horizontal_pitch'])
+        @width = Document.to_pts(label['width'])
       else
         @paper_width = geom[1]
         @paper_height = geom[0]
-        @left_margin = Card.topts(label['top_margin'])
-        @horizontal_pitch = Card.topts(label['vertical_pitch'])
-        @width = Card.topts(label['height'])
+        @left_margin = Document.to_pts(label['top_margin'])
+        @horizontal_pitch = Document.to_pts(label['vertical_pitch'])
+        @width = Document.to_pts(label['height'])
 
-        @top_margin = Card.topts(label['left_margin'])
-        @vertical_pitch = Card.topts(label['horizontal_pitch'])
-        @height = Card.topts(label['width'])
+        @top_margin = Document.to_pts(label['left_margin'])
+        @vertical_pitch = Document.to_pts(label['horizontal_pitch'])
+        @height = Document.to_pts(label['width'])
       end
 
       @across = label['across']
       @down = label['down']
 
-      @inner_margin = Card.topts(label['inner_margin']) || 1.mm
+      @inner_margin = Document.to_pts(label['inner_margin']) || 1.mm
 
       @pdf = Prawn::Document.new(
         :page_layout => page_layout,

@@ -4,9 +4,13 @@ require 'rexml/document'
 require 'yaml'
 require 'uri/common'
 
+require 'prawn'
+
 module TaskboardCard
   class Page
     unloadable
+
+    include TaskboardCard::Measurement
 
     LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', '..', 'config', 'labels.yml')
 
@@ -32,8 +36,8 @@ module TaskboardCard
       end
 
       def malformed?(label)
-        TaskboardCard::Card.topts(label['height']) > TaskboardCard::Card.topts(label['vertical_pitch']) ||
-          TaskboardCard::Card.topts(label['width']) > TaskboardCard::Card.topts(label['horizontal_pitch'])
+        to_pts(label['height']) > to_pts(label['vertical_pitch']) ||
+          to_pts(label['width']) > to_pts(label['horizontal_pitch'])
       end
 
       def fetch_labels
