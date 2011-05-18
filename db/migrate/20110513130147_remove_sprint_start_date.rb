@@ -8,7 +8,9 @@ class RemoveSprintStartDate < ActiveRecord::Migration
 
     Version.transaction do
       Version.all.each do |version|
-        if version.sprint_start_date.present? and version.start_date.present?
+        if version.sprint_start_date.present? and version.start_date.present? and
+           version.sprint_start_date != version.start_date
+
           raise "Version #{version.id} has a start date and a sprint start date! Migrations were not executed in the correct order"
 
         elsif version.sprint_start_date.present? and version.start_date.blank?
