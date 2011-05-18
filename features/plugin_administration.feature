@@ -6,4 +6,4 @@ Feature: Plugin Administration
   Scenario: Fields for configuration
     Given I am admin
     When I go to the backlogs plugin configuration page
-    Then there should be a "settings_paper_size" field
+    Then there should be a "settings_card_spec" field
