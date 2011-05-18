@@ -20,35 +20,34 @@ module TaskboardCard
       def render(pdf, issue, options)
         render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
 
-          offset = [0, pdf.bounds.height]
+          y_offset = pdf.bounds.height
 
-          pdf.font_size(20) do
-            description = issue.description ? issue.description : ""
+          description = issue.description ? issue.description : ""
 
-            description.split("\n").each do |line|
-              r = RedCloth3.new(line)
-              line = r.to_html
-              line = Description.strip_tags(line)
+          description.split("\n").each do |line|
 
-              height = pdf.height_of(line)
-              if offset[1] - height > pdf.font.height
-                offset = text_box(pdf,
-                                  line,
-                                  {:height => height,
-                                   :at => offset})
-                offset[1] += 10 #unfortunately I havent't found a way to reduce line spacing when placing
-                                #the text line by line
-              else
-                offset = text_box(pdf,
-                                  "[...]",
-                                  {:height => pdf.font.height,
-                                   :at => [0, pdf.font.height]})
-                break
-              end
+            r = RedCloth3.new(line)
+            line = r.to_html
+            line = Description.strip_tags(line)
+            font_height = 20
+
+            if y_offset - font_height > font_height
+              box = text_box(pdf,
+                             line,
+                             {:height => pdf.height_of(line, :size => font_height),
+                              :at => [0, y_offset],
+                              :size => font_height})
+
+              y_offset -= box.height
+            else
+              text_box(pdf,
+                       "[...]",
+                       {:height => font_height,
+                        :at => [0, y_offset],
+                        :size => font_height})
+              break
             end
           end
-
-          offset
         end
       end
 

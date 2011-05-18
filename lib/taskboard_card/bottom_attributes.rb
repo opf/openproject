@@ -20,72 +20,73 @@ module TaskboardCard
       def render(pdf, issue, options)
         render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
 
-          offset = [0, pdf.bounds.height]
+          category_box = render_category(pdf, issue, {:at => [0, pdf.bounds.height],
+                                                      :align => :right})
 
-          render_assigned_to(pdf, issue, offset)
-          offset = render_category(pdf, issue, offset)
-          offset = render_empty_line(pdf, 12, offset)
-          render_sub_issues(pdf, issue, offset)
+          assigned_to_box = render_assigned_to(pdf, issue, {:at => [0, category_box.y],
+                                                            :width => pdf.bounds.width - category_box.width})
+
+          offset = render_empty_line(pdf, 12, [0, category_box.y - category_box.height])
+          render_sub_issues(pdf, issue, {:at => offset})
         end
       end
 
 
-      def render_assigned_to(pdf, issue, offset)
-        pdf.font_size(12) do
-          assigned_to = "#{l(:field_assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
+      def render_assigned_to(pdf, issue, options)
 
-          offset = text_box(pdf,
-                            assigned_to,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height,
-                             :at => offset})
-        end
+        assigned_to = "#{l(:field_assigned_to)}: #{issue.assigned_to ? issue.assigned_to : "-"}"
 
-        offset
+        text_box(pdf,
+                 assigned_to,
+                 {:width => pdf.bounds.width,
+                  :height => 12,
+                  :size => 12}.merge(options))
       end
 
-      def render_category(pdf, issue, offset)
-        pdf.font_size(12) do
-          category = "#{l(:field_category)}: #{issue.category ? issue.category : "-"}"
+      def render_category(pdf, issue, options)
 
-          offset = text_box(pdf,
-                            category,
-                            {:width => pdf.bounds.width,
-                             :height => pdf.font.height * 1,
-                             :align => :right,
-                             :at => offset})
-        end
+        category = "#{l(:field_category)}: #{issue.category ? issue.category : "-"}"
 
-        offset
+        text_box(pdf,
+                 category,
+                 {:width => pdf.bounds.width,
+                  :height => 12}.merge(options))
+
       end
 
-      def render_sub_issues(pdf, issue, offset)
+      def render_sub_issues(pdf, issue, options)
+        at = options.delete(:at)
+        box = Box.new(at[0], at[1], 0, 0)
+
         pdf.font_size(12) do
-          offset = text_box(pdf,
-                            "#{l(:label_subtask_plural)}: #{issue.children.size == 0 ? "-" : ""}",
-                            {:height => pdf.font.height,
-                             :at => offset})
+          temp_box = text_box(pdf,
+                              "#{l(:label_subtask_plural)}: #{issue.children.size == 0 ? "-" : ""}",
+                              {:height => pdf.font.height,
+                               :at => box.at})
+
+          box.height += temp_box.height
+          box.width = temp_box.width
 
           issue.children.each_with_index do |child, i|
-            subtask_text = "#{child.tracker.name} ##{child.id}: #{child.subject}"
-            offset[0] = 10 #indentation
 
-            if offset[1] - pdf.font.height < pdf.font.height && issue.children.size - i != 1
-              offset = text_box(pdf,
-                                l('backlogs.x_more', :count => issue.children.size - i),
-                                :height => pdf.font.height,
-                                :at => offset)
-              break
-            else
-              offset = text_box(pdf,
+            if box.height + pdf.font.height > pdf.font.height ||  issue.children.size - i == 1
+              temp_box = text_box(pdf,
                                 "#{child.tracker.name} ##{child.id}: #{child.subject}",
                                 {:height => pdf.font.height,
-                                 :at => offset})
+                                 :at => [10, at[1] - box.height]})
+            else
+              temp_box = text_box(pdf,
+                                l('backlogs.x_more', :count => issue.children.size - i),
+                                :height => pdf.font.height,
+                                :at => [10, at[1] - box.height])
+              break
             end
+
+            box.height += temp_box.height
           end
         end
 
-        offset
+        box
       end
 
     end

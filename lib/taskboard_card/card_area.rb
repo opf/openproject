@@ -7,11 +7,19 @@ module TaskboardCard
     end
 
     def self.text_box(pdf, text, options)
+      align = options.delete(:align)
+      if align == :right
+        options[:width] = pdf.width_of(text, options)
+        options[:at][0] = pdf.bounds.width - options[:width]
+      end
+
       opts = {:width => pdf.bounds.width,
               :overflow => :ellipses}
       opts.merge!(options)
-      box = pdf.text_box(text, opts)
-      [0, opts[:at][1] - (opts[:height] + (opts[:size] || pdf.font_size) / 2)]
+
+      pdf.text_box(text, opts)
+
+      Box.new(options[:at][0], options[:at][1], options[:width], options[:height])
     end
 
     def self.render_bounding_box(pdf, options)

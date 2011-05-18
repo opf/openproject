@@ -15,16 +15,15 @@ module TaskboardCard
 
         offset = [0, pdf.bounds.height]
 
-        pdf.font_size(20) do
-          issue_identification = "#{issue.tracker.name} ##{issue.id}"
+        issue_identification = "#{issue.tracker.name} ##{issue.id}"
 
-          offset = text_box(pdf,
-                            issue_identification,
-                            {:height => pdf.font.height,
-                             :at => offset})
-        end
+        box = text_box(pdf,
+                       issue_identification,
+                       {:height => 20,
+                        :at => offset,
+                        :size => 20})
 
-        offset[1] += 10
+        offset[1] -= box.height
         pdf.line offset, [pdf.bounds.width, offset[1]]
       end
 

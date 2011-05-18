@@ -30,7 +30,8 @@ module TaskboardCard
         [TaskboardCard::Header,
          TaskboardCard::TopAttributes,
          TaskboardCard::Description,
-         TaskboardCard::BottomAttributes]
+         TaskboardCard::BottomAttributes
+        ]
       end
 
       def margin
@@ -44,7 +45,7 @@ module TaskboardCard
           Card.areas.each do |card|
             height = pdf.bounds.height * card.pref_size_percent[1]
             card.render(pdf, issue, {:at => [0, y_offset],
-                                            :height => height})
+                                     :height => height})
             y_offset -= height + pdf.bounds.height * 0.01
           end
         end

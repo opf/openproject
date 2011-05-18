@@ -19,62 +19,55 @@ module TaskboardCard
       def render(pdf, issue, options)
          render_bounding_box(pdf, options.merge(:border => true, :margin => margin)) do
 
-           offset = [0, pdf.bounds.height]
+           sprint_box = render_sprint(pdf, issue, {:at => [0, pdf.bounds.height],
+                                                   :align => :right})
 
-           render_parent_issue(pdf, issue, offset)
-           offset = render_sprint(pdf, issue, offset)
-           render_subject(pdf, issue, offset)
-           render_effort(pdf, issue, offset)
+           render_parent_issue(pdf, issue, {:at => [0, sprint_box.y],
+                                            :width => pdf.bounds.width - sprint_box.width})
+
+           effort_box = render_effort(pdf, issue, {:at => [0, pdf.bounds.height - sprint_box.height],
+                                                   :align => :right})
+
+           render_subject(pdf, issue, {:at => [0, effort_box.y],
+                                       :width => pdf.bounds.width - effort_box.width})
          end
        end
 
-      def render_parent_issue(pdf, issue, offset)
-        pdf.font_size(12) do
-          parent_name = issue.parent.present? ? "#{issue.parent.tracker.name} ##{issue.parent.id}: #{issue.parent.subject}" : ""
+      def render_parent_issue(pdf, issue, options)
+        parent_name = issue.parent.present? ? "#{issue.parent.tracker.name} ##{issue.parent.id}: #{issue.parent.subject}" : ""
 
-          offset = text_box(pdf,
-                            parent_name,
-                            {:height => pdf.font.height,
-                             :at => offset})
-        end
-
-        offset
+        text_box(pdf,
+                 parent_name,
+                 {:height => 12,
+                  :size => 12}.merge(options))
       end
 
-      def render_sprint(pdf, issue, offset)
+      def render_sprint(pdf, issue, options)
         name = issue.fixed_version ? issue.fixed_version.name : "-"
 
         text_box(pdf,
                  name,
-                 {:height => pdf.font.height,
-                  :align => :right,
-                  :at => offset,
-                  :size => 12})
+                 {:height => 12,
+                  :size => 12}.merge(options))
       end
 
-      def render_subject(pdf, issue, offset)
+      def render_subject(pdf, issue, options)
         text_box(pdf,
                  issue.subject,
-                 {:height => pdf.font.height * 2,
-                  :at => offset,
-                  :size => 20})
+                 {:height => 20,
+                  :size => 20}.merge(options))
       end
 
-      def render_effort(pdf, issue, offset)
+      def render_effort(pdf, issue, options)
         type = issue.is_task?
         score = (type == :task ? issue.estimated_hours : issue.story_points)
         score ||= '-'
         score = "#{score} #{type == :task ? l(:label_hours) : l(:label_points)}"
 
-        pdf.font_size(20) do
-          offset = text_box(pdf,
-                   score,
-                   {:height => pdf.font.height,
-                    :align => :right,
-                    :at => offset})
-        end
-
-        offset
+        text_box(pdf,
+                 score,
+                 {:height => 20,
+                  :size => 20}.merge(options))
       end
     end
   end
