@@ -1,5 +1,5 @@
 <div class="errors">
-  <% model_errors.each_error do |a, err| %>
-    <div><%= err.full_message %></div>
+  <% model_errors.full_messages.each do |err| %>
+    <div><%= err %></div>
   <% end %>
 </div>

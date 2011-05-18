@@ -116,15 +116,6 @@ class Story < Issue
         end
     end
 
-    def points_display(notsized='-')
-        # For reasons I have yet to uncover, activerecord will
-        # sometimes return numbers as Fixnums that lack the nil?
-        # method. Comparing to nil should be safe.
-        return notsized if story_points == nil || story_points.blank?
-        return 'S' if story_points == 0
-        return story_points.to_s
-    end
-
     def task_status
         closed = 0
         open = 0

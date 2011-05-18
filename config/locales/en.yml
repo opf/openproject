@@ -6,6 +6,7 @@ en:
   backlogs_sprints: "Sprints"
   field_story_points: "Story points"
   field_remaining_hours: "Remaining hours"
+  label_issue_hierarchy: "Issue Hierarchy"
   button_edit_wiki: "Edit wiki page"
   field_backlogs_issue_type: "Backlog type"
   backlogs_story: "Story"
@@ -42,9 +43,9 @@ en:
   label_backlogs: "Backlogs"
   label_scrum_statistics: "Scrum statistics"
 
+  label_backlog: "Backlog"
   label_sprint_backlog: "sprint backlog"
   label_product_backlog: "product backlog"
-  label_Product_backlog: "Product backlog"
 
   backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
   backlogs_velocity_missing: "No velocity could be calculated for this project"

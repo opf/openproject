@@ -19,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
     rb.resource   :server_variables, :only => :show,               :controller => :rb_server_variables, :as => "server_variables/:project_id"
     rb.resource   :taskboard,        :only => :show,               :controller => :rb_taskboards,       :as => "taskboards/:sprint_id"
     rb.resource   :master_backlog,   :only => :show,               :controller => :rb_master_backlogs,  :as => "master_backlogs/:project_id"
+    rb.resources  :issue_boxes,      :only => :show
   end
 
   map.connect 'projects/:project_id/versions/:id/edit', :controller => 'version_settings', :action => 'edit'

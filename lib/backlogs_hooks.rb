@@ -35,9 +35,10 @@ module BacklogsPlugin
       end
 
       def view_issues_show_details_bottom(context = {})
-        issue = context[:issue]
+        return '' unless context[:issue].project.module_enabled? 'backlogs'
+        return '' if context[:from] == 'RedmineBacklogs::IssueView::FieldsParagraph'
 
-        return '' unless issue.project.module_enabled? 'backlogs'
+        issue = context[:issue]
 
         snippet = ''
 
@@ -45,7 +46,7 @@ module BacklogsPlugin
           snippet += %Q{
             <tr>
               <th class="story-points">#{l(:field_story_points)}:</th>
-              <td class="story-points">#{Story.find(issue.id).points_display}</td>
+              <td class="story-points">#{issue.story_points || '-'}</td>
             </tr>
           }
 

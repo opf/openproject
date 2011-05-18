@@ -101,10 +101,10 @@ RB.Model = (function ($) {
 
     edit: function () {
       var editor = this.getEditor(),
-          self = this;
+          self = this,
+          maxTabIndex = 0;
 
-      var maxTabIndex = 0;
-      $('.stories .editors .editor').each(function(index) {
+      $('.stories .editors .editor').each(function (index) {
         var value;
 
         value = parseInt($(this).attr('tabindex'), 10);
@@ -290,6 +290,17 @@ RB.Model = (function ($) {
 
     refresh: function (obj) {
       this.$.html(obj.$.html());
+
+      if (obj.$.length > 1) {
+        // execute script tags, that were attached to the sources
+        obj.$.filter('script').each(function () {
+          try {
+            $.globalEval($(this).text());
+          }
+          catch (e) {
+          }
+        });
+      }
 
       if (obj.isClosed()) {
         this.close();
