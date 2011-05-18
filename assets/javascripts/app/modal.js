@@ -86,6 +86,9 @@ var Backlogs = (function () {
     }
   });
 
+  Control.Window.baseZIndex = 50;
+  Control.Overlay.styles.zIndex = 49;
+  Control.Overlay.ieStyles.zIndex = 49;
   return {
     Modal : Modal
   };
