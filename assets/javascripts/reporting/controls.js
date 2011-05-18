@@ -96,6 +96,9 @@ Reporting.Controls = {
   },
 
   attach_settings_callback: function (element, callback) {
+    if (element === null) {
+      return;
+    }
     failureCallback = function (response) {
       $('result-table').update("");
       Reporting.Controls.default_failure_callback(response);
@@ -130,26 +133,30 @@ Reporting.Controls = {
 };
 
 Reporting.onload(function () {
-  if ($('query_saved_name').getAttribute("data-update-url") !== null) {
-    Reporting.Controls.query_name_editor('query_saved_name');
-  }
-  // don't concern ourselves with new queries
-  if ($('query_saved_name').getAttribute("data-is_new") !== null) {
-    if ($('query-icon-delete') !== null) {
-      Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
-      Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
-      $('delete_form').hide();
+  if ($('query_saved_name') !== null) {
+    if ($('query_saved_name').getAttribute("data-update-url") !== null) {
+      Reporting.Controls.query_name_editor('query_saved_name');
     }
+    // don't concern ourselves with new queries
+    if ($('query_saved_name').getAttribute("data-is_new") !== null) {
+      if ($('query-icon-delete') !== null) {
+        Reporting.Controls.observe_click("query-icon-delete", Reporting.Controls.toggle_delete_form);
+        Reporting.Controls.observe_click("query-icon-delete-cancel", Reporting.Controls.toggle_delete_form);
+        $('delete_form').hide();
+      }
 
-    if ($("query-breadcrumb-save") !== null) {
-      // When saving an update of an exisiting query or apply filters, we replace the table on success
-      Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+      if ($("query-breadcrumb-save") !== null) {
+        // When saving an update of an exisiting query or apply filters, we replace the table on success
+        Reporting.Controls.attach_settings_callback($("query-breadcrumb-save"), Reporting.Controls.update_result_table);
+      }
     }
   }
 
   Reporting.Controls.observe_click("query-icon-save-as", Reporting.Controls.toggle_save_as_form);
   Reporting.Controls.observe_click("query-icon-save-as-cancel", Reporting.Controls.toggle_save_as_form);
-  $('save_as_form').hide();
+  if ($('save_as_form') !== null) {
+    $('save_as_form').hide();
+  }
 
   // When saving a new query, the success-response is the new saved query's url -> redirect to that
   Reporting.Controls.attach_settings_callback($("query-icon-save-button"), function (response) {

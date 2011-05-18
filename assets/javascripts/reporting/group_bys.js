@@ -3,7 +3,10 @@
 
 Reporting.GroupBys = {
   group_by_container_ids: function() {
-    return $w('group_by_columns group_by_rows');
+    var ids = $w('group_by_columns group_by_rows');
+    return ids.select(function (i) {
+      return $(i) !== null
+    });
   },
 
   sortable_options: function() {
@@ -160,10 +163,12 @@ Reporting.GroupBys = {
 Reporting.onload(function () {
   Reporting.GroupBys.initialize_drag_and_drop_areas();
   [$('add_group_by_rows'), $('add_group_by_columns')].each(function (select) {
-    select.observe("change", function () {
-      if (!(Reporting.GroupBys.exists(this.value))) {
-        Reporting.GroupBys.add_group_by_from_select(this);
-      };
-    });
+    if (select !== null) {
+      select.observe("change", function () {
+        if (!(Reporting.GroupBys.exists(this.value))) {
+          Reporting.GroupBys.add_group_by_from_select(this);
+        };
+      });
+    }
   });
 });

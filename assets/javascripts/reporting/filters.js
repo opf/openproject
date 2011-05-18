@@ -402,11 +402,14 @@ Reporting.Filters = {
 };
 
 Reporting.onload(function () {
-  $("add_filter_select").observe("change", function () {
-    if (!(Reporting.Filters.exists(this.value))) {
-      Reporting.Filters.add_filter(this);
-    };
-  });
+  if ($("add_filter_select")) {
+    $("add_filter_select").observe("change", function () {
+      if (!(Reporting.Filters.exists(this.value))) {
+        Reporting.Filters.add_filter(this);
+      };
+    });
+  }
+
   $$(".filter_rem").each(function (e) {
     e.observe("click", function () {
       var filter_name = this.up('tr').getAttribute("data-filter-name");
