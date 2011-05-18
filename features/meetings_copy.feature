@@ -76,7 +76,7 @@ Feature: Copy meetings
         And I should see "Alice Alice"
   
   @javascript
-  Scenario: Copy a meeting and make sure the agenda ist copied over
+  Scenario: Copy a meeting and make sure the agenda is copied over
       Given the role "user" may have the following rights:
             | view_meetings   |
             | create_meetings |

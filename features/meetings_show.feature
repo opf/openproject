@@ -89,7 +89,7 @@ Feature: Show meetings
             # Make sure we're on the right tab
         And I click on "Agenda"
        Then I should not see "Edit" within ".meeting_agenda"
-
+  
   @javascript
   Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes and save minutes
       Given the role "user" may have the following rights:
