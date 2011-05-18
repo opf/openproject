@@ -72,7 +72,9 @@ module TaskboardCard
       text_box = Prawn::Text::Box.new(text, options)
       left_over = text_box.render(:dry_run => true)
 
-      left_over.size > 0 ? text[0, text.size-left_over.size-5] + "[...]" : text
+      left_over.size > 0 ? text[0, text.size-left_over.size-5].to_s + "[...]" : text
+    rescue Prawn::Errors::CannotFit
+      ''
     end
   end
 end
