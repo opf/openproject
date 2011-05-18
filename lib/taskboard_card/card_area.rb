@@ -62,7 +62,6 @@ module TaskboardCard
       end
 
       opts = {:width => pdf.bounds.width,
-              :overflow => :ellipses,
               :padding_bottom => 10,
               :document => pdf}
 
