@@ -2,6 +2,7 @@
 de:
   backlogs_story_tracker: "Story Tracker"
   backlogs_task_tracker: "Aufgaben Tracker"
+  backlogs_card_specification: "Etikettenart f\xC3\xBCr den Kartendruck"
   backlogs_sprints: "Sprints"
   field_story_points: "Story Punkte"
   field_remaining_hours: "Verbleibende Stunden"
