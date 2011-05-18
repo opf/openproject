@@ -112,8 +112,8 @@ module TaskboardCard
 
         self.pdf.start_new_page if row == 1 and col == 1 and i != 0
 
-        Card.render(pdf, issue, {:height => self.paper_height,
-                                 :width => self.paper_width,
+        Card.render(pdf, issue, {:height => self.height,
+                                 :width => self.width,
                                  :at => card_top_left(row, col)})
       end
     end
