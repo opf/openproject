@@ -259,7 +259,7 @@ Given /^I have selected card label stock (.+)$/ do |stock|
   # to get the ones, shipped with the plugin or
   #   rake redmine:backlogs:current_labels
   # to get current one, downloaded from the internetz.
-  Cards::TaskboardCards.should be_available
+  TaskboardCard::PageLayout.should be_available
 end
 
 Given /^I have set my API access key$/ do

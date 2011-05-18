@@ -31,7 +31,7 @@
                 })
         %><br/>
 
-        <% if Cards::TaskboardCards.available? %>
+        <% if TaskboardCard::PageLayout.available? %>
           <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',

@@ -239,7 +239,7 @@ Feature: Scrum Master
      Then the request should fail
 
   Scenario: Download printable cards for the task board
-    Given I have selected card label stock Avery 7169
+    Given I have selected card label stock Avery 8435B
       And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
       And I am on the issues index page
       And I follow "Sprint 001"

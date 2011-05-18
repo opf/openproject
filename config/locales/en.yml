@@ -101,6 +101,7 @@ en:
     add_new_story: "New Story"
     any: "any"
     burndown_graph: "Burndown Graph"
+    card_paper_size: "Paper size for card printing"
     chart_options: "Active series"
     close: "Close"
     column_with: "Column width:"
@@ -119,6 +120,7 @@ en:
     story_points_ideal: "Story Points (ideal)"
     task: "Task"
     unassigned: "Unassigned"
+    x_more: "%{count} more..."
 
   project_module_backlogs: "Backlogs (Beta)"
 

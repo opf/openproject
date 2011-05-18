@@ -101,6 +101,7 @@ de:
     add_new_story: "Neue Story"
     any: "beliebig"
     burndown_graph: "Burndown Graph"
+    card_paper_size: "Format für Kartendruck"
     chart_options: "Aktive Wertereihen"
     close: "Schließen"
     column_with: "Spaltenbreite:"
@@ -119,6 +120,8 @@ de:
     story_points_ideal: "Story Points (ideal)"
     task: "Aufgabe"
     unassigned: "Nicht zugewiesen"
+    x_more: "%{count} mehr..."
+
 
   project_module_backlogs: "Backlogs (Beta)"
 

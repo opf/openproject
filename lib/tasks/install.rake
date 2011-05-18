@@ -5,13 +5,13 @@ namespace :redmine do
 
     desc "Install default label definitions"
     task :default_labels => :environment do
-      FileUtils.cp(Cards::TaskboardCards::LABELS_FILE_NAME + '.default',
-                   Cards::TaskboardCards::LABELS_FILE_NAME)
+      FileUtils.cp(TaskboardCard::PageLayout::LABELS_FILE_NAME + '.default',
+                   TaskboardCard::PageLayout::LABELS_FILE_NAME)
     end
 
     desc "Install current label definitions git.gnome.org"
     task :current_labels => :environment do
-      Cards::TaskboardCards.fetch_labels
+      TaskboardCard::PageLayout.fetch_labels
     end
 
     desc "Install and configure Redmine Backlogs"
