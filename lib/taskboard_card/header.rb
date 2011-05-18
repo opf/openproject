@@ -21,7 +21,8 @@ module TaskboardCard
                        issue_identification,
                        {:height => 20,
                         :at => offset,
-                        :size => 20})
+                        :size => 20,
+                        :padding_bottom => 5})
 
         offset[1] -= box.height
         pdf.line offset, [pdf.bounds.width, offset[1]]

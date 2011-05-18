@@ -36,7 +36,8 @@ module TaskboardCard
                              line,
                              {:height => pdf.height_of(line, :size => font_height),
                               :at => [0, y_offset],
-                              :size => font_height})
+                              :size => font_height,
+                              :padding_bottom => 0})
 
               y_offset -= box.height
             else

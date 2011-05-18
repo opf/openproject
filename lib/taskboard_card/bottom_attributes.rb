@@ -24,10 +24,10 @@ module TaskboardCard
                                                       :align => :right})
 
           assigned_to_box = render_assigned_to(pdf, issue, {:at => [0, category_box.y],
-                                                            :width => pdf.bounds.width - category_box.width})
+                                                            :width => pdf.bounds.width - category_box.width,
+                                                            :padding_bottom => 20})
 
-          offset = render_empty_line(pdf, 12, [0, category_box.y - category_box.height])
-          render_sub_issues(pdf, issue, {:at => offset})
+          render_sub_issues(pdf, issue, {:at => [0, assigned_to_box.y - assigned_to_box.height]})
         end
       end
 
@@ -62,7 +62,8 @@ module TaskboardCard
           temp_box = text_box(pdf,
                               "#{l(:label_subtask_plural)}: #{issue.children.size == 0 ? "-" : ""}",
                               {:height => pdf.font.height,
-                               :at => box.at})
+                               :at => box.at,
+                               :paddint_bottom => 6})
 
           box.height += temp_box.height
           box.width = temp_box.width
@@ -73,7 +74,8 @@ module TaskboardCard
               temp_box = text_box(pdf,
                                 "#{child.tracker.name} ##{child.id}: #{child.subject}",
                                 {:height => pdf.font.height,
-                                 :at => [10, at[1] - box.height]})
+                                 :at => [10, at[1] - box.height],
+                                 :padding_bottom => 3})
             else
               temp_box = text_box(pdf,
                                 l('backlogs.x_more', :count => issue.children.size - i),

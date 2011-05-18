@@ -14,12 +14,13 @@ module TaskboardCard
       end
 
       opts = {:width => pdf.bounds.width,
-              :overflow => :ellipses}
+              :overflow => :ellipses,
+              :padding_bottom => 10}
       opts.merge!(options)
 
       pdf.text_box(text, opts)
 
-      Box.new(options[:at][0], options[:at][1], options[:width], options[:height])
+      Box.new(opts[:at][0], opts[:at][1], opts[:width], opts[:height] + opts[:padding_bottom])
     end
 
     def self.render_bounding_box(pdf, options)
@@ -45,14 +46,6 @@ module TaskboardCard
 
     def self.min_size
       [0, 0]
-    end
-
-    def self.render_empty_line(pdf, font_size, offset)
-      pdf.font_size(font_size) do
-        offset = [offset[0], offset[1] - pdf.font_size]
-      end
-
-      offset
     end
 
     def self.margin
