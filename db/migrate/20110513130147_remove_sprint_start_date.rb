@@ -9,7 +9,7 @@ class RemoveSprintStartDate < ActiveRecord::Migration
     Version.transaction do
       Version.all.each do |version|
         if version.sprint_start_date.present? and version.start_date.present?
-          raise ActiveRecord::Rollback, "Version #{version.id} has a start date and a sprint start date! Migrations were not executed in the correct order"
+          raise "Version #{version.id} has a start date and a sprint start date! Migrations were not executed in the correct order"
 
         elsif version.sprint_start_date.present? and version.start_date.blank?
           puts "Copying sprint_start_date to start_date for Sprint #{version.id} - #{version.name.inspect}"
@@ -17,9 +17,9 @@ class RemoveSprintStartDate < ActiveRecord::Migration
           version.save!
         end
       end
-
-      remove_column(:versions, :sprint_start_date)
     end
+
+    remove_column(:versions, :sprint_start_date)
   end
 
   def self.down
