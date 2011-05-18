@@ -23,7 +23,7 @@ class MeetingMinutes < MeetingContent
     # Wiki Content might be large and the data should possibly be compressed
     def compress_version_text
       self.text = changes["text"].last if changes["text"]
-      self.text ||= self.journaled.text
+      self.text ||= self.journaled.text if self.journaled.text
     end
     
     def text=(plain)

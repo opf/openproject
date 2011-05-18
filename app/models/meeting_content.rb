@@ -6,6 +6,8 @@ class MeetingContent < ActiveRecord::Base
   
   attr_accessor :comment
   
+  validates_length_of :comment, :maximum => 255, :allow_nil => true
+  
   before_save :comment_to_journal_notes
   
   def editable?
