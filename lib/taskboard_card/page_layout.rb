@@ -13,6 +13,7 @@ module TaskboardCard
     include TaskboardCard::Measurement
 
     LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', '..', 'config', 'labels.yml')
+    MALFORMED_LABELS_FILE_NAME = File.join(File.dirname(__FILE__), '..', '..', 'config', 'labels-malformed.yml')
 
     if File.exist? LABELS_FILE_NAME
       LABELS = YAML::load_file(LABELS_FILE_NAME)
@@ -130,7 +131,7 @@ module TaskboardCard
         File.open(LABELS_FILE_NAME, 'w') do |dump|
           YAML.dump(LABELS, dump)
         end
-        File.open(File.dirname(__FILE__) + '/labels-malformed.yml', 'w') do |dump|
+        File.open(MALFORMED_LABELS_FILE_NAME, 'w') do |dump|
           YAML.dump(malformed_labels, dump)
         end
 
