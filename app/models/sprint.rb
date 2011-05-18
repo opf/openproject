@@ -7,12 +7,12 @@ class Sprint < Version
 
     named_scope :open_sprints, lambda { |project|
         {
-            :order => 'sprint_start_date ASC, effective_date ASC',
+            :order => 'start_date ASC, effective_date ASC',
             :conditions => [ "versions.status = 'open' and versions.project_id = ?", project.id ]
         }
     }
 
-    named_scope :order_by_date, :order => 'sprint_start_date ASC, effective_date ASC'
+    named_scope :order_by_date, :order => 'start_date ASC, effective_date ASC'
     named_scope :order_by_name, :order => "#{Version.table_name}.name ASC"
 
     named_scope :apply_to, lambda { |project| {:include => :project,
@@ -82,7 +82,7 @@ class Sprint < Version
         # assumes mon-fri are working days, sat-sun are not. this
         # assumption is not globally right, we need to make this configurable.
         cutoff = self.effective_date if cutoff.nil?
-        return (self.sprint_start_date .. cutoff).select {|d| alldays || (d.wday > 0 and d.wday < 6) }
+        return (self.start_date .. cutoff).select {|d| alldays || (d.wday > 0 and d.wday < 6) }
     end
 
     def eta
@@ -96,7 +96,7 @@ class Sprint < Version
     end
 
     def has_burndown?
-      !!(self.effective_date and self.sprint_start_date)
+      !!(self.effective_date and self.start_date)
     end
 
     def activity
@@ -117,7 +117,7 @@ class Sprint < Version
 
     def self.generate_burndown(only_current = true)
         if only_current
-            conditions = ["? between sprint_start_date and effective_date", Date.today]
+            conditions = ["? between start_date and effective_date", Date.today]
         else
             conditions = "1 = 1"
         end
@@ -133,7 +133,7 @@ class Sprint < Version
 
     private
     def start_and_end_dates
-        errors.add_to_base(:cannot_end_before_it_starts) if self.effective_date && self.sprint_start_date && self.sprint_start_date >= self.effective_date
+        errors.add_to_base(:cannot_end_before_it_starts) if self.effective_date && self.start_date && self.start_date >= self.effective_date
     end
 
 end

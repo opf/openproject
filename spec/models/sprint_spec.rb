@@ -53,9 +53,9 @@ describe Sprint do
 
     describe :order_by_date do
       before(:each) do
-        @sprint1 = Factory.create(:sprint, :name => "sprint1", :project => project, :sprint_start_date => Date.today + 2.days)
-        @sprint2 = Factory.create(:sprint, :name => "sprint2", :project => project, :sprint_start_date => Date.today + 1.day, :effective_date => Date.today + 3.days)
-        @sprint3 = Factory.create(:sprint, :name => "sprint3", :project => project, :sprint_start_date => Date.today + 1.day, :effective_date => Date.today + 2.days)
+        @sprint1 = Factory.create(:sprint, :name => "sprint1", :project => project, :start_date => Date.today + 2.days)
+        @sprint2 = Factory.create(:sprint, :name => "sprint2", :project => project, :start_date => Date.today + 1.day, :effective_date => Date.today + 3.days)
+        @sprint3 = Factory.create(:sprint, :name => "sprint3", :project => project, :start_date => Date.today + 1.day, :effective_date => Date.today + 2.days)
       end
 
       it { Sprint.order_by_date[0].should eql @sprint3 }

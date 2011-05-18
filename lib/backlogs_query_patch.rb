@@ -16,7 +16,7 @@ module Backlogs
             base.add_available_column(QueryColumn.new(:position,
                                       :sortable => [
                                         # sprint startdate
-                                        "coalesce((select sprint_start_date from versions where versions.id = issues.fixed_version_id), '1900-01-01')",
+                                        "coalesce((select start_date from versions where versions.id = issues.fixed_version_id), '1900-01-01')",
 
                                         # sprint name, in case start dates are the same
                                         "(select name from versions where versions.id = issues.fixed_version_id)",

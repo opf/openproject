@@ -7,7 +7,7 @@ Feature: Shared Versions
     Given there is 1 project with:
         | name  | parent    |
     And the project "parent" has the following sprints:
-        | name          | sharing     | sprint_start_date | effective_date |
+        | name          | sharing     | start_date | effective_date |
         | ParentSprint  | system      | 2010-01-01        | 2010-01-31     |
     And there is 1 project with:
         | name  | child |
@@ -37,7 +37,7 @@ Feature: Shared Versions
         | manage_subtasks       |
     And the user "padme" is a "project admin"
     And the project has the following sprints:
-        | name       | sprint_start_date | effective_date |
+        | name       | start_date | effective_date |
         | ChildSprint | 2010-03-01        | 2010-03-31    |
     And I am logged in as "padme"
 

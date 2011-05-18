@@ -214,7 +214,7 @@ class Importer
             sprint.project = @project
             sprint.name = s['name']
             sprint.description = s['description']
-            sprint.sprint_start_date = s['start']
+            sprint.start_date = s['start']
             sprint.effective_date = s['end']
 
             # can't assign stories to closed sprint

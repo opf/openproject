@@ -141,7 +141,7 @@
   white-space: nowrap;
   margin-left: 0.5em;
 }
-#rb #backlogs_container .backlog .sprint .sprint_start_date,
+#rb #backlogs_container .backlog .sprint .start_date,
 #rb #backlogs_container .backlog .sprint .effective_date {
   float: right;
   font-size: 12px;
@@ -265,7 +265,7 @@
   min-width: 15em;
   width: 57%;
 }
-#rb #backlogs_container .backlog .sprint.editing .sprint_start_date.editor,
+#rb #backlogs_container .backlog .sprint.editing .start_date.editor,
 #rb #backlogs_container .backlog .sprint.editing .effective_date.editor {
   height: 23px;
   line-height: 27px;

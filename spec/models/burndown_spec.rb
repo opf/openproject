@@ -51,7 +51,7 @@ describe Burndown do
 
       describe "WITH having a 10 (working days) sprint and beeing 5 (working) days into it" do
         before(:each) do
-          version.sprint_start_date = Date.today - 7.days
+          version.start_date = Date.today - 7.days
           version.effective_date = Date.today + 6.days
           version.save!
         end
@@ -224,7 +224,7 @@ describe Burndown do
               @remaining_hours_sum = 0
 
               @stories.each_with_index do |s, i|
-                set_attribute_journalized s, :remaining_hours=, 10, version.sprint_start_date - 3.days
+                set_attribute_journalized s, :remaining_hours=, 10, version.start_date - 3.days
               end
             end
 
@@ -232,7 +232,7 @@ describe Burndown do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
-                  set_attribute_journalized @stories[i], :remaining_hours=, 0, version.sprint_start_date + i.days + 1.hour
+                  set_attribute_journalized @stories[i], :remaining_hours=, 0, version.start_date + i.days + 1.hour
                 end
               end
 
@@ -256,7 +256,7 @@ describe Burndown do
               @remaining_hours_sum = 0
 
               @stories.each_with_index do |s, i|
-                set_attribute_journalized s, :story_points=, 10, version.sprint_start_date - 3.days
+                set_attribute_journalized s, :story_points=, 10, version.start_date - 3.days
               end
             end
 
@@ -264,7 +264,7 @@ describe Burndown do
               before(:each) do
                 @finished_hours
                 (0..4).each do |i|
-                  set_attribute_journalized @stories[i], :story_points=, nil, version.sprint_start_date + i.days + 1.hour
+                  set_attribute_journalized @stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
                 end
               end
 
