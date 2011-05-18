@@ -7,7 +7,7 @@ require 'uri/common'
 require 'prawn'
 
 module TaskboardCard
-  class Page
+  class PageLayout
     unloadable
 
     include TaskboardCard::Measurement
@@ -94,15 +94,15 @@ module TaskboardCard
 
               geom.elements.each('Layout') do |layout|
                 label = {
-                  'inner_margin'     => Page.measurement(margin),
+                  'inner_margin'     => PageLayout.measurement(margin),
                   'across'           => Integer(layout.attributes['nx']),
                   'down'             => Integer(layout.attributes['ny']),
-                  'top_margin'       => Page.measurement(layout.attributes['y0']),
-                  'height'           => Page.measurement(geom.attributes['height']),
-                  'horizontal_pitch' => Page.measurement(layout.attributes['dx']),
-                  'left_margin'      => Page.measurement(layout.attributes['x0']),
-                  'width'            => Page.measurement(geom.attributes['width']),
-                  'vertical_pitch'   => Page.measurement(layout.attributes['dy']),
+                  'top_margin'       => PageLayout.measurement(layout.attributes['y0']),
+                  'height'           => PageLayout.measurement(geom.attributes['height']),
+                  'horizontal_pitch' => PageLayout.measurement(layout.attributes['dx']),
+                  'left_margin'      => PageLayout.measurement(layout.attributes['x0']),
+                  'width'            => PageLayout.measurement(geom.attributes['width']),
+                  'vertical_pitch'   => PageLayout.measurement(layout.attributes['dy']),
                   'papersize'        => papersize,
                   'source'           => 'glabel'
                 }
@@ -113,7 +113,7 @@ module TaskboardCard
 
             key = "#{specs.attributes['brand']} #{specs.attributes['part']}"
 
-            if Page.malformed?(label)
+            if PageLayout.malformed?(label)
               puts "Skipping malformed label '#{key}' from #{filename}"
               malformed_labels[key] = label
             else
@@ -134,7 +134,7 @@ module TaskboardCard
           YAML.dump(malformed_labels, dump)
         end
 
-        if Setting.plugin_redmine_backlogs[:card_spec] && ! Page.selected_label && LABELS.size != 0
+        if Setting.plugin_redmine_backlogs[:card_spec] && ! PageLayout.selected_label && LABELS.size != 0
           # current label non-existant
           label = LABELS.keys[0]
           puts "Non-existant label stock '#{Setting.plugin_redmine_backlogs[:card_spec]}' selected, replacing with random '#{label}'"
