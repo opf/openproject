@@ -295,7 +295,7 @@ RB.Model = (function ($) {
         // execute script tags, that were attached to the sources
         obj.$.filter('script').each(function () {
           try {
-            $.globalEval($(this).text());
+            $.globalEval($(this).html());
           }
           catch (e) {
           }
