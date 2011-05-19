@@ -4,7 +4,7 @@ class MeetingMinutes < MeetingContent
   acts_as_journalized :activity_type => 'meetings',
     :activity_permission => :view_meetings,
     :activity_find_options => {:include => {:meeting => :project}},
-    :event_title => Proc.new {|o| "#{l :label_meeting_agenda}: #{o.meeting.title}"},
+    :event_title => Proc.new {|o| "#{l :label_meeting_minutes}: #{o.meeting.title}"},
     :event_url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o.meeting}}
   
   def activity_type
