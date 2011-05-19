@@ -2,9 +2,9 @@
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
 
-<![if gt IE 8]>
+<!--[if gt IE 8]><!-->
 <%= link_to l(:label_statistics), {:action => 'stats', :id => @project}, :class => 'icon icon-stats' %> |
-<![endif]>
+<!--<![endif]-->
 
 <% form_tag({:action => controller.action_name, :id => @project, :path => to_path_param(@path), :rev => ''}, {:method => :get, :id => 'revision_selector'}) do -%>
   <!-- Branches Dropdown -->
