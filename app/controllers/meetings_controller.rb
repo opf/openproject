@@ -6,6 +6,7 @@ class MeetingsController < ApplicationController
   before_filter :convert_params, :only => [:create, :update]
   before_filter :authorize
   
+  helper :journals
   helper :watchers
   helper :meeting_contents
   include WatchersHelper
