@@ -14,10 +14,11 @@ Feature: Version Settings
         | login | padme |
     And there is a role "project admin"
     And the role "project admin" may have the following rights:
-        | manage_versions   |
+        | manage_versions     |
+        | view_master_backlog |
     And the user "padme" is a "project admin"
     And the project has the following sprints:
-        | name       | start_date | effective_date |
+        | name       | start_date        | effective_date |
         | Sprint 001 | 2010-01-01        | 2010-01-31     |
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
@@ -50,3 +51,14 @@ Feature: Version Settings
     When I select "right" from "version[version_settings_attributes][][display]"
     And I press "Save"
     Then I should be on the settings/versions page of the project called "ecookbook"
+
+  Scenario: There should be a version start date field
+    When I go to the edit page of the version called "Sprint 001"
+    Then there should be a "version_start_date" field within "#content form"
+
+  Scenario: former sprint_start_date and start_date are the same
+    When I go to the edit page of the version called "Sprint 001"
+    And I fill in "2010-01-20" for "version_start_date"
+    And I press "Save"
+    And I go to the master backlog of the project "ecookbook"
+    Then the start date of "Sprint 001" should be "2010-01-20"

@@ -216,3 +216,9 @@ end
 Then /^the error alert should show "(.+?)"$/ do |msg|
   Then %Q{I should see "#{msg}" within "#msgBox"}
 end
+
+Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
+  version = Version.find_by_name(sprint_name)
+
+  Then %Q{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
+end
