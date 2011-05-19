@@ -29,7 +29,7 @@ class RemoveSprintStartDate < ActiveRecord::Migration
 
     Version.reset_column_information
     Version.all.each do |version|
-      version.sprint_start_date = version.start_date
+      version.sprint_start_date = version.read_attribute(:start_date)
       version.save!
     end
   end
