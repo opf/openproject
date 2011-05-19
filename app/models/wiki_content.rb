@@ -23,6 +23,10 @@ class WikiContent < ActiveRecord::Base
   validates_presence_of :text
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
+  attr_accessor :comments
+  
+  before_save :comments_to_journal_notes
+
   acts_as_journalized :event_type => 'wiki-page',
     :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
     :event_url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}},
@@ -67,6 +71,12 @@ class WikiContent < ActiveRecord::Base
     last_journal.version
   end
 
+  private
+  
+  def comments_to_journal_notes
+    self.init_journal(author, comments)
+  end
+  
   # FIXME: This is for backwards compatibility only. Remove once we decide it is not needed anymore
   WikiContentJournal.class_eval do
     attr_protected :data
