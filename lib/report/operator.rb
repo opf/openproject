@@ -10,7 +10,7 @@ class Report::Operator
     # Defaults
     defaults do
 
-      def_delegators :'singleton_class', :enforced?, :enforce!, :enforced
+      def_delegators :'singleton_class', :forced?, :force!, :forced
 
       def sql_operator
         name
@@ -188,7 +188,7 @@ class Report::Operator
     end
 
     new ">=d", :label => :label_days_ago, :validate => :integers do
-      enforce! :integers
+      force! :integers
 
       def modify(query, field, value)
         now = Time.now
@@ -218,16 +218,16 @@ class Report::Operator
     end
   end
 
-  def self.enforce!(type)
-    @enforced = type
+  def self.force!(type)
+    @force = type
   end
 
-  def self.enforced?
-    !!@enforced
+  def self.forced?
+    !!@force
   end
 
-  def self.enforced
-    @enforced
+  def self.forced
+    @force
   end
 
   def self.new(name, values = {}, &block)

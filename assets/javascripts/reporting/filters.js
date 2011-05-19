@@ -145,13 +145,13 @@ Reporting.Filters = {
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
-    if (option_tag.getAttribute("data-enforced") !== undefined && option_tag.getAttribute("data-enforced") !== null) {
-      Reporting.Filters.enforce_type(option_tag);
+    if (option_tag.getAttribute("data-forced") !== undefined && option_tag.getAttribute("data-forced") !== null) {
+      Reporting.Filters.force_type(option_tag);
     };
   },
 
   // Overwrite to customize input enforcements
-  enforce_type: function (option) {
+  force_type: function (option) {
     true;
   },
 
