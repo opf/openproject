@@ -23,6 +23,15 @@
 
 <%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @meeting.agenda || @meeting.build_agenda, :content_type => "meeting_agenda"}, {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/show', :label => :label_meeting_minutes, :content => @meeting.minutes || @meeting.build_minutes, :content_type => "meeting_minutes"}] %>
 
+<% if @meeting.journals.present? %>
+<div id="history">
+  <h3><%=l(:label_history)%></h3>
+  <% @meeting.journals.each do |journal| %>
+    <%= render_journal @meeting, journal %>
+  <% end %>
+</div>
+<% end %>
+
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
 <% end %>
