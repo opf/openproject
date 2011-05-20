@@ -1,6 +1,6 @@
 class Widget::Controls::SaveAs < Widget::Controls
   def render
-    if @query.new_record?
+    if @subject.new_record?
       link_name = l(:button_save)
       icon = "icon-save"
     else
@@ -17,7 +17,7 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render_popup_form
     name = content_tag :p do
       label_tag(:query_name, l(:field_name)) +
-      text_field_tag(:query_name, @query.name)
+      text_field_tag(:query_name, @subject.name)
     end
     if @options[:can_save_as_public]
       box = content_tag :p do

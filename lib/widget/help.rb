@@ -6,15 +6,15 @@ class Widget::Help < Widget::Base
   dont_cache!
 
   def render
-    id = "tip:#{@query}"
+    id = "tip:#{@subject}"
     options = {:icon => {}, :tooltip => {}}
     options.merge!(yield) if block_given?
     sai = options[:show_at_id] ? ", show_at_id: '#{options[:show_at_id]}'" : ""
 
-    icon = tag :img, :src => image_path('icon_info_red.gif'), :id => "target:#{@query}"
-    tip = content_tag_string :div, l(@query), tip_config(options[:tooltip]), false
+    icon = tag :img, :src => image_path('icon_info_red.gif'), :id => "target:#{@subject}"
+    tip = content_tag_string :div, l(@subject), tip_config(options[:tooltip]), false
     script = content_tag :script,
-      "new Tooltip('target:#{@query}', 'tip:#{@query}', {className: 'tooltip'#{sai}});",
+      "new Tooltip('target:#{@subject}', 'tip:#{@subject}', {className: 'tooltip'#{sai}});",
       {:type => 'text/javascript'}, false
     target = content_tag :a, icon + tip, icon_config(options[:icon])
     write(target + script)
@@ -39,7 +39,7 @@ class Widget::Help < Widget::Base
         "tooltip"
       end
     end
-    options.mega_merge! :id => "tip:#{@query}", :class => add_class
+    options.mega_merge! :id => "tip:#{@subject}", :class => add_class
   end
 end
 

@@ -3,20 +3,20 @@ class Widget::Controls::QueryName < Widget::Controls
 
   def render
     options = { :id => "query_saved_name", "data-translations" => translations }
-    if @query.new_record?
+    if @subject.new_record?
       name = l(:label_new_report)
       icon = ""
     else
-      name = @query.name
+      name = @subject.name
       if @options[:can_rename]
         icon = content_tag :a, :href => "#", :class => 'breadcrumb_icon icon-edit',
         :id => "query-name-edit-button", :title => "#{l(:button_rename)}" do
           l(:button_rename)
         end
-        options["data-update-url"] = url_for(:action => "rename", :id => @query.id)
+        options["data-update-url"] = url_for(:action => "rename", :id => @subject.id)
       end
-      options["data-is_public"] = @query.is_public
-      options["data-is_new"] = @query.new_record?
+      options["data-is_public"] = @subject.is_public
+      options["data-is_new"] = @subject.new_record?
     end
     write(content_tag(:span, name, options) + icon)
   end

@@ -8,10 +8,10 @@ class Widget::Table::ReportTable < Widget::Table
   end
 
   def configure_query
-    if @query.depth_of(:row) == 0
-      @query.row(:singleton_value)
-    elsif @query.depth_of(:column) == 0
-      @query.column(:singleton_value)
+    if @subject.depth_of(:row) == 0
+      @subject.row(:singleton_value)
+    elsif @subject.depth_of(:column) == 0
+      @subject.column(:singleton_value)
     end
   end
 
@@ -83,7 +83,7 @@ class Widget::Table::ReportTable < Widget::Table
     walker.headers do |list, first, first_in_col, last_in_col|
       write '<tr>' if first_in_col
       if first
-        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+        write (content_tag :th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row) do
           ""
         end)
       end
@@ -95,7 +95,7 @@ class Widget::Table::ReportTable < Widget::Table
         end)
       end
       if first
-        write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row) do
+        write (content_tag :th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row) do
           ""
         end)
       end
@@ -110,7 +110,7 @@ class Widget::Table::ReportTable < Widget::Table
       if first_in_col
         write '<tr>'
         if first
-          write (content_tag :th, :rowspan => @query.depth_of(:column), :colspan => @query.depth_of(:row), :class => 'top' do
+          write (content_tag :th, :rowspan => @subject.depth_of(:column), :colspan => @subject.depth_of(:row), :class => 'top' do
             " "
           end)
         end
@@ -126,10 +126,10 @@ class Widget::Table::ReportTable < Widget::Table
       if last_in_col
         if first
           write (content_tag :th,
-          :rowspan => @query.depth_of(:column),
-          :colspan => @query.depth_of(:row),
+          :rowspan => @subject.depth_of(:column),
+          :colspan => @subject.depth_of(:row),
           :class => 'top result' do
-            show_result @query
+            show_result @subject
           end)
         end
         write '</tr>'
@@ -147,12 +147,12 @@ class Widget::Table::ReportTable < Widget::Table
   def debug_content
     content_tag :pre do
       debug_pre_content = "[ Query ]" +
-      @query.chain.each do |child|
+      @subject.chain.each do |child|
         "#{h child.class.inspect}, #{h child.type}"
       end
 
       debug_pre_content += "[ RESULT ]"
-      @query.result.recursive_each_with_level do |level, result|
+      @subject.result.recursive_each_with_level do |level, result|
         debug_pre_content += ">>> " * (level+1)
         debug_pre_content += h(result.inspect)
         debug_pre_content += "   " * (level+1)

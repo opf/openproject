@@ -1,6 +1,6 @@
 class Widget::Controls::Delete < Widget::Controls
   def render
-    return "" if @query.new_record? or !@options[:can_delete]
+    return "" if @subject.new_record? or !@options[:can_delete]
     button = link_to content_tag(:span, content_tag(:em, l(:button_delete), :class => "button-icon icon-delete")), "#",
           :class => 'button secondary',
           :id => 'query-icon-delete',
@@ -13,7 +13,7 @@ class Widget::Controls::Delete < Widget::Controls
             l(:button_delete)
           end
         end
-        opt1 =  link_to delete_button, url_for(:action => 'delete', :id => @query.id), :class => "button apply"
+        opt1 =  link_to delete_button, url_for(:action => 'delete', :id => @subject.id), :class => "button apply"
         opt2 = link_to l(:button_cancel), "#", :id => "query-icon-delete-cancel", :class => 'icon icon-cancel'
         opt1 + opt2
       end
