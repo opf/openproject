@@ -46,8 +46,7 @@ class Issue < ActiveRecord::Base
                                                 else
                                                   t << (IssueStatus.find_by_id(o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit')
                                                 end
-                                                t },
-                      :except => [:description]
+                                                t }
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',

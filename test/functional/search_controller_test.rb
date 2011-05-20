@@ -49,10 +49,10 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :q => 'issue', :issues => 1
     assert_response :success
     assert_template 'index'
-    
+
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
-    assert_tag :dt, :attributes => { :class => /issue closed/ },
+    assert_tag :dt, :attributes => { :class => /issue/ },
                     :child => { :tag => 'a',  :content => /Closed/ }
   end
   
