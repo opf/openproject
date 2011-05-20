@@ -82,7 +82,6 @@ class WikiController < ApplicationController
       end
     end
     @editable = editable?
-    render :action => 'show'
   end
   
   # edit an existing page or a new one
