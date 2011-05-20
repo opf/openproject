@@ -88,7 +88,7 @@ class WikiControllerTest < ActionController::TestCase
     page = Project.find(1).wiki.find_page('New page')
     assert !page.new_record?
     assert_not_nil page.content
-    assert_equal 'Created the page', page.content.comments
+    assert_equal 'Created the page', page.content.last_journal.notes
   end
   
   def test_create_page_with_attachments
@@ -128,7 +128,7 @@ class WikiControllerTest < ActionController::TestCase
     page = Wiki.find(1).pages.find_by_title('Another_page')
     assert_equal "edited", page.content.text
     assert_equal 2, page.content.version
-    assert_equal "my comments", page.content.comments
+    assert_equal "my comments", page.content.last_journal.notes
   end
 
   def test_update_page_with_failure
