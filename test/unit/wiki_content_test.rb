@@ -36,7 +36,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal 1, content.version
     assert_equal 1, content.versions.length
     assert_equal "Content text", content.text
-    assert_equal "My comment", content.comments
+    assert_equal "My comment", content.versions.last.notes
     assert_equal User.find(1), content.author
     assert_equal content.text, content.versions.last.text
   end
