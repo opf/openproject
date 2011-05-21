@@ -172,6 +172,7 @@ module Redmine
                   :anchor => ("note-#{journal.anchor}" unless journal.initial?) }
               end
             end
+            options[:type] ||= self.name.underscore.dasherize # Make sure the name of the journalized model and not the name of the journal is used for events
             { :description => :notes, :author => :user }.reverse_merge options
           end
       end

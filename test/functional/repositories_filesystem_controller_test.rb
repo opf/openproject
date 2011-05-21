@@ -37,7 +37,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     @repository = Repository::Filesystem.create(
                       :project => Project.find(PRJ_ID),
                       :url     => REPOSITORY_PATH,
-                      :path_encoding => ''
+                      :path_encoding => nil
                       )
     assert @repository
   end
