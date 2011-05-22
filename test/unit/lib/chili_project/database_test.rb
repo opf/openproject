@@ -36,7 +36,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     begin
       ChiliProject::Database.stubs(:adapter_name).returns "SQLite"
 
-      if RUBY_ENGINE == 'jruby'
+      if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
         # If we have the SQLite3 gem installed, save the old constant
         if Object.const_defined?('Jdbc') && Jdbc::SQLite3.const_defined?('SQLite3')
           sqlite3_version = Jdbc::SQLite3::VERSION
@@ -70,7 +70,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
       assert_equal "1.2.3", ChiliProject::Database.version(true)
     ensure
       # Clean up after us
-      if RUBY_ENGINE == 'jruby'
+      if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
         if created_module
           Jdbc.instance_eval{remove_const 'SQLite3' }
         elsif sqlite3_version
