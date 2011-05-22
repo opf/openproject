@@ -36,22 +36,53 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     begin
       ChiliProject::Database.stubs(:adapter_name).returns "SQLite"
 
-      # if we run the tests on sqlite, just stub the version method
-      if Object.const_defined? 'SQLite3'
-        SQLite3::Driver::Native::API.stubs(:sqlite3_libversion).returns "1.2.3"
+      if RUBY_ENGINE == 'jruby'
+        # If we have the SQLite3 gem installed, save the old constant
+        if Object.const_defined?('Jdbc') && Jdbc::SQLite3.const_defined?('SQLite3')
+          sqlite3_version = Jdbc::SQLite3::VERSION
+        # else create the module for this test
+        else
+          module ::Jdbc; module SQLite3; end ;end
+          created_module = true
+        end
+        silence_warnings { ::Jdbc::SQLite3.const_set('VERSION', "1.2.3") }
       else
-        # if we don't have any sqlite3 module, stub the whole module
-        module ::SQLite3; module Driver; module Native; module API
-          def self.sqlite3_libversion; "1.2.3"; end
-        end; end; end; end
-        created_stub = true
+        # If we run the tests on a newer SQLite3, stub the VERSION constant
+        if Object.const_defined?('SQLite3') && SQLite3.const_defined?('SQLITE_VERSION')
+          sqlite3_version = SQLite3::SQLITE_VERSION
+          silence_warnings { ::SQLite3.const_set('SQLITE_VERSION', "1.2.3") }
+        # On an older SQLite3, stub the C-provided sqlite3_libversion method
+        elsif %w(SQLite3 Driver Native API).inject(Object){ |m, defined|
+          m = (m && m.const_defined?(defined)) ? m.const_get(defined) : false
+        }
+          SQLite3::Driver::Native::API.stubs('sqlite3_libversion').returns "1.2.3"
+        # Fallback if nothing else worked: Stub the old SQLite3 API
+        else
+          # if we don't have any sqlite3 module, stub the whole module
+          module ::SQLite3; module Driver; module Native; module API
+            def self.sqlite3_libversion; "1.2.3"; end
+          end; end; end; end
+          created_module = true
+        end
       end
 
       assert_equal "1.2.3", ChiliProject::Database.version
       assert_equal "1.2.3", ChiliProject::Database.version(true)
     ensure
       # Clean up after us
-      Object.instance_eval{remove_const :SQLite3 } if created_stub
+      if RUBY_ENGINE == 'jruby'
+        if created_module
+          Jdbc.instance_eval{remove_const 'SQLite3' }
+        elsif sqlite3_version
+          silence_warnings { Jdbc::SQLite3.const_set('VERSION', sqlite3_version) }
+        end
+      else
+        if created_module
+          Object.instance_eval{remove_const 'SQLite3' }
+        elsif sqlite3_version
+          silence_warnings { SQLite3.const_set('SQLITE_VERSION', sqlite3_version) }
+        end
+      end
     end
   end
 
