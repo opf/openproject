@@ -4992,7 +4992,13 @@ var Form = {
         key = element.name; value = $(element).getValue();
         if (value != null && element.type != 'file' && (element.type != 'submit' || (!submitted &&
             submit !== false && (!submit || key == submit) && (submitted = true)))) {
-          result = accumulator(result, key, value);
+        	if (Object.isArray(value)){
+        		value.each(function(value) {
+        			result = accumulator(result, key, value);
+        		});
+        	} else {
+        		result = accumulator(result, key, value);
+        	}
         }
       }
       return result;
