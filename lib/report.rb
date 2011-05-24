@@ -1,10 +1,12 @@
 require 'forwardable'
 require 'proactive_autoloader'
+require 'engine'
 
 class Report < ActiveRecord::Base
   extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
+  include Engine
 
   belongs_to :user
   belongs_to :project
@@ -152,6 +154,10 @@ class Report < ActiveRecord::Base
     parts = [self.class.table_name.sub('_reports', '')]
     parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") }
     parts.join '/'
+  end
+
+  def self.engine
+    self
   end
 
   private
