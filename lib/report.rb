@@ -47,6 +47,21 @@ class Report < ActiveRecord::Base
     end
   end
 
+  # Convenience method to generate a params hash readable by Controller#determine_settings
+  def to_params
+    params = { :fields => [], :operators => {}, :values => {}, :groups => { :rows => [], :columns => [] } }
+    filters.each do |f|
+      filter_name = f.class.underscore_name
+      params[:fields] << filter_name
+      params[:operators].merge! filter_name => f.operator.to_s
+      params[:values].merge! filter_name => f.values
+    end
+    group_bys.each do |g|
+      params[:groups][g.row? ? :rows : :columns] << g.class.underscore_name
+    end
+    params
+  end
+
   ##
   # Migrates this report to look like the given report.
   # This may be used to alter report properties without
