@@ -138,12 +138,6 @@ class Widget::Table::ReportTable < Widget::Table
     write "</tfoot>"
   end
 
-  def render_xls_export
-    write (content_tag :div, :id => "result-formats", :style => "font-size: 14px; line-height: 2;" do
-      link_to l(:export_as_excel), :action => :index, :format => "xls"
-    end)
-  end
-
   def debug_content
     content_tag :pre do
       debug_pre_content = "[ Query ]" +
