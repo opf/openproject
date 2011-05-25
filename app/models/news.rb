@@ -25,7 +25,7 @@ class News < ActiveRecord::Base
   validates_length_of :summary, :maximum => 255
 
   acts_as_journalized :event_url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.journaled_id} }
-  acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"], :include => :project
+  acts_as_searchable :columns => ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"], :include => :project
   acts_as_watchable
   
   after_create :add_author_as_watcher
