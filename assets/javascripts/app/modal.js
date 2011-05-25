@@ -1,7 +1,7 @@
 /*jslint indent: 2, regexp: false */
 /*globals $, Control, Element, Class, window */
 var Backlogs = (function () {
-  var Modal, width, top, left;
+  var Modal, width;
 
   width = function () {
     var max = 800;
@@ -12,14 +12,6 @@ var Backlogs = (function () {
     else {
       return max;
     }
-  };
-
-  left = function () {
-    return (window.document.viewport.getWidth() - 800) / 2;
-  };
-
-  top = function () {
-    return 50;
   };
 
   Modal = Class.create(Control.Modal, {
@@ -39,13 +31,9 @@ var Backlogs = (function () {
     },
 
     fixPosition : function () {
-      var minTop, currentTop;
-      minTop = this.options.position[1];
-      currentTop = this.container.getStyle('top');
-      if (minTop && currentTop && currentTop.replace(/[^\d]*/g, '') === '0') {
-        minTop = Object.isFunction(minTop) ? minTop.call(this) : minTop;
-
-        this.container.setStyle({top: minTop + 'px'});
+      var currentTop = this.container.getStyle('top');
+      if (currentTop && currentTop.replace(/[^\d]*/g, '') === '0') {
+        this.container.setStyle({top: (window.document.viewport.getScrollOffsets().top + 50) + 'px'});
       }
     }
   });
@@ -56,7 +44,7 @@ var Backlogs = (function () {
       method:    'get',
       className: 'modal',
       fade:      true,
-      position:  [left, top],
+      position:  'center_once',
       width :    width
     },
 
