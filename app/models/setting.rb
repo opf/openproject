@@ -84,10 +84,6 @@ class Setting < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }  
-
-  # Hash used to cache setting values
-  @cached_settings = {}
-  @cached_cleared_on = Time.now
   
   def value
     v = read_attribute(:value)
@@ -104,16 +100,15 @@ class Setting < ActiveRecord::Base
   
   # Returns the value of the setting named name
   def self.[](name)
-    v = @cached_settings[name]
-    v ? v : (@cached_settings[name] = find_or_default(name).value)
+    Marshal.load(Rails.cache.fetch("chiliproject/setting/#{name}") {Marshal.dump(find_or_default(name).value)}).freeze
   end
   
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
-    @cached_settings[name] = nil
+    Rails.cache.delete "chiliproject/setting/#{name}"
     setting.save
-    setting.value
+    setting.value.freeze
   end
   
   # Defines getter and setter for each setting
@@ -150,10 +145,12 @@ class Setting < ActiveRecord::Base
   # Called once per request
   def self.check_cache
     settings_updated_on = Setting.maximum(:updated_on)
-    if settings_updated_on && @cached_cleared_on <= settings_updated_on
-      @cached_settings.clear
-      @cached_cleared_on = Time.now
-      logger.info "Settings cache cleared." if logger
+    cache_cleared_on = Rails.cache.read('chiliproject/setting-cleared_on')
+    cache_cleared_on = cache_cleared_on ? Marshal.load(cache_cleared_on) : Time.now
+    if settings_updated_on && cache_cleared_on <= settings_updated_on
+      Rails.cache.delete_matched( /^chiliproject\/setting\/.+$/ )
+      Rails.cache.write('chiliproject/setting-cleared_on', Marshal.dump(Time.now))
+      logger.info 'Settings cache cleared.' if logger
     end
   end
   

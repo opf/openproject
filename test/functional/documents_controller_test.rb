@@ -67,7 +67,7 @@ LOREM
   
   def test_new_with_one_attachment
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'document_added'
+    Setting.notified_events = Setting.notified_events.dup << 'document_added'
     @request.session[:user_id] = 2
     set_tmp_attachments_directory
     

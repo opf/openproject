@@ -67,7 +67,7 @@ class NewsControllerTest < ActionController::TestCase
   
   def test_post_create
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'news_added'
+    Setting.notified_events = Setting.notified_events.dup << 'news_added'
 
     @request.session[:user_id] = 2
     post :create, :project_id => 1, :news => { :title => 'NewsControllerTest',
