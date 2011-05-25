@@ -131,7 +131,7 @@ Control.Window = Class.create({
             height: null,
             width: null,
             className: false,
-            position: 'center', //'center', 'relative', [x,y], [function(){return x;},function(){return y;}]
+            position: 'center', //'center', 'center_once', 'relative', [x,y], [function(){return x;},function(){return y;}]
             offsetLeft: 0, //available only for anchors opening the window, or windows set to position: hover
             offsetTop: 0, //""
             iframe: false, //if the window has an href, this will display the href as an iframe instead of requesting the url as an an Ajax.Request
@@ -392,7 +392,7 @@ Control.Window = Class.create({
         Position.prepare();
         var offset_left = (Position.deltaX + Math.floor((viewport_dimensions.width - container_dimensions.width) / 2));
         var offset_top = (Position.deltaY + ((viewport_dimensions.height > container_dimensions.height) ? Math.floor((viewport_dimensions.height - container_dimensions.height) / 2) : 0));
-        if(this.options.position == 'center'){
+        if(this.options.position == 'center' || this.options.position == 'center_once'){
             this.container.setStyle({
                 top: (container_dimensions.height <= viewport_dimensions.height) ? ((offset_top != null && offset_top > 0) ? offset_top : 0) + 'px' : 0,
                 left: (container_dimensions.width <= viewport_dimensions.width) ? ((offset_left != null && offset_left > 0) ? offset_left : 0) + 'px' : 0
