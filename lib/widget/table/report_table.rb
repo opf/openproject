@@ -53,7 +53,6 @@ class Widget::Table::ReportTable < Widget::Table
     render_tfoot
     render_tbody
     write "</table>"
-    render_xls_export
   end
 
   def render_tbody
