@@ -169,7 +169,7 @@ END_DESC
     desc "Send a test email to the user with the provided login name"
     task :test, [:login] => :environment do |task, args|
       include Redmine::I18n
-      abort l(:notice_email_error, "Please include the user login to test with. Example: login=examle-login") if args[:login].blank?
+      abort l(:notice_email_error, "Please include the user login to test with. Example: login=example-login") if args[:login].blank?
 
       user = User.find_by_login(args[:login])
       abort l(:notice_email_error, "User #{args[:login]} not found") unless user && user.logged?
