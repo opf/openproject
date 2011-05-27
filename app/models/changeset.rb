@@ -26,7 +26,7 @@ class Changeset < ActiveRecord::Base
   acts_as_journalized :event_title => Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
                 :event_description => :long_comments,
                 :event_datetime => :committed_on,
-                :event_url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.revision}},
+                :event_url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}},
                 :activity_timestamp => "#{table_name}.committed_on",
                 :activity_find_options => {:include => [:user, {:repository => :project}]}
   acts_as_searchable :columns => 'comments',
