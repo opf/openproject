@@ -148,10 +148,15 @@ class Setting < ActiveRecord::Base
     cache_cleared_on = Rails.cache.read('chiliproject/setting-cleared_on')
     cache_cleared_on = cache_cleared_on ? Marshal.load(cache_cleared_on) : Time.now
     if settings_updated_on && cache_cleared_on <= settings_updated_on
-      Rails.cache.delete_matched( /^chiliproject\/setting\/.+$/ )
-      Rails.cache.write('chiliproject/setting-cleared_on', Marshal.dump(Time.now))
-      logger.info 'Settings cache cleared.' if logger
+      clear_cache
     end
+  end
+
+  # Clears all of the Setting caches
+  def self.clear_cache
+    Rails.cache.delete_matched( /^chiliproject\/setting\/.+$/ )
+    Rails.cache.write('chiliproject/setting-cleared_on', Marshal.dump(Time.now))
+    logger.info 'Settings cache cleared.' if logger
   end
   
 private
