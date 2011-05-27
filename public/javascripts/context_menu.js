@@ -85,9 +85,6 @@ ContextMenu.prototype = {
         }
       }
     }
-    else{
-      this.RightClick(e);
-    }
   },
   
   createMenu: function() {

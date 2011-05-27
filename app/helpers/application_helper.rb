@@ -60,6 +60,11 @@ module ApplicationHelper
       h(user.to_s)
     end
   end
+  
+  # Show a sorted linkified (if active) comma-joined list of users
+  def list_users(users, options={})
+    users.sort.collect{|u| link_to_user(u, options)}.join(", ")
+  end
 
   # Displays a link to +issue+ with its subject.
   # Examples:

@@ -1,0 +1,5 @@
+Description:
+    Generates a plugin model.
+
+Examples:
+    ./script/generate chiliproject_plugin_model MyPlugin pool title:string question:text

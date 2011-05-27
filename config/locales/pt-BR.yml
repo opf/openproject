@@ -972,17 +972,18 @@ pt-BR:
   button_collapse_all: Collapse all
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
   field_effective_date: Due date
-  label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
   text_powered_by: Powered by %{link}
-  label_mercurial_path: Root directory
   text_default_encoding: "Default: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
+  label_cvs_module: Módulo
+  label_filesystem_path: Diretório raiz
+  label_darcs_path: Diretório raiz
+  label_bazaar_path: Diretório raiz
+  label_git_path: Caminho para o diretório .git
+  label_mercurial_path: Diretório raiz
+

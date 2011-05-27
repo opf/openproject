@@ -482,6 +482,7 @@ sub get_project_identifier {
     
     my $location = $r->location;
     my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
+    $identifier =~ s/\.git$// if (defined $cfg->{RedmineGitSmartHttp} and $cfg->{RedmineGitSmartHttp});
     $identifier;
 }
 

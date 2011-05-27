@@ -1,0 +1,5 @@
+Description:
+    Generates a plugin controller.
+
+Example:
+    ./script/generate chiliproject_plugin_controller MyPlugin Pools index show vote
