@@ -87,10 +87,14 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       with_settings :repositories_encodings => 'UTF-16' do
         get :entry, :id => PRJ_ID, :path => ['japanese', 'utf-16.txt']
         assert_response :success
-        assert_tag :tag => 'th',
-                   :content => '2',
-                   :attributes => { :class => 'line-num' },
-                   :sibling => { :tag => 'td', :content => /japanese/ }
+
+        assert_select "tr" do
+          assert_select "th.line-num" do
+            assert_select "a", :text => /2/
+          end
+          assert_select "td", :content => /japanese/
+        end
+
       end
     end
 
