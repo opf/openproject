@@ -36,7 +36,7 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    assert_select "dt.issue" do
+    assert_select "dt.issue-edit" do
       assert_select "a", :text => /Add ingredients categories/
     end
     
