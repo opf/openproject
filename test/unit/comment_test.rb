@@ -33,7 +33,7 @@ class CommentTest < ActiveSupport::TestCase
   end
   
   def test_create_should_send_notification
-    Setting.notified_events << 'news_comment_added'
+    Setting.notified_events = Setting.notified_events.dup << 'news_comment_added'
     Watcher.create!(:watchable => @news, :user => @jsmith)
     
     assert_difference 'ActionMailer::Base.deliveries.size' do

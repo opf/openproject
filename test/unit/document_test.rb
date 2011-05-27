@@ -27,7 +27,7 @@ class DocumentTest < ActiveSupport::TestCase
   
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    Setting.notified_events << 'document_added'
+    Setting.notified_events = Setting.notified_events.dup << 'document_added'
     doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
 
     assert doc.save

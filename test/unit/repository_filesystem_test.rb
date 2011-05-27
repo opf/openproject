@@ -25,7 +25,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
 
   def setup
     @project = Project.find(3)
-    Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+    Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     assert @repository = Repository::Filesystem.create(
                             :project => @project, :url => REPOSITORY_PATH)
   end
