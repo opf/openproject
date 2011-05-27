@@ -22,7 +22,8 @@ require 'journals_controller'
 class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :enabled_modules
+  fixtures :projects, :users, :members, :member_roles, :roles, :issues, :journals, :journal_details, :enabled_modules,
+  :trackers, :issue_statuses, :enumerations, :custom_fields, :custom_values, :custom_fields_projects
 
   def setup
     @controller = JournalsController.new

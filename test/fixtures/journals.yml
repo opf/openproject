@@ -35,7 +35,11 @@ journals_003:
   user_id: 2
   notes: "A comment with inline image: !picture.jpg!"
   journaled_id: 2
-  changes: "--- {}"
+  changes: |
+    ---
+    custom_values_2:
+    - 'Old value'
+    - 'New value'
 journals_004:
   id: 4
   type: "IssueJournal"
