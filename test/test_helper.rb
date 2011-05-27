@@ -47,6 +47,10 @@ class ActiveSupport::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  def setup
+    super
+    Setting.clear_cache
+  end
   
   def log_user(login, password)
     User.anonymous
