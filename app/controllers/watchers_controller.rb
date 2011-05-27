@@ -76,23 +76,22 @@ private
   
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
-    if params[:replace].present?
-      if params[:replace].is_a? Array
-        replace_ids = params[:replace]
-      else
-        replace_ids = [params[:replace]]
-      end
-    else
-      replace_ids = ['watcher']
-    end
+
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
-        render(:update) do |page|
-          replace_ids.each do |replace_id|
-            page.replace_html replace_id, watcher_link(@watched, user, :replace => replace_ids)
+        if params[:replace].present?
+          if params[:replace].is_a? Array
+            @replace_selectors = params[:replace]
+          else
+            @replace_selectors = params[:replace].split(',').map(&:strip)
           end
+        else
+          @replace_selectors = ['#watcher']
         end
+        @user = user
+
+        render :action => 'replace_selectors'
       end
     end
   rescue ::ActionController::RedirectBackError

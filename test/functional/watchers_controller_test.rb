@@ -43,7 +43,8 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'issue', :object_id => '1'
       assert_response :success
-      assert_select_rjs :replace_html, 'watcher'
+      assert @response.body.include? "$$(\"#watcher\").each"
+      assert @response.body.include? "value.replace"
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -60,10 +61,22 @@ class WatchersControllerTest < ActionController::TestCase
   def test_watch_with_multiple_replacements
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => '1', :replace => ['watch_item_1','watch_item_2']
+      xhr :post, :watch, :object_type => 'issue', :object_id => '1', :replace => ['#watch_item_1','.watch_item_2']
       assert_response :success
-      assert_select_rjs :replace_html, 'watch_item_1'
-      assert_select_rjs :replace_html, 'watch_item_2'
+      assert @response.body.include? "$$(\"#watch_item_1\").each"
+      assert @response.body.include? "$$(\".watch_item_2\").each"
+      assert @response.body.include? "value.replace"
+    end
+  end
+
+  def test_watch_with_watchers_special_logic
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count') do
+      xhr :post, :watch, :object_type => 'issue', :object_id => '1', :replace => ['#watchers', '.watcher']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+      assert @response.body.include? "$$(\".watcher\").each"
+      assert @response.body.include? "value.replace"
     end
   end
   
@@ -72,7 +85,8 @@ class WatchersControllerTest < ActionController::TestCase
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'issue', :object_id => '2'
       assert_response :success
-      assert_select_rjs :replace_html, 'watcher'
+      assert @response.body.include? "$$(\"#watcher\").each"
+      assert @response.body.include? "value.replace"
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end
@@ -80,10 +94,23 @@ class WatchersControllerTest < ActionController::TestCase
   def test_unwatch_with_multiple_replacements
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
-      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2', :replace => ['watch_item_1', 'watch_item_2']
+      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2', :replace => ['#watch_item_1', '.watch_item_2']
       assert_response :success
-      assert_select_rjs :replace_html, 'watch_item_1'
-      assert_select_rjs :replace_html, 'watch_item_2'
+      assert @response.body.include? "$$(\"#watch_item_1\").each"
+      assert @response.body.include? "$$(\".watch_item_2\").each"
+      assert @response.body.include? "value.replace"
+    end
+    assert !Issue.find(1).watched_by?(User.find(3))
+  end
+
+  def test_unwatch_with_watchers_special_logic
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count', -1) do
+      xhr :post, :unwatch, :object_type => 'issue', :object_id => '2', :replace => ['#watchers', '.watcher']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+      assert @response.body.include? "$$(\".watcher\").each"
+      assert @response.body.include? "value.replace"
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end

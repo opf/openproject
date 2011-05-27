@@ -5,7 +5,7 @@
                           {:controller => 'messages', :action => 'new', :board_id => @board},
                           :class => 'icon icon-add',
                           :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-<%= watcher_tag(@board, User.current) %>
+  <%= watcher_link(@board, User.current) %>
 </div>
 
 <div id="add-message" style="display:none;">
