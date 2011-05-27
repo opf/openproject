@@ -66,6 +66,10 @@ require 'rdoc/usage'
 require 'find'
 require 'etc'
 
+# working around deprecation in RubyGems 1.6
+# needed for rails <2.3.9 only, don't merge to unstable!
+require 'thread'
+
 Version = "1.3"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 

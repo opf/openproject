@@ -1,0 +1,52 @@
+0.2.0 (22-05-2009)
+    * Defect #236: Icons (ticket__*.png) aren't referenced correctly
+    * Feature #243: Add support for Redmine Graphs plugin
+    * Feature #261: Add support for Redmine Bugcloud plugin
+    * Feature #262: Add support for Redmine Scrumdashboard plugin
+    * Feature #263: Add support for Redmine Code Review plugin
+    * Enhancement #230: Other font-family for header
+    * Enhancement #233: Change used Fugue-icon for Roadmap project-menu item
+    * Enhancement #255: Make image-references relative for sub-URI compatibility
+    * Enhancement #256: Fix upcoming change in supported Budget-plugin
+    * Enhancement #258: Fix upcoming change in supported Invoices-plugin
+    * Enhancement #259: Fix upcoming change in supported Scores-plugin
+    * Enhancement #260: Fix upcoming change in supported Simple-CI plugin
+    * Enhancement #267: Fix upcoming change in supported Todos plugin
+    * Task-HITDM #235: Update vendor source of the fugue icon-set to current release
+    * Task-HITDM #257: Clean-up and Fix project-menu declarations of supported plugins
+    * Task-HITDM #266: Remove unused images while creating the 0.2-release branch
+
+0.1.0 (21-03-2009)
+    * Defect #186: Project-menu icons aren't rendered after Redmine core rev2022
+    * Defect #187: Right-aligned columns on version-page have a white background instead of transparent
+    * Defect #193: There exists some cross-browser compatibility-errors on Presto-engine
+    * Defect #195: Some faulty references to non-existing images exists due to typos
+    * Defect #196: Fix overflow of the content
+    * Defect #199: Issue-journals should be displayed *behind* the related-revisions block, not below it
+    * Defect #207: Several PNG-images are rendered with a white background, disrupting the nice gray-gradient
+    * Defect #208: Fix the rendering of the note-icon when inline-editing an issue-journal
+    * Defect #211: After r40 unordered lists inside the issue-journal comment are smaller-sized too
+    * Defect #212: Issue-journal comment note-icons rendered for all paragraphs instead of the first only
+    * Defect #213: After r37 the context-menu item-links are rendered as bold; should be normal
+    * Defect #228: After r6 selected project-menu tabs aren't highlighted anymore
+    * Feature #210: Add specific declarations for third-party plugins
+    * Feature #229: Add KHTML-support for rounded-borders on the first & last project-menu items
+    * Enhancement #190: Improve link-visibility globally
+    * Enhancement #191: Refactor the styling of the issue-journals
+    * Enhancement #192: Modify (overall) font-sizes to make the UI more consistent
+    * Enhancement #194: Sidebar should have a bit more width
+    * Enhancement #198: Overrule bordered-table styles imported from the Alternate-theme
+    * Enhancement #214: Project-menu overflows the right border when lots of modules are enabled on a project
+    * Enhancement #223: Improve icon-declarations
+    * Task-HITDM #188: Remove project-body headers introduced by Squeejee based on a core-hack
+    * Task-HITDM #189: Undue the theme from dependency on (import of) the Alternate-theme
+    * Task-HITDM #200: Remove unused images from release
+    * Task-HITDM #201: Clean CSS-styles coding
+    * Task-HITDM #205: 0.1.0 Release QA
+    * Task-HITDM #209: CSS-Code Cleanup (round 2)
+    * Task-HITDM #215: Update vendor source of the fugue icon-set to 1.4.6
+    * Task-HITDM #224: Update vendor source of the fugue icon-set to 1.4.7
+    * Task-HITDM #226: Fix issues found in 0.1.0 Release QA-Sprint/2 (#205)
+
+0.0.0
+    Initial source by Wynn Netherland as of 20-11-2008

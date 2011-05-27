@@ -945,24 +945,24 @@ pt-BR:
   setting_default_notification_option: Opção padrão de notificação
   label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
   label_user_mail_option_only_assigned: Somente para as coisas que estejam atribuídas a mim
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  label_user_mail_option_none: Sem eventos
+  field_member_of_group: Grupo do responsável
+  field_assigned_to_role: Papel do responsável
+  notice_not_authorized_archived_project: O projeto que você está tentando acessar foi arquivado.
+  label_principal_search: "Pesquisar por usuários ou grupos:"
+  label_user_search: "Pesquisar por usuário:"
+  field_visible: Visível
+  setting_emails_header: Cabeçalho do e-mail
+  setting_commit_logtime_activity_id: Atividade para registrar horas
+  text_time_logged_by_changeset: Aplicado no changeset %{value}.
+  setting_commit_logtime_enabled: Habilitar registro de horas
+  notice_gantt_chart_truncated: O gráfico foi cortado por exceder o tamanho máximo de linhas que podem ser exibidas (%{max})
+  setting_gantt_items_limit: Número máximo de itens exibidos no gráfico gatt
   text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
+  label_cvs_module: Módulo
+  label_filesystem_path: Diretório raiz
+  label_darcs_path: Diretório raiz
+  label_bazaar_path: Diretório raiz
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
+  label_git_path: Caminho para o diretório .git
+  label_mercurial_path: Diretório raiz

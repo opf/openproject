@@ -90,7 +90,12 @@ private
       format.js do
         render(:update) do |page|
           replace_ids.each do |replace_id|
-            page.replace_html replace_id, watcher_link(@watched, user, :replace => replace_ids)
+            case replace_id
+            when 'watchers'
+              page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
+            else
+              page.replace_html replace_id, watcher_link(@watched, user, :replace => replace_ids)
+            end
           end
         end
       end

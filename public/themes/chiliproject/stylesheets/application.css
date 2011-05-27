@@ -1,0 +1,959 @@
+/* Load the default Redmine stylesheet */
+@import url(../../../stylesheets/application.css);
+
+body {
+    font-size: 81%;
+    font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+    background: #333 url(../images/bottom_shine.png) bottom left repeat-x;
+}
+
+/*
+* Links
+*/
+a, a:link, a:visited {
+    color: #8c8c8c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #b3b3b3;
+    text-decoration: underline;
+}
+
+/*
+* Layout
+*/
+#wrapper,
+#main,
+#footer {
+    background: none;
+}
+
+#main {
+    margin: 0;
+}
+
+#content {
+    margin: 1em 1.4em 1em 1em;
+    width: 77%;
+    overflow: auto;
+    background: #fff url(../images/shadow_top.png) top left repeat-x;
+    border-top: solid 1px #fff;
+    border-right: solid 1px #fff;
+    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,.8);
+}
+
+/*
+* Top-menu
+*/
+#top-menu {
+    background: #000 url(../images/bottom_shine.png) bottom left repeat-x;
+}
+
+#top-menu {
+    padding: 1em 1em 0em 1em;
+    color: #999;
+    font-family: Verdana, sans-serif;
+}
+
+#top-menu #loggedas {
+    color: #ccc;
+}
+
+#top-menu a {
+    font-weight: bold;
+    color: #999;
+}
+
+#top-menu a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+/*
+* Header
+*/
+#header {
+    background: #000 url(../images/bottom_shine.png) bottom left repeat-x;
+    padding: 0.5em 1em 2.3em 1em;
+}
+
+#header > h1 {
+    font-family: Verdana, sans-serif;
+}
+
+/*
+* Project-menu
+*/
+/* Prevent the project-menu to overflow into right, instead continue on a new line */
+#main-menu {
+    right: 6px;
+    margin-right: 0;
+}
+
+/* Project-menu link containers (ul > li == tab) */
+#main-menu li {
+    background: #111 url(../images/bottom_shine.png) 0px -40px repeat-x;
+    border: solid 1px #333;
+    border-width: 1px 1px 0px 0px;
+    font-size: 1.00em;
+    font-family: "Myriad Pro", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* Project-menu links (ul > li > a == textlink) */
+#main-menu li a,
+#main-menu li a.selected,
+#main-menu li a:hover {
+    text-decoration: none;
+    line-height: 20px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.8);
+}
+
+
+#main-menu li a,
+#main-menu li a:hover {
+    background: none;
+    color: #aaa;
+    padding: 5px 10px 5px 10px;
+    font-weight: normal;
+}
+
+#main-menu li a.selected,
+#main-menu li a.selected:hover {
+    background: #222 url(../images/bottom_shine.png) 0px -36px repeat-x;
+    border-color: #444;
+    color: #d5d5d5;
+    font-weight: bold;
+}
+
+#main-menu li:hover {
+    background: #333 url(../images/bottom_shine.png) 0px -40px repeat-x;
+    border-color: #555;
+}
+
+#main-menu li:hover a {
+    color: #fff;
+}
+
+/* Project-menu first/last tab roundings (for KHTML [Konqueror], Gecko [Mozilla] and WebKit [Safari/Chrome]) */
+#main-menu li:first-child  {
+    -khtml-border-radius-topleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+}
+
+#main-menu li:last-child {
+    -khtml-border-radius-topright: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+
+/* Redmine core project-menu links */
+#main-menu li a.overview,
+#main-menu li a.overview:hover {
+    background: url(../images/fugue/document-text-image.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.activity,
+#main-menu li a.activity:hover {
+    background: url(../images/fugue/lightning.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.roadmap,
+#main-menu li a.roadmap:hover {
+    background: url(../images/fugue/map-pin.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.issues,
+#main-menu li a.issues:hover {
+    background: url(../images/fugue/ticket.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.new-issue,
+#main-menu li a.new-issue:hover {
+    background: url(../images/fugue/ticket--plus.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.news,
+#main-menu li a.news:hover {
+    background: url(../images/fugue/newspaper.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.documents,
+#main-menu li a.documents:hover {
+    background: url(../images/fugue/documents-text.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.wiki,
+#main-menu li a.wiki:hover {
+    background: url(../images/fugue/document-horizontal-text.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.boards,
+#main-menu li a.boards:hover {
+    background: url(../images/fugue/balloons.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.files,
+#main-menu li a.files:hover {
+    background: url(../images/fugue/document-zipper.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.repository,
+#main-menu li a.repository:hover {
+    background: url(../images/fugue/safe.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+#main-menu li a.settings,
+#main-menu li a.settings:hover {
+    background: url(../images/fugue/equalizer.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Third-party project-menu links */
+
+/*************************************************************************
+THIRD-PARTY DECLARATIONS FOR PROJECT-MENU LINKS  -  START
+*************************************************************************/
+/* Budget plugin */
+    /* > 0.2.0 */
+#main-menu li a.deliverables,
+#main-menu li a.deliverables:hover,
+    /* <= 0.2.0 */
+#main-menu li a.budget,
+#main-menu li a.budget:hover {
+    background: url(../images/fugue/money--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Bugcloud plugin */
+#main-menu li a.bugcloud,
+#main-menu li a.bugcloud:hover {
+    background: url(../images/fugue/tags-label.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Burndowns plugin */
+#main-menu li a.burndown,
+#main-menu li a.burndown:hover {
+    background: url(../images/fugue/burn.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Charts plugin */
+#main-menu li a.charts,
+#main-menu li a.charts:hover {
+    background: url(../images/fugue/monitor.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Code Review plugin */
+#main-menu li a.code-review,
+#main-menu li a.code-review:hover {
+    background: url(../images/fugue/ruler--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Customer plugin */
+#main-menu li a.customers,
+#main-menu li a.customers:hover {
+    background: url(../images/fugue/user-business.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Embedded plugin */
+#main-menu li a.embedded,
+#main-menu li a.embedded:hover {
+    background: url(../images/fugue/layout-select-content.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* EzFAQ plugin */
+#main-menu li a.ezfaq,
+#main-menu li a.ezfaq:hover {
+    background: url(../images/fugue/question-balloon.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* EzLibrarian plugin */
+    /* > 0.0.2 (AKA EzLibrarian) */
+#main-menu li a.treasures,
+#main-menu li a.treasures:hover {
+    background: url(../images/fugue/trophy.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+    /* <= 0.0.2 (AKA EzBookshelf) */
+#main-menu li a.books,
+#main-menu li a.books:hover {
+    background: url(../images/fugue/books-stack.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Google Calendar plugin */
+#main-menu li a.google-calendar,
+#main-menu li a.google-calendar:hover {
+    background: url(../images/fugue/calendar-month.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Invoice plugin */
+    /* > 0.1.0 */
+#main-menu li a.invoice,
+#main-menu li a.invoice:hover,
+    /* <= 0.1.0 */
+#main-menu li a.Invoices,
+#main-menu li a.Invoices:hover {
+    background: url(../images/fugue/notebooks--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Schedules plugin */
+#main-menu li a.schedules,
+#main-menu li a.schedules:hover {
+    background: url(../images/fugue/report--exclamation.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Scores plugin */
+    /* > 0.0.1 */
+#main-menu li a.scores,
+#main-menu li a.scores:hover,
+    /* <= 0.0.1 */
+#main-menu li a.Scores,
+#main-menu li a.Scores:hover {
+    background: url(../images/fugue/ui-progress-bar.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Scrum plugin */
+#main-menu li a.scrum,
+#main-menu li a.scrum:hover {
+    background: url(../images/fugue/projection-screen--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Scrumdashboard plugin */
+#main-menu li a.dashboard,
+#main-menu li a.dashboard:hover {
+    background: url(../images/fugue/dashboard--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Simple CI plugin */
+    /* > 1.0 */
+#main-menu li a.simple-ci,
+#main-menu li a.simple-ci:hover,
+    /* <= 1.0 */
+#main-menu li a.Integration,
+#main-menu li a.Integration:hover {
+    background: url(../images/fugue/pill--exclamation.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Status Updates plugin */
+    /* Initial release by Brian Terlson and fork by Eric Davis*/
+#main-menu li a.Status.Updates,
+#main-menu li a.Status.Updates:hover,
+    /* Fork by Joe Naha */
+#main-menu li a.statuses,
+#main-menu li a.statuses:hover {
+    background: url(../images/fugue/tick-shield.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Tab plugin */
+#main-menu li a.tab,
+#main-menu li a.tab:hover {
+    background: url(../images/fugue/layout-2.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Taskboard plugin */
+#main-menu li a.task-board,
+#main-menu li a.task-board:hover {
+    background: url(../images/fugue/dashboard--pencil.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+
+/* Todo-lists plugin */
+    /* > 0.0.3.4 */
+#main-menu li a.todos,
+#main-menu li a.todos:hover,
+    /* <= 0.0.3.4 */
+#main-menu li a.todo-lists,
+#main-menu li a.todo-lists:hover {
+    background: url(../images/fugue/hammer--arrow.png) 6px center no-repeat;
+    padding-left: 26px;
+}
+/*************************************************************************
+THIRD-PARTY DECLARATIONS FOR PROJECT-MENU LINKS  -  END
+*************************************************************************/
+
+/* Project-menu tab highlight when link == the selected page (has the class .selected) */
+#main-menu li a.selected {
+    background-color: #333;
+}
+
+/*
+* Headings
+*/
+h1, h2, h3, h4, h5 {
+    font-family: "Myriad Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+}
+
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {
+    border-bottom: none;
+}
+
+/*
+* Footer
+*/
+#footer {
+    border: none;
+}
+
+#footer a {
+    color: #ccc;
+    font-weight: normal;
+}
+
+#footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/*
+* Sidebar
+*/
+#sidebar h1, #sidebar h2, #sidebar h3, #sidebar h4, #sidebar h5 {
+    color: #efefef;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.8);
+}
+
+#sidebar {
+    color: #ccc;
+    width: 19%;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.6);
+}
+
+#sidebar a {
+    color: #aaa;
+    font-weight: normal;
+}
+
+/*
+* Generic Tables
+*/
+/* Table headers */
+table.list thead th {
+    background: #ccc url(../images/shadow_top.png) left center repeat-x;
+    font-size: 0.94em;
+    border-color: #999;
+    border-color: #d5d5d5 #d5d5d5 #aaa;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* Table header links */
+table.list thead th a,
+table.list thead th a:hover {
+    color: #444;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+    border: none;
+}
+
+table.list thead th a:hover {
+    color: #ddd;
+}
+
+/* Table data (cells) */
+table.list td {
+    background-image: url(../images/shadow_top.png);
+    background-repeat: repeat-x;
+    background-position: 0px -65px;
+    vertical-align: middle;
+    font-size: 0.94em;
+}
+
+/*
+* Issue-List Tables
+*/
+/* Table-row links */
+table.list tr.issue a {
+    color: #666;
+}
+
+table.list tr.issue a:hover {
+    color: #999;
+    border-bottom: dotted 1px #999;
+    text-decoration: none;
+}
+
+/* Table-row colouring by priority (styles provided by Wynn Netherland) */
+tr.odd.priority-5, table.list tbody tr.odd.priority-5:hover { color: #900; font-weight: bold; }
+tr.odd.priority-5 { background: #ffc4c4; }
+tr.even.priority-5, table.list tbody tr.even.priority-5:hover { color: #900; font-weight: bold; }
+tr.even.priority-5 { background: #ffd4d4; }
+tr.priority-5 a, tr.priority-5:hover a { color: #900; }
+tr.odd.priority-5 td, tr.even.priority-5 td { border-color: #ffb4b4; }
+
+tr.odd.priority-4, table.list tbody tr.odd.priority-4:hover { color: #900; }
+tr.odd.priority-4 { background: #ffc4c4; }
+tr.even.priority-4, table.list tbody tr.even.priority-4:hover { color: #900; }
+tr.even.priority-4 { background: #ffd4d4; }
+tr.priority-4 a { color: #900; }
+tr.odd.priority-4 td, tr.even.priority-4 td { border-color: #ffb4b4; }
+
+tr.odd.priority-3, table.list tbody tr.odd.priority-3:hover { color: #900; }
+tr.odd.priority-3 { background: #fee; }
+tr.even.priority-3, table.list tbody tr.even.priority-3:hover { color: #900; }
+tr.even.priority-3 { background: #fff2f2; }
+tr.priority-3 a { color: #900; }
+tr.odd.priority-3 td, tr.even.priority-3 td { border-color: #fcc; }
+
+tr.odd.priority-1, table.list tbody tr.odd.priority-1:hover { color: #559; }
+tr.odd.priority-1 { background: #eaf7ff; }
+tr.even.priority-1, table.list tbody tr.even.priority-1:hover { color: #559; }
+tr.even.priority-1 { background: #f2faff; }
+tr.priority-1 a { color: #559; }
+tr.odd.priority-1 td, tr.even.priority-1 td { border-color: #add7f3; }
+
+/* Table-row link-colouring by priority (respecting the table-row colouring styles above) */
+table.list tr.priority-5 a,
+table.list tr.priority-4 a,
+table.list tr.priority-3 a { color: #900; }
+
+table.list tr.priority-1 a { color: #559; }
+
+/*
+* Progressbars
+*/
+/* Generic progressbars */
+table.progress td.todo,
+table.progress td.done,
+table.progress td.closed {
+    background: #666 url(../images/middle_shine.png) left center repeat-x;
+    height: 25px;
+    border: none;
+}
+
+table.progress td.todo {
+    background: #fff;
+}
+
+table.progress td.done {
+    background-color: #37b3ff;
+}
+
+table.progress td.closed {
+    background-color: #2187C6;
+}
+
+/* Issuelist progressbars */
+table.list table.progress td {
+    height: 15px;
+}
+
+p.pourcent {
+    font-size: 1.25em;
+}
+
+/*
+* Icons
+*/
+.icon {
+    background-position: left top;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+    line-height: 16px;
+    margin-left: 5px;
+}
+
+.icon22 {
+    background-position: 0% 40%;
+    background-repeat: no-repeat;
+    padding-left: 26px;
+    line-height: 22px;
+    vertical-align: middle;
+}
+
+/* Icons replaced by Fugue icons */
+.icon-add { background-image: url(../images/fugue/plus-small.png); }
+.icon-edit { background-image: url(../images/fugue/pencil-small.png); }
+.icon-copy { background-image: url(../images/fugue/documents.png); }
+.icon-del { background-image: url(../images/fugue/ticket--minus.png); }
+.icon-move { background-image: url(../images/fugue/ticket--arrow.png); }
+.icon-save { background-image: url(../images/fugue/disk-black.png); }
+.icon-cancel { background-image: url(../images/fugue/arrow.png); }
+
+.icon-time { background-image: url(../images/fugue/clock.png); }
+.icon-time-add { background-image: url(../images/fugue/clock--plus.png); }
+
+.icon-fav { background-image: url(../images/fugue/star.png); }
+.icon-fav-off { background-image: url(../images/fugue/star-empty.png); }
+
+/* Icons not replaced by Fugue icons
+.icon-file { background-image: url(/images/file.png); }
+.icon-folder { background-image: url(/images/folder.png); }
+.open .icon-folder { background-image: url(/images/folder_open.png); }
+.icon-package { background-image: url(/images/package.png); }
+.icon-home { background-image: url(/images/home.png); }
+.icon-user { background-image: url(/images/user.png); }
+.icon-mypage { background-image: url(/images/user_page.png); }
+.icon-admin { background-image: url(/images/admin.png); }
+.icon-projects { background-image: url(/images/projects.png); }
+.icon-help { background-image: url(/images/help.png); }
+.icon-attachment { background-image: url(/images/attachment.png); }
+.icon-index { background-image: url(/images/index.png); }
+.icon-history { background-image: url(/images/history.png); }
+.icon-stats { background-image: url(/images/stats.png); }
+.icon-warning { background-image: url(/images/warning.png); }
+.icon-reload { background-image: url(/images/reload.png); }
+.icon-lock { background-image: url(/images/locked.png); }
+.icon-unlock { background-image: url(/images/unlock.png); }
+.icon-checked { background-image: url(/images/true.png); }
+.icon-details { background-image: url(/images/zoom_in.png); }
+.icon-report { background-image: url(/images/report.png); }
+.icon-comment { background-image: url(/images/comment.png); }
+
+.icon22-projects { background-image: url(/images/22x22/projects.png); }
+.icon22-users { background-image: url(/images/22x22/users.png); }
+.icon22-tracker { background-image: url(/images/22x22/tracker.png); }
+.icon22-role { background-image: url(/images/22x22/role.png); }
+.icon22-workflow { background-image: url(/images/22x22/workflow.png); }
+.icon22-options { background-image: url(/images/22x22/options.png); }
+.icon22-notifications { background-image: url(/images/22x22/notifications.png); }
+.icon22-authent { background-image: url(/images/22x22/authent.png); }
+.icon22-info { background-image: url(/images/22x22/info.png); }
+.icon22-comment { background-image: url(/images/22x22/comment.png); }
+.icon22-package { background-image: url(/images/22x22/package.png); }
+.icon22-settings { background-image: url(/images/22x22/settings.png); }
+.icon22-plugin { background-image: url(/images/22x22/plugin.png); }
+*/
+
+/*
+* Buttons
+*/
+input[type="button"], input[type="submit"], input[type="reset"] {
+    background-color: #f2f2f2;
+    color: #222222;
+    border: 1px outset #cccccc;
+}
+input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+    background-color: #ccccbb;
+}
+
+/*
+* Fields
+*/
+input[type="text"], textarea, select {
+    padding: 2px;
+    border: 1px solid #d7d7d7;
+}
+input[type="text"] {
+    padding: 3px;
+}
+input[type="text"]:focus, textarea:focus, select:focus {
+    border: 1px solid #888866;
+}
+
+/*
+* Boxes
+*/
+div.box {
+    border: none;
+    background: none;
+}
+
+/*
+* Quicksearch
+*/
+div#quick-search a {
+    padding-left: 20px;
+    background: url(../images/fugue/magnifier-left.png) left center no-repeat;
+    font-weight: normal;
+}
+
+/*
+* Issue Journals
+*/
+/* Issue-history (journal) UL for issue-field changes*/
+#history ul {
+    list-style: disc;
+    margin-top: 8px;
+    margin-left: 14px;
+    padding-left: 20px;
+    font-size: 94%;
+}
+
+/* Issue-history comment UL font-size reset*/
+#history .wiki > ul {
+    font-size: inherit; /* back to 81% to workaround the 94% of #history ul */
+}
+
+/* Generic Issue-journals */
+#history .journal {
+    border-bottom: solid 1px #d5d5d5;
+    padding-bottom: 14px;
+}
+
+/* Issue-journal paragraphs */
+#history .journal p {
+    margin-bottom: 8px;
+}
+
+/* Issue-journals, first paragraph after .contextual, note-image insertion */
+#history .journal .contextual + p:before {   /* Not on <= IE7 */
+    vertical-align: -12%;
+    padding-right: 5px;
+    content: url(../images/fugue/sticky-note.png);
+}
+
+/* Fixes for issue-journals when editing them inline */
+#history .journal > form > p {
+    padding-left: 0px;
+    background: none;
+}
+
+/*
+* Roadmap versions
+*/
+div#version-summary {
+    background: transparent;
+}
+
+/*
+* Issue-report zoom-images
+*/
+div.nosidebar#main > div#content > div.splitcontentleft > h3,
+div.nosidebar#main > div#content > div.splitcontentright > h3 {
+    margin-top: 15px;
+}
+
+/*
+* Repository-browser
+*/
+table#browser tr td.filename a {
+    color: #666;
+    font-weight: normal;
+}
+
+table#browser tr td.filename a:hover {
+    color: #b3b3b3;
+}
+
+/*
+* Repository-statistics images
+*/
+div.nosidebar#main > div#content embed {
+    display: block;
+    margin-top: 28px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+* Context-menu
+*/
+/* Context-menu link font-weight ("a:hover {color:xxx;}" isn't settable...) */
+#context-menu a {
+    font-weight: normal;
+}
+
+/*************************************************************************
+THIRD-PARTY DECLARATIONS FOR NON PROJECT-MENU ITEMS  -  START
+*************************************************************************/
+/* Burndowns plugin */
+div#main > div#content > p > img {
+    display: block;
+    margin-top: 28px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Charts plugin */
+div#main > div#content > div.splitcontentright > object {
+    margin-top: 28px;
+}
+
+/* Google-Calendar & Tab plugin */
+div#main > div#content > iframe {
+    display: block;
+    margin-top: 28px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Graphs plugin */
+div#main > div#content > embed {
+    margin-top: 28px;
+    margin-bottom: 20px;
+}
+
+div.nosidebar#main > div#content > fieldset#target_version_graph > embed {
+    margin-top: 0px;
+}
+
+/* Taskboard plugin */
+#task_board tr > td {
+    height: 0.75em;
+}
+/*************************************************************************
+THIRD-PARTY DECLARATIONS FOR NON PROJECT-MENU ITEMS  -  END
+*************************************************************************/
+
+
+/*************************************************************************
+Custom tweaks based on other themes
+*************************************************************************/
+
+body {background: white; }
+#top-menu {background-color: white; color: black; }
+#top-menu a {color: black; }
+#top-menu a:hover {color: black; text-decoration: underline; text-shadow: 1px 1px 1px rgba(0,0,0,.5); }
+#header {background: none; color: black; }
+#header a {color: black; }
+#top-menu #loggedas { color: black; }
+
+#content {  background-image: none; border: 1px solid #000; -webkit-box-shadow: 2px 2px 4px rgba(0,0,0,.8); }
+
+#content > h2 {font-size: 3em; text-shadow: 1px 1px 1px rgba(0,0,0,.5); background-color: #EDF3FE; margin: -6px -10px 10px -15px; padding: 10px 20px; } /* Title of the content section */
+#main { background: white; }
+#sidebar { padding-top: 20px; } /* lower the text below any content headers */
+#sidebar, #sidebar h1, #sidebar h2, #sidebar h3, #sidebar h4, #sidebar h5 { color: #666; text-shadow: none; }
+#sidebar a { color: #000000; }
+
+#footer, #footer a { color: #AAAAAA;}
+#footer a { color: #888888; }
+#footer a:hover { color: #888888; text-decoration: underline; }
+
+
+
+/**** Project menus ****/
+/* Link color */
+#main-menu li a {color: #222222;}
+#main-menu li a.selected {color: #111111;}
+#main-menu li a:hover, #main-menu li a.selected:hover {color: #000000;}
+
+/* Background */
+#main-menu li {background-color: #FFFFFF; border-color: #DDDDDD; border-width: 1px 1px 1px 1px; }
+#main-menu li:hover {background-color: #DDDDDD;}
+#main-menu li a, #main-menu li a:hover {}
+#main-menu li a.selected, #main-menu li a.selected:hover {background-color: #EEEEEE;}
+
+#main-menu li a, #main-menu li a.selected, #main-menu li a:hover {text-shadow: none;} /* Remove drop shadow */
+
+#top-menu { border-bottom: 2px solid #FF4719; }
+
+/* Project-menu first/last tab bottom roundings (for KHTML [Konqueror], Gecko [Mozilla] and WebKit [Safari/Chrome]) */
+#main-menu li:first-child  {
+    -khtml-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+}
+
+#main-menu li:last-child {
+    -khtml-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+}
+
+/*************************************************************************
+Additional wiki styles
+*************************************************************************/
+
+.button {
+  padding-left: .25em;
+  padding-right: .25em;
+  background:#507aaa;
+  color: white;
+  font-weight: bold;
+}
+
+.wiki p.see-also,    .wiki p.caution,    .wiki p.important,    .wiki p.info,    .wiki p.tip,    .wiki p.note,
+.wiki span.see-also, .wiki span.caution, .wiki span.important, .wiki span.info, .wiki span.tip, .wiki span.note {
+  display: block;
+  margin-top: .5em;
+  margin-bottom: .5em;
+
+  padding: 4px 4px 4px 48px;
+  min-height: 33px;
+}
+.wiki p.smallsee-also,    .wiki p.smallcaution,    .wiki p.smallimportant,    .wiki p.smallinfo,    .wiki p.smalltip,    .wiki p.smallnote,
+.wiki span.smallsee-also, .wiki span.smallcaution, .wiki span.smallimportant, .wiki span.smallinfo, .wiki span.smalltip, .wiki span.smallnote {
+  display: block;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  
+  padding: 4px 4px 4px 34px;
+  min-height: 24px;
+}
+
+.wiki p.see-also, .wiki span.see-also {
+  background: url(../images/wiki_styles/see-also.png) 4px 4px no-repeat #f5fffa;
+  border: 1px solid #AAB1AD;
+}
+.wiki p.smallsee-also, .wiki span.smallsee-also {
+  background: url(../images/wiki_styles/see-also_small.png) 4px 4px no-repeat #f5fffa;
+  border: 1px solid #AAB1AD;
+}
+
+.wiki p.caution, .wiki span.caution {
+  background: url(../images/wiki_styles/caution.png) 4px 6px no-repeat #f5fffa;
+  border: 1px solid #AAB1AD;
+}
+.wiki p.smallcaution, .wiki span.smallcaution {
+  background: url(../images/wiki_styles/caution_small.png) 4px 4px no-repeat #f5fffa;
+  border: 1px solid #AAB1AD;
+}
+
+.wiki p.important, .wiki span.important {
+  background: url(../images/wiki_styles/important.png) 4px 7px no-repeat #F0F8FF;
+  border: 1px solid #C1C8CF;
+}
+.wiki p.smallimportant, .wiki span.smallimportant {
+  background: url(../images/wiki_styles/important_small.png) 4px 6px no-repeat #F0F8FF;
+  border: 1px solid #C1C8CF;
+}
+
+.wiki p.info, .wiki span.info {
+  background: url(../images/wiki_styles/info.png) 4px 4px no-repeat #FFFFE0;
+  border: 1px solid #FFFF00;
+}
+.wiki p.smallinfo, .wiki span.smallinfo {
+  background: url(../images/wiki_styles/info_small.png) 4px 4px no-repeat #FFFFE0;
+  border: 1px solid #FFFF00;
+}
+
+.wiki p.tip, .wiki span.tip {
+  background: url(../images/wiki_styles/tip.png) 4px 4px no-repeat #F5FFFA;
+  border: 1px solid #C7CFCA;
+}
+.wiki p.smalltip, .wiki span.smalltip {
+  background: url(../images/wiki_styles/tip_small.png) 4px 5px no-repeat #F5FFFA;
+  border: 1px solid #C7CFCA;
+}
+
+.wiki p.note, .wiki span.note {
+  background: url(../images/wiki_styles/note.png) 6px 4px no-repeat #F5FFFA;
+  border: 1px solid #C7CFCA;
+}
+.wiki p.smallnote, .wiki span.smallnote {
+  background: url(../images/wiki_styles/note_small.png) 5px 4px no-repeat #F5FFFA;
+  border: 1px solid #C7CFCA;
+}
