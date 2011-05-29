@@ -51,47 +51,6 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
   
-  should_eventually "test_visible_scope_for_anonymous" do
-    # Anonymous user should see issues of public projects only
-    journals = Journal.visible(User.anonymous).all
-    assert journals.any?
-    assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
-    # Anonymous user should not see issues without permission
-    Role.anonymous.remove_permission!(:view_issues)
-    journals = Journal.visible(User.anonymous).all
-    assert journals.empty?
-  end
-
-  should_eventually "test_visible_scope_for_user" do
-    user = User.find(9)
-    assert user.projects.empty?
-    # Non member user should see issues of public projects only
-    journals = Journal.visible(user).all
-    assert journals.any?
-    assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
-    # Non member user should not see issues without permission
-    Role.non_member.remove_permission!(:view_issues)
-    user.reload
-    journals = Journal.visible(user).all
-    assert journals.empty?
-    # User should see issues of projects for which he has view_issues permissions only
-    Member.create!(:principal => user, :project_id => 1, :role_ids => [1])
-    user.reload
-    journals = Journal.visible(user).all
-    assert journals.any?
-    assert_nil journals.detect {|journal| journal.issue.project_id != 1}
-  end
-  
-  should_eventually "test_visible_scope_for_admin" do
-    user = User.find(1)
-    user.members.each(&:destroy)
-    assert user.projects.empty?
-    journals = Journal.visible(user).all
-    assert journals.any?
-    # Admin should see issues on private projects that he does not belong to
-    assert journals.detect {|journal| !journal.issue.project.is_public?}
-  end
-
   def test_create_should_not_send_email_notification_if_told_not_to
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
