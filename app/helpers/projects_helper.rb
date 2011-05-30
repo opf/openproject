@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -16,7 +16,7 @@ module ProjectsHelper
     return '' unless version && version.is_a?(Version)
     link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
   end
-  
+
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
@@ -28,9 +28,9 @@ module ProjectsHelper
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
             {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
             ]
-    tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
+    tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
-  
+
   def parent_project_select_tag(project)
     selected = project.parent
     # retrieve the requested parent project
@@ -38,13 +38,13 @@ module ProjectsHelper
     if parent_id
       selected = (parent_id.blank? ? nil : Project.find(parent_id))
     end
-    
+
     options = ''
     options << "<option value=''></option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
-  
+
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
@@ -61,7 +61,7 @@ module ProjectsHelper
         else
           ancestors.pop
           s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
             ancestors.pop
             s << "</ul></li>\n"
           end
@@ -89,7 +89,7 @@ module ProjectsHelper
     if selected && !versions.include?(selected)
       grouped[selected.project.name] << [selected.name, selected.id]
     end
-    
+
     if grouped.keys.size > 1
       grouped_options_for_select(grouped, selected && selected.id)
     else

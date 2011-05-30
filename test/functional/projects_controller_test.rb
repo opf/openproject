@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -28,13 +28,13 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
   end
-  
+
   def test_index
     get :index
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:projects)
-    
+
     assert_tag :ul, :child => {:tag => 'li',
                                :descendant => {:tag => 'a', :content => 'eCookbook'},
                                :child => { :tag => 'ul',
@@ -43,10 +43,10 @@ class ProjectsControllerTest < ActionController::TestCase
                                                            }
                                           }
                                }
-                               
+
     assert_no_tag :a, :content => /Private child of eCookbook/
   end
-  
+
   def test_index_atom
     get :index, :format => 'atom'
     assert_response :success
@@ -54,7 +54,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'feed>title', :text => 'ChiliProject: Latest projects'
     assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_by(User.current))
   end
-  
+
   context "#index" do
     context "by non-admin user with view_time_entries permission" do
       setup do
@@ -66,7 +66,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_tag :a, :attributes => {:href => '/time_entries'}
       end
     end
-    
+
     context "by non-admin user without view_time_entries permission" do
       setup do
         Role.find(2).remove_permission! :view_time_entries
@@ -79,15 +79,15 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_template 'index'
         assert_no_tag :a, :attributes => {:href => '/time_entries'}
       end
-    end 
+    end
   end
-  
+
   context "#new" do
     context "by admin user" do
       setup do
         @request.session[:user_id] = 1
       end
-      
+
       should "accept get" do
         get :new
         assert_response :success
@@ -116,7 +116,7 @@ class ProjectsControllerTest < ActionController::TestCase
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
-      
+
       should "accept get" do
         get :new, :parent_id => 'ecookbook'
         assert_response :success
@@ -129,7 +129,7 @@ class ProjectsControllerTest < ActionController::TestCase
                                :child => {:tag => 'option', :attributes => {:value => ''}}
       end
     end
-    
+
   end
 
   context "POST :create" do
@@ -137,11 +137,11 @@ class ProjectsControllerTest < ActionController::TestCase
       setup do
         @request.session[:user_id] = 1
       end
-      
+
       should "create a new project" do
         post :create,
           :project => {
-            :name => "blog", 
+            :name => "blog",
             :description => "weblog",
             :homepage => 'http://weblog',
             :identifier => "blog",
@@ -153,11 +153,11 @@ class ProjectsControllerTest < ActionController::TestCase
             :enabled_module_names => ['issue_tracking', 'news', 'repository']
           }
         assert_redirected_to '/projects/blog/settings'
-        
+
         project = Project.find_by_name('blog')
         assert_kind_of Project, project
         assert project.active?
-        assert_equal 'weblog', project.description 
+        assert_equal 'weblog', project.description
         assert_equal 'http://weblog', project.homepage
         assert_equal true, project.is_public?
         assert_nil project.parent
@@ -166,9 +166,9 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
         assert project.issue_custom_fields.include?(IssueCustomField.find(9))
       end
-      
+
       should "create a new subproject" do
-        post :create, :project => { :name => "blog", 
+        post :create, :project => { :name => "blog",
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -176,21 +176,21 @@ class ProjectsControllerTest < ActionController::TestCase
                                  :parent_id => 1
                                 }
         assert_redirected_to '/projects/blog/settings'
-        
+
         project = Project.find_by_name('blog')
         assert_kind_of Project, project
         assert_equal Project.find(1), project.parent
       end
     end
-    
+
     context "by non-admin user with add_project permission" do
       setup do
         Role.non_member.add_permission! :add_project
         @request.session[:user_id] = 9
       end
-      
+
       should "accept create a Project" do
-        post :create, :project => { :name => "blog", 
+        post :create, :project => { :name => "blog",
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -198,24 +198,24 @@ class ProjectsControllerTest < ActionController::TestCase
                                  :tracker_ids => ['1', '3'],
                                  :enabled_module_names => ['issue_tracking', 'news', 'repository']
                                 }
-        
+
         assert_redirected_to '/projects/blog/settings'
-        
+
         project = Project.find_by_name('blog')
         assert_kind_of Project, project
-        assert_equal 'weblog', project.description 
+        assert_equal 'weblog', project.description
         assert_equal true, project.is_public?
         assert_equal [1, 3], project.trackers.map(&:id).sort
         assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
-        
+
         # User should be added as a project member
         assert User.find(9).member_of?(project)
         assert_equal 1, project.members.size
       end
-      
+
       should "fail with parent_id" do
         assert_no_difference 'Project.count' do
-          post :create, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog",
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
@@ -229,16 +229,16 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_not_nil project.errors.on(:parent_id)
       end
     end
-    
+
     context "by non-admin user with add_subprojects permission" do
       setup do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
-      
+
       should "create a project with a parent_id" do
-        post :create, :project => { :name => "blog", 
+        post :create, :project => { :name => "blog",
                                  :description => "weblog",
                                  :identifier => "blog",
                                  :is_public => 1,
@@ -248,10 +248,10 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_redirected_to '/projects/blog/settings'
         project = Project.find_by_name('blog')
       end
-      
+
       should "fail without parent_id" do
         assert_no_difference 'Project.count' do
-          post :create, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog",
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
@@ -263,11 +263,11 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_kind_of Project, project
         assert_not_nil project.errors.on(:parent_id)
       end
-      
+
       should "fail with unauthorized parent_id" do
         assert !User.find(2).member_of?(Project.find(6))
         assert_no_difference 'Project.count' do
-          post :create, :project => { :name => "blog", 
+          post :create, :project => { :name => "blog",
                                    :description => "weblog",
                                    :identifier => "blog",
                                    :is_public => 1,
@@ -282,7 +282,7 @@ class ProjectsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_create_should_preserve_modules_on_validation_failure
     with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
       @request.session[:user_id] = 1
@@ -298,13 +298,13 @@ class ProjectsControllerTest < ActionController::TestCase
       assert_equal %w(issue_tracking news), project.enabled_module_names.sort
     end
   end
-  
+
   def test_create_should_not_accept_get
     @request.session[:user_id] = 1
     get :create
     assert_response :method_not_allowed
   end
-  
+
   def test_show_by_id
     get :show, :id => 1
     assert_response :success
@@ -318,7 +318,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:project)
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
-    
+
     assert_tag 'li', :content => /Development status/
   end
 
@@ -328,10 +328,10 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
-    
+
     assert_no_tag 'li', :content => /Development status/
   end
-  
+
   def test_show_should_not_fail_when_custom_values_are_nil
     project = Project.find_by_identifier('ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
@@ -341,17 +341,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_equal Project.find_by_identifier('ecookbook'), assigns(:project)
   end
-  
+
   def show_archived_project_should_be_denied
     project = Project.find_by_identifier('ecookbook')
     project.archive!
-    
+
     get :show, :id => 'ecookbook'
     assert_response 403
     assert_nil assigns(:project)
     assert_tag :tag => 'p', :content => /archived/
   end
-  
+
   def test_private_subprojects_hidden
     get :show, :id => 'ecookbook'
     assert_response :success
@@ -366,14 +366,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_tag :tag => 'a', :content => /Private child/
   end
-  
+
   def test_settings
     @request.session[:user_id] = 2 # manager
     get :settings, :id => 1
     assert_response :success
     assert_template 'settings'
   end
-  
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :id => 1, :project => {:name => 'Test changed name',
@@ -386,7 +386,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_modules
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']
-    
+
     post :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository', 'documents']
     assert_redirected_to '/projects/ecookbook/settings/modules'
     assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
@@ -397,7 +397,7 @@ class ProjectsControllerTest < ActionController::TestCase
     get :modules, :id => 1
     assert_response :method_not_allowed
   end
-  
+
   def test_get_destroy
     @request.session[:user_id] = 1 # admin
     get :destroy, :id => 1
@@ -412,14 +412,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end
-  
+
   def test_archive
     @request.session[:user_id] = 1 # admin
     post :archive, :id => 1
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
-  
+
   def test_unarchive
     @request.session[:user_id] = 1 # admin
     Project.find(1).archive
@@ -427,7 +427,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to '/admin/projects'
     assert Project.find(1).active?
   end
-  
+
   def test_project_breadcrumbs_should_be_limited_to_3_ancestors
     CustomField.delete_all
     parent = nil
@@ -438,7 +438,7 @@ class ProjectsControllerTest < ActionController::TestCase
       assert_tag :h1, :parent => { :attributes => {:id => 'header'}},
                       :children => { :count => [i, 3].min,
                                      :only => { :tag => 'a' } }
-                                     
+
       parent = p
     end
   end
@@ -475,13 +475,13 @@ class ProjectsControllerTest < ActionController::TestCase
     get :show, :id => 1, :jump => 'issues'
     assert_redirected_to '/projects/ecookbook/issues'
   end
-  
+
   def test_jump_should_not_redirect_to_inactive_tab
     get :show, :id => 3, :jump => 'documents'
     assert_response :success
     assert_template 'show'
   end
-  
+
   def test_jump_should_not_redirect_to_unknown_tab
     get :show, :id => 3, :jump => 'foobar'
     assert_response :success
@@ -497,13 +497,13 @@ class ProjectsControllerTest < ActionController::TestCase
   end
   # Don't use this hook now
   Redmine::Hook.clear_listeners
-  
+
   def test_hook_response
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, :id => 1
     assert_tag :tag => 'link', :attributes => {:href => '/stylesheets/ecookbook.css'},
                                :parent => {:tag => 'head'}
-    
+
     Redmine::Hook.clear_listeners
   end
 end

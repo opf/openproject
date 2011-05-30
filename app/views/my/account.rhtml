@@ -5,8 +5,8 @@
 <h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
 
-<% form_for :user, @user, :url => { :action => "account" }, 
-                          :builder => TabularFormBuilder, 
+<% form_for :user, @user, :url => { :action => "account" },
+                          :builder => TabularFormBuilder,
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
 <div class="splitcontentleft">

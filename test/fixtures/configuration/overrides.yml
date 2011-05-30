@@ -1,6 +1,6 @@
 default:
   somesetting: foo
-  
+
 production:
 
 development:

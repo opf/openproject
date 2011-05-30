@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -19,14 +19,14 @@ class CustomFieldsController; def rescue_action(e) raise e end; end
 
 class CustomFieldsControllerTest < ActionController::TestCase
   fixtures :custom_fields, :trackers, :users
-  
+
   def setup
     @controller = CustomFieldsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1
   end
-  
+
   def test_get_new_issue_custom_field
     get :new, :type => 'IssueCustomField'
     assert_response :success
@@ -46,12 +46,12 @@ class CustomFieldsControllerTest < ActionController::TestCase
         :content => 'Version'
       }
   end
-  
+
   def test_get_new_with_invalid_custom_field_class_should_redirect_to_list
     get :new, :type => 'UnknownCustomField'
     assert_redirected_to '/custom_fields'
   end
-  
+
   def test_post_new_list_custom_field
     assert_difference 'CustomField.count' do
       post :new, :type => "IssueCustomField",
@@ -67,7 +67,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
                                    :is_required =>"0",
                                    :field_format => "list",
                                    :tracker_ids => ["1", ""]}
-    end        
+    end
     assert_redirected_to '/custom_fields?tab=IssueCustomField'
     field = IssueCustomField.find_by_name('test_post_new_list')
     assert_not_nil field

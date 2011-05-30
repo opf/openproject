@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -16,12 +16,12 @@ module Redmine::MenuManager::MenuHelper
   def current_menu_item
     @controller.current_menu_item
   end
-  
+
   # Renders the application main menu
   def render_main_menu(project)
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
   end
-  
+
   def display_main_menu?(project)
     menu_name = project && !project.new_record? ? :project_menu : :application_menu
     Redmine::MenuManager.items(menu_name).size > 1 # 1 element is the root
@@ -80,7 +80,7 @@ module Redmine::MenuManager::MenuHelper
       # Tree nodes support #each so we need to do object detection
       if unattached_children.is_a? Array
         unattached_children.each do |child|
-          child_html << content_tag(:li, render_unattached_menu_item(child, project)) 
+          child_html << content_tag(:li, render_unattached_menu_item(child, project))
         end
       else
         raise Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems"
@@ -101,7 +101,7 @@ module Redmine::MenuManager::MenuHelper
               menu_item.html_options)
     end
   end
-  
+
   def menu_items_for(menu, project=nil)
     items = []
     Redmine::MenuManager.items(menu).root.children.each do |node|

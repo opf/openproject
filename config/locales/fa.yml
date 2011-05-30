@@ -9,10 +9,10 @@ fa:
       default: "%Y/%m/%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [یک‌شنبه, دوشنبه, سه‌شنبه, چهارشنبه, پنج‌شنبه, آدینه, شنبه]
     abbr_day_names: [یک, دو, سه, چهار, پنج, آدینه, شنبه]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
     abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
@@ -30,7 +30,7 @@ fa:
       long: "%B %d, %Y %H:%M"
     am: "ق.ظ"
     pm: "ب.ظ"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "نیم دقیقه"
@@ -71,7 +71,7 @@ fa:
   number:
     # Default format for numbers
     format:
-      separator: "٫" 
+      separator: "٫"
       delimiter: ""
       precision: 3
     human:
@@ -89,13 +89,13 @@ fa:
           gb: "گیگابایت"
           tb: "ترابایت"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "و"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -129,7 +129,7 @@ fa:
         cant_link_an_issue_with_a_descendant: "یک پیامد نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
 
   actionview_instancetag_blank_option: گزینش کنید
-  
+
   general_text_No: 'خیر'
   general_text_Yes: 'آری'
   general_text_no: 'خیر'
@@ -140,7 +140,7 @@ fa:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '6'
-  
+
   notice_account_updated: حساب شما بروز شد.
   notice_account_invalid_creditentials: نام کاربری یا گذرواژه نادرست است
   notice_account_password_updated: گذرواژه بروز شد
@@ -171,7 +171,7 @@ fa:
   notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان پاک کرد.
   notice_issue_done_ratios_updated: اندازه انجام شده پیامد بروز شد.
   notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزگتر است (%{max})."
-  
+
   error_can_t_load_default_data: "پیکربندی پیش‌گزیده نمی‌تواند بار شود: %{value}"
   error_scm_not_found: "بخش یا نگارش در انباره پیدا نشد."
   error_scm_command_failed: "ایرادی در دسترسی به انباره پیش آمد: %{value}"
@@ -190,7 +190,7 @@ fa:
   error_unable_delete_issue_status: 'وضعیت پیامد را نمی‌توان پاک کرد.'
   error_unable_to_connect: "نمی‌توان متصل شد (%{value})"
   warning_attachments_not_saved: "%{count} پرونده ذخیره نشد."
-  
+
   mail_subject_lost_password: "گذرواژه حساب %{value} شما"
   mail_body_lost_password: 'برای جایگزینی گذرواژه خود، بر روی پیوند زیر کلیک کنید:'
   mail_subject_register: "فعالسازی حساب %{value} شما"
@@ -205,10 +205,10 @@ fa:
   mail_body_wiki_content_added: "برگه ویکی «%{id}» به دست %{author} افزوده شد."
   mail_subject_wiki_content_updated: "برگه ویکی «%{id}» بروز شد"
   mail_body_wiki_content_updated: "برگه ویکی «%{id}» به دست %{author} بروز شد."
-  
+
   gui_validation_error: 1 ایراد
   gui_validation_error_plural: "%{count} ایراد"
-  
+
   field_name: نام
   field_description: توضیح
   field_summary: خلاصه
@@ -306,7 +306,7 @@ fa:
   field_assigned_to_role: "نقش واگذار شونده"
   field_text: فیلد متنی
   field_visible: آشکار
-  
+
   setting_app_title: نام برنامه
   setting_app_subtitle: زیرنام برنامه
   setting_welcome_text: نوشتار خوش‌آمد گویی
@@ -365,7 +365,7 @@ fa:
   setting_commit_logtime_enabled: فعالسازی زمان گذاشته شده
   setting_commit_logtime_activity_id: فعالیت زمان گذاشته شده
   setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
-  
+
   permission_add_project: ساخت پروژه
   permission_add_subprojects: ساخت زیرپروژه
   permission_edit_project: ویرایش پروژه
@@ -421,7 +421,7 @@ fa:
   permission_delete_own_messages: پاک کردن پیام خود
   permission_export_wiki_pages: صدور برگه‌های ویکی
   permission_manage_subtasks: سرپرستی زیرکارها
-  
+
   project_module_issue_tracking: پیگیری پیامدها
   project_module_time_tracking: پیگیری زمان
   project_module_news: رویدادها
@@ -432,7 +432,7 @@ fa:
   project_module_boards: انجمن‌ها
   project_module_calendar: گاهشمار
   project_module_gantt: گانت
-  
+
   label_user: کاربر
   label_user_plural: کاربر
   label_user_new: کاربر تازه
@@ -796,7 +796,7 @@ fa:
   label_project_copy_notifications: در هنگام رونویسی پروژه ایمیل‌های آگاه‌سازی را بفرست
   label_principal_search: "جستجو برای کاربر یا دسته:"
   label_user_search: "جستجو برای کاربر:"
-  
+
   button_login: ورود
   button_submit: واگذاری
   button_save: نگهداری
@@ -841,17 +841,17 @@ fa:
   button_quote: نقل قول
   button_duplicate: نگارش دیگر
   button_show: نمایش
-  
+
   status_active: فعال
   status_registered: نام‌نویسی شده
   status_locked: قفل
-  
+
   version_status_open: باز
   version_status_locked: قفل
   version_status_closed: بسته
 
   field_active: فعال
-  
+
   text_select_mail_notifications: فرمان‌هایی که برای آن‌ها باید ایمیل فرستاده شود را برگزینید.
   text_regexp_info: برای نمونه ^[A-Z0-9]+$
   text_min_max_length_info: 0 یعنی بدون کران
@@ -911,7 +911,7 @@ fa:
   text_own_membership_delete_confirmation: "شما دارید برخی یا همه پروانه‌های خود را برمی‌دارید و شاید پس از این دیگر نتوانید این پروژه را ویرایش کنید.\nآیا می‌خواهید این کار را بکنید؟"
   text_zoom_in: درشتنمایی
   text_zoom_out: ریزنمایی
-  
+
   default_role_manager: سرپرست
   default_role_developer: برنامه‌نویس
   default_role_reporter: گزارش‌دهنده
@@ -933,7 +933,7 @@ fa:
   default_priority_immediate: بیدرنگ
   default_activity_design: طراحی
   default_activity_development: ساخت
-  
+
   enumeration_issue_priorities: برتری‌های پیامد
   enumeration_doc_categories: دسته‌های نوشتار
   enumeration_activities: فعالیت‌ها (پیگیری زمان)

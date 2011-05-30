@@ -9,10 +9,10 @@ en:
       default: "%m/%d/%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
@@ -30,7 +30,7 @@ en:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -70,7 +70,7 @@ en:
 
   number:
     format:
-      separator: "." 
+      separator: "."
       delimiter: ""
       precision: 3
 
@@ -89,13 +89,13 @@ en:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -129,7 +129,7 @@ en:
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Please select
-  
+
   general_text_No: 'No'
   general_text_Yes: 'Yes'
   general_text_no: 'no'
@@ -140,7 +140,7 @@ en:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_creditentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
@@ -171,7 +171,7 @@ en:
   notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
-  
+
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
@@ -190,7 +190,7 @@ en:
   error_unable_delete_issue_status: 'Unable to delete issue status'
   error_unable_to_connect: "Unable to connect (%{value})"
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  
+
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
   mail_subject_register: "Your %{value} account activation"
@@ -205,10 +205,10 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
-  
+
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
-  
+
   field_name: Name
   field_description: Description
   field_summary: Summary
@@ -307,7 +307,7 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  
+
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -366,7 +366,7 @@ en:
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_logtime_activity_id: Activity for logged time
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  
+
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_edit_project: Edit project
@@ -422,7 +422,7 @@ en:
   permission_delete_own_messages: Delete own messages
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
-  
+
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
   project_module_news: News
@@ -433,7 +433,7 @@ en:
   project_module_boards: Forums
   project_module_calendar: Calendar
   project_module_gantt: Gantt
-  
+
   label_user: User
   label_user_plural: Users
   label_user_new: New user
@@ -631,7 +631,7 @@ en:
   label_modification: "%{count} change"
   label_modification_plural: "%{count} changes"
   label_branch: Branch
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Revision
   label_revision_plural: Revisions
   label_revision_id: "Revision %{value}"
@@ -857,17 +857,17 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
-  
+
   status_active: active
   status_registered: registered
   status_locked: locked
-  
+
   version_status_open: open
   version_status_locked: locked
   version_status_closed: closed
 
   field_active: Active
-  
+
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
@@ -933,7 +933,7 @@ en:
   text_default_encoding: "Default: UTF-8"
   text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\hgrepo)"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\gitrepo)"
-  
+
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter
@@ -957,7 +957,7 @@ en:
   default_priority_immediate: Immediate
   default_activity_design: Design
   default_activity_development: Development
-  
+
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)

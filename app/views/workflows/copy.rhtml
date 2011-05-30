@@ -7,14 +7,14 @@
 <p>
 	<label><%= l(:label_copy_source) %></label>
 	<%= l(:label_tracker) %><br />
-	<%= select_tag('source_tracker_id', 
+	<%= select_tag('source_tracker_id',
 									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
-									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" + 
+									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" +
 									options_from_collection_for_select(@trackers, 'id', 'name', @source_tracker && @source_tracker.id)) %><br />
 	<%= l(:label_role) %><br />
 	<%= select_tag('source_role_id',
 									"<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" +
-									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" + 
+									"<option value=\"any\">--- #{ l(:label_copy_same_as_target) } ---</option>" +
 									options_from_collection_for_select(@roles, 'id', 'name', @source_role && @source_role.id)) %>
 </p>
 <p>

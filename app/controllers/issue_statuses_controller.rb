@@ -1,24 +1,24 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class IssueStatusesController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
 
   verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
          :redirect_to => { :action => :index }
-         
+
   def index
     @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
     render :action => "index", :layout => false if request.xhr?
@@ -58,8 +58,8 @@ class IssueStatusesController < ApplicationController
   rescue
     flash[:error] = l(:error_unable_delete_issue_status)
     redirect_to :action => 'index'
-  end  	
-  
+  end
+
   def update_issue_done_ratio
     if IssueStatus.update_issue_done_ratios
       flash[:notice] = l(:notice_issue_done_ratios_updated)

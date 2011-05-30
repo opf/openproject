@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -19,7 +19,7 @@ class BoardTest < ActiveSupport::TestCase
   def setup
     @project = Project.find(1)
   end
-  
+
   def test_create
     board = Board.new(:project => @project, :name => 'Test board', :description => 'Test board description')
     assert board.save
@@ -33,7 +33,7 @@ class BoardTest < ActiveSupport::TestCase
     # last position
     assert_equal @project.boards.size, board.position
   end
-  
+
   def test_destroy
     board = Board.find(1)
     assert_difference 'Message.count', -6 do

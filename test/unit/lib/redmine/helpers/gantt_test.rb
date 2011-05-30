@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../../../test_helper', __FILE__)
@@ -21,7 +21,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     include ApplicationHelper
     include ProjectsHelper
     include IssuesHelper
-    
+
     def self.default_url_options
       {:only_path => true }
     end
@@ -73,7 +73,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       5.times do
         Issue.generate_for_project!(p)
       end
-      
+
       create_gantt(p)
       @gantt.render
       assert_equal 6, @gantt.number_of_rows
@@ -104,7 +104,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
       version = Version.generate!
       @project.versions << version
       @project.issues << Issue.generate_for_project!(@project, :fixed_version => version)
-      
+
       assert_equal 3, @gantt.number_of_rows_on_project(@project)
     end
   end
@@ -126,56 +126,56 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
                                :done_ratio => 30,
                                :start_date => Date.yesterday,
                                :due_date => 1.week.from_now.to_date)
-      @project.issues << @issue      
+      @project.issues << @issue
     end
-  
+
     context "project" do
       should "be rendered" do
         @response.body = @gantt.subjects
         assert_select "div.project-name a", /#{@project.name}/
       end
-  
+
       should "have an indent of 4" do
         @response.body = @gantt.subjects
         assert_select "div.project-name[style*=left:4px]"
       end
     end
-  
+
     context "version" do
       should "be rendered" do
         @response.body = @gantt.subjects
         assert_select "div.version-name a", /#{@version.name}/
       end
-  
+
       should "be indented 24 (one level)" do
         @response.body = @gantt.subjects
         assert_select "div.version-name[style*=left:24px]"
       end
-      
+
       context "without assigned issues" do
         setup do
           @version = Version.generate!(:effective_date => 2.week.from_now.to_date, :sharing => 'none', :name => 'empty_version')
           @project.versions << @version
         end
-      
+
         should "not be rendered" do
           @response.body = @gantt.subjects
           assert_select "div.version-name a", :text => /#{@version.name}/, :count => 0
         end
       end
     end
-  
+
     context "issue" do
       should "be rendered" do
         @response.body = @gantt.subjects
         assert_select "div.issue-subject", /#{@issue.subject}/
       end
-  
+
       should "be indented 44 (two levels)" do
         @response.body = @gantt.subjects
         assert_select "div.issue-subject[style*=left:44px]"
       end
-      
+
       context "assigned to a shared version of another project" do
         setup do
           p = Project.generate!
@@ -184,7 +184,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           @shared_version = Version.generate!(:sharing => 'system')
           p.versions << @shared_version
           # Reassign the issue to a shared version of another project
-          
+
           @issue = Issue.generate!(:fixed_version => @shared_version,
                                    :subject => "gantt#assigned_to_shared_version",
                                    :tracker => @tracker,
@@ -194,13 +194,13 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
                                    :due_date => 1.week.from_now.to_date)
           @project.issues << @issue
         end
-        
+
         should "be rendered" do
           @response.body = @gantt.subjects
           assert_select "div.issue-subject", /#{@issue.subject}/
         end
       end
-      
+
       context "with subtasks" do
         setup do
           attrs = {:project => @project, :tracker => @tracker, :fixed_version => @version}
@@ -208,7 +208,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           @child2 = Issue.generate!(attrs.merge(:subject => 'child2', :parent_issue_id => @issue.id, :start_date => Date.today, :due_date => 1.week.from_now.to_date))
           @grandchild = Issue.generate!(attrs.merge(:subject => 'grandchild', :parent_issue_id => @child1.id, :start_date => Date.yesterday, :due_date => 2.day.from_now.to_date))
         end
-        
+
         should "indent subtasks" do
           @response.body = @gantt.subjects
           # parent task 44px
@@ -286,7 +286,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     setup do
       create_gantt
     end
-    
+
     context ":html format" do
       should "add an absolute positioned div" do
         @response.body = @gantt.subject_for_project(@project, {:format => :html})
@@ -411,7 +411,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.project.ending[style*=left:88px]", true, @response.body
         end
       end
-      
+
       context "status content" do
         should "appear at the far left, even if it's far in the past" do
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
@@ -578,7 +578,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           assert_select "div.version.ending[style*=left:88px]", true, @response.body
         end
       end
-      
+
       context "status content" do
         should "appear at the far left, even if it's far in the past" do
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
@@ -710,12 +710,12 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
         should "not be the total done width if the chart starts after issue start date"  do
           create_gantt(@project, :date_from => 5.days.ago.to_date)
-          
+
           @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task_done[style*=left:0px]", true, @response.body
           assert_select "div.task_done[style*=width:8px]", true, @response.body
         end
-        
+
         context "for completed issue" do
           setup do
             @issue.done_ratio = 100
@@ -725,7 +725,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
             @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
             assert_select "div.task_done[style*=width:58px]", true, @response.body
           end
-  
+
           should "be the total width of the issue with due_date=start_date"  do
             @issue.due_date = @issue.start_date
             @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
@@ -770,5 +770,5 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
   context "#to_pdf" do
     should "be tested"
   end
-  
+
 end

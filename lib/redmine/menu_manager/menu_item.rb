@@ -1,20 +1,20 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
   attr_reader :name, :url, :param, :condition, :parent, :child_menus, :last
-  
+
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
@@ -33,7 +33,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @last = options[:last] || false
     super @name.to_sym
   end
-  
+
   def caption(project=nil)
     if @caption.is_a?(Proc)
       c = @caption.call(project).to_s
@@ -47,7 +47,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       end
     end
   end
-  
+
   def html_options(options={})
     if options[:selected]
       o = @html_options.dup
@@ -57,4 +57,4 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       @html_options
     end
   end
-end    
+end

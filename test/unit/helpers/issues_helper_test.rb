@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../test_helper', __FILE__)
@@ -38,7 +38,7 @@ class IssuesHelperTest < HelperTestCase
   def request
     @request ||= ActionController::TestRequest.new
   end
-  
+
   # This is probably needed in this test only anymore
   def show_detail(journal, detail, html = true)
     journal.render_detail(detail, html)

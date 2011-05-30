@@ -8,10 +8,10 @@ uk:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
@@ -29,7 +29,7 @@ uk:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -67,32 +67,32 @@ uk:
         one:   "almost 1 year"
         other: "almost %{count} years"
 
-  number: 
+  number:
     format:
       separator: "."
       delimiter: ""
       precision: 3
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
+        units:
           kb: KB
           tb: TB
           gb: GB
-          byte: 
+          byte:
             one: Byte
             other: Bytes
           mb: MB
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -126,7 +126,7 @@ uk:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Оберіть
-  
+
   general_text_No: 'Ні'
   general_text_Yes: 'Так'
   general_text_no: 'Ні'
@@ -137,7 +137,7 @@ uk:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Обліковий запис успішно оновлений.
   notice_account_invalid_creditentials: Неправильне ім'я користувача або пароль
   notice_account_password_updated: Пароль успішно оновлений.
@@ -161,7 +161,7 @@ uk:
   notice_failed_to_save_issues: "Не вдалося зберегти %{count} пункт(ів) з %{total} вибраних: %{ids}."
   notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
   notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
-  
+
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_body_lost_password: 'Для зміни пароля, зайдіть за наступним посиланням:'
   mail_subject_register: "Активація облікового запису %{value}"
@@ -170,10 +170,10 @@ uk:
   mail_body_account_information: Інформація по Вашому обліковому запису
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
-  
+
   gui_validation_error: 1 помилка
   gui_validation_error_plural: "%{count} помилки(ок)"
-  
+
   field_name: Ім'я
   field_description: Опис
   field_summary: Короткий опис
@@ -191,8 +191,8 @@ uk:
   field_is_for_all: Для усіх проектів
   field_possible_values: Можливі значення
   field_regexp: Регулярний вираз
-  field_min_length: Мінімальна довжина 
-  field_max_length: Максимальна довжина 
+  field_min_length: Мінімальна довжина
+  field_max_length: Максимальна довжина
   field_value: Значення
   field_category: Категорія
   field_title: Назва
@@ -214,9 +214,9 @@ uk:
   field_is_public: Публічний
   field_parent: Підпроект
   field_is_in_roadmap: Питання, що відображаються в оперативному плані
-  field_login: Вхід 
+  field_login: Вхід
   field_mail_notification: Повідомлення за електронною поштою
-  field_admin: Адміністратор 
+  field_admin: Адміністратор
   field_last_login_on: Останнє підключення
   field_language: Мова
   field_password: Пароль
@@ -254,7 +254,7 @@ uk:
   field_column_names: Колонки
   field_time_zone: Часовий пояс
   field_searchable: Вживається у пошуку
-  
+
   setting_app_title: Назва додатку
   setting_app_subtitle: Підзаголовок додатку
   setting_welcome_text: Текст привітання
@@ -281,7 +281,7 @@ uk:
   setting_repositories_encodings: Кодування репозиторія
   setting_emails_footer: Підпис до електронної пошти
   setting_protocol: Протокол
-  
+
   label_user: Користувач
   label_user_plural: Користувачі
   label_user_new: Новий користувач
@@ -404,15 +404,15 @@ uk:
   label_total: Всього
   label_permissions: Права доступу
   label_current_status: Поточний статус
-  label_new_statuses_allowed: Дозволені нові статуси 
+  label_new_statuses_allowed: Дозволені нові статуси
   label_all: Усі
   label_none: Нікому
   label_nobody: Ніхто
   label_next: Наступний
   label_previous: Попередній
-  label_used_by: Використовується 
+  label_used_by: Використовується
   label_details: Подробиці
-  label_add_note: Додати зауваження 
+  label_add_note: Додати зауваження
   label_per_page: На сторінку
   label_calendar: Календар
   label_months_from: місяців(ця) з
@@ -442,8 +442,8 @@ uk:
   label_in: у
   label_today: сьогодні
   label_this_week: цього тижня
-  label_less_than_ago: менш ніж днів(я) назад 
-  label_more_than_ago: більш ніж днів(я) назад 
+  label_less_than_ago: менш ніж днів(я) назад
+  label_more_than_ago: більш ніж днів(я) назад
   label_ago: днів(я) назад
   label_contains: містить
   label_not_contains: не містить
@@ -455,7 +455,7 @@ uk:
   label_revision: Версія
   label_revision_plural: Версій
   label_added: додано
-  label_modified: змінене 
+  label_modified: змінене
   label_deleted: видалено
   label_latest_revision: Остання версія
   label_latest_revision_plural: Останні версії
@@ -470,11 +470,11 @@ uk:
   label_roadmap_overdue: "%{value} запізнення"
   label_roadmap_no_issues: Немає питань для даної версії
   label_search: Пошук
-  label_result_plural: Результати 
+  label_result_plural: Результати
   label_all_words: Всі слова
   label_wiki: Wiki
   label_wiki_edit: Редагування Wiki
-  label_wiki_edit_plural: Редагування Wiki 
+  label_wiki_edit_plural: Редагування Wiki
   label_wiki_page: Сторінка Wiki
   label_wiki_page_plural: Сторінки Wiki
   label_index_by_title: Індекс за назвою
@@ -482,7 +482,7 @@ uk:
   label_current_version: Поточна версія
   label_preview: Попередній перегляд
   label_feed_plural: Подання
-  label_changes_details: Подробиці по всіх змінах 
+  label_changes_details: Подробиці по всіх змінах
   label_issue_tracking: Координація питань
   label_spent_time: Витрачений час
   label_f_hour: "%{value} година"
@@ -491,7 +491,7 @@ uk:
   label_change_plural: Зміни
   label_statistics: Статистика
   label_commits_per_month: Подань на місяць
-  label_commits_per_author: Подань на користувача 
+  label_commits_per_author: Подань на користувача
   label_view_diff: Проглянути відмінності
   label_diff_inline: підключений
   label_diff_side_by_side: поряд
@@ -507,7 +507,7 @@ uk:
   label_relates_to: пов'язане з
   label_duplicates: дублює
   label_blocks: блокує
-  label_blocked_by: заблоковане 
+  label_blocked_by: заблоковане
   label_precedes: передує
   label_follows: наступний за
   label_end_to_start: з кінця до початку
@@ -555,12 +555,12 @@ uk:
   label_registration_manual_activation: ручна активація облікового запису
   label_registration_automatic_activation: автоматична активація облыкового
   label_my_time_report: Мій звіт витраченого часу
-  
+
   button_login: Вхід
   button_submit: Відправити
   button_save: Зберегти
-  button_check_all: Відзначити все 
-  button_uncheck_all: Очистити 
+  button_check_all: Відзначити все
+  button_uncheck_all: Очистити
   button_delete: Видалити
   button_create: Створити
   button_test: Перевірити
@@ -588,14 +588,14 @@ uk:
   button_unarchive: Розархівувати
   button_reset: Перезапустити
   button_rename: Перейменувати
-  button_change_password: Змінити пароль 
+  button_change_password: Змінити пароль
   button_copy: Копіювати
   button_annotate: Анотувати
-  
+
   status_active: Активний
-  status_registered: Зареєстрований 
+  status_registered: Зареєстрований
   status_locked: Заблокований
-  
+
   text_select_mail_notifications: Виберіть дії, на які відсилатиметься повідомлення на електронну пошту.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 означає відсутність заборон
@@ -620,12 +620,12 @@ uk:
   text_issue_category_destroy_assignments: Видалити призначення категорії
   text_issue_category_reassign_to: Перепризначити задачі до даної категорії
   text_user_mail_option: "Для невибраних проектів ви отримуватимете повідомлення тільки про те, що проглядаєте або в чому берете участь (наприклад, питання автором яких ви є або які вам призначені)."
-  
+
   default_role_manager: Менеджер
   default_role_developer: Розробник
   default_role_reporter: Репортер
   звітів default_tracker_bug: Помилка
-  default_tracker_feature: Властивість 
+  default_tracker_feature: Властивість
   default_tracker_support: Підтримка
   default_issue_status_new: Новий
   default_issue_status_in_progress: In Progress
@@ -634,7 +634,7 @@ uk:
   default_issue_status_closed: Зачинено
   default_issue_status_rejected: Відмовлено
   default_doc_category_user: Документація користувача
-  default_doc_category_tech: Технічна документація 
+  default_doc_category_tech: Технічна документація
   default_priority_low: Низький
   default_priority_normal: Нормальний
   default_priority_high: Високий
@@ -642,7 +642,7 @@ uk:
   default_priority_immediate: Негайний
   default_activity_design: Проектування
   default_activity_development: Розробка
-  
+
   enumeration_issue_priorities: Пріоритети питань
   enumeration_doc_categories: Категорії документів
   enumeration_activities: Дії (облік часу)

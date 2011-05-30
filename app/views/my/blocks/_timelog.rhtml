@@ -1,5 +1,5 @@
 <h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
-<% 
+<%
 entries = TimeEntry.find(:all,
 				:conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],
 				:include => [:activity, :project, {:issue => [:tracker, :status]}],

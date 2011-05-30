@@ -5,9 +5,9 @@
         :url => { :action => "remove_block", :block => block_name },
         :complete => "removeBlock('block_#{block_name.dasherize}')" },
         :class => "close-icon"
-         %>        
+         %>
     </div>
-     
+
     <div class="handle">
 	<%= render :partial => "my/blocks/#{block_name}", :locals => { :user => user } %>
 	</div>

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -22,14 +22,14 @@ class SearchControllerTest < ActionController::TestCase
            :issues, :trackers, :issue_statuses,
            :custom_fields, :custom_values,
            :repositories, :changesets
-  
+
   def setup
     @controller = SearchController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_search_for_projects
     get :index
     assert_response :success
@@ -40,24 +40,24 @@ class SearchControllerTest < ActionController::TestCase
     assert_template 'index'
     assert assigns(:results).include?(Project.find(1))
   end
-  
+
   def test_search_all_projects
     get :index, :q => 'recipe subproject commit', :submit => 'Search'
     assert_response :success
     assert_template 'index'
-    
+
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
     assert_select "dt.issue-edit" do
       assert_select "a", :text => /Add ingredients categories/
     end
-    
+
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
     assert_tag :a, :content => 'Changesets (5)'
   end
-  
+
   def test_search_issues
     get :index, :q => 'issue', :issues => 1
     assert_response :success
@@ -69,7 +69,7 @@ class SearchControllerTest < ActionController::TestCase
       assert_select "a", :text => /Closed/
     end
   end
-  
+
   def test_search_project_and_subprojects
     get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
@@ -80,17 +80,17 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_search_without_searchable_custom_fields
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
-    
+
     get :index, :id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:project)
-    
+
     get :index, :id => 1, :q => "can"
     assert_response :success
     assert_template 'index'
   end
-  
+
   def test_search_with_searchable_custom_fields
     get :index, :id => 1, :q => "stringforcustomfield"
     assert_response :success
@@ -99,7 +99,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 1, results.size
     assert results.include?(Issue.find(7))
   end
-  
+
   def test_search_all_words
     # 'all words' is on by default
     get :index, :id => 1, :q => 'recipe updating saving'
@@ -108,7 +108,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 1, results.size
     assert results.include?(Issue.find(3))
   end
-  
+
   def test_search_one_of_the_words
     get :index, :id => 1, :q => 'recipe updating saving', :submit => 'Search'
     results = assigns(:results)
@@ -130,7 +130,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_not_nil results
     assert_equal 2, results.size
   end
-  
+
   def test_search_with_invalid_project_id
     get :index, :id => 195, :q => 'recipe'
     assert_response 404
@@ -141,7 +141,7 @@ class SearchControllerTest < ActionController::TestCase
     # issue of a public project
     get :index, :q => "3"
     assert_redirected_to '/issues/3'
-    
+
     # issue of a private project
     get :index, :q => "4"
     assert_response :success
@@ -153,7 +153,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
   end
-  
+
   def test_tokens_with_quotes
     get :index, :id => 1, :q => '"good bye" hello "bye bye"'
     assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)

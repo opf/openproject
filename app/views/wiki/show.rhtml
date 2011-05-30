@@ -14,10 +14,10 @@
 <%= breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
 
 <% if @content.version != @page.content.version %>
-    <p>    
+    <p>
     <%= link_to(('&#171; ' + l(:label_previous)), :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version - 1)) + " - " if @content.version > 1 %>
     <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
-    <%= '(' + link_to('diff', :controller => 'wiki', :action => 'diff', :id => @page.title, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> - 
+    <%= '(' + link_to('diff', :controller => 'wiki', :action => 'diff', :id => @page.title, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> -
     <%= link_to((l(:label_next) + ' &#187;'), :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
     <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project) %>
     <br />

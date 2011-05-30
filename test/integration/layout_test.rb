@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -27,7 +27,7 @@ class LayoutTest < ActionController::IntegrationTest
 
   test "browsing to an unauthorized page should render the base layout" do
     change_user_password('miscuser9', 'test')
-    
+
     log_user('miscuser9','test')
 
     get "/admin"
@@ -50,10 +50,10 @@ class LayoutTest < ActionController::IntegrationTest
       assert_select "#quick-search"
     end
   end
-  
+
   def test_wiki_formatter_header_tags
     Role.anonymous.add_permission! :add_issues
-    
+
     get '/projects/ecookbook/issues/new'
     assert_tag :script,
       :attributes => {:src => %r{^/javascripts/jstoolbar/textile.js}},

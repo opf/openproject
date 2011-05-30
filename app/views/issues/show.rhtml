@@ -4,8 +4,8 @@
 
 <div class="<%= @issue.css_classes %> details">
         <%= avatar(@issue.author, :size => "50") %>
-      
-<div class="subject">      
+
+<div class="subject">
 <%= render_issue_subject_with_tree(@issue) %>
 </div>
         <p class="author">
@@ -51,7 +51,7 @@
 	<div class="contextual">
 	<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
 	</div>
-	
+
 	<p><strong><%=l(:field_description)%></strong></p>
 	<div class="wiki">
 	<%= textilizable @issue, :description, :attachments => @issue.attachments %>

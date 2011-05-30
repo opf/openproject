@@ -31,7 +31,7 @@
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
     <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
-      
+
 <div id="header">
     <% if User.current.logged? || !Setting.login_required? %>
     <div id="quick-search">
@@ -43,9 +43,9 @@
         <%= render_project_jump_box %>
     </div>
     <% end %>
-    
+
     <h1><%= page_header_title %></h1>
-    
+
     <% if display_main_menu?(@project) %>
     <div id="main-menu">
         <%= render_main_menu(@project) %>
@@ -54,11 +54,11 @@
 </div>
 
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar">        
+    <div id="sidebar">
         <%= yield :sidebar %>
         <%= call_hook :view_layouts_base_sidebar %>
     </div>
-    
+
     <div id="content">
 				<%= render_flash_messages %>
         <%= yield %>
@@ -68,7 +68,7 @@
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-	
+
 <div id="footer">
   <div class="bgl"><div class="bgr">
     <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>

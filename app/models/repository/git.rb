@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -97,10 +97,10 @@ class Repository::Git < Repository
               :repository => self,
               :revision   => rev.identifier,
               :scmid      => rev.scmid,
-              :committer  => rev.author, 
+              :committer  => rev.author,
               :committed_on => rev.time,
               :comments   => rev.message)
-            
+
           if changeset.save
             rev.paths.each do |file|
               Change.create(
@@ -119,9 +119,9 @@ class Repository::Git < Repository
     return [] if revisions.nil? || revisions.empty?
 
     changesets.find(
-      :all, 
+      :all,
       :conditions => [
-        "scmid IN (?)", 
+        "scmid IN (?)",
         revisions.map!{|c| c.scmid}
       ],
       :order => 'committed_on DESC'

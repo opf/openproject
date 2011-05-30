@@ -60,7 +60,7 @@ ru:
     percentage:
       format:
         delimiter: ""
-        
+
     precision:
       format:
         delimiter: ""
@@ -207,7 +207,7 @@ ru:
       # Rails 2.2
       sentence_connector: "и"
       skip_last_comma: true
-      
+
       # Rails 2.3
       words_connector: ", "
       two_words_connector: " и "
@@ -283,7 +283,7 @@ ru:
   enumeration_activities: Действия (учет времени)
   enumeration_doc_categories: Категории документов
   enumeration_issue_priorities: Приоритеты задач
-  
+
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
   error_can_not_delete_custom_field: Невозможно удалить настраиваемое поле
   error_can_not_delete_tracker: Этот трекер содержит задачи и не может быть удален.
@@ -905,7 +905,7 @@ ru:
   status_active: активен
   status_locked: заблокирован
   status_registered: зарегистрирован
-  
+
   text_are_you_sure_with_children: Удалить задачу и все ее подзадачи?
   text_are_you_sure: Подтвердите
   text_assign_time_entries_to_project: Прикрепить зарегистрированное время к проекту

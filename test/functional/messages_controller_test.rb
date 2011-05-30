@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -18,14 +18,14 @@ class MessagesController; def rescue_action(e) raise e end; end
 
 class MessagesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
-  
+
   def setup
     @controller = MessagesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_show
     get :show, :board_id => 1, :id => 1
     assert_response :success
@@ -34,11 +34,11 @@ class MessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:topic)
   end
-  
+
   def test_show_with_pagination
     message = Message.find(1)
     assert_difference 'Message.count', 30 do
-      30.times do 
+      30.times do
         message.children << Message.new(:subject => 'Reply', :content => 'Reply body', :author_id => 2, :board_id => 1)
       end
     end
@@ -50,7 +50,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert !replies.include?(message.children.first(:order => 'id'))
     assert replies.include?(message.children.last(:order => 'id'))
   end
-  
+
   def test_show_with_reply_permission
     @request.session[:user_id] = 2
     get :show, :board_id => 1, :id => 1
@@ -59,24 +59,24 @@ class MessagesControllerTest < ActionController::TestCase
     assert_tag :div, :attributes => { :id => 'reply' },
                      :descendant => { :tag => 'textarea', :attributes => { :id => 'message_content' } }
   end
-  
+
   def test_show_message_not_found
     get :show, :board_id => 1, :id => 99999
     assert_response 404
   end
-  
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :board_id => 1
     assert_response :success
-    assert_template 'new'    
+    assert_template 'new'
   end
-  
+
   def test_post_new
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = ['message_posted']
-    
+
     post :new, :board_id => 1,
                :message => { :subject => 'Test created message',
                              :content => 'Message body'}
@@ -96,14 +96,14 @@ class MessagesControllerTest < ActionController::TestCase
     # project member
     assert mail.bcc.include?('dlopper@somenet.foo')
   end
-  
+
   def test_get_edit
     @request.session[:user_id] = 2
     get :edit, :board_id => 1, :id => 1
     assert_response :success
-    assert_template 'edit'    
+    assert_template 'edit'
   end
-  
+
   def test_post_edit
     @request.session[:user_id] = 2
     post :edit, :board_id => 1, :id => 1,
@@ -114,7 +114,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 'New subject', message.subject
     assert_equal 'New body', message.content
   end
-  
+
   def test_reply
     @request.session[:user_id] = 2
     post :reply, :board_id => 1, :id => 1, :reply => { :content => 'This is a test reply', :subject => 'Test reply' }
@@ -122,14 +122,14 @@ class MessagesControllerTest < ActionController::TestCase
     assert_redirected_to "/boards/1/topics/1?r=#{reply.id}"
     assert Message.find_by_subject('Test reply')
   end
-  
+
   def test_destroy_topic
     @request.session[:user_id] = 2
     post :destroy, :board_id => 1, :id => 1
     assert_redirected_to '/projects/ecookbook/boards/1'
     assert_nil Message.find_by_id(1)
   end
-  
+
   def test_quote
     @request.session[:user_id] = 2
     xhr :get, :quote, :board_id => 1, :id => 3

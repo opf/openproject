@@ -1,19 +1,19 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
-  
+
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -25,10 +25,10 @@ class Issue < ActiveRecord::Base
 
   has_many :time_entries, :dependent => :delete_all
   has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
-  
+
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
-  
+
   acts_as_nested_set :scope => 'root_id', :dependent => :destroy
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
@@ -67,7 +67,7 @@ class Issue < ActiveRecord::Base
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Issue.visible_condition(args.first || User.current) } }
-  
+
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
   named_scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
@@ -91,7 +91,7 @@ class Issue < ActiveRecord::Base
   before_save :close_duplicates, :update_done_ratio_from_issue_status
   after_save :reschedule_following_issues, :update_nested_set_attributes, :update_parent_attributes
   after_destroy :update_parent_attributes
-  
+
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options)
@@ -101,7 +101,7 @@ class Issue < ActiveRecord::Base
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project)
   end
-  
+
   def after_initialize
     if new_record?
       # set default values for new records only
@@ -109,12 +109,12 @@ class Issue < ActiveRecord::Base
       self.priority ||= IssuePriority.default
     end
   end
-  
+
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && tracker) ? (project.all_issue_custom_fields & tracker.custom_fields.all) : []
   end
-  
+
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
@@ -122,7 +122,7 @@ class Issue < ActiveRecord::Base
     self.status = issue.status
     self
   end
-  
+
   # Moves/copies an issue to a new project and tracker
   # Returns the moved/copied issue on success, false on failure
   def move_to_project(*args)
@@ -130,11 +130,11 @@ class Issue < ActiveRecord::Base
       move_to_project_without_transaction(*args) || raise(ActiveRecord::Rollback)
     end || false
   end
-  
+
   def move_to_project_without_transaction(new_project, new_tracker = nil, options = {})
     options ||= {}
     issue = options[:copy] ? self.class.new.copy_from(self) : self
-    
+
     if new_project && issue.project_id != new_project.id
       # delete issue relations
       unless Setting.cross_project_issue_relations?
@@ -174,7 +174,7 @@ class Issue < ActiveRecord::Base
       unless options[:copy]
         # Manually update project_id on related time entries
         TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-        
+
         issue.children.each do |child|
           unless child.move_to_project_without_transaction(new_project)
             # Move failed and transaction was rollback'd
@@ -192,7 +192,7 @@ class Issue < ActiveRecord::Base
     self.status = nil
     write_attribute(:status_id, sid)
   end
-  
+
   def priority_id=(pid)
     self.priority = nil
     write_attribute(:priority_id, pid)
@@ -204,7 +204,7 @@ class Issue < ActiveRecord::Base
     @custom_field_values = nil
     result
   end
-  
+
   # Overrides attributes= so that tracker_id gets assigned first
   def attributes_with_tracker_first=(new_attributes, *args)
     return if new_attributes.nil?
@@ -216,11 +216,11 @@ class Issue < ActiveRecord::Base
   end
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:attributes=, :tracker_first) unless method_defined?(:attributes_without_tracker_first=)
-  
+
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
-  
+
   safe_attributes 'tracker_id',
     'status_id',
     'parent_issue_id',
@@ -238,7 +238,7 @@ class Issue < ActiveRecord::Base
     'custom_fields',
     'lock_version',
     :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
-  
+
   safe_attributes 'status_id',
     'assigned_to_id',
     'fixed_version_id',
@@ -252,26 +252,26 @@ class Issue < ActiveRecord::Base
   # TODO: move workflow/permission checks from controllers to here
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
-    
+
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     attrs = delete_unsafe_attributes(attrs, user)
-    return if attrs.empty? 
-    
+    return if attrs.empty?
+
     # Tracker must be set before since new_statuses_allowed_to depends on it.
     if t = attrs.delete('tracker_id')
       self.tracker_id = t
     end
-    
+
     if attrs['status_id']
       unless new_statuses_allowed_to(user).collect(&:id).include?(attrs['status_id'].to_i)
         attrs.delete('status_id')
       end
     end
-    
+
     unless leaf?
       attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
     end
-    
+
     if attrs.has_key?('parent_issue_id')
       if !user.allowed_to?(:manage_subtasks, project)
         attrs.delete('parent_issue_id')
@@ -279,10 +279,10 @@ class Issue < ActiveRecord::Base
         attrs.delete('parent_issue_id') unless Issue.visible(user).exists?(attrs['parent_issue_id'].to_i)
       end
     end
-    
+
     self.attributes = attrs
   end
-  
+
   def done_ratio
     if Issue.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio
@@ -298,20 +298,20 @@ class Issue < ActiveRecord::Base
   def self.use_field_for_done_ratio?
     Setting.issue_done_ratio == 'issue_field'
   end
-  
+
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
       errors.add :due_date, :not_a_date
     end
-    
+
     if self.due_date and self.start_date and self.due_date < self.start_date
       errors.add :due_date, :greater_than_start_date
     end
-    
+
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :invalid
     end
-    
+
     if fixed_version
       if !assignable_versions.include?(fixed_version)
         errors.add :fixed_version_id, :inclusion
@@ -319,14 +319,14 @@ class Issue < ActiveRecord::Base
         errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version)
       end
     end
-    
+
     # Checks that the issue can not be added/moved to a disabled tracker
     if project && (tracker_id_changed? || project_id_changed?)
       unless project.trackers.include?(tracker)
         errors.add :tracker_id, :inclusion
       end
     end
-    
+
     # Checks parent issue assignment
     if @parent_issue
       if @parent_issue.project_id != project_id
@@ -343,7 +343,7 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
+
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
@@ -351,19 +351,19 @@ class Issue < ActiveRecord::Base
       self.done_ratio = status.default_done_ratio
     end
   end
-  
+
   # Callback on attachment deletion
   def attachment_removed(obj)
     init_journal(User.current)
     create_journal
     last_journal.update_attribute(:changes, {"attachments_" + obj.id.to_s => [obj.filename, nil]}.to_yaml)
   end
-  
+
   # Return true if the issue is closed, otherwise false
   def closed?
     self.status.is_closed?
   end
-  
+
   # Return true if the issue is being reopened
   def reopened?
     if !new_record? && status_id_changed?
@@ -387,7 +387,7 @@ class Issue < ActiveRecord::Base
     end
     false
   end
-  
+
   # Returns true if the issue is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
@@ -404,24 +404,24 @@ class Issue < ActiveRecord::Base
   def children?
     !leaf?
   end
-  
+
   # Users the issue can be assigned to
   def assignable_users
     users = project.assignable_users
     users << author if author
     users.uniq.sort
   end
-  
+
   # Versions that the issue can be assigned to
   def assignable_versions
     @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
   end
-  
+
   # Returns true if this issue is blocked by another issue that is still open
   def blocked?
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
-  
+
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default=false)
     statuses = status.find_new_statuses_allowed_to(
@@ -435,7 +435,7 @@ class Issue < ActiveRecord::Base
     statuses = statuses.uniq.sort
     blocked? ? statuses.reject {|s| s.is_closed?} : statuses
   end
-  
+
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
@@ -448,7 +448,7 @@ class Issue < ActiveRecord::Base
     notified.reject! {|user| !visible?(user)}
     notified.collect(&:mail)
   end
-  
+
   # Returns the total number of hours spent on this issue and its descendants
   #
   # Example:
@@ -457,50 +457,50 @@ class Issue < ActiveRecord::Base
   def spent_hours
     @spent_hours ||= self_and_descendants.sum("#{TimeEntry.table_name}.hours", :include => :time_entries).to_f || 0.0
   end
-  
+
   def relations
     (relations_from + relations_to).sort
   end
-  
+
   def all_dependent_issues(except=[])
     except << self
     dependencies = []
     relations_from.each do |relation|
-      if relation.issue_to && !except.include?(relation.issue_to) 
+      if relation.issue_to && !except.include?(relation.issue_to)
         dependencies << relation.issue_to
         dependencies += relation.issue_to.all_dependent_issues(except)
       end
     end
     dependencies
   end
-  
+
   # Returns an array of issues that duplicate this one
   def duplicates
     relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
   end
-  
+
   # Returns the due date or the target due date if any
   # Used on gantt chart
   def due_before
     due_date || (fixed_version ? fixed_version.effective_date : nil)
   end
-  
+
   # Returns the time scheduled for this issue.
-  # 
+  #
   # Example:
   #   Start Date: 2/26/09, End Date: 3/04/09
   #   duration => 6
   def duration
     (start_date && due_date) ? due_date - start_date : 0
   end
-  
+
   def soonest_start
     @soonest_start ||= (
         relations_to.collect{|relation| relation.successor_soonest_start} +
         ancestors.collect(&:soonest_start)
       ).compact.max
   end
-  
+
   def reschedule_after(date)
     return if date.nil?
     if leaf?
@@ -514,7 +514,7 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
+
   def <=>(issue)
     if issue.nil?
       -1
@@ -524,11 +524,11 @@ class Issue < ActiveRecord::Base
       (lft || 0) <=> (issue.lft || 0)
     end
   end
-  
+
   def to_s
     "#{tracker} ##{id}: #{subject}"
   end
-  
+
   # Returns a string of css classes that apply to the issue
   def css_classes
     s = "issue status-#{status.position} priority-#{priority.position}"
@@ -554,10 +554,10 @@ class Issue < ActiveRecord::Base
         @time_entry.attributes = params[:time_entry]
         self.time_entries << @time_entry
       end
-  
+
       if valid?
         attachments = Attachment.attach_files(self, params[:attachments])
-  
+
         # TODO: Rename hook
         Redmine::Hook.call_hook(:controller_issues_edit_before_save, { :params => params, :issue => self, :time_entry => @time_entry, :journal => current_journal})
         begin
@@ -581,7 +581,7 @@ class Issue < ActiveRecord::Base
     # Update issues assigned to the version
     update_versions(["#{Issue.table_name}.fixed_version_id = ?", version.id])
   end
-  
+
   # Unassigns issues from versions that are no longer shared
   # after +project+ was moved
   def self.update_versions_from_hierarchy_change(project)
@@ -599,7 +599,7 @@ class Issue < ActiveRecord::Base
       nil
     end
   end
-  
+
   def parent_issue_id
     if instance_variable_defined? :@parent_issue
       @parent_issue.nil? ? nil : @parent_issue.id
@@ -646,19 +646,19 @@ class Issue < ActiveRecord::Base
   end
 
   def self.by_subproject(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
                                                 i.project_id as project_id,
-                                                count(i.id) as total 
-                                              from 
+                                                count(i.id) as total
+                                              from
                                                 #{Issue.table_name} i, #{IssueStatus.table_name} s
-                                              where 
-                                                i.status_id=s.id 
+                                              where
+                                                i.status_id=s.id
                                                 and i.project_id IN (#{project.descendants.active.collect{|p| p.id}.join(',')})
                                               group by s.id, s.is_closed, i.project_id") if project.descendants.active.any?
   end
   # End ReportsController extraction
-  
+
   # Returns an array of projects that current user can move issues to
   def self.allowed_target_projects_on_move
     projects = []
@@ -674,9 +674,9 @@ class Issue < ActiveRecord::Base
     end
     projects
   end
-   
+
   private
-  
+
   def update_nested_set_attributes
     if root_id.nil?
       # issue was just created
@@ -723,7 +723,7 @@ class Issue < ActiveRecord::Base
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
   end
-  
+
   def update_parent_attributes
     recalculate_attributes_for(parent_id) if parent_id
   end
@@ -734,14 +734,14 @@ class Issue < ActiveRecord::Base
       if priority_position = p.children.maximum("#{IssuePriority.table_name}.position", :include => :priority)
         p.priority = IssuePriority.find_by_position(priority_position)
       end
-      
+
       # start/due dates = lowest/highest dates of children
       p.start_date = p.children.minimum(:start_date)
       p.due_date = p.children.maximum(:due_date)
       if p.start_date && p.due_date && p.due_date < p.start_date
         p.start_date, p.due_date = p.due_date, p.start_date
       end
-      
+
       # done ratio = weighted average ratio of leaves
       unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
         leaves_count = p.leaves.count
@@ -755,16 +755,16 @@ class Issue < ActiveRecord::Base
           p.done_ratio = progress.round
         end
       end
-      
+
       # estimate = sum of leaves estimates
       p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
       p.estimated_hours = nil if p.estimated_hours == 0.0
-      
+
       # ancestors will be recursively updated
       p.save(false)
     end
   end
-  
+
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project
   def self.update_versions(conditions=nil)
@@ -783,7 +783,7 @@ class Issue < ActiveRecord::Base
       end
     end
   end
-  
+
   # Default assignment based on category
   def default_assign
     if assigned_to.nil? && category && category.assigned_to
@@ -830,20 +830,20 @@ class Issue < ActiveRecord::Base
     joins = options.delete(:joins)
 
     where = "i.#{select_field}=j.id"
-    
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
+
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
                                                 j.id as #{select_field},
-                                                count(i.id) as total 
-                                              from 
+                                                count(i.id) as total
+                                              from
                                                   #{Issue.table_name} i, #{IssueStatus.table_name} s, #{joins} j
-                                              where 
-                                                i.status_id=s.id 
+                                              where
+                                                i.status_id=s.id
                                                 and #{where}
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
-  
+
 
   IssueJournal.class_eval do
     # Shortcut

@@ -1,26 +1,26 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class ChiliprojectPluginGenerator < Rails::Generator::NamedBase
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
-  
+
   def initialize(runtime_args, runtime_options = {})
     super
     @plugin_name = "chiliproject_#{file_name.underscore}"
     @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
   end
-  
+
   def manifest
     record do |m|
       m.directory "#{plugin_path}/app/controllers"
@@ -35,7 +35,7 @@ class ChiliprojectPluginGenerator < Rails::Generator::NamedBase
       m.directory "#{plugin_path}/lang"
       m.directory "#{plugin_path}/config/locales"
       m.directory "#{plugin_path}/test"
-      
+
       m.template 'README.rdoc',    "#{plugin_path}/README.rdoc"
       m.template 'init.rb.erb',   "#{plugin_path}/init.rb"
       m.template 'en.yml',    "#{plugin_path}/lang/en.yml"

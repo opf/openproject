@@ -1,16 +1,16 @@
---- 
-issues_001: 
+---
+issues_001:
   created_on: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Can't print recipes
   id: 1
-  fixed_version_id: 
+  fixed_version_id:
   category_id: 1
   description: Unable to print recipes
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -18,7 +18,7 @@ issues_001:
   root_id: 1
   lft: 1
   rgt: 2
-issues_002: 
+issues_002:
   created_on: 2006-07-19 21:04:21 +02:00
   project_id: 1
   updated_on: 2006-07-19 21:09:50 +02:00
@@ -26,28 +26,28 @@ issues_002:
   subject: Add ingredients categories
   id: 2
   fixed_version_id: 2
-  category_id: 
+  category_id:
   description: Ingredients of the recipe should be classified by categories
   tracker_id: 2
   assigned_to_id: 3
   author_id: 2
   status_id: 2
   start_date: <%= 2.day.ago.to_date.to_s(:db) %>
-  due_date: 
+  due_date:
   root_id: 2
   lft: 1
   rgt: 2
   lock_version: 3
   done_ratio: 30
-issues_003: 
+issues_003:
   created_on: 2006-07-19 21:07:27 +02:00
   project_id: 1
   updated_on: 2006-07-19 21:07:27 +02:00
   priority_id: 4
   subject: Error 281 when updating a recipe
   id: 3
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: Error 281 is encountered when saving a recipe
   tracker_id: 1
   assigned_to_id: 3
@@ -58,15 +58,15 @@ issues_003:
   root_id: 3
   lft: 1
   rgt: 2
-issues_004: 
+issues_004:
   created_on: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 2
   updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Issue on project 2
   id: 4
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: Issue on project 2
   tracker_id: 1
   assigned_to_id: 2
@@ -75,35 +75,35 @@ issues_004:
   root_id: 4
   lft: 1
   rgt: 2
-issues_005: 
+issues_005:
   created_on: <%= 5.days.ago.to_date.to_s(:db) %>
   project_id: 3
   updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Subproject issue
   id: 5
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is an issue on a cookbook subproject
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   root_id: 5
   lft: 1
   rgt: 2
-issues_006: 
+issues_006:
   created_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   priority_id: 4
   subject: Issue of a private subproject
   id: 6
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is an issue of a private subproject of cookbook
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   start_date: <%= Date.today.to_s(:db) %>
@@ -111,18 +111,18 @@ issues_006:
   root_id: 6
   lft: 1
   rgt: 2
-issues_007: 
+issues_007:
   created_on: <%= 10.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_on: <%= 10.days.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Issue due today
   id: 7
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is an issue that is due today
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   start_date: <%= 10.days.ago.to_s(:db) %>
@@ -131,38 +131,38 @@ issues_007:
   root_id: 7
   lft: 1
   rgt: 2
-issues_008: 
+issues_008:
   created_on: <%= 10.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_on: <%= 10.days.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Closed issue
   id: 8
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is a closed issue.
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 5
-  start_date: 
-  due_date: 
+  start_date:
+  due_date:
   lock_version: 0
   root_id: 8
   lft: 1
   rgt: 2
-issues_009: 
+issues_009:
   created_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Blocked Issue
   id: 9
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is an issue that is blocked by issue #10
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   start_date: <%= Date.today.to_s(:db) %>
@@ -170,18 +170,18 @@ issues_009:
   root_id: 9
   lft: 1
   rgt: 2
-issues_010: 
+issues_010:
   created_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   project_id: 5
   updated_on: <%= 1.minute.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Issue Doing the Blocking
   id: 10
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is an issue that blocks issue #9
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   start_date: <%= Date.today.to_s(:db) %>
@@ -189,18 +189,18 @@ issues_010:
   root_id: 10
   lft: 1
   rgt: 2
-issues_011: 
+issues_011:
   created_on: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Closed issue on a closed version
   id: 11
-  fixed_version_id: 1 
+  fixed_version_id: 1
   category_id: 1
   description:
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 5
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -208,18 +208,18 @@ issues_011:
   root_id: 11
   lft: 1
   rgt: 2
-issues_012: 
+issues_012:
   created_on: <%= 3.days.ago.to_date.to_s(:db) %>
   project_id: 1
   updated_on: <%= 1.day.ago.to_date.to_s(:db) %>
   priority_id: 5
   subject: Closed issue on a locked version
   id: 12
-  fixed_version_id: 2 
+  fixed_version_id: 2
   category_id: 1
   description:
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 3
   status_id: 5
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
@@ -234,11 +234,11 @@ issues_013:
   priority_id: 4
   subject: Subproject issue two
   id: 13
-  fixed_version_id: 
-  category_id: 
+  fixed_version_id:
+  category_id:
   description: This is a second issue on a cookbook subproject
   tracker_id: 1
-  assigned_to_id: 
+  assigned_to_id:
   author_id: 2
   status_id: 1
   root_id: 13

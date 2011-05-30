@@ -1,8 +1,8 @@
---- 
-groups_users_001: 
+---
+groups_users_001:
   group_id: 10
   user_id: 8
-groups_users_002: 
+groups_users_002:
   group_id: 11
   user_id: 8
-  
+

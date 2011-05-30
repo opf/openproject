@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -21,10 +21,10 @@ class MessagesController < ApplicationController
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
   verify :xhr => true, :only => :quote
 
-  include AttachmentsHelper   
+  include AttachmentsHelper
 
   REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
-  
+
   # Show a topic and its replies
   def show
     page = params[:page]
@@ -33,18 +33,18 @@ class MessagesController < ApplicationController
       offset = @topic.children.count(:conditions => ["#{Message.table_name}.id < ?", params[:r].to_i])
       page = 1 + offset / REPLIES_PER_PAGE
     end
-    
+
     @reply_count = @topic.children.count
     @reply_pages = Paginator.new self, @reply_count, REPLIES_PER_PAGE, page
     @replies =  @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}],
                                            :order => "#{Message.table_name}.created_on ASC",
                                            :limit => @reply_pages.items_per_page,
                                            :offset => @reply_pages.current.offset)
-    
+
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end
-  
+
   # Create a new topic
   def new
     @message = Message.new(params[:message])
@@ -91,7 +91,7 @@ class MessagesController < ApplicationController
       redirect_to :action => 'show', :board_id => @message.board, :id => @message.root, :r => (@message.parent_id && @message.id)
     end
   end
-  
+
   # Delete a messages
   def destroy
     (render_403; return false) unless @message.destroyable_by?(User.current)
@@ -100,7 +100,7 @@ class MessagesController < ApplicationController
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
       { :action => 'show', :id => @message.parent, :r => @message }
   end
-  
+
   def quote
     user = @message.author
     text = @message.content
@@ -117,14 +117,14 @@ class MessagesController < ApplicationController
       page << "$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;"
     }
   end
-  
+
   def preview
     message = @board.messages.find_by_id(params[:id])
     @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
     render :partial => 'common/preview'
   end
-  
+
 private
   def find_message
     find_board
@@ -133,7 +133,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_board
     @board = Board.find(params[:board_id], :include => :project)
     @project = @board.project

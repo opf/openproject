@@ -1,30 +1,30 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Group < Principal
   has_and_belongs_to_many :users, :after_add => :user_added,
                                   :after_remove => :user_removed
-  
+
   acts_as_customizable
-  
+
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30
-    
+
   def to_s
     lastname.to_s
   end
-  
+
   def user_added(user)
     members.each do |member|
       next if member.project.nil?
@@ -35,7 +35,7 @@ class Group < Principal
       user_member.save!
     end
   end
-  
+
   def user_removed(user)
     members.each do |member|
       MemberRole.find(:all, :include => :member,

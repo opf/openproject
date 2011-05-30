@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -31,17 +31,17 @@ class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
-  
+
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
 
-  include AttachmentsHelper   
+  include AttachmentsHelper
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)
   end
-  
+
   # List of page, by last update
   def date_index
     load_pages_for_index
@@ -79,13 +79,13 @@ class WikiController < ApplicationController
     end
     @editable = editable?
   end
-  
+
   # edit an existing page or a new one
   def edit
-    @page = @wiki.find_or_new_page(params[:id])    
+    @page = @wiki.find_or_new_page(params[:id])
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
-    
+
     @content = @page.content_for_version(params[:version])
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
@@ -98,10 +98,10 @@ class WikiController < ApplicationController
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
-    @page = @wiki.find_or_new_page(params[:id])    
+    @page = @wiki.find_or_new_page(params[:id])
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
-    
+
     @content = @page.content_for_version(params[:version])
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
@@ -144,7 +144,7 @@ class WikiController < ApplicationController
       redirect_to :action => 'show', :project_id => @project, :id => @page.title
     end
   end
-  
+
   def protect
     @page.update_attribute :protected, params[:protected]
     redirect_to :action => 'show', :project_id => @project, :id => @page.title
@@ -154,8 +154,8 @@ class WikiController < ApplicationController
   def history
     @version_count = @page.content.versions.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
-    # don't load text    
-    @versions = @page.content.versions.find :all, 
+    # don't load text
+    @versions = @page.content.versions.find :all,
                                             :select => "id, user_id, notes, created_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
@@ -163,12 +163,12 @@ class WikiController < ApplicationController
 
     render :layout => false if request.xhr?
   end
-  
+
   def diff
     @diff = @page.diff(params[:version], params[:version_from])
     render_404 unless @diff
   end
-  
+
   def annotate
     @annotate = @page.annotate(params[:version])
     render_404 unless @annotate
@@ -179,7 +179,7 @@ class WikiController < ApplicationController
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy
     return render_403 unless editable?
-    
+
     @descendants_count = @page.descendants.size
     if @descendants_count > 0
       case params[:todo]
@@ -214,7 +214,7 @@ class WikiController < ApplicationController
       redirect_to :action => 'show', :project_id => @project, :id => nil
     end
   end
-  
+
   def preview
     page = @wiki.find_page(params[:id])
     # page is nil when previewing a new page
@@ -235,7 +235,7 @@ class WikiController < ApplicationController
   end
 
 private
-  
+
   def find_wiki
     @project = Project.find(params[:project_id])
     @wiki = @project.wiki
@@ -243,13 +243,13 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
     @page = @wiki.find_page(params[:id])
     render_404 if @page.nil?
   end
-  
+
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)
@@ -261,7 +261,7 @@ private
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
-  
+
   def load_pages_for_index
     @pages = @wiki.pages.with_updated_on.all(:order => 'title', :include => {:wiki => :project})
   end

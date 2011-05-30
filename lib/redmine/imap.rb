@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -21,8 +21,8 @@ module Redmine
         port = imap_options[:port] || '143'
         ssl = !imap_options[:ssl].nil?
         folder = imap_options[:folder] || 'INBOX'
-        
-        imap = Net::IMAP.new(host, port, ssl)        
+
+        imap = Net::IMAP.new(host, port, ssl)
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
         imap.select(folder)
         imap.search(['NOT', 'SEEN']).each do |message_id|
@@ -45,9 +45,9 @@ module Redmine
         end
         imap.expunge
       end
-      
+
       private
-      
+
       def logger
         RAILS_DEFAULT_LOGGER
       end

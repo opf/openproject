@@ -8,17 +8,17 @@ function add_filter() {
     check_box.checked = true;
     toggle_filter(field);
     select.selectedIndex = 0;
-    
+
     for (i=0; i<select.options.length; i++) {
         if (select.options[i].value == field) {
             select.options[i].disabled = true;
-        }    
+        }
     }
 }
 
 function toggle_filter(field) {
     check_box = $('cb_' + field);
-    
+
     if (check_box.checked) {
         Element.show("operators_" + field);
 				Form.Element.enable("operators_" + field);
@@ -87,12 +87,12 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
     <td style="width:150px;">
         <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
-    <td>    
+    <td>
     <div id="div_values_<%= field %>" style="display:none;">
     <% case options[:type]
     when :list, :list_optional, :list_status, :list_subprojects %>
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="v[<%= field %>][]" id="values_<%= field %>" class="select-small" style="vertical-align: top;">
-        <%= options_for_select options[:values], query.values_for(field) %>        
+        <%= options_for_select options[:values], query.values_for(field) %>
         </select>
         <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{field}');", :style => "vertical-align: bottom;" %>
     <% when :date, :date_past %>

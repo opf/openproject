@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -53,7 +53,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   if ruby19_non_utf8_pass
     puts "TODO: Mercurial functional test fails in Ruby 1.9 " +
          "and Encoding.default_external is not UTF-8. " +
-         "Current value is '#{Encoding.default_external.to_s}'" 
+         "Current value is '#{Encoding.default_external.to_s}'"
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)
     def test_show_root
@@ -182,7 +182,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
-    
+
     def test_entry_show
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb']
       assert_response :success
@@ -206,7 +206,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                                :content => /Mercurial is a distributed version control system/ }
       end
     end
-    
+
     def test_entry_download
       get :entry, :id => PRJ_ID, :path => ['sources', 'watchers_controller.rb'], :format => 'raw'
       assert_response :success
@@ -240,7 +240,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           # Line 22 removed
           assert_tag :tag => 'th',
                      :content => '22',
-                     :sibling => { :tag => 'td', 
+                     :sibling => { :tag => 'td',
                                    :attributes => { :class => /diff_out/ },
                                    :content => /def remove/ }
           assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
@@ -272,7 +272,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
         assert_template 'diff'
         assert_tag :tag => 'th',
                    :content => '2',
-                   :sibling => { :tag => 'td', 
+                   :sibling => { :tag => 'td',
                                :attributes => { :class => /diff_in/ },
                                :content => /It is written in Python/ }
       end
@@ -340,7 +340,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                           :tag     => 'td'    ,
                           :content => 'jsmith' ,
                           :attributes => { :class   => 'author' },
-                          
+
                         }
         assert_tag :tag => 'th',
                  :content => '1',

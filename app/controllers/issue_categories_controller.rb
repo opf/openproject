@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -18,7 +18,7 @@ class IssueCategoriesController < ApplicationController
   before_filter :find_project_from_association, :except => :new
   before_filter :find_project, :only => :new
   before_filter :authorize
-  
+
   verify :method => :post, :only => :destroy
 
   def new
@@ -47,7 +47,7 @@ class IssueCategoriesController < ApplicationController
       end
     end
   end
-  
+
   def edit
     if request.post? and @category.update_attributes(params[:category])
       flash[:notice] = l(:notice_successful_update)
@@ -77,8 +77,8 @@ private
   def find_model_object
     super
     @category = @object
-  end    
-  
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

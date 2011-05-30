@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -25,9 +25,9 @@ module CustomFieldsHelper
             {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
             ]
   end
-  
+
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(name, custom_value)	
+  def custom_field_tag(name, custom_value)
     custom_field = custom_value.custom_field
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
@@ -35,7 +35,7 @@ module CustomFieldsHelper
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
     when "date"
-      text_field_tag(field_name, custom_value.value, :id => field_id, :size => 10) + 
+      text_field_tag(field_name, custom_value.value, :id => field_id, :size => 10) +
       calendar_for(field_id)
     when "text"
       text_area_tag(field_name, custom_value.value, :id => field_id, :rows => 3, :style => 'width:90%')
@@ -43,14 +43,14 @@ module CustomFieldsHelper
       hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, :id => field_id)
     when "list"
       blank_option = custom_field.is_required? ?
-                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') : 
+                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') :
                        '<option></option>'
       select_tag(field_name, blank_option + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value), :id => field_id)
     else
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
   end
-  
+
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value)
     content_tag "label", custom_value.custom_field.name +
@@ -58,19 +58,19 @@ module CustomFieldsHelper
 	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
 	:class => (custom_value.errors.empty? ? nil : "error" )
   end
-  
+
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value)
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
-  
+
   def custom_field_tag_for_bulk_edit(name, custom_field)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
       when "date"
-        text_field_tag(field_name, '', :id => field_id, :size => 10) + 
+        text_field_tag(field_name, '', :id => field_id, :size => 10) +
         calendar_for(field_id)
       when "text"
         text_area_tag(field_name, '', :id => field_id, :rows => 3, :style => 'width:90%')
@@ -90,7 +90,7 @@ module CustomFieldsHelper
     return "" unless custom_value
     format_value(custom_value.value, custom_value.custom_field.field_format)
   end
-  
+
   # Return a string used to display a custom value
   def format_value(value, field_format)
     Redmine::CustomFieldFormat.format_value(value, field_format) # Proxy
@@ -100,7 +100,7 @@ module CustomFieldsHelper
   def custom_field_formats_for_select(custom_field)
     Redmine::CustomFieldFormat.as_select(custom_field.class.customized_class.name)
   end
-  
+
   # Renders the custom_values in api views
   def render_api_custom_values(custom_values, api)
     api.array :custom_fields do

@@ -14,7 +14,7 @@ wiki_contents_001:
 wiki_contents_002:
   text: |-
     h1. Another page
-    
+
     This is a link to a ticket: #2
     And this is an included page:
     {{include(Page with an inline image)}}
@@ -26,7 +26,7 @@ wiki_contents_002:
 wiki_contents_003:
   text: |-
     h1. Start page
-    
+
     E-commerce web site start page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 3
@@ -36,9 +36,9 @@ wiki_contents_003:
 wiki_contents_004:
   text: |-
     h1. Page with an inline image
-    
+
     This is an inline image:
-    
+
     !logo.gif!
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 4
@@ -48,7 +48,7 @@ wiki_contents_004:
 wiki_contents_005:
   text: |-
     h1. Child page 1
-    
+
     This is a child page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 5
@@ -58,7 +58,7 @@ wiki_contents_005:
 wiki_contents_006:
   text: |-
     h1. Child page 2
-    
+
     This is a child page
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 6
@@ -93,4 +93,4 @@ wiki_contents_010:
   id: 10
   lock_version: 1
   author_id: 1
-  
+

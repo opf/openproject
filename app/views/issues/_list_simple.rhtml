@@ -1,13 +1,13 @@
 <% if issues && issues.any? %>
 <% form_tag({}) do %>
-	<table class="list issues">		
+	<table class="list issues">
 		<thead><tr>
 		<th>#</th>
 		<th><%=l(:field_project)%></th>
 		<th><%=l(:field_tracker)%></th>
 		<th><%=l(:field_subject)%></th>
 		</tr></thead>
-		<tbody>	
+		<tbody>
 		<% for issue in issues %>
 		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 			<td class="id">

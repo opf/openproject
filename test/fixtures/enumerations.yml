@@ -1,64 +1,64 @@
---- 
-enumerations_001: 
+---
+enumerations_001:
   name: Uncategorized
   id: 1
   type: DocumentCategory
   active: true
-enumerations_002: 
+enumerations_002:
   name: User documentation
   id: 2
   type: DocumentCategory
   active: true
-enumerations_003: 
+enumerations_003:
   name: Technical documentation
   id: 3
   type: DocumentCategory
   active: true
-enumerations_004: 
+enumerations_004:
   name: Low
   id: 4
   type: IssuePriority
   active: true
   position: 1
-enumerations_005: 
+enumerations_005:
   name: Normal
   id: 5
   type: IssuePriority
   is_default: true
   active: true
   position: 2
-enumerations_006: 
+enumerations_006:
   name: High
   id: 6
   type: IssuePriority
   active: true
   position: 3
-enumerations_007: 
+enumerations_007:
   name: Urgent
   id: 7
   type: IssuePriority
   active: true
   position: 4
-enumerations_008: 
+enumerations_008:
   name: Immediate
   id: 8
   type: IssuePriority
   active: true
   position: 5
-enumerations_009: 
+enumerations_009:
   name: Design
   id: 9
   type: TimeEntryActivity
   position: 1
   active: true
-enumerations_010: 
+enumerations_010:
   name: Development
   id: 10
   type: TimeEntryActivity
   position: 2
   is_default: true
   active: true
-enumerations_011: 
+enumerations_011:
   name: QA
   id: 11
   type: TimeEntryActivity
@@ -75,7 +75,7 @@ enumerations_013:
   id: 13
   type: Enumeration
   active: true
-enumerations_014: 
+enumerations_014:
   name: Inactive Activity
   id: 14
   type: TimeEntryActivity

@@ -12,10 +12,10 @@ eu:
       default: "%Y/%m/%d"
       short: "%b %d"
       long: "%Y %B %d"
-      
+
     day_names: [Igandea, Astelehena, Asteartea, Asteazkena, Osteguna, Ostirala, Larunbata]
     abbr_day_names: [Ig., Al., Ar., Az., Og., Or., La.]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Urtarrila, Otsaila, Martxoa, Apirila, Maiatza, Ekaina, Uztaila, Abuztua, Iraila, Urria, Azaroa, Abendua]
     abbr_month_names: [~, Urt, Ots, Mar, Api, Mai, Eka, Uzt, Abu, Ira, Urr, Aza, Abe]
@@ -33,7 +33,7 @@ eu:
       long: "%Y %B %d %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "minutu erdi"
@@ -91,13 +91,13 @@ eu:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "eta"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -131,7 +131,7 @@ eu:
         cant_link_an_issue_with_a_descendant: "Zeregin bat ezin da bere azpiataza batekin estekatu."
 
   actionview_instancetag_blank_option: Hautatu mesedez
-  
+
   general_text_No: 'Ez'
   general_text_Yes: 'Bai'
   general_text_no: 'ez'
@@ -142,7 +142,7 @@ eu:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Kontua ongi eguneratu da.
   notice_account_invalid_creditentials: Erabiltzaile edo pasahitz ezegokia
   notice_account_password_updated: Pasahitza ongi eguneratu da.
@@ -169,7 +169,7 @@ eu:
   notice_default_data_loaded: Lehenetsitako konfigurazioa ongi kargatu da.
   notice_unable_delete_version: Ezin da bertsioa ezabatu.
   notice_issue_done_ratios_updated: Burututako zereginen erlazioa eguneratu da.
-  
+
   error_can_t_load_default_data: "Ezin izan da lehenetsitako konfigurazioa kargatu: %{value}"
   error_scm_not_found: "Sarrera edo berrikuspena ez da biltegian topatu."
   error_scm_command_failed: "Errorea gertatu da biltegia atzitzean: %{value}"
@@ -182,9 +182,9 @@ eu:
   error_issue_done_ratios_not_updated: "Burututako zereginen erlazioa ez da eguneratu."
   error_workflow_copy_source: 'Mesedez hautatu iturburuko aztarnari edo rola'
   error_workflow_copy_target: 'Mesedez hautatu helburuko aztarnari(ak) edo rola(k)'
-  
+
   warning_attachments_not_saved: "%{count} fitxategi ezin izan d(ir)a gorde."
-  
+
   mail_subject_lost_password: "Zure %{value} pasahitza"
   mail_body_lost_password: 'Zure pasahitza aldatzeko hurrengo estekan klikatu:'
   mail_subject_register: "Zure %{value} kontuaren gaitzea"
@@ -199,10 +199,10 @@ eu:
   mail_body_wiki_content_added: "%{author}-(e)k '%{id}' wiki orria gehitu du."
   mail_subject_wiki_content_updated: "'%{id}' wiki orria eguneratu da"
   mail_body_wiki_content_updated: "%{author}-(e)k '%{id}' wiki orria eguneratu du."
-  
+
   gui_validation_error: akats 1
   gui_validation_error_plural: "%{count} akats"
-  
+
   field_name: Izena
   field_description: Deskribapena
   field_summary: Laburpena
@@ -346,7 +346,7 @@ eu:
   setting_issue_done_ratio_issue_status: Zeregin egoera erabili
   setting_start_of_week: "Egutegiak noiz hasi:"
   setting_rest_api_enabled: Gaitu REST web zerbitzua
-  
+
   permission_add_project: Proiektua sortu
   permission_add_subprojects: Azpiproiektuak sortu
   permission_edit_project: Proiektua editatu
@@ -399,7 +399,7 @@ eu:
   permission_edit_own_messages: Nork bere mezuak aldatu
   permission_delete_messages: Mezuak ezabatu
   permission_delete_own_messages: Nork bere mezuak ezabatu
-  
+
   project_module_issue_tracking: Zereginen jarraipena
   project_module_time_tracking: Denbora jarraipena
   project_module_news: Berriak
@@ -408,7 +408,7 @@ eu:
   project_module_wiki: Wiki
   project_module_repository: Biltegia
   project_module_boards: Foroak
-  
+
   label_user: Erabiltzailea
   label_user_plural: Erabiltzaileak
   label_user_new: Erabiltzaile berria
@@ -604,7 +604,7 @@ eu:
   label_modification: "aldaketa %{count}"
   label_modification_plural: "%{count} aldaketa"
   label_branch: Adarra
-  label_tag: Etiketa 
+  label_tag: Etiketa
   label_revision: Berrikuspena
   label_revision_plural: Berrikuspenak
   label_revision_id: "%{value} berrikuspen"
@@ -760,7 +760,7 @@ eu:
   label_api_access_key: API atzipen giltza
   label_missing_api_access_key: API atzipen giltza falta da
   label_api_access_key_created_on: "API atzipen giltza sortuta orain dela %{value}"
-  
+
   button_login: Saioa hasi
   button_submit: Bidali
   button_save: Gorde
@@ -804,17 +804,17 @@ eu:
   button_quote: Aipatu
   button_duplicate: Bikoiztu
   button_show: Ikusi
-  
+
   status_active: gaituta
   status_registered: izena emanda
   status_locked: blokeatuta
-  
+
   version_status_open: irekita
   version_status_locked: blokeatuta
   version_status_closed: itxita
 
   field_active: Gaituta
-  
+
   text_select_mail_notifications: Jakinarazpenak zein ekintzetarako bidaliko diren hautatu.
   text_regexp_info: adib. ^[A-Z0-9]+$
   text_min_max_length_info: 0k mugarik gabe esan nahi du
@@ -870,7 +870,7 @@ eu:
   text_wiki_page_destroy_children: "Orri semeak eta beraien ondorengo guztiak ezabatu"
   text_wiki_page_reassign_children: "Orri semeak orri guraso honetara esleitu"
   text_own_membership_delete_confirmation: "Zure baimen batzuk (edo guztiak) kentzera zoaz eta baliteke horren ondoren proiektu hau ezin editatzea.\n Ziur zaude jarraitu nahi duzula?"
-  
+
   default_role_manager: Kudeatzailea
   default_role_developer: Garatzailea
   default_role_reporter: Berriemailea
@@ -894,7 +894,7 @@ eu:
   default_priority_immediate: Berehalakoa
   default_activity_design: Diseinua
   default_activity_development: Garapena
-  
+
   enumeration_issue_priorities: Zeregin lehentasunak
   enumeration_doc_categories: Dokumentu kategoriak
   enumeration_activities: Jarduerak (denbora kontrola))

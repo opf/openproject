@@ -61,7 +61,7 @@ diff_max_lines_displayed:
   default: 1500
 enabled_scm:
   serialized: true
-  default: 
+  default:
   - Subversion
   - Darcs
   - Mercurial
@@ -89,7 +89,7 @@ commit_logtime_activity_id:
   format: int
   default: 0
 # autologin duration in days
-# 0 means autologin is disabled 
+# 0 means autologin is disabled
 autologin:
   format: int
   default: 0
@@ -105,7 +105,7 @@ cross_project_issue_relations:
   default: 0
 notified_events:
   serialized: true
-  default: 
+  default:
   - issue_added
   - issue_updated
 mail_handler_body_delimiters:
@@ -113,10 +113,10 @@ mail_handler_body_delimiters:
 mail_handler_api_enabled:
   default: 0
 mail_handler_api_key:
-  default: 
+  default:
 issue_list_default_columns:
   serialized: true
-  default: 
+  default:
   - tracker
   - status
   - priority
@@ -131,7 +131,7 @@ default_projects_public:
   default: 1
 default_projects_modules:
   serialized: true
-  default: 
+  default:
   - issue_tracking
   - time_tracking
   - news
@@ -164,7 +164,7 @@ emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
     To change your notification preferences, please click here: http://hostname/my/account
-gravatar_enabled:  
+gravatar_enabled:
   default: 0
 openid:
   default: 0

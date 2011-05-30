@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -82,7 +82,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
     setup do
       @auth_source = AuthSource.generate!(:name => 'TestEdit')
     end
-    
+
     context "without users" do
       setup do
         post :destroy, :id => @auth_source.id
@@ -92,13 +92,13 @@ class AuthSourcesControllerTest < ActionController::TestCase
       should_redirect_to("index") {{:action => 'index'}}
       should_set_the_flash_to /deletion/i
     end
-    
+
     context "with users" do
       setup do
         User.generate!(:auth_source => @auth_source)
         post :destroy, :id => @auth_source.id
       end
-      
+
       should_respond_with :redirect
       should "not destroy the AuthSource" do
         assert AuthSource.find(@auth_source.id)

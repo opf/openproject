@@ -1,5 +1,5 @@
---- 
-custom_fields_001: 
+---
+custom_fields_001:
   name: Database
   min_length: 0
   regexp: ""
@@ -7,7 +7,7 @@ custom_fields_001:
   is_filter: true
   type: IssueCustomField
   max_length: 0
-  possible_values: 
+  possible_values:
   - MySQL
   - PostgreSQL
   - Oracle
@@ -16,7 +16,7 @@ custom_fields_001:
   field_format: list
   default_value: ""
   editable: true
-custom_fields_002: 
+custom_fields_002:
   name: Searchable field
   min_length: 1
   regexp: ""
@@ -30,7 +30,7 @@ custom_fields_002:
   searchable: true
   default_value: "Default string"
   editable: true
-custom_fields_003: 
+custom_fields_003:
   name: Development status
   min_length: 0
   regexp: ""
@@ -38,7 +38,7 @@ custom_fields_003:
   is_filter: true
   type: ProjectCustomField
   max_length: 0
-  possible_values: 
+  possible_values:
   - Stable
   - Beta
   - Alpha
@@ -48,7 +48,7 @@ custom_fields_003:
   field_format: list
   default_value: ""
   editable: true
-custom_fields_004: 
+custom_fields_004:
   name: Phone number
   min_length: 0
   regexp: ""
@@ -61,7 +61,7 @@ custom_fields_004:
   field_format: string
   default_value: ""
   editable: true
-custom_fields_005: 
+custom_fields_005:
   name: Money
   min_length: 0
   regexp: ""
@@ -74,7 +74,7 @@ custom_fields_005:
   field_format: float
   default_value: ""
   editable: true
-custom_fields_006: 
+custom_fields_006:
   name: Float field
   min_length: 0
   regexp: ""
@@ -87,7 +87,7 @@ custom_fields_006:
   field_format: float
   default_value: ""
   editable: true
-custom_fields_007: 
+custom_fields_007:
   name: Billable
   min_length: 0
   regexp: ""
@@ -101,7 +101,7 @@ custom_fields_007:
   field_format: bool
   default_value: ""
   editable: true
-custom_fields_008: 
+custom_fields_008:
   name: Custom date
   min_length: 0
   regexp: ""
@@ -115,7 +115,7 @@ custom_fields_008:
   field_format: date
   default_value: ""
   editable: true
-custom_fields_009: 
+custom_fields_009:
   name: Project 1 cf
   min_length: 0
   regexp: ""

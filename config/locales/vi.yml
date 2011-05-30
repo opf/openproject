@@ -178,9 +178,9 @@ vi:
       words_connector: ", "
       two_words_connector: " và "
       last_word_connector: ", và "
-  
+
   actionview_instancetag_blank_option: Vui lòng chọn
-  
+
   general_text_No: 'Không'
   general_text_Yes: 'Có'
   general_text_no: 'không'
@@ -191,7 +191,7 @@ vi:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Cập nhật tài khoản thành công.
   notice_account_invalid_creditentials: Tài khoản hoặc mật mã không hợp lệ
   notice_account_password_updated: Cập nhật mật mã thành công.
@@ -216,13 +216,13 @@ vi:
   notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
   notice_default_data_loaded: Đã nạp cấu hình mặc định.
   notice_unable_delete_version: Không thể xóa phiên bản.
-  
+
   error_can_t_load_default_data: "Không thể nạp cấu hình mặc định: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'Vấn đề không tồn tại hoặc không thuộc dự án'
-  
+
   mail_subject_lost_password: "%{value}: mật mã của bạn"
   mail_body_lost_password: "Để đổi mật mã, hãy click chuột vào liên kết sau:"
   mail_subject_register: "%{value}: kích hoạt tài khoản"
@@ -233,10 +233,10 @@ vi:
   mail_body_account_activation_request: "Người dùng (%{value}) mới đăng ký và cần bạn xác nhận:"
   mail_subject_reminder: "%{count} vấn đề hết hạn trong các %{days} ngày tới"
   mail_body_reminder: "%{count} vấn đề gán cho bạn sẽ hết hạn trong %{days} ngày tới:"
-  
+
   gui_validation_error: 1 lỗi
   gui_validation_error_plural: "%{count} lỗi"
-  
+
   field_name: Tên
   field_description: Mô tả
   field_summary: Tóm tắt
@@ -320,7 +320,7 @@ vi:
   field_default_value: Giá trị mặc định
   field_comments_sorting: Liệt kê bình luận
   field_parent_title: Trang mẹ
-  
+
   setting_app_title: Tựa đề ứng dụng
   setting_app_subtitle: Tựa đề nhỏ của ứng dụng
   setting_welcome_text: Thông điệp chào mừng
@@ -357,7 +357,7 @@ vi:
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: Mã số API
   setting_sequential_project_identifiers: Tự sinh chuỗi ID dự án
-  
+
   project_module_issue_tracking: Theo dõi vấn đề
   project_module_time_tracking: Theo dõi thời gian
   project_module_news: Tin tức
@@ -366,7 +366,7 @@ vi:
   project_module_wiki: Wiki
   project_module_repository: Kho lưu trữ
   project_module_boards: Diễn đàn
-  
+
   label_user: Tài khoản
   label_user_plural: Tài khoản
   label_user_new: Tài khoản mới
@@ -678,7 +678,7 @@ vi:
   label_incoming_emails: Nhận mail
   label_generate_key: Tạo mã
   label_issue_watchers: Theo dõi
-  
+
   button_login: Đăng nhập
   button_submit: Gửi
   button_save: Lưu
@@ -717,11 +717,11 @@ vi:
   button_update: Cập nhật
   button_configure: Cấu hình
   button_quote: Trích dẫn
-  
+
   status_active: hoạt động
   status_registered: đăng ký
   status_locked: khóa
-  
+
   text_select_mail_notifications: Chọn hành động đối với mỗi email thông báo sẽ gửi.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 để chỉ không hạn chế
@@ -763,7 +763,7 @@ vi:
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
-  
+
   default_role_manager: Điều hành
   default_role_developer: Phát triển
   default_role_reporter: Báo cáo
@@ -787,11 +787,11 @@ vi:
   default_priority_immediate: Trung bình
   default_activity_design: Thiết kế
   default_activity_development: Phát triển
-  
+
   enumeration_issue_priorities: Mức độ ưu tiên vấn đề
   enumeration_doc_categories: Chủ đề tài liệu
   enumeration_activities: Hoạt động (theo dõi thời gian)
-  
+
   setting_plain_text_mail: mail dạng text đơn giản (không dùng HTML)
   setting_gravatar_enabled: Dùng biểu tượng Gravatar
   permission_edit_project: Chỉnh dự án

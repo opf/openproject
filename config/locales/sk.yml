@@ -8,10 +8,10 @@ sk:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Nedeľa, Pondelok, Utorok, Streda, Štvrtok, Piatok, Sobota]
     abbr_day_names: [Ne, Po, Ut, St, Št, Pi, So]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Január, Február, Marec, Apríl, Máj, Jún, Júl, August, September, Október, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Máj, Jún, Júl, Aug, Sep, Okt, Nov, Dec]
@@ -29,7 +29,7 @@ sk:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pol minúty"
@@ -67,28 +67,28 @@ sk:
         one:   "almost 1 year"
         other: "almost %{count} years"
 
-  number: 
-    human: 
-      format: 
+  number:
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
+        units:
           kb: KB
           tb: TB
           gb: GB
-          byte: 
+          byte:
             one: Byte
             other: Bytes
           mb: MB
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "a"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -122,9 +122,9 @@ sk:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   # SK translation by Stanislav Pach | stano.pach@seznam.cz
-  
+
   actionview_instancetag_blank_option: Prosím vyberte
-  
+
   general_text_No: 'Nie'
   general_text_Yes: 'Áno'
   general_text_no: 'nie'
@@ -135,7 +135,7 @@ sk:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Účet bol úspešne zmenený.
   notice_account_invalid_creditentials: Chybné meno alebo heslo
   notice_account_password_updated: Heslo bolo úspešne zmenené.
@@ -160,12 +160,12 @@ sk:
   notice_no_issue_selected: "Nebola zvolená žiadná úloha. Prosím, zvoľte úlohy, ktoré chcete upraviť"
   notice_account_pending: "Váš účet bol vytvorený, teraz čaká na schválenie administrátorom."
   notice_default_data_loaded: Výchozia konfigurácia úspešne nahraná.
-  
+
   error_can_t_load_default_data: "Výchozia konfigurácia nebola nahraná: %{value}"
   error_scm_not_found: "Položka a/alebo revízia neexistuje v repozitári."
   error_scm_command_failed: "Pri pokuse o prístup k repozitári došlo k chybe: %{value}"
   error_issue_not_found_in_project: 'Úloha nebola nájdená alebo nepatrí k tomuto projektu'
-  
+
   mail_subject_lost_password: "Vaše heslo (%{value})"
   mail_body_lost_password: 'Pre zmenu vašeho hesla kliknite na následujúci odkaz:'
   mail_subject_register: "Aktivácia účtu (%{value})"
@@ -174,10 +174,10 @@ sk:
   mail_body_account_information: Informácie o vašom účte
   mail_subject_account_activation_request: "Aktivácia %{value} účtu"
   mail_body_account_activation_request: "Bol zaregistrovaný nový uživateľ %{value}. Aktivácia jeho účtu závisí na vašom potvrdení."
-  
+
   gui_validation_error: 1 chyba
   gui_validation_error_plural: "%{count} chyb(y)"
-  
+
   field_name: Názov
   field_description: Popis
   field_summary: Prehľad
@@ -260,7 +260,7 @@ sk:
   field_searchable: Umožniť vyhľadávanie
   field_default_value: Východzia hodnota
   field_comments_sorting: Zobraziť komentáre
-  
+
   setting_app_title: Názov aplikácie
   setting_app_subtitle: Podtitulok aplikácie
   setting_welcome_text: Uvítací text
@@ -273,7 +273,7 @@ sk:
   setting_bcc_recipients: Príjemcovia skrytej kópie (bcc)
   setting_host_name: Hostname
   setting_text_formatting: Formátovanie textu
-  setting_wiki_compression: Kompresia histórie Wiki 
+  setting_wiki_compression: Kompresia histórie Wiki
   setting_feeds_limit: Limit zobrazených položiek (Atom feed)
   setting_default_projects_public: Nové projekty nastavovať ako verejné
   setting_autofetch_changesets: Automatický prenos zmien
@@ -285,23 +285,23 @@ sk:
   setting_time_format: Formát času
   setting_cross_project_issue_relations: Povoliť väzby úloh skrz projekty
   setting_issue_list_default_columns: Východzie stĺpce zobrazené v zozname úloh
-  setting_ itories_encodings: Kódovanie 
+  setting_ itories_encodings: Kódovanie
   setting_emails_footer: Zapätie emailov
   setting_protocol: Protokol
   setting_per_page_options: Povolené množstvo riadkov na stránke
   setting_user_format: Formát zobrazenia užívateľa
-  setting_activity_days_default: "Zobrazené dni aktivity projektu:" 
+  setting_activity_days_default: "Zobrazené dni aktivity projektu:"
   setting_display_subprojects_issues: Prednastavenie zobrazenia úloh podporojektov v hlavnom projekte
-  
+
   project_module_issue_tracking: Sledovanie úloh
   project_module_time_tracking: Sledovanie času
   project_module_news: Novinky
   project_module_documents: Dokumenty
   project_module_files: Súbory
-  project_module_wiki: Wiki 
+  project_module_wiki: Wiki
   project_module_repository: Repozitár
   project_module_boards: Diskusie
-  
+
   label_user: Užívateľ
   label_user_plural: Užívatelia
   label_user_new: Nový užívateľ
@@ -508,7 +508,7 @@ sk:
   label_search: Hľadať
   label_result_plural: Výsledky
   label_all_words: Všetky slova
-  label_wiki: Wiki 
+  label_wiki: Wiki
   label_wiki_edit: Wiki úprava
   label_wiki_edit_plural: Wiki úpravy
   label_wiki_page: Wiki stránka
@@ -605,7 +605,7 @@ sk:
   label_preferences: Nastavenia
   label_chronological_order: V chronologickom poradí
   label_reverse_chronological_order: V obrátenom chronologickom poradí
-  
+
   button_login: Prihlásiť
   button_submit: Potvrdiť
   button_save: Uložiť
@@ -643,11 +643,11 @@ sk:
   button_annotate: Komentovať
   button_update: Aktualizovať
   button_configure: Konfigurovať
-  
+
   status_active: aktívny
   status_registered: registrovaný
   status_locked: uzamknutý
-  
+
   text_select_mail_notifications: Vyberte akciu, pri ktorej bude zaslané upozornenie emailom
   text_regexp_info: napr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znamená bez limitu
@@ -684,7 +684,7 @@ sk:
   text_destroy_time_entries: Odstrániť evidované hodiny.
   text_assign_time_entries_to_project: Priradiť evidované hodiny projektu
   text_reassign_time_entries: 'Preradiť evidované hodiny k tejto úlohe:'
-  
+
   default_role_manager: Manažér
   default_role_developer: Vývojár
   default_role_reporter: Reportér
@@ -708,7 +708,7 @@ sk:
   default_priority_immediate: Okamžitá
   default_activity_design: Design
   default_activity_development: Vývoj
-  
+
   enumeration_issue_priorities: Priority úloh
   enumeration_doc_categories: Kategorie dokumentov
   enumeration_activities: Aktivity (sledovanie času)
@@ -746,7 +746,7 @@ sk:
   permission_view_changesets: Zobrazenie sád zmien
   permission_view_time_entries: Zobrazenie stráveného času
   permission_manage_versions: Správa verzií
-  permission_manage_wiki: Správa Wiki 
+  permission_manage_wiki: Správa Wiki
   permission_manage_categories: Správa kategórií úloh
   permission_protect_wiki_pages: Ochrana Wiki strániek
   permission_comment_news: Komentovanie noviniek
@@ -888,7 +888,7 @@ sk:
   label_subproject_new: Nový podprojekt
   text_own_membership_delete_confirmation: |-
     Práve sa pokúšate o odstránenie niektorých alebo všetkých prístupových práv a možno nebudete mať možnost naďalej upravovať tento projekt.
-    Ste si istý(á), že chcete pokračovat? 
+    Ste si istý(á), že chcete pokračovat?
   label_close_versions: Uzavrieť ukončené verzie
   label_board_sticky: Sticky
   label_board_locked: Uzamknuté
