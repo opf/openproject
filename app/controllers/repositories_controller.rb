@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -22,14 +22,14 @@ class RepositoriesController < ApplicationController
   menu_item :repository
   menu_item :settings, :only => :edit
   default_search_scope :changesets
-  
+
   before_filter :find_repository, :except => :edit
   before_filter :find_project, :only => :edit
   before_filter :authorize
   accept_key_auth :revisions
-  
+
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
-  
+
   def edit
     @repository = @project.repository
     if !@repository
@@ -48,7 +48,7 @@ class RepositoriesController < ApplicationController
       end
     end
   end
-  
+
   def committers
     @committers = @repository.committers
     @users = @project.users
@@ -138,7 +138,7 @@ class RepositoriesController < ApplicationController
 
   def is_entry_text_data?(ent, path)
     # UTF-16 contains "\x00".
-    # It is very strict that file contains less than 30% of ascii symbols 
+    # It is very strict that file contains less than 30% of ascii symbols
     # in non Western Europe.
     return true if Redmine::MimeType.is_type?('text', path)
     # Ruby 1.8.6 has a bug of integer divisions.
@@ -182,14 +182,14 @@ class RepositoriesController < ApplicationController
     else
       @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
       @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
-      
+
       # Save diff type as user preference
       if User.current.logged? && @diff_type != User.current.pref[:diff_type]
         User.current.pref[:diff_type] = @diff_type
         User.current.preference.save
       end
-      
-      @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")    
+
+      @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")
       unless read_fragment(@cache_key)
         @diff = @repository.diff(@path, @rev, @rev_to)
         show_error_not_found unless @diff
@@ -219,7 +219,7 @@ class RepositoriesController < ApplicationController
       render_404
     end
   end
-  
+
   private
 
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
@@ -232,7 +232,7 @@ class RepositoriesController < ApplicationController
     @path ||= ''
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
-    
+
     unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
       if @repository.branches.blank?
         raise InvalidRevisionParam
@@ -247,12 +247,12 @@ class RepositoriesController < ApplicationController
   def show_error_not_found
     render_error :message => l(:error_scm_not_found), :status => 404
   end
-  
+
   # Handler for Redmine::Scm::Adapters::CommandFailed exception
   def show_error_command_failed(exception)
     render_error l(:error_scm_command_failed, exception.message)
   end
-  
+
   def graph_commits_per_month(repository)
     @date_to = Date.today
     @date_from = @date_to << 11
@@ -264,10 +264,10 @@ class RepositoriesController < ApplicationController
     changes_by_day = repository.changes.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
     changes_by_month = [0] * 12
     changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
-   
+
     fields = []
     12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
-  
+
     graph = SVG::Graph::Bar.new(
       :height => 300,
       :width => 800,
@@ -279,7 +279,7 @@ class RepositoriesController < ApplicationController
       :graph_title => l(:label_commits_per_month),
       :show_graph_title => true
     )
-    
+
     graph.add_data(
       :data => commits_by_month[0..11].reverse,
       :title => l(:label_revision_plural)
@@ -289,7 +289,7 @@ class RepositoriesController < ApplicationController
       :data => changes_by_month[0..11].reverse,
       :title => l(:label_change_plural)
     )
-    
+
     graph.burn
   end
 
@@ -299,18 +299,18 @@ class RepositoriesController < ApplicationController
 
     changes_by_author = repository.changes.count(:all, :group => :committer)
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
-    
+
     fields = commits_by_author.collect {|r| r.first}
     commits_data = commits_by_author.collect {|r| r.last}
     changes_data = commits_by_author.collect {|r| h[r.first] || 0}
-    
+
     fields = fields + [""]*(10 - fields.length) if fields.length<10
     commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
-    
+
     # Remove email adress in usernames
     fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
-    
+
     graph = SVG::Graph::BarHorizontal.new(
       :height => 400,
       :width => 800,
@@ -322,7 +322,7 @@ class RepositoriesController < ApplicationController
       :graph_title => l(:label_commits_per_author),
       :show_graph_title => true
     )
-    
+
     graph.add_data(
       :data => commits_data,
       :title => l(:label_revision_plural)
@@ -332,12 +332,12 @@ class RepositoriesController < ApplicationController
       :data => changes_data,
       :title => l(:label_change_plural)
     )
-       
+
     graph.burn
   end
 
 end
-  
+
 class Date
   def months_ago(date = Date.today)
     (date.year - self.year)*12 + (date.month - self.month)

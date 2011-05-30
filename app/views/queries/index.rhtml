@@ -15,7 +15,7 @@
       </td>
       <td align="right">
         <small>
-        <% if query.editable_by?(User.current) %>    
+        <% if query.editable_by?(User.current) %>
         <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => query}, :class => 'icon icon-edit' %>
         <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
         </small>

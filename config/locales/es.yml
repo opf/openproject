@@ -1,6 +1,6 @@
 # Spanish translations for Rails
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
-# Redmine spanish translation: 
+# Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
 
 es:
@@ -9,9 +9,9 @@ es:
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
     format:
       # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
-      separator: "," 
+      separator: ","
       # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
-      delimiter: "." 
+      delimiter: "."
       # Number of decimals, behind the separator (1 with a precision of 2 gives: 1.00)
       precision: 3
 
@@ -19,35 +19,35 @@ es:
     currency:
       format:
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
-        format: "%n %u" 
-        unit: "€" 
+        format: "%n %u"
+        unit: "€"
         # These three are to override number.format and are optional
-        separator: "," 
-        delimiter: "." 
+        separator: ","
+        delimiter: "."
         precision: 2
 
     # Used in number_to_percentage()
     percentage:
       format:
         # These three are to override number.format and are optional
-        # separator: 
-        delimiter: "" 
-        # precision: 
+        # separator:
+        delimiter: ""
+        # precision:
 
     # Used in number_to_precision()
     precision:
       format:
         # These three are to override number.format and are optional
         # separator:
-        delimiter: "" 
+        delimiter: ""
         # precision:
 
     # Used in number_to_human_size()
     human:
       format:
         # These three are to override number.format and are optional
-        # separator: 
-        delimiter: "" 
+        # separator:
+        delimiter: ""
         precision: 1
       storage_units:
         format: "%n %u"
@@ -63,37 +63,37 @@ es:
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
     distance_in_words:
-      half_a_minute: "medio minuto" 
+      half_a_minute: "medio minuto"
       less_than_x_seconds:
-        one:  "menos de 1 segundo" 
+        one:  "menos de 1 segundo"
         other: "menos de %{count} segundos"
       x_seconds:
-        one:  "1 segundo" 
-        other: "%{count} segundos" 
+        one:  "1 segundo"
+        other: "%{count} segundos"
       less_than_x_minutes:
-        one:  "menos de 1 minuto" 
-        other: "menos de %{count} minutos" 
+        one:  "menos de 1 minuto"
+        other: "menos de %{count} minutos"
       x_minutes:
-        one:  "1 minuto" 
-        other: "%{count} minutos" 
+        one:  "1 minuto"
+        other: "%{count} minutos"
       about_x_hours:
-        one:  "alrededor de 1 hora" 
-        other: "alrededor de %{count} horas" 
+        one:  "alrededor de 1 hora"
+        other: "alrededor de %{count} horas"
       x_days:
-        one:  "1 día" 
-        other: "%{count} días" 
+        one:  "1 día"
+        other: "%{count} días"
       about_x_months:
-        one:  "alrededor de 1 mes" 
-        other: "alrededor de %{count} meses" 
+        one:  "alrededor de 1 mes"
+        other: "alrededor de %{count} meses"
       x_months:
-        one:  "1 mes" 
-        other: "%{count} meses" 
+        one:  "1 mes"
+        other: "%{count} meses"
       about_x_years:
-        one:  "alrededor de 1 año" 
-        other: "alrededor de %{count} años" 
+        one:  "alrededor de 1 año"
+        other: "alrededor de %{count} años"
       over_x_years:
-        one:  "más de 1 año" 
-        other: "más de %{count} años" 
+        one:  "más de 1 año"
+        other: "más de %{count} años"
       almost_x_years:
         one:   "casi 1 año"
         other: "casi %{count} años"
@@ -102,17 +102,17 @@ es:
     errors:
       template:
         header:
-          one:   "no se pudo guardar este %{model} porque se encontró 1 error" 
-          other:  "no se pudo guardar este %{model} porque se encontraron %{count} errores" 
+          one:   "no se pudo guardar este %{model} porque se encontró 1 error"
+          other:  "no se pudo guardar este %{model} porque se encontraron %{count} errores"
         # The variable :count is also available
-        body: "Se encontraron problemas con los siguientes campos:" 
+        body: "Se encontraron problemas con los siguientes campos:"
 
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
-        inclusion: "no está incluido en la lista" 
-        exclusion: "está reservado" 
-        invalid: "no es válido" 
+        inclusion: "no está incluido en la lista"
+        exclusion: "está reservado"
+        invalid: "no es válido"
         confirmation: "no coincide con la confirmación"
         accepted: "debe ser aceptado"
         empty: "no puede estar vacío"
@@ -148,9 +148,9 @@ es:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d" 
-      short: "%d de %b" 
-      long: "%d de %B de %Y" 
+      default: "%Y-%m-%d"
+      short: "%d de %b"
+      long: "%d de %B de %Y"
 
     day_names: [Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado]
     abbr_day_names: [Dom, Lun, Mar, Mie, Jue, Vie, Sab]
@@ -168,10 +168,10 @@ es:
     formats:
       default: "%A, %d de %B de %Y %H:%M:%S %z"
       time: "%H:%M"
-      short: "%d de %b %H:%M" 
-      long: "%d de %B de %Y %H:%M" 
-    am: "am" 
-    pm: "pm" 
+      short: "%d de %b %H:%M"
+      long: "%d de %B de %Y %H:%M"
+    am: "am"
+    pm: "pm"
 
 # Used in array.to_sentence.
   support:
@@ -179,7 +179,7 @@ es:
       sentence_connector: "y"
 
   actionview_instancetag_blank_option: Por favor seleccione
-  
+
   button_activate: Activar
   button_add: Añadir
   button_annotate: Anotar
@@ -886,7 +886,7 @@ es:
   version_status_locked: bloqueado
   version_status_open: abierto
   error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
-  
+
   label_user_anonymous: Anónimo
   button_move_and_follow: Mover y seguir
   setting_default_projects_modules: Módulos activados por defecto en proyectos nuevos

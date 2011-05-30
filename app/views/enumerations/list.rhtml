@@ -20,7 +20,7 @@
     <td class="center" style="width:15%;"><%= checked_image enumeration.active? %></td>
     <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}) %></td>
     <td class="buttons">
-    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration }, 
+    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
     															 :method => :post,
     															 :confirm => l(:text_are_you_sure),
     															 :class => 'icon icon-del' %>

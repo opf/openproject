@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -17,25 +17,25 @@ class MailHandler < ActionMailer::Base
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
-  
+
   attr_reader :email, :user
 
   def self.receive(email, options={})
     @@handler_options = options.dup
-    
+
     @@handler_options[:issue] ||= {}
-    
+
     @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
-    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
-    
+    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
+
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
     super email
   end
-  
+
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
   def receive(email)
@@ -74,13 +74,13 @@ class MailHandler < ActionMailer::Base
     User.current = @user
     dispatch
   end
-  
+
   private
 
   MESSAGE_ID_RE = %r{^<chiliproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
-  
+
   def dispatch
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
@@ -117,7 +117,7 @@ class MailHandler < ActionMailer::Base
   def dispatch_to_default
     receive_issue
   end
-  
+
   # Creates a new issue
   def receive_issue
     project = target_project
@@ -134,7 +134,7 @@ class MailHandler < ActionMailer::Base
       issue.subject = '(no subject)'
     end
     issue.description = cleaned_up_text_body
-    
+
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
     issue.save!
@@ -142,7 +142,7 @@ class MailHandler < ActionMailer::Base
     logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
     issue
   end
-  
+
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
     issue = Issue.find_by_id(issue_id)
@@ -151,10 +151,10 @@ class MailHandler < ActionMailer::Base
     unless @@handler_options[:no_permission_check]
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     end
-    
+
     # ignore CLI-supplied defaults for new issues
     @@handler_options[:issue].clear
-    
+
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     issue.init_journal(user, cleaned_up_text_body)
@@ -163,7 +163,7 @@ class MailHandler < ActionMailer::Base
     logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     issue.last_journal
   end
-  
+
   # Reply will be added to the issue
   def receive_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
@@ -171,17 +171,17 @@ class MailHandler < ActionMailer::Base
       receive_issue_reply(journal.journaled_id)
     end
   end
-  
+
   # Receives a reply to a forum message
   def receive_message_reply(message_id)
     message = Message.find_by_id(message_id)
     if message
       message = message.root
-      
+
       unless @@handler_options[:no_permission_check]
         raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
       end
-      
+
       if !message.locked?
         reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             :content => cleaned_up_text_body)
@@ -195,7 +195,7 @@ class MailHandler < ActionMailer::Base
       end
     end
   end
-  
+
   def add_attachments(obj)
     if email.has_attachments?
       email.attachments.each do |attachment|
@@ -206,7 +206,7 @@ class MailHandler < ActionMailer::Base
       end
     end
   end
-  
+
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
@@ -218,7 +218,7 @@ class MailHandler < ActionMailer::Base
       end
     end
   end
-  
+
   def get_keyword(attr, options={})
     @keywords ||= {}
     if @keywords.has_key?(attr)
@@ -233,7 +233,7 @@ class MailHandler < ActionMailer::Base
       end
     end
   end
-  
+
   # Destructively extracts the value for +attr+ in +text+
   # Returns nil if no matching keyword found
   def extract_keyword!(text, attr, format=nil)
@@ -257,12 +257,12 @@ class MailHandler < ActionMailer::Base
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end
-  
+
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
     assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_user_from_keyword(k)
     assigned_to = nil if assigned_to && !issue.assignable_users.include?(assigned_to)
-    
+
     attrs = {
       'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.find_by_name(k).try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.find_by_name(k).try(:id),
@@ -275,16 +275,16 @@ class MailHandler < ActionMailer::Base
       'estimated_hours' => get_keyword(:estimated_hours, :override => true),
       'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
-    
+
     if issue.new_record? && attrs['tracker_id'].nil?
       attrs['tracker_id'] = issue.project.trackers.find(:first).try(:id)
     end
-    
+
     attrs
   end
-  
+
   # Returns a Hash of issue custom field values extracted from keywords in the email body
-  def custom_field_values_from_keywords(customized)  
+  def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
       if value = get_keyword(v.custom_field.name, :override => true)
         h[v.custom_field.id.to_s] = value
@@ -292,7 +292,7 @@ class MailHandler < ActionMailer::Base
       h
     end
   end
-  
+
   # Returns the text/plain part of the email
   # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
@@ -313,7 +313,7 @@ class MailHandler < ActionMailer::Base
     @plain_text_body.strip!
     @plain_text_body
   end
-  
+
   def cleaned_up_text_body
     cleanup_body(plain_text_body)
   end
@@ -321,19 +321,19 @@ class MailHandler < ActionMailer::Base
   def self.full_sanitizer
     @full_sanitizer ||= HTML::FullSanitizer.new
   end
-  
+
   # Creates a user account for the +email+ sender
   def self.create_user_from_email(email)
     addr = email.from_addrs.to_a.first
     if addr && !addr.spec.blank?
       user = User.new
       user.mail = addr.spec
-      
+
       names = addr.name.blank? ? addr.spec.gsub(/@.*$/, '').split('.') : addr.name.split
       user.firstname = names.shift
       user.lastname = names.join(' ')
       user.lastname = '-' if user.lastname.blank?
-      
+
       user.login = user.mail
       user.password = ActiveSupport::SecureRandom.hex(5)
       user.language = Setting.default_language
@@ -342,7 +342,7 @@ class MailHandler < ActionMailer::Base
   end
 
   private
-  
+
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}

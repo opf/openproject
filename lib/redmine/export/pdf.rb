@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -24,11 +24,11 @@ module Redmine
     module PDF
       include ActionView::Helpers::TextHelper
       include ActionView::Helpers::NumberHelper
-      
+
       class ITCPDF < TCPDF
         include Redmine::I18n
         attr_accessor :footer_date
-        
+
         def initialize(lang)
           super()
           set_language_if_valid lang
@@ -37,11 +37,11 @@ module Redmine
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
-        
+
         def SetFontStyle(style, size)
           SetFont(@font_for_content, style, size)
         end
-        
+
         def SetTitle(txt)
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
@@ -53,7 +53,7 @@ module Redmine
           end || ''
           super(txt)
         end
-    
+
         def textstring(s)
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
@@ -62,10 +62,10 @@ module Redmine
             return '('+escape(s)+')'
           end
         end
-         
+
         alias RDMCell Cell
         alias RDMMultiCell MultiCell
-         
+
         def Footer
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
@@ -80,7 +80,7 @@ module Redmine
       class IFPDF < FPDF
         include Redmine::I18n
         attr_accessor :footer_date
-        
+
         def initialize(lang)
           super()
           set_language_if_valid lang
@@ -112,11 +112,11 @@ module Redmine
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
-        
+
         def SetFontStyle(style, size)
           SetFont(@font_for_content, style, size)
         end
-        
+
         def SetTitle(txt)
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
@@ -152,7 +152,7 @@ module Redmine
           end || ''
           return txt
         end
-        
+
         def RDMCell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
             Cell(w,h,fix_text_encoding(txt),border,ln,align,fill,link)
         end
@@ -191,7 +191,7 @@ module Redmine
         pdf.footer_date = format_date(Date.today)
         pdf.SetAutoPageBreak(false)
         pdf.AddPage("L")
-        
+
         # Landscape A4 = 210 x 297 mm
         page_height = 210
         page_width = 297
@@ -199,7 +199,7 @@ module Redmine
         bottom_margin = 20
         col_id_width = 10
         row_height = 5
-        
+
         # column widths
         table_width = page_width - right_margin - 10  # fixed left margin
         col_width = []
@@ -210,12 +210,12 @@ module Redmine
           ratio = (table_width - col_id_width) / col_width.inject(0) {|s,w| s += w}
           col_width = col_width.collect {|w| w * ratio}
         end
-        
+
         # title
-        pdf.SetFontStyle('B',11)    
+        pdf.SetFontStyle('B',11)
         pdf.RDMCell(190,10, title)
         pdf.Ln
-        
+
         # headers
         pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
@@ -224,7 +224,7 @@ module Redmine
           pdf.RDMCell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
         end
         pdf.Ln
-        
+
         # rows
         pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
@@ -232,7 +232,7 @@ module Redmine
         issues.each do |issue|
           if query.grouped? && (group = query.group_by_column.value(issue)) != previous_group
             pdf.SetFontStyle('B',9)
-            pdf.RDMCell(277, row_height, 
+            pdf.RDMCell(277, row_height,
               (group.blank? ? 'None' : group.to_s) + " (#{query.issue_count_by_group[group]})",
               1, 1, 'L')
             pdf.SetFontStyle('',8)
@@ -256,14 +256,14 @@ module Redmine
                 end
             s.to_s
           end
-          
+
           # render it off-page to find the max height used
           base_x = pdf.GetX
           base_y = pdf.GetY
           pdf.SetY(2 * page_height)
           max_height = issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
           pdf.SetXY(base_x, base_y)
-          
+
           # make new page if it doesn't fit on the current one
           space_left = page_height - base_y - bottom_margin
           if max_height > space_left
@@ -271,21 +271,21 @@ module Redmine
             base_x = pdf.GetX
             base_y = pdf.GetY
           end
-          
+
           # write the cells on page
           pdf.Cell(col_id_width, row_height, issue.id.to_s, "T", 0, 'C', 1)
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
           issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
           pdf.SetY(base_y + max_height);
         end
-        
+
         if issues.size == Setting.issues_export_limit.to_i
           pdf.SetFontStyle('B',10)
           pdf.RDMCell(0, row_height, '...')
         end
         pdf.Output
       end
-      
+
       # Renders MultiCells and returns the maximum height used
       def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height)
         base_y = pdf.GetY
@@ -298,7 +298,7 @@ module Redmine
         end
         return max_height
       end
-      
+
       # Draw lines to close the row (MultiCell border drawing in not uniform)
       def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y, id_width, col_widths)
         col_x = top_x + id_width
@@ -310,7 +310,7 @@ module Redmine
         pdf.Line(top_x, top_y, top_x, lower_y)    # left border
         pdf.Line(top_x, lower_y, col_x, lower_y)  # bottom border
       end
-      
+
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
         if ( current_language.to_s.downcase == 'ko'    ||
@@ -326,13 +326,13 @@ module Redmine
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
-        
-        pdf.SetFontStyle('B',11)    
+
+        pdf.SetFontStyle('B',11)
         pdf.RDMMultiCell(190,5, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
-        
+
         y0 = pdf.GetY
-        
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_status) + ":","LT")
         pdf.SetFontStyle('',9)
@@ -340,9 +340,9 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_priority) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.RDMCell(60,5, issue.priority.to_s,"RT")        
+        pdf.RDMCell(60,5, issue.priority.to_s,"RT")
         pdf.Ln
-        
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_author) + ":","L")
         pdf.SetFontStyle('',9)
@@ -351,8 +351,8 @@ module Redmine
         pdf.RDMCell(35,5, l(:field_category) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.category.to_s,"R")
-        pdf.Ln   
-        
+        pdf.Ln
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_created_on) + ":","L")
         pdf.SetFontStyle('',9)
@@ -362,7 +362,7 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, issue.assigned_to.to_s,"R")
         pdf.Ln
-        
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_updated_on) + ":","LB")
         pdf.SetFontStyle('',9)
@@ -372,23 +372,23 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.RDMCell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
-        
+
         for custom_value in issue.custom_field_values
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35,5, custom_value.custom_field.name + ":","L")
           pdf.SetFontStyle('',9)
           pdf.RDMMultiCell(155,5, (show_value custom_value),"R")
         end
-        
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
         pdf.RDMMultiCell(155,5, issue.description.to_s,"BR")
-        
+
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, pdf.GetX + 190, pdf.GetY)
         pdf.Ln
-        
+
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(190,5, l(:label_associated_revisions), "B")
@@ -400,14 +400,14 @@ module Redmine
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
               pdf.RDMMultiCell(190,5, changeset.comments.to_s)
-            end   
+            end
             pdf.Ln
           end
         end
-        
+
         pdf.SetFontStyle('B',9)
         pdf.RDMCell(190,5, l(:label_history), "B")
-        pdf.Ln  
+        pdf.Ln
         for journal in issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
           pdf.SetFontStyle('B',8)
           pdf.RDMCell(190,5, format_time(journal.created_at) + " - " + journal.user.name)
@@ -421,10 +421,10 @@ module Redmine
             pdf.Ln unless journal.details.empty?
             pdf.SetFontStyle('',8)
             pdf.RDMMultiCell(190,5, journal.notes.to_s)
-          end   
+          end
           pdf.Ln
         end
-        
+
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(190,5, l(:label_attachment_plural), "B")

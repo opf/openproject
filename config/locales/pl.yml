@@ -39,10 +39,10 @@ pl:
       default: "%Y-%m-%d"
       short: "%d %b"
       long: "%d %B %Y"
-    
+
     day_names: [Niedziela, Poniedziałek, Wtorek, Środa, Czwartek, Piątek, Sobota]
     abbr_day_names: [nie, pon, wto, śro, czw, pia, sob]
-    
+
     month_names: [~, Styczeń, Luty, Marzec, Kwiecień, Maj, Czerwiec, Lipiec, Sierpień, Wrzesień, Październik, Listopad, Grudzień]
     abbr_month_names: [~, sty, lut, mar, kwi, maj, cze, lip, sie, wrz, paź, lis, gru]
     order:
@@ -133,7 +133,7 @@ pl:
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć kołową zależność"
         cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
-      
+
   support:
     array:
       sentence_connector: "i"
@@ -143,7 +143,7 @@ pl:
   # Best regards from Lublin@Poland :-)
   # PL translation by Mariusz@Olejnik.net,
   actionview_instancetag_blank_option: Proszę wybierz
-  
+
   button_activate: Aktywuj
   button_add: Dodaj
   button_annotate: Adnotuj
@@ -809,7 +809,7 @@ pl:
   text_user_wrote: "%{value} napisał:"
   text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
-  
+
   label_user_activity: "Aktywność: %{value}"
   label_updated_time_by: "Uaktualnione przez %{author} %{age} temu"
   text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zbyt długi.'
@@ -911,7 +911,7 @@ pl:
   version_status_closed: zamknięta
   version_status_locked: zablokowana
   version_status_open: otwarta
-  
+
   label_board_sticky: Przyklejona
   label_board_locked: Zamknięta
   permission_export_wiki_pages: Eksport stron wiki

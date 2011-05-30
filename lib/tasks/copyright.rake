@@ -35,12 +35,12 @@ namespace :copyright do
       else
         file_content = short_copyright_as_rdoc + "\n\n" + file_content # Prepend
       end
-      
+
       File.open(file_name, "w") do |file|
         file.write file_content
       end
-      
+
     end
-    
+
   end
 end

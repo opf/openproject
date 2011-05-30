@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to_remote l(:button_add), 
+<%= link_to_remote l(:button_add),
                    :url => {:controller => 'watchers',
                             :action => 'new',
                             :object_type => watched.class.name.underscore,
@@ -9,7 +9,7 @@
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
 
 <% unless @watcher.nil? %>
-	<% remote_form_for(:watcher, @watcher, 
+	<% remote_form_for(:watcher, @watcher,
                 	   :url => {:controller => 'watchers',
               	              :action => 'new',
             	                :object_type => watched.class.name.underscore,

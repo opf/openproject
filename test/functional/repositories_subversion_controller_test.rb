@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -46,7 +46,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
     end
-    
+
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
@@ -57,7 +57,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
       assert_equal 'dir', entry.kind
     end
-    
+
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
@@ -81,18 +81,18 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'], assigns(:entries).collect(&:name)
     end
-    
+
     def test_file_changes
       @repository.fetch_changesets
       @repository.reload
       get :changes, :id => PRJ_ID, :path => ['subversion_test', 'folder', 'helloworld.rb' ]
       assert_response :success
       assert_template 'changes'
-      
+
       changesets = assigns(:changesets)
       assert_not_nil changesets
       assert_equal %w(6 3 2), changesets.collect(&:revision)
-      
+
       # svn properties displayed with svn >= 1.5 only
       if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
         assert_not_nil assigns(:properties)
@@ -110,12 +110,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :changes, :id => PRJ_ID, :path => ['subversion_test', 'folder' ]
       assert_response :success
       assert_template 'changes'
-      
+
       changesets = assigns(:changesets)
       assert_not_nil changesets
       assert_equal %w(10 9 7 6 5 2), changesets.collect(&:revision)
     end
-      
+
     def test_entry
       @repository.fetch_changesets
       @repository.reload
@@ -123,7 +123,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
     end
-      
+
     def test_entry_should_send_if_too_big
       @repository.fetch_changesets
       @repository.reload
@@ -135,7 +135,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
       end
     end
-    
+
     def test_entry_at_given_revision
       @repository.fetch_changesets
       @repository.reload
@@ -146,7 +146,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'td', :attributes => { :class => /line-code/},
                                :content => /Here's the code/
     end
-    
+
     def test_entry_not_found
       @repository.fetch_changesets
       @repository.reload
@@ -154,7 +154,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /The entry or revision was not found in the repository/
     end
-  
+
     def test_entry_download
       @repository.fetch_changesets
       @repository.reload
@@ -163,7 +163,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_template ''
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end
-    
+
     def test_directory_entry
       @repository.fetch_changesets
       @repository.reload
@@ -173,7 +173,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entry)
       assert_equal 'folder', assigns(:entry).name
     end
-    
+
     # TODO: this test needs fixtures.
     def test_revision
       @repository.fetch_changesets
@@ -184,17 +184,17 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'ul',
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
-                             :child => { :tag => 'a', 
+                             :child => { :tag => 'a',
                                          :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
-                                         :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' } 
+                                         :sibling =>  { :tag => 'a',
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
                                                        }
                                         }
                             }
     end
-    
+
     def test_invalid_revision
       @repository.fetch_changesets
       @repository.reload
@@ -224,24 +224,24 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       r = Project.find(1).repository
       # Changes repository url to a subdirectory
       r.update_attribute :url, (r.url + '/test/some')
-      
+
       get :revision, :id => 1, :rev => 2
       assert_response :success
       assert_template 'revision'
       assert_tag :tag => 'ul',
                  :child => { :tag => 'li',
                              # link to the entry at rev 2
-                             :child => { :tag => 'a', 
+                             :child => { :tag => 'a',
                                          :attributes => {:href => '/projects/ecookbook/repository/revisions/2/entry/path/in/the/repo'},
                                          :content => 'repo',
                                          # link to partial diff
-                                         :sibling =>  { :tag => 'a', 
-                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' } 
+                                         :sibling =>  { :tag => 'a',
+                                                        :attributes => { :href => '/projects/ecookbook/repository/revisions/2/diff/path/in/the/repo' }
                                                        }
                                         }
                             }
     end
-    
+
     def test_revision_diff
       @repository.fetch_changesets
       @repository.reload
@@ -258,7 +258,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2, :path => ['subversion_test', 'folder']
       assert_response :success
       assert_template 'diff'
-      
+
       diff = assigns(:diff)
       assert_not_nil diff
       # 2 files modified
@@ -266,7 +266,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
 
       assert_tag :tag => 'h2', :content => /2:6/
     end
-    
+
     def test_annotate
       @repository.fetch_changesets
       @repository.reload

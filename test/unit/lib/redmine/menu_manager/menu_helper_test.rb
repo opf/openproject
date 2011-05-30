@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../../../test_helper', __FILE__)
@@ -23,7 +23,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   def html_document
     HTML::Document.new(@response.body)
   end
-  
+
   def setup
     super
     @response = ActionController::TestResponse.new
@@ -32,7 +32,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
       :index
     end
   end
-  
+
 
   context "MenuManager#current_menu_item" do
     should "be tested"
@@ -69,7 +69,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
       assert_select("a.single-node", "Single node")
     end
   end
-  
+
   def test_render_menu_node_with_nested_items
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', { })
     parent_node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', { })
@@ -93,12 +93,12 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
         end
       end
     end
-    
+
   end
 
   def test_render_menu_node_with_children
     User.current = User.find(2)
-    
+
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      '/test',
                                                      {
@@ -183,7 +183,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
       @response.body = render_menu_node(parent_node, Project.find(1))
     end
   end
-    
+
   def test_render_menu_node_with_incorrect_children
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      '/test',
@@ -209,7 +209,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     menu_items_for(menu_name) do |item|
       items_yielded << item
     end
-    
+
     assert_equal 3, items_yielded.size
   end
 
@@ -234,11 +234,11 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
 
     User.current = User.find(2)
-    
+
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
   end
-  
+
   def test_menu_items_for_should_skip_items_that_fail_the_conditions
     menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
@@ -249,7 +249,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
 
     User.current = User.find(2)
-    
+
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 1, items.size
   end

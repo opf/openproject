@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -19,7 +19,7 @@ class BoardsController < ApplicationController
   include MessagesHelper
   include SortHelper
   include WatchersHelper
- 
+
   def index
     @boards = @project.boards
     render_404 if @boards.empty?
@@ -37,7 +37,7 @@ class BoardsController < ApplicationController
         sort_update	'created_on' => "#{Message.table_name}.created_on",
                     'replies' => "#{Message.table_name}.replies_count",
                     'updated_on' => "#{Message.table_name}.updated_on"
-          
+
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
         @topics =  @board.topics.find :all, :order => ["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '),
@@ -55,7 +55,7 @@ class BoardsController < ApplicationController
       }
     end
   end
-  
+
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
 
   def new
@@ -77,7 +77,7 @@ class BoardsController < ApplicationController
     @board.destroy
     redirect_to_settings_in_projects
   end
-  
+
 private
   def redirect_to_settings_in_projects
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -21,13 +21,13 @@ module RepositoriesHelper
       revision.to_s
     end
   end
-  
+
   def truncate_at_line_break(text, length = 255)
     if text
       text.gsub(%r{^(.{#{length}}[^\n]*)\n.+$}m, '\\1...')
     end
   end
-  
+
   def render_properties(properties)
     unless properties.nil? || properties.empty?
       content = ''
@@ -37,7 +37,7 @@ module RepositoriesHelper
       content_tag('ul', content, :class => 'properties')
     end
   end
-  
+
   def render_changeset_changes
     changes = @changeset.changes.find(:all, :limit => 1000, :order => 'path').collect do |change|
       case change.action
@@ -53,7 +53,7 @@ module RepositoriesHelper
         change
       end
    end.compact
-    
+
     tree = { }
     changes.each do |change|
       p = tree
@@ -68,13 +68,13 @@ module RepositoriesHelper
       end
       p[:c] = change
     end
-    
+
     render_changes_tree(tree[:s])
   end
-  
+
   def render_changes_tree(tree)
     return '' if tree.nil?
-    
+
     output = ''
     output << '<ul>'
     tree.keys.sort.each do |file|
@@ -111,7 +111,7 @@ module RepositoriesHelper
     output << '</ul>'
     output
   end
-  
+
   def to_utf8_for_repositories(str)
     return str if str.nil?
     str = to_utf8_internal(str)
@@ -178,7 +178,7 @@ module RepositoriesHelper
         scm_options << ["Repository::#{scm}".constantize.scm_name, scm]
       end
     end
-    select_tag('repository_scm', 
+    select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
                :onchange => remote_function(
@@ -191,11 +191,11 @@ module RepositoriesHelper
                :with => "Form.serialize(this.form)")
                )
   end
-  
+
   def with_leading_slash(path)
     path.to_s.starts_with?('/') ? path : "/#{path}"
   end
-  
+
   def without_leading_slash(path)
     path.gsub(%r{^/+}, '')
   end
@@ -215,7 +215,7 @@ module RepositoriesHelper
       content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
                                    :label => l(:setting_commit_logs_encoding), :required => true))
   end
-  
+
   def mercurial_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :label => :label_mercurial_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?)) +
                   '<br />' + l(:text_mercurial_repo_example)) +
@@ -245,7 +245,7 @@ module RepositoriesHelper
       content_tag('p', form.select(:log_encoding, [nil] + Setting::ENCODINGS,
                                    :label => l(:setting_commit_logs_encoding), :required => true))
   end
-  
+
   def filesystem_field_tags(form, repository)
     content_tag('p', form.text_field(:url, :label => :label_filesystem_path, :size => 60, :required => true, :disabled => (repository && !repository.root_url.blank?))) +
     content_tag('p', form.select(:path_encoding, [nil] + Setting::ENCODINGS,

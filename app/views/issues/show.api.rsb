@@ -9,7 +9,7 @@ api.issue do
   api.category(:id => @issue.category_id, :name => @issue.category.name) unless @issue.category.nil?
   api.fixed_version(:id => @issue.fixed_version_id, :name => @issue.fixed_version.name) unless @issue.fixed_version.nil?
   api.parent(:id => @issue.parent_id) unless @issue.parent.nil?
-  
+
   api.subject @issue.subject
   api.description @issue.description
   api.start_date @issue.start_date
@@ -17,20 +17,20 @@ api.issue do
   api.done_ratio @issue.done_ratio
   api.estimated_hours @issue.estimated_hours
   api.spent_hours(@issue.spent_hours) if User.current.allowed_to?(:view_time_entries, @project)
-  
+
   render_api_custom_values @issue.custom_field_values, api
-  
+
   api.created_on @issue.created_on
   api.updated_on @issue.updated_on
-  
+
   render_api_issue_children(@issue, api) if include_in_api_response?('children')
-  
+
   api.array :relations do
     @relations.each do |relation|
       api.relation(:id => relation.id, :issue_id => relation.other_issue(@issue).id, :relation_type => relation.relation_type_for(@issue), :delay => relation.delay)
     end
   end if include_in_api_response?('relations') && @relations.present?
-  
+
   api.array :changesets do
     @issue.changesets.each do |changeset|
       api.changeset :revision => changeset.revision do
@@ -40,7 +40,7 @@ api.issue do
       end
     end
   end if include_in_api_response?('changesets') && User.current.allowed_to?(:view_changesets, @project)
-  
+
   api.array :journals do
     @issue.journals.each do |journal|
       api.journal :id => journal.id do

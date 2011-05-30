@@ -1,19 +1,19 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class AccountController < ApplicationController
-  include CustomFieldsHelper   
-  
+  include CustomFieldsHelper
+
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
 
@@ -31,7 +31,7 @@ class AccountController < ApplicationController
     logout_user
     redirect_to home_url
   end
-  
+
   # Enable user to choose a new password
   def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
@@ -46,7 +46,7 @@ class AccountController < ApplicationController
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to :action => 'login'
           return
-        end 
+        end
       end
       render :template => "account/password_recovery"
       return
@@ -68,7 +68,7 @@ class AccountController < ApplicationController
       end
     end
   end
-  
+
   # User self-registration
   def register
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
@@ -104,7 +104,7 @@ class AccountController < ApplicationController
       end
     end
   end
-  
+
   # Token based account activation
   def activate
     redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
@@ -119,9 +119,9 @@ class AccountController < ApplicationController
     end
     redirect_to :action => 'login'
   end
-  
+
   private
-  
+
   def logout_user
     if User.current.logged?
       cookies.delete Redmine::Configuration['autologin_cookie_name']
@@ -129,7 +129,7 @@ class AccountController < ApplicationController
       self.logged_user = nil
     end
   end
-  
+
   def authenticate_user
     if Setting.openid? && using_open_id?
       open_id_authenticate(params[:openid_url])
@@ -151,7 +151,7 @@ class AccountController < ApplicationController
     end
   end
 
-  
+
   def open_id_authenticate(openid_url)
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
@@ -180,7 +180,7 @@ class AccountController < ApplicationController
             register_manually_by_administrator(user) do
               onthefly_creation_failed(user)
             end
-          end          
+          end
         else
           # Existing record
           if user.active?
@@ -192,7 +192,7 @@ class AccountController < ApplicationController
       end
     end
   end
-  
+
   def successful_authentication(user)
     # Valid user
     self.logged_user = user
@@ -203,7 +203,7 @@ class AccountController < ApplicationController
     call_hook(:controller_account_success_authentication_after, {:user => user })
     redirect_back_or_default :controller => 'my', :action => 'page'
   end
-  
+
   def set_autologin_cookie(user)
     token = Token.create(:user => user, :action => 'autologin')
     cookie_options = {
@@ -241,7 +241,7 @@ class AccountController < ApplicationController
       yield if block_given?
     end
   end
-  
+
   # Automatically register a user
   #
   # Pass a block for behavior when a user fails to save
@@ -257,7 +257,7 @@ class AccountController < ApplicationController
       yield if block_given?
     end
   end
-  
+
   # Manual activation by the administrator
   #
   # Pass a block for behavior when a user fails to save

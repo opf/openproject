@@ -4,7 +4,7 @@
                                            :html => { :id => 'news-form', :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
-<%= link_to_remote l(:label_preview), 
+<%= link_to_remote l(:label_preview),
                    { :url => preview_news_path(:project_id => @project),
                      :method => 'get',
                      :update => 'preview',

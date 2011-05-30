@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -15,7 +15,7 @@ require "digest/md5"
 
 class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
-  
+
   # FIXME: Remove these once the Versions, Documents and Projects themselves can provide file events
   belongs_to :version, :foreign_key => "container_id"
   belongs_to :document, :foreign_key => "container_id"
@@ -55,7 +55,7 @@ class Attachment < ActiveRecord::Base
 
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || "#{RAILS_ROOT}/files"
-  
+
   def validate
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
@@ -76,7 +76,7 @@ class Attachment < ActiveRecord::Base
       end
     end
   end
-	
+
   def file
     nil
   end
@@ -87,7 +87,7 @@ class Attachment < ActiveRecord::Base
     if @temp_file && (@temp_file.size > 0)
       logger.debug("saving '#{self.diskfile}'")
       md5 = Digest::MD5.new
-      File.open(diskfile, "wb") do |f| 
+      File.open(diskfile, "wb") do |f|
         buffer = ""
         while (buffer = @temp_file.read(8192))
           f.write(buffer)
@@ -111,7 +111,7 @@ class Attachment < ActiveRecord::Base
   def diskfile
     "#{@@storage_path}/#{self.disk_filename}"
   end
-  
+
   def increment_download
     increment!(:downloads)
   end
@@ -119,27 +119,27 @@ class Attachment < ActiveRecord::Base
   def project
     container.project
   end
-  
+
   def visible?(user=User.current)
     container.attachments_visible?(user)
   end
-  
+
   def deletable?(user=User.current)
     container.attachments_deletable?(user)
   end
-  
+
   def image?
     self.filename =~ /\.(jpe?g|gif|png)$/i
   end
-  
+
   def is_text?
     Redmine::MimeType.is_type?('text', filename)
   end
-  
+
   def is_diff?
     self.filename =~ /\.(patch|diff)$/i
   end
-  
+
   # Returns true if the file is readable
   def readable?
     File.readable?(diskfile)
@@ -156,7 +156,7 @@ class Attachment < ActiveRecord::Base
       attachments.each_value do |attachment|
         file = attachment['file']
         next unless file && file.size > 0
-        a = Attachment.create(:container => obj, 
+        a = Attachment.create(:container => obj,
                               :file => file,
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
@@ -171,18 +171,18 @@ class Attachment < ActiveRecord::Base
     end
     {:files => attached, :unsaved => obj.unsaved_attachments}
   end
-  
+
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')
     # NOTE: File.basename doesn't work right with Windows paths on Unix
-    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
+    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
     # Finally, replace all non alphanumeric, hyphens or periods with underscore
-    @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
+    @filename = just_filename.gsub(/[^\w\.\-]/,'_')
   end
-  
+
   # Returns an ASCII or hashed filename
   def self.disk_filename(filename)
     timestamp = DateTime.now.strftime("%y%m%d%H%M%S")

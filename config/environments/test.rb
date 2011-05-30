@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -29,7 +29,7 @@ config.action_controller.perform_caching             = false
 config.action_mailer.perform_deliveries = true
 config.action_mailer.delivery_method = :test
 
-config.action_controller.session = { 
+config.action_controller.session = {
   :key => "_test_session",
   :secret => "some secret phrase for the tests."
 }

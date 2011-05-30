@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -20,7 +20,7 @@ begin
     REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/bazaar_repository'
     REPOSITORY_PATH.gsub!(/\/+/, '/')
 
-    if File.directory?(REPOSITORY_PATH)  
+    if File.directory?(REPOSITORY_PATH)
       def setup
         @adapter = Redmine::Scm::Adapters::BazaarAdapter.new(REPOSITORY_PATH)
       end
@@ -38,7 +38,7 @@ begin
         cat = @adapter.cat('directory/document.txt')
         assert cat =~ /Write the contents of a file as of a given revision to standard output/
       end
-    
+
       def test_annotate
         annotate = @adapter.annotate('doc-mkdir.txt')
         assert_equal 17, annotate.lines.size

@@ -16,7 +16,7 @@
     <th></th>
   </tr></thead>
   <tbody>
-<% @containers.each do |container| %>	
+<% @containers.each do |container| %>
   <% next if container.attachments.empty? -%>
 	<% if container.is_a?(Version) -%>
   <tr>
@@ -25,7 +25,7 @@
 		</th>
 	</tr>
 	<% end -%>
-  <% container.attachments.each do |file| %>		
+  <% container.attachments.each do |file| %>
   <tr class="file <%= cycle("odd", "even") %>">
     <td class="filename"><%= link_to_attachment file, :download => true, :title => file.description %></td>
     <td class="created_on"><%= format_time(file.created_on) %></td>
@@ -36,7 +36,7 @@
     <%= link_to(image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
 																				 :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
     </td>
-  </tr>		
+  </tr>
   <% end
   reset_cycle %>
 <% end %>

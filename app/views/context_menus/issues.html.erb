@@ -10,7 +10,7 @@
 <% end %>
 
   <% if @allowed_statuses.present? %>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| -%>
@@ -22,7 +22,7 @@
   <% end %>
 
 	<% unless @trackers.nil? %>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
 		<ul>
 		<% @trackers.each do |t| -%>
@@ -33,7 +33,7 @@
 	</li>
 	<% end %>
 
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
 		<% @priorities.each do |p| -%>
@@ -45,7 +45,7 @@
 
   <% #TODO: allow editing versions when multiple projects %>
 	<% unless @project.nil? || @project.shared_versions.open.empty? -%>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
 		<ul>
 		<% @project.shared_versions.open.sort.each do |v| -%>
@@ -58,7 +58,7 @@
 	</li>
 	<% end %>
 	<% if @assignables.present? -%>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
 		<% @assignables.each do |u| -%>
@@ -71,7 +71,7 @@
 	</li>
 	<% end %>
 	<% unless @project.nil? || @project.issue_categories.empty? -%>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_category) %></a>
 		<ul>
 		<% @project.issue_categories.each do |u| -%>

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -47,7 +47,7 @@ class ActiveSupport::TestCase
     super
     Setting.clear_cache
   end
-  
+
   def log_user(login, password)
     User.anonymous
     get "/login"
@@ -57,7 +57,7 @@ class ActiveSupport::TestCase
     post "/login", :username => login, :password => password
     assert_equal login, User.find(session[:user_id]).login
   end
-  
+
   def uploaded_test_file(name, mime)
     ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
   end
@@ -82,7 +82,7 @@ class ActiveSupport::TestCase
     Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
     Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
-  
+
   def with_settings(options, &block)
     saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}
@@ -104,24 +104,24 @@ class ActiveSupport::TestCase
     # LDAP is not listening
     return nil
   end
-  
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
   end
-  
+
   # Returns the url of the subversion test repository
   def self.subversion_repository_url
     path = repository_path('subversion')
     path = '/' + path unless path.starts_with?('/')
     "file://#{path}"
   end
-  
+
   # Returns true if the +vendor+ test repository is configured
   def self.repository_configured?(vendor)
     File.directory?(repository_path(vendor))
   end
-  
+
   def assert_error_tag(options={})
     assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
   end
@@ -219,7 +219,7 @@ class ActiveSupport::TestCase
   def self.should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters={}, options={})
     success_code = options[:success_code] || :success
     failure_code = options[:failure_code] || :unauthorized
-    
+
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
@@ -227,7 +227,7 @@ class ActiveSupport::TestCase
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
           send(http_method, url, parameters, {:authorization => @authorization})
         end
-        
+
         should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should "login as the user" do
@@ -241,14 +241,14 @@ class ActiveSupport::TestCase
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
           send(http_method, url, parameters, {:authorization => @authorization})
         end
-        
+
         should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
       end
-      
+
       context "without credentials" do
         setup do
           send(http_method, url, parameters, {:authorization => ''})
@@ -284,7 +284,7 @@ class ActiveSupport::TestCase
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
           send(http_method, url, parameters, {:authorization => @authorization})
         end
-        
+
         should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
@@ -309,7 +309,7 @@ class ActiveSupport::TestCase
       end
     end
   end
-  
+
   # Test that a request allows full key authentication
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
@@ -335,7 +335,7 @@ class ActiveSupport::TestCase
                         end
           send(http_method, request_url, parameters)
         end
-        
+
         should_respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
@@ -356,7 +356,7 @@ class ActiveSupport::TestCase
                         end
           send(http_method, request_url, parameters)
         end
-        
+
         should_respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
@@ -364,14 +364,14 @@ class ActiveSupport::TestCase
         end
       end
     end
-    
+
     context "should allow key based auth using X-ChiliProject-API-Key header for #{http_method} #{url}" do
       setup do
         @user = User.generate_with_protected!(:admin => true)
         @token = Token.generate!(:user => @user, :action => 'api')
         send(http_method, url, parameters, {'X-ChiliProject-API-Key' => @token.value.to_s})
       end
-      
+
       should_respond_with success_code
       should_respond_with_content_type_based_on_url(url)
       should_be_a_valid_response_string_based_on_url(url)
@@ -396,7 +396,7 @@ class ActiveSupport::TestCase
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
     end
-    
+
   end
 
   # Uses the url to assert which format the response should be in
@@ -414,9 +414,9 @@ class ActiveSupport::TestCase
     else
       raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"
     end
-    
+
   end
-  
+
   # Checks that the response is a valid JSON string
   def self.should_be_a_valid_json_string
     should "be a valid JSON string (or empty)" do
@@ -430,7 +430,7 @@ class ActiveSupport::TestCase
       assert REXML::Document.new(response.body)
     end
   end
-  
+
 end
 
 # Simple module to "namespace" all of the API tests

@@ -4,13 +4,13 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <div id="roadmap">
-<% @versions.each do |version| %>   
+<% @versions.each do |version| %>
     <h3 class="version"><%= tag 'a', :name => version.name %><%= link_to_version version %></h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-    <% form_tag({}) do -%>	
+    <% form_tag({}) do -%>
     <table class="list related-issues">
     <caption><%= l(:label_related_issues) %></caption>
     <%- issues.each do |issue| -%>

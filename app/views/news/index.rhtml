@@ -11,7 +11,7 @@
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
-<%= link_to_remote l(:label_preview), 
+<%= link_to_remote l(:label_preview),
                    { :url => preview_news_path(:project_id => @project),
                      :method => 'get',
                      :update => 'preview',

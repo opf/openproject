@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -24,12 +24,12 @@ class Setting < ActiveRecord::Base
 	'%b %d, %Y',
 	'%B %d, %Y'
     ]
-    
+
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
     ]
-    
+
   ENCODINGS = %w(US-ASCII
                   windows-1250
                   windows-1251
@@ -69,18 +69,18 @@ class Setting < ActiveRecord::Base
                   Big5
                   Big5-HKSCS
                   TIS-620)
-  
+
   cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
   Redmine::Plugin.all.each do |plugin|
     next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
+    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
   end
-  
+
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
-  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }  
-  
+  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
+
   def value
     v = read_attribute(:value)
     # Unserialize serialized settings
@@ -88,17 +88,17 @@ class Setting < ActiveRecord::Base
     v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
     v
   end
-  
+
   def value=(v)
     v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
     write_attribute(:value, v.to_s)
   end
-  
+
   # Returns the value of the setting named name
   def self.[](name)
     Marshal.load(Rails.cache.fetch("chiliproject/setting/#{name}") {Marshal.dump(find_or_default(name).value)}).freeze
   end
-  
+
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
@@ -106,7 +106,7 @@ class Setting < ActiveRecord::Base
     setting.save
     setting.value.freeze
   end
-  
+
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
   # or set using Setting.some_setting_name = "some value"
@@ -126,16 +126,16 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
-  
+
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
   end
-  
+
   def self.openid?
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
-  
+
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request
@@ -154,13 +154,13 @@ class Setting < ActiveRecord::Base
     Rails.cache.write('chiliproject/setting-cleared_on', Marshal.dump(Time.now))
     logger.info 'Settings cache cleared.' if logger
   end
-  
+
 private
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
     name = name.to_s
-    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)    
+    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
     setting = find_by_name(name)
     setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
   end

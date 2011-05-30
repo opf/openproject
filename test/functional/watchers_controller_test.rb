@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -19,20 +19,20 @@ class WatchersController; def rescue_action(e) raise e end; end
 class WatchersControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers
-  
+
   def setup
     @controller = WatchersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_get_watch_should_be_invalid
     @request.session[:user_id] = 3
     get :watch, :object_type => 'issue', :object_id => '1'
     assert_response 405
   end
-  
+
   def test_watch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
@@ -43,7 +43,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
-  
+
   def test_watch_should_be_denied_without_permission
     Role.find(2).remove_permission! :view_issues
     @request.session[:user_id] = 3
@@ -74,7 +74,7 @@ class WatchersControllerTest < ActionController::TestCase
       assert @response.body.include? "value.replace"
     end
   end
-  
+
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
@@ -119,7 +119,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
     assert Issue.find(2).watched_by?(User.find(4))
   end
-  
+
   def test_remove_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do

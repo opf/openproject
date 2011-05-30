@@ -7,7 +7,7 @@
                                      :with => "Form.serialize('issue-form')" %>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-                                     
+
 <% if User.current.allowed_to?(:manage_subtasks, @project) %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10 %></p>
 <div id="parent_issue_candidates" class="autocomplete"></div>

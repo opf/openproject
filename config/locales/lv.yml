@@ -7,10 +7,10 @@ lv:
       default: "%d.%m.%Y"
       short: "%d %b"
       long: "%d %B %Y"
-      
+
     day_names: [Svētdiena, Pirmdiena, Otrdiena, Trešdiena, Ceturtdiena, Piektdiena, Sestdiena]
     abbr_day_names: [Sv, Pr, Ot, Tr, Ct, Pk, St]
-      
+
     month_names: [~, Janvāris, Februāris, Marts, Aprīlis , Maijs, Jūnijs, Jūlijs, Augusts, Septembris, Oktobris, Novembris, Decembris]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Mai, Jūn, Jūl, Aug, Sep, Okt, Nov, Dec]
     order:
@@ -26,7 +26,7 @@ lv:
       long: "%B %d, %Y %H:%M"
     am: "rītā"
     pm: "vakarā"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pus minūte"
@@ -84,12 +84,12 @@ lv:
           gb: "GB"
           tb: "TB"
 
-        
+
   support:
     array:
       sentence_connector: "un"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -123,7 +123,7 @@ lv:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Izvēlieties
-  
+
   general_text_No: 'Nē'
   general_text_Yes: 'Jā'
   general_text_no: 'nē'
@@ -134,7 +134,7 @@ lv:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Konts tika atjaunots veiksmīgi.
   notice_account_invalid_creditentials: Nepareizs lietotāja vārds vai parole.
   notice_account_password_updated: Parole tika veiksmīgi atjaunota.
@@ -161,7 +161,7 @@ lv:
   notice_default_data_loaded: Noklusētā konfigurācija tika veiksmīgi ielādēta.
   notice_unable_delete_version: Neizdevās dzēst versiju.
   notice_issue_done_ratios_updated: Uzdevuma izpildes koeficients atjaunots.
-  
+
   error_can_t_load_default_data: "Nevar ielādēt noklusētos konfigurācijas datus: %{value}"
   error_scm_not_found: "Ieraksts vai versija nebija repozitorijā."
   error_scm_command_failed: "Mēģinot piekļūt repozitorijam, notika kļūda: %{value}"
@@ -174,9 +174,9 @@ lv:
   error_issue_done_ratios_not_updated: "Uzdevuma izpildes koeficients nav atjaunots."
   error_workflow_copy_source: 'Lūdzu izvēlieties avota trakeri vai lomu'
   error_workflow_copy_target: 'Lūdzu izvēlēties mērķa trakeri(us) un lomu(as)'
-  
+
   warning_attachments_not_saved: "%{count} datnes netika saglabātas."
-  
+
   mail_subject_lost_password: "Jūsu %{value} parole"
   mail_body_lost_password: 'Lai mainītu paroli, spiediet uz šīs saites:'
   mail_subject_register: "Jūsu %{value} konta aktivizācija"
@@ -191,10 +191,10 @@ lv:
   mail_body_wiki_content_added: "The '%{id}' Wiki lapu pievienojis %{author}."
   mail_subject_wiki_content_updated: "'%{id}' Wiki lapa atjaunota"
   mail_body_wiki_content_updated: "The '%{id}' Wiki lapu atjaunojis %{author}."
-  
+
   gui_validation_error: 1 kļūda
   gui_validation_error_plural: "%{count} kļūdas"
-  
+
   field_name: Nosaukums
   field_description: Apraksts
   field_summary: Kopsavilkums
@@ -284,7 +284,7 @@ lv:
   field_content: Saturs
   field_group_by: Grupēt rezultātus pēc
   field_sharing: Koplietošana
-  
+
   setting_app_title: Programmas nosaukums
   setting_app_subtitle: Programmas apakš-nosaukums
   setting_welcome_text: Sveiciena teksts
@@ -338,7 +338,7 @@ lv:
   setting_start_of_week: Sākt kalendāru ar
   setting_rest_api_enabled: Lietot REST web-servisu
   setting_cache_formatted_text: Kešot formatētu tekstu
-  
+
   permission_add_project: Izveidot projektu
   permission_add_subprojects: Izveidot apakšprojektu
   permission_edit_project: Rediģēt projektu
@@ -383,7 +383,7 @@ lv:
   permission_protect_wiki_pages: Projekta wiki lapas
   permission_manage_repository: Pārvaldīt repozitoriju
   permission_browse_repository: Pārlūkot repozitoriju
-  permission_view_changesets: Skatīt izmaiņu kopumus  
+  permission_view_changesets: Skatīt izmaiņu kopumus
   permission_commit_access: Atļaut piekļuvi
   permission_manage_boards: Pārvaldīt ziņojumu dēļus
   permission_view_messages: Skatīt ziņas
@@ -393,7 +393,7 @@ lv:
   permission_delete_messages: Dzēst ziņas
   permission_delete_own_messages: Dzēst savas ziņas
   permission_export_wiki_pages: Eksportēt Wiki lapas
-  
+
   project_module_issue_tracking: Uzdevumu uzskaite
   project_module_time_tracking: Laika uzskaite
   project_module_news: Jaunumi
@@ -402,7 +402,7 @@ lv:
   project_module_wiki: Wiki
   project_module_repository: Repozitorijs
   project_module_boards: Ziņojumu dēļi
-  
+
   label_user: Lietotājs
   label_user_plural: Lietotāji
   label_user_new: Jauns lietotājs
@@ -597,7 +597,7 @@ lv:
   label_modification: "%{count} izmaiņa"
   label_modification_plural: "%{count} izmaiņas"
   label_branch: Zars
-  label_tag: Birka 
+  label_tag: Birka
   label_revision: Revīzija
   label_revision_plural: Revīzijas
   label_revision_id: "Revīzija %{value}"
@@ -755,7 +755,7 @@ lv:
   label_api_access_key: API pieejas atslēga
   label_missing_api_access_key: Trūkst API pieejas atslēga
   label_api_access_key_created_on: "API pieejas atslēga izveidota pirms %{value}"
-  
+
   button_login: Pieslēgties
   button_submit: Nosūtīt
   button_save: Saglabāt
@@ -799,17 +799,17 @@ lv:
   button_quote: Citāts
   button_duplicate: Dublēt
   button_show: Rādīt
-  
+
   status_active: aktīvs
   status_registered: reģistrēts
   status_locked: slēgts
-  
+
   version_status_open: atvērta
   version_status_locked: slēgta
   version_status_closed: aizvērta
 
   field_active: Aktīvs
-  
+
   text_select_mail_notifications: "Izvēlieties darbības, par kurām vēlaties saņemt ziņojumus e-pastā"
   text_regexp_info: "piem. ^[A-Z0-9]+$"
   text_min_max_length_info: "0 nozīmē, ka nav ierobežojumu"
@@ -839,7 +839,7 @@ lv:
   text_issue_category_destroy_question: "Daži uzdevumi (%{count}) ir nozīmēti šai kategorijai. Ko Jūs vēlaties darīt?"
   text_issue_category_destroy_assignments: Dzēst kategoriju nozīmējumus
   text_issue_category_reassign_to: Nozīmēt uzdevumus šai kategorijai
-  text_user_mail_option: "No neizvēlētajiem projektiem Jūs saņemsiet ziņojumus e-pastā tikai par notikumiem, kuriem Jūs sekojat vai kuros esat iesaistīts." 
+  text_user_mail_option: "No neizvēlētajiem projektiem Jūs saņemsiet ziņojumus e-pastā tikai par notikumiem, kuriem Jūs sekojat vai kuros esat iesaistīts."
   text_no_configuration_data: "Lomas, trakeri, uzdevumu statusi un darba plūsmas vēl nav konfigurētas.\nĻoti ieteicams ielādēt noklusēto konfigurāciju. Pēc ielādēšanas to būs iespējams modificēt."
   text_load_default_configuration: Ielādēt noklusēto konfigurāciju
   text_status_changed_by_changeset: "Apstiprināts izmaiņu kopumā %{value}."
@@ -865,7 +865,7 @@ lv:
   text_wiki_page_destroy_children: "Dzēst apakšlapas un visus pēcnācējus"
   text_wiki_page_reassign_children: "Piešķirt apakšlapas šai lapai"
   text_own_membership_delete_confirmation: "Jūs tūlīt dzēsīsiet dažas vai visas atļaujas, un Jums pēc tam var nebūt atļauja labot šo projektu.\nVai turpināt?"
-  
+
   default_role_manager: Menedžeris
   default_role_developer: Izstrādātājs
   default_role_reporter: Ziņotājs
@@ -889,7 +889,7 @@ lv:
   default_priority_immediate: Tūlītēja
   default_activity_design: Dizains
   default_activity_development: Izstrādāšana
-  
+
   enumeration_issue_priorities: Uzdevumu prioritātes
   enumeration_doc_categories: Dokumentu kategorijas
   enumeration_activities: Aktivitātes (laika uzskaite)

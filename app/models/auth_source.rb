@@ -1,39 +1,39 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class AuthSource < ActiveRecord::Base
   include Redmine::Ciphering
-  
+
   has_many :users
-  
+
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 60
 
   def authenticate(login, password)
   end
-  
+
   def test_connection
   end
-  
+
   def auth_method_name
     "Abstract"
   end
-  
+
   def account_password
     read_ciphered_attribute(:account_password)
   end
-  
+
   def account_password=(arg)
     write_ciphered_attribute(:account_password, arg)
   end

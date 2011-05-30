@@ -9,7 +9,7 @@
 <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
 
 <p><%= submit_tag l(:button_save) %>
-   <%= link_to_remote l(:label_preview), 
+   <%= link_to_remote l(:label_preview),
                        { :url => { :controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title },
                          :method => :post,
                          :update => 'preview',

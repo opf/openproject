@@ -1,35 +1,35 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class CommentsControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news, :comments
-  
+
   def setup
     User.current = nil
   end
-  
+
   def test_add_comment
     @request.session[:user_id] = 2
     post :create, :id => 1, :comment => { :comments => 'This is a test comment' }
     assert_redirected_to '/news/1'
-    
+
     comment = News.find(1).comments.find(:first, :order => 'created_on DESC')
     assert_not_nil comment
     assert_equal 'This is a test comment', comment.comments
     assert_equal User.find(2), comment.author
   end
-  
+
   def test_empty_comment_should_not_be_added
     @request.session[:user_id] = 2
     assert_no_difference 'Comment.count' do
@@ -47,6 +47,6 @@ class CommentsControllerTest < ActionController::TestCase
     assert_nil Comment.find_by_id(2)
     assert_equal comments_count - 1, News.find(1).comments.size
   end
-  
+
 
 end

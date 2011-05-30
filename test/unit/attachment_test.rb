@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentTest < ActiveSupport::TestCase
   fixtures :issues, :users
-  
+
   def setup
   end
 
@@ -31,7 +31,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
     assert File.exist?(a.diskfile)
   end
-  
+
   def test_create_should_auto_assign_content_type
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", ""),
@@ -39,7 +39,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert a.save
     assert_equal 'text/plain', a.content_type
   end
-  
+
   def test_identical_attachments_at_the_same_time_should_not_overwrite
     a1 = Attachment.create!(:container => Issue.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
@@ -49,7 +49,7 @@ class AttachmentTest < ActiveSupport::TestCase
                             :author => User.find(1))
     assert a1.disk_filename != a2.disk_filename
   end
-  
+
   def test_diskfilename
     assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]

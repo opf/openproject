@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -17,9 +17,9 @@ class Redmine::MenuManager::Mapper
     @menu = menu
     @menu_items = items[menu]
   end
-  
+
   @@last_items_count = Hash.new {|h,k| h[k] = 0}
-  
+
   # Adds an item at the end of the menu. Available options:
   # * param: the parameter name that is used for the project id (default is :id)
   # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
@@ -66,14 +66,14 @@ class Redmine::MenuManager::Mapper
       else
         target_root.add(Redmine::MenuManager::MenuItem.new(name, url, options))
       end
-      
+
     elsif options[:last] # don't delete, needs to be stored
       target_root.add_last(Redmine::MenuManager::MenuItem.new(name, url, options))
     else
       target_root.add(Redmine::MenuManager::MenuItem.new(name, url, options))
     end
   end
-  
+
   # Removes a menu item
   def delete(name)
     if found = self.find(name)

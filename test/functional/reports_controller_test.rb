@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -19,14 +19,14 @@ class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < ActionController::TestCase
   fixtures :all
-  
+
   def setup
     @controller = ReportsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   context "GET :issue_report without details" do
     setup do
       get :issue_report, :id => 1
@@ -68,7 +68,7 @@ class ReportsControllerTest < ActionController::TestCase
       should_respond_with :redirect
       should_redirect_to('the issue report') {{:controller => 'reports', :action => 'issue_report', :id => 'ecookbook'}}
     end
-    
+
   end
-  
+
 end

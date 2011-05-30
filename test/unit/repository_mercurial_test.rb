@@ -1,20 +1,20 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositoryMercurialTest < ActiveSupport::TestCase
   fixtures :projects
-  
+
   # No '..' in the repository path
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/mercurial_repository'
 
@@ -40,7 +40,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
   end
 
-  if File.directory?(REPOSITORY_PATH)  
+  if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
@@ -56,7 +56,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
       @repository.reload
       assert_equal 3, @repository.changesets.count
-      
+
       @repository.fetch_changesets
       assert_equal 29, @repository.changesets.count
     end
@@ -141,7 +141,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       changesets = @repository.latest_changesets('sources', 'tag_test.00')
       assert_equal %w|4 3 2 1 0|, changesets.collect(&:revision)
-      
+
       changesets = @repository.latest_changesets('sources', 'tag_test.00', 2)
       assert_equal %w|4 3|, changesets.collect(&:revision)
 

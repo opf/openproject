@@ -1,4 +1,4 @@
-# Croatian translations for Ruby on Rails 
+# Croatian translations for Ruby on Rails
 # by Helix d.o.o. (info@helix.hr)
 
 hr:
@@ -11,10 +11,10 @@ hr:
       default: "%m/%d/%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Ponedjeljak, Utorak, Srijeda, Četvrtak, Petak, Subota, Nedjelja]
     abbr_day_names: [Ned, Pon, Uto, Sri, Čet, Pet, Sub]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Sijecanj, Veljaca, Ožujak, Travanj, Svibanj, Lipanj, Srpanj, Kolovoz, Rujan, Listopad, Studeni, Prosinac]
     abbr_month_names: [~, Sij, Velj, Ožu, Tra, Svi, Lip, Srp, Kol, Ruj, List, Stu, Pro]
@@ -32,7 +32,7 @@ hr:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pola minute"
@@ -86,14 +86,14 @@ hr:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-  
-     
+
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -127,7 +127,7 @@ hr:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Molimo odaberite
-  
+
   general_text_No: 'Ne'
   general_text_Yes: 'Da'
   general_text_no: 'ne'
@@ -138,7 +138,7 @@ hr:
   general_csv_encoding: utf8
   general_pdf_encoding: utf8
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Vaš profil je uspješno promijenjen.
   notice_account_invalid_creditentials: Neispravno korisničko ime ili zaporka.
   notice_account_password_updated: Zaporka je uspješno promijenjena.
@@ -154,7 +154,7 @@ hr:
   notice_successful_connection: Uspješna veza.
   notice_file_not_found: Stranica kojoj ste pokušali pristupiti ne postoji ili je uklonjena.
   notice_locking_conflict: Podataci su ažurirani od strane drugog korisnika.
-  notice_not_authorized: Niste ovlašteni za pristup ovoj stranici. 
+  notice_not_authorized: Niste ovlašteni za pristup ovoj stranici.
   notice_email_sent: E-mail je poslan %{value}"
   notice_email_error: Dogodila se pogreška tijekom slanja E-maila (%{value})"
   notice_feeds_access_key_reseted: Vaš RSS pristup je resetovan.
@@ -165,7 +165,7 @@ hr:
   notice_default_data_loaded: Konfiguracija je uspješno učitana.
   notice_unable_delete_version: Nije moguće izbrisati verziju.
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  
+
   error_can_t_load_default_data: "Zadanu konfiguracija nije učitana: %{value}"
   error_scm_not_found: "Unos i/ili revizija nije pronađen."
   error_scm_command_failed: "Dogodila se pogreška prilikom pokušaja pristupa: %{value}"
@@ -178,9 +178,9 @@ hr:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-    
+
   warning_attachments_not_saved: "%{count} Datoteka/e nije mogla biti spremljena."
-  
+
   mail_subject_lost_password: "Vaša %{value} zaporka"
   mail_body_lost_password: 'Kako biste promijenili Vašu zaporku slijedite poveznicu:'
   mail_subject_register: "Aktivacija korisničog računa %{value}"
@@ -195,10 +195,10 @@ hr:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
-  
+
   gui_validation_error: 1 pogreška
   gui_validation_error_plural: "%{count} pogrešaka"
-   
+
   field_name: Ime
   field_description: Opis
   field_summary: Sažetak
@@ -288,7 +288,7 @@ hr:
   field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
-  
+
   setting_app_title: Naziv aplikacije
   setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
@@ -335,37 +335,37 @@ hr:
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  setting_default_projects_modules: Default enabled modules for new projects 
+  setting_default_projects_modules: Default enabled modules for new projects
   setting_issue_done_ratio: Calculate the issue done ratio with
   setting_issue_done_ratio_issue_field: Use the issue field
   setting_issue_done_ratio_issue_status: Use the issue status
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
-   
+
   permission_add_project: Dodaj projekt
-  permission_add_subprojects: Dodaj potprojekt 
+  permission_add_subprojects: Dodaj potprojekt
   permission_edit_project: Uredi projekt
   permission_select_project_modules: Odaberi projektne module
   permission_manage_members: Upravljaj članovima
   permission_manage_versions: Upravljaj verzijama
   permission_manage_categories: Upravljaj kategorijama predmeta
   permission_view_issues: Pregledaj zahtjeve
-  permission_add_issues: Dodaj predmete 
+  permission_add_issues: Dodaj predmete
   permission_edit_issues: Uredi predmete
   permission_manage_issue_relations: Upravljaj relacijama predmeta
-  permission_add_issue_notes: Dodaj bilješke 
-  permission_edit_issue_notes: Uredi bilješke 
+  permission_add_issue_notes: Dodaj bilješke
+  permission_edit_issue_notes: Uredi bilješke
   permission_edit_own_issue_notes: Uredi vlastite bilješke
-  permission_move_issues: Premjesti predmete 
+  permission_move_issues: Premjesti predmete
   permission_delete_issues: Brisanje predmeta
   permission_manage_public_queries: Upravljaj javnim upitima
-  permission_save_queries: Spremi upite 
+  permission_save_queries: Spremi upite
   permission_view_gantt: Pregledaj gantt grafikon
   permission_view_calendar: Pregledaj kalendar
   permission_view_issue_watchers: Pregledaj listu promatraca
   permission_add_issue_watchers: Dodaj promatrača
   permission_delete_issue_watchers: Delete watchers
-  permission_log_time: Dnevnik utrošenog vremena 
+  permission_log_time: Dnevnik utrošenog vremena
   permission_view_time_entries: Pregledaj utrošeno vrijeme
   permission_edit_time_entries: Uredi vremenske dnevnike
   permission_edit_own_time_entries: Edit own time logs
@@ -391,10 +391,10 @@ hr:
   permission_view_messages: Pregledaj poruke
   permission_add_messages: Objavi poruke
   permission_edit_messages: Uredi poruke
-  permission_edit_own_messages: Uredi vlastite poruke 
+  permission_edit_own_messages: Uredi vlastite poruke
   permission_delete_messages: Obriši poruke
   permission_delete_own_messages: Obriši vlastite poruke
-    
+
   project_module_issue_tracking: Praćenje predmeta
   project_module_time_tracking: Praćenje vremena
   project_module_news: Novosti
@@ -403,7 +403,7 @@ hr:
   project_module_wiki: Wiki
   project_module_repository: Skladište
   project_module_boards: Boards
-  
+
   label_user: Korisnik
   label_user_plural: Korisnici
   label_user_new: Novi korisnik
@@ -544,7 +544,7 @@ hr:
   label_nobody: nitko
   label_next: Naredni
   label_previous: Prethodni
-  label_used_by: Korišten od 
+  label_used_by: Korišten od
   label_details: Detalji
   label_add_note: Dodaj napomenu
   label_per_page: Po stranici
@@ -598,10 +598,10 @@ hr:
   label_modification: "%{count} promjena"
   label_modification_plural: "%{count} promjena"
   label_branch: Branch
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Revizija
   label_revision_plural: Revizije
-  label_revision_id: "Revision %{value}" 
+  label_revision_id: "Revision %{value}"
   label_associated_revisions: Dodijeljene revizije
   label_added: dodano
   label_modified: promijenjen
@@ -680,7 +680,7 @@ hr:
   label_message_new: Nova poruka
   label_message_posted: Poruka dodana
   label_reply_plural: Odgovori
-  label_send_information: Pošalji korisniku informaciju o profilu 
+  label_send_information: Pošalji korisniku informaciju o profilu
   label_year: Godina
   label_month: Mjesec
   label_week: Tjedan
@@ -691,7 +691,7 @@ hr:
   label_send_test_email: Pošalji testno E-pismo
   label_feeds_access_key: RSS access key
   label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS kljuc za pristup je napravljen prije %{value}"  
+  label_feeds_access_key_created_on: "RSS kljuc za pristup je napravljen prije %{value}"
   label_module_plural: Moduli
   label_added_time_by: "Promijenio %{author} prije %{age}"
   label_updated_time_by: "Dodao/la %{author} prije %{age}"
@@ -754,7 +754,7 @@ hr:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created %{value} ago"
-  
+
   button_login: Prijavi
   button_submit: Pošalji
   button_save: Spremi
@@ -797,18 +797,18 @@ hr:
   button_configure: Konfiguracija
   button_quote: Navod
   button_duplicate: Duplicate
-  button_show: Show  
-  
+  button_show: Show
+
   status_active: aktivan
   status_registered: Registriran
   status_locked: zaključan
-  
+
   version_status_open: open
   version_status_locked: locked
   version_status_closed: closed
 
   field_active: Active
-  
+
   text_select_mail_notifications: Izbor akcija za koje će biti poslana obavijest e-poštom.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znači bez ograničenja
@@ -819,7 +819,7 @@ hr:
   text_journal_changed: "%{label} promijenjen iz %{old} u %{new}"
   text_journal_set_to: "%{label} postavi na %{value}"
   text_journal_deleted: "%{label} izbrisano (%{old})"
-  text_journal_added: "%{label} %{value} added"  
+  text_journal_added: "%{label} %{value} added"
   text_tip_issue_begin_day: Zadaci koji počinju ovog dana
   text_tip_issue_end_day: zadaci koji se završavaju ovog dana
   text_tip_issue_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
@@ -840,7 +840,7 @@ hr:
   text_issue_category_destroy_assignments: Ukloni dodjeljivanje kategorija
   text_issue_category_reassign_to: Ponovo dodijeli predmete ovoj kategoriji
   text_user_mail_option: "Za neizabrane projekte, primit ćete obavjesti samo o stvarima koje pratite ili u kojima sudjelujete (npr. predmete koje ste vi napravili ili koje su vama dodjeljeni)."
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded." 
+  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Učitaj početnu konfiguraciju
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Jeste li sigurni da želite obrisati izabrani/e predmet(e)?'
@@ -889,7 +889,7 @@ hr:
   default_activity_development: Razvoj
   enumeration_issue_priorities: Prioriteti predmeta
   enumeration_doc_categories: Kategorija dokumenata
-  enumeration_activities: Aktivnosti (po vremenu)  
+  enumeration_activities: Aktivnosti (po vremenu)
   enumeration_system_activity: System Activity
   field_sharing: Sharing
   text_line_separated: Multiple values allowed (one line for each value).

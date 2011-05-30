@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -29,9 +29,9 @@ class JournalTest < ActiveSupport::TestCase
     status = @journal.new_status
     assert_not_nil status
     assert_kind_of IssueStatus, status
-    assert_equal 2, status.id 
+    assert_equal 2, status.id
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
@@ -45,7 +45,7 @@ class JournalTest < ActiveSupport::TestCase
     issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_create_should_not_send_email_notification_if_told_not_to
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
