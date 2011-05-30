@@ -2,22 +2,62 @@
 
 == TBD v2.0.0
 
+* Bug #262: Fix line endings
+* Bug #341: Remove English strings from RepositoriesHelper
+* Bug #343: Review Gantt and Calender links from 07cf681
+* Bug #345: Entering large numbers for 'Estimated Time' fails with 'Invalid big Decimal Value'
+* Bug #346: I18n YAML files not parsable with psych yaml library
+* Bug #383: Fix broken tests in unstable
+* Bug #389: Context menu doesn't work in Opera
+* Bug #390: mysql2 incompatibility in WikiPage model
+* Bug #400: Review and fix the Activity event types
+* Bug #401: Move JournalsHelpers from aaj to the core
+* Bug #403: [AAJ] Attachment has it's files and documents activity provider removed but only documents added
+* Bug #404: Move aaj/app/* to core
+* Bug #405: Move aaj/test/* to core
+* Bug #406: Check for missing Journal code from the AAJ merge
+* Bug #407: Add Journal#visible
+* Bug #408: Check IssueTest#test_saving_twice_should_not_duplicate_journal_details
+* Bug #409: [AAJ] Check that bugfix 784bbccf was merged
+* Bug #411: Issue Notes Preview
+* Bug #412: Test errors on 1.9.2 after acts_as_journalized merge
+* Bug #413: Test errors on 1.8.6 after acts_as_journalized merge
+* Bug #414: Remove returning since it causes deprecation warnings
+* Bug #415: Wikipages don't store/show the comment correctly
+* Bug #419: Issue list context menu not working in IE9
+* Bug #422: cvs test are not working
+* Bug #423: Remove explicit render from WikiController#show
+* Feature #112: Provide a library function to detect the database type used
+* Feature #196: Upgrade to Rails 2.3-latest
+* Feature #216: Remove the rubygems hack from boot.rb
+* Feature #217: Remove the hack to require a specific i18n version in boot.rb
+* Feature #269: Refactor lib/redmine/menu_manager.rb to increase extensibility
+* Feature #279: Optional start date on Versions
+* Feature #289: Switch to helper :all
+* Feature #290: Add bundler
+* Feature #310: Option to skip mail notifications on issue updates
+* Feature #350: Setting model should use Rails.cache instead of class variable
+* Feature #416: Refactor watcher_tag and watcher_link to use css selectors for the replace action
+* Task #123: Review and Merge acts_as_journalized
+* Task #197: Rake task to manage copyright inside of source files
+* Task #288: Review latest Redmine commits
+* Task #291: Update documentation to phase out Ruby 1.8.6
 * From Redmine v1.1.2
-* Defect #3132: Bulk editing menu non-functional in Opera browser
-* Defect #6090: Most binary files become corrupted when downloading from CVS repository browser when Redmine is running on a Windows server
-* Defect #7280: Issues subjects wrap in Gantt
-* Defect #7288: Non ASCII filename downloaded from repo is broken on Internet Explorer.
-* Defect #7317: Gantt tab gives internal error due to nil avatar icon
-* Defect #7497: Aptana Studio .project file added to version 1.1.1-stable
-* Defect #7611: Workflow summary shows X icon for workflow with exactly 1 status transition
-* Defect #7625: Syntax highlighting unavailable from board new topic or topic edit preview
-* Defect #7630: Spent time in commits not recognized
-* Defect #7656: MySQL SQL Syntax Error when filtering issues by Assignee's Group
-* Defect #7718: Minutes logged in commit message are converted to hours
-* Defect #7763: Email notification are sent to watchers even if 'No events' setting is chosen
-* Feature #7608: Add "retro" gravatars
-* Patch #7598: Extensible MailHandler
-* Patch #7795: Internal server error at journals#index with custom fields
+** Defect #3132: Bulk editing menu non-functional in Opera browser
+** Defect #6090: Most binary files become corrupted when downloading from CVS repository browser when Redmine is running on a Windows server
+** Defect #7280: Issues subjects wrap in Gantt
+** Defect #7288: Non ASCII filename downloaded from repo is broken on Internet Explorer.
+** Defect #7317: Gantt tab gives internal error due to nil avatar icon
+** Defect #7497: Aptana Studio .project file added to version 1.1.1-stable
+** Defect #7611: Workflow summary shows X icon for workflow with exactly 1 status transition
+** Defect #7625: Syntax highlighting unavailable from board new topic or topic edit preview
+** Defect #7630: Spent time in commits not recognized
+** Defect #7656: MySQL SQL Syntax Error when filtering issues by Assignee's Group
+** Defect #7718: Minutes logged in commit message are converted to hours
+** Defect #7763: Email notification are sent to watchers even if 'No events' setting is chosen
+** Feature #7608: Add "retro" gravatars
+** Patch #7598: Extensible MailHandler
+** Patch #7795: Internal server error at journals#index with custom fields
 
 == 2011-05-27 v1.4.0
 
