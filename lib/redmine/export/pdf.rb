@@ -1,3 +1,4 @@
+# encoding: utf-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -10,8 +11,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-# encoding: utf-8
 
 require 'iconv'
 require 'rfpdf/fpdf'
