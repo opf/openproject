@@ -1,4 +1,4 @@
-# Chinese (China) translations for Ruby on Rails 
+# Chinese (China) translations for Ruby on Rails
 # by tsechingho (http://github.com/tsechingho)
 
 zh:
@@ -16,7 +16,7 @@ zh:
       - :year
       - :month
       - :day
-  
+
   time:
     formats:
       default: "%Y年%b%d日 %A %H:%M:%S"
@@ -26,7 +26,7 @@ zh:
       long: "%Y年%b%d日 %H:%M"
     am: "上午"
     pm: "下午"
-  
+
   datetime:
     distance_in_words:
       half_a_minute: "半分钟"
@@ -70,7 +70,7 @@ zh:
       hour:   "时"
       minute: "分"
       second: "秒"
-  
+
   number:
     format:
       separator: "."
@@ -103,17 +103,17 @@ zh:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-  
+
   support:
     array:
       words_connector: ", "
       two_words_connector: " 和 "
       last_word_connector: ", 和 "
-  
+
   activerecord:
     errors:
       template:
-        header: 
+        header:
           one: "有 1 个错误发生导致「%{model}」无法被保存。"
           other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
         body: "如下字段出现错误："
@@ -143,7 +143,7 @@ zh:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: 请选择
-  
+
   general_text_No: '否'
   general_text_Yes: '是'
   general_text_no: '否'
@@ -154,7 +154,7 @@ zh:
   general_csv_encoding: gb18030
   general_pdf_encoding: gb18030
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: 帐号更新成功
   notice_account_invalid_creditentials: 无效的用户名或密码
   notice_account_password_updated: 密码更新成功
@@ -196,7 +196,7 @@ zh:
   error_workflow_copy_target: 请选择目标跟踪标签和角色
 
   warning_attachments_not_saved: "%{count} 个文件保存失败。"
-  
+
   mail_subject_lost_password: "您的 %{value} 密码"
   mail_body_lost_password: '请点击以下链接来修改您的密码：'
   mail_subject_register: "%{value}帐号激活"
@@ -214,7 +214,7 @@ zh:
 
   gui_validation_error: 1 个错误
   gui_validation_error_plural: "%{count} 个错误"
-  
+
   field_name: 名称
   field_description: 描述
   field_summary: 摘要
@@ -419,7 +419,7 @@ zh:
   project_module_wiki: Wiki
   project_module_repository: 版本库
   project_module_boards: 讨论区
-  
+
   label_user: 用户
   label_user_plural: 用户
   label_user_new: 新建用户
@@ -770,7 +770,7 @@ zh:
   label_api_access_key: API访问键
   label_missing_api_access_key: 缺少API访问键
   label_api_access_key_created_on: API访问键是在 %{value} 之前建立的
-  
+
   button_login: 登录
   button_submit: 提交
   button_save: 保存
@@ -904,7 +904,7 @@ zh:
   default_priority_immediate: 立刻
   default_activity_design: 设计
   default_activity_development: 开发
-  
+
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）

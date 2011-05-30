@@ -1,20 +1,20 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 # Mocks out OpenID
 #
 # http://www.northpub.com/articles/2007/04/02/testing-openid-support
-module OpenIdAuthentication 
+module OpenIdAuthentication
 
   EXTENSION_FIELDS = {'email' => 'user@somedomain.com',
                       'nickname' => 'cool_user',
@@ -23,7 +23,7 @@ module OpenIdAuthentication
                       'fullname' => 'Cool User',
                       'dob' => '1970-04-01',
                       'language' => 'en',
-                      'timezone' => 'America/New_York'}     
+                      'timezone' => 'America/New_York'}
 
   protected
 
@@ -44,7 +44,7 @@ module OpenIdAuthentication
 
         yield Result[:successful], identity_url , extension_response_fields
       else
-        logger.info "OpenID authentication failed: #{identity_url}" 
+        logger.info "OpenID authentication failed: #{identity_url}"
         yield Result[:failed], identity_url, nil
       end
     end

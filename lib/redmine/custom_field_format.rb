@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -45,7 +45,7 @@ module Redmine
         return value
       }
     end
-    
+
     ['user', 'version'].each do |name|
       define_method("format_as_#{name}") {|value|
         return value.blank? ? "" : name.classify.constantize.find_by_id(value.to_i).to_s
@@ -56,7 +56,7 @@ module Redmine
       def map(&block)
         yield self
       end
-      
+
       # Registers a custom field format
       def register(custom_field_format, options={})
         @@available[custom_field_format.name] = custom_field_format unless @@available.keys.include?(custom_field_format.name)
@@ -96,5 +96,5 @@ module Redmine
         end
       end
     end
-  end 
+  end
 end

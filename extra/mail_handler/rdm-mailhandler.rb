@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -23,10 +23,10 @@
 #    rdm-mailhandler [options] --url=<Redmine URL> --key=<API key>
 #
 # == Arguments
-# 
+#
 #   -u, --url                      URL of the Redmine server
 #   -k, --key                      Redmine API key
-#   
+#
 # General options:
 #       --unknown-user=ACTION      how to handle emails from an unknown user
 #                                  ACTION can be one of the following values:
@@ -38,7 +38,7 @@
 #   -h, --help                     show this help
 #   -v, --verbose                  show extra information
 #   -V, --version                  show version information and exit
-# 
+#
 # Issue attributes control options:
 #   -p, --project=PROJECT          identifier of the target project
 #   -s, --status=STATUS            name of the target status
@@ -48,15 +48,15 @@
 #   -o, --allow-override=ATTRS     allow email content to override attributes
 #                                  specified by previous options
 #                                  ATTRS is a comma separated list of attributes
-#       
+#
 # == Examples
 # No project specified. Emails MUST contain the 'Project' keyword:
-# 
+#
 #   rdm-mailhandler --url http://redmine.domain.foo --key secret
-#   
+#
 # Fixed project and default tracker specified, but emails can override
 # both tracker and priority attributes using keywords:
-# 
+#
 #   rdm-mailhandler --url https://domain.foo/redmine --key secret \\
 #                   --project foo \\
 #                   --tracker bug \\
@@ -84,12 +84,12 @@ end
 
 class RedmineMailHandler
   VERSION = '0.1'
-  
+
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 
   def initialize
     self.issue_attributes = {}
-    
+
     opts = GetoptLong.new(
       [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
       [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
@@ -128,28 +128,28 @@ class RedmineMailHandler
         self.no_permission_check = '1'
       end
     end
-    
+
     RDoc.usage if url.nil?
   end
-  
+
   def submit(email)
     uri = url.gsub(%r{/*$}, '') + '/mail_handler'
-    
+
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
-    
-    data = { 'key' => key, 'email' => email, 
+
+    data = { 'key' => key, 'email' => email,
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,
                            'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
-             
+
     debug "Posting to #{uri}..."
     response = Net::HTTPS.post_form(URI.parse(uri), data, headers)
     debug "Response received: #{response.code}"
-    
+
     case response.code.to_i
       when 403
-        warn "Request was denied by your Redmine server. " + 
+        warn "Request was denied by your Redmine server. " +
              "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."
         return 77
       when 422
@@ -169,9 +169,9 @@ class RedmineMailHandler
         return 1
     end
   end
-  
+
   private
-  
+
   def debug(msg)
     puts msg if verbose
   end

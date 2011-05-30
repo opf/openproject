@@ -1,19 +1,19 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectNestedSetTest < ActiveSupport::TestCase
-  
+
   context "nested set" do
     setup do
       Project.delete_all
@@ -23,7 +23,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       @a1.set_parent!(@a)
       @a2 = Project.create!(:name => 'Project A2', :identifier => 'projecta2')
       @a2.set_parent!(@a)
-      
+
       @b = Project.create!(:name => 'Project B', :identifier => 'projectb')
       @b1 = Project.create!(:name => 'Project B1', :identifier => 'projectb1')
       @b1.set_parent!(@b)
@@ -31,14 +31,14 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       @b11.set_parent!(@b1)
       @b2 = Project.create!(:name => 'Project B2', :identifier => 'projectb2')
       @b2.set_parent!(@b)
-      
+
       @c = Project.create!(:name => 'Project C', :identifier => 'projectc')
       @c1 = Project.create!(:name => 'Project C1', :identifier => 'projectc1')
       @c1.set_parent!(@c)
-      
+
       [@a, @a1, @a2, @b, @b1, @b11, @b2, @c, @c1].each(&:reload)
     end
-    
+
     context "#create" do
       should "build valid tree" do
         assert_nested_set_values({
@@ -54,7 +54,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
         })
       end
     end
-    
+
     context "#set_parent!" do
       should "keep valid tree" do
         assert_no_difference 'Project.count' do
@@ -70,7 +70,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
         })
       end
     end
-  
+
     context "#destroy" do
       context "a root with children" do
         should "not mess up the tree" do
@@ -86,7 +86,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
           })
         end
       end
-      
+
       context "a child with children" do
         should "not mess up the tree" do
           assert_difference 'Project.count', -2 do
@@ -102,7 +102,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   def assert_nested_set_values(h)
     assert Project.valid?
     h.each do |project, expected|

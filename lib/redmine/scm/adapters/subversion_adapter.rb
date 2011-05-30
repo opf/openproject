@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -66,7 +66,7 @@ module Redmine
             end
             begin
               doc = ActiveSupport::XmlMini.parse(output)
-              #root_url = doc.elements["info/entry/repository/root"].text          
+              #root_url = doc.elements["info/entry/repository/root"].text
               info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
                                :lastrev => Revision.new({
                                  :identifier => doc['info']['entry']['commit']['revision'],
@@ -129,7 +129,7 @@ module Redmine
         def properties(path, identifier=nil)
           # proplist xml output supported in svn 1.5.0 and higher
           return nil unless self.class.client_version_above?([1, 5, 0])
-          
+
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           cmd = "#{self.class.sq_bin} proplist --verbose --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
@@ -178,7 +178,7 @@ module Redmine
                             }
                 end if logentry['paths'] && logentry['paths']['path']
                 paths.sort! { |x,y| x[:path] <=> y[:path] }
-                
+
                 revisions << Revision.new({:identifier => logentry['revision'],
                               :author => (logentry['author'] ? logentry['author']['__content__'] : ""),
                               :time => Time.parse(logentry['date']['__content__'].to_s).localtime,
@@ -241,9 +241,9 @@ module Redmine
           return nil if $? && $?.exitstatus != 0
           blame
         end
-        
+
         private
-        
+
         def credentials_string
           str = ''
           str << " --username #{shell_quote(@login)}" unless @login.blank?
@@ -251,7 +251,7 @@ module Redmine
           str << " --no-auth-cache --non-interactive"
           str
         end
-        
+
         # Helper that iterates over the child elements of a xml node
         # MiniXml returns a hash when a single child is found or an array of hashes for multiple children
         def each_xml_element(node, name)

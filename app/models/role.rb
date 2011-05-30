@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -21,18 +21,18 @@ class Role < ActiveRecord::Base
     compare = 'not' if args.first == true
     { :conditions => "#{compare} builtin = 0" }
   }
-  
+
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
     def copy(source_role)
       Workflow.copy(nil, source_role, nil, proxy_owner)
     end
   end
-  
+
   has_many :member_roles, :dependent => :destroy
   has_many :members, :through => :member_roles
   acts_as_list
-  
+
   serialize :permissions, Array
   attr_protected :builtin
 
@@ -43,7 +43,7 @@ class Role < ActiveRecord::Base
   def permissions
     read_attribute(:permissions) || []
   end
-  
+
   def permissions=(perms)
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
@@ -66,30 +66,30 @@ class Role < ActiveRecord::Base
     perms.each { |p| permissions.delete(p.to_sym) }
     save!
   end
-  
+
   # Returns true if the role has the given permission
   def has_permission?(perm)
     !permissions.nil? && permissions.include?(perm.to_sym)
   end
-  
+
   def <=>(role)
     role ? position <=> role.position : -1
   end
-  
+
   def to_s
     name
   end
-  
+
   # Return true if the role is a builtin role
   def builtin?
     self.builtin != 0
   end
-  
+
   # Return true if the role is a project member role
   def member?
     !self.builtin?
   end
-  
+
   # Return true if role is allowed to do the specified action
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -101,7 +101,7 @@ class Role < ActiveRecord::Base
       allowed_permissions.include? action
     end
   end
-  
+
   # Return all the permissions that can be given to the role
   def setable_permissions
     setable_permissions = Redmine::AccessControl.permissions - Redmine::AccessControl.public_permissions
@@ -141,7 +141,7 @@ class Role < ActiveRecord::Base
     anonymous_role
   end
 
-  
+
 private
   def allowed_permissions
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
@@ -150,7 +150,7 @@ private
   def allowed_actions
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
-    
+
   def check_deletable
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?

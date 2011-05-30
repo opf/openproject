@@ -1,23 +1,23 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module VersionsHelper
 
   STATUS_BY_CRITERIAS = %w(category tracker status priority author assigned_to)
-  
+
   def render_issue_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)
-    
+
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin
       # Total issue count
@@ -32,10 +32,10 @@ module VersionsHelper
     end
     counts = h.keys.compact.sort.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
     max = counts.collect {|c| c[:total]}.max
-    
+
     render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
   end
-  
+
   def status_by_options_for_select(value)
     options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l("field_#{criteria}".to_sym), criteria]}, value)
   end

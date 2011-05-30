@@ -89,7 +89,7 @@ da:
         # precision:
     human:
       format:
-        # separator: 
+        # separator:
         delimiter: ""
         precision: 1
       storage_units:
@@ -144,9 +144,9 @@ da:
           one:   "En fejl forhindrede %{model} i at blive gemt"
           other:  "%{count} fejl forhindrede denne %{model} i at blive gemt"
         body: "Der var problemer med følgende felter:"
-  
+
   actionview_instancetag_blank_option: Vælg venligst
-  
+
   general_text_No: 'Nej'
   general_text_Yes: 'Ja'
   general_text_no: 'nej'
@@ -156,7 +156,7 @@ da:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Kontoen er opdateret.
   notice_account_invalid_creditentials: Ugyldig bruger og/eller kodeord
   notice_account_password_updated: Kodeordet er opdateret.
@@ -180,11 +180,11 @@ da:
   notice_no_issue_selected: "Ingen sag er valgt! Vælg venligst hvilke emner du vil rette."
   notice_account_pending: "Din konto er oprettet, og afventer administrators godkendelse."
   notice_default_data_loaded: Standardopsætningen er indlæst.
-  
+
   error_can_t_load_default_data: "Standardopsætning kunne ikke indlæses: %{value}"
   error_scm_not_found: "Adgang nægtet og/eller revision blev ikke fundet i det valgte repository."
   error_scm_command_failed: "En fejl opstod under forbindelsen til det valgte repository: %{value}"
-  
+
   mail_subject_lost_password: "Dit %{value} kodeord"
   mail_body_lost_password: 'For at ændre dit kodeord, klik på dette link:'
   mail_subject_register: "%{value} kontoaktivering"
@@ -193,10 +193,10 @@ da:
   mail_body_account_information: Din kontoinformation
   mail_subject_account_activation_request: "%{value} kontoaktivering"
   mail_body_account_activation_request: "En ny bruger (%{value}) er registreret. Godkend venligst kontoen:"
-  
+
   gui_validation_error: 1 fejl
   gui_validation_error_plural: "%{count} fejl"
-  
+
   field_name: Navn
   field_description: Beskrivelse
   field_summary: Sammenfatning
@@ -278,7 +278,7 @@ da:
   field_time_zone: Tidszone
   field_searchable: Søgbar
   field_default_value: Standardværdi
-  
+
   setting_app_title: Applikationstitel
   setting_app_subtitle: Applikationsundertekst
   setting_welcome_text: Velkomsttekst
@@ -306,7 +306,7 @@ da:
   setting_emails_footer: Email-fodnote
   setting_protocol: Protokol
   setting_user_format: Brugervisningsformat
-  
+
   project_module_issue_tracking: Sagssøgning
   project_module_time_tracking: Tidsstyring
   project_module_news: Nyheder
@@ -315,7 +315,7 @@ da:
   project_module_wiki: Wiki
   project_module_repository: Repository
   project_module_boards: Fora
-  
+
   label_user: Bruger
   label_user_plural: Brugere
   label_user_new: Ny bruger
@@ -613,7 +613,7 @@ da:
   label_plugins: Plugins
   label_ldap_authentication: LDAP-godkendelse
   label_downloads_abbr: D/L
-  
+
   button_login: Login
   button_submit: Send
   button_save: Gem
@@ -651,11 +651,11 @@ da:
   button_annotate: Annotér
   button_update: Opdatér
   button_configure: Konfigurér
-  
+
   status_active: aktiv
   status_registered: registreret
   status_locked: låst
-  
+
   text_select_mail_notifications: Vælg handlinger der skal sendes email besked for.
   text_regexp_info: f.eks. ^[A-ZÆØÅ0-9]+$
   text_min_max_length_info: 0 betyder ingen begrænsninger
@@ -688,7 +688,7 @@ da:
   text_default_administrator_account_changed: Standard administratorkonto ændret
   text_file_repository_writable: Filarkiv er skrivbar
   text_rmagick_available: RMagick tilgængelig (valgfri)
-  
+
   default_role_manager: Leder
   default_role_developer: Udvikler
   default_role_reporter: Rapportør
@@ -712,11 +712,11 @@ da:
   default_priority_immediate: Omgående
   default_activity_design: Design
   default_activity_development: Udvikling
-  
+
   enumeration_issue_priorities: Sagsprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsstyring)
-  
+
   label_add_another_file: Tilføj endnu en fil
   label_chronological_order: I kronologisk rækkefølge
   setting_activity_days_default: Antal dage der vises under projektaktivitet
@@ -785,7 +785,7 @@ da:
   permission_add_messages: Opret beskeder
   permission_edit_issue_notes: Redigér noter
   permission_manage_news: Administrér nyheder
-  text_plugin_assets_writable: Der er skriverettigheder til plugin assets folderen 
+  text_plugin_assets_writable: Der er skriverettigheder til plugin assets folderen
   label_display: Vis
   label_and_its_subprojects: "%{value} og dets underprojekter"
   permission_view_calendar: Se kalender

@@ -9,10 +9,10 @@ bg:
       default: "%d-%m-%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Неделя, Понеделник, Вторник, Сряда, Четвъртък, Петък, Събота]
     abbr_day_names: [Нед, Пон, Вто, Сря, Чет, Пет, Съб]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Януари, Февруари, Март, Април, Май, Юни, Юли, Август, Септември, Октомври, Ноември, Декември]
     abbr_month_names: [~, Яну, Фев, Мар, Апр, Май, Юни, Юли, Авг, Сеп, Окт, Ное, Дек]
@@ -30,7 +30,7 @@ bg:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-    
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -78,10 +78,10 @@ bg:
       format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
-          byte: 
+        units:
+          byte:
             one: Byte
             other: Bytes
           kb: "KB"
@@ -95,7 +95,7 @@ bg:
     array:
       sentence_connector: "и"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -129,7 +129,7 @@ bg:
         cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
 
   actionview_instancetag_blank_option: Изберете
-  
+
   general_text_No: 'Не'
   general_text_Yes: 'Да'
   general_text_no: 'не'
@@ -140,7 +140,7 @@ bg:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Профилът е обновен успешно.
   notice_account_invalid_creditentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
@@ -171,7 +171,7 @@ bg:
   notice_unable_delete_time_entry: Невъзможност за изтриване на запис на time log.
   notice_issue_done_ratios_updated: Обновен процент на завършените задачи.
   notice_gantt_chart_truncated: Мрежовият график е съкратен, понеже броят на обектите, които могат да бъдат показани е твърде голям (%{max})
-  
+
   error_can_t_load_default_data: "Грешка при зареждане на примерната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
@@ -190,7 +190,7 @@ bg:
   error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
   error_unable_to_connect: Невъзможност за свързване с (%{value})
   warning_attachments_not_saved: "%{count} файла не бяха записани."
-  
+
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
   mail_subject_register: "Активация на профил (%{value})"
@@ -205,10 +205,10 @@ bg:
   mail_body_wiki_content_added: Wiki страницата '%{id}' беше добавена от %{author}.
   mail_subject_wiki_content_updated: "Wiki страницата '%{id}' не беше обновена"
   mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
-  
+
   gui_validation_error: 1 грешка
   gui_validation_error_plural: "%{count} грешки"
-  
+
   field_name: Име
   field_description: Описание
   field_summary: Анотация
@@ -264,7 +264,7 @@ bg:
   field_port: Порт
   field_account: Профил
   field_base_dn: Base DN
-  field_attr_login: Атрибут Login 
+  field_attr_login: Атрибут Login
   field_attr_firstname: Атрибут Първо име (Firstname)
   field_attr_lastname: Атрибут Фамилия (Lastname)
   field_attr_mail: Атрибут Email
@@ -306,7 +306,7 @@ bg:
   field_text: Текстово поле
   field_visible: Видим
   field_warn_on_leaving_unsaved: Предупреди ме, когато напускам страница с незаписано съдържание
-  
+
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
@@ -365,7 +365,7 @@ bg:
   setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
-  
+
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
   permission_edit_project: Редактиране на проект
@@ -843,11 +843,11 @@ bg:
   button_quote: Цитат
   button_duplicate: Дублиране
   button_show: Показване
-  
+
   status_active: активен
   status_registered: регистриран
   status_locked: заключен
-  
+
   version_status_open: отворена
   version_status_locked: заключена
   version_status_closed: затворена

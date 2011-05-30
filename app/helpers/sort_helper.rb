@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -28,18 +28,18 @@
 #
 #   helper :sort
 #   include SortHelper
-# 
+#
 #   def list
 #     sort_init 'last_name'
 #     sort_update %w(first_name last_name)
 #     @items = Contact.find_all nil, sort_clause
 #   end
-# 
+#
 # Controller (using Pagination module):
 #
 #   helper :sort
 #   include SortHelper
-# 
+#
 #   def list
 #     sort_init 'last_name'
 #     sort_update %w(first_name last_name)
@@ -47,9 +47,9 @@
 #       :order_by => sort_clause,
 #       :per_page => 10
 #   end
-# 
+#
 # View (table header in list.rhtml):
-# 
+#
 #   <thead>
 #     <tr>
 #       <%= sort_header_tag('id', :title => 'Sort by contact ID') %>
@@ -65,32 +65,32 @@
 
 module SortHelper
   class SortCriteria
-    
+
     def initialize
       @criteria = []
     end
-    
+
     def available_criteria=(criteria)
       unless criteria.is_a?(Hash)
         criteria = criteria.inject({}) {|h,k| h[k] = k; h}
       end
       @available_criteria = criteria
     end
-    
+
     def from_param(param)
       @criteria = param.to_s.split(',').collect {|s| s.split(':')[0..1]}
       normalize!
     end
-    
+
     def criteria=(arg)
       @criteria = arg
       normalize!
     end
-    
+
     def to_param
       @criteria.collect {|k,o| k + (o ? '' : ':desc')}.join(',')
     end
-    
+
     def to_sql
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
@@ -99,33 +99,33 @@ module SortHelper
       end.compact.join(', ')
       sql.blank? ? nil : sql
     end
-    
+
     def add!(key, asc)
       @criteria.delete_if {|k,o| k == key}
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
-    
+
     def add(*args)
       r = self.class.new.from_param(to_param)
       r.add!(*args)
       r
     end
-    
+
     def first_key
       @criteria.first && @criteria.first.first
     end
-    
+
     def first_asc?
       @criteria.first && @criteria.first.last
     end
-    
+
     def empty?
       @criteria.empty?
     end
-    
+
     private
-    
+
     def normalize!
       @criteria ||= []
       @criteria = @criteria.collect {|s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true]}
@@ -133,7 +133,7 @@ module SortHelper
       @criteria.slice!(3)
       self
     end
-    
+
     # Appends DESC to the sort criterion unless it has a fixed order
     def append_desc(criterion)
       if criterion =~ / (asc|desc)$/i
@@ -143,14 +143,14 @@ module SortHelper
       end
     end
   end
-  
+
   def sort_name
     controller_name + '_' + action_name + '_sort'
   end
 
   # Initializes the default sort.
   # Examples:
-  #   
+  #
   #   sort_init 'name'
   #   sort_init 'id', 'desc'
   #   sort_init ['name', ['id', 'desc']]
@@ -178,7 +178,7 @@ module SortHelper
     @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
     session[sort_name] = @sort_criteria.to_param
   end
-  
+
   # Clears the sort criteria session data
   #
   def sort_clear
@@ -200,7 +200,7 @@ module SortHelper
   #
   def sort_link(column, caption, default_order)
     css, order = nil, default_order
-    
+
     if column.to_s == @sort_criteria.first_key
       if @sort_criteria.first_asc?
         css = 'sort asc'
@@ -211,10 +211,10 @@ module SortHelper
       end
     end
     caption = column.to_s.humanize unless caption
-    
+
     sort_options = { :sort => @sort_criteria.add(column.to_s, order).to_param }
     url_options = params.merge(sort_options)
-    
+
      # Add project_id to url_options
     url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
 

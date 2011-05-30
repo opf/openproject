@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -38,12 +38,12 @@ class Repository::Subversion < Repository
     revisions = scm.revisions(path, rev, nil, :limit => limit)
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
   end
-  
+
   # Returns a path relative to the url of the repository
   def relative_path(path)
     path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}"), '')
   end
-  
+
   def fetch_changesets
     scm_info = scm.info
     if scm_info
@@ -61,11 +61,11 @@ class Repository::Subversion < Repository
           revisions.reverse_each do |revision|
             transaction do
               changeset = Changeset.create(:repository => self,
-                                           :revision => revision.identifier, 
-                                           :committer => revision.author, 
+                                           :revision => revision.identifier,
+                                           :committer => revision.author,
                                            :committed_on => revision.time,
                                            :comments => revision.message)
-              
+
               revision.paths.each do |change|
                 changeset.create_change(change)
               end unless changeset.new_record?
@@ -76,9 +76,9 @@ class Repository::Subversion < Repository
       end
     end
   end
-  
+
   private
-  
+
   # Returns the relative url of the repository
   # Eg: root_url = file:///var/svn/foo
   #     url      = file:///var/svn/foo/bar

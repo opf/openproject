@@ -1,19 +1,19 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class RepositorySubversionTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles 
+  fixtures :projects, :repositories, :enabled_modules, :users, :roles
 
   def setup
     @project = Project.find(3)
@@ -26,7 +26,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      
+
       assert_equal 11, @repository.changesets.count
       assert_equal 20, @repository.changes.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
@@ -38,23 +38,23 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 5}
       @repository.reload
       assert_equal 5, @repository.changesets.count
-      
+
       @repository.fetch_changesets
       assert_equal 11, @repository.changesets.count
     end
 
     def test_latest_changesets
       @repository.fetch_changesets
-      
+
       # with limit
       changesets = @repository.latest_changesets('', nil, 2)
       assert_equal 2, changesets.size
       assert_equal @repository.latest_changesets('', nil).slice(0,2), changesets
-      
+
       # with path
       changesets = @repository.latest_changesets('subversion_test/folder', nil)
       assert_equal ["10", "9", "7", "6", "5", "2"], changesets.collect(&:revision)
-      
+
       # with path and revision
       changesets = @repository.latest_changesets('subversion_test/folder', 8)
       assert_equal ["7", "6", "5", "2"], changesets.collect(&:revision)
@@ -63,7 +63,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     def test_directory_listing_with_square_brackets_in_path
       @repository.fetch_changesets
       @repository.reload
-      
+
       entries = @repository.entries('subversion_test/[folder_with_brackets]')
       assert_not_nil entries, 'Expect to find entries in folder_with_brackets'
       assert_equal 1, entries.size, 'Expect one entry in folder_with_brackets'

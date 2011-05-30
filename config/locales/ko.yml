@@ -1,4 +1,4 @@
-# Korean translations for Ruby on Rails 
+# Korean translations for Ruby on Rails
 # by Kihyun Yoon(ddumbugie@gmail.com),http://plenum.textcube.com/
 # by John Hwang (jhwang@tavon.org),http://github.com/tavon
 # by Yonghwan SO(please insert your email), last update at 2009-09-11
@@ -13,10 +13,10 @@ ko:
       default: "%Y/%m/%d"
       short: "%m/%d"
       long: "%Y년 %m월 %d일 (%a)"
-      
+
     day_names: [일요일, 월요일, 화요일, 수요일, 목요일, 금요일, 토요일]
     abbr_day_names: [일, 월, 화, 수, 목, 금, 토]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, 1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
     abbr_month_names: [~, 1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
@@ -34,7 +34,7 @@ ko:
       long: "%Y년 %B월 %d일, %H시 %M분 %S초 %Z"
     am: "오전"
     pm: "오후"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "30초"
@@ -78,7 +78,7 @@ ko:
       hour:   "시"
       minute: "분"
       second: "초"
-      
+
   number:
     # Used in number_with_delimiter()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
@@ -89,7 +89,7 @@ ko:
       delimiter: ","
       # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
       precision: 3
-      
+
     # Used in number_to_currency()
     currency:
       format:
@@ -100,15 +100,15 @@ ko:
         separator: "."
         delimiter: ","
         precision: 0
-        
+
     # Used in number_to_percentage()
     percentage:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
-        # precision: 
-        
+        # precision:
+
     # Used in number_to_precision()
     precision:
       format:
@@ -116,12 +116,12 @@ ko:
         # separator:
         delimiter: ""
         # precision:
-        
+
     # Used in number_to_human_size()
     human:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
         precision: 1
       storage_units:
@@ -143,7 +143,7 @@ ko:
       last_word_connector: ", "
       sentence_connector: "그리고"
       skip_last_comma: false
-        
+
   activerecord:
     errors:
       template:
@@ -179,7 +179,7 @@ ko:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: 선택하세요
-  
+
   general_text_No: '아니오'
   general_text_Yes: '예'
   general_text_no: '아니오'
@@ -190,7 +190,7 @@ ko:
   general_csv_encoding: CP949
   general_pdf_encoding: CP949
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: 계정이 성공적으로 변경되었습니다.
   notice_account_invalid_creditentials: 잘못된 계정 또는 비밀번호
   notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
@@ -215,7 +215,7 @@ ko:
   notice_account_pending: "계정이 만들어졌으며 관리자 승인 대기중입니다."
   notice_default_data_loaded: 기본값을 성공적으로 읽어들였습니다.
   notice_unable_delete_version: 삭제할 수 없는 버전입니다.
-  
+
   error_can_t_load_default_data: "기본값을 읽어들일 수 없습니다.: %{value}"
   error_scm_not_found: 항목이나 리비젼이 저장소에 존재하지 않습니다.
   error_scm_command_failed: "저장소에 접근하는 도중에 오류가 발생하였습니다.: %{value}"
@@ -223,7 +223,7 @@ ko:
   error_issue_not_found_in_project: '일감이 없거나 이 프로젝트의 것이 아닙니다.'
 
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
-  
+
   mail_subject_lost_password: "%{value} 비밀번호"
   mail_body_lost_password: '비밀번호를 변경하려면 다음 링크를 클릭하세요.'
   mail_subject_register: "%{value} 계정 활성화"
@@ -238,10 +238,10 @@ ko:
   mail_subject_wiki_content_updated: "'위키페이지 %{id}'이(가) 수정되었습니다."
   mail_body_wiki_content_added: "%{author}이(가) 위키페이지 '%{id}'을(를) 추가하였습니다."
   mail_body_wiki_content_updated: "%{author}이(가) 위키페이지 '%{id}'을(를) 수정하였습니다."
-  
+
   gui_validation_error: 에러
   gui_validation_error_plural: "%{count}개 에러"
-  
+
   field_name: 이름
   field_description: 설명
   field_summary: 요약
@@ -330,7 +330,7 @@ ko:
   field_identity_url: OpenID URL
   field_content: 내용
   field_group_by: 결과를 묶어 보여줄 기준
-  
+
   setting_app_title: 레드마인 제목
   setting_app_subtitle: 레드마인 부제목
   setting_welcome_text: 환영 메시지
@@ -350,12 +350,12 @@ ko:
   setting_autofetch_changesets: 제출(commit)된 변경묶음을 자동으로 가져오기
   setting_sys_api_enabled: 저장소 관리에 WS를 사용
   setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
-  setting_commit_fix_keywords: 일감 해결에 사용할 키워드들 
+  setting_commit_fix_keywords: 일감 해결에 사용할 키워드들
   setting_autologin: 자동 로그인
   setting_date_format: 날짜 형식
   setting_time_format: 시간 형식
   setting_cross_project_issue_relations: 다른 프로젝트의 일감과 연결하는 것을 허용
-  setting_issue_list_default_columns: 일감 목록에 표시할 항목 
+  setting_issue_list_default_columns: 일감 목록에 표시할 항목
   setting_repositories_encodings:  저장소 인코딩
   setting_commit_logs_encoding: 제출(commit) 기록 인코딩
   setting_emails_footer: 메일 꼬리
@@ -434,7 +434,7 @@ ko:
   project_module_wiki: 위키
   project_module_repository: 저장소
   project_module_boards: 게시판
-  
+
   label_user: 사용자
   label_user_plural: 사용자
   label_user_new: 새 사용자
@@ -577,7 +577,7 @@ ko:
   label_add_note: 일감덧글 추가
   label_per_page: 페이지별
   label_calendar: 달력
-  label_months_from: 개월 동안 | 다음부터 
+  label_months_from: 개월 동안 | 다음부터
   label_gantt: Gantt 챠트
   label_internal: 내부
   label_last_changes: "최근 %{count}개의 변경사항"
@@ -743,10 +743,10 @@ ko:
   label_ldap_authentication: LDAP 인증
   label_downloads_abbr: D/L
   label_optional_description: 부가적인 설명
-  label_add_another_file: 다른 파일 추가 
+  label_add_another_file: 다른 파일 추가
   label_preferences: 설정
   label_chronological_order: 시간 순으로 정렬
-  label_reverse_chronological_order: 시간 역순으로 정렬 
+  label_reverse_chronological_order: 시간 역순으로 정렬
   label_planning: 프로젝트계획
   label_incoming_emails: 수신 메일
   label_generate_key: 키 생성
@@ -799,11 +799,11 @@ ko:
   button_update: 수정
   button_configure: 설정
   button_quote: 댓글달기
-  
+
   status_active: 사용중
   status_registered: 등록대기
   status_locked: 잠김
-  
+
   text_select_mail_notifications: 알림메일이 필요한 작업을 선택하세요.
   text_regexp_info: 예) ^[A-Z0-9]+$
   text_min_max_length_info: 0 는 제한이 없음을 의미함
@@ -853,7 +853,7 @@ ko:
   text_wiki_page_nullify_children: 하위 페이지를 최상위 페이지 아래로 지정
   text_wiki_page_destroy_children: 모든 하위 페이지와 관련 내용을 삭제
   text_wiki_page_reassign_children: 하위 페이지를 이 페이지 아래로 지정
-  
+
   default_role_manager: 관리자
   default_role_developer: 개발자
   default_role_reporter: 보고자

@@ -1,4 +1,4 @@
-# French translations for Ruby on Rails 
+# French translations for Ruby on Rails
 # by Christian Lescuyer (christian@flyingcoders.com)
 # contributor: Sebastien Grosjean - ZenCocoon.com
 # contributor: Thibaut Cuvelier - Developpez.com
@@ -21,7 +21,7 @@ fr:
       - :day
       - :month
       - :year
-  
+
   time:
     formats:
       default: "%d/%m/%Y %H:%M"
@@ -78,7 +78,7 @@ fr:
       hour:   "Heure"
       minute: "Minute"
       second: "Seconde"
-  
+
   number:
     format:
       precision: 3
@@ -102,7 +102,7 @@ fr:
           mb: "Mo"
           gb: "Go"
           tb: "To"
-  
+
   support:
     array:
       sentence_connector: 'et'
@@ -110,11 +110,11 @@ fr:
       word_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "
-  
+
   activerecord:
     errors:
       template:
-        header: 
+        header:
           one: "Impossible d'enregistrer %{model} : une erreur"
           other: "Impossible d'enregistrer %{model} : %{count} erreurs."
         body: "Veuillez vérifier les champs suivants :"
@@ -145,7 +145,7 @@ fr:
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
 
   actionview_instancetag_blank_option: Choisir
-  
+
   general_text_No: 'Non'
   general_text_Yes: 'Oui'
   general_text_no: 'non'
@@ -156,7 +156,7 @@ fr:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Le compte a été mis à jour avec succès.
   notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
   notice_account_password_updated: Mot de passe mis à jour avec succès.
@@ -185,7 +185,7 @@ fr:
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
-  
+
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
   error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt : %{value}"
@@ -196,9 +196,9 @@ fr:
   error_workflow_copy_source: 'Veuillez sélectionner un tracker et/ou un rôle source'
   error_workflow_copy_target: 'Veuillez sélectionner les trackers et rôles cibles'
   error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
-  
+
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
-  
+
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
   mail_subject_register: "Activation de votre compte %{value}"
@@ -213,10 +213,10 @@ fr:
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajoutée par %{author}."
   mail_subject_wiki_content_updated: "Page wiki '%{id}' mise à jour"
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
-  
+
   gui_validation_error: 1 erreur
   gui_validation_error_plural: "%{count} erreurs"
-  
+
   field_name: Nom
   field_description: Description
   field_summary: Résumé
@@ -310,7 +310,7 @@ fr:
   field_parent_issue: Tâche parente
   field_visible: Visible
   field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
-  
+
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
   setting_welcome_text: Texte d'accueil
@@ -367,7 +367,7 @@ fr:
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
-  
+
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet
@@ -423,7 +423,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages
   permission_manage_project_activities: Gérer les activités
   permission_manage_subtasks: Gérer les sous-tâches
-  
+
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
   project_module_news: Publication d'annonces
@@ -432,7 +432,7 @@ fr:
   project_module_wiki: Wiki
   project_module_repository: Dépôt de sources
   project_module_boards: Forums de discussion
-  
+
   label_user: Utilisateur
   label_user_plural: Utilisateurs
   label_user_new: Nouvel utilisateur
@@ -791,7 +791,7 @@ fr:
   label_user_search: "Rechercher un utilisateur :"
   label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
   label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
-  
+
   button_login: Connexion
   button_submit: Soumettre
   button_save: Sauvegarder
@@ -837,15 +837,15 @@ fr:
   button_quote: Citer
   button_duplicate: Dupliquer
   button_show: Afficher
-  
+
   status_active: actif
   status_registered: enregistré
   status_locked: verrouillé
-  
+
   version_status_open: ouvert
   version_status_locked: verrouillé
   version_status_closed: fermé
-  
+
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pour aucune restriction
@@ -899,7 +899,7 @@ fr:
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
   text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
-  
+
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
   default_role_reporter: "Rapporteur "
@@ -923,7 +923,7 @@ fr:
   default_priority_immediate: Immédiat
   default_activity_design: Conception
   default_activity_development: Développement
-  
+
   enumeration_issue_priorities: Priorités des demandes
   enumeration_doc_categories: Catégories des documents
   enumeration_activities: Activités (suivi du temps)

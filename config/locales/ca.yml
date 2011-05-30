@@ -1,4 +1,4 @@
-# Redmine catalan translation: 
+# Redmine catalan translation:
 # by Joan Duran
 
 ca:
@@ -12,10 +12,10 @@ ca:
       default: "%d-%m-%Y"
       short: "%e de %b"
       long: "%a, %e de %b de %Y"
-      
+
     day_names: [Diumenge, Dilluns, Dimarts, Dimecres, Dijous, Divendres, Dissabte]
     abbr_day_names: [dg, dl, dt, dc, dj, dv, ds]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Gener, Febrer, Març, Abril, Maig, Juny, Juliol, Agost, Setembre, Octubre, Novembre, Desembre]
     abbr_month_names: [~, Gen, Feb, Mar, Abr, Mai, Jun, Jul, Ago, Set, Oct, Nov, Des]
@@ -33,7 +33,7 @@ ca:
       long: "%a, %e de %b de %Y, %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "mig minut"
@@ -92,13 +92,13 @@ ca:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "i"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -132,7 +132,7 @@ ca:
         cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
 
   actionview_instancetag_blank_option: Seleccioneu
-  
+
   general_text_No: 'No'
   general_text_Yes: 'Si'
   general_text_no: 'no'
@@ -143,7 +143,7 @@ ca:
   general_csv_encoding: ISO-8859-15
   general_pdf_encoding: ISO-8859-15
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: "El compte s'ha actualitzat correctament."
   notice_account_invalid_creditentials: Usuari o contrasenya invàlid
   notice_account_password_updated: "La contrasenya s'ha modificat correctament."
@@ -172,7 +172,7 @@ ca:
   notice_unable_delete_version: "No s'ha pogut suprimir la versió."
   notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
   notice_issue_done_ratios_updated: "S'ha actualitzat el tant per cent dels assumptes."
-  
+
   error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: %{value} "
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el dipòsit."
   error_scm_command_failed: "S'ha produït un error en intentar accedir al dipòsit: %{value}"
@@ -191,7 +191,7 @@ ca:
   error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte"
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
   warning_attachments_not_saved: "No s'han pogut desar %{count} fitxers."
-  
+
   mail_subject_lost_password: "Contrasenya de %{value}"
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
   mail_subject_register: "Activació del compte de %{value}"
@@ -206,17 +206,17 @@ ca:
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_body_wiki_content_updated: "En %{author} ha actualitzat la pàgina wiki «%{id}»."
-  
+
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
-  
+
   field_name: Nom
   field_description: Descripció
   field_summary: Resum
   field_is_required: Necessari
   field_firstname: Nom
   field_lastname: Cognom
-  field_mail: Correu electrònic 
+  field_mail: Correu electrònic
   field_filename: Fitxer
   field_filesize: Mida
   field_downloads: Baixades
@@ -302,7 +302,7 @@ ca:
   field_group_by: "Agrupa els resultats per"
   field_sharing: Compartició
   field_parent_issue: "Tasca pare"
-  
+
   setting_app_title: "Títol de l'aplicació"
   setting_app_subtitle: "Subtítol de l'aplicació"
   setting_welcome_text: Text de benvinguda
@@ -356,7 +356,7 @@ ca:
   setting_start_of_week: "Inicia les setmanes en"
   setting_rest_api_enabled: "Habilita el servei web REST"
   setting_cache_formatted_text: Cache formatted text
-  
+
   permission_add_project: "Crea projectes"
   permission_add_subprojects: "Crea subprojectes"
   permission_edit_project: Edita el projecte
@@ -412,7 +412,7 @@ ca:
   permission_delete_own_messages: Suprimeix els missatges propis
   permission_export_wiki_pages: "Exporta les pàgines wiki"
   permission_manage_subtasks: "Gestiona subtasques"
-  
+
   project_module_issue_tracking: "Seguidor d'assumptes"
   project_module_time_tracking: Seguidor de temps
   project_module_news: Noticies
@@ -423,7 +423,7 @@ ca:
   project_module_boards: Taulers
   project_module_calendar: Calendari
   project_module_gantt: Gantt
-  
+
   label_user: Usuari
   label_user_plural: Usuaris
   label_user_new: Usuari nou
@@ -608,7 +608,7 @@ ca:
   label_this_year: aquest any
   label_date_range: Abast de les dates
   label_less_than_ago: fa menys de
-  label_more_than_ago: fa més de 
+  label_more_than_ago: fa més de
   label_ago: fa
   label_contains: conté
   label_not_contains: no conté
@@ -781,7 +781,7 @@ ca:
   label_profile: Perfil
   label_subtask_plural: Subtasques
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
-  
+
   button_login: Entra
   button_submit: Tramet
   button_save: Desa
@@ -825,17 +825,17 @@ ca:
   button_quote: Cita
   button_duplicate: Duplica
   button_show: Mostra
-  
+
   status_active: actiu
   status_registered: informat
   status_locked: bloquejat
-  
+
   version_status_open: oberta
   version_status_locked: bloquejada
   version_status_closed: tancada
 
   field_active: Actiu
-  
+
   text_select_mail_notifications: "Seleccioneu les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 significa sense restricció
@@ -893,7 +893,7 @@ ca:
   text_own_membership_delete_confirmation: "Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.\nSegur que voleu continuar?"
   text_zoom_in: Redueix
   text_zoom_out: Amplia
-  
+
   default_role_manager: Gestor
   default_role_developer: Desenvolupador
   default_role_reporter: Informador
@@ -917,7 +917,7 @@ ca:
   default_priority_immediate: Immediata
   default_activity_design: Disseny
   default_activity_development: Desenvolupament
-  
+
   enumeration_issue_priorities: Prioritat dels assumptes
   enumeration_doc_categories: Categories del document
   enumeration_activities: Activitats (seguidor de temps)

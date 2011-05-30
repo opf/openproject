@@ -10,10 +10,10 @@ sr:
       default: "%d.%m.%Y."
       short: "%e %b"
       long: "%B %e, %Y"
-      
+
     day_names: [недеља, понедељак, уторак, среда, четвртак, петак, субота]
     abbr_day_names: [нед, пон, уто, сре, чет, пет, суб]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, јануар, фебруар, март, април, мај, јун, јул, август, септембар, октобар, новембар, децембар]
     abbr_month_names: [~, јан, феб, мар, апр, мај, јун, јул, авг, сеп, окт, нов, дец]
@@ -95,7 +95,7 @@ sr:
     array:
       sentence_connector: "и"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -129,7 +129,7 @@ sr:
         cant_link_an_issue_with_a_descendant: "Проблем не може бити повезан са једним од својих подзадатака"
 
   actionview_instancetag_blank_option: Молим одаберите
-  
+
   general_text_No: 'Не'
   general_text_Yes: 'Да'
   general_text_no: 'не'
@@ -140,7 +140,7 @@ sr:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Налог је успешно ажуриран.
   notice_account_invalid_creditentials: Неисправно корисничко име или лозинка.
   notice_account_password_updated: Лозинка је успешно ажурирана.
@@ -169,7 +169,7 @@ sr:
   notice_unable_delete_version: Верзију је немогуће избрисати.
   notice_unable_delete_time_entry: Ставку евиденције времена је немогуће избрисати.
   notice_issue_done_ratios_updated: Однос решених проблема је ажуриран.
-  
+
   error_can_t_load_default_data: "Подразумевано конфигурисање је немогуће учитати: %{value}"
   error_scm_not_found: "Ставка или исправка нису пронађене у спремишту."
   error_scm_command_failed: "Грешка се јавила приликом покушаја приступа спремишту: %{value}"
@@ -186,9 +186,9 @@ sr:
   error_workflow_copy_source: 'Молимо одаберите изворно праћење или улогу'
   error_workflow_copy_target: 'Молимо одаберите одредишно праћење и улогу'
   error_unable_delete_issue_status: 'Статус проблема је немогуће обрисати'
-  error_unable_to_connect: "Повезивање са (%{value}) је немогуће"  
+  error_unable_to_connect: "Повезивање са (%{value}) је немогуће"
   warning_attachments_not_saved: "%{count} датотека не може бити снимљена."
-  
+
   mail_subject_lost_password: "Ваша %{value} лозинка"
   mail_body_lost_password: 'За промену ваше лозинке, кликните на следећи линк:'
   mail_subject_register: "Активација вашег %{value} налога"
@@ -203,10 +203,10 @@ sr:
   mail_body_wiki_content_added: "%{author} је додао wiki страницу '%{id}'."
   mail_subject_wiki_content_updated: "Wiki страница '%{id}' је ажурирана"
   mail_body_wiki_content_updated: "%{author} је ажурирао wiki страницу '%{id}'."
-  
+
   gui_validation_error: једна грешка
   gui_validation_error_plural: "%{count} грешака"
-  
+
   field_name: Назив
   field_description: Опис
   field_summary: Резиме
@@ -298,7 +298,7 @@ sr:
   field_group_by: Груписање резултата по
   field_sharing: Дељење
   field_parent_issue: Матични задатак
-  
+
   setting_app_title: Наслов апликације
   setting_app_subtitle: Поднаслов апликације
   setting_welcome_text: Текст добродошлице
@@ -352,7 +352,7 @@ sr:
   setting_start_of_week: Први дан у седмици
   setting_rest_api_enabled: Омогући REST web услуге
   setting_cache_formatted_text: Кеширање обрађеног текста
-  
+
   permission_add_project: Креирање пројекта
   permission_add_subprojects: Креирање потпојекта
   permission_edit_project: Измена пројеката
@@ -408,7 +408,7 @@ sr:
   permission_delete_own_messages: Брисање сопствених порука
   permission_export_wiki_pages: Извоз wiki страница
   permission_manage_subtasks: Управљање подзадацима
-  
+
   project_module_issue_tracking: Праћење проблема
   project_module_time_tracking: Праћење времена
   project_module_news: Вести
@@ -417,7 +417,7 @@ sr:
   project_module_wiki: Wiki
   project_module_repository: Спремиште
   project_module_boards: Форуми
-  
+
   label_user: Корисник
   label_user_plural: Корисници
   label_user_new: Нови корисник
@@ -774,8 +774,8 @@ sr:
   label_api_access_key_created_on: "API приступни кључ је креиран пре %{value}"
   label_profile: Профил
   label_subtask_plural: Подзадатак
-  label_project_copy_notifications: Пошаљи е-поруку са обавештењем приликом копирања пројекта 
-  
+  label_project_copy_notifications: Пошаљи е-поруку са обавештењем приликом копирања пројекта
+
   button_login: Пријава
   button_submit: Пошаљи
   button_save: Сними
@@ -819,17 +819,17 @@ sr:
   button_quote: Под наводницима
   button_duplicate: Дуплирај
   button_show: Прикажи
-  
+
   status_active: активни
   status_registered: регистровани
   status_locked: закључани
-  
+
   version_status_open: отворен
   version_status_locked: закључан
   version_status_closed: затворен
 
   field_active: Активан
-  
+
   text_select_mail_notifications: Одабери акције за које ће обавештење бити послато путем е-поште.
   text_regexp_info: нпр. ^[A-Z0-9]+$
   text_min_max_length_info: 0 значи без ограничења
@@ -887,7 +887,7 @@ sr:
   text_own_membership_delete_confirmation: "Након уклањања појединих или свих ваших дозвола нећете више моћи да уређујете овај пројекат.\nЖелите ли да наставите?"
   text_zoom_in: Увећај
   text_zoom_out: Умањи
-  
+
   default_role_manager: Менаџер
   default_role_developer: Програмер
   default_role_reporter: Извештач
@@ -911,12 +911,12 @@ sr:
   default_priority_immediate: Непосредно
   default_activity_design: Дизајн
   default_activity_development: Развој
-  
+
   enumeration_issue_priorities: Приоритети проблема
   enumeration_doc_categories: Категорије документа
   enumeration_activities: Активности (праћење времена)
   enumeration_system_activity: Системска активност
-  
+
   field_time_entries: Време евиденције
   project_module_gantt: Гантов дијаграм
   project_module_calendar: Календар

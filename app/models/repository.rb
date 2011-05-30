@@ -1,27 +1,27 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
-  
+
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
   has_many :changes, :through => :changesets
-  
+
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
-  
+
   validates_length_of :password, :maximum => 255, :allow_nil => true
   # Checks if the SCM is enabled when creating a repository
   validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
@@ -35,11 +35,11 @@ class Repository < ActiveRecord::Base
   def root_url=(arg)
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
   end
-  
+
   def password
     read_ciphered_attribute(:password)
   end
-  
+
   def password=(arg)
     write_ciphered_attribute(:password, arg)
   end
@@ -70,15 +70,15 @@ class Repository < ActiveRecord::Base
   def supports_all_revisions?
     true
   end
-  
+
   def supports_directory_revisions?
     false
   end
-  
+
   def entry(path=nil, identifier=nil)
     scm.entry(path, identifier)
   end
-  
+
   def entries(path=nil, identifier=nil)
     scm.entries(path, identifier)
   end
@@ -137,13 +137,13 @@ class Repository < ActiveRecord::Base
                             :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
                             :limit => limit)
     else
-      changes.find(:all, :include => {:changeset => :user}, 
+      changes.find(:all, :include => {:changeset => :user},
                          :conditions => ["path = ?", path.with_leading_slash],
                          :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
                          :limit => limit).collect(&:changeset)
     end
   end
-    
+
   def scan_changesets_for_issue_ids
     self.changesets.each(&:scan_comment_for_issue_ids)
   end
@@ -152,7 +152,7 @@ class Repository < ActiveRecord::Base
   def committers
     @committers ||= Changeset.connection.select_rows("SELECT DISTINCT committer, user_id FROM #{Changeset.table_name} WHERE repository_id = #{id}")
   end
-  
+
   # Maps committers username to a user ids
   def committer_ids=(h)
     if h.is_a?(Hash)
@@ -170,7 +170,7 @@ class Repository < ActiveRecord::Base
       false
     end
   end
-  
+
   # Returns the Redmine User corresponding to the given +committer+
   # It will return nil if the committer is not yet mapped and if no User
   # with the same username or email was found
@@ -178,7 +178,7 @@ class Repository < ActiveRecord::Base
     unless committer.blank?
       @found_committer_users ||= {}
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
-      
+
       user = nil
       c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
       if c && c.user
@@ -222,7 +222,7 @@ class Repository < ActiveRecord::Base
   def self.scm_name
     'Abstract'
   end
-  
+
   def self.available_scm
     subclasses.collect {|klass| [klass.scm_name, klass.name]}
   end
@@ -261,7 +261,7 @@ class Repository < ActiveRecord::Base
   def self.scm_available
     ret = false
     begin
-      ret = self.scm_adapter_class.client_available if self.scm_adapter_class 
+      ret = self.scm_adapter_class.client_available if self.scm_adapter_class
     rescue Redmine::Scm::Adapters::CommandFailed => e
       logger.error "scm: error during get scm available: #{e.message}"
     end
@@ -276,7 +276,7 @@ class Repository < ActiveRecord::Base
     root_url.strip!
     true
   end
-  
+
   def clear_changesets
     cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../test_helper', __FILE__)
@@ -16,15 +16,15 @@ class TimelogHelperTest < HelperTestCase
   include TimelogHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
-  
+
   fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets, 
+                      :repositories, :changesets,
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
                       :boards, :messages,
                       :attachments,
                       :enumerations
-  
+
   def setup
     super
   end
@@ -34,7 +34,7 @@ class TimelogHelperTest < HelperTestCase
     assert activities.include?(["Design", 9])
     assert activities.include?(["Development", 10])
   end
-  
+
   def test_activities_collection_for_select_options_should_not_include_inactive_activities
     activities = activity_collection_for_select_options
     assert !activities.include?(["Inactive Activity", 14])

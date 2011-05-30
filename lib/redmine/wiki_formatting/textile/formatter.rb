@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -18,30 +18,30 @@ module Redmine
     module Textile
       class Formatter < RedCloth3
         include ActionView::Helpers::TagHelper
-        
+
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
         RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto]
-        
+
         def initialize(*args)
           super
           self.hard_breaks=true
           self.no_span_caps=true
           self.filter_styles=true
         end
-        
+
         def to_html(*rules)
           @toc = []
           super(*RULES).to_s
         end
-  
+
       private
-  
+
         # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
         # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
-        def hard_break( text ) 
+        def hard_break( text )
           text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
         end
-        
+
         # Patch to add code highlighting support to RedCloth
         def smooth_offtags( text )
           unless @pre_list.empty?
@@ -49,18 +49,18 @@ module Redmine
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
               if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
-                content = "<code class=\"#{$1} syntaxhl\">" + 
+                content = "<code class=\"#{$1} syntaxhl\">" +
                   Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
               end
               content
             end
           end
         end
-        
+
         AUTO_LINK_RE = %r{
                         (                          # leading text
                           <\w+.*?>|                # leading HTML tag, or
-                          [^=<>!:'"/]|             # leading punctuation, or 
+                          [^=<>!:'"/]|             # leading punctuation, or
                           ^                        # beginning of line
                         )
                         (
@@ -75,7 +75,7 @@ module Redmine
                         ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
                         (?=<|\s|$)
                        }x unless const_defined?(:AUTO_LINK_RE)
-  
+
         # Turns all urls into clickable links (code from Rails).
         def inline_auto_link(text)
           text.gsub!(AUTO_LINK_RE) do
@@ -96,7 +96,7 @@ module Redmine
             end
           end
         end
-  
+
         # Turns all email addresses into clickable links (code from Rails).
         def inline_auto_mailto(text)
           text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do

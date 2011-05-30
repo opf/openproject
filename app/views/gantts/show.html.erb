@@ -22,14 +22,14 @@
 <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-<%= link_to_remote l(:button_apply), 
+<%= link_to_remote l(:button_apply),
                    { :url => { :set_filter => 1 },
                      :update => "content",
                      :with => "Form.serialize('query_form')"
                    }, :class => 'icon icon-checked' %>
-                   
+
 <%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => 1 }, 
+                   { :url => { :project_id => @project, :set_filter => 1 },
                    	 :method => :put,
                      :update => "content",
                    }, :class => 'icon icon-reload' %>
@@ -57,7 +57,7 @@ if @gantt.zoom >1
     end
 end
 
-# Width of the entire chart    
+# Width of the entire chart
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 
 @gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
@@ -90,25 +90,25 @@ t_height = g_height + headers_height
 
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
 <div style="width:<%= g_width-1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
-<% 
+<%
 #
 # Months headers
 #
 month_f = @gantt.date_from
 left = 0
 height = (show_weeks ? header_heigth : header_heigth + g_height)
-@gantt.months.times do 
+@gantt.months.times do
 	width = ((month_f >> 1) - month_f) * zoom - 1
 	%>
 	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 	<%= link_to "#{month_f.year}-#{month_f.month}", @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
 	</div>
-	<% 
+	<%
 	left = left + width + 1
 	month_f = month_f >> 1
 end %>
 
-<% 
+<%
 #
 # Weeks headers
 #
@@ -124,7 +124,7 @@ if show_weeks
 		width = (7 - @gantt.date_from.cwday + 1) * zoom-1
 		%>
 		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
-		<% 
+		<%
 		left = left + width+1
 	end %>
 	<%
@@ -134,13 +134,13 @@ if show_weeks
 		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 		<small><%= week_f.cweek if width >= 16 %></small>
 		</div>
-		<% 
+		<%
 		left = left + width+1
 		week_f = week_f+7
 	end
 end %>
 
-<% 
+<%
 #
 # Days headers
 #
@@ -148,13 +148,13 @@ if show_days
 	left = 0
 	height = g_height + header_heigth - 1
 	wday = @gantt.date_from.cwday
-	(@gantt.date_to - @gantt.date_from + 1).to_i.times do 
+	(@gantt.date_to - @gantt.date_from + 1).to_i.times do
 	width =  zoom - 1
 	%>
 	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
 	<%= day_name(wday).first %>
 	</div>
-	<% 
+	<%
 	left = left + width+1
 	wday = wday + 1
 	wday = 1 if wday > 7

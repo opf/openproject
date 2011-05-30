@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -18,7 +18,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   def test_should_be_an_enumeration
     assert TimeEntryActivity.ancestors.include?(Enumeration)
   end
-  
+
   def test_objects_count
     assert_equal 3, TimeEntryActivity.find_by_name("Design").objects_count
     assert_equal 1, TimeEntryActivity.find_by_name("Development").objects_count
@@ -68,7 +68,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     e.custom_field_values = {field.id => ""}
     assert !e.save
     assert e.errors.on(:custom_values)
-    
+
     # Update custom field to valid value, save should succeed
     e.custom_field_values = {field.id => "0"}
     assert e.save

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -28,7 +28,7 @@ class Mailer < ActionMailer::Base
     h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
     { :host => h, :protocol => Setting.protocol }
   end
-  
+
   # Builds a tmail object used to email recipients of the added issue.
   #
   # Example:
@@ -135,7 +135,7 @@ class Mailer < ActionMailer::Base
          :added_to_url => added_to_url
     render_multipart('attachments_added', body)
   end
-  
+
   # Builds a tmail object used to email recipients of a news' project when a news item is added.
   #
   # Example:
@@ -151,7 +151,7 @@ class Mailer < ActionMailer::Base
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
     render_multipart('news_added', body)
   end
-  
+
   # Builds a tmail object used to email recipients of a news' project when a news comment is added.
   #
   # Example:
@@ -170,7 +170,7 @@ class Mailer < ActionMailer::Base
     render_multipart('news_comment_added', body)
   end
 
-  # Builds a tmail object used to email the recipients of the specified message that was posted. 
+  # Builds a tmail object used to email the recipients of the specified message that was posted.
   #
   # Example:
   #   message_posted(message) => tmail object
@@ -188,8 +188,8 @@ class Mailer < ActionMailer::Base
          :message_url => url_for(message.last_journal.event_url)
     render_multipart('message_posted', body)
   end
-  
-  # Builds a tmail object used to email the recipients of a project of the specified wiki content was added. 
+
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was added.
   #
   # Example:
   #   wiki_content_added(wiki_content) => tmail object
@@ -206,8 +206,8 @@ class Mailer < ActionMailer::Base
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title)
     render_multipart('wiki_content_added', body)
   end
-  
-  # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated. 
+
+  # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated.
   #
   # Example:
   #   wiki_content_updated(wiki_content) => tmail object
@@ -308,7 +308,7 @@ class Mailer < ActionMailer::Base
     return false if (recipients.nil? || recipients.empty?) &&
                     (cc.nil? || cc.empty?) &&
                     (bcc.nil? || bcc.empty?)
-                    
+
     # Set Message-Id and References
     if @message_id_object
       mail.message_id = self.class.message_id_for(@message_id_object)
@@ -316,7 +316,7 @@ class Mailer < ActionMailer::Base
     if @references_objects
       mail.references = @references_objects.collect {|o| self.class.message_id_for(o)}
     end
-    
+
     # Log errors when raise_delivery_errors is set to false, Rails does not
     raise_errors = self.class.raise_delivery_errors
     self.class.raise_delivery_errors = true
@@ -359,7 +359,7 @@ class Mailer < ActionMailer::Base
       deliver_reminder(assignee, issues, days) if assignee && assignee.active?
     end
   end
-  
+
   # Activates/desactivates email deliveries during +block+
   def self.with_deliveries(enabled = true, &block)
     was_enabled = ActionMailer::Base.perform_deliveries
@@ -375,7 +375,7 @@ class Mailer < ActionMailer::Base
     @initial_language = current_language
     set_language_if_valid Setting.default_language
     from Setting.mail_from
-    
+
     # Common headers
     headers 'X-Mailer' => 'ChiliProject',
             'X-ChiliProject-Host' => Setting.host_name,
@@ -398,11 +398,11 @@ class Mailer < ActionMailer::Base
       recipients.delete(@author.mail) if recipients
       cc.delete(@author.mail) if cc
     end
-    
+
     notified_users = [recipients, cc].flatten.compact.uniq
     # Rails would log recipients only, not cc and bcc
     mylogger.info "Sending email notification to: #{notified_users.join(', ')}" if mylogger
-    
+
     # Blind carbon copy recipients
     if Setting.bcc_recipients?
       bcc(notified_users)
@@ -418,7 +418,7 @@ class Mailer < ActionMailer::Base
   #
   # https://rails.lighthouseapp.com/projects/8994/tickets/2338-actionmailer-mailer-views-and-content-type
   # https://rails.lighthouseapp.com/projects/8994/tickets/1799-actionmailer-doesnt-set-template_format-when-rendering-layouts
-  
+
   def render_multipart(method_name, body)
     if Setting.plain_text_mail?
       content_type "text/plain"
@@ -434,29 +434,29 @@ class Mailer < ActionMailer::Base
   def self.controller_path
     ''
   end unless respond_to?('controller_path')
-  
+
   # Returns a predictable Message-Id for the given object
   def self.message_id_for(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on) 
+    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
     hash = "chiliproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.chiliproject" if host.empty?
     "<#{hash}@#{host}>"
   end
-  
+
   private
-  
+
   def message_id(object)
     @message_id_object = object
   end
-  
+
   def references(object)
     @references_objects ||= []
     @references_objects << object
   end
-    
+
   def mylogger
     RAILS_DEFAULT_LOGGER
   end

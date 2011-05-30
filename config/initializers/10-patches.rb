@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -17,7 +17,7 @@ require 'active_record'
 module ActiveRecord
   class Base
     include Redmine::I18n
-    
+
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr)
       l("field_#{attr.to_s.gsub(/_id$/, '')}")
@@ -85,7 +85,7 @@ module AsynchronousMailer
     define_method("perform_delivery_async_#{type}") do |mail|
       Thread.start do
         send "perform_delivery_#{type}", mail
-      end      
+      end
     end
   end
 end

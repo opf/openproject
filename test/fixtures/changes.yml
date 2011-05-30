@@ -1,23 +1,23 @@
---- 
-changes_001: 
+---
+changes_001:
   id: 1
   changeset_id: 100
   action: A
   path: /test/some/path/in/the/repo
   from_path:
   from_revision:
-changes_002: 
+changes_002:
   id: 2
   changeset_id: 100
   action: A
   path: /test/some/path/elsewhere/in/the/repo
   from_path:
   from_revision:
-changes_003: 
+changes_003:
   id: 3
   changeset_id: 101
   action: M
   path: /test/some/path/in/the/repo
   from_path:
   from_revision:
-  
+

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -86,12 +86,12 @@ module Redmine
         def url
           @url
         end
-      
+
         # get info about the svn repository
         def info
           return nil
         end
-        
+
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
         def entry(path=nil, identifier=nil)
@@ -107,7 +107,7 @@ module Redmine
             es ? es.detect {|e| e.name == search_name} : nil
           end
         end
-        
+
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
@@ -118,30 +118,30 @@ module Redmine
           return nil
         end
 
-        def tags 
+        def tags
           return nil
         end
 
         def default_branch
           return nil
         end
-        
+
         def properties(path, identifier=nil)
           return nil
         end
-    
+
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           return nil
         end
-        
+
         def diff(path, identifier_from, identifier_to=nil)
           return nil
         end
-        
+
         def cat(path, identifier=nil)
           return nil
         end
-        
+
         def with_leading_slash(path)
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
@@ -171,7 +171,7 @@ module Redmine
           info = self.info
           info ? info.root_url : nil
         end
-        
+
         def target(path)
           path ||= ''
           base = path.match(/^\//) ? root_url : url
@@ -219,7 +219,7 @@ module Redmine
           q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
-        
+
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
         end
@@ -238,7 +238,7 @@ module Redmine
 
       class Entries < Array
         def sort_by_name
-          sort {|x,y| 
+          sort {|x,y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
@@ -246,12 +246,12 @@ module Redmine
             end
           }
         end
-        
+
         def revisions
           revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
         end
       end
-      
+
       class Info
         attr_accessor :root_url, :lastrev
         def initialize(attributes={})
@@ -259,7 +259,7 @@ module Redmine
           self.lastrev = attributes[:lastrev]
         end
       end
-      
+
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
         def initialize(attributes={})
@@ -269,20 +269,20 @@ module Redmine
           self.size = attributes[:size].to_i if attributes[:size]
           self.lastrev = attributes[:lastrev]
         end
-        
+
         def is_file?
           'file' == self.kind
         end
-        
+
         def is_dir?
           'dir' == self.kind
         end
-        
+
         def is_text?
           Redmine::MimeType.is_type?('text', name)
         end
       end
-      
+
       class Revisions < Array
         def latest
           sort {|x,y|
@@ -292,9 +292,9 @@ module Redmine
               0
             end
           }.last
-        end 
+        end
       end
-      
+
       class Revision
         attr_accessor :scmid, :name, :author, :time, :message, :paths, :revision, :branch
         attr_writer :identifier
@@ -324,21 +324,21 @@ module Redmine
 
       class Annotate
         attr_reader :lines, :revisions
-        
+
         def initialize
           @lines = []
           @revisions = []
         end
-        
+
         def add_line(line, revision)
           @lines << line
           @revisions << revision
         end
-        
+
         def content
           content = lines.join("\n")
         end
-        
+
         def empty?
           lines.empty?
         end

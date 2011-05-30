@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -18,8 +18,8 @@ class DocumentsController < ApplicationController
   before_filter :find_model_object, :except => [:index, :new]
   before_filter :find_project_from_association, :except => [:index, :new]
   before_filter :authorize
-  
-  
+
+
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
     documents = @project.documents.find :all, :include => [:attachments, :category]
@@ -36,34 +36,34 @@ class DocumentsController < ApplicationController
     @document = @project.documents.build
     render :layout => false if request.xhr?
   end
-  
+
   def show
     @attachments = @document.attachments.find(:all, :order => "created_on DESC")
   end
 
   def new
-    @document = @project.documents.build(params[:document])    
-    if request.post? and @document.save	
+    @document = @project.documents.build(params[:document])
+    if request.post? and @document.save
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
     end
   end
-  
+
   def edit
     @categories = DocumentCategory.all
     if request.post? and @document.update_attributes(params[:document])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
-  end  
+  end
 
   def destroy
     @document.destroy
     redirect_to :controller => 'documents', :action => 'index', :project_id => @project
   end
-  
+
   def add_attachment
     attachments = Attachment.attach_files(@document, params[:attachments])
     render_attachment_warning_if_needed(@document)

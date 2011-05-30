@@ -47,7 +47,7 @@
 <% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',

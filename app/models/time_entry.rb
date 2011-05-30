@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -18,7 +18,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
-  
+
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
@@ -30,10 +30,10 @@ class TimeEntry < ActiveRecord::Base
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
-  
-  named_scope :visible, lambda {|*args| { 
+
+  named_scope :visible, lambda {|*args| {
     :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries) 
+    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
   }}
 
   def after_initialize
@@ -44,21 +44,21 @@ class TimeEntry < ActiveRecord::Base
       self.hours = nil if hours == 0
     end
   end
-  
+
   def before_validation
     self.project = issue.project if issue && project.nil?
   end
-  
+
   def validate
     errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
     errors.add :project_id, :invalid if project.nil?
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project)
   end
-  
+
   def hours=(h)
     write_attribute :hours, (h.is_a?(String) ? (h.to_hours || h) : h)
   end
-  
+
   # tyear, tmonth, tweek assigned where setting spent_on attributes
   # these attributes make time aggregations easier
   def spent_on=(date)
@@ -70,12 +70,12 @@ class TimeEntry < ActiveRecord::Base
     self.tmonth = spent_on ? spent_on.month : nil
     self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
   end
-  
+
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
-  
+
   # TODO: remove this method in 1.3.0
   def self.visible_by(usr)
     ActiveSupport::Deprecation.warn "TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead."

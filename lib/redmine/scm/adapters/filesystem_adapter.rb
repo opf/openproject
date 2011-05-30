@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -32,10 +32,10 @@ module Redmine
         end
 
         def format_path_ends(path, leading=true, trailling=true)
-          path = leading ? with_leading_slash(path) : 
+          path = leading ? with_leading_slash(path) :
             without_leading_slash(path)
-          trailling ? with_trailling_slash(path) : 
-            without_trailling_slash(path) 
+          trailling ? with_trailling_slash(path) :
+            without_trailling_slash(path)
         end
 
         def info
@@ -53,7 +53,7 @@ module Redmine
           trgt = scm_iconv(@path_encoding, 'UTF-8', trgt_utf8)
           Dir.new(trgt).each do |e1|
             e_utf8 = scm_iconv('UTF-8', @path_encoding, e1)
-            next if e_utf8.blank? 
+            next if e_utf8.blank?
             relative_path_utf8 = format_path_ends(
                 (format_path_ends(path,false,true) + e_utf8),false,false)
             t1_utf8 = target(relative_path_utf8)
@@ -71,7 +71,7 @@ module Redmine
                           :path => utf_8_path,
                           :kind => (File.directory?(t1) ? 'dir' : 'file'),
                           :size => (File.directory?(t1) ? nil : [File.size(t1)].pack('l').unpack('L').first),
-                          :lastrev => 
+                          :lastrev =>
                               Revision.new({:time => (File.mtime(t1)) })
                         })
             end

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -56,7 +56,7 @@ module ApplicationHelper
       h(user.to_s)
     end
   end
-  
+
   # Show a sorted linkified (if active) comma-joined list of users
   def list_users(users, options={})
     users.sort.collect{|u| link_to_user(u, options)}.join(", ")
@@ -64,7 +64,7 @@ module ApplicationHelper
 
   # Displays a link to +issue+ with its subject.
   # Examples:
-  # 
+  #
   #   link_to_issue(issue)                        # => Defect #6: This is the subject
   #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
   #   link_to_issue(issue, :subject => false)     # => Defect #6
@@ -81,7 +81,7 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, 
+    s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
     s << ": #{h subject}" if subject
@@ -110,7 +110,7 @@ module ApplicationHelper
     link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => rev},
             :title => l(:label_revision_id, format_revision(revision)))
   end
-  
+
   # Generates a link to a message
   def link_to_message(message, options={}, html_options = nil)
     link_to(
@@ -127,7 +127,7 @@ module ApplicationHelper
 
   # Generates a link to a project if active
   # Examples:
-  # 
+  #
   #   link_to_project(project)                          # => link to the specified project overview
   #   link_to_project(project, :action=>'settings')     # => link to project settings
   #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
@@ -161,15 +161,15 @@ module ApplicationHelper
     html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
     link_to name, {}, html_options
   end
-  
+
   def format_activity_title(text)
     h(truncate_single_line(text, :length => 100))
   end
-  
+
   def format_activity_day(date)
     date == Date.today ? l(:label_today).titleize : format_date(date)
   end
-  
+
   def format_activity_description(text)
     h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
   end
@@ -181,7 +181,7 @@ module ApplicationHelper
       h("#{version.project} - #{version}")
     end
   end
-  
+
   def due_date_distance_in_words(date)
     if date
       l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
@@ -203,7 +203,7 @@ module ApplicationHelper
     end
     content
   end
-  
+
   # Renders flash messages
   def render_flash_messages
     s = ''
@@ -212,7 +212,7 @@ module ApplicationHelper
     end
     s
   end
-  
+
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?
@@ -221,7 +221,7 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
-  
+
   # Renders the project quick-jump box
   def render_project_jump_box
     projects = User.current.memberships.collect(&:project).compact.uniq
@@ -236,7 +236,7 @@ module ApplicationHelper
       s
     end
   end
-  
+
   def project_tree_options_for_select(projects, options = {})
     s = ''
     project_tree(projects) do |project, level|
@@ -252,14 +252,14 @@ module ApplicationHelper
     end
     s
   end
-  
+
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
   def project_tree(projects, &block)
     Project.project_tree(projects, &block)
   end
-  
+
   def project_nested_ul(projects, &block)
     s = ''
     if projects.any?
@@ -270,7 +270,7 @@ module ApplicationHelper
         else
           ancestors.pop
           s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
             ancestors.pop
             s << "</ul></li>\n"
           end
@@ -283,20 +283,20 @@ module ApplicationHelper
     end
     s
   end
-  
+
   def principals_check_box_tags(name, principals)
     s = ''
     principals.sort.each do |principal|
       s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
     end
-    s 
+    s
   end
 
   # Truncates and returns the string as a single line
   def truncate_single_line(string, *args)
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
   end
-  
+
   # Truncates at line break after 250 characters or options[:length]
   def truncate_lines(string, options={})
     length = options[:length] || 250
@@ -314,7 +314,7 @@ module ApplicationHelper
   def authoring(created, author, options={})
     l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
   end
-  
+
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project
@@ -347,7 +347,7 @@ module ApplicationHelper
     html << (pagination_links_each(paginator, options) do |n|
       link_to_content_update(n.to_s, url_param.merge(page_param => n))
     end || '')
-    
+
     if paginator.current.next
       html << ' ' + link_to_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
     end
@@ -361,14 +361,14 @@ module ApplicationHelper
 
     html
   end
-  
+
   def per_page_links(selected=nil)
     links = Setting.per_page_options_array.collect do |n|
       n == selected ? n : link_to_content_update(n, params.merge(:per_page => n))
     end
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
-  
+
   def reorder_links(name, url)
     link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
     link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
@@ -380,13 +380,13 @@ module ApplicationHelper
     elements = args.flatten
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
-  
+
   def other_formats_links(&block)
     concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>')
   end
-  
+
   def page_header_title
     if @project.nil? || @project.new_record?
       h(Setting.app_title)
@@ -459,21 +459,21 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
 
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
-    
+
     @parsed_headings = []
     text = parse_non_pre_blocks(text) do |text|
       [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
-    
+
     if @parsed_headings.any?
       replace_toc(text, @parsed_headings)
     end
-    
+
     text
   end
-  
+
   def parse_non_pre_blocks(text)
     s = StringScanner.new(text)
     tags = []
@@ -502,13 +502,13 @@ module ApplicationHelper
     end
     parsed
   end
-  
+
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
     # when using an image link, try to use an attachment, if possible
     if options[:attachments] || (obj && obj.respond_to?(:attachments))
       attachments = nil
       text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
-        filename, ext, alt, alttext = $1.downcase, $2, $3, $4 
+        filename, ext, alt, alttext = $1.downcase, $2, $3, $4
         attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
         # search for the picture in attachments
         if found = attachments.detect { |att| att.filename.downcase == filename }
@@ -571,7 +571,7 @@ module ApplicationHelper
       end
     end
   end
-  
+
   # Redmine links
   #
   # Examples:
@@ -694,14 +694,14 @@ module ApplicationHelper
       leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
     end
   end
-  
+
   HEADING_RE = /<h(1|2|3|4)( [^>]+)?>(.+?)<\/h(1|2|3|4)>/i unless const_defined?(:HEADING_RE)
-  
+
   # Headings and TOC
   # Adds ids and links to headings unless options[:headings] is set to false
   def parse_headings(text, project, obj, attr, only_path, options)
     return if options[:headings] == false
-    
+
     text.gsub!(HEADING_RE) do
       level, attrs, content = $1.to_i, $2, $3
       item = strip_tags(content).strip
@@ -710,9 +710,9 @@ module ApplicationHelper
       "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"##{anchor}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
     end
   end
-          
+
   TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
-  
+
   # Renders the TOC with given headings
   def replace_toc(text, headings)
     text.gsub!(TOC_RE) do
@@ -795,13 +795,13 @@ module ApplicationHelper
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
-  
+
   def checked_image(checked=true)
     if checked
       image_tag 'toggle_check.png'
     end
   end
-  
+
   def context_menu(url)
     unless @context_menu_included
       content_for :header_tags do
@@ -854,10 +854,10 @@ module ApplicationHelper
         else
           '' # use language
         end
-        
+
         javascript_include_tag('calendar/calendar') +
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
-        javascript_tag(start_of_week) +  
+        javascript_tag(start_of_week) +
         javascript_include_tag('calendar/calendar-setup') +
         stylesheet_link_tag('calendar')
       end
@@ -890,7 +890,7 @@ module ApplicationHelper
       ''
     end
   end
-  
+
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag(:defaults)
@@ -911,7 +911,7 @@ module ApplicationHelper
   def robot_exclusion_tag(content="NOINDEX,FOLLOW,NOARCHIVE")
     "<meta name='ROBOTS' content='#{h(content)}' />"
   end
-  
+
   # Returns true if arg is expected in the API response
   def include_in_api_response?(arg)
     unless @included_in_api_response
@@ -933,7 +933,7 @@ module ApplicationHelper
       options
     end
   end
-  
+
   private
 
   def wiki_helper
@@ -941,7 +941,7 @@ module ApplicationHelper
     extend helper
     return self
   end
-  
+
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end

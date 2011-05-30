@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -18,15 +18,15 @@ module Redmine
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::TextHelper
       attr_reader :diff, :words
-      
+
       def initialize(content_to, content_from)
         @words = content_to.to_s.split(/(\s+)/)
         @words = @words.select {|word| word != ' '}
         words_from = content_from.to_s.split(/(\s+)/)
-        words_from = words_from.select {|word| word != ' '}    
+        words_from = words_from.select {|word| word != ' '}
         @diff = words_from.diff @words
       end
-  
+
       def to_html
         words = self.words.collect{|word| h(word)}
         words_add = 0
@@ -37,7 +37,7 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ""      
+          deleted = ""
           diff.each do |change|
             pos = change[1]
             if change[0] == "+"

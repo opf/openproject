@@ -1,11 +1,11 @@
 <div class="contextual">
 <%= watcher_link(@news, User.current) %>
-<%= link_to(l(:button_edit), 
+<%= link_to(l(:button_edit),
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
       :onclick => 'Element.show("edit-news"); return false;') if User.current.allowed_to?(:manage_news, @project) %>
-<%= link_to(l(:button_delete), 
+<%= link_to(l(:button_delete),
       news_path(@news),
       :confirm => l(:text_are_you_sure),
       :method => :delete,
@@ -20,7 +20,7 @@
                                            :html => { :id => 'news-form', :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
-<%= link_to_remote l(:label_preview), 
+<%= link_to_remote l(:label_preview),
                    { :url => preview_news_path(:project_id => @project),
                      :method => 'get',
                      :update => 'preview',

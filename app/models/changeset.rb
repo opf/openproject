@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -29,15 +29,15 @@ class Changeset < ActiveRecord::Base
                      :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
-                     
-  
+
+
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
-  
+
   named_scope :visible, lambda {|*args| { :include => {:repository => :project},
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_changesets) } }
-                                          
+
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)
   end
@@ -64,15 +64,15 @@ class Changeset < ActiveRecord::Base
       identifier
     end
   end
-  
+
   def project
     repository.project
   end
-  
+
   def author
     user || committer.to_s.split('<').first
   end
-  
+
   def before_create
     self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
     self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
@@ -82,7 +82,7 @@ class Changeset < ActiveRecord::Base
   def after_create
     scan_comment_for_issue_ids
   end
-  
+
   TIMELOG_RE = /
     (
     ((\d+)(h|hours?))((\d+)(m|min)?)?
@@ -94,7 +94,7 @@ class Changeset < ActiveRecord::Base
     (\d+([\.,]\d+)?)h?
     )
     /x
-  
+
   def scan_comment_for_issue_ids
     return if comments.blank?
     # keywords used to reference issues
@@ -102,15 +102,15 @@ class Changeset < ActiveRecord::Base
     ref_keywords_any = ref_keywords.delete('*')
     # keywords used to fix issues
     fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
-    
+
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
-    
+
     referenced_issues = []
-    
+
     comments.scan(/([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?(#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+#\d+(\s+@#{TIMELOG_RE})?)*)(?=[[:punct:]]|\s|<|$)/i) do |match|
       action, refs = match[2], match[3]
       next unless action.present? || ref_keywords_any
-      
+
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
         issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
         if issue
@@ -120,15 +120,15 @@ class Changeset < ActiveRecord::Base
         end
       end
     end
-    
+
     referenced_issues.uniq!
     self.issues = referenced_issues unless referenced_issues.empty?
   end
-  
+
   def short_comments
     @short_comments || split_comments.first
   end
-  
+
   def long_comments
     @long_comments || split_comments.last
   end
@@ -140,7 +140,7 @@ class Changeset < ActiveRecord::Base
       "r#{revision}"
     end
   end
-  
+
   # Returns the previous changeset
   def previous
     @previous ||= Changeset.find(:first, :conditions => ['id < ? AND repository_id = ?', self.id, self.repository_id], :order => 'id DESC')
@@ -150,7 +150,7 @@ class Changeset < ActiveRecord::Base
   def next
     @next ||= Changeset.find(:first, :conditions => ['id > ? AND repository_id = ?', self.id, self.repository_id], :order => 'id ASC')
   end
-  
+
   # Creates a new Change from it's common parameters
   def create_change(change)
     Change.create(:changeset => self,
@@ -174,19 +174,19 @@ class Changeset < ActiveRecord::Base
     end
     issue
   end
-  
+
   def fix_issue(issue)
     status = IssueStatus.find_by_id(Setting.commit_fix_status_id.to_i)
     if status.nil?
       logger.warn("No status macthes commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
       return issue
     end
-    
+
     # the issue may have been updated by the closure of another one (eg. duplicate)
     issue.reload
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
-    
+
     issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
     issue.status = status
     unless Setting.commit_fix_done_ratio.blank?
@@ -199,7 +199,7 @@ class Changeset < ActiveRecord::Base
     end
     issue
   end
-  
+
   def log_time(issue, hours)
     time_entry = TimeEntry.new(
       :user => user,
@@ -209,19 +209,19 @@ class Changeset < ActiveRecord::Base
       :comments => l(:text_time_logged_by_changeset, :value => text_tag, :locale => Setting.default_language)
       )
     time_entry.activity = log_time_activity unless log_time_activity.nil?
-    
+
     unless time_entry.save
       logger.warn("TimeEntry could not be created by changeset #{id}: #{time_entry.errors.full_messages}") if logger
     end
     time_entry
   end
-  
+
   def log_time_activity
     if Setting.commit_logtime_activity_id.to_i > 0
       TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
     end
   end
-  
+
   def split_comments
     comments =~ /\A(.+?)\r?\n(.*)$/m
     @short_comments = $1 || comments

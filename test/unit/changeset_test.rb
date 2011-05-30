@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -18,50 +18,50 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def setup
   end
-  
+
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
-    
+
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'New commit (#2). Fixes #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1, 2], c.issue_ids.sort
     fixed = Issue.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_ref_keywords
     Setting.commit_ref_keywords = 'refs'
     Setting.commit_fix_keywords = ''
-    
+
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1], c.issue_ids.sort
   end
-  
+
   def test_ref_keywords_any_only
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = ''
-    
+
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1, 2], c.issue_ids.sort
   end
-  
+
   def test_ref_keywords_any_with_timelog
     Setting.commit_ref_keywords = '*'
     Setting.commit_logtime_enabled = '1'
@@ -90,7 +90,7 @@ class ChangesetTest < ActiveSupport::TestCase
         c.scan_comment_for_issue_ids
       end
       assert_equal [1], c.issue_ids.sort
-      
+
       time = TimeEntry.first(:order => 'id desc')
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
@@ -101,13 +101,13 @@ class ChangesetTest < ActiveSupport::TestCase
       assert time.comments.include?('r520'), "r520 was expected in time_entry comments: #{time.comments}"
     end
   end
-  
+
   def test_ref_keywords_closing_with_timelog
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
-    
+
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'This is a comment. Fixes #1 @4.5, #2 @1',
@@ -115,7 +115,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_difference 'TimeEntry.count', 2 do
       c.scan_comment_for_issue_ids
     end
-    
+
     assert_equal [1, 2], c.issue_ids.sort
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
@@ -123,7 +123,7 @@ class ChangesetTest < ActiveSupport::TestCase
     times = TimeEntry.all(:order => 'id desc', :limit => 2)
     assert_equal [1, 2], times.collect(&:issue_id).sort
   end
-  
+
   def test_ref_keywords_any_line_start
     Setting.commit_ref_keywords = '*'
 
@@ -156,13 +156,13 @@ class ChangesetTest < ActiveSupport::TestCase
 
     assert_equal [1,2,3], c.issue_ids.sort
   end
-  
+
   def test_commit_referencing_a_subproject_issue
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'refs #5, a subproject issue')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [5], c.issue_ids.sort
     assert c.issues.first.project != c.project
   end

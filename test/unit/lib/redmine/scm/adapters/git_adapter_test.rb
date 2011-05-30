@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -166,8 +166,8 @@ begin
             assert_equal 1, @adapter.annotate(p2, r1).lines.length
             ['64f1f3e89ad1cb57976ff0ad99a107012ba3481d', '64f1f3e89ad1cb5797'].each do |r2|
               assert @adapter.diff(p2, r1, r2)
-            end      
-          end      
+            end
+          end
         end
       end
 

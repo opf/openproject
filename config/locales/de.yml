@@ -104,13 +104,13 @@ de:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "und"
       skip_last_comma: true
-      
+
   activerecord:
     errors:
       template:
@@ -146,7 +146,7 @@ de:
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
-  
+
   general_text_No: 'Nein'
   general_text_Yes: 'Ja'
   general_text_no: 'nein'
@@ -205,7 +205,7 @@ de:
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: Fehler beim Verbinden (%{value})
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  
+
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
   mail_subject_register: "%{value} Kontoaktivierung"
@@ -437,7 +437,7 @@ de:
   project_module_boards: Foren
   project_module_calendar: Kalender
   project_module_gantt: Gantt
-  
+
   label_user: Benutzer
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
@@ -797,7 +797,7 @@ de:
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
-  
+
   button_login: Anmelden
   button_submit: OK
   button_save: Speichern
@@ -842,17 +842,17 @@ de:
   button_quote: Zitieren
   button_duplicate: Duplizieren
   button_show: Anzeigen
-  
+
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
-  
+
   version_status_open: offen
   version_status_locked: gesperrt
   version_status_closed: abgeschlossen
 
   field_active: Aktiv
-  
+
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
@@ -911,7 +911,7 @@ de:
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
-  
+
   default_role_manager: Manager
   default_role_developer: Entwickler
   default_role_reporter: Reporter
@@ -935,7 +935,7 @@ de:
   default_priority_immediate: Sofort
   default_activity_design: Design
   default_activity_development: Entwicklung
-  
+
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)

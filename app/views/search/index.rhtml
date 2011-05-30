@@ -22,7 +22,7 @@
     <div id="search-results-counts">
     <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
     </div>
-    
+
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
     <dl id="search-results">
       <% @results.each do |e| %>

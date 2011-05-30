@@ -1,22 +1,22 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class GroupsController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
-  
-  
+
+
   # GET /groups
   # GET /groups.xml
   def index
@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
   # GET /groups/new.xml
   def new
     @group = Group.new
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @group }
@@ -100,22 +100,22 @@ class GroupsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def add_users
     @group = Group.find(params[:id])
     users = User.find_all_by_id(params[:user_ids])
     @group.users << users if request.post?
     respond_to do |format|
       format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'users' }
-      format.js { 
-        render(:update) {|page| 
+      format.js {
+        render(:update) {|page|
           page.replace_html "tab-content-users", :partial => 'groups/users'
           users.each {|user| page.visual_effect(:highlight, "user-#{user.id}") }
         }
       }
     end
   end
-  
+
   def remove_user
     @group = Group.find(params[:id])
     @group.users.delete(User.find(params[:user_id])) if request.post?
@@ -124,13 +124,13 @@ class GroupsController < ApplicationController
       format.js { render(:update) {|page| page.replace_html "tab-content-users", :partial => 'groups/users'} }
     end
   end
-  
+
   def autocomplete_for_user
     @group = Group.find(params[:id])
     @users = User.active.not_in_group(@group).like(params[:q]).all(:limit => 100)
     render :layout => false
   end
-  
+
   def edit_membership
     @group = Group.find(params[:id])
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
@@ -153,7 +153,7 @@ class GroupsController < ApplicationController
       end
     end
   end
-  
+
   def destroy_membership
     @group = Group.find(params[:id])
     Member.find(params[:membership_id]).destroy if request.post?

@@ -11,10 +11,10 @@ el:
       default: "%m/%d/%Y"
       short: "%b %d"
       long: "%B %d, %Y"
-      
+
     day_names: [Κυριακή, Δευτέρα, Τρίτη, Τετάρτη, Πέμπτη, Παρασκευή, Σάββατο]
     abbr_day_names: [Κυρ, Δευ, Τρι, Τετ, Πεμ, Παρ, Σαβ]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Ιανουάριος, Φεβρουάριος, Μάρτιος, Απρίλιος, Μάϊος, Ιούνιος, Ιούλιος, Αύγουστος, Σεπτέμβριος, Οκτώβριος, Νοέμβριος, Δεκέμβριος]
     abbr_month_names: [~, Ιαν, Φεβ, Μαρ, Απρ, Μαϊ, Ιον, Ιολ, Αυγ, Σεπ, Οκτ, Νοε, Δεκ]
@@ -32,7 +32,7 @@ el:
       long: "%B %d, %Y %H:%M"
     am: "πμ"
     pm: "μμ"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "μισό λεπτό"
@@ -69,23 +69,23 @@ el:
       almost_x_years:
         one:   "almost 1 year"
         other: "almost %{count} years"
-        
+
   number:
     format:
       separator: "."
       delimiter: ""
       precision: 3
-    human: 
-      format: 
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
+        units:
           kb: KB
           tb: TB
           gb: GB
-          byte: 
+          byte:
             one: Byte
             other: Bytes
           mb: MB
@@ -95,7 +95,7 @@ el:
     array:
       sentence_connector: "and"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -129,7 +129,7 @@ el:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
-  
+
   general_text_No: 'Όχι'
   general_text_Yes: 'Ναι'
   general_text_no: 'όχι'
@@ -140,7 +140,7 @@ el:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Ο λογαριασμός ενημερώθηκε επιτυχώς.
   notice_account_invalid_creditentials: Άκυρο όνομα χρήστη ή κωδικού πρόσβασης
   notice_account_password_updated: Ο κωδικός πρόσβασης ενημερώθηκε επιτυχώς.
@@ -154,7 +154,7 @@ el:
   notice_successful_update: Επιτυχής ενημέρωση.
   notice_successful_delete: Επιτυχής διαγραφή.
   notice_successful_connection: Επιτυχής σύνδεση.
-  notice_file_not_found: Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί. 
+  notice_file_not_found: Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί.
   notice_locking_conflict: Τα δεδομένα έχουν ενημερωθεί από άλλο χρήστη.
   notice_not_authorized: Δεν έχετε δικαίωμα πρόσβασης σε αυτή τη σελίδα.
   notice_email_sent: "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου εστάλη στο %{value}"
@@ -165,7 +165,7 @@ el:
   notice_account_pending: "Ο λογαριασμός σας έχει δημιουργηθεί και είναι σε στάδιο έγκρισης από τον διαχειριστή."
   notice_default_data_loaded: Οι προεπιλεγμένες ρυθμίσεις φορτώθηκαν επιτυχώς.
   notice_unable_delete_version: Αδύνατον να διαγραφεί η έκδοση.
-  
+
   error_can_t_load_default_data: "Οι προεπιλεγμένες ρυθμίσεις δεν μπόρεσαν να φορτωθούν:: %{value}"
   error_scm_not_found: "Η εγγραφή ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
@@ -173,9 +173,9 @@ el:
   error_issue_not_found_in_project: 'Το θέμα δεν βρέθηκε ή δεν ανήκει σε αυτό το έργο'
   error_no_tracker_in_project: 'Δεν υπάρχει ανιχνευτής για αυτό το έργο. Παρακαλώ ελέγξτε τις ρυθμίσεις του έργου.'
   error_no_default_issue_status: 'Δεν έχει οριστεί η προεπιλογή  κατάστασης θεμάτων. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην  "Διαχείριση -> Κατάσταση θεμάτων").'
-  
+
   warning_attachments_not_saved: "%{count} αρχείο(α) δε μπορούν να αποθηκευτούν."
-  
+
   mail_subject_lost_password: "Ο κωδικός σας %{value}"
   mail_body_lost_password: 'Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:'
   mail_subject_register: "Ενεργοποίηση του λογαριασμού χρήστη %{value} "
@@ -190,10 +190,10 @@ el:
   mail_body_wiki_content_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
   mail_subject_wiki_content_updated: "'ενημερώθηκε η σελίδα wiki %{id}' "
   mail_body_wiki_content_updated: "Η σελίδα wiki  '%{id}' ενημερώθηκε από τον %{author}."
-  
+
   gui_validation_error: 1 σφάλμα
   gui_validation_error_plural: "%{count} σφάλματα"
-  
+
   field_name: Όνομα
   field_description: Περιγραφή
   field_summary: Συνοπτικά
@@ -281,8 +281,8 @@ el:
   field_watcher: Παρατηρητής
   field_identity_url: OpenID URL
   field_content: Περιεχόμενο
-  field_group_by: Ομαδικά αποτελέσματα από 
-  
+  field_group_by: Ομαδικά αποτελέσματα από
+
   setting_app_title: Τίτλος εφαρμογής
   setting_app_subtitle: Υπότιτλος εφαρμογής
   setting_welcome_text: Κείμενο υποδοχής
@@ -298,7 +298,7 @@ el:
   setting_text_formatting: Μορφοποίηση κειμένου
   setting_wiki_compression: Συμπίεση ιστορικού wiki
   setting_feeds_limit: Feed περιορισμού περιεχομένου
-  setting_default_projects_public: Τα νέα έργα έχουν προεπιλεγεί ως δημόσια 
+  setting_default_projects_public: Τα νέα έργα έχουν προεπιλεγεί ως δημόσια
   setting_autofetch_changesets: Αυτόματη λήψη commits
   setting_sys_api_enabled: Ενεργοποίηση WS για διαχείριση αποθετηρίου
   setting_commit_ref_keywords: Αναφορά σε λέξεις-κλειδιά
@@ -315,7 +315,7 @@ el:
   setting_per_page_options: Αντικείμενα ανά σελίδα επιλογών
   setting_user_format: Μορφή εμφάνισης χρηστών
   setting_activity_days_default: Ημέρες που εμφανίζεται στη δραστηριότητα έργου
-  setting_display_subprojects_issues: Εμφάνιση από προεπιλογή θεμάτων επιμέρους έργων στα κύρια έργα 
+  setting_display_subprojects_issues: Εμφάνιση από προεπιλογή θεμάτων επιμέρους έργων στα κύρια έργα
   setting_enabled_scm: Ενεργοποίηση SCM
   setting_mail_handler_api_enabled: Ενεργοποίηση WS για εισερχόμενα email
   setting_mail_handler_api_key: κλειδί API
@@ -327,7 +327,7 @@ el:
   setting_openid: Επιτρέψτε συνδέσεις OpenID και εγγραφή
   setting_password_min_length: Ελάχιστο μήκος κωδικού πρόσβασης
   setting_new_project_user_role_id: Απόδοση ρόλου σε χρήστη μη-διαχειριστή όταν δημιουργεί ένα έργο
-  
+
   permission_add_project: Δημιουργία έργου
   permission_edit_project: Επεξεργασία έργου
   permission_select_project_modules: Επιλογή μονάδων έργου
@@ -350,7 +350,7 @@ el:
   permission_add_issue_watchers: Προσθήκη παρατηρητών
   permission_log_time: Ιστορικό χρόνου που δαπανήθηκε
   permission_view_time_entries: Προβολή χρόνου που δαπανήθηκε
-  permission_edit_time_entries: Επεξεργασία ιστορικού χρόνου 
+  permission_edit_time_entries: Επεξεργασία ιστορικού χρόνου
   permission_edit_own_time_entries: Επεξεργασία δικού μου ιστορικού χρόνου
   permission_manage_news: Διαχείριση νέων
   permission_comment_news: Σχολιασμός νέων
@@ -377,7 +377,7 @@ el:
   permission_edit_own_messages: Επεξεργασία δικών μου μηνυμάτων
   permission_delete_messages: Διαγραφή μηνυμάτων
   permission_delete_own_messages: Διαγραφή δικών μου μηνυμάτων
-  
+
   project_module_issue_tracking: Ανίχνευση θεμάτων
   project_module_time_tracking: Ανίχνευση χρόνου
   project_module_news: Νέα
@@ -386,7 +386,7 @@ el:
   project_module_wiki: Wiki
   project_module_repository: Αποθετήριο
   project_module_boards: Πίνακες συζητήσεων
-  
+
   label_user: Χρήστης
   label_user_plural: Χρήστες
   label_user_new: Νέος Χρήστης
@@ -449,7 +449,7 @@ el:
   label_reported_issues: Εισηγμένα θέματα
   label_assigned_to_me_issues: Θέματα που έχουν ανατεθεί σε μένα
   label_last_login: Τελευταία σύνδεση
-  label_registered_on: Εγγράφηκε την 
+  label_registered_on: Εγγράφηκε την
   label_activity: Δραστηριότητα
   label_overall_activity: Συνολική δραστηριότητα
   label_user_activity: "δραστηριότητα του %{value}"
@@ -578,7 +578,7 @@ el:
   label_modification: "%{count} τροποποίηση"
   label_modification_plural: "%{count} τροποποιήσεις"
   label_branch: Branch
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Αναθεώρηση
   label_revision_plural: Αναθεωρήσεις
   label_associated_revisions: Συνεταιρικές αναθεωρήσεις
@@ -714,7 +714,7 @@ el:
   label_date_from_to: Από %{start} έως %{end}
   label_wiki_content_added: Η σελίδα Wiki προστέθηκε
   label_wiki_content_updated: Η σελίδα Wiki ενημερώθηκε
-  
+
   button_login: Σύνδεση
   button_submit: Αποστολή
   button_save: Αποθήκευση
@@ -754,11 +754,11 @@ el:
   button_update: Ενημέρωση
   button_configure: Ρύθμιση
   button_quote: Παράθεση
-  
+
   status_active: ενεργό(ς)/ή
   status_registered: εγεγγραμμένο(ς)/η
   status_locked: κλειδωμένο(ς)/η
-  
+
   text_select_mail_notifications: Επιλογή ενεργειών για τις οποίες θα πρέπει να αποσταλεί ειδοποίηση με email.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 σημαίνει ότι δεν υπάρχουν περιορισμοί
@@ -808,7 +808,7 @@ el:
   text_wiki_page_nullify_children: "Διατηρήστε τις σελίδες τέκνων ως σελίδες root"
   text_wiki_page_destroy_children: "Διαγράψτε όλες τις σελίδες τέκνων και των απογόνων τους"
   text_wiki_page_reassign_children: "Επανεκχώριση των σελίδων τέκνων στη γονική σελίδα"
-  
+
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter
@@ -832,7 +832,7 @@ el:
   default_priority_immediate: Άμεση
   default_activity_design: Σχεδιασμός
   default_activity_development: Ανάπτυξη
-  
+
   enumeration_issue_priorities: Προτεραιότητα θέματος
   enumeration_doc_categories: Κατηγορία εγγράφων
   enumeration_activities: Δραστηριότητες (κατακερματισμός χρόνου)

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -26,7 +26,7 @@ class JournalsControllerTest < ActionController::TestCase
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_get_edit
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2
@@ -36,7 +36,7 @@ class JournalsControllerTest < ActionController::TestCase
       assert_select 'textarea'
     end
   end
-  
+
   def test_post_edit
     @request.session[:user_id] = 1
     xhr :post, :edit, :id => 2, :notes => 'Updated notes'
@@ -44,7 +44,7 @@ class JournalsControllerTest < ActionController::TestCase
     assert_select_rjs :replace, 'journal-2-notes'
     assert_equal 'Updated notes', Journal.find(2).notes
   end
-  
+
   def test_post_edit_with_empty_notes
     @request.session[:user_id] = 1
     xhr :post, :edit, :id => 2, :notes => ''
@@ -59,14 +59,14 @@ class JournalsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
-  
+
   def test_reply_to_issue
     @request.session[:user_id] = 2
     get :new, :id => 6
     assert_response :success
     assert_select_rjs :show, "update"
   end
-  
+
   def test_reply_to_issue_without_permission
     @request.session[:user_id] = 7
     get :new, :id => 6

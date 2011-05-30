@@ -1,4 +1,4 @@
-<% remote_form_for :repository, @repository, 
+<% remote_form_for :repository, @repository,
                    :url => { :controller => 'repositories', :action => 'edit', :id => @project },
                    :builder => TabularFormBuilder,
                    :lang => current_language do |f| %>

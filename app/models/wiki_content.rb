@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -20,7 +20,7 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   attr_accessor :comments
-  
+
   before_save :comments_to_journal_notes
 
   acts_as_journalized :event_type => 'wiki-page',
@@ -37,15 +37,15 @@ class WikiContent < ActiveRecord::Base
   def visible?(user=User.current)
     page.visible?(user)
   end
-    
+
   def project
     page.project
   end
-  
+
   def attachments
     page.nil? ? [] : page.attachments
   end
-  
+
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
@@ -68,11 +68,11 @@ class WikiContent < ActiveRecord::Base
   end
 
   private
-  
+
   def comments_to_journal_notes
     self.init_journal(author, comments)
   end
-  
+
   # FIXME: This is for backwards compatibility only. Remove once we decide it is not needed anymore
   WikiContentJournal.class_eval do
     attr_protected :data
@@ -97,14 +97,14 @@ class WikiContent < ActiveRecord::Base
       end
       plain
     end
-    
+
     def text_hash(hash)
       changes.delete("text")
       changes["data"] = hash[:text]
       changes["compression"] = hash[:compression]
       update_attribute(:changes, changes.to_yaml)
     end
-    
+
     def text
       @text ||= case changes[:compression]
       when 'gzip'
@@ -114,7 +114,7 @@ class WikiContent < ActiveRecord::Base
         changes["data"]
       end
     end
-    
+
     # Returns the previous version or nil
     def previous
       @previous ||= journaled.journals.at(version - 1)

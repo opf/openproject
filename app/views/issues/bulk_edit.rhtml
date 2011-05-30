@@ -20,18 +20,18 @@
 </p>
 <% end %>
 <p>
-	<label><%= l(:field_priority) %></label> 
+	<label><%= l(:field_priority) %></label>
 	<%= select_tag('issue[priority_id]', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
 </p>
 <p>
-	<label><%= l(:field_assigned_to) %></label> 
+	<label><%= l(:field_assigned_to) %></label>
 	<%= select_tag('issue[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                  content_tag('option', l(:label_nobody), :value => 'none') +
                                  options_from_collection_for_select(@assignables, :id, :name)) %>
 </p>
 <% if @project %>
 <p>
-	<label><%= l(:field_category) %></label> 
+	<label><%= l(:field_category) %></label>
 	<%= select_tag('issue[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                 content_tag('option', l(:label_none), :value => 'none') +
                                 options_from_collection_for_select(@project.issue_categories, :id, :name)) %>
@@ -40,7 +40,7 @@
 <% #TODO: allow editing versions when multiple projects %>
 <% if @project %>
 <p>
-	<label><%= l(:field_fixed_version) %></label> 
+	<label><%= l(:field_fixed_version) %></label>
 	<%= select_tag('issue[fixed_version_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_none), :value => 'none') +
                                    version_options_for_select(@project.shared_versions.open.sort)) %>
@@ -68,12 +68,12 @@
 	<%= text_field_tag 'issue[start_date]', '', :size => 10 %><%= calendar_for('issue_start_date') %>
 </p>
 <p>
-	<label><%= l(:field_due_date) %></label> 
+	<label><%= l(:field_due_date) %></label>
 	<%= text_field_tag 'issue[due_date]', '', :size => 10 %><%= calendar_for('issue_due_date') %>
 </p>
 <% if Issue.use_field_for_done_ratio? %>
 <p>
-	<label><%= l(:field_done_ratio) %></label> 
+	<label><%= l(:field_done_ratio) %></label>
 	<%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
 </p>
 <% end %>

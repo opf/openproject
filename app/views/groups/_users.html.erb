@@ -28,7 +28,7 @@
 <% if users.any? %>
   <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
-    
+
 		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
 		<%= observe_field(:user_search,
                  :frequency => 0.5,
@@ -36,11 +36,11 @@
                  :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
                  :with => 'q')
                   %>
-		
+
 		<div id="users">
 			<%= principals_check_box_tags 'user_ids[]', users %>
 		</div>
-   	
+
     <p><%= submit_tag l(:button_add) %></p>
 		</fieldset>
   <% end %>

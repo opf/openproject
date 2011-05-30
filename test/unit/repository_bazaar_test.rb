@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
@@ -27,11 +27,11 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     assert @repository
   end
 
-  if File.directory?(REPOSITORY_PATH)  
+  if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
       @repository.fetch_changesets
       @repository.reload
-      
+
       assert_equal 4, @repository.changesets.count
       assert_equal 9, @repository.changes.count
       assert_equal 'Initial import', @repository.changesets.find_by_revision('1').comments
@@ -43,7 +43,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       @repository.changesets.find(:all).each {|c| c.destroy if c.revision.to_i > 2}
       @repository.reload
       assert_equal 2, @repository.changesets.count
-      
+
       @repository.fetch_changesets
       assert_equal 4, @repository.changesets.count
     end
@@ -51,14 +51,14 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     def test_entries
       entries = @repository.entries
       assert_equal 2, entries.size
-      
+
       assert_equal 'dir', entries[0].kind
       assert_equal 'directory', entries[0].name
-      
+
       assert_equal 'file', entries[1].kind
       assert_equal 'doc-mkdir.txt', entries[1].name
     end
-    
+
     def test_entries_in_subdirectory
       entries = @repository.entries('directory')
       assert_equal 3, entries.size

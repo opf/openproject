@@ -1,24 +1,24 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class SysController < ActionController::Base
   before_filter :check_enabled
-  
+
   def projects
     p = Project.active.has_module(:repository).find(:all, :include => :repository, :order => 'identifier')
     render :xml => p.to_xml(:include => :repository)
   end
-  
+
   def create_project_repository
     project = Project.find(params[:id])
     if project.repository
@@ -33,7 +33,7 @@ class SysController < ActionController::Base
       end
     end
   end
-  
+
   def fetch_changesets
     projects = []
     if params[:id]

@@ -1,13 +1,13 @@
 #-- copyright
 # ChiliProject is a project management system.
-# 
+#
 # Copyright (C) 2010-2011 the ChiliProject Team
-# 
+#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
@@ -140,7 +140,7 @@ module Redmine
         def lastrev(path, rev)
           return nil if path.nil?
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
-          cmd_args << rev if rev 
+          cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
           scm_cmd(*cmd_args) { |io| lines = io.readlines }
@@ -152,10 +152,10 @@ module Redmine
               Revision.new({
                 :identifier => id,
                 :scmid => id,
-                :author => author, 
+                :author => author,
                 :time => time,
-                :message => nil, 
-                :paths => nil 
+                :message => nil,
+                :paths => nil
                 })
           rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
