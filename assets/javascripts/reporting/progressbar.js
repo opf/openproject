@@ -4,7 +4,9 @@
 Reporting.Progress = {
 
   abort: function () {
-    window.progressbar.stop();
+    if (window.progressbar !== undefined && window.progressbar !== null) {
+      window.progressbar.stop();
+    }
   },
 
   replace_with_bar: function (element) {
