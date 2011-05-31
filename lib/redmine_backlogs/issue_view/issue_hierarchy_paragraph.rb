@@ -51,9 +51,10 @@ class RedmineBacklogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue
     if @issue == issue
       issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
                              'javascript:void(0)',
-                             :style => "color:inherit; font-weight: bold")
+                             :style => "color:inherit; font-weight: bold",
+                             :class => issue.css_classes)
     else
-      issue_text = t.link_to_issue_box("#{issue.tracker.name} ##{issue.id}", issue)
+      issue_text = t.link_to_issue_box("#{issue.tracker.name} ##{issue.id}", issue, :class => issue.css_classes)
     end
     issue_text << ": "
     issue_text << t.truncate(issue.subject, :length => 60)
