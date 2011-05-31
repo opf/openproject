@@ -26,7 +26,7 @@ Redmine::Plugin.register :redmine_backlogs do
   name 'Redmine Backlogs'
   author 'relaxdiego, friflaj, Gregor Schmidt, Jens Ulferts'
   description 'A plugin for agile teams'
-  version '0.8.4'
+  version '0.8.5'
 
   requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
 
