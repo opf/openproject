@@ -8,6 +8,7 @@ Feature: Permission View Own hourly and cost rates
       | view_own_time_entries |
       | view_own_cost_entries |
       | view_cost_rates |
+      | log_costs |
     And there is 1 User with:
     | Login 				  | testuser |
       | Firstname 		| Bob 		|
