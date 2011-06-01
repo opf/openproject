@@ -57,7 +57,7 @@ module Report::Controller
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
     @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
-    @query.is_public = !!params[:query_is_public]
+    @query.public! if !!params[:query_is_public]
     @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
@@ -116,7 +116,7 @@ module Report::Controller
   def rename
     @query.name = params[:query_name]
     if params.has_key?(:query_is_public)
-      @query.is_public = params[:query_is_public] == 'true'
+      @query.public! if params[:query_is_public] == 'true'
     end
     @query.save!
     store_query(@query)
@@ -306,6 +306,12 @@ module Report::Controller
   end
 
   ##
+  # Override in subclass if you like
+  def is_public_sql(val=true)
+    "(is_public = #{val ? '1' : '0'})"
+  end
+
+  ##
   # Fallback: @current_user needs to be set for the engine
   def current_user
     if @current_user.nil?
@@ -326,7 +332,7 @@ module Report::Controller
   def find_optional_report
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        :conditions => ["(is_public = 1) OR (#{user_key} = ?)", current_user.id])
+        :conditions => ["#{is_public_sql} OR (#{user_key} = ?)", current_user.id])
       @query.deserialize if @query
     end
   rescue ActiveRecord::RecordNotFound

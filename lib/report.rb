@@ -159,4 +159,20 @@ class Report < ActiveRecord::Base
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
   end
+
+  def public!
+    is_public = true
+  end
+
+  def public?
+    is_public
+  end
+
+  def private!
+    is_public = false
+  end
+
+  def private?
+    !is_public
+  end
 end
