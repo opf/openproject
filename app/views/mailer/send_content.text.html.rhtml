@@ -2,7 +2,7 @@
 <em><%=h @meeting.author %></em>
 
 <ul>
-<li><%=l :field_start_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></li>
+<li><%=l :label_meeting_date_time %>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %>-<%= format_time @meeting.end_time, false %></li>
 <li><%=l :field_location %>: <%=h @meeting.location %></li>
 <li><%=l :field_participants_invited %>: <%=h @meeting.participants.invited.sort.join("; ") %></li>
 <li><%=l :field_participants_attended %>: <%=h @meeting.participants.attended.sort.join("; ") %></li>
