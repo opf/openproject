@@ -155,12 +155,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    begin
-      s = Story.create_and_position params
-    rescue
-      debugger
-      true
-    end
+    s = Story.create_and_position params
     prev_id = s.id
   end
 end
@@ -198,12 +193,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    begin
-      Issue.create!(params)
-    rescue
-      debugger
-      raise
-    end
+    Issue.create!(params)
   end
 end
 
