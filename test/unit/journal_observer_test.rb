@@ -13,103 +13,97 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalObserverTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals
-
   def setup
+    @user = User.generate!(:mail_notification => 'all')
+    @project = Project.generate!
+    User.add_to_project(@user, @project, Role.generate!(:permissions => [:view_issues, :edit_issues]))
+    @issue = Issue.generate_for_project!(@project)
     ActionMailer::Base.deliveries.clear
-    @journal = Journal.find 1
-    if (i = Issue.find(:first)).journals.empty?
-      i.init_journal(User.current, 'Creation') # Make sure the initial journal is created
-      i.save
+  end
+
+  context "#after_create for 'issue_updated'" do
+    should "should send a notification when configured as a notification" do
+      Setting.notified_events = ['issue_updated']
+      assert_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.subject = "A change to the issue"
+        assert @issue.save
+      end
+    end
+
+    should "not send a notification with not configured" do
+      Setting.notified_events = []
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.subject = "A change to the issue"
+        assert @issue.save
+      end
+    end
+    
+  end
+
+  context "#after_create for 'issue_note_added'" do
+    should "should send a notification when configured as a notification" do
+      Setting.notified_events = ['issue_note_added']
+      assert_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user, 'This update has a note')
+        assert @issue.save
+      end
+      
+    end
+
+    should "not send a notification with not configured" do
+      Setting.notified_events = []
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user, 'This update has a note')
+        assert @issue.save
+      end
+      
     end
   end
 
-  # context: issue_updated notified_events
-  def test_create_should_send_email_notification_with_issue_updated
-    Setting.notified_events = ['issue_updated']
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
+  context "#after_create for 'issue_status_updated'" do
+    should "should send a notification when configured as a notification" do
+      Setting.notified_events = ['issue_status_updated']
+      assert_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.status = IssueStatus.generate!
+        assert @issue.save
 
-    assert issue.send(:create_journal)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+      end
+      
+    end
+
+    should "not send a notification with not configured" do
+      Setting.notified_events = []
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.status = IssueStatus.generate!
+        assert @issue.save
+
+      end
+    end
   end
 
-  def test_create_should_not_send_email_notification_without_issue_updated
-    Setting.notified_events = []
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
+  context "#after_create for 'issue_priority_updated'" do
+    should "should send a notification when configured as a notification" do
+      Setting.notified_events = ['issue_priority_updated']
+      assert_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.priority = IssuePriority.generate!
+        assert @issue.save
+      end
+      
+    end
 
-    assert issue.save
-    assert_equal 0, ActionMailer::Base.deliveries.size
+    should "not send a notification with not configured" do
+      Setting.notified_events = []
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        @issue.init_journal(@user)
+        @issue.priority = IssuePriority.generate!
+        assert @issue.save
+      end
+      
+    end
   end
-
-  # context: issue_note_added notified_events
-  def test_create_should_send_email_notification_with_issue_note_added
-    Setting.notified_events = ['issue_note_added']
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user, 'This update has a note')
-
-    assert issue.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
-
-  def test_create_should_not_send_email_notification_without_issue_note_added
-    Setting.notified_events = []
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user, 'This update has a note')
-
-    assert issue.save
-    assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
-  # context: issue_status_updated notified_events
-  def test_create_should_send_email_notification_with_issue_status_updated
-    Setting.notified_events = ['issue_status_updated']
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
-    issue.status = IssueStatus.last
-
-    assert issue.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
-
-  def test_create_should_not_send_email_notification_without_issue_status_updated
-    Setting.notified_events = []
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
-    issue.status = IssueStatus.last
-
-    assert issue.save
-    assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
-  # context: issue_priority_updated notified_events
-  def test_create_should_send_email_notification_with_issue_priority_updated
-    Setting.notified_events = ['issue_priority_updated']
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
-    issue.priority = IssuePriority.last
-
-    assert issue.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
-
-  def test_create_should_not_send_email_notification_without_issue_priority_updated
-    Setting.notified_events = []
-    issue = Issue.find(:first)
-    user = User.find(:first)
-    issue.init_journal(user)
-    issue.priority = IssuePriority.last
-
-    assert issue.save
-    assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
 end

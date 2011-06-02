@@ -529,6 +529,20 @@ class Issue < ActiveRecord::Base
     "#{tracker} ##{id}: #{subject}"
   end
 
+  # The number of "items" this issue spans in it's nested set
+  #
+  # A parent issue would span all of it's children + 1 left + 1 right (3)
+  #
+  #   |  parent |
+  #   || child ||
+  #
+  # A child would span only itself (1)
+  #
+  #   |child|
+  def nested_set_span
+    rgt - lft
+  end
+  
   # Returns a string of css classes that apply to the issue
   def css_classes
     s = "issue status-#{status.position} priority-#{priority.position}"

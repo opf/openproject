@@ -15,7 +15,7 @@ class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(journal)
-    if journal.type == "IssueJournal" and journal.version > 1 and self.send_notification
+    if journal.type == "IssueJournal" and !journal.initial? and send_notification
       after_create_issue_journal(journal)
     end
     clear_notification

@@ -23,7 +23,7 @@ class Journal < ActiveRecord::Base
 
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, :scope => [:journaled_id, :type]
-  belongs_to :journaled
+  belongs_to :journaled, :touch => true
   belongs_to :user
 
   # ActiveRecord::Base#changes is an existing method, so before serializing the +changes+ column,
