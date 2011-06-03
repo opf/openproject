@@ -239,28 +239,45 @@ class Changeset < ActiveRecord::Base
   private
 
   def self.to_utf8(str, encoding)
-    return str if str.blank?
-    unless encoding.blank? || encoding == 'UTF-8'
-      begin
-        str = Iconv.conv('UTF-8', encoding, str)
-      rescue Iconv::Failure
-        # do nothing here
-      end
+    return str if str.nil?
+    str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
+    if str.empty?
+      str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
+      return str
     end
+    normalized_encoding = encoding.blank? ? "UTF-8" : encoding
     if str.respond_to?(:force_encoding)
-      str.force_encoding('UTF-8')
-      if ! str.valid_encoding?
-        str = str.encode("US-ASCII", :invalid => :replace,
-              :undef => :replace, :replace => '?').encode("UTF-8")
+      if normalized_encoding.upcase != "UTF-8"
+        str.force_encoding(normalized_encoding)
+        str = str.encode("UTF-8", :invalid => :replace,
+              :undef => :replace, :replace => '?')
+      else
+        str.force_encoding("UTF-8")
+        unless str.valid_encoding?
+          str = str.encode("US-ASCII", :invalid => :replace,
+                :undef => :replace, :replace => '?').encode("UTF-8")
+        end
       end
     else
-      # removes invalid UTF8 sequences
+      
+      txtar = ""
       begin
-        str = Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-      rescue Iconv::InvalidEncoding
-        # "UTF-8//IGNORE" is not supported on some OS
+        txtar += Iconv.new('UTF-8', normalized_encoding).iconv(str)
+      rescue Iconv::IllegalSequence
+        txtar += $!.success
+        str = '?' + $!.failed[1,$!.failed.length]
+        retry
+      rescue
+        txtar += $!.success
       end
+      str = txtar
     end
-    str
+    # removes invalid UTF8 sequences
+    begin
+      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
+    rescue Iconv::InvalidEncoding
+      # "UTF-8//IGNORE" is not supported on some OS
+      str
+    end
   end
 end

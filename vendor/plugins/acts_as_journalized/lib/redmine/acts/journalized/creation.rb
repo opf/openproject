@@ -120,7 +120,7 @@ module Redmine::Acts::Journalized
         def journal_attributes
           attributes = { :journaled_id => self.id, :activity_type => activity_type, 
             :changes => journal_changes, :version => last_version + 1,
-            :notes => journal_notes, :user_id => (journal_user.try(:id) || User.current) }
+            :notes => journal_notes, :user_id => (journal_user.try(:id) || User.current.try(:id)) }
         end
     end
   end
