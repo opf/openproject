@@ -36,7 +36,7 @@ class Widget::Filters < Widget::Base
   end
 
   def render_filters
-    active_filters = @query.filters.select { |f| f.class.display? }
+    active_filters = @subject.filters.select { |f| f.class.display? }
     engine::Filter.all.collect do |filter|
       opts = {:id => "tr_#{filter.underscore_name}",
               :class => "#{filter.underscore_name} filter",

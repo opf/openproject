@@ -63,7 +63,7 @@ class Widget::Table < Widget::Base
   # end
 
   # def render_with_options(options = {}, &block)
-  #   @fields ||= (options[:fields] || @query.result.important_fields)
+  #   @fields ||= (options[:fields] || @subject.result.important_fields)
   #   @debug ||= (options[:debug] || false)
   #   @mapping ||= options[:mapping]
   #   fail "mappings need to respond to #call" if mapping.values.any? { |val| not val.respond_to? :call }
@@ -72,10 +72,10 @@ class Widget::Table < Widget::Base
   # end
 
   def fancy_table
-    if @query.depth_of(:row) == 0
-      @query.row(:singleton_value)
-    elsif @query.depth_of(:column) == 0
-      @query.column(:singleton_value)
+    if @subject.depth_of(:row) == 0
+      @subject.row(:singleton_value)
+    elsif @subject.depth_of(:column) == 0
+      @subject.column(:singleton_value)
     end
     Widget::Table::ReportTable
   end
@@ -91,13 +91,13 @@ class Widget::Table < Widget::Base
   def render
     content_tag :div, :id => "result-table" do
       options = { :debug => debug?, :mapping => @mapping, :fields => @fields }
-      return content_tag :p, l(:label_no_data), :class => "nodata" if @query.result.count <= 0
-      if @query.group_bys.empty?
-        render_widget entry_table, @query, options
-      elsif @query.group_bys.size == 1
-        render_widget simple_table, @query, options
+      return content_tag :p, l(:label_no_data), :class => "nodata" if @subject.result.count <= 0
+      if @subject.group_bys.empty?
+        render_widget entry_table, @subject, options
+      elsif @subject.group_bys.size == 1
+        render_widget simple_table, @subject, options
       else
-        render_widget fancy_table, @query, options
+        render_widget fancy_table, @subject, options
       end
     end
   end

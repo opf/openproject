@@ -12,7 +12,7 @@ class Widget::Base < Widget
   end
 
   def initialize(query)
-    @query = query
+    @subject = query
     @engine = query.class
     @options = {}
   end

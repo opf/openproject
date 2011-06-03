@@ -1,10 +1,12 @@
 require 'forwardable'
 require 'proactive_autoloader'
+require 'engine'
 
 class Report < ActiveRecord::Base
   extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
+  include Engine
 
   belongs_to :user
   belongs_to :project
@@ -45,6 +47,22 @@ class Report < ActiveRecord::Base
     else
       raise ArgumentError, "Cannot deserialize a report which already has a chain"
     end
+  end
+
+  # Convenience method to generate a params hash readable by Controller#determine_settings
+  def to_params
+    params = {}
+    filters.select { |f| f.class.display? }.each do |f|
+      filter_name = f.class.underscore_name
+      params[:fields] << filter_name
+      params[:operators].merge! filter_name => f.operator.to_s
+      params[:values].merge! filter_name => f.values
+    end
+    group_bys.each do |g|
+      params[:groups] ||= { :rows => [], :columns => [] }
+      params[:groups][g.row? ? :rows : :columns] << g.class.underscore_name
+    end
+    params
   end
 
   ##
@@ -154,9 +172,29 @@ class Report < ActiveRecord::Base
     parts.join '/'
   end
 
+  def self.engine
+    self
+  end
+
   private
 
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
+  end
+
+  def public!
+    is_public = true
+  end
+
+  def public?
+    is_public
+  end
+
+  def private!
+    is_public = false
+  end
+
+  def private?
+    !is_public
   end
 end
