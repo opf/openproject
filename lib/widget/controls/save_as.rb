@@ -14,6 +14,10 @@ class Widget::Controls::SaveAs < Widget::Controls
     maybe_with_help
   end
 
+  def cache_key
+    super + @subject.name
+  end
+
   def render_popup_form
     name = content_tag :p do
       label_tag(:query_name, l(:field_name)) +
