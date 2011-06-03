@@ -14,7 +14,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses, :changesets, :changes, :issue_categories, :enumerations, :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
+  fixtures :projects, :repositories, :issues, :issue_statuses,
+           :changesets, :changes, :issue_categories, :enumerations,
+           :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
 
   def setup
   end
@@ -235,32 +237,49 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal "Texte encodé en ISO-8859-1.", c.comments
   end
 
-  def test_invalid_utf8_sequences_in_comments_should_be_stripped
+  def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
       proj = Project.find(3)
       str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
       r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+            :project => proj,
+            :url => '/tmp/test/bazaar',
             :log_encoding => 'UTF-8' )
       assert r
-      c = Changeset.new(:repository => r,
+      c = Changeset.new(:repository   => r,
                         :committed_on => Time.now,
-                        :revision => '123',
-                        :scmid => '12345',
-                        :comments => str)
+                        :revision     => '123',
+                        :scmid        => '12345',
+                        :comments     => str)
       assert( c.save )
+      assert_equal "Texte encod? en ISO-8859-1.", c.comments
+  end
+
+  def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
+      proj = Project.find(3)
+      str = "test\xb5\xfetest\xb5\xfe"
       if str.respond_to?(:force_encoding)
-        assert_equal "Texte encod? en ISO-8859-1.", c.comments
-      else
-        assert_equal "Texte encod en ISO-8859-1.", c.comments
+        str.force_encoding('ASCII-8BIT')
       end
+      r = Repository::Bazaar.create!(
+            :project => proj,
+            :url     => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-2022-JP' )
+      assert r
+      c = Changeset.new(:repository   => r,
+                        :committed_on => Time.now,
+                        :revision     => '123',
+                        :scmid        => '12345',
+                        :comments     => str)
+      assert( c.save )
+      assert_equal "test??test??", c.comments
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
+      s4 = s2.dup
       if s1.respond_to?(:force_encoding)
         s3 = s1.dup
-        s4 = s2.dup
         s1.force_encoding('ASCII-8BIT')
         s2.force_encoding('ASCII-8BIT')
         s3.force_encoding('ISO-8859-1')
@@ -278,7 +297,43 @@ class ChangesetTest < ActiveSupport::TestCase
                         :scmid => '12345',
                         :comments => s1)
       assert( c.save )
-      assert_equal s2, c.comments
+      assert_equal s4, c.comments
+  end
+
+  def test_comments_nil
+      proj = Project.find(3)
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => nil)
+      assert( c.save )
+      assert_equal "", c.comments
+      if c.comments.respond_to?(:force_encoding)
+        assert_equal "UTF-8", c.comments.encoding.to_s
+      end
+  end
+
+  def test_comments_empty
+      proj = Project.find(3)
+      r = Repository::Bazaar.create!(
+            :project => proj, :url => '/tmp/test/bazaar',
+            :log_encoding => 'ISO-8859-1' )
+      assert r
+      c = Changeset.new(:repository => r,
+                        :committed_on => Time.now,
+                        :revision => '123',
+                        :scmid => '12345',
+                        :comments => "")
+      assert( c.save )
+      assert_equal "", c.comments
+      if c.comments.respond_to?(:force_encoding)
+        assert_equal "UTF-8", c.comments.encoding.to_s
+      end
   end
 
   def test_identifier
