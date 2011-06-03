@@ -146,7 +146,7 @@ class Report < ActiveRecord::Base
   end
 
   def_delegators  :transformer, :column_first, :row_first
-  def_delegators  :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result, :engine
+  def_delegators  :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
   def_delegators  :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
                     :units, :final_number
   def_delegators  :table, :row_index, :colum_index
