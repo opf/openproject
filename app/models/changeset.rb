@@ -259,10 +259,10 @@ class Changeset < ActiveRecord::Base
         end
       end
     else
-      ic = Iconv.new('UTF-8', normalized_encoding)
+      
       txtar = ""
       begin
-        txtar += ic.iconv(str)
+        txtar += Iconv.new('UTF-8', normalized_encoding).iconv(str)
       rescue Iconv::IllegalSequence
         txtar += $!.success
         str = '?' + $!.failed[1,$!.failed.length]
