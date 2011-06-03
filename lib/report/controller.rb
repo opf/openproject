@@ -329,10 +329,12 @@ module Report::Controller
   ##
   # Find a report if :id was passed as parameter.
   # Raises RecordNotFound if an invalid :id was passed.
-  def find_optional_report
+  #
+  # @param query An optional query added to the disjunction qualifiying reports to be returned.
+  def find_optional_report(query="1=0")
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        :conditions => ["#{is_public_sql} OR (#{user_key} = ?)", current_user.id])
+        :conditions => ["#{is_public_sql} OR (#{user_key} = ?) OR (#{query})", current_user.id])
       @query.deserialize if @query
     end
   rescue ActiveRecord::RecordNotFound
