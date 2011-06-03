@@ -57,7 +57,7 @@ module Report::Controller
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
     @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
-    @query.public! if !!params[:query_is_public]
+    @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
@@ -115,9 +115,7 @@ module Report::Controller
   # renders the updated name on XHR
   def rename
     @query.name = params[:query_name]
-    if params.has_key?(:query_is_public)
-      @query.public! if params[:query_is_public] == 'true'
-    end
+    @query.public! if make_query_public?
     @query.save!
     store_query(@query)
     unless request.xhr?
@@ -324,6 +322,10 @@ module Report::Controller
   # Abstract: Implementation required in application
   def allowed_to?(action, subject, user = current_user)
     raise NotImplementedError, "The #{self.class} should have implemented #allowed_to?(action, subject, user)"
+  end
+
+  def make_query_public?
+    !!params[:query_is_public]
   end
 
   ##
