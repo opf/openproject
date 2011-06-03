@@ -37,7 +37,7 @@ journals_003:
   journaled_id: 2
   changes: |
     ---
-    custom_values_2:
+    custom_values2:
     - 'Old value'
     - 'New value'
 journals_004:
