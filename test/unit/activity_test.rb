@@ -79,7 +79,7 @@ class ActivityTest < ActiveSupport::TestCase
 
     assert_kind_of Array, events
     assert events.include?(Attachment.find_by_container_type_and_container_id('Project', 1).last_journal)
-    assert events.include?(Attachment.find_by_container_type_and_container_id('Version', 1).last_journal)
+    assert events.include?(Attachment.find_by_container_type_and_container_id_and_id('Version', 1, 9).last_journal)
     assert_equal [Attachment], events.collect(&:journaled).collect(&:class).uniq
     assert_equal %w(Project Version), events.collect(&:journaled).collect(&:container_type).uniq.sort
   end
