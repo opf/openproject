@@ -632,17 +632,6 @@ class IssuesControllerTest < ActionController::TestCase
         assert_equal IssueStatus.default, issue.status
       end
 
-      should "accept default status" do
-        assert_difference 'Issue.count' do
-          post :create, :project_id => 1,
-                     :issue => {:tracker_id => 1,
-                                :subject => 'This is an issue',
-                                :status_id => 1}
-        end
-        issue = Issue.last(:order => 'id')
-        assert_equal IssueStatus.default, issue.status
-      end
-
       should "ignore unauthorized status" do
         assert_difference 'Issue.count' do
           post :create, :project_id => 1,
