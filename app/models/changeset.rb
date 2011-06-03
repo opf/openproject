@@ -245,21 +245,21 @@ class Changeset < ActiveRecord::Base
       str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
       return str
     end
-    enc = encoding.blank? ? "UTF-8" : encoding
+    normalized_encoding = encoding.blank? ? "UTF-8" : encoding
     if str.respond_to?(:force_encoding)
-      if enc.upcase != "UTF-8"
-        str.force_encoding(enc)
+      if normalized_encoding.upcase != "UTF-8"
+        str.force_encoding(normalized_encoding)
         str = str.encode("UTF-8", :invalid => :replace,
               :undef => :replace, :replace => '?')
       else
         str.force_encoding("UTF-8")
-        if ! str.valid_encoding?
+        unless str.valid_encoding?
           str = str.encode("US-ASCII", :invalid => :replace,
                 :undef => :replace, :replace => '?').encode("UTF-8")
         end
       end
     else
-      ic = Iconv.new('UTF-8', enc)
+      ic = Iconv.new('UTF-8', normalized_encoding)
       txtar = ""
       begin
         txtar += ic.iconv(str)
