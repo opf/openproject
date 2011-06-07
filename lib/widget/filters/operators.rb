@@ -12,6 +12,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
       select_box = content_tag :select, options do
         filter_class.available_operators.collect do |o|
           opts = {:value => h(o.to_s), :"data-arity" => o.arity}
+          opts.reverse_merge! :"data-forced" => o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
           content_tag(:option, opts) { h(l(o.label)) }
         end.join.html_safe

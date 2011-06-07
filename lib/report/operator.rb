@@ -1,6 +1,7 @@
 class Report::Operator
   include Report::QueryUtils
   include Report::Validation
+  extend Forwardable
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
@@ -8,6 +9,9 @@ class Report::Operator
 
     # Defaults
     defaults do
+
+      def_delegators :'singleton_class', :forced?, :force!, :forced
+
       def sql_operator
         name
       end
@@ -183,6 +187,16 @@ class Report::Operator
       end
     end
 
+    new ">=d", :label => :label_days_ago, :validate => :integers do
+      force! :integers
+
+      def modify(query, field, value)
+        now = Time.now
+        from = (now - value.to_i.days).beginning_of_day
+        '<>d'.to_operator.modify query, field, from, now
+      end
+    end
+
     new "?=", :label => :label_null_or_equal do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
@@ -202,6 +216,18 @@ class Report::Operator
     def to_operator
       Report::Operator.find self
     end
+  end
+
+  def self.force!(type)
+    @force = type
+  end
+
+  def self.forced?
+    !!@force
+  end
+
+  def self.forced
+    @force
   end
 
   def self.new(name, values = {}, &block)
@@ -249,7 +275,7 @@ class Report::Operator
 
   def self.time_operators
     #["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-    ["t", "w", "<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
+    ["t", "w", "<>d", ">d", "<d", "=d", ">=d"].map { |s| s.to_operator}
   end
 
   def self.default_operators

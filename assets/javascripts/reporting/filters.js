@@ -145,6 +145,14 @@ Reporting.Filters = {
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
+    if (option_tag.getAttribute("data-forced") !== undefined && option_tag.getAttribute("data-forced") !== null) {
+      Reporting.Filters.force_type(option_tag);
+    };
+  },
+
+  // Overwrite to customize input enforcements
+  force_type: function (option) {
+    true;
   },
 
   value_changed: function (field) {
@@ -169,8 +177,10 @@ Reporting.Filters = {
       if (params[i] !== null) {
         if (arg_nr >= (i + 1) || arg_nr <= (-1 - i)) {
           params[i].show();
+          params[i].descendants().each(function (desc) { desc.show(); });
         } else {
           params[i].hide();
+          params[i].descendants().each(function (desc) { desc.hide(); });
         }
       }
     }
