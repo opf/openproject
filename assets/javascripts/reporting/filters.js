@@ -138,20 +138,27 @@ Reporting.Filters = {
   },
 
   operator_changed: function (field, select) {
-    var option_tag, arity;
+    var option_tag, arity, first;
     if (select === null) {
       return;
+    }
+    first = false
+    if (select.getAttribute("data-first") === undefined || select.getAttribute("data-first") === null) {
+      first = true;
+      $(select).setAttribute("data-first", "false");
     }
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
     if (option_tag.getAttribute("data-forced") !== undefined && option_tag.getAttribute("data-forced") !== null) {
-      Reporting.Filters.force_type(option_tag);
+      Reporting.Filters.force_type(option_tag, first);
     };
   },
 
-  // Overwrite to customize input enforcements
-  force_type: function (option) {
+  // Overwrite to customize input enforcements.
+  // option: 'option' HTMLElement
+  // first: Boolean indicating whether the operator changed for the first time
+  force_type: function (option, first) {
     true;
   },
 
