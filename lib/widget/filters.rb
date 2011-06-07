@@ -18,7 +18,7 @@ class Widget::Filters < Widget::Base
             :name => nil
       add_filter += maybe_with_help :icon => { :class => 'filter-icon' },
                                    :tooltip => { :class => 'filter-tip' },
-                                   :instant_write => false
+                                   :instant_write => false # help associated with this kind of Widget
       add_filter.html_safe
     end
     write content_tag(:div, table + select)
@@ -74,6 +74,21 @@ class Widget::Filters < Widget::Base
         render_widget Filters::MultiValues, f, :to => html
       end
     end
+    render_filter_help f, :to => html
     render_widget Filters::RemoveButton, f, :to => html
+  end
+
+  ##Renders help for a filter (chainable)
+  def render_filter_help(filter, options = {})
+    html = content_tag :td, :width => "25px" do
+      if filter.help_text # help associated with the chainable this Widget represents
+        render_widget Widget::Controls::Help, filter.help_text
+      end
+    end
+    if canvas = options[:to]
+      canvas << "\n" << html
+    else
+      html
+    end
   end
 end
