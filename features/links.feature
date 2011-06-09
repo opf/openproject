@@ -16,6 +16,7 @@ Feature: Cost Reporting Linkage
 
   Scenario: Coming to the cost report for the first time, I should see my entries
     Given there is a standard cost control project named "Standard Project"
+    And I am admin
     And the user "manager" has:
       | hourly rate  | 10 |
       | default rate | 10 |
