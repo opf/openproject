@@ -286,11 +286,11 @@ module Report::Controller
   def store_query(query)
     cookie = {}
     cookie[:groups] = @query.group_bys.inject({}) do |h, group|
-      ((h[:"#{group.type}s"] ||= []) << group.field.to_sym) && h
+      ((h[:"#{group.type}s"] ||= []) << group.underscore_name.to_sym) && h
     end
     cookie[:filters] = @query.filters.inject({:operators => {}, :values => {}}) do |h, filter|
-      h[:operators][filter.field.to_sym] = filter.operator.to_s
-      h[:values][filter.field.to_sym] = filter.values
+      h[:operators][filter.underscore_name.to_sym] = filter.operator.to_s
+      h[:values][filter.underscore_name.to_sym] = filter.values
       h
     end
     cookie[:name] = @query.name if @query.name
