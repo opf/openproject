@@ -55,7 +55,8 @@ class Widget::Filters < Widget::Base
 
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
-    html = render_widget Filters::Label, f
+    html = ''.html_safe
+    render_widget Filters::Label, f, :to => html
     render_widget Filters::Operators, f, :to => html
     if engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget Filters::TextBox, f, :to => html
