@@ -372,6 +372,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
+    issue.reload
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
@@ -382,6 +383,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 4)
+    issue.reload
     assert issue.move_to_project(Project.find(5))
     issue.reload
     assert_equal 5, issue.project_id
@@ -392,6 +394,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
+    issue.reload
     assert issue.move_to_project(Project.find(5))
     issue.reload
     assert_equal 5, issue.project_id
@@ -402,6 +405,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 7)
+    issue.reload
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
