@@ -58,4 +58,25 @@ class JournalTest < ActiveSupport::TestCase
     end
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
+
+  test "creating the initial journal should track the changes from creation" do
+    @project = Project.generate!
+    issue = Issue.new do |i|
+      i.project = @project
+      i.subject = "Test initial journal"
+      i.tracker = @project.trackers.first
+      i.author = User.generate!
+      i.description = "Some content"
+    end
+
+    assert_difference("Journal.count") do
+      assert issue.save
+    end
+    
+    journal = issue.reload.journals.first
+    assert_equal ["","Test initial journal"], journal.changes["subject"]
+    assert_equal [0, @project.id], journal.changes["project_id"]
+    assert_equal [nil, "Some content"], journal.changes["description"]
+  end
+  
 end

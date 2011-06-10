@@ -46,6 +46,49 @@ class GeneralizeJournals < ActiveRecord::Migration
       t.remove :journalized_type
     end
 
+    # Build initial journals for all activity providers
+    providers = Redmine::Activity.providers.collect {|k, v| v.collect(&:constantize) }.flatten.compact.uniq
+    providers.each do |p|
+      next unless p.table_exists? # Objects not in the DB yet need creation journal entries
+      p.find(:all).each do |o|
+        # Create initial journals
+        new_journal = o.journals.build
+        # Mock up a list of changes for the creation journal based on Class defaults
+        new_attributes = o.class.new.attributes.except(o.class.primary_key,
+                                                       o.class.inheritance_column,
+                                                       :updated_on,
+                                                       :updated_at,
+                                                       :lock_version,
+                                                       :lft,
+                                                       :rgt)
+        creation_changes = {}
+        new_attributes.each do |name, default_value|
+          # Set changes based on the initial value to current. Can't get creation value without
+          # rebuiling the object history
+          creation_changes[name] = [default_value, o.send(name)] # [initial_value, creation_value]
+        end
+        new_journal.changes = creation_changes
+        new_journal.version = 1
+        
+        if o.respond_to?(:author)
+          new_journal.user = o.author
+        elsif o.respond_to?(:user)
+          new_journal.user = o.user
+        end
+        new_journal.save
+        
+        # Backdate journal
+        if o.respond_to?(:created_at)
+          new_journal.update_attribute(:created_at, o.created_at)
+        elsif o.respond_to?(:created_on)
+          new_journal.update_attribute(:created_at, o.created_on)
+        end
+        p "Updating #{o}"
+      end
+      
+    end
+
+    # Migrate journal changes now
     JournalDetails.all.each do |detail|
       journal = Journal.find(detail.journal_id)
       changes = journal.changes || {}
@@ -57,26 +100,6 @@ class GeneralizeJournals < ActiveRecord::Migration
         changes["attachments_" + detail.prop_key.to_s] = [detail.old_value, detail.value]
       end
       journal.update_attribute(:changes, changes.to_yaml)
-    end
-
-    # Create creation journals for all activity providers
-    providers = Redmine::Activity.providers.collect {|k, v| v.collect(&:constantize) }.flatten.compact.uniq
-    providers.each do |p|
-      next unless p.table_exists? # Objects not in the DB yet need creation journal entries
-      p.find(:all).each do |o|
-        unless o.last_journal
-          o.send(:update_journal)
-          created_at = nil
-          [:created_at, :created_on, :updated_at, :updated_on].each do |m|
-            if o.respond_to? m
-              created_at = o.send(m)
-              break
-            end
-          end
-          p "Updating #{o}"
-          o.last_journal.update_attribute(:created_at, created_at) if created_at and o.last_journal
-        end
-      end
     end
 
     # drop_table :journal_details
