@@ -96,7 +96,7 @@ class Setting < ActiveRecord::Base
 
   # Returns the value of the setting named name
   def self.[](name)
-    Marshal.load(Rails.cache.fetch("chiliproject/setting/#{name}") {Marshal.dump(find_or_default(name).value)}).freeze
+    Marshal.load(Rails.cache.fetch("chiliproject/setting/#{name}") {Marshal.dump(find_or_default(name).value)})
   end
 
   def self.[]=(name, v)
@@ -104,7 +104,7 @@ class Setting < ActiveRecord::Base
     setting.value = (v ? v : "")
     Rails.cache.delete "chiliproject/setting/#{name}"
     setting.save
-    setting.value.freeze
+    setting.value
   end
 
   # Defines getter and setter for each setting
