@@ -32,7 +32,7 @@ module Redmine
     #
     #   2.0.0debian-2
     def self.special
-      'RC1'
+      'RC2'
     end
     
     def self.revision
