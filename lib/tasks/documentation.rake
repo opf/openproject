@@ -18,7 +18,7 @@ Rake::Task["doc/app/index.html"].clear
 
 namespace :doc do
   desc "Generate documentation for the application. Set custom template with TEMPLATE=/path/to/rdoc/template.rb or title with TITLE=\"Custom Title\""
-  Rake::RDocTask.new("app") { |rdoc|
+  RDoc::Task.new("app") { |rdoc|
     rdoc.rdoc_dir = 'doc/app'
     rdoc.template = ENV['template'] if ENV['template']
     rdoc.title    = ENV['title'] || "ChiliProject"
