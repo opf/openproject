@@ -970,7 +970,7 @@ pt-BR:
   label_news_comment_added: Notícia recebeu um comentário
   button_expand_all: Expandir tudo
   button_collapse_all: Recolher tudo
-  label_additional_workflow_transitions_for_assignee: Transições adicionais permitidas quando o usuário é o alocado para a tarefa
+  label_additional_workflow_transitions_for_assignee: Transições adicionais permitidas quando o usuário é o responsável pela tarefa
   label_additional_workflow_transitions_for_author: Transições adicionais permitidas quando o usuário é o autor
   field_effective_date: Data prevista
   label_cvs_path: CVSROOT
