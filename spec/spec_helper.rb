@@ -23,3 +23,6 @@ rescue LoadError => error
 end
 
 require 'redmine_factory_girl'
+
+require 'prawn'
+require 'pdf/inspector'
