@@ -20,7 +20,7 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
 
     WikiContent::Version.find_by_sql("SELECT * FROM wiki_content_versions").each do |wv|
       journal = WikiContentJournal.create!(:journaled_id => wv.wiki_content_id, :user_id => wv.author_id,
-        :notes => wv.comments, :activity_type => "wiki_edits")
+        :notes => wv.comments, :created_at => wv.updated_on, :activity_type => "wiki_edits")
       changes = {}
       changes["compression"] = wv.compression
       changes["data"] = wv.data
