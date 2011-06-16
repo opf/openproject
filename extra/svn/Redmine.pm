@@ -480,6 +480,7 @@ sub is_member {
 sub get_project_identifier {
     my $r = shift;
     
+    my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
     my $location = $r->location;
     my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
     $identifier =~ s/\.git$// if (defined $cfg->{RedmineGitSmartHttp} and $cfg->{RedmineGitSmartHttp});
