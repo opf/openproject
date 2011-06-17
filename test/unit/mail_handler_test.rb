@@ -301,6 +301,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
+  test "reply to issue update (Journal) by message_id" do
+    journal = submit_email('ticket_reply_by_message_id.eml')
+    assert journal.is_a?(IssueJournal), "Email was a #{journal.class}"
+    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal Issue.find(2), journal.journaled
+    assert_match /This is reply/, journal.notes
+    assert_equal 'Feature request', journal.issue.tracker.name
+  end
+
   def test_add_issue_note_with_attribute_changes
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')
