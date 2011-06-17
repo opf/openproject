@@ -27,9 +27,7 @@ class IssuesController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
-  helper :journals
   include JournalsHelper
-  helper :projects
   include ProjectsHelper
   include CustomFieldsHelper
   include IssueRelationsHelper
