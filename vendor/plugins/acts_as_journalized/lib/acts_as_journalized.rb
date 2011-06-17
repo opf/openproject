@@ -135,8 +135,8 @@ module Redmine
           def journalized_activity_hash(options)
             options.tap do |h|
               h[:type] ||= plural_name
-              h[:timestamp] = "#{journal_class.table_name}.created_at"
-              h[:author_key] = "#{journal_class.table_name}.user_id"
+              h[:timestamp] ||= "#{journal_class.table_name}.created_at"
+              h[:author_key] ||= "#{journal_class.table_name}.user_id"
 
               h[:find_options] ||= {} # in case it is nil
               h[:find_options] = {}.tap do |opts|
@@ -173,7 +173,8 @@ module Redmine
               end
             end
             options[:type] ||= self.name.underscore.dasherize # Make sure the name of the journalized model and not the name of the journal is used for events
-            { :description => :notes, :author => :user }.reverse_merge options
+            options[:author] ||= :user
+            { :description => :notes }.reverse_merge options
           end
       end
 
