@@ -17,6 +17,8 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
 
       say_with_time("Building initial journals for #{p.class_name}") do
 
+        activity_type = p.activity_provider_options.keys.first
+
         p.find(:all).each do |o|
           # Create initial journals
           new_journal = o.journals.build
@@ -36,6 +38,7 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
           end
           new_journal.changes = creation_changes
           new_journal.version = 1
+          new_journal.activity_type = activity_type
           
           if o.respond_to?(:author)
             new_journal.user = o.author
