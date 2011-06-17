@@ -13,7 +13,6 @@ class UpdateJournalsForActsAsJournalized < ActiveRecord::Migration
           j = j.becomes(klass_name.constantize)
           j.type = klass_name
           j.version = idx + 2 # initial journal should be 1
-          # FIXME: Find some way to choose the right activity here
           j.activity_type = j.journalized_type.constantize.activity_provider_options.keys.first
           j.save(false)
         end
