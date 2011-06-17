@@ -5,7 +5,7 @@
 <% if diff.diff_type == 'sbs' -%>
 <table class="filecontent">
 <thead>
-<tr><th colspan="4" class="filename"><%=to_utf8 table_file.file_name %></th></tr>
+<tr><th colspan="4" class="filename"><%=to_utf8_for_attachments table_file.file_name %></th></tr>
 </thead>
 <tbody>
 <% table_file.each_line do |spacing, line| -%>
@@ -17,11 +17,11 @@
 <tr>
   <th class="line-num"><%= line.nb_line_left %></th>
   <td class="line-code <%= line.type_diff_left %>">
-    <pre><%=to_utf8 line.html_line_left %></pre>
+    <pre><%=to_utf8_for_attachments line.html_line_left %></pre>
   </td>
   <th class="line-num"><%= line.nb_line_right %></th>
   <td class="line-code <%= line.type_diff_right %>">
-    <pre><%=to_utf8 line.html_line_right %></pre>
+    <pre><%=to_utf8_for_attachments line.html_line_right %></pre>
   </td>
 </tr>
 <% end -%>
