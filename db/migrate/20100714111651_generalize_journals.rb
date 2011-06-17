@@ -35,15 +35,25 @@ class GeneralizeJournals < ActiveRecord::Migration
 
     Journal.all.group_by(&:journaled_id).each_pair do |id, journals|
       journals.sort_by(&:created_at).each_with_index do |j, idx|
-        j.update_attribute(:type, "#{j.journalized_type}Journal")
-        j.update_attribute(:version, idx + 1)
+        # Recast the basic Journal into it's STI journalized class so callbacks work (#467)
+        klass_name = "#{j.journalized_type}Journal"
+        j = j.becomes(klass_name.constantize)
+        j.type = klass_name
+        j.version = idx + 1
         # FIXME: Find some way to choose the right activity here
-        j.update_attribute(:activity_type, j.journalized_type.constantize.activity_provider_options.keys.first)
+        j.activity_type = j.journalized_type.constantize.activity_provider_options.keys.first
+        j.save(false)
       end
     end
 
     change_table :journals do |t|
       t.remove :journalized_type
+    end
+
+    # Reset class and subclasses, otherwise they will try to save using older attributes
+    Journal.reset_column_information
+    Journal.send(:subclasses).each do |klass|
+      klass.reset_column_information if klass.respond_to?(:reset_column_information)
     end
 
     # Build initial journals for all activity providers
