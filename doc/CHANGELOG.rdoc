@@ -7,9 +7,11 @@
 * Bug #343: Review Gantt and Calender links from 07cf681
 * Bug #345: Entering large numbers for 'Estimated Time' fails with 'Invalid big Decimal Value'
 * Bug #346: I18n YAML files not parsable with psych yaml library
-* Bug #383: Fix broken tests in unstable
+* Bug #383: Fix broken tests in unstable caused by conflicting to_utf8 method names
 * Bug #389: Context menu doesn't work in Opera
 * Bug #390: mysql2 incompatibility in WikiPage model
+* Bug #397: FIXME in generalize_journals migration
+* Bug #398: Remove helper calls from IssuesController
 * Bug #400: Review and fix the Activity event types
 * Bug #401: Move JournalsHelpers from aaj to the core
 * Bug #403: [AAJ] Attachment has it's files and documents activity provider removed but only documents added
@@ -34,6 +36,15 @@
 * Bug #444: ChangesetTest and RepositoryGitTest test failures on 1.9.2
 * Bug #445: Track initial attributes in a Journal when created
 * Bug #453: Update to Rails 2.3.12 to fix some bugs
+* Bug #466: SVN: Apache initialization error
+* Bug #467: uninitialized constant Journal::Journaled
+* Bug #468: Lost WIKI history timestamps during 2.0.0rc1 upgrade.
+* Bug #469: Wong URL for WIKI activity entries in 2.0.0rc2
+* Bug #474: Changesets are displaying the wrong user and commit date in the Activity
+* Bug #475: News, docs, changesets and time activities were not migrated to 2.0.0rc2
+* Bug #477: Getting rid of "rake/rdoctask is deprecated." warning
+* Bug #479: Generalize Journals migrations does too much
+* Bug #480: Issue Journal replies get ignored
 * Feature #112: Provide a library function to detect the database type used
 * Feature #123: Review and Merge acts_as_journalized
 * Feature #196: Upgrade to Rails 2.3-latest
@@ -50,6 +61,7 @@
 * Feature #416: Refactor watcher_tag and watcher_link to use css selectors for the replace action
 * Feature #436: Clean up trailing whitespace and tabs
 * Feature #462: pt-BR translation update
+* Feature #473: pt-BR translation fix
 * Task #123: Review and Merge acts_as_journalized
 * Task #197: Rake task to manage copyright inside of source files
 * Task #288: Review latest Redmine commits
