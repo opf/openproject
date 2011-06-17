@@ -50,6 +50,12 @@ class GeneralizeJournals < ActiveRecord::Migration
       t.remove :journalized_type
     end
 
+    # Reset class and subclasses, otherwise they will try to save using older attributes
+    Journal.reset_column_information
+    Journal.send(:subclasses).each do |klass|
+      klass.reset_column_information if klass.respond_to?(:reset_column_information)
+    end
+
     # Build initial journals for all activity providers
     providers = Redmine::Activity.providers.collect {|k, v| v.collect(&:constantize) }.flatten.compact.uniq
     providers.each do |p|
