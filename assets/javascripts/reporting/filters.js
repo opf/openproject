@@ -280,6 +280,9 @@ Reporting.Filters = {
     all_dependents = Reporting.Filters.get_dependents(selectBox);
     next_dependents = Reporting.Filters.get_dependents(selectBox, false);
     dependent = Reporting.Filters.which_dependent_shall_i_take(source, next_dependents);
+    if (!dependent) {
+      return;
+    }
     active_filters = Reporting.Filters.visible_filters();
 
     if (!active_filters.include(dependent)) {
