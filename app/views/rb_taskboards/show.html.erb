@@ -14,8 +14,9 @@
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
-                                     :project_id => @project.id,
-                                     :sprint_id => @sprint.id) %>
+                                     :project_id => @project,
+                                     :sprint_id => @sprint,
+                                     :format => :js) %>
 
   <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
   <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>

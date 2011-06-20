@@ -75,7 +75,7 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 end
 
 When /^I request the server_variables resource$/ do
-  visit url_for(:controller => :rb_server_variables, :action => :show, :project_id => @project.id)
+  visit url_for(:controller => :rb_server_variables, :action => :show, :project_id => @project)
 end
 
 When /^I update the impediment$/ do
