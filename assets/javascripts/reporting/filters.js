@@ -199,6 +199,7 @@ Reporting.Filters = {
     Reporting.Filters.show_filter(field, { slowly: true });
     select.selectedIndex = 0;
     Reporting.Filters.select_option_enabled(select, field, false);
+    Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
   },
 
   select_option_enabled: function (box, value, state) {
