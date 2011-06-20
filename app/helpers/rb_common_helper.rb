@@ -136,7 +136,7 @@ module RbCommonHelper
     trackers
   end
 
-  def show_burndown_link(sprint_id)
+  def show_burndown_link(sprint)
     ret = ""
 
     ret += link_to(l('backlogs.show_burndown_chart'),
@@ -147,7 +147,7 @@ module RbCommonHelper
     ret += javascript_tag "
             jQuery(document).ready(function(){
               var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
-              burndown.setSprintId(#{sprint_id});
+              burndown.setSprintId(#{sprint.id});
             });"
     ret
   end
