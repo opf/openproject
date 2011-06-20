@@ -5,8 +5,8 @@
             <%= link_to(sp.name, {
                     :controller => 'rb_queries',
                     :action => 'show',
-                    :project_id => project.id,
-                    :sprint_id => sp.id
+                    :project_id => project,
+                    :sprint_id => sp
                     }) %><br/>
         <% end %>
     <% end %>
@@ -27,7 +27,7 @@
         <%= link_to(l(:label_task_board), {
                 :controller => 'rb_taskboards',
                 :action => 'show',
-                :sprint_id => sprint.id
+                :sprint_id => sprint
                 })
         %><br/>
 
@@ -35,8 +35,8 @@
           <%= link_to(l(:label_sprint_cards), {
                   :controller => 'rb_stories',
                   :action => 'index',
-                  :project_id => project.id,
-                  :sprint_id => sprint.id,
+                  :project_id => project,
+                  :sprint_id => sprint,
                   :format => 'pdf'
                   })
           %><br/>
@@ -46,8 +46,8 @@
           <%= link_to(l(:label_wiki), {
                   :controller => 'rb_wikis',
                   :action => 'show',
-                  :project_id => project.id,
-                  :sprint_id => sprint.id
+                  :project_id => project,
+                  :sprint_id => sprint
                   })
           %><br/>
         <% end %>

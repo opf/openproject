@@ -27,7 +27,7 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   attributes[:fixed_version_id] = prev.fixed_version_id unless type == "task"
 
   page.driver.process :post,
-                      url_for(:controller => controller_name, :action => "update", :id => story.id),
+                      url_for(:controller => controller_name, :action => "update", :id => story),
                       attributes.merge({ "_method" => "put" })
 end
 
@@ -117,29 +117,29 @@ end
 
 When /^I view the stories of (.+) in the issues tab/ do |sprint_name|
   sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => :rb_queries, :action => :show, :project_id => sprint.project_id, :sprint_id => sprint.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :project_id => sprint.project, :sprint_id => sprint)
 end
 
 When /^I view the stories in the issues tab/ do
-  visit url_for(:controller => :rb_queries, :action => :show, :project_id=> @project.id)
+  visit url_for(:controller => :rb_queries, :action => :show, :project_id => @project)
 end
 
 # deprecation warning
 # Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I view the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint.id)
+  visit url_for(:controller => 'rb_wikis', :action => 'show', :sprint_id => @sprint)
 end
 
 # deprecation warning
 # Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I edit the sprint notes$/ do
-  visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint.id)
+  visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
 
 When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type, how_many, period, direction|
   date = eval("#{ how_many }.#{ period }.#{ direction=='from now' ? 'from_now' : 'ago' }")
   date = date.strftime("%B %d, %Y %H:%M:%S") + '.' + (date.to_f % 1 + 0.001).to_s.split('.')[1]
-  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project.id, :only => object_type, :since => date)
+  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project, :only => object_type, :since => date)
 end
 
 When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
