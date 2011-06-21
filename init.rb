@@ -20,7 +20,7 @@ Redmine::Plugin.register :redmine_global_roles do
   name 'Global Roles plugin'
   author 'Jens Ulferts @ finnlabs'
   description 'Adds global, meaning non project bound, roles. Create Project becomes a global role.'
-  version '0.1.6'
+  version '0.1.7'
 
   if RAILS_ENV != "test"
     require_or_load 'global_roles/permission_patch'
