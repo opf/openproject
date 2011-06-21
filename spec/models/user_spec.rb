@@ -2,17 +2,19 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User do
   before(:each) do
-    @user = User.new
-    if costs_plugin_loaded?
-      create_non_member_role
-    end
+    @user = Factory.build(:user)
+    
+    create_non_member_role if costs_plugin_loaded?
   end
 
   describe "WITH one principal role" do
     before :each do
       @role = GlobalRole.new :name => "global_role"
-      #@principal_role = PrincipalRole.new :role => @role, :principal => @user
-      @user.principal_roles.build :role => @role
+
+      principal_role = PrincipalRole.new(:role => @role, :principal => @user)
+      principal_roles = [principal_role]
+      principal_roles.stub(:find).and_return([principal_role])
+      @user.stub(:principal_roles).and_return(principal_roles)
     end
 
     describe "WITH the role allowing the action" do
@@ -21,16 +23,8 @@ describe User do
       end
 
       describe :allowed_to? do
-        before :each do
-
-        end
-
-        it {@user.allowed_to?({:action => "action"}, nil, {:global => true}).should eql @role}
+        it { @user.should be_allowed_to({:action => "action"}, nil, {:global => true}) }
       end
-
-
     end
-
-
   end
 end
