@@ -1,6 +1,14 @@
 require 'redmine'
 require 'dispatcher'
 
+# Create default labels, if they don't exist
+unless File.exist? TaskboardCard::PageLayout::LABELS_FILE_NAME
+  unless Rails.env.development?
+    FileUtils.cp(TaskboardCard::PageLayout::LABELS_FILE_NAME + '.default',
+                 TaskboardCard::PageLayout::LABELS_FILE_NAME)
+  end
+end
+
 Dispatcher.to_prepare do
   require_dependency 'issue'
 
