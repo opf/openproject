@@ -18,8 +18,10 @@ module TaskboardCard
     if File.exist? LABELS_FILE_NAME
       LABELS = YAML::load_file(LABELS_FILE_NAME)
     else
-      warn 'No label definitions found. Will not be able to print story cards.'
-      LABELS = {}
+      puts "Using default card label dimensions. Be sure to run " +
+           "`rake redmine:backlogs:current_labels` to get current definitions " +
+           "from git.gnome.org."
+      LABELS = YAML::load_file(LABELS_FILE_NAME + '.default')
     end
 
     class << self
@@ -42,9 +44,7 @@ module TaskboardCard
       end
 
       def fetch_labels
-        LABELS.delete_if do |label|
-          LABELS[label].blank? or Label.malformed?(LABELS[label])
-        end
+        LABELS.clear
 
         malformed_labels = {}
 
