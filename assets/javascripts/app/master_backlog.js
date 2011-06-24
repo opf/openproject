@@ -14,7 +14,7 @@ jQuery(function ($) {
 
   // Workaround for IE7
   if ($.browser.msie && $.browser.version <= 7) {
-    var z = 2000;
+    var z = 50;
     $('.backlog, .header').each(function () {
       $(this).css('z-index', z);
       z -= 1;
