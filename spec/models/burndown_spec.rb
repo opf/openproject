@@ -92,6 +92,8 @@ describe Burndown do
               describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
                 before(:each) do
                   other_version = Factory.create(:version, :name => "other_version", :project => project)
+                  project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
+                  @story.instance_eval { reload; @assignable_versions = nil }
                   set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
                   set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.day
 
