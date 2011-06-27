@@ -114,4 +114,4 @@ Feature: Edit story on backlogs view
      When I open the "Sprint 001" menu
       And I follow "New Story" within the "Sprint 001" menu
       And I close the "Sprint 001" menu
-     Then I should not see "Epic" within "select[name=tracker_id]"
+     Then I should not see "Epic" within ".tracker_id.helper"
