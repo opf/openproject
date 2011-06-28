@@ -130,7 +130,6 @@ RB.Taskboard = (function ($) {
       }
       $("#col_width input").val(w);
       RB.UserPreferences.set('taskboardColWidth', w);
-      $(".swimlane").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
     }
   });
 }(jQuery));
