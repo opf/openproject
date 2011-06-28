@@ -81,6 +81,11 @@ RB.Taskboard = (function ($) {
 
     dragStop: function (e, ui) {
       ui.item.removeClass("dragging");
+
+      // FIXME: workaround for IE7
+      if ($.browser.msie && $.browser.version <= 7) {
+        ui.item.css("z-index", 0);
+      }
     },
 
     handleAddNewImpedimentClick: function (e) {
