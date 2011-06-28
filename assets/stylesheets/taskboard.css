@@ -209,7 +209,7 @@ See RB.Taskboard.initialize()
   width: auto;
 }
 
-#rb .issue .assigned_to_id .v {
+#rb .issue .v {
   display:none;
 }
 #rb .issue .remaining_hours.editable {
