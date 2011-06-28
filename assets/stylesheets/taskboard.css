@@ -61,6 +61,10 @@ See RB.Taskboard.initialize()
   border:1px solid #CCCCCC;
   border-top:none;
   margin-right:10px;
+  /* IE7 table fix */
+  table-layout: fixed;
+  border-collapse: collapse;
+  empty-cells: show;
 }
 #rb .board tr:hover {
   background-color:#ffffff;
