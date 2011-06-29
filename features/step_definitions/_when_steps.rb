@@ -172,14 +172,8 @@ end
 
 When /^I confirm the story form$/ do
   find(:xpath, XPath::HTML.fillable_field("subject")).native.send_key :return
-  sleep 3.0
-  steps 'Then I should not see ".saving"'
-  When 'I wait for Ajax'
-end
-
-When /^I wait for [Aa]jax$/ do
-  while !((requestcount = page.execute_script("Ajax.activeRequestCount").to_s) =~ /^0$/ || requestcount.empty?)
-  end
+  When 'I wait for AJAX requests to finish'
+  Then 'I should not see ".saving"'
 end
 
 When /^I fill in the ids of the (tasks|issues|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
