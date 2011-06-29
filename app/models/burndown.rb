@@ -43,10 +43,10 @@ class Burndown
 
     def collect()
       stories = Issue.find(:all, :include => {:journals => :details},
-                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
-                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = ? OR journal_details.value = ?))) " +
+                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
+                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
                                            " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
-                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers, collected_trackers])
+                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers.map(&:to_s), collected_trackers.map(&:to_s)])
 
       days = sprint.days(nil)
       collected_days = days.sort.select{ |d| d <= Date.today }
