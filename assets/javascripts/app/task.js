@@ -17,7 +17,7 @@ RB.Task = (function ($) {
 
       // Associate this object with the element for later retrieval
       this.$.data('this', this);
-      this.$.find(".editable").live('mouseup', this.handleClick);
+      this.$.find(".editable").live('click', this.handleClick);
     },
 
     beforeSave: function () {
