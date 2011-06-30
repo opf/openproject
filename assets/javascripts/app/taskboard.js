@@ -42,15 +42,19 @@ RB.Taskboard = (function ($) {
     },
 
     initializeSortables : function () {
-      this.$.find('#impediments .list, #tasks .list').sortable({
+      this.$.find('#impediments .list').sortable({
         placeholder: 'placeholder',
         start:  this.dragStart,
         stop:   this.dragStop,
         update: this.dragComplete
-      });
+      }).sortable('option', 'connectWith', '#impediments .list');
 
-      this.$.find('#impediments .list').sortable('option', 'connectWith', '#impediments .list');
-      this.$.find('#tasks .list').sortable('option', 'connectWith', '#tasks .list');
+      this.$.find('#tasks .list').sortable({
+        placeholder: 'placeholder',
+        start:  this.dragStart,
+        stop:   this.dragStop,
+        update: this.dragComplete
+      }).sortable('option', 'connectWith', '#tasks .list');
     },
 
     initializeTasks : function () {
