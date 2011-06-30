@@ -49,12 +49,24 @@ RB.Taskboard = (function ($) {
         update: this.dragComplete
       }).sortable('option', 'connectWith', '#impediments .list');
 
-      this.$.find('#tasks .list').sortable({
-        placeholder: 'placeholder',
-        start:  this.dragStart,
-        stop:   this.dragStop,
-        update: this.dragComplete
-      }).sortable('option', 'connectWith', '#tasks .list');
+      var list, augmentList, self = this;
+
+      list = this.$.find('#tasks .list');
+
+      augmentList = function () {
+        $(list.splice(0, 50)).sortable({
+          placeholder: 'placeholder',
+          start:  self.dragStart,
+          stop:   self.dragStop,
+          update: self.dragComplete
+        }).sortable('option', 'connectWith', '#tasks .list');
+
+        if (list.length > 0) {
+          /*globals setTimeout*/
+          setTimeout(augmentList, 10);
+        }
+      };
+      augmentList();
     },
 
     initializeTasks : function () {
