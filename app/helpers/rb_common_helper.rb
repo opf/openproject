@@ -43,7 +43,7 @@ module RbCommonHelper
 
     # Set Timeout to please IE7. Pretty ugly, eh?
     link_to(title, rb_issue_box_path(issue), options.merge(:id => html_id)) +
-      javascript_tag("setTimeout(function () { new Backlogs.Modal($('#{html_id}')); }, 100)")
+      javascript_tag("new Backlogs.ModalLink('#{html_id}')")
   end
 
   def sprint_link_or_empty(item)
