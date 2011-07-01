@@ -13,7 +13,14 @@ module Report::Controller
       before_filter :prepare_query, :only => [:index, :create]
       before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
-      before_filter { @no_progress = no_progress? }
+
+      if Rails.version.start_with? "3"
+        before_filter { @no_progress = no_progress? }
+      else
+        before_filter do |controller|
+          controller.instance_eval { @no_progress = controller.no_progress? }
+        end
+      end
     end
   end
 
