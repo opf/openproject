@@ -3,7 +3,7 @@ class CostQuery::Filter::IssueId < CostQuery::Filter::Base
 
   def self.available_values(*)
     issues = Project.visible.collect { |p| p.issues }.flatten.uniq.sort_by { |i| i.id }
-    issues.map { |i| [text_for_issue i, i.id] }
+    issues.map { |i| [text_for_issue(i), i.id] }
   end
 
   def self.heavy?

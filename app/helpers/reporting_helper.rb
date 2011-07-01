@@ -1,62 +1,71 @@
+require 'digest/md5'
+require 'date'
+
 module ReportingHelper
-  include QueriesHelper
+  # ======================= SHARED CODE START
+  # include QueriesHelper
 
   def l(*values)
     return values.first if values.size == 1 and values.first.respond_to? :to_str
-    super
+    symbol_or_date = values.first
+    if [Date, DateTime, Time].include? symbol_or_date.class
+      ::I18n.l symbol_or_date
+    else
+      ::I18n.t symbol_or_date.to_sym, :default => symbol_or_date.to_s.humanize
+    end
   end
 
-  ##
-  # For a given CostQuery::Filter filter, return an array of hashes, that contain
-  # the partials that should be rendered (:name) for that filter and necessary
-  # parameters.
-  # @param [CostQuery::Filter] the filter we want to render
-  def html_elements(filter)
-    return text_elements filter if CostQuery::Operator.string_operators.all?  { |o| filter.available_operators.include? o }
-    return text_elements filter if CostQuery::Operator.integer_operators.all? { |o| filter.available_operators.include? o } #FIXME: have special filters designed for integer-operators, to give feedback if the user doesn't enter an int etc.
-    return date_elements filter if CostQuery::Operator.time_operators.all?    { |o| filter.available_operators.include? o }
-    return heavy_object_elements filter if filter.heavy?
-    object_elements filter
-  end
+  # ##
+  # # For a given CostQuery::Filter filter, return an array of hashes, that contain
+  # # the partials that should be rendered (:name) for that filter and necessary
+  # # parameters.
+  # # @param [CostQuery::Filter] the filter we want to render
+  # def html_elements(filter)
+  #   return text_elements filter if CostQuery::Operator.string_operators.all?  { |o| filter.available_operators.include? o }
+  #   return text_elements filter if CostQuery::Operator.integer_operators.all? { |o| filter.available_operators.include? o } #FIXME: have special filters designed for integer-operators, to give feedback if the user doesn't enter an int etc.
+  #   return date_elements filter if CostQuery::Operator.time_operators.all?    { |o| filter.available_operators.include? o }
+  #   return heavy_object_elements filter if filter.heavy?
+  #   object_elements filter
+  # end
 
-  def with_project(project)
-    project = Project.find(project) unless project.is_a? Project
-    project_was, @project = @project, project
-    yield
-    @project = project_was
-  end
+  # def with_project(project)
+  #   project = Project.find(project) unless project.is_a? Project
+  #   project_was, @project = @project, project
+  #   yield
+  #   @project = project_was
+  # end
 
-  def object_elements(filter)
-    [
-      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
-      {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :multi_values, :filter_name => filter.underscore_name},
-      {:name => :remove_filter, :filter_name => filter.underscore_name}]
-  end
+  # def object_elements(filter)
+  #   [
+  #     {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+  #     {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
+  #     {:name => :multi_values, :filter_name => filter.underscore_name},
+  #     {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  # end
 
-  def heavy_object_elements(filter)
-    [
-      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
-      {:name => :text, :text => l(:label_equals)},
-      {:name => :heavy_values, :filter_name => filter.underscore_name, :disable_controls => true},
-      {:name => :remove_filter, :filter_name => filter.underscore_name}]
-  end
+  # def heavy_object_elements(filter)
+  #   [
+  #     {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+  #     {:name => :text, :text => l(:label_equals)},
+  #     {:name => :heavy_values, :filter_name => filter.underscore_name, :disable_controls => true},
+  #     {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  # end
 
-  def date_elements(filter)
-    [
-      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
-      {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :date, :filter_name => filter.underscore_name},
-      {:name => :remove_filter, :filter_name => filter.underscore_name}]
-  end
+  # def date_elements(filter)
+  #   [
+  #     {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+  #     {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
+  #     {:name => :date, :filter_name => filter.underscore_name},
+  #     {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  # end
 
-  def text_elements(filter)
-    [
-      {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
-      {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
-      {:name => :text_box, :filter_name => filter.underscore_name},
-      {:name => :remove_filter, :filter_name => filter.underscore_name}]
-  end
+  # def text_elements(filter)
+  #   [
+  #     {:name => :activate_filter, :filter_name => filter.underscore_name, :label => l(filter.label)},
+  #     {:name => :operators, :filter_name => filter.underscore_name, :operators => filter.available_operators},
+  #     {:name => :text_box, :filter_name => filter.underscore_name},
+  #     {:name => :remove_filter, :filter_name => filter.underscore_name}]
+  # end
 
   def mapped(value, klass, default)
     id = value.to_i
@@ -66,13 +75,19 @@ module ReportingHelper
 
   def label_for(field)
     name = field.to_s.camelcase
-    return l(field) unless CostQuery::Filter.const_defined? name
-    l(CostQuery::Filter.const_get(name).label)
+    return l(field) unless engine::Filter.const_defined? name
+    l(engine::Filter.const_get(name).label)
   end
 
   def debug_fields(result, prefix = ", ")
-    #prefix << result.fields.inspect << ", " << result.key.inspect if params[:debug]
+    prefix << result.fields.inspect << ", " << result.important_fields.inspect << ', ' << result.key.inspect if params[:debug]
   end
+
+  def month_name(index)
+    Date::MONTHNAMES[index].to_s
+  end
+
+  # ======================= SHARED CODE END
 
   def show_field(key, value)
     @show_row ||= Hash.new { |h,k| h[k] = {}}
@@ -126,7 +141,7 @@ module ReportingHelper
     end
   end
 
-  def show_result(row, unit_id = @unit_id)
+  def show_result(row, unit_id = self.unit_id)
     case unit_id
     when -1 then l_hours(row.units)
     when 0  then row.real_costs ? number_to_currency(row.real_costs) : '-'
