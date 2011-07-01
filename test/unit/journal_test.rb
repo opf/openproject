@@ -85,6 +85,7 @@ class JournalTest < ActiveSupport::TestCase
     @project = Project.generate!
     @issue = Issue.generate_for_project!(@project).reload
     start = @issue.updated_on
+    sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
 
     assert_difference("Journal.count") do
       @issue.init_journal(@user, "A note")
