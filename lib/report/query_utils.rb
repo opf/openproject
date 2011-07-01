@@ -79,7 +79,7 @@ module Report::QueryUtils
   # @param [Object] str String to quote/translate
   # @return [Object] Quoted, translated version
   def quoted_label(ident)
-    "'#{quote_string l(ident)}'"
+    "'#{quote_string ::I18n.t(ident)}'"
   end
 
   def quoted_date(date)
