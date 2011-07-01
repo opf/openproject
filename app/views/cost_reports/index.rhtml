@@ -1,8 +1,8 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "select_list_move_optgroup", :plugin => "reporting_engine" %>
   <%= javascript_include_tag "reporting", :plugin => "reporting_engine" %>
   <%= javascript_include_tag "sortable", :plugin => "reporting_engine" %>
   <%= stylesheet_link_tag 'reporting', :plugin => 'reporting_engine' %>
+  <%= stylesheet_link_tag 'help', :plugin => 'reporting_engine' %>
 <% end %>
 
 <% if @custom_errors.present? %>
@@ -14,36 +14,13 @@
 <h2><%= l(:label_cost_report) %></h2>
 <% html_title( l(:label_cost_report) ) %>
 
-<% form_for @query, :url => {:controller => 'cost_report', :action => 'new' }, :html => {:id => 'query_form', :method => :post, :class => 'new_report' } do |query_form| %>
-<div id="query_form_content">
-  <fieldset id="filters" class="collapsible <%= "collapsed" unless @query.new_record? %>">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'filters', :locals => {:f => query_form, :query => @query} %></div>
-  </fieldset>
+<h1 id="ur_caption">
+  <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
+</h1>
 
-  <fieldset id="group-by" class="collapsible <%= "collapsed" unless @query.new_record? %>">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_group_by) %></legend>
-    <div <%= 'style="display:none;"' unless @query.new_record? %>><%= render :partial => 'group_by', :locals => {:f => query_form, :query => @query} %></div>
-  </fieldset>
+<%= render_widget Widget::Settings, @query %>
 
-  <%= render :partial => 'restore_query', :locals => {:f => query_form, :query => @query} %>
-  <p class="buttons">
-  <%= link_to_remote "<span><em>#{l(:button_apply)}</em></span>",
-                     { :url => { :set_filter => 1 },
-                       :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-                       :condition => 'Ajax.activeRequestCount < 1', # GO AWAY!
-                       :update => "content",
-                       :with => "Form.serialize('query_form')",
-                       :eval_scripts => true
-                     }, :class => 'button apply' %>
-  <%= link_to_function l(:button_clear), "disable_all_filters(); disable_all_group_bys();", :class => 'icon icon-reload' %>
-  <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-  <%
-    #link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save'
-  %>
-  <% end %>
-  </p>
-</div>
+<!-- if User.current.allowed_to?(:save_queries, @project, :global => true) -->
 
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
@@ -64,16 +41,17 @@
   %>
 </div>
 
-<% end %>
-
-<% if @valid and @query.result.count > 0 %>
-  <%= render :partial => @table_partial, :locals => {:query => @query, :walker => @query.walker} %>
+<div id="result-table">
+  <% if @no_progress %>
+    <%= render_widget Widget::Table::ReportTable, @query %>
+    <%= render_widget Widget::ExcelExport, @query %>
+  <% else %>
+    <%= render_widget Widget::Table::Progressbar, @query %>
+  <% end %>
+  <div style="height: 1em; background: none;">&nbsp;</div> <!-- IE7 band-aid -->
   <p class="footnote">
     <%= l(:text_costs_are_rounded_note) %>
     <%= "<br />#{l(:information_restricted_depending_on_permission)}" if !User.current.admin?%>
   </p>
   <%= call_hook(:view_cost_report_table_bottom) %>
-<% else %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
+</div>
