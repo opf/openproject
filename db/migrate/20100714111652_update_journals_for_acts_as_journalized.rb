@@ -14,7 +14,12 @@ class UpdateJournalsForActsAsJournalized < ActiveRecord::Migration
           j.type = klass_name
           j.version = idx + 2 # initial journal should be 1
           j.activity_type = j.journalized_type.constantize.activity_provider_options.keys.first
-          j.save(false)
+          begin
+            j.save(false)
+          rescue ActiveRecord::RecordInvalid => ex
+            puts "Error saving: #{j.class.to_s}##{j.id} - #{ex.message}"
+          end
+          
         end
       end
     end

@@ -16,7 +16,12 @@ class AddChangesFromJournalDetailsForActsAsJournalized < ActiveRecord::Migration
         elsif detail.property == 'attachment' # Attachment
           changes["attachments_" + detail.prop_key.to_s] = [detail.old_value, detail.value]
         end
-        journal.update_attribute(:changes, changes.to_yaml)
+        begin
+          journal.update_attribute(:changes, changes.to_yaml)
+        rescue ActiveRecord::RecordInvalid => ex
+          puts "Error saving: #{journal.class.to_s}##{journal.id} - #{ex.message}"
+        end
+      
       end
 
     end
