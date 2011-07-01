@@ -976,10 +976,10 @@ pt-BR:
   label_cvs_path: CVSROOT
   text_powered_by: Tecnologia empregada por %{link}
   text_default_encoding: "Padrão: UTF-8"
-  text_git_repo_example: "um repositório local do tipo bare (ex.: /gitrepo, c:\gitrepo)"
+  text_git_repo_example: "um repositório local do tipo bare (ex.: /gitrepo, c:\\gitrepo)"
   label_notify_member_plural: Enviar atualizações da tarefa por e-mail
   label_path_encoding: Codificação do caminho
-  text_mercurial_repo_example: "repositório local (ex.: /hgrepo, c:\hgrepo)"
+  text_mercurial_repo_example: "repositório local (ex.: /hgrepo, c:\\hgrepo)"
   label_cvs_module: Módulo
   label_filesystem_path: Diretório raiz
   label_darcs_path: Diretório raiz
