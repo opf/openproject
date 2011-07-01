@@ -1,11 +1,3 @@
-#content p,
-#content label,
-#content a,
-#content div  {
-  font-size: 11px;
-  line-height: 16px;
-}
-
 .cost_types {
   padding-bottom: 3px;
 }
@@ -50,53 +42,29 @@
 }
 
 .report th {
-  border: solid 1px #ccc;
-  background-color: #e3e3e3;
-  text-align: center;
-}
-
-.report .odd th.inner {
-  background-color: #e8e8e8;
-}
-
-.report .even th.inner {
-  background-color: #e3e3e3;
+  border: dotted 1px #ccc;
+  background-color: #e3e3e3 !important;
 }
 
 .report th.inner {
   border: solid 1px #ccc;
-  background-color: #efefef;
-  text-align: right;
+  background-color: #efefef !important;
 }
 
-.report tr.even:hover .inner,
-.report tr.even:hover .bottom,
-.report tr.even:hover .empty,
-.report tr.even:hover .right {
-  background-color: #f5f5c5 !important;
+.report .odd th.inner {
+  background-color: #e8e8e8 !important;
 }
-/* IE7 made me do it! */
-.report tr.odd:hover .inner,
-.report tr.odd:hover .bottom,
-.report tr.odd:hover .empty,
-.report tr.odd:hover .right {
+
+.report tr:hover .inner {
   background-color: #f5f5c5 !important;
 }
 
 .report .top {
-  border-top-style: solid;
-  border-top-color: #ccc;
-  /* border-top: 2px solid #ccc !important; */
+  border-top: solid 2px #ccc !important;
 }
 
 .report .bottom {
-  border-bottom-style: solid;
-  border-bottom-color: #ccc;
-  /* border-bottom: 2px solid #ccc !important; */
-}
-
-.report td.penultimate {
-  border-right-style: solid;
+  border-bottom: solid 2px #ccc !important;
 }
 
 .report thead .inner, .report tfoot .inner {
@@ -106,24 +74,19 @@
 
 .report .result {
   font-size: 120%;
-  text-align: right;
-}
-
-#result-table {
-  margin-top: 10px !important;
 }
 
 .report thead tr:hover .inner, .report tfoot tr:hover .inner {
-  background-color: #efefef;
+  background-color: #efefef !important;
 }
 
 .report .left {
-  text-align: left !important;
+  text-align: left;
   padding-left: 5px;
 }
 
 .report .right {
-  text-align: right !important;
+  text-align: right;
   padding-right: 5px;
 }
 
@@ -134,10 +97,20 @@
   vertical-align: top;
 }
 
-#query_form_content {
-  width: 916px;
+/* Aligning filter elements at the top. */
+.new_report fieldset#filters table td {
+  vertical-align: top;
+  border-spacing: 5px 5px;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 0px 0px;
 }
 
+.new_report fieldset#filters table td > label {
+  left: 3px;
+  top: 3px;
+  position: relative;
+}
 
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
@@ -146,33 +119,84 @@
   border: none;
 }
 
-.remove-box {
-  height: 20px;
-  width: 20px;
-  background: white;
-  float: right;
-  padding: 1px 0 0 0;
-  display: block;
-  margin-top: -5px;
-  margin-right: -2px;
+.group_by {
+  background-color: transparent;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: 1px solid #900;
+  height: 10px;
+  width: 10px;
+  margin: 1px;
+}
+
+.group_by:hover {
+  background-color: #EEE;
+}
+
+.move {
+  height: 25px;
+  width: 25px;
+}
+
+.sort {
+  height: 15px;
+  width: 15px;
+}
+
+.moveUp {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_up.gif);
+}
+
+.moveDown {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-image: url(../images/arrow_D_down.gif);
+}
+
+.moveLeft {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_left.gif);
+}
+
+.moveRight {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_D_right.gif);
+}
+
+.sortUp {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_up.gif);
+}
+
+.sortDown {
+  margin-left: 0px;
+  margin-right: 0px;
+  background-image: url(../images/arrow_B_down.gif);
 }
 
 .filter_rem {
-  color: transparent;
   overflow: hidden;
+  font-size: 0 !important;
+  line-height: 0 !important;
   cursor: pointer;
-  background: no-repeat center center transparent;
-  height: 18px;
-  width: 18px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 50%;
+  height: 16px;
+  width: 16px;
   border-style: none;
-  display: block;
-  margin: 0 0 0 2px;
 }
 
 .icon-filter-rem {
-  background-image: url(../images/close.gif);
-  position: relative;
-  float:right;
+  background-image: url(../images/remove.png);
+  margin-top: 3px;
+  margin-right: 3px;
+  position: absolute;
 }
 
 .filter {
@@ -181,36 +205,15 @@
   border-radius: 5px;
 }
 
-.inactive-filter {
-  background-color: #FCE29A !important;
-}
-
-.dependent-filter-label {
-  margin-left: 20px;
-}
-
-.filter_values {
-  white-space: nowrap;
-}
-
-.filter_radio_option {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
 #add_filter_block {
   margin-top: 6px;
 }
 
-#add_filter_select {
-  margin-bottom: 10px;
-}
-
-fieldset#filter-settings table tr.filter:hover {
+.new_report fieldset#filters table tr.filter:hover {
   background: #aaa;
 }
 
-fieldset#filter-settings table tr.filter {
+.new_report fieldset#filters table tr.filter {
   color: #000;
   background: #ededed;
   -webkit-border-radius: 5px;
@@ -218,30 +221,9 @@ fieldset#filter-settings table tr.filter {
   border-radius: 5px;
 }
 
-/* Aligning filter elements at the top. */
-fieldset#filter-settings table td {
-  vertical-align: top;
-  border-spacing: 5px 5px;
-  border-color: white;
-  border-style: solid;
-  border-width: 2px 0px 0px;
-  padding: 5px 2px 5px 2px;
-}
 
-fieldset#filter-settings table .no-border td {
-  border-style: none !important;
-}
-
-fieldset#filter-settings table td > label {
-  left: 3px;
-  top: 3px;
-  position: relative;
-}
-
-/* ----- group by --- */
-#group_by_area {
-  font-family: Arial,Geneva,Helvetica,sans-serif;
-  margin: 5px 0 10px 0;
+.drag_element {
+  /*cursor: move;*/
 }
 
 .in_row {
@@ -251,94 +233,64 @@ fieldset#filter-settings table td > label {
   border-width: 0px;
 }
 
-.group_by_element {
-  margin-left: -15px;
-  cursor: move;
-}
-
-/* have #content here to overwrite line-heigth of other themes through being more specific*/
-#content .group_by_label {
+.group_by_label {
   margin: 0px;
-  padding: 0px 18px 0 0;
+  height: 14px !important;
   min-width: 60px;
   text-align: center;
   white-space: nowrap;
-  font-weight: bold;
+  padding: 2px 5px 0 5px;
   color: #fff;
-  background-color: #9A9A9A;
-  height: 22px;
-  line-height: 22px;
-  cursor: move;
-}
-
-.group_by_label.hover {
-  background-color: #009999 !important;
-}
-
-.group_by_remove {
-  background-color: #9A9A9A;
-  height: 7px;
-  width: 8px;
-  position: absolute;
-  top: 7px;
-  right: 18px;
-  cursor: pointer;
-  background: no-repeat left center;
-  background-image: url(../images/remove.gif);
-}
-
-.group_by_remove.hover {
-  background-color: #009999 !important;
-}
-
-/* have #content here to overwrite line-heigth of other themes through being more specific*/
-#content .group_by_caption {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-weight: bold;
-  padding: 0 7px;
-  height: 22px;
-  line-height: 22px;
-  min-width: 55px;
 }
 
 .arrow {
-  height: 0;
-  width: 0;
-  border-style: solid;
-  border-width: 11px 11px 11px 7px;
+  background-repeat: no-repeat;
+  height: 19px !important;
+  width: 19px !important;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.arrow_both {
+  background-image: url(../images/arrow_both.png);
+}
+
+.arrow_both_hover_left {
+  background-image: url(../images/arrow_both_hover_left.png);
+}
+
+.arrow_both_remove {
+  background-image: url(../images/arrow_both_remove.png);
+}
+
+.arrow_both_hover_right {
+  background-image: url(../images/arrow_both_hover_right.png);
 }
 
 .arrow_left {
-  border-color: #9A9A9A #9A9A9A #9A9A9A transparent;
+  background-image: url(../images/arrow_left.png);
 }
 
-.arrow_left.hover {
-  border-color: #009999 #009999 #009999 transparent !important;
+.arrow_left_remove {
+  background-image: url(../images/arrow_left_remove.png);
 }
 
-.arrow_right {
-  border-color: transparent transparent transparent #9A9A9A;
-}
-
-.arrow_right.hover {
-  border-color: transparent transparent transparent #009999 !important;
-}
-
-.arrow_group_by_caption {
-  border-color: transparent transparent transparent #000000;
+.arrow_left_hover {
+  background-image: url(../images/arrow_left_hover.png);
 }
 
 .drag_container {
-  padding: 0;
-  height: 22px;
-  margin-bottom: 1em;
-  background-color: #EEE;
+  padding: 5px 0 3px 10px;
+  background-color: #ededed;
+  border: 1px dotted #CCCCCC;
+  margin-bottom: 4px;
+  height: 23px;
 }
 
 .drag_container select {
-  margin-right: 3px;
-  float: right;
+    float: right;
+    margin-right: 20px;
 }
 
 .drag_target {
@@ -347,9 +299,8 @@ fieldset#filter-settings table td > label {
 
 .drag_container_accept {
   background-color: #F5F5C5;
+  /*border: 1px solid #BBBBBB;*/
 }
-
-/* -- end group-by -- */
 
 td .drill_down, th .drill_down {
   font-size: 8px;
@@ -378,10 +329,6 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
-.form_controls {
-  margin-top: 6px;
-}
-
 .buttons .reporting_button:hover {
   background-color: #666666;
 }
@@ -405,11 +352,11 @@ td:hover .drill_down, th:hover .drill_down {
   margin: 2px;
 }
 
-.buttons .button {
+.buttons .apply {
+  background-color: #9a9a9a;
   border: none;
   cursor: pointer;
   margin: 0px;
-  margin-right: 4px;
   overflow: visible;
   text-align: center;
   white-space: nowrap;
@@ -418,23 +365,11 @@ td:hover .drill_down, th:hover .drill_down {
   padding: 4px;
 }
 
-.buttons .apply {
-  background-color: #990000;
-}
-
 .buttons .apply:hover {
-  background-color: #CC0000;
-}
-
-.buttons .secondary {
-  background-color: #9a9a9a;
-}
-
-.buttons .secondary:hover {
   background-color: #666666;
 }
 
-.buttons .button span em {
+.buttons .apply span em {
   color: white;
   display: block;
   font-size: 11px;
@@ -443,88 +378,33 @@ td:hover .drill_down, th:hover .drill_down {
   line-height: 17px;
 }
 
-.buttons .button span {
+.buttons .apply span {
   display: inline-block;
-  margin: 3px;
+  margin: 0px;
 }
 
-
-.buttons .button-icon {
-  padding: 0px 5px 0 16px;
-  cursor: pointer;
-  background: no-repeat left center;
-  border-style: none;
-  display: inline-block;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.button .icon-save {
-  background-image: url(../images/disk.gif);
-}
-
-.button .icon-save-as {
-  background-image: url(../images/disks.gif);
-}
-
-.button .icon-delete {
-  background-image: url(../images/delete.gif);
-}
-
-.button .icon-clear {
-  background-image: url(../images/remove.gif);
-}
-
-div.button_form {
+div#button_form {
   /* TODO IE Compatibility! */
   background-color: white;
-  border: 1px solid gray;
+  border: 1px solid grey;
   -moz-border-radius: 3px;
   border-radius: 3px;
   left: 100px;
   position: absolute;
   padding: 5px;
+  margin-top: -10px;
 }
 
-div.button_form * input#name {
+div#button_form * input#name {
   width: 200px
 }
 
-div.button_form * input[type="button"] {
+div#button_form * input[type="button"] {
   float: right;
 } br { clear: right; }
 
-div.button_form p * {
-  margin: 2px;
-}
-
-/***** Save and Delete Reports ****/
-#save_as_form, #delete_form {
-  z-index: 999;
-}
-
-#progressbar {
-  display: none;
-}
-
-#progressbar_container {
-  width: 300px;
-  height: 16px;
-  border: 1px solid #ccc;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  background-color: #9A9A9A;
-  background-repeat: repeat-x;
-}
-
-#progressbar_container div {
-    background-color:#fff;
-}
-
 /***** Ajax indicator ******/
 #ajax-indicator {
-  font-family: Verdana, sans-serif;
   position: absolute; /* fixed not supported by IE */
   background-color:#eee;
   border: 1px solid #bbb;
@@ -549,27 +429,5 @@ html>body #ajax-indicator { position: fixed; }
   background-image: url(../images/loading.gif);
   padding-left: 26px;
   vertical-align: bottom;
-}
-
-/* Calendar Fixes */
-div.calendar /* let calendar expand properly */
-{
-  font-size: medium;
-  line-height: normal;
-}
-
-div.calendar table div { /* make sure the nested divs are large enough, too */
-  font-size: medium;
-  line-height: normal;
-}
-
-.calendar .combo .label, .calendar .combo .label-IEfix { /* set the proper size for the combo boxes with months and years */
-  font-size: 10px;
-  line-height: normal;
-}
-
-.calendar tbody .day { /* avoid jitter during quick mouse-overs over days */
-  border: 1px dotted transparent;
-  padding: 1px 3px 1px 1px;
 }
 

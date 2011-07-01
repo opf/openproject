@@ -1,9 +1,7 @@
 module Report::QueryUtils
-  Infinity = 1.0/0
-
   alias singleton_class metaclass unless respond_to? :singleton_class
 
-  delegate :quoted_false, :quoted_true, :to => "engine.reporting_connection"
+  delegate :quoted_false, :quoted_true, :to => "engine.connection"
   attr_writer :engine
 
   module PropagationHook
@@ -34,14 +32,8 @@ module Report::QueryUtils
   #
   # @return [Class] subclass
   def engine
-    return @engine if @engine
-    if is_a? Module
-      @engine = Object.const_get(name[/^[^:]+/] || :Report)
-    elsif respond_to? :parent and parent.respond_to? :engine
-      parent.engine
-    else
-      self.class.engine
-    end
+    return self.class.engine unless is_a? Module
+    @engine ||= Object.const_get(name[/^[^:]+/] || :Report)
   end
 
   ##
@@ -51,11 +43,7 @@ module Report::QueryUtils
   # @return [Object] Quoted version
   def quote_string(str)
     return str unless str.respond_to? :to_str
-    engine.reporting_connection.quote_string(str)
-  end
-
-  def current_language
-    ::I18n.locale
+    engine.connection.quote_string(str)
   end
 
   ##
@@ -83,7 +71,7 @@ module Report::QueryUtils
   end
 
   def quoted_date(date)
-    engine.reporting_connection.quoted_date date.to_dateish
+    engine.connection.quoted_date date.to_dateish
   end
 
   ##
@@ -175,57 +163,20 @@ module Report::QueryUtils
     "-- code specific for #{adapter_name}\n\t" << super(field)
   end
 
-  ##
-  # Converts value with a given behavior, but treats nil differently.
-  # Params
-  #  - value: the value to convert
-  #  - weight_of_nil (optional): How a nil should be treated.
-  #    :infinit - makes a nil weight really heavy, which will make it stay
-  #               at the very end when sorting
-  #    :negative_infinit - opposite of :infinit, let's the nil stay at the very beginning
-  #    any other object - nil's will be replaced by thyt object
-  #  - block (optional) - defines how to convert values which are not nil
-  #               if no block is given, values stay untouched
-  def convert_unless_nil(value, weight_of_nil = :infinit)
-    if value.nil?
-      if weight_of_nil == :infinit
-        1.0/0 # Infinity, which is greater than any string or number
-      elsif weight_of_nil == :negative_infinit
-        -1.0/0 # negative Infinity, which is smaller than any string or number
-      else
-        weight_of_nil
-      end
-    else
-      if block_given?
-        yield value
-      else
-        value
-      end
-    end
-  end
-
   def map_field(key, value)
-    case key.to_s
-    when "singleton_value", /_id$/ then convert_unless_nil(value) {|v| v.to_i }
-    else convert_unless_nil(value) {|v| v.to_s }
+    if key.to_s == "singleton_value"
+      value.to_i
+    else
+      value.to_s
     end
   end
 
   def adapter_name
-    engine.reporting_connection.adapter_name.downcase.to_sym
+    engine.connection.adapter_name.downcase.to_sym
   end
 
   def cache
     Report::QueryUtils.cache
-  end
-
-  def compare(first, second)
-    first  = Array(first).flatten
-    second = Array(second).flatten
-    first.zip second do |a, b|
-      return (a <=> b) || (a == Infinity ? 1 : -1) if a != b
-    end
-    second.size > first.size ? -1 : 0
   end
 
   def mysql?

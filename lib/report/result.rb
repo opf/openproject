@@ -31,24 +31,6 @@ class Report::Result
       fields[key]
     end
 
-    ##
-    # Override if you want to influence the result grouping.
-    #
-    # @return A value for grouping or nil if the given field should
-    #         not be considered for grouping.
-    def map_group_by_value(key, value)
-      value
-    end
-
-    ##
-    # This method is called when this result is requested as #grouped_by something
-    # just before the result is returned.
-    #
-    # @param data This result's grouped data.
-    def group_by_data_ready(data)
-      # good to know!
-    end
-
     def grouped_by(fields, type, important_fields = [])
       @grouped_by ||= {}
       list = begin
@@ -58,12 +40,8 @@ class Report::Result
           data = group_by do |entry|
             # index for group is a hash
             # i.e. { :foo => 10, :bar => 20 } <= this is just the KEY!!!!
-            fields.inject({}) do |hash, key|
-              val = map_group_by_value(key, entry.fields[key])
-              hash.merge key => val
-            end
+            fields.inject({}) { |hash, key| hash.merge key => entry.fields[key] }
           end
-          group_by_data_ready(data)
           # map group back to array, all fields with same key get grouped into one list
           data.keys.map { |f| engine::Result.new data[f], f, type, important_fields }
         end
@@ -93,7 +71,7 @@ class Report::Result
     end
 
     def final?(type)
-      type? type and (direct? or size == 0 or first.type != type)
+      type? type and (direct? or first.type != type)
     end
 
     def type?(type)
@@ -128,6 +106,7 @@ class Report::Result
     def set_key(index = [])
       self.key = index.map { |k| map_field(k, fields[k]) }
     end
+
   end
 
   class DirectResult < Base
@@ -176,7 +155,7 @@ class Report::Result
 
     def sort!(force = false)
       return false if @sorted and not force
-      values.sort! { |a,b| compare a.key, b.key }
+      values.sort! { |a,b| a.key <=> b.key }
       values.each { |e| e.sort! force }
       @sorted = true
     end

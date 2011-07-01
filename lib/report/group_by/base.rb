@@ -4,6 +4,11 @@ class Report::GroupBy
 
     inherited_attributes :group_fields, :list => true, :merge => false
 
+    def self.inherited(klass)
+      klass.group_fields klass.field
+      super
+    end
+
     def correct_position?
       type == :row or !child.is_a?(engine::GroupBy::Base) or child.type == :column
     end
@@ -14,10 +19,6 @@ class Report::GroupBy
 
     def sql_aggregation?
       child.filter?
-    end
-
-    def cache_key
-      self.class.cache_key + type.to_s[0,1]
     end
 
     ##
@@ -70,7 +71,6 @@ class Report::GroupBy
     def initialize(child = nil, optios = {})
       super
       extend aggregation_mixin
-      group_fields field
     end
 
     def result
