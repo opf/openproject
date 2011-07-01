@@ -1,3 +1,5 @@
+Redmine::Activity.providers.values.flatten.uniq.collect(&:underscore).each {|klass| require_dependency klass }
+
 class UpdateJournalsForActsAsJournalized < ActiveRecord::Migration
   def self.up
     # This is provided here for migrating up after the JournalDetails has been removed
