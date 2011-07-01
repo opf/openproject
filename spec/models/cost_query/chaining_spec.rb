@@ -134,26 +134,49 @@ describe CostQuery do
       end
     end
 
-    it "should deserialize a serialized query correctly" do
-      @query.filter :project_id, :value => Project.all.first.id
-      @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
-      @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
-      @query.group_by :activity_id
-      @query.group_by :cost_object_id
-      @query.group_by :cost_type_id
-      new_query = CostQuery.deserialize(@query.serialize)
-      [:filters, :group_bys].each do |type|
-        @query.send(type).each_with_index do |chainable, index|
-          # check for presence
-          new_query.send(type).any? do |c|
-            c.class.name == chainable.class.name && (chainable.respond_to?(:values) ? c.values == chainable.values : true)
-          end.should be_true
+    context "store and load" do
+      before do
+        @query.filter :project_id, :value => Project.all.first.id
+        @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
+        @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
+        @query.group_by :activity_id
+        @query.group_by :cost_object_id
+        @query.group_by :cost_type_id
+        @new_query = CostQuery.deserialize(@query.serialize)
+      end
+
+      it "should deserialize a serialized query correctly" do
+        @new_query.should == @query
+      end
+
+      it "should keep the order of group bys" do
+        @query.group_bys.each_with_index do |group_by, index|
           # check for order
-          new_query.send(type).each_with_index do |c, ix|
-            if c.class.name == chainable.class.name
+          @new_query.group_bys.each_with_index do |g, ix|
+            if g.class.name == group_by.class.name
               ix.should == index
             end
           end
+        end
+      end
+
+      it "should keep the order of filters" do
+        @query.filters.each_with_index do |filter, index|
+          # check for order
+          @new_query.filters.each_with_index do |f, ix|
+            if f.class.name == filter.class.name
+              ix.should == index
+            end
+          end
+        end
+      end
+
+      it "should keep the right filter values" do
+        @query.filters.each_with_index do |filter, index|
+          # check for presence
+          @new_query.filters.any? do |f|
+            f.class.name == filter.class.name && (filter.respond_to?(:values) ? f.values == filter.values : true)
+          end.should be_true
         end
       end
     end
