@@ -23,6 +23,7 @@ class Widget::Base < Widget
   def write(str)
     str ||= ""
     @output ||= "".html_safe
+    @output = @output + '' if @output.frozen? # Rails 2 freezes tag strings
     @output.write str.html_safe
     @cache_output.write(str.html_safe) if @cache_output
     str.html_safe
