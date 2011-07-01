@@ -1,9 +1,9 @@
 class CostReportsController < ApplicationController
   before_filter :check_cache
   before_filter :load_all
-  before_filter :find_optional_project, :only => [:index, :drill_down]
-  before_filter :generate_query,        :only => [:index, :drill_down]
-  before_filter :set_cost_types,        :only => [:index, :drill_down]
+  before_filter :find_optional_project
+  before_filter :find_optional_user
+  before_filter :set_cost_types
 
   rescue_from Exception do |exception|
     session.delete(:report)
@@ -26,9 +26,11 @@ class CostReportsController < ApplicationController
     end
   end
 
-  helper :reporting
-  include ReportingHelper
+  include Report::Controller
 
+  attr_accessor :cost_types, :unit_id
+  helper_method :cost_types
+  helper_method :unit_id
   cattr_accessor :custom_fields_updated_on, :custom_fields_id_sum
 
   # Checks if custom fields have been updated, added or removed since we
@@ -53,45 +55,45 @@ class CostReportsController < ApplicationController
     end
   end
 
-  def index
-    @valid = valid_query?
-    if @valid
-      if @query.group_bys.empty?
-        @table_partial = "cost_entry_table"
-      elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
-        @table_partial = "simple_cost_report_table"
-      else
-        if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
-          @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
-        end
-        @table_partial = "cost_report_table"
-      end
-    end
-    respond_to do |format|
-      format.html { render :layout => !request.xhr? }
-    end
-  end
+  # def index
+  #   @valid = valid_query?
+  #   if @valid
+  #     if @query.group_bys.empty?
+  #       @table_partial = "cost_entry_table"
+  #     elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
+  #       @table_partial = "simple_cost_report_table"
+  #     else
+  #       if @query.depth_of(:column) == 0 || @query.depth_of(:row) == 0
+  #         @query.depth_of(:column) == 0 ? @query.column(:singleton_value) : @query.row(:singleton_value)
+  #       end
+  #       @table_partial = "cost_report_table"
+  #     end
+  #   end
+  #   respond_to do |format|
+  #     format.html { render :layout => !request.xhr? }
+  #   end
+  # end
 
   def drill_down
     redirect_to :action => :index
   end
 
-  def available_values
-    filter = filter_class(params[:filter_name].to_s)
-    render_404 unless filter
-    can_answer = filter.respond_to? :available_values
-    @available_values = filter.available_values
+  # def available_values
+  #   filter = filter_class(params[:filter_name].to_s)
+  #   render_404 unless filter
+  #   can_answer = filter.respond_to? :available_values
+  #   @available_values = filter.available_values
 
-    respond_to do |format|
-      format.html { can_answer ? render(:layout => !request.xhr?) : "" }
-    end
-  end
+  #   respond_to do |format|
+  #     format.html { can_answer ? render(:layout => !request.xhr?) : "" }
+  #   end
+  # end
 
   ##
   # Determines if the request contains filters to set
-  def set_filter? #FIXME: rename to set_query?
-    params[:set_filter].to_i == 1
-  end
+  # def set_filter? #FIXME: rename to set_query?
+  #   params[:set_filter].to_i == 1
+  # end
 
   ##
   # Determines if the request sets a unit type
@@ -101,36 +103,36 @@ class CostReportsController < ApplicationController
 
   ##
   # Find a query to search on and put it in the session
-  def filter_params
-    filters = http_filter_parameters if set_filter?
-    filters ||= session[:report].try(:[], :filters)
-    filters ||= default_filter_parameters
-  end
+  # def filter_params
+  #   filters = http_filter_parameters if set_filter?
+  #   filters ||= session[:report].try(:[], :filters)
+  #   filters ||= default_filter_parameters
+  # end
 
-  def group_params
-    groups = http_group_parameters if set_filter?
-    groups ||= session[:report].try(:[], :groups)
-    groups ||= default_group_parameters
-  end
+  # def group_params
+  #   groups = http_group_parameters if set_filter?
+  #   groups ||= session[:report].try(:[], :groups)
+  #   groups ||= default_group_parameters
+  # end
 
-  ##
-  # Extract active filters from the http params
-  def http_filter_parameters
-    params[:fields] ||= []
-    (params[:fields].reject { |f| f.empty? } || []).inject({:operators => {}, :values => {}}) do |hash, field|
-      hash[:operators][field.to_sym] = params[:operators][field]
-      hash[:values][field.to_sym] = params[:values][field]
-      hash
-    end
-  end
+  # ##
+  # # Extract active filters from the http params
+  # def http_filter_parameters
+  #   params[:fields] ||= []
+  #   (params[:fields].reject { |f| f.empty? } || []).inject({:operators => {}, :values => {}}) do |hash, field|
+  #     hash[:operators][field.to_sym] = params[:operators][field]
+  #     hash[:values][field.to_sym] = params[:values][field]
+  #     hash
+  #   end
+  # end
 
-  def http_group_parameters
-    if params[:groups]
-      rows = params[:groups][:rows]
-      columns = params[:groups][:columns]
-    end
-    {:rows => (rows || []), :columns => (columns || [])}
-  end
+  # def http_group_parameters
+  #   if params[:groups]
+  #     rows = params[:groups][:rows]
+  #     columns = params[:groups][:columns]
+  #   end
+  #   {:rows => (rows || []), :columns => (columns || [])}
+  # end
 
   ##
   # Set a default query to cut down initial load time
@@ -157,9 +159,9 @@ class CostReportsController < ApplicationController
     end
   end
 
-  def force_default?
-    params[:default].to_i == 1
-  end
+  # def force_default?
+  #   params[:default].to_i == 1
+  # end
 
   ##
   # We apply a project filter, except when we are just applying a brand new query
@@ -181,24 +183,24 @@ class CostReportsController < ApplicationController
   ##
   # Build the query from the current request and save it to
   # the session.
-  def generate_query
-    CostQuery::QueryUtils.cache.clear
-    filters = force_default? ? default_filter_parameters : filter_params
-    groups  = force_default? ? default_group_parameters  : group_params
-    ensure_project_scope! filters
-    session[:report] = {:filters => filters, :groups => groups}
-    @query = CostQuery.new
-    @query.tap do |q|
-      filters[:operators].each do |filter, operator|
-        q.filter(filter.to_sym,
-        :operator => operator,
-        :values => filters[:values][filter])
-      end
-    end
-    groups[:rows].reverse_each {|r| @query.row(r) }
-    groups[:columns].reverse_each {|c| @query.column(c) }
-    @query
-  end
+  # def generate_query
+  #   CostQuery::QueryUtils.cache.clear
+  #   filters = force_default? ? default_filter_parameters : filter_params
+  #   groups  = force_default? ? default_group_parameters  : group_params
+  #   ensure_project_scope! filters
+  #   session[:report] = {:filters => filters, :groups => groups}
+  #   @query = CostQuery.new
+  #   @query.tap do |q|
+  #     filters[:operators].each do |filter, operator|
+  #       q.filter(filter.to_sym,
+  #       :operator => operator,
+  #       :values => filters[:values][filter])
+  #     end
+  #   end
+  #   groups[:rows].reverse_each {|r| @query.row(r) }
+  #   groups[:columns].reverse_each {|c| @query.column(c) }
+  #   @query
+  # end
 
   def valid_query?
     return true unless @query
@@ -241,7 +243,7 @@ class CostReportsController < ApplicationController
 
   #   set the @cost_types -> this is used to determine which tabs to display
   def set_active_cost_types
-    unless @cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i)
+    unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
       relevant_cost_types = CostType.find(:all, :select => "id", :order => "id ASC").select do |t|
         t.cost_entries.count > 0
       end.collect(&:id)
@@ -254,6 +256,17 @@ class CostReportsController < ApplicationController
     CostQuery::Filter.all
   end
 
+  # @Override
+  def determine_engine
+    @report_engine = CostQuery
+    @title = "label_#{@report_engine.name.underscore}"
+  end
+
+  # @Override
+  def allowed_to?(action, query, user = User.current)
+    user.allowed_to?(:save_queries, @project, :global => true)
+  end
+
   private
   ## FIXME: Remove this once we moved to Redmine 1.0
   def find_optional_project
@@ -263,5 +276,9 @@ class CostReportsController < ApplicationController
     allowed ? true : deny_access
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_optional_user
+    @current_user = User.current || User.anonymous
   end
 end
