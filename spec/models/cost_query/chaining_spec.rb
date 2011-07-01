@@ -19,6 +19,8 @@ describe CostQuery do
 
   describe :chain do
     before do
+      #FIXME: is there a better way to load all filter and groups?
+      CostQuery::Filter.all && CostQuery::GroupBy.all
       CostQuery.chain_initializer.clear
     end
 
@@ -120,20 +122,6 @@ describe CostQuery do
       @query.filters.detect {|f| f.class.underscore_name == "project_id"}.values.should == Array(Project.all.first.id)
     end
 
-    it "should serialize the chain correctly" do
-      @query.filter :project_id, :value => Project.all.first.id
-      @query.filter :cost_type_id, :value => CostQuery::Filter::CostTypeId.available_values.first
-      @query.filter :category_id, :value => CostQuery::Filter::CategoryId.available_values.first
-      @query.group_by :activity_id
-      @query.group_by :cost_object_id
-      @query.group_by :cost_type_id
-      [:filters, :group_bys].each do |type|
-        @query.send(type).each do |chainable|
-          @query.serialize[type].collect{|c| c[0]}.should include chainable.class.name.demodulize
-        end
-      end
-    end
-
     context "store and load" do
       before do
         @query.filter :project_id, :value => Project.all.first.id
@@ -145,8 +133,16 @@ describe CostQuery do
         @new_query = CostQuery.deserialize(@query.serialize)
       end
 
+      it "should serialize the chain correctly" do
+        [:filters, :group_bys].each do |type|
+          @query.send(type).each do |chainable|
+            @query.serialize[type].collect{|c| c[0]}.should include chainable.class.name.demodulize
+          end
+        end
+      end
+
       it "should deserialize a serialized query correctly" do
-        @new_query.should == @query
+        @new_query.serialize.should == @query.serialize
       end
 
       it "should keep the order of group bys" do
