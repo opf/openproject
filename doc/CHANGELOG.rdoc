@@ -45,6 +45,9 @@
 * Bug #477: Getting rid of "rake/rdoctask is deprecated." warning
 * Bug #479: Generalize Journals migrations does too much
 * Bug #480: Issue Journal replies get ignored
+* Bug #493: uninitialized constant TimeEntryJournal
+* Bug #501: Updating a ticket that was created by email forces a "change" of description
+* Bug #503: 2.0.0RC3 - YAML Parser fails in ruby 1.9
 * Feature #112: Provide a library function to detect the database type used
 * Feature #123: Review and Merge acts_as_journalized
 * Feature #196: Upgrade to Rails 2.3-latest
