@@ -60,7 +60,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Version.find_by_name('alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
-    assert_equal [issue.id, 1, 2], [issue.root_id, issue.lft, issue.rgt]
+    assert_equal issue.id, issue.root_id
+    assert issue.leaf?
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -208,7 +209,8 @@ class MailHandlerTest < ActiveSupport::TestCase
         assert issue.is_a?(Issue)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
-        assert_equal [issue.id, 1, 2], [issue.root_id, issue.lft, issue.rgt]
+        assert_equal issue.id, issue.root_id
+        assert issue.leaf?
       end
     end
   end
@@ -293,6 +295,15 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_note
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
+    assert_equal User.find_by_login('jsmith'), journal.user
+    assert_equal Issue.find(2), journal.journaled
+    assert_match /This is reply/, journal.notes
+    assert_equal 'Feature request', journal.issue.tracker.name
+  end
+
+  test "reply to issue update (Journal) by message_id" do
+    journal = submit_email('ticket_reply_by_message_id.eml')
+    assert journal.is_a?(IssueJournal), "Email was a #{journal.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes

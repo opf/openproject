@@ -372,6 +372,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
+    issue.reload
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
@@ -382,6 +383,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 4)
+    issue.reload
     assert issue.move_to_project(Project.find(5))
     issue.reload
     assert_equal 5, issue.project_id
@@ -392,6 +394,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 1)
+    issue.reload
     assert issue.move_to_project(Project.find(5))
     issue.reload
     assert_equal 5, issue.project_id
@@ -402,6 +405,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
     issue = Issue.find(1)
     issue.update_attribute(:fixed_version_id, 7)
+    issue.reload
     assert issue.move_to_project(Project.find(2))
     issue.reload
     assert_equal 2, issue.project_id
@@ -871,4 +875,22 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
+
+  test 'changing the line endings in a description will not be recorded as a Journal' do
+    User.current = User.find(1)
+    issue = Issue.find(1)
+    issue.update_attribute(:description, "Description with newlines\n\nembedded")
+    issue.reload
+    assert issue.description.include?("\n")
+    
+    assert_no_difference("Journal.count") do
+      issue.safe_attributes= {
+        'description' => "Description with newlines\r\n\r\nembedded"
+      }
+      assert issue.save
+    end
+
+    assert_equal "Description with newlines\n\nembedded", issue.reload.description
+  end
+  
 end

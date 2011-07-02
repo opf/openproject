@@ -45,7 +45,7 @@ module Redmine::Acts::Journalized
       base.class_eval do
         include InstanceMethods
 
-        after_update :merge_journal_changes
+        after_save :merge_journal_changes
       end
     end
 

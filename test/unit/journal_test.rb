@@ -36,12 +36,13 @@ class JournalTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)
     if issue.journals.empty?
-      issue.init_journal(User.current, "This journal represents the creational journal version 1")
+      issue.init_journal(User.current, "This journal represents the creationa of journal version 1")
       issue.save
     end
     user = User.find(:first)
 
     assert_equal 0, ActionMailer::Base.deliveries.size
+    issue.reload
     issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
@@ -57,5 +58,40 @@ class JournalTest < ActiveSupport::TestCase
       assert issue.save
     end
     assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
+  test "creating the initial journal should track the changes from creation" do
+    @project = Project.generate!
+    issue = Issue.new do |i|
+      i.project = @project
+      i.subject = "Test initial journal"
+      i.tracker = @project.trackers.first
+      i.author = User.generate!
+      i.description = "Some content"
+    end
+
+    assert_difference("Journal.count") do
+      assert issue.save
+    end
+    
+    journal = issue.reload.journals.first
+    assert_equal ["","Test initial journal"], journal.changes["subject"]
+    assert_equal [0, @project.id], journal.changes["project_id"]
+    assert_equal [nil, "Some content"], journal.changes["description"]
+  end
+  
+  test "creating a journal should update the updated_on value of the parent record (touch)" do
+    @user = User.generate!
+    @project = Project.generate!
+    @issue = Issue.generate_for_project!(@project).reload
+    start = @issue.updated_on
+    sleep(1) # TODO: massive hack to make sure the timestamps are different. switch to timecop later
+
+    assert_difference("Journal.count") do
+      @issue.init_journal(@user, "A note")
+      @issue.save
+    end
+
+    assert_not_equal start, @issue.reload.updated_on
   end
 end

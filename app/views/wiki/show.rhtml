@@ -49,6 +49,7 @@
   <%= f.link_to 'Atom', :url => {:controller => 'activities', :action => 'index', :id => @project, :show_wiki_edits => 1, :key => User.current.rss_key} %>
   <%= f.link_to 'HTML', :url => {:id => @page.title, :version => @content.version} %>
   <%= f.link_to 'TXT', :url => {:id => @page.title, :version => @content.version} %>
+  <%= call_hook(:view_wiki_show_other_formats, {:link_builder => f, :url_params => {:id => @page.title, :version => @content.version}}) %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
 <% content_for :header_tags do %>

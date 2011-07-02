@@ -25,7 +25,7 @@ class WikiContent < ActiveRecord::Base
 
   acts_as_journalized :event_type => 'wiki-page',
     :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
-    :event_url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}},
+    :event_url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :id => o.page.title, :project_id => o.page.wiki.project, :version => o.version}},
     :activity_type => 'wiki_edits',
     :activity_permission => :view_wiki_edits,
     :activity_find_options => { :include => { :page => { :wiki => :project } } }

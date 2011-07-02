@@ -931,8 +931,8 @@ en:
   text_powered_by: "Powered by %{link}"
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_default_encoding: "Default: UTF-8"
-  text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\hgrepo)"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\gitrepo)"
+  text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\\hgrepo)"
+  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
 
   default_role_manager: Manager
   default_role_developer: Developer

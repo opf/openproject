@@ -30,8 +30,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue1.reload
     issue2.reload
 
-    assert_equal [issue1.id, nil, 1, 2], [issue1.root_id, issue1.parent_id, issue1.lft, issue1.rgt]
-    assert_equal [issue2.id, nil, 1, 2], [issue2.root_id, issue2.parent_id, issue2.lft, issue2.rgt]
+    assert_equal issue1.id, issue1.root_id
+    assert issue1.leaf?
+    assert_equal issue2.id, issue2.root_id
+    assert issue2.leaf?
   end
 
   def test_create_child_issue
@@ -40,8 +42,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent.reload
     child.reload
 
-    assert_equal [parent.id, nil, 1, 4], [parent.root_id, parent.parent_id, parent.lft, parent.rgt]
-    assert_equal [parent.id, parent.id, 2, 3], [child.root_id, child.parent_id, child.lft, child.rgt]
+    assert_equal [parent.id, nil, 3], [parent.root_id, parent.parent_id, parent.rgt - parent.lft]
+    assert_equal [parent.id, parent.id, 1], [child.root_id, child.parent_id, child.rgt - child.lft]
   end
 
   def test_creating_a_child_in_different_project_should_not_validate
@@ -62,9 +64,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
     parent2.reload
 
-    assert_equal [parent1.id, 1, 6], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent1.id, 4, 5], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [parent1.id, 2, 3], [child.root_id, child.lft, child.rgt]
+    assert_equal [parent1.id, 5], [parent1.root_id, parent1.nested_set_span]
+    assert_equal [parent1.id, 1], [parent2.root_id, parent2.nested_set_span]
+    assert_equal [parent1.id, 1], [child.root_id, child.nested_set_span]
   end
 
   def test_move_a_child_to_root
@@ -78,9 +80,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
     parent2.reload
 
-    assert_equal [parent1.id, 1, 2], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent2.id, 1, 2], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [child.id, 1, 2], [child.root_id, child.lft, child.rgt]
+    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
+    assert_equal [parent2.id, 1], [parent2.root_id, parent2.nested_set_span]
+    assert_equal [child.id, 1], [child.root_id, child.nested_set_span]
   end
 
   def test_move_a_child_to_another_issue
@@ -94,9 +96,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
     parent2.reload
 
-    assert_equal [parent1.id, 1, 2], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent2.id, 1, 4], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [parent2.id, 2, 3], [child.root_id, child.lft, child.rgt]
+    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
+    assert_equal [parent2.id, 3], [parent2.root_id, parent2.nested_set_span]
+    assert_equal [parent2.id, 1], [child.root_id, child.nested_set_span]
   end
 
   def test_move_a_child_with_descendants_to_another_issue
@@ -110,10 +112,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.reload
     grandchild.reload
 
-    assert_equal [parent1.id, 1, 6], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent2.id, 1, 2], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [parent1.id, 2, 5], [child.root_id, child.lft, child.rgt]
-    assert_equal [parent1.id, 3, 4], [grandchild.root_id, grandchild.lft, grandchild.rgt]
+    assert_equal [parent1.id, 5], [parent1.root_id, parent1.nested_set_span]
+    assert_equal [parent2.id, 1], [parent2.root_id, parent2.nested_set_span]
+    assert_equal [parent1.id, 3], [child.root_id, child.nested_set_span]
+    assert_equal [parent1.id, 1], [grandchild.root_id, grandchild.nested_set_span]
 
     child.reload.parent_issue_id = parent2.id
     child.save!
@@ -122,10 +124,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
     parent2.reload
 
-    assert_equal [parent1.id, 1, 2], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent2.id, 1, 6], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [parent2.id, 2, 5], [child.root_id, child.lft, child.rgt]
-    assert_equal [parent2.id, 3, 4], [grandchild.root_id, grandchild.lft, grandchild.rgt]
+    assert_equal [parent1.id, 1], [parent1.root_id, parent1.nested_set_span]
+    assert_equal [parent2.id, 5], [parent2.root_id, parent2.nested_set_span]
+    assert_equal [parent2.id, 3], [child.root_id, child.nested_set_span]
+    assert_equal [parent2.id, 1], [grandchild.root_id, grandchild.nested_set_span]
   end
 
   def test_move_a_child_with_descendants_to_another_project
@@ -138,9 +140,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     grandchild.reload
     parent1.reload
 
-    assert_equal [1, parent1.id, 1, 2], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [2, child.id, 1, 4], [child.project_id, child.root_id, child.lft, child.rgt]
-    assert_equal [2, child.id, 2, 3], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
+    assert_equal [1, parent1.id, 1], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
+    assert_equal [2, child.id, 3], [child.project_id, child.root_id, child.nested_set_span]
+    assert_equal [2, child.id, 1], [grandchild.project_id, grandchild.root_id, grandchild.nested_set_span]
   end
 
   def test_invalid_move_to_another_project
@@ -150,7 +152,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     Project.find(2).tracker_ids = [1]
 
     parent1.reload
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
+    assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
 
     # child can not be moved to Project 2 because its child is on a disabled tracker
     assert_equal false, Issue.find(child.id).move_to_project(Project.find(2))
@@ -159,9 +161,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
 
     # no change
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [1, parent1.id, 2, 5], [child.project_id, child.root_id, child.lft, child.rgt]
-    assert_equal [1, parent1.id, 3, 4], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
+    assert_equal [1, parent1.id, 5], [parent1.project_id, parent1.root_id, parent1.nested_set_span]
+    assert_equal [1, parent1.id, 3], [child.project_id, child.root_id, child.nested_set_span]
+    assert_equal [1, parent1.id, 1], [grandchild.project_id, grandchild.root_id, grandchild.nested_set_span]
   end
 
   def test_moving_an_issue_to_a_descendant_should_not_validate
@@ -212,8 +214,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue4.reload
     assert !Issue.exists?(issue2.id)
     assert !Issue.exists?(issue3.id)
-    assert_equal [issue1.id, 1, 4], [issue1.root_id, issue1.lft, issue1.rgt]
-    assert_equal [issue1.id, 2, 3], [issue4.root_id, issue4.lft, issue4.rgt]
+    assert_equal [issue1.id, 3], [issue1.root_id, issue1.nested_set_span]
+    assert_equal [issue1.id, 1], [issue4.root_id, issue4.nested_set_span]
   end
 
   def test_destroy_parent_issue_updated_during_children_destroy
