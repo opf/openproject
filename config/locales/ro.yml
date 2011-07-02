@@ -6,15 +6,18 @@ ro:
       short: "%d %b"
       long: "%d %B %Y"
       only_day: "%e"
-      
+
     day_names: [Duminică, Luni, Marti, Miercuri, Joi, Vineri, Sâmbătă]
     abbr_day_names: [Dum, Lun, Mar, Mie, Joi, Vin, Sâm]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, Ianuarie, Februarie, Martie, Aprilie, Mai, Iunie, Iulie, August, Septembrie, Octombrie, Noiembrie, Decembrie]
     abbr_month_names: [~, Ian, Feb, Mar, Apr, Mai, Iun, Iul, Aug, Sep, Oct, Noi, Dec]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -24,7 +27,7 @@ ro:
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "jumătate de minut"
@@ -62,28 +65,28 @@ ro:
         one:   "almost 1 year"
         other: "almost %{count} years"
 
-  number: 
-    human: 
-      format: 
+  number:
+    human:
+      format:
         precision: 1
         delimiter: ""
-      storage_units: 
+      storage_units:
         format: "%n %u"
-        units: 
+        units:
           kb: KB
           tb: TB
           gb: GB
-          byte: 
+          byte:
             one: Byte
             other: Bytes
           mb: MB
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "și"
       skip_last_comma: true
-      
+
   activerecord:
     errors:
       template:
@@ -117,7 +120,7 @@ ro:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Selectați
-  
+
   general_text_No: 'Nu'
   general_text_Yes: 'Da'
   general_text_no: 'nu'
@@ -128,7 +131,7 @@ ro:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '2'
-  
+
   notice_account_updated: Cont actualizat.
   notice_account_invalid_creditentials: Utilizator sau parola nevalidă
   notice_account_password_updated: Parolă actualizată.
@@ -153,15 +156,15 @@ ro:
   notice_account_pending: "Contul dumneavoastră a fost creat și așteaptă aprobarea administratorului."
   notice_default_data_loaded: S-a încărcat configurația implicită.
   notice_unable_delete_version: Nu se poate șterge versiunea.
-  
+
   error_can_t_load_default_data: "Nu s-a putut încărca configurația implicită: %{value}"
   error_scm_not_found: "Nu s-a găsit articolul sau revizia în depozit."
   error_scm_command_failed: "A intervenit o eroare la accesarea depozitului: %{value}"
   error_scm_annotate: "Nu există sau nu poate fi adnotată."
   error_issue_not_found_in_project: 'Tichetul nu a fost găsit sau nu aparține acestui proiect'
-  
+
   warning_attachments_not_saved: "Nu s-au putut salva %{count} fișiere."
-  
+
   mail_subject_lost_password: "Parola dumneavoastră: %{value}"
   mail_body_lost_password: 'Pentru a schimba parola, accesați:'
   mail_subject_register: "Activarea contului %{value}"
@@ -172,10 +175,10 @@ ro:
   mail_body_account_activation_request: "S-a înregistrat un utilizator nou (%{value}). Contul așteaptă aprobarea dumneavoastră:"
   mail_subject_reminder: "%{count} tichete trebuie rezolvate în următoarele %{days} zile"
   mail_body_reminder: "%{count} tichete atribuite dumneavoastră trebuie rezolvate în următoarele %{days} zile:"
-  
+
   gui_validation_error: o eroare
   gui_validation_error_plural: "%{count} erori"
-  
+
   field_name: Nume
   field_description: Descriere
   field_summary: Rezumat
@@ -221,7 +224,6 @@ ro:
   field_admin: Administrator
   field_last_login_on: Ultima autentificare în
   field_language: Limba
-  field_effective_date: Data
   field_password: Parola
   field_new_password: Parola nouă
   field_password_confirmation: Confirmare
@@ -264,7 +266,7 @@ ro:
   field_watcher: Urmărește
   field_identity_url: URL OpenID
   field_content: Conținut
-  
+
   setting_app_title: Titlu aplicație
   setting_app_subtitle: Subtitlu aplicație
   setting_welcome_text: Text de întâmpinare
@@ -307,7 +309,7 @@ ro:
   setting_file_max_size_displayed: Număr maxim de fișiere text afișate în pagină (inline)
   setting_repository_log_display_limit: Număr maxim de revizii afișate în istoricul fișierului
   setting_openid: Permite înregistrare și autentificare cu OpenID
-  
+
   permission_edit_project: Editează proiectul
   permission_select_project_modules: Alege module pentru proiect
   permission_manage_members: Editează membri
@@ -356,7 +358,7 @@ ro:
   permission_edit_own_messages: Editează mesajele proprii
   permission_delete_messages: Șterge mesaje
   permission_delete_own_messages: Șterge mesajele proprii
-  
+
   project_module_issue_tracking: Tichete
   project_module_time_tracking: Timp de lucru
   project_module_news: Știri
@@ -365,7 +367,7 @@ ro:
   project_module_wiki: Wiki
   project_module_repository: Depozit
   project_module_boards: Forum
-  
+
   label_user: Utilizator
   label_user_plural: Utilizatori
   label_user_new: Utilizator nou
@@ -682,13 +684,13 @@ ro:
   label_issue_watchers: Cine urmărește
   label_example: Exemplu
   label_display: Afișează
-  
+
   label_sort: Sortează
   label_ascending: Crescător
   label_descending: Descrescător
   label_date_from_to: De la %{start} la %{end}
 
-  
+
   button_login: Autentificare
   button_submit: Trimite
   button_save: Salvează
@@ -728,11 +730,11 @@ ro:
   button_update: Actualizează
   button_configure: Configurează
   button_quote: Citează
-  
+
   status_active: activ
   status_registered: înregistrat
   status_locked: blocat
-  
+
   text_select_mail_notifications: Selectați acțiunile notificate prin email.
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 înseamnă fără restricții
@@ -775,10 +777,10 @@ ro:
   text_enumeration_destroy_question: "Această valoare are %{count} obiecte."
   text_enumeration_category_reassign_to: 'Atribuie la această valoare:'
   text_email_delivery_not_configured: "Trimiterea de emailuri nu este configurată și ca urmare, notificările sunt dezactivate.\nConfigurați serverul SMTP în config/configuration.yml și reporniți aplicația pentru a le activa."
-  text_repository_usernames_mapping: "Selectați sau modificați contul Redmine echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic în Redmine și depozit sunt echivalate automat." 
+  text_repository_usernames_mapping: "Selectați sau modificați contul Redmine echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic în Redmine și depozit sunt echivalate automat."
   text_diff_truncated: '... Comparația a fost trunchiată pentru ca depășește lungimea maximă de text care poate fi afișat.'
   text_custom_field_possible_values_info: 'O linie pentru fiecare valoare'
-  
+
   default_role_manager: Manager
   default_role_developer: Dezvoltator
   default_role_reporter: Creator de rapoarte
@@ -802,7 +804,7 @@ ro:
   default_priority_immediate: imediată
   default_activity_design: Design
   default_activity_development: Dezvoltare
-  
+
   enumeration_issue_priorities: Priorități tichete
   enumeration_doc_categories: Categorii documente
   enumeration_activities: Activități (timp de lucru)
@@ -939,3 +941,18 @@ ro:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

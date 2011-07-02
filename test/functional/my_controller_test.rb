@@ -1,20 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 require 'my_controller'
 
@@ -23,7 +18,7 @@ class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
   fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields
-  
+
   def setup
     @controller = MyController.new
     @request    = ActionController::TestRequest.new
@@ -36,30 +31,30 @@ class MyControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'page'
   end
-  
+
   def test_page
     get :page
     assert_response :success
     assert_template 'page'
   end
-  
+
   def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
-    
+
     assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
-  
+
   def test_my_account_should_not_show_non_editable_custom_fields
     UserCustomField.find(4).update_attribute :editable, false
-    
+
     get :account
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
-    
+
     assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
 
@@ -72,7 +67,7 @@ class MyControllerTest < ActionController::TestCase
         :group_ids => ['10'],
         :custom_field_values => {"4" => "0100562500"}
       }
-    
+
     assert_redirected_to '/my/account'
     user = User.find(2)
     assert_equal user, assigns(:user)
@@ -83,28 +78,28 @@ class MyControllerTest < ActionController::TestCase
     assert !user.admin?
     assert user.groups.empty?
   end
-  
+
   def test_change_password
     get :password
     assert_response :success
     assert_template 'password'
-    
+
     # non matching password confirmation
-    post :password, :password => 'jsmith', 
+    post :password, :password => 'jsmith',
                     :new_password => 'hello',
                     :new_password_confirmation => 'hello2'
     assert_response :success
     assert_template 'password'
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-    
+
     # wrong password
-    post :password, :password => 'wrongpassword', 
+    post :password, :password => 'wrongpassword',
                     :new_password => 'hello',
                     :new_password_confirmation => 'hello'
     assert_response :success
     assert_template 'password'
     assert_equal 'Wrong password', flash[:error]
-    
+
     # good password
     post :password, :password => 'jsmith',
                     :new_password => 'hello',
@@ -112,13 +107,13 @@ class MyControllerTest < ActionController::TestCase
     assert_redirected_to '/my/account'
     assert User.try_to_login('jsmith', 'hello')
   end
-  
+
   def test_page_layout
     get :page_layout
     assert_response :success
     assert_template 'page_layout'
   end
-  
+
   def test_add_block
     xhr :post, :add_block, :block => 'issuesreportedbyme'
     assert_response :success
@@ -155,7 +150,7 @@ class MyControllerTest < ActionController::TestCase
       should_set_the_flash_to /reset/
       should_redirect_to('my account') {'/my/account' }
     end
-    
+
     context "with no rss_token" do
       setup do
         assert_nil User.find(2).rss_token
@@ -189,7 +184,7 @@ class MyControllerTest < ActionController::TestCase
       should_set_the_flash_to /reset/
       should_redirect_to('my account') {'/my/account' }
     end
-    
+
     context "with no api_token" do
       setup do
         assert_nil User.find(2).api_token

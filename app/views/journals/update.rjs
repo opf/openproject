@@ -2,7 +2,8 @@ if @journal.frozen?
   # journal was destroyed
   page.remove "change-#{@journal.id}"
 else
-  page.replace "journal-#{@journal.id}-notes", render_notes(@journal.issue, @journal, :reply_links => authorize_for('issues', 'edit'))
+  page.replace "journal-#{@journal.id}-notes", render_notes(@journal.journaled, @journal,
+    :edit_permission => :edit_issue_notes, :edit_own_permission => :edit_own_issue_notes)
   page.show "journal-#{@journal.id}-notes"
   page.remove "journal-#{@journal.id}-form"
 end

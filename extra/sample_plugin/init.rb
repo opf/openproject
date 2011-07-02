@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 # Redmine sample plugin
 require 'redmine'
 
@@ -24,7 +37,7 @@ Redmine::Plugin.register :sample_plugin do
 
   # A new item is added to the project menu
   menu :project_menu, :sample_plugin, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
-  
+
   # Meetings are added to the activity view
   activity_provider :meetings
 end

@@ -1,40 +1,36 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require 'net/ldap'
 require 'iconv'
 
-class AuthSourceLdap < AuthSource 
+class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port, :attr_login
-  validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
+  validates_length_of :name, :host, :maximum => 60, :allow_nil => true
+  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
-  
+
   before_validation :strip_ldap_attributes
-  
+
   def after_initialize
     self.port = 389 if self.port == 0
   end
-  
+
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
     attrs = get_user_dn(login)
-    
+
     if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
       logger.debug "Authentication successful for '#{login}'" if logger && logger.debug?
       return attrs.except(:dn)
@@ -50,19 +46,19 @@ class AuthSourceLdap < AuthSource
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
   end
- 
+
   def auth_method_name
     "LDAP"
   end
-  
+
   private
-  
+
   def strip_ldap_attributes
     [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
       write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
     end
   end
-  
+
   def initialize_ldap_con(ldap_user, ldap_password)
     options = { :host => self.host,
                 :port => self.port,
@@ -102,12 +98,12 @@ class AuthSourceLdap < AuthSource
   # Get the user's dn and any attributes for them, given their login
   def get_user_dn(login)
     ldap_con = initialize_ldap_con(self.account, self.account_password)
-    login_filter = Net::LDAP::Filter.eq( self.attr_login, login ) 
-    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" ) 
+    login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
+    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
     attrs = {}
-    
-    ldap_con.search( :base => self.base_dn, 
-                     :filter => object_filter & login_filter, 
+
+    ldap_con.search( :base => self.base_dn,
+                     :filter => object_filter & login_filter,
                      :attributes=> search_attributes) do |entry|
 
       if onthefly_register?
@@ -121,7 +117,7 @@ class AuthSourceLdap < AuthSource
 
     attrs
   end
-  
+
   def self.get_attr(entry, attr_name)
     if !attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]

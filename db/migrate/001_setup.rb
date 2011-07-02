@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 # redMine - project management software
 # Copyright (C) 2006  Jean-Philippe Lang
 #
@@ -5,22 +18,22 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Setup < ActiveRecord::Migration
-  
+
   class User < ActiveRecord::Base; end
   # model removed
   class Permission < ActiveRecord::Base; end
-  
+
   def self.up
     create_table "attachments", :force => true do |t|
       t.column "container_id", :integer, :default => 0, :null => false
@@ -49,7 +62,7 @@ class Setup < ActiveRecord::Migration
       t.column "attr_mail", :string, :limit => 30
       t.column "onthefly_register", :boolean, :default => false, :null => false
     end
-    
+
     create_table "custom_fields", :force => true do |t|
       t.column "type", :string, :limit => 30, :default => "", :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
@@ -61,7 +74,7 @@ class Setup < ActiveRecord::Migration
       t.column "is_required", :boolean, :default => false, :null => false
       t.column "is_for_all", :boolean, :default => false, :null => false
     end
-  
+
     create_table "custom_fields_projects", :id => false, :force => true do |t|
       t.column "custom_field_id", :integer, :default => 0, :null => false
       t.column "project_id", :integer, :default => 0, :null => false
@@ -78,7 +91,7 @@ class Setup < ActiveRecord::Migration
       t.column "custom_field_id", :integer, :default => 0, :null => false
       t.column "value", :text
     end
-  
+
     create_table "documents", :force => true do |t|
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "category_id", :integer, :default => 0, :null => false
@@ -86,21 +99,21 @@ class Setup < ActiveRecord::Migration
       t.column "description", :text
       t.column "created_on", :timestamp
     end
-    
+
     add_index "documents", ["project_id"], :name => "documents_project_id"
-  
+
     create_table "enumerations", :force => true do |t|
       t.column "opt", :string, :limit => 4, :default => "", :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
     end
-  
+
     create_table "issue_categories", :force => true do |t|
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
     end
-    
+
     add_index "issue_categories", ["project_id"], :name => "issue_categories_project_id"
-  
+
     create_table "issue_histories", :force => true do |t|
       t.column "issue_id", :integer, :default => 0, :null => false
       t.column "status_id", :integer, :default => 0, :null => false
@@ -108,7 +121,7 @@ class Setup < ActiveRecord::Migration
       t.column "notes", :text
       t.column "created_on", :timestamp
     end
-  
+
     add_index "issue_histories", ["issue_id"], :name => "issue_histories_issue_id"
 
     create_table "issue_statuses", :force => true do |t|
@@ -117,7 +130,7 @@ class Setup < ActiveRecord::Migration
       t.column "is_default", :boolean, :default => false, :null => false
       t.column "html_color", :string, :limit => 6, :default => "FFFFFF", :null => false
     end
-  
+
     create_table "issues", :force => true do |t|
       t.column "tracker_id", :integer, :default => 0, :null => false
       t.column "project_id", :integer, :default => 0, :null => false
@@ -134,16 +147,16 @@ class Setup < ActiveRecord::Migration
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
-  
+
     add_index "issues", ["project_id"], :name => "issues_project_id"
-  
+
     create_table "members", :force => true do |t|
       t.column "user_id", :integer, :default => 0, :null => false
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "role_id", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
     end
-  
+
     create_table "news", :force => true do |t|
       t.column "project_id", :integer
       t.column "title", :string, :limit => 60, :default => "", :null => false
@@ -152,9 +165,9 @@ class Setup < ActiveRecord::Migration
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "created_on", :timestamp
     end
-    
+
     add_index "news", ["project_id"], :name => "news_project_id"
-  
+
     create_table "permissions", :force => true do |t|
       t.column "controller", :string, :limit => 30, :default => "", :null => false
       t.column "action", :string, :limit => 30, :default => "", :null => false
@@ -164,14 +177,14 @@ class Setup < ActiveRecord::Migration
       t.column "mail_option", :boolean, :default => false, :null => false
       t.column "mail_enabled", :boolean, :default => false, :null => false
     end
-  
+
     create_table "permissions_roles", :id => false, :force => true do |t|
       t.column "permission_id", :integer, :default => 0, :null => false
       t.column "role_id", :integer, :default => 0, :null => false
     end
-  
+
     add_index "permissions_roles", ["role_id"], :name => "permissions_roles_role_id"
-  
+
     create_table "projects", :force => true do |t|
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "description", :string, :default => "", :null => false
@@ -182,7 +195,7 @@ class Setup < ActiveRecord::Migration
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
-  
+
     create_table "roles", :force => true do |t|
       t.column "name", :string, :limit => 30, :default => "", :null => false
     end
@@ -193,12 +206,12 @@ class Setup < ActiveRecord::Migration
       t.column "value", :string, :limit => 40, :default => "", :null => false
       t.column "created_on", :datetime, :null => false
     end
-  
+
     create_table "trackers", :force => true do |t|
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "is_in_chlog", :boolean, :default => false, :null => false
     end
-  
+
     create_table "users", :force => true do |t|
       t.column "login", :string, :limit => 30, :default => "", :null => false
       t.column "hashed_password", :string, :limit => 40, :default => "", :null => false
@@ -214,7 +227,7 @@ class Setup < ActiveRecord::Migration
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
-  
+
     create_table "versions", :force => true do |t|
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "name", :string, :limit => 30, :default => "", :null => false
@@ -223,16 +236,16 @@ class Setup < ActiveRecord::Migration
       t.column "created_on", :timestamp
       t.column "updated_on", :timestamp
     end
-    
+
     add_index "versions", ["project_id"], :name => "versions_project_id"
-  
+
     create_table "workflows", :force => true do |t|
       t.column "tracker_id", :integer, :default => 0, :null => false
       t.column "old_status_id", :integer, :default => 0, :null => false
       t.column "new_status_id", :integer, :default => 0, :null => false
       t.column "role_id", :integer, :default => 0, :null => false
     end
-  
+
     # project
     Permission.create :controller => "projects", :action => "show", :description => "label_overview", :sort => 100, :is_public => true
     Permission.create :controller => "projects", :action => "changelog", :description => "label_change_log", :sort => 105, :is_public => true
@@ -283,7 +296,7 @@ class Setup < ActiveRecord::Migration
     Permission.create :controller => "versions", :action => "download", :description => "button_download", :sort => 1301, :is_public => true
     Permission.create :controller => "projects", :action => "add_file", :description => "button_add", :sort => 1320
     Permission.create :controller => "versions", :action => "destroy_file", :description => "button_delete", :sort => 1322
-    
+
     # create default administrator account
     user = User.create :login => "admin",
                        :hashed_password => "d033e22ae348aeb5660fc2140aec35850c4da997",

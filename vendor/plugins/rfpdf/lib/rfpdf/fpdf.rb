@@ -16,13 +16,18 @@
 # Bookmarks contributed by Sylvain Lafleur.
 #
 # 1.53 contributed by Ed Moss
-#   Handle '\n' at the beginning of a string
+#   Make sure all \n references are inside double quotes - Fix some multicell bugs
+#   Handle "\n" at the beginning of a string
 # Bookmarks contributed by Sylvain Lafleur.
 
 require 'date'
 require 'zlib'
 
 class FPDF
+  include RFPDF
+  
+  attr_accessor :default_font
+	
     FPDF_VERSION = '1.53d'
 
     Charwidths =  {
@@ -63,6 +68,7 @@ class FPDF
         @pages=[]
         @OrientationChanges=[]
         @state=0
+        @default_font = "arial"
         @fonts={}
         @FontFiles={}
         @diffs=[]
@@ -167,6 +173,10 @@ class FPDF
         SetCompression(true)
         # Set default PDF version number
         @PDFVersion='1.3'
+    end
+
+    def GetMargins()
+        return @lMargin, @tMargin, @rMargin
     end
 
     def SetMargins(left, top, right=-1)
@@ -334,6 +344,7 @@ class FPDF
         @TextColor=tc
         @ColorFlag=cf
     end
+	  alias_method :add_page, :AddPage
 
     def Header
         # To be implemented in your inherited class
@@ -403,6 +414,70 @@ class FPDF
         out(sprintf('%.2f w',width*@k)) if @page>0
     end
 
+    def Circle(mid_x, mid_y, radius, style='')
+      mid_y = (@h-mid_y)*@k
+      out(sprintf("q\n")) # postscript content in pdf
+      # init line type etc. with /GSD gs G g (grey) RG rg (RGB) w=line witdh etc. 
+      out(sprintf("1 j\n")) # line join
+      # translate ("move") circle to mid_y, mid_y
+      out(sprintf("1 0 0 1 %f %f cm", mid_x, mid_y))
+      kappa = 0.5522847498307933984022516322796
+      # Quadrant 1 
+      x_s = 0.0 # 12 o'clock 
+      y_s = 0.0 + radius
+      x_e = 0.0 + radius # 3 o'clock 
+      y_e = 0.0
+      out(sprintf("%f %f m\n", x_s, y_s)) # move to 12 o'clock 
+      # cubic bezier control point 1, start height and kappa * radius to the right 
+      bx_e1 = x_s + (radius * kappa)
+      by_e1 = y_s
+      # cubic bezier control point 2, end and kappa * radius above 
+      bx_e2 = x_e
+      by_e2 = y_e + (radius * kappa)
+      # draw cubic bezier from current point to x_e/y_e with bx_e1/by_e1 and bx_e2/by_e2 as bezier control points
+      out(sprintf("%f %f %f %f %f %f c\n", bx_e1, by_e1, bx_e2, by_e2, x_e, y_e))
+      # Quadrant 2 
+      x_s = x_e 
+      y_s = y_e # 3 o'clock 
+      x_e = 0.0 
+      y_e = 0.0 - radius # 6 o'clock 
+      bx_e1 = x_s # cubic bezier point 1 
+      by_e1 = y_s - (radius * kappa)
+      bx_e2 = x_e + (radius * kappa) # cubic bezier point 2 
+      by_e2 = y_e
+      out(sprintf("%f %f %f %f %f %f c\n", bx_e1, by_e1, bx_e2, by_e2, x_e, y_e))
+      # Quadrant 3 
+      x_s = x_e 
+      y_s = y_e # 6 o'clock 
+      x_e = 0.0 - radius
+      y_e = 0.0 # 9 o'clock 
+      bx_e1 = x_s - (radius * kappa) # cubic bezier point 1 
+      by_e1 = y_s
+      bx_e2 = x_e # cubic bezier point 2 
+      by_e2 = y_e - (radius * kappa)
+      out(sprintf("%f %f %f %f %f %f c\n", bx_e1, by_e1, bx_e2, by_e2, x_e, y_e))
+      # Quadrant 4 
+      x_s = x_e 
+      y_s = y_e # 9 o'clock 
+      x_e = 0.0 
+      y_e = 0.0 + radius # 12 o'clock 
+      bx_e1 = x_s # cubic bezier point 1 
+      by_e1 = y_s + (radius * kappa)
+      bx_e2 = x_e - (radius * kappa) # cubic bezier point 2 
+      by_e2 = y_e
+      out(sprintf("%f %f %f %f %f %f c\n", bx_e1, by_e1, bx_e2, by_e2, x_e, y_e))
+      if style=='F'
+          op='f'
+      elsif style=='FD' or style=='DF'
+          op='b'
+      else
+          op='s'
+      end
+      out(sprintf("#{op}\n")) # stroke circle, do not fill and close path 
+      # for filling etc. b, b*, f, f*
+      out(sprintf("Q\n")) # finish postscript in PDF
+    end
+    
     def Line(x1, y1, x2, y2)
         # Draw a line
         out(sprintf('%.2f %.2f m %.2f %.2f l S',
@@ -418,6 +493,7 @@ class FPDF
         else
             op='S'
         end
+        # x y width height re
         out(sprintf('%.2f %.2f %.2f %.2f re %s', x*@k,(@h-y)*@k,w*@k,-h*@k,op))
     end
 
@@ -580,9 +656,17 @@ class FPDF
         @AutoPageBreak
     end
 
+    def BreakThePage?(h)
+      if (@y + h) > @PageBreakTrigger and !@InFooter and self.AcceptPageBreak
+        true
+      else
+        false
+      end
+    end
+    
     def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
         # Output a cell
-        if @y+h>@PageBreakTrigger and !@InFooter and self.AcceptPageBreak
+        if self.BreakThePage?(h)
             # Automatic page break
             x=@x
             ws=@ws
@@ -665,9 +749,9 @@ class FPDF
         cw=@CurrentFont['cw']
         w=@w-@rMargin-@x if w==0
         wmax=(w-2*@cMargin)*1000/@FontSize
-        s=txt.gsub('\r','')
+        s=txt.gsub("\r",'')
         nb=s.length
-        nb=nb-1 if nb>0 and s[nb-1].chr=='\n'
+        nb=nb-1 if nb>0 and s[nb-1].chr=="\n"
         b=0
         if border!=0
             if border==1
@@ -682,70 +766,66 @@ class FPDF
             end
         end
         sep=-1
-        i=0
-        j=0
+        to_index=0
+        from_j=0
         l=0
         ns=0
         nl=1
-        while i<nb
+        while to_index<nb
             # Get next character
-            c=s[i].chr
-            if c=="\n"
+            char=s[to_index]
+            if char=="\n"[0]
                 # Explicit line break
                 if @ws>0
                     @ws=0
                     out('0 Tw')
                 end
 #Ed Moss               
-# Don't let i go negative
-                end_i = i == 0 ? 0 : i - 1
-                # Changed from s[j..i] to fix bug reported by Hans Allis.
-                self.Cell(w,h,s[j..end_i],b,2,align,fill) 
+                end_i = to_index == 0 ? 0 : to_index - 1
+                # Changed from s[from_j..to_index] to fix bug reported by Hans Allis.
+                self.Cell(w,h,s[from_j..end_i],b,2,align,fill) 
 #                
-                i=i+1
+                to_index=to_index+1
                 sep=-1
-                j=i
+                from_j=to_index
                 l=0
                 ns=0
                 nl=nl+1
                 b=b2 if border and nl==2
             else
-                if c==' '
-                    sep=i
+                if char==' '[0]
+                    sep=to_index
                     ls=l
                     ns=ns+1
                 end
-                l=l+GetCharWidth(cw, c[0])
+                l=l+GetCharWidth(cw, char)
                 if l>wmax
                     # Automatic line break
                     if sep==-1
-                        i=i+1 if i==j
+                        to_index=to_index+1 if to_index==from_j
                         if @ws>0
                             @ws=0
                             out('0 Tw')
                         end
-                        self.Cell(w,h,s[j..i],b,2,align,fill)
 #Ed Moss
-# Added so that it wouldn't print the last character of the string if it got close
-#FIXME 2006-07-18 Level=0 - but it still puts out an extra new line
-                        i += 1
+                        self.Cell(w,h,s[from_j..to_index-1],b,2,align,fill)
 #
                     else
                         if align=='J'
                             @ws=(ns>1) ? (wmax-ls)/1000.0*@FontSize/(ns-1) : 0
                             out(sprintf('%.3f Tw',@ws*@k))
                         end
-                        self.Cell(w,h,s[j..sep],b,2,align,fill)
-                        i=sep+1
+                        self.Cell(w,h,s[from_j..sep],b,2,align,fill)
+                        to_index=sep+1
                     end
                     sep=-1
-                    j=i
+                    from_j=to_index
                     l=0
                     ns=0
                     nl=nl+1
                     b=b2 if border and nl==2
                 else
-                    i=i+1
+                    to_index=to_index+1
                 end
             end
         end
@@ -756,7 +836,7 @@ class FPDF
             out('0 Tw')
         end
         b=b+'B' if border!=0 and not border.index('B').nil?
-        self.Cell(w,h,s[j..i],b,2,align,fill)
+        self.Cell(w,h,s[from_j..to_index],b,2,align,fill)
         @x=@lMargin
     end
     
@@ -1273,7 +1353,7 @@ class FPDF
         out('startxref')
         out(o)
         out('%%EOF')
-        state=3
+        @state=3
     end
 
     def beginpage(orientation)

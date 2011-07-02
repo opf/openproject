@@ -13,11 +13,5 @@
 <% end %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
-<% unless sidebar_queries.empty? -%>
-<h3><%= l(:label_query_plural) %></h3>
-
-<% sidebar_queries.each do |query| -%>
-<%= link_to(h(query.name), :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query) %><br />
-<% end -%>
+<%= render_sidebar_queries %>
 <%= call_hook(:view_issues_sidebar_queries_bottom) %>
-<% end -%>

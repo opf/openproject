@@ -1,20 +1,15 @@
-# Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 require 'issue_categories_controller'
 
@@ -23,7 +18,7 @@ class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories
-  
+
   def setup
     @controller = IssueCategoriesController.new
     @request    = ActionController::TestRequest.new
@@ -31,14 +26,14 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     User.current = nil
     @request.session[:user_id] = 2
   end
-  
+
   def test_get_new
     @request.session[:user_id] = 2 # manager
     get :new, :project_id => '1'
     assert_response :success
     assert_template 'new'
   end
-  
+
   def test_post_new
     @request.session[:user_id] = 2 # manager
     assert_difference 'IssueCategory.count' do
@@ -49,7 +44,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_not_nil category
     assert_equal 1, category.project_id
   end
-  
+
   def test_post_edit
     assert_no_difference 'IssueCategory.count' do
       post :edit, :id => 2, :category => { :name => 'Testing' }
@@ -57,25 +52,25 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_equal 'Testing', IssueCategory.find(2).name
   end
-  
+
   def test_edit_not_found
     post :edit, :id => 97, :category => { :name => 'Testing' }
     assert_response 404
   end
-  
+
   def test_destroy_category_not_in_use
     post :destroy, :id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(2)
   end
-  
+
   def test_destroy_category_in_use
     post :destroy, :id => 1
     assert_response :success
     assert_template 'destroy'
     assert_not_nil IssueCategory.find_by_id(1)
   end
-  
+
   def test_destroy_category_in_use_with_reassignment
     issue = Issue.find(:first, :conditions => {:category_id => 1})
     post :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
@@ -84,7 +79,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     # check that the issue was reassign
     assert_equal 2, issue.reload.category_id
   end
-  
+
   def test_destroy_category_in_use_without_reassignment
     issue = Issue.find(:first, :conditions => {:category_id => 1})
     post :destroy, :id => 1, :todo => 'nullify'

@@ -1,4 +1,4 @@
-<% form_tag({}) do -%>	
+<% form_tag({}) do -%>
 <%= hidden_field_tag 'back_url', url_for(params) %>
 <div class="autoscroll">
 <table class="list issues">
@@ -20,6 +20,7 @@
     	<td colspan="<%= query.columns.size + 2 %>">
     		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
       	<%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+        <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}", "toggleAllRowGroups(this)", :class => 'toggle-all') %>
     	</td>
 		</tr>
 		<% previous_group = group %>

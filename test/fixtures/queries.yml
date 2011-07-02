@@ -1,156 +1,156 @@
---- 
-queries_001: 
+---
+queries_001:
   id: 1
   project_id: 1
   is_public: true
   name: Multiple custom fields query
   filters: |
-    --- 
-    cf_1: 
-      :values: 
+    ---
+    cf_1:
+      :values:
       - MySQL
       :operator: "="
-    status_id: 
-      :values: 
+    status_id:
+      :values:
       - "1"
       :operator: o
-    cf_2: 
-      :values: 
+    cf_2:
+      :values:
       - "125"
       :operator: "="
 
   user_id: 1
-  column_names: 
-queries_002: 
+  column_names:
+queries_002:
   id: 2
   project_id: 1
   is_public: false
   name: Private query for cookbook
   filters: |
-    --- 
-    tracker_id: 
-      :values: 
+    ---
+    tracker_id:
+      :values:
       - "3"
       :operator: "="
-    status_id: 
-      :values: 
+    status_id:
+      :values:
       - "1"
       :operator: o
 
   user_id: 3
-  column_names: 
-queries_003: 
+  column_names:
+queries_003:
   id: 3
-  project_id: 
+  project_id:
   is_public: false
   name: Private query for all projects
   filters: |
-    --- 
-    tracker_id: 
-      :values: 
+    ---
+    tracker_id:
+      :values:
       - "3"
       :operator: "="
 
   user_id: 3
-  column_names: 
-queries_004: 
+  column_names:
+queries_004:
   id: 4
-  project_id: 
+  project_id:
   is_public: true
   name: Public query for all projects
   filters: |
-    --- 
-    tracker_id: 
-      :values: 
+    ---
+    tracker_id:
+      :values:
       - "3"
       :operator: "="
 
   user_id: 2
-  column_names: 
-queries_005: 
+  column_names:
+queries_005:
   id: 5
-  project_id: 
+  project_id:
   is_public: true
   name: Open issues by priority and tracker
   filters: |
-    --- 
-    status_id: 
-      :values: 
+    ---
+    status_id:
+      :values:
       - "1"
       :operator: o
 
   user_id: 1
-  column_names: 
+  column_names:
   sort_criteria: |
-    --- 
+    ---
     - - priority
       - desc
     - - tracker
       - asc
-queries_006: 
+queries_006:
   id: 6
-  project_id: 
+  project_id:
   is_public: true
   name: Open issues grouped by tracker
   filters: |
-    --- 
-    status_id: 
-      :values: 
+    ---
+    status_id:
+      :values:
       - "1"
       :operator: o
 
   user_id: 1
-  column_names: 
+  column_names:
   group_by: tracker
   sort_criteria: |
-    --- 
+    ---
     - - priority
       - desc
-queries_007: 
+queries_007:
   id: 7
   project_id: 2
   is_public: true
   name: Public query for project 2
   filters: |
-    --- 
-    tracker_id: 
-      :values: 
+    ---
+    tracker_id:
+      :values:
       - "3"
       :operator: "="
 
   user_id: 2
-  column_names: 
-queries_008: 
+  column_names:
+queries_008:
   id: 8
   project_id: 2
   is_public: false
   name: Private query for project 2
   filters: |
-    --- 
-    tracker_id: 
-      :values: 
+    ---
+    tracker_id:
+      :values:
       - "3"
       :operator: "="
 
   user_id: 2
-  column_names: 
-queries_009: 
+  column_names:
+queries_009:
   id: 9
-  project_id: 
+  project_id:
   is_public: true
   name: Open issues grouped by list custom field
   filters: |
-    --- 
-    status_id: 
-      :values: 
+    ---
+    status_id:
+      :values:
       - "1"
       :operator: o
 
   user_id: 1
-  column_names: 
+  column_names:
   group_by: cf_1
   sort_criteria: |
-    --- 
+    ---
     - - priority
       - desc
 

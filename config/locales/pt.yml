@@ -5,7 +5,7 @@ pt:
     array:
       sentence_connector: "e"
       skip_last_comma: true
-    
+
   direction: ltr
   date:
     formats:
@@ -17,17 +17,20 @@ pt:
     abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
     month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
     abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
-    order: [:day, :month, :year]
-    
+    order:
+      - :day
+      - :month
+      - :year
+
   time:
-    formats:        
+    formats:
       default: "%A, %d de %B de %Y, %H:%Mh"
       time: "%H:%M"
       short: "%d/%m, %H:%M hs"
       long: "%A, %d de %B de %Y, %H:%Mh"
     am: ''
     pm: ''
- 
+
   datetime:
     distance_in_words:
       half_a_minute: "meio minuto"
@@ -37,7 +40,7 @@ pt:
       x_seconds:
         one: "1 segundo"
         other: "%{count} segundos"
-      less_than_x_minutes: 
+      less_than_x_minutes:
         one: "menos de um minuto"
         other: "menos de %{count} minutos"
       x_minutes:
@@ -64,7 +67,7 @@ pt:
       almost_x_years:
         one:   "almost 1 year"
         other: "almost %{count} years"
-        
+
   number:
     format:
       precision: 3
@@ -132,7 +135,7 @@ pt:
 
   ## Translated by: Pedro Araújo <phcrva19@hotmail.com>
   actionview_instancetag_blank_option: Seleccione
-  
+
   general_text_No: 'Não'
   general_text_Yes: 'Sim'
   general_text_no: 'não'
@@ -143,7 +146,7 @@ pt:
   general_csv_encoding: ISO-8859-15
   general_pdf_encoding: ISO-8859-15
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: A conta foi actualizada com sucesso.
   notice_account_invalid_creditentials: Utilizador ou palavra-chave inválidos.
   notice_account_password_updated: A palavra-chave foi alterada com sucesso.
@@ -168,13 +171,13 @@ pt:
   notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
   notice_unable_delete_version: Não foi possível apagar a versão.
-  
+
   error_can_t_load_default_data: "Não foi possível carregar a configuração padrão: %{value}"
   error_scm_not_found: "A entrada ou revisão não foi encontrada no repositório."
   error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: %{value}"
   error_scm_annotate: "A entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projecto.'
-  
+
   mail_subject_lost_password: "Palavra-chave de %{value}"
   mail_body_lost_password: 'Para mudar a sua palavra-chave, clique na ligação abaixo:'
   mail_subject_register: "Activação de conta de %{value}"
@@ -185,10 +188,10 @@ pt:
   mail_body_account_activation_request: "Um novo utilizador (%{value}) registou-se. A sua conta está à espera de aprovação:"
   mail_subject_reminder: "%{count} tarefa(s) para entregar nos próximos %{days} dias"
   mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %{days} dias:"
-  
+
   gui_validation_error: 1 erro
   gui_validation_error_plural: "%{count} erros"
-  
+
   field_name: Nome
   field_description: Descrição
   field_summary: Sumário
@@ -234,7 +237,6 @@ pt:
   field_admin: Administrador
   field_last_login_on: Última visita
   field_language: Língua
-  field_effective_date: Data
   field_password: Palavra-chave
   field_new_password: Nova palavra-chave
   field_password_confirmation: Confirmação
@@ -250,7 +252,7 @@ pt:
   field_attr_mail: Atributo e-mail
   field_onthefly: Criação de utilizadores na hora
   field_start_date: Início
-  field_done_ratio: % Completo
+  field_done_ratio: "% Completo"
   field_auth_source: Modo de autenticação
   field_hide_mail: Esconder endereço de e-mail
   field_comments: Comentário
@@ -273,7 +275,7 @@ pt:
   field_default_value: Valor por omissão
   field_comments_sorting: Mostrar comentários
   field_parent_title: Página pai
-  
+
   setting_app_title: Título da aplicação
   setting_app_subtitle: Sub-título da aplicação
   setting_welcome_text: Texto de boas vindas
@@ -310,7 +312,7 @@ pt:
   setting_mail_handler_api_enabled: Activar Web Service para e-mails recebidos
   setting_mail_handler_api_key: Chave da API
   setting_sequential_project_identifiers: Gerar identificadores de projecto sequênciais
-  
+
   project_module_issue_tracking: Tarefas
   project_module_time_tracking: Registo de tempo
   project_module_news: Notícias
@@ -319,7 +321,7 @@ pt:
   project_module_wiki: Wiki
   project_module_repository: Repositório
   project_module_boards: Forum
-  
+
   label_user: Utilizador
   label_user_plural: Utilizadores
   label_user_new: Novo utilizador
@@ -631,7 +633,7 @@ pt:
   label_incoming_emails: E-mails a chegar
   label_generate_key: Gerar uma chave
   label_issue_watchers: Observadores
-  
+
   button_login: Entrar
   button_submit: Submeter
   button_save: Guardar
@@ -670,11 +672,11 @@ pt:
   button_update: Actualizar
   button_configure: Configurar
   button_quote: Citar
-  
+
   status_active: activo
   status_registered: registado
   status_locked: bloqueado
-  
+
   text_select_mail_notifications: Seleccionar as acções que originam uma notificação por e-mail.
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 siginifica sem restrição
@@ -716,7 +718,7 @@ pt:
   text_enumeration_destroy_question: "%{count} objectos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
   text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desactivadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para activar estas funcionalidades."
-  
+
   default_role_manager: Gestor
   default_role_developer: Programador
   default_role_reporter: Repórter
@@ -740,7 +742,7 @@ pt:
   default_priority_immediate: Imediata
   default_activity_design: Planeamento
   default_activity_development: Desenvolvimento
-  
+
   enumeration_issue_priorities: Prioridade de tarefas
   enumeration_doc_categories: Categorias de documentos
   enumeration_activities: Actividades (Registo de tempo)
@@ -867,7 +869,7 @@ pt:
   button_duplicate: Duplicar
   button_copy_and_follow: Copiar e seguir
   label_copy_source: Origem
-  setting_issue_done_ratio: Calcular a percentagem de progresso da tarefa 
+  setting_issue_done_ratio: Calcular a percentagem de progresso da tarefa
   setting_issue_done_ratio_issue_status: Através do estado da tarefa
   error_issue_done_ratios_not_updated: Percentagens de progresso da tarefa não foram actualizadas.
   error_workflow_copy_target: Seleccione os tipos de tarefas e funções desejadas
@@ -950,3 +952,18 @@ pt:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

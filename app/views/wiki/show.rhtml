@@ -1,7 +1,7 @@
 <div class="contextual">
 <% if @editable %>
 <%= link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) if @content.version == @page.content.version %>
-<%= watcher_tag(@page, User.current) %>
+<%= watcher_link(@page, User.current) %>
 <%= link_to_if_authorized(l(:button_lock), {:action => 'protect', :id => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock') if !@page.protected? %>
 <%= link_to_if_authorized(l(:button_unlock), {:action => 'protect', :id => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock') if @page.protected? %>
 <%= link_to_if_authorized(l(:button_rename), {:action => 'rename', :id => @page.title}, :class => 'icon icon-move') if @content.version == @page.content.version %>
@@ -14,10 +14,10 @@
 <%= breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
 
 <% if @content.version != @page.content.version %>
-    <p>    
+    <p>
     <%= link_to(('&#171; ' + l(:label_previous)), :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version - 1)) + " - " if @content.version > 1 %>
     <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
-    <%= '(' + link_to('diff', :controller => 'wiki', :action => 'diff', :id => @page.title, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> - 
+    <%= '(' + link_to('diff', :controller => 'wiki', :action => 'diff', :id => @page.title, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> -
     <%= link_to((l(:label_next) + ' &#187;'), :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
     <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project) %>
     <br />
@@ -58,7 +58,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
+  <%= render :partial => 'wiki/sidebar' %>
 <% end %>
 
 <% html_title @page.pretty_title %>

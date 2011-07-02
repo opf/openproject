@@ -1,20 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 require 'repositories_controller'
 
@@ -32,9 +27,13 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-    Repository::Bazaar.create(:project => Project.find(3), :url => REPOSITORY_PATH)
+    @project = Project.find(3)
+    @repository = Repository::Bazaar.create(
+                    :project => @project, :url => REPOSITORY_PATH,
+                    :log_encoding => 'UTF-8')
+    assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
     def test_show
       get :show, :id => 3
@@ -43,7 +42,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_not_nil assigns(:changesets)
     end
-    
+
     def test_browse_root
       get :show, :id => 3
       assert_response :success
@@ -53,7 +52,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert assigns(:entries).detect {|e| e.name == 'directory' && e.kind == 'dir'}
       assert assigns(:entries).detect {|e| e.name == 'doc-mkdir.txt' && e.kind == 'file'}
     end
-    
+
     def test_browse_directory
       get :show, :id => 3, :path => ['directory']
       assert_response :success
@@ -65,7 +64,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'directory/edit.png', entry.path
     end
-    
+
     def test_browse_at_given_revision
       get :show, :id => 3, :path => [], :rev => 3
       assert_response :success
@@ -73,14 +72,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['directory', 'doc-deleted.txt', 'doc-ls.txt', 'doc-mkdir.txt'], assigns(:entries).collect(&:name)
     end
-    
+
     def test_changes
       get :changes, :id => 3, :path => ['doc-mkdir.txt']
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'doc-mkdir.txt'
     end
-    
+
     def test_entry_show
       get :entry, :id => 3, :path => ['directory', 'doc-ls.txt']
       assert_response :success
@@ -91,14 +90,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
                  :attributes => { :class => /line-num/ },
                  :sibling => { :tag => 'td', :content => /Show help message/ }
     end
-    
+
     def test_entry_download
       get :entry, :id => 3, :path => ['directory', 'doc-ls.txt'], :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('Show help message')
     end
-  
+
     def test_directory_entry
       get :entry, :id => 3, :path => ['directory']
       assert_response :success
@@ -112,14 +111,14 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       get :diff, :id => 3, :rev => 3
       assert_response :success
       assert_template 'diff'
-      # Line 22 removed
+      # Line 11 removed
       assert_tag :tag => 'th',
-                 :content => /2/,
-                 :sibling => { :tag => 'td', 
-                               :attributes => { :class => /diff_in/ },
-                               :content => /Main purpose/ }
+                 :content => /11/,
+                 :sibling => { :tag => 'td',
+                               :attributes => { :class => /diff_out/ },
+                               :content => /Display more information/ }
     end
-    
+
     def test_annotate
       get :annotate, :id => 3, :path => ['doc-mkdir.txt']
       assert_response :success

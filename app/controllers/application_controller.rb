@@ -1,54 +1,51 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require 'uri'
 require 'cgi'
 
 class ApplicationController < ActionController::Base
+  helper :all
 
   protected
-  
+
   include Redmine::I18n
 
   layout 'base'
   exempt_from_layout 'builder', 'rsb'
-  
+
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
   # TODO: remove it when Rails is fixed
   before_filter :delete_broken_cookies
   def delete_broken_cookies
     if cookies['_chiliproject_session'] && cookies['_chiliproject_session'] !~ /--/
-      cookies.delete '_chiliproject_session'    
+      cookies.delete '_chiliproject_session'
       redirect_to home_path
       return false
     end
   end
-  
+
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
-  
+
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
-  
+
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
-  
+
   Redmine::Scm::Base.all.each do |scm|
     require_dependency "repository/#{scm.underscore}"
   end
@@ -59,7 +56,7 @@ class ApplicationController < ActionController::Base
     # Find the current user
     User.current = find_current_user
   end
-  
+
   # Returns the current user or nil if no user is logged in
   # and starts a session if needed
   def find_current_user
@@ -97,14 +94,14 @@ class ApplicationController < ActionController::Base
       User.current = User.anonymous
     end
   end
-  
+
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
-  end 
-  
+  end
+
   def set_localization
     lang = nil
     if User.current.logged?
@@ -120,7 +117,7 @@ class ApplicationController < ActionController::Base
     lang ||= Setting.default_language
     set_language_if_valid(lang)
   end
-  
+
   def require_login
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests
@@ -149,7 +146,7 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  
+
   def deny_access
     User.current.logged? ? render_403 : require_login
   end
@@ -200,7 +197,7 @@ class ApplicationController < ActionController::Base
   # Finds and sets @project based on @object.project
   def find_project_from_association
     render_404 unless @object.present?
-    
+
     @project = @object.project
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -229,7 +226,7 @@ class ApplicationController < ActionController::Base
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Check if project is unique before bulk operations
   def check_project_uniqueness
     unless @project
@@ -238,7 +235,7 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
+
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
@@ -276,26 +273,26 @@ class ApplicationController < ActionController::Base
     redirect_to default
     false
   end
-  
+
   def render_403(options={})
     @project = nil
     render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
     return false
   end
-    
+
   def render_404(options={})
     render_error({:message => :notice_file_not_found, :status => 404}.merge(options))
     return false
   end
-  
+
   # Renders an error response
   def render_error(arg)
     arg = {:message => arg} unless arg.is_a?(Hash)
-    
+
     @message = arg[:message]
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
-    
+
     respond_to do |format|
       format.html {
         render :template => 'common/error', :layout => use_layout, :status => @status
@@ -313,31 +310,31 @@ class ApplicationController < ActionController::Base
   def use_layout
     request.xhr? ? false : 'base'
   end
-  
+
   def invalid_authenticity_token
     if api_request?
       logger.error "Form authenticity token is missing or is invalid. API calls must include a proper Content-type header (text/xml or text/json)."
     end
     render_error "Invalid form authenticity token."
   end
-  
-  def render_feed(items, options={})    
+
+  def render_feed(items, options={})
     @items = items || []
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
-  
+
   def self.accept_key_auth(*actions)
     actions = actions.flatten.map(&:to_s)
     write_inheritable_attribute('accept_key_auth_actions', actions)
   end
-  
+
   def accept_key_auth_actions
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
-  
+
   # Returns the number of objects that should be displayed
   # on the paginated list
   def per_page_option
@@ -373,10 +370,10 @@ class ApplicationController < ActionController::Base
       offset = 0 if offset < 0
     end
     offset ||= 0
-    
+
     [offset, limit]
   end
-  
+
   # qvalues http header parser
   # code taken from webrick
   def parse_qvalues(value)
@@ -397,16 +394,16 @@ class ApplicationController < ActionController::Base
   rescue
     nil
   end
-  
+
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
     request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
   end
-  
+
   def api_request?
     %w(xml json).include? params[:format]
   end
-  
+
   # Returns the API key present in the request
   def api_key_from_request
     if params[:key].present?
@@ -463,7 +460,7 @@ class ApplicationController < ActionController::Base
     )
     render options
   end
-  
+
   # Overrides #default_template so that the api template
   # is used automatically if it exists
   def default_template(action_name = self.action_name)
@@ -477,7 +474,7 @@ class ApplicationController < ActionController::Base
     end
     super
   end
-  
+
   # Overrides #pick_layout so that #render with no arguments
   # doesn't use the layout for api requests
   def pick_layout(*args)

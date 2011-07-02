@@ -1,22 +1,42 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+desc 'Updates and checks locales against en.yml'
+task :locales do
+  %w(locales:update locales:check_interpolation).collect do |task|
+    Rake::Task[task].invoke
+  end
+end
+
 namespace :locales do
   desc 'Updates language files based on en.yml content (only works for new top level keys).'
   task :update do
     dir = ENV['DIR'] || './config/locales'
-    
+
     en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
-    
+
     files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
     files.each do |file|
       puts "Updating file #{file}"
       file_strings = YAML.load(File.read(file))
       file_strings = file_strings[file_strings.keys.first]
-    
+
       missing_keys = en_strings.keys - file_strings.keys
       next if missing_keys.empty?
-      
+
       puts "==> Missing #{missing_keys.size} keys (#{missing_keys.join(', ')})"
       lang = File.open(file, 'a')
-      
+
       missing_keys.each do |key|
         {key => en_strings[key]}.to_yaml.each_line do |line|
           next if line =~ /^---/ || line.empty?
@@ -24,8 +44,28 @@ namespace :locales do
           lang << "  #{line}"
         end
       end
-      
+
       lang.close
+    end
+  end
+
+  desc 'Checks interpolation arguments in locals against en.yml'
+  task :check_interpolation do
+    dir = ENV['DIR'] || './config/locales'
+    en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
+    files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
+    files.each do |file|
+      file_strings = YAML.load(File.read(file))
+      file_strings = file_strings[file_strings.keys.first]
+
+      file_strings.each do |key, string|
+        next unless string.is_a?(String)
+        string.scan /%\{\w+\}/ do |match|
+          unless en_strings[key].nil? || en_strings[key].include?(match)
+            puts "#{file}: #{key} uses #{match} not found in en.yml"
+          end
+        end
+      end
     end
   end
 
@@ -44,7 +84,7 @@ END_DESC
     deletes = ENV['key'] ? Regexp.union(ENV['key'].split(',')) : nil
     # Ignore multiline keys (begin with | or >) and keys with children (nothing meaningful after :)
     delete_regex = /\A  #{deletes}: +[^\|>\s#].*\z/
-    
+
     files.each do |path|
       # Skip certain locales
       (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
@@ -53,7 +93,7 @@ END_DESC
       File.open(path, 'w') {|file| orig_content.each_line {|line| file.puts line unless line.chomp =~ delete_regex}}
     end
   end
-  
+
   desc <<-END_DESC
 Adds a new top-level translation string to all locale file (only works for childless keys, probably doesn\'t work on windows, doesn't check for duplicates).
 

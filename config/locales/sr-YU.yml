@@ -10,15 +10,18 @@ sr-YU:
       default: "%d.%m.%Y."
       short: "%e %b"
       long: "%B %e, %Y"
-      
+
     day_names: [nedelja, ponedeljak, utorak, sreda, četvrtak, petak, subota]
     abbr_day_names: [ned, pon, uto, sre, čet, pet, sub]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, januar, februar, mart, april, maj, jun, jul, avgust, septembar, oktobar, novembar, decembar]
     abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, avg, sep, okt, nov, dec]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -92,7 +95,7 @@ sr-YU:
     array:
       sentence_connector: "i"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -126,7 +129,7 @@ sr-YU:
         cant_link_an_issue_with_a_descendant: "Problem ne može biti povezan sa jednim od svojih podzadataka"
 
   actionview_instancetag_blank_option: Molim odaberite
-  
+
   general_text_No: 'Ne'
   general_text_Yes: 'Da'
   general_text_no: 'ne'
@@ -137,7 +140,7 @@ sr-YU:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Nalog je uspešno ažuriran.
   notice_account_invalid_creditentials: Neispravno korisničko ime ili lozinka.
   notice_account_password_updated: Lozinka je uspešno ažurirana.
@@ -166,7 +169,7 @@ sr-YU:
   notice_unable_delete_version: Verziju je nemoguće izbrisati.
   notice_unable_delete_time_entry: Stavku evidencije vremena je nemoguće izbrisati.
   notice_issue_done_ratios_updated: Odnos rešenih problema je ažuriran.
-  
+
   error_can_t_load_default_data: "Podrazumevano konfigurisanje je nemoguće učitati: %{value}"
   error_scm_not_found: "Stavka ili ispravka nisu pronađene u spremištu."
   error_scm_command_failed: "Greška se javila prilikom pokušaja pristupa spremištu: %{value}"
@@ -183,9 +186,9 @@ sr-YU:
   error_workflow_copy_source: 'Molimo odaberite izvorno praćenje ili ulogu'
   error_workflow_copy_target: 'Molimo odaberite odredišno praćenje i ulogu'
   error_unable_delete_issue_status: 'Status problema je nemoguće obrisati'
-  error_unable_to_connect: "Povezivanje sa (%{value}) je nemoguće"  
+  error_unable_to_connect: "Povezivanje sa (%{value}) je nemoguće"
   warning_attachments_not_saved: "%{count} datoteka ne može biti snimljena."
-  
+
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_body_lost_password: 'Za promenu vaše lozinke, kliknite na sledeći link:'
   mail_subject_register: "Aktivacija vašeg %{value} naloga"
@@ -200,10 +203,10 @@ sr-YU:
   mail_body_wiki_content_added: "%{author} je dodao wiki stranicu '%{id}'."
   mail_subject_wiki_content_updated: "Wiki stranica '%{id}' je ažurirana"
   mail_body_wiki_content_updated: "%{author} je ažurirao wiki stranicu '%{id}'."
-  
+
   gui_validation_error: jedna greška
   gui_validation_error_plural: "%{count} grešaka"
-  
+
   field_name: Naziv
   field_description: Opis
   field_summary: Rezime
@@ -250,7 +253,6 @@ sr-YU:
   field_admin: Administrator
   field_last_login_on: Poslednje povezivanje
   field_language: Jezik
-  field_effective_date: Datum
   field_password: Lozinka
   field_new_password: Nova lozinka
   field_password_confirmation: Potvrda lozinke
@@ -266,7 +268,7 @@ sr-YU:
   field_attr_mail: Atribut e-adrese
   field_onthefly: Kreiranje korisnika u toku rada
   field_start_date: Početak
-  field_done_ratio: % urađeno
+  field_done_ratio: "% urađeno"
   field_auth_source: Režim potvrde identiteta
   field_hide_mail: Sakrij moju e-adresu
   field_comments: Komentar
@@ -296,7 +298,7 @@ sr-YU:
   field_group_by: Grupisanje rezultata po
   field_sharing: Deljenje
   field_parent_issue: Matični zadatak
-  
+
   setting_app_title: Naslov aplikacije
   setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
@@ -350,7 +352,7 @@ sr-YU:
   setting_start_of_week: Prvi dan u sedmici
   setting_rest_api_enabled: Omogući REST web usluge
   setting_cache_formatted_text: Keširanje obrađenog teksta
-  
+
   permission_add_project: Kreiranje projekta
   permission_add_subprojects: Kreiranje potpojekta
   permission_edit_project: Izmena projekata
@@ -406,7 +408,7 @@ sr-YU:
   permission_delete_own_messages: Brisanje sopstvenih poruka
   permission_export_wiki_pages: Izvoz wiki stranica
   permission_manage_subtasks: Upravljanje podzadacima
-  
+
   project_module_issue_tracking: Praćenje problema
   project_module_time_tracking: Praćenje vremena
   project_module_news: Vesti
@@ -415,7 +417,7 @@ sr-YU:
   project_module_wiki: Wiki
   project_module_repository: Spremište
   project_module_boards: Forumi
-  
+
   label_user: Korisnik
   label_user_plural: Korisnici
   label_user_new: Novi korisnik
@@ -772,8 +774,8 @@ sr-YU:
   label_api_access_key_created_on: "API pristupni ključ je kreiran pre %{value}"
   label_profile: Profil
   label_subtask_plural: Podzadatak
-  label_project_copy_notifications: Pošalji e-poruku sa obaveštenjem prilikom kopiranja projekta 
-  
+  label_project_copy_notifications: Pošalji e-poruku sa obaveštenjem prilikom kopiranja projekta
+
   button_login: Prijava
   button_submit: Pošalji
   button_save: Snimi
@@ -817,17 +819,17 @@ sr-YU:
   button_quote: Pod navodnicima
   button_duplicate: Dupliraj
   button_show: Prikaži
-  
+
   status_active: aktivni
   status_registered: registrovani
   status_locked: zaključani
-  
+
   version_status_open: otvoren
   version_status_locked: zaključan
   version_status_closed: zatvoren
 
   field_active: Aktivan
-  
+
   text_select_mail_notifications: Odaberi akcije za koje će obaveštenje biti poslato putem e-pošte.
   text_regexp_info: npr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znači bez ograničenja
@@ -885,7 +887,7 @@ sr-YU:
   text_own_membership_delete_confirmation: "Nakon uklanjanja pojedinih ili svih vaših dozvola nećete više moći da uređujete ovaj projekat.\nŽelite li da nastavite?"
   text_zoom_in: Uvećaj
   text_zoom_out: Umanji
-  
+
   default_role_manager: Menadžer
   default_role_developer: Programer
   default_role_reporter: Izveštač
@@ -909,12 +911,12 @@ sr-YU:
   default_priority_immediate: Neposredno
   default_activity_design: Dizajn
   default_activity_development: Razvoj
-  
+
   enumeration_issue_priorities: Prioriteti problema
   enumeration_doc_categories: Kategorije dokumenta
   enumeration_activities: Aktivnosti (praćenje vremena)
   enumeration_system_activity: Sistemska aktivnost
-  
+
   field_time_entries: Vreme evidencije
   project_module_gantt: Gantov dijagram
   project_module_calendar: Kalendar
@@ -946,3 +948,18 @@ sr-YU:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

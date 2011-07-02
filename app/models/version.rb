@@ -1,19 +1,15 @@
-# Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 class Version < ActiveRecord::Base
   after_update :update_issues_from_sharing_change
@@ -25,7 +21,7 @@ class Version < ActiveRecord::Base
 
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
-  
+
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 60
@@ -41,26 +37,30 @@ class Version < ActiveRecord::Base
   def visible?(user=User.current)
     user.allowed_to?(:view_issues, self.project)
   end
-  
+
+  # When a version started.
+  #
+  # Can either be a set date stored in the database or a dynamic one
+  # based on the earlist start_date of the fixed_issues
   def start_date
-    @start_date ||= fixed_issues.minimum('start_date')
+    @start_date ||= (read_attribute(:start_date) || fixed_issues.minimum('start_date'))
   end
-  
+
   def due_date
     effective_date
   end
-  
+
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
     @estimated_hours ||= fixed_issues.leaves.sum(:estimated_hours).to_f
   end
-  
+
   # Returns the total reported time for this version
   def spent_hours
     @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
   end
-  
+
   def closed?
     status == 'closed'
   end
@@ -68,7 +68,7 @@ class Version < ActiveRecord::Base
   def open?
     status == 'open'
   end
-  
+
   # Returns true if the version is completed: due date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
@@ -84,7 +84,7 @@ class Version < ActiveRecord::Base
       false # No issues so it's not late
     end
   end
-  
+
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
   def completed_pourcent
@@ -96,7 +96,7 @@ class Version < ActiveRecord::Base
       issues_progress(false) + issues_progress(true)
     end
   end
-  
+
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_pourcent
     if issues_count == 0
@@ -105,17 +105,17 @@ class Version < ActiveRecord::Base
       issues_progress(false)
     end
   end
-  
+
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
     effective_date && (effective_date < Date.today) && (open_issues_count > 0)
   end
-  
+
   # Returns assigned issues count
   def issues_count
     @issue_count ||= fixed_issues.count
   end
-  
+
   # Returns the total amount of open issues for this version.
   def open_issues_count
     @open_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, false], :include => :status)
@@ -125,20 +125,20 @@ class Version < ActiveRecord::Base
   def closed_issues_count
     @closed_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, true], :include => :status)
   end
-  
+
   def wiki_page
     if project.wiki && !wiki_page_title.blank?
       @wiki_page ||= project.wiki.find_page(wiki_page_title)
     end
     @wiki_page
   end
-  
+
   def to_s; name end
 
   def to_s_with_project
     "#{project} - #{name}"
   end
-  
+
   # Versions are sorted by effective_date and "Project Name - Version name"
   # Those with no effective_date are at the end, sorted by "Project Name - Version name"
   def <=>(version)
@@ -160,7 +160,7 @@ class Version < ActiveRecord::Base
       end
     end
   end
-  
+
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
     VERSION_SHARINGS.select do |s|
@@ -181,7 +181,7 @@ class Version < ActiveRecord::Base
       end
     end
   end
-  
+
   private
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
@@ -194,7 +194,7 @@ class Version < ActiveRecord::Base
       end
     end
   end
-  
+
   # Returns the average estimated time of assigned issues
   # or 1 if no issue has an estimated time
   # Used to weigth unestimated issues in progress calculation
@@ -208,7 +208,7 @@ class Version < ActiveRecord::Base
     end
     @estimated_average
   end
-  
+
   # Returns the total progress of open or closed issues.  The returned percentage takes into account
   # the amount of estimated time set for this version.
   #
@@ -221,7 +221,7 @@ class Version < ActiveRecord::Base
       progress = 0
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
-        
+
         done = fixed_issues.sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}",
                                   :include => :status,
                                   :conditions => ["is_closed = ?", !open]).to_f

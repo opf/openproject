@@ -1,38 +1,42 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require 'redmine/scm/adapters/darcs_adapter'
 
 class Repository::Darcs < Repository
-  validates_presence_of :url
+  validates_presence_of :url, :log_encoding
 
-  def scm_adapter
+  ATTRIBUTE_KEY_NAMES = {
+      "url"          => "Root directory",
+      "log_encoding" => "Commit messages encoding",
+    }
+  def self.human_attribute_name(attribute_key_name)
+    ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
+  end
+
+  def self.scm_adapter_class
     Redmine::Scm::Adapters::DarcsAdapter
   end
-  
+
   def self.scm_name
     'Darcs'
   end
-  
+
   def entry(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     scm.entry(path, patch.nil? ? nil : patch.scmid)
   end
-  
+
   def entries(path=nil, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier)
     entries = scm.entries(path, patch.nil? ? nil : patch.scmid)
@@ -50,12 +54,12 @@ class Repository::Darcs < Repository
     end
     entries
   end
-  
+
   def cat(path, identifier=nil)
     patch = identifier.nil? ? nil : changesets.find_by_revision(identifier.to_s)
     scm.cat(path, patch.nil? ? nil : patch.scmid)
   end
-  
+
   def diff(path, rev, rev_to)
     patch_from = changesets.find_by_revision(rev)
     return nil if patch_from.nil?
@@ -65,14 +69,14 @@ class Repository::Darcs < Repository
     end
     patch_from ? scm.diff(path, patch_from.scmid, patch_to ? patch_to.scmid : nil) : nil
   end
-  
+
   def fetch_changesets
     scm_info = scm.info
     if scm_info
       db_last_id = latest_changeset ? latest_changeset.scmid : nil
-      next_rev = latest_changeset ? latest_changeset.revision.to_i + 1 : 1      
+      next_rev = latest_changeset ? latest_changeset.revision.to_i + 1 : 1
       # latest revision in the repository
-      scm_revision = scm_info.lastrev.scmid      
+      scm_revision = scm_info.lastrev.scmid
       unless changesets.find_by_scmid(scm_revision)
         revisions = scm.revisions('', db_last_id, nil, :with_path => true)
         transaction do
@@ -80,10 +84,10 @@ class Repository::Darcs < Repository
             changeset = Changeset.create(:repository => self,
                                          :revision => next_rev,
                                          :scmid => revision.scmid,
-                                         :committer => revision.author, 
+                                         :committer => revision.author,
                                          :committed_on => revision.time,
                                          :comments => revision.message)
-                                         
+
             revision.paths.each do |change|
               changeset.create_change(change)
             end

@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'timelog_controller'
@@ -30,7 +26,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-  
+
   def test_get_new
     @request.session[:user_id] = 3
     get :new, :project_id => 1
@@ -40,14 +36,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :tag => 'option', :attributes => { :selected => 'selected' },
                                  :content => 'Development'
   end
-  
+
   def test_get_new_should_only_show_active_time_entry_activities
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
     assert_template 'edit'
     assert_no_tag :tag => 'option', :content => 'Inactive Activity'
-                                    
+
   end
 
   def test_get_edit_existing_time
@@ -58,7 +54,7 @@ class TimelogControllerTest < ActionController::TestCase
     # Default activity selected
     assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/time_entries/2' }
   end
-  
+
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
     te = TimeEntry.find(1)
     te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
@@ -71,7 +67,7 @@ class TimelogControllerTest < ActionController::TestCase
     # Blank option since nothing is pre-selected
     assert_tag :tag => 'option', :content => '--- Please select ---'
   end
-  
+
   def test_post_create
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
@@ -84,7 +80,7 @@ class TimelogControllerTest < ActionController::TestCase
                                 :issue_id => '1',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
-    
+
     i = Issue.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
@@ -107,31 +103,31 @@ class TimelogControllerTest < ActionController::TestCase
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
-    
+
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
   end
-  
+
   def test_update
     entry = TimeEntry.find(1)
     assert_equal 1, entry.issue_id
     assert_equal 2, entry.user_id
-    
+
     @request.session[:user_id] = 1
     put :update, :id => 1,
                 :time_entry => {:issue_id => '2',
                                 :hours => '8'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     entry.reload
-    
+
     assert_equal 8, entry.hours
     assert_equal 2, entry.issue_id
     assert_equal 2, entry.user_id
   end
-  
+
   def test_destroy
     @request.session[:user_id] = 2
     delete :destroy, :id => 1
@@ -139,7 +135,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
     assert_nil TimeEntry.find_by_id(1)
   end
-  
+
   def test_destroy_should_fail
     # simulate that this fails (e.g. due to a plugin), see #5700
     TimeEntry.class_eval do
@@ -156,17 +152,19 @@ class TimelogControllerTest < ActionController::TestCase
     # remove the simulation
     TimeEntry.before_destroy.reject! {|callback| callback.method == :stop_callback_chain }
   end
-  
+
   def test_index_all_projects
     get :index
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_project_level
-    get :index, :project_id => 1
+    get :index, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
@@ -178,10 +176,12 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time by default
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_project_level_with_date_range
-    get :index, :project_id => 1, :from => '2007-03-20', :to => '2007-04-30'
+    get :index, :project_id => 'ecookbook', :from => '2007-03-20', :to => '2007-04-30'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
@@ -190,26 +190,32 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
     assert_equal '2007-03-20'.to_date, assigns(:from)
     assert_equal '2007-04-30'.to_date, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_at_project_level_with_period
-    get :index, :project_id => 1, :period => '7_days'
+    get :index, :project_id => 'ecookbook', :period => '7_days'
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
 
   def test_index_one_day
-    get :index, :project_id => 1, :from => "2007-03-23", :to => "2007-03-23"
+    get :index, :project_id => 'ecookbook', :from => "2007-03-23", :to => "2007-03-23"
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "4.25", "%.2f" % assigns(:total_hours)
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_at_issue_level
     get :index, :issue_id => 1
     assert_response :success
@@ -221,8 +227,12 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
+    # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
+    # to use /issues/:issue_id/time_entries
+    assert_tag :form,
+      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
   end
-  
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
@@ -230,7 +240,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil assigns(:items)
     assert assigns(:items).first.is_a?(TimeEntry)
   end
-  
+
   def test_index_all_projects_csv_export
     Setting.date_format = '%m/%d/%Y'
     get :index, :format => 'csv'
@@ -239,7 +249,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
-  
+
   def test_index_csv_export
     Setting.date_format = '%m/%d/%Y'
     get :index, :project_id => 1, :format => 'csv'

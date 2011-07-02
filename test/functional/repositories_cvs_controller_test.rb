@@ -1,20 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 require 'repositories_controller'
 
@@ -39,23 +34,14 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
     User.current = nil
 
     @project = Project.find(PRJ_ID)
-    @repository  = Repository::Cvs.create(:project => Project.find(PRJ_ID),
-                                          :root_url => REPOSITORY_PATH,
-                                          :url => MODULE_NAME)
+    @repository  = Repository::Cvs.create(:project      => Project.find(PRJ_ID),
+                                          :root_url     => REPOSITORY_PATH,
+                                          :url          => MODULE_NAME,
+                                          :log_encoding => 'UTF-8')
     assert @repository
   end
-  
+
   if File.directory?(REPOSITORY_PATH)
-    def test_show
-      @repository.fetch_changesets
-      @repository.reload
-      get :show, :id => PRJ_ID
-      assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
-    end
-    
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
@@ -64,14 +50,17 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_template 'show'
       assert_not_nil assigns(:entries)
       assert_equal 3, assigns(:entries).size
-      
+
       entry = assigns(:entries).detect {|e| e.name == 'images'}
       assert_equal 'dir', entry.kind
 
       entry = assigns(:entries).detect {|e| e.name == 'README'}
       assert_equal 'file', entry.kind
+
+      assert_not_nil assigns(:changesets)
+      assigns(:changesets).size > 0
     end
-    
+
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
@@ -85,7 +74,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_equal 'file', entry.kind
       assert_equal 'images/edit.png', entry.path
     end
-    
+
     def test_browse_at_given_revision
       @repository.fetch_changesets
       @repository.reload
@@ -95,7 +84,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entries)
       assert_equal ['delete.png', 'edit.png'], assigns(:entries).collect(&:name)
     end
-  
+
     def test_entry
       @repository.fetch_changesets
       @repository.reload
@@ -105,7 +94,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_no_tag :tag => 'td', :attributes => { :class => /line-code/},
                                   :content => /before_filter/
     end
-    
+
     def test_entry_at_given_revision
       # changesets must be loaded
       @repository.fetch_changesets
@@ -117,7 +106,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_tag :tag => 'td', :attributes => { :class => /line-code/},
                                :content => /before_filter/
     end
-    
+
     def test_entry_not_found
       @repository.fetch_changesets
       @repository.reload
@@ -125,7 +114,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                                 :content => /The entry or revision was not found in the repository/
     end
-  
+
     def test_entry_download
       @repository.fetch_changesets
       @repository.reload
@@ -142,7 +131,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:entry)
       assert_equal 'sources', assigns(:entry).name
     end
-    
+
     def test_diff
       @repository.fetch_changesets
       @repository.reload
@@ -150,9 +139,27 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'diff'
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_out' },
-                               :content => /watched.remove_watcher/
+                               :content => /before_filter :require_login/
       assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
-                               :content => /watched.remove_all_watcher/
+                               :content => /with one change/
+    end
+
+    def test_diff_new_files
+      @repository.fetch_changesets
+      @repository.reload
+      get :diff, :id => PRJ_ID, :rev => 1, :type => 'inline'
+      assert_response :success
+      assert_template 'diff'
+      assert_tag :tag => 'td', :attributes => { :class => 'line-code diff_in' },
+                               :content => /watched.remove_watcher/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/README/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/images\/delete.png	/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/images\/edit.png/
+      assert_tag :tag => 'th', :attributes => { :class => 'filename' },
+                               :content => /test\/sources\/watchers_controller.rb/
     end
 
     def test_annotate

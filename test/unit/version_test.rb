@@ -1,20 +1,15 @@
-# Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
@@ -22,26 +17,51 @@ class VersionTest < ActiveSupport::TestCase
 
   def setup
   end
-  
+
   def test_create
     v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25')
     assert v.save
     assert_equal 'open', v.status
   end
-  
+
   def test_invalid_effective_date_validation
     v = Version.new(:project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01')
     assert !v.save
     assert_equal I18n.translate('activerecord.errors.messages.not_a_date'), v.errors.on(:effective_date)
   end
-  
+
+  context "#start_date" do
+    context "with no value saved" do
+      should "be the date of the earlist issue" do
+        project = Project.find(1)
+        v = Version.create!(:project => project, :name => 'Progress')
+        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+        Issue.generate_for_project!(project, :subject => 'not assigned', :start_date => '2010-01-01')
+
+        assert_equal '2010-03-01', v.start_date.to_s
+      end
+    end
+
+    context "with a value saved" do
+      should "be the value" do
+        project = Project.find(1)
+        v = Version.create!(:project => project, :name => 'Progress', :start_date => '2010-01-05')
+        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+
+        assert_equal '2010-01-05', v.start_date.to_s
+      end
+    end
+
+  end
+
+
   def test_progress_should_be_0_with_no_assigned_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
     assert_equal 0, v.completed_pourcent
     assert_equal 0, v.closed_pourcent
   end
-  
+
   def test_progress_should_be_0_with_unbegun_assigned_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -50,7 +70,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 0, v.completed_pourcent
     assert_progress_equal 0, v.closed_pourcent
   end
-  
+
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
     status = IssueStatus.find(:first, :conditions => {:is_closed => true})
@@ -62,7 +82,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 100.0, v.completed_pourcent
     assert_progress_equal 100.0, v.closed_pourcent
   end
-  
+
   def test_progress_should_consider_done_ratio_of_open_assigned_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -72,7 +92,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_pourcent
     assert_progress_equal 0, v.closed_pourcent
   end
-  
+
   def test_progress_should_consider_closed_issues_as_completed
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -82,7 +102,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
     assert_progress_equal (100.0)/3, v.closed_pourcent
   end
-  
+
   def test_progress_should_consider_estimated_hours_to_weigth_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -93,7 +113,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
     assert_progress_equal 25.0/95.0*100, v.closed_pourcent
   end
-  
+
   def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -113,7 +133,7 @@ class VersionTest < ActiveSupport::TestCase
 
       @version = Version.generate!(:project => @project, :effective_date => nil)
     end
-    
+
     should "be false if there are no issues assigned" do
       @version.update_attribute(:effective_date, Date.yesterday)
       assert_equal false, @version.behind_schedule?
@@ -159,22 +179,22 @@ class VersionTest < ActiveSupport::TestCase
     setup do
       @version = Version.create!(:project_id => 1, :name => '#estimated_hours')
     end
-    
+
     should "return 0 with no assigned issues" do
       assert_equal 0, @version.estimated_hours
     end
-    
+
     should "return 0 with no estimated hours" do
       add_issue(@version)
       assert_equal 0, @version.estimated_hours
     end
-    
+
     should "return the sum of estimated hours" do
       add_issue(@version, :estimated_hours => 2.5)
       add_issue(@version, :estimated_hours => 5)
       assert_equal 7.5, @version.estimated_hours
     end
-    
+
     should "return the sum of leaves estimated hours" do
       parent = add_issue(@version)
       add_issue(@version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
@@ -185,17 +205,17 @@ class VersionTest < ActiveSupport::TestCase
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
     User.current = User.find(1) # Need the admin's permissions
-    
+
     @version = Version.find(7)
     # Separate hierarchy
     project_1_issue = Issue.find(1)
     project_1_issue.fixed_version = @version
     assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
-    
+
     project_5_issue = Issue.find(6)
     project_5_issue.fixed_version = @version
     assert project_5_issue.save
-    
+
     # Project
     project_2_issue = Issue.find(4)
     project_2_issue.fixed_version = @version
@@ -208,7 +228,7 @@ class VersionTest < ActiveSupport::TestCase
     # Project 1 now out of the shared scope
     project_1_issue.reload
     assert_equal nil, project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
-    
+
     # Project 5 now out of the shared scope
     project_5_issue.reload
     assert_equal nil, project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
@@ -217,9 +237,9 @@ class VersionTest < ActiveSupport::TestCase
     project_2_issue.reload
     assert_equal @version, project_2_issue.fixed_version
   end
-  
+
   private
-  
+
   def add_issue(version, attributes={})
     Issue.create!({:project => version.project,
                    :fixed_version => version,
@@ -227,7 +247,7 @@ class VersionTest < ActiveSupport::TestCase
                    :author => User.find(:first),
                    :tracker => version.project.trackers.find(:first)}.merge(attributes))
   end
-  
+
   def assert_progress_equal(expected_float, actual_float, message="")
     assert_in_delta(expected_float, actual_float, 0.000001, message="")
   end

@@ -1,4 +1,4 @@
-# Italian translations for Ruby on Rails 
+# Italian translations for Ruby on Rails
 # by Claudio Poli (masterkain@gmail.com)
 # by Diego Pierotto (ita.translations@tiscali.it)
 # by Emidio Stani (emidiostani@gmail.com)
@@ -16,8 +16,11 @@ it:
     abbr_day_names: [Dom, Lun, Mar, Mer, Gio, Ven, Sab]
     month_names: [~, Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
     abbr_month_names: [~, Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Set, Ott, Nov, Dic]
-    order: [ :day, :month, :year ]
-  
+    order:
+      - :day
+      - :month
+      - :year
+
   time:
     formats:
       default: "%a %d %b %Y, %H:%M:%S %z"
@@ -25,14 +28,14 @@ it:
       short: "%d %b %H:%M"
       long: "%d %B %Y %H:%M"
       only_second: "%S"
-      
+
       datetime:
         formats:
           default: "%d-%m-%YT%H:%M:%S%Z"
-          
+
     am: 'am'
     pm: 'pm'
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "mezzo minuto"
@@ -69,7 +72,7 @@ it:
       almost_x_years:
         one:   "quasi 1 anno"
         other: "quasi %{count} anni"
-      
+
   number:
     format:
       precision: 3
@@ -91,16 +94,16 @@ it:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-        
+
   support:
     array:
       sentence_connector: "e"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
-        header: 
+        header:
           one: "Non posso salvare questo %{model}: 1 errore"
           other: "Non posso salvare questo %{model}: %{count} errori."
         body: "Per favore ricontrolla i seguenti campi:"
@@ -130,7 +133,7 @@ it:
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
 
   actionview_instancetag_blank_option: Scegli
-  
+
   general_text_No: 'No'
   general_text_Yes: 'Sì'
   general_text_no: 'no'
@@ -141,7 +144,7 @@ it:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: L'utente è stato aggiornato.
   notice_account_invalid_creditentials: Nome utente o password non validi.
   notice_account_password_updated: La password è stata aggiornata.
@@ -161,18 +164,18 @@ it:
   notice_email_sent: "Una email è stata spedita a %{value}"
   notice_email_error: "Si è verificato un errore durante l'invio di una email (%{value})"
   notice_feeds_access_key_reseted: La tua chiave di accesso RSS è stata reimpostata.
-  
+
   error_scm_not_found: "La risorsa e/o la versione non esistono nel repository."
   error_scm_command_failed: "Si è verificato un errore durante l'accesso al repository: %{value}"
-  
+
   mail_subject_lost_password: "Password %{value}"
   mail_body_lost_password: 'Per cambiare la password, usa il seguente collegamento:'
   mail_subject_register: "Attivazione utente %{value}"
   mail_body_register: "Per attivare l'utente, usa il seguente collegamento:"
-  
+
   gui_validation_error: 1 errore
   gui_validation_error_plural: "%{count} errori"
-  
+
   field_name: Nome
   field_description: Descrizione
   field_summary: Sommario
@@ -218,7 +221,6 @@ it:
   field_admin: Amministratore
   field_last_login_on: Ultima connessione
   field_language: Lingua
-  field_effective_date: Data
   field_password: Password
   field_new_password: Nuova password
   field_password_confirmation: Conferma
@@ -234,7 +236,7 @@ it:
   field_attr_mail: Attributo email
   field_onthefly: Creazione utente "al volo"
   field_start_date: Inizio
-  field_done_ratio: % completato
+  field_done_ratio: "% completato"
   field_auth_source: Modalità di autenticazione
   field_hide_mail: Nascondi il mio indirizzo email
   field_comments: Commento
@@ -252,7 +254,7 @@ it:
   field_redirect_existing_links: Redirige i collegamenti esistenti
   field_estimated_hours: Tempo stimato
   field_default_value: Stato predefinito
-  
+
   setting_app_title: Titolo applicazione
   setting_app_subtitle: Sottotitolo applicazione
   setting_welcome_text: Testo di benvenuto
@@ -273,7 +275,7 @@ it:
   setting_autologin: Connessione automatica
   setting_date_format: Formato data
   setting_cross_project_issue_relations: Consenti la creazione di relazioni tra segnalazioni in progetti differenti
-  
+
   label_user: Utente
   label_user_plural: Utenti
   label_user_new: Nuovo utente
@@ -529,7 +531,7 @@ it:
   label_added_time_by: "Aggiunto da %{author} %{age} fa"
   label_updated_time: "Aggiornato %{value} fa"
   label_jump_to_a_project: Vai al progetto...
-  
+
   button_login: Entra
   button_submit: Invia
   button_save: Salva
@@ -562,11 +564,11 @@ it:
   button_unarchive: Ripristina
   button_reset: Reimposta
   button_rename: Rinomina
-  
+
   status_active: attivo
   status_registered: registrato
   status_locked: bloccato
-  
+
   text_select_mail_notifications: Seleziona le azioni per cui deve essere inviata una notifica.
   text_regexp_info: es. ^[A-Z0-9]+$
   text_min_max_length_info: 0 significa nessuna restrizione
@@ -589,7 +591,7 @@ it:
   text_issue_category_destroy_question: "Alcune segnalazioni (%{count}) risultano assegnate a questa categoria. Cosa vuoi fare ?"
   text_issue_category_destroy_assignments: Rimuovi le assegnazioni a questa categoria
   text_issue_category_reassign_to: Riassegna segnalazioni a questa categoria
-  
+
   default_role_manager: Gestore
   default_role_developer: Sviluppatore
   default_role_reporter: Segnalatore
@@ -613,7 +615,7 @@ it:
   default_priority_immediate: Immediata
   default_activity_design: Progettazione
   default_activity_development: Sviluppo
-  
+
   enumeration_issue_priorities: Priorità segnalazioni
   enumeration_doc_categories: Categorie di documenti
   enumeration_activities: Attività (time tracking)
@@ -947,3 +949,18 @@ it:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

@@ -56,6 +56,7 @@ table.list td.buttons a { padding-right: 20px; }
 .changeset-changes { direction: ltr; padding-left: 2em }
 .changesets { direction: ltr; }
 div#issue-changesets { float: left; margin-right: 1em; margin-left: 0 }
+div#issue-changesets div.wiki { direction: ltr; padding-left: 2em }
 #activity dt, .journal { clear: right; }
 .journal-link { float: left; }
 div.wiki pre { direction: ltr; }

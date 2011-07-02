@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require File.expand_path('../../test_helper', __FILE__)
 
 class ContextMenusControllerTest < ActionController::TestCase
@@ -50,7 +63,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '#',
                                              :class => 'icon-del disabled' }
   end
-  
+
   def test_context_menu_multiple_issues_of_same_project
     @request.session[:user_id] = 2
     get :issues, :ids => [1, 2]
@@ -58,7 +71,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_template 'context_menu'
     assert_not_nil assigns(:issues)
     assert_equal [1, 2], assigns(:issues).map(&:id).sort
-                              
+
     ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
@@ -90,7 +103,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_template 'context_menu'
     assert_not_nil assigns(:issues)
     assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
-    
+
     ids = assigns(:issues).map(&:id).map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
     assert_tag :tag => 'a', :content => 'Edit',
                             :attributes => { :href => "/issues/bulk_edit?#{ids}",
@@ -108,7 +121,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/destroy?#{ids}",
                                              :class => 'icon-del' }
   end
-  
+
   def test_context_menu_issue_visibility
     get :issues, :ids => [1, 4]
     assert_response :success

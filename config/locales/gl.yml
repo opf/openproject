@@ -4,34 +4,34 @@
 gl:
   number:
     format:
-      separator: "," 
-      delimiter: "." 
+      separator: ","
+      delimiter: "."
       precision: 3
 
     currency:
       format:
-        format: "%n %u" 
-        unit: "€" 
-        separator: "," 
-        delimiter: "." 
+        format: "%n %u"
+        unit: "€"
+        separator: ","
+        delimiter: "."
         precision: 2
 
     percentage:
       format:
-        # separator: 
-        delimiter: "" 
-        # precision: 
+        # separator:
+        delimiter: ""
+        # precision:
 
     precision:
       format:
         # separator:
-        delimiter: "" 
+        delimiter: ""
         # precision:
 
     human:
       format:
-        # separator: 
-        delimiter: "" 
+        # separator:
+        delimiter: ""
         precision: 1
       storage_units:
         format: "%n %u"
@@ -43,8 +43,8 @@ gl:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-  
-  
+
+
   direction: ltr
   date:
     formats:
@@ -55,7 +55,10 @@ gl:
     abbr_day_names:   [Dom, Lun, Mar, Mer, Xov, Ven, Sab]
     month_names:      [~, Xaneiro, Febreiro, Marzo, Abril, Maio, Xunio, Xullo, Agosto, Setembro, Outubro, Novembro, Decembro]
     abbr_month_names: [~, Xan, Feb, Maz, Abr, Mai, Xun, Xul, Ago, Set, Out, Nov, Dec]
-    order:            [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -63,10 +66,10 @@ gl:
       time:       "%H:%M hs"
       short:      "%e/%m, %H:%M hs"
       long:       "%A %e de %B de %Y ás %H:%M horas"
-    
+
     am: ''
     pm: ''
-    
+
   datetime:
     distance_in_words:
       half_a_minute: 'medio minuto'
@@ -113,7 +116,7 @@ gl:
       today: 'hoxe'
       tomorrow: 'mañá'
       in: 'dentro de'
-  
+
   support:
     array:
       sentence_connector: e
@@ -153,7 +156,7 @@ gl:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Por favor seleccione
-  
+
   button_activate: Activar
   button_add: Engadir
   button_annotate: Anotar
@@ -243,10 +246,9 @@ gl:
   field_default_value: Estado por defecto
   field_delay: Retraso
   field_description: Descrición
-  field_done_ratio: % Realizado
+  field_done_ratio: "% Realizado"
   field_downloads: Descargas
   field_due_date: Data fin
-  field_effective_date: Data
   field_estimated_hours: Tempo estimado
   field_field_format: Formato
   field_filename: Arquivo
@@ -958,3 +960,18 @@ gl:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

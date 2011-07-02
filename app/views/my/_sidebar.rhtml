@@ -1,6 +1,6 @@
 <h3><%=l(:label_my_account)%></h3>
 
-<p><%=l(:field_login)%>: <strong><%= @user.login %></strong><br />
+<p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
 <%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
 
 
@@ -19,7 +19,7 @@
 <h4><%= l(:label_api_access_key) %></h4>
 <div>
   <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
-  <pre id='api-access-key' class='autoscroll'><%= @user.api_key %></pre>
+  <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>
 </div>
 <%= javascript_tag("$('api-access-key').hide();") %>
 <p>

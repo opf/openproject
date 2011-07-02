@@ -1,19 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require 'redmine/scm/adapters/abstract_adapter'
 
@@ -32,6 +28,28 @@ module Redmine
 
           def sq_bin
             @@sq_bin ||= shell_quote(BZR_BIN)
+          end
+
+          def client_version
+            @@client_version ||= (scm_command_version || [])
+          end
+
+          def client_available
+            !client_version.empty?
+          end
+
+          def scm_command_version
+            scm_version = scm_version_from_command_line.dup
+            if scm_version.respond_to?(:force_encoding)
+              scm_version.force_encoding('ASCII-8BIT')
+            end
+            if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
+              m[2].scan(%r{\d+}).collect(&:to_i)
+            end
+          end
+
+          def scm_version_from_command_line
+            shellout("#{sq_bin} --version") { |io| io.read }.to_s
           end
         end
 
@@ -60,8 +78,8 @@ module Redmine
           path ||= ''
           entries = Entries.new
           cmd = "#{self.class.sq_bin} ls -v --show-ids"
-          identifier = -1 unless identifier && identifier.to_i > 0 
-          cmd << " -r#{identifier.to_i}" 
+          identifier = -1 unless identifier && identifier.to_i > 0
+          cmd << " -r#{identifier.to_i}"
           cmd << " #{target(path)}"
           shellout(cmd) do |io|
             prefix = "#{url}/#{path}".gsub('\\', '/')
@@ -98,7 +116,7 @@ module Redmine
                 parsing = nil
               else
                 next unless revision
-                
+
                 if line =~ /^revno: (\d+)($|\s\[merge\]$)/
                   revision.identifier = $1.to_i
                 elsif line =~ /^committer: (.+)$/
@@ -146,7 +164,7 @@ module Redmine
         def diff(path, identifier_from, identifier_to=nil)
           path ||= ''
           if identifier_to
-            identifier_to = identifier_to.to_i 
+            identifier_to = identifier_to.to_i
           else
             identifier_to = identifier_from.to_i - 1
           end

@@ -1,4 +1,4 @@
-# French translations for Ruby on Rails 
+# French translations for Ruby on Rails
 # by Christian Lescuyer (christian@flyingcoders.com)
 # contributor: Sebastien Grosjean - ZenCocoon.com
 # contributor: Thibaut Cuvelier - Developpez.com
@@ -17,8 +17,11 @@ fr:
     abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
     month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
     abbr_month_names: [~, jan., fév., mar., avr., mai, juin, juil., août, sept., oct., nov., déc.]
-    order: [ :day, :month, :year ]
-  
+    order:
+      - :day
+      - :month
+      - :year
+
   time:
     formats:
       default: "%d/%m/%Y %H:%M"
@@ -75,7 +78,7 @@ fr:
       hour:   "Heure"
       minute: "Minute"
       second: "Seconde"
-  
+
   number:
     format:
       precision: 3
@@ -99,7 +102,7 @@ fr:
           mb: "Mo"
           gb: "Go"
           tb: "To"
-  
+
   support:
     array:
       sentence_connector: 'et'
@@ -107,11 +110,11 @@ fr:
       word_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "
-  
+
   activerecord:
     errors:
       template:
-        header: 
+        header:
           one: "Impossible d'enregistrer %{model} : une erreur"
           other: "Impossible d'enregistrer %{model} : %{count} erreurs."
         body: "Veuillez vérifier les champs suivants :"
@@ -142,7 +145,7 @@ fr:
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
 
   actionview_instancetag_blank_option: Choisir
-  
+
   general_text_No: 'Non'
   general_text_Yes: 'Oui'
   general_text_no: 'non'
@@ -153,7 +156,7 @@ fr:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Le compte a été mis à jour avec succès.
   notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
   notice_account_password_updated: Mot de passe mis à jour avec succès.
@@ -182,7 +185,7 @@ fr:
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
   notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
-  
+
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
   error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt : %{value}"
@@ -193,9 +196,9 @@ fr:
   error_workflow_copy_source: 'Veuillez sélectionner un tracker et/ou un rôle source'
   error_workflow_copy_target: 'Veuillez sélectionner les trackers et rôles cibles'
   error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
-  
+
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
-  
+
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
   mail_subject_register: "Activation de votre compte %{value}"
@@ -210,10 +213,10 @@ fr:
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajoutée par %{author}."
   mail_subject_wiki_content_updated: "Page wiki '%{id}' mise à jour"
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
-  
+
   gui_validation_error: 1 erreur
   gui_validation_error_plural: "%{count} erreurs"
-  
+
   field_name: Nom
   field_description: Description
   field_summary: Résumé
@@ -259,7 +262,6 @@ fr:
   field_admin: Administrateur
   field_last_login_on: "Dernière connexion "
   field_language: Langue
-  field_effective_date: Date
   field_password: Mot de passe
   field_new_password: Nouveau mot de passe
   field_password_confirmation: Confirmation
@@ -275,7 +277,7 @@ fr:
   field_attr_mail: Attribut Email
   field_onthefly: Création des utilisateurs à la volée
   field_start_date: Début
-  field_done_ratio: % réalisé
+  field_done_ratio: "% réalisé"
   field_auth_source: Mode d'authentification
   field_hide_mail: Cacher mon adresse mail
   field_comments: Commentaire
@@ -307,7 +309,8 @@ fr:
   field_active: Actif
   field_parent_issue: Tâche parente
   field_visible: Visible
-  
+  field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
+
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
   setting_welcome_text: Texte d'accueil
@@ -364,7 +367,7 @@ fr:
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
-  
+
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
   permission_edit_project: Modifier le projet
@@ -420,7 +423,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages
   permission_manage_project_activities: Gérer les activités
   permission_manage_subtasks: Gérer les sous-tâches
-  
+
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
   project_module_news: Publication d'annonces
@@ -429,7 +432,7 @@ fr:
   project_module_wiki: Wiki
   project_module_repository: Dépôt de sources
   project_module_boards: Forums de discussion
-  
+
   label_user: Utilisateur
   label_user_plural: Utilisateurs
   label_user_new: Nouvel utilisateur
@@ -539,6 +542,7 @@ fr:
   label_news_latest: Dernières annonces
   label_news_view_all: Voir toutes les annonces
   label_news_added: Annonce ajoutée
+  label_news_comment_added: Commentaire ajouté à une annonce
   label_settings: Configuration
   label_overview: Aperçu
   label_version: Version
@@ -596,6 +600,7 @@ fr:
   label_query: Rapport personnalisé
   label_query_plural: Rapports personnalisés
   label_query_new: Nouveau rapport
+  label_my_queries: Mes rapports personnalisés
   label_filter_add: "Ajouter le filtre "
   label_filter_plural: Filtres
   label_equals: égal
@@ -784,12 +789,16 @@ fr:
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
   label_principal_search: "Rechercher un utilisateur ou un groupe :"
   label_user_search: "Rechercher un utilisateur :"
-  
+  label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
+  label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
+
   button_login: Connexion
   button_submit: Soumettre
   button_save: Sauvegarder
   button_check_all: Tout cocher
   button_uncheck_all: Tout décocher
+  button_collapse_all: Plier tout
+  button_expand_all: Déplier tout
   button_delete: Supprimer
   button_create: Créer
   button_create_and_continue: Créer et continuer
@@ -828,15 +837,15 @@ fr:
   button_quote: Citer
   button_duplicate: Dupliquer
   button_show: Afficher
-  
+
   status_active: actif
   status_registered: enregistré
   status_locked: verrouillé
-  
+
   version_status_open: ouvert
   version_status_locked: verrouillé
   version_status_closed: fermé
-  
+
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pour aucune restriction
@@ -889,7 +898,8 @@ fr:
   text_wiki_page_destroy_children: "Supprimer les sous-pages et toutes leurs descedantes"
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
-  
+  text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
+
   default_role_manager: "Manager "
   default_role_developer: "Développeur "
   default_role_reporter: "Rapporteur "
@@ -913,7 +923,7 @@ fr:
   default_priority_immediate: Immédiat
   default_activity_design: Conception
   default_activity_development: Développement
-  
+
   enumeration_issue_priorities: Priorités des demandes
   enumeration_doc_categories: Catégories des documents
   enumeration_activities: Activités (suivi du temps)
@@ -925,6 +935,7 @@ fr:
   error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   text_journal_changed: "%{label} changé de %{old} à %{new}"
+  text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_deleted: "%{label} %{old} supprimé"
   text_journal_added: "%{label} %{value} ajouté"
@@ -955,7 +966,7 @@ fr:
   label_user_mail_option_none: Aucune notification
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
-  setting_emails_header: Emails header
+  setting_emails_header: En-tête des emails
   text_powered_by: Powered by %{link}
   label_cvs_module: Module
   label_filesystem_path: Root directory
@@ -964,3 +975,9 @@ fr:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  field_effective_date: Due date
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

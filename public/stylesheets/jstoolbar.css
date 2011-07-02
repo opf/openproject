@@ -44,7 +44,8 @@
 	margin-right: 4px;
 }
 
-.jstElements .help { float: right; margin-right: 1em; padding-top: 8px; font-size: 0.9em; }
+.jstElements .help { float: right; margin-right: 0.5em; padding-top: 8px; font-size: 0.9em; }
+.jstElements .help a {padding: 2px 0 2px 20px; background: url(../images/help.png) no-repeat 0 50%;}
 
 /* Buttons
 -------------------------------------------------------- */

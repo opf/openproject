@@ -6,9 +6,9 @@ api.array :projects, api_meta(:total_count => @project_count, :offset => @offset
       api.identifier  project.identifier
       api.description project.description
       api.parent(:id => project.parent_id, :name => project.parent.name) unless project.parent.nil?
-      
+
       render_api_custom_values project.visible_custom_field_values, api
-      
+
       api.created_on  project.created_on
       api.updated_on  project.updated_on
     end

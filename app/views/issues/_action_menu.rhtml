@@ -1,8 +1,7 @@
 <div class="contextual">
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-time-add' %>
-<% replace_watcher ||= 'watcher' %>
-<%= watcher_tag(@issue, User.current, {:id => replace_watcher, :replace => ['watchers','watcher','watcher2']}) %>
+<%= watcher_link(@issue, User.current, {:class => 'watcher_link', :replace => ['#watchers', '.watcher_link']}) %>
 <%= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move' %>

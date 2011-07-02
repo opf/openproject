@@ -4,12 +4,12 @@ api.project do
   api.identifier  @project.identifier
   api.description @project.description
   api.homepage    @project.homepage
-  
+
   render_api_custom_values @project.visible_custom_field_values, api
-  
+
   api.created_on @project.created_on
   api.updated_on @project.updated_on
-  
+
   api.array :trackers do
     @project.trackers.each do |tracker|
       api.tracker(:id => tracker.id, :name => tracker.name)

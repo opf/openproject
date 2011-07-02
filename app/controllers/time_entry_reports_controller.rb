@@ -1,14 +1,23 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 class TimeEntryReportsController < ApplicationController
   menu_item :issues
   before_filter :find_optional_project
   before_filter :load_available_criterias
 
-  helper :sort
   include SortHelper
-  helper :issues
-  helper :timelog
   include TimelogHelper
-  helper :custom_fields
   include CustomFieldsHelper
 
   def report
@@ -16,16 +25,16 @@ class TimeEntryReportsController < ApplicationController
     @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
     @criterias.uniq!
     @criterias = @criterias[0,3]
-    
+
     @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
-    
+
     retrieve_date_range
-    
+
     unless @criterias.empty?
       sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
       sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
       sql_condition = ''
-      
+
       if @project.nil?
         sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
       elsif @issue.nil?
@@ -41,9 +50,9 @@ class TimeEntryReportsController < ApplicationController
       sql << " (%s) AND" % sql_condition
       sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
-      
+
       @hours = ActiveRecord::Base.connection.select_all(sql)
-      
+
       @hours.each do |row|
         case @columns
         when 'year'
@@ -56,9 +65,9 @@ class TimeEntryReportsController < ApplicationController
           row['day'] = "#{row['spent_on']}"
         end
       end
-      
+
       @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
-      
+
       @periods = []
       # Date#at_beginning_of_ not supported in Rails 1.2.x
       date_from = @from.to_time
@@ -80,13 +89,13 @@ class TimeEntryReportsController < ApplicationController
         end
       end
     end
-    
+
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
       format.csv  { send_data(report_to_csv(@criterias, @periods, @hours), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
     end
   end
-  
+
   private
 
   # TODO: duplicated in TimelogController
@@ -141,7 +150,7 @@ class TimeEntryReportsController < ApplicationController
     else
       # default
     end
-    
+
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
@@ -170,7 +179,7 @@ class TimeEntryReportsController < ApplicationController
                                          :klass => Issue,
                                          :label => :label_issue}
                            }
-    
+
     # Add list and boolean custom fields as available criterias
     custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
     custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
@@ -178,7 +187,7 @@ class TimeEntryReportsController < ApplicationController
                                              :format => cf.field_format,
                                              :label => cf.name}
     end if @project
-    
+
     # Add list and boolean time entry custom fields
     TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
       @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",

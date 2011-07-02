@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 class CreateWikiContents < ActiveRecord::Migration
   def self.up
     create_table :wiki_contents do |t|
@@ -9,7 +22,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :version, :integer, :null => false
     end
     add_index :wiki_contents, :page_id, :name => :wiki_contents_page_id
-    
+
     create_table :wiki_content_versions do |t|
       t.column :wiki_content_id, :integer, :null => false
       t.column :page_id, :integer, :null => false

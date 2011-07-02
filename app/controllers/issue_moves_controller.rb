@@ -1,8 +1,21 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 class IssueMovesController < ApplicationController
   default_search_scope :issues
   before_filter :find_issues, :check_project_uniqueness
   before_filter :authorize
-  
+
   def new
     prepare_for_issue_move
     render :layout => false if request.xhr?
@@ -17,8 +30,7 @@ class IssueMovesController < ApplicationController
       moved_issues = []
       @issues.each do |issue|
         issue.reload
-        issue.init_journal(User.current)
-        issue.current_journal.notes = @notes if @notes.present?
+        issue.init_journal(User.current, @notes || "")
         call_hook(:controller_issues_move_before_save, { :params => params, :issue => issue, :target_project => @target_project, :copy => !!@copy })
         if r = issue.move_to_project(@target_project, new_tracker, {:copy => @copy, :attributes => extract_changed_attributes_for_move(params)})
           moved_issues << r
@@ -48,7 +60,7 @@ class IssueMovesController < ApplicationController
     @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = Issue.allowed_target_projects_on_move
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-    @target_project ||= @project    
+    @target_project ||= @project
     @trackers = @target_project.trackers
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]

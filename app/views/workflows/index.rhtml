@@ -14,7 +14,7 @@
     <th>
         <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
     </th>
-    
+
     <% end %>
     </tr>
 </thead>
@@ -24,7 +24,7 @@
   <td><%= h tracker %></td>
   <% roles.each do |role, count| -%>
     <td align="center">
-      <%= link_to((count > 1 ? count : image_tag('false.png')), {:action => 'edit', :role_id => role, :tracker_id => tracker}, :title => l(:button_edit)) %>
+      <%= link_to((count > 0 ? count : image_tag('false.png')), {:action => 'edit', :role_id => role, :tracker_id => tracker}, :title => l(:button_edit)) %>
     </td>
   <% end -%>
 </tr>

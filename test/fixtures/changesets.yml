@@ -1,5 +1,5 @@
---- 
-changesets_001: 
+---
+changesets_001:
   commit_date: 2007-04-11
   committed_on: 2007-04-11 15:14:44 +02:00
   revision: 1
@@ -8,7 +8,7 @@ changesets_001:
   repository_id: 10
   committer: dlopper
   user_id: 3
-changesets_002: 
+changesets_002:
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
   revision: 2
@@ -17,7 +17,7 @@ changesets_002:
   repository_id: 10
   committer: dlopper
   user_id: 3
-changesets_003: 
+changesets_003:
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
   revision: 3
@@ -28,7 +28,7 @@ changesets_003:
   repository_id: 10
   committer: dlopper
   user_id: 3
-changesets_004: 
+changesets_004:
   commit_date: 2007-04-12
   committed_on: 2007-04-12 15:14:44 +02:00
   revision: 4
@@ -39,7 +39,7 @@ changesets_004:
   repository_id: 10
   committer: dlopper
   user_id: 3
-changesets_005: 
+changesets_005:
   commit_date: "2007-09-10"
   comments: Modified one file in the folder.
   committed_on: 2007-09-10 19:01:08
@@ -49,7 +49,7 @@ changesets_005:
   user_id: 3
   repository_id: 10
   committer: dlopper
-changesets_006: 
+changesets_006:
   commit_date: "2007-09-10"
   comments: Moved helloworld.rb from / to /folder.
   committed_on: 2007-09-10 19:01:47
@@ -59,7 +59,7 @@ changesets_006:
   user_id: 3
   repository_id: 10
   committer: dlopper
-changesets_007: 
+changesets_007:
   commit_date: "2007-09-10"
   comments: Removed one file.
   committed_on: 2007-09-10 19:02:16
@@ -69,7 +69,7 @@ changesets_007:
   user_id: 3
   repository_id: 10
   committer: dlopper
-changesets_008: 
+changesets_008:
   commit_date: "2007-09-10"
   comments: |-
     This commits references an issue.
@@ -81,7 +81,7 @@ changesets_008:
   user_id: 3
   repository_id: 10
   committer: dlopper
-changesets_009: 
+changesets_009:
   commit_date: "2009-09-10"
   comments: One file added.
   committed_on: 2009-09-10 19:04:35
@@ -91,7 +91,7 @@ changesets_009:
   user_id: 3
   repository_id: 10
   committer: dlopper
-changesets_010: 
+changesets_010:
   commit_date: "2009-09-10"
   comments: Same file modified.
   committed_on: 2009-09-10 19:04:35
@@ -101,4 +101,4 @@ changesets_010:
   user_id: 3
   repository_id: 10
   committer: dlopper
-  
+

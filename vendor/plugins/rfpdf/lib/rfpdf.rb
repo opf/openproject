@@ -20,12 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+require 'action_controller'
+require 'action_view'
 
-require 'rfpdf/errors'
-require 'rfpdf/view'
-require 'rfpdf/fpdf'
-require 'rfpdf/rfpdf'
-require 'rfpdf/chinese'
-require 'rfpdf/japanese'
-require 'rfpdf/korean'
+require 'rfpdf/action_controller'
+require 'rfpdf/action_view'
+
+require 'rfpdf/template_handler/compile_support'
+
+require 'rfpdf/template_handlers/base'
+
+
+class ActionController::Base
+  include RFPDF::ActionController
+end
+
+class ActionView::Base
+  include RFPDF::ActionView
+end

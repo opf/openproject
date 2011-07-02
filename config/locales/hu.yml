@@ -1,4 +1,4 @@
-# Hungarian translations for Ruby on Rails 
+# Hungarian translations for Ruby on Rails
 # by Richard Abonyi (richard.abonyi@gmail.com)
 # thanks to KKata, replaced and #hup.hu
 # Cleaned up by László Bácsi (http://lackac.hu)
@@ -16,7 +16,10 @@
     abbr_day_names: [v., h., k., sze., cs., p., szo.]
     month_names: [~, január, február, március, április, május, június, július, augusztus, szeptember, október, november, december]
     abbr_month_names: [~, jan., febr., márc., ápr., máj., jún., júl., aug., szept., okt., nov., dec.]
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -146,7 +149,7 @@
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Kérem válasszon
-  
+
   general_text_No: 'Nem'
   general_text_Yes: 'Igen'
   general_text_no: 'nem'
@@ -157,7 +160,7 @@
   general_csv_encoding: ISO-8859-2
   general_pdf_encoding: ISO-8859-2
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: A fiók adatai sikeresen frissítve.
   notice_account_invalid_creditentials: Hibás felhasználói név, vagy jelszó
   notice_account_password_updated: A jelszó módosítása megtörtént.
@@ -181,13 +184,13 @@
   notice_no_issue_selected: "Nincs feladat kiválasztva! Kérem jelölje meg melyik feladatot szeretné szerkeszteni!"
   notice_account_pending: "A fiókja létrejött, és adminisztrátori jóváhagyásra vár."
   notice_default_data_loaded: Az alapértelmezett konfiguráció betöltése sikeresen megtörtént.
-  
+
   error_can_t_load_default_data: "Az alapértelmezett konfiguráció betöltése nem lehetséges: %{value}"
   error_scm_not_found: "A bejegyzés, vagy revízió nem található a tárolóban."
   error_scm_command_failed: "A tároló elérése közben hiba lépett fel: %{value}"
   error_scm_annotate: "A bejegyzés nem létezik, vagy nics jegyzetekkel ellátva."
   error_issue_not_found_in_project: 'A feladat nem található, vagy nem ehhez a projekthez tartozik'
-  
+
   mail_subject_lost_password: Az Ön Redmine jelszava
   mail_body_lost_password: 'A Redmine jelszó megváltoztatásához, kattintson a következő linkre:'
   mail_subject_register: Redmine azonosító aktiválása
@@ -196,10 +199,10 @@
   mail_body_account_information: Az Ön Redmine azonosítójának információi
   mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
   mail_body_account_activation_request: "Egy új felhasználó (%{value}) regisztrált, azonosítója jóváhasgyásra várakozik:"
-  
+
   gui_validation_error: 1 hiba
   gui_validation_error_plural: "%{count} hiba"
-  
+
   field_name: Név
   field_description: Leírás
   field_summary: Összegzés
@@ -245,7 +248,6 @@
   field_admin: Adminisztrátor
   field_last_login_on: Utolsó bejelentkezés
   field_language: Nyelv
-  field_effective_date: Dátum
   field_password: Jelszó
   field_new_password: Új jelszó
   field_password_confirmation: Megerősítés
@@ -283,7 +285,7 @@
   field_searchable: Kereshető
   field_default_value: Alapértelmezett érték
   field_comments_sorting: Feljegyzések megjelenítése
-  
+
   setting_app_title: Alkalmazás címe
   setting_app_subtitle: Alkalmazás alcíme
   setting_welcome_text: Üdvözlő üzenet
@@ -316,7 +318,7 @@
   setting_activity_days_default: Napok megjelenítése a project aktivitásnál
   setting_display_subprojects_issues: Alapértelmezettként mutassa az alprojektek feladatait is a projekteken
   setting_start_of_week: A hét első napja
-  
+
   project_module_issue_tracking: Feladat követés
   project_module_time_tracking: Idő rögzítés
   project_module_news: Hírek
@@ -325,7 +327,7 @@
   project_module_wiki: Wiki
   project_module_repository: Tároló
   project_module_boards: Fórumok
-  
+
   label_user: Felhasználó
   label_user_plural: Felhasználók
   label_user_new: Új felhasználó
@@ -631,7 +633,7 @@
   label_chronological_order: Időrendben
   label_reverse_chronological_order: Fordított időrendben
   label_planning: Tervezés
-  
+
   button_login: Bejelentkezés
   button_submit: Elfogad
   button_save: Mentés
@@ -669,11 +671,11 @@
   button_annotate: Jegyzetel
   button_update: Módosít
   button_configure: Konfigurál
-  
+
   status_active: aktív
   status_registered: regisztrált
   status_locked: zárolt
-  
+
   text_select_mail_notifications: Válasszon eseményeket, amelyekről e-mail értesítést kell küldeni.
   text_regexp_info: pl. ^[A-Z0-9]+$
   text_min_max_length_info: 0 = nincs korlátozás
@@ -711,7 +713,7 @@
   text_destroy_time_entries: A rögzített órák törlése
   text_assign_time_entries_to_project: A rögzített órák hozzárendelése a projekthez
   text_reassign_time_entries: 'A rögzített órák újra hozzárendelése másik feladathoz:'
-  
+
   default_role_manager: Vezető
   default_role_developer: Fejlesztő
   default_role_reporter: Bejelentő
@@ -735,7 +737,7 @@
   default_priority_immediate: Azonnal
   default_activity_design: Tervezés
   default_activity_development: Fejlesztés
-  
+
   enumeration_issue_priorities: Feladat prioritások
   enumeration_doc_categories: Dokumentum kategóriák
   enumeration_activities: Tevékenységek (idő rögzítés)
@@ -965,3 +967,18 @@
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

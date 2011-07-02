@@ -7,7 +7,7 @@
 <li><%=l(:field_assigned_to)%>: <%=h issue.assigned_to %></li>
 <li><%=l(:field_category)%>: <%=h issue.category %></li>
 <li><%=l(:field_fixed_version)%>: <%=h issue.fixed_version %></li>
-<% issue.custom_values.each do |c| %>
+<% issue.custom_field_values.each do |c| %>
   <li><%=h c.custom_field.name %>: <%=h show_value(c) %></li>
 <% end %>
 </ul>

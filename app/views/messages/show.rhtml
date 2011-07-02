@@ -2,7 +2,7 @@
                link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}) %>
 
 <div class="contextual">
-    <%= watcher_tag(@topic, User.current) %>
+    <%= watcher_link(@topic, User.current) %>
     <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'quote', :id => @topic} }, :class => 'icon icon-comment') unless @topic.locked? %>
     <%= link_to(l(:button_edit), {:action => 'edit', :id => @topic}, :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
     <%= link_to(l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
@@ -47,7 +47,7 @@
 <% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',

@@ -1,25 +1,21 @@
-# Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
-  
+
   before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
   before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
   before_filter :authorize_global, :only => [:new, :create]
@@ -32,22 +28,17 @@ class ProjectsController < ApplicationController
     end
   end
 
-  helper :sort
   include SortHelper
-  helper :custom_fields
-  include CustomFieldsHelper   
-  helper :issues
-  helper :queries
+  include CustomFieldsHelper
   include QueriesHelper
-  helper :repositories
   include RepositoriesHelper
   include ProjectsHelper
-  
+
   # Lists visible projects
   def index
     respond_to do |format|
-      format.html { 
-        @projects = Project.visible.find(:all, :order => 'lft') 
+      format.html {
+        @projects = Project.visible.find(:all, :order => 'lft')
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
@@ -61,7 +52,7 @@ class ProjectsController < ApplicationController
       }
     end
   end
-  
+
   def new
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
@@ -84,7 +75,7 @@ class ProjectsController < ApplicationController
         @project.members << m
       end
       respond_to do |format|
-        format.html { 
+        format.html {
           flash[:notice] = l(:notice_successful_create)
           redirect_to :controller => 'projects', :action => 'settings', :id => @project
         }
@@ -96,9 +87,9 @@ class ProjectsController < ApplicationController
         format.api  { render_validation_errors(@project) }
       end
     end
-    
+
   end
-  
+
   def copy
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
@@ -112,7 +103,7 @@ class ProjectsController < ApplicationController
         @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       else
         redirect_to :controller => 'admin', :action => 'projects'
-      end  
+      end
     else
       Mailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
@@ -134,35 +125,34 @@ class ProjectsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'admin', :action => 'projects'
   end
-	
+
   # Show @project
   def show
     if params[:jump]
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
-    
+
     @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible
+    @subprojects = @project.children.visible.all
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
-    
+
     cond = @project.project_condition(Setting.display_subprojects_issues?)
-    
+
     @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
                                             :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
     @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
                                             :conditions => cond)
-    
-    TimeEntry.visible_by(User.current) do
-      @total_hours = TimeEntry.sum(:hours, 
-                                   :include => :project,
-                                   :conditions => cond).to_f
+
+    if User.current.allowed_to?(:view_time_entries, @project)
+      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
+
     @key = User.current.rss_key
-    
+
     respond_to do |format|
       format.html
       format.api
@@ -177,7 +167,7 @@ class ProjectsController < ApplicationController
     @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
-  
+
   def edit
   end
 
@@ -188,7 +178,7 @@ class ProjectsController < ApplicationController
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       respond_to do |format|
-        format.html { 
+        format.html {
           flash[:notice] = l(:notice_successful_update)
           redirect_to :action => 'settings', :id => @project
         }
@@ -196,7 +186,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { 
+        format.html {
           settings
           render :action => 'settings'
         }
@@ -220,12 +210,12 @@ class ProjectsController < ApplicationController
     end
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
-  
+
   def unarchive
     @project.unarchive if request.post? && !@project.active?
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
-  
+
   # Delete @project
   def destroy
     @project_to_destroy = @project

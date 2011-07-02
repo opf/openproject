@@ -13,7 +13,10 @@
     abbr_day_names: [søn, man, tir, ons, tor, fre, lør]
     month_names: [~, januar, februar, mars, april, mai, juni, juli, august, september, oktober, november, desember]
     abbr_month_names: [~, jan, feb, mar, apr, mai, jun, jul, aug, sep, okt, nov, des]
-    order: [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
   time:
     formats:
       default: "%A, %e. %B %Y, %H:%M"
@@ -113,9 +116,9 @@
         circular_dependency: "Denne relasjonen ville lagd en sirkulær avhengighet"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
-  
+
   actionview_instancetag_blank_option: Vennligst velg
-  
+
   general_text_No: 'Nei'
   general_text_Yes: 'Ja'
   general_text_no: 'nei'
@@ -126,7 +129,7 @@
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Kontoen er oppdatert.
   notice_account_invalid_creditentials: Feil brukernavn eller passord
   notice_account_password_updated: Passordet er oppdatert.
@@ -150,13 +153,13 @@
   notice_no_issue_selected: "Ingen sak valgt! Vennligst merk sakene du vil endre."
   notice_account_pending: "Din konto ble opprettet og avventer nå administrativ godkjenning."
   notice_default_data_loaded: Standardkonfigurasjonen lastet inn.
-  
+
   error_can_t_load_default_data: "Standardkonfigurasjonen kunne ikke lastes inn: %{value}"
   error_scm_not_found: "Elementet og/eller revisjonen eksisterer ikke i depoet."
   error_scm_command_failed: "En feil oppstod under tilkobling til depoet: %{value}"
   error_scm_annotate: "Elementet eksisterer ikke, eller kan ikke noteres."
   error_issue_not_found_in_project: 'Saken eksisterer ikke, eller hører ikke til dette prosjektet'
-  
+
   mail_subject_lost_password: "Ditt %{value} passord"
   mail_body_lost_password: 'Klikk følgende lenke for å endre ditt passord:'
   mail_subject_register: "%{value} kontoaktivering"
@@ -167,10 +170,10 @@
   mail_body_account_activation_request: "En ny bruker (%{value}) er registrert, og avventer din godkjenning:"
   mail_subject_reminder: "%{count} sak(er) har frist de kommende %{days} dagene"
   mail_body_reminder: "%{count} sak(er) som er tildelt deg har frist de kommende %{days} dager:"
-  
+
   gui_validation_error: 1 feil
   gui_validation_error_plural: "%{count} feil"
-  
+
   field_name: Navn
   field_description: Beskrivelse
   field_summary: Oppsummering
@@ -216,7 +219,6 @@
   field_admin: Administrator
   field_last_login_on: Sist innlogget
   field_language: Språk
-  field_effective_date: Dato
   field_password: Passord
   field_new_password: Nytt passord
   field_password_confirmation: Bekreft passord
@@ -232,7 +234,7 @@
   field_attr_mail: E-post-attributt
   field_onthefly: On-the-fly brukeropprettelse
   field_start_date: Start
-  field_done_ratio: % Ferdig
+  field_done_ratio: "% Ferdig"
   field_auth_source: Autentifikasjonsmodus
   field_hide_mail: Skjul min e-post-adresse
   field_comments: Kommentarer
@@ -254,7 +256,7 @@
   field_searchable: Søkbar
   field_default_value: Standardverdi
   field_comments_sorting: Vis kommentarer
-  
+
   setting_app_title: Applikasjonstittel
   setting_app_subtitle: Applikasjonens undertittel
   setting_welcome_text: Velkomsttekst
@@ -287,7 +289,7 @@
   setting_activity_days_default: Dager vist på prosjektaktivitet
   setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
   setting_enabled_scm: Aktiviserte SCM
-  
+
   project_module_issue_tracking: Sakssporing
   project_module_time_tracking: Tidssporing
   project_module_news: Nyheter
@@ -296,7 +298,7 @@
   project_module_wiki: Wiki
   project_module_repository: Depot
   project_module_boards: Forumer
-  
+
   label_user: Bruker
   label_user_plural: Brukere
   label_user_new: Ny bruker
@@ -356,7 +358,7 @@
   label_logout: Logg ut
   label_help: Hjelp
   label_reported_issues: Rapporterte saker
-  label_assigned_to_me_issues: Saker tildelt meg 
+  label_assigned_to_me_issues: Saker tildelt meg
   label_last_login: Sist innlogget
   label_registered_on: Registrert
   label_activity: Aktivitet
@@ -603,7 +605,7 @@
   label_chronological_order: I kronologisk rekkefølge
   label_reverse_chronological_order: I omvendt kronologisk rekkefølge
   label_planning: Planlegging
-  
+
   button_login: Logg inn
   button_submit: Send
   button_save: Lagre
@@ -641,11 +643,11 @@
   button_annotate: Notér
   button_update: Oppdater
   button_configure: Konfigurer
-  
+
   status_active: aktiv
   status_registered: registrert
   status_locked: låst
-  
+
   text_select_mail_notifications: Velg hendelser som skal varsles med e-post.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyr ingen begrensning
@@ -684,7 +686,7 @@
   text_assign_time_entries_to_project: Overfør førte timer til prosjektet
   text_reassign_time_entries: 'Overfør førte timer til denne saken:'
   text_user_wrote: "%{value} skrev:"
-  
+
   default_role_manager: Leder
   default_role_developer: Utvikler
   default_role_reporter: Rapportør
@@ -708,7 +710,7 @@
   default_priority_immediate: Omgående
   default_activity_design: Design
   default_activity_development: Utvikling
-  
+
   enumeration_issue_priorities: Sakssprioriteringer
   enumeration_doc_categories: Dokument-kategorier
   enumeration_activities: Aktiviteter (tidssporing)
@@ -933,3 +935,18 @@
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

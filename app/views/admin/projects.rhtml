@@ -11,6 +11,7 @@
 <label><%= l(:label_project) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= link_to l(:button_clear), {:controller => 'admin', :action => 'projects'}, :class => 'icon icon-reload' %>
 </fieldset>
 <% end %>
 &nbsp;

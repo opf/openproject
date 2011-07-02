@@ -1,20 +1,15 @@
-# Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 
 class GroupTest < ActiveSupport::TestCase
@@ -24,27 +19,27 @@ class GroupTest < ActiveSupport::TestCase
     g = Group.new(:lastname => 'New group')
     assert g.save
   end
-  
+
   def test_roles_given_to_new_user
     group = Group.find(11)
     user = User.find(9)
     project = Project.first
-    
+
     Member.create!(:principal => group, :project => project, :role_ids => [1, 2])
     group.users << user
     assert user.member_of?(project)
   end
-  
+
   def test_roles_given_to_existing_user
     group = Group.find(11)
     user = User.find(9)
     project = Project.first
-    
+
     group.users << user
     m = Member.create!(:principal => group, :project => project, :role_ids => [1, 2])
     assert user.member_of?(project)
   end
-  
+
   def test_roles_updated
     group = Group.find(11)
     user = User.find(9)
@@ -52,13 +47,13 @@ class GroupTest < ActiveSupport::TestCase
     group.users << user
     m = Member.create!(:principal => group, :project => project, :role_ids => [1])
     assert_equal [1], user.reload.roles_for_project(project).collect(&:id).sort
-    
+
     m.role_ids = [1, 2]
     assert_equal [1, 2], user.reload.roles_for_project(project).collect(&:id).sort
-    
+
     m.role_ids = [2]
     assert_equal [2], user.reload.roles_for_project(project).collect(&:id).sort
-    
+
     m.role_ids = [1]
     assert_equal [1], user.reload.roles_for_project(project).collect(&:id).sort
   end

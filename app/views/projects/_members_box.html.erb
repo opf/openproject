@@ -1,6 +1,6 @@
   <% if @users_by_role.any? %>
 	<div class="members box">
-		<h3><%=l(:label_member_plural)%></h3>	
+		<h3><%=l(:label_member_plural)%></h3>
 		<p><% @users_by_role.keys.sort.each do |role| %>
 		<%=h role %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %><br />
 		<% end %></p>

@@ -14,7 +14,7 @@
 <table class="filecontent annotate syntaxhl">
   <tbody>
     <% line_num = 1 %>
-    <% syntax_highlight(@path, to_utf8(@annotate.content)).each_line do |line| %>
+    <% syntax_highlight(@path, to_utf8_for_repositories(@annotate.content)).each_line do |line| %>
     <% revision = @annotate.revisions[line_num-1] %>
     <tr class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
       <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>

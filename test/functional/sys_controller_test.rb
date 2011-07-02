@@ -1,29 +1,26 @@
-# Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'sys_controller'
+require 'mocha'
 
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end
 
 class SysControllerTest < ActionController::TestCase
-  fixtures :projects, :repositories
-  
+  fixtures :projects, :repositories, :enabled_modules
+
   def setup
     @controller = SysController.new
     @request    = ActionController::TestRequest.new
@@ -31,7 +28,7 @@ class SysControllerTest < ActionController::TestCase
     Setting.sys_api_enabled = '1'
     Setting.enabled_scm = %w(Subversion Git)
   end
-  
+
   def test_projects_with_repository_enabled
     get :projects
     assert_response :success
@@ -43,46 +40,48 @@ class SysControllerTest < ActionController::TestCase
 
   def test_create_project_repository
     assert_nil Project.find(4).repository
-    
-    post :create_project_repository, :id => 4, 
+
+    post :create_project_repository, :id => 4,
                                      :vendor => 'Subversion',
                                      :repository => { :url => 'file:///create/project/repository/subproject2'}
     assert_response :created
-    
+
     r = Project.find(4).repository
     assert r.is_a?(Repository::Subversion)
     assert_equal 'file:///create/project/repository/subproject2', r.url
   end
-  
+
   def test_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
     get :fetch_changesets
     assert_response :success
   end
-  
+
   def test_fetch_changesets_one_project
+    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
     get :fetch_changesets, :id => 'ecookbook'
     assert_response :success
   end
-  
+
   def test_fetch_changesets_unknown_project
     get :fetch_changesets, :id => 'unknown'
     assert_response 404
   end
-  
+
   def test_disabled_ws_should_respond_with_403_error
     with_settings :sys_api_enabled => '0' do
       get :projects
       assert_response 403
     end
   end
-  
+
   def test_api_key
     with_settings :sys_api_key => 'my_secret_key' do
       get :projects, :key => 'my_secret_key'
       assert_response :success
     end
   end
-  
+
   def test_wrong_key_should_respond_with_403_error
     with_settings :sys_api_enabled => 'my_secret_key' do
       get :projects, :key => 'wrong_key'

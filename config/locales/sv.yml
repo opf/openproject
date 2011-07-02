@@ -13,7 +13,7 @@ sv:
       delimiter: "."
       # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
       precision: 2
-      
+
     # Used in number_to_currency()
     currency:
       format:
@@ -24,15 +24,15 @@ sv:
         # separator: "."
         # delimiter: ","
         # precision: 2
-        
+
     # Used in number_to_percentage()
     percentage:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
-        # precision: 
-        
+        # precision:
+
     # Used in number_to_precision()
     precision:
       format:
@@ -40,12 +40,12 @@ sv:
         # separator:
         delimiter: ""
         # precision:
-        
+
     # Used in number_to_human_size()
     human:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
         # precision: 1
       storage_units:
@@ -96,7 +96,7 @@ sv:
       almost_x_years:
         one:   "nästan 1 år"
         other: "nästan %{count} år"
-        
+
   activerecord:
     errors:
       template:
@@ -141,15 +141,18 @@ sv:
       default: "%Y-%m-%d"
       short: "%e %b"
       long: "%e %B, %Y"
-      
+
     day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
     abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
     abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -159,7 +162,7 @@ sv:
       long: "%d %B, %Y %H:%M"
     am: ""
     pm: ""
-      
+
 # Used in array.to_sentence.
   support:
     array:
@@ -167,7 +170,7 @@ sv:
       skip_last_comma: true
 
   actionview_instancetag_blank_option: Var god välj
-  
+
   general_text_No: 'Nej'
   general_text_Yes: 'Ja'
   general_text_no: 'nej'
@@ -178,7 +181,7 @@ sv:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Kontot har uppdaterats
   notice_account_invalid_creditentials: Fel användarnamn eller lösenord
   notice_account_password_updated: Lösenordet har uppdaterats
@@ -207,9 +210,9 @@ sv:
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
   notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
-  notice_issue_done_ratios_updated: % klart uppdaterade.
+  notice_issue_done_ratios_updated: "% klart uppdaterade."
   notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som får visas (%{max})"
-  
+
   error_can_t_load_default_data: "Standardkonfiguration gick inte att läsa in: %{value}"
   error_scm_not_found: "Inlägg och/eller revision finns inte i detta versionsarkiv."
   error_scm_command_failed: "Ett fel inträffade vid försök att nå versionsarkivet: %{value}"
@@ -227,9 +230,9 @@ sv:
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
-  
+
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
-  
+
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_body_lost_password: 'För att ändra ditt lösenord, klicka på följande länk:'
   mail_subject_register: "Din %{value} kontoaktivering"
@@ -244,10 +247,10 @@ sv:
   mail_body_wiki_content_added: "The '%{id}' wikisida has lagts till av %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
   mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
-  
+
   gui_validation_error: 1 fel
   gui_validation_error_plural: "%{count} fel"
-  
+
   field_name: Namn
   field_description: Beskrivning
   field_summary: Sammanfattning
@@ -294,7 +297,6 @@ sv:
   field_admin: Administratör
   field_last_login_on: Senaste inloggning
   field_language: Språk
-  field_effective_date: Datum
   field_password: Lösenord
   field_new_password: Nytt lösenord
   field_password_confirmation: Bekräfta lösenord
@@ -310,7 +312,7 @@ sv:
   field_attr_mail: Mailattribut
   field_onthefly: Skapa användare on-the-fly
   field_start_date: Startdatum
-  field_done_ratio: % Klart
+  field_done_ratio: "% Klart"
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
   field_comments: Kommentar
@@ -335,7 +337,7 @@ sv:
   field_comments_sorting: Visa kommentarer
   field_parent_title: Föräldersida
   field_editable: Redigerbar
-  field_watcher: Bevakare  
+  field_watcher: Bevakare
   field_identity_url: OpenID URL
   field_content: Innehåll
   field_group_by: Gruppera resultat efter
@@ -345,7 +347,8 @@ sv:
   field_assigned_to_role: "Tilldelad användares roll"
   field_text: Textfält
   field_visible: Synlig
-  
+  field_warn_on_leaving_unsaved: Varna om jag lämnar en sida med osparad text
+
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
   setting_welcome_text: Välkomsttext
@@ -404,7 +407,7 @@ sv:
   setting_commit_logtime_enabled: Aktivera tidloggning
   setting_commit_logtime_activity_id: Aktivitet för loggad tid
   setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
-  
+
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
   permission_edit_project: Ändra projekt
@@ -460,7 +463,7 @@ sv:
   permission_delete_own_messages: Ta bort egna meddelanden
   permission_export_wiki_pages: Exportera wikisidor
   permission_manage_subtasks: Hantera underaktiviteter
-  
+
   project_module_issue_tracking: Ärendeuppföljning
   project_module_time_tracking: Tidsuppföljning
   project_module_news: Nyheter
@@ -471,7 +474,7 @@ sv:
   project_module_boards: Forum
   project_module_calendar: Kalender
   project_module_gantt: Gantt
-  
+
   label_user: Användare
   label_user_plural: Användare
   label_user_new: Ny användare
@@ -636,6 +639,7 @@ sv:
   label_query: Användardefinerad fråga
   label_query_plural: Användardefinerade frågor
   label_query_new: Ny fråga
+  label_my_queries: Mina egna frågor
   label_filter_add: Lägg till filter
   label_filter_plural: Filter
   label_equals: är
@@ -835,7 +839,7 @@ sv:
   label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
   label_principal_search: "Sök efter användare eller grupp:"
   label_user_search: "Sök efter användare:"
-  
+
   button_login: Logga in
   button_submit: Skicka
   button_save: Spara
@@ -880,17 +884,17 @@ sv:
   button_quote: Citera
   button_duplicate: Duplicera
   button_show: Visa
-  
+
   status_active: aktiv
   status_registered: registrerad
   status_locked: låst
-  
+
   version_status_open: öppen
   version_status_locked: låst
   version_status_closed: stängd
-  
+
   field_active: Aktiv
-  
+
   text_select_mail_notifications: Välj för vilka händelser mail ska skickas.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betyder ingen gräns
@@ -900,6 +904,7 @@ sv:
   text_are_you_sure: Är du säker ?
   text_are_you_sure_with_children: Ta bort ärende och alla underärenden?
   text_journal_changed: "%{label} ändrad från %{old} till %{new}"
+  text_journal_changed_no_detail: "%{label} uppdaterad"
   text_journal_set_to: "%{label} satt till %{value}"
   text_journal_deleted: "%{label} borttagen (%{old})"
   text_journal_added: "%{label} %{value} tillagd"
@@ -950,7 +955,8 @@ sv:
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
   text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
-  
+  text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
+
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
   default_role_reporter: Rapportör
@@ -974,7 +980,7 @@ sv:
   default_priority_immediate: Omedelbar
   default_activity_design: Design
   default_activity_development: Utveckling
-  
+
   enumeration_issue_priorities: Ärendeprioriteter
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
@@ -987,3 +993,15 @@ sv:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

@@ -5,12 +5,12 @@
 <title><%=h html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
+<%= csrf_meta_tag %>
 <%= favicon %>
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-<%= javascript_include_tag :defaults %>
+<%= javascript_heads %>
 <%= heads_for_theme %>
-<%= heads_for_wiki_formatter %>
 <!--[if IE 6]>
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
@@ -21,7 +21,7 @@
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
-<body class="<%= body_css_classes %>">
+<body class="<%=h body_css_classes %>">
 <div id="wrapper">
 <div id="wrapper2">
 <div id="top-menu">
@@ -29,10 +29,11 @@
         <%= render_menu :account_menu -%>
     </div>
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
-    <%= render_menu :top_menu -%>
+    <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
-      
+
 <div id="header">
+    <% if User.current.logged? || !Setting.login_required? %>
     <div id="quick-search">
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
@@ -41,9 +42,10 @@
         <% end %>
         <%= render_project_jump_box %>
     </div>
-    
+    <% end %>
+
     <h1><%= page_header_title %></h1>
-    
+
     <% if display_main_menu?(@project) %>
     <div id="main-menu">
         <%= render_main_menu(@project) %>
@@ -52,11 +54,11 @@
 </div>
 
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar">        
+    <div id="sidebar">
         <%= yield :sidebar %>
         <%= call_hook :view_layouts_base_sidebar %>
     </div>
-    
+
     <div id="content">
 				<%= render_flash_messages %>
         <%= yield %>
@@ -66,7 +68,7 @@
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-	
+
 <div id="footer">
   <div class="bgl"><div class="bgr">
     <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>

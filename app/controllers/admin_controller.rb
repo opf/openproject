@@ -1,51 +1,46 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 class AdminController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
 
-  helper :sort
-  include SortHelper	
+  include SortHelper
 
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
-	
+
   def projects
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-    
+
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
       c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
     end
-    
+
     @projects = Project.find :all, :order => 'lft',
                                    :conditions => c.conditions
 
     render :action => "projects", :layout => false if request.xhr?
   end
-  
+
   def plugins
     @plugins = Redmine::Plugin.all
   end
-  
+
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
   def default_configuration
@@ -59,7 +54,7 @@ class AdminController < ApplicationController
     end
     redirect_to :action => 'index'
   end
-  
+
   def test_email
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
     # Force ActionMailer to raise delivery errors so we can catch it
@@ -73,7 +68,7 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
-  
+
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
@@ -82,5 +77,5 @@ class AdminController < ApplicationController
       [:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
-  end  
+  end
 end

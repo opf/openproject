@@ -8,15 +8,18 @@ en-GB:
       default: "%d/%m/%Y"
       short: "%d %b"
       long: "%d %B, %Y"
-      
+
     day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
     abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -26,7 +29,7 @@ en-GB:
       long: "%d %B, %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "half a minute"
@@ -74,6 +77,7 @@ en-GB:
       format:
         format: "%u%n"
         unit: "£"
+
     human:
       format:
         delimiter: ""
@@ -89,13 +93,13 @@ en-GB:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "and"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -126,10 +130,10 @@ en-GB:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Please select
-  
+
   general_text_No: 'No'
   general_text_Yes: 'Yes'
   general_text_no: 'no'
@@ -140,7 +144,7 @@ en-GB:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
-  
+
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_creditentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
@@ -157,32 +161,40 @@ en-GB:
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorised to access this page.
+  notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete version.
+  notice_unable_delete_time_entry: Unable to delete time log entry.
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  
+  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
+
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
-  error_scm_annotate: "The entry does not exist or can not be annotated."
+  error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version can not be reopened'
-  error_can_not_archive_project: This project can not be archived
+  error_can_not_delete_custom_field: Unable to delete custom field
+  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_remove_role: "This role is in use and cannot be deleted."
+  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
+  error_can_not_archive_project: This project cannot be archived
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-  
+  error_unable_delete_issue_status: 'Unable to delete issue status'
+  error_unable_to_connect: "Unable to connect (%{value})"
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  
+
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
   mail_subject_register: "Your %{value} account activation"
@@ -197,16 +209,16 @@ en-GB:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
-  
+
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
-  
+
   field_name: Name
   field_description: Description
   field_summary: Summary
   field_is_required: Required
-  field_firstname: Firstname
-  field_lastname: Lastname
+  field_firstname: First name
+  field_lastname: Last name
   field_mail: Email
   field_filename: File
   field_filesize: Size
@@ -236,6 +248,7 @@ en-GB:
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
+  field_principal: Principal
   field_role: Role
   field_homepage: Homepage
   field_is_public: Public
@@ -246,7 +259,7 @@ en-GB:
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
-  field_effective_date: Date
+  field_effective_date: Due date
   field_password: Password
   field_new_password: New password
   field_password_confirmation: Confirmation
@@ -262,7 +275,7 @@ en-GB:
   field_attr_mail: Email attribute
   field_onthefly: On-the-fly user creation
   field_start_date: Start date
-  field_done_ratio: % Done
+  field_done_ratio: "% Done"
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
   field_comments: Comment
@@ -280,6 +293,7 @@ en-GB:
   field_redirect_existing_links: Redirect existing links
   field_estimated_hours: Estimated time
   field_column_names: Columns
+  field_time_entries: Log time
   field_time_zone: Time zone
   field_searchable: Searchable
   field_default_value: Default value
@@ -291,7 +305,13 @@ en-GB:
   field_content: Content
   field_group_by: Group results by
   field_sharing: Sharing
-  
+  field_parent_issue: Parent task
+  field_member_of_group: "Assignee's group"
+  field_assigned_to_role: "Assignee's role"
+  field_text: Text field
+  field_visible: Visible
+  field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
+
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -319,6 +339,7 @@ en-GB:
   setting_issue_list_default_columns: Default columns displayed on the issue list
   setting_repositories_encodings: Repositories encodings
   setting_commit_logs_encoding: Commit messages encoding
+  setting_emails_header: Emails header
   setting_emails_footer: Emails footer
   setting_protocol: Protocol
   setting_per_page_options: Objects per page options
@@ -345,7 +366,11 @@ en-GB:
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
-  
+  setting_default_notification_option: Default notification option
+  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_logtime_activity_id: Activity for logged time
+  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_edit_project: Edit project
@@ -392,7 +417,7 @@ en-GB:
   permission_browse_repository: Browse repository
   permission_view_changesets: View changesets
   permission_commit_access: Commit access
-  permission_manage_boards: Manage boards
+  permission_manage_boards: Manage forums
   permission_view_messages: View messages
   permission_add_messages: Post messages
   permission_edit_messages: Edit messages
@@ -400,7 +425,8 @@ en-GB:
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
   permission_export_wiki_pages: Export wiki pages
-  
+  permission_manage_subtasks: Manage subtasks
+
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
   project_module_news: News
@@ -408,8 +434,10 @@ en-GB:
   project_module_files: Files
   project_module_wiki: Wiki
   project_module_repository: Repository
-  project_module_boards: Boards
-  
+  project_module_boards: Forums
+  project_module_calendar: Calendar
+  project_module_gantt: Gantt
+
   label_user: User
   label_user_plural: Users
   label_user_new: New user
@@ -466,6 +494,7 @@ en-GB:
   label_my_page: My page
   label_my_account: My account
   label_my_projects: My projects
+  label_my_page_block: My page block
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out
@@ -515,6 +544,7 @@ en-GB:
   label_news_latest: Latest news
   label_news_view_all: View all news
   label_news_added: News added
+  label_news_comment_added: Comment added to a news
   label_settings: Settings
   label_overview: Overview
   label_version: Version
@@ -573,6 +603,7 @@ en-GB:
   label_query: Custom query
   label_query_plural: Custom queries
   label_query_new: New query
+  label_my_queries: My custom queries
   label_filter_add: Add filter
   label_filter_plural: Filters
   label_equals: is
@@ -604,7 +635,7 @@ en-GB:
   label_modification: "%{count} change"
   label_modification_plural: "%{count} changes"
   label_branch: Branch
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Revision
   label_revision_plural: Revisions
   label_revision_id: "Revision %{value}"
@@ -643,6 +674,7 @@ en-GB:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
+  label_overall_spent_time: Overall spent time
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_time_tracking: Time tracking
@@ -716,6 +748,9 @@ en-GB:
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_mail_option_none: "No events"
+  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
+  label_user_mail_option_only_assigned: "Only for things I am assigned to"
+  label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -763,17 +798,25 @@ en-GB:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created %{value} ago"
-  
+  label_profile: Profile
+  label_subtask_plural: Subtasks
+  label_project_copy_notifications: Send email notifications during the project copy
+  label_principal_search: "Search for user or group:"
+  label_user_search: "Search for user:"
+
   button_login: Login
   button_submit: Submit
   button_save: Save
   button_check_all: Check all
   button_uncheck_all: Uncheck all
+  button_collapse_all: Collapse all
+  button_expand_all: Expand all
   button_delete: Delete
   button_create: Create
   button_create_and_continue: Create and continue
   button_test: Test
   button_edit: Edit
+  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_add: Add
   button_change: Change
   button_apply: Apply
@@ -807,17 +850,17 @@ en-GB:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
-  
+
   status_active: active
   status_registered: registered
   status_locked: locked
-  
+
   version_status_open: open
   version_status_locked: locked
   version_status_closed: closed
 
   field_active: Active
-  
+
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
@@ -825,14 +868,16 @@ en-GB:
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure?
+  text_are_you_sure_with_children: Delete issue and all child issues?
   text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed_no_detail: "%{label} updated"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_deleted: "%{label} deleted (%{old})"
   text_journal_added: "%{label} %{value} added"
   text_tip_issue_begin_day: task beginning this day
   text_tip_issue_end_day: task ending this day
   text_tip_issue_begin_end_day: task beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."
@@ -851,6 +896,7 @@ en-GB:
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset %{value}."
+  text_time_logged_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
@@ -873,7 +919,10 @@ en-GB:
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
-  
+  text_zoom_in: Zoom in
+  text_zoom_out: Zoom out
+  text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
+
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter
@@ -897,51 +946,12 @@ en-GB:
   default_priority_immediate: Immediate
   default_activity_design: Design
   default_activity_development: Development
-  
+
   enumeration_issue_priorities: Issue priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
 
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  error_can_not_delete_custom_field: Unable to delete custom field
-  permission_manage_subtasks: Manage subtasks
-  label_profile: Profile
-  error_unable_to_connect: Unable to connect (%{value})
-  label_overall_spent_time: Overall spent time
-  error_can_not_remove_role: This role is in use and can not be deleted.
-  field_principal: Principal
-  field_parent_issue: Parent task
-  label_my_page_block: My page block
-  text_zoom_out: Zoom out
-  text_zoom_in: Zoom in
-  error_unable_delete_issue_status: Unable to delete issue status
-  label_subtask_plural: Subtasks
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
-  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  label_project_copy_notifications: Send email notifications during the project copy
-  field_time_entries: Log time
-  project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  field_member_of_group: Member of Group
-  field_assigned_to_role: Member of Role
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   text_powered_by: "Powered by %{link}"
   label_cvs_module: Module
   label_filesystem_path: Root directory
@@ -950,3 +960,10 @@ en-GB:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

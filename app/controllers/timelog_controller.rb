@@ -1,19 +1,15 @@
-# Redmine - project management software
-# Copyright (C) 2006-2010  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 class TimelogController < ApplicationController
   menu_item :issues
@@ -22,14 +18,11 @@ class TimelogController < ApplicationController
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
-  
-  helper :sort
+
   include SortHelper
-  helper :issues
   include TimelogHelper
-  helper :custom_fields
   include CustomFieldsHelper
-  
+
   def index
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
@@ -38,65 +31,61 @@ class TimelogController < ApplicationController
                 'project' => "#{Project.table_name}.name",
                 'issue' => 'issue_id',
                 'hours' => 'hours'
-    
+
     cond = ARCondition.new
-    if @project.nil?
-      cond << Project.allowed_to_condition(User.current, :view_time_entries)
-    elsif @issue.nil?
-      cond << @project.project_condition(Setting.display_subprojects_issues?)
-    else
+    if @issue
       cond << "#{Issue.table_name}.root_id = #{@issue.root_id} AND #{Issue.table_name}.lft >= #{@issue.lft} AND #{Issue.table_name}.rgt <= #{@issue.rgt}"
+    elsif @project
+      cond << @project.project_condition(Setting.display_subprojects_issues?)
     end
-    
+
     retrieve_date_range
     cond << ['spent_on BETWEEN ? AND ?', @from, @to]
 
-    TimeEntry.visible_by(User.current) do
-      respond_to do |format|
-        format.html {
-          # Paginate results
-          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
-          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => :tracker}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause,
-                                    :limit  =>  @entry_pages.items_per_page,
-                                    :offset =>  @entry_pages.current.offset)
-          @total_hours = TimeEntry.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
+    respond_to do |format|
+      format.html {
+        # Paginate results
+        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entries = TimeEntry.visible.find(:all,
+                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause,
+                                  :limit  =>  @entry_pages.items_per_page,
+                                  :offset =>  @entry_pages.current.offset)
+        @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :issue], :conditions => cond.conditions).to_f
 
-          render :layout => !request.xhr?
-        }
-        format.api  {
-          @entry_count = TimeEntry.count(:include => [:project, :issue], :conditions => cond.conditions)
-          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => :tracker}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause,
-                                    :limit  =>  @entry_pages.items_per_page,
-                                    :offset =>  @entry_pages.current.offset)
-        }
-        format.atom {
-          entries = TimeEntry.find(:all,
-                                   :include => [:project, :activity, :user, {:issue => :tracker}],
-                                   :conditions => cond.conditions,
-                                   :order => "#{TimeEntry.table_name}.created_on DESC",
-                                   :limit => Setting.feeds_limit.to_i)
-          render_feed(entries, :title => l(:label_spent_time))
-        }
-        format.csv {
-          # Export all entries
-          @entries = TimeEntry.find(:all, 
-                                    :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-                                    :conditions => cond.conditions,
-                                    :order => sort_clause)
-          send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
-        }
-      end
+        render :layout => !request.xhr?
+      }
+      format.api  {
+        @entry_count = TimeEntry.visible.count(:include => [:project, :issue], :conditions => cond.conditions)
+        @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
+        @entries = TimeEntry.visible.find(:all,
+                                  :include => [:project, :activity, :user, {:issue => :tracker}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause,
+                                  :limit  =>  @entry_pages.items_per_page,
+                                  :offset =>  @entry_pages.current.offset)
+      }
+      format.atom {
+        entries = TimeEntry.visible.find(:all,
+                                 :include => [:project, :activity, :user, {:issue => :tracker}],
+                                 :conditions => cond.conditions,
+                                 :order => "#{TimeEntry.table_name}.created_on DESC",
+                                 :limit => Setting.feeds_limit.to_i)
+        render_feed(entries, :title => l(:label_spent_time))
+      }
+      format.csv {
+        # Export all entries
+        @entries = TimeEntry.visible.find(:all,
+                                  :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
+                                  :conditions => cond.conditions,
+                                  :order => sort_clause)
+        send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+      }
     end
   end
-  
+
   def show
     respond_to do |format|
       # TODO: Implement html response
@@ -108,7 +97,7 @@ class TimelogController < ApplicationController
   def new
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     render :action => 'edit'
   end
@@ -117,9 +106,9 @@ class TimelogController < ApplicationController
   def create
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
-    
+
     if @time_entry.save
       respond_to do |format|
         format.html {
@@ -133,21 +122,21 @@ class TimelogController < ApplicationController
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@time_entry) }
       end
-    end    
+    end
   end
-  
+
   def edit
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @time_entry.attributes = params[:time_entry]
-    
+
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
-    
+
     if @time_entry.save
       respond_to do |format|
         format.html {
@@ -161,7 +150,7 @@ class TimelogController < ApplicationController
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@time_entry) }
       end
-    end    
+    end
   end
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
@@ -212,7 +201,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_project
     if !params[:issue_id].blank?
       @issue = Issue.find(params[:issue_id])
@@ -222,7 +211,7 @@ private
     end
     deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
   end
-  
+
   # Retrieves the date range based on predefined ranges or specific from/to param dates
   def retrieve_date_range
     @free_period = false
@@ -263,7 +252,7 @@ private
     else
       # default
     end
-    
+
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
