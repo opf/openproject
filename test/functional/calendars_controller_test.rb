@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require File.expand_path('../../test_helper', __FILE__)
 
 class CalendarsControllerTest < ActionController::TestCase
@@ -9,7 +22,7 @@ class CalendarsControllerTest < ActionController::TestCase
     assert_template 'calendar'
     assert_not_nil assigns(:calendar)
   end
-  
+
   def test_cross_project_calendar
     get :show
     assert_response :success
@@ -20,19 +33,19 @@ class CalendarsControllerTest < ActionController::TestCase
   context "GET :show" do
     should "run custom queries" do
       @query = Query.generate_default!
-      
+
       get :show, :query_id => @query.id
       assert_response :success
     end
-    
+
   end
-  
+
   def test_week_number_calculation
     Setting.start_of_week = 7
-    
+
     get :show, :month => '1', :year => '2010'
     assert_response :success
-    
+
     assert_tag :tag => 'tr',
       :descendant => {:tag => 'td',
                       :attributes => {:class => 'week-number'}, :content => '53'},

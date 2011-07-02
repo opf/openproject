@@ -8,7 +8,7 @@
 while day <= calendar.enddt %>
 <%= "<td class='week-number' title='#{ l(:label_week) }'>#{(day+(11-day.cwday)%7).cweek}</td>" if day.cwday == calendar.first_wday %>
 <td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if Date.today == day %>">
-<p class="day-num"><%= day.day %></p>	
+<p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
   <div class="<%= i.css_classes %> <%= 'starting' if day == i.start_date %> <%= 'ending' if day == i.due_date %> tooltip">
@@ -17,7 +17,7 @@ while day <= calendar.enddt %>
   <span class="tip"><%= render_issue_tooltip i %></span>
   </div>
   <% else %>
-  <span class="icon icon-package">  
+  <span class="icon icon-package">
     <%= h("#{i.project} -") unless @project && @project == i.project %>
     <%= link_to_version i%>
   </span>

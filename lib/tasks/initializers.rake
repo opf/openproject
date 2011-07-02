@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 desc 'Generates a configuration file for cookie store sessions.'
 
 file 'config/initializers/session_store.rb' do
@@ -10,7 +23,7 @@ file 'config/initializers/session_store.rb' do
 # If you have a load-balancing Redmine cluster, you will need to use the
 # same version of this file on each machine. And be sure to restart your
 # server when you modify this file.
- 
+
 # Your secret key for verifying cookie session data integrity. If you
 # change this key, all old sessions will become invalid! Make sure the
 # secret is at least 30 characters and all random, no regular words or

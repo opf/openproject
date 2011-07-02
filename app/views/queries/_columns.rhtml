@@ -10,7 +10,7 @@
 			<input type="button" value="&#8592;"
 			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
 		</td>
-		<td><%= select_tag 'query[column_names][]',
+		<td><%= select_tag 'c[]',
 		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>

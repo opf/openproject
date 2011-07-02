@@ -1,9 +1,22 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'rails_generator/base'
 require 'rails_generator/generators/components/controller/controller_generator'
 
 class ChiliprojectPluginControllerGenerator < ControllerGenerator
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
-  
+
   def initialize(runtime_args, runtime_options = {})
     runtime_args = runtime_args.dup
     usage if runtime_args.empty?
@@ -12,11 +25,11 @@ class ChiliprojectPluginControllerGenerator < ControllerGenerator
     @plugin_path = "vendor/plugins/#{plugin_name}"
     super(runtime_args, runtime_options)
   end
-  
+
   def destination_root
     File.join(RAILS_ROOT, plugin_path)
   end
-  
+
   def manifest
     record do |m|
       # Check for class naming collisions.

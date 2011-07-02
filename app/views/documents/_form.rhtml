@@ -1,7 +1,7 @@
 <%= error_messages_for 'document' %>
 <div class="box">
 <!--[form:document]-->
-<p><label for="document_category_id"><%=l(:field_category)%></label>
+<p><label for="document_category_id"><%=l(:field_category)%> <span class="required">*</span></label>
 <%= select('document', 'category_id', DocumentCategory.all.collect {|c| [c.name, c.id]}) %></p>
 
 <p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label>

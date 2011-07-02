@@ -1,28 +1,24 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require 'cgi'
 
 module Redmine
   module Scm
-    module Adapters    
+    module Adapters
       class CommandFailed < StandardError #:nodoc:
       end
-      
+
       class AbstractAdapter #:nodoc:
         class << self
           def client_command
@@ -34,14 +30,14 @@ module Redmine
           def client_version
             []
           end
-          
+
           # Returns the version string of the scm client
           # Eg: '1.5.0' or 'Unknown version' if unknown
           def client_version_string
             v = client_version || 'Unknown version'
             v.is_a?(Array) ? v.join('.') : v.to_s
           end
-          
+
           # Returns true if the current client version is above
           # or equals the given one
           # If option is :unknown is set to true, it will return
@@ -63,17 +59,18 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil)
+        def initialize(url, root_url=nil, login=nil, password=nil,
+                       path_encoding=nil)
           @url = url
           @login = login if login && !login.empty?
           @password = (password || "") if @login
           @root_url = root_url.blank? ? retrieve_root_url : root_url
         end
-        
+
         def adapter_name
           'Abstract'
         end
-        
+
         def supports_cat?
           true
         end
@@ -81,20 +78,20 @@ module Redmine
         def supports_annotate?
           respond_to?('annotate')
         end
-        
+
         def root_url
           @root_url
         end
-      
+
         def url
           @url
         end
-      
+
         # get info about the svn repository
         def info
           return nil
         end
-        
+
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
         def entry(path=nil, identifier=nil)
@@ -110,7 +107,7 @@ module Redmine
             es ? es.detect {|e| e.name == search_name} : nil
           end
         end
-        
+
         # Returns an Entries collection
         # or nil if the given path doesn't exist in the repository
         def entries(path=nil, identifier=nil)
@@ -121,30 +118,30 @@ module Redmine
           return nil
         end
 
-        def tags 
+        def tags
           return nil
         end
 
         def default_branch
           return nil
         end
-        
+
         def properties(path, identifier=nil)
           return nil
         end
-    
+
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           return nil
         end
-        
+
         def diff(path, identifier_from, identifier_to=nil)
           return nil
         end
-        
+
         def cat(path, identifier=nil)
           return nil
         end
-        
+
         def with_leading_slash(path)
           path ||= ''
           (path[0,1]!="/") ? "/#{path}" : path
@@ -174,7 +171,7 @@ module Redmine
           info = self.info
           info ? info.root_url : nil
         end
-        
+
         def target(path)
           path ||= ''
           base = path.match(/^\//) ? root_url : url
@@ -188,11 +185,11 @@ module Redmine
         def shellout(cmd, &block)
           self.class.shellout(cmd, &block)
         end
-        
+
         def self.logger
           RAILS_DEFAULT_LOGGER
         end
-        
+
         def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{strip_credential(cmd)}" if logger && logger.debug?
           if Rails.env == 'development'
@@ -200,7 +197,12 @@ module Redmine
             cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
           end
           begin
-            IO.popen(cmd, "r+") do |io|
+            if RUBY_VERSION < '1.9'
+              mode = "r+"
+            else
+              mode = "r+:ASCII-8BIT"
+            end
+            IO.popen(cmd, mode) do |io|
               io.close_write
               block.call(io) if block_given?
             end
@@ -210,35 +212,46 @@ module Redmine
             logger.error("SCM command failed, make sure that your SCM binary (eg. svn) is in PATH (#{ENV['PATH']}): #{strip_credential(cmd)}\n  with: #{msg}")
             raise CommandFailed.new(msg)
           end
-        end  
-        
+        end
+
         # Hides username/password in a given command
         def self.strip_credential(cmd)
           q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
-        
+
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
         end
+
+        def scm_iconv(to, from, str)
+          return nil if str.nil?
+          return str if to == from
+          begin
+            Iconv.conv(to, from, str)
+          rescue Iconv::Failure => err
+            logger.error("failed to convert from #{from} to #{to}. #{err}")
+            nil
+          end
+        end
       end
-      
+
       class Entries < Array
         def sort_by_name
-          sort {|x,y| 
+          sort {|x,y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
               x.kind <=> y.kind
             end
-          }   
+          }
         end
-        
+
         def revisions
           revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
         end
       end
-      
+
       class Info
         attr_accessor :root_url, :lastrev
         def initialize(attributes={})
@@ -246,7 +259,7 @@ module Redmine
           self.lastrev = attributes[:lastrev]
         end
       end
-      
+
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
         def initialize(attributes={})
@@ -256,20 +269,20 @@ module Redmine
           self.size = attributes[:size].to_i if attributes[:size]
           self.lastrev = attributes[:lastrev]
         end
-        
+
         def is_file?
           'file' == self.kind
         end
-        
+
         def is_dir?
           'dir' == self.kind
         end
-        
+
         def is_text?
           Redmine::MimeType.is_type?('text', name)
         end
       end
-      
+
       class Revisions < Array
         def latest
           sort {|x,y|
@@ -279,9 +292,9 @@ module Redmine
               0
             end
           }.last
-        end 
+        end
       end
-      
+
       class Revision
         attr_accessor :scmid, :name, :author, :time, :message, :paths, :revision, :branch
         attr_writer :identifier
@@ -307,46 +320,25 @@ module Redmine
         def format_identifier
           identifier
         end
-
-        def save(repo)
-          Changeset.transaction do
-            changeset = Changeset.new(
-              :repository => repo,
-              :revision => identifier,
-              :scmid => scmid,
-              :committer => author, 
-              :committed_on => time,
-              :comments => message)
-            
-            if changeset.save
-              paths.each do |file|
-                Change.create(
-                  :changeset => changeset,
-                  :action => file[:action],
-                  :path => file[:path])
-              end
-            end
-          end
-        end
       end
-        
+
       class Annotate
         attr_reader :lines, :revisions
-        
+
         def initialize
           @lines = []
           @revisions = []
         end
-        
+
         def add_line(line, revision)
           @lines << line
           @revisions << revision
         end
-        
+
         def content
           content = lines.join("\n")
         end
-        
+
         def empty?
           lines.empty?
         end

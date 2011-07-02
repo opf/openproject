@@ -1,76 +1,104 @@
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
+require_dependency 'journal_formatter'
+
+# The ActiveRecord model representing journals.
 class Journal < ActiveRecord::Base
-  belongs_to :journalized, :polymorphic => true
-  # added as a quick fix to allow eager loading of the polymorphic association
-  # since always associated to an issue, for now
-  belongs_to :issue, :foreign_key => :journalized_id
-  
-  belongs_to :user
-  has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
-  attr_accessor :indice
-  
-  acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
-                :description => :notes,
-                :author => :user,
-                :type => Proc.new {|o| (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note' },
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
+  unloadable
 
-  acts_as_activity_provider :type => 'issues',
-                            :permission => :view_issues,
-                            :author_key => :user_id,
-                            :find_options => {:include => [{:issue => :project}, :details, :user],
-                                              :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
-                                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
-  
-  def save(*args)
-    # Do not save an empty journal
-    (details.empty? && notes.blank?) ? false : super
+  include Comparable
+  include JournalFormatter
+  include JournalDeprecated
+
+  # Make sure each journaled model instance only has unique version ids
+  validates_uniqueness_of :version, :scope => [:journaled_id, :type]
+  belongs_to :journaled, :touch => true
+  belongs_to :user
+
+  # ActiveRecord::Base#changes is an existing method, so before serializing the +changes+ column,
+  # the existing +changes+ method is undefined. The overridden +changes+ method pertained to
+  # dirty attributes, but will not affect the partial updates functionality as that's based on
+  # an underlying +changed_attributes+ method, not +changes+ itself.
+  # undef_method :changes
+  serialize :changes, Hash
+
+  # In conjunction with the included Comparable module, allows comparison of journal records
+  # based on their corresponding version numbers, creation timestamps and IDs.
+  def <=>(other)
+    [version, created_at, id].map(&:to_i) <=> [other.version, other.created_at, other.id].map(&:to_i)
   end
-  
-  # Returns the new status if the journal contains a status change, otherwise nil
-  def new_status
-    c = details.detect {|detail| detail.prop_key == 'status_id'}
-    (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
+
+  # Returns whether the version has a version number of 1. Useful when deciding whether to ignore
+  # the version during reversion, as initial versions have no serialized changes attached. Helps
+  # maintain backwards compatibility.
+  def initial?
+    version < 2
   end
-  
-  def new_value_for(prop)
-    c = details.detect {|detail| detail.prop_key == prop}
-    c ? c.value : nil
+
+  # The anchor number for html output
+  def anchor
+    version - 1
   end
-  
-  def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_issue_notes, project) || (self.user == usr && usr.allowed_to?(:edit_own_issue_notes, project)))
-  end
-  
+
+  # Possible shortcut to the associated project
   def project
-    journalized.respond_to?(:project) ? journalized.project : nil
+    if journaled.respond_to?(:project)
+      journaled.project
+    elsif journaled.is_a? Project
+      journaled
+    else
+      nil
+    end
   end
-  
-  def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : nil
+
+  def editable_by?(user)
+    journaled.journal_editable_by?(user)
+  end
+
+  def details
+    attributes["changes"] || {}
+  end
+
+  alias_method :changes, :details
+
+  def new_value_for(prop)
+    details[prop.to_s].last if details.keys.include? prop.to_s
+  end
+
+  def old_value_for(prop)
+    details[prop.to_s].first if details.keys.include? prop.to_s
   end
 
   # Returns a string of css classes
   def css_classes
     s = 'journal'
     s << ' has-notes' unless notes.blank?
-    s << ' has-details' unless details.blank?
+    s << ' has-details' unless details.empty?
     s
   end
+
+  # This is here to allow people to disregard the difference between working with a
+  # Journal and the object it is attached to.
+  # The lookup is as follows:
+  ## => Call super if the method corresponds to one of our attributes (will end up in AR::Base)
+  ## => Try the journaled object with the same method and arguments
+  ## => On error, call super
+  def method_missing(method, *args, &block)
+    return super if attributes[method.to_s]
+    journaled.send(method, *args, &block)
+  rescue NoMethodError => e
+    e.name == method ? super : raise(e)
+  end
+
 end

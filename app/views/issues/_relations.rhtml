@@ -17,7 +17,7 @@
 <td><%= relation.other_issue(@issue).status.name %></td>
 <td><%= format_date(relation.other_issue(@issue).start_date) %></td>
 <td><%= format_date(relation.other_issue(@issue).due_date) %></td>
-<td><%= link_to_remote(image_tag('delete.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},                                              
+<td><%= link_to_remote(image_tag('delete.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},
                                                   :method => :post
                                                 }, :title => l(:label_relation_delete)) if authorize_for('issue_relations', 'destroy') %></td>
 </tr>
@@ -25,7 +25,7 @@
 </table>
 <% end %>
 
-<% remote_form_for(:relation, @relation, 
+<% remote_form_for(:relation, @relation,
                  :url => {:controller => 'issue_relations', :action => 'new', :issue_id => @issue},
                  :method => :post,
                  :complete => "Form.Element.focus('relation_issue_to_id');",

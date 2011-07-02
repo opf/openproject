@@ -1,19 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'settings_controller'
@@ -23,7 +19,7 @@ class SettingsController; def rescue_action(e) raise e end; end
 
 class SettingsControllerTest < ActionController::TestCase
   fixtures :users
-  
+
   def setup
     @controller = SettingsController.new
     @request    = ActionController::TestRequest.new
@@ -31,19 +27,19 @@ class SettingsControllerTest < ActionController::TestCase
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
-  
+
   def test_index
     get :index
     assert_response :success
     assert_template 'edit'
   end
-  
+
   def test_get_edit
     get :edit
     assert_response :success
     assert_template 'edit'
   end
-  
+
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',

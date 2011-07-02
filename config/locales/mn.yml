@@ -8,15 +8,18 @@ mn:
       default: "%Y/%m/%d"
       short: "%b %d"
       long: "%Y, %B %d"
-      
+
     day_names: [Даваа, Мягмар, Лхагва, Пүрэв, Баасан, Бямба, Ням]
     abbr_day_names: [Дав, Мяг, Лха, Пүр, Бсн, Бям, Ням]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, 1-р сар, 2-р сар, 3-р сар, 4-р сар, 5-р сар, 6-р сар, 7-р сар, 8-р сар, 9-р сар, 10-р сар, 11-р сар, 12-р сар]
     abbr_month_names: [~, 1сар, 2сар, 3сар, 4сар, 5сар, 6сар, 7сар, 8сар, 9сар, 10сар, 11сар, 12сар]
     # Used in date_select and datime_select.
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -26,7 +29,7 @@ mn:
       long: "%Y, %B %d %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "хагас минут"
@@ -84,13 +87,13 @@ mn:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "бас"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -124,7 +127,7 @@ mn:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Сонгоно уу
-  
+
   general_text_No: 'Үгүй'
   general_text_Yes: 'Тийм'
   general_text_no: 'үгүй'
@@ -135,7 +138,7 @@ mn:
   general_csv_encoding: UTF-8
   general_pdf_encoding: UTF-8
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Дансыг амжилттай өөрчиллөө.
   notice_account_invalid_creditentials: Хэрэглэгчийн нэр эсвэл нууц үг буруу байна
   notice_account_password_updated: Нууц үгийг амжилттай өөрчиллөө.
@@ -162,7 +165,7 @@ mn:
   notice_default_data_loaded: Стандарт тохиргоог амжилттай ачааллаа.
   notice_unable_delete_version: Хувилбарыг устгах боломжгүй.
   notice_issue_done_ratios_updated: Issue done ratios updated.
-  
+
   error_can_t_load_default_data: "Стандарт тохиргоог ачаалж чадсангүй: %{value}"
   error_scm_not_found: "Repository дотор тухайн бичлэг эсвэл хувилбарыг олсонгүй."
   error_scm_command_failed: "Repository-д хандахад алдаа гарлаа:  %{value}"
@@ -175,9 +178,9 @@ mn:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-  
+
   warning_attachments_not_saved: "%{count} file(s) файлыг хадгалж чадсангүй."
-  
+
   mail_subject_lost_password: "Таны %{value} нууц үг"
   mail_body_lost_password: 'Нууц үгээ өөрчлөхийн тулд доорх холбоос дээр дарна уу:'
   mail_subject_register: "Таны %{value} дансыг идэвхжүүлэх"
@@ -192,10 +195,10 @@ mn:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
-  
+
   gui_validation_error: 1 алдаа
   gui_validation_error_plural: "%{count} алдаа"
-  
+
   field_name: Нэр
   field_description: Тайлбар
   field_summary: Дүгнэлт
@@ -241,7 +244,6 @@ mn:
   field_admin: Администратор
   field_last_login_on: Сүүлийн холбоо
   field_language: Хэл
-  field_effective_date: Огноо
   field_password: Нууц үг
   field_new_password: Шннэ нууц үг
   field_password_confirmation: Баталгаажуулах
@@ -257,7 +259,7 @@ mn:
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
   field_start_date: Эхлэл
-  field_done_ratio: %% Гүйцэтгэсэн
+  field_done_ratio: "%% Гүйцэтгэсэн"
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
   field_comments: Тайлбар
@@ -286,7 +288,7 @@ mn:
   field_content: Агуулга
   field_group_by: Үр дүнгээр бүлэглэх
   field_sharing: Sharing
-  
+
   setting_app_title: Программын гарчиг
   setting_app_subtitle: Программын дэд гарчиг
   setting_welcome_text: Мэндчилгээ
@@ -340,7 +342,7 @@ mn:
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
-  
+
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_edit_project: Төслийг засварлах
@@ -395,7 +397,7 @@ mn:
   permission_delete_messages: Зурвасуудыг устгах
   permission_delete_own_messages: Өөрийн зурвасуудыг устгах
   permission_export_wiki_pages: Вики хуудсуудыг экспорт хийх
-  
+
   project_module_issue_tracking: Асуудал хянах
   project_module_time_tracking: Хугацаа хянах
   project_module_news: Мэдээ мэдээллүүд
@@ -404,7 +406,7 @@ mn:
   project_module_wiki: Вики
   project_module_repository: Репозитори
   project_module_boards: Самбарууд
-  
+
   label_user: Хэрэглэгч
   label_user_plural: Хэрэглэгчид
   label_user_new: Шинэ хэрэглэгч
@@ -503,7 +505,7 @@ mn:
   label_attachment_plural: Файлууд
   label_file_added: Файл нэмэгдлээ
   label_report: Тайлан
-  label_report_plural: Тайлангууд 
+  label_report_plural: Тайлангууд
   label_news: Мэдээ
   label_news_new: Шинэ мэдээ
   label_news_plural: Мэдээ
@@ -600,7 +602,7 @@ mn:
   label_modification: "%{count} өөрчлөлт"
   label_modification_plural: "%{count} өөрчлөлтүүд"
   label_branch: Салбар
-  label_tag: Шошго 
+  label_tag: Шошго
   label_revision: Хувилбар
   label_revision_plural: Хувилбарууд
   label_revision_id: "%{value} Хувилбар"
@@ -758,7 +760,7 @@ mn:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created %{value} ago"
-  
+
   button_login: Нэвтрэх
   button_submit: Илгээх
   button_save: Хадгалах
@@ -802,17 +804,17 @@ mn:
   button_quote: Ишлэл
   button_duplicate: Хуулбар
   button_show: Үзэх
-  
+
   status_active: идэвхтэй
   status_registered: бүртгүүлсэн
   status_locked: түгжээтэй
-  
+
   version_status_open: нээлттэй
   version_status_locked: түгжээтэй
   version_status_closed: хаалттай
 
   field_active: идэвхтэй
-  
+
   text_select_mail_notifications: Ямар үед имэйлээр мэдэгдэл илгээхийг сонгоно уу.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 гэвэл ямар ч хязгааргүй гэсэн үг
@@ -868,7 +870,7 @@ mn:
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
-  
+
   default_role_manager: Менежер
   default_role_developer: Хөгжүүлэгч
   default_role_reporter: Мэдэгдэгч
@@ -893,7 +895,7 @@ mn:
   default_priority_immediate: Нэн даруй
   default_activity_design: Дизайн
   default_activity_development: Хөгжүүлэлт
-  
+
   enumeration_issue_priorities: Асуудлын зэрэглэлүүд
   enumeration_doc_categories: Бичиг баримтын ангиллууд
   enumeration_activities: Үйл ажиллагаанууд (хугацааг хянах)
@@ -947,3 +949,18 @@ mn:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

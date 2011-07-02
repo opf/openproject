@@ -19,7 +19,10 @@ de:
     month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
     abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
     # Used in date_select and datime_select.
-    order: [:day, :month, :year]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -101,13 +104,13 @@ de:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "und"
       skip_last_comma: true
-      
+
   activerecord:
     errors:
       template:
@@ -143,7 +146,7 @@ de:
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
-  
+
   general_text_No: 'Nein'
   general_text_Yes: 'Ja'
   general_text_no: 'nein'
@@ -202,7 +205,7 @@ de:
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: Fehler beim Verbinden (%{value})
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  
+
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_body_lost_password: 'Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:'
   mail_subject_register: "%{value} Kontoaktivierung"
@@ -267,7 +270,6 @@ de:
   field_admin: Administrator
   field_last_login_on: Letzte Anmeldung
   field_language: Sprache
-  field_effective_date: Datum
   field_password: Kennwort
   field_new_password: Neues Kennwort
   field_password_confirmation: Bestätigung
@@ -283,7 +285,7 @@ de:
   field_attr_mail: E-Mail-Attribut
   field_onthefly: On-the-fly-Benutzererstellung
   field_start_date: Beginn
-  field_done_ratio: % erledigt
+  field_done_ratio: "% erledigt"
   field_auth_source: Authentifizierungs-Modus
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_comments: Kommentar
@@ -435,7 +437,7 @@ de:
   project_module_boards: Foren
   project_module_calendar: Kalender
   project_module_gantt: Gantt
-  
+
   label_user: Benutzer
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
@@ -795,7 +797,7 @@ de:
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
-  
+
   button_login: Anmelden
   button_submit: OK
   button_save: Speichern
@@ -840,17 +842,17 @@ de:
   button_quote: Zitieren
   button_duplicate: Duplizieren
   button_show: Anzeigen
-  
+
   status_active: aktiv
   status_registered: angemeldet
   status_locked: gesperrt
-  
+
   version_status_open: offen
   version_status_locked: gesperrt
   version_status_closed: abgeschlossen
 
   field_active: Aktiv
-  
+
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_min_max_length_info: 0 heißt keine Beschränkung
@@ -909,7 +911,7 @@ de:
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
-  
+
   default_role_manager: Manager
   default_role_developer: Entwickler
   default_role_reporter: Reporter
@@ -933,7 +935,7 @@ de:
   default_priority_immediate: Sofort
   default_activity_design: Design
   default_activity_development: Entwicklung
-  
+
   enumeration_issue_priorities: Ticket-Prioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
@@ -963,3 +965,18 @@ de:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

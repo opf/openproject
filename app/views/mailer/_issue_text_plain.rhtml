@@ -7,7 +7,7 @@
 <%=l(:field_assigned_to)%>: <%= issue.assigned_to %>
 <%=l(:field_category)%>: <%= issue.category %>
 <%=l(:field_fixed_version)%>: <%= issue.fixed_version %>
-<% issue.custom_values.each do |c| %><%= c.custom_field.name %>: <%= show_value(c) %>
+<% issue.custom_field_values.each do |c| %><%= c.custom_field.name %>: <%= show_value(c) %>
 <% end %>
 
 <%= issue.description %>

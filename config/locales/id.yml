@@ -1,4 +1,4 @@
-# Indonesian translations 
+# Indonesian translations
 # by Raden Prabowo (cakbowo@gmail.com)
 
 id:
@@ -8,13 +8,16 @@ id:
       default: "%d-%m-%Y"
       short: "%d %b"
       long: "%d %B %Y"
-      
+
     day_names: [Minggu, Senin, Selasa, Rabu, Kamis, Jumat, Sabtu]
     abbr_day_names: [Ming, Sen, Sel, Rab, Kam, Jum, Sab]
-      
+
     month_names: [~, Januari, Februari, Maret, April, Mei, Juni, Juli, Agustus, September, Oktober, November, Desember]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Mei, Jun, Jul, Agu, Sep, Okt, Nov, Des]
-    order: [ :day, :month, :year ]
+    order:
+      - :day
+      - :month
+      - :year
 
   time:
     formats:
@@ -24,7 +27,7 @@ id:
       long: "%d %B %Y %H:%M"
     am: "am"
     pm: "pm"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "setengah menit"
@@ -87,12 +90,12 @@ id:
           gb: "GB"
           tb: "TB"
 
-        
+
   support:
     array:
       sentence_connector: "dan"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       template:
@@ -126,7 +129,7 @@ id:
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
 
   actionview_instancetag_blank_option: Silakan pilih
-  
+
   general_text_No: 'Tidak'
   general_text_Yes: 'Ya'
   general_text_no: 'tidak'
@@ -137,7 +140,7 @@ id:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Akun sudah berhasil diperbarui.
   notice_account_invalid_creditentials: Pengguna atau kata sandi salah
   notice_account_password_updated: Kata sandi sudah berhasil diperbarui.
@@ -162,7 +165,7 @@ id:
   notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
   notice_default_data_loaded: Konfigurasi default sudah berhasil dimuat.
   notice_unable_delete_version: Tidak bisa menghapus versi.
-  
+
   error_can_t_load_default_data: "Konfigurasi default tidak bisa dimuat: %{value}"
   error_scm_not_found: "Entri atau revisi tidak terdapat pada repositori."
   error_scm_command_failed: "Terjadi kesalahan pada saat mengakses repositori: %{value}"
@@ -172,9 +175,9 @@ id:
   error_no_default_issue_status: 'Nilai default untuk Status masalah belum didefinisikan. Periksa kembali konfigurasi anda (Pilih "Administrasi --> Status masalah").'
   error_can_not_reopen_issue_on_closed_version: 'Masalah yang ditujukan pada versi tertutup tidak bisa dibuka kembali'
   error_can_not_archive_project: Proyek ini tidak bisa diarsipkan
-  
+
   warning_attachments_not_saved: "%{count} berkas tidak bisa disimpan."
-  
+
   mail_subject_lost_password: "Kata sandi %{value} anda"
   mail_body_lost_password: 'Untuk mengubah kata sandi anda, klik tautan berikut::'
   mail_subject_register: "Aktivasi akun %{value} anda"
@@ -189,11 +192,11 @@ id:
   mail_body_wiki_content_added: "The '%{id}' halaman wiki sudah ditambahkan oleh %{author}."
   mail_subject_wiki_content_updated: "'%{id}' halaman wiki sudah diperbarui"
   mail_body_wiki_content_updated: "The '%{id}' halaman wiki sudah diperbarui oleh %{author}."
-  
+
   gui_validation_error: 1 kesalahan
   gui_validation_error_plural: "%{count} kesalahan"
 
-  
+
   field_name: Nama
   field_description: Deskripsi
   field_summary: Ringkasan
@@ -211,7 +214,7 @@ id:
   field_is_for_all: Untuk semua proyek
   field_possible_values: Nilai yang mungkin
   field_regexp: Regular expression
-  field_min_length: Panjang minimum 
+  field_min_length: Panjang minimum
   field_max_length: Panjang maksimum
   field_value: Nilai
   field_category: Kategori
@@ -240,7 +243,6 @@ id:
   field_admin: Administrator
   field_last_login_on: Terakhir login
   field_language: Bahasa
-  field_effective_date: Tanggal
   field_password: Kata sandi
   field_new_password: Kata sandi baru
   field_password_confirmation: Konfirmasi
@@ -256,7 +258,7 @@ id:
   field_attr_mail: Atribut email
   field_onthefly: Pembuatan pengguna seketika
   field_start_date: Mulai
-  field_done_ratio: % Selesai
+  field_done_ratio: "% Selesai"
   field_auth_source: Mode otentikasi
   field_hide_mail: Sembunyikan email saya
   field_comments: Komentar
@@ -283,9 +285,9 @@ id:
   field_watcher: Pemantau
   field_identity_url: OpenID URL
   field_content: Isi
-  field_group_by: Dikelompokkan berdasar 
+  field_group_by: Dikelompokkan berdasar
   field_sharing: Berbagi
-  
+
   setting_app_title: Judul aplikasi
   setting_app_subtitle: Subjudul aplikasi
   setting_welcome_text: Teks sambutan
@@ -323,8 +325,8 @@ id:
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: API key
   setting_sequential_project_identifiers: Buat pengenal proyek terurut
-  setting_gravatar_enabled: Gunakan icon pengguna dari Gravatar 
-  setting_gravatar_default: Gambar default untuk Gravatar 
+  setting_gravatar_enabled: Gunakan icon pengguna dari Gravatar
+  setting_gravatar_default: Gambar default untuk Gravatar
   setting_diff_max_lines_displayed: Maksimum perbedaan baris tertampil
   setting_file_max_size_displayed: Maksimum berkas tertampil secara inline
   setting_repository_log_display_limit: Nilai maksimum dari revisi ditampilkan di log berkas
@@ -332,7 +334,7 @@ id:
   setting_password_min_length: Panjang minimum untuk kata sandi
   setting_new_project_user_role_id: Peran diberikan pada pengguna non-admin yang membuat proyek
   setting_default_projects_modules: Modul yang diaktifkan pada proyek baru
-  
+
   permission_add_project: Tambahkan proyek
   permission_edit_project: Sunting proyek
   permission_select_project_modules: Pilih modul proyek
@@ -383,7 +385,7 @@ id:
   permission_edit_own_messages: Sunting pesan saya
   permission_delete_messages: Hapus pesan
   permission_delete_own_messages: Hapus pesan saya
-  
+
   project_module_issue_tracking: Pelacak masalah
   project_module_time_tracking: Pelacak waktu
   project_module_news: Berita
@@ -392,19 +394,19 @@ id:
   project_module_wiki: Wiki
   project_module_repository: Repositori
   project_module_boards: Forum
-  
+
   label_user: Pengguna
   label_user_plural: Pengguna
   label_user_new: Pengguna baru
   label_user_anonymous: Anonymous
   label_project: Proyek
   label_project_new: Proyek baru
-  label_project_plural: Proyek 
+  label_project_plural: Proyek
   label_x_projects:
-    zero:  tidak ada proyek 
-    one:   1 proyek 
+    zero:  tidak ada proyek
+    one:   1 proyek
     other: "%{count} proyek"
-  label_project_all: Semua Proyek 
+  label_project_all: Semua Proyek
   label_project_latest: Proyek terakhir
   label_issue: Masalah
   label_issue_new: Masalah baru
@@ -586,7 +588,7 @@ id:
   label_modification: "%{count} perubahan"
   label_modification_plural: "%{count} perubahan"
   label_branch: Cabang
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Revisi
   label_revision_plural: Revisi
   label_associated_revisions: Revisi terkait
@@ -612,9 +614,9 @@ id:
   label_result_plural: Hasil
   label_all_words: Semua kata
   label_wiki: Wiki
-  label_wiki_edit: Sunting wiki 
-  label_wiki_edit_plural: Sunting wiki 
-  label_wiki_page: Halaman wiki 
+  label_wiki_edit: Sunting wiki
+  label_wiki_edit_plural: Sunting wiki
+  label_wiki_page: Halaman wiki
   label_wiki_page_plural: Halaman wiki
   label_index_by_title: Indeks menurut judul
   label_index_by_date: Indeks menurut tanggal
@@ -684,7 +686,7 @@ id:
   label_jump_to_a_project: Pilih proyek...
   label_file_plural: Berkas
   label_changeset_plural: Set perubahan
-  label_default_columns: Kolom default 
+  label_default_columns: Kolom default
   label_no_change_option: (Tak ada perubahan)
   label_bulk_edit_selected_issues: Ubah masalah terpilih secara masal
   label_theme: Tema
@@ -694,7 +696,7 @@ id:
   label_user_mail_option_selected: "Hanya untuk semua kejadian pada proyek yang saya pilih ..."
   label_user_mail_no_self_notified: "Saya tak ingin diberitahu untuk perubahan yang saya buat sendiri"
   label_user_mail_assigned_only_mail_notification: "Kirim email hanya bila saya ditugaskan untuk masalah terkait"
-  label_user_mail_block_mail_notification: "Saya tidak ingin menerima email. Terima kasih."  
+  label_user_mail_block_mail_notification: "Saya tidak ingin menerima email. Terima kasih."
   label_registration_activation_by_email: aktivasi akun melalui email
   label_registration_manual_activation: aktivasi akun secara manual
   label_registration_automatic_activation: aktivasi akun secara otomatis
@@ -777,17 +779,17 @@ id:
   button_configure: Konfigur
   button_quote: Kutip
   button_duplicate: Duplikat
-  
+
   status_active: aktif
   status_registered: terdaftar
   status_locked: terkunci
-  
+
   version_status_open: terbuka
   version_status_locked: terkunci
   version_status_closed: tertutup
 
   field_active: Aktif
-  
+
   text_select_mail_notifications: Pilih aksi dimana email notifikasi akan dikirimkan.
   text_regexp_info: mis. ^[A-Z0-9]+$
   text_min_max_length_info: 0 berarti tidak ada pembatasan
@@ -841,7 +843,7 @@ id:
   text_wiki_page_nullify_children: "Biarkan halaman anak sebagai halaman teratas (root)"
   text_wiki_page_destroy_children: "Hapus halaman anak dan semua turunannya"
   text_wiki_page_reassign_children: "Tujukan halaman anak ke halaman induk yang ini"
-  
+
   default_role_manager: Manager
   default_role_developer: Pengembang
   default_role_reporter: Pelapor
@@ -865,7 +867,7 @@ id:
   default_priority_immediate: Segera
   default_activity_design: Rancangan
   default_activity_development: Pengembangan
-  
+
   enumeration_issue_priorities: Prioritas masalah
   enumeration_doc_categories: Kategori dokumen
   enumeration_activities: Kegiatan
@@ -954,3 +956,18 @@ id:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

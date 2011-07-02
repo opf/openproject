@@ -1,25 +1,21 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
     re_tokens = tokens.collect {|t| Regexp.escape(t)}
-    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE    
+    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = ''
     text.split(regexp).each_with_index do |words, i|
       if result.length > 1200
@@ -37,11 +33,11 @@ module SearchHelper
     end
     result
   end
-  
+
   def type_label(t)
     l("label_#{t.singularize}_plural", :default => t.to_s.humanize)
   end
-  
+
   def project_select_tag
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
@@ -49,7 +45,7 @@ module SearchHelper
     options << [@project.name, ''] unless @project.nil?
     select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
   end
-  
+
   def render_results_by_type(results_by_type)
     links = []
     # Sorts types by results count

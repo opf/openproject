@@ -5,17 +5,18 @@
     <%= error_messages_for 'issue' %>
     <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    <%= send_notification_option %>
     </div>
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-    <%= link_to_remote l(:label_preview), 
+    <%= link_to_remote l(:label_preview),
                        { :url => preview_issue_path(:project_id => @project),
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('issue-form')",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %>
-											 
+
 		<%= javascript_tag "Form.Element.focus('issue_subject');" %>
 <% end %>
 

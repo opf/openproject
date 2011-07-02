@@ -4,7 +4,7 @@
 </div>
 
 <h2><%=l(:label_issue_status_plural)%></h2>
- 
+
 <table class="list">
   <thead><tr>
   <th><%=l(:field_status)%></th>
@@ -16,7 +16,7 @@
   <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>
-  <tbody>  
+  <tbody>
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
   <td><%= link_to status.name, :action => 'edit', :id => status %></td>

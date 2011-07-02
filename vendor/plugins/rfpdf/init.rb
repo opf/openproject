@@ -1,9 +1,11 @@
+begin
+  require('htmlentities') 
+rescue LoadError
+  # This gem is not required - just nice to have.
+end
+require('cgi')
 require 'rfpdf'
 
-begin
-  ActionView::Template::register_template_handler 'rfpdf', RFPDF::View
-rescue NameError
-  # Rails < 2.1
-  RFPDF::View.backward_compatibility_mode = true
-  ActionView::Base::register_template_handler 'rfpdf', RFPDF::View
-end
+# Mime::Type.register "application/pdf", :pdf
+ActionView::Template::register_template_handler 'rfpdf', RFPDF::TemplateHandlers::Base
+

@@ -5,6 +5,7 @@
 <h2><%= avatar @user, :size => "50" %> <%=h @user.name %></h2>
 
 <div class="splitcontentleft">
+<%= call_hook :view_account_left_top, :user => @user %>
 <ul>
 	<% unless @user.pref.hide_mail %>
 		<li><%=l(:field_mail)%>: <%= mail_to(h(escape_javascript(@user.mail)), nil, :encode => 'javascript') %></li>
@@ -19,6 +20,8 @@
 		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
 	<% end %>
 </ul>
+
+<%= call_hook :view_account_left_middle, :user => @user %>
 
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>

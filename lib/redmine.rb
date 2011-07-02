@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require 'redmine/access_control'
 require 'redmine/menu_manager'
 require 'redmine/activity'
@@ -41,6 +54,8 @@ Redmine::CustomFieldFormat.map do |fields|
   fields.register Redmine::CustomFieldFormat.new('list', :label => :label_list, :order => 5)
   fields.register Redmine::CustomFieldFormat.new('date', :label => :label_date, :order => 6)
   fields.register Redmine::CustomFieldFormat.new('bool', :label => :label_boolean, :order => 7)
+  fields.register Redmine::CustomFieldFormat.new('user', :label => :label_user, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 8)
+  fields.register Redmine::CustomFieldFormat.new('version', :label => :label_version, :only => %w(Issue TimeEntry Version Project), :edit_as => 'list', :order => 9)
 end
 
 # Permissions
@@ -53,7 +68,7 @@ Redmine::AccessControl.map do |map|
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
-  
+
   map.project_module :issue_tracking do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
@@ -62,7 +77,7 @@ Redmine::AccessControl.map do |map|
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
                                   :versions => [:index, :show, :status_by],
-                                  :journals => :index,
+                                  :journals => [:index, :diff],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form]}
@@ -82,7 +97,7 @@ Redmine::AccessControl.map do |map|
     map.permission :add_issue_watchers, {:watchers => :new}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
-  
+
   map.project_module :time_tracking do |map|
     map.permission :log_time, {:timelog => [:new, :create, :edit, :update]}, :require => :loggedin
     map.permission :view_time_entries, :timelog => [:index, :show], :time_entry_reports => [:report]
@@ -90,7 +105,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_time_entries, {:timelog => [:new, :create, :edit, :update, :destroy]}, :require => :loggedin
     map.permission :manage_project_activities, {:project_enumerations => [:update, :destroy]}, :require => :member
   end
-  
+
   map.project_module :news do |map|
     map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :comments => [:destroy]}, :require => :member
     map.permission :view_news, {:news => [:index, :show]}, :public => true
@@ -101,12 +116,12 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
   end
-  
+
   map.project_module :files do |map|
     map.permission :manage_files, {:files => [:new, :create]}, :require => :loggedin
     map.permission :view_files, :files => :index, :versions => :download
   end
-    
+
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
@@ -118,7 +133,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
-    
+
   map.project_module :repository do |map|
     map.permission :manage_repository, {:repositories => [:edit, :committers, :destroy]}, :require => :member
     map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
@@ -206,12 +221,12 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :issues, :class_name => %w(Issue Journal)
+  activity.register :issues, :class_name => 'Issue'
   activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
   activity.register :files, :class_name => 'Attachment'
-  activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => false
+  activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
   activity.register :messages, :default => false
   activity.register :time_entries, :default => false
 end

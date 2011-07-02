@@ -1,11 +1,11 @@
 <% @gantt.view = self %>
-<h2><%= l(:label_gantt) %></h2>
+<h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
 
 <% form_tag(gantt_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :put, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
-<fieldset id="filters" class="collapsible">
+<fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-	<div>
+	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
@@ -22,17 +22,17 @@
 <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
 <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-<%= link_to_remote l(:button_apply), 
-                   { :url => { :set_filter => (@query.new_record? ? 1 : nil) },
+<%= link_to_remote l(:button_apply),
+                   { :url => { :set_filter => 1 },
                      :update => "content",
                      :with => "Form.serialize('query_form')"
                    }, :class => 'icon icon-checked' %>
-                   
+
 <%= link_to_remote l(:button_clear),
-                   { :url => { :project_id => @project, :set_filter => (@query.new_record? ? 1 : nil) }, 
+                   { :url => { :project_id => @project, :set_filter => 1 },
                    	 :method => :put,
                      :update => "content",
-                   }, :class => 'icon icon-reload' if @query.new_record? %>
+                   }, :class => 'icon icon-reload' %>
 </p>
 <% end %>
 
@@ -57,10 +57,10 @@ if @gantt.zoom >1
     end
 end
 
-# Width of the entire chart    
+# Width of the entire chart
 g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
 
-@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width)
+@gantt.render(:top => headers_height + 8, :zoom => zoom, :g_width => g_width, :subject_width => subject_width)
 
 g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
 t_height = g_height + headers_height
@@ -90,25 +90,25 @@ t_height = g_height + headers_height
 
 <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;">
 <div style="width:<%= g_width-1 %>px;height:<%= headers_height %>px;background: #eee;" class="gantt_hdr">&nbsp;</div>
-<% 
+<%
 #
 # Months headers
 #
 month_f = @gantt.date_from
 left = 0
 height = (show_weeks ? header_heigth : header_heigth + g_height)
-@gantt.months.times do 
+@gantt.months.times do
 	width = ((month_f >> 1) - month_f) * zoom - 1
 	%>
 	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 	<%= link_to "#{month_f.year}-#{month_f.month}", @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
 	</div>
-	<% 
+	<%
 	left = left + width + 1
 	month_f = month_f >> 1
 end %>
 
-<% 
+<%
 #
 # Weeks headers
 #
@@ -124,7 +124,7 @@ if show_weeks
 		width = (7 - @gantt.date_from.cwday + 1) * zoom-1
 		%>
 		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">&nbsp;</div>
-		<% 
+		<%
 		left = left + width+1
 	end %>
 	<%
@@ -134,13 +134,13 @@ if show_weeks
 		<div style="left:<%= left %>px;top:19px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 		<small><%= week_f.cweek if width >= 16 %></small>
 		</div>
-		<% 
+		<%
 		left = left + width+1
 		week_f = week_f+7
 	end
 end %>
 
-<% 
+<%
 #
 # Days headers
 #
@@ -148,13 +148,13 @@ if show_days
 	left = 0
 	height = g_height + header_heigth - 1
 	wday = @gantt.date_from.cwday
-	(@gantt.date_to - @gantt.date_from + 1).to_i.times do 
+	(@gantt.date_to - @gantt.date_from + 1).to_i.times do
 	width =  zoom - 1
 	%>
 	<div style="left:<%= left %>px;top:37px;width:<%= width %>px;height:<%= height %>px;font-size:0.7em;<%= "background:#f1f1f1;" if wday > 5 %>" class="gantt_hdr">
 	<%= day_name(wday).first %>
 	</div>
-	<% 
+	<%
 	left = left + width+1
 	wday = wday + 1
 	wday = 1 if wday > 7
@@ -178,8 +178,8 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 
 <table width="100%">
 <tr>
-<td align="left"><%= link_to_remote ('&#171; ' + l(:label_previous)), {:url => @gantt.params_previous, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_previous)} %></td>
-<td align="right"><%= link_to_remote (l(:label_next) + ' &#187;'), {:url => @gantt.params_next, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'}, {:href => url_for(@gantt.params_next)} %></td>
+<td align="left"><%= link_to_content_update('&#171; ' + l(:label_previous), params.merge(@gantt.params_previous)) %></td>
+<td align="right"><%= link_to_content_update(l(:label_next) + ' &#187;', params.merge(@gantt.params_next)) %></td>
 </tr>
 </table>
 

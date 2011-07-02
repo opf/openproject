@@ -8,15 +8,22 @@
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 <label><%= l(:field_status) %>:</label>
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
+
+<% if @groups.present? %>
+<label><%= l(:label_group) %>:</label>
+<%= select_tag 'group_id', '<option></option>' + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
+<% end %>
+
 <label><%= l(:label_user) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= link_to l(:button_clear), users_path, :class => 'icon icon-reload' %>
 </fieldset>
 <% end %>
 &nbsp;
 
 <div class="autoscroll">
-<table class="list">		
+<table class="list">
   <thead><tr>
 	<%= sort_header_tag('login', :caption => l(:field_login)) %>
 	<%= sort_header_tag('firstname', :caption => l(:field_firstname)) %>

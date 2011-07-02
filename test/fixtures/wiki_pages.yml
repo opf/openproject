@@ -1,71 +1,71 @@
---- 
-wiki_pages_001: 
+---
+wiki_pages_001:
   created_on: 2007-03-07 00:08:07 +01:00
   title: CookBook_documentation
   id: 1
   wiki_id: 1
   protected: true
-  parent_id: 
-wiki_pages_002: 
+  parent_id:
+wiki_pages_002:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Another_page
   id: 2
   wiki_id: 1
   protected: false
-  parent_id: 
-wiki_pages_003: 
+  parent_id:
+wiki_pages_003:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Start_page
   id: 3
   wiki_id: 2
   protected: false
-  parent_id: 
-wiki_pages_004: 
+  parent_id:
+wiki_pages_004:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Page_with_an_inline_image
   id: 4
   wiki_id: 1
   protected: false
   parent_id: 1
-wiki_pages_005: 
+wiki_pages_005:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Child_1
   id: 5
   wiki_id: 1
   protected: false
   parent_id: 2
-wiki_pages_006: 
+wiki_pages_006:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Child_2
   id: 6
   wiki_id: 1
   protected: false
   parent_id: 2
-wiki_pages_007: 
+wiki_pages_007:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Child_page_1
   id: 7
   wiki_id: 2
   protected: false
   parent_id: 8
-wiki_pages_008: 
+wiki_pages_008:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Parent_page
   id: 8
   wiki_id: 2
   protected: false
-  parent_id: 
-wiki_pages_009: 
+  parent_id:
+wiki_pages_009:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Child_page_2
   id: 9
   wiki_id: 2
   protected: false
   parent_id: 8
-wiki_pages_010: 
+wiki_pages_010:
   created_on: 2007-03-08 00:18:07 +01:00
   title: Этика_менеджмента
   id: 10
   wiki_id: 1
   protected: false
-  parent_id: 
+  parent_id:

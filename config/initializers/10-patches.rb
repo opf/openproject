@@ -1,10 +1,23 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 
 require 'active_record'
 
 module ActiveRecord
   class Base
     include Redmine::I18n
-    
+
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr)
       l("field_#{attr.to_s.gsub(/_id$/, '')}")
@@ -72,23 +85,19 @@ module AsynchronousMailer
     define_method("perform_delivery_async_#{type}") do |mail|
       Thread.start do
         send "perform_delivery_#{type}", mail
-      end      
+      end
     end
   end
 end
 
 ActionMailer::Base.send :include, AsynchronousMailer
 
-# TODO: Hack to support i18n 4.x on Rails 2.3.5.  Remove post 2.3.6.
-# See http://www.redmine.org/issues/6428 and http://www.redmine.org/issues/5608
-module I18n
-  module Backend
-    module Base
-      def warn_syntax_deprecation!(*args)
-        return if @skip_syntax_deprecation
-        ActiveSupport::Deprecation.warn "The {{key}} interpolation syntax in I18n messages is deprecated and will be removed in ChiliProject 2.0. Please use %{key} instead. See the notice at https://www.chiliproject.org/boards/2/topics/243 for more information."
-        @skip_syntax_deprecation = true
-      end
+# TMail::Unquoter.convert_to_with_fallback_on_iso_8859_1 introduced in TMail 1.2.7
+# triggers a test failure in test_add_issue_with_japanese_keywords(MailHandlerTest)
+module TMail
+  class Unquoter
+    class << self
+      alias_method :convert_to, :convert_to_without_fallback_on_iso_8859_1
     end
   end
 end

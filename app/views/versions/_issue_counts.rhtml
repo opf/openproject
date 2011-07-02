@@ -1,7 +1,7 @@
 <form id="status_by_form">
 <fieldset>
 <legend>
-<%= l(:label_issues_by, 
+<%= l(:label_issues_by,
        select_tag('status_by',
                    status_by_options_for_select(criteria),
                    :id => 'status_by_select',
@@ -15,15 +15,15 @@
     <% counts.each do |count| %>
     <tr>
         <td width="130px" align="right" >
-            <%= link_to count[:group], {:controller => 'issues', 
+            <%= link_to count[:group], {:controller => 'issues',
                                         :action => 'index',
                                         :project_id => version.project,
                                         :set_filter => 1,
-                                        :fixed_version_id => version,
-                                        "#{criteria}_id" => count[:group]} %>
+                                        :status_id => '*',
+                                        :fixed_version_id => version}.merge("#{criteria}_id".to_sym => count[:group]) %>
         </td>
         <td width="240px">
-            <%= progress_bar((count[:closed].to_f / count[:total])*100, 
+            <%= progress_bar((count[:closed].to_f / count[:total])*100,
                   :legend => "#{count[:closed]}/#{count[:total]}",
                   :width => "#{(count[:total].to_f / max * 200).floor}px;") %>
         </td>

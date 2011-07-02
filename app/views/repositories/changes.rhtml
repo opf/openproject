@@ -12,7 +12,7 @@
 
 <%= render_properties(@properties) %>
 
-<%= render(:partial => 'revisions', 
+<%= render(:partial => 'revisions',
            :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }) unless @changesets.empty? %>
 
 <% html_title(l(:label_change_plural)) -%>

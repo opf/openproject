@@ -1,4 +1,4 @@
-# Japanese translations for Ruby on Rails 
+# Japanese translations for Ruby on Rails
 # by Akira Matsuda (ronnie@dio.jp)
 # AR error messages are basically taken from Ruby-GetText-Package. Thanks to Masao Mutoh.
 
@@ -12,15 +12,18 @@ ja:
       default: "%Y/%m/%d"
       short: "%m/%d"
       long: "%Y年%m月%d日(%a)"
-      
+
     day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
     abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
     abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -30,7 +33,7 @@ ja:
       long: "%Y年%m月%d日(%a) %H時%M分%S秒 %Z"
     am: "午前"
     pm: "午後"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "30秒前後"
@@ -105,13 +108,13 @@ ja:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "及び"
       skip_last_comma: true
-      
+
   activerecord:
     errors:
       template:
@@ -147,7 +150,7 @@ ja:
         cant_link_an_issue_with_a_descendant: "指定したチケットとは親子関係になっているため関連づけられません"
 
   actionview_instancetag_blank_option: 選んでください
-  
+
   general_text_No: 'いいえ'
   general_text_Yes: 'はい'
   general_text_no: 'いいえ'
@@ -158,7 +161,7 @@ ja:
   general_csv_encoding: CP932
   general_pdf_encoding: CP932
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: アカウントが更新されました。
   notice_account_invalid_creditentials: ユーザ名もしくはパスワードが無効
   notice_account_password_updated: パスワードが更新されました。
@@ -189,7 +192,7 @@ ja:
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗が更新されました。
   notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
-  
+
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
   error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %{value}"
@@ -207,9 +210,9 @@ ja:
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
   error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
-  
+
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
-  
+
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_body_lost_password: 'パスワードを変更するには、以下のリンクをクリックしてください:'
   mail_subject_register: "%{value} アカウント登録の確認"
@@ -224,10 +227,10 @@ ja:
   mail_body_wiki_content_added: "%{author} によってWikiページ %{id} が追加されました。"
   mail_subject_wiki_content_updated: "Wikiページ %{id} が更新されました"
   mail_body_wiki_content_updated: "%{author} によってWikiページ %{id} が更新されました。"
-  
+
   gui_validation_error: 1件のエラー
   gui_validation_error_plural: "%{count}件のエラー"
-  
+
   field_name: 名称
   field_description: 説明
   field_summary: サマリー
@@ -274,7 +277,6 @@ ja:
   field_admin: 管理者
   field_last_login_on: 最終接続日
   field_language: 言語
-  field_effective_date: 期日
   field_password: パスワード
   field_new_password: 新しいパスワード
   field_password_confirmation: パスワードの確認
@@ -325,7 +327,8 @@ ja:
   field_assigned_to_role: 担当者のロール
   field_text: テキスト
   field_visible: 表示
-  
+  field_warn_on_leaving_unsaved: セーブされていないページから移動するときに警告する
+
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
   setting_welcome_text: ウェルカムメッセージ
@@ -384,7 +387,7 @@ ja:
   setting_commit_logtime_enabled: コミット時に作業時間を記録する
   setting_commit_logtime_activity_id: 作業時間の作業分類
   setting_gantt_items_limit: ガントチャート最大表示項目数
-  
+
   permission_add_project: プロジェクトの追加
   permission_add_subprojects: サブプロジェクトの追加
   permission_edit_project: プロジェクトの編集
@@ -440,7 +443,7 @@ ja:
   permission_delete_messages: メッセージの削除
   permission_delete_own_messages: 自身が記入したメッセージの削除
   permission_manage_subtasks: 子チケットの管理
-  
+
   project_module_issue_tracking: チケットトラッキング
   project_module_time_tracking: 時間トラッキング
   project_module_news: ニュース
@@ -451,7 +454,7 @@ ja:
   project_module_boards: フォーラム
   project_module_gantt: ガントチャート
   project_module_calendar: カレンダー
-  
+
   label_user: ユーザ
   label_user_plural: ユーザ
   label_user_new: 新しいユーザ
@@ -559,6 +562,7 @@ ja:
   label_news_latest: 最新ニュース
   label_news_view_all: 全てのニュースを見る
   label_news_added: ニュースが追加されました
+  label_news_comment_added: ニュースにコメントが追加されました
   label_settings: 設定
   label_overview: 概要
   label_version: バージョン
@@ -617,6 +621,7 @@ ja:
   label_query: カスタムクエリ
   label_query_plural: カスタムクエリ
   label_query_new: 新しいクエリ
+  label_my_queries: マイカスタムクエリ
   label_filter_add: フィルタ追加
   label_filter_plural: フィルタ
   label_equals: 等しい
@@ -815,12 +820,14 @@ ja:
   label_project_copy_notifications: コピーしたチケットのメール通知を送信する
   label_principal_search: "ユーザまたはグループの検索:"
   label_user_search: "ユーザの検索:"
-  
+
   button_login: ログイン
   button_submit: 変更
   button_save: 保存
   button_check_all: 全てにチェックをつける
   button_uncheck_all: 全てのチェックを外す
+  button_expand_all: 展開
+  button_collapse_all: 折りたたみ
   button_delete: 削除
   button_create: 作成
   button_create_and_continue: 連続作成
@@ -860,17 +867,17 @@ ja:
   button_quote: 引用
   button_duplicate: 複製
   button_show: 表示
-  
+
   status_active: 有効
   status_registered: 登録
   status_locked: ロック
-  
+
   version_status_open: 進行中
   version_status_locked: ロック中
   version_status_closed: 終了
 
   field_active: 有効
-  
+
   text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
@@ -880,6 +887,7 @@ ja:
   text_are_you_sure: よろしいですか？
   text_are_you_sure_with_children: チケットとその子チケット全てを削除しますか?
   text_journal_changed: "%{label} を %{old} から %{new} に変更"
+  text_journal_changed_no_detail: "%{label} を更新"
   text_journal_set_to: "%{label} を %{value} にセット"
   text_journal_deleted: "%{label} を削除 (%{old})"
   text_journal_added: "%{label} %{value} を追加"
@@ -930,7 +938,8 @@ ja:
   text_own_membership_delete_confirmation: "いくつかまたはすべての権限をあなた自身から剥奪しようとしているため、このプロジェクトを編集できなくなるかもしれません。\n本当に続けてもよろしいですか？"
   text_zoom_in: 拡大
   text_zoom_out: 縮小
-  
+  text_warn_on_leaving_unsaved: このページから移動すると、セーブされていないデータが失われます。
+
   default_role_manager: 管理者
   default_role_developer: 開発者
   default_role_reporter: 報告者
@@ -954,7 +963,7 @@ ja:
   default_priority_immediate: 今すぐ
   default_activity_design: 設計作業
   default_activity_development: 開発作業
-  
+
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
   enumeration_activities: 作業分類 (時間トラッキング)
@@ -967,3 +976,12 @@ ja:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

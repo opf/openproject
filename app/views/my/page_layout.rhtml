@@ -4,7 +4,7 @@ function recreateSortables() {
     Sortable.destroy('list-top');
     Sortable.destroy('list-left');
     Sortable.destroy('list-right');
-    
+
 	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
 	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
 	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
@@ -53,21 +53,21 @@ function removeBlock(block) {
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="list-top" class="block-receiver">
-	<% @blocks['top'].each do |b| 
+	<% @blocks['top'].each do |b|
 	   next unless MyController::BLOCKS.keys.include? b %>
 	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
 	<% end if @blocks['top'] %>
 </div>
 
 <div id="list-left" class="splitcontentleft block-receiver">
-	<% @blocks['left'].each do |b| 
+	<% @blocks['left'].each do |b|
 	   next unless MyController::BLOCKS.keys.include? b %>
 	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
 	<% end if @blocks['left'] %>
 </div>
 
 <div id="list-right" class="splitcontentright block-receiver">
-	<% @blocks['right'].each do |b| 
+	<% @blocks['right'].each do |b|
 	   next unless MyController::BLOCKS.keys.include? b %>
 	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
 	<% end if @blocks['right'] %>
@@ -82,9 +82,9 @@ function removeBlock(block) {
       :constraint => false,
       :url => { :action => "order_blocks", :group => "top" }
        %>
-      
-      
-<%= sortable_element 'list-left', 
+
+
+<%= sortable_element 'list-left',
       :tag => 'div',
       :only => 'mypage-box',
       :handle => "handle",
@@ -93,8 +93,8 @@ function removeBlock(block) {
       :constraint => false,
       :url => { :action => "order_blocks", :group => "left" }
        %>
-      
-<%= sortable_element 'list-right', 
+
+<%= sortable_element 'list-right',
       :tag => 'div',
       :only => 'mypage-box',
       :handle => "handle",
@@ -103,6 +103,6 @@ function removeBlock(block) {
       :constraint => false,
       :url => { :action => "order_blocks", :group => "right" }
        %>
-      
+
 <%= javascript_tag "updateSelect()" %>
 <% html_title(l(:label_my_page)) -%>

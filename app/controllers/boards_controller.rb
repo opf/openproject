@@ -1,32 +1,25 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 
 class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project, :find_board_if_available, :authorize
   accept_key_auth :index, :show
 
-  helper :messages
   include MessagesHelper
-  helper :sort
   include SortHelper
-  helper :watchers
   include WatchersHelper
- 
+
   def index
     @boards = @project.boards
     render_404 if @boards.empty?
@@ -44,7 +37,7 @@ class BoardsController < ApplicationController
         sort_update	'created_on' => "#{Message.table_name}.created_on",
                     'replies' => "#{Message.table_name}.replies_count",
                     'updated_on' => "#{Message.table_name}.updated_on"
-          
+
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
         @topics =  @board.topics.find :all, :order => ["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '),
@@ -62,7 +55,7 @@ class BoardsController < ApplicationController
       }
     end
   end
-  
+
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
 
   def new
@@ -84,7 +77,7 @@ class BoardsController < ApplicationController
     @board.destroy
     redirect_to_settings_in_projects
   end
-  
+
 private
   def redirect_to_settings_in_projects
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'

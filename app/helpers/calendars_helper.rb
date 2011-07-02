@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 module CalendarsHelper
   def link_to_previous_month(year, month, options={})
     target_year, target_month = if month == 1
@@ -5,7 +18,7 @@ module CalendarsHelper
                                 else
                                   [year, month - 1]
                                 end
-    
+
     name = if target_month == 12
              "#{month_name(target_month)} #{target_year}"
            else
@@ -32,14 +45,6 @@ module CalendarsHelper
   end
 
   def link_to_month(link_name, year, month, options={})
-    project_id = options[:project].present? ? options[:project].to_param : nil
-
-    link_target = calendar_path(:year => year, :month => month, :project_id => project_id)
-
-    link_to_remote(link_name,
-                   {:update => "content", :url => link_target, :method => :put},
-                   {:href => link_target})
-
+    link_to_content_update(link_name, params.merge(:year => year, :month => month))
   end
-  
 end

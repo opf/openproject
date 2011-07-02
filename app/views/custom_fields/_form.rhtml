@@ -9,42 +9,50 @@ function toggle_custom_field_format() {
   p_values = $("custom_field_possible_values");
   p_searchable = $("custom_field_searchable");
   p_default = $("custom_field_default_value");
-  
+
   p_default.setAttribute('type','text');
   Element.show(p_default.parentNode);
-  
+
   switch (format.value) {
     case "list":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.show(p_values);
+      Element.show(p_values.parentNode);
       break;
     case "bool":
       p_default.setAttribute('type','checkbox');
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "date":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
     case "float":
     case "int":
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
+		case "user":
+    case "version":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      Element.hide(p_values.parentNode);
+      Element.hide(p_default.parentNode);
+		  break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.hide(p_values);
+      Element.hide(p_values.parentNode);
       break;
   }
 }
@@ -54,16 +62,16 @@ function toggle_custom_field_format() {
 
 <div class="box">
 <p><%= f.text_field :name, :required => true %></p>
-<p><%= f.select :field_format, custom_field_formats_for_select, {}, :onchange => "toggle_custom_field_format();",
+<p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :onchange => "toggle_custom_field_format();",
 																																		:disabled => !@custom_field.new_record? %></p>
 <p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
-   <%= f.text_field :min_length, :size => 5, :no_label => true %> - 
+   <%= f.text_field :min_length, :size => 5, :no_label => true %> -
    <%= f.text_field :max_length, :size => 5, :no_label => true %><br>(<%=l(:text_min_max_length_info)%>)</p>
 <p><%= f.text_field :regexp, :size => 50 %><br>(<%=l(:text_regexp_info)%>)</p>
-<p id="custom_field_possible_values"><%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"),
-																																			 :cols => 20,
-																																			 :rows => 15 %>
-<br /><em><%= l(:text_custom_field_possible_values_info) %></em></p>
+<p>
+	<%= f.text_area :possible_values, :value => @custom_field.possible_values.to_a.join("\n"), :rows => 15 %>
+  <br /><em><%= l(:text_custom_field_possible_values_info) %></em>
+</p>
 <p><%= @custom_field.field_format == 'bool' ? f.check_box(:default_value) : f.text_field(:default_value) %></p>
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
@@ -71,7 +79,7 @@ function toggle_custom_field_format() {
 <div class="box">
 <% case @custom_field.class.name
 when "IssueCustomField" %>
-    
+
     <fieldset><legend><%=l(:label_tracker_plural)%></legend>
     <% for tracker in @trackers %>
         <%= check_box_tag "custom_field[tracker_ids][]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= tracker.name %>
@@ -83,7 +91,7 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_for_all %></p>
     <p><%= f.check_box :is_filter %></p>
     <p><%= f.check_box :searchable %></p>
-    
+
 <% when "UserCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :visible %></p>
@@ -99,7 +107,7 @@ when "IssueCustomField" %>
 
 <% else %>
     <p><%= f.check_box :is_required %></p>
-    
+
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>

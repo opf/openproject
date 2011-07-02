@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= watcher_tag(@wiki, User.current) %>
+  <%= watcher_link(@wiki, User.current) %>
 </div>
 
 <h2><%= l(:label_index_by_title) %></h2>
@@ -8,7 +8,7 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<%= render_page_hierarchy(@pages_by_parent_id) %>
+<%= render_page_hierarchy(@pages_by_parent_id, nil, :timestamp => true) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>

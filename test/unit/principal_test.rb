@@ -1,20 +1,15 @@
-# redMine - project management software
-# Copyright (C) 2009  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 require File.expand_path('../../test_helper', __FILE__)
 
 class PrincipalTest < ActiveSupport::TestCase
@@ -33,7 +28,7 @@ class PrincipalTest < ActiveSupport::TestCase
       Principal.generate!(:mail => 'mail@example.com')
       Principal.generate!(:mail => 'mail2@example.com')
     end
-    
+
     should "search login" do
       results = Principal.like('login')
 
@@ -62,5 +57,5 @@ class PrincipalTest < ActiveSupport::TestCase
       assert results.all? {|u| u.mail.match(/mail/) }
     end
   end
-  
+
 end

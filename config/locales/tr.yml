@@ -1,4 +1,4 @@
-# Turkish translations for Ruby on Rails 
+# Turkish translations for Ruby on Rails
 # by Ozgun Ataman (ozataman@gmail.com)
 
 tr:
@@ -18,8 +18,11 @@ tr:
     abbr_day_names: [Pzr, Pzt, Sal, Çrş, Prş, Cum, Cts]
     month_names: [~, Ocak, Şubat, Mart, Nisan, Mayıs, Haziran, Temmuz, Ağustos, Eylül, Ekim, Kasım, Aralık]
     abbr_month_names: [~, Oca, Şub, Mar, Nis, May, Haz, Tem, Ağu, Eyl, Eki, Kas, Ara]
-    order: [ :day, :month, :year ]
-  
+    order:
+      - :day
+      - :month
+      - :year
+
   time:
     formats:
       default: "%a %d.%b.%y %H:%M"
@@ -30,7 +33,7 @@ tr:
 
     am: "öğleden önce"
     pm: "öğleden sonra"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: 'yarım dakika'
@@ -69,7 +72,7 @@ tr:
       almost_x_years:
         one:   "almost 1 year"
         other: "almost %{count} years"
-      
+
   number:
     format:
       precision: 2
@@ -111,7 +114,7 @@ tr:
     array:
       sentence_connector: "ve"
       skip_last_comma: true
-        
+
   activerecord:
     errors:
       template:
@@ -145,9 +148,9 @@ tr:
         circular_dependency: "Bu ilişki döngüsel bağımlılık meydana getirecektir"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
       models:
-  
+
   actionview_instancetag_blank_option: Lütfen Seçin
-  
+
   general_text_No: 'Hayır'
   general_text_Yes: 'Evet'
   general_text_no: 'hayır'
@@ -157,7 +160,7 @@ tr:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: Hesap başarıyla güncelleştirildi.
   notice_account_invalid_creditentials: Geçersiz kullanıcı ya da parola
   notice_account_password_updated: Parola başarıyla güncellendi.
@@ -181,13 +184,13 @@ tr:
   notice_no_issue_selected: "Seçili ileti yok! Lütfen, düzenlemek istediğiniz iletileri işaretleyin."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
   notice_default_data_loaded: Varasayılan konfigürasyon başarılıyla yüklendi.
-  
+
   error_can_t_load_default_data: "Varsayılan konfigürasyon yüklenemedi: %{value}"
   error_scm_not_found: "Depoda, giriş ya da revizyon yok."
   error_scm_command_failed: "Depoya erişmeye çalışırken bir hata meydana geldi: %{value}"
   error_scm_annotate: "Giriş mevcut değil veya izah edilemedi."
   error_issue_not_found_in_project: 'İleti bilgisi bulunamadı veya bu projeye ait değil'
-  
+
   mail_subject_lost_password: "Parolanız %{value}"
   mail_body_lost_password: 'Parolanızı değiştirmek için, aşağıdaki bağlantıya tıklayın:'
   mail_subject_register: "Your %{value} hesap aktivasyonu"
@@ -196,10 +199,10 @@ tr:
   mail_body_account_information: Hesap bilgileriniz
   mail_subject_account_activation_request: "%{value} hesabı etkinleştirme isteği"
   mail_body_account_activation_request: "Yeni bir kullanıcı (%{value}) kaydedildi. Hesap onaylanmayı bekliyor:"
-  
+
   gui_validation_error: 1 hata
   gui_validation_error_plural: "%{count} hata"
-  
+
   field_name: İsim
   field_description: Açıklama
   field_summary: Özet
@@ -245,7 +248,6 @@ tr:
   field_admin: Yönetici
   field_last_login_on: Son Bağlantı
   field_language: Dil
-  field_effective_date: Tarih
   field_password: Parola
   field_new_password: Yeni Parola
   field_password_confirmation: Onay
@@ -261,7 +263,7 @@ tr:
   field_attr_mail: E-Posta Niteliği
   field_onthefly: Anında kullanıcı oluşturma
   field_start_date: Başlangıç
-  field_done_ratio: % tamamlandı
+  field_done_ratio: "% tamamlandı "
   field_auth_source: Kimlik Denetim Modu
   field_hide_mail: E-posta adresimi gizle
   field_comments: Açıklama
@@ -283,7 +285,7 @@ tr:
   field_searchable: Aranabilir
   field_default_value: Varsayılan değer
   field_comments_sorting: Açıklamaları göster
-  
+
   setting_app_title: Uygulama Bağlığı
   setting_app_subtitle: Uygulama alt başlığı
   setting_welcome_text: Hoşgeldin Mesajı
@@ -315,7 +317,7 @@ tr:
   setting_user_format: Kullanıcı gösterim formatı
   setting_activity_days_default: Proje Faaliyetlerinde gösterilen gün sayısı
   setting_display_subprojects_issues: Varsayılan olarak ana projenin ileti listesinde alt proje iletilerini göster
-  
+
   project_module_issue_tracking: İleti Takibi
   project_module_time_tracking: Zaman Takibi
   project_module_news: Haberler
@@ -324,7 +326,7 @@ tr:
   project_module_wiki: Wiki
   project_module_repository: Depo
   project_module_boards: Tartışma Alanı
-  
+
   label_user: Kullanıcı
   label_user_plural: Kullanıcılar
   label_user_new: Yeni Kullanıcı
@@ -629,7 +631,7 @@ tr:
   label_chronological_order: Tarih sırasına göre
   label_reverse_chronological_order: Ters tarih sırasına göre
   label_planning: Planlanıyor
-  
+
   button_login: Giriş
   button_submit: Gönder
   button_save: Kaydet
@@ -667,11 +669,11 @@ tr:
   button_annotate: Revizyon geçmişine göre göster
   button_update: Güncelle
   button_configure: Yapılandır
-  
+
   status_active: faal
   status_registered: kayıtlı
   status_locked: kilitli
-  
+
   text_select_mail_notifications: Gönderilecek e-posta uyarısına göre hareketi seçin.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 sınırlama yok demektir
@@ -709,7 +711,7 @@ tr:
   text_destroy_time_entries: Raporlanmış saatleri sil
   text_assign_time_entries_to_project: Raporlanmış saatleri projeye ata
   text_reassign_time_entries: 'Raporlanmış saatleri bu iletiye tekrar ata:'
-  
+
   default_role_manager: Yönetici
   default_role_developer: Geliştirici
   default_role_reporter: Raporlayıcı
@@ -733,7 +735,7 @@ tr:
   default_priority_immediate: Derhal
   default_activity_design: Tasarım
   default_activity_development: Geliştirim
-  
+
   enumeration_issue_priorities: İleti önceliği
   enumeration_doc_categories: Belge Kategorileri
   enumeration_activities: Faaliyetler (zaman takibi)
@@ -965,3 +967,18 @@ tr:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

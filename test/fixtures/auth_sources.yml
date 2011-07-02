@@ -1,5 +1,5 @@
---- 
-auth_sources_001: 
+---
+auth_sources_001:
   id: 1
   type: AuthSourceLdap
   name: 'LDAP test server'

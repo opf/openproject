@@ -1,3 +1,16 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 # Re-raise errors caught by the controller.
 class StubController < ApplicationController
   def rescue_action(e) raise e end;
@@ -25,7 +38,7 @@ class HelperTestCase < ActiveSupport::TestCase
 
     # Fake url rewriter so we can test url_for
     @controller.url = ActionController::UrlRewriter.new @request, {}
-    
+
     ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
   end
 

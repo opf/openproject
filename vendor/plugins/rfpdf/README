@@ -1,99 +1,45 @@
+FWIW - I am migrating my apps to Prawn and Prawnto
+
 = RFPDF Template Plugin
 
 A template plugin allowing the inclusion of ERB-enabled RFPDF template files.
 
-== Example .rb method Usage
+==
+==
+== TCPDF Version (The New or UTF8 Version)
+==
+==
 
-In the controller, something like:
+If you are using HTML, it is recommended you install:
 
-  def mypdf
-		pdf = FPDF.new()
+gem install -r htmlentities
 
-		#
-		# Chinese
-		#
-		pdf.extend(PDF_Chinese)
-		pdf.AddPage
-		pdf.AddBig5Font
-		pdf.SetFont('Big5','',18)
-		pdf.Write(5, '²{®É®ð·Å 18 C Àã«× 83 %')
-		icBig5 = Iconv.new('Big5', 'UTF-8')
-		pdf.Write(15, icBig5.iconv("宋体 should be working"))
-		send_data pdf.Output, :filename => "something.pdf", :type => "application/pdf"
-  end
+TCPDF Documentation located at:
 
-== Example .rfdf Usage
+http://phpdocs.moodle.org/com-tecnick-tcpdf/TCPDF.html
 
-In the controller, something like:
-
-  def mypdf
-	  @options_for_rfpdf ||= {}
-	  @options_for_rfpdf[:file_name] = "nice_looking.pdf"
-  end
-
-In the layout (make sure this is the only item in the layout):
-<%= @content_for_layout %>
-  
-In the view (mypdf.rfpdf):
+Example of simple use in .rhtml:
 
 <%
-	pdf = FPDF.new()
-	#
-	# Chinese
-	#
- 	pdf.extend(PDF_Chinese)
- 	pdf.AddPage
- 	pdf.AddBig5Font
- 	pdf.SetFont('Big5','',18)
- 	pdf.Write(5, '²{®É®ð·Å 18 C Àã«× 83 %')
- 	icBig5 = Iconv.new('Big5', 'UTF-8')
- 	pdf.Write(15, icBig5.iconv("宋体 should be working"))
+	@pdf = TCPDF.new()
+  @pdf.SetMargins(15, 27, 15);
+  @pdf.AddPage();
+  text_options = {:font => "freeserif"}
+  @pdf.draw_text(15, 10, "text", {:font_size => 12, :font => "freeserif"})
+%><%=@pdf.Output()%>
 
-	#
-	# Japanese
-	#
- 	pdf.extend(PDF_Japanese)
- 	pdf.AddSJISFont();
- 	pdf.AddPage();
- 	pdf.SetFont('SJIS','',18);
- 	pdf.Write(5,'9ÉñåéÇÃåˆäJÉeÉXÉgÇåoÇƒPHP 3.0ÇÕ1998îN6åéÇ…åˆéÆÇ…ÉäÉäÅ[ÉXÇ≥ÇÍÇ‹ÇµÇΩÅB');
- 	icSJIS = Iconv.new('SJIS', 'UTF-8')
- 	pdf.Write(15, icSJIS.iconv("これはテキストである should be working"))
+See the following files for sample of useage:
 
-	#
-	# Korean
-	#
- 	pdf.extend(PDF_Korean)
- 	pdf.AddUHCFont();
- 	pdf.AddPage();
- 	pdf.SetFont('UHC','',18);
- 	pdf.Write(5,'PHP 3.0Àº 1998³â 6¿ù¿¡ °ø½ÄÀûÀ¸·Î ¸±¸®ÁîµÇ¾ú´Ù. °ø°³ÀûÀÎ Å×½ºÆ® ÀÌÈÄ¾à 9°³¿ù¸¸ÀÌ¾ú´Ù.');
- 	icUHC = Iconv.new('UHC', 'UTF-8')
- 	pdf.Write(15, icUHC.iconv("이것은 원본 이다"))
+test_unicode.rfpdf
+utf8test.txt
+logo_example.png
 
-	#
-	# English
-	#
- 	pdf.AddPage();
-	pdf.SetFont('Arial', '', 10)
-	pdf.Write(5, "should be working")
-%>
-<%=	pdf.Output() %>
-	  
-	
-== Configuring
+FPDF users can migrate to TCPDF by changing the following from:
 
-You can configure Rfpdf by using an @options_for_rfpdf hash in your controllers.
+  pdf = FPDF.new
 
-Here are a few options:
+to:
 
-:filename (default: action_name.pdf)
-  Filename of PDF to generate
+  pdf = TCPDF.new
 
-Note: If you're using the same settings for @options_for_rfpdf often, you might want to 
-put your assignment in a before_filter (perhaps overriding :filename, etc in your actions).
-
-== Problems
-
-Layouts and partials are currently not supported; just need
-to wrap the PDF generation differently.
+ENJOY!

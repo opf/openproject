@@ -18,16 +18,16 @@ X-MSMail-Priority: Normal
 X-Mailer: Microsoft Outlook Express 6.00.2900.2869
 X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas imperdiet 
-turpis et odio. Integer eget pede vel dolor euismod varius. Phasellus 
-blandit eleifend augue. Nulla facilisi. Duis id diam. Class aptent taciti 
-sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In 
-in urna sed tellus aliquet lobortis. Morbi scelerisque tortor in dolor. Cras 
-sagittis odio eu lacus. Aliquam sem tortor, consequat sit amet, vestibulum 
-id, iaculis at, lectus. Fusce tortor libero, congue ut, euismod nec, luctus 
-eget, eros. Pellentesque tortor enim, feugiat in, dignissim eget, tristique 
-sed, mauris --- Pellentesque habitant morbi tristique senectus et netus et 
-malesuada fames ac turpis egestas. Quisque sit amet libero. In hac habitasse 
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas imperdiet
+turpis et odio. Integer eget pede vel dolor euismod varius. Phasellus
+blandit eleifend augue. Nulla facilisi. Duis id diam. Class aptent taciti
+sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In
+in urna sed tellus aliquet lobortis. Morbi scelerisque tortor in dolor. Cras
+sagittis odio eu lacus. Aliquam sem tortor, consequat sit amet, vestibulum
+id, iaculis at, lectus. Fusce tortor libero, congue ut, euismod nec, luctus
+eget, eros. Pellentesque tortor enim, feugiat in, dignissim eget, tristique
+sed, mauris --- Pellentesque habitant morbi tristique senectus et netus et
+malesuada fames ac turpis egestas. Quisque sit amet libero. In hac habitasse
 platea dictumst.
 
 --- This line starts with a delimiter and should not be stripped
@@ -42,11 +42,11 @@ This paragraph is between delimiters.
 
 This paragraph is after the delimiter so it shouldn't appear.
 
-Nulla et nunc. Duis pede. Donec et ipsum. Nam ut dui tincidunt neque 
-sollicitudin iaculis. Duis vitae dolor. Vestibulum eget massa. Sed lorem. 
-Nullam volutpat cursus erat. Cras felis dolor, lacinia quis, rutrum et, 
-dictum et, ligula. Sed erat nibh, gravida in, accumsan non, placerat sed, 
-massa. Sed sodales, ante fermentum ultricies sollicitudin, massa leo 
+Nulla et nunc. Duis pede. Donec et ipsum. Nam ut dui tincidunt neque
+sollicitudin iaculis. Duis vitae dolor. Vestibulum eget massa. Sed lorem.
+Nullam volutpat cursus erat. Cras felis dolor, lacinia quis, rutrum et,
+dictum et, ligula. Sed erat nibh, gravida in, accumsan non, placerat sed,
+massa. Sed sodales, ante fermentum ultricies sollicitudin, massa leo
 pulvinar dui, a gravida orci mi eget odio. Nunc a lacus.
 
 Project: onlinestore

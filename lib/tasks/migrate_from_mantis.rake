@@ -1,19 +1,16 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 
 desc 'Mantis migration script'
 
@@ -23,9 +20,9 @@ require 'pp'
 
 namespace :redmine do
 task :migrate_from_mantis => :environment do
-  
+
   module MantisMigrate
-   
+
       DEFAULT_STATUS = IssueStatus.default
       assigned_status = IssueStatus.find_by_position(2)
       resolved_status = IssueStatus.find_by_position(3)
@@ -39,7 +36,7 @@ task :migrate_from_mantis => :environment do
                         80 => resolved_status, # resolved
                         90 => closed_status    # closed
                         }
-                        
+
       priorities = IssuePriority.all
       DEFAULT_PRIORITY = priorities[2]
       PRIORITY_MAPPING = {10 => priorities[1], # none
@@ -49,10 +46,10 @@ task :migrate_from_mantis => :environment do
                           50 => priorities[4], # urgent
                           60 => priorities[5]  # immediate
                           }
-    
+
       TRACKER_BUG = Tracker.find_by_position(1)
       TRACKER_FEATURE = Tracker.find_by_position(2)
-      
+
       roles = Role.find(:all, :conditions => {:builtin => 0}, :order => 'position ASC')
       manager_role = roles[0]
       developer_role = roles[1]
@@ -64,7 +61,7 @@ task :migrate_from_mantis => :environment do
                       70 => manager_role,   # manager
                       90 => manager_role    # administrator
                       }
-      
+
       CUSTOM_FIELD_TYPE_MAPPING = {0 => 'string', # String
                                    1 => 'int',    # Numeric
                                    2 => 'int',    # Float
@@ -75,28 +72,28 @@ task :migrate_from_mantis => :environment do
                                    7 => 'list',   # Multiselection list
                                    8 => 'date',   # Date
                                    }
-                                   
+
       RELATION_TYPE_MAPPING = {1 => IssueRelation::TYPE_RELATES,    # related to
                                2 => IssueRelation::TYPE_RELATES,    # parent of
                                3 => IssueRelation::TYPE_RELATES,    # child of
                                0 => IssueRelation::TYPE_DUPLICATES, # duplicate of
                                4 => IssueRelation::TYPE_DUPLICATES  # has duplicate
                                }
-                                                                   
+
     class MantisUser < ActiveRecord::Base
       set_table_name :mantis_user_table
-      
+
       def firstname
         @firstname = realname.blank? ? username : realname.split.first[0..29]
         @firstname
       end
-      
+
       def lastname
         @lastname = realname.blank? ? '-' : realname.split[1..-1].join(' ')[0..29]
         @lastname = '-' if @lastname.blank?
         @lastname
       end
-      
+
       def email
         if read_attribute(:email).match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i) &&
              !User.find_by_mail(read_attribute(:email))
@@ -105,44 +102,44 @@ task :migrate_from_mantis => :environment do
           @email = "#{username}@foo.bar"
         end
       end
-      
+
       def username
         read_attribute(:username)[0..29].gsub(/[^a-zA-Z0-9_\-@\.]/, '-')
       end
     end
-    
+
     class MantisProject < ActiveRecord::Base
       set_table_name :mantis_project_table
       has_many :versions, :class_name => "MantisVersion", :foreign_key => :project_id
       has_many :categories, :class_name => "MantisCategory", :foreign_key => :project_id
       has_many :news, :class_name => "MantisNews", :foreign_key => :project_id
       has_many :members, :class_name => "MantisProjectUser", :foreign_key => :project_id
-      
+
       def identifier
         read_attribute(:name).gsub(/[^a-z0-9\-]+/, '-').slice(0, Project::IDENTIFIER_MAX_LENGTH)
       end
     end
-    
+
     class MantisVersion < ActiveRecord::Base
       set_table_name :mantis_project_version_table
-      
+
       def version
         read_attribute(:version)[0..29]
       end
-      
+
       def description
         read_attribute(:description)[0..254]
       end
     end
-    
+
     class MantisCategory < ActiveRecord::Base
       set_table_name :mantis_project_category_table
     end
-    
+
     class MantisProjectUser < ActiveRecord::Base
       set_table_name :mantis_project_user_list_table
     end
-    
+
     class MantisBug < ActiveRecord::Base
       set_table_name :mantis_bug_table
       belongs_to :bug_text, :class_name => "MantisBugText", :foreign_key => :bug_text_id
@@ -150,10 +147,10 @@ task :migrate_from_mantis => :environment do
       has_many :bug_files, :class_name => "MantisBugFile", :foreign_key => :bug_id
       has_many :bug_monitors, :class_name => "MantisBugMonitor", :foreign_key => :bug_id
     end
-    
+
     class MantisBugText < ActiveRecord::Base
       set_table_name :mantis_bug_text_table
-      
+
       # Adds Mantis steps_to_reproduce and additional_information fields
       # to description if any
       def full_description
@@ -163,32 +160,32 @@ task :migrate_from_mantis => :environment do
         full_description
       end
     end
-    
+
     class MantisBugNote < ActiveRecord::Base
       set_table_name :mantis_bugnote_table
       belongs_to :bug, :class_name => "MantisBug", :foreign_key => :bug_id
       belongs_to :bug_note_text, :class_name => "MantisBugNoteText", :foreign_key => :bugnote_text_id
     end
-    
+
     class MantisBugNoteText < ActiveRecord::Base
       set_table_name :mantis_bugnote_text_table
     end
-    
+
     class MantisBugFile < ActiveRecord::Base
       set_table_name :mantis_bug_file_table
-      
+
       def size
         filesize
       end
-      
+
       def original_filename
         MantisMigrate.encode(filename)
       end
-      
+
       def content_type
         file_type
       end
-      
+
       def read(*args)
       	if @read_finished
       		nil
@@ -198,52 +195,52 @@ task :migrate_from_mantis => :environment do
       	end
       end
     end
-    
+
     class MantisBugRelationship < ActiveRecord::Base
       set_table_name :mantis_bug_relationship_table
     end
-    
+
     class MantisBugMonitor < ActiveRecord::Base
       set_table_name :mantis_bug_monitor_table
     end
-    
+
     class MantisNews < ActiveRecord::Base
       set_table_name :mantis_news_table
     end
-    
+
     class MantisCustomField < ActiveRecord::Base
       set_table_name :mantis_custom_field_table
-      set_inheritance_column :none  
+      set_inheritance_column :none
       has_many :values, :class_name => "MantisCustomFieldString", :foreign_key => :field_id
       has_many :projects, :class_name => "MantisCustomFieldProject", :foreign_key => :field_id
-      
+
       def format
         read_attribute :type
       end
-      
+
       def name
         read_attribute(:name)[0..29]
       end
     end
-    
+
     class MantisCustomFieldProject < ActiveRecord::Base
-      set_table_name :mantis_custom_field_project_table  
+      set_table_name :mantis_custom_field_project_table
     end
-    
+
     class MantisCustomFieldString < ActiveRecord::Base
-      set_table_name :mantis_custom_field_string_table  
+      set_table_name :mantis_custom_field_string_table
     end
-  
-  
+
+
     def self.migrate
-          
+
       # Users
       print "Migrating users"
       User.delete_all "login <> 'admin'"
       users_map = {}
       users_migrated = 0
       MantisUser.find(:all).each do |user|
-    	u = User.new :firstname => encode(user.firstname), 
+    	u = User.new :firstname => encode(user.firstname),
     				 :lastname => encode(user.lastname),
     				 :mail => user.email,
     				 :last_login_on => user.last_visit
@@ -257,7 +254,7 @@ task :migrate_from_mantis => :environment do
     	print '.'
       end
       puts
-    
+
       # Projects
       print "Migrating projects"
       Project.destroy_all
@@ -265,7 +262,7 @@ task :migrate_from_mantis => :environment do
       versions_map = {}
       categories_map = {}
       MantisProject.find(:all).each do |project|
-    	p = Project.new :name => encode(project.name), 
+    	p = Project.new :name => encode(project.name),
                         :description => encode(project.description)
     	p.identifier = project.identifier
     	next unless p.save
@@ -274,15 +271,15 @@ task :migrate_from_mantis => :environment do
         p.trackers << TRACKER_BUG
         p.trackers << TRACKER_FEATURE
     	print '.'
-    	
+
     	# Project members
     	project.members.each do |member|
           m = Member.new :user => User.find_by_id(users_map[member.user_id]),
     	                   :roles => [ROLE_MAPPING[member.access_level] || DEFAULT_ROLE]
     	  m.project = p
     	  m.save
-    	end	
-    	
+    	end
+
     	# Project versions
     	project.versions.each do |version|
           v = Version.new :name => encode(version.version),
@@ -292,7 +289,7 @@ task :migrate_from_mantis => :environment do
           v.save
           versions_map[version.id] = v.id
     	end
-    	
+
     	# Project categories
     	project.categories.each do |category|
           g = IssueCategory.new :name => category.category[0,30]
@@ -300,9 +297,9 @@ task :migrate_from_mantis => :environment do
           g.save
           categories_map[category.category] = g.id
     	end
-      end	
-      puts	
-    
+      end
+      puts
+
       # Bugs
       print "Migrating bugs"
       Issue.destroy_all
@@ -310,7 +307,7 @@ task :migrate_from_mantis => :environment do
       keep_bug_ids = (Issue.count == 0)
       MantisBug.find_each(:batch_size => 200) do |bug|
         next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
-    	i = Issue.new :project_id => projects_map[bug.project_id], 
+    	i = Issue.new :project_id => projects_map[bug.project_id],
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
                       :priority => PRIORITY_MAPPING[bug.priority] || DEFAULT_PRIORITY,
@@ -332,8 +329,8 @@ task :migrate_from_mantis => :environment do
         if (bug.handler_id && users_map[bug.handler_id])
           i.assigned_to = User.find_by_id(users_map[bug.handler_id])
           i.save_with_validation(false)
-        end        
-    	
+        end
+
     	# Bug notes
     	bug.bug_notes.each do |note|
     	  next unless users_map[note.reporter_id]
@@ -343,7 +340,7 @@ task :migrate_from_mantis => :environment do
           n.journalized = i
           n.save
     	end
-    	
+
         # Bug files
         bug.bug_files.each do |file|
           a = Attachment.new :created_on => file.date_added
@@ -352,18 +349,18 @@ task :migrate_from_mantis => :environment do
           a.container = i
           a.save
         end
-        
+
         # Bug monitors
         bug.bug_monitors.each do |monitor|
           next unless users_map[monitor.user_id]
           i.add_watcher(User.find_by_id(users_map[monitor.user_id]))
         end
       end
-      
+
       # update issue id sequence if needed (postgresql)
       Issue.connection.reset_pk_sequence!(Issue.table_name) if Issue.connection.respond_to?('reset_pk_sequence!')
       puts
-      
+
       # Bug relationships
       print "Migrating bug relations"
       MantisBugRelationship.find(:all).each do |relation|
@@ -376,7 +373,7 @@ task :migrate_from_mantis => :environment do
         STDOUT.flush
       end
       puts
-      
+
       # News
       print "Migrating news"
       News.destroy_all
@@ -392,7 +389,7 @@ task :migrate_from_mantis => :environment do
         STDOUT.flush
       end
       puts
-      
+
       # Custom fields
       print "Migrating custom fields"
       IssueCustomField.destroy_all
@@ -409,12 +406,12 @@ task :migrate_from_mantis => :environment do
         STDOUT.flush
         # Trackers association
         f.trackers = Tracker.find :all
-        
+
         # Projects association
         field.projects.each do |project|
           f.projects << Project.find_by_id(projects_map[project.project_id]) if projects_map[project.project_id]
         end
-        
+
         # Values
         field.values.each do |value|
           v = CustomValue.new :custom_field_id => f.id,
@@ -424,7 +421,7 @@ task :migrate_from_mantis => :environment do
         end unless f.new_record?
       end
       puts
-    
+
       puts
       puts "Users:           #{users_migrated}/#{MantisUser.count}"
       puts "Projects:        #{Project.count}/#{MantisProject.count}"
@@ -439,13 +436,13 @@ task :migrate_from_mantis => :environment do
       puts "News:            #{News.count}/#{MantisNews.count}"
       puts "Custom fields:   #{IssueCustomField.count}/#{MantisCustomField.count}"
     end
-  
+
     def self.encoding(charset)
       @ic = Iconv.new('UTF-8', charset)
     rescue Iconv::InvalidEncoding
-      return false      
+      return false
     end
-    
+
     def self.establish_connection(params)
       constants.each do |const|
         klass = const_get(const)
@@ -453,14 +450,14 @@ task :migrate_from_mantis => :environment do
         klass.establish_connection params
       end
     end
-    
+
     def self.encode(text)
       @ic.iconv text
     rescue
       text
     end
   end
-  
+
   puts
   if Redmine::DefaultData::Loader.no_data?
     puts "Redmine configuration need to be loaded before importing data."
@@ -469,27 +466,27 @@ task :migrate_from_mantis => :environment do
     puts "  rake redmine:load_default_data RAILS_ENV=\"#{ENV['RAILS_ENV']}\""
     exit
   end
-  
+
   puts "WARNING: Your Redmine data will be deleted during this process."
   print "Are you sure you want to continue ? [y/N] "
   STDOUT.flush
   break unless STDIN.gets.match(/^y$/i)
-  
+
   # Default Mantis database settings
-  db_params = {:adapter => 'mysql', 
-               :database => 'bugtracker', 
-               :host => 'localhost', 
-               :username => 'root', 
+  db_params = {:adapter => 'mysql',
+               :database => 'bugtracker',
+               :host => 'localhost',
+               :username => 'root',
                :password => '' }
 
-  puts				
-  puts "Please enter settings for your Mantis database"  
+  puts
+  puts "Please enter settings for your Mantis database"
   [:adapter, :host, :database, :username, :password].each do |param|
     print "#{param} [#{db_params[param]}]: "
     value = STDIN.gets.chomp!
     db_params[param] = value unless value.blank?
   end
-    
+
   while true
     print "encoding [UTF-8]: "
     STDOUT.flush
@@ -499,13 +496,13 @@ task :migrate_from_mantis => :environment do
     puts "Invalid encoding!"
   end
   puts
-  
+
   # Make sure bugs can refer bugs in other projects
   Setting.cross_project_issue_relations = 1 if Setting.respond_to? 'cross_project_issue_relations'
-  
+
   # Turn off email notifications
   Setting.notified_events = []
-  
+
   MantisMigrate.establish_connection db_params
   MantisMigrate.migrate
 end

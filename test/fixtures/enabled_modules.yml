@@ -1,101 +1,101 @@
---- 
-enabled_modules_001: 
+---
+enabled_modules_001:
   name: issue_tracking
   project_id: 1
   id: 1
-enabled_modules_002: 
+enabled_modules_002:
   name: time_tracking
   project_id: 1
   id: 2
-enabled_modules_003: 
+enabled_modules_003:
   name: news
   project_id: 1
   id: 3
-enabled_modules_004: 
+enabled_modules_004:
   name: documents
   project_id: 1
   id: 4
-enabled_modules_005: 
+enabled_modules_005:
   name: files
   project_id: 1
   id: 5
-enabled_modules_006: 
+enabled_modules_006:
   name: wiki
   project_id: 1
   id: 6
-enabled_modules_007: 
+enabled_modules_007:
   name: repository
   project_id: 1
   id: 7
-enabled_modules_008: 
+enabled_modules_008:
   name: boards
   project_id: 1
   id: 8
-enabled_modules_009: 
+enabled_modules_009:
   name: repository
   project_id: 3
   id: 9
-enabled_modules_010: 
+enabled_modules_010:
   name: wiki
   project_id: 3
   id: 10
-enabled_modules_011: 
+enabled_modules_011:
   name: issue_tracking
   project_id: 2
   id: 11
-enabled_modules_012: 
+enabled_modules_012:
   name: time_tracking
   project_id: 3
   id: 12
-enabled_modules_013: 
+enabled_modules_013:
   name: issue_tracking
   project_id: 3
   id: 13
-enabled_modules_014: 
+enabled_modules_014:
   name: issue_tracking
   project_id: 5
   id: 14
-enabled_modules_015: 
+enabled_modules_015:
   name: wiki
   project_id: 2
   id: 15
-enabled_modules_016: 
+enabled_modules_016:
   name: boards
   project_id: 2
   id: 16
-enabled_modules_017: 
+enabled_modules_017:
   name: calendar
   project_id: 1
   id: 17
-enabled_modules_018: 
-  name: gantt 
+enabled_modules_018:
+  name: gantt
   project_id: 1
   id: 18
-enabled_modules_019: 
+enabled_modules_019:
   name: calendar
   project_id: 2
   id: 19
-enabled_modules_020: 
-  name: gantt 
+enabled_modules_020:
+  name: gantt
   project_id: 2
   id: 20
-enabled_modules_021: 
+enabled_modules_021:
   name: calendar
   project_id: 3
   id: 21
-enabled_modules_022: 
+enabled_modules_022:
   name: gantt
   project_id: 3
   id: 22
-enabled_modules_023: 
+enabled_modules_023:
   name: calendar
   project_id: 5
   id: 23
-enabled_modules_024: 
-  name: gantt 
+enabled_modules_024:
+  name: gantt
   project_id: 5
   id: 24
-enabled_modules_025: 
-  name: news 
+enabled_modules_025:
+  name: news
   project_id: 2
   id: 25

@@ -1,4 +1,4 @@
-# Chinese (Taiwan) translations for Ruby on Rails 
+# Chinese (Taiwan) translations for Ruby on Rails
 # by tsechingho (http://github.com/tsechingho)
 # See http://github.com/svenfuchs/rails-i18n/ for details.
 
@@ -20,8 +20,11 @@
     month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
     abbr_month_names: [~, 1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
     # 使用於 date_select 與 datime_select.
-    order: [ :year, :month, :day ]
-  
+    order:
+      - :year
+      - :month
+      - :day
+
   time:
     formats:
       default: "%Y年%b%d日 %A %H:%M:%S %Z"
@@ -66,9 +69,9 @@
     percentage:
       format:
         # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
-        # separator: 
+        # separator:
         delimiter: ""
-        # precision: 
+        # precision:
 
     # 使用於 number_to_precision()
     precision:
@@ -76,13 +79,13 @@
         # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
         # separator:
         delimiter: ""
-        # precision: 
+        # precision:
 
     # 使用於 number_to_human_size()
     human:
       format:
         # 下列三個選項設定, 若有設定值將會取代 number.format 成為預設值
-        # separator: 
+        # separator:
         delimiter: ""
         precision: 1
         # 儲存單位輸出格式.
@@ -146,7 +149,7 @@
   activerecord:
     errors:
       template:
-        header: 
+        header:
           one:   "有 1 個錯誤發生使得「%{model}」無法被儲存。"
           other: "有 %{count} 個錯誤發生使得「%{model}」無法被儲存。"
         # The variable :count is also available
@@ -189,16 +192,16 @@
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
-      # Will define custom blank validation message for User model and 
+      # Will define custom blank validation message for User model and
       # custom blank validation message for login attribute of User model.
       #models:
-        
+
     # Translate model names. Used in Model.human_name().
     #models:
       # For example,
       #   user: "Dude"
       # will translate User model name to "Dude"
-    
+
     # Translate model attribute names. Used in Model.human_attribute_name(attribute).
     #attributes:
       # For example,
@@ -207,7 +210,7 @@
       # will translate User attribute "login" as "Handle"
 
   actionview_instancetag_blank_option: 請選擇
-  
+
   general_text_No: '否'
   general_text_Yes: '是'
   general_text_no: '否'
@@ -218,7 +221,7 @@
   general_csv_encoding: Big5
   general_pdf_encoding: Big5
   general_first_day_of_week: '7'
-  
+
   notice_account_updated: 帳戶更新資訊已儲存
   notice_account_invalid_creditentials: 帳戶或密碼不正確
   notice_account_password_updated: 帳戶新密碼已儲存
@@ -268,7 +271,7 @@
   error_unable_delete_issue_status: '無法刪除項目狀態'
   error_unable_to_connect: "無法連線至（%{value}）"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
-  
+
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
   mail_subject_register: 啟用您的 Redmine 帳號
@@ -283,10 +286,10 @@
   mail_body_wiki_content_added: "此 '%{id}' wiki 頁面已被 %{author} 新增。"
   mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
   mail_body_wiki_content_updated: "此 '%{id}' wiki 頁面已被 %{author} 更新。"
-  
+
   gui_validation_error: 1 個錯誤
   gui_validation_error_plural: "%{count} 個錯誤"
-  
+
   field_name: 名稱
   field_description: 概述
   field_summary: 摘要
@@ -334,7 +337,6 @@
   field_admin: 管理者
   field_last_login_on: 最近連線日期
   field_language: 語系
-  field_effective_date: 日期
   field_password: 目前密碼
   field_new_password: 新密碼
   field_password_confirmation: 確認新密碼
@@ -385,7 +387,8 @@
   field_assigned_to_role: "被指派者的角色"
   field_text: 內容文字
   field_visible: 可被看見
-  
+  field_warn_on_leaving_unsaved: "提醒我將要離開的頁面中尚有未儲存的資料"
+
   setting_app_title: 標題
   setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
@@ -444,7 +447,7 @@
   setting_commit_logtime_enabled: 啟用送交中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
-  
+
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
   permission_edit_project: 編輯專案
@@ -500,7 +503,7 @@
   permission_delete_own_messages: 刪除自己的訊息
   permission_export_wiki_pages: 匯出 wiki 頁面
   permission_manage_subtasks: 管理子工作項目
-  
+
   project_module_issue_tracking: 項目追蹤
   project_module_time_tracking: 工時追蹤
   project_module_news: 新聞
@@ -511,7 +514,7 @@
   project_module_boards: 討論區
   project_module_calendar: 日曆
   project_module_gantt: 甘特圖
-  
+
   label_user: 用戶
   label_user_plural: 用戶清單
   label_user_new: 建立新用戶
@@ -676,6 +679,7 @@
   label_query: 自訂查詢
   label_query_plural: 自訂查詢
   label_query_new: 建立新查詢
+  label_my_queries: 我的自訂查詢
   label_filter_add: 加入新篩選條件
   label_filter_plural: 篩選條件
   label_equals: 等於
@@ -707,7 +711,7 @@
   label_modification: "%{count} 變更"
   label_modification_plural: "%{count} 變更"
   label_branch: 分支
-  label_tag: 標籤 
+  label_tag: 標籤
   label_revision: 版次
   label_revision_plural: 版次清單
   label_revision_id: "版次 %{value}"
@@ -920,17 +924,17 @@
   button_quote: 引用
   button_duplicate: 重製
   button_show: 顯示
-  
+
   status_active: 活動中
   status_registered: 註冊完成
   status_locked: 鎖定中
-  
+
   version_status_open: 進行中
   version_status_locked: 已鎖定
   version_status_closed: 已結束
-  
+
   field_active: 活動中
-  
+
   text_select_mail_notifications: 選擇欲寄送提醒通知郵件之動作
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 代表「不限制」
@@ -940,6 +944,7 @@
   text_are_you_sure: 確定執行？
   text_are_you_sure_with_children: "確定刪除此工作項目及其子項目？"
   text_journal_changed: "%{label} 從 %{old} 變更為 %{new}"
+  text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_deleted: "%{label} 已刪除 (%{old})"
   text_journal_added: "%{label} %{value} 已新增"
@@ -990,7 +995,8 @@
   text_own_membership_delete_confirmation: "您在專案中，所擁有的部分或全部權限即將被移除，在這之後可能無法再次編輯此專案。\n您確定要繼續執行這個動作？"
   text_zoom_in: 放大
   text_zoom_out: 縮小
-  
+  text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
+
   default_role_manager: 管理人員
   default_role_developer: 開發人員
   default_role_reporter: 報告人員
@@ -1014,7 +1020,7 @@
   default_priority_immediate: 急
   default_activity_design: 設計
   default_activity_development: 開發
-  
+
   enumeration_issue_priorities: 項目優先權
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
@@ -1027,3 +1033,15 @@
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

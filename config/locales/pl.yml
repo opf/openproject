@@ -39,13 +39,16 @@ pl:
       default: "%Y-%m-%d"
       short: "%d %b"
       long: "%d %B %Y"
-    
+
     day_names: [Niedziela, Poniedziałek, Wtorek, Środa, Czwartek, Piątek, Sobota]
     abbr_day_names: [nie, pon, wto, śro, czw, pia, sob]
-    
+
     month_names: [~, Styczeń, Luty, Marzec, Kwiecień, Maj, Czerwiec, Lipiec, Sierpień, Wrzesień, Październik, Listopad, Grudzień]
     abbr_month_names: [~, sty, lut, mar, kwi, maj, cze, lip, sie, wrz, paź, lis, gru]
-    order: [ :year, :month, :day ]
+    order:
+      - :year
+      - :month
+      - :day
 
   time:
     formats:
@@ -130,7 +133,7 @@ pl:
         not_same_project: "nie należy do tego samego projektu"
         circular_dependency: "Ta relacja może wytworzyć kołową zależność"
         cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
-      
+
   support:
     array:
       sentence_connector: "i"
@@ -140,7 +143,7 @@ pl:
   # Best regards from Lublin@Poland :-)
   # PL translation by Mariusz@Olejnik.net,
   actionview_instancetag_blank_option: Proszę wybierz
-  
+
   button_activate: Aktywuj
   button_add: Dodaj
   button_annotate: Adnotuj
@@ -230,10 +233,9 @@ pl:
   field_default_value: Domyślny
   field_delay: Opóźnienie
   field_description: Opis
-  field_done_ratio: % Wykonane
+  field_done_ratio: "% Wykonane"
   field_downloads: Pobrań
   field_due_date: Data oddania
-  field_effective_date: Data
   field_estimated_hours: Szacowany czas
   field_field_format: Format
   field_filename: Plik
@@ -296,9 +298,9 @@ pl:
   field_version: Wersja
   field_vf_personnel: Personel
   field_vf_watcher: Obserwator
-  general_csv_decimal_separator: '.'
+  general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
-  general_csv_separator: ','
+  general_csv_separator: ';'
   general_first_day_of_week: '1'
   general_lang_name: 'Polski'
   general_pdf_encoding: UTF-8
@@ -807,7 +809,7 @@ pl:
   text_user_wrote: "%{value} napisał:"
   text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość ?
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu
-  
+
   label_user_activity: "Aktywność: %{value}"
   label_updated_time_by: "Uaktualnione przez %{author} %{age} temu"
   text_diff_truncated: '... Ten plik różnic został przycięty ponieważ jest zbyt długi.'
@@ -866,7 +868,7 @@ pl:
   button_show: Pokaż
   error_can_not_archive_project: Ten projekt nie może zostać zarchiwizowany
   error_can_not_reopen_issue_on_closed_version: Zagadnienie przydzielone do zakończonej wersji nie może zostać ponownie otwarte
-  error_issue_done_ratios_not_updated: % wykonania zagadnienia nie został uaktualniony.
+  error_issue_done_ratios_not_updated: "% wykonania zagadnienia nie został uaktualniony."
   error_workflow_copy_source: Proszę wybrać źródłowy typ zagadnienia lub rolę
   error_workflow_copy_target: Proszę wybrać docelowe typ(y) zagadnień i rolę(e)
   field_sharing: Współdzielenie
@@ -897,7 +899,7 @@ pl:
   setting_default_projects_modules: Domyślnie włączone moduły dla nowo tworzonych projektów
   setting_gravatar_default: Domyślny obraz Gravatar
   setting_issue_done_ratio: Obliczaj postęp realizacji zagadnień za pomocą
-  setting_issue_done_ratio_issue_field: % Wykonania zagadnienia
+  setting_issue_done_ratio_issue_field: "% Wykonania zagadnienia"
   setting_issue_done_ratio_issue_status: Statusu zagadnienia
   setting_mail_handler_body_delimiters: Przycinaj e-maile po jednej z tych linii
   setting_rest_api_enabled: Uaktywnij usługę sieciową REST
@@ -909,7 +911,7 @@ pl:
   version_status_closed: zamknięta
   version_status_locked: zablokowana
   version_status_open: otwarta
-  
+
   label_board_sticky: Przyklejona
   label_board_locked: Zamknięta
   permission_export_wiki_pages: Eksport stron wiki
@@ -963,3 +965,18 @@ pl:
   label_cvs_path: CVSROOT
   label_git_path: Path to .git directory
   label_mercurial_path: Root directory
+  label_my_queries: My custom queries
+  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
+  text_journal_changed_no_detail: "%{label} updated"
+  button_expand_all: Expand all
+  button_collapse_all: Collapse all
+  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  field_effective_date: Due date
+  label_news_comment_added: Comment added to a news
+  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
+  text_default_encoding: "Default: UTF-8"
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Email issue updates
+  label_path_encoding: Path encoding
+  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)

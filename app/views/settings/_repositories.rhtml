@@ -3,7 +3,7 @@
 <div class="box tabular settings">
 <p><%= setting_check_box :autofetch_changesets %></p>
 
-<p><%= setting_check_box :sys_api_enabled, 
+<p><%= setting_check_box :sys_api_enabled,
 				 :onclick => "if (this.checked) { Form.Element.enable('settings_sys_api_key'); } else { Form.Element.disable('settings_sys_api_key'); }" %></p>
 
 <p><%= setting_text_field :sys_api_key, :size => 30,
@@ -17,8 +17,6 @@
 
 <p><%= setting_text_field :repositories_encodings, :size => 60 %><br />
 <em><%= l(:text_comma_separated) %></em></p>
-
-<p><%= setting_select :commit_logs_encoding, Setting::ENCODINGS %></p>
 
 <p><%= setting_text_field :repository_log_display_limit, :size => 6 %></p>
 </div>
@@ -35,7 +33,7 @@
 <p><%= setting_check_box :commit_logtime_enabled,
          :onclick => "if (this.checked) { Form.Element.enable('settings_commit_logtime_activity_id'); } else { Form.Element.disable('settings_commit_logtime_activity_id'); }"%></p>
 
-<p><%= setting_select :commit_logtime_activity_id, 
+<p><%= setting_select :commit_logtime_activity_id,
          [[l(:label_default), 0]] + TimeEntryActivity.shared.all.collect{|activity| [activity.name, activity.id.to_s]},
          :disabled => !Setting.commit_logtime_enabled?%></p>
 </fieldset>

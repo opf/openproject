@@ -1,31 +1,3 @@
-= Installing gems for testing
+= Testing ChiliProject
 
-Run `rake gems RAILS_ENV=test` to list the required gems.  Run 
-`rake gems:install RAILS_ENV=test` to install any missing gems.
-
-== Running Tests
-
-Run `rake --tasks test` to see available tests.
-`rake test` will run the entire testsuite.
-
-Before running `rake test` you need to configure both development
-and test databases.
-
-== Creating test repositories
-
-ChiliProject supports a wide array of different version control systems.
-To test the support, a test repository needs to be created for each of those.
-
-Run `rake --tasks test:scm:setup` for a list of available test-repositories or
-run `rake test:scm:setup:all` to set up all of them
-
-== Creating a test ldap database
-
-ChiliProject supports using LDAP for user authentications.  To test LDAP
-with ChiliProject, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
-into a testing LDAP server.  Test that the ldap server can be accessed
-at 127.0.0.1 on port 389.
-
-Setting up the test ldap server is beyond the scope of this documentation.
-The OpenLDAP project provides a simple LDAP implementation that should work
-good as a test server.
+The detailed upgrade instructions are located on the {official website}[https://www.chiliproject.org/projects/chiliproject/wiki/Testing]

@@ -1,14 +1,14 @@
---- 
-watchers_001: 
+---
+watchers_001:
   watchable_type: Issue
   watchable_id: 2
   user_id: 3
-watchers_002: 
+watchers_002:
   watchable_type: Message
   watchable_id: 1
   user_id: 1
-watchers_003: 
+watchers_003:
   watchable_type: Issue
   watchable_id: 2
   user_id: 1
-  
+

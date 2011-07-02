@@ -2,6 +2,7 @@
 <table class="list versions">
 	<thead><tr>
     <th><%= l(:label_version) %></th>
+    <th><%= l(:field_start_date) %></th>
     <th><%= l(:field_effective_date) %></th>
     <th><%= l(:field_description) %></th>
     <th><%= l(:field_status) %></th>
@@ -13,6 +14,7 @@
 <% for version in @project.shared_versions.sort %>
     <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %> <%= 'shared' if version.project != @project %>">
     <td class="name"><%= link_to_version version %></td>
+    <td class="date"><%= format_date(version.start_date) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%=h version.description %></td>
     <td class="status"><%= l("version_status_#{version.status}") %></td>

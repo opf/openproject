@@ -1,7 +1,10 @@
-<% if version.completed? %>
-  <p><%= format_date(version.effective_date) %></p>
-<% elsif version.effective_date %>
-  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<%= format_date(version.effective_date) %>)</p>
+<p>
+  <%= l(:field_start_date) %> <%= h(format_date(version.start_date)) %>
+  <%= l(:field_due_date) %> <%= h(format_date(version.due_date)) %>
+</p>
+
+<% if !version.completed? && version.due_date %>
+  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong></p>
 <% end %>
 
 <p><%=h version.description %></p>

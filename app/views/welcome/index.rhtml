@@ -29,7 +29,7 @@
 	</div>
 	<% end %>
     <%= call_hook(:view_welcome_index_right, :projects => @projects) %>
-</div>	
+</div>
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
