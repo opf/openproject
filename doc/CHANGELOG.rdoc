@@ -83,6 +83,11 @@
 ** Patch #7598: Extensible MailHandler
 ** Patch #7795: Internal server error at journals#index with custom fields
 
+== 2011-06-27 v1.5.0
+
+* Bug #490: XSS in app/views/auth_sources/index.html.erb
+* Feature #488: Hook for additional formats on Wiki#show page
+
 == 2011-05-27 v1.4.0
 
 * Bug #81: Replace favicon
