@@ -53,6 +53,7 @@ module CostsUserPatch
       return roles unless project && project.active?
       if logged?
         # Find project membership
+        # FIXME: Use AR proxy object properly and avoid the use enumberable methods
         membership = memberships.detect {|m| m.project_id == project.id}
         if membership
           roles = granular_roles(membership.member_roles)
