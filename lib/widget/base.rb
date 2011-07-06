@@ -3,12 +3,17 @@ require 'digest/sha1'
 class Widget::Base < Widget
   attr_reader :engine, :output
 
+  ##
+  # Deactivate caching for certain widgets. If called on Widget::Base,
+  # caching is deactivated globally
   def self.dont_cache!
     @dont_cache = true
   end
 
+  ##
+  # Query whether this widget class should be cached.
   def self.dont_cache?
-    @dont_cache
+    @dont_cache || self == Widget::Base || Widget::Base.dont_cache?
   end
 
   def initialize(query)
