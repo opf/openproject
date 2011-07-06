@@ -27,19 +27,25 @@
   <%= delimit(
     available_cost_type_tabs(@cost_types).map do |id, label|
       if id != @unit_id
-          link_to_remote label, {
-            :url => { :set_filter => 1, :unit => id },
-            :condition => 'Ajax.activeRequestCount < 1',
-            :update => "content",
-            :before => 'selectAllOptions("group_by_rows");selectAllOptions("group_by_columns");',
-            :with => "Form.serialize('query_form')",
-            :eval_scripts => true }
-        else
-          "<b>#{label}</b>"
-        end
+        link_to(label, {}, :href => "#",
+                  :id => "cost-type-#{h(label)}",
+                  :"data-target" => url_for(:action => 'index', :set_filter => '1', :unit => id))
+      else
+        "<b>#{label}</b>"
+      end
     end)
   %>
 </div>
+
+<%=
+   javascript_tag(available_cost_type_tabs(@cost_types).map do |id, label|
+                    if id != @unit_id
+                      "Reporting.Controls.attach_settings_callback(
+                       $('cost-type-#{h(label)}'),
+                       Reporting.Controls.update_result_table);"
+                    end
+                  end)
+%>
 
 <div id="result-table">
   <% if @no_progress %>
