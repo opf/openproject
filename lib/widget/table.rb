@@ -70,6 +70,9 @@ class Widget::Table < Widget::Base
   #   canvas = options[:to] ? options[:to] << "\n" : ""
   #   canvas << render(&block)
   # end
+  def resolve_table
+    fancy_table
+  end
 
   def fancy_table
     if @subject.depth_of(:row) == 0
@@ -80,25 +83,10 @@ class Widget::Table < Widget::Base
     Widget::Table::ReportTable
   end
 
-  def simple_table
-    Widget::Table::SimpleTable
-  end
-
-  def entry_table
-    Widget::Table::EntryTable
-  end
-
   def render
     content_tag :div, :id => "result-table" do
-      options = { :debug => debug?, :mapping => @mapping, :fields => @fields }
       return content_tag :p, l(:label_no_data), :class => "nodata" if @subject.result.count <= 0
-      if @subject.group_bys.empty?
-        render_widget entry_table, @subject, options
-      elsif @subject.group_bys.size == 1
-        render_widget simple_table, @subject, options
-      else
-        render_widget fancy_table, @subject, options
-      end
+      render_widget resolve_table, @subject, @options.reverse_merge(:to => @output)
     end
   end
 

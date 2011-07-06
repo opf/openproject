@@ -42,7 +42,7 @@ module Report::Controller
 
   def table_without_progress_info
     stream do |response, output|
-      render_widget Widget::Table::ReportTable, @query, :to => output
+      render_widget Widget::Table, @query, :to => output
     end
   end
 
