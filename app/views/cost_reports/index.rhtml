@@ -17,11 +17,11 @@
 <h1 id="ur_caption">
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
 </h1>
+<br>
 
 <%= render_widget Widget::Settings, @query %>
 
-<!-- if User.current.allowed_to?(:save_queries, @project, :global => true) -->
-
+<!-- FIXME: Extract into widget + javascript -->
 <div class='cost_types'>
   <b><%= l(:label_report) %>:</b>
   <%= delimit(
@@ -33,7 +33,6 @@
     end)
   %>
 </div>
-
 <%=
    javascript_tag(available_cost_type_tabs(@cost_types).map do |id, label|
                     "Reporting.Controls.attach_settings_callback(
@@ -49,6 +48,7 @@
                      });\n"
                   end)
 %>
+<!-- END FIXME -->
 
 <div id="result-table">
   <% if @no_progress %>
