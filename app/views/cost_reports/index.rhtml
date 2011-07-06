@@ -26,24 +26,23 @@
   <b><%= l(:label_report) %>:</b>
   <%= delimit(
     available_cost_type_tabs(@cost_types).map do |id, label|
-      if id != @unit_id
-        link_to(label, {}, :href => "#",
-                  :id => "cost-type-#{h(label)}",
-                  :"data-target" => url_for(:action => 'index', :set_filter => '1', :unit => id))
-      else
-        "<b>#{label}</b>"
-      end
+      link_to(label, {}, :href => "#",
+                :id => "cost-type-#{h(label)}",
+                :style => (@unit_id == id ? "color: black" : ""),
+                :"data-target" => url_for(:action => 'index', :set_filter => '1', :unit => id))
     end)
   %>
 </div>
 
 <%=
    javascript_tag(available_cost_type_tabs(@cost_types).map do |id, label|
-                    if id != @unit_id
-                      "Reporting.Controls.attach_settings_callback(
-                       $('cost-type-#{h(label)}'),
-                       Reporting.Controls.update_result_table);"
-                    end
+                    "Reporting.Controls.attach_settings_callback(
+                     $('cost-type-#{h(label)}'),
+                     function (response) {
+                       $$(\"[id^='cost-type-']\").each(function (lnk) { lnk.style.color = \"\"; })
+                       $('cost-type-#{h(label)}').style.color = \"black\";
+                       Reporting.Controls.update_result_table(response);
+                     });\n"
                   end)
 %>
 
