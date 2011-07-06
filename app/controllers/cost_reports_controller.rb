@@ -1,9 +1,4 @@
 class CostReportsController < ApplicationController
-  before_filter :check_cache
-  before_filter :load_all
-  before_filter :find_optional_project
-  before_filter :find_optional_user
-  before_filter :set_cost_types
 
   rescue_from Exception do |exception|
     session.delete(:report)
@@ -27,6 +22,11 @@ class CostReportsController < ApplicationController
   end
 
   include Report::Controller
+  before_filter :check_cache
+  before_filter :load_all
+  before_filter :find_optional_project
+  before_filter :find_optional_user
+  before_filter :set_cost_types
 
   attr_accessor :cost_types, :unit_id
   helper_method :cost_types
