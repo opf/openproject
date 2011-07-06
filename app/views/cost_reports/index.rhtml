@@ -28,7 +28,7 @@
     available_cost_type_tabs(@cost_types).map do |id, label|
       link_to(label, {}, :href => "#",
                 :id => "cost-type-#{h(label)}",
-                :style => (@unit_id == id ? "color: black" : ""),
+                :style => (@unit_id == id ? "color: black; font-weight: bold;" : ""),
                 :"data-target" => url_for(:action => 'index', :set_filter => '1', :unit => id))
     end)
   %>
@@ -39,8 +39,12 @@
                     "Reporting.Controls.attach_settings_callback(
                      $('cost-type-#{h(label)}'),
                      function (response) {
-                       $$(\"[id^='cost-type-']\").each(function (lnk) { lnk.style.color = \"\"; })
+                       $$(\"[id^='cost-type-']\").each(function (lnk) {
+                         lnk.style.color = \"\";
+                         lnk.style.fontWeight = \"\";
+                       });
                        $('cost-type-#{h(label)}').style.color = \"black\";
+                       $('cost-type-#{h(label)}').style.fontWeight = \"bold\";
                        Reporting.Controls.update_result_table(response);
                      });\n"
                   end)
