@@ -270,16 +270,6 @@ class CostReportsController < ApplicationController
   end
 
   private
-  ## FIXME: Remove this once we moved to Redmine 1.0
-  def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
-    allowed ? true : deny_access
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def find_optional_user
     @current_user = User.current || User.anonymous
   end
