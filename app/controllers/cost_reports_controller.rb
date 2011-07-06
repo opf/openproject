@@ -21,6 +21,7 @@ class CostReportsController < ApplicationController
     end
   end
 
+  Widget::Base.dont_cache!
   include Report::Controller
   before_filter :check_cache
   before_filter :load_all
