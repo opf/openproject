@@ -31,7 +31,7 @@ module Report::Controller
   ##
   # Render the report. Renders either the complete index or the table only
   def table
-    if set_filter?
+    if set_filter? and request.xhr?
       if no_progress?
         table_without_progress_info
       else
@@ -47,7 +47,7 @@ module Report::Controller
   end
 
   def table_with_progress_info
-    render :text => render_widget(Widget::Table::Progressbar, @query), :layout => false
+    render :text => render_widget(Widget::Table::Progressbar, @query), :layout => !request.xhr?
   end
 
   if Rails.version.start_with? "3"
