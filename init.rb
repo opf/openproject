@@ -18,6 +18,8 @@ Redmine::Plugin.register :redmine_reporting do
     #require_or_load 'costs_access_control_permission_patch'
 
     permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index, :drill_down]}
+    permission :save_cost_reports, {:cost_reports => [:create]}
+    permission :save_private_cost_reports, {:cost_reports => [:create]}
     permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index, :drill_down]},
       :granular_for => :view_cost_entries
   end
