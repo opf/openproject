@@ -49,12 +49,13 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
 end
 
 Given /^I set the filter "([^\"]*)" to "([^\"]*)" with the operator "([^\"]*)"$/ do |filter, value, operator|
-  find :xpath, "//body"
-  find(:xpath, "//add_filter_select/option[value='#{filter}']").select_option
+  find_by_id("add_filter_select").find("[value='#{filter}']").select_option
+  find_by_id("operators[#{filter}").find("[value='#{operator}']").select_option
+  find_by_id("#{filter}_arg_1_val").find("[value='#{value}']").select_option
 end
 
 When /^I send the query$/ do
-  find(:xpath, '//p[@class="buttons"]/a[@class="button apply"]').click
+  find("[id='query-icon-apply-button']").click
 end
 
 Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
@@ -67,7 +68,7 @@ Then /^(?:|I )should( not)? see "([^\"]*)" in columns$/ do |negation, text|
   begin
     When %{I should#{negation} see "#{text}" within "#{columns}"}
   rescue Selenium::WebDriver::Error::ObsoleteElementError
-    # Slenium might not find the right DOM element due to a rais condition - try again
+    # Slenium might not find the right DOM element due to a race condition - try again
     # see: http://groups.google.com/group/ruby-capybara/browse_thread/thread/76c194b92c58ecef
     When %{I should#{negation} see "#{text}" within "#{columns}"}
   end
@@ -89,7 +90,6 @@ Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
 end
 
 Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
-  When %{I select "#{group}" from "group_by_#{source}"}
-  find("//span[data-group-by='#{group}']/.group_by_remove").click
+  find("span[data-group-by='#{group}']/.group_by_remove").click
 end
 
