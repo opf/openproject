@@ -176,8 +176,6 @@ class Report < ActiveRecord::Base
     self
   end
 
-  private
-
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
   end
