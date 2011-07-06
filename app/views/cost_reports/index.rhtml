@@ -64,3 +64,21 @@
   </p>
   <%= call_hook(:view_cost_report_table_bottom) %>
 </div>
+
+<% content_for :sidebar do %>
+  <% if public_queries.any? %>
+    <h3><%= l(:label_public_report_plural) %></h3>
+    <% public_queries.each do |query| -%>
+      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
+      <br>
+    <% end -%>
+  <% end -%>
+
+  <% if private_queries.any? %>
+    <h3><%= l(:label_report_plural) %></h3>
+    <% private_queries.each do |query| -%>
+      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
+      <br>
+    <% end -%>
+  <% end -%>
+<% end -%>

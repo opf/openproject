@@ -30,9 +30,12 @@ class CostReportsController < ApplicationController
   include Report::Controller
   before_filter :set_cost_types # has to be set AFTER the Report::Controller filters run
 
-  attr_accessor :cost_types, :unit_id
   helper_method :cost_types
   helper_method :unit_id
+  helper_method :public_queries
+  helper_method :private_queries
+
+  attr_accessor :cost_types, :unit_id
   cattr_accessor :custom_fields_updated_on, :custom_fields_id_sum
 
   # Checks if custom fields have been updated, added or removed since we
@@ -267,6 +270,14 @@ class CostReportsController < ApplicationController
   # @Override
   def allowed_to?(action, query, user = User.current)
     user.allowed_to?(:save_queries, @project, :global => true)
+  end
+
+  def public_queries
+    CostQuery.find(:all, :conditions => "is_public = 1", :order => "name ASC")
+  end
+
+  def private_queries
+    CostQuery.find(:all, :conditions => "user_id = #{current_user.id} AND is_public = 0", :order => "name ASC")
   end
 
   private
