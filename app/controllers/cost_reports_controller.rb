@@ -22,12 +22,13 @@ class CostReportsController < ApplicationController
   end
 
   Widget::Base.dont_cache!
-  include Report::Controller
+
   before_filter :check_cache
   before_filter :load_all
   before_filter :find_optional_project
   before_filter :find_optional_user
-  before_filter :set_cost_types
+  include Report::Controller
+  before_filter :set_cost_types # has to be set AFTER the Report::Controller filters run
 
   attr_accessor :cost_types, :unit_id
   helper_method :cost_types
