@@ -48,22 +48,22 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
   }
 end
 
-Given /^I set the filter "([^"]*)" to "([^"]*)" with the operator "([^"]*)"$/ do |filter, value, operator|
+Given /^I set the filter "([^\"]*)" to "([^\"]*)" with the operator "([^\"]*)"$/ do |filter, value, operator|
   find :xpath, "//body"
-  page.evaluate_script("restore_filter(\"#{filter}\", \"#{operator}\", \"#{value}\")")
+  find(:xpath, "//add_filter_select/option[value='#{filter}']").select_option
 end
 
 When /^I send the query$/ do
   find(:xpath, '//p[@class="buttons"]/a[@class="button apply"]').click
 end
 
-Then /^filter "([^"]*)" should (not )?be visible$/ do |filter, negative|
+Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
   bool = negative ? false : true
   page.evaluate_script("$('tr_#{filter}').visible()") =~ /^#{bool}$/
 end
 
 Then /^(?:|I )should( not)? see "([^\"]*)" in columns$/ do |negation, text|
-  columns = "select[@id='group_by_columns']"
+  columns = "div[@id='group_by_columns']"
   begin
     When %{I should#{negation} see "#{text}" within "#{columns}"}
   rescue Selenium::WebDriver::Error::ObsoleteElementError
@@ -74,7 +74,7 @@ Then /^(?:|I )should( not)? see "([^\"]*)" in columns$/ do |negation, text|
 end
 
 Then /^(?:|I )should( not)? see "([^\"]*)" in rows$/ do |negation, text|
-  rows = "select[@id='group_by_rows']"
+  rows = "div[@id='group_by_rows']"
   begin
     When %{I should#{negation} see "#{text}" within "#{rows}"}
   rescue Selenium::WebDriver::Error::ObsoleteElementError
@@ -84,15 +84,12 @@ Then /^(?:|I )should( not)? see "([^\"]*)" in rows$/ do |negation, text|
   end
 end
 
-Given /^I group (rows|columns) by "([^"]*)"/ do |target, group|
-  destination = target == "rows" ? "moveLeft" : "moveUp"
-  When %{I select "#{group}" from "group_by_container"}
-  find(:xpath, "//input[@class='buttons group_by move #{destination}']").click
+Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
+  When %{I select "#{group}" from "add_group_by_#{target}"}
 end
 
-Given /^I remove "([^"]*)" from (rows|columns)/ do |group, source|
-  movement = source == "rows" ? "moveRight" : "moveDown"
+Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
   When %{I select "#{group}" from "group_by_#{source}"}
-  find(:xpath, "//input[@class='buttons group_by move #{movement}']").click
+  find("//span[data-group-by='#{group}']/.group_by_remove").click
 end
 
