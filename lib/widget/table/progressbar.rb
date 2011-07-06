@@ -2,7 +2,7 @@ class Widget::Table::Progressbar < Widget::Base
   dont_cache!
 
   def render
-    if Widget::Table::ReportTable.new(@subject).cached? || @subject.size <= THRESHHOLD
+    if render_table?
       render_widget Widget::Table::ReportTable, @subject, :to => (@output ||= "".html_safe)
     else
       write(content_tag :label, :style => "display:none" do
@@ -10,6 +10,10 @@ class Widget::Table::Progressbar < Widget::Base
                 render_progress_bar
             end)
     end
+  end
+
+  def render_table?
+    Widget::Table::ReportTable.new(@subject).cached? || @subject.size <= THRESHHOLD
   end
 
   def render_progress_bar

@@ -64,7 +64,7 @@ module Report::Controller
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
     @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
-    @query.is_public = !!params[:query_is_public]
+    @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
@@ -122,9 +122,7 @@ module Report::Controller
   # renders the updated name on XHR
   def rename
     @query.name = params[:query_name]
-    if params.has_key?(:query_is_public)
-      @query.is_public = params[:query_is_public] == 'true'
-    end
+    @query.public! if make_query_public?
     @query.save!
     store_query(@query)
     unless request.xhr?
@@ -295,11 +293,11 @@ module Report::Controller
   def store_query(query)
     cookie = {}
     cookie[:groups] = @query.group_bys.inject({}) do |h, group|
-      ((h[:"#{group.type}s"] ||= []) << group.field.to_sym) && h
+      ((h[:"#{group.type}s"] ||= []) << group.underscore_name.to_sym) && h
     end
     cookie[:filters] = @query.filters.inject({:operators => {}, :values => {}}) do |h, filter|
-      h[:operators][filter.field.to_sym] = filter.operator.to_s
-      h[:values][filter.field.to_sym] = filter.values
+      h[:operators][filter.underscore_name.to_sym] = filter.operator.to_s
+      h[:values][filter.underscore_name.to_sym] = filter.values
       h
     end
     cookie[:name] = @query.name if @query.name
@@ -310,6 +308,12 @@ module Report::Controller
   # Override in subclass if user key
   def user_key
     'user_id'
+  end
+
+  ##
+  # Override in subclass if you like
+  def is_public_sql(val=true)
+    "(is_public = #{val ? '1' : '0'})"
   end
 
   ##
@@ -327,13 +331,19 @@ module Report::Controller
     raise NotImplementedError, "The #{self.class} should have implemented #allowed_to?(action, subject, user)"
   end
 
+  def make_query_public?
+    !!params[:query_is_public]
+  end
+
   ##
   # Find a report if :id was passed as parameter.
   # Raises RecordNotFound if an invalid :id was passed.
-  def find_optional_report
+  #
+  # @param query An optional query added to the disjunction qualifiying reports to be returned.
+  def find_optional_report(query="1=0")
     if params[:id]
       @query = report_engine.find(params[:id].to_i,
-        :conditions => ["(is_public = 1) OR (#{user_key} = ?)", current_user.id])
+        :conditions => ["#{is_public_sql} OR (#{user_key} = ?) OR (#{query})", current_user.id])
       @query.deserialize if @query
     end
   rescue ActiveRecord::RecordNotFound

@@ -16,7 +16,8 @@ class Widget::Settings < Widget::Base
         end
 
         controls = content_tag :div, :class => "buttons form_controls" do
-          widgets = render_widget(Widget::Controls::Apply, @subject)
+          widgets = ''.html_safe
+          render_widget(Widget::Controls::Apply, @subject, :to => widgets)
           render_widget(Widget::Controls::Save, @subject, :to => widgets,
                         :can_save => allowed_to?(:save, @subject, current_user))
           render_widget(Widget::Controls::SaveAs, @subject, :to => widgets,
