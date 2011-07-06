@@ -4,6 +4,7 @@ require 'date'
 module ReportingHelper
   # ======================= SHARED CODE START
   # include QueriesHelper
+  include ApplicationHelper
 
   def l(*values)
     return values.first if values.size == 1 and values.first.respond_to? :to_str
