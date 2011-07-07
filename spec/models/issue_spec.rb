@@ -64,4 +64,32 @@ describe Issue do
       end
     end
   end
+
+  describe 'definition of done' do
+    before(:each) do
+      @status_resolved ||= Factory.create(:issue_status, :name => "Resolved", :is_default => false)
+      @status_open ||= Factory.create(:issue_status, :name => "Open", :is_default => true)
+      @project = Factory.build(:project)
+      @project.issue_statuses = [@status_resolved]
+      
+      @issue = Factory.build(:issue, :project => @project,
+                                        :status  => @status_open,
+                                        :tracker => Factory.build(:tracker_feature))
+    end
+
+    it 'should not be done when having the initial status "open"' do
+      @issue.done?.should be_false
+    end
+
+    it 'should be done when having the status "resolved"' do
+      @issue.status = @status_resolved
+      @issue.done?.should be_true
+    end
+
+   it 'should not be done when removing done status from "resolved"' do
+     @issue.status = @status_resolved
+     @project.issue_statuses = Array.new
+     @issue.done?.should be_false
+    end
+  end
 end
