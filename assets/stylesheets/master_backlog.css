@@ -289,7 +289,8 @@
   padding: 0;
 }
 #rb #backlogs_container .stories .story.editing .tracker_id.editor {
-  width:55px;
+  width: expression( document.body.clientWidth > 99 ? "100px" : "auto" ); /* sets max-width for IE */
+  max-width:100px; /* for the cool guys */
 }
 #rb #backlogs_container .stories .story.editing .subject.editor {
   min-width: 20em;
