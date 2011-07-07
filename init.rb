@@ -2,6 +2,7 @@ require 'redmine'
 
 # Hooks
 require 'view_projects_show_sidebar_bottom_hook'
+require 'redmine_widgets'
 
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'

@@ -52,7 +52,7 @@
 
 <div id="result-table">
   <% if @no_progress %>
-    <%= render_widget Widget::Table::ReportTable, @query %>
+    <%= render_widget Widget::Table, @query %>
     <%= render_widget Widget::ExcelExport, @query %>
   <% else %>
     <%= render_widget Widget::Table::Progressbar, @query %>
