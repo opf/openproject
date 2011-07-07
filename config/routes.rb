@@ -22,5 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     rb.resources  :issue_boxes,      :only => :show
   end
 
+
   map.connect 'projects/:project_id/versions/:id/edit', :controller => 'version_settings', :action => 'edit'
+  map.connect '/projects/:id/project_issue_statuses', :controller => 'projects', :action => 'project_issue_statuses'
 end

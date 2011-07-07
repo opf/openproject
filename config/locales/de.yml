@@ -121,6 +121,9 @@ de:
     task: "Aufgabe"
     unassigned: "Nicht zugewiesen"
     x_more: "%{count} mehr..."
+    issue_is_closed: "Ticket ist abgeschlossen, wenn"
+    definition_of_done: "Definition of Done"
+    backlog_settings: "Backlog Einstellungen"
 
 
   project_module_backlogs: "Backlogs (Beta)"

@@ -1,0 +1,27 @@
+<h2><%=l('backlogs.definition_of_done')%></h2>
+
+<% form_tag(:controller => "projects", :action => "project_issue_statuses", :id => @project) do %>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th><%=l(:field_status)%></th>
+      <th><%=l('backlogs.issue_is_closed')%></th>
+    </tr>
+  </thead>
+  <tbody>  
+<% for status in @issue_statuses %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td><%= status.name %></td>
+    <td align="center"><%= (check_box_tag 'issue_statuses[][status_id]', status.id.to_s, @project.issue_statuses.include?(status), :id => status.name)%></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<p><%= submit_tag l(:button_save) %></p>
+<% end %>
+
+<% html_title(l(:label_issue_status_plural)) -%>
+
+
