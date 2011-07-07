@@ -56,6 +56,15 @@ class Report < ActiveRecord::Base
       table_from value.to_a.first
     end
 
+    ##
+    # Joins the corresponding tables for a list objects. The first
+    # parameter indicates whether to use a 'strict' join (meaning a normal join,
+    # thus introducing no nil values on either side) or an outer join (see examples).
+    #
+    # @example lists
+    #   :strict, User, Project
+    #   { :strict => true }, User, Project
+    #   User, Project, Article
     def self.join_table(*args)
       @last_table = table_from(args.last)
       (@table_joins ||= []) << args
@@ -223,7 +232,22 @@ class Report < ActiveRecord::Base
     def sql_statement
       raise "should not get here (#{inspect})" if bottom?
       child.cached(:sql_statement).tap do |q|
-        chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
+        if responsible_for_sql?
+          chain_collect(:table_joins).each do |joins|
+            unless strict_join?(joins)
+              # Reject all joins that are found somewhere as 'strict' joins
+              joins = joins.reject do |join|
+                chain_collect(:table_joins).select do |args|
+                  strict_join?(args)
+                end.any? do |args|
+                  # Check for inclusion in join lists
+                  !!args.detect { |arg| (table_name_for(arg) == table_name_for(join)) }
+                end
+              end
+            end
+            q.join(*joins)
+          end
+        end
       end
     end
 

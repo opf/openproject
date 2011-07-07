@@ -95,6 +95,26 @@ module Report::QueryUtils
     object.to_s.tableize
   end
 
+
+  ##
+  # Resolve whether a list of tables is supposed to be joined
+  # with a regular join ('strict join', as it does not introduce nil values
+  # on either side of the join for the field the tables are joined through),
+  # or through a left outer join. Only the first argument of the list is
+  # checked as an indicator of strict joins.
+  #
+  # @example list
+  #   :strict, :user, :project              # => true
+  #   { :strict => true }, :user, :project  # => true
+  #   :user, :project, :strict              # => false
+  #   :user, :project, :foo                 # => false
+  #
+  # @param [List] list of objects that can be passed to Report::SqlStatement#join
+  # @return [Boolean] strict or not
+  def strict_join?(*list)
+    !!((strict = list.flatten.first) == :strict || (strict.try(:[], :strict) if strict.is_a? Hash))
+  end
+
   ##
   # Generate a field name
   #
