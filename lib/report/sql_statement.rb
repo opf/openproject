@@ -126,9 +126,7 @@ class Report::SqlStatement
   end
 
   ##
-  # Adds an "left outer join" (guessing field names) to #joins if the list does
-  # not indicate a normal join according to Report::QueryUtils#strict_join?. Otherwise
-  # it will add a regular "join" to joins.
+  # Adds an "left outer join" (guessing field names) to #joins.
   #
   # @overload join(name)
   #   @param [Symbol, String] name Singular table name to join with, will join plural from on table.id = table_id
@@ -141,13 +139,7 @@ class Report::SqlStatement
   # @see #joins
   def join(*list)
     @sql = nil
-    if strict_join?(list)
-      # Remove strictness indicator
-      list.delete_at(0)
-      join_syntax = "JOIN %1$s ON %1$s.id = %2$s_id"
-    else
-      join_syntax = "LEFT OUTER JOIN %1$s ON %1$s.id = %2$s_id"
-    end
+    join_syntax = "LEFT OUTER JOIN %1$s ON %1$s.id = %2$s_id"
     list.each do |e|
       case e
       when Class          then joins << (join_syntax % [table_name_for(e), e.model_name.underscore])
