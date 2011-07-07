@@ -49,9 +49,17 @@ Given /^there is a standard permission test project named "([^\"]*)"$/ do |name|
 end
 
 Given /^I set the filter "([^\"]*)" to "([^\"]*)" with the operator "([^\"]*)"$/ do |filter, value, operator|
-  find_by_id("add_filter_select").find("[value='#{filter}']").select_option
-  find_by_id("operators[#{filter}").find("[value='#{operator}']").select_option
-  find_by_id("#{filter}_arg_1_val").find("[value='#{value}']").select_option
+  begin
+    find_by_id("add_filter_select").find("[value='#{filter}']").select_option
+    find("[name='operators[#{filter}]']").find("[value='#{operator}']").select_option
+    find("[name='values[#{filter}][]']").find("[value='#{value}']").select_option
+  rescue Capybara::ElementNotFound
+    # we support both using all-values and all-texts parameters
+    When %{I select "#{filter}" from "add_filter_select"}
+    filter_id = find_by_id("add_filter_select").value
+    When %{I select "#{operator}" from "operators[#{filter_id}]"}
+    When %{I select "#{value}" from "#{filter_id}_arg_1_val"}
+  end
 end
 
 When /^I send the query$/ do
