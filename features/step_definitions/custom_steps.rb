@@ -71,26 +71,13 @@ Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
   page.evaluate_script("$('tr_#{filter}').visible()") =~ /^#{bool}$/
 end
 
-Then /^(?:|I )should( not)? see "([^\"]*)" in columns$/ do |negation, text|
-  columns = "div[@id='group_by_columns']"
-  begin
-    When %{I should#{negation} see "#{text}" within "#{columns}"}
-  rescue Selenium::WebDriver::Error::ObsoleteElementError
-    # Slenium might not find the right DOM element due to a race condition - try again
-    # see: http://groups.google.com/group/ruby-capybara/browse_thread/thread/76c194b92c58ecef
-    When %{I should#{negation} see "#{text}" within "#{columns}"}
-  end
-end
-
-Then /^(?:|I )should( not)? see "([^\"]*)" in rows$/ do |negation, text|
-  rows = "div[@id='group_by_rows']"
-  begin
-    When %{I should#{negation} see "#{text}" within "#{rows}"}
-  rescue Selenium::WebDriver::Error::ObsoleteElementError
-    # Slenium might not find the right DOM element due to a rais condition - try again
-    # see: http://groups.google.com/group/ruby-capybara/browse_thread/thread/76c194b92c58ecef
-    When %{I should#{negation} see "#{text}" within "#{rows}"}
-  end
+Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, text, axis|
+  elements = find_by_id("group_by_#{axis}").all("span")
+  assert(if negation
+           elements.all? { |e| e.has_no_content?(text) }
+         else
+           elements.any? { |e| e.has_content?(text) }
+         end)
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
@@ -98,6 +85,7 @@ Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
 end
 
 Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
-  find("span[data-group-by='#{group}']/.group_by_remove").click
+  element_name = find_by_id("group_by_#{source}").find("label", :text => "#{group}")[:for]
+  find_by_id("#{element_name}_remove").click
 end
 
