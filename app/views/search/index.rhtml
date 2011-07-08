@@ -24,6 +24,9 @@
     </div>
 
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+
+    <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
+
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>">
@@ -36,15 +39,6 @@
     </dl>
 <% end %>
 
-<p><center>
-<% if @pagination_previous_date %>
-<%= link_to_content_update('&#171; ' + l(:label_previous),
-      params.merge(:previous => 1, :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
-<% end %>
-<% if @pagination_next_date %>
-<%= link_to_content_update(l(:label_next) + ' &#187;',
-      params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
-<% end %>
-</center></p>
+<%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
 
 <% html_title(l(:label_search)) -%>
