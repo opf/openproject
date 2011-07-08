@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -10,8 +11,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-#!/usr/bin/env ruby
 
 # == Synopsis
 #
