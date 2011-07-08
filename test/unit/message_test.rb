@@ -16,6 +16,7 @@ class MessageTest < ActiveSupport::TestCase
   fixtures :projects, :roles, :members, :member_roles, :boards, :messages, :users, :watchers
 
   def setup
+    Setting.notified_events = ['message_posted']
     @board = Board.find(1)
     @user = User.find(1)
   end
@@ -137,5 +138,13 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal 0, message.sticky
     message.sticky = '1'
     assert_equal 1, message.sticky
+  end
+
+  test "email notifications for creating a message" do
+    assert_difference("ActionMailer::Base.deliveries.count") do
+      message = Message.new(:board => @board, :subject => 'Test message', :content => 'Test message content', :author => @user)
+      assert message.save
+    end
+    
   end
 end

@@ -179,7 +179,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_nil mail.references
     assert_select_email do
       # link to the message
-      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
+      assert_select "a[href*=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
     end
   end
 
