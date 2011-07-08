@@ -24,6 +24,9 @@
     </div>
 
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+
+    <%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
+
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>">
