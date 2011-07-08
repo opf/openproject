@@ -94,4 +94,11 @@ class JournalTest < ActiveSupport::TestCase
 
     assert_not_equal start, @issue.reload.updated_on
   end
+
+  test "accessing #journaled on a Journal should not error (parent class)" do
+    journal = Journal.new
+    assert_nothing_raised do
+      assert_equal nil, journal.journaled
+    end
+  end
 end
