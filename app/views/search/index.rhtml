@@ -36,15 +36,6 @@
     </dl>
 <% end %>
 
-<div class="search-pagination">
-<p>
-<% if @pagination_previous_date %>
-  <%= link_to_previous_search_page(@pagination_previous_date) %>
-<% end %>
-<% if @pagination_next_date %>
-  <%= link_to_next_search_page(@pagination_next_date) %>
-<% end %>
-</p>
-</div>
+<%= render :partial => 'pagination', :locals => {:pagination_previous_date => @pagination_previous_date, :pagination_next_date => @pagination_next_date } %>
 
 <% html_title(l(:label_search)) -%>

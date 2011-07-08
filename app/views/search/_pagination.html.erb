@@ -1,0 +1,10 @@
+<div class="search-pagination">
+  <p>
+    <% if pagination_previous_date %>
+      <%= link_to_previous_search_page(pagination_previous_date) %>
+    <% end %>
+    <% if pagination_next_date %>
+      <%= link_to_next_search_page(pagination_next_date) %>
+    <% end %>
+  </p>
+</div>
