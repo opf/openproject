@@ -13,7 +13,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals
+  fixtures :issues, :issue_statuses, :journals, :enumerations
 
   def setup
     @journal = IssueJournal.find(1)
