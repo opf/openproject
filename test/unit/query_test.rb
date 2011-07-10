@@ -104,6 +104,34 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_operator_date_equals
+    query = Query.new(:name => '_')
+    query.add_filter('due_date', '=', ['2011-07-10'])
+    assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    find_issues_with_query(query)
+  end
+
+  def test_operator_date_lesser_than
+    query = Query.new(:name => '_')
+    query.add_filter('due_date', '<=', ['2011-07-10'])
+    assert_match /issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    find_issues_with_query(query)
+  end
+
+  def test_operator_date_greater_than
+    query = Query.new(:name => '_')
+    query.add_filter('due_date', '>=', ['2011-07-10'])
+    assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?'/, query.statement
+    find_issues_with_query(query)
+  end
+
+  def test_operator_date_between
+    query = Query.new(:name => '_')
+    query.add_filter('due_date', '><', ['2011-06-23', '2011-07-10'])
+    assert_match /issues\.due_date > '2011-06-22 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    find_issues_with_query(query)
+  end
+
   def test_operator_in_more_than
     Issue.find(7).update_attribute(:due_date, (Date.today + 15))
     query = Query.new(:project => Project.find(1), :name => '_')

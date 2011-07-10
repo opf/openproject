@@ -610,6 +610,7 @@ en:
   label_in_more_than: in more than
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
+  label_between: "between"
   label_in: in
   label_today: today
   label_all_time: all time
