@@ -19,11 +19,12 @@ begin
     files << Dir['vendor/plugins/**/*.rb'].reject {|f| f.match(/test/) } # Exclude test files
     t.files = files
 
-    static_files = ['doc/CHANGELOG',
-                    'doc/COPYING',
-                    'doc/INSTALL',
-                    'doc/RUNNING_TESTS',
-                    'doc/UPGRADING'].join(',')
+    static_files = ['doc/CHANGELOG.rdoc',
+                    'doc/COPYING.rdoc',
+                    'doc/COPYRIGHT.rdoc',
+                    'doc/INSTALL.rdoc',
+                    'doc/RUNNING_TESTS.rdoc',
+                    'doc/UPGRADING.rdoc'].join(',')
 
     t.options += ['--output-dir', './doc/app', '--files', static_files]
   end
