@@ -101,4 +101,17 @@ class JournalTest < ActiveSupport::TestCase
       assert_equal nil, journal.journaled
     end
   end
+
+  test "setting journal fields through the journaled object for creation" do
+    @issue = Issue.generate_for_project!(Project.generate!)
+
+    @issue.journal_user = @issue.author
+    @issue.journal_notes = 'Test setting fields on Journal from Issue'
+    assert_difference('Journal.count') do
+      assert @issue.save
+    end
+
+    assert_equal "Test setting fields on Journal from Issue", @issue.last_journal.notes
+    assert_equal @issue.author, @issue.last_journal.user
+  end
 end
