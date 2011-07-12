@@ -31,6 +31,20 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 'givenName', a.reload.attr_firstname
   end
 
+  context "validations" do
+    should "validate that custom_filter is a valid LDAP filter" do
+      @auth = AuthSourceLdap.new(:name => 'Validation', :host => 'localhost', :port => 389, :attr_login => 'login')
+      @auth.custom_filter = "(& (homeDirectory=*) (sn=O*" # Missing ((
+      assert @auth.invalid?
+      assert_equal "is invalid", @auth.errors.on(:custom_filter)
+
+      @auth.custom_filter = "(& (homeDirectory=*) (sn=O*))"
+      assert @auth.valid?
+      assert_equal nil, @auth.errors.on(:custom_filter)
+      
+    end
+  end
+  
   if ldap_configured?
     context '#authenticate' do
       setup do

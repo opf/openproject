@@ -21,6 +21,7 @@ class AuthSourceLdap < AuthSource
   validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
+  validate :custom_filter_should_be_valid_ldap_filter_syntax
 
   before_validation :strip_ldap_attributes
 
@@ -134,6 +135,16 @@ class AuthSourceLdap < AuthSource
     rescue Net::LDAP::LdapError # Filter syntax error
       logger.debug "LDAP custom filter syntax error for: #{custom_filter}" if logger && logger.debug?
       return nil
+    end
+  end
+
+  def custom_filter_should_be_valid_ldap_filter_syntax
+    return true unless custom_filter.present?
+
+    begin
+      return Net::LDAP::Filter.construct(custom_filter)
+    rescue Net::LDAP::LdapError # Filter syntax error
+      errors.add(:custom_filter, :invalid)
     end
   end
   
