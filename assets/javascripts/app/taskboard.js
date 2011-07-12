@@ -29,41 +29,56 @@ RB.Taskboard = (function ($) {
         }
       });
 
-      // Initialize task lists
-      this.$.find("#tasks .list").sortable({
-        connectWith: '#tasks .list',
+      this.initializeTasks();
+      this.initializeImpediments();
+
+      this.initializeNewButtons();
+      this.initializeSortables();
+    },
+
+    initializeNewButtons : function () {
+      this.$.find('#tasks .add_new').click(this.handleAddNewTaskClick);
+      this.$.find('#impediments .add_new').click(this.handleAddNewImpedimentClick);
+    },
+
+    initializeSortables : function () {
+      this.$.find('#impediments .list').sortable({
         placeholder: 'placeholder',
         start:  this.dragStart,
         stop:   this.dragStop,
         update: this.dragComplete
-      });
+      }).sortable('option', 'connectWith', '#impediments .list');
 
-      // Initialize each task in the board
+      var list, augmentList, self = this;
+
+      list = this.$.find('#tasks .list');
+
+      augmentList = function () {
+        $(list.splice(0, 50)).sortable({
+          placeholder: 'placeholder',
+          start:  self.dragStart,
+          stop:   self.dragStop,
+          update: self.dragComplete
+        }).sortable('option', 'connectWith', '#tasks .list');
+
+        if (list.length > 0) {
+          /*globals setTimeout*/
+          setTimeout(augmentList, 10);
+        }
+      };
+      augmentList();
+    },
+
+    initializeTasks : function () {
       this.$.find('.task').each(function (index) {
-        var task = RB.Factory.initialize(RB.Task, this); // 'this' refers to an element with class="task"
+        RB.Factory.initialize(RB.Task, this);
       });
+    },
 
-      // Add handler for .add_new click
-      this.$.find('#tasks .add_new').mouseup(this.handleAddNewTaskClick);
-
-
-      // Initialize impediment lists
-      this.$.find("#impediments .list").sortable({
-        connectWith: '#impediments .list',
-        placeholder: 'placeholder',
-        start:  this.dragStart,
-        stop:   this.dragStop,
-        update: this.dragComplete
-      });
-
-      // Initialize each task in the board
+    initializeImpediments : function () {
       this.$.find('.impediment').each(function (index) {
-        // 'this' refers to an element with class="impediment"
-        var task = RB.Factory.initialize(RB.Impediment, this);
+        RB.Factory.initialize(RB.Impediment, this);
       });
-
-      // Add handler for .add_new click
-      this.$.find('#impediments .add_new').mouseup(this.handleAddNewImpedimentClick);
     },
 
     dragComplete: function (e, ui) {

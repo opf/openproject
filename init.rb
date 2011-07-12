@@ -20,15 +20,23 @@ Dispatcher.to_prepare do
   require_dependency 'backlogs_my_controller_patch'
   require_dependency 'backlogs_version_controller_patch'
   require_dependency 'backlogs_hooks'
+
+  require_dependency 'issue_model_patch'
+  require_dependency 'project_model_patch'
+  require_dependency 'projects_helper_patch'
+  require_dependency 'projects_controller_patch'
 end
 
 Redmine::Plugin.register :redmine_backlogs do
   name 'Redmine Backlogs'
   author 'relaxdiego, friflaj, Gregor Schmidt, Jens Ulferts'
   description 'A plugin for agile teams'
-  version '0.8.8'
+  version '0.8.9'
 
   requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
+
+  Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
+
 
   settings :default => {
                          :story_trackers  => nil,

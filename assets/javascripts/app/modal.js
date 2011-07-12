@@ -1,7 +1,8 @@
 /*jslint indent: 2, regexp: false */
-/*globals $, Control, Element, Class, window */
+/*globals $, Control, Element, Class, window, setTimeout */
+/*globals console */
 var Backlogs = (function () {
-  var Modal, width;
+  var Modal, ModalLink, width;
 
   width = function () {
     var max = 800;
@@ -74,10 +75,31 @@ var Backlogs = (function () {
     }
   });
 
+  ModalLink = Class.create({
+    initialize : function (element) {
+      // setTimeout to please IE7. Otherwise, the element might not be there
+      // yet.
+      setTimeout(this.observeMouseOver.bind(this, element), 100);
+    },
+
+    observeMouseOver : function (element) {
+      this.element = $(element);
+      this.handler = this.handleMouseOver.bind(this);
+      this.element.observe('mouseover', this.handler);
+    },
+
+    handleMouseOver : function (e) {
+      var modal;
+      this.element.stopObserving('mouseover', this.handler);
+      modal = new Modal(this.element);
+    }
+  });
+
   Control.Window.baseZIndex = 50;
   Control.Overlay.styles.zIndex = 49;
   Control.Overlay.ieStyles.zIndex = 49;
   return {
-    Modal : Modal
+    Modal : Modal,
+    ModalLink : ModalLink
   };
 }());

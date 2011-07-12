@@ -121,6 +121,11 @@ en:
     task: "Task"
     unassigned: "Unassigned"
     x_more: "%{count} more..."
+    issue_is_closed: "Issue is done, when"
+    definition_of_done: "Definition of Done"
+    backlog_settings: "Backlog Settings"
+
+
 
   project_module_backlogs: "Backlogs (Beta)"
 

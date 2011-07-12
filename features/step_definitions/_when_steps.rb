@@ -1,19 +1,16 @@
 When /^I create the impediment$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_impediments, :action => :create),
-                      @impediment_params
+  page.driver.post url_for(:controller => :rb_impediments, :action => :create),
+                   @impediment_params
 end
 
 When /^I create the story$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_stories, :action => :create),
-                      @story_params
+  page.driver.post url_for(:controller => :rb_stories, :action => :create),
+                   @story_params
 end
 
 When /^I create the task$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_tasks, :action => :create),
-                      @task_params
+  page.driver.post url_for(:controller => :rb_tasks, :action => :create),
+                   @task_params
 end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
@@ -26,9 +23,8 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
   attributes[:prev]             = prev.id
   attributes[:fixed_version_id] = prev.fixed_version_id unless type == "task"
 
-  page.driver.process :post,
-                      url_for(:controller => controller_name, :action => "update", :id => story),
-                      attributes.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => controller_name, :action => "update", :id => story),
+                   attributes.merge({ "_method" => "put" })
 end
 
 When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, direction, position, sprint_name|
@@ -46,9 +42,8 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
                         stories[position - (direction=="up" ? 2 : 1)].id
                       end
 
-  page.driver.process :post,
-                      url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
-                      attributes.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => 'rb_stories', :action => "update", :id => story.id),
+                   attributes.merge({ "_method" => "put" })
 end
 
 When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? position$/ do |old_pos, new_pos|
@@ -67,9 +62,8 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
            @story_ids[new_pos.to_i-1]
          end
 
-  page.driver.process :post,
-                      url_for(:controller => :rb_stories, :action => :update, :id => story.text),
-                      {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
+  page.driver.post url_for(:controller => :rb_stories, :action => :update, :id => story.text),
+                   {:prev => (prev.nil? ? '' : prev.text), :project_id => @project.id, "_method" => "put"}
 
   @story = Story.find(story.text.to_i)
 end
@@ -79,27 +73,23 @@ When /^I request the server_variables resource$/ do
 end
 
 When /^I update the impediment$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_impediments, :action => :update),
-                      @impediment_params.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => :rb_impediments, :action => :update),
+                   @impediment_params.merge({ "_method" => "put" })
 end
 
 When /^I update the sprint$/ do
-  page.driver.process :post,
-                      url_for(:controller => 'rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
-                      @sprint_params.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => 'rb_sprints', :action => "update", :sprint_id => @sprint_params['id']),
+                   @sprint_params.merge({ "_method" => "put" })
 end
 
 When /^I update the story$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
-                      @story_params.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => :rb_stories, :action => :update, :id => @story_params[:id]),
+                   @story_params.merge({ "_method" => "put" })
 end
 
 When /^I update the task$/ do
-  page.driver.process :post,
-                      url_for(:controller => :rb_tasks, :action => :update, :id => @task_params[:id]),
-                      @task_params.merge({ "_method" => "put" })
+  page.driver.post url_for(:controller => :rb_tasks, :action => :update, :id => @task_params[:id]),
+                   @task_params.merge({ "_method" => "put" })
 end
 
 Given /^I visit the scrum statistics page$/ do
