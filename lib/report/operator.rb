@@ -207,6 +207,16 @@ class Report::Operator
       end
     end
 
+    new "?!", :label => :label_not_null_and_not_equal do
+      def modify(query, field, *values)
+        where_clause = "(#{field} IS NOT NULL"
+        where_clause += " AND #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += ")"
+        query.where where_clause
+        query
+      end
+    end
+
   end
   #############################################################################################
 
