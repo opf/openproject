@@ -1,6 +1,6 @@
 = Cost Control Plugin
 
-This plugin ads the ability to book costs and reports on them.
+This plugin adds the ability to book costs and reports on them.
 
 = Requirements
 
