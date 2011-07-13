@@ -40,11 +40,8 @@ class Report::GroupBy
     end
 
     def select_fields
-      if self.class.select_fields
-        (parent ? parent.select_fields : []) + self.class.select_fields
-      else
-        group_fields
-      end
+      # + (parent ? parent.select_fields : [])
+      self.class.select_fields ? self.class.select_fields : group_fields
     end
 
     ##
@@ -86,7 +83,7 @@ class Report::GroupBy
 
     def define_group(sql)
       sql.select all_select_fields
-      sql.group_by all_group_fields
+      sql.group_by all_group_fields(false)
     end
   end
 end
