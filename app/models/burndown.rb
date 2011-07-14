@@ -79,7 +79,6 @@ class Burndown
           current_prop_index[key] = determine_prop_index(key, date, current_prop_index, details_by_prop)
 
           unless not_to_be_collected?(key, date, details_by_prop, current_prop_index, story)
-
             self[key][date] += value_for_prop(date, details_by_prop[key], current_prop_index[key], story.send(key)).to_f
           end
         end
@@ -111,6 +110,7 @@ class Burndown
         sprint.id != value_for_prop(date, details_by_prop["fixed_version_id"], current_prop_index["fixed_version_id"], story.send("fixed_version_id")).to_i ||
         !collected_trackers.include?(value_for_prop(date, details_by_prop["tracker_id"], current_prop_index["tracker_id"], story.send("tracker_id")).to_i))) ||
       ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_closed) ||
+      ((key == "story_points") && IssueStatus.find(value_for_prop(date, details_by_prop["status_id"], current_prop_index["status_id"], story.send("status_id"))).is_done?(project)) ||
       out_names.include?(key) ||
       collected_from_children?(key, story) ||
       story.created_on.to_date > date)
