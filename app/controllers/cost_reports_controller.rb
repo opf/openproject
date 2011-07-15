@@ -154,6 +154,13 @@ class CostReportsController < ApplicationController
   # end
 
   ##
+  # @Override
+  # We cannot show a progressbar in Redmine, due to Prototype being less than 1.7
+  def no_progress?
+    true
+  end
+
+  ##
   # Set a default query to cut down initial load time
   def default_filter_parameters
     {:operators => {:user_id => "=", :spent_on => ">d"},
