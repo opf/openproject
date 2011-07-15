@@ -80,6 +80,19 @@ class CostReportsController < ApplicationController
   #   end
   # end
 
+  ##
+  # @Override
+  # Use respond_to hook, so redmine_export can hook up the excel exporting
+  def index
+    super
+    respond_to do |format|
+      format.html {
+        session[report_engine.name.underscore.to_sym].try(:delete, :name)
+        render :action => "index"
+      }
+    end unless performed?
+  end
+
   def drill_down
     redirect_to :action => :index
   end
