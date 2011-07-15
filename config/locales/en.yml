@@ -15,7 +15,7 @@ en:
   label_less: '<'
   label_greater: '>'
   label_sum: "Sum"
-  
+
   label_columns: "Columns"
   label_rows: "Rows"
 
@@ -31,3 +31,9 @@ en:
   cost_reports_title: "Cost Reports"
 
   units: "Units"
+
+  label_new_report: "New Report"
+  label_public_report_plural: "Public Reports"
+  label_filter: "Filter"
+  label_days_ago: "during the last days"
+  button_save_as: "Save Report As..."
