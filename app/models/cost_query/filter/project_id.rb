@@ -18,7 +18,7 @@ class CostQuery::Filter::ProjectId < CostQuery::Filter::Base
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
-      map << [project.name, project.id, ancestors.size]
+      map << [project.name, project.id, {:level => ancestors.size}]
       ancestors << project
     end
     map
