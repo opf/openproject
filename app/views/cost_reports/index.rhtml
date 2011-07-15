@@ -4,6 +4,7 @@
   <%= stylesheet_link_tag 'reporting', :plugin => 'reporting_engine' %>
   <%= stylesheet_link_tag 'help', :plugin => 'reporting_engine' %>
 <% end %>
+<%= include_calendar_headers_tags %>
 
 <% if @custom_errors.present? %>
   <% @custom_errors.each do |err| %>
