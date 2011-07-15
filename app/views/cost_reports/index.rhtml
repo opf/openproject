@@ -18,7 +18,6 @@
 <h1 id="ur_caption">
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
 </h1>
-<br>
 
 <%= render_widget Widget::Settings, @query %>
 
