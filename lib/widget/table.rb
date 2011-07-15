@@ -71,17 +71,30 @@ class Widget::Table < Widget::Base
   #   canvas << render(&block)
   # end
   def resolve_table
-    fancy_table
+    if @subject.group_bys.size == 0
+      self.class.detailed_table
+    elsif @subject.group_bys.size == 1
+      self.class.simple_table
+    else
+      self.class.fancy_table
+    end
   end
 
-  def fancy_table
-    if @subject.depth_of(:row) == 0
-      @subject.row(:singleton_value)
-    elsif @subject.depth_of(:column) == 0
-      @subject.column(:singleton_value)
-    end
-    Widget::Table::ReportTable
+  def self.detailed_table(klass=nil)
+    @@detail_table = klass if klass
+    defined?(@@detail_table) ? @@detail_table : fancy_table
   end
+
+  def self.simple_table(klass=nil)
+    @@simple_table = klass if klass
+    defined?(@@simple_table) ? @@simple_table : fancy_table
+  end
+
+  def self.fancy_table(klass=nil)
+    @@fancy_table = klass if klass
+    @@fancy_table
+  end
+  fancy_table Widget::Table::ReportTable
 
   def render
     content_tag :div, :id => "result-table" do
@@ -89,7 +102,4 @@ class Widget::Table < Widget::Base
       render_widget resolve_table, @subject, @options.reverse_merge(:to => @output)
     end
   end
-
-
-
 end

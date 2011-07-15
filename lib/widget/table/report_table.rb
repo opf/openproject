@@ -1,11 +1,5 @@
 class Widget::Table::ReportTable < Widget::Table
-
   attr_accessor :walker
-
-  def initialize(query)
-    super
-    @walker = query.walker
-  end
 
   def configure_query
     if @subject.depth_of(:row) == 0
@@ -16,6 +10,7 @@ class Widget::Table::ReportTable < Widget::Table
   end
 
   def configure_walker
+    @walker ||= @subject.walker
     @walker.for_final_row do |row, cells|
       html = "<th class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
       html << cells.join
