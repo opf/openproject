@@ -1,0 +1,12 @@
+<% html_id = "modal_window_#{ActiveSupport::SecureRandom.hex(10)}" %>
+<div id="<%= html_id %>">
+<%
+  @issue      = issue      if defined? issue
+  @changesets = changesets if defined? changesets
+  @journals   = journals   if defined? journals
+%>
+
+<% form = RedmineBacklogs::IssueForm.new(@issue) %>
+<%= RedmineBacklogs::IssueEditActions.new(@issue, html_id, form.form_id).render(self) %>
+<%= form.render(self) %>
+</div>
