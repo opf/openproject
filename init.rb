@@ -84,17 +84,20 @@ Redmine::Plugin.register :redmine_backlogs do
     # Story permissions
     # :show_stories and :list_stories are implicit in :view_master_backlog permission
     permission :create_stories,         { :rb_stories => :create }
-    permission :update_stories,         { :rb_stories => :update }
+    permission :update_stories,         { :rb_stories => :update,
+                                          :issue_boxes => [:edit, :update] }
 
     # Task permissions
     # :show_tasks and :list_tasks are implicit in :view_sprints
     permission :create_tasks,           { :rb_tasks => [:new, :create]  }
-    permission :update_tasks,           { :rb_tasks => [:edit, :update] }
+    permission :update_tasks,           { :rb_tasks => [:edit, :update],
+                                          :issue_boxes => [:edit, :update] }
 
     # Impediment permissions
     # :show_impediments and :list_impediments are implicit in :view_sprints
     permission :create_impediments,     { :rb_impediments => [:new, :create]  }
-    permission :update_impediments,     { :rb_impediments => [:edit, :update] }
+    permission :update_impediments,     { :rb_impediments => [:edit, :update],
+                                          :issue_boxes => [:edit, :update] }
 
     permission :subscribe_to_calendars,  { :rb_calendars  => :show }
     permission :view_scrum_statistics,   { :rb_statistics => :show }
