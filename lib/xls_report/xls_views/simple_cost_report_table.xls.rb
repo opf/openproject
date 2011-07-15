@@ -3,7 +3,7 @@ require_dependency 'xls_report/xls_views'
 class SimpleCostReportTable < XlsViews
   def generate
     spreadsheet = SpreadsheetBuilder.new(l(:label_money))
-    default_query = @query.serialize
+    default_query = serialize_query_without_hidden(@query)
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |ary, idx|
       @query = CostQuery.deserialize(default_query)
