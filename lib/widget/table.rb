@@ -97,13 +97,10 @@ class Widget::Table < Widget::Base
   fancy_table Widget::Table::ReportTable
 
   def render
-    content_tag :div, :id => "result-table" do
-      ret_val = render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
-      if @subject.result.count <= 0
-        @output.write(content_tag(:p, l(:label_no_data), :class => "nodata"))
-      else
-        ret_val
-      end
+    write("<!-- table start -->")
+    ret_val = render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
+    if @subject.result.count <= 0
+      write(content_tag(:p, l(:label_no_data), :class => "nodata"))
     end
   end
 end
