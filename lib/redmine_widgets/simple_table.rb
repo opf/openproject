@@ -1,4 +1,7 @@
+require 'sortable_init'
+
 class Widget::Table::SimpleTable < Widget::Table
+  simple_table self
 
   def render
     @list = @subject.collect {|r| r.important_fields }.flatten.uniq
@@ -63,5 +66,4 @@ class Widget::Table::SimpleTable < Widget::Table
       body_content
     end.html_safe
   end
-
 end

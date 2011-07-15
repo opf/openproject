@@ -31,11 +31,12 @@ class CostReportsController < ApplicationController
   before_filter :set_cost_types # has to be set AFTER the Report::Controller filters run
 
   helper_method :cost_types
+  helper_method :cost_type
   helper_method :unit_id
   helper_method :public_queries
   helper_method :private_queries
 
-  attr_accessor :cost_types, :unit_id
+  attr_accessor :cost_types, :unit_id, :cost_type
   cattr_accessor :custom_fields_updated_on, :custom_fields_id_sum
 
   # Checks if custom fields have been updated, added or removed since we
