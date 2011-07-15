@@ -1,5 +1,4 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'excel_export', :plugin => 'redmine_export' %>
 <% end %>
-<%= link_to(l(:export_to_excel), { :controller => "cost_reports" , :action => :index,
-              :format => 'xls', :project_id => @project }, :class => "excel-export") %>
+<%= link_to l(:export_to_excel), { :format => 'xls', :project_id => @project }, :class => "excel-export" %>
