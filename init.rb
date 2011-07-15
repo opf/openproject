@@ -2,7 +2,7 @@ require 'redmine'
 
 # Hooks
 require 'view_projects_show_sidebar_bottom_hook'
-require 'redmine_widgets'
+$LOAD_PATH << File.expand_path("../lib/redmine_widgets", __FILE__)
 
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'
