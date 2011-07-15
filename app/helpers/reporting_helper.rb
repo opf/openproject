@@ -6,13 +6,14 @@ module ReportingHelper
   # include QueriesHelper
   include ApplicationHelper
 
+  # Extends the definition in ApplicationHelper, to allow passing Dates as well
+  # This is the definitions that is hit by the views and widgets
   def l(*values)
     return values.first if values.size == 1 and values.first.respond_to? :to_str
-    symbol_or_date = values.first
-    if [Date, DateTime, Time].include? symbol_or_date.class
-      ::I18n.l symbol_or_date
+    if [Date, DateTime, Time].include? values.first.class
+      ::I18n.l values.first
     else
-      ::I18n.t symbol_or_date.to_sym, :default => symbol_or_date.to_s.humanize
+      ApplicationHelper.l(*values)
     end
   end
 
