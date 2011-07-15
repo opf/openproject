@@ -98,8 +98,12 @@ class Widget::Table < Widget::Base
 
   def render
     content_tag :div, :id => "result-table" do
-      return content_tag :p, l(:label_no_data), :class => "nodata" if @subject.result.count <= 0
-      render_widget resolve_table, @subject, @options.reverse_merge(:to => @output)
+      ret_val = render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
+      if @subject.result.count <= 0
+        @output.write(content_tag(:p, l(:label_no_data), :class => "nodata"))
+      else
+        ret_val
+      end
     end
   end
 end
