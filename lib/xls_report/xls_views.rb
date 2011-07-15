@@ -37,14 +37,6 @@ class XlsViews
     end
   end
 
-  def serialize_query_without_hidden(query)
-    serialized_query = query.serialize
-    serialized_query[:filters] = serialized_query[:filters].reject do |name, options|
-      options[:display] == false
-    end
-    serialized_query
-  end
-
   def self.generate(opts)
     self.new.tap do |obj|
       obj.query = opts[:query]

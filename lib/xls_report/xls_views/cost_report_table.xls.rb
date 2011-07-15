@@ -78,7 +78,7 @@ class CostReportTable < XlsViews
 
   def generate
     @spreadsheet ||= SpreadsheetBuilder.new(l(:label_money))
-    default_query = serialize_query_without_hidden(@query)
+    default_query = @query.serialize
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |ary, idx|
       @query = CostQuery.deserialize(default_query)
