@@ -77,8 +77,8 @@ module ReportingHelper
 
   def label_for(field)
     name = field.to_s.camelcase
-    return l(field) unless engine::Filter.const_defined? name
-    l(engine::Filter.const_get(name).label)
+    return l(field) unless CostQuery::Filter.const_defined? name
+    l(CostQuery::Filter.const_get(name).label)
   end
 
   def debug_fields(result, prefix = ", ")
