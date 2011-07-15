@@ -3,6 +3,7 @@ class Widget < ActionView::Base
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
+  include ReportingHelper
 
   attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
 
@@ -12,11 +13,6 @@ class Widget < ActionView::Base
     super(subject).tap do |o|
       o.subject = subject
     end
-  end
-
-  # FIXME: There's a better one in ReportingHelper, remove this one
-  def l(s)
-    ::I18n.t(s.to_sym, :default => s.to_s.humanize)
   end
 
   def current_language
