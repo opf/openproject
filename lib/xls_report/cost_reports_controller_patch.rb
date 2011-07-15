@@ -43,9 +43,6 @@ if require_dependency 'cost_reports_controller'
 
         # Build an xls file from a cost report.
         def report_to_xls
-          find_optional_project
-          generate_query
-          set_active_cost_types
           options = { :query => @query, :project => @project, :cost_types => @cost_types }
 
           if @query.group_bys.empty?
