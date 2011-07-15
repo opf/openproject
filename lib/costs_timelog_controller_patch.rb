@@ -3,7 +3,7 @@ require_dependency 'timelog_controller'
 module CostsTimelogControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
-    
+
     base.class_eval do
       unloadable
 
@@ -16,7 +16,7 @@ module CostsTimelogControllerPatch
       end
     end
   end
-  
+
   module InstanceMethods
     def details_with_reports_view
       # we handle single project reporting currently
@@ -38,8 +38,7 @@ module CostsTimelogControllerPatch
       filters[:values][:project_id] = [@project.id.to_s]
       respond_to do |format|
         format.html {
-          session[:report] = { :filters => filters, :groups => {:rows => [], :columns => []} }
-
+          session[CostQuery.name.underscore.to_sym] = { :filters => filters, :groups => {:rows => [], :columns => []} }
           redirect_to :controller => "cost_reports", :action => "index", :project_id => @project, :unit => -1
         }
         format.all {
