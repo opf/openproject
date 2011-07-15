@@ -51,9 +51,9 @@
 <!-- END FIXME -->
 
 <div id="result-table">
-  <% if @no_progress %>
+  <!-- FIXME. Progress doesn't work with Prototype < 1.7 -->
+  <% if @no_progress || true %>
     <%= render_widget Widget::Table, @query %>
-    <%= render_widget Widget::ExcelExport, @query %>
   <% else %>
     <%= render_widget Widget::Table::Progressbar, @query %>
   <% end %>
