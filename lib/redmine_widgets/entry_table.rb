@@ -58,7 +58,7 @@ class Widget::Table::EntryTable < Widget::Table
                                icons = ""
                                with_project(result.fields['project_id']) do
                                  if entry_for(result).editable_by? User.current
-                                   icons = link_to(image_tag('edit_png'), action_for(result, :action => 'edit'),
+                                   icons = link_to(image_tag('edit.png'), action_for(result, :action => 'edit'),
                                                    :title => l(:button_edit))
                                    icons << link_to(image_tag('delete.png'), action_for(result, :action => 'destroy'),
                                                     :title  => l(:button_edit), :confirm  => l(:text_are_you_sure),
