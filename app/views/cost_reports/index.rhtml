@@ -57,13 +57,13 @@
   <% else %>
     <%= render_widget Widget::Table::Progressbar, @query %>
   <% end %>
-  <div style="height: 1em; background: none;">&nbsp;</div> <!-- IE7 band-aid -->
-  <p class="footnote">
-    <%= l(:text_costs_are_rounded_note) %>
-    <%= "<br />#{l(:information_restricted_depending_on_permission)}" if !User.current.admin?%>
-  </p>
-  <%= call_hook(:view_cost_report_table_bottom) %>
 </div>
+<div style="height: 1em; background: none;">&nbsp;</div> <!-- IE7 band-aid -->
+<p class="footnote">
+  <%= l(:text_costs_are_rounded_note) %>
+  <%= "<br />#{l(:information_restricted_depending_on_permission)}" if !User.current.admin?%>
+</p>
+<%= call_hook(:view_cost_report_table_bottom) %>
 
 <% content_for :sidebar do %>
   <% if public_queries.any? %>
