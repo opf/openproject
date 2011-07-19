@@ -4,11 +4,13 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
 
     fields = ActiveSupport::OrderedHash.new
 
+    # fields[:subject]         = subject
     fields[:status]          = status_field || base_fields[:status]
     fields[:assigned_to]     = assigned_to_field || base_fields[:assigned_to]
     fields[:fixed_version]   = fixed_version_field || base_fields[:fixed_version]    
-    fields[:empty]           = empty
+    fields[:empty_bottom]    = empty
 
+    # fields[:empty_head]      = empty
     fields[:category]        = category_field || base_fields[:category]
     fields[:story_points]    = story_points || base_fields[:story_points]
     fields[:remaining_hours] = remaining_hours || base_fields[:remaining_hours]
@@ -19,11 +21,18 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
       fields.delete(:story_points)
     end
     fields[:fixed_version].label = l('label_backlog')
-
+    
     fields
   end
   
+  def call_hook(t)
+  end
+  
   private
+  
+  def subject
+    field_class.new(:subject) { |t| t.text_field_tag "issue[subject]", issue.subject.to_s }
+  end
   
   def story_points
     field_class.new(:story_points) { |t| t.text_field_tag "issue[story_points]", issue.story_points.to_s }
@@ -50,6 +59,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   end
   
   def fixed_version_field
+    # require 'ruby-debug'; debugger
     unless issue.assignable_versions.empty?
       field_class.new(:fixed_version) do |t|
         str = t.select_tag "issue[fixed_version_id]", t.version_options_for_select(issue.assignable_versions, issue.fixed_version), :include_blank => true
@@ -86,4 +96,5 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   def empty; ChiliProject::Nissue::EmptyParagraph.new; end
 
   def field_class; ChiliProject::Nissue::SimpleParagraph; end
+  def custom_field_class; RedmineBacklogs::IssueForm::CustomFieldParagraph; end
 end

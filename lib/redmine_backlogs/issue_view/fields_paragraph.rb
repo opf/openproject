@@ -28,10 +28,10 @@ class RedmineBacklogs::IssueView::FieldsParagraph < ChiliProject::Nissue::IssueV
   end
 
   def story_points
-    field_class.new(:story_points) { |t| @issue.story_points || '-' }
+    ChiliProject::Nissue::SimpleParagraph.new(:story_points) { |t| @issue.story_points || '-' }
   end
 
   def remaining_hours
-    field_class.new(:remaining_hours) { |t| t.l_hours(@issue.remaining_hours) }
+    ChiliProject::Nissue::SimpleParagraph.new(:remaining_hours) { |t| t.l_hours(@issue.remaining_hours) }
   end
 end

@@ -9,8 +9,16 @@ class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   def render(t)
     t.content_tag(:form, super(t), :id => form_id)
   end
+  
+  def heading
+    @heading ||= RedmineBacklogs::IssueForm::Heading.new(@issue)
+  end
 
   def fields_paragraph
     @fields_paragraph ||= RedmineBacklogs::IssueForm::FieldsParagraph.new(@issue)
+  end
+  
+  def description_paragraph
+    @description_paragraph ||= RedmineBacklogs::IssueForm::DescriptionParagraph.new(@issue)
   end
 end
