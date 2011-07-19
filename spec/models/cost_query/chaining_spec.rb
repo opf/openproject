@@ -156,17 +156,6 @@ describe CostQuery do
         end
       end
 
-      it "should keep the order of filters" do
-        @query.filters.each_with_index do |filter, index|
-          # check for order
-          @new_query.filters.each_with_index do |f, ix|
-            if f.class.name == filter.class.name
-              ix.should == index
-            end
-          end
-        end
-      end
-
       it "should keep the right filter values" do
         @query.filters.each_with_index do |filter, index|
           # check for presence
