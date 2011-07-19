@@ -18,9 +18,18 @@ class Widget::Table::EntryTable < Widget::Table
   def head
     content_tag :thead do
       content_tag :tr do
-        Fields.collect { |field| content_tag(:th) { label_for(field) } }.join +
+        fields = Fields.collect { |field| content_tag(:th) { label_for(field) } }.join +
           content_tag(:th, :class => 'right') { cost_type.try(:unit_plural) || l(:units) } +
           content_tag(:th, :class => 'right') { l(:field_costs) }
+        hit = false
+        @subject.each_direct_result do |result|
+          next if hit
+          if entry_for(result).editable_by? User.current
+            fields << content_tag(:th) { "" }
+            hit = true
+          end
+        end
+        fields
       end
     end
   end
