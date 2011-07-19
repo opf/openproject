@@ -98,9 +98,10 @@ class Widget::Table < Widget::Base
 
   def render
     write("<!-- table start -->")
-    ret_val = render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
     if @subject.result.count <= 0
       write(content_tag(:p, l(:label_no_data), :class => "nodata"))
+    else
+      render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
     end
   end
 end
