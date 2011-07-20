@@ -182,18 +182,18 @@ class Report < ActiveRecord::Base
   end
 
   def public!
-    is_public = true
+    self.is_public = true
   end
 
   def public?
-    is_public
+    self.is_public
   end
 
   def private!
-    is_public = false
+    self.is_public = false
   end
 
   def private?
-    !is_public
+    !public?
   end
 end
