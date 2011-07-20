@@ -232,6 +232,10 @@ class Report < ActiveRecord::Base
       db_field || (name[/[^:]+$/] || name).to_s.underscore
     end
 
+    def display?
+      self.class.display?
+    end
+
     inherited_attribute :display, :default => true
     def self.display!
       display true
