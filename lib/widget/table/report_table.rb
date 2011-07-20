@@ -43,7 +43,7 @@ class Widget::Table::ReportTable < Widget::Table
   def render
     configure_query
     configure_walker
-    write "<table class='list report'>"
+    write "<table class='report'>"
     render_thead
     render_tfoot
     render_tbody
