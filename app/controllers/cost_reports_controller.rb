@@ -181,7 +181,7 @@ class CostReportsController < ApplicationController
 
   # @Override
   def allowed_to?(action, query, user = User.current)
-    user.allowed_to?(:save_queries, @project, :global => true)
+    user.admin? or user.allowed_to?(:save_queries, @project, :global => true)
   end
 
   def public_queries
