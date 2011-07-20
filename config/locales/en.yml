@@ -32,7 +32,7 @@ en:
 
   units: "Units"
 
-  label_new_report: "New Report"
+  label_new_report: "New Cost Report"
   label_public_report_plural: "Public Reports"
   label_filter: "Filter"
   label_days_ago: "during the last days"
