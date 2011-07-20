@@ -76,7 +76,8 @@ module TaskboardCard
       left_over = left_over.mb_chars
       text      = text.to_s.mb_chars
 
-      left_over.size > 0 ? text[0 ... -(left_over.size + 5)] + "[...]" : text
+      text = left_over.size > 0 ? text[0 ... -(left_over.size + 5)] + "[...]" : text
+      text.to_s
     rescue Prawn::Errors::CannotFit
       ''
     end
