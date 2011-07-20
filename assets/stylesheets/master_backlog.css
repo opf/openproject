@@ -293,8 +293,8 @@
   max-width:100px; /* for the cool guys */
 }
 #rb #backlogs_container .stories .story.editing .subject.editor {
-  min-width: 20em;
-  width: 61%;
+  min-width: 19em;
+  width: 53%;
 }
 #rb #backlogs_container .stories .story.editing .status_id.editor {
   width: 68px;
