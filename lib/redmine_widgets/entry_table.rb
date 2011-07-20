@@ -25,7 +25,7 @@ class Widget::Table::EntryTable < Widget::Table
         @subject.each_direct_result do |result|
           next if hit
           if entry_for(result).editable_by? User.current
-            fields << content_tag(:th) { "" }
+            fields << content_tag(:th, :class => "unsortable") { "&nbsp;" }
             hit = true
           end
         end
