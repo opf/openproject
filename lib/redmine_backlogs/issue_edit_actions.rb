@@ -10,7 +10,7 @@ class RedmineBacklogs::IssueEditActions < ChiliProject::Nissue::View
   def render(t)
     css_class = "watcher_link_#{@issue.id}"
     content_tag(:div, [
-        (t.modal_link_to(l(:button_update) + "(TODO:remove)", {:controller => 'issue_boxes', :action => 'edit', :id => @issue }, :class => 'icon icon-edit') if t.authorize_for('issue_boxes', 'edit')),
+        # (t.modal_link_to(l(:button_update) + "(TODO:remove)", {:controller => 'issue_boxes', :action => 'edit', :id => @issue }, :class => 'icon icon-edit') if t.authorize_for('issue_boxes', 'edit')),
         (t.link_to_remote l(:button_save), 
                            { :url => { :controller => 'issue_boxes', :action => 'update', :id => @issue },
                              :method => 'PUT',
