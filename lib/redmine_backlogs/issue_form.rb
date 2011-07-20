@@ -21,4 +21,12 @@ class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   def description_paragraph
     @description_paragraph ||= RedmineBacklogs::IssueForm::DescriptionParagraph.new(@issue)
   end
+  
+  def related_issues_paragraph
+    nil
+  end
+  
+  def sub_issues_paragraph
+    nil
+  end
 end

@@ -12,6 +12,7 @@ class RedmineBacklogs::IssueForm::DescriptionParagraph < ChiliProject::Nissue::I
              :accesskey => t.accesskey(:edit),
              :class => 'wiki-edit')
        ), :id => "issue_descr_fields"
-     )
+    ) +
+    t.wikitoolbar_for('issue_description')
   end
 end
