@@ -12,12 +12,9 @@
   <% end %>
 <% end %>
 
-<h2><%= l(:label_cost_report) %></h2>
-<% html_title( l(:label_cost_report) ) %>
-
-<h1 id="ur_caption">
+<h2 id="ur_caption">
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
-</h1>
+</h2>
 
 <%= render_widget Widget::Settings, @query %>
 
