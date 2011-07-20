@@ -144,7 +144,12 @@ class CostlogController < ApplicationController
     render_403 and return unless @cost_entry.editable_by?(User.current)
     @cost_entry.destroy
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to :back
+
+    if request.referer =~ /cost_reports/
+      redirect_to :controller => 'cost_reports', :action => :index
+    else
+      redirect_to :back
+    end
   rescue ::ActionController::RedirectBackError
     redirect_to :action => 'details', :project_id => @cost_entry.project
   end

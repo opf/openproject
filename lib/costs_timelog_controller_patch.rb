@@ -18,6 +18,18 @@ module CostsTimelogControllerPatch
   end
 
   module InstanceMethods
+
+    ##
+    # @Override
+    # This is for cost reporting
+    def redirect_to(*args, &block)
+      if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
+        super(:controller => 'cost_reports', :action => :index)
+      else
+        super(args, &block)
+      end
+    end
+
     def details_with_reports_view
       # we handle single project reporting currently
       return details_without_reports_view if @project.nil?
