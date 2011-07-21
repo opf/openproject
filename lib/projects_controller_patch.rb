@@ -17,11 +17,10 @@ module ProjectIssueStatus
       def project_issue_statuses
         selected_statuses = Array.new
 
-        params[:issue_statuses].each do |issue_status|
-          if status = IssueStatus.find(issue_status[:status_id].to_i)
-            selected_statuses << status
-          end
-        end if params[:issue_statuses]
+        selected_statuses = (params[:issue_statuses] || []).map do |issue_status|
+          IssueStatus.find(issue_status[:status_id].to_i)
+        end.compact
+
         @project.issue_statuses = selected_statuses
         @project.save!
 
