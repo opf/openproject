@@ -26,6 +26,9 @@ Dispatcher.to_prepare do
   require_dependency 'projects_helper_patch'
   require_dependency 'projects_controller_patch'
   require_dependency 'issue_status_patch'
+  
+  require_dependency 'redmine_backlogs/issue_view'
+  require_dependency 'redmine_backlogs/issue_form'
 end
 
 Redmine::Plugin.register :redmine_backlogs do
