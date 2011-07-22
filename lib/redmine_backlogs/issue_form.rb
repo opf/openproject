@@ -1,3 +1,10 @@
+class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView; end
+require_dependency 'redmine_backlogs/issue_form/custom_field_paragraph'
+require_dependency 'redmine_backlogs/issue_form/description_paragraph'
+require_dependency 'redmine_backlogs/issue_form/fields_paragraph'
+require_dependency 'redmine_backlogs/issue_form/heading'
+require_dependency 'redmine_backlogs/issue_form/notes_paragraph'
+
 class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   attr_reader :form_id
   
@@ -7,11 +14,19 @@ class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   end
 
   def render(t)
-    t.content_tag(:form, super(t), :id => form_id)
+    s = super(t)
+    content_tag(:form, [
+      s,
+      notes_paragraph.render(t)
+    ], :id => form_id)
   end
   
   def heading
     @heading ||= RedmineBacklogs::IssueForm::Heading.new(@issue)
+  end
+  
+  def notes_paragraph
+    @notes_paragraph ||= RedmineBacklogs::IssueForm::NotesParagraph.new(@issue)
   end
 
   def fields_paragraph
@@ -23,10 +38,10 @@ class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   end
   
   def related_issues_paragraph
-    nil
+    @related_issues_paragraph ||= ChiliProject::Nissue::EmptyParagraph.new
   end
   
   def sub_issues_paragraph
-    nil
+    @sub_issues_paragraph ||= ChiliProject::Nissue::EmptyParagraph.new
   end
 end

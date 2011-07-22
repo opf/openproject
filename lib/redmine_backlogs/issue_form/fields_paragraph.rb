@@ -55,18 +55,17 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   end
   
   def assigned_to_field
-    field_class.new(:assigned_to) { |t| t.select_tag "issue[assigned_to_id]", options_for_select(issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true }
+    field_class.new(:assigned_to) { |t| t.select_tag "issue[assigned_to_id]", "<option></option>" + options_for_select(issue.assignable_users.collect {|m| [m.name, m.id]}, issue.assigned_to_id)}
   end
   
   def fixed_version_field
-    # require 'ruby-debug'; debugger
     unless issue.assignable_versions.empty?
       field_class.new(:fixed_version) do |t|
-        str = t.select_tag "issue[fixed_version_id]", t.version_options_for_select(issue.assignable_versions, issue.fixed_version), :include_blank => true
+        str = t.select_tag "issue[fixed_version_id]", "<option></option>" + t.version_options_for_select(issue.assignable_versions, issue.fixed_version)
         str += t.prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                        l(:label_version_new),
                        'version[name]',
-                       {:controller => 'versions', :action => 'create', :project_id => @project},
+                       {:controller => 'versions', :action => 'create', :project_id => issue.project},
                        :title => l(:label_version_new), 
                        :tabindex => 200) if t.authorize_for('versions', 'new')
         str
@@ -79,7 +78,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   def category_field
     unless issue.project.issue_categories.empty?
       field_class.new(:category) do |t|
-        str = t.select_tag "issue[category_id]", options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true
+        str = t.select_tag "issue[category_id]", "<option></option>" + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
         str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
                              l(:label_issue_category_new),
                              'category[name]', 
@@ -93,8 +92,19 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
     end
   end
   
+  def custom_fields
+    fields = ActiveSupport::OrderedHash.new
+
+    return fields if @issue.custom_field_values.empty?
+
+    @issue.custom_field_values.each do |custom_value|
+      fields[custom_value.custom_field.name] = RedmineBacklogs::IssueForm::CustomFieldParagraph.new(custom_value)
+    end
+
+    fields
+  end
+  
   def empty; ChiliProject::Nissue::EmptyParagraph.new; end
 
   def field_class; ChiliProject::Nissue::SimpleParagraph; end
-  def custom_field_class; RedmineBacklogs::IssueForm::CustomFieldParagraph; end
 end
