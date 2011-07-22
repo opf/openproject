@@ -20,3 +20,7 @@
 .ui-dialog .ui-dialog-title { float:left; margin-right:0; }
 .ui-dialog.ui-widget-content { border:none; }
 .ui-dialog .ui-dialog-buttonpane.ui-widget-content { border:none; }
+
+.subject-input {
+    width: 99%;
+}
