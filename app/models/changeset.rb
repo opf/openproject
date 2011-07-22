@@ -74,6 +74,15 @@ class Changeset < ActiveRecord::Base
     user || committer.to_s.split('<').first
   end
 
+  # Delegate to a Repository's log encoding
+  def repository_encoding
+    if repository.present?
+      repository.repo_log_encoding
+    else
+      nil
+    end
+  end
+  
   # Committer of the Changeset
   #
   # Attribute reader for committer that encodes the committer string to
@@ -247,6 +256,7 @@ class Changeset < ActiveRecord::Base
 
   private
 
+  # TODO: refactor to a standard helper method
   def self.to_utf8(str, encoding)
     return str if str.nil?
     str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
