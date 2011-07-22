@@ -71,6 +71,13 @@ platforms :jruby do
   end
 end
 
+# Load a "local" Gemfile
+gemfile_local = File.join(File.dirname(__FILE__), "Gemfile.local")
+if File.readable?(gemfile_local)
+  puts "Loading #{gemfile_local} ..." if $DEBUG
+  instance_eval(File.read(gemfile_local))
+end
+
 # Load plugins' Gemfiles
 Dir.glob File.expand_path("../vendor/plugins/*/Gemfile", __FILE__) do |file|
   puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
