@@ -288,7 +288,12 @@ module Redmine
           content = nil
           scm_cmd(*cmd_args) { |io| io.binmode; content = io.read }
           # git annotates binary files
-          return nil if content.is_binary_data?
+          if content.respond_to?("is_binary_data?") && content.is_binary_data? # Ruby 1.8.x and <1.9.2
+            return nil
+          elsif content.respond_to?(:force_encoding) && (content.dup.force_encoding("UTF-8") != content.dup.force_encoding("BINARY")) # Ruby 1.9.2
+            # TODO: need to handle edge cases of non-binary content that isn't UTF-8
+            return nil
+          end
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
