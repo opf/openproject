@@ -68,6 +68,48 @@ module Redmine::Acts::Journalized
 
     # Instance methods that determine whether to save a journal and actually perform the save.
     module InstanceMethods
+      # Recreates the initial journal used to track the beginning state
+      # of the object. Useful for objects that didn't have an initial journal
+      # created (e.g. legacy data)
+      def recreate_initial_journal!
+        new_journal = journals.find_by_version(1)
+        new_journal ||= journals.build
+        # Mock up a list of changes for the creation journal based on Class defaults
+        new_attributes = self.class.new.attributes.except(self.class.primary_key,
+                                                          self.class.inheritance_column,
+                                                          :updated_on,
+                                                          :updated_at,
+                                                          :lock_version,
+                                                          :lft,
+                                                          :rgt)
+        creation_changes = {}
+        new_attributes.each do |name, default_value|
+          # Set changes based on the initial value to current. Can't get creation value without
+          # rebuiling the object history
+          creation_changes[name] = [default_value, self.send(name)] # [initial_value, creation_value]
+        end
+        new_journal.changes = creation_changes
+        new_journal.version = 1
+        new_journal.activity_type = self.class.send(:journalized_activity_hash, {})[:type]
+          
+        if respond_to?(:author)
+          new_journal.user = author
+        elsif respond_to?(:user)
+          new_journal.user = user
+        end
+
+        new_journal.save!
+        new_journal.reload
+          
+        # Backdate journal
+        if respond_to?(:created_at)
+          new_journal.update_attribute(:created_at, created_at)
+        elsif respond_to?(:created_on)
+          new_journal.update_attribute(:created_at, created_on)
+        end
+        new_journal
+      end
+      
       private
         # Returns whether a new journal should be created upon updating the parent record.
         # A new journal will be created if

@@ -32,45 +32,12 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
 
         activity_type = p.activity_provider_options.keys.first
 
+        # Create initial journals
         p.find(:all).each do |o|
-          # Create initial journals
-          new_journal = o.journals.build
-          # Mock up a list of changes for the creation journal based on Class defaults
-          new_attributes = o.class.new.attributes.except(o.class.primary_key,
-                                                         o.class.inheritance_column,
-                                                         :updated_on,
-                                                         :updated_at,
-                                                         :lock_version,
-                                                         :lft,
-                                                         :rgt)
-          creation_changes = {}
-          new_attributes.each do |name, default_value|
-            # Set changes based on the initial value to current. Can't get creation value without
-            # rebuiling the object history
-            creation_changes[name] = [default_value, o.send(name)] # [initial_value, creation_value]
-          end
-          new_journal.changes = creation_changes
-          new_journal.version = 1
-          new_journal.activity_type = activity_type
-          
-          if o.respond_to?(:author)
-            new_journal.user = o.author
-          elsif o.respond_to?(:user)
-            new_journal.user = o.user
-          end
           # Using rescue and save! here because either the Journal or the
           # touched record could fail. This will catch either error and continue
           begin
-            new_journal.save!
-            
-            new_journal.reload
-          
-            # Backdate journal
-            if o.respond_to?(:created_at)
-              new_journal.update_attribute(:created_at, o.created_at)
-            elsif o.respond_to?(:created_on)
-              new_journal.update_attribute(:created_at, o.created_on)
-            end
+            new_journal = o.recreate_initial_journal!
           rescue ActiveRecord::RecordInvalid => ex
             if new_journal.errors.count == 1 && new_journal.errors.first[0] == "version"
               # Skip, only error was from creating the initial journal for a record that already had one.
