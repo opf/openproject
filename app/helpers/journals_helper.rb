@@ -48,7 +48,7 @@ module JournalsHelper
           if d = journal.render_detail(detail)
             content_tag("li", d)
           end
-        end.compact
+        end.compact.join(' ')
       end
     end
 

@@ -61,6 +61,7 @@ class IssuesTest < ActionController::IntegrationTest
 
   # add then remove 2 attachments to an issue
   def test_issue_attachments
+    Issue.find(1).recreate_initial_journal!
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
 
