@@ -41,10 +41,17 @@ platforms :mri do
     gem "pg", "~> 0.9.0"
     #   gem "postgres-pr"
   end
-  
+end
+
+platforms :mri_18 do
   group :sqlite do
     gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
-    #   please tell me, if you are fond of a pure ruby sqlite3 binding
+  end
+end
+
+platforms :mri_19 do
+  group :sqlite do
+    gem "sqlite3"
   end
 end
 
