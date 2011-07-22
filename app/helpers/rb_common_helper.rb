@@ -39,11 +39,13 @@ module RbCommonHelper
   end
 
   def link_to_issue_box(title, issue, options = {})
+    modal_link_to(title, rb_issue_box_path(issue), options)
+  end
+  
+  def modal_link_to(title, path, options = {})
     html_id = "modal_issue_#{ActiveSupport::SecureRandom.hex(10)}"
-
-    # Set Timeout to please IE7. Pretty ugly, eh?
-    link_to(title, rb_issue_box_path(issue), options.merge(:id => html_id)) +
-      javascript_tag("new Backlogs.ModalLink('#{html_id}')")
+    link_to(title, path, options.merge(:id => html_id)) +
+      javascript_tag("new Backlogs.Modal($('#{html_id}'));")
   end
 
   def sprint_link_or_empty(item)

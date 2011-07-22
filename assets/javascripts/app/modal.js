@@ -64,6 +64,12 @@ var Backlogs = (function () {
         this.isOpen = true; // assume, we are open, otherwise, we cannot be closed.
         this.close();
         this.remoteContentLoaded = false;
+      },
+      afterClose : function () {
+        if (this.container.children.length > 0) {
+          this.remoteContentLoaded = false;
+          this.container.innerHTML = "";
+        }
       }
     },
 
@@ -71,6 +77,7 @@ var Backlogs = (function () {
       beforeInitialize : function () {
         this.observe('beforeOpen', Modal.Observers.beforeOpen.bind(this));
         this.observe('onFailure',  Modal.Observers.onError.bind(this));
+        this.observe('afterClose', Modal.Observers.afterClose.bind(this));
       }
     }
   });
