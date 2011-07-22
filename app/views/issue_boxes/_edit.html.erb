@@ -9,4 +9,5 @@
 <% form = RedmineBacklogs::IssueForm.new(@issue) %>
 <%= RedmineBacklogs::IssueEditActions.new(@issue, html_id, form.form_id).render(self) %>
 <%= form.render(self) %>
+<%= ChiliProject::Nissue::JournalView.new(@journals, @issue).render(self) %>
 </div>
