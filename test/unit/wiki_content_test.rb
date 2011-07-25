@@ -80,4 +80,11 @@ class WikiContentTest < ActiveSupport::TestCase
     page.reload
     assert_equal 500.kilobyte, page.content.text.size
   end
+
+  test "new WikiContent is version 0" do
+    page = WikiPage.new(:wiki => @wiki, :title => "Page")
+    page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
+
+    assert_equal 0, page.content.version
+  end
 end
