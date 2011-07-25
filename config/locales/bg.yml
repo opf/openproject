@@ -945,21 +945,21 @@ bg:
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
 
-  text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
+  text_powered_by: Този сайт е задвижван от %{link}
+  label_cvs_module: Модул
+  label_filesystem_path: Коренна директория
+  label_darcs_path: Коренна директория
+  label_bazaar_path: Коренна директория
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  field_effective_date: Due date
-  text_default_encoding: "Default: UTF-8"
+  label_git_path: Път до директория .git
+  label_mercurial_path: Коренна директория
+  label_additional_workflow_transitions_for_assignee: Позволени са допълнителни преходи, когато потребителят е назначеният към задачата
+  button_expand_all: Разгъване всички
+  button_collapse_all: Скриване всички
+  label_additional_workflow_transitions_for_author: Позволени са допълнителни преходи, когато потребителят е авторът
+  field_effective_date:  Дата
+  text_default_encoding: "По подразбиране: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
-  label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
+  label_path_encoding: Кодиране на пътищата
+  text_mercurial_repo_example: локално хранилище (например /hgrepo, c:\hgrepo)
