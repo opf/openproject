@@ -13,7 +13,7 @@ class Widget::Base < Widget
   ##
   # Query whether this widget class should be cached.
   def self.dont_cache?
-    @dont_cache || self == Widget::Base || Widget::Base.dont_cache?
+    @dont_cache or self == Widget::Base && Widget::Base.dont_cache?
   end
 
   def initialize(query)
