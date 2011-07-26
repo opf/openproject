@@ -36,6 +36,7 @@ module Backlogs
       def move_after(prev_id)
         # remove so the potential 'prev' has a correct position
         remove_from_list
+        reload
 
         begin
           prev = self.class.find(prev_id)
