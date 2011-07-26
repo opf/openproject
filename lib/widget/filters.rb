@@ -5,7 +5,7 @@ class Widget::Filters < Widget::Base
     table = content_tag :table, :width => "100%" do
       content_tag :tr do
         content_tag :td do
-          content_tag :table, :id => "filter_table" do
+          content_tag :table, :id => "filter_table", :cellspacing => '0' do
             render_filters
           end
         end

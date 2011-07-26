@@ -172,7 +172,8 @@
 .icon-filter-rem {
   background-image: url(../images/close.gif);
   position: relative;
-  float:right;
+  float: right;
+  padding: 0px;
 }
 
 /***** icons *****/
