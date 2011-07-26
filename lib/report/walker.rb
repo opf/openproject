@@ -52,7 +52,7 @@ class Report::Walker
       sublevel    += result.size
       last_in_col  = (num_in_col >= level_size)
       @header_stack.last << [result, first_in_col, last_in_col]
-      yield(result, level == 0, first_in_col, last_in_col)
+      yield(result, level == 0, first_in_col, last_in_col) if block_given?
     end
   end
 
@@ -65,6 +65,11 @@ class Report::Walker
       end
       first = false
     end
+  end
+
+  def headers_empty?
+    fail "call header first" unless @header_stack
+    @header_stack.empty?
   end
 
   def sort_keys

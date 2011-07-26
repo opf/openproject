@@ -5,9 +5,11 @@ class Report < ActiveRecord::Base
     include Enumerable
     include Report::QueryUtils
     extend Report::InheritedAttribute
+    extend Forwardable
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, :default => :label_cost_entry_attributes
+    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :help_text, :underscore_name
 
     def self.accepts_property(*list)
       engine.accepted_properties.push(*list.map(&:to_s))
@@ -213,10 +215,6 @@ class Report < ActiveRecord::Base
       engine::Result.new engine.reporting_connection.select_all(sql_statement.to_s), {}, type
     end
 
-    def table_joins
-      self.class.table_joins
-    end
-
     def cached(*args)
       @cached ||= {}
       @cached[args] ||= send(*args)
@@ -286,23 +284,11 @@ class Report < ActiveRecord::Base
       @table_name || last_table
     end
 
-    def display?
-      self.class.display?
-    end
-
-    def table_name
-      self.class.table_name
-    end
-
     def with_table(fields)
       fields.map do |f|
         place_field_name = self.class.put_sql_table_names[f] || self.class.put_sql_table_names[f].nil?
         place_field_name ? (field_name_for f, self) : f
       end
-    end
-
-    def field
-      self.class.field
     end
 
     def mapping
@@ -318,10 +304,6 @@ class Report < ActiveRecord::Base
         hash[cbl.field] << cbl.mapping
       end
       @field_map[field]
-    end
-
-    def help_text
-      self.class.help_text
     end
 
     ##

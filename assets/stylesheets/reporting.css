@@ -382,6 +382,10 @@ td:hover .drill_down, th:hover .drill_down {
   margin-top: 6px;
 }
 
+.form_controls > * {
+  margin: 0 5px 0 5px;
+}
+
 .buttons .reporting_button:hover {
   background-color: #666666;
 }

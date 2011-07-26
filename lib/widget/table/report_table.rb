@@ -53,7 +53,6 @@ class Widget::Table::ReportTable < Widget::Table
     render_tfoot
     render_tbody
     write "</table>"
-    render_xls_export
   end
 
   def render_tbody
@@ -79,6 +78,7 @@ class Widget::Table::ReportTable < Widget::Table
   end
 
   def render_thead
+    return if (walker.headers || true) and walker.headers_empty?
     write "<thead>"
     walker.headers do |list, first, first_in_col, last_in_col|
       write '<tr>' if first_in_col
@@ -105,6 +105,7 @@ class Widget::Table::ReportTable < Widget::Table
   end
 
   def render_tfoot
+    return if walker.headers_empty?
     write "<tfoot>"
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
@@ -136,12 +137,6 @@ class Widget::Table::ReportTable < Widget::Table
       end
     end
     write "</tfoot>"
-  end
-
-  def render_xls_export
-    write (content_tag :div, :id => "result-formats", :style => "font-size: 14px; line-height: 2;" do
-      link_to l(:export_as_excel), :action => :index, :format => "xls"
-    end)
   end
 
   def debug_content

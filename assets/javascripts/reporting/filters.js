@@ -138,13 +138,28 @@ Reporting.Filters = {
   },
 
   operator_changed: function (field, select) {
-    var option_tag, arity;
+    var option_tag, arity, first;
     if (select === null) {
       return;
+    }
+    first = false
+    if (select.getAttribute("data-first") === undefined || select.getAttribute("data-first") === null) {
+      first = true;
+      $(select).setAttribute("data-first", "false");
     }
     option_tag = select.options[select.selectedIndex];
     arity = parseInt(option_tag.getAttribute("data-arity"), 10);
     Reporting.Filters.change_argument_visibility(field, arity);
+    if (option_tag.getAttribute("data-forced") !== undefined && option_tag.getAttribute("data-forced") !== null) {
+      Reporting.Filters.force_type(option_tag, first);
+    };
+  },
+
+  // Overwrite to customize input enforcements.
+  // option: 'option' HTMLElement
+  // first: Boolean indicating whether the operator changed for the first time
+  force_type: function (option, first) {
+    true;
   },
 
   value_changed: function (field) {
@@ -169,8 +184,10 @@ Reporting.Filters = {
       if (params[i] !== null) {
         if (arg_nr >= (i + 1) || arg_nr <= (-1 - i)) {
           params[i].show();
+          params[i].descendants().each(function (desc) { desc.show(); });
         } else {
           params[i].hide();
+          params[i].descendants().each(function (desc) { desc.hide(); });
         }
       }
     }
@@ -182,6 +199,7 @@ Reporting.Filters = {
     Reporting.Filters.show_filter(field, { slowly: true });
     select.selectedIndex = 0;
     Reporting.Filters.select_option_enabled(select, field, false);
+    Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
   },
 
   select_option_enabled: function (box, value, state) {
@@ -262,6 +280,9 @@ Reporting.Filters = {
     all_dependents = Reporting.Filters.get_dependents(selectBox);
     next_dependents = Reporting.Filters.get_dependents(selectBox, false);
     dependent = Reporting.Filters.which_dependent_shall_i_take(source, next_dependents);
+    if (!dependent) {
+      return;
+    }
     active_filters = Reporting.Filters.visible_filters();
 
     if (!active_filters.include(dependent)) {
