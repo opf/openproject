@@ -5,8 +5,6 @@ class CostlogController < ApplicationController
   before_filter :find_project, :authorize, :only => [:edit, :destroy]
   before_filter :find_optional_project, :only => [:report, :details]
 
-  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
-
   helper :sort
   include SortHelper
   helper :issues
@@ -139,6 +137,7 @@ class CostlogController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)

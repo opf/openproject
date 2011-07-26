@@ -16,7 +16,7 @@
       <th></th>
     </tr></thead>
     <tbody>
-    
+
     <% @entries.each do |entry| %>
       <% page_costs += entry.real_costs if entry.costs_visible_by?(User.current)%>
       <tr class="<%=  cycle('odd', 'even') %>">
@@ -41,14 +41,14 @@
                                                  :title => l(:button_edit) %>
               <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
                                                    :confirm => l(:text_are_you_sure),
-                                                   :method => :post,
+                                                   :method => :delete,
                                                    :title => l(:button_delete) %>
             <% else %>
               <%= link_to image_tag('edit.png'), {:controller => 'costlog', :action => 'edit', :id => entry},
                                                  :title => l(:button_edit) %>
               <%= link_to image_tag('delete.png'), {:controller => 'costlog', :action => 'destroy', :id => entry},
                                                    :confirm => l(:text_are_you_sure),
-                                                   :method => :post,
+                                                   :method => :delete,
                                                    :title => l(:button_delete) %>
             <% end -%>
           <% end -%>
