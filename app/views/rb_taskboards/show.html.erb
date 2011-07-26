@@ -59,7 +59,7 @@
           <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="impcell_<%= status.id %>">
             <% impediment_html = render :partial => "rb_impediments/impediment",
                        :collection => impediments_by_position_for_status(@sprint, @project, status) %>
-            <%= impediment_html.present? ? impediment_html : "&nbsp;".html_safe! %>
+            <%= impediment_html.present? ? impediment_html : raw("&nbsp;") %>
           </td>
         <% end %>
       </tr>
@@ -93,7 +93,7 @@
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
               <% task_html = render :partial => "rb_tasks/task",
                                     :collection => story.tasks.select { |task| task.status.id == status.id } %>
-              <%= task_html.present? ? task_html : "&nbsp;".html_safe! %>
+              <%= task_html.present? ? task_html : raw("&nbsp;") %>
             </td>
           <% end %>
         </tr>
