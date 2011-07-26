@@ -26,7 +26,7 @@ module CostsTimelogControllerPatch
       if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
         super(:controller => 'cost_reports', :action => :index)
       else
-        super(args, &block)
+        super(*args, &block)
       end
     end
 
