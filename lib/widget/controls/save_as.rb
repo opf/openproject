@@ -15,7 +15,7 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def cache_key
-    super + @subject.name
+    "#{super}#{@subject.name}"
   end
 
   def render_popup_form

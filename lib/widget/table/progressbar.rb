@@ -3,7 +3,7 @@ class Widget::Table::Progressbar < Widget::Base
 
   def render
     if render_table?
-      render_widget Widget::Table::ReportTable, @subject, :to => (@output ||= "".html_safe)
+      render_widget Widget::Table, @subject, :to => (@output ||= "".html_safe)
     else
       write(content_tag :label, :style => "display:none" do
               content_tag(:div, l(:label_progress_bar_explanation).html_safe) +
@@ -13,7 +13,7 @@ class Widget::Table::Progressbar < Widget::Base
   end
 
   def render_table?
-    Widget::Table::ReportTable.new(@subject).cached? || @subject.size <= THRESHHOLD
+    Widget::Table.new(@subject).resolve_table.new(@subject).cached? || @subject.size <= THRESHHOLD
   end
 
   def render_progress_bar

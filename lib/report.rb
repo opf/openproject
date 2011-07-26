@@ -37,7 +37,8 @@ class Report < ActiveRecord::Base
 
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
-    self.serialized = { :filters => filters.collect(&:serialize).sort, :group_bys => group_bys.collect(&:serialize).reverse }
+    self.serialized = { :filters => (filters.collect(&:serialize).reject(&:nil?).sort {|a,b| a.first <=> b.first}),
+                        :group_bys => group_bys.collect(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize
@@ -176,25 +177,23 @@ class Report < ActiveRecord::Base
     self
   end
 
-  private
-
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
   end
 
   def public!
-    is_public = true
+    self.is_public = true
   end
 
   def public?
-    is_public
+    self.is_public
   end
 
   def private!
-    is_public = false
+    self.is_public = false
   end
 
   def private?
-    !is_public
+    !public?
   end
 end

@@ -13,7 +13,9 @@ class Widget::Controls::Delete < Widget::Controls
             l(:button_delete)
           end
         end
-        opt1 =  link_to delete_button, url_for(:action => 'delete', :id => @subject.id), :method => :delete, :class => "button apply"
+        url_opts = {:action => 'delete', :id => @subject.id}
+        url_opts[request_forgery_protection_token] = form_authenticity_token # if protect_against_forgery?
+        opt1 = link_to delete_button, url_for(url_opts), :method => :delete, :class => "button apply"
         opt2 = link_to l(:button_cancel), "#", :id => "query-icon-delete-cancel", :class => 'icon icon-cancel'
         opt1 + opt2
       end

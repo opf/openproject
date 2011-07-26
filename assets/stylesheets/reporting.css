@@ -172,7 +172,36 @@
 .icon-filter-rem {
   background-image: url(../images/close.gif);
   position: relative;
-  float:right;
+  float: right;
+  padding: 0px;
+}
+
+/***** icons *****/
+/*
+  We hide the original content of things with class 'icon' and disply an icon instead.
+  This css class is optimized for usage report breadcrumbs.
+  Hint: The content of the title attribute is shown as a tooltip if the underlying DOM element is an <a>.
+*/
+.breadcrumb_icon {
+  padding: 3px 5px 0 16px;
+  cursor: pointer;
+  background: no-repeat left center;
+  border-style: none;
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.icon-edit {
+  background-image: url(../images/edit.png);
+}
+.icon-delete {
+  background-image: url(../images/delete.png);
+}
+
+#query-name-edit-button {
+  margin-left: 16px;
+  font-size: 11px;
 }
 
 .filter {

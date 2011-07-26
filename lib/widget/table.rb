@@ -70,38 +70,38 @@ class Widget::Table < Widget::Base
   #   canvas = options[:to] ? options[:to] << "\n" : ""
   #   canvas << render(&block)
   # end
-
-  def fancy_table
-    if @subject.depth_of(:row) == 0
-      @subject.row(:singleton_value)
-    elsif @subject.depth_of(:column) == 0
-      @subject.column(:singleton_value)
+  def resolve_table
+    if @subject.group_bys.size == 0
+      self.class.detailed_table
+    elsif @subject.group_bys.size == 1
+      self.class.simple_table
+    else
+      self.class.fancy_table
     end
-    Widget::Table::ReportTable
   end
 
-  def simple_table
-    Widget::Table::SimpleTable
+  def self.detailed_table(klass=nil)
+    @@detail_table = klass if klass
+    defined?(@@detail_table) ? @@detail_table : fancy_table
   end
 
-  def entry_table
-    Widget::Table::EntryTable
+  def self.simple_table(klass=nil)
+    @@simple_table = klass if klass
+    defined?(@@simple_table) ? @@simple_table : fancy_table
   end
+
+  def self.fancy_table(klass=nil)
+    @@fancy_table = klass if klass
+    @@fancy_table
+  end
+  fancy_table Widget::Table::ReportTable
 
   def render
-    content_tag :div, :id => "result-table" do
-      options = { :debug => debug?, :mapping => @mapping, :fields => @fields }
-      return content_tag :p, l(:label_no_data), :class => "nodata" if @subject.result.count <= 0
-      if @subject.group_bys.empty?
-        render_widget entry_table, @subject, options
-      elsif @subject.group_bys.size == 1
-        render_widget simple_table, @subject, options
-      else
-        render_widget fancy_table, @subject, options
-      end
+    write("<!-- table start -->")
+    if @subject.result.count <= 0
+      write(content_tag(:p, l(:label_no_data), :class => "nodata"))
+    else
+      render_widget(resolve_table, @subject, @options.reverse_merge(:to => @output))
     end
   end
-
-
-
 end
