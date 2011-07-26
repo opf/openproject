@@ -6,7 +6,7 @@ describe Burndown do
     story.init_journal(user)
     story.send(attribute, value)
     story.current_journal.created_on = day
-    story.save!
+    story.reload.save!
   end
 
   let(:user) { @user ||= Factory.create(:user) }
