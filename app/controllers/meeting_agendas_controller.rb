@@ -5,12 +5,12 @@ class MeetingAgendasController < MeetingContentsController
   
   def close
     @content.lock!
-    redirect_to :back
+    redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
   end
   
   def open
     @content.unlock!
-    redirect_to :back
+    redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
   end
   
   private
