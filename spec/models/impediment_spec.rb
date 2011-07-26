@@ -224,24 +224,28 @@ describe Impediment do
             @story.fixed_version = Factory.create(:version, :project => project, :name => "another version")
             @story.save
             @blocks = @story.id.to_s
-            @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                   :status_id => issue_status1.id.to_s})
+            @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
+                                                            :status_id => issue_status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
-          it { @impediment.should be_changed }
+          it "should not be saved successfully" do
+            @saved.should be_false
+          end
           it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
 
         describe "WITH the story beeing non existent" do
           before(:each) do
             @blocks = "0"
-            @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                   :status_id => issue_status1.id.to_s})
+            @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
+                                                            :status_id => issue_status1.id.to_s})
           end
 
           it_should_behave_like "impediment update with unchanged blocking relationship"
-          it { @impediment.should be_changed }
+          it "should not be saved successfully" do
+            @saved.should be_false
+          end
           it { @impediment.errors[:blocks_ids].should eql I18n.t(:can_only_contain_issues_of_current_sprint, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
         end
       end
@@ -249,12 +253,15 @@ describe Impediment do
       describe "WITHOUT a blocking relationship defined" do
         before(:each) do
           @blocks = ""
-          @impediment.update_with_relationships({:blocks_ids => @blocks,
-                                                 :status_id => issue_status1.id.to_s})
+          @saved = @impediment.update_with_relationships({:blocks_ids => @blocks,
+                                                          :status_id => issue_status1.id.to_s})
         end
 
         it_should_behave_like "impediment update with unchanged blocking relationship"
-        it { @impediment.should be_changed }
+        it "should not be saved successfully" do
+          @saved.should be_false
+        end
+
         it { @impediment.errors[:blocks_ids].should eql I18n.t(:must_block_at_least_one_issue, :scope => [:activerecord, :errors, :models, :issue, :attributes, :blocks_ids]) }
       end
     end
