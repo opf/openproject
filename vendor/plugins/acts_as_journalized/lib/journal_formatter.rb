@@ -171,7 +171,7 @@ module JournalFormatter
     end
 
     label, old_value, value = attr_detail || cv_detail || attachment_detail
-    Redmine::Hook.call_hook :helper_issues_show_detail_after_setting, {:detail => detail,
+    Redmine::Hook.call_hook :helper_issues_show_detail_after_setting, {:detail => JournalDetail.new(label, old_value, value),
         :label => label, :value => value, :old_value => old_value }
     return nil unless label || old_value || value # print nothing if there are no values
     label, old_value, value = [label, old_value, value].collect(&:to_s)
