@@ -5,7 +5,7 @@ Redmine::Plugin.register :redmine_additional_formats do
   author 'Holger Just, Tim Felgentreff @ finnlabs'
   author_url 'http://finn.de/team#h.just'
   description 'This plugin provides additional formats for exporting, like a printable view for issue lists and an excel builder for issue exports'
-  version '0.1.4'
+  version '0.1.5'
 
   requires_redmine :version_or_higher => '0.9'
   requires_redmine_plugin :redmine_reporting, :version_or_higher => '0.1'
