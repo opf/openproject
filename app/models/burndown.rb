@@ -36,12 +36,12 @@ class Burndown
       @out_names ||= ["project_id", "fixed_version_id", "tracker_id", "status_id"]
     end
 
-    def unit_for name
+    def unit_for(name)
       return :hours if @collect[:hours].include? name
       return :points if @collect[:points].include? name
     end
 
-    def collect()
+    def collect
       stories = Issue.find(:all, :include => {:journals => :details},
                            :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
                                            " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
@@ -65,7 +65,7 @@ class Burndown
       end
     end
 
-    def collect_for_story story, collected_days
+    def collect_for_story(story, collected_days)
       details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
       details_by_prop = details.group_by{ |d| d.prop_key }
 
