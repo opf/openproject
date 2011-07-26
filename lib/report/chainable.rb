@@ -45,7 +45,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.table_joins
-      @table_joins ||= []
+      (@table_joins ||= []).clone
     end
 
     def self.table_from(value)
@@ -56,7 +56,7 @@ class Report < ActiveRecord::Base
 
     def self.join_table(*args)
       @last_table = table_from(args.last)
-      table_joins << args
+      (@table_joins ||= []) << args
     end
 
     def self.underscore_name
@@ -76,6 +76,10 @@ class Report < ActiveRecord::Base
     # initialize_query_with { |query| query.filter Report::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
     def self.initialize_query_with(&block)
       engine.chain_initializer.push block
+    end
+
+    def self.cache_key
+      @cache_key ||= underscore_name
     end
 
     inherited_attribute :label, :default => :translation_needed
@@ -133,7 +137,7 @@ class Report < ActiveRecord::Base
       options.each do |key, value|
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
-          send "#{key}=", value if value
+          send "#{key}=", value
         end
       end
       self.child, child.parent = child, self if child
@@ -206,7 +210,7 @@ class Report < ActiveRecord::Base
     end
 
     def compute_result
-      engine::Result.new engine.connection.select_all(sql_statement.to_s), {}, type
+      engine::Result.new engine.reporting_connection.select_all(sql_statement.to_s), {}, type
     end
 
     def table_joins
@@ -299,6 +303,36 @@ class Report < ActiveRecord::Base
 
     def field
       self.class.field
+    end
+
+    def mapping
+      self.class.method(:mapping).to_proc
+    end
+
+    def self.mapping(value)
+      value.to_s
+    end
+
+    def self.mapping_for(field)
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+        hash[cbl.field] << cbl.mapping
+      end
+      @field_map[field]
+    end
+
+    def help_text
+      self.class.help_text
+    end
+
+    ##
+    # Sets a help text to be displayed for this kind of Chainable.
+    def self.help_text=(sym)
+      @help_text = sym
+    end
+
+    def self.help_text(sym = nil)
+      @help_text = sym if sym
+      @help_text
     end
 
   end

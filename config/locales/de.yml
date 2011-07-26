@@ -3,14 +3,29 @@ de:
   units: Einheiten
   label_less: "<"
   label_greater: ">"
+  label_inactive: "«nicht aktiviert»"
   label_report: "Report"
   label_columns: "Spalten"
   label_rows: "Zeilen"
+  label_yes: Ja
+  label_no: Nein
+
+  label_group_by: "Gruppieren nach"
+  label_group_by_add: "Gruppierung hinzufügen"
+  label_filter: "Filter"
+  label_filter_plural: "Filter"
+  label_filter_add: "Filter hinzufügen"
 
   label_count: Anzahl
   label_sum: Summe
+  label_none: "(Keine Angabe)"
+
+  label_help: Hilfe
 
   description_drill_down: Details anzeigen
 
   validation_failure_date: "ist kein gültiges Datum"
   validation_failure_integer: "ist keine ganze Zahl"
+
+  load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"
+  label_progress_bar_explanation: "Report wird erstellt ..."

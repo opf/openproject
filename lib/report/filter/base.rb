@@ -16,11 +16,80 @@ class Report::Filter
 
     attr_accessor :values
 
+    def cache_key
+      self.class.cache_key + operator.to_s + Array(values).join(',')
+    end
+
     ##
     # A Filter is 'heavy' if it possibly returns a _hughe_ number of available_values.
     # In that case the UI-guys should think twice about displaying all the values.
     def self.heavy?
       false
+    end
+
+    # Indicates whether this Filter is a multiple choice filter,
+    # meaning that the user must select a value of a given set of choices.
+    def self.is_multiple_choice?
+      false
+    end
+
+    ##
+    # A Filter may have depentent filters. See the following example:
+    # Filter::Project.dependents --> [Filter::IssueId]
+    # This could result in a UI where, if the Project-Filter was selected,
+    # the IssueId-filter automatically shows up.
+    # Arguments:
+    #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
+    #  - OR multiple Filters if there are multiple possible dependents and you
+    #    want the application-js to decide which dependent to follow
+    def self.dependent(*args)
+      @dependents ||= []
+      @dependents += args unless args.empty?
+      @dependents
+    end
+    class << self
+      alias :dependents :dependent
+    end
+
+
+    # need this for sort
+    def <=> other
+      self.class.underscore_name <=> other.class.underscore_name
+    end
+
+    def self.has_dependent?
+      !dependents.empty?
+    end
+
+    ##
+    # Returns an array of filters of which this filter is a dependent
+    def self.dependent_from
+      engine::Filter.all.select { |f| f.dependents.include? self }
+    end
+
+    ##
+    # Returns true/false depending of wether any filter has this filter a a dependent
+    def self.is_dependent?
+      !dependent_from.empty?
+    end
+
+    def self.cached(*args)
+      @cached ||= {}
+      @cached[args] ||= send(*args)
+    end
+
+    ##
+    # all_dependents computes the depentends of this filter and recursively
+    # all_dependents of this class' dependents.
+    def self.all_dependents
+      self.cached(:compute_all_dependents)
+    end
+
+    def self.compute_all_dependents(starting_from = nil)
+      starting_from ||= dependents
+      starting_from.inject([]) do |list,dependent|
+        list + Array(dependent) + dependent.all_dependents
+      end
     end
 
     def value=(val)
@@ -57,7 +126,11 @@ class Report::Filter
     end
 
     def self.available_values(params = {})
-      raise NotImplementedError, "subclass responsibility"
+      [] #array of [:label_of_value, value]-kind arrays
+    end
+
+    def self.label_for_value(value)
+      available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?
@@ -117,6 +190,8 @@ class Report::Filter
       super.tap do |query|
         arity   = operator.arity
         values  = [*self.values].compact
+        #if there is just the nil it might be actually intendet to be there
+        values.unshift nil if Array(self.values).size==1 && Array(self.values).first.nil?
         values  = values[0, arity] if values and arity >= 0 and arity != values.size
         operator.modify(query, field, *values) unless field.empty?
       end
