@@ -22,7 +22,7 @@ class MeetingContentsController < ApplicationController
     @content.author = User.current
     if @content.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :back
+      redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
     else
     end
   end
@@ -47,7 +47,7 @@ class MeetingContentsController < ApplicationController
       Mailer.deliver_content_for_review(@content, @content_type)
       flash[:notice] = l(:notice_successful_notification)
     end
-    redirect_to :back
+    redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
   end
   
   def preview
