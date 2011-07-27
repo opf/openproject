@@ -42,12 +42,6 @@ class Burndown
     end
 
     def collect
-      stories = Issue.find(:all, :include => {:journals => :details},
-                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
-                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
-                                           " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
-                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers.map(&:to_s), collected_trackers.map(&:to_s)])
-
       days = sprint.days(nil)
       collected_days = days.sort.select{ |d| d <= Date.today }
 
@@ -60,14 +54,13 @@ class Burndown
         self[c] = date_hash.dup
       end
 
-      stories.each do |story|
+      find_interesting_stories.each do |story|
         collect_for_story story, collected_days
       end
     end
 
     def collect_for_story(story, collected_days)
-      details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
-      details_by_prop = details.group_by{ |d| d.prop_key }
+      details_by_prop = details_by_property(story)
 
       details_by_prop.each {|key_value| key_value.last.sort_by{ |d| d.journal.created_on } }
 
@@ -86,6 +79,20 @@ class Burndown
     end
 
     private
+
+    def details_by_property(story)
+      details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
+
+      details.group_by { |d| d.prop_key }
+    end
+
+    def find_interesting_stories
+      stories = Issue.find(:all, :include => {:journals => :details},
+                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
+                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
+                                           " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
+                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers.map(&:to_s), collected_trackers.map(&:to_s)])
+    end
 
     def collected_trackers
       @collected_trackers ||= Story.trackers << Task.tracker
