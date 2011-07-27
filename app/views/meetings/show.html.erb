@@ -21,7 +21,8 @@
   <p><strong><%= l(:field_participants_attended) %></strong>: <%= format_participant_list @meeting.participants.attended %></p>
 </div>
 
-<%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @meeting.agenda || @meeting.build_agenda, :content_type => "meeting_agenda"}, {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/show', :label => :label_meeting_minutes, :content => @meeting.minutes || @meeting.build_minutes, :content_type => "meeting_minutes"}] %>
+<%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @meeting.agenda || @meeting.build_agenda, :content_type => "meeting_agenda"},
+                 {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/show', :label => :label_meeting_minutes, :content => @meeting.minutes || @meeting.build_minutes, :content_type => "meeting_minutes"}] %>
 
 <% if @meeting.journals.present? %>
 <div id="history">

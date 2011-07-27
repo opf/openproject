@@ -3,7 +3,9 @@ class MeetingContentsController < ApplicationController
   
   menu_item :meetings
   
+  helper :watchers
   helper :wiki
+  helper :meetings
   helper :meeting_contents
   
   before_filter :find_meeting, :find_content
@@ -11,7 +13,7 @@ class MeetingContentsController < ApplicationController
   
   def show
     # Redirect links to the last version
-    (redirect_to :controller => @content_type.pluralize, :action => :show, :meeting_id => @meeting and return) if params[:version].present? && @content.version == params[:version].to_i
+    (redirect_to :controller => 'meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:version].present? && @content.version == params[:version].to_i
     @content = @content.journals.at params[:version].to_i unless params[:version].blank?
     render 'meeting_contents/show'
   end
@@ -25,6 +27,10 @@ class MeetingContentsController < ApplicationController
       redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
     else
     end
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash[:error] = l(:notice_locking_conflict)
+    render 'meetings/show'
   end
   
   def history

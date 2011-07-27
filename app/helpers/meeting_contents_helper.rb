@@ -8,7 +8,7 @@ module MeetingContentsHelper
   end
   
   def show_meeting_content_editor?(content, content_type)
-    can_edit_meeting_content?(content, content_type) && !saved_meeting_content_text_present?(content)
+    can_edit_meeting_content?(content, content_type) && (!saved_meeting_content_text_present?(content) || content.changed?)
   end
   
   def meeting_content_context_menu(content, content_type)
