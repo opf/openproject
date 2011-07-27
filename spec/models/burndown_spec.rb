@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Burndown do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
-    story.instance_eval do @current_journal = nil end
+    story.instance_variable_set(:@current_journal, nil)
     story.init_journal(user)
     story.send(attribute, value)
     story.current_journal.created_on = day
