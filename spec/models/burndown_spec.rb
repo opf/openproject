@@ -8,6 +8,12 @@ describe Burndown do
     story.send(attribute, value)
     story.current_journal.created_on = day
     story.save!
+
+    # with aaj created_on is called created_at and current_journal changed - so
+    # we're fixing things differently here
+    if story.current_journal.respond_to? :created_at
+      story.reload.current_journal.update_attribute(:created_at, day)
+    end
   end
 
   let(:user) { @user ||= Factory.create(:user) }
