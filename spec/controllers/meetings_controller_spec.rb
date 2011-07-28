@@ -4,6 +4,7 @@ describe MeetingsController do
   before(:each) do
     @p = mock_model(Project)
     @controller.stub!(:authorize)
+    @controller.stub!(:check_if_login_required)
   end
   
   describe "GET" do
