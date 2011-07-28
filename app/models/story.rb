@@ -85,14 +85,9 @@ class Story < Issue
     end
 
     def inherit_version_to_subtasks
-      # raw sql here because it's efficient and not
-      # doing so causes an update loop when Issue calls
-      # update_parent
-
       # we overwrite the version of all descending issues that are tasks
-      tasks = self.tasks_and_subtasks.collect{|t| connection.quote(t.id)}.join(",")
-      if tasks != ""
-        connection.execute("update issues set fixed_version_id=#{connection.quote(self.fixed_version_id)} where id in (#{tasks})")
+      self.tasks_and_subtasks.each do |task|
+        task.update_attribute("fixed_version_id", self.fixed_version_id) unless task.fixed_version_id == self.fixed_version_id
       end
     end
 
