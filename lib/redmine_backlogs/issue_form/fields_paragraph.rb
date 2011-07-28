@@ -47,11 +47,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   end
   
   def status_field
-    if issue.new_record? || allowed_statuses.any?
-      field_class.new(:status) { |t| t.select_tag "issue[status_id]", options_for_select(allowed_statuses.collect {|p| [p.name, p.id]}), :required => true }
-    else
-      nil
-    end
+    field_class.new(:status) { |t| t.select_tag "issue[status_id]", options_for_select((allowed_statuses | [issue.status]).collect {|p| [p.name, p.id]}), {:required => true, :disabled => !(issue.new_record? || allowed_statuses.any?)} }
   end
   
   def assigned_to_field
@@ -61,13 +57,15 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   def fixed_version_field
     unless issue.assignable_versions.empty?
       field_class.new(:fixed_version) do |t|
-        str = t.select_tag "issue[fixed_version_id]", "<option></option>" + t.version_options_for_select(issue.assignable_versions, issue.fixed_version)
-        str += t.prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+        str = t.select_tag "issue[fixed_version_id]", "<option></option>" + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
+        if t.authorize_for('versions', 'new') and not issue.is_task?
+          str += t.prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
                        l(:label_version_new),
                        'version[name]',
                        {:controller => 'versions', :action => 'create', :project_id => issue.project},
                        :title => l(:label_version_new), 
-                       :tabindex => 200) if t.authorize_for('versions', 'new')
+                       :tabindex => 200)
+        end
         str
       end
     else
