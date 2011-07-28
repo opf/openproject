@@ -47,7 +47,7 @@ describe Burndown do
                                        :task_tracker => tracker_task.id.to_s }
 
 
-    project.save
+    project.save!
   end
 
   describe "Sprint Burndown" do
