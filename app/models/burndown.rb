@@ -82,18 +82,76 @@ class Burndown
 
     private
 
-    def details_by_property(story)
-      details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
+    if ActiveRecord::Base.respond_to? :acts_as_journalized
+      ######################################################
+      # New methods using aaj
+      #
 
-      details.group_by { |d| d.prop_key }
-    end
+      class JournalDetail < ::JournalDetail
+        attr_reader :journal
 
-    def find_interesting_stories
-      stories = Issue.find(:all, :include => {:journals => :details},
-                           :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
-                                           " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
-                                           " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
-                                           sprint.id, sprint.id, sprint.id, project.id, project.id, project.id, collected_trackers, collected_trackers.map(&:to_s), collected_trackers.map(&:to_s)])
+        def initialize(prop_key, old_value, value, journal = nil)
+          super(prop_key, old_value, value)
+          @journal = journal
+        end
+      end
+
+      def details_by_property(story)
+        details = story.journals[1..-1].map do |journal|
+          journal.changes.map do |prop_key, change|
+            if collect_names.include?(prop_key) || out_names.include?(prop_key)
+              JournalDetail.new(prop_key, change.first, change.last, journal)
+            end
+          end
+        end.flatten.compact
+
+        details.group_by(&:prop_key)
+      end
+
+      # Missing performance
+      def find_interesting_stories
+        puts "Warn: This needs to be fixed before it is deployed anywhere."
+        stories = Issue.find(:all)
+
+        stories.delete_if do |s|
+          s.fixed_version_id != sprint.id and
+            s.journals.none? { |j| j.changes['fixed_version_id'] && j.changes['fixed_version_id'].first == sprint.id }
+        end
+
+        stories.delete_if do |s|
+          s.project_id != project.id and
+            s.journals.none? { |j| j.changes['project_id'] && j.changes['project_id'].first == project.id }
+        end
+
+        stories.delete_if do |s|
+          collected_trackers.include?(s.tracker) and
+            s.journals.none? { |j| j.changes['tracker_id'] && collected_trackers.map(&:to_s).include?(j.changes['tracker_id'].first.to_s) }
+        end
+
+        stories
+      end
+
+    else
+      ######################################################
+      # Old methods using old journals
+      #
+
+      def details_by_property(story)
+        details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
+
+        details.group_by { |d| d.prop_key }
+      end
+
+      def find_interesting_stories
+        Issue.find(:all,
+                   :include => {:journals => :details},
+                   :conditions => ["(issues.fixed_version_id = ? OR (journal_details.prop_key = 'fixed_version_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
+                                   " AND (issues.project_id = ? OR (journal_details.prop_key = 'project_id' AND (journal_details.old_value = '?' OR journal_details.value = '?'))) " +
+                                   " AND (issues.tracker_id in (?) OR (journal_details.prop_key = 'tracker_id' AND (journal_details.old_value in (?) OR journal_details.value in (?))))",
+                                   sprint.id, sprint.id, sprint.id,
+                                   project.id, project.id, project.id,
+                                   collected_trackers, collected_trackers.map(&:to_s), collected_trackers.map(&:to_s)])
+      end
     end
 
     def collected_trackers
