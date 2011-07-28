@@ -66,19 +66,20 @@ describe Burndown do
 
         describe "WITH 1 story assigned to the sprint" do
           before(:each) do
-            @story = Factory.create(:story, :subject => "Story 1",
-                                            :project => project,
-                                            :fixed_version => version,
-                                            :tracker => tracker_feature,
-                                            :status => issue_open,
-                                            :priority => issue_priority,
-                                            :created_on => Date.today - (20).days,
-                                            :updated_on => Date.today - (20).days)
+            @story = Factory.build(:story, :subject => "Story 1",
+                                           :project => project,
+                                           :fixed_version => version,
+                                           :tracker => tracker_feature,
+                                           :status => issue_open,
+                                           :priority => issue_priority,
+                                           :created_on => Date.today - (20).days,
+                                           :updated_on => Date.today - (20).days)
           end
 
           describe "WITH the story having a time_remaining defined on creation" do
             before(:each) do
-              @story.update_attributes(:remaining_hours => 9)
+              @story.remaining_hours = 9
+              @story.save!
             end
 
             describe "WITH updating time_remaining three days ago" do
@@ -154,21 +155,23 @@ describe Burndown do
 
           describe "WITH the story having a subticket that defines remaining hours" do
             before(:each) do
-              @task = Factory.create(:task, :subject => "Task 1",
-                                            :project => project,
-                                            :fixed_version => version,
-                                            :tracker => tracker_task,
-                                            :status => issue_open,
-                                            :remaining_hours => 18,
-                                            :parent_issue_id => @story.id,
-                                            :priority => issue_priority,
-                                            :created_on => Date.today - 20.days,
-                                            :updated_on => Date.today - 20.days)
+              @story.save!
+              @task = Factory.build(:task, :subject => "Task 1",
+                                           :project => project,
+                                           :fixed_version => version,
+                                           :tracker => tracker_task,
+                                           :status => issue_open,
+                                           :remaining_hours => 18,
+                                           :parent_issue_id => @story.id,
+                                           :priority => issue_priority,
+                                           :created_on => Date.today - 20.days,
+                                           :updated_on => Date.today - 20.days)
             end
 
             describe "WITH the subticket beeing created within the sprint" do
               before(:each) do
-                @task.update_attribute(:created_on, Time.now - 4.days)
+                @task.created_on = Time.now - 4.days
+                @task.save!
 
                 @burndown = Burndown.new(sprint, project)
               end
@@ -179,6 +182,8 @@ describe Burndown do
 
             describe "WITH the subticket changing it's remaining hours within the sprint" do
               before(:each) do
+                @task.save!
+
                 set_attribute_journalized @task, :remaining_hours=, 10, Time.now - 3.day
 
                 @burndown = Burndown.new(sprint, project)
@@ -191,7 +196,8 @@ describe Burndown do
 
           describe "WITH the story having story_point defined on creation" do
             before(:each) do
-              @story.update_attributes(:story_points => 9)
+              @story.story_points = 9
+              @story.save!
             end
 
             describe "WITH the story beeing closed and opened again within the sprint duration" do
@@ -212,7 +218,6 @@ describe Burndown do
 
             describe "WITH the story marked as resolved and consequently 'done'" do
               before(:each) do
-
                 set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.day
                 set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.day
                 project.issue_statuses << issue_resolved
