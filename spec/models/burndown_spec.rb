@@ -88,70 +88,69 @@ describe Burndown do
                 @burndown = Burndown.new(sprint, project)
               end
 
-                it { @burndown.remaining_hours.should eql [9.0, 9.0, 9.0, 9.0, 5.0, 5.0] }
-                it { @burndown.remaining_hours.unit.should eql :hours }
-                it { @burndown.days.should eql(sprint.days()) }
-                it { @burndown.max[:hours].should eql 9.0 }
-                it { @burndown.max[:points].should eql 0.0 }
-                it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
-
-              end
-
-              describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
-                before(:each) do
-                  other_version = Factory.create(:version, :name => "other_version", :project => project)
-                  project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
-                  @story.instance_eval { reload; @assignable_versions = nil }
-                  set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
-                  set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.day
-
-                  @burndown = Burndown.new(sprint, project)
-                end
-
-                it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-                it { @burndown.remaining_hours.unit.should eql :hours }
-                it { @burndown.days.should eql(sprint.days()) }
-                it { @burndown.max[:hours].should eql 9.0 }
-                it { @burndown.max[:points].should eql 0.0 }
-                it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
-              end
-
-              describe "WITH the story beeing moved out of the project within the sprint duration and also moved back in" do
-                before(:each) do
-                  other_project = Factory.create(:project, :name => "other_project")
-                  set_attribute_journalized @story, :project_id=, other_project.id, Time.now - 6.day
-                  set_attribute_journalized @story, :project_id=, project.id, Time.now - 3.day
-
-                  @burndown = Burndown.new(sprint, project)
-                end
-
-                it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-                it { @burndown.remaining_hours.unit.should eql :hours }
-                it { @burndown.days.should eql(sprint.days()) }
-                it { @burndown.max[:hours].should eql 9.0 }
-                it { @burndown.max[:points].should eql 0.0 }
-                it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
-              end
-
-              describe "WITH the story beeing moved to another tracker within the sprint duration and also moved back in" do
-                before(:each) do
-                  other_tracker = Factory.create(:tracker_bug)
-                  project.trackers << other_tracker
-
-                  set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
-                  set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.day
-
-                  @burndown = Burndown.new(sprint, project)
-                end
-
-                it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-                it { @burndown.remaining_hours.unit.should eql :hours }
-                it { @burndown.days.should eql(sprint.days()) }
-                it { @burndown.max[:hours].should eql 9.0 }
-                it { @burndown.max[:points].should eql 0.0 }
-                it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
-              end
+              it { @burndown.remaining_hours.should eql [9.0, 9.0, 9.0, 9.0, 5.0, 5.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
+
+            describe "WITH the story beeing moved out of the sprint within the sprint duration and also moved back in" do
+              before(:each) do
+                other_version = Factory.create(:version, :name => "other_version", :project => project)
+                project.instance_eval { reload; @shared_versions = nil } # Invalidate cached attributes
+                @story.instance_eval { reload; @assignable_versions = nil }
+                set_attribute_journalized @story, :fixed_version_id=, other_version.id, Time.now - 6.day
+                set_attribute_journalized @story, :fixed_version_id=, version.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
+
+            describe "WITH the story beeing moved out of the project within the sprint duration and also moved back in" do
+              before(:each) do
+                other_project = Factory.create(:project, :name => "other_project")
+                set_attribute_journalized @story, :project_id=, other_project.id, Time.now - 6.day
+                set_attribute_journalized @story, :project_id=, project.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
+
+            describe "WITH the story beeing moved to another tracker within the sprint duration and also moved back in" do
+              before(:each) do
+                other_tracker = Factory.create(:tracker_bug)
+                project.trackers << other_tracker
+
+                set_attribute_journalized @story, :tracker_id=, other_tracker.id, Time.now - 6.day
+                set_attribute_journalized @story, :tracker_id=, tracker_feature.id, Time.now - 3.day
+
+                @burndown = Burndown.new(sprint, project)
+              end
+
+              it { @burndown.remaining_hours.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+              it { @burndown.remaining_hours.unit.should eql :hours }
+              it { @burndown.days.should eql(sprint.days()) }
+              it { @burndown.max[:hours].should eql 9.0 }
+              it { @burndown.max[:points].should eql 0.0 }
+              it { @burndown.remaining_hours_ideal.should eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
+            end
+          end
 
           describe "WITH the story having a subticket that defines remaining hours" do
             before(:each) do
@@ -216,11 +215,11 @@ describe Burndown do
 
                 set_attribute_journalized @story, :status_id=, issue_resolved.id, Time.now - 6.day
                 set_attribute_journalized @story, :status_id=, issue_open.id, Time.now - 3.day
-		project.issue_statuses << issue_resolved
+                project.issue_statuses << issue_resolved
                 @burndown = Burndown.new(sprint, project)
               end
 
-	      it { @story.done?.should eql false }
+              it { @story.done?.should eql false }
               it { @burndown.story_points.should eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
             end
           end
