@@ -62,9 +62,11 @@ class Burndown
     def collect_for_story(story, collected_days)
       details_by_prop = details_by_property(story)
 
-      details_by_prop.each {|key_value| key_value.last.sort_by{ |d| d.journal.created_on } }
+      details_by_prop.each do |key, value|
+        value.sort_by { |d| d.journal.created_on }
+      end
 
-      current_prop_index = Hash.new{ |hash, key| hash[key] = details_by_prop[key] ? 0 : nil }
+      current_prop_index = Hash.new { |hash, key| hash[key] = details_by_prop[key] ? 0 : nil }
 
       collected_days.each do |date|
         (out_names + collect_names).each do |key|
