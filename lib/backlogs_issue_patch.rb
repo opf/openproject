@@ -20,6 +20,12 @@ module Backlogs
                                                  :less_than                => 10_000,
                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
+        validates_each :fixed_version_id do |record, field, value|
+          if record.is_task? and record.fixed_version_id_changed? and record.fixed_version_id != record.story.fixed_version_id
+            record.errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
+          end
+        end
+
       end
     end
 
@@ -121,9 +127,11 @@ module Backlogs
 
         touched_sprints = []
         story = self.story
-        story.inherit_version_to_subtasks if story
 
         if self.is_story?
+          if self.id == story.id and self.fixed_version_id != self.fixed_version_id_was
+            story.inherit_version_to_subtasks
+          end
           # for stories we touch the current and former sprints
           touched_sprints = Sprint.find_all_by_id(
             [self.fixed_version_id, self.fixed_version_id_was].compact)

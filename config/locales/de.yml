@@ -142,6 +142,8 @@ de:
       models:
         issue:
           attributes:
+            fixed_version_id:
+              task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen"
             parent_issue_id:
               tracker_must_be_one_of_the_following: "muss aus einem der folgenden Trackern sein: %{tracker_names}"
             blocks_ids:

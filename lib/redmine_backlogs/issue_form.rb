@@ -16,9 +16,16 @@ class RedmineBacklogs::IssueForm < RedmineBacklogs::IssueView
   def render(t)
     s = super(t)
     content_tag(:form, [
+      errors_paragraph.render(t),
       s,
       notes_paragraph.render(t)
     ], :id => form_id)
+  end
+  
+  def errors_paragraph
+    @errors_paragraph ||= ChiliProject::Nissue::SimpleParagraph.new(@issue) do |t|
+      content_tag(:div, [ t.error_messages_for 'issue' ], :style => "clear:right")
+    end
   end
   
   def heading
