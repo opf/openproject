@@ -147,8 +147,10 @@ class Burndown
 
     days = make_date_series sprint
 
-    series_data = SeriesRawData.new(project, sprint,
-                                    {:hours => ["remaining_hours"], :points => ["story_points"]})
+    series_data = SeriesRawData.new(project,
+                                    sprint,
+                                    :hours => ["remaining_hours"],
+                                    :points => ["story_points"])
 
     series_data.collect
 
@@ -179,7 +181,8 @@ class Burndown
 
   def calculate_series series_data
     series_data.collect_names.each do |c|
-      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by{ |a| a.first}.collect(&:last) #need to differentiate between hours and sp
+      # need to differentiate between hours and sp
+      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by{ |a| a.first }.collect(&:last)
     end
 
     calculate_ideals(series_data)
