@@ -25,7 +25,7 @@
 <%= javascript_tag("var tb_pathToImage='#{image_path('loadingAnimation.gif')}'") %>
 <%= javascript_include_tag 'common.js' %>
 <%= heads_for_theme %>
-<%= heads_for_wiki_formatter %>
+<% heads_for_wiki_formatter %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
