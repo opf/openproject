@@ -1714,6 +1714,7 @@ a.has-thumb img {
 /* ***** End Pulled 2009-09-17 ***** */
 
 /* Make icons non repeating - does this need to be in core */
+#admin-menu ul li a,#admin-menu a:hover {padding: 0 0 0 24px; background-repeat: no-repeat !important;}
 #admin-menu a.projects { background-repeat: no-repeat;}
 #admin-menu a.users { background-repeat: no-repeat; }
 #admin-menu a.groups { background-repeat: no-repeat; }
