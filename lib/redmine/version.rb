@@ -16,7 +16,7 @@ require 'rexml/document'
 module Redmine
   module VERSION #:nodoc:
     MAJOR = 2
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
     TINY  = PATCH # Redmine compat
 
