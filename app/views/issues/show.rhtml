@@ -1,6 +1,6 @@
 <%= render :partial => 'action_menu' %>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %><%= call_hook(:view_issues_show_identifier, :issue => @issue) %></h2>
+<h2><%= h(@issue.tracker.name) %> #<%= h(@issue.id) %><%= call_hook(:view_issues_show_identifier, :issue => @issue) %></h2>
 
 <div class="<%= @issue.css_classes %> details">
         <%= avatar(@issue.author, :size => "50") %>
@@ -17,11 +17,11 @@
 
 <table class="attributes">
 <tr>
-    <th class="status"><%=l(:field_status)%>:</th><td class="status"><%= @issue.status.name %></td>
+    <th class="status"><%=l(:field_status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
     <th class="start-date"><%=l(:field_start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
 </tr>
 <tr>
-    <th class="priority"><%=l(:field_priority)%>:</th><td class="priority"><%= @issue.priority.name %></td>
+    <th class="priority"><%=l(:field_priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
     <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
@@ -29,7 +29,7 @@
     <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
 <tr>
-    <th class="category"><%=l(:field_category)%>:</th><td class="category"><%=h @issue.category ? @issue.category.name : "-" %></td>
+    <th class="category"><%=l(:field_category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
     <% if User.current.allowed_to?(:view_time_entries, @project) %>
     <th class="spent-time"><%=l(:label_spent_time)%>:</th>
     <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
