@@ -57,7 +57,7 @@ module IssuesHelper
     ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor))
     end
-    s << '<div>' + content_tag('h3', h(issue.subject))
+    s << '<div class="subject">' + content_tag('h2', h(issue.subject))
     s << '</div>' * (ancestors.size + 1)
     s
   end
