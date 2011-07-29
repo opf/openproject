@@ -12,7 +12,10 @@ module Backlogs
         alias_method_chain :move_to_project_without_transaction, :autolink
         alias_method_chain :recalculate_attributes_for, :remaining_hours
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
-        after_save  :backlogs_after_save
+
+        after_save  :touch_sprint_burndowns
+        before_save :inherit_version_from_parent, :if => lambda {|i| i.is_task? and i.fixed_version_id.blank? }
+        after_save  :inherit_version_of_story, :if => lambda {|i| i.is_story? and i.changed? }
 
         validates_numericality_of :story_points, :only_integer             => true,
                                                  :allow_nil                => true,
@@ -24,7 +27,7 @@ module Backlogs
           if record.is_task? and record.fixed_version_id_changed? and record.fixed_version_id != record.story.fixed_version_id
             record.errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
           end
-        end
+        end       
 
       end
     end
@@ -109,6 +112,12 @@ module Backlogs
           end
         end
       end
+      
+      def inherit_version_from(parent)
+        if parent
+          self.fixed_version_id = parent.fixed_version_id
+        end
+      end
 
       private
       def backlogs_before_validation
@@ -117,10 +126,18 @@ module Backlogs
           self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
         end
       end
+      
+      def inherit_version_from_parent
+        inherit_version_from(self.story)
+        true
+      end
+      
+      def inherit_version_of_story
+        story = self.story or return true
+        story.inherit_version_to_subtasks
+      end
 
-      def backlogs_after_save
-        ## automatically sets the version to the story's
-        ## version on any descendant of story.
+      def touch_sprint_burndowns
         ## Normally one of the _before_save hooks ought to take
         ## care of this, but appearantly neither root_id nor
         ## parent_id are set at that point
@@ -129,10 +146,6 @@ module Backlogs
         story = self.story
 
         if self.is_story?
-          if self.id == story.id and self.fixed_version_id != self.fixed_version_id_was
-            story.inherit_version_to_subtasks
-          end
-          # for stories we touch the current and former sprints
           touched_sprints = Sprint.find_all_by_id(
             [self.fixed_version_id, self.fixed_version_id_was].compact)
         elsif self.is_task?

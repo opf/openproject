@@ -87,7 +87,8 @@ class Story < Issue
     def inherit_version_to_subtasks
       # we overwrite the version of all descending issues that are tasks
       self.tasks_and_subtasks.each do |task|
-        task.update_attribute("fixed_version_id", self.fixed_version_id) unless task.fixed_version_id == self.fixed_version_id
+        task.inherit_version_from(self)
+        task.save! if task.changed?
       end
     end
 
