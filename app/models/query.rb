@@ -126,8 +126,9 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
-    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
-    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+    # Put empty start_dates and due_dates in the far future rather than in the far past
+    QueryColumn.new(:start_date, :sortable => ["CASE WHEN #{Issue.table_name}.start_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.start_date"]),
+    QueryColumn.new(:due_date, :sortable => ["CASE WHEN #{Issue.table_name}.due_date IS NULL THEN 1 ELSE 0 END", "#{Issue.table_name}.due_date"]),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
@@ -587,9 +588,17 @@ class Query < ActiveRecord::Base
       sql = "#{db_table}.#{db_field} IS NOT NULL"
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
-      sql = "#{db_table}.#{db_field} >= #{value.first.to_i}"
+      if is_custom_filter
+        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) >= #{value.first.to_f}"
+      else
+        sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
+      end
     when "<="
-      sql = "#{db_table}.#{db_field} <= #{value.first.to_i}"
+      if is_custom_filter
+        sql = "#{db_table}.#{db_field} != '' AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{value.first.to_f}"
+      else
+        sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
+      end
     when "o"
       sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
     when "c"
@@ -629,6 +638,8 @@ class Query < ActiveRecord::Base
 
     custom_fields.select(&:is_filter?).each do |field|
       case field.field_format
+      when "int", "float"
+        options = { :type => :integer, :order => 20 }
       when "text"
         options = { :type => :text, :order => 20 }
       when "list"

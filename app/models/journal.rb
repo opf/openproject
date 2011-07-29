@@ -23,8 +23,16 @@ class Journal < ActiveRecord::Base
 
   # Make sure each journaled model instance only has unique version ids
   validates_uniqueness_of :version, :scope => [:journaled_id, :type]
-  belongs_to :journaled, :touch => true
+
+  # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
+  # subclasses will be given an actual class name when they are created by aaj
+  #
+  #  e.g. IssueJournal will get :class_name => 'Issue'
+  belongs_to :journaled, :class_name => 'Journal'
   belongs_to :user
+
+  # "touch" the journaled object on creation
+  after_create :touch_journaled_after_creation
 
   # ActiveRecord::Base#changes is an existing method, so before serializing the +changes+ column,
   # the existing +changes+ method is undefined. The overridden +changes+ method pertained to
@@ -32,6 +40,10 @@ class Journal < ActiveRecord::Base
   # an underlying +changed_attributes+ method, not +changes+ itself.
   # undef_method :changes
   serialize :changes, Hash
+
+  def touch_journaled_after_creation
+    journaled.touch
+  end
 
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.

@@ -16,10 +16,12 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_filter :find_project, :except => [ :index, :new, :create, :copy ]
+  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules ]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_filter :jump_to_project_menu_item, :only => :show
+  before_filter :load_project_settings, :only => :settings
   accept_key_auth :index, :show, :create, :update, :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
@@ -68,12 +70,7 @@ class ProjectsController < ApplicationController
 
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-      # Add current user as a project member if he is not admin
-      unless User.current.admin?
-        r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-        m = Member.new(:user => User.current, :roles => [r])
-        @project.members << m
-      end
+      add_current_user_to_project_if_not_admin(@project)
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
@@ -128,11 +125,6 @@ class ProjectsController < ApplicationController
 
   # Show @project
   def show
-    if params[:jump]
-      # try to redirect to the requested menu item
-      redirect_to_project_menu_item(@project, params[:jump]) && return
-    end
-
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
@@ -151,8 +143,6 @@ class ProjectsController < ApplicationController
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
 
-    @key = User.current.rss_key
-
     respond_to do |format|
       format.html
       format.api
@@ -160,12 +150,6 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @issue_category ||= IssueCategory.new
-    @member ||= @project.members.new
-    @trackers = Tracker.all
-    @repository ||= @project.repository
-    @wiki ||= @project.wiki
   end
 
   def edit
@@ -187,7 +171,7 @@ class ProjectsController < ApplicationController
     else
       respond_to do |format|
         format.html {
-          settings
+          load_project_settings
           render :action => 'settings'
         }
         format.api  { render_validation_errors(@project) }
@@ -230,8 +214,7 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    # hide project in layout
-    @project = nil
+    hide_project_in_layout
   end
 
 private
@@ -257,4 +240,33 @@ private
     end
     true
   end
+
+  def jump_to_project_menu_item
+    if params[:jump]
+      # try to redirect to the requested menu item
+      redirect_to_project_menu_item(@project, params[:jump]) && return
+    end
+  end
+
+  def load_project_settings
+    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_category ||= IssueCategory.new
+    @member ||= @project.members.new
+    @trackers = Tracker.all
+    @repository ||= @project.repository
+    @wiki ||= @project.wiki
+  end
+
+  def hide_project_in_layout
+    @project = nil
+  end
+
+  def add_current_user_to_project_if_not_admin(project)
+    unless User.current.admin?
+      r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+      m = Member.new(:user => User.current, :roles => [r])
+      project.members << m
+    end
+  end
+  
 end

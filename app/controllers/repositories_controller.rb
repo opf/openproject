@@ -143,7 +143,12 @@ class RepositoriesController < ApplicationController
     return true if Redmine::MimeType.is_type?('text', path)
     # Ruby 1.8.6 has a bug of integer divisions.
     # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
-    return false if ent.is_binary_data?
+    if ent.respond_to?("is_binary_data?") && ent.is_binary_data? # Ruby 1.8.x and <1.9.2
+      return false
+    elsif ent.respond_to?(:force_encoding) && (ent.dup.force_encoding("UTF-8") != ent.dup.force_encoding("BINARY") ) # Ruby 1.9.2
+      # TODO: need to handle edge cases of non-binary content that isn't UTF-8
+      return false
+    end
     true
   end
   private :is_entry_text_data?

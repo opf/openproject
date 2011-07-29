@@ -13,7 +13,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals
+  fixtures :issues, :issue_statuses, :journals, :enumerations
 
   def setup
     @journal = IssueJournal.find(1)
@@ -93,5 +93,25 @@ class JournalTest < ActiveSupport::TestCase
     end
 
     assert_not_equal start, @issue.reload.updated_on
+  end
+
+  test "accessing #journaled on a Journal should not error (parent class)" do
+    journal = Journal.new
+    assert_nothing_raised do
+      assert_equal nil, journal.journaled
+    end
+  end
+
+  test "setting journal fields through the journaled object for creation" do
+    @issue = Issue.generate_for_project!(Project.generate!)
+
+    @issue.journal_user = @issue.author
+    @issue.journal_notes = 'Test setting fields on Journal from Issue'
+    assert_difference('Journal.count') do
+      assert @issue.save
+    end
+
+    assert_equal "Test setting fields on Journal from Issue", @issue.last_journal.notes
+    assert_equal @issue.author, @issue.last_journal.user
   end
 end

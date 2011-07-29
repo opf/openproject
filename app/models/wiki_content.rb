@@ -59,12 +59,7 @@ class WikiContent < ActiveRecord::Base
   end
 
   def version
-    unless last_journal
-      # FIXME: This is code that caters for a case that should never happen in the normal code paths!!
-      create_journal
-      last_journal.update_attribute(:created_at, updated_on)
-    end
-    last_journal.version
+    new_record? ? 0 : last_journal.version
   end
 
   private
@@ -106,9 +101,9 @@ class WikiContent < ActiveRecord::Base
     end
 
     def text
-      @text ||= case changes[:compression]
-      when 'gzip'
-         Zlib::Inflate.inflate(data)
+      @text ||= case changes["compression"]
+      when "gzip"
+         Zlib::Inflate.inflate(changes["data"])
       else
         # uncompressed data
         changes["data"]

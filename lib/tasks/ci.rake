@@ -29,7 +29,7 @@ namespace :ci do
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
-    Rake::Task["db:migrate_plugins"].invoke
+    Rake::Task["db:migrate:plugins"].invoke
     Rake::Task["db:schema:dump"].invoke
     Rake::Task["test:scm:update"].invoke
   end
