@@ -1,6 +1,29 @@
 = ChiliProject changelog
 
-== TBD v2.0.0
+== 2011-07-29 v2.1.0
+
+* Bug #191: Add Next/Previous links to the top of search results
+* Bug #467: uninitialized constant Journal::Journaled
+* Bug #498: Wrong filters for int and float custom fields
+* Bug #511: Encoding of strings coming out of SQLite
+* Bug #512: reposman.rb do not work properly in Gentoo Linux.
+* Bug #513: Attached files in "comment" no longer link to file
+* Bug #514: Multiple emails for each forum post
+* Bug #523: Gzipped history of wiki pages is garbeled during an update of an older version to 2.0
+* Bug #530: Start date default should consider timezone
+* Bug #536: CSRF Protection
+* Bug #537: Accessing version of newly created WikiContent results in NoMethodError
+* Bug #540: Hook helper_issues_show_detail_after_setting gets different parameters in Chili 1.x and 2.0
+* Bug #542: Double initial journal for migrated wiki history
+* Bug #543: Journalized touch on journal update causes StaleObjectErrors
+* Bug #544: XSS in app/views/issues/show.rhtml
+* Feature #499: Due date sort order should sort issues with no due date to the end of the list
+* Feature #506: Support for "local" Gemfile - Gemfile.local
+* Feature #526: Bulgarian translation
+* Feature #539: Remove dead code in IssueHelper
+* Task #518: Document how to create a Journal using acts_as_journalized
+
+== 2011-07-01 v2.0.0
 
 * Bug #262: Fix line endings
 * Bug #341: Remove English strings from RepositoriesHelper
