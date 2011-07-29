@@ -101,9 +101,9 @@ class WikiContent < ActiveRecord::Base
     end
 
     def text
-      @text ||= case changes[:compression]
-      when 'gzip'
-         Zlib::Inflate.inflate(data)
+      @text ||= case changes["compression"]
+      when "gzip"
+         Zlib::Inflate.inflate(changes["data"])
       else
         # uncompressed data
         changes["data"]
