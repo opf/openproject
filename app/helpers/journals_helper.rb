@@ -26,12 +26,12 @@ module JournalsHelper
 
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
-    journal_content = render_journal_details(journal, :label_updated_time_by)
+    journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
     content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }
   end
 
-  # This renders a journal entry wiht a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by)
+  # This renders a journal entry with a header and details
+  def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
     header = <<-HTML
       <h4>
         <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
