@@ -37,7 +37,7 @@
       </tr>
       <tr>
         <th class="priority"><%=l(:field_priority)%>:</th>
-        <td class="priority"><%= @issue.priority.name %></td>
+        <td class="priority"><%= h(@issue.priority.name) %></td>
 
         <th class="fixed-version"><%=l(:field_fixed_version)%>:</th>
         <td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
