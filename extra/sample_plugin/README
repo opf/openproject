@@ -7,7 +7,7 @@ This is a sample plugin for Redmine
 1. Copy the plugin directory into the vendor/plugins directory
 
 2. Migrate plugin:
-   rake db:migrate_plugins
+   rake db:migrate:plugins
 
 3. Start Redmine
 

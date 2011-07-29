@@ -28,7 +28,7 @@ module Redmine::Acts::Journalized
         before_save :init_journal
         after_save :reset_instance_variables
         
-        attr_reader :journal_notes, :journal_user
+        attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
       end
     end
 

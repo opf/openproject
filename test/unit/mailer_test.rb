@@ -179,7 +179,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_nil mail.references
     assert_select_email do
       # link to the message
-      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
+      assert_select "a[href*=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
     end
   end
 
@@ -316,7 +316,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_wiki_content_added
-    content = WikiContent.find(:first)
+    content = WikiContent.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do
@@ -326,7 +326,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_wiki_content_updated
-    content = WikiContent.find(:first)
+    content = WikiContent.find(1)
     valid_languages.each do |lang|
       Setting.default_language = lang.to_s
       assert_difference 'ActionMailer::Base.deliveries.size' do

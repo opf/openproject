@@ -11,6 +11,9 @@ group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
+
+  platforms :mri_18 do gem 'ruby-debug' end
+  platforms :mri_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
 end
 
 group :openid do
@@ -36,15 +39,22 @@ platforms :mri do
   group :mysql2 do
     gem "mysql2", "~> 0.2.7"
   end
-  
+
   group :postgres do
     gem "pg", "~> 0.9.0"
     #   gem "postgres-pr"
   end
-  
+end
+
+platforms :mri_18 do
   group :sqlite do
     gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
-    #   please tell me, if you are fond of a pure ruby sqlite3 binding
+  end
+end
+
+platforms :mri_19 do
+  group :sqlite do
+    gem "sqlite3"
   end
 end
 
@@ -54,14 +64,21 @@ platforms :jruby do
   group :mysql do
     gem "activerecord-jdbcmysql-adapter"
   end
-  
+
   group :postgres do
     gem "activerecord-jdbcpostgresql-adapter"
   end
-  
+
   group :sqlite do
     gem "activerecord-jdbcsqlite3-adapter"
   end
+end
+
+# Load a "local" Gemfile
+gemfile_local = File.join(File.dirname(__FILE__), "Gemfile.local")
+if File.readable?(gemfile_local)
+  puts "Loading #{gemfile_local} ..." if $DEBUG
+  instance_eval(File.read(gemfile_local))
 end
 
 # Load plugins' Gemfiles

@@ -30,7 +30,7 @@ module ChiliProject
       })
     end
 
-    # Get the raw namme of the currently used database adapter.
+    # Get the raw name of the currently used database adapter.
     # This string is set by the used adapter gem.
     def self.adapter_name
       ActiveRecord::Base.connection.adapter_name

@@ -19,7 +19,7 @@
 
 
 Dir[File.expand_path("../redmine/acts/journalized/*.rb", __FILE__)].each{|f| require f }
-require_dependency File.expand_path('lib/ar_condition', Rails.root)
+require "ar_condition"
 
 module Redmine
   module Acts
@@ -140,7 +140,7 @@ module Redmine
 
               h[:find_options] ||= {} # in case it is nil
               h[:find_options] = {}.tap do |opts|
-                cond = ARCondition.new
+                cond = ::ARCondition.new
                 cond.add(["#{journal_class.table_name}.activity_type = ?", h[:type]])
                 cond.add(h[:find_options][:conditions]) if h[:find_options][:conditions]
                 opts[:conditions] = cond.conditions

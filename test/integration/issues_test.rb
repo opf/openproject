@@ -61,6 +61,7 @@ class IssuesTest < ActionController::IntegrationTest
 
   # add then remove 2 attachments to an issue
   def test_issue_attachments
+    Issue.find(1).recreate_initial_journal!
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
 
@@ -68,6 +69,7 @@ class IssuesTest < ActionController::IntegrationTest
          :notes => 'Some notes',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
     assert_redirected_to "/issues/1"
+    follow_redirect!
 
     # make sure attachment was saved
     attachment = Issue.find(1).attachments.find_by_filename("testfile.txt")
@@ -79,6 +81,12 @@ class IssuesTest < ActionController::IntegrationTest
     # verify that the attachment was written to disk
     assert File.exist?(attachment.diskfile)
 
+    assert_select "#history" do
+      assert_select ".journal .details" do
+        assert_select "a", :text => /testfile.txt/
+      end
+    end
+    
     # remove the attachments
     Issue.find(1).attachments.each(&:destroy)
     assert_equal 0, Issue.find(1).attachments.length

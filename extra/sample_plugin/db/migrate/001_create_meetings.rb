@@ -12,7 +12,7 @@
 #++
 
 # Sample plugin migration
-# Use rake db:migrate_plugins to migrate installed plugins
+# Use rake db:migrate:plugins to migrate installed plugins
 class CreateMeetings < ActiveRecord::Migration
   def self.up
     create_table :meetings do |t|

@@ -74,6 +74,23 @@ class Changeset < ActiveRecord::Base
     user || committer.to_s.split('<').first
   end
 
+  # Delegate to a Repository's log encoding
+  def repository_encoding
+    if repository.present?
+      repository.repo_log_encoding
+    else
+      nil
+    end
+  end
+  
+  # Committer of the Changeset
+  #
+  # Attribute reader for committer that encodes the committer string to
+  # the repository log encoding (e.g. UTF-8)
+  def committer
+    self.class.to_utf8(read_attribute(:committer), repository.repo_log_encoding)
+  end
+
   def before_create
     self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
     self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
@@ -239,6 +256,7 @@ class Changeset < ActiveRecord::Base
 
   private
 
+  # TODO: refactor to a standard helper method
   def self.to_utf8(str, encoding)
     return str if str.nil?
     str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
@@ -273,12 +291,6 @@ class Changeset < ActiveRecord::Base
       end
       str = txtar
     end
-    # removes invalid UTF8 sequences
-    begin
-      Iconv.conv('UTF-8//IGNORE', 'UTF-8', str + '  ')[0..-3]
-    rescue Iconv::InvalidEncoding
-      # "UTF-8//IGNORE" is not supported on some OS
-      str
-    end
+    str
   end
 end

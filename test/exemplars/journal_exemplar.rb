@@ -12,7 +12,7 @@
 #++
 
 class Journal < ActiveRecord::Base
-  generator_for :journalized, :method => :generate_issue
+  generator_for :journaled, :method => :generate_issue
   generator_for :user, :method => :generate_user
 
   def self.generate_issue

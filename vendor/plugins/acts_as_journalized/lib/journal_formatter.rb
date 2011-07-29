@@ -27,7 +27,17 @@ module JournalFormatter
   include CustomFieldsHelper
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper
+  include ActionController::UrlWriter
   extend Redmine::I18n
+
+  def self.included(base)
+    base.class_eval do
+      # Required to use any link_to in the formatters
+      def self.default_url_options
+        {:only_path => true }
+      end
+    end
+  end
 
   def self.register(hash)
     if hash[:class]
@@ -90,9 +100,7 @@ module JournalFormatter
 
   def format_html_attachment_detail(key, value)
     if !value.blank? && a = Attachment.find_by_id(key.to_i)
-      # Link to the attachment if it has not been removed
-      # FIXME: this is broken => link_to_attachment(a)
-      a.filename
+      link_to_attachment(a)
     else
       content_tag("i", h(value)) if value.present?
     end
@@ -163,7 +171,7 @@ module JournalFormatter
     end
 
     label, old_value, value = attr_detail || cv_detail || attachment_detail
-    Redmine::Hook.call_hook :helper_issues_show_detail_after_setting, {:detail => detail,
+    Redmine::Hook.call_hook :helper_issues_show_detail_after_setting, {:detail => JournalDetail.new(label, old_value, value),
         :label => label, :value => value, :old_value => old_value }
     return nil unless label || old_value || value # print nothing if there are no values
     label, old_value, value = [label, old_value, value].collect(&:to_s)
