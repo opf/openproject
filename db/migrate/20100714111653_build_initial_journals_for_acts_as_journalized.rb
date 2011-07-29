@@ -24,10 +24,8 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
       klass.reset_column_information if klass.respond_to?(:reset_column_information)
     end
 
-    providers = Redmine::Activity.providers.collect {|k, v| v.collect(&:constantize) }.flatten.compact.uniq
-    providers.each do |p|
-      next unless p.table_exists? # Objects not in the DB yet need creation journal entries
 
+    [Message, Attachment, Document, Changeset, Issue, TimeEntry, News].each do |p|
       say_with_time("Building initial journals for #{p.class_name}") do
 
         activity_type = p.activity_provider_options.keys.first
