@@ -28,6 +28,12 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
     [Message, Attachment, Document, Changeset, Issue, TimeEntry, News].each do |p|
       say_with_time("Building initial journals for #{p.class_name}") do
 
+        # avoid touching the journaled object on journal creation
+        p.journal_class.class_exec {
+          def touch_journaled_after_creation
+          end
+        }
+
         activity_type = p.activity_provider_options.keys.first
 
         # Create initial journals

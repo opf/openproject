@@ -18,6 +18,12 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
       WikiContent.const_set("Version", Class.new(ActiveRecord::Base))
     end
 
+    # avoid touching WikiContent on journal creation
+    WikiContentJournal.class_exec {
+      def touch_journaled_after_creation
+      end
+    }
+
     WikiContent::Version.find_by_sql("SELECT * FROM wiki_content_versions").each do |wv|
       journal = WikiContentJournal.create!(:journaled_id => wv.wiki_content_id, :user_id => wv.author_id,
         :notes => wv.comments, :created_at => wv.updated_on, :activity_type => "wiki_edits")
