@@ -13,7 +13,7 @@
   <tbody>
 <% for role in @roles %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(role.name, :action => 'edit', :id => role)) %></td>
+  <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), :action => 'edit', :id => role)) %></td>
   <td align="center" style="width:15%;">
   <% unless role.builtin? %>
     <%= reorder_links('role', {:action => 'edit', :id => role}) %>

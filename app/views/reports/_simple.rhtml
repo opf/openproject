@@ -11,7 +11,7 @@
 <tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to row.name, :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)),
+  <td><%= link_to h(row.name), :controller => 'issues', :action => 'index', :project_id => ((row.is_a?(Project) ? row : @project)),
                                                 :set_filter => 1,
                                                 :subproject_id => '!*',
                                                 "#{field_name}" => row.id %></td>

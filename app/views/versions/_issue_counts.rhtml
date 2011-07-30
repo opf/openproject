@@ -15,7 +15,7 @@
     <% counts.each do |count| %>
     <tr>
         <td width="130px" align="right" >
-            <%= link_to count[:group], {:controller => 'issues',
+            <%= link_to h(count[:group]), {:controller => 'issues',
                                         :action => 'index',
                                         :project_id => version.project,
                                         :set_filter => 1,

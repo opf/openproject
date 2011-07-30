@@ -4,7 +4,7 @@
 <% if @issue.new_record? || @allowed_statuses.any? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
 <% else %>
-<p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
+<p><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></p>
 <% end %>
 
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>

@@ -19,7 +19,7 @@
   <tbody>
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to status.name, :action => 'edit', :id => status %></td>
+  <td><%= link_to h(status.name), :action => 'edit', :id => status %></td>
   <% if Issue.use_status_for_done_ratio? %>
   <td align="center"><%= h status.default_done_ratio %></td>
   <% end %>

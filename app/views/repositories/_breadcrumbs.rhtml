@@ -25,4 +25,4 @@ dirs.each do |dir|
 %>
 <%= "@ #{h rev_text}" unless rev_text.blank? %>
 
-<% html_title(with_leading_slash(path)) -%>
+<% html_title(h(with_leading_slash(path))) -%>
