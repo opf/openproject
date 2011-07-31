@@ -7,7 +7,7 @@
 
 <p>
 <%= l(:label_version) %> <%= link_to @annotate.content.version, :action => 'show', :id => @page.title, :version => @annotate.content.version %>
-<em>(<%= @annotate.content.author ? @annotate.content.author.name : "anonyme" %>, <%= format_time(@annotate.content.updated_on) %>)</em>
+<em>(<%= @annotate.content.author ? @annotate.content.author.name : l(:label_user_anonymous) %>, <%= format_time(@annotate.content.updated_on) %>)</em>
 </p>
 
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
