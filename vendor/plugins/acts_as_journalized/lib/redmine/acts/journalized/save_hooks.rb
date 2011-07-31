@@ -66,7 +66,7 @@ module Redmine::Acts::Journalized
           last_journal.update_attribute(:user_id, @journal_user.id)
         end
       end
-      @associations_before_save = @current_journal = @journal_notes = @journal_user = nil
+      @associations_before_save = @current_journal = @journal_notes = @journal_user = @extra_journal_attributes = nil
     end
 
     def save_possible_association(method, options)
