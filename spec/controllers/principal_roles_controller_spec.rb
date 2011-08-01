@@ -38,10 +38,14 @@ describe PrincipalRolesController do
             @global_role.stub!(:id).and_return(42)
             Role.stub!(:find).and_return([@global_role])
             PrincipalRole.stub!(:new).and_return(@principal_role)
+            @user = mock_model User
+            @user.stub!(:valid?).and_return(true)
+            Principal.stub!(:find).and_return(@user)
             @principal_role.stub!(:role=)
             @principal_role.stub!(:role).and_return(@global_role)
             @principal_role.stub!(:save)
             @principal_role.stub!(:role_id).and_return(@global_role.id)
+            @principal_role.stub!(:valid?).and_return(true)
           end
 
           describe "js" do
