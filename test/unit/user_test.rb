@@ -173,6 +173,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal nil, user
   end
 
+  def test_error_on_active_to_registered
+    user = User.try_to_login("jsmith", "jsmith")
+    assert_equal @jsmith, user
+
+    @jsmith.status = User::STATUS_REGISTERED
+    assert !@jsmith.save
+  end
+
   context ".try_to_login" do
     context "with good credentials" do
       should "return the user" do
