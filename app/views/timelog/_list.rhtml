@@ -15,9 +15,9 @@
 <% entries.each do |entry| -%>
 <tr class="time-entry <%= cycle("odd", "even") %>">
 <td class="spent_on"><%= format_date(entry.spent_on) %></td>
-<td class="user"><%=h entry.user %></td>
+<td class="user"><%= link_to_user(entry.user) %></td>
 <td class="activity"><%=h entry.activity %></td>
-<td class="project"><%=h entry.project %></td>
+<td class="project"><%= link_to_project(entry.project) %></td>
 <td class="subject">
 <% if entry.issue -%>
 <%= entry.issue.visible? ? link_to_issue(entry.issue, :truncate => 50) : "##{entry.issue.id}" -%>

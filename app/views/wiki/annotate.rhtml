@@ -3,11 +3,11 @@
 <%= link_to(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 </div>
 
-<h2><%= @page.pretty_title %></h2>
+<h2><%= h(@page.pretty_title) %></h2>
 
 <p>
-<%= l(:label_version) %> <%= link_to @annotate.content.version, :action => 'show', :id => @page.title, :version => @annotate.content.version %>
-<em>(<%= @annotate.content.author ? @annotate.content.author.name : "anonyme" %>, <%= format_time(@annotate.content.updated_on) %>)</em>
+<%= l(:label_version) %> <%= link_to h(@annotate.content.version), :action => 'show', :id => @page.title, :version => @annotate.content.version %>
+<em>(<%= h(@annotate.content.author ? @annotate.content.author.name : "anonyme") %>, <%= format_time(@annotate.content.updated_on) %>)</em>
 </p>
 
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>

@@ -82,7 +82,7 @@ when "IssueCustomField" %>
 
     <fieldset><legend><%=l(:label_tracker_plural)%></legend>
     <% for tracker in @trackers %>
-        <%= check_box_tag "custom_field[tracker_ids][]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= tracker.name %>
+        <%= check_box_tag "custom_field[tracker_ids][]", tracker.id, (@custom_field.trackers.include? tracker) %> <%= h(tracker.name) %>
     <% end %>
 		<%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
     </fieldset>

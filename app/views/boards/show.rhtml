@@ -43,7 +43,7 @@
   <% @topics.each do |topic| %>
     <tr class="message <%= cycle 'odd', 'even' %> <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">
       <td class="subject"><%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => topic } %></td>
-      <td class="author" align="center"><%= topic.author %></td>
+      <td class="author" align="center"><%= link_to_user(topic.author) %></td>
       <td class="created_on" align="center"><%= format_time(topic.created_on) %></td>
       <td class="replies" align="center"><%= topic.replies_count %></td>
       <td class="last_message">

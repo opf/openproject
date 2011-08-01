@@ -3,7 +3,7 @@
    depth = params[:depth].to_i %>
 <%  ent_path = replace_invalid_utf8(entry.path)   %>
 <%  ent_name = replace_invalid_utf8(entry.name)   %>
-<tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= entry.kind %>">
+<tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= h(entry.kind) %>">
 <td style="padding-left: <%=18 * depth%>px;" class="filename">
 <% if entry.is_dir? %>
 <span class="expander" onclick="<%=  remote_function :url => {:action => 'show', :id => @project, :path => to_path_param(ent_path), :rev => @rev, :depth => (depth + 1), :parent_id => tr_id},
@@ -21,7 +21,7 @@
 <% changeset = @project.repository.find_changeset_by_name(entry.lastrev.identifier) if entry.lastrev && entry.lastrev.identifier %>
 <td class="revision"><%= link_to_revision(changeset, @project) if changeset %></td>
 <td class="age"><%= distance_of_time_in_words(entry.lastrev.time, Time.now) if entry.lastrev && entry.lastrev.time %></td>
-<td class="author"><%= changeset.nil? ? h(replace_invalid_utf8(entry.lastrev.author.to_s.split('<').first)) : changeset.author if entry.lastrev %></td>
+<td class="author"><%= changeset.nil? ? h(replace_invalid_utf8(entry.lastrev.author.to_s.split('<').first)) : h(changeset.author) if entry.lastrev %></td>
 <td class="comments"><%=h truncate(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding), :length => 50) unless changeset.nil? %></td>
 </tr>
 <% end %>

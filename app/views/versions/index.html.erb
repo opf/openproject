@@ -5,7 +5,7 @@
 <% else %>
 <div id="roadmap">
 <% @versions.each do |version| %>
-    <h3 class="version"><%= tag 'a', :name => version.name %><%= link_to_version version %></h3>
+    <h3 class="version"><%= tag 'a', :name => h(version.name) %><%= link_to_version version %></h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 

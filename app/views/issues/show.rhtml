@@ -113,7 +113,7 @@
 	<%= f.link_to 'PDF' %>
 <% end %>
 
-<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+<% html_title h("#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}") %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'issues/sidebar' %>
