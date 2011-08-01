@@ -1,5 +1,9 @@
 = ChiliProject changelog
 
+== 2011-08-01 v2.1.1
+
+* Bug #547: Multiple XSS vulnerabilities
+
 == 2011-07-29 v2.1.0
 
 * Bug #191: Add Next/Previous links to the top of search results
