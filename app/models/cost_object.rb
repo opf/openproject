@@ -15,7 +15,7 @@ class CostObject < ActiveRecord::Base
   acts_as_attachable :after_remove => :attachment_removed
   
   acts_as_event :title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}                
+                :url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}
   
   acts_as_activity_provider :find_options => {:include => [:project, :author]},
                             :timestamp => "#{table_name}.updated_on",
@@ -87,7 +87,7 @@ class CostObject < ActiveRecord::Base
   
   # Amount spent.  Virtual accessor that is overriden by subclasses.
   def spent
-    0 
+    0
   end
   
   def spent_for_display
