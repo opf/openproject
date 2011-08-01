@@ -14,7 +14,7 @@
   <tbody>
 <% for tracker in @trackers %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
+  <td><%= link_to h(tracker.name), :action => 'edit', :id => tracker %></td>
   <td align="center"><% unless tracker.workflows.count > 0 %><span class="icon icon-warning"><%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), {:controller => 'workflows', :action => 'edit', :tracker_id => tracker} %>)</span><% end %></td>
   <td align="center" style="width:15%;"><%= reorder_links('tracker', {:action => 'edit', :id => tracker}) %></td>
   <td class="buttons">

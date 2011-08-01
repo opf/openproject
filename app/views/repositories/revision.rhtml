@@ -21,7 +21,7 @@
 
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
 
-<p><% if @changeset.scmid %>ID: <%= @changeset.scmid %><br /><% end %>
+<p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br /><% end %>
 <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
 
 <%= textilizable @changeset.comments %>

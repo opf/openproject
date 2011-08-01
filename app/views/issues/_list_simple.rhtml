@@ -9,10 +9,10 @@
 		</tr></thead>
 		<tbody>
 		<% for issue in issues %>
-		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+		<tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 			<td class="id">
 			  <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
-				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+				<%= link_to(h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
 			</td>
 			<td class="project"><%= link_to_project(issue.project) %></td>
 			<td class="tracker"><%=h issue.tracker %></td>

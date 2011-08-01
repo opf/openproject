@@ -18,7 +18,7 @@
   <% end %>
 	<% @project.visible_custom_field_values.each do |custom_value| %>
 	<% if !custom_value.value.blank? %>
-	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+	   <li><%= h(custom_value.custom_field.name) %>: <%=h show_value(custom_value) %></li>
 	<% end %>
 	<% end %>
 	</ul>
@@ -28,7 +28,7 @@
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>
-      <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project,
+      <li><%= link_to h(tracker.name), :controller => 'issues', :action => 'index', :project_id => @project,
                                                 :set_filter => 1,
                                                 "tracker_id" => tracker.id %>:
 					<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,

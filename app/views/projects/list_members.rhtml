@@ -4,7 +4,7 @@
 
 <% members = @members.group_by {|m| m.role } %>
 <% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
-<h3><%= role.name %></h3>
+<h3><%= h(role.name) %></h3>
 <ul>
 <% members[role].each do |m| %>
 <li><%= link_to_user m.user %> (<%= format_date m.created_on %>)</li>

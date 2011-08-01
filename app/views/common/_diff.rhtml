@@ -5,7 +5,7 @@
 <% if diff.diff_type == 'sbs' -%>
 <table class="filecontent">
 <thead>
-<tr><th colspan="4" class="filename"><%=to_utf8_for_attachments table_file.file_name %></th></tr>
+<tr><th colspan="4" class="filename"><%= h(to_utf8_for_attachments(table_file.file_name)) %></th></tr>
 </thead>
 <tbody>
 <% table_file.each_line do |spacing, line| -%>
@@ -31,7 +31,7 @@
 <% else -%>
 <table class="filecontent">
 <thead>
-<tr><th colspan="3" class="filename"><%=to_utf8_for_attachments table_file.file_name %></th></tr>
+<tr><th colspan="3" class="filename"><%= h(to_utf8_for_attachments(table_file.file_name)) %></th></tr>
 </thead>
 <tbody>
 <% table_file.each_line do |spacing, line| %>

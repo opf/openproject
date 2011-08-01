@@ -53,7 +53,7 @@ module SearchHelper
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"
-      links << link_to(text, :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
+      links << link_to(h(text), :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
     end
     ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>') unless links.empty?
   end
