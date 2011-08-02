@@ -207,6 +207,11 @@ class User < Principal
     update_attribute(:status, STATUS_LOCKED)
   end
 
+  def deletable?
+    registered? && last_login_on.nil?
+  end
+
+
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   def check_password?(clear_password)
     if auth_source_id.present?

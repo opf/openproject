@@ -15,8 +15,8 @@ class UsersController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
-  accept_key_auth :index, :show, :create, :update
+  before_filter :find_user, :only => [:show, :edit, :update, :destroy, :edit_membership, :destroy_membership]
+  accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
   include CustomFieldsHelper
@@ -176,6 +176,24 @@ class UsersController < ApplicationController
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
+
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
+  def destroy
+    # Only allow to delete users with STATUS_REGISTERED for now
+    # It is assumed that these users are not yet references in any way
+    # from other objects.
+    return render_403 unless @user.deletable?
+
+    @user.destroy
+    respond_to do |format|
+      format.html {
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_back_or_default(:action => 'index')
+      }
+      format.api  { head :ok }
+    end
+  end
+
 
   def edit_membership
     @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)

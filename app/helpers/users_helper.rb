@@ -36,13 +36,26 @@ module UsersHelper
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
+    links = []
     if user.locked?
-      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      links << link_to(l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock')
     elsif user.registered?
-      link_to l(:button_activate), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      links << link_to(l(:button_activate), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock')
     elsif user != User.current
-      link_to l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
+      links << link_to(l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock')
     end
+
+    if user.deletable?
+      links << link_to(
+        l(:button_delete), {:controller => 'users', :action => 'destroy', :id => user},
+        :method => :delete,
+        :confirm => l(:text_are_you_sure),
+        :title => l(:button_delete),
+        :class => 'icon icon-del'
+      )
+    end
+
+    links.join(" ")
   end
 
   def user_settings_tabs

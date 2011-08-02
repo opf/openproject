@@ -240,26 +240,52 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
         end
       end
     end
+  end
 
-    context "DELETE /users/2" do
-      context ".xml" do
-        should "not be allowed" do
-          assert_no_difference('User.count') do
-            delete '/users/2.xml'
-          end
+  context "DELETE /users/:temp:" do
+    context ".xml" do
+      should "delete the user" do
+        u = User.new(:firstname => 'Death', :lastname => 'Row', :mail => 'death.row@example.com', :language => 'en')
+        u.login = 'death.row'
+        u.status = User::STATUS_REGISTERED
+        u.save!
 
-          assert_response :method_not_allowed
+        assert_difference('User.count',-1) do
+          delete "/users/#{u.id}.xml", {}, :authorization => credentials('admin')
         end
+
+        assert_response :success
+        assert_nil User.find_by_id(u.id)
       end
 
-      context ".json" do
-        should "not be allowed" do
-          assert_no_difference('User.count') do
-            delete '/users/2.json'
-          end
-
-          assert_response :method_not_allowed
+      should "not delete active user" do
+        assert_difference('User.count',0) do
+          delete "/users/2.xml", {}, :authorization => credentials('jsmith')
         end
+        assert_response :forbidden
+      end
+    end
+
+    context ".json" do
+      should "delete the user" do
+        u = User.new(:firstname => 'Death', :lastname => 'Row', :mail => 'death.row@example.com', :language => 'en')
+        u.login = 'death.row'
+        u.status = User::STATUS_REGISTERED
+        u.save!
+
+        assert_difference('User.count',-1) do
+          delete "/users/#{u.id}.json", {}, :authorization => credentials('admin')
+        end
+
+        assert_response :success
+        assert_nil User.find_by_id(u.id)
+      end
+
+      should "not delete active user" do
+        assert_difference('User.count',0) do
+          delete "/users/2.json", {}, :authorization => credentials('jsmith')
+        end
+        assert_response :forbidden
       end
     end
   end
