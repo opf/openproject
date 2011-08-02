@@ -83,7 +83,7 @@ class Report::GroupBy
 
     def define_group(sql)
       sql.select all_select_fields
-      sql.group_by all_group_fields(false)
+      sql.group_by all_group_fields(true)
     end
   end
 end
