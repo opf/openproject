@@ -300,9 +300,9 @@ describe CostQuery do
         CostQuery::Operator.string_operators.each do |o|
           ao.should include o.name
         end
-        update_issue_custom_field("Database", :field_format => "list")
+        update_issue_custom_field("Database", :field_format => "int")
         ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
-        CostQuery::Operator.string_operators.each do |o|
+        CostQuery::Operator.integer_operators.each do |o|
           ao.should include o.name
         end
       end
