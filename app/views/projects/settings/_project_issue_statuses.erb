@@ -9,7 +9,7 @@
       <th><%=l('backlogs.issue_is_closed')%></th>
     </tr>
   </thead>
-  <tbody>  
+  <tbody>
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
     <td><%= status.name %></td>
