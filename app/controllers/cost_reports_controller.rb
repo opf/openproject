@@ -182,9 +182,46 @@ class CostReportsController < ApplicationController
     @title = "label_#{@report_engine.name.underscore}"
   end
 
+  # N.B.: Users with save_cost_reports permission implicitly have
+  # save_private_cost_reports permission as well
+  #
   # @Override
-  def allowed_to?(action, query, user = User.current)
-    user.admin? or user.allowed_to?(:save_queries, @project, :global => true)
+  def allowed_to?(action, report, user = User.current)
+    # admins may do everything
+    return true if user.admin?
+
+    # If this report does belong to a project but not to the current project, we
+    # should not do anything with it. It fact, this should never happen.
+    return false if report.project.present? && report.project != @project
+
+    # If report does not belong to a project, it is ok to look for the
+    # permission in any project. Otherwise, the user should have the permission
+    # in this project.
+    if report.project.present?
+      options = {}
+    else
+      options = {:global => true}
+    end
+
+    case action
+    when :create
+      user.allowed_to?(:save_cost_reports, @project, options) or
+        user.allowed_to?(:save_private_cost_reports, @project, options)
+
+    when :save, :delete, :rename
+      if report.is_public?
+        user.allowed_to?(:save_cost_reports, @project, options)
+      else
+        user.allowed_to?(:save_cost_reports, @project, options) or
+          user.allowed_to?(:save_private_cost_reports, @project, options)
+      end
+
+    when :save_as_public
+      user.allowed_to?(:save_cost_reports, @project, options)
+
+    else
+      false
+    end
   end
 
   def public_queries
