@@ -16,15 +16,18 @@ Redmine::Plugin.register :redmine_reporting do
   requires_redmine :version_or_higher => '0.9'
   requires_redmine_plugin :redmine_costs, :version_or_higher => '0.3'
 
+  view_actions = [:index, :show, :drill_down]
+  edit_actions = [:create, :update, :rename, :delete]
+
   #register reporting_module including permissions
   project_module :reporting_module do
     #require_or_load 'costs_access_control_permission_patch'
 
-    permission :view_cost_entries, {:costlog => [:details], :cost_reports => [:index, :show, :drill_down]}
-    permission :save_cost_reports, {:cost_reports => [:create, :update, :rename, :delete]}
-    permission :save_private_cost_reports, {:cost_reports => [:create, :update, :rename, :delete]}
-    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => [:index, :show, :drill_down]},
-      :granular_for => :view_cost_entries
+    permission :view_cost_entries, {:costlog => [:details], :cost_reports => view_actions}
+    permission :view_own_cost_entries, {:costlog => [:details], :cost_reports => view_actions},
+               :granular_for => :view_cost_entries
+    permission :save_cost_reports, {:cost_reports => edit_actions}
+    permission :save_private_cost_reports, {:cost_reports => edit_actions}
   end
 
   #register additional permissions for the time log
