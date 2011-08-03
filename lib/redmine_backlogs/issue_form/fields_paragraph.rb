@@ -7,7 +7,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
     # fields[:subject]         = subject
     fields[:status]          = status_field || base_fields[:status]
     fields[:assigned_to]     = assigned_to_field || base_fields[:assigned_to]
-    fields[:fixed_version]   = fixed_version_field || base_fields[:fixed_version]    
+    fields[:fixed_version]   = fixed_version_field || base_fields[:fixed_version]
     fields[:empty_bottom]    = empty
 
     # fields[:empty_head]      = empty
@@ -63,7 +63,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
                        l(:label_version_new),
                        'version[name]',
                        {:controller => 'versions', :action => 'create', :project_id => issue.project},
-                       :title => l(:label_version_new), 
+                       :title => l(:label_version_new),
                        :tabindex => 200)
         end
         str
@@ -79,9 +79,9 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
         str = t.select_tag "issue[category_id]", "<option></option>" + options_for_select(issue.project.issue_categories.collect {|c| [c.name, c.id]}, issue.category_id)
         str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
                              l(:label_issue_category_new),
-                             'category[name]', 
+                             'category[name]',
                              {:controller => 'issue_categories', :action => 'new', :project_id => issue.project},
-                             :title => l(:label_issue_category_new), 
+                             :title => l(:label_issue_category_new),
                              :tabindex => 199) if t.authorize_for('issue_categories', 'new')
         str
       end
