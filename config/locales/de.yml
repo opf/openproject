@@ -30,4 +30,4 @@ de:
   load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"
   label_progress_bar_explanation: "Report wird erstellt ..."
   label_really_delete_question: "Diesen Report wirklich löschen?"
-
+  label_saving: "Speichern ..."

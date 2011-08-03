@@ -30,4 +30,4 @@ en:
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
   label_progress_bar_explanation: "Generating report..."
   label_really_delete_question: "Are you sure you want to delete this report?"
-
+  label_saving: "Saving ..."
