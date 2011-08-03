@@ -59,7 +59,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
       field_class.new(:fixed_version) do |t|
         str = t.select_tag "issue[fixed_version_id]", "<option></option>" + t.version_options_for_select(issue.assignable_versions, issue.fixed_version), { :disabled => issue.is_task? }
         if t.authorize_for('versions', 'new') and not issue.is_task?
-          str += t.prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
+          str += t.prompt_to_remote(t.image_tag('add.png', :style => 'vertical-align: middle;'),
                        l(:label_version_new),
                        'version[name]',
                        {:controller => 'versions', :action => 'create', :project_id => issue.project},
