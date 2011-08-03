@@ -20,8 +20,10 @@ class Widget::Settings < Widget::Base
           render_widget(Widget::Controls::Apply, @subject, :to => widgets)
           render_widget(Widget::Controls::Save, @subject, :to => widgets,
                         :can_save => allowed_to?(:save, @subject, current_user))
-          render_widget(Widget::Controls::SaveAs, @subject, :to => widgets,
-                        :can_save_as_public => allowed_to?(:save_as_public, @subject, current_user))
+          if allowed_to?(:create, @subject, current_user)
+            render_widget(Widget::Controls::SaveAs, @subject, :to => widgets,
+                          :can_save_as_public => allowed_to?(:save_as_public, @subject, current_user))
+          end
           render_widget(Widget::Controls::Clear, @subject, :to => widgets)
           render_widget(Widget::Controls::Delete, @subject, :to => widgets,
                         :can_delete => allowed_to?(:delete, @subject, current_user))
