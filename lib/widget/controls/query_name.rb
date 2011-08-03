@@ -18,7 +18,7 @@ class Widget::Controls::QueryName < Widget::Controls
       options["data-is_public"] = @subject.public?
       options["data-is_new"] = @subject.new_record?
     end
-    write(content_tag(:span, name, options) + icon)
+    write(content_tag(:span, name, options) + icon.to_s)
   end
 
   def translations
