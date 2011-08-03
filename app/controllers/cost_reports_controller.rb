@@ -188,11 +188,31 @@ class CostReportsController < ApplicationController
   end
 
   def public_queries
-    CostQuery.find(:all, :conditions => "is_public = 1", :order => "name ASC")
+    if @project
+      CostQuery.find(:all,
+                     :conditions => ["is_public = ? AND (project_id IS NULL OR project_id = ?)",
+                                     true, @project],
+                     :order => "name ASC")
+    else
+      CostQuery.find(:all,
+                     :conditions => ["is_public = ? AND project_id IS NULL",
+                                     true],
+                     :order => "name ASC")
+    end
   end
 
   def private_queries
-    CostQuery.find(:all, :conditions => "user_id = #{current_user.id} AND is_public = 0", :order => "name ASC")
+    if @project
+      CostQuery.find(:all,
+                     :conditions => ["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
+                                     current_user, false, @project],
+                     :order => "name ASC")
+    else
+      CostQuery.find(:all,
+                     :conditions => ["user_id = ? AND is_public = ? AND project_id IS NULL",
+                                     current_user, false],
+                     :order => "name ASC")
+    end
   end
 
   private
