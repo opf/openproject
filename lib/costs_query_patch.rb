@@ -4,9 +4,14 @@ module CostsQueryPatch
   class CurrencyQueryColumn < QueryColumn
     unloadable
     include ActionView::Helpers::NumberHelper
+    alias :super_value :value
 
     def value(issue)
       number_to_currency(issue.send(name))
+    end
+
+    def real_value(issue)
+      super_value issue
     end
   end
 
