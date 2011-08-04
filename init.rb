@@ -44,7 +44,10 @@ Redmine::Plugin.register :redmine_reporting do
       )
     }
 
-  menu :project_menu, :cost_reports, {:controller => 'cost_reports', :action => 'index'},
-    :param => :project_id, :after => :cost_objects, :caption => :cost_reports_title
+  menu :project_menu, :cost_reports,
+       {:controller => 'cost_reports', :action => 'index'},
+       :param => :project_id,
+       :after => :cost_objects,
+       :caption => :cost_reports_title,
+       :if => Proc.new { |project| project.module_enabled?(:reporting_module) }
 end
-
