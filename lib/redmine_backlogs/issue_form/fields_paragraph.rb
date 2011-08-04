@@ -39,7 +39,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   end
 
   def remaining_hours
-    field_class.new(:remaining_hours) { |t| t.text_field_tag "issue[remaining_hours]", issue.remaining_hours.to_s }
+    field_class.new(:remaining_hours) { |t| t.text_field_tag "issue[remaining_hours]", issue.remaining_hours.to_s, :disabled => !issue.is_task? }
   end
   
   def allowed_statuses
