@@ -16,7 +16,9 @@ if (typeof(Event) === "undefined") {
     throw "Control.ProgressBar requires Event to be loaded.";
 }
 if (typeof(Control) === "undefined") {
-    console.log("Control.ProgressBar requires Prototype ~= 1.7");
+    if (window.console && window.console.log) {
+      window.console.log("Control.ProgressBar requires Prototype ~= 1.7");
+    }
 } else {
 
 Control.ProgressBar = Class.create({
