@@ -55,18 +55,18 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #main-menu #admin-menu a { background-position: 6px center; padding-left: 20px; padding-top: 2px; padding-bottom: 3px; line-height: 30px;}
 
 /* Menu icons */
-#main-menu li a.overview {  background: url(../themes/chiliproject/images/fugue/document-text-image.png) 6px center no-repeat; }
-#main-menu li a.activity {  background: url(../themes/chiliproject/images/fugue/lightning.png) 6px center no-repeat; }
-#main-menu li a.roadmap { background: url(../themes/chiliproject/images/fugue/map-pin.png) 6px center no-repeat; }
-#main-menu li a.issues { background: url(../themes/chiliproject/images/fugue/ticket.png) 6px center no-repeat; }
-#main-menu li a.new-issue { background: url(../themes/chiliproject/images/fugue/ticket--plus.png) 6px center no-repeat; }
-#main-menu li a.news { background: url(../themes/chiliproject/images/fugue/newspaper.png) 6px center no-repeat; }
-#main-menu li a.documents { background: url(../themes/chiliproject/images/fugue/documents-text.png) 6px center no-repeat; }
-#main-menu li a.wiki { background: url(../themes/chiliproject/images/fugue/document-horizontal-text.png) 6px center no-repeat; }
-#main-menu li a.boards { background: url(../themes/chiliproject/images/fugue/balloons.png) 6px center no-repeat; }
-#main-menu li a.files { background: url(../themes/chiliproject/images/fugue/document-zipper.png) 6px center no-repeat; }
-#main-menu li a.repository { background: url(../themes/chiliproject/images/fugue/safe.png) 6px center no-repeat; }
-#main-menu li a.settings { background: url(../themes/chiliproject/images/fugue/equalizer.png) 6px center no-repeat; }
+#main-menu li a.overview {  background: url(../images/fugue/document-text-image.png) 6px center no-repeat; }
+#main-menu li a.activity {  background: url(../images/fugue/lightning.png) 6px center no-repeat; }
+#main-menu li a.roadmap { background: url(../images/fugue/map-pin.png) 6px center no-repeat; }
+#main-menu li a.issues { background: url(../images/fugue/ticket.png) 6px center no-repeat; }
+#main-menu li a.new-issue { background: url(../images/fugue/ticket--plus.png) 6px center no-repeat; }
+#main-menu li a.news { background: url(../images/fugue/newspaper.png) 6px center no-repeat; }
+#main-menu li a.documents { background: url(../images/fugue/documents-text.png) 6px center no-repeat; }
+#main-menu li a.wiki { background: url(../images/fugue/document-horizontal-text.png) 6px center no-repeat; }
+#main-menu li a.boards { background: url(../images/fugue/balloons.png) 6px center no-repeat; }
+#main-menu li a.files { background: url(../images/fugue/document-zipper.png) 6px center no-repeat; }
+#main-menu li a.repository { background: url(../images/fugue/safe.png) 6px center no-repeat; }
+#main-menu li a.settings { background: url(../images/fugue/equalizer.png) 6px center no-repeat; }
 
 #main-menu #admin-menu a.projects { background-image: url(../images/projects.png); }
 #main-menu #admin-menu a.users { background-image: url(../images/user.png); }
