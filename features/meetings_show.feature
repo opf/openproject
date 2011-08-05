@@ -118,6 +118,6 @@ Feature: Show meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
         And I click on "History"
-        And I click on "2"
+        And I click on "1"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should see "blah" within ".meeting_agenda"
