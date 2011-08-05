@@ -388,7 +388,9 @@ module ApplicationHelper
   end
 
   def page_header_title
-    if @project.nil? || @project.new_record?
+    if @page_header_title.present?
+      h(@page_header_title)
+    elsif @project.nil? || @project.new_record?
       h(Setting.app_title)
     else
       b = []
