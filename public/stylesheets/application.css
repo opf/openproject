@@ -1,11 +1,11 @@
 html {overflow-y:scroll;}
-body { font-family: Verdana, sans-serif; font-size: 12px; color:#484848; margin: 0; padding: 0; min-width: 900px; }
+body { font-family: Verdana, sans-serif; font-size: 12px; margin: 0; padding: 0; min-width: 900px; }
 
 h1, h2, h3, h4 { font-family: "Trebuchet MS", Verdana, sans-serif;}
 h1 {margin:0; padding:0; font-size: 24px;}
-h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
-h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; color: #444;}
-h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
+h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
+h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
+h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
 
 /***** Layout *****/
 #wrapper {background: none;}
@@ -24,9 +24,6 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #account {float:none;}
 
-#header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}
-#header a {color:#f8f8f8;}
-#header h1 a.ancestor { font-size: 80%; }
 #quick-search {float:right;}
 
 #main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
@@ -84,7 +81,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #sidebar{ float: none; min-height: 0px; width: 100%; position: static; z-index: 9; padding: 0; margin: 0;}
 * html #sidebar{ width: 22%; }
-#sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
+#sidebar h3{ font-size: 14px; margin-top:14px; }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 #sidebar .contextual { margin-right: 1em; }
@@ -104,13 +101,22 @@ html>body #content { min-height: 600px; }
 #login-form label {font-weight: bold;}
 #login-form input#username, #login-form input#password { width: 300px; }
 
+#login-form form {
+	border:1px solid #6DABC2;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	display:block;
+	padding:10px;
+}
+
 input#openid_url { background: url(../images/openid-bg.gif) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/
-a, a:link, a:visited{ color: #2A5685; text-decoration: none; }
-a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
+a, a:link, a:visited{ text-decoration: none; }
+a:hover, a:active{ text-decoration: underline;}
 a img{ border: 0; }
 
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
@@ -216,8 +222,6 @@ table.list tbody tr:hover { background-color:#ffffdd; }
 table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
-.odd {background-color:#f6f7f8;}
-.even {background-color: #fff;}
 
 a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
 a.sort.asc  { background-image: url(../images/sort_asc.png); }
@@ -253,8 +257,6 @@ div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padd
 .box{
 padding:6px;
 margin-bottom: 10px;
-background-color:#f6f6f6;
-color:#505050;
 line-height:1.5em;
 border: 1px solid #e4e4e4;
 }
@@ -275,7 +277,6 @@ div.square {
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 fieldset {border: 1px solid #e4e4e4; margin:0;}
-legend {color: #484848;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 2.4em;}
 blockquote blockquote { margin-left: 0;}
@@ -726,10 +727,6 @@ div.wiki .external {
     background-image: url(../images/external.png);
 }
 
-div.wiki a.new {
-    color: #b73535;
-}
-
 div.wiki pre {
     margin: 1em 1em 1em 1.6em;
     padding: 2px 2px 2px 0;
@@ -1001,8 +998,6 @@ h2 img { vertical-align:middle; }
 
 body {
 	font: normal normal normal 12px/1.5 'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;
-	background:#f3f3f3;
-	color:#333;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -1029,7 +1024,6 @@ h5 {
 	margin-bottom:18px;
 }
 a {
-	color:#226D81;
 	text-decoration:none;
 }
 a:hover {
@@ -1059,9 +1053,7 @@ a:hover {
 }
 #account ul {
 	float:right;
-	color:#90C0D1;
 	font-size:11px;
-	background:#277D94;
 	border:1px solid #444;
 	border-top:0;
 	-moz-border-radius-bottomleft:5px;
@@ -1112,7 +1104,6 @@ a:hover {
 	background-position:center center;
 }
 #account li.open a {
-	background-color:#277D94;
 	position:relative;
 	top:0px;
 	z-index:21;
@@ -1134,7 +1125,6 @@ a:hover {
 	white-space:nowrap;
 	border-style:solid;
 	border-width:1px 0;
-	border-color:#5D9DAE #fff #1D5D6E;
 }
 #account li li:first-child {
 	border-bottom:1px solid #1D5D6E;
@@ -1146,9 +1136,6 @@ a:hover {
 	padding:5px 9px;
 	background:none;
 	position:static;
-}
-#account-nav li a:hover, #account li li a:hover {
-	background-color:#2791AD;
 }
 #nav-search {
 	display:none;
@@ -1187,14 +1174,14 @@ a:hover {
 	border-bottom:1px solid #fff;
 }
 #main-menu ul ul {
-	border-top:2px solid #aaa;
-	border-bottom-color:#ddd;
-	background-color:#eee;
 	font-size:11px;
 	display:none;
+  border-top:2px solid #aaa;
+  border-bottom-color:#ddd;
+  background-color:#eee;
 }
 #main-menu ul ul.menu-children.unattached {
-	border-top:1px solid #ddd;
+  border-top:1px solid #ddd;
 }
 #main-menu ul ul ul {
 	position:absolute;
@@ -1223,7 +1210,6 @@ a:hover {
 	border-top:0;
 }
 #main-menu a {
-	color:#222;
 	text-decoration:none;
 	line-height:2.5;
 	padding-left:24px;
@@ -1279,7 +1265,6 @@ a:hover {
 	line-height:1.5;
 }
 #main-menu li li ul.profile-box li a:hover {
-	background-color:transparent;
 	text-decoration:underline;
 }
 
@@ -1300,21 +1285,12 @@ h1.title {
 }
 #content {
 	margin:0 15px 10px 185px;
-	background-color:#fff;
-	border:1px solid #e6e6e6;
 	padding:10px;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	font-size:11px;
     width: auto;
 }
 #content .title-bar {
-	background: #277D94;
 	position:relative;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	margin-bottom:10px;
 }
 .title-bar h2 {
@@ -1333,18 +1309,10 @@ h1.title {
 
 /* .button-large was too generic and targeted other pages with it's positioning */
 .title-bar .button-large {
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
-	border:1px solid #e5e5e5;
 	position:absolute;
 	top:8px;
 }
 
-.button-large:hover {
-	border-color:#6DABC2;
-}
 .button-large a {
 	padding:3px 9px;
 	text-decoration:none;
@@ -1353,11 +1321,6 @@ h1.title {
 }
 .title-bar .add-filter {
 	right:155px;
-}
-/* Not used, add-filter is a select now an 'a' */
-.title-bar .add-filter a {
-	background:url(../images/arrow-down-2.png) no-repeat right 7px;
-	padding-right:26px;
 }
 
 fieldset#filters div.add-filter {
@@ -1372,19 +1335,15 @@ fieldset#filters div.add-filter {
 	padding-left:26px;
 }
 .title-bar-extras {
-	background-color:#1F7086;
 	-moz-border-radius-bottomleft:5px;
 	-moz-border-radius-bottomright:5px;
 	-webkit-border-bottom-left-radius:5px;
 	-webkit-border-bottom-right-radius:5px;
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
-	color:#fff;
 }
 .title-bar-extras ul {
 	padding:10px;
-	background:url(../images/shadow-down.png) repeat-x top left;
-	border-bottom:1px solid #154E5D;
 	overflow:auto;
 }
 .title-bar-extras li {
@@ -1395,7 +1354,6 @@ fieldset#filters div.add-filter {
 }
 .extras-actions {
 	padding:5px 10px;
-	border-top:1px solid #408598;
 	position:relative;
 }
 .extras-actions a {
@@ -1470,9 +1428,6 @@ form#issue-list {
 	color:#333;
 	text-decoration:none;
 }
-#content table td.subject a {
-	color:#226D81;
-}
 #content table td.priority {
 	text-align:center;
 }
@@ -1488,13 +1443,6 @@ form#issue-list {
 	background:url(../images/check.png) no-repeat center center;
 	display:block;
 	text-indent:-9999em;
-}
-/* Priority Coloring */
-.priority-5 td.priority {
-	background-color:#FFE5E5;
-}
-.priority-4 td.priority {
-	background-color:#FFEFCF;
 }
 #multiple-action-buttons {
 	float:left;
@@ -1546,18 +1494,10 @@ form#issue-list {
 	font-weight:bold;
 }
 div.issue {
-	background:#E8F4F8;
-	border:1px solid #D5E6ED;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	padding:10px;
 }
 div.issue hr {
 	height:0; 
-	border-style:solid;
-	border-width:1px 0;
-	border-color:#ddd #fff #fff;
 	margin:10px -10px;
 	clear:both;
 }
@@ -1577,9 +1517,6 @@ div.issue h3 {
 }
 #content .meta table th {
 	font-weight:bold;
-}
-#content .meta table td a, #content .meta table th a {
-	color:#226D81;
 }
 #content .meta table td a:hover, #content .meta table th a:hover {
 	text-decoration:underline;
@@ -1639,7 +1576,6 @@ table.files {
 	width:60%;
 }
 #content table.files td a {
-	color:#226D81;
 	position:relative;
 }
 #history {
@@ -1681,11 +1617,6 @@ table.files {
 	color:#999;
 }
 .journal .wiki {
-	background-color:#f8f8f8;
-	border:1px solid #f5f5f5;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
 	padding:10px 10px 5px;
 	overflow:auto;
 }
@@ -1710,18 +1641,6 @@ table.files {
 .question-line {
 	display:block;
 }
-.question .wiki {
-	background:#277D94;
-	color:#fff;
-	margin:0px 10px;
-	padding:10px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;
-	-webkit-border-top-left-radius:5px;
-	-webkit-border-top-right-radius:5px;
-	border-top-left-radius:5px;
-	border-top-right-radius:5px;
-}
 #content blockquote, .wiki ol, .wiki ul {
 	padding-left:40px;
 }
@@ -1730,7 +1649,6 @@ table.files {
 }
 blockquote {
 	font-style:italic;
-	color:#666;
 	background:url(../images/blockquote-bg.png) no-repeat 25px 3px;
 }
 .wiki ul li {
@@ -1757,12 +1675,6 @@ blockquote {
 }
 
 .journal-attributes {color: #999999;}
-
-.journal > ul {
-/*	display:none;  Removed by Eric */
-} /*
-	TODO remove this once I know what to do with status updates, etc.
-*/
 
 /*-------------------------------------------------------------------------------
  * =06 - Projects Page
@@ -1847,10 +1759,6 @@ ul.projects li div.root {
 	right:0;
 	top:45px;
 	width:205px;
-	background:#f3f3f3;
-	border:1px solid #afafaf;
-	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
-	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
 	display:none;
 	z-index:10;
 }
@@ -1977,19 +1885,11 @@ td.issue div.issue-wrap-outer {
 .js-tooltip-inner {
 	position:absolute;
 	bottom:5px;
-	background:#F7F7F7;
 	padding:10px;
-	border:1px solid #c3c3c3;
 	width:500px;
 	font-size:11px;
 	max-height:200px;
 	overflow:hidden;
-	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
-	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
-	box-shadow:1px 1px 3px rgba(0,0,0,.3);
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius:3px;
 	z-index:15;
 }
 .js-tooltip .arrow {
@@ -2034,16 +1934,7 @@ td.issue div.issue-wrap-outer {
  * This section defines reusable classes for menus, etc.
  ------------------------------------------------------------------------------*/
 
-/* Menus are assumed to be a <ul> element */
-.menu, .menu ul {
-	background:#f4f4f4;
-	border:1px solid #afafaf;
-	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.3);
-	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.3);
-}
 .menu li {
-	border-top:1px solid #fff;
-	border-bottom:1px solid #ddd;
 	position:relative;
 	padding:6px;
 }
@@ -2058,138 +1949,8 @@ td.issue div.issue-wrap-outer {
 }
 
 /*-------------------------------------------------------------------------------
- * =09 - New Ajax Issue Form
- *
- * This section defines reusable classes for menus, etc.
- ------------------------------------------------------------------------------*/
-#TB_ajaxContent #issue-form-wrap {
-	display:none;
-}
-#TB_ajaxContent #issue-form {
-	background:#fff;
-	font-size:11px;
-	width:100%;
-	height:510px;
-	overflow:hidden;
-	position:absolute;
-}
-#TB_ajaxContent #issue-form label {
-	width:125px;
-	text-align:right;
-	float:left;
-	margin-left:-130px;
-	font-weight:bold;
-	font-size:12px;
-}
-#TB_ajaxContent #issue-form label.floating {
-	width:150px;
-	margin-left:0;
-	font-weight:normal;
-	font-size:11px;
-	text-align:left;
-}
-html > body .tabular p {
-	overflow:hidden;
-}
-#TB_ajaxContent #issue-form p {
-	clear:left;
-	margin:0;
-	padding:3px 0 5px 130px !important;
-}
-#TB_ajaxContent #issue-form .tracker p {
-	padding-top:10px !important;
-}
-#TB_ajaxContent #issue-form p.watchers {
-	width:300px;
-}
-.jstElements button {
-	background-color:#F7F7F7;
-	background-position:50% 50%;
-	background-repeat:no-repeat;
-	border:1px solid #DDDDDD;
-	height:24px;
-	margin-right:6px;
-	padding:4px;
-	width:24px;
-}
-.jstElements button span {
-	display:none;
-}
-#TB_ajaxContent #issue-form .help {
-	display:block;
-	float:right;
-	padding-right:20px;
-}
-#TB_ajaxContent #issue-form div.submit, #TB_ajaxContent #issue-form div.tracker {
-	position:absolute;
-	left:0;
-	height:45px;
-	width:100%;
-	overflow:hidden;
-}
-#TB_ajaxContent #issue-form div.box {
-	position: relative;
-	top:47px;
-	height:396px;
-	overflow:auto;
-	padding:10px 0;
-}
-#TB_ajaxContent #issue-form .tracker {
-	top:0;
-	border-bottom:2px solid #ccc;
-}
-#TB_ajaxContent #issue-form .submit {
-	bottom:0;
-	border-top:2px solid #ccc;
-	text-align:right;
-}
-#TB_ajaxContent #issue-form .submit input {
-	margin:8px 10px 0 0;
-	border:1px solid #ccc;
-	background:#F3F3F3 url(../images/gradient-down.png) repeat-x;
-	padding:5px;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	font: 12px/1.5 'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;
-}
-#TB_ajaxContent #issue-form .submit input:hover {
-	border-color:#277D94;
-}
-#TB_ajaxContent #issue-form textarea {
-	width:570px;
-	height:100px;
-	overflow:auto;
-	margin-top:5px;
-}
-#TB_ajaxContent #issue-form .splitcontentleft {
-	width:45%;
-	float:left;
-}
-#TB_ajaxContent #issue-form .splitcontentright {
-	width:45%;
-	float:right;
-}
-#TB_ajaxContent #issue-form #attachments_fields input[type=file] {
-	margin-right:10px;
-}
-
-/*-------------------------------------------------------------------------------
- * =10 - Plugins and misc
- ------------------------------------------------------------------------------*/
-/* Billing */
-div#floating-counter { z-index: 10; } /* so dropdown menus will not mask it */
-div#floating-counter h3 { margin-top: 0px; }
-/* JS Calendar popup */
-div.calendar { z-index: 120 !important;} /* So it's above the lightbox overlay */
-
-/* Contracts use the newer Redmine th/td in the issues list */
-#content .meta table th.deliverable { font-weight: bold; }
-
-/*-------------------------------------------------------------------------------
  * =11 - Appended from staging
  ------------------------------------------------------------------------------*/
-/* ***** 2009-07-24 ***** */
 /* tooltip fix */
 form#issue-list {
 	display:block;
@@ -2203,16 +1964,11 @@ form#issue-list {
 	overflow:hidden;
 }
 
-
-
-
-
 /* roadmap breathing */
 #roadmap h3 {
 	margin:21px 0 12px;
 }
 div#roadmap fieldset.related-issues {
-	border:1px solid #E6E6E6;
 	margin: 12px 0;
 	padding:6px 12px;
 	-moz-border-radius:5px;
@@ -2221,28 +1977,6 @@ div#roadmap fieldset.related-issues {
 }
 #roadmap fieldset legend {
 	font-style: italic;
-}
-
-
-#TB_ajaxContent #issue-form div.box {
-	border:0;
-}
-#TB_ajaxContent #issue-form p {
-	padding:3px 0 5px 145px !important;
-}
-#TB_ajaxContent #preview .preview {
-	margin-left:130px;
-	border:1px solid #aaa;
-	padding:10px 15px;
-	width:550px;
-}
-#TB_ajaxContent #issue-form .preview p {
-	padding:0 !important;
-	margin-bottom:5px;
-}
-
-#TB_ajaxContent #issue_subject {
-	width:566px;
 }
 
 tr.context-menu-selection td.priority {
@@ -2258,16 +1992,6 @@ tr.context-menu-selection td.priority {
 	margin:12px 0 12px 18px;
 }
 
-/* login form cleanup */
-#login-form form {
-	background:#ECF6F9;
-	border:1px solid #6DABC2;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	display:block;
-	padding:10px;
-}
 ul.projects div.root a.project {
 	font-family:inherit;
 }
@@ -2288,11 +2012,7 @@ ul.projects div.root a.project {
 	border:0 none;
 }
 
-
 /* sidebar cleanup */
-h1, h2, h3, h4, h5, h6 {
-	font-family:'lucida grande','lucida sans unicode',tahoma,arial,sans-serif !important;
-}
 #sidebar h3 {
 	margin:18px 0 6px;
 }
@@ -2315,9 +2035,6 @@ h1, h2, h3, h4, h5, h6 {
 	padding-right:3px;
 	text-indent:-6px;
 	letter-spacing:-.01em;
-}
-#main-menu {
-	border-right:1px solid #E6E6E6;
 }
 #main-menu li a.time-details, #main-menu li a.overhead-time-details, #main-menu li a.billable-time-details {
 	padding-left:40px;
@@ -2364,31 +2081,6 @@ div.flash {
 	-webkit-border-radius:5px;
 	border-radius:5px;
 }
-div.flash.notice {
-	background-color:#ECF8E8;
-	border-color:#C1CBBE;
-	color:#406633;
-}
-div.flash.error {
-	background-color:#F8EEE8;
-	border-color:#CBA58F;
-	color:#664633;
-}
-div.flash.warning {
-	background-color:#F8F8E8;
-	border-color:#CBCB8E;
-	color:#666634;
-}
-
-/* my account */
-#my_account_form .splitcontentleft, #my_account_form .splitcontentright {
-	float:none;
-	width:auto;
-}
-#user_firstname, #user_lastname, #user_mail, #my_account_form select {
-	width:auto;
-}
-
 
 /* all kinds of wonderful tweaks */
 
@@ -2458,12 +2150,6 @@ fieldset#filters div.add-filter {
 .nosidebar fieldset ul li {
 	background:none;
 }
-.title-bar-extras {
-	-moz-border-radius-bottomleft:5px;
-	-moz-border-radius-bottomright:5px;
-	background-color:#ECF6F9;
-	color:#FFFFFF;
-}
 .title-bar .add-filter.button-large {
 	background:none;
 	border:none;
@@ -2484,12 +2170,6 @@ fieldset#filters div.add-filter {
 .title-bar .grouping {
 	padding:0 10px 10px;
 }
-.title-bar-extras {
-	color:#333333;
-}
-.extras-actions a {
-	color:#333333;
-}
 .title-bar-extras ul {
 	border-bottom:none;
 }
@@ -2503,17 +2183,8 @@ fieldset#filters div.add-filter {
 	-webkit-border-radius:3px;
 	border-radius:3px;
 }
-table.progress td.closed {
-	background-color:#277D94;
-}
 .nosidebar fieldset ul {
 	margin-left:0;
-}
-#content table.issues tr:hover {
-	background:#F3F3F3;
-}
-#content table.issues tr.context-menu-selection, #content table tr.context-menu-selection td {
-	background:#277D94 !important;
 }
 .nosidebar ol.ui-sortable li {
 	list-style: none outside none;
@@ -2549,29 +2220,9 @@ tr.time-entry {
 	text-decoration:underline;
 }
 
-
-
-/* IE6 is the bane */
-* html #TB_ajaxContent #issue-form div.box {
-	margin:0;
-}
-* html #TB_ajaxContent #issue-form {
-	right:0;
-	width:765px;
-}
-/* ***** END 2009-07-24 ***** */
-#TB_window #errorExplanation {position: absolute;}
-
-/* ***** Pulled 2009-09-17 ***** */
 /* Weird Safari cascade bug. More specificity */
 div.issue p, div.issue div, #content td {
 	font-size:11px;
-}
-
-/* thickbox */
-#TB_ajaxContent div#new_issue {
-	margin:0;
-	padding:0;
 }
 
 /* comments */
@@ -2579,23 +2230,7 @@ div.issue p, div.issue div, #content td {
 	list-style: decimal outside;
 }
 
-/* questions */
-.question .wiki a {
-	color:#fff;
-	border-bottom:1px solid #68A4B4;
-	text-decoration:none;
-}
-.question .wiki a:hover {
-	border-color:#fff;
-}
-.question .wiki .contextual a {
-	border:0 none;
-}
-
-/* svn */
-#content table .changeset td a {
-	color:#226D81;
-}
+/* scm */
 #content table .changeset td.id a:hover {
 	text-decoration:underline;
 }
@@ -2620,12 +2255,6 @@ div.issue p, div.issue div, #content td {
 	padding-left:140px;
 }
 
-/* color for blockquotes in questions */
-.question blockquote {
-	color:#fff;
-}
-
-
 /* Delete icon */
 table.files a.icon-delete {
 	float:left;
@@ -2634,7 +2263,7 @@ table.files a.icon-delete {
 	text-indent:-9999em;
 	width:16px;
 	height:16px;
-	background:url(../../../images/delete.png) no-repeat 0 0;
+	background:url(../images/delete.png) no-repeat 0 0;
 	margin-right:6px;
 }
 
@@ -2653,10 +2282,6 @@ html > body #content:after {
 }
 
 /* member settings [pc] */
-
-input#rate_amount {
-	width:75px;
-}
 
 select#member_role_id {
 	width:75px;
@@ -2681,9 +2306,7 @@ a.has-thumb img {
 	overflow-y:auto;
 }
 
-/* ***** End Pulled 2009-09-17 ***** */
-
-/* Make icons non repeating - does this need to be in core */
+/* Make icons non repeating */
 #main-menu #admin-menu ul li a, #main-menu #admin-menu a:hover {padding: 0 0 0 24px; background-repeat: no-repeat !important; }
 
 #more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
