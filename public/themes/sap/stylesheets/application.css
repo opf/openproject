@@ -18,8 +18,8 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { color: #444; }
 
 a { color:#226D81; }
 
-#top-menu {	background: #277D94 url(../../../images/sap-logo.png) no-repeat 24px bottom; }
-#account { background: #6DABC2 url(../../../images/sap-logo.png) no-repeat 24px 15px; }
+#top-menu {	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom; }
+#account { background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px; }
 #account ul { color:#90C0D1; background:#277D94;}
 
 #account li.open a { background-color:#277D94; }
@@ -31,7 +31,7 @@ a { color:#226D81; }
   background-color:#2791AD;
 }
 #nav-search {
-  background:#30849c url(../../../images/search-gradient.png) repeat-x left top;
+  background:#30849c url(../images/search-gradient.png) repeat-x left top;
   border:1px solid #194E60;
 }
 
