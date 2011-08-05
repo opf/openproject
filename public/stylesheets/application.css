@@ -8,9 +8,9 @@ h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; bord
 h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb; color: #444;}
 
 /***** Layout *****/
-#wrapper {background: white;}
+#wrapper {background: none;}
 
-#top-menu {background: #2C4056; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 2px 0px 6px;}
+#top-menu {background: #2C4056; color: #fff; height:1.8em; font-size: 0.8em; padding: 0px; }
 #top-menu ul {margin: 0;  padding: 0;}
 #top-menu li {
   float:left;
@@ -19,22 +19,22 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#top-menu a {color: #fff; margin-right: 8px; font-weight: bold;}
+#top-menu a {color: #fff; margin-right: 0px; font-weight: bold;}
 #top-menu #loggedas { float: right; margin-right: 0.5em; color: #fff; }
 
-#account {float:right;}
+#account {float:none;}
 
 #header {height:5.3em;margin:0;background-color:#507AAA;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}
 #header a {color:#f8f8f8;}
 #header h1 a.ancestor { font-size: 80%; }
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px;}
+#main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu ul {margin: 0;  padding: 0;}
 #main-menu li {
-  float:left;
+  float: none;
   list-style-type:none;
-  margin: 0px 2px 0px 0px;
+  margin: 0px;
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
@@ -42,11 +42,12 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   display: block;
   color: #fff;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: normal;
+  background: none;
   margin: 0;
-  padding: 4px 10px 4px 10px;
+  padding: 0 0 0 24px;
 }
-#main-menu li a:hover {background:#759FCF; color:#fff;}
+#main-menu li a:hover {background:none; color:#fff; text-decoration: none;}
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
 
 #admin-menu ul {margin: 0;  padding: 0;}
@@ -67,9 +68,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 #admin-menu a.info { background-image: url(../images/help.png); }
 #admin-menu a.server_authentication { background-image: url(../images/server_key.png); }
 
-#main {background-color:#EEEEEE;}
-
-#sidebar{ float: right; width: 22%; position: relative; z-index: 9; padding: 0; margin: 0;}
+#sidebar{ float: none; min-height: 0px; width: 100%; position: static; z-index: 9; padding: 0; margin: 0;}
 * html #sidebar{ width: 22%; }
 #sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
@@ -356,6 +355,7 @@ form .attributes select { min-width: 50%; }
 
 ul.projects { margin: 0; padding-left: 1em; }
 ul.projects.root { margin: 0;  padding: 0; }
+ul.projects ul {border: none; }
 ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
 ul.projects li.root { list-style-type:none; margin-bottom: 1em; }
 ul.projects li.child { list-style-type:none; margin-top: 1em;}
@@ -387,7 +387,7 @@ p.pagination {margin-top:8px;}
 margin: 0;
 padding: 5px 0 8px 0;
 padding-left: 180px; /*width of left column containing the label elements*/
-height: 1%;
+height: auto;
 clear:left;
 }
 
