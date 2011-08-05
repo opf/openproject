@@ -19,7 +19,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#top-menu a {color: #fff; margin-right: 0px; font-weight: bold;}
+#top-menu a {color: #444;; margin-right: 0px; font-weight: bold;}
 #top-menu #loggedas { float: right; margin-right: 0.5em; color: #fff; }
 
 #account {float:none;}
@@ -37,14 +37,14 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 }
 #main-menu li a {
   display: block;
-  color: #fff;
+  color: #555;
   text-decoration: none;
   font-weight: normal;
   background: none;
   margin: 0;
   padding: 0 0 0 24px;
 }
-#main-menu li a:hover {color:#fff; text-decoration: none;}
+#main-menu li a:hover {color:#555; text-decoration: none;}
 
 #main-menu #admin-menu ul {margin: 0;  padding: 0;}
 #main-menu #admin-menu li {margin: 0;  padding: 0 0 0 0; list-style-type:none;}
@@ -998,6 +998,9 @@ h2 img { vertical-align:middle; }
 
 body {
 	font: normal normal normal 12px/1.5 'lucida grande','lucida sans unicode',tahoma,arial,sans-serif;
+	background:#f3f3f3;
+	color:#333;
+
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -1024,6 +1027,7 @@ h5 {
 	margin-bottom:18px;
 }
 a {
+  color:#8C8C8C;
 	text-decoration:none;
 }
 a:hover {
@@ -1039,7 +1043,7 @@ a:hover {
 
 
 #top-menu {
-	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom;
+	background: #F3F3F3 url(../images/logo.png) no-repeat 24px bottom;
 	height: 88px;
 	position:relative;
 }
@@ -1047,9 +1051,9 @@ a:hover {
 	z-index:5;
 }
 #account {
-	background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px;
+	background: #FFFFFF url(../images/logo.png) no-repeat 24px 15px;
 	height:67px;
-	border-bottom:1px solid #fff;
+	border-bottom:1px solid #FF4719;
 }
 #account ul {
 	float:right;
@@ -1063,6 +1067,8 @@ a:hover {
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
 	height:22px;
+  color:#000000;
+  background:#DDDDDD;}
 }
 #account ul#account-info {
 	margin-right:15px;
@@ -1082,7 +1088,7 @@ a:hover {
 }
 #account li a {
 	text-decoration:none;
-	color:#fff;
+	color:#444;
 	height:17px;
 }
 #account li.drop-down a {
@@ -1107,6 +1113,9 @@ a:hover {
 	position:relative;
 	top:0px;
 	z-index:21;
+}
+#account-nav li a:hover, #account li li a:hover {
+  background-color:#DDDDDD;
 }
 #account li ul {
 	display:none;
@@ -1280,6 +1289,9 @@ a:hover {
  *
  * This section includes the layout and styles for the main content area.
  ------------------------------------------------------------------------------*/
+#main {background:#f3f3f3;}
+#footer { color: #aaa; }
+
 h1.title {
 	margin:12px 24px 9px;
 }
@@ -1290,12 +1302,16 @@ h1.title {
     width: auto;
 }
 #content .title-bar {
+	background: #DDD;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
 	position:relative;
 	margin-bottom:10px;
 }
 .title-bar h2 {
 	padding:9px 100px 9px 12px;
-	color:#fff;
+	color:#000;
 	font-weight:normal;
 	font-size:14px;
 	font-weight:bold;
@@ -1341,6 +1357,8 @@ fieldset#filters div.add-filter {
 	-webkit-border-bottom-right-radius:5px;
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
+	background-color:#EEE;
+	color:#333333;
 }
 .title-bar-extras ul {
 	padding:10px;
@@ -1358,7 +1376,7 @@ fieldset#filters div.add-filter {
 }
 .extras-actions a {
 	border:0;
-	color:#fff;
+	color:#000;
 	padding-left:18px;
 	margin-right:10px;
 	cursor:pointer;

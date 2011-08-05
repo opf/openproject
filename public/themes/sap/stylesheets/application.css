@@ -6,10 +6,6 @@
 
 @import url(../../../stylesheets/application.css);
 
-body {
-	background:#f3f3f3;
-	color:#333;
-}
 h1, h2, h3, h4, h5, h6 {
 	font-family:'lucida grande','lucida sans unicode',tahoma,arial,sans-serif !important;
 }
@@ -34,8 +30,6 @@ a { color:#226D81; }
   background:#30849c url(../images/search-gradient.png) repeat-x left top;
   border:1px solid #194E60;
 }
-
-#main {background:#f3f3f3;}
 
 #main-menu { border-right:1px solid #E6E6E6; }
 #main-menu a {
