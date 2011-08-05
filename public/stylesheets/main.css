@@ -135,7 +135,7 @@ a:hover {
 #account li.open a {
 	background-color:#277D94;
 	position:relative;
-	top:1px;
+	top:0px;
 	z-index:21;
 }
 #account li ul {
