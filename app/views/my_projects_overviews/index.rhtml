@@ -1,0 +1,56 @@
+<div class="contextual">
+    <%=
+      context_links = []
+      if User.current.allowed_to?(:add_subprojects, @project)
+        context_links << link_to(l(:label_subproject_new),
+                                 { :controller => 'projects',
+                                   :action => 'new',
+                                   :parent_id => @project },
+                                 :class => 'icon icon-add')
+      end
+      if User.current.allowed_to?(:edit_project, @project)
+        context_links << link_to(l(:label_personalize_page), :action => 'page_layout')
+      end
+      context_links.join("&nbsp;&middot;&nbsp;")
+    %>
+</div>
+
+<h2><%=l(:label_overview)%></h2>
+
+<% ['top', 'left', 'right'].each do |position| %>
+  <div id="list-<%= position %>" class="splitcontent<%= position %>">
+    <% @blocks[position].each do |b|
+         next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+      <div class="mypage-box">
+        <%= render :partial => "my_projects_overviews/blocks/#{b}",
+                   :locals => { :project => @project,
+                                :user => @user,
+                                :news => @news } %>
+      </div>
+    <% end if @blocks[position] %>
+  </div>
+<% end %>
+
+<%= context_menu :controller => 'issues', :action => 'context_menu' %>
+
+<% content_for :sidebar do %>
+    <% if @total_hours.present? %>
+    <h3><%= l(:label_spent_time) %></h3>
+    <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
+    <p>
+      <%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => @project}) %> |
+      <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => @project}) %>
+      <% if authorize_for('timelog', 'new') %>
+        | <%= link_to l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project} %>
+      <% end %>
+    </p>
+    <% end %>
+    <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+  <%= stylesheet_link_tag "my_projects_overview.css", :plugin => "chiliproject_my_project_page", :media => 'all' %>
+<% end %>
+
+<% html_title(l(:label_overview)) -%>

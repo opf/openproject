@@ -1,0 +1,33 @@
+<h3><%=l(:label_my_account)%></h3>
+
+<p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
+<%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
+
+
+<h4><%= l(:label_feeds_access_key) %></h4>
+
+<p>
+<% if @user.rss_token %>
+<%= l(:label_feeds_access_key_created_on, distance_of_time_in_words(Time.now, @user.rss_token.created_on)) %>
+<% else %>
+<%= l(:label_missing_feeds_access_key) %>
+<% end %>
+(<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
+</p>
+
+<% if Setting.rest_api_enabled? %>
+<h4><%= l(:label_api_access_key) %></h4>
+<div>
+  <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
+  <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>
+</div>
+<%= javascript_tag("$('api-access-key').hide();") %>
+<p>
+<% if @user.api_token %>
+<%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
+<% else %>
+<%= l(:label_missing_api_access_key) %>
+<% end %>
+(<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
+</p>
+<% end %>

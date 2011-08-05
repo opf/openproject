@@ -1,0 +1,132 @@
+#-- copyright
+# ChiliProject is a project management system.
+#
+# Copyright (C) 2010-2011 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+class MyProjectsOverviewsController < ApplicationController
+
+  before_filter :find_project, :find_user, :find_my_project_overview,
+                :find_page_blocks, :find_project_details
+
+  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
+    'issuesreportedbyme' => :label_reported_issues,
+    'issueswatched' => :label_watched_issues,
+    'news' => :label_news_latest,
+    'calendar' => :label_calendar,
+    'documents' => :label_document_plural,
+    'timelog' => :label_spent_time,
+    'members' => :label_member_plural,
+    'issuetracking' => :label_issue_tracking,
+    'projectdetails' => :label_project_details,
+    'wiki' => :label_wiki
+  }
+
+  verify :xhr => true,
+         :only => [:add_block, :remove_block, :order_blocks]
+
+  def index
+    render
+  end
+
+  # User's page layout configuration
+  def page_layout
+    @block_options = []
+    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+  end
+
+  # Add a block to user's page
+  # The block is added on top of the page
+  # params[:block] : id of the block to add
+  def add_block
+    block = params[:block].to_s.underscore
+    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
+    # remove if already present in a group
+    %w(top left right hidden).each {|f| @overview.send(f).delete block }
+    # add it hidden
+    @overview.hidden.unshift block
+    @overview.save!
+    render(:partial => "block",
+           :locals => { :user => @user,
+             :project => @project,
+             :block_name => block})
+  end
+
+  # Remove a block to user's page
+  # params[:block] : id of the block to remove
+  def remove_block
+    block = params[:block].to_s.underscore
+    # remove block in all groups
+    %w(top left right hidden).each {|f| @overview.send(f).delete block }
+    @overview.save!
+    render :nothing => true
+  end
+
+  # Change blocks order on user's page
+  # params[:group] : group to order (top, left or right)
+  # params[:list-(top|left|right)] : array of block ids of the group
+  def order_blocks
+    group = params[:group]
+    if group.is_a?(String)
+      group_items = (params["list-#{group}"] || []).collect(&:underscore)
+      if group_items and group_items.is_a? Array
+        # remove group blocks if they are presents in other groups
+        @overview.update_attributes('top' => (@overview.top - group_items),
+                                    'left' => (@overview.left - group_items),
+                                    'right' => (@overview.right - group_items),
+                                    'hidden' => (@overview.hidden - group_items))
+        @overview.update_attribute(group, group_items)
+      end
+    end
+    render :nothing => true
+  end
+
+  def find_my_project_overview
+    @overview = MyProjectsOverview.find(@project)
+  rescue ActiveRecord::RecordNotFound => e
+    # Auto-create missing overviews
+    @overview = MyProjectsOverview.create!(:project_id => @project.id)
+  end
+
+  def find_user
+    @user = User.current
+  end
+
+  def find_page_blocks
+    @blocks = {
+      'top' => @overview.top,
+      'left' => @overview.left,
+      'right' => @overview.right,
+      'hidden' => @overview.hidden
+    }
+  end
+
+  def find_project_details
+    @users_by_role = @project.users_by_role
+    @subprojects = @project.children.visible.all
+    @news = @project.news.find(:all, :limit => 5,
+                               :include => [ :author, :project ],
+                               :order => "#{News.table_name}.created_on DESC")
+    @trackers = @project.rolled_up_trackers
+
+    cond = @project.project_condition(Setting.display_subprojects_issues?)
+
+    @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
+    @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => cond)
+
+    if User.current.allowed_to?(:view_time_entries, @project)
+      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+    end
+  end
+end

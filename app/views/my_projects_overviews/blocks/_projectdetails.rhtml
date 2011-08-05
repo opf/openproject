@@ -1,0 +1,13 @@
+<h2 class="page-layout-only"><%=l(:label_project_details)%></h2>
+<ul>
+  <% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= auto_link(h(@project.homepage)) %></li><% end %>
+  <% if @subprojects.any? %>
+    <li><%=l(:label_subproject_plural)%>:
+      <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></li>
+  <% end %>
+  <% @project.visible_custom_field_values.each do |custom_value| %>
+    <% if !custom_value.value.blank? %>
+      <li><%= h(custom_value.custom_field.name) %>: <%=h show_value(custom_value) %></li>
+    <% end %>
+  <% end %>
+</ul>

@@ -1,0 +1,4 @@
+== Chiliproject My Project Page PlugIn
+
+This plugin replaces the old overview page for projects with something
+similar to the "My Page"
