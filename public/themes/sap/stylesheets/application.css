@@ -18,8 +18,8 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { color: #444; }
 
 a { color:#226D81; }
 
-#top-menu {	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom; }
-#account { background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px; }
+#top-menu {	background: #277D94 url(../../../images/sap-logo.png) no-repeat 24px bottom; }
+#account { background: #6DABC2 url(../../../images/sap-logo.png) no-repeat 24px 15px; }
 #account ul { color:#90C0D1; background:#277D94;}
 
 #account li.open a { background-color:#277D94; }
@@ -31,7 +31,7 @@ a { color:#226D81; }
   background-color:#2791AD;
 }
 #nav-search {
-  background:#30849c url(../images/search-gradient.png) repeat-x left top;
+  background:#30849c url(../../../images/search-gradient.png) repeat-x left top;
   border:1px solid #194E60;
 }
 
@@ -102,7 +102,7 @@ div.wiki a.new {
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
+	background:#f3f3f3 url(../../../images/gradient-down.png) repeat-x;
 	border:1px solid #e5e5e5;
 }
 .button-large:hover {
@@ -114,7 +114,7 @@ div.wiki a.new {
 }
 
 .title-bar-extras ul {
-	background:url(../images/shadow-down.png) repeat-x top left;
+	background:url(../../../images/shadow-down.png) repeat-x top left;
 	border-bottom:1px solid #154E5D;
 }
 
