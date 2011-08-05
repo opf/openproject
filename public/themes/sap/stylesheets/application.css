@@ -3,6 +3,9 @@
 /*                                                                      */
 /* Some default colors are defined in application.css, mostly grays and */
 /* logical ones (e.g. errors are red).                                  */
+
+@import url(../../../stylesheets/application.css);
+
 body {
 	background:#f3f3f3;
 	color:#333;
