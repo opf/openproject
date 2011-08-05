@@ -1,5 +1,5 @@
 <div class="title-bar" id="upper-title-bar">
-  <%= render_issue_subject_with_tree(@issue) %>
+  <div class="subject"><%= content_tag('h2', h(@issue.subject)) %></div>
 
   <div class="title-bar-actions">
   <%= render :partial => 'action_menu' %>
