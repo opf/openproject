@@ -1,6 +1,65 @@
 /* This file is used to define colors for ChiliProject. They are kept */
 /* separate in order to make it easy for someone to create a new theme. */
 
+body {
+	background:#f3f3f3;
+	color:#333;
+}
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { color: #444; }
+
+a { color:#226D81; }
+
+#top-menu {	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom; }
+#account { background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px; }
+#account ul { color:#90C0D1; background:#277D94;}
+
+#account li.open a { background-color:#277D94; }
+#account li li { border-color:#5D9DAE #fff #1D5D6E; }
+#account li li:first-child {
+  border-bottom:1px solid #1D5D6E;
+}
+#account-nav li a:hover, #account li li a:hover {
+  background-color:#2791AD;
+}
+#nav-search {
+  background:#30849c url(../images/search-gradient.png) repeat-x left top;
+  border:1px solid #194E60;
+}
+
 #main {background:#f3f3f3;}
+#main-menu ul {
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #fff;
+}
+#main-menu ul ul {
+  border-top:2px solid #aaa;
+  border-bottom-color:#ddd;
+  background-color:#eee;
+  font-size:11px;
+  display:none;
+}
+#main-menu ul ul.menu-children.unattached {
+  border-top:1px solid #ddd;
+}
+#main-menu ul ul ul {
+  border:1px solid #AFAFAF;
+  background:#f3f3f3;
+}
+#main-menu li {
+  border-top:1px solid #fff;
+  border-bottom:1px solid #ddd;
+}
+#main-menu li li li {
+  border-bottom:1px solid #DDDDDD;
+  border-top:1px solid #FFFFFF;
+}
+
+#main-menu a {
+  color:#222;
+}
+#main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
+#main-menu li a {
+  color: #fff;
+}
 #main-menu li a {color: #222222;}
 #main-menu li a:hover {color: #222222;}
