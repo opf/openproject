@@ -40,6 +40,13 @@ class MyProjectsOverviewsController < ApplicationController
   def page_layout
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    @block_options << [l(:label_custom_element), :custom_element]
+  end
+
+  def update_custom_element
+    block_name = params["block_name"]
+    @overview.save_custom_element(block_name, params["textile_#{block_name}"])
+    redirect_to :back
   end
 
   # Add a block to user's page
@@ -47,23 +54,33 @@ class MyProjectsOverviewsController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
-    # remove if already present in a group
-    %w(top left right hidden).each {|f| @overview.send(f).delete block }
-    # add it hidden
-    @overview.hidden.unshift block
-    @overview.save!
-    render(:partial => "block",
-           :locals => { :user => @user,
-             :project => @project,
-             :block_name => block})
+    if (BLOCKS.keys.include? block)
+      # remove if already present in a group
+      %w(top left right hidden).each {|f| @overview.send(f).delete block }
+      # add it hidden
+      @overview.hidden.unshift block
+      @overview.save!
+      render(:partial => "block",
+             :locals => { :user => @user,
+               :project => @project,
+               :block_name => block})
+    elsif block == "custom_element"
+      @overview.hidden.unshift @overview.new_custom_element
+      @overview.save!
+      render(:partial => "block_textilizable",
+             :locals => { :user => @user,
+               :project => @project,
+               :block_name => @overview.hidden.first.first,
+               :textile => @overview.hidden.first.last})
+    else
+      render :nothing => true
+    end
   end
 
   # Remove a block to user's page
   # params[:block] : id of the block to remove
   def remove_block
-    block = params[:block].to_s.underscore
-    # remove block in all groups
+    block = param_to_block(params[:block])
     %w(top left right hidden).each {|f| @overview.send(f).delete block }
     @overview.save!
     render :nothing => true
@@ -75,7 +92,7 @@ class MyProjectsOverviewsController < ApplicationController
   def order_blocks
     group = params[:group]
     if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).collect(&:underscore)
+      group_items = (params["list-#{group}"] || []).collect {|x| param_to_block(x) }
       if group_items and group_items.is_a? Array
         # remove group blocks if they are presents in other groups
         @overview.update_attributes('top' => (@overview.top - group_items),
@@ -88,8 +105,16 @@ class MyProjectsOverviewsController < ApplicationController
     render :nothing => true
   end
 
+  def param_to_block(param)
+    block = param.to_s.underscore
+    unless (BLOCKS.keys.include? block)
+      block = @overview.custom_elements.detect {|ary| ary.first == block}
+    end
+    block
+  end
+
   def find_my_project_overview
-    @overview = MyProjectsOverview.find(@project)
+    @overview = MyProjectsOverview.find(:first, :conditions => "project_id = #{@project.id}")
   rescue ActiveRecord::RecordNotFound => e
     # Auto-create missing overviews
     @overview = MyProjectsOverview.create!(:project_id => @project.id)

@@ -19,13 +19,19 @@
 
 <% ['top', 'left', 'right'].each do |position| %>
   <div id="list-<%= position %>" class="splitcontent<%= position %>">
-    <% @blocks[position].each do |b|
-         next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+    <% @blocks[position].each do |b| %>
       <div class="mypage-box">
-        <%= render :partial => "my_projects_overviews/blocks/#{b}",
-                   :locals => { :project => @project,
-                                :user => @user,
-                                :news => @news } %>
+        <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+          <%= render :partial => "my_projects_overviews/blocks/#{b}",
+                     :locals => { :project => @project,
+                                  :user => @user,
+                                  :news => @news } %>
+        <% elsif b.respond_to? :to_ary %>
+          <%= render :partial => "my_projects_overviews/blocks/textilizable",
+                     :locals => { :project => @project,
+                                  :user => @user,
+                                  :textile => b.last } %>
+        <% end %>
       </div>
     <% end if @blocks[position] %>
   </div>

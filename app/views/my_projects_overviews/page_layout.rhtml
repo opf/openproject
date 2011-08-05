@@ -1,15 +1,29 @@
+<% field_list = ['top', 'left', 'right', 'hidden'] %>
+
 <script language="JavaScript">
 //<![CDATA[
 function recreateSortables() {
-    Sortable.destroy('list-top');
-    Sortable.destroy('list-left');
-    Sortable.destroy('list-right');
-    Sortable.destroy('list-hidden');
-
-        Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right', 'list-hidden'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews', :action => 'order_blocks', :group => 'top') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
-        Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right', 'list-hidden'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews', :action => 'order_blocks', :group => 'left') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
-        Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right', 'list-hidden'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews', :action => 'order_blocks', :group => 'right') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
-        Sortable.create("list-hidden", {constraint:false, containment:['list-top','list-left','list-right', 'list-hidden'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews', :action => 'order_blocks', :group => 'hidden') %>', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-hidden")})}, only:'mypage-box', tag:'div'})
+    <% field_list.each do |f| %>
+      Sortable.destroy('list-<%= f %>');
+    <% end %>
+    <% field_list.each do |f| %>
+      Sortable.create("list-<%= f %>", {
+        constraint: false,
+        containment: <%= field_list.collect {|x| "list-#{x}" }.inspect %>,
+        dropOnEmpty: true,
+        handle: 'handle',
+        onUpdate: function () {
+          new Ajax.Request('<%= url_for(:controller => 'my_projects_overviews',
+                                        :action => 'order_blocks',
+                                        :group => f) %>',
+                           { asynchronous: true,
+                             evalScripts: true,
+                             parameters: Sortable.serialize("list-<%= f %>")
+                           });
+        },
+        only: 'mypage-box',
+        tag: 'div' });
+    <% end %>
 }
 
 function updateSelect() {
@@ -56,74 +70,41 @@ function removeBlock(block) {
 
 <h4><%=l(:label_hidden_elements) %></h4>
 <div id="list-hidden" class="block-receiver">
-        <% @blocks['hidden'].each do |b|
-           next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-        <% end if @blocks['top'] %>
+  <% @blocks['hidden'].each do |b| %>
+    <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+      <%= render(:partial => 'block', :locals => {:block_name => b}) %>
+    <% elsif b.respond_to? :to_ary %>
+      <%= render(:partial => 'block_textilizable',
+                 :locals => {:block_name => b.first, :textile => b.last}) %>
+    <% end %>
+  <% end %>
 </div>
 
 <h4><%=l(:label_visible_elements) %></h4>
-<div id="list-top" class="block-receiver">
-        <% @blocks['top'].each do |b|
-           next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-        <% end if @blocks['top'] %>
-</div>
+<% (field_list - ['hidden']).each do |f| %>
+  <div id="list-<%= f %>" class="splitcontent<%= f %> block-receiver">
+    <% @blocks[f].each do |b| %>
+      <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+        <%= render(:partial => 'block', :locals => {:block_name => b}) %>
+      <% elsif b.respond_to? :to_ary %>
+        <%= render(:partial => 'block_textilizable',
+                   :locals => {:block_name => b.first, :textile => b.last}) %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
 
-<div id="list-left" class="splitcontentleft block-receiver">
-        <% @blocks['left'].each do |b|
-           next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-        <% end if @blocks['left'] %>
-</div>
-
-<div id="list-right" class="splitcontentright block-receiver">
-        <% @blocks['right'].each do |b|
-           next unless MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-        <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-        <% end if @blocks['right'] %>
-</div>
-
-<%= sortable_element 'list-top',
+<% field_list.each do |f| %>
+  <%= sortable_element "list-#{f}",
       :tag => 'div',
       :only => 'mypage-box',
       :handle => "handle",
       :dropOnEmpty => true,
-      :containment => ['list-top', 'list-left', 'list-right', 'list-hidden'],
+      :containment => field_list.collect {|x| "list-#{x}" },
       :constraint => false,
-      :url => { :action => "order_blocks", :group => "top" }
+      :url => { :action => "order_blocks", :group => f }
        %>
-
-
-<%= sortable_element 'list-left',
-      :tag => 'div',
-      :only => 'mypage-box',
-      :handle => "handle",
-      :dropOnEmpty => true,
-      :containment => ['list-top', 'list-left', 'list-right', 'list-hidden'],
-      :constraint => false,
-      :url => { :action => "order_blocks", :group => "left" }
-       %>
-
-<%= sortable_element 'list-right',
-      :tag => 'div',
-      :only => 'mypage-box',
-      :handle => "handle",
-      :dropOnEmpty => true,
-      :containment => ['list-top', 'list-left', 'list-right', 'list-hidden'],
-      :constraint => false,
-      :url => { :action => "order_blocks", :group => "right" }
-       %>
-
-<%= sortable_element 'list-hidden',
-      :tag => 'div',
-      :only => 'mypage-box',
-      :handle => "handle",
-      :dropOnEmpty => true,
-      :containment => ['list-top', 'list-left', 'list-right', 'list-hidden'],
-      :constraint => false,
-      :url => { :action => "order_blocks", :group => "right" }
-       %>
+<% end %>
 
 <%= javascript_tag "updateSelect()" %>
 
