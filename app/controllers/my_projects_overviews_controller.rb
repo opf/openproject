@@ -115,9 +115,8 @@ class MyProjectsOverviewsController < ApplicationController
 
   def find_my_project_overview
     @overview = MyProjectsOverview.find(:first, :conditions => "project_id = #{@project.id}")
-  rescue ActiveRecord::RecordNotFound => e
     # Auto-create missing overviews
-    @overview = MyProjectsOverview.create!(:project_id => @project.id)
+    @overview ||= MyProjectsOverview.create!(:project_id => @project.id)
   end
 
   def find_user
