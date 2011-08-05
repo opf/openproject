@@ -15,7 +15,7 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { color: #444; }
 a { color:#226D81; }
 
 #top-menu {	background: #277D94 url(../images/sap-logo.png) no-repeat 24px bottom; }
-#account { background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px; }
+#account { background: #6DABC2 url(../images/sap-logo.png) no-repeat 24px 15px; border-bottom:1px solid #FFFFFF; }
 #account ul { color:#90C0D1; background:#277D94;}
 
 #account li.open a { background-color:#277D94; }
@@ -26,6 +26,7 @@ a { color:#226D81; }
 #account-nav li a:hover, #account li li a:hover {
   background-color:#2791AD;
 }
+#account li a { color: #FFFFFF; }
 #nav-search {
   background:#30849c url(../images/search-gradient.png) repeat-x left top;
   border:1px solid #194E60;
