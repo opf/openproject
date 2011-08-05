@@ -16,7 +16,6 @@
 
   <p class="author">
     <%= authoring @issue.created_on, @issue.author %>.
-    <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>
     <% if @issue.created_on != @issue.updated_on %>
       <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
     <% end %>
