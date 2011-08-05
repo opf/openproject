@@ -47,26 +47,25 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   margin: 0;
   padding: 0 0 0 24px;
 }
-#main-menu li a:hover {background:none; color:#fff; text-decoration: none;}
-#main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
+#main-menu li a:hover {color:#fff; text-decoration: none;}
 
-#admin-menu ul {margin: 0;  padding: 0;}
-#admin-menu li {margin: 0;  padding: 0 0 12px 0; list-style-type:none;}
+#main-menu #admin-menu ul {margin: 0;  padding: 0;}
+#main-menu #admin-menu li {margin: 0;  padding: 0 0 0 0; list-style-type:none;}
 
-#admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
-#admin-menu a.projects { background-image: url(../images/projects.png); }
-#admin-menu a.users { background-image: url(../images/user.png); }
-#admin-menu a.groups { background-image: url(../images/group.png); }
-#admin-menu a.roles { background-image: url(../images/database_key.png); }
-#admin-menu a.trackers { background-image: url(../images/ticket.png); }
-#admin-menu a.issue_statuses { background-image: url(../images/ticket_edit.png); }
-#admin-menu a.workflows { background-image: url(../images/ticket_go.png); }
-#admin-menu a.custom_fields { background-image: url(../images/textfield.png); }
-#admin-menu a.enumerations { background-image: url(../images/text_list_bullets.png); }
-#admin-menu a.settings { background-image: url(../images/changeset.png); }
-#admin-menu a.plugins { background-image: url(../images/plugin.png); }
-#admin-menu a.info { background-image: url(../images/help.png); }
-#admin-menu a.server_authentication { background-image: url(../images/server_key.png); }
+#main-menu #admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px; line-height: 30px;}
+#main-menu #admin-menu a.projects { background-image: url(../images/projects.png); }
+#main-menu #admin-menu a.users { background-image: url(../images/user.png); }
+#main-menu #admin-menu a.groups { background-image: url(../images/group.png); }
+#main-menu #admin-menu a.roles { background-image: url(../images/database_key.png); }
+#main-menu #admin-menu a.trackers { background-image: url(../images/ticket.png); }
+#main-menu #admin-menu a.issue_statuses { background-image: url(../images/ticket_edit.png); }
+#main-menu #admin-menu a.workflows { background-image: url(../images/ticket_go.png); }
+#main-menu #admin-menu a.custom_fields { background-image: url(../images/textfield.png); }
+#main-menu #admin-menu a.enumerations { background-image: url(../images/text_list_bullets.png); }
+#main-menu #admin-menu a.settings { background-image: url(../images/changeset.png); }
+#main-menu #admin-menu a.plugins { background-image: url(../images/plugin.png); }
+#main-menu #admin-menu a.info { background-image: url(../images/help.png); }
+#main-menu #admin-menu a.server_authentication { background-image: url(../images/server_key.png); }
 
 #sidebar{ float: none; min-height: 0px; width: 100%; position: static; z-index: 9; padding: 0; margin: 0;}
 * html #sidebar{ width: 22%; }
@@ -1269,8 +1268,6 @@ a:hover {
 	text-decoration:underline;
 }
 
-#sidebar { padding-left: 24px; }
-#main-menu #sidebar a { display: inline; }
 /* Mimic ".icon .icon-time" */
 #main-menu li a.time-details, #main-menu li a.billable-time-details, #main-menu li a.overhead-time-details { background-image:url(../../../images/time.png); background-position:30px 40%; background-repeat:no-repeat; padding-left:50px; }
 
@@ -2281,19 +2278,12 @@ ul.projects div.root a.project {
 h1, h2, h3, h4, h5, h6 {
 	font-family:'lucida grande','lucida sans unicode',tahoma,arial,sans-serif !important;
 }
-div#sidebar {
-	width:150px;
-}
 #sidebar h3 {
 	margin:18px 0 6px;
 }
 #sidebar a {
 	padding:0;
 	line-height:1.5;
-}
-#sidebar a:hover {
-	background:none !important;
-	text-decoration:underline;
 }
 #sidebar input.button-small {
 	margin-top:6px;
@@ -2679,19 +2669,7 @@ a.has-thumb img {
 /* ***** End Pulled 2009-09-17 ***** */
 
 /* Make icons non repeating - does this need to be in core */
-#admin-menu ul li a,#admin-menu a:hover {padding: 0 0 0 24px; background-repeat: no-repeat !important;}
-#admin-menu a.projects { background-repeat: no-repeat;}
-#admin-menu a.users { background-repeat: no-repeat; }
-#admin-menu a.groups { background-repeat: no-repeat; }
-#admin-menu a.roles { background-repeat: no-repeat; }
-#admin-menu a.trackers { background-repeat: no-repeat; }
-#admin-menu a.issue_statuses { background-repeat: no-repeat; }
-#admin-menu a.workflows { background-repeat: no-repeat; }
-#admin-menu a.custom_fields { background-repeat: no-repeat; }
-#admin-menu a.enumerations { background-repeat: no-repeat; }
-#admin-menu a.settings { background-repeat: no-repeat; }
-#admin-menu a.plugins { background-repeat: no-repeat; }
-#admin-menu a.info { background-repeat: no-repeat; }
+#main-menu #admin-menu ul li a, #main-menu #admin-menu a:hover {padding: 0 0 0 24px; background-repeat: no-repeat !important; }
 
 #more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
 
