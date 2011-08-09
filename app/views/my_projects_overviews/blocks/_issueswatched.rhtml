@@ -1,5 +1,5 @@
-<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.watched_by(user.id).count %>)</h3>
-<% watched_issues = Issue.visible.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
+<h3><%=l(:label_watched_issues)%> (<%= Issue.visible.watched_by(@user.id).count %>)</h3>
+<% watched_issues = Issue.visible.on_active_project.watched_by(@user.id).recently_updated.with_limit(10) %>
 
 <%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues } %>
 <% if watched_issues.length > 0 %>
