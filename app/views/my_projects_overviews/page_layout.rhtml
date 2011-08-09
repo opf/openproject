@@ -45,6 +45,7 @@ function afterAddBlock() {
 
 function removeBlock(block) {
     Effect.DropOut(block);
+    $(block).remove();
     updateSelect();
 }
 //]]>
