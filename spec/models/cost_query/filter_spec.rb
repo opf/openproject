@@ -300,6 +300,9 @@ describe CostQuery do
         CostQuery::Operator.string_operators.each do |o|
           ao.should include o.name
         end
+        # Make sure to wait long enough for the cache to be invalidated
+        # (the cache is invalidated according to custom_field.updated_at, which is precise to a second)
+        sleep 1
         update_issue_custom_field("Database", :field_format => "int")
         ao = CostQuery::Filter::CustomFieldDatabase.available_operators.map(&:name)
         CostQuery::Operator.integer_operators.each do |o|
