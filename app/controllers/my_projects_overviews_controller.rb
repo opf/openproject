@@ -13,6 +13,8 @@
 
 class MyProjectsOverviewsController < ApplicationController
 
+  unloadable
+
   before_filter :find_project, :find_user, :find_my_project_overview,
                 :find_page_blocks, :find_project_details
 
