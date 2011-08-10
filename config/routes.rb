@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/new', :action => 'new', :controller => 'projects'
 
   map.with_options :controller => 'my_projects_overviews' do |my|
-    my.connect 'projects/:id', :action => 'index', :id => /.+/
+    my.connect 'projects/:id', :action => 'index', :id => /[^\/]+/
     my.connect 'my_projects_overview/:id/page_layout', :action => 'page_layout'
     my.connect 'my_projects_overview/:id/page_layout/add_block', :action => 'add_block'
     my.connect 'my_projects_overview/:id/page_layout/remove_block', :action => 'remove_block'
