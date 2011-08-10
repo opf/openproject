@@ -95,8 +95,9 @@ class MyProjectsOverviewsController < ApplicationController
     group = params[:group]
     if group.is_a?(String)
       group_items = (params["list-#{group}"] || []).collect {|x| param_to_block(x) }
-      if group_items and group_items.is_a? Array
-        # remove group blocks if they are presents in other groups
+      if group_items.size > @overview.send(group).size
+        # We are adding, not removing
+        # Remove group blocks if they are presents in other groups
         @overview.update_attributes('top' => (@overview.top - group_items),
                                     'left' => (@overview.left - group_items),
                                     'right' => (@overview.right - group_items),
