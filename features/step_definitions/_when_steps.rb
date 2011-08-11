@@ -15,9 +15,9 @@ end
 
 When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subject, prev_subject|
   issue_class, controller_name =
-    if type == "task" then [Task, "rb_tasks"] else [Story, "rb_stories"] end
-  story = issue_class.find(:first, :conditions => ["subject=?", story_subject])
-  prev  = issue_class.find(:first, :conditions => ["subject=?", prev_subject])
+    if type.strip == "task" then [Task, "rb_tasks"] else [Story, "rb_stories"] end
+  story = issue_class.find(:first, :conditions => ["subject=?", story_subject.strip])
+  prev  = issue_class.find(:first, :conditions => ["subject=?", prev_subject.strip])
 
   attributes = story.attributes
   attributes[:prev]             = prev.id

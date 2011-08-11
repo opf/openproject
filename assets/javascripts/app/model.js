@@ -115,7 +115,8 @@ RB.Model = (function ($) {
       });
 
       this.$.find('.editable').each(function (index) {
-        var field, fieldType, fieldLabel, fieldName, fieldOrder, input;
+        var field, fieldType, fieldLabel, fieldName, fieldOrder, input,
+            trackerId;
 
         field = $(this);
         fieldName = field.attr('fieldname');
@@ -130,7 +131,23 @@ RB.Model = (function ($) {
         $("<label></label>").text(fieldLabel).appendTo(editor);
 
         if (fieldType === 'select') {
-          input = $('#' + fieldName + '_options').clone(true);
+          // Special handling for status_id => they are dependent of tracker_id
+          if (fieldName === 'status_id') {
+            trackerId = $.trim(self.$.find('.tracker_id .v').html());
+            trackerId = $('#' + fieldName + '_options_' + trackerId);
+
+            if (trackerId.length !== 0) {
+              input = trackerId.clone(true);
+            }
+            else {
+              // now special list for this tracker id found - don't know why,
+              // but better show all statuses than none.
+              input = $('#' + fieldName + '_options').clone(true);
+            }
+          }
+          else {
+            input = $('#' + fieldName + '_options').clone(true);
+          }
         }
         else {
           input = $(document.createElement(fieldType));

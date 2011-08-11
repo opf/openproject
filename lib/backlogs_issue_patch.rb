@@ -76,7 +76,9 @@ module Backlogs
         if self.is_story?
           return Story.find(self.id)
         elsif self.is_task?
-          story_issue = self.ancestors.find_by_tracker_id(Story.trackers)
+          # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
+          # otherwise, the highest parent that is a Story is returned
+          story_issue = self.ancestors.find_by_tracker_id(Story.trackers, :order => 'lft DESC')
           return Story.find(story_issue.id) if story_issue
         end
         nil

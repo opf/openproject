@@ -3,9 +3,6 @@ require_dependency 'backlogs_list'
 class Impediment < Task
   unloadable
 
-  include Backlogs::List
-  acts_as_backlogs_list(:tracker)
-
   after_save :update_blocks_list
 
   safe_attributes "blocks_ids",

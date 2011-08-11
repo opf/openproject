@@ -4,7 +4,6 @@ class Story < Issue
     unloadable
 
     include Backlogs::List
-    acts_as_backlogs_list(:trackers)
 
     def self.condition(project_id, sprint_id, extras=[])
       c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
@@ -84,9 +83,14 @@ class Story < Issue
       self.descendants.find_all_by_tracker_id(Task.tracker)
     end
 
+    def direct_tasks_and_subtasks
+      return [] unless Task.tracker
+      self.children.find_all_by_tracker_id(Task.tracker).collect { |t| [t] + t.descendants }.flatten
+    end
+
     def inherit_version_to_subtasks
       # we overwrite the version of all descending issues that are tasks
-      self.tasks_and_subtasks.each do |task|
+      self.direct_tasks_and_subtasks.each do |task|
         task.inherit_version_from(self)
         task.save! if task.changed?
       end

@@ -137,7 +137,7 @@ class Burndown
       #
 
       def details_by_property(story)
-        details = story.journals.collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
+        details = story.journals.sort_by(&:created_on).collect(&:details).flatten.select{ |d| collect_names.include?(d.prop_key) || out_names.include?(d.prop_key)}
 
         details.group_by { |d| d.prop_key }
       end
