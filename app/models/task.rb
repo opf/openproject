@@ -8,6 +8,13 @@ class Task < Issue
     task_tracker.blank? ? nil : task_tracker.to_i
   end
 
+  # this method is used by acts_as_backlogs_list
+  # it ensures, that tasks and stories follow a similar interface
+  def self.trackers
+    [self.tracker]
+  end
+
+
   def self.create_with_relationships(params, project_id)
     task = new
 

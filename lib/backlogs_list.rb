@@ -4,31 +4,15 @@ module Backlogs
 
     def self.included(base)
       base.send(:include, InstanceMethods)
-      base.send(:extend, ClassMethods)
-    end
-
-    module ClassMethods
-      def acts_as_backlogs_list(tracker_method)
-        scope_string = 'project_id = #{self.project_id}' +
-                       ' AND fixed_version_id = #{self.fixed_version_id}' +
-                       ' AND tracker_id in (#{self.class.trackers_in_scope})'
-
-        trackers_method = "def self.trackers_method() \"#{tracker_method}\" end"
-
-        class_eval <<-EOV
-          acts_as_list :scope => scope_string
-
-          #{ trackers_method }
-        EOV
-      end
-
-      def trackers_in_scope
-        trackers = self.send(self.trackers_method().to_sym)
-        if trackers.is_a?(Array)
-          trackers.join(', ')
-        else
-          trackers
-        end
+      base.class_eval do
+        # The leading and trailing quotes trick the eval code in acts_as_list.
+        # This way, we are able to execute actual code in our quote string. Also
+        # sanitize_sql seems to be unavailable in a sensible way. Therefore
+        # we're using send to circumvent visibility issues.
+        acts_as_list :scope => <<-SCOPE
+          " + self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND tracker_id IN (?)',
+                                             self.project_id, self.fixed_version_id, self.class.trackers]) + "
+        SCOPE
       end
     end
 
@@ -38,11 +22,7 @@ module Backlogs
         remove_from_list
         reload
 
-        begin
-          prev = self.class.find(prev_id)
-        rescue ActiveRecord::RecordNotFound
-          prev = nil
-        end
+        prev = self.class.find(prev_id) rescue nil
 
         # if it's the first story, move it to the 1st position
         if prev.blank?
@@ -64,7 +44,7 @@ module Backlogs
 
       private
       def set_default_prev_positions_silently(prev)
-        stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => self.class.trackers_in_scope})
+        stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => self.class.trackers})
 
         self.class.record_timestamps = false #temporarily turn off column updates
 

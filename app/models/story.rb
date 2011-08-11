@@ -4,7 +4,6 @@ class Story < Issue
     unloadable
 
     include Backlogs::List
-    acts_as_backlogs_list(:trackers)
 
     def self.condition(project_id, sprint_id, extras=[])
       c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
