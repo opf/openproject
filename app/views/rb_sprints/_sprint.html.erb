@@ -3,9 +3,12 @@
     <div class="t"><%= sprint_link_or_empty(sprint) %></div>
     <div class="v"><%= id_or_empty(sprint) %></div>
   </div>
-  <div class="effective_date editable date" fieldname="effective_date"><%= sprint.effective_date %></div>
-  <div class="start_date editable date" fieldname="start_date"><%= sprint.start_date %></div>
-  <div class="name editable" fieldname="name"><%= sprint.name %></div>
+ 
+  <% User.current.allowed_to?(:update_sprints, @project) ? editable = "editable" :  editable = "" %>
+  <div class="effective_date date <%= editable %>" fieldname="effective_date"><%= sprint.effective_date %></div>
+  <div class="start_date <%= editable %> date" fieldname="start_date"><%= sprint.start_date %></div>
+  <div class="name <%= editable %>" fieldname="name"><%= sprint.name %></div>
+
   <div class="meta">
     <%= render :partial => "shared/model_errors", :object => sprint.errors %>
   </div>
