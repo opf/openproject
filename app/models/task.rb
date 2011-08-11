@@ -3,6 +3,8 @@ require 'date'
 class Task < Issue
   unloadable
 
+  include Backlogs::List
+
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
     task_tracker.blank? ? nil : task_tracker.to_i
