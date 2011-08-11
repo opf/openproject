@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.connect 'projects/new', :action => 'new', :controller => 'projects'
+  map.connect 'projects/new', :controller => 'projects', :action => 'new'
+  map.connect 'projects/:id.:format:unused', :controller => 'projects', :action => 'show', :conditions => {:method => :get}, :id => /[^\/]+/, :format => /\w+/, :unused => nil
 
   map.with_options :controller => 'my_projects_overviews'do |my|
     my.connect 'projects/:id', :action => 'index', :id => /[^\/]+/, :conditions => {:method => :get}
