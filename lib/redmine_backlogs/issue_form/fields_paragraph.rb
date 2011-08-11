@@ -47,7 +47,7 @@ class RedmineBacklogs::IssueForm::FieldsParagraph < RedmineBacklogs::IssueView::
   end
   
   def status_field
-    field_class.new(:status) { |t| t.select_tag "issue[status_id]", options_for_select((allowed_statuses | [issue.status]).collect {|p| [p.name, p.id]}), {:required => true, :disabled => !(issue.new_record? || allowed_statuses.any?)} }
+    field_class.new(:status) { |t| t.select_tag "issue[status_id]", options_for_select((allowed_statuses | [issue.status]).collect {|p| [p.name, p.id]}, :selected => issue.status.id), {:required => true, :disabled => !(issue.new_record? || allowed_statuses.any?)} }
   end
   
   def assigned_to_field
