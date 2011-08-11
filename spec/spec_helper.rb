@@ -30,3 +30,12 @@ Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRe
 require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
 Dir.glob(File.expand_path("#{__FILE__}/../../../redmine_costs/test/exemplars/*.rb")) { |e| require e }
 Dir.glob(File.expand_path("#{__FILE__}/../models/helpers/*_helper.rb")) { |e| require e }
+
+require 'redmine_factory_girl'
+
+Fixtures.create_fixtures File.join(File.dirname(__FILE__), "fixtures"), ActiveRecord::Base.connection.tables
+
+def login_user(user)
+  @controller.send(:logged_user=, user)
+  @controller.stub!(:find_current_user).and_return(user)
+end
