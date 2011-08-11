@@ -22,7 +22,7 @@ module Backlogs
         remove_from_list
         reload
 
-        prev = self.class.find(prev_id) rescue nil
+        prev = self.class.find_by_id(prev_id.to_i)
 
         # if it's the first story, move it to the 1st position
         if prev.blank?
