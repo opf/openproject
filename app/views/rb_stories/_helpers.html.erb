@@ -1,4 +1,14 @@
 <!-- story helper tags -->
+<% Story.trackers.each do |tracker_id| %>
+  <select class="status_id helper" id="status_id_options_<%= tracker_id %>">
+    <% Tracker.find(tracker_id).issue_statuses.each do |status| %>
+      <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
+        <%= status.name %>
+      </option>
+    <% end %>
+  </select>
+<% end %>
+
 <select class="status_id helper" id="status_id_options">
   <% IssueStatus.find(:all, :order => "position ASC").each do |status| %>
     <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
