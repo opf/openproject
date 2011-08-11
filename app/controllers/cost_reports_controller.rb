@@ -2,24 +2,13 @@ class CostReportsController < ApplicationController
 
   rescue_from Exception do |exception|
     session.delete(CostQuery.name.underscore.to_sym)
-    if Rails.env == "production"
-      @custom_errors ||= []
-      @custom_errors << l(:error_generic)
-      render :layout => !request.xhr?
-      logger.fatal <<-THE_ERROR
-
-        ==============================================================================
-        REPORTING ERROR:
-
-        #{exception.class}: #{exception.message}
-            #{exception.backtrace.join("\n            ")}
-        ==============================================================================
-
-      THE_ERROR
-    else
-      raise exception
-    end
+    raise exception
   end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render_404
+  end
+
 
   Widget::Base.dont_cache!
 
