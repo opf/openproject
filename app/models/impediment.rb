@@ -1,5 +1,3 @@
-require_dependency 'backlogs_list'
-
 class Impediment < Task
   unloadable
 

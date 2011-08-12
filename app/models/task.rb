@@ -1,4 +1,5 @@
 require 'date'
+require_dependency 'backlogs_list'
 
 class Task < Issue
   unloadable
