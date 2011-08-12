@@ -313,7 +313,7 @@ module Report::Controller
   ##
   # Override in subclass if you like
   def is_public_sql(val=true)
-    "(is_public = #{val ? '1' : '0'})"
+    "(is_public = #{val ? ActiveRecord::Base.connection.quoted_true : ActiveRecord::Base.connection.quoted_false})"
   end
 
   ##
