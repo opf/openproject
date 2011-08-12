@@ -27,7 +27,7 @@ module Backlogs
           if record.is_task? and record.fixed_version_id_changed? and record.fixed_version_id != record.story.fixed_version_id
             record.errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
           end
-        end       
+        end
 
       end
     end
