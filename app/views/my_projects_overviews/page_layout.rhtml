@@ -41,6 +41,7 @@ function updateSelect() {
 function afterAddBlock() {
     recreateSortables();
     updateSelect();
+    new Effect.ScrollTo('list-hidden');
 }
 
 function removeBlock(block) {
@@ -69,20 +70,6 @@ function removeBlock(block) {
 
 <h2><%=l(:label_overview)%></h2>
 
-<h4><%=l(:label_hidden_elements) %></h4>
-<div id="list-hidden" class="block-receiver">
-  <% @blocks['hidden'].each do |b| %>
-    <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-      <%= render(:partial => 'block', :locals => {:block_name => b}) %>
-    <% elsif b.respond_to? :to_ary %>
-      <%= render(:partial => 'block_textilizable',
-                 :locals => {:block_name => b.first,
-                             :block_title => b[1],
-                             :textile => b.last}) %>
-    <% end %>
-  <% end %>
-</div>
-
 <h4><%=l(:label_visible_elements) %></h4>
 <% (field_list - ['hidden']).each do |f| %>
   <div id="list-<%= f %>" class="splitcontent<%= f %> block-receiver">
@@ -98,6 +85,21 @@ function removeBlock(block) {
     <% end %>
   </div>
 <% end %>
+
+<div style="clear: both"></div>
+<h4><%=l(:label_hidden_elements) %></h4>
+<div id="list-hidden" class="block-receiver">
+  <% @blocks['hidden'].each do |b| %>
+    <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+      <%= render(:partial => 'block', :locals => {:block_name => b}) %>
+    <% elsif b.respond_to? :to_ary %>
+      <%= render(:partial => 'block_textilizable',
+                 :locals => {:block_name => b.first,
+                             :block_title => b[1],
+                             :textile => b.last}) %>
+    <% end %>
+  <% end %>
+</div>
 
 <% field_list.each do |f| %>
   <%= sortable_element "list-#{f}",
