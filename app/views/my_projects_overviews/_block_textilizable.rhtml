@@ -7,11 +7,12 @@
         :class => "close-icon"
         %>
   </div>
+  <div style="float:right;margin-right:6px;z-index:500;">
+    <a href="#" onclick="$('<%= block_name %>-form-div').toggle(); $('<%= block_name %>-preview-div').toggle(); return false"
+       class="preview-or-edit-icon" title="<%= l(:label_toggle_edit_preview) %>"></a>
+  </div>
 
   <div class="handle">
-    <div style="float:right;margin-right:16px;z-index:500;">
-      <a href="#" onclick="$('<%= block_name %>-form-div').toggle(); $('<%= block_name %>-preview-div').toggle(); return false" class="preview-icon">Preview</a>
-    </div>
     <div id="<%= block_name %>-form-div" style="display: none">
       <% form_for :overview, @overview,
                   :url => {:action => 'update_custom_element'},

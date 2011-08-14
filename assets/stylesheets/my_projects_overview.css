@@ -1,2 +1,17 @@
 h2.page-layout-only { display: none }
 .block-receiver h2.page-layout-only { display: block; color: #bbb }
+
+a.preview-or-edit-icon {
+    display:block;
+    margin-top:3px;
+    overflow:hidden;
+    width:12px;
+    height:12px;
+    background-repeat: no-repeat;
+    cursor:pointer;
+    background-image:url('../images/wiki_edit.png');
+}
+
+a.preview-or-edit-icon:hover {
+    background-image:url('../images/wiki_edit_hover.png');
+}
