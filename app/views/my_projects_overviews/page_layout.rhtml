@@ -76,7 +76,9 @@ function removeBlock(block) {
       <%= render(:partial => 'block', :locals => {:block_name => b}) %>
     <% elsif b.respond_to? :to_ary %>
       <%= render(:partial => 'block_textilizable',
-                 :locals => {:block_name => b.first, :textile => b.last}) %>
+                 :locals => {:block_name => b.first,
+                             :block_title => b[1],
+                             :textile => b.last}) %>
     <% end %>
   <% end %>
 </div>
@@ -89,7 +91,9 @@ function removeBlock(block) {
         <%= render(:partial => 'block', :locals => {:block_name => b}) %>
       <% elsif b.respond_to? :to_ary %>
         <%= render(:partial => 'block_textilizable',
-                   :locals => {:block_name => b.first, :textile => b.last}) %>
+                   :locals => {:block_name => b.first,
+                               :block_title => b[1],
+                               :textile => b.last}) %>
       <% end %>
     <% end %>
   </div>

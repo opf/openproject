@@ -4,17 +4,17 @@ class MyProjectsOverview < ActiveRecord::Base
   serialize :right, Array
   serialize :hidden, Array
 
-  def save_custom_element(name, new_content)
+  def save_custom_element(name, title, new_content)
     el = custom_elements.detect {|x| x.first == name}
     return unless el
-    el.pop
-    el << new_content
+    el[1] = title
+    el[2] = new_content
     save
   end
 
   def new_custom_element
     idx = custom_elements.any? ? custom_elements.sort.last.first.next : "a"
-    [idx, "h2. #{l(:info_custom_text)}"]
+    [idx, l(:label_custom_text), "h2. #{l(:info_custom_text)}"]
   end
 
   def elements

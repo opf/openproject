@@ -47,7 +47,9 @@ class MyProjectsOverviewsController < ApplicationController
 
   def update_custom_element
     block_name = params["block_name"]
-    @overview.save_custom_element(block_name, params["textile_#{block_name}"])
+    block_title = params["block_title_#{block_name}"]
+    textile = params["textile_#{block_name}"]
+    @overview.save_custom_element(block_name, block_title, textile)
     redirect_to :back
   end
 
@@ -72,6 +74,7 @@ class MyProjectsOverviewsController < ApplicationController
       render(:partial => "block_textilizable",
              :locals => { :user => @user,
                :project => @project,
+               :block_title => l(:label_custom_element),
                :block_name => @overview.hidden.first.first,
                :textile => @overview.hidden.first.last})
     else

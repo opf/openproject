@@ -9,18 +9,30 @@
   </div>
 
   <div class="handle">
-    <% form_for :overview, @overview,
-                :url => {:action => 'update_custom_element'},
-                :html => {:id => "block_form_#{block_name.dasherize}",
-                          :class => nil,
-                          :method => :put,
-                          :multipart => true} do |f| %>
-      <fieldset>
-        <%= hidden_field_tag 'block_name', block_name %>
-        <%= text_area_tag "textile_#{block_name}", textile, :cols => 40, :rows => 5, :class => 'wiki-edit' %>
-        <%= wikitoolbar_for "textile_#{block_name}" %>
-      </fieldset>
-      <%= submit_tag l(:button_submit) %>
-    <% end %>
+    <div style="float:right;margin-right:16px;z-index:500;">
+      <a href="#" onclick="$('<%= block_name %>-form-div').toggle(); $('<%= block_name %>-preview-div').toggle(); return false" class="preview-icon">Preview</a>
+    </div>
+    <div id="<%= block_name %>-form-div" style="display: none">
+      <% form_for :overview, @overview,
+                  :url => {:action => 'update_custom_element'},
+                  :html => {:id => "block_form_#{block_name.dasherize}",
+                            :class => nil,
+                            :method => :put,
+                            :multipart => true} do |f| %>
+        <fieldset>
+          <%= hidden_field_tag 'block_name', block_name %>
+          <%= text_field_tag "block_title_#{block_name}", block_title %>
+          <%= text_area_tag "textile_#{block_name}", textile, :cols => 40, :rows => 5, :class => 'wiki-edit' %>
+          <%= wikitoolbar_for "textile_#{block_name}" %>
+        </fieldset>
+        <%= submit_tag l(:button_submit) %>
+      <% end %>
+    </div>
+    <div id="<%= block_name %>-preview-div">
+      <%= render :partial => "my_projects_overviews/blocks/textilizable",
+                 :locals => { :block_title => block_title,
+                              :textile => textile }
+            %>
+    </div>
   </div>
 </div>
