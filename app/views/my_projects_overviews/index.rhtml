@@ -9,7 +9,9 @@
                                  :class => 'icon icon-add')
       end
       if User.current.allowed_to?(:edit_project, @project)
-        context_links << link_to(l(:label_personalize_page), :action => 'page_layout')
+        context_links << link_to(l(:label_personalize_page),
+                                 { :action => 'page_layout' },
+                                 :class => 'icon icon-edit')
       end
       context_links.join("&nbsp;&middot;&nbsp;")
     %>
