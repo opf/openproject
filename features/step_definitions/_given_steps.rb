@@ -121,7 +121,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following (?:product )?(?:owner )
   project = get_project(project_name)
 
   table.raw.each do |row|
-    version = Version.create!(:project_id => project, :name => row.first)
+    version = Version.create!(:project => project, :name => row.first)
 
     vs = version.version_settings.build
     vs.project = project
