@@ -26,7 +26,7 @@ Dispatcher.to_prepare do
   require_dependency 'projects_helper_patch'
   require_dependency 'projects_controller_patch'
   require_dependency 'issue_status_patch'
-  
+
   require_dependency 'redmine_backlogs/issue_view'
   require_dependency 'redmine_backlogs/issue_form'
 end
@@ -35,7 +35,7 @@ Redmine::Plugin.register :redmine_backlogs do
   name 'Redmine Backlogs'
   author 'relaxdiego, friflaj, Gregor Schmidt, Jens Ulferts'
   description 'A plugin for agile teams'
-  version '0.10.2'
+  version '0.10.3'
 
   requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
 
