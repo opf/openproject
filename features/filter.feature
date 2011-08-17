@@ -48,10 +48,10 @@ Feature: Filter
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
-    And I set the filter "user_id" to "5" with the operator "!"
+    And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     Then filter "user_id" should be visible
     When I send the query
-    And "5" should be selected for "user_id_arg_1_val"
+    And the user with the login "developer" should be selected for "user_id_arg_1_val"
     And "!" should be selected for "operators[user_id]"
 
   @javascript
@@ -71,7 +71,7 @@ Feature: Filter
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
     Then "user_id" should be selectable from "add_filter_select"
-    And I set the filter "user_id" to "5" with the operator "!"
+    And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     Then "user_id" should not be selectable from "add_filter_select"
     When I send the query
     Then "user_id" should not be selectable from "add_filter_select"

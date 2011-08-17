@@ -62,6 +62,16 @@ Given /^I set the filter "([^\"]*)" to "([^\"]*)" with the operator "([^\"]*)"$/
   end
 end
 
+Given /^I set the filter "([^\"]*)" to the user with the login "([^\"]*)" with the operator "([^\"]*)"$/ do |filter, login, operator|
+  user_id = User.find_by_login(login).id
+  Given %{I set the filter "#{filter}" to "#{user_id}" with the operator "#{operator}"}
+end
+
+When /the user with the login "([^\"]*)" should be selected for "([^\"]*)"/ do |login, select_id|
+  user_id = User.find_by_login(login).id
+  Then %{"#{user_id}" should be selected for "#{select_id}"}
+end
+
 When /^I send the query$/ do
   find("[id='query-icon-apply-button']").click
 end
