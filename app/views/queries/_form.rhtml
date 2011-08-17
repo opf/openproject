@@ -5,6 +5,7 @@
 <div class="tabular">
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
+<%= call_hook(:view_query_form_top, :query => query) %>
 
 <% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
 <p><label for="query_is_public"><%=l(:field_is_public)%></label>
