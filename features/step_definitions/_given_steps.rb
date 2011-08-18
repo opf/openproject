@@ -240,7 +240,9 @@ Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
-  Setting.plugin_redmine_backlogs[:card_spec] = stock
+  settings = Setting.plugin_redmine_backlogs
+  settings[:card_spec] = stock
+  Setting.plugin_redmine_backlogs = settings
 
   # If this goes wrong, you are probably missing
   #   vendor/plugins/redmine_backlogs/config/labels.yml
