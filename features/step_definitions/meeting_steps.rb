@@ -11,6 +11,12 @@ Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting,table|
   send_table_to_object(m.agenda, table)
 end
 
+Given /^the [Mm]eeting "(.+)" has 1 agenda$/ do |meeting|
+  m = Meeting.find_by_title(meeting)
+  m.agenda ||= Factory.build(:meeting_agenda)
+  m.save!
+end
+
 Given /^the [Mm]eeting "(.+)" has minutes with:$/ do |meeting,table|
   m = Meeting.find_by_title(meeting)
   m.minutes = Factory.build(:meeting_minutes)
@@ -29,4 +35,10 @@ Given /^"(.+)" attended the [Mm]eeting "(.+)"$/ do |user,meeting|
   p = m.participants.detect{|p| p.user_id = User.find_by_login(user).id} || Factory.build(:meeting_participant, :meeting => m)
   p.attended = true
   p.save
+end
+
+When /the agenda of the meeting "(.+)" changes meanwhile/ do |meeting|
+  m = Meeting.find_by_title(meeting)
+  m.agenda.text = "oder oder?"
+  m.agenda.save!
 end
