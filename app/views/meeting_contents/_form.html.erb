@@ -2,6 +2,7 @@
 <%= error_messages_for content_type %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
+<%= f.hidden_field :version %>
 <p><label for="<%= content_type %>_comment"><%= l(:field_comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
 <p><%= submit_tag l(:button_save) %> 
 <%= link_to_remote l(:label_preview), 

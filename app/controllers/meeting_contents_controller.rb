@@ -5,7 +5,9 @@ class MeetingContentsController < ApplicationController
   
   helper :wiki
   helper :meeting_contents
-  
+  helper :watchers
+  helper :meetings
+
   before_filter :find_meeting, :find_content
   before_filter :authorize
   
@@ -25,6 +27,10 @@ class MeetingContentsController < ApplicationController
       redirect_back_or_default :controller => 'meetings', :action => 'show', :id => @meeting
     else
     end
+  rescue ActiveRecord::StaleObjectError
+    # Optimistic locking exception
+    flash[:error] = l(:notice_locking_conflict)
+    render 'meetings/show'
   end
   
   def history

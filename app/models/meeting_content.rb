@@ -3,6 +3,8 @@ class MeetingContent < ActiveRecord::Base
   
   acts_as_versioned
   
+  set_locking_column :version
+
   belongs_to :meeting
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   
