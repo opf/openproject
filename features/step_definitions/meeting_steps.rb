@@ -7,14 +7,14 @@ end
 
 Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting,table|
   m = Meeting.find_by_title(meeting)
-  m.agenda ||= Factory.build(:meeting_agenda)
-  send_table_to_object(m.agenda, table)
+  ma = MeetingAgenda.find_by_meeting_id(m.id) || Factory.build(:meeting_agenda, :meeting => m)
+  send_table_to_object(ma, table)
 end
 
 Given /^the [Mm]eeting "(.+)" has minutes with:$/ do |meeting,table|
   m = Meeting.find_by_title(meeting)
-  m.minutes ||= Factory.build(:meeting_minutes)
-  send_table_to_object(m.minutes, table)
+  mm = MeetingMinutes.find_by_meeting_id(m.id) || Factory.build(:meeting_minutes, :meeting => m)
+  send_table_to_object(mm, table)
 end
 
 Given /^"(.+)" is invited to the [Mm]eeting "(.+)"$/ do |user,meeting|
