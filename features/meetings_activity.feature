@@ -6,9 +6,11 @@ Feature: Show meeting activity
               | name       | dingens |
           And the project "dingens" uses the following modules:
               | meetings |
+              | activity |
           And there is 1 user with:
               | login    | alice |
               | language | en    |
+              | admin    | true  |
           And there is a role "user"
           And the role "user" may have the following rights:
               | view_meetings |
