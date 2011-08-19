@@ -6,11 +6,17 @@ class MergeMeetingContentVersionsWithJournals < ActiveRecord::Migration
       unless MeetingContent.const_defined?("Version")
         MeetingContent.const_set("Version", Class.new(ActiveRecord::Base))
       end
-      
-      # Make sure the journalized classes are explicitely loaded
-      MeetingAgenda
-      MeetingMinutes
-      
+
+      # avoid touching WikiContent on journal creation
+      MeetingAgendaJournal.class_exec {
+        def touch_journaled_after_creation
+        end
+      }
+      MeetingMinutesJournal.class_exec {
+        def touch_journaled_after_creation
+        end
+      }
+
       cache = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = {}}}}
       
       MeetingContent::Version.find_by_sql('SELECT * FROM meeting_content_versions ORDER BY version ASC').each do |mcv|
