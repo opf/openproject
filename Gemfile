@@ -6,7 +6,6 @@ gem "coderay", "~> 0.9.7"
 gem "i18n", "~> 0.4.2"
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 gem "rdoc", ">= 2.4.2"
-gem "fastercsv", "~> 1.5.0", :platforms => :ruby_18
 
 group :test do
   gem 'shoulda', '~> 2.10.3'
@@ -25,12 +24,17 @@ group :rmagick do
   gem "rmagick", "~> 1.15.17"
 end
 
+# Stuff we only need in RUBY_VERSION = 1.8
+platforms [:ruby_18, :jruby, :mingw_18] do
+  gem "fastercsv", "~> 1.5.0"
+end
+
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
 # their integration is propbably not that well tested and their are slower in
 # orders of magnitude compared to their native counterparts. You have been
 # warned.
-#
+
 platforms :mri do
   group :mysql do
     gem "mysql"
