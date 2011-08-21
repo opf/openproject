@@ -118,7 +118,7 @@ module Redmine #:nodoc:
 
     def requires_chiliproject(*args)
       required_version = Gem::Requirement.new(*args)
-      chili_version = Gem::Version.new(Redmine::VERSION.to_semver)
+      chili_version = Gem::Version.new(ChiliProject::VERSION.to_semver)
 
       unless required_version.satisfied_by? chili_version
         raise PluginRequirementError.new("#{id} plugin requires ChiliProject version #{required_version} but current version is #{chili_version}.")
