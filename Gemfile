@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "rails", "2.3.12"
+gem "rails", "2.3.14"
 
 gem "coderay", "~> 0.9.7"
 gem "i18n", "~> 0.4.2"
