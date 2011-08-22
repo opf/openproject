@@ -21,7 +21,7 @@ class Task < Issue
   def self.create_with_relationships(params, project_id)
     task = new
 
-    task.author  = User.current
+    task.author = User.current
     task.project_id = project_id
     task.tracker_id = Task.tracker
 
