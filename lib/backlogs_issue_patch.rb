@@ -14,20 +14,14 @@ module Backlogs
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
         after_save  :touch_sprint_burndowns
-        before_save :inherit_version_from_parent, :if => lambda {|i| i.is_task? and i.fixed_version_id.blank? }
-        after_save  :inherit_version_of_story, :if => lambda {|i| i.is_story? and i.changed? }
+        before_save :inherit_version_from_parent, :if => lambda {|i| i.is_task? }
+        after_save  :inherit_version_to_subtasks, :if => lambda {|i| (i.is_story? || (i.backlogs_enabled? && i.tracker_id == Task.tracker)) }
 
         validates_numericality_of :story_points, :only_integer             => true,
                                                  :allow_nil                => true,
                                                  :greater_than_or_equal_to => 0,
                                                  :less_than                => 10_000,
                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
-
-        validates_each :fixed_version_id do |record, field, value|
-          if record.is_task? and record.fixed_version_id_changed? and record.fixed_version_id != record.story.fixed_version_id
-            record.errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
-          end
-        end
 
       end
     end
@@ -69,7 +63,7 @@ module Backlogs
       end
 
       def is_task?
-        backlogs_enabled? and (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
+        backlogs_enabled? and (self.parent_issue_id && self.tracker_id == Task.tracker && Task.tracker.present?)
       end
 
       def story
@@ -114,11 +108,13 @@ module Backlogs
           end
         end
       end
-      
+
       def inherit_version_from(parent)
-        if parent
-          self.fixed_version_id = parent.fixed_version_id
-        end
+        self.fixed_version_id = parent.fixed_version_id if parent
+      end
+
+      def backlogs_enabled?
+        self.project.module_enabled?("backlogs")
       end
 
       private
@@ -128,15 +124,26 @@ module Backlogs
           self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
         end
       end
-      
+
       def inherit_version_from_parent
-        inherit_version_from(self.story)
+        parent = Issue.find(self.parent_issue_id)
+
+        inherit_version_from(parent) if parent.is_story? || parent.is_task?
+
         true
       end
-      
-      def inherit_version_of_story
-        story = self.story or return true
-        story.inherit_version_to_subtasks
+
+      # def inherit_version_of_story
+      #         story = self.story or return true
+      #         story.inherit_version_to_subtasks
+      #       end
+
+      def inherit_version_to_subtasks
+        # we overwrite the version of all descending issues that are tasks
+        self.children.find_all_by_tracker_id(Task.tracker).each do |task|
+          task.inherit_version_from(self)
+          task.save! if task.changed?
+        end
       end
 
       def touch_sprint_burndowns
@@ -161,11 +168,6 @@ module Backlogs
           sprint.touch_burndown
         }
       end
-
-      def backlogs_enabled?
-        self.project.module_enabled?("backlogs")
-      end
-
     end
   end
 end
