@@ -82,7 +82,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
 
     before(:each) do
       parent.save!
-      subject.parent_issue_id = parent.id
+      subject.parent_issue_id = parent.id unless subject.parent_issue_id.present? #already set outside the example group?
       subject.save!
       parent.reload
     end
@@ -149,7 +149,7 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
 
     before(:each) do
       parent.save!
-      subject.parent_issue_id = parent.id
+      subject.parent_issue_id = parent.id unless subject.parent_issue_id.present? #already set outside the example group?
       subject.save!
       parent.reload
     end
@@ -275,6 +275,9 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
         task2.parent_issue_id = story.id #a task needs a parent
         task2.save!
         story.reload
+        task.parent_issue_id = task2.id
+        task.save!
+        task2.reload
       end
 
       let(:parent) { story } #it's actually the grandparent but it makes no difference for the test
