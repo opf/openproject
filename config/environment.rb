@@ -63,6 +63,10 @@ Rails::Initializer.run do |config|
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
 
+  # Use redmine's custom plugin locater
+  require File.join(RAILS_ROOT, "lib/redmine_plugin_locator")
+  config.plugin_locators << RedminePluginLocator
+
   # Load any local configuration that is kept out of source control
   # (e.g. patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))

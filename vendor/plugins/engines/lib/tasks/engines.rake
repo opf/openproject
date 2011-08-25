@@ -36,7 +36,11 @@ namespace :db do
     
     desc 'Migrate plugins to current status.'
     task :plugins => :environment do
-      Engines.plugins.each do |plugin|
+      redmine_plugins = Redmine::Plugin.all.collect(&:id)
+      engines_plugins = Engines.plugins.collect(&:name).collect(&:to_sym)
+      load_order = (engines_plugins - redmine_plugins) + (redmine_plugins & engines_plugins)
+      load_order.each do |p|
+        plugin = Engines.plugins[p]
         next unless plugin.respond_to?(:migration_directory)
         next unless File.exists? plugin.migration_directory
         puts "Migrating plugin #{plugin.name} ..."
