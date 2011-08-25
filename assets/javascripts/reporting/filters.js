@@ -3,12 +3,15 @@
 
 Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
-    var select, radio_options;
+    var select, radio_options, post_select_values;
     select = $$('.filter-value[data-filter-name="' + filter_name + '"]').first();
     if (select === null || select === undefined) {
       return;
     }
-    //TODO: the following code ist cost report specific, we should refactor that to be general useful
+    json_post_select_values = select.readAttribute('data-initially-selected')
+    if (json_post_select_values !== null && json_post_select_values !== undefined) {
+      post_select_values = json_post_select_values.replace(/'/g, '"').evalJSON(true);
+    }
     if (select.readAttribute('data-loading') === "ajax" && select.childElements().length === 0) {
       if (window.global_prefix === undefined) {
         window.global_prefix = "";
@@ -17,7 +20,7 @@ Reporting.Filters = {
       new Ajax.Updater({ success: select.id }, window.global_prefix + '/reporting/available_values', {
         parameters: {
           filter_name: filter_name,
-          values: select.readAttribute('data-initially-selected')
+          values: json_post_select_values
         },
         insertion: 'bottom',
         evalScripts: false,
@@ -27,6 +30,13 @@ Reporting.Filters = {
         onComplete: function (a, b) {
           $$("select[data-filter-name='" + filter_name + "']").each(function (e) { e.enable(); });
           callback_func();
+          if (select.tagName.toLowerCase() === "select") {
+            if (post_select_values === undefined || post_select_values === null || post_select_values.size() === 0) {
+              select.selectedIndex = 0;
+            } else {
+              Reporting.Filters.select_values(select, post_select_values);
+            }
+          }
         }
       });
       Reporting.Filters.multi_select(select, false);
@@ -219,8 +229,10 @@ Reporting.Filters = {
     select.multiple = multi;
     if (multi) {
       select.size = 4;
-      // deselect first option
-      select.options[0].selected = false;
+      // deselect first option if it's present
+      if (select.options[0] !== undefined && select.options[0] !== null) {
+        select.options[0].selected = false;
+      }
     } else {
       select.size = 1;
     }

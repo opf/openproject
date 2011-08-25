@@ -341,7 +341,7 @@ module Report::Controller
       begin
         f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
         filter = f_cls.new.tap do |f|
-          f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present?
+          f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? and params[:values]
         end
         render_widget Widget::Filters::Option, filter, :to => canvas = ""
         render :text => canvas, :layout => !request.xhr?
