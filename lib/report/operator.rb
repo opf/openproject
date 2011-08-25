@@ -1,6 +1,7 @@
 class Report::Operator
   include Report::QueryUtils
   include Report::Validation
+  extend Forwardable
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
@@ -8,6 +9,9 @@ class Report::Operator
 
     # Defaults
     defaults do
+
+      def_delegators :'singleton_class', :forced?, :force!, :forced
+
       def sql_operator
         name
       end
@@ -85,7 +89,10 @@ class Report::Operator
 
     new "=", :label => :label_equals do
       def modify(query, field, *values)
-        if values.compact.empty?
+        case
+        when values.size == 1 && values.first.nil?
+          query.where "#{field} IS NULL"
+        when values.compact.empty?
           query.where "1=0"
         else
           query.where "#{field} IN #{collection(*values)}"
@@ -180,6 +187,36 @@ class Report::Operator
       end
     end
 
+    new ">=d", :label => :label_days_ago, :validate => :integers do
+      force! :integers
+
+      def modify(query, field, value)
+        now = Time.now
+        from = (now - value.to_i.days).beginning_of_day
+        '<>d'.to_operator.modify query, field, from, now
+      end
+    end
+
+    new "?=", :label => :label_null_or_equal do
+      def modify(query, field, *values)
+        where_clause = "(#{field} IS NULL"
+        where_clause += " OR #{field} IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += ")"
+        query.where where_clause
+        query
+      end
+    end
+
+    new "?!", :label => :label_not_null_and_not_equal do
+      def modify(query, field, *values)
+        where_clause = "(#{field} IS NOT NULL"
+        where_clause += " AND #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += ")"
+        query.where where_clause
+        query
+      end
+    end
+
   end
   #############################################################################################
 
@@ -189,6 +226,18 @@ class Report::Operator
     def to_operator
       Report::Operator.find self
     end
+  end
+
+  def self.force!(type)
+    @force = type
+  end
+
+  def self.forced?
+    !!@force
+  end
+
+  def self.forced
+    @force
   end
 
   def self.new(name, values = {}, &block)
@@ -208,6 +257,10 @@ class Report::Operator
 
   def self.find(name)
     all[name.to_s] or raise ArgumentError, "Operator #{name.inspect} not defined"
+  end
+
+  def self.exists?(name)
+    all.has_key?(name.to_s)
   end
 
   def self.defaults(&block)
@@ -232,7 +285,7 @@ class Report::Operator
 
   def self.time_operators
     #["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-    ["t", "w", "<>d", ">d", "<d", "=d"].map { |s| s.to_operator}
+    ["t", "w", "<>d", ">d", "<d", "=d", ">=d"].map { |s| s.to_operator}
   end
 
   def self.default_operators
@@ -275,12 +328,29 @@ class Report::Operator
     self.name <=> other.name
   end
 
+  ## Creates an alias for a given operator.
+  def aka(alt_name, alt_label)
+    all = self.class.all
+    alt = alt_name.to_s
+    raise ArgumentError, "Can't alias operator with an existing one's name ( #{alt} )." if all.has_key?(alt)
+    op = all[name].clone
+    op.send(:rename_to, alt_name)
+    op.singleton_class.send(:define_method, 'label') { alt_label }
+    all[alt] = op
+  end
+
   module DateRange
     def modify(query, field, from, to)
       query.where ["#{field} > '%s'", quoted_date((Date.yesterday + from).to_time.end_of_day)] if from
       query.where ["#{field} <= '%s'", quoted_date((Date.today + to).to_time.end_of_day)] if to
       query
     end
+  end
+
+  private
+
+  def rename_to(new_name)
+    @name = new_name
   end
 
   # Done with class method definition, let's initialize the operators

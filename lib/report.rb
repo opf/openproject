@@ -1,10 +1,12 @@
 require 'forwardable'
 require 'proactive_autoloader'
+require 'engine'
 
 class Report < ActiveRecord::Base
   extend ProactiveAutoloader
   extend Forwardable
   include Enumerable
+  include Engine
 
   belongs_to :user
   belongs_to :project
@@ -16,6 +18,10 @@ class Report < ActiveRecord::Base
 
   def self.accepted_properties
     @@accepted_properties ||= []
+  end
+
+  def self.reporting_connection
+    connection
   end
 
   def self.chain_initializer
@@ -30,8 +36,9 @@ class Report < ActiveRecord::Base
   end
 
   def serialize
-    # have to take the reverse to retain the original order when deserializing
-    self.serialized = { :filters => filters.collect(&:serialize).reverse, :group_bys => group_bys.collect(&:serialize).reverse }
+    # have to take the reverse group_bys to retain the original order when deserializing
+    self.serialized = { :filters => (filters.collect(&:serialize).reject(&:nil?).sort {|a,b| a.first <=> b.first}),
+                        :group_bys => group_bys.collect(&:serialize).reject(&:nil?).reverse }
   end
 
   def deserialize
@@ -41,6 +48,22 @@ class Report < ActiveRecord::Base
     else
       raise ArgumentError, "Cannot deserialize a report which already has a chain"
     end
+  end
+
+  # Convenience method to generate a params hash readable by Controller#determine_settings
+  def to_params
+    params = {}
+    filters.select { |f| f.class.display? }.each do |f|
+      filter_name = f.class.underscore_name
+      params[:fields] << filter_name
+      params[:operators].merge! filter_name => f.operator.to_s
+      params[:values].merge! filter_name => f.values
+    end
+    group_bys.each do |g|
+      params[:groups] ||= { :rows => [], :columns => [] }
+      params[:groups][g.row? ? :rows : :columns] << g.class.underscore_name
+    end
+    params
   end
 
   ##
@@ -73,7 +96,10 @@ class Report < ActiveRecord::Base
 
   def chain(klass = nil, options = {})
     build_new_chain unless @chain
-    @chain = klass.new @chain, options if klass
+    if klass
+      @chain = klass.new @chain, options
+      @chain.engine = self.class
+    end
     @chain = @chain.parent until @chain.top?
     @chain
   end
@@ -107,8 +133,8 @@ class Report < ActiveRecord::Base
     @table = self.class::Table.new(self)
   end
 
-  def group_bys
-    chain.select { |c| c.group_by? }
+  def group_bys(type=nil)
+    chain.select { |c| c.group_by? && (type.nil? || c.type == type) }
   end
 
   def filters
@@ -123,7 +149,7 @@ class Report < ActiveRecord::Base
   def_delegators  :transformer, :column_first, :row_first
   def_delegators  :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
   def_delegators  :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
-                    :units, :size, :final_number
+                    :units, :final_number
   def_delegators  :table, :row_index, :colum_index
 
   def to_a
@@ -134,33 +160,40 @@ class Report < ActiveRecord::Base
     chain.to_s
   end
 
-  def hash
-    report_string = ""
-    
-    report_string.concat('filters: [')
-    report_string.concat(filters.map { |f| 
-      f.class.underscore_name + f.operator.to_s + (f.values ? f.values.to_json : "") 
-    }.sort.join(', '))
-    report_string.concat(']')
-
-    report_string.concat(', group_bys: {')
-
-    report_string.concat(group_bys.group_by(&:type).map { |t, gbs| 
-      "#{t} : [#{gbs.collect(&:class).collect(&:underscore_name).join(', ')}]"
-    }.join(', '))
-    
-    report_string.concat('}')
-
-    report_string.hash
+  def size
+    size = 0
+    recursive_each {|r| size += r.size }
+    size
   end
 
-  def == another_report
-    hash == another_report.hash
+  def cache_key
+    deserialize unless @chain
+    parts = [self.class.table_name.sub('_reports', '')]
+    parts.concat [filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") }
+    parts.join '/'
   end
 
-  private
+  def self.engine
+    self
+  end
 
   def minimal_chain!
     @chain = self.class::Filter::NoFilter.new
+  end
+
+  def public!
+    self.is_public = true
+  end
+
+  def public?
+    self.is_public
+  end
+
+  def private!
+    self.is_public = false
+  end
+
+  def private?
+    !public?
   end
 end

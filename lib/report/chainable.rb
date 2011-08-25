@@ -5,9 +5,11 @@ class Report < ActiveRecord::Base
     include Enumerable
     include Report::QueryUtils
     extend Report::InheritedAttribute
+    extend Forwardable
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, :default => :label_cost_entry_attributes
+    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :help_text, :underscore_name
 
     def self.accepts_property(*list)
       engine.accepted_properties.push(*list.map(&:to_s))
@@ -45,7 +47,7 @@ class Report < ActiveRecord::Base
     end
 
     def self.table_joins
-      @table_joins ||= []
+      (@table_joins ||= []).clone
     end
 
     def self.table_from(value)
@@ -56,7 +58,7 @@ class Report < ActiveRecord::Base
 
     def self.join_table(*args)
       @last_table = table_from(args.last)
-      table_joins << args
+      (@table_joins ||= []) << args
     end
 
     def self.underscore_name
@@ -76,6 +78,10 @@ class Report < ActiveRecord::Base
     # initialize_query_with { |query| query.filter Report::Filter::City, :operators => '=', :values => 'Berlin, da great City' }
     def self.initialize_query_with(&block)
       engine.chain_initializer.push block
+    end
+
+    def self.cache_key
+      @cache_key ||= underscore_name
     end
 
     inherited_attribute :label, :default => :translation_needed
@@ -133,7 +139,7 @@ class Report < ActiveRecord::Base
       options.each do |key, value|
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
-          send "#{key}=", value if value
+          send "#{key}=", value
         end
       end
       self.child, child.parent = child, self if child
@@ -206,11 +212,7 @@ class Report < ActiveRecord::Base
     end
 
     def compute_result
-      engine::Result.new engine.connection.select_all(sql_statement.to_s), {}, type
-    end
-
-    def table_joins
-      self.class.table_joins
+      engine::Result.new engine.reporting_connection.select_all(sql_statement.to_s), {}, type
     end
 
     def cached(*args)
@@ -228,6 +230,10 @@ class Report < ActiveRecord::Base
     inherited_attribute :db_field
     def self.field
       db_field || (name[/[^:]+$/] || name).to_s.underscore
+    end
+
+    def display?
+      self.class.display?
     end
 
     inherited_attribute :display, :default => true
@@ -282,14 +288,6 @@ class Report < ActiveRecord::Base
       @table_name || last_table
     end
 
-    def display?
-      self.class.display?
-    end
-
-    def table_name
-      self.class.table_name
-    end
-
     def with_table(fields)
       fields.map do |f|
         place_field_name = self.class.put_sql_table_names[f] || self.class.put_sql_table_names[f].nil?
@@ -297,8 +295,30 @@ class Report < ActiveRecord::Base
       end
     end
 
-    def field
-      self.class.field
+    def mapping
+      self.class.method(:mapping).to_proc
+    end
+
+    def self.mapping(value)
+      value.to_s
+    end
+
+    def self.mapping_for(field)
+      @field_map ||= (engine::Filter.all + engine.GroupBy.all).inject(Hash.new {|h,k| h[k] = []}) do |hash,cbl|
+        hash[cbl.field] << cbl.mapping
+      end
+      @field_map[field]
+    end
+
+    ##
+    # Sets a help text to be displayed for this kind of Chainable.
+    def self.help_text=(sym)
+      @help_text = sym
+    end
+
+    def self.help_text(sym = nil)
+      @help_text = sym if sym
+      @help_text
     end
 
   end

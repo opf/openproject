@@ -11,7 +11,7 @@ module Report::Controller
 
       before_filter :determine_engine
       before_filter :prepare_query, :only => [:index, :create]
-      before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename, :available_values]
+      before_filter :find_optional_report, :only => [:index, :show, :update, :delete, :rename]
       before_filter :possibly_only_narrow_values
 
       if Rails.version.start_with? "3"
@@ -41,8 +41,13 @@ module Report::Controller
   end
 
   def table_without_progress_info
+<<<<<<< HEAD
     stream do
       render_widget Widget::Table, @query
+=======
+    stream do |response, output|
+      render_widget Widget::Table, @query, :to => output
+>>>>>>> origin/master
     end
   end
 
@@ -56,7 +61,11 @@ module Report::Controller
     end
   else
     def stream(&block)
+<<<<<<< HEAD
       render :text => block.call, :layout => false
+=======
+      render :text => block, :layout => false
+>>>>>>> origin/master
     end
   end
 
@@ -363,3 +372,4 @@ module Report::Controller
   rescue ActiveRecord::RecordNotFound
   end
 end
+

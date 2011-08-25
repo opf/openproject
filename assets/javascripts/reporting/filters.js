@@ -472,3 +472,4 @@ Reporting.onload(function () {
     Reporting.Filters.load_available_values_for_filter(filter, function () {});
   });
 });
+

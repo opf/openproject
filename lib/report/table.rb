@@ -35,7 +35,7 @@ class Report::Table
 
   ##
   # @param [Array] expected Fields expected
-  # @param [Array,Hash,Resul] given Fields/result to be tested
+  # @param [Array,Hash,Result] given Fields/result to be tested
   # @return [TrueClass,FalseClass]
   def satisfies?(type, expected, given)
     given  = fields_from(given, type) if given.respond_to? :to_hash
@@ -78,7 +78,7 @@ class Report::Table
     @indexes ||= begin
       indexes = Hash.new { |h,k| h[k] = Set.new }
       query.each_direct_result { |result| [:row, :column].each { |t| indexes[t] << fields_from(result, t) } }
-      indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| x <=> y } }
+      indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| compare x, y } }
       indexes
     end
     @indexes[type]
