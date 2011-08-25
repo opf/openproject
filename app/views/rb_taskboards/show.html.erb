@@ -67,7 +67,7 @@
 
     <table id="tasks" class="board" cellspacing="0">
       <% @sprint.stories(@project).each do |story| %>
-        <tr>
+        <tr class="<%= story_html_id_or_empty(story) %>">
           <td>
             <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
               <div class='story-bar'>
