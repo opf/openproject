@@ -41,13 +41,8 @@ module Report::Controller
   end
 
   def table_without_progress_info
-<<<<<<< HEAD
     stream do
       render_widget Widget::Table, @query
-=======
-    stream do |response, output|
-      render_widget Widget::Table, @query, :to => output
->>>>>>> origin/master
     end
   end
 
@@ -61,11 +56,7 @@ module Report::Controller
     end
   else
     def stream(&block)
-<<<<<<< HEAD
       render :text => block.call, :layout => false
-=======
-      render :text => block, :layout => false
->>>>>>> origin/master
     end
   end
 
@@ -349,8 +340,9 @@ module Report::Controller
     if name = params[:filter_name]
       begin
         f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
-        filter = report_engine::Filter.const_get(name.to_s.camelcase).new.tap {|f| f.values = JSON.parse(params[:values].gsub("'", '"')) }
-        debugger
+        filter = f_cls.new.tap do |f|
+          f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present?
+        end
         render_widget Widget::Filters::Option, filter, :to => canvas = ""
         render :text => canvas, :layout => !request.xhr?
       rescue NameError
