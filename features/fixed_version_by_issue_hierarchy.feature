@@ -128,3 +128,16 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      And I press "Submit"
     Then I should see "Sprint 002" within "td.fixed-version"
 
+  @javascript
+  Scenario: Changing the fixed_version of a task with a non backlogs parent issue (bug 8354)
+    Given the project has the following issues:
+      | subject      | sprint     | tracker    |
+      | Epic 1       | Sprint 001 | Epic       |
+      And the project has the following tasks:
+      | subject | parent |
+      | Task 1  | Epic 1 |
+    When I go to the edit page of the issue "Task 1"
+     And I select "Sprint 002" from "issue_fixed_version_id"
+     And I press "Submit"
+    Then I should see "Successful update." within "div.flash"
+
