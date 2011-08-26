@@ -118,7 +118,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
-  Scenario: Moving a task between stories via issue/edit
+  Scenario: Moving a task between stories via issue/edit (bug 9324)
     Given the project has the following tasks:
           | subject | parent  |
           | Task 1  | Story 1 |
@@ -140,4 +140,17 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      And I select "Sprint 002" from "issue_fixed_version_id"
      And I press "Submit"
     Then I should see "Successful update." within "div.flash"
+
+  @javascript
+  Scenario: Changing the fixed_version of an epic should not change the target version of the child (bug 8903)
+    Given the project has the following issues:
+      | subject      | sprint     | tracker    | parent |
+      | Epic 1       | Sprint 001 | Epic       |        |
+      | Task 1       | Sprint 002 | Task       | Epic 1 |
+   When I go to the edit page of the issue "Epic 1"
+    And I select "Sprint 003" from "issue_fixed_version_id"
+    And I press "Submit"
+   Then I should see "Successful update." within "div.flash"
+    And the task "Task 1" should have "Sprint 002" as its target version
+
 
