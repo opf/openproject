@@ -229,11 +229,11 @@ Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_na
   Then %{I should see "#{task_name}" within "tr.story_#{story.id}"}
 end
 
-Then /^the task "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
-  task = Task.find_by_subject(task_name)
+Then /^the (?:issue|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
+  issue = Issue.find_by_subject(task_name)
   version = Version.find_by_name(version_name)
 
-  task.fixed_version.should eql version
+  issue.fixed_version.should eql version
 end
 
 Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
