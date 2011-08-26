@@ -108,7 +108,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
      Then I should see "Sprint 001" within "td.fixed-version"
 
   @javascript
-  Scenario: Creating a task, via new issue, as a subtask to a story is not possible
+  Scenario: Creating a task, via new issue, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
      When I go to the issues/new page of the project called "ecookbook"
       And I follow "New issue" within "#main-menu"
       And I select "Task" from "issue_tracker_id"
@@ -116,6 +116,18 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I fill in the id of the issue "Story A" as the parent issue
       And I press "Create"
      Then I should see "Sprint 001" within "td.fixed-version"
+
+  @javascript
+  Scenario: Creating a task, via new issue, as a subtask to a story and setting a fixed version is overriden by the parent´s fixed version (bug 8904)
+     When I go to the issues/new page of the project called "ecookbook"
+      And I follow "New issue" within "#main-menu"
+      And I select "Task" from "issue_tracker_id"
+      And I fill in "Task 0815" for "issue_subject"
+      And I fill in the id of the issue "Story A" as the parent issue
+      And I select "Sprint 003" from "issue_fixed_version_id"
+      And I press "Create"
+     Then I should see "Sprint 001" within "td.fixed-version"
+
 
   @javascript
   Scenario: Moving a task between stories via issue/edit (bug 9324)
