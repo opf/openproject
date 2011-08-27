@@ -963,3 +963,4 @@ bg:
   label_notify_member_plural: Email issue updates
   label_path_encoding: Кодиране на пътищата
   text_mercurial_repo_example: локално хранилище (например /hgrepo, c:\hgrepo)
+  label_diff: diff

@@ -987,3 +987,4 @@ pt-BR:
   label_git_path: Caminho para o diretório .git
   label_mercurial_path: Diretório raiz
 
+  label_diff: diff
