@@ -51,14 +51,14 @@ class BuildInitialJournalsForActsAsJournalized < ActiveRecord::Migration
             end
           end
         end
-        
+
       end
     end
-    
+
   end
 
   def self.down
     # No-op
   end
-    
+
 end

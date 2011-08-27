@@ -13,8 +13,24 @@
 
 module Redmine #:nodoc:
 
-  class PluginNotFound < StandardError; end
-  class PluginRequirementError < StandardError; end
+  class PluginError < StandardError
+    attr_reader :plugin_id
+    def initialize(plug_id=nil)
+      super
+      @plugin_id = plug_id
+    end
+  end
+  class PluginNotFound < PluginError
+    def to_s
+      "Missing the plugin #{@plugin_id}"
+    end
+  end
+  class PluginCircularDependency < PluginError
+    def to_s
+      "Circular plugin dependency in #{@plugin_id}"
+    end
+  end
+  class PluginRequirementError < PluginError; end
 
   # Base class for Redmine plugins.
   # Plugins are registered using the <tt>register</tt> class method that acts as the public constructor.
@@ -39,9 +55,11 @@ module Redmine #:nodoc:
   #
   # When rendered, the plugin settings value is available as the local variable +settings+
   class Plugin
-    @registered_plugins = {}
+    @registered_plugins = ActiveSupport::OrderedHash.new
+    @deferred_plugins   = {}
+
     class << self
-      attr_reader :registered_plugins
+      attr_reader :registered_plugins, :deferred_plugins
       private :new
 
       def def_field(*names)
@@ -59,6 +77,7 @@ module Redmine #:nodoc:
 
     # Plugin constructor
     def self.register(id, &block)
+      id = id.to_sym
       p = new(id)
       p.instance_eval(&block)
       # Set a default name if it was not provided during registration
@@ -67,17 +86,45 @@ module Redmine #:nodoc:
       # YAML translation files should be found under <plugin>/config/locales/
       ::I18n.load_path += Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', id.to_s, 'config', 'locales', '*.yml'))
       registered_plugins[id] = p
+
+      # If there are plugins waiting for us to be loaded, we try loading those, again
+      if deferred_plugins[id]
+        deferred_plugins[id].each do |ary|
+          plugin_id, block = ary
+          register(plugin_id, &block)
+        end
+        deferred_plugins.delete(id)
+      end
+
+      return p
+    rescue PluginNotFound => e
+      # find circular dependencies
+      raise PluginCircularDependency.new(id) if self.dependencies_for(e.plugin_id).include?(id)
+      if RedminePluginLocator.instance.has_plugin? e.plugin_id
+        # The required plugin is going to be loaded later, defer loading this plugin
+        (deferred_plugins[e.plugin_id] ||= []) << [id, block]
+        return p
+      else
+        raise
+      end
     end
 
-    # Returns an array off all registered plugins
+    # returns an array of all dependencies we know of for plugin id
+    # (might not be complete at all times!)
+    def self.dependencies_for(id)
+      direct_deps = deferred_plugins.keys.find_all{|k| deferred_plugins[k].collect(&:first).include?(id)}
+      direct_deps.inject([]) {|deps,v| deps << v; deps += self.dependencies_for(v)}
+    end
+
+    # Returns an array of all registered plugins
     def self.all
-      registered_plugins.values.sort
+      registered_plugins.values
     end
 
     # Finds a plugin by its id
     # Returns a PluginNotFound exception if the plugin doesn't exist
     def self.find(id)
-      registered_plugins[id.to_sym] || raise(PluginNotFound)
+      registered_plugins[id.to_sym] || raise(PluginNotFound.new(id.to_sym))
     end
 
     # Clears the registered plugins hash
@@ -101,8 +148,35 @@ module Redmine #:nodoc:
       self.id.to_s <=> plugin.id.to_s
     end
 
-    # Sets a requirement on Redmine version
+    # Sets a requirement on the ChiliProject version.
+    # Raises a PluginRequirementError exception if the requirement is not met.
+    #
+    # It uses the same syntax as rubygems requirements.
+    # Examples
+    #   # Requires exactly ChiliProject 1.1.1
+    #   requires_chiliproject "1.1.1"
+    #   requires_chiliproject "= 1.1.1"
+
+    #   # Requires ChiliProject 1.1.x
+    #   requires_chiliproject "~> 1.1.0"
+
+    #   # Requires ChiliProject between 1.1.0 and 1.1.5 or higher
+    #   requires_chiliproject ">= 1.1.0", "<= 1.1.5"
+
+    def requires_chiliproject(*args)
+      required_version = Gem::Requirement.new(*args)
+      chili_version = Gem::Version.new(ChiliProject::VERSION.to_semver)
+
+      unless required_version.satisfied_by? chili_version
+        raise PluginRequirementError.new("#{id} plugin requires ChiliProject version #{required_version} but current version is #{chili_version}.")
+      end
+      true
+    end
+
+    # Sets a requirement on Redmine version.
     # Raises a PluginRequirementError exception if the requirement is not met
+    #
+    # THIS IS A REDMINE COMPATIBILITY INTERFACE
     #
     # Examples
     #   # Requires Redmine 0.7.3 or higher

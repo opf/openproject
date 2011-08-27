@@ -86,7 +86,7 @@ class IssuesTest < ActionController::IntegrationTest
         assert_select "a", :text => /testfile.txt/
       end
     end
-    
+
     # remove the attachments
     Issue.find(1).attachments.each(&:destroy)
     assert_equal 0, Issue.find(1).attachments.length

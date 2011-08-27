@@ -42,7 +42,28 @@ class WatcherTest < ActiveSupport::TestCase
     assert Issue.watched_by(@user).include?(@issue)
   end
 
+  def test_watcher_users
+    watcher_users = Issue.find(2).watcher_users
+    assert_kind_of Array, watcher_users
+    assert_kind_of User, watcher_users.first
+  end
+
+  def test_watcher_users_should_not_validate_user
+    User.update_all("firstname = ''", "id=1")
+    @user.reload
+    assert !@user.valid?
+
+    issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
+    issue.watcher_users << @user
+    issue.save!
+    assert issue.watched_by?(@user)
+  end
+
   def test_watcher_user_ids
+    assert_equal [1, 3], Issue.find(2).watcher_user_ids.sort
+  end
+
+  def test_watcher_user_ids=
     issue = Issue.new
     issue.watcher_user_ids = ['1', '3']
     assert issue.watched_by?(User.find(1))

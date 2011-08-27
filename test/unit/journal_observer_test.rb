@@ -39,7 +39,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         assert @issue.save
       end
     end
-    
+
   end
 
   context "#after_create for 'issue_note_added'" do
@@ -49,7 +49,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         @issue.init_journal(@user, 'This update has a note')
         assert @issue.save
       end
-      
+
     end
 
     should "not send a notification with not configured" do
@@ -58,7 +58,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         @issue.init_journal(@user, 'This update has a note')
         assert @issue.save
       end
-      
+
     end
   end
 
@@ -71,7 +71,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         assert @issue.save
 
       end
-      
+
     end
 
     should "not send a notification with not configured" do
@@ -93,7 +93,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         @issue.priority = IssuePriority.generate!
         assert @issue.save
       end
-      
+
     end
 
     should "not send a notification with not configured" do
@@ -103,7 +103,7 @@ class JournalObserverTest < ActiveSupport::TestCase
         @issue.priority = IssuePriority.generate!
         assert @issue.save
       end
-      
+
     end
   end
 end

@@ -19,7 +19,6 @@ namespace :code do
       files.reject!{ |f|
         f.include?("vendor") ||
         f.include?("lib/SVG") ||
-        f.include?("lib/faster_csv") ||
         f.include?("lib/redcloth") ||
         f.include?("lib/diff")
       }
