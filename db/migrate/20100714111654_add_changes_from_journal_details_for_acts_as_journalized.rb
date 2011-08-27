@@ -34,15 +34,15 @@ class AddChangesFromJournalDetailsForActsAsJournalized < ActiveRecord::Migration
         rescue ActiveRecord::RecordInvalid => ex
           puts "Error saving: #{journal.class.to_s}##{journal.id} - #{ex.message}"
         end
-      
+
       end
 
     end
-    
+
   end
 
   def self.down
     # No-op
   end
-  
+
 end

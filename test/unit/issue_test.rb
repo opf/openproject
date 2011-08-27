@@ -882,7 +882,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.update_attribute(:description, "Description with newlines\n\nembedded")
     issue.reload
     assert issue.description.include?("\n")
-    
+
     assert_no_difference("Journal.count") do
       issue.safe_attributes= {
         'description' => "Description with newlines\r\n\r\nembedded"
@@ -892,5 +892,5 @@ class IssueTest < ActiveSupport::TestCase
 
     assert_equal "Description with newlines\n\nembedded", issue.reload.description
   end
-  
+
 end
