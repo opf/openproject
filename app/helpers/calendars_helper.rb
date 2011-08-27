@@ -25,7 +25,7 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
 
-    link_to_month(('&#171; ' + name), target_year, target_month, options)
+    link_to_month(('&#171; ' + h(name)), target_year, target_month, options)
   end
 
   def link_to_next_month(year, month, options={})
@@ -41,10 +41,10 @@ module CalendarsHelper
              "#{month_name(target_month)}"
            end
 
-    link_to_month((name + ' &#187;'), target_year, target_month, options)
+    link_to_month((h(name) + ' &#187;'), target_year, target_month, options)
   end
 
   def link_to_month(link_name, year, month, options={})
-    link_to_content_update(h(link_name), params.merge(:year => year, :month => month))
+    link_to_content_update(link_name, params.merge(:year => year, :month => month))
   end
 end

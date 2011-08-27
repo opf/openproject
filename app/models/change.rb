@@ -18,7 +18,7 @@ class Change < ActiveRecord::Base
   before_save :init_path
 
   delegate :repository_encoding, :to => :changeset, :allow_nil => true, :prefix => true
-  
+
   def relative_path
     changeset.repository.relative_path(path)
   end

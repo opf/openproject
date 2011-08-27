@@ -966,3 +966,4 @@ fa:
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
+  label_diff: diff

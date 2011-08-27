@@ -1,5 +1,19 @@
 = ChiliProject changelog
 
+== 2011-08-27 v2.2.0
+
+* Bug #256: requires_redmine_plugin should defer loading plugins if not all dependencies are met
+* Bug #517: Remove included lib/faster_csv.rb
+* Bug #551: Hardcoded French string in wiki/diff.rhtml
+* Bug #552: Hardcoded English string in RepositoriesHelper
+* Bug #557: Calendar links for previous/next month contains double escaped characters
+* Bug #561: PDF export of issue gives TypeError (can't convert nil into String)
+* Bug #573: acts_as_searchable definition in WikiPage may be insufficient and cause SQL errors
+* Bug #577: Invalid watcher user error when adding an invalid user as watcher
+* Bug #586: TabularFormBuilder doesn't work with subforms
+* Feature #275: Implement requires_chiliproject and requires_chiliproject_plugin methods
+* Task #584: Upgrade to Rails 2.3.14
+
 == 2011-08-01 v2.1.1
 
 * Bug #547: Multiple XSS vulnerabilities
@@ -1624,7 +1638,7 @@ Note: Previous versions referred to Redmine, which ChiliProject forked from in D
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news
-* "my page" is now customizable 
+* "my page" is now customizable
 * more powerfull and savable filters for issues lists
 * improved issues change history
 * new functionality: move an issue to another project or tracker
@@ -1663,7 +1677,7 @@ Note: Previous versions referred to Redmine, which ChiliProject forked from in D
 * token based "lost password" functionality
 * user self-registration functionality (optional)
 * custom fields now available for issues, users and projects
-* new custom field format "text" (displayed as a textarea field) 
+* new custom field format "text" (displayed as a textarea field)
 * project & administration drop down menus in navigation bar for quicker access
 * text formatting is preserved for long text fields (issues, projects and news descriptions)
 * urls and emails are turned into clickable links in long text fields

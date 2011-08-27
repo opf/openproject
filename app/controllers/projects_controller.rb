@@ -268,5 +268,5 @@ private
       project.members << m
     end
   end
-  
+
 end

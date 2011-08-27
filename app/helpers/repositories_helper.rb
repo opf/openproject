@@ -99,7 +99,7 @@ module RepositoriesHelper
                              :path => path_param,
                              :rev => @changeset.identifier) unless c.action == 'D'
         text << " - #{h(c.revision)}" unless c.revision.blank?
-        text << ' (' + link_to('diff', :controller => 'repositories',
+        text << ' (' + link_to(l(:label_diff), :controller => 'repositories',
                                        :action => 'diff',
                                        :id => @project,
                                        :path => path_param,
