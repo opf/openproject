@@ -68,32 +68,41 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                               :author => user,
                               :priority => issue_priority) }
 
-   let(:task3) { Factory.build(:issue,
-                               :subject => "Task3",
-                               :tracker => tracker_task,
-                               :fixed_version => version1,
-                               :project => project,
-                               :status => issue_status,
-                               :author => user,
-                               :priority => issue_priority) }
+  let(:task3) { Factory.build(:issue,
+                              :subject => "Task3",
+                              :tracker => tracker_task,
+                              :fixed_version => version1,
+                              :project => project,
+                              :status => issue_status,
+                              :author => user,
+                              :priority => issue_priority) }
 
-   let(:task4) { Factory.build(:issue,
-                               :subject => "Task4",
-                               :tracker => tracker_task,
-                               :fixed_version => version1,
-                               :project => project,
-                               :status => issue_status,
-                               :author => user,
-                               :priority => issue_priority) }
+  let(:task4) { Factory.build(:issue,
+                              :subject => "Task4",
+                              :tracker => tracker_task,
+                              :fixed_version => version1,
+                              :project => project,
+                              :status => issue_status,
+                              :author => user,
+                              :priority => issue_priority) }
 
-   let(:task5) { Factory.build(:issue,
-                               :subject => "Task5",
-                               :tracker => tracker_task,
-                               :fixed_version => version1,
-                               :project => project,
-                               :status => issue_status,
-                               :author => user,
-                               :priority => issue_priority) }
+  let(:task5) { Factory.build(:issue,
+                              :subject => "Task5",
+                              :tracker => tracker_task,
+                              :fixed_version => version1,
+                              :project => project,
+                              :status => issue_status,
+                              :author => user,
+                              :priority => issue_priority) }
+
+  let(:task6) { Factory.build(:issue,
+                              :subject => "Task6",
+                              :tracker => tracker_task,
+                              :fixed_version => version1,
+                              :project => project,
+                              :status => issue_status,
+                              :author => user,
+                              :priority => issue_priority) }
 
   let(:bug) { Factory.build(:issue,
                             :subject => "Bug",
@@ -136,22 +145,24 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
     # Layout is
     # child
     # -> task3
+    # -> task4
     # -> bug3
-    #   -> task4
-    # -> story3
     #   -> task5
-
+    # -> story3
+    #   -> task6
     task3.parent_issue_id = child.id
     task3.save!
+    task4.parent_issue_id = child.id
+    task4.save!
     bug3.parent_issue_id = child.id
     bug3.save!
     story3.parent_issue_id = child.id
     story3.save!
 
-    task4.parent_issue_id = bug3.id
-    task4.save!
-    task5.parent_issue_id = story3.id
+    task5.parent_issue_id = bug3.id
     task5.save!
+    task6.parent_issue_id = story3.id
+    task6.save!
 
     child.reload
   end
@@ -176,10 +187,11 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         #due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
+        task4.reload.fixed_version.should eql version2
         bug3.reload.fixed_version.should eql version1
         story3.reload.fixed_version.should eql version1
-        task4.reload.fixed_version.should eql version1
         task5.reload.fixed_version.should eql version1
+        task6.reload.fixed_version.should eql version1
       end
     end
 
@@ -199,11 +211,12 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
         #due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
+        bug3.reload.fixed_version.should eql version1
+        story3.reload.fixed_version.should eql version1
         task5.reload.fixed_version.should eql version1
+        task6.reload.fixed_version.should eql version1
       end
     end
 
@@ -396,10 +409,11 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         #due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
+        task4.reload.fixed_version.should eql version2
         bug3.reload.fixed_version.should eql version1
         story3.reload.fixed_version.should eql version1
-        task4.reload.fixed_version.should eql version1
         task5.reload.fixed_version.should eql version1
+        task6.reload.fixed_version.should eql version1
       end
     end
 
@@ -416,11 +430,12 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
         #due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
-        bug3.reload.fixed_version.should eql version1
-        story3.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
+        bug3.reload.fixed_version.should eql version1
+        story3.reload.fixed_version.should eql version1
         task5.reload.fixed_version.should eql version1
+        task6.reload.fixed_version.should eql version1
       end
     end
 

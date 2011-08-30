@@ -165,4 +165,16 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
    Then I should see "Successful update." within "div.flash"
     And the task "Task 1" should have "Sprint 002" as its target version
 
-
+  @javascript
+  Scenario: Modification of a backlogs story with tasks is still possible (bug 9711)
+    Given the project has the following tasks:
+      | subject | parent  |
+      | Task 1  | Story A |
+      | Task 2  | Story A |
+    When I go to the edit page of the issue "Story A"
+     And I select "Sprint 002" from "issue_fixed_version_id"
+     And I press "Submit"
+    Then I should not see "Data has been updated by another user." within "div.flash"
+     And the story "Story A" should have "Sprint 002" as its target version
+     And the task "Task 1" should have "Sprint 002" as its target version
+     And the task "Task 2" should have "Sprint 002" as its target version

@@ -14,8 +14,8 @@ module Backlogs
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
         after_save  :touch_sprint_burndowns
-        before_save :inherit_version_from_parent, :if => lambda {|i| i.is_task? }
-        after_save  :inherit_version_to_subtasks, :if => lambda {|i| (i.is_story? || (i.backlogs_enabled? && i.tracker_id == Task.tracker)) }
+        before_save :inherit_version_from_story_or_root_task, :if => lambda {|i| i.is_task? }
+        after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.story_or_root_task == i) }
 
         validates_numericality_of :story_points, :only_integer             => true,
                                                  :allow_nil                => true,
@@ -27,6 +27,21 @@ module Backlogs
     end
 
     module ClassMethods
+      def backlogs_trackers
+        @backlogs_tracker = Story.trackers << Task.tracker
+      end
+
+      def take_child_update_semaphore
+        @child_updates = true
+      end
+
+      def child_update_semaphore_taken?
+        @child_updates
+      end
+
+      def place_child_update_semaphore
+        @child_updates = false
+      end
     end
 
     module InstanceMethods
@@ -109,12 +124,35 @@ module Backlogs
         end
       end
 
-      def inherit_version_from(parent)
-        self.fixed_version_id = parent.fixed_version_id if parent
+      def inherit_version_from(source)
+        self.fixed_version_id = source.fixed_version_id if source
       end
 
       def backlogs_enabled?
         self.project.module_enabled?("backlogs")
+      end
+
+      def story_or_root_task
+        return nil unless Issue.backlogs_trackers.include?(self.tracker_id)
+        return self if self.is_story?
+
+        root = self
+        unless self.parent_issue_id.nil?
+
+          real_parent = Issue.find_by_id(self.parent_issue_id)
+          #unfortunately the nested set is only build on save
+          #hence, the #parent method is not always correct
+          #therefore we go to the parent the hard way and use nested set from there
+          ancestors = real_parent.ancestors.find_all_by_tracker_id(Issue.backlogs_trackers)
+          ancestors ? ancestors << real_parent : [real_parent]
+
+          ancestors.sort_by{ |a| a.right }.each do |p|
+            root = p if Issue.backlogs_trackers.include?(p.tracker_id)
+            break if Story.trackers.include?(p.tracker_id)
+          end
+        end
+
+        root
       end
 
       private
@@ -133,16 +171,31 @@ module Backlogs
         true
       end
 
-      # def inherit_version_of_story
-      #         story = self.story or return true
-      #         story.inherit_version_to_subtasks
-      #       end
+      def inherit_version_from_story_or_root_task
+        root = story_or_root_task
+        inherit_version_from(root) if root != self
+      end
 
-      def inherit_version_to_subtasks
-        # we overwrite the version of all descending issues that are tasks
-        self.children.find_all_by_tracker_id(Task.tracker).each do |task|
-          task.inherit_version_from(self)
-          task.save! if task.changed?
+      def inherit_version_to_leaf_tasks
+
+        unless Issue.child_update_semaphore_taken?
+          begin
+            Issue.take_child_update_semaphore
+
+            # we overwrite the version of all leaf issues that are tasks
+            # this way, the fixed_version_id is propagated up
+            # by the inherit_version_from_story_or_root_task before_filter and the update_parent_attributes after_filter
+            stop_descendants, descendant_tasks = self.descendants.partition{|d| d.tracker_id != Task.tracker }
+            descendant_tasks.reject!{ |t| stop_descendants.any?{ |s| s.left < t.left && s.right > t.right } }
+            leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any?{ |s| s.left > t.left && s.right < t.right } }
+
+            leaf_tasks.each do |task|
+              task.inherit_version_from(self)
+              task.save! if task.changed?
+            end
+          ensure
+            Issue.place_child_update_semaphore
+          end
         end
       end
 
