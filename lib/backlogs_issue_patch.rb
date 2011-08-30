@@ -163,14 +163,6 @@ module Backlogs
         end
       end
 
-      def inherit_version_from_parent
-        parent = Issue.find(self.parent_issue_id)
-
-        inherit_version_from(parent) if parent.is_story? || parent.is_task?
-
-        true
-      end
-
       def inherit_version_from_story_or_root_task
         root = story_or_root_task
         inherit_version_from(root) if root != self
