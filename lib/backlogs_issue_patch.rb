@@ -28,7 +28,7 @@ module Backlogs
 
     module ClassMethods
       def backlogs_trackers
-        @backlogs_tracker = Story.trackers << Task.tracker
+        @backlogs_tracker ||= Story.trackers << Task.tracker
       end
 
       def take_child_update_semaphore
