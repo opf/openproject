@@ -7,14 +7,14 @@ en:
   label_report: "Report"
   label_columns: "Columns"
   label_rows: "Rows"
+  label_yes: "Yes"
+  label_no: "No"
 
   label_group_by: "Group by"
   label_group_by_add: "Add Group-by Attribute"
   label_filter: "Filter"
   label_filter_plural: "Filters"
   label_filter_add: Add Filter
-  label_yes: "Yes"
-  label_no: "No"
 
   label_count: Count
   label_sum: Sum
