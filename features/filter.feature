@@ -11,7 +11,7 @@ Feature: Filter
   @javascript
   Scenario: When using jump-to-project comming from a projects cost report to the overall cost report page unsets the project filter
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     And I follow "Cost Reports"
     Then "" should be selected for "project_id_arg_1_val"
@@ -28,7 +28,7 @@ Feature: Filter
   @javascript
   Scenario: We got some awesome default settings
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     Then filter "spent_on" should be visible
     And filter "user_id" should be visible
@@ -36,7 +36,7 @@ Feature: Filter
   @javascript
   Scenario: A click on clear removes all filters
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
     Then filter "spent_on" should not be visible
@@ -45,7 +45,7 @@ Feature: Filter
   @javascript
   Scenario: A set filter is getting restored after reload
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
@@ -57,7 +57,7 @@ Feature: Filter
   @javascript
   Scenario: A click on clear enables the option in the Add-Filter-Selectbox
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     Then "user_id" should not be selectable from "add_filter_select"
     And filter "user_id" should be visible
@@ -67,7 +67,7 @@ Feature: Filter
   @javascript
   Scenario: Setting a Filter disables the option in the Add-Filter-Selectbox
     Given there is a standard cost control project named "First Project"
-    And I am logged in as "controller"
+    And I am admin
     And I am on the Cost Reports page for the project called "First Project"
     And I click on "Clear"
     Then "user_id" should be selectable from "add_filter_select"
