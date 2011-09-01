@@ -172,6 +172,7 @@ RB.Model = (function ($) {
             closeText: 'Close',
             dateFormat: 'yy-mm-dd',
             firstDay: 1,
+            showOn: 'button',
             onClose: function () {
               $(this).focus();
             },
@@ -180,6 +181,13 @@ RB.Model = (function ($) {
             showButtonPanel: true,
             showOtherMonths: true
           });
+
+          // Remove click-bindings from div - since leaving the edit modus removes the input
+          // and creates a new one
+          // Open the datepicker when you click on the div (before in edit-mode)
+          field.unbind("click");
+          field.click(function(){input.datepicker("show");});
+
           // So that we won't need a datepicker button to re-show it
           input.mouseup(function () {
             $(this).datepicker("show");
