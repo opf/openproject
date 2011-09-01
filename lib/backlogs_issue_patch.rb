@@ -23,6 +23,11 @@ module Backlogs
                                                  :less_than                => 10_000,
                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
+        validates_each :parent_issue_id do |record, attr, value|
+          validate_parent_issue_relation(record, attr, value)
+
+          validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
+        end
       end
     end
 
@@ -41,6 +46,30 @@ module Backlogs
 
       def place_child_update_semaphore
         @child_updates = false
+      end
+
+      private
+      def validate_parent_issue_relation(issue, parent_attr, value)
+        parent = Issue.find_by_id(value)
+        issue.errors.add parent_attr,
+                         :parent_child_relationship_across_projects,
+                         { :issue_name => issue.subject, :parent_name => parent.subject } if parent_issue_relationship_spanning_projects?(parent, issue)
+      end
+
+      def parent_issue_relationship_spanning_projects?(parent, child)
+        child.is_task? && backlogs_trackers.include?(parent.tracker_id) && parent.present? && parent.project_id != child.project_id
+      end
+
+      def validate_children(issue, attr, value)
+        if issue.backlogs_enabled? && Issue.backlogs_trackers.include?(issue.tracker_id)
+          issue.children.each do |child|
+            unless child.valid?
+              child.errors.each do |key, value|
+                issue.errors.add(:children, value)
+              end
+            end
+          end
+        end
       end
     end
 

@@ -133,6 +133,7 @@ de:
   version_settings_display_option_right: "rechts"
   version_settings_display_label: "Spalte im Backlog"
 
+  field_children: "Kind-Tickets"
   field_display: "Spalte im Backlog"
 
   field_blocks_ids: "Blockiert (IDs)"
@@ -146,6 +147,7 @@ de:
               task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen"
             parent_issue_id:
               tracker_must_be_one_of_the_following: "muss aus einem der folgenden Trackern sein: %{tracker_names}"
+              parent_child_relationship_across_projects: "ist ungültig da '%{issue_name}' ein backlogs Task und das gewünchte Eltern-Ticket '%{parent_name}' ein Backlogs-Element in einem anderen Projekt ist"
             blocks_ids:
               can_only_contain_issues_of_current_sprint: "kann nur IDs von Tickets des aktuellen Sprints enthalten"
               must_block_at_least_one_issue: "muss die ID wenigstens eines Tickets enthalten"

@@ -242,3 +242,7 @@ Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
   task_div[:class].should_not include("error")
 end
 
+Then /^I should be notified that the issue "(.+?)" is an invalid parent to the issue "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
+  Then %Q{I should see "#{I18n.t(:field_parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
+end
+
