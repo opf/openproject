@@ -72,7 +72,7 @@
   <% end -%>
 
   <% if private_queries.any? %>
-    <h3><%= l(:label_report_plural) %></h3>
+    <h3><%= l(:label_private_report_plural) %></h3>
     <% private_queries.each do |query| -%>
       <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
       <br />

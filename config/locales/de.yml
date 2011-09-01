@@ -28,18 +28,22 @@ de:
   validation_failure_integer: "ist keine ganze Zahl"
 
   comments: "Kommentar"
-  cost_reports_title: "Reports"
+  cost_reports_title: "Kostenauswertungen"
 
   units: "Einheiten"
 
-  label_new_report: "Neuer Report"
-  label_public_report_plural: "Öffentliche Reports"
+  label_new_report: "Neue Kostenauswertung"
+  label_public_report_plural: "Gemeinsame Kostenauswertungen"
+  label_private_report_plural: "Persönliche Kostenauswertungen"
   label_filter: "Filter"
   label_days_ago: "in den letzten Tagen"
   button_save_as: "Speichern unter ..."
 
-  load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"
-  label_progress_bar_explanation: "Report wird erstellt ..."
-  label_really_delete_question: "Diesen Report wirklich löschen?"
+  load_query_question: "Die Kostenauswertung wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, die Kostenauswertung durch zu führen?"
+  label_progress_bar_explanation: "Kostenauswertung wird erstellt ..."
+  label_really_delete_question: "Diese Kostenauswertung wirklich löschen?"
   label_click_to_edit: "Zum Bearbeiten hier klicken."
   label_saving: "Speichern..."
+
+  permission_save_private_cost_reports: "Speichern persönlicher Kostenauswertungen"
+  permission_save_cost_reports: "Speichern gemeinsamer Kostenauswertungen"

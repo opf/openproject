@@ -33,7 +33,8 @@ en:
   units: "Units"
 
   label_new_report: "New Cost Report"
-  label_public_report_plural: "Public Reports"
+  label_public_report_plural: "Public cost reports"
+  label_private_report_plural: "Private cost reports"
   label_filter: "Filter"
   label_days_ago: "during the last days"
   button_save_as: "Save Report As..."
@@ -43,3 +44,6 @@ en:
   label_really_delete_question: "Are you sure you want to delete this report?"
   label_click_to_edit: "Click to edit."
   label_saving: "Saving ..."
+
+  permission_save_private_cost_reports: "Save private cost reports"
+  permission_save_cost_reports: "Save public cost reports"
