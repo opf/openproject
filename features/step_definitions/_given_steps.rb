@@ -165,15 +165,17 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
 
   User.current = User.find(:first)
 
-  table.hashes.each do |task|
-    story = Story.find(:first, :conditions => { :subject => task['parent'] })
-    params = initialize_task_params(project, story)
-    params['subject'] = task['subject']
+  as_admin do
+    table.hashes.each do |task|
+      story = Story.find(:first, :conditions => { :subject => task['parent'] })
+      params = initialize_task_params(project, story)
+      params['subject'] = task['subject']
 
-    # NOTE: We're bypassing the controller here because we're just
-    # setting up the database for the actual tests. The actual tests,
-    # however, should NOT bypass the controller
-    Task.create_with_relationships(params, project.id)
+      # NOTE: We're bypassing the controller here because we're just
+      # setting up the database for the actual tests. The actual tests,
+      # however, should NOT bypass the controller
+      Task.create_with_relationships(params, project.id)
+    end
   end
 end
 
@@ -182,18 +184,20 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
 
   User.current = User.find(:first)
 
-  table.hashes.each do |task|
-    parent = Issue.find(:first, :conditions => { :subject => task['parent'] })
-    tracker = Tracker.find_by_name(task['tracker'])
-    params = initialize_issue_params(project, tracker, parent)
-    params['subject'] = task['subject']
-    version = Version.find_by_name(task['sprint'] || task['backlog'])
-    params['fixed_version_id'] = version.id if version
+  as_admin do
+    table.hashes.each do |task|
+      parent = Issue.find(:first, :conditions => { :subject => task['parent'] })
+      tracker = Tracker.find_by_name(task['tracker'])
+      params = initialize_issue_params(project, tracker, parent)
+      params['subject'] = task['subject']
+      version = Version.find_by_name(task['sprint'] || task['backlog'])
+      params['fixed_version_id'] = version.id if version
 
-    # NOTE: We're bypassing the controller here because we're just
-    # setting up the database for the actual tests. The actual tests,
-    # however, should NOT bypass the controller
-    Issue.create!(params)
+      # NOTE: We're bypassing the controller here because we're just
+      # setting up the database for the actual tests. The actual tests,
+      # however, should NOT bypass the controller
+      Issue.create!(params)
+    end
   end
 end
 
@@ -202,20 +206,21 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
 
   User.current = User.find(:first)
 
-  table.hashes.each do |impediment|
-    sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
-    blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
-    params = initialize_impediment_params(project, sprint)
-    params['subject'] = impediment['subject']
-    params['blocks_ids']  = blocks.join(',')
+  as_admin do
+    table.hashes.each do |impediment|
+      sprint = Sprint.find(:first, :conditions => { :name => impediment['sprint'] })
+      blocks = Story.find(:all, :conditions => { :subject => impediment['blocks'].split(', ')  }).map{ |s| s.id }
+      params = initialize_impediment_params(project, sprint)
+      params['subject'] = impediment['subject']
+      params['blocks_ids']  = blocks.join(',')
 
-    # NOTE: We're bypassing the controller here because we're just
-    # setting up the database for the actual tests. The actual tests,
-    # however, should NOT bypass the controller
-    Impediment.create_with_relationships(params, project.id)
+      # NOTE: We're bypassing the controller here because we're just
+      # setting up the database for the actual tests. The actual tests,
+      # however, should NOT bypass the controller
+      Impediment.create_with_relationships(params, project.id)
+    end
   end
 end
-
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project_name, table|
   p = get_project(project_name)
@@ -240,7 +245,9 @@ Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
-  Setting.plugin_redmine_backlogs[:card_spec] = stock
+  settings = Setting.plugin_redmine_backlogs
+  settings[:card_spec] = stock
+  Setting.plugin_redmine_backlogs = settings
 
   # If this goes wrong, you are probably missing
   #   vendor/plugins/redmine_backlogs/config/labels.yml
@@ -312,6 +319,10 @@ Given /^the following trackers are configured to track stories:$/ do |table|
 
     tracker = Factory.create(:tracker, :name => name) if tracker.blank?
     story_trackers << tracker
+  end
+
+  Issue.class_eval do
+    @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
   end
 
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))

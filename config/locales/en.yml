@@ -134,6 +134,7 @@ en:
   version_settings_display_option_right: "right"
   version_settings_display_label: "Column in backlog"
 
+  field_children: "child issues"
   field_display: "Column in backlog"
 
   field_blocks_ids: "Blocks (IDs)"
@@ -147,8 +148,10 @@ en:
               task_version_must_be_the_same_as_story_version: "must be the same as the story's version"
             parent_issue_id:
               tracker_must_be_one_of_the_following: "Tracker must be one of the following: %{tracker_names}"
+              parent_child_relationship_across_projects: "is invalid because the issue '%{issue_name}' is a backlogs task and as such can not have the backlogs story '%{parent_name}' as it´s parent as long as the story is in a different project"
             blocks_ids:
               can_only_contain_issues_of_current_sprint: "can only contain the IDs of current sprint's tickets"
               must_block_at_least_one_issue: "must contain the ID of at least one ticket"
+
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts"

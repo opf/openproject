@@ -176,3 +176,19 @@ end
 When /^I click on the impediment called "(.+?)"$/ do |impediment_name|
   When %Q{I click on the text "#{impediment_name}"}
 end
+
+When /^I click to add a new task for story "(.+?)"$/ do |story_name|
+  story = Story.find_by_subject(story_name)
+
+  page.all(:css, "tr.story_#{story.id} td.add_new").last.click
+end
+
+When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_name|
+  issue = Issue.find_by_subject(issue_name)
+
+  When %Q{I fill in "#{issue.id}" for "issue_parent_issue_id"}
+end
+
+When /^the request on task "(.+?)" is finished$/ do |task_name|
+  When 'I wait for AJAX requests to finish'
+end

@@ -52,8 +52,13 @@ class IssueBoxesController < IssuesController
   private
 
   def load_journals
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-    @journals.each_with_index {|j,i| j.indice = i+1}
-    @journals.reverse! if User.current.wants_comments_in_reverse_order?
+    if Redmine::VERSION::MAJOR >= 2
+      @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+      @journals.reverse! if User.current.wants_comments_in_reverse_order?
+    else
+      @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
+      @journals.each_with_index {|j,i| j.indice = i+1}
+      @journals.reverse! if User.current.wants_comments_in_reverse_order?
+    end
   end
 end

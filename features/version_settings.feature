@@ -25,6 +25,14 @@ Feature: Version Settings
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
     And I am logged in as "padme"
 
+  Scenario: Creating a new version
+    When I go to the versions/new page of the project called "ecookbook"
+     And I fill in "version_name" with "Sprint X"
+     And I press "Create"
+    Then I should be on the settings/versions page of the project called "ecookbook"
+     And I should see "Successful creation." within "div.notice"
+     And I should see "Sprint X" within "table.versions"
+
   Scenario: One can select whether versions are displayed left or right (left is default) in the backlogs page
     When I go to the edit page of the version called "Sprint 001"
     Then there should be a "version[version_settings_attributes][][display]" field within "#content form"

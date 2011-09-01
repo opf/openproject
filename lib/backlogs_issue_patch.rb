@@ -14,8 +14,8 @@ module Backlogs
         before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
         after_save  :touch_sprint_burndowns
-        before_save :inherit_version_from_parent, :if => lambda {|i| i.is_task? and i.fixed_version_id.blank? }
-        after_save  :inherit_version_of_story, :if => lambda {|i| i.is_story? and i.changed? }
+        before_save :inherit_version_from_story_or_root_task, :if => lambda {|i| i.is_task? }
+        after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.story_or_root_task == i) }
 
         validates_numericality_of :story_points, :only_integer             => true,
                                                  :allow_nil                => true,
@@ -23,16 +23,54 @@ module Backlogs
                                                  :less_than                => 10_000,
                                                  :if => lambda { |i| i.project && i.project.module_enabled?('backlogs') }
 
-        validates_each :fixed_version_id do |record, field, value|
-          if record.is_task? and record.fixed_version_id_changed? and record.fixed_version_id != record.story.fixed_version_id
-            record.errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
-          end
-        end
+        validates_each :parent_issue_id do |record, attr, value|
+          validate_parent_issue_relation(record, attr, value)
 
+          validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
+        end
       end
     end
 
     module ClassMethods
+      def backlogs_trackers
+        @backlogs_tracker ||= Story.trackers << Task.tracker
+      end
+
+      def take_child_update_semaphore
+        @child_updates = true
+      end
+
+      def child_update_semaphore_taken?
+        @child_updates
+      end
+
+      def place_child_update_semaphore
+        @child_updates = false
+      end
+
+      private
+      def validate_parent_issue_relation(issue, parent_attr, value)
+        parent = Issue.find_by_id(value)
+        issue.errors.add parent_attr,
+                         :parent_child_relationship_across_projects,
+                         { :issue_name => issue.subject, :parent_name => parent.subject } if parent_issue_relationship_spanning_projects?(parent, issue)
+      end
+
+      def parent_issue_relationship_spanning_projects?(parent, child)
+        child.is_task? && backlogs_trackers.include?(parent.tracker_id) && parent.present? && parent.project_id != child.project_id
+      end
+
+      def validate_children(issue, attr, value)
+        if issue.backlogs_enabled? && Issue.backlogs_trackers.include?(issue.tracker_id)
+          issue.children.each do |child|
+            unless child.valid?
+              child.errors.each do |key, value|
+                issue.errors.add(:children, value)
+              end
+            end
+          end
+        end
+      end
     end
 
     module InstanceMethods
@@ -69,7 +107,7 @@ module Backlogs
       end
 
       def is_task?
-        backlogs_enabled? and (self.parent_id && self.tracker_id == Task.tracker && Task.tracker.present?)
+        backlogs_enabled? and (self.parent_issue_id && self.tracker_id == Task.tracker && Task.tracker.present?)
       end
 
       def story
@@ -114,11 +152,36 @@ module Backlogs
           end
         end
       end
-      
-      def inherit_version_from(parent)
-        if parent
-          self.fixed_version_id = parent.fixed_version_id
+
+      def inherit_version_from(source)
+        self.fixed_version_id = source.fixed_version_id if source
+      end
+
+      def backlogs_enabled?
+        self.project.module_enabled?("backlogs")
+      end
+
+      def story_or_root_task
+        return nil unless Issue.backlogs_trackers.include?(self.tracker_id)
+        return self if self.is_story?
+
+        root = self
+        unless self.parent_issue_id.nil?
+
+          real_parent = Issue.find_by_id(self.parent_issue_id)
+          #unfortunately the nested set is only build on save
+          #hence, the #parent method is not always correct
+          #therefore we go to the parent the hard way and use nested set from there
+          ancestors = real_parent.ancestors.find_all_by_tracker_id(Issue.backlogs_trackers)
+          ancestors ? ancestors << real_parent : [real_parent]
+
+          ancestors.sort_by{ |a| a.right }.each do |p|
+            root = p if Issue.backlogs_trackers.include?(p.tracker_id)
+            break if Story.trackers.include?(p.tracker_id)
+          end
         end
+
+        root
       end
 
       private
@@ -128,15 +191,33 @@ module Backlogs
           self.remaining_hours = self.estimated_hours if self.remaining_hours.blank? && ! self.estimated_hours.blank?
         end
       end
-      
-      def inherit_version_from_parent
-        inherit_version_from(self.story)
-        true
+
+      def inherit_version_from_story_or_root_task
+        root = story_or_root_task
+        inherit_version_from(root) if root != self
       end
-      
-      def inherit_version_of_story
-        story = self.story or return true
-        story.inherit_version_to_subtasks
+
+      def inherit_version_to_leaf_tasks
+
+        unless Issue.child_update_semaphore_taken?
+          begin
+            Issue.take_child_update_semaphore
+
+            # we overwrite the version of all leaf issues that are tasks
+            # this way, the fixed_version_id is propagated up
+            # by the inherit_version_from_story_or_root_task before_filter and the update_parent_attributes after_filter
+            stop_descendants, descendant_tasks = self.descendants.partition{|d| d.tracker_id != Task.tracker }
+            descendant_tasks.reject!{ |t| stop_descendants.any?{ |s| s.left < t.left && s.right > t.right } }
+            leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any?{ |s| s.left > t.left && s.right < t.right } }
+
+            leaf_tasks.each do |task|
+              task.inherit_version_from(self)
+              task.save! if task.changed?
+            end
+          ensure
+            Issue.place_child_update_semaphore
+          end
+        end
       end
 
       def touch_sprint_burndowns
@@ -161,11 +242,6 @@ module Backlogs
           sprint.touch_burndown
         }
       end
-
-      def backlogs_enabled?
-        self.project.module_enabled?("backlogs")
-      end
-
     end
   end
 end

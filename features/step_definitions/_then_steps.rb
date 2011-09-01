@@ -222,3 +222,27 @@ Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
 
   Then %Q{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
 end
+
+Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_name|
+  story = Story.find_by_subject(story_name)
+
+  Then %{I should see "#{task_name}" within "tr.story_#{story.id}"}
+end
+
+Then /^the (?:issue|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
+  issue = Issue.find_by_subject(task_name)
+  version = Version.find_by_name(version_name)
+
+  issue.fixed_version.should eql version
+end
+
+Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
+  elements = all(:xpath, "//*[contains(., \"#{task_name}\")]")
+  task_div = elements.find{|e| e.tag_name == "div" && e[:class].include?("task")}
+  task_div[:class].should_not include("error")
+end
+
+Then /^I should be notified that the issue "(.+?)" is an invalid parent to the issue "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
+  Then %Q{I should see "#{I18n.t(:field_parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
+end
+
