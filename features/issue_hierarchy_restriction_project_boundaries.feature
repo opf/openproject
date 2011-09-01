@@ -65,4 +65,4 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
     And I fill in "Task 0815" for "issue_subject"
     And I fill in the id of the issue "Story A" as the parent issue
     And I press "Create"
-   Then I should see "Parent ticket is invalid because the issue 'Task 0815' is a backlogs task and as such can not have the backlogs story 'Story A' as it´s parent as long as the story is in a different project" within "#errorExplanation"
+   Then I should be notified that the issue "Story A" is an invalid parent to the issue "Task 0815" because of cross project limitations
