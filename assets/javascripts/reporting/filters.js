@@ -8,6 +8,7 @@ Reporting.Filters = {
     if (select === null || select === undefined) {
       return;
     }
+    url = select.readAttribute("remote-url");
     json_post_select_values = select.readAttribute('data-initially-selected')
     if (json_post_select_values !== null && json_post_select_values !== undefined) {
       post_select_values = json_post_select_values.replace(/'/g, '"').evalJSON(true);
@@ -17,7 +18,7 @@ Reporting.Filters = {
         window.global_prefix = "";
       }
 
-      new Ajax.Updater({ success: select.id }, window.global_prefix + '/reporting/available_values', {
+      new Ajax.Updater({ success: select.id }, url, {
         parameters: {
           filter_name: filter_name,
           values: json_post_select_values

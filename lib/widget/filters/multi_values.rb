@@ -4,7 +4,8 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
     write(content_tag :td do
       content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
-        select_options = {  :style => "vertical-align: top;", # FIXME: Do CSS
+        select_options = {  :"remote-url" => url_for(:controller => "cost_reports", :action => "available_values"),
+                            :style => "vertical-align: top;", # FIXME: Do CSS
                             :name => "values[#{filter_class.underscore_name}][]",
                             :"data-loading" => @options[:lazy] ? "ajax" : "",
                             :id => "#{filter_class.underscore_name}_arg_1_val",
