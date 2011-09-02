@@ -71,7 +71,7 @@ describe Issue do
       @status_open ||= Factory.create(:issue_status, :name => "Open", :is_default => true)
       @project = Factory.build(:project)
       @project.issue_statuses = [@status_resolved]
-      
+
       @issue = Factory.build(:issue, :project => @project,
                                         :status  => @status_open,
                                         :tracker => Factory.build(:tracker_feature))
@@ -90,6 +90,29 @@ describe Issue do
      @issue.status = @status_resolved
      @project.issue_statuses = Array.new
      @issue.done?.should be_false
+    end
+  end
+
+  describe "backlogs_enabled?" do
+    let(:project) { Factory.build(:project) }
+    let(:issue) { Factory.build(:issue) }
+
+    it "should be false without a project" do
+      issue.should_not be_backlogs_enabled
+    end
+
+    it "should be true with a project having the backlogs module" do
+      project.enabled_module_names = project.enabled_module_names + ["backlogs"]
+      issue.project = project
+
+      issue.should be_backlogs_enabled
+    end
+
+    it "should be true with a project having the backlogs module" do
+      project.enabled_module_names = project.enabled_module_names.find_all{|n| n != "backlogs" }
+      issue.project = project
+
+      issue.should_not be_backlogs_enabled
     end
   end
 end

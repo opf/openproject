@@ -158,7 +158,7 @@ module Backlogs
       end
 
       def backlogs_enabled?
-        self.project.module_enabled?("backlogs")
+        self.project.try(:module_enabled?, "backlogs")
       end
 
       def story_or_root_task
