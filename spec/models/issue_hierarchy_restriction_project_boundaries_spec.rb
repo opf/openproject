@@ -1,5 +1,19 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+def project_boundaries_spanning_issue_hierarchy_allowed?
+  issue = Issue.new
+  issue.project_id = 1
+  issue.build_project
+  parent_issue = Issue.new
+  parent_issue.project_id = 2
+  issue.instance_eval do
+    @parent_issue = parent_issue
+  end
+  issue.valid?
+  #using not so good check on validity
+  issue.errors[:parent_issue_id] != "doesn't belong to the same project"
+end
+
 describe Issue, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do
   let(:tracker_feature) { Factory.build(:tracker_feature) }
   let(:tracker_task) { Factory.build(:tracker_task) }
@@ -94,7 +108,10 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
     end
   end
 
+  if project_boundaries_spanning_issue_hierarchy_allowed?
+
   describe "WHEN creating the child" do
+
     shared_examples_for "restricted hierarchy on creation" do
       before(:each) do
         parent.project = parent_project
@@ -356,6 +373,6 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
         it_should_behave_like "unrestricted hierarchy even when enabling backlogs"
       end
     end
-
   end
+end
 end
