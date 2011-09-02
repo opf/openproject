@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 def project_boundaries_spanning_issue_hierarchy_allowed?
   issue = Issue.new
   issue.project_id = 1
-  issue.build_project
   parent_issue = Issue.new
   parent_issue.project_id = 2
   issue.instance_eval do
