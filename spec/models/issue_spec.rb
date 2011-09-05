@@ -108,9 +108,9 @@ describe Issue do
       issue.should be_backlogs_enabled
     end
 
-    it "should be true with a project having the backlogs module" do
-      project.enabled_module_names = project.enabled_module_names.find_all{|n| n != "backlogs" }
+    it "should be false with a project not having the backlogs module" do
       issue.project = project
+      issue.project.enabled_module_names = nil
 
       issue.should_not be_backlogs_enabled
     end
