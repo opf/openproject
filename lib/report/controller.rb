@@ -339,7 +339,6 @@ module Report::Controller
 
   # renders option tags for each available value for a single filter
   def available_values
-    debugger
     if name = params[:filter_name]
       begin
         f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
