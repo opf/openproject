@@ -8,7 +8,7 @@ Reporting.Filters = {
     if (select === null || select === undefined) {
       return;
     }
-    url = select.readAttribute("remote-url");
+    url = select.readAttribute("data-remote-url");
     json_post_select_values = select.readAttribute('data-initially-selected')
     if (json_post_select_values !== null && json_post_select_values !== undefined) {
       post_select_values = json_post_select_values.replace(/'/g, '"').evalJSON(true);
