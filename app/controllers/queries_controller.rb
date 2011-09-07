@@ -56,14 +56,16 @@ private
   end
 
   def prepare_for_editing
-    @query.filters = {}
-    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
-    @query.attributes = params[:query]
-    @query.project = nil if params[:query_is_for_all]
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    @query.group_by ||= params[:group_by]
-    @query.column_names = params[:c] if params[:c]
-    @query.column_names = nil if params[:default_columns]
+    if request.post?
+      @query.filters = {}
+      @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
+      @query.attributes = params[:query]
+      @query.project = nil if params[:query_is_for_all]
+      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+      @query.group_by ||= params[:group_by]
+      @query.column_names = params[:c] if params[:c]
+      @query.column_names = nil if params[:default_columns]
+    end
   end
 
   def find_query
