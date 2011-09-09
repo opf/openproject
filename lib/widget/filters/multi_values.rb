@@ -25,7 +25,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         if (filter_class.is_dependent? || @options[:lazy]) && !Array(filter.values).empty?
           select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
         end
-        box_content = ""
+        box_content = "".html_safe
         box = content_tag :select, select_options do
           render_widget Widget::Filters::Option, filter, :to => box_content unless @options[:lazy]
         end

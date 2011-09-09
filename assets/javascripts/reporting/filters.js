@@ -8,6 +8,9 @@ Reporting.Filters = {
     if (select === null || select === undefined) {
       return;
     }
+    if (filter_name == "sector_id") {
+      console.log("UPDATE SECTOR ID VALUES");
+    }
     url = select.readAttribute("data-remote-url");
     json_post_select_values = select.readAttribute('data-initially-selected')
     if (json_post_select_values !== null && json_post_select_values !== undefined) {
@@ -213,10 +216,12 @@ Reporting.Filters = {
   add_filter: function (select) {
     var field;
     field = select.value;
-    Reporting.Filters.show_filter(field, { slowly: true });
-    select.selectedIndex = 0;
-    Reporting.Filters.select_option_enabled(select, field, false);
-    Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
+    Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
+        select.selectedIndex = 0;
+        Reporting.Filters.select_option_enabled(select, field, false);
+        Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
+      }
+    });
   },
 
   select_option_enabled: function (box, value, state) {
@@ -333,7 +338,7 @@ Reporting.Filters = {
   // return an array of all filters that depend on the given filter plus the given filter
   dependent_for: function(field) {
     var deps = $$('.filters-select[data-all-dependents]').findAll(function(selectBox) {
-        return selectBox.up('tr').visible() && Reporting.Filters.get_dependents(selectBox).include(field)
+        return (selectBox.up('tr').visible()) && Reporting.Filters.get_dependents(selectBox).include(field)
       }).map(function(selectBox) {
         return selectBox.getAttribute("data-filter-name");
       });
@@ -474,15 +479,15 @@ Reporting.onload(function () {
     }).size();
     s.multiple = (selected_size > 1);
     s.observe("change", function (evt) {
-    var filter_name = this.up('tr').getAttribute("data-filter-name");
-    Reporting.Filters.value_changed(filter_name);
+      var filter_name = this.up('tr').getAttribute("data-filter-name");
+      Reporting.Filters.value_changed(filter_name);
     });
   });
   $$('.filters-select[data-all-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
   });
   Reporting.Filters.visible_filters().each(function (filter) {
-    Reporting.Filters.load_available_values_for_filter(filter, function () {});
+    // Reporting.Filters.load_available_values_for_filter(filter, function () {});
   });
 });
 

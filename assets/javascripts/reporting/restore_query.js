@@ -75,10 +75,31 @@ Reporting.RestoreQuery = {
       // correctly display number of arguments of filters depending on their arity
       Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));
     });
-    // restore values of dependent filters
-    Reporting.RestoreQuery.initialize_load_dependent_filters($$('.filters-select[data-all-dependents]').findAll(function(select) {
-      return select.up('tr').visible()
-    }));
+    var deps = $$('.filters-select').partition(function(select) {
+      return select.readAttribute("data-all-dependents") !== undefined && select.up('tr').visible();
+    });
+    var dependents = deps[0];
+    var independents = deps[1].select(function(select) {
+      return select.up("tr").visible();
+    });
+    var semaphore = dependents.length;
+    dependents.each(function(dep) {
+      filter_name = dep.up("tr").getAttribute("data-filter-name");
+      if (filter_name == "sector_id") {
+        console.log("[id=" + dep.readAttribute("id") + ", data-filter-name=" + filter_name + "]");
+      }
+      Reporting.Filters.load_available_values_for_filter(filter_name, function () {
+        semaphore -= 1;
+        if (semaphore <= 0) {
+          Reporting.RestoreQuery.initialize_load_dependent_filters(dependents);
+        }
+        console.log("loaded available values for " + filter_name);
+      });
+    });
+    /*independents.each(function (e) {
+      filter_name = e.up("tr").getAttribute("data-filter-name");
+      Reporting.Filters.load_available_values_for_filter(filter_name, function () {});
+    });*/
   },
 
   restore_group_bys: function () {
@@ -101,4 +122,14 @@ Reporting.RestoreQuery = {
 Reporting.onload(function () {
   Reporting.RestoreQuery.restore_group_bys();
   Reporting.RestoreQuery.restore_filters();
+
 });
+
+
+
+
+
+
+
+
+
