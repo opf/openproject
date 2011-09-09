@@ -336,7 +336,9 @@ function observeParentIssueField(url) {
                            paramName: 'q',
                            updateElement: function(value) {
                              document.getElementById('issue_parent_issue_id').value = value.id;
-                           }});
+                           },
+                           parameters: 'scope=all'
+                           });
 }
 
 function observeRelatedIssueField(url) {
