@@ -69,6 +69,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
       And I fill in "Task 0815" for "subject"
       And I press "OK"
      Then I should see "Task 0815" as a task to story "Story A"
+      And the request on task "Task 0815" is finished
       And the task "Task 0815" should have "Sprint 001" as its target version
 
   @javascript
