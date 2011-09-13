@@ -109,7 +109,7 @@ end
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
   version = Version.find_by_name(version_name)
   actual_story = Issue.find_by_subject_and_fixed_version_id(subject, version)
-  Then %%I should see "#{actual_story.id}" within ".story:nth-child(#{position}) .id"%
+  Then %%I should see "#{actual_story.id}" within ".story:nth-child(#{position}) .id div.t"%
 end
 
 Then /^all positions should be unique within versions$/ do
