@@ -241,6 +241,11 @@ class CostReportsController < ApplicationController
     end
   end
 
+  def display_report_list
+    report_type = params[:report_type] || :public
+    render :partial => "report_list", :locals => { :report_type => report_type }, :layout => !request.xhr?
+  end
+
   private
   def find_optional_user
     @current_user = User.current || User.anonymous
