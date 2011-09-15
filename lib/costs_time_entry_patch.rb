@@ -42,11 +42,11 @@ module CostsTimeEntryPatch
         yield
       end
     end
-    
+
     def update_all(updates, conditions = nil, options = {})
       # instead of a update_all, perform an individual update during issue#move
       # to trigger the update of the costs based on new rates
-      if conditions.keys == [:issue_id] && updates =~ /^project_id = ([\d]+)$/
+      if conditions.respond_to?(:keys) && conditions.keys == [:issue_id] && updates =~ /^project_id = ([\d]+)$/
         project_id = $1
         time_entries = TimeEntry.all(:conditions => conditions)
         time_entries.each do |entry|
