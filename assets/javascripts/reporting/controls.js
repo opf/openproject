@@ -43,6 +43,9 @@ Reporting.Controls = {
       clickToEditText: translations.clickToEdit,
       onFailure: function (editor, response) {
         Reporting.flash(response.responseText);
+      },
+      onComplete: function () {
+        Reporting.Controls.update_report_lists();
       }
     });
   },
@@ -129,6 +132,24 @@ Reporting.Controls = {
       Reporting.flash("There was an error getting the results. The administrator has been informed.");
       Reporting.Progress.abort();
     }
+  },
+
+  update_report_lists: function () {
+    $$(".report_list").each(function (list) {
+      Reporting.Controls.update_report_list(list);
+    });
+  },
+
+  update_report_list: function (list) {
+    var url = $(list).readAttribute("data-update-url");
+    if (url == null) {
+      return;
+    }
+    new Ajax.Request(url, {
+      onSuccess: function (response) {
+        list.replace(response.responseText);
+      }
+    });
   }
 };
 
