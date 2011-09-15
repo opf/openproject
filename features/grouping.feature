@@ -32,12 +32,9 @@ Feature: Groups
     And I click on "Clear"
     And I group columns by "Issue"
     Then I should see "Issue" in columns
-    # And I should "Issues" should be inactive for columns
-    # And I should "Issues" should be inactive for rows
     When I group rows by "Project"
     Then I should see "Project" in rows
-    And "Project" should be active for rows
-    And "Project" should be active for columns
+    Then I should not see "Project" in rows
 
   @javascript
   Scenario: Groups can be removed from rows and columns
@@ -53,10 +50,6 @@ Feature: Groups
     And I remove "Issue" from columns
     Then I should not see "Issue" in columns
     And I should not see "Project" in rows
-    And "Project" should be active for columns
-    And "Project" should be active for rows
-    And "Issue" should be active for columns
-    And "Issue" should be active for rows
 
   @javascript
   Scenario: Groups get restored after sending a query
