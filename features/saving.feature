@@ -15,14 +15,15 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    Then I should see "#query-icon-save-as" # Save
+    Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     And I should see "Issue" in columns
@@ -44,7 +45,7 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    Then I should see "#query-icon-save-as"
+    Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
@@ -52,7 +53,8 @@ Feature: Saving Queries
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
     And I check "Public"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#public_sidebar_report_list"
     And I should see "Issue" in columns
@@ -67,7 +69,7 @@ Feature: Saving Queries
       | view_time_entries        |
     And I am logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should not see "#query-icon-save-as"
+    Then I should not see "Save" within "#query-icon-save-as" # Save
 
   @javascript
   Scenario: Public Reports can't be saved by users allowed to save private queries
@@ -78,11 +80,12 @@ Feature: Saving Queries
       | save_private_cost_reports |
     And I am logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should see "#query-icon-save-as"
+    Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Save"
     Then I should not see "Public"
     And I fill in "Testreport" for "query_name"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
 
@@ -95,19 +98,21 @@ Feature: Saving Queries
       | save_cost_reports |
     And I am logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should see "#query-icon-save-as"
+    Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Save"
     Then I should see "Public"
     And I fill in "Testreport" for "query_name"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
-    Then I should see "#query-icon-save-as"
+    Then I should see "Save" within "#query-icon-save-as" # Save
     And I click on "Save Report As..."
     Then I should see "Public"
     And I check "Public"
     And I fill in "Testreport2" for "query_name"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport2" within "#ur_caption"
     And I should see "Testreport2" within "#public_sidebar_report_list"
     And I should see "Testreport" within "#private_sidebar_report_list"
@@ -123,11 +128,13 @@ Feature: Saving Queries
     And I am on the Cost Reports page for the project called "Permission_Test"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     And I should see "Testreport" within "#private_sidebar_report_list"
-    And I click on "#query_saved_name"
+    And I click on "Testreport" within "#query_saved_name"
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
+    And I wait for Ajax
     Then I should see "Renamed" within "#private_sidebar_report_list"
     And I should not see "Testreport" within "#private_sidebar_report_list"
 
@@ -143,11 +150,13 @@ Feature: Saving Queries
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
     And I check "Public"
-    And I click on "#query-icon-save-button"
+    And I follow "Save" within "#save_as_form"
+    And I wait for Ajax
     Then I should see "Testreport" within "#public_sidebar_report_list"
-    And I click on "#query_saved_name"
+    And I click on "Testreport" within "#query_saved_name"
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
+    And I wait for Ajax
     Then I should see "Renamed" within "#public_sidebar_report_list"
     Then I should not see "Testreport" within "#public_sidebar_report_list"
 
