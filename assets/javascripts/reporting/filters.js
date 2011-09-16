@@ -70,6 +70,9 @@ Reporting.Filters = {
     if (options.show_filter === undefined) {
       options.show_filter = true;
     }
+    if (options.hide_only === undefined) {
+      options.hide_only = false;
+    }
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
       if (options.insert_after === undefined) {
@@ -77,8 +80,10 @@ Reporting.Filters = {
       }
       if (options.insert_after !== undefined && options.show_filter) {
         // Move the filter down to appear after the last currently visible filter
-        field_el.remove();
-        options.insert_after.insert({after: field_el});
+        if (field_el.id !== options.insert_after.id) {
+          field_el.remove();
+          options.insert_after.insert({after: field_el});
+        }
       }
       // the following command might be included into the callback_function (which is called after the ajax request) later
       var display_functor;
@@ -90,13 +95,40 @@ Reporting.Filters = {
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
-        field_el.removeAttribute('data-selected');
+        if (!options.hide_only) { // remember that this filter used to be selected
+          field_el.removeAttribute('data-selected');
+        }
         $('rm_' + field).value = ""; // reset the value, so the serialized form will not return this filter
         Reporting.Filters.set_filter_value_widths(5000);
       }
       Reporting.Filters.operator_changed(field, $("operators[" + field + "]"));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
+  },
+
+  /**
+   * Activates the filter with the given name and loads dependent filters if necessary.
+   *
+   * @param filter_name Name of the filter to be activated.
+   */
+  add_filter: function (filter_name) {
+    var field = filter_name
+    Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
+        Reporting.Filters.activate_dependents($(field + "_arg_1_val"));
+        Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
+      }
+    });
+  },
+
+  remove_filter: function (field, hide_only) {
+    Reporting.Filters.show_filter(field, { show_filter: false, hide_only: hide_only });
+    var dependent = Reporting.Filters.get_dependents($(field + '_arg_1_val'), false).find(function(d) {
+      return Reporting.Filters.visible_filters().include(d);
+    });
+    if (dependent !== undefined) {
+      Reporting.Filters.remove_filter(dependent);
+    }
+    Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
 
   /*
@@ -213,17 +245,6 @@ Reporting.Filters = {
     }
   },
 
-  add_filter: function (select) {
-    var field;
-    field = select.value;
-    Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
-        select.selectedIndex = 0;
-        Reporting.Filters.select_option_enabled(select, field, false);
-        Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
-      }
-    });
-  },
-
   select_option_enabled: function (box, value, state) {
     var option = box.select("[value='" + value + "']").first();
     if (option !== undefined) {
@@ -246,17 +267,6 @@ Reporting.Filters = {
 
   toggle_multi_select: function (select) {
     Reporting.Filters.multi_select(select, !select.multiple);
-  },
-
-  remove_filter: function (field) {
-    Reporting.Filters.show_filter(field, { show_filter: false });
-    var dependent = Reporting.Filters.get_dependents($(field + '_arg_1_val'), false).find(function(d) {
-      return Reporting.Filters.visible_filters().include(d);
-    });
-    if (dependent !== undefined) {
-      Reporting.Filters.remove_filter(dependent);
-    }
-    Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
 
   visible_filters: function () {
@@ -405,7 +415,9 @@ Reporting.Filters = {
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(label.escapeHTML()));
             });
+
             Reporting.Filters.select_values(selectBox, selected);
+
             sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
             // if we got no values besides the <<inactive>> value, do not show this selectBox
@@ -427,9 +439,11 @@ Reporting.Filters = {
               Reporting.Filters.narrow_values(sources, dependents);
             }
           }
+
           callbackWhenFinished();
         },
         onException: function (response, error) {
+          console.log(error);
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
           var selectBox = $(currentDependent + "_arg_1_val");
           $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
@@ -450,7 +464,8 @@ Reporting.onload(function () {
   if ($("add_filter_select")) {
     $("add_filter_select").observe("change", function () {
       if (!(Reporting.Filters.exists(this.value))) {
-        Reporting.Filters.add_filter(this);
+        Reporting.Filters.add_filter(this.value);
+        this.selectedIndex = 0;
       };
     });
   }

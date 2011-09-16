@@ -64,24 +64,70 @@ Reporting.RestoreQuery = {
     });
   },
 
+  restore_dependent_filters: function(selectBox) {
+    Reporting.Filters.activate_dependents(selectBox, function() {
+        var sources = Reporting.Filters.get_dependents(selectBox).collect(function(field) {
+          return $('tr_' + field).select('.filter_values select').first();
+        });
+        sources.each(function(source) {
+          if (source.hasAttribute('data-initially-selected')) {
+            var selected_values = source.readAttribute('data-initially-selected').replace(/'/g, '"').evalJSON(true);
+            Reporting.Filters.select_values(source, selected_values);
+            Reporting.Filters.value_changed(source.up('tr').readAttribute("data-filter-name"));
+          }
+        });
+        if (sources.reject( function (select) { return select.value == '<<inactive>>' }).size() == 0) {
+          Reporting.Filters.activate_dependents(selectBox);
+        } else {
+          sources.each(function (select) {
+            Reporting.RestoreQuery.restore_dependent_filters(select);
+          });
+        }
+      });
+  },
+
   restore_filters: function () {
-    // FIXME: rm_xxx values for filters have to be set after re-displaying them
+    console.log("restore filters");
+    var deps = $$('.filters-select.filter-value').each(function(select) {
+      var tr = select.up('tr');
+      if (tr.visible()) {
+        var filter = tr.readAttribute('data-filter-name');
+        var dependent = select.readAttribute('data-dependent');
+        if (filter && dependent) {
+          Reporting.Filters.remove_filter(filter, false);
+        }
+      }
+    });
+    /*var dependents = deps[0];
+    var independents = deps[1].select(function(select) {
+      return select.up("tr").visible();
+    });
+    var dependent_filters = deps[0].findAll(function (select) {
+      return select.getValue() == '<<inactive>>' || select.select('option[selected]').size()==0
+    });
+    // Filters which are <<inactive>> are probably dependents themselfes, so remove and forget them for now.
+    // This is OK as they get reloaded later
+    dependent_filters.each(function(select) {
+      Reporting.Filters.remove_filter(select.up('tr').readAttribute("data-filter-name"));
+    });*/
     $$("tr[data-selected=true]").each(function (e) {
-      var rm_box, filter_name;
+      if (e.down(".filter_values select").hasAttribute("data-dependent")) return;
+      var filter_name = e.getAttribute("data-filter-name");
+      console.log("restore: " + filter_name);
+      Reporting.Filters.add_filter(filter_name);
+      // Reporting.RestoreQuery.restore_dependent_filters(e.down(".filters-select.filter-value"));
+      // FIXME: rm_xxx values for filters have to be set after re-displaying them
+      /*var rm_box, filter_name;
       rm_box = e.select("input[id^=rm]").first();
       filter_name = e.getAttribute("data-filter-name");
       rm_box.value = filter_name;
       Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
       // correctly display number of arguments of filters depending on their arity
-      Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));
+      Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));*/
     });
-    var deps = $$('.filters-select').partition(function(select) {
-      return select.readAttribute("data-all-dependents") !== undefined && select.up('tr').visible();
-    });
-    var dependents = deps[0];
-    var independents = deps[1].select(function(select) {
-      return select.up("tr").visible();
-    });
+
+    if (true) return; // pull the break
+
     var semaphore = dependents.length;
     dependents.each(function(dep) {
       filter_name = dep.up("tr").getAttribute("data-filter-name");
@@ -122,7 +168,6 @@ Reporting.RestoreQuery = {
 Reporting.onload(function () {
   Reporting.RestoreQuery.restore_group_bys();
   Reporting.RestoreQuery.restore_filters();
-
 });
 
 
