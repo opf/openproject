@@ -69,7 +69,7 @@ Feature: Saving Queries
       | view_time_entries        |
     And I am logged in as "testuser"
     And I am on the Cost Reports page for the project called "Permission_Test"
-    Then I should not see "Save" within "#query-icon-save-as" # Save
+    Then I should not see "Save" within ".buttons"
 
   @javascript
   Scenario: Public Reports can't be saved by users allowed to save private queries
@@ -131,7 +131,7 @@ Feature: Saving Queries
     And I follow "Save" within "#save_as_form"
     And I wait for Ajax
     And I should see "Testreport" within "#private_sidebar_report_list"
-    And I click on "Testreport" within "#query_saved_name"
+    And I click on "#query_saved_name"
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
     And I wait for Ajax
@@ -153,7 +153,7 @@ Feature: Saving Queries
     And I follow "Save" within "#save_as_form"
     And I wait for Ajax
     Then I should see "Testreport" within "#public_sidebar_report_list"
-    And I click on "Testreport" within "#query_saved_name"
+    And I click on "#query_saved_name"
     And I fill in "Renamed" for "value"
     And I press "Rename" within "#query_saved_name-inplaceeditor"
     And I wait for Ajax
