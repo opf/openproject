@@ -8,9 +8,6 @@ Reporting.Filters = {
     if (select === null || select === undefined) {
       return;
     }
-    if (filter_name == "sector_id") {
-      console.log("UPDATE SECTOR ID VALUES");
-    }
     url = select.readAttribute("data-remote-url");
     json_post_select_values = select.readAttribute('data-initially-selected')
     if (json_post_select_values !== null && json_post_select_values !== undefined) {
@@ -111,11 +108,20 @@ Reporting.Filters = {
    *
    * @param filter_name Name of the filter to be activated.
    */
-  add_filter: function (filter_name) {
+  add_filter: function (filter_name, activate_dependent, on_complete) {
     var field = filter_name
+    if (activate_dependent === undefined) {
+      activate_dependent = true;
+    }
+    if (on_complete === undefined) {
+      on_complete = function() { };
+    }
     Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
-        Reporting.Filters.activate_dependents($(field + "_arg_1_val"));
+        if (activate_dependent) {
+          Reporting.Filters.activate_dependents($(field + "_arg_1_val"));
+        }
         Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
+        on_complete();
       }
     });
   },
@@ -308,7 +314,7 @@ Reporting.Filters = {
       selectBox = this;
     }
     if (callbackWhenFinished  === undefined) {
-      callbackWhenFinished = function() {};
+      callbackWhenFinished = function(dependent) { console.log("Activated " + dependent); };
     }
     source = selectBox.getAttribute("data-filter-name");
     all_dependents = Reporting.Filters.get_dependents(selectBox);
@@ -341,7 +347,11 @@ Reporting.Filters = {
       var active_dependents = all_dependents.select(function (d) {
         return active_filters.include(d);
       });
-      Reporting.Filters.narrow_values(Reporting.Filters.dependent_for(source), active_dependents, callbackWhenFinished);
+      Reporting.Filters.narrow_values(
+        Reporting.Filters.dependent_for(source),
+        active_dependents,
+        function() { callbackWhenFinished(dependent); }
+      );
     }, 1);
   },
 
@@ -500,9 +510,6 @@ Reporting.onload(function () {
   });
   $$('.filters-select[data-all-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
-  });
-  Reporting.Filters.visible_filters().each(function (filter) {
-    // Reporting.Filters.load_available_values_for_filter(filter, function () {});
   });
 });
 

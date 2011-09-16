@@ -27,63 +27,21 @@ Reporting.RestoreQuery = {
     }
   },
 
-  // This is called the first time the report loads.
-  // Params:
-  //   elements: Array of visible filter-select-boxes that have dependents
-  // (and possibly are dependents themselfes)
-  initialize_load_dependent_filters: function(elements) {
-    var filters_to_load, dependent_filters;
-    dependent_filters = elements.findAll(function (select) { return select.getValue() == '<<inactive>>' || select.select('option[selected]').size()==0 });
-    filters_to_load   = elements.reject( function (select) { return select.getValue() == '<<inactive>>' });
-    // Filters which are <<inactive>> are probably dependents themselfes, so remove and forget them for now.
-    // This is OK as they get reloaded later
-    dependent_filters.each(function(select) {
-      Reporting.Filters.remove_filter(select.up('tr').readAttribute("data-filter-name"));
+  restore_dependent_filters: function(filter_name) {
+    $$("tr.filter[data-filter-name=" + filter_name + "] select.filter-value").each(function(selectBox) {
+      console.log("restore dependents of " + filter_name);
+      var activateNext = function(dependent) {
+        if (!dependent) return;
+        console.log("up next: " + dependent);
+        Reporting.RestoreQuery.restore_dependent_filters(dependent);
+      };
+      if (selectBox.hasAttribute('data-initially-selected')) {
+        var selected_values = selectBox.readAttribute('data-initially-selected').replace(/'/g, '"').evalJSON(true);
+        Reporting.Filters.select_values(selectBox, selected_values);
+        Reporting.Filters.value_changed(filter_name);
+      }
+      Reporting.Filters.activate_dependents(selectBox, activateNext);
     });
-    // For each dependent filter we reload its dependent chain
-    filters_to_load.each(function(selectBox) {
-        var sources, selected_values;
-        Reporting.Filters.activate_dependents(selectBox, function() {
-          sources = Reporting.Filters.get_dependents(selectBox).collect(function(field) {
-            return $('tr_' + field).select('.filter_values select').first();
-          });
-          sources.each(function(source) {
-            if (source.hasAttribute('data-initially-selected')) {
-              selected_values = source.readAttribute('data-initially-selected').replace(/'/g, '"').evalJSON(true);
-              Reporting.Filters.select_values(source, selected_values);
-              Reporting.Filters.value_changed(source.up('tr').readAttribute("data-filter-name"));
-            }
-          });
-          if (sources.reject( function (select) { return select.value == '<<inactive>>' }).size() == 0) {
-            Reporting.Filters.activate_dependents(selectBox);
-          }
-          else {
-            Reporting.RestoreQuery.initialize_load_dependent_filters(sources);
-          }
-        });
-    });
-  },
-
-  restore_dependent_filters: function(selectBox) {
-    Reporting.Filters.activate_dependents(selectBox, function() {
-        var sources = Reporting.Filters.get_dependents(selectBox).collect(function(field) {
-          return $('tr_' + field).select('.filter_values select').first();
-        });
-        sources.each(function(source) {
-          if (source.hasAttribute('data-initially-selected')) {
-            var selected_values = source.readAttribute('data-initially-selected').replace(/'/g, '"').evalJSON(true);
-            Reporting.Filters.select_values(source, selected_values);
-            Reporting.Filters.value_changed(source.up('tr').readAttribute("data-filter-name"));
-          }
-        });
-        if (sources.reject( function (select) { return select.value == '<<inactive>>' }).size() == 0) {
-          Reporting.Filters.activate_dependents(selectBox);
-        } else {
-          sources.each(function (select) {
-            Reporting.RestoreQuery.restore_dependent_filters(select);
-          });
-        }
-      });
   },
 
   restore_filters: function () {
@@ -98,54 +56,15 @@ Reporting.RestoreQuery = {
         }
       }
     });
-    /*var dependents = deps[0];
-    var independents = deps[1].select(function(select) {
-      return select.up("tr").visible();
-    });
-    var dependent_filters = deps[0].findAll(function (select) {
-      return select.getValue() == '<<inactive>>' || select.select('option[selected]').size()==0
-    });
-    // Filters which are <<inactive>> are probably dependents themselfes, so remove and forget them for now.
-    // This is OK as they get reloaded later
-    dependent_filters.each(function(select) {
-      Reporting.Filters.remove_filter(select.up('tr').readAttribute("data-filter-name"));
-    });*/
+
     $$("tr[data-selected=true]").each(function (e) {
       if (e.down(".filter_values select").hasAttribute("data-dependent")) return;
       var filter_name = e.getAttribute("data-filter-name");
-      console.log("restore: " + filter_name);
-      Reporting.Filters.add_filter(filter_name);
-      // Reporting.RestoreQuery.restore_dependent_filters(e.down(".filters-select.filter-value"));
-      // FIXME: rm_xxx values for filters have to be set after re-displaying them
-      /*var rm_box, filter_name;
-      rm_box = e.select("input[id^=rm]").first();
-      filter_name = e.getAttribute("data-filter-name");
-      rm_box.value = filter_name;
-      Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
-      // correctly display number of arguments of filters depending on their arity
-      Reporting.Filters.operator_changed(filter_name, $("operators[" + filter_name + "]"));*/
+      var on_complete = function() {
+        Reporting.RestoreQuery.restore_dependent_filters(filter_name);
+      };
+      Reporting.Filters.add_filter(filter_name, false, on_complete);
     });
-
-    if (true) return; // pull the break
-
-    var semaphore = dependents.length;
-    dependents.each(function(dep) {
-      filter_name = dep.up("tr").getAttribute("data-filter-name");
-      if (filter_name == "sector_id") {
-        console.log("[id=" + dep.readAttribute("id") + ", data-filter-name=" + filter_name + "]");
-      }
-      Reporting.Filters.load_available_values_for_filter(filter_name, function () {
-        semaphore -= 1;
-        if (semaphore <= 0) {
-          Reporting.RestoreQuery.initialize_load_dependent_filters(dependents);
-        }
-        console.log("loaded available values for " + filter_name);
-      });
-    });
-    /*independents.each(function (e) {
-      filter_name = e.up("tr").getAttribute("data-filter-name");
-      Reporting.Filters.load_available_values_for_filter(filter_name, function () {});
-    });*/
   },
 
   restore_group_bys: function () {
@@ -169,12 +88,3 @@ Reporting.onload(function () {
   Reporting.RestoreQuery.restore_group_bys();
   Reporting.RestoreQuery.restore_filters();
 });
-
-
-
-
-
-
-
-
-
