@@ -34,7 +34,6 @@ Feature: Groups
     Then I should see "Issue" in columns
     When I group rows by "Project"
     Then I should see "Project" in rows
-    Then I should not see "Project" in rows
 
   @javascript
   Scenario: Groups can be removed from rows and columns
