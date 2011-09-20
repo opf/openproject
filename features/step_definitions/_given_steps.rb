@@ -151,6 +151,8 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['prev_id'] = prev_id
     params['fixed_version_id'] = Version.find_by_name(story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
+    params['status_id'] = IssueStatus.find_by_name(story['status']).id if story['status']
+    params['tracker_id'] = Tracker.find_by_name(story['tracker']).id if story['tracker']
 
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
@@ -326,4 +328,17 @@ Given /^the following trackers are configured to track stories:$/ do |table|
   end
 
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))
+end
+
+Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |tracker_name, role_name, table|
+  role = Role.find_by_name(role_name)
+  tracker = Tracker.find_by_name(tracker_name)
+
+  tracker.workflows = []
+  table.hashes.each do |workflow|
+    old_status = IssueStatus.find_by_name(workflow['old_status']).id
+    new_status = IssueStatus.find_by_name(workflow['new_status']).id
+    tracker.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
+  end
+  tracker.save!
 end

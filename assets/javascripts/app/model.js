@@ -115,8 +115,8 @@ RB.Model = (function ($) {
       });
 
       this.$.find('.editable').each(function (index) {
-        var field, fieldType, fieldLabel, fieldName, fieldOrder, input,
-            trackerId;
+        var field, fieldType, fieldLabel, fieldName, fieldOrder, input, newInput,
+            trackerId, statusId ;
 
         field = $(this);
         fieldName = field.attr('fieldname');
@@ -134,16 +134,19 @@ RB.Model = (function ($) {
           // Special handling for status_id => they are dependent of tracker_id
           if (fieldName === 'status_id') {
             trackerId = $.trim(self.$.find('.tracker_id .v').html());
-            trackerId = $('#' + fieldName + '_options_' + trackerId);
-
-            if (trackerId.length !== 0) {
-              input = trackerId.clone(true);
-            }
-            else {
-              // now special list for this tracker id found - don't know why,
-              // but better show all statuses than none.
-              input = $('#' + fieldName + '_options').clone(true);
-            }
+            statusId = $.trim(self.$.find('.status_id .v').html());
+            input = self.findFactory(trackerId, statusId, fieldName);
+          }
+          else if (fieldName === 'tracker_id'){
+            input = $('#' + fieldName + '_options').clone(true);
+            // if the tracker changes the status dropdown has to be modified
+            input.change(function(){
+              trackerId = $(this).val();
+              statusId = $.trim(self.$.find('.status_id .v').html());
+              newInput = self.findFactory(trackerId, statusId, 'status_id');
+              newInput = self.prepareInputFromFactory(newInput,'status_id',fieldOrder,maxTabIndex);
+              newInput = self.replaceStatusForNewTracker(input, newInput, $(this).parent().find('.status_id').val(), editor);
+            });
           }
           else {
             input = $('#' + fieldName + '_options').clone(true);
@@ -152,13 +155,8 @@ RB.Model = (function ($) {
         else {
           input = $(document.createElement(fieldType));
         }
-        input.removeAttr('id');
-        input.attr('name', fieldName);
-        input.attr('tabindex', fieldOrder + maxTabIndex);
-        input.addClass(fieldName);
-        input.addClass('editor');
-        input.removeClass('template');
-        input.removeClass('helper');
+
+        input  = self.prepareInputFromFactory(input, fieldName, fieldOrder, maxTabIndex);
 
         // Copy the value in the field to the input element
         input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
@@ -211,6 +209,48 @@ RB.Model = (function ($) {
       this.displayEditor(editor);
       this.editorDisplayed(editor);
       return editor;
+    },
+
+    findFactory: function (trackerId, statusId, fieldName){
+      // Find a factory
+      newInput = $('#' + fieldName + '_options_' + trackerId + '_' + statusId);
+      if (newInput.length === 0) {
+        // when no list found, only offer the default status
+        // no list = combination is not valid / user has no rights -> workflow
+        newInput = $('#status_id_options_default');
+      }
+      newInput = newInput.clone(true);
+      return newInput;
+    },
+
+    prepareInputFromFactory: function (input,fieldName,fieldOrder, maxTabIndex) {
+      input.removeAttr('id');
+      input.attr('name', fieldName);
+      input.attr('tabindex', fieldOrder + maxTabIndex);
+      input.addClass(fieldName);
+      input.addClass('editor');
+      input.removeClass('template');
+      input.removeClass('helper');
+      return input;
+    },
+
+    replaceStatusForNewTracker: function (input,newInput, statusId, editor) {
+      // Append an empty field and select it in case the old status is not available
+      newInput.val(statusId); // try to set the status
+      if (newInput.val() !== statusId){
+          newInput.append(new Option('',''));
+          newInput.val('');
+      }
+      newInput.focus(function () {
+        self.$.data('focus', $(this).attr('name'));
+      });
+
+      newInput.blur(function () {
+        self.$.data('focus', '');
+      });
+      newInput.appendTo(editor);
+      // Find the old status dropdown and replace it with the new one
+      input.parent().find('.status_id').replaceWith(newInput);
     },
 
     // Override this method to change the dialog title
@@ -356,7 +396,15 @@ RB.Model = (function ($) {
         editor = $(this);
         fieldName = editor.attr('name');
         if (this.type.match(/select/)) {
-          j.children('div.' + fieldName).children('.v').text(editor.val());
+          // if the user changes the tracker and that tracker does not offer the status
+          // of the current story, the status field is set to blank
+          // if the user saves this edit we will receive a validation error
+          // the following 3 lines will prevent the override of the status id
+          // otherwise we would loose the status id of the current ticket
+
+          if (!(editor.val() === '' && fieldName === 'status_id')){
+            j.children('div.' + fieldName).children('.v').text(editor.val());
+          }
           j.children('div.' + fieldName).children('.t').text(editor.children(':selected').text());
         // } else if (this.type.match(/textarea/)) {
         //   this.setValue('div.' + fieldName + ' .textile', editors[ii].value);

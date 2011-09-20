@@ -246,3 +246,21 @@ Then /^I should be notified that the issue "(.+?)" is an invalid parent to the i
   Then %Q{I should see "#{I18n.t(:field_parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
 end
 
+Then /^"([^"]*)" should( not)? be an option for "([^"]*)"(?: within "([^\"]*)")?$/ do |value, negate, field, selector|
+  scope = selector ? Nokogiri::CSS.xpath_for(selector).first : ""
+  unless negate
+    page.should have_xpath(scope  + "//select[@name='#{field}']/option[contains(.,'#{value}')]")
+  else
+    page.should_not have_xpath(scope  + "//select[@name='#{field}']/option[contains(.,'#{value}')]")
+  end
+end
+
+Then /^I should( not)? see the status "([^"]*)" for "([^"]*)" within "([^"]*)"$/ do |negate, value, story_name, selector|
+  story_id = Issue.find_by_subject(story_name).id
+  selector = "#story_#{story_id} " + selector
+  unless negate
+    Then %Q{I should see "#{value}" within "#{selector}"}
+  else
+    Then %Q{I should not see "#{value}" within "#{selector}"}
+  end
+end
