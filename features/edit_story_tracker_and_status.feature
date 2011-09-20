@@ -43,7 +43,7 @@ Feature: Edit story tracker and status
         | position | subject | sprint      | tracker | status | story_points |
         | 5        | Story A | Sprint 001  | Bug    | New     | 10           |
         | 6        | Story B | Sprint 001  | Story  | New     | 20           |
-        | 7        | Story C | Sprint 001  | Story  | Closed  | 20           |
+        | 7        | Story C | Sprint 001  | Bug  | Resolved  | 20           |
     And the Tracker "Story" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Rejected   |
@@ -67,7 +67,7 @@ Feature: Edit story tracker and status
      And "Rejected" should not be an option for "status_id" within ".editors"
 
   @javascript
-  Scenario: Select a status and change to a tracker that does offer the status
+  Scenario: Select a status and change to a tracker that does not offer the status
     Given I am on the master backlog
      When I click on the text "Story B"
      Then "Rejected" should be an option for "status_id"
@@ -75,6 +75,19 @@ Feature: Edit story tracker and status
      And I select "Bug" from "tracker_id"
      Then the "status_id" field within ".editors" should contain "" 
      And "New" should be an option for "status_id"
-     When I select "New" from "status_id"
+     When I confirm the story form
+     Then the error alert should show "Status can't be blank"
+     When I press "OK"
+     When I click on the text "Story B"
+     And I select "New" from "status_id"
      And I confirm the story form
      Then I should see the status "New" for "Story B" within ".status_id.editable"
+
+  @javascript
+  Scenario: Edit a story having no permission for the status of the current ticket
+    Given I am on the master backlog
+     When I click on the text "Story C"
+     Then "Resolved" should be an option for "status_id"
+     And "New" should be an option for "status_id"
+     When I confirm the story form
+     Then I should see the status "Resolved" for "Story C" within ".status_id.editable"

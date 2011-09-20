@@ -217,7 +217,7 @@ RB.Model = (function ($) {
       if (newInput.length === 0) {
         // when no list found, only offer the default status
         // no list = combination is not valid / user has no rights -> workflow
-        newInput = $('#status_id_options_default');
+        newInput = $('#status_id_options_default_' + statusId);
       }
       newInput = newInput.clone(true);
       return newInput;

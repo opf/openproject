@@ -10,11 +10,18 @@
     </select>
   <% end %>
 <% end %>
-<select class="status_id helper" id="status_id_options_default">
-  <option value="<%= IssueStatus.default.id %>" class="<%= (IssueStatus.default.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
-    <%= IssueStatus.default.name %>
-  </option>
-</select>
+<% IssueStatus.all.each do |old_status| %>
+  <select class="status_id helper" id="status_id_options_default_<%= old_status.id %>">
+    <option value="<%= IssueStatus.default.id %>" class="<%= (IssueStatus.default.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
+      <%= IssueStatus.default.name %>
+    </option>
+    <% if old_status != IssueStatus.default %>
+      <option value="<%= old_status.id %>" class="<%= (old_status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
+        <%= old_status.name %>
+      </option>
+    <% end %>
+  </select>
+<% end %>
 <select class="status_id helper" id="status_id_options">
   <% IssueStatus.find(:all, :order => "position ASC").each do |status| %>
     <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
