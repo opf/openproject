@@ -47,6 +47,7 @@ Feature: Filter
     Given there is a standard cost control project named "First Project"
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
+    And I wait for Ajax
     And I click on "Clear"
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     Then filter "user_id" should be visible
