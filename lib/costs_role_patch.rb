@@ -27,13 +27,16 @@ module CostsRolePatch
       else
         # check, if the role has one of the parent permissions granted
         permission = Redmine::AccessControl.permission(action)
+
+        return if permission.blank?
+
         (permission.inherited_by + [permission]).map(&:name).detect {|parent| allowed_inherited_permissions.include? parent}
 
         # if parents = self.class.permission_tree[action]
         #   parents = [parents] unless parents.is_a? Array
         #   parents.each {|parent| return true if allowed_to? parent, for_user}
         # end
-        # 
+        #
         # # check, if the current user can see the own objects of for_user
         # if personal = personal_permissions[action]
         #   return true if ((for_user == User.current) && allowed_to?(personal, nil))
