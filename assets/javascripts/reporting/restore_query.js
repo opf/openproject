@@ -29,10 +29,8 @@ Reporting.RestoreQuery = {
 
   restore_dependent_filters: function(filter_name) {
     $$("tr.filter[data-filter-name=" + filter_name + "] select.filter-value").each(function(selectBox) {
-      console.log("restore dependents of " + filter_name);
       var activateNext = function(dependent) {
         if (!dependent) return;
-        console.log("up next: " + dependent);
         Reporting.RestoreQuery.restore_dependent_filters(dependent);
       };
       if (selectBox.hasAttribute('data-initially-selected')) {
@@ -45,7 +43,6 @@ Reporting.RestoreQuery = {
   },
 
   restore_filters: function () {
-    console.log("restore filters");
     var deps = $$('.filters-select.filter-value').each(function(select) {
       var tr = select.up('tr');
       if (tr.visible()) {

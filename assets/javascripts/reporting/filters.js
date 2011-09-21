@@ -314,7 +314,7 @@ Reporting.Filters = {
       selectBox = this;
     }
     if (callbackWhenFinished  === undefined) {
-      callbackWhenFinished = function(dependent) { console.log("Activated " + dependent); };
+      callbackWhenFinished = function(dependent) { };
     }
     source = selectBox.getAttribute("data-filter-name");
     all_dependents = Reporting.Filters.get_dependents(selectBox);
@@ -453,7 +453,9 @@ Reporting.Filters = {
           callbackWhenFinished();
         },
         onException: function (response, error) {
-          console.log(error);
+          if (console) {
+            console.log(error);
+          }
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
           var selectBox = $(currentDependent + "_arg_1_val");
           $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
