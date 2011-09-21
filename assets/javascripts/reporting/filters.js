@@ -448,9 +448,8 @@ Reporting.Filters = {
             if (continue_narrowing) {
               Reporting.Filters.narrow_values(sources, dependents);
             }
+            callbackWhenFinished();
           }
-
-          callbackWhenFinished();
         },
         onException: function (response, error) {
           if (console) {
