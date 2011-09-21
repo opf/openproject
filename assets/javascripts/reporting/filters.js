@@ -5,6 +5,11 @@ Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
     var select, radio_options, post_select_values;
     select = $$('.filter-value[data-filter-name="' + filter_name + '"]').first();
+    // check if we might have a radio-box
+    radio_options = $$('.' + filter_name + '_radio_option input');
+    if (radio_options && radio_options.size() !== 0) {
+      radio_options.first().checked = true;
+    }
     if (select === null || select === undefined) {
       return;
     }
@@ -43,14 +48,6 @@ Reporting.Filters = {
       Reporting.Filters.multi_select(select, false);
     } else {
       callback_func();
-    }
-    // select first option by default
-    if (select.tagName.toLowerCase() === "div") {
-      // check if we might have a radio-box
-      radio_options = $$('.' + filter_name + '_radio_option input');
-      if (radio_options && radio_options.size() !== 0) {
-        radio_options.first().checked = true;
-      }
     }
   },
 
