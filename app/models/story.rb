@@ -134,6 +134,7 @@ class Story < Issue
       attribs = Hash[*attribs.flatten]
       result = journalized_update_attributes attribs
       if result and params[:prev]
+        reload
         move_after(params[:prev])
       end
       result
