@@ -30,7 +30,6 @@ Reporting.Filters = {
         },
         onComplete: function (a, b) {
           $$("select[data-filter-name='" + filter_name + "']").each(function (e) { e.enable(); });
-          callback_func();
           if (select.tagName.toLowerCase() === "select") {
             if (post_select_values === undefined || post_select_values === null || post_select_values.size() === 0) {
               select.selectedIndex = 0;
@@ -38,6 +37,7 @@ Reporting.Filters = {
               Reporting.Filters.select_values(select, post_select_values);
             }
           }
+          callback_func();
         }
       });
       Reporting.Filters.multi_select(select, false);
