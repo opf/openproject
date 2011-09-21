@@ -24,6 +24,11 @@ class MergeWikiVersionsWithJournals < ActiveRecord::Migration
       end
     }
 
+    # assign all wiki_contents w/o author to the anonymous user - they used to
+    # work w/o author but don't any more.
+    WikiContent.update_all({:author_id => User.anonymous.id}, :author_id => nil)
+    WikiContent::Version.update_all({:author_id => User.anonymous.id}, :author_id => nil)
+
     WikiContent::Version.find_by_sql("SELECT * FROM wiki_content_versions").each do |wv|
       journal = WikiContentJournal.create!(:journaled_id => wv.wiki_content_id, :user_id => wv.author_id,
         :notes => wv.comments, :created_at => wv.updated_on, :activity_type => "wiki_edits")
