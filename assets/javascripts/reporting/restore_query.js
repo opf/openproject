@@ -38,7 +38,9 @@ Reporting.RestoreQuery = {
         Reporting.Filters.select_values(selectBox, selected_values);
         Reporting.Filters.value_changed(filter_name);
       }
-      Reporting.Filters.activate_dependents(selectBox, activateNext);
+      if (selectBox.getValue() !== '<<inactive>>') {
+        Reporting.Filters.activate_dependents(selectBox, activateNext);
+      }
     });
   },
 
