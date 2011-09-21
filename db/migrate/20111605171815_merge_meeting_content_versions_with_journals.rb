@@ -20,7 +20,7 @@ class MergeMeetingContentVersionsWithJournals < ActiveRecord::Migration
       cache = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = Hash.new{|h,k| h[k] = {}}}}
       
       MeetingContent::Version.find_by_sql('SELECT * FROM meeting_content_versions ORDER BY version ASC').each do |mcv|
-        options = {:journaled_id => mcv.meeting_content_id, :created_at => mcv.created_at, 
+        options = {:journaled_id => mcv.meeting_content_id, :created_at => mcv.created_at,
                    :user_id => mcv.author_id, :notes => mcv.comment, :activity_type => 'meetings',
                    :version => mcv.version}
         ft = [cache[mcv.meeting_content_id][mcv.versioned_type][mcv.version-1][:locked], mcv.locked]
