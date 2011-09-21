@@ -7,6 +7,10 @@ class MergeMeetingContentVersionsWithJournals < ActiveRecord::Migration
         MeetingContent.const_set("Version", Class.new(ActiveRecord::Base))
       end
 
+      # load some classes
+      MeetingAgenda
+      MeetingMinutes
+
       # avoid touching WikiContent on journal creation
       MeetingAgendaJournal.class_exec {
         def touch_journaled_after_creation
