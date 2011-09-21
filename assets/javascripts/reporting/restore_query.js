@@ -58,7 +58,8 @@ Reporting.RestoreQuery = {
     });
 
     $$("tr[data-selected=true]").each(function (e) {
-      if (e.down(".filter_values select").hasAttribute("data-dependent")) return;
+      var select = e.down(".filter_values select");
+      if (select && select.hasAttribute("data-dependent")) return;
       var filter_name = e.getAttribute("data-filter-name");
       var on_complete = function() {
         Reporting.RestoreQuery.restore_dependent_filters(filter_name);
