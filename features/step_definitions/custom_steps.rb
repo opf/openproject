@@ -91,7 +91,7 @@ Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, tex
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
-  When %{I select "#{group}" from "add_group_by_#{target}"}
+  When %{I select "#{group}" from "add_group_by_#{target}" within "#group_by_#{target}"}
 end
 
 Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
