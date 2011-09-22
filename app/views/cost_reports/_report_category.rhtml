@@ -1,0 +1,10 @@
+<%# needs locals:
+  report_type: symbol referring to helper methods of the sort #{report_type}_queries
+%>
+
+<% queries = respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
+<% if queries.any? %>
+  <h3><%= l(:"label_#{report_type}_report_plural") %></h3>
+  <%= render :partial => "report_list", :locals => { :report_type => report_type, :queries => queries } %>
+<% end -%>
+

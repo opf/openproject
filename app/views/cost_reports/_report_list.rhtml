@@ -1,0 +1,10 @@
+<% queries ||= respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
+<ul id='<%= "#{report_type}_sidebar_report_list" %>'
+    class="report_list list"
+    data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
+  <% queries.each do |query| -%>
+    <li>
+      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
+    </li>
+  <% end -%>
+</ul>

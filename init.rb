@@ -16,7 +16,7 @@ Redmine::Plugin.register :redmine_reporting do
   requires_redmine :version_or_higher => '0.9'
   requires_redmine_plugin :redmine_costs, :version_or_higher => '0.3'
 
-  view_actions = [:index, :show, :drill_down, :available_values]
+  view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
   edit_actions = [:create, :update, :rename, :delete]
 
   #register reporting_module including permissions
