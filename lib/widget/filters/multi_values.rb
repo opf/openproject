@@ -23,9 +23,11 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         # store selected value(s) in data-initially-selected if this filter is a dependent
         # of another filter, as we have to restore values manually in the client js
         if (filter_class.is_dependent? || @options[:lazy]) && !Array(filter.values).empty?
-          select_options.merge! :"data-initially-selected" => filter.values.to_json.gsub!('"', "'")
+          select_options.merge! :"data-initially-selected" =>
+            filter.values.to_json.gsub!('"', "'") || "[" + filter.values.map { |v| "'#{v}'" }.join(',') + "]"
         end
-        box_content = ""
+        select_options.merge! :"data-dependent" => true if filter_class.is_dependent?
+        box_content = "".html_safe
         box = content_tag :select, select_options do
           render_widget Widget::Filters::Option, filter, :to => box_content unless @options[:lazy]
         end

@@ -12,7 +12,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
             :id => "#{filterName}_radio_option_#{i}",
             :value => value
           }
-          opts[:checked] = "checked" if filter.values == value
+          opts[:checked] = "checked" if filter.values == [value].flatten
           radio_button = tag :input, opts
           content_tag :label, radio_button + translate(label),
             :for => "#{filterName}_radio_option_#{i}",

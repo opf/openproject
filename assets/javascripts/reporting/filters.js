@@ -5,6 +5,12 @@ Reporting.Filters = {
   load_available_values_for_filter:  function  (filter_name, callback_func) {
     var select, radio_options, post_select_values;
     select = $$('.filter-value[data-filter-name="' + filter_name + '"]').first();
+    // check if we might have a radio-box
+    radio_options = $$('.' + filter_name + '_radio_option input');
+    if (radio_options && radio_options.size() !== 0) {
+      radio_options.first().checked = true;
+      callback_func();
+    }
     if (select === null || select === undefined) {
       return;
     }
@@ -30,7 +36,6 @@ Reporting.Filters = {
         },
         onComplete: function (a, b) {
           $$("select[data-filter-name='" + filter_name + "']").each(function (e) { e.enable(); });
-          callback_func();
           if (select.tagName.toLowerCase() === "select") {
             if (post_select_values === undefined || post_select_values === null || post_select_values.size() === 0) {
               select.selectedIndex = 0;
@@ -38,19 +43,12 @@ Reporting.Filters = {
               Reporting.Filters.select_values(select, post_select_values);
             }
           }
+          callback_func();
         }
       });
       Reporting.Filters.multi_select(select, false);
     } else {
       callback_func();
-    }
-    // select first option by default
-    if (select.tagName.toLowerCase() === "div") {
-      // check if we might have a radio-box
-      radio_options = $$('.' + filter_name + '_radio_option input');
-      if (radio_options && radio_options.size() !== 0) {
-        radio_options.first().checked = true;
-      }
     }
   },
 
@@ -67,6 +65,9 @@ Reporting.Filters = {
     if (options.show_filter === undefined) {
       options.show_filter = true;
     }
+    if (options.hide_only === undefined) {
+      options.hide_only = false;
+    }
     var field_el = $('tr_' +  field);
     if (field_el !== null) {
       if (options.insert_after === undefined) {
@@ -74,8 +75,10 @@ Reporting.Filters = {
       }
       if (options.insert_after !== undefined && options.show_filter) {
         // Move the filter down to appear after the last currently visible filter
-        field_el.remove();
-        options.insert_after.insert({after: field_el});
+        if (field_el.id !== options.insert_after.id) {
+          field_el.remove();
+          options.insert_after.insert({after: field_el});
+        }
       }
       // the following command might be included into the callback_function (which is called after the ajax request) later
       var display_functor;
@@ -87,13 +90,49 @@ Reporting.Filters = {
         Reporting.Filters.set_filter_value_widths(100);
       } else {
         (options.slowly ? Effect.Fade : Element.hide)(field_el);
-        field_el.removeAttribute('data-selected');
+        if (!options.hide_only) { // remember that this filter used to be selected
+          field_el.removeAttribute('data-selected');
+        }
         $('rm_' + field).value = ""; // reset the value, so the serialized form will not return this filter
         Reporting.Filters.set_filter_value_widths(5000);
       }
       Reporting.Filters.operator_changed(field, $("operators[" + field + "]"));
       Reporting.Filters.display_category($(field_el.getAttribute("data-label")));
     }
+  },
+
+  /**
+   * Activates the filter with the given name and loads dependent filters if necessary.
+   *
+   * @param filter_name Name of the filter to be activated.
+   */
+  add_filter: function (filter_name, activate_dependent, on_complete) {
+    var field = filter_name
+    if (activate_dependent === undefined) {
+      activate_dependent = true;
+    }
+    if (on_complete === undefined) {
+      on_complete = function() { };
+    }
+    Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
+        if (activate_dependent) {
+          Reporting.Filters.activate_dependents($(field + "_arg_1_val"));
+        }
+        Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
+        on_complete();
+      }
+    });
+  },
+
+  remove_filter: function (field, hide_only) {
+    Reporting.Filters.show_filter(field, { show_filter: false, hide_only: hide_only });
+    var dependent = Reporting.Filters.get_dependents($(field + '_arg_1_val'), false).find(function(d) {
+      return Reporting.Filters.visible_filters().include(d);
+    });
+    if (dependent !== undefined) {
+      Reporting.Filters.remove_filter(dependent);
+    }
+    Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
 
   /*
@@ -210,15 +249,6 @@ Reporting.Filters = {
     }
   },
 
-  add_filter: function (select) {
-    var field;
-    field = select.value;
-    Reporting.Filters.show_filter(field, { slowly: true });
-    select.selectedIndex = 0;
-    Reporting.Filters.select_option_enabled(select, field, false);
-    Reporting.Filters.activate_dependents($(field + "_arg_1_val"))
-  },
-
   select_option_enabled: function (box, value, state) {
     var option = box.select("[value='" + value + "']").first();
     if (option !== undefined) {
@@ -241,17 +271,6 @@ Reporting.Filters = {
 
   toggle_multi_select: function (select) {
     Reporting.Filters.multi_select(select, !select.multiple);
-  },
-
-  remove_filter: function (field) {
-    Reporting.Filters.show_filter(field, { show_filter: false });
-    var dependent = Reporting.Filters.get_dependents($(field + '_arg_1_val'), false).find(function(d) {
-      return Reporting.Filters.visible_filters().include(d);
-    });
-    if (dependent !== undefined) {
-      Reporting.Filters.remove_filter(dependent);
-    }
-    Reporting.Filters.select_option_enabled($("add_filter_select"), field, true);
   },
 
   visible_filters: function () {
@@ -289,11 +308,14 @@ Reporting.Filters = {
   // Param: select [optional] - the select-box of the filter which should activate it's dependents
   activate_dependents: function (selectBox, callbackWhenFinished) {
     var all_dependents, next_dependents, dependent, active_filters, source;
-    if (selectBox  === undefined || selectBox.type.toLowerCase() == 'change') {
+    if (selectBox !== undefined && selectBox.tagName.toLowerCase() !== "select") {
+      return; // only multi_value filters have dependents
+    }
+    if (selectBox === undefined || selectBox.type.toLowerCase() == 'change') {
       selectBox = this;
     }
     if (callbackWhenFinished  === undefined) {
-      callbackWhenFinished = function() {};
+      callbackWhenFinished = function(dependent) { };
     }
     source = selectBox.getAttribute("data-filter-name");
     all_dependents = Reporting.Filters.get_dependents(selectBox);
@@ -326,14 +348,18 @@ Reporting.Filters = {
       var active_dependents = all_dependents.select(function (d) {
         return active_filters.include(d);
       });
-      Reporting.Filters.narrow_values(Reporting.Filters.dependent_for(source), active_dependents, callbackWhenFinished);
+      Reporting.Filters.narrow_values(
+        Reporting.Filters.dependent_for(source),
+        active_dependents,
+        function() { callbackWhenFinished(dependent); }
+      );
     }, 1);
   },
 
   // return an array of all filters that depend on the given filter plus the given filter
   dependent_for: function(field) {
     var deps = $$('.filters-select[data-all-dependents]').findAll(function(selectBox) {
-        return selectBox.up('tr').visible() && Reporting.Filters.get_dependents(selectBox).include(field)
+        return (selectBox.up('tr').visible()) && Reporting.Filters.get_dependents(selectBox).include(field)
       }).map(function(selectBox) {
         return selectBox.getAttribute("data-filter-name");
       });
@@ -400,7 +426,9 @@ Reporting.Filters = {
               // cannot use .innerhtml due to IE wierdness
               $(selectBox).insert(new Element('option', {value: value}).update(label.escapeHTML()));
             });
+
             Reporting.Filters.select_values(selectBox, selected);
+
             sources.push(currentDependent); // Add as last element
             dependents.splice(0, 1); // Delete first element
             // if we got no values besides the <<inactive>> value, do not show this selectBox
@@ -421,10 +449,13 @@ Reporting.Filters = {
             if (continue_narrowing) {
               Reporting.Filters.narrow_values(sources, dependents);
             }
+            callbackWhenFinished();
           }
-          callbackWhenFinished();
         },
         onException: function (response, error) {
+          if (console) {
+            console.log(error);
+          }
           Reporting.flash("Loading of filter values failed. Probably, the server is temporary offline for maintenance.");
           var selectBox = $(currentDependent + "_arg_1_val");
           $(selectBox).insert(new Element('option', {value: '<<inactive>>'}).update('Failed to load values.'));
@@ -445,7 +476,8 @@ Reporting.onload(function () {
   if ($("add_filter_select")) {
     $("add_filter_select").observe("change", function () {
       if (!(Reporting.Filters.exists(this.value))) {
-        Reporting.Filters.add_filter(this);
+        Reporting.Filters.add_filter(this.value);
+        this.selectedIndex = 0;
       };
     });
   }
@@ -474,15 +506,12 @@ Reporting.onload(function () {
     }).size();
     s.multiple = (selected_size > 1);
     s.observe("change", function (evt) {
-    var filter_name = this.up('tr').getAttribute("data-filter-name");
-    Reporting.Filters.value_changed(filter_name);
+      var filter_name = this.up('tr').getAttribute("data-filter-name");
+      Reporting.Filters.value_changed(filter_name);
     });
   });
   $$('.filters-select[data-all-dependents]').each(function (dependency) {
     dependency.observe("change", Reporting.Filters.activate_dependents);
-  });
-  Reporting.Filters.visible_filters().each(function (filter) {
-    Reporting.Filters.load_available_values_for_filter(filter, function () {});
   });
 });
 
