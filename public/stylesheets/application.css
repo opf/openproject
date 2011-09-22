@@ -2424,7 +2424,7 @@ tr.time-entry {
 
 /* -- New #main-menu toggle CSS */
 #main-menu .toggle-follow {
-	padding:5px 5px 5px 0;
+	padding:5px 100px 5px 0;
 }
 
 /* Weird Safari cascade bug. More specificity */

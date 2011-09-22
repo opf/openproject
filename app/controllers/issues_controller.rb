@@ -14,14 +14,15 @@
 
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => [:new, :create]
+  menu_item :view_all_issues, :only => [:all]
   default_search_scope :issues
 
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :move, :perform_move, :destroy]
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :authorize, :except => [:index, :all]
+  before_filter :find_optional_project, :only => [:index, :all]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :create, :update, :destroy
@@ -87,6 +88,11 @@ class IssuesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def all
+    params[:set_filter] = '1'
+    index
   end
 
   def show

@@ -74,7 +74,7 @@ Redmine::AccessControl.map do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
     # Issues
-    map.permission :view_issues, {:issues => [:index, :show],
+    map.permission :view_issues, {:issues => [:index, :all, :show],
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
                                   :versions => [:index, :show, :status_by],
@@ -202,9 +202,12 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity, { :controller => 'activities', :action => 'index' }
   menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
+
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
+  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
+  menu.push :view_all_issues, { :controller => 'issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
+  menu.push :summary_field, {:controller => 'reports', :action => 'issue_report'}, :param => :id, :caption => :field_summary, :parent => :issues
   menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
