@@ -125,10 +125,16 @@ class Report::Filter
       super
     end
 
+    ##
+    # Returns an array of [:label_of_value, value]-kind arrays, containing
+    # valid id-label combinations of possible filter values
     def self.available_values(params = {})
-      [] #array of [:label_of_value, value]-kind arrays
+      []
     end
 
+    ##
+    # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
+    # for the given value
     def self.label_for_value(value)
       available_values(:reverse_search => true).find{ |v| v.second == value || v.second.to_s == value }
     end
