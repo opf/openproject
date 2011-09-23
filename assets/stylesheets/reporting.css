@@ -536,7 +536,7 @@ div.button_form p * {
   z-index: 999;
 }
 
-#progressbar {
+#progressbar, .hidden {
   display: none;
 }
 
