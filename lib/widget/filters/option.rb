@@ -1,8 +1,12 @@
-class Widget::Filters::Option < Widget::Filters::Base
+##
+# Accepts option :content, which expects an enumerable of [name, id, *args]
+# as it would appear in a filters available values. If given, it renders the
+# option-tags from the content array instead of the filters available values.
 
+class Widget::Filters::Option < Widget::Filters::Base
   def render
     first = true
-    write(filter_class.available_values.collect do |name, id, *args|
+    write((@options[:content] || filter_class.available_values).collect do |name, id, *args|
       options = args.first || {} # optional configuration for values
       level = options[:level] # nesting_level is optional for values
       name = l(name) if name.is_a? Symbol
