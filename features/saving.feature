@@ -49,6 +49,7 @@ Feature: Saving Queries
     And I click on "Clear"
     And I group columns by "Issue"
     And I group rows by "Project"
+    And I wait for Ajax
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
