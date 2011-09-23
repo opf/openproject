@@ -7,7 +7,11 @@ class Widget::Filters::Heavy < Widget::Filters::Base
 
   def render
     write(content_tag :td do
-      opts = Array(filter.values).empty? ? [] : filter.values.first.map{ |i| filter_class.label_for_value(i.to_i) }
+      # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].
+      #       (using cost reporting)
+      #       this might be a bug - further research would be fine
+      values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
+      opts = Array(values).empty? ? [] : values.map{ |i| filter_class.label_for_value(i.to_i) }
       div = content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values hidden" do
         select_options = {  :"data-remote-url" => url_for(:action => "available_values"),
                             :name => "values[#{filter_class.underscore_name}][]",
