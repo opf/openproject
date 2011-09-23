@@ -481,6 +481,20 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
+        // show/hide login box
+	$("#account a.login").click(function() {
+		$(this).parent().toggleClass("open");
+                // Focus the username field if the login field has opened
+                $("#nav-login").slideToggle(animRate, function () {
+                    if ($(this).parent().hasClass("open")) {
+                      $("input#username").focus()
+                    }
+                  });
+                $("#account .drop-down.open").toggleClass("open").find("ul").mySlide();
+          
+		return false;
+	});
+        
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -546,45 +560,35 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	// remove .drop-down class from empty dropdowns
-	$("#account .drop-down").each(function(index) {
-		if ($(this).find("li").size() < 1) {
-			$(this).removeClass("drop-down");
-		}
-	});
+        jQuery("#account-nav > li").hover(function() {
+          if ($("#account-nav").hasClass("hover") && ($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
+                //Close all other open menus
+                //Used to work around the rendering bug  TODO: fix
+                jQuery("input#username-pulldown").blur();
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
+                $(this).slideAndFocus();
+                return false;
+            }
+        },
+        function(){
+          return false;
+          });
+	jQuery("#account-nav > li.drop-down").click(function() {
+          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
+          }
+                $(this).slideAndFocus();
+                $("#account-nav").toggleClass("hover");
 
-	$("#account .drop-down").hover(function() {
-		$(this).addClass("open").find("ul").show();
-		$("#top-menu").addClass("open");
-
-		// wraps long dropdown menu in an overflow:auto div to keep long project lists on the page
-		var $projectDrop = $("#account .drop-down:has(.projects) ul");
-
-		// only do the wrapping if it's the project dropdown, and more than 15 items
-		if ( $projectDrop.children().size() > 15 && $(this).find("> a").hasClass("projects") ) {
-
-			var overflowHeight = 15 * $projectDrop.find("li:eq(1)").outerHeight() - 2;
-
-			$projectDrop
-				.wrapInner("<div class='overflow'></div>").end()
-				.find(".overflow").css({overflow: 'auto', height: overflowHeight, position: 'relative'})
-				.find("li a").css('paddingRight', '25px');
-
-				// do hack-y stuff for IE6 & 7. don't ask why, I don't know.
-				if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-
-					$projectDrop.find(".overflow").css({width: 325, zoom: '1'});
-					$projectDrop.find("li a").css('marginLeft', '-15px');
-					$("#top-menu").css('z-index', '10000');
-				}
-
-		}
-
-
-	}, function() {
-		$(this).removeClass("open").find("ul").hide();
-		$("#top-menu").removeClass("open");
-	});
+	$("#account .drop-down:has(ul) > a").click(function() {
+                //Close all other open menus
+                $("#account .drop-down.open:has(ul)").not($(this).parent()).toggleClass("open").find("ul").mySlide();
+                //Close login pull down when open
+                $("li.open div#nav-login").parent().toggleClass("open").find("div#nav-login").slideToggle(animRate);
+                //Toggle clicked menu item
+                $(this).parent().toggleClass("open").find("ul").mySlide();
+                return false;
+        });
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
@@ -608,4 +612,13 @@ jQuery(document).ready(function($) {
 			}
 		});
 
+        $('html').click(function() {
+           //Close all open menus
+          $("#account .drop-down.open").toggleClass("open").find("ul").mySlide();
+          $("li.open div#nav-login").parent().toggleClass("open").find("div#nav-login").slideToggle(animRate);
+         });
+        // Do not close the login window when using it
+        $('#nav-login-content').click(function(event){
+             event.stopPropagation();
+         });
 });

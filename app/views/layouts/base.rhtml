@@ -83,10 +83,27 @@
             <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
         <% end %>
         </li>
+          <% unless User.current.logged? %>
+            <li>
+              <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
+              <!-- IE7 Fix - extra div needed for slideToggle animation -->
+              <div id="nav-login">
+                <%= render :partial => 'account/login' %>
+              </div>
+            </li>
+          <% else %>
+            <li class="drop-down">
+            <%= link_to_user(User.current) %>
+            <ul style="display:none;">
+            <% menu_items_for(:account_menu) do |item| %>
+              <%= render_menu_node(item) %>
+            <% end %>
+          </ul>
+          </li>
+          <% end %>
       </ul>
       <% end %>
     </div>
-
   </div>
       
   <% main_menu = render_main_menu(@project) %>

@@ -1187,7 +1187,44 @@ a:hover {
 	margin:5px 5px;
 	width:94%;
 }
+#nav-login {
+	display:none;
+        width: 500px;
+        position: absolute;
+	right:-1px;
+	top:23px;
+	background: transparent;
+	border:0px;
+	border-top:0;
 
+}
+#nav-login-content {
+        position: relative;
+        float: right;
+	background: white;
+	border:1px solid #194E60;
+	border-top:0;
+        padding-left:5px;
+        padding-top:5px;
+        padding-right:10px;
+        padding-bottom:8px;;
+}
+#nav-login input[type=text], #nav-login input[type=password] {
+        height: 20px;
+        width: 150px;
+}
+#nav-login div a {
+        display: inline;
+        padding-left: 2px;
+}
+#nav-login div a:hover {
+  background-color: transparent;
+  text-decoration:underline;
+}
+div#optional_login_fields {
+  top:10px;
+  white-space:nowrap;
+}
 /*-------------------------------------------------------------------------------
  * =02 - Main Menu
  *

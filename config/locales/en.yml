@@ -543,6 +543,7 @@ en:
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
+  label_user_settings: Settings
   label_overview: Overview
   label_version: Version
   label_version_new: New version
