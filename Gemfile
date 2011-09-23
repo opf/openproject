@@ -14,8 +14,8 @@ group :test do
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
 
-  platforms :mri_18 do gem 'ruby-debug' end
-  platforms :mri_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
+  platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
+  platforms :mri_19, :mingw_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
 end
 
 group :openid do
@@ -32,7 +32,7 @@ end
 # orders of magnitude compared to their native counterparts. You have been
 # warned.
 
-platforms :mri do
+platforms :mri, :mingw do
   group :mysql do
     gem "mysql"
     #   gem "ruby-mysql"
@@ -48,13 +48,13 @@ platforms :mri do
   end
 end
 
-platforms :mri_18 do
+platforms :mri_18, :mingw_18 do
   group :sqlite do
     gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
   end
 end
 
-platforms :mri_19 do
+platforms :mri_19, :mingw_19 do
   group :sqlite do
     gem "sqlite3"
   end
