@@ -11,6 +11,15 @@ class CostQuery::Filter::IssueId < CostQuery::Filter::Base
   end
   not_selectable! if heavy?
 
+  ##
+  # Overwrites Report::Filter::Base self.label_for_value method
+  # to achieve a more performant implementation
+  def self.label_for_value(value)
+    return nil unless value.to_i.to_s == value.to_s # we expect an issue-id
+    issue = Issue.find(value.to_i)
+    [text_for_issue(issue), issue.id] if issue and issue.visible?(User.current)
+  end
+
   def self.text_for_issue(i)
     i = i.first if i.is_a? Array
     str = "##{i.id} "
