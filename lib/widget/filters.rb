@@ -58,7 +58,9 @@ class Widget::Filters < Widget::Base
     html = ''.html_safe
     render_widget Filters::Label, f, :to => html
     render_widget Filters::Operators, f, :to => html
-    if engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
+    if f_cls.heavy?
+      render_widget Filters::Heavy, f, :to => html
+    elsif engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget Filters::TextBox, f, :to => html
     elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
       render_widget Filters::Date, f, :to => html
