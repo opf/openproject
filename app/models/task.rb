@@ -73,12 +73,11 @@ class Task < Issue
 
   # assumes the task is already under the same story as 'id'
   def move_after(id)
-    id = nil if id.respond_to?('blank?') && id.blank?
-    if id.nil?
+    if id.blank?
       sib = self.siblings
-      move_to_left_of sib[0].id if sib.any?
+      move_to_left_of(sib[0].id) if sib.any?
     else
-      move_to_right_of id
+      move_to_right_of(id)
     end
   end
 
