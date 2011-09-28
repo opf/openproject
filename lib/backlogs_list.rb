@@ -18,16 +18,17 @@ module Backlogs
 
     module InstanceMethods
       def move_after(prev_id)
-        # remove so the potential 'prev' has a correct position
-        remove_from_list
         reload
 
         prev = self.class.find_by_id(prev_id.to_i)
 
-        # if it's the first story, move it to the 1st position
+        # if it should be the first story, move it to the 1st position
         if prev.blank?
-          insert_at
-          move_to_top
+          if in_list?
+            move_to_top
+          else
+            insert_at
+          end
 
         # if its predecessor has no position, create an order on position silently.
         # This can happen when sorting inside a version for the first time after backlogs was activated
