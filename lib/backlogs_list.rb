@@ -3,7 +3,6 @@ module Backlogs
     unloadable
 
     def self.included(base)
-      base.send(:include, InstanceMethods)
       base.class_eval do
         # The leading and trailing quotes trick the eval code in acts_as_list.
         # This way, we are able to execute actual code in our quote string. Also
@@ -14,6 +13,7 @@ module Backlogs
                                              self.project_id, self.fixed_version_id, self.class.trackers]) + "
         SCOPE
       end
+      base.send(:include, InstanceMethods)
     end
 
     module InstanceMethods
