@@ -1,8 +1,8 @@
 <!-- story helper tags -->
-<% @available_statuses_by_tracker.each do |tracker,issue_statuses| %>
-  <% issue_statuses.each do |old_status,allowed_issue_statuses| %>
+<% @available_statuses_by_tracker.each do |tracker, issue_statuses| %>
+  <% issue_statuses.each do |old_status, allowed_issue_statuses| %>
     <select class="status_id helper" id="status_id_options_<%= tracker.id %>_<%= old_status.id %>">
-      <% allowed_issue_statuses.each do |status| %>
+      <% allowed_issue_statuses.sort_by(&:position).each do |status| %>
         <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
           <%= status.name %>
         </option>
@@ -10,6 +10,7 @@
     </select>
   <% end %>
 <% end %>
+
 <% IssueStatus.all.each do |old_status| %>
   <select class="status_id helper" id="status_id_options_default_<%= old_status.id %>">
     <option value="<%= IssueStatus.default.id %>" class="<%= (IssueStatus.default.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
@@ -22,6 +23,7 @@
     <% end %>
   </select>
 <% end %>
+
 <select class="status_id helper" id="status_id_options">
   <% IssueStatus.find(:all, :order => "position ASC").each do |status| %>
     <option value="<%= status.id %>" class="<%= (status.is_closed? ?  l(:label_closed_issues) + ' ' : "") %>">
