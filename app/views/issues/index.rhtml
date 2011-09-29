@@ -1,7 +1,6 @@
 <div class="title-bar">
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
-<% html_title(@query.new_record? ? l(:label_issue_plural) : h(@query.name)) %>
 
 <div class="title-bar-extras">
 
@@ -12,6 +11,8 @@
 <% end %>
 <%= render :partial => 'queries/new_issue_button' %>
 </div>
+
+<% html_title(@query.new_record? ? l(:label_issue_plural) : h(@query.name)) %>
 
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>

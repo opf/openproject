@@ -13,6 +13,7 @@
   <h3>
     <%= h(@issue.tracker.name) %> #<%= @issue.id %>
   </h3>
+  <hr />
 
   <p class="author">
     <%= authoring @issue.created_on, @issue.author %>.
@@ -107,6 +108,7 @@
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>
+<hr />
 <% end %>
 
 </div>

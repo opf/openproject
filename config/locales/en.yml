@@ -543,7 +543,6 @@ en:
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
-  label_user_settings: Settings
   label_overview: Overview
   label_version: Version
   label_version_new: New version
@@ -657,6 +656,7 @@ en:
   label_roadmap_overdue: "%{value} late"
   label_roadmap_no_issues: No issues for this version
   label_search: Search
+  search_input_placeholder: search ...
   label_result_plural: Results
   label_all_words: All words
   label_wiki: Wiki

@@ -546,7 +546,6 @@ de:
   label_news_view_all: Alle News anzeigen
   label_news_added: News hinzugefügt
   label_settings: Konfiguration
-  label_user_settings: Einstellungen
   label_overview: Übersicht
   label_version: Version
   label_version_new: Neue Version
@@ -659,6 +658,7 @@ de:
   label_roadmap_overdue: "%{value} verspätet"
   label_roadmap_no_issues: Keine Tickets für diese Version
   label_search: Suche
+  search_input_placeholder: Suche ...
   label_result_plural: Resultate
   label_all_words: Alle Wörter
   label_wiki: Wiki

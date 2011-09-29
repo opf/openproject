@@ -613,9 +613,8 @@ jQuery(document).ready(function($) {
 		});
 
         $('html').click(function() {
-           //Close all open menus
-          $("#account .drop-down.open").toggleClass("open").find("ul").mySlide();
-          $("li.open div#nav-login").parent().toggleClass("open").find("div#nav-login").slideToggle(animRate);
+          $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
+          $("#account-nav.hover").toggleClass("hover");
          });
         // Do not close the login window when using it
         $('#nav-login-content').click(function(event){
