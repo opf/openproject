@@ -224,17 +224,15 @@ module ApplicationHelper
   end
 
   # Renders the project quick-jump box
-  def render_project_jump_box
-    projects = User.current.memberships.collect(&:project).compact.uniq
+  def render_project_jump_box(projects = [], html_options = {})
+    projects ||= User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
-      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-            '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      s << '</select>'
-      s
+        # option_tags = content_tag :option, l(:label_jump_to_a_project), :value => ""
+        option_tags = (content_tag :option, "", :value => "" )
+        option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        end
+      select_tag "", option_tags, html_options.merge({ :onchange => "if (this.value != \'\') { window.location = this.value; }" })
     end
   end
 
