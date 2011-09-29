@@ -19,6 +19,8 @@
 <%= javascript_include_tag 'jquery.min.js' %>
 <%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
+<%= javascript_include_tag 'chosen.js'%>
+<%= stylesheet_link_tag 'chosen'%>
 <%= javascript_tag('jQuery.noConflict();') %>
 <%= javascript_heads %>
 <%= stylesheet_link_tag 'jstoolbar' %>
@@ -48,17 +50,12 @@
             <%= render_menu_node(item) %>
         <% end %>
         <li class="drop-down">
-          <%= link_to l(:label_project_plural), { :controller => 'projects', :action => 'index' }, :class => "projects" %>
+          <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
           <ul style="display:none;">
-            <% 
-            project_content = ''
-            project_tree(User.current.projects.all) do |project, level|
-              name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
-              project_content << content_tag(:li,
-                                     link_to(name_prefix + h(project), {:controller => 'projects', :action => 'show', :id => project, :jump => current_menu_item}))
-            end
-            %>
-            <%= project_content %>
+            <div>
+              <%= link_to "View all Projects", :controller => 'projects', :action => 'index' %>
+              <%= render_project_jump_box Project.visible, :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %>
+            </div>
           </ul>
         </li>
         <li class="drop-down" id="more-menu">

@@ -612,6 +612,16 @@ jQuery(document).ready(function($) {
 			}
 		});
 
+        $('#account li.drop-down select.chzn-select').each(function (ix, select) {
+          // trigger an artificial mousedown event
+          jQuery(select).parents("li.drop-down").first().mousedown(function(event) {
+            var parent = jQuery(event.target).parents('li.drop-down');
+            parent.find('select.chzn-select').chosen({allow_single_deselect:true});
+            parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
+            parent.find('a.chzn-single').hide();
+          });
+        });
+        
         $('html').click(function() {
           $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
           $("#account-nav.hover").toggleClass("hover");
