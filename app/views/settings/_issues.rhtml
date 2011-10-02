@@ -5,6 +5,8 @@
 
 <p><%= setting_check_box :display_subprojects_issues %></p>
 
+<p><%= setting_check_box :issue_startdate_is_adddate %></p>
+
 <p><%= setting_select :issue_done_ratio, Issue::DONE_RATIO_OPTIONS.collect {|i| [l("setting_issue_done_ratio_#{i}"), i]} %></p>
 
 <p><%= setting_text_field :issues_export_limit, :size => 6 %></p>

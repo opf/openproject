@@ -370,6 +370,7 @@ en-GB:
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_logtime_activity_id: Activity for logged time
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  setting_issue_startdate_is_adddate: Use current date as start date for new issues
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
