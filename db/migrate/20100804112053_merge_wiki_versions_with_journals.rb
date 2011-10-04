@@ -12,12 +12,13 @@
 #++
 
 class MergeWikiVersionsWithJournals < ActiveRecord::Migration
-  def self.up
-    # This is provided here for migrating up after the WikiContent::Version class has been removed
-    unless WikiContent.const_defined?("Version")
-      WikiContent.const_set("Version", Class.new(ActiveRecord::Base))
+  # This is provided here for migrating up after the WikiContent::Version class has been removed
+  class WikiContent < ActiveRecord::Base
+    class Version < ActiveRecord::Base
     end
+  end
 
+  def self.up
     # avoid touching WikiContent on journal creation
     WikiContentJournal.class_exec {
       def touch_journaled_after_creation
