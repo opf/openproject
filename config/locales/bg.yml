@@ -964,3 +964,4 @@ bg:
   label_path_encoding: Кодиране на пътищата
   text_mercurial_repo_example: локално хранилище (например /hgrepo, c:\hgrepo)
   label_diff: diff
+  setting_issue_startdate_is_adddate: Use current date as start date for new issues
