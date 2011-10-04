@@ -178,3 +178,5 @@ default_notification_option:
   default: 'only_my_events'
 emails_header:
   default: ''
+issue_startdate_is_adddate:
+  default: 1

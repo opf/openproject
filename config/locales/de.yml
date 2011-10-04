@@ -370,6 +370,7 @@ de:
   setting_start_of_week: Wochenanfang
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
   setting_cache_formatted_text: Formatierten Text im Cache speichern
+  setting_issue_startdate_is_adddate: Neue Tickets haben "Heute" als Anfangsdatum
 
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen

@@ -444,6 +444,101 @@ class QueryTest < ActiveSupport::TestCase
 
     end
 
+    context "'watcher_id' filter" do
+      context "globally" do
+        context "for an anonymous user" do
+          should "not be present" do
+            assert ! @query.available_filters.keys.include?("watcher_id")
+          end
+        end
+
+        context "for a logged in user" do
+          setup do
+            User.current = User.find 1
+          end
+
+          teardown do
+            User.current = nil
+          end
+
+          should "be present" do
+            assert @query.available_filters.keys.include?("watcher_id")
+          end
+
+          should "be a list" do
+            assert_equal :list, @query.available_filters["watcher_id"][:type]
+          end
+
+          should "have a list of active users as values" do
+            assert @query.available_filters["watcher_id"][:values].include?(["<< me >>", "me"])
+            assert @query.available_filters["watcher_id"][:values].include?(["John Smith", "2"])
+            assert @query.available_filters["watcher_id"][:values].include?(["Dave Lopper", "3"])
+            assert @query.available_filters["watcher_id"][:values].include?(["redMine Admin", "1"])
+            assert @query.available_filters["watcher_id"][:values].include?(["User Misc", "8"])
+          end
+
+          should "not include active users not member of any project" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(['Robert Hill','4'])
+          end
+
+          should "not include locked users as values" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(['Dave2 Lopper2','5'])
+          end
+
+          should "not include the anonymous user as values" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(['Anonymous','6'])
+          end
+        end
+      end
+
+      context "in a project" do
+        setup do
+          @query.project = Project.find(1)
+        end
+
+        context "for an anonymous user" do
+          should "not be present" do
+            assert ! @query.available_filters.keys.include?("watcher_id")
+          end
+        end
+
+        context "for a logged in user" do
+          setup do
+            User.current = User.find 1
+          end
+
+          teardown do
+            User.current = nil
+          end
+
+          should "be present" do
+            assert @query.available_filters.keys.include?("watcher_id")
+          end
+
+          should "be a list" do
+            assert_equal :list, @query.available_filters["watcher_id"][:type]
+          end
+
+          should "have a list of the project members as values" do
+            assert @query.available_filters["watcher_id"][:values].include?(["<< me >>", "me"])
+            assert @query.available_filters["watcher_id"][:values].include?(["John Smith", "2"])
+            assert @query.available_filters["watcher_id"][:values].include?(["Dave Lopper", "3"])
+          end
+
+          should "not include non-project members as values" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(["redMine Admin", "1"])
+          end
+
+          should "not include locked project members as values" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(['Dave2 Lopper2','5'])
+          end
+
+          should "not include the anonymous user as values" do
+            assert ! @query.available_filters["watcher_id"][:values].include?(['Anonymous','6'])
+          end
+        end
+      end
+    end
   end
 
   context "#statement" do

@@ -1,5 +1,15 @@
 = ChiliProject changelog
 
+== 2011-10-04 v2.3.0
+
+* Bug #594: Wiki Diff somehow off
+* Bug #617: Gemfile: Missing database related platform block for Windows + RubyInstaller
+* Bug #619: Redmine.pm allows anonymous read access to repositories even if Anonymous role prohibits it
+* Bug #633: Update from 1.x to 2.x impossible under rare but valid circumstances
+* Feature #355: Turn on/off the if the start date will autofill by default
+* Feature #566: The "Watcher" filter should show all users.
+* Feature #644: Add Check/Uncheck all links to project form
+
 == 2011-08-27 v2.2.0
 
 * Bug #256: requires_redmine_plugin should defer loading plugins if not all dependencies are met

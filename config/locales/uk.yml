@@ -960,3 +960,4 @@ uk:
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
+  setting_issue_startdate_is_adddate: Use current date as start date for new issues
