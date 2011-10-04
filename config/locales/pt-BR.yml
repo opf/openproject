@@ -909,6 +909,7 @@ pt-BR:
   setting_rest_api_enabled: Habilitar REST web service
   label_missing_api_access_key: Chave de acesso a API faltando
   label_missing_feeds_access_key: Chave de acesso ao RSS faltando
+  setting_issue_startdate_is_adddate: Usar data corrente como data inicial para novas tarefas
   text_line_separated: Múltiplos valores permitidos (uma linha para cada valor).
   setting_mail_handler_body_delimiters: Truncar e-mails após uma destas linhas
   permission_add_subprojects: Criar subprojetos
