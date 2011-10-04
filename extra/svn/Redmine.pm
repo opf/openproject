@@ -318,7 +318,7 @@ sub access_handler {
   my $project_id = get_project_identifier($r);
 
   $r->set_handlers(PerlAuthenHandler => [\&OK])
-      if is_public_project($project_id, $r);
+      if is_public_project($project_id, $r) && anonymous_role_allows_browse_repository($r);
 
   return OK
 }
@@ -388,6 +388,29 @@ sub is_public_project {
     undef $dbh;
 
     $ret;
+}
+
+sub anonymous_role_allows_browse_repository {
+  my $r = shift;
+  
+  my $dbh = connect_database($r);
+  my $sth = $dbh->prepare(
+      "SELECT permissions FROM roles WHERE builtin = 2;"
+  );
+  
+  $sth->execute();
+  my $ret = 0;
+  if (my @row = $sth->fetchrow_array) {
+    if ($row[0] =~ /:browse_repository/) {
+      $ret = 1;
+    }
+  }
+  $sth->finish();
+  undef $sth;
+  $dbh->disconnect();
+  undef $dbh;
+  
+  $ret;
 }
 
 # perhaps we should use repository right (other read right) to check public access.
