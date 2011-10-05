@@ -1,16 +1,13 @@
 /* @group Base */
 .chzn-container {
   font-size: 13px;
-  position: relative;
   display: inline-block;
   zoom: 1;
   *display: inline;
 }
 .chzn-container .chzn-drop {
   background: #fff;
-  border: 1px solid #aaa;
   border-top: 0;
-  position: absolute;
   top: 29px;
   left: 0;
   -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
@@ -105,25 +102,22 @@
   white-space: nowrap;
 }
 .chzn-container-single .chzn-search input {
-  background: #fff url('chosen-sprite.png') no-repeat 100% -20px;
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 100% -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 100% -20px, linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  margin: 1px 0;
+  background: #fff url(../images/lupe_projektsuche.png) no-repeat 100%;
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url(../images/lupe_projektsuche.png) no-repeat 100%, linear-gradient(top, #ffffff 85%,#eeeeee 99%);
   padding: 4px 20px 4px 5px;
   outline: 0;
   border: 1px solid #aaa;
   font-family: sans-serif;
   font-size: 1em;
+  min-width: 150px;
 }
 .chzn-container-single .chzn-drop {
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius   : 0 0 4px 4px;
-  border-radius        : 0 0 4px 4px;
   -moz-background-clip   : padding;
   -webkit-background-clip: padding-box;
   background-clip        : padding-box;
@@ -223,10 +217,14 @@
 .chzn-container .chzn-results {
   margin: 0 4px 4px 0;
   max-height: 190px;
-  padding: 0 0 0 4px;
-  position: relative;
   overflow-x: hidden;
   overflow-y: auto;
+  color: #222;
+  background-color: white;
+  border:none;
+  display:none;
+  height:auto !important;
+  width:100%;
 }
 .chzn-container-multi .chzn-results {
   margin: -1px 0 0;
@@ -240,10 +238,35 @@
 }
 .chzn-container .chzn-results .active-result {
   cursor: pointer;
+  color: black;
+  border: none !important;
+  padding:5px 9px !important;
+  background:#FFFFFF;
+  position:static;
+  color:#222222;
+  font-size:13px;
+  font-family:"Arial", Arial, sans-serif;
+  font-style:normal;
+  font-weight:normal;
+  margin:6px !important;
+  line-height:20px;
 }
 .chzn-container .chzn-results .highlighted {
-  background: #3875d7;
-  color: #fff;
+  -moz-border-radius-topleft:5px;
+  -moz-border-radius-topright:5px;
+  -webkit-border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
+  border-bottom-left-radius:5px;
+  border-bottom-right-radius:5px;
+  background-color:#7F7F7F;
+  font-weight:bold;
+  color:#FFFFFF;
 }
 .chzn-container .chzn-results li em {
   background: #feffde;
@@ -253,7 +276,8 @@
   background: transparent;
 }
 .chzn-container .chzn-results .no-results {
-  background: #f4f4f4;
+  color:black;
+  border:none  !important;
 }
 .chzn-container .chzn-results .group-result {
   cursor: default;

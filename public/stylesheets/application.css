@@ -1146,6 +1146,11 @@ a:hover {
 	background:url(../images/arrow-down-white.png) no-repeat right center;
 	padding-right:35px;
 }
+
+#account li.drop-down select {
+  width:100%;
+}
+
 #account li.drop-down > a:hover {
 	background:#FFFFFF url(../images/arrow-down-grey.png) no-repeat right center;
 	padding-right:35px;
@@ -1229,22 +1234,18 @@ input:-moz-placeholder {
 	top:0px;
 	z-index:21;
 }
-#account-nav li > a:hover, #account li li a:hover {
-  background-color:#DDDDDD;
+#account li > ul {
+  display:none;
+  position:absolute;
+  height:auto;
+  min-width:200px;
+  left:-1px;
+  z-index:20;
+  border: 1px solid #b7b7b7;
+  border-top: 0px;
+  background-color:#FFFFFF;
 }
-#account li ul {
-	display:none;
-	position:absolute;
-	border-top:1px solid #555;
-	top:22px;
-	height:auto;
-	left:-1px;
-	z-index:20;
-        border: 1px solid #b7b7b7;
-        border-top: 0px;
-        background-color:#FFFFFF;
-}
-#account li.last-child > ul {
+#account li:last-child > ul {
         left:auto;
         right:-1px;
 }
@@ -1261,17 +1262,17 @@ input:-moz-placeholder {
 	border-bottom:0;
 }
 #account li.drop-down li > a {
-	padding:5px 9px;
-	background:none;
-	position:static;
-        color:#222222;
-        font-size:13px;
-        font-family:"Arial", Arial, sans-serif;
-        font-style:normal;
-        font-weight:normal;
-        margin:6px;
-        height:20px;
-        line-height:20px;
+  padding:5px 9px;
+  background:#FFFFFF;
+  position:static;
+  color:#222222;
+  font-size:13px;
+  font-family:"Arial", Arial, sans-serif;
+  font-style:normal;
+  font-weight:normal;
+  margin:6px;
+  height:20px;
+  line-height:20px;
 }
 #breadcrumb {
 	height:38px;
@@ -1941,7 +1942,7 @@ ul.projects li div.root {
 	display:none;
 	z-index:10;
 }
-.issue .profile-box ul, .journal .profile-box ul {	
+.issue .profile-box ul, .journal .profile-box ul {
 	background:url(../images/profile-arrow-up.png) no-repeat 175px top;
 	position:relative;
 	z-index:11;
