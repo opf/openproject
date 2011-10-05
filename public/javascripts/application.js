@@ -467,33 +467,6 @@ jQuery.viewportHeight = function() {
 
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
-
-
-	// show/hide header search box
-	$("#account a.search").live('click', function() {
-		var searchWidth = $("#account-nav").width();
-
-		$(this).toggleClass("open");
-		$("#nav-search").width(searchWidth).slideToggle(animationRate, function(){
-			$("#nav-search-box").select();
-		});
-
-		return false;
-	});
-
-        // show/hide login box
-	$("#account a.login").click(function() {
-		$(this).parent().toggleClass("open");
-                // Focus the username field if the login field has opened
-                $("#nav-login").slideToggle(animRate, function () {
-                    if ($(this).parent().hasClass("open")) {
-                      $("input#username").focus();
-                    }
-                  });
-          
-		return false;
-	});
-        
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -541,10 +514,13 @@ jQuery(document).ready(function($) {
 		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
 			// no animations, just toggle
 			this.toggle();
+                        if (callback != undefined) {
+                          callback();
+                        }
 			// this forces IE to redraw the menu area, un-bollocksing things
 			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
 		} else {
-			this.slideToggle(animationRate);
+			this.slideToggle(animationRate,callback);
 		}
 
 		return this;
@@ -604,11 +580,23 @@ jQuery(document).ready(function($) {
 
 	$("#account .drop-down:has(ul) > a").click(function() {
                 //Close all other open menus
-                $("#account .drop-down.open:has(ul)").not($(this).parent()).toggleClass("open").find("ul").mySlide();
-                //Close login pull down when open
-                $("li.open div#nav-login").parent().toggleClass("open").find("div#nav-login").slideToggle(animRate);
-                //Toggle clicked menu item
-                $(this).parent().toggleClass("open").find("ul").mySlide();
+                //Used to work around the rendering bug
+                jQuery("input#username").blur();
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("ul").mySlide();
+                $(this).slideAndFocus();
+                return false;
+            }
+        },
+        function(){
+          return false;
+          });
+	jQuery("#account-nav > li.drop-down").click(function() {
+          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("ul").mySlide();
+          }
+                $(this).slideAndFocus();
+                $("#account-nav").toggleClass("hover");
+
                 return false;
         });
 
@@ -655,10 +643,13 @@ jQuery(document).ready(function($) {
         });
         
         $('html').click(function() {
-          $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
+          $("#account .drop-down.open").toggleClass("open").find("ul").mySlide();
           $("#account-nav.hover").toggleClass("hover");
          });
         // Do not close the login window when using it
+        $('#account-nav li li').click(function(event){
+             event.stopPropagation();
+         });
         $('#nav-login-content').click(function(event){
              event.stopPropagation();
          });

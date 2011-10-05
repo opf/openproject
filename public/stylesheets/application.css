@@ -1308,7 +1308,7 @@ input:-moz-placeholder {
         position-top:44px;
         float: right;
 	background: white;
-	border:1px solid #194E60;
+	border:0px solid #194E60;
 	border-top:0;
         padding-left:5px;
         padding-top:5px;
@@ -1317,11 +1317,11 @@ input:-moz-placeholder {
         color:black;
         line-height:19px;
 }
-#nav-login input[type=text], #nav-login input[type=password] {
+#nav-login-content  input[type=text], #nav-login-content input[type=password] {
         height: 20px;
         width: 150px;
 }
-#nav-login div a {
+#nav-login-content  div a {
         display: inline;
         color:black;
         padding:0;
@@ -2275,8 +2275,6 @@ div.flash {
 
 /* all kinds of wonderful tweaks */
 
-#account li li:last-child a:hover {
-}
 .question pre {
 	color:#111;
 }
