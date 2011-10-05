@@ -296,7 +296,7 @@
         if (option.group_array_index != null) {
           classes.push("group-option");
         }
-        return '<li id="' + option.dom_id + '" class="' + classes.join(' ') + '">' + option.html + '</li>';
+        return '<li id="' + option.dom_id + '" class="' + classes.join(' ') + '">' + $('<div/>').html(option.html).text() + '</li>';
       } else {
         return "";
       }
@@ -548,7 +548,8 @@
             if (found) {
               if (searchText.length) {
                 startpos = option.html.search(zregex);
-                text = option.html.substr(0, startpos + searchText.length) + '</em>' + option.html.substr(startpos + searchText.length);
+                text = $('<div/>').html(option.html).text();
+                text = text.substr(0, startpos + searchText.length) + '</em>' + text.substr(startpos + searchText.length);
                 text = text.substr(0, startpos) + '<em>' + text.substr(startpos);
               } else {
                 text = option.html;
