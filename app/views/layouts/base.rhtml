@@ -49,30 +49,24 @@
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
-        <li class="drop-down">
-          <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
-          <ul style="display:none;">
-            <div>
-              <%= link_to "View all Projects", :controller => 'projects', :action => 'index' %>
-              <%= render_project_jump_box Project.visible, :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %>
-            </div>
-          </ul>
-        </li>
-        <li class="drop-down" id="more-menu">
-          <a class="more" href="#">Modules</a>
-          <ul style="display:none;">
-            <% more_top_menu_items.each do |item| %>
-            <%= render_menu_node(item) %>
-            <% end %>
-          </ul>
-        </li>
-        <li>
-          <label for='q'>
-            <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search), :class => 'search' %>
-          </label>
-          <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'nav-search' ) do %>
-            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+        <% unless Project.visible.empty? %>
+          <li class="drop-down">
+            <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
+            <ul style="display:none;">
+                <li><%= link_to "View all Projects", :controller => 'projects', :action => 'index' %></li>
+                <li><%= render_project_jump_box Project.visible, :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %></li>
+            </ul>
+          </li>
+        <% end %>
+        <% unless (items = items_for_more_level).empty? %>
+          <li class="drop-down" id="more-menu">
+            <a class="more" href="#">Modules</a>
+            <ul style="display:none;">
+              <% items.each do |item| %>
+              <%= render_menu_node(item) %>
+              <% end %>
+            </ul>
+          </li>
         <% end %>
         <%= render_menu_node(help_menu_item) %>
           <% unless User.current.logged? %>
