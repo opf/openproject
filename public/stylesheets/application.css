@@ -2473,7 +2473,6 @@ a.has-thumb img {
 }
 
 /* Make icons non repeating */
-#main-menu #admin-menu ul li a, #main-menu #admin-menu a:hover {padding: 0 0 0 24px; background-repeat: no-repeat !important; }
 
 #more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
 

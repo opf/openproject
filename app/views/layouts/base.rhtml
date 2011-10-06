@@ -112,18 +112,19 @@
   <% display_sidebar = false %>
   <% end %>
   <div id="main" class="<%= display_sidebar ? '' : "nosidebar" %>">
-    <% if display_sidebar %>
     <div id="main-menu">
       <%= main_menu %>
+      <%= yield :main_menu %>
+    <% if display_sidebar %>
       <!-- Sidebar -->
       <div id="sidebar">        
         <%= yield :sidebar %>
         <%= call_hook :view_layouts_base_sidebar %>
       </div>
+    <% end %>
     </div>
 
     <%= expand_current_menu %>
-    <% end %>
 
     <div class="<%= display_sidebar ? '' : "nosidebar" %>" id="content">
       <%= render_flash_messages %>
