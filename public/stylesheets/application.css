@@ -642,16 +642,23 @@ p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
-#content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
-#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:1em; width: 2000px; border-bottom: 1px solid #bbbbbb;}
+#content .tabs {height: 2.6em; margin-bottom:1.2em; z-index:1; overflow:hidden;}
+#content .tabs ul {
+  margin:0;
+  bottom:0;
+  padding-left:1em;
+  width: 2000px;
+  border-bottom: 1px solid #bbbbbb;
+  overflow:hidden;
+}
 #content .tabs ul li {
 float:left;
 list-style-type:none;
 white-space:nowrap;
 margin-right:8px;
 background:#fff;
-position:relative;
 margin-bottom:-1px;
+
 }
 #content .tabs ul li a{
 display:block;
@@ -1852,7 +1859,6 @@ blockquote {
 
 }
 #project-links {
-	position:absolute;
 	right:30px;
 	color:#ccc;
 	font-weight:bold;

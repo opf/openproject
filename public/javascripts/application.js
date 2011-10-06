@@ -636,14 +636,21 @@ jQuery(document).ready(function($) {
 
         $('#account li.drop-down select.chzn-select').each(function (ix, select) {
           // trigger an artificial mousedown event
-          jQuery(select).parents("li.drop-down").first().mousedown(function(event) {
-            var parent = jQuery(event.target).parents('li.drop-down');
-            parent.find('select.chzn-select').chosen({allow_single_deselect:true});
-            parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
-            parent.find('a.chzn-single').hide();
-            jQuery('div.chzn-search').click(function(event){
-                 event.stopPropagation();
-             });
+          var parent = $(select).parents('li.drop-down');
+          // deselect all options
+          $(select).find(":selected").each(function (ix, option) {
+            $(option).attr("selected", false);
+          });
+          $(select).chosen({allow_single_deselect:false});
+          parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
+          parent.find('a.chzn-single').hide();
+          // prevent menu from getting closed prematurely
+          jQuery('div.chzn-search').click(function(event){
+             event.stopPropagation();
+          });
+          // remove highlights
+          parent.find(".chzn-results .active-result.highlighted").each(function (ix, option){
+            $(option).removeClass("highlighted");
           });
         });
         
