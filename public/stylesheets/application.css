@@ -1086,10 +1086,9 @@ a:hover {
 #top-menu.open { /*IE 6-7 z-index stacking issue*/
 	z-index:5;
 }
-#account {
-	background: url(../images/background_header.png) repeat-x 20px;
-	height:43px;
-	font: arial,19px,white;
+#account-nav {
+        display:block;
+        background:url(../images/background_top_navigation.png) repeat-x left top;
 }
 #logo {
         float:left;
@@ -1101,11 +1100,12 @@ a:hover {
         float:right;
         padding-right:15px;
 }
-#account-nav {
-        display:block;
-        background:url(../images/background_top_navigation.png) repeat-x left top;
+#header {
+	background: url(../images/background_header.png) repeat-x 20px;
+	height:43px;
+	font: arial,19px,white;
 }
-#account ul {
+#header ul {
         line-height:43px;
 	float:left;
         font-size:13px;
@@ -1118,44 +1118,43 @@ a:hover {
   position:relative;
         }
 
-#account ul#account-info {
+#header ul#account-info {
 	margin-right:15px;
 }
-#account ul#account-nav {
-	margin-right:6px;
-}
-#account li {
+#header li {
 	float:left;
 	border-left:1px solid #450308;
 	position:relative;
 	z-index:5;
 }
-#account li:first-child {
-	border:0;
-}
-#header li.last-child {
+#header li:last-child {
 	border-right:0px;
 }
-#account li > a {
+#header li > a {
 	text-decoration:none;
   color:#FFFFFF;
 	height:43px;
         font-weight:normal;
 }
-
-#account li.drop-down > a {
+#header li.drop-down select {
+  width:100%;
+}
+#header li.drop-down > a {
 	background:url(../images/arrow-down-white.png) no-repeat right center;
 	padding-right:35px;
 }
-#account li.drop-down > a:hover {
-	background:#FFFFFF url(../images/arrow-down-grey.png) no-repeat right center;
+#header li > a:hover {
+        background-color:#700407;
+}
+#header li.drop-down > a:hover {
+        background:#700407 url(../images/arrow-down-grey.png) no-repeat right center;
 	padding-right:35px;
 }
-#account-nav li > a:hover, #account li li a:hover {
+#header li li a:hover {
         background-color:#FFFFFF;
         color:#222222;
 }
-#account li.drop-down li > a:hover, #main-menu li a.selected, #main-menu li a:hover  {
+#header li.drop-down li > a:hover, #main-menu li a.selected, #main-menu li a:hover  {
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
 	-webkit-border-top-left-radius:5px;
@@ -1180,9 +1179,6 @@ li a.home {
   background:url(../images/icon_home.png) no-repeat 50% 50%;
 }
 
-li a.home:hover {
-  background-image:url(../images/icon_home_grey.png);
-}
 li a.help {
   text-indent:-999em;
   width:20px;
@@ -1192,7 +1188,7 @@ li a.help {
 li a.help:hover {
   background-image:url(../images/icon_help_grey.png);
 }
-#account li.drop-down.open > a {
+#header li.drop-down.open > a {
 	background:#FFFFFF url(../images/arrow-down-grey.png) no-repeat right center;
 	padding-right:35px;
 }
@@ -1203,7 +1199,7 @@ li a.help:hover {
 	display:block;
 	padding:0px 9px 0px;
 }
-#account .search_field {
+#header .search_field {
         border:0px;
         color:white;
 	background:transparent url(../images/background_suche.png);
@@ -1225,54 +1221,44 @@ input:-moz-placeholder {
 #search {
         float:left;
 }
-#account li.open > a {
+#header li.open > a {
 	position:relative;
 	top:0px;
 	z-index:21;
 }
-#account-nav li > a:hover, #account li li a:hover {
-  background-color:#DDDDDD;
+#header li > ul {
+  display:none;
+  position:absolute;
+  height:auto;
+  min-width:200px;
+  left:-1px;
+  z-index:20;
+  border: 1px solid #b7b7b7;
+  border-top: 0px;
+  background-color:#FFFFFF;
 }
-#account li ul {
-	display:none;
-	position:absolute;
-	border-top:1px solid #555;
-	top:22px;
-	height:auto;
-	left:-1px;
-	z-index:20;
-        border: 1px solid #b7b7b7;
-        border-top: 0px;
-        background-color:#FFFFFF;
-}
-#account li.last-child > ul {
+#header li.last-child > ul {
         left:auto;
         right:-1px;
 }
-#account li li {
+#header li li {
 	float:none;
 	white-space:nowrap;
 	border-style:solid;
 	border-width:1px 0;
 }
-#account li li:first-child {
-	border-bottom:1px solid #1D5D6E;
-}
-#account li li:last-child {
-	border-bottom:0;
-}
-#account li.drop-down li > a {
-	padding:5px 9px;
-	background:none;
-	position:static;
-        color:#222222;
-        font-size:13px;
-        font-family:"Arial", Arial, sans-serif;
-        font-style:normal;
-        font-weight:normal;
-        margin:6px;
-        height:20px;
-        line-height:20px;
+#header li.drop-down li > a {
+  padding:5px 9px;
+  background:#FFFFFF;
+  position:static;
+  color:#222222;
+  font-size:13px;
+  font-family:"Arial", Arial, sans-serif;
+  font-style:normal;
+  font-weight:normal;
+  margin:6px;
+  height:20px;
+  line-height:20px;
 }
 #breadcrumb {
 	height:38px;
@@ -1299,16 +1285,6 @@ input:-moz-placeholder {
 	margin:5px 5px;
 	width:94%;
 }
-#nav-login {
-	display:none;
-        width: 500px;
-        position: absolute;
-	right:-1px;
-	background: transparent;
-	border:0px;
-	border-top:0;
-
-}
 #nav-login-content {
         position: relative;
         position-top:44px;
@@ -1330,10 +1306,6 @@ input:-moz-placeholder {
         display: inline;
         color:black;
         padding:0;
-}
-#nav-login div a:hover {
-  background-color: transparent;
-  text-decoration:underline;
 }
 div#optional_login_fields {
   top:10px;
