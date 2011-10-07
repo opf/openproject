@@ -12,7 +12,7 @@ module Plugin
         receiver.send :include, InstanceMethods
         receiver.class_eval do
           #unloadable
-          has_many :meetings, :include => [:author]
+          has_many :meetings, :include => [:author], :dependent => :destroy
         end
       end
     end
