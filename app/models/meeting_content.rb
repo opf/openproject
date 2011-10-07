@@ -19,8 +19,8 @@ class MeetingContent < ActiveRecord::Base
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
 
-    content_to = self.find_version(version_to)
-    content_from = self.find_version(version_from)
+    content_to = self.journals.find_by_version(version_to)
+    content_from = self.journals.find_by_version(version_from)
 
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end

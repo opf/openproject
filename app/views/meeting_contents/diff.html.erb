@@ -6,15 +6,17 @@
 
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, {:controller => @content_type.pluralize, :action => 'show', :meeting_id => @meeting, :version => @diff.content_from.version} %>
-<em>(<%= @diff.content_from.author %>, <%= format_time(@diff.content_from.updated_at) %>)</em>
+<em>(<%= link_to_user(@diff.content_from.author) %>, <%= format_time(@diff.content_from.updated_at) %>)</em>
 &#8594;
 <%= l(:label_version) %> <%= link_to @diff.content_to.version, {:controller => @content_type.pluralize, :action => 'show', :meeting_id => @meeting, :version => @diff.content_to.version} %>/<%= @content.version %>
-<em>(<%= @diff.content_to.author %>, <%= format_time(@diff.content_to.updated_at) %>)</em>
+<em>(<%= link_to_user(@diff.content_from.author) %>, <%= format_time(@diff.content_to.updated_at) %>)</em>
 </p>
 
 <hr />
 
-<%= html_diff(@diff) %>
+<div class="text-diff">
+<%= simple_format_without_paragraph @diff.to_html %>
+</div>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
