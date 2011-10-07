@@ -94,34 +94,33 @@
   </div>
       
   <% main_menu = render_main_menu(@project) %>
-  <% if has_content?(:sidebar) || !main_menu.blank? %>
+  <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
   <% else %>
   <% display_sidebar = false %>
   <% end %>
-  <div id="main" class="<%= display_sidebar ? '' : "nosidebar" %>">
-    <div id="main-menu">
-      <%= main_menu %>
-      <%= yield :main_menu %>
-    <% if display_sidebar %>
-      <!-- Sidebar -->
-      <div id="sidebar">        
-        <%= yield :sidebar %>
-        <%= call_hook :view_layouts_base_sidebar %>
+  <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
+    <% if (side_displayed) %>
+      <div id="main-menu">
+        <%= main_menu %>
+        <%= yield :main_menu %>
+      <% if display_sidebar %>
+        <!-- Sidebar -->
+        <div id="sidebar">        
+          <%= yield :sidebar %>
+          <%= call_hook :view_layouts_base_sidebar %>
+        </div>
+      <% end %>
       </div>
+
+      <%= expand_current_menu %>
     <% end %>
-    </div>
-
-    <%= expand_current_menu %>
-
-    <div class="<%= display_sidebar ? '' : "nosidebar" %>" id="content">
+    <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
       <%= render_flash_messages %>
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>
-
     </div>
-
   </div>
 
   <div id="footer">

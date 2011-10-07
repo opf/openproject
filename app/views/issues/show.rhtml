@@ -1,5 +1,5 @@
 <div class="title-bar" id="upper-title-bar">
-  <div class="subject"><%= content_tag('h2', h(@issue.subject)) %></div>
+  <div class="subject"><%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %></div>
 
   <div class="title-bar-actions">
   <%= render :partial => 'action_menu' %>
@@ -11,7 +11,7 @@
     <%= avatar(@issue.author, :size => "40") %>
   </div>
   <h3>
-    <%= h(@issue.tracker.name) %> #<%= @issue.id %>
+    <%=h(@issue.subject)  %>
   </h3>
   <hr />
 
