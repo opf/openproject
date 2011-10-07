@@ -90,12 +90,4 @@ class Meeting < ActiveRecord::Base
   def add_author_as_watcher
     add_watcher(author)
   end
-  
-  MeetingJournal.class_eval do
-    unloadable
-    
-    def notes
-      journaled.text
-    end
-  end
 end
