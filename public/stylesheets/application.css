@@ -1277,9 +1277,22 @@ a:hover {
 	width:9px;
 	height:9px;
 }
-#main-menu .open .toggler {
-	background-image:url(../images/arrow-down.png);
+#main-menu li .open .toggler {
+  background-image:url(../images/projectnavi_arrow_up.png);
 }
+#main-menu li .open:hover .toggler {
+  background-image:url(../images/projectnavi_arrow_up_white.png);
+}
+#main-menu li .selected .toggler {
+  background-image:url(../images/projectnavi_arrow_down_white.png);
+}
+#main-menu li .selected.open .toggler {
+  background-image:url(../images/projectnavi_arrow_up_white.png);
+}
+#main-menu li a:hover .toggler {
+  background-image:url(../images/projectnavi_arrow_down_white.png);
+}
+
 #main-menu li li .toggler {
 	display:none;
 }
