@@ -192,9 +192,10 @@ Control.Window = Class.create({
                     }
                     //hover or click handling
                     this.sourceContainerOpenHandler = function(event){
-                        this.open(event);
-                        event.stop();
-                        return false;
+                        if (this.open(event) === false) {
+                          event.stop();
+                          return false;
+                        }
                     }.bindAsEventListener(this);
                     this.sourceContainerCloseHandler = function(event){
                         this.close(event);

@@ -1,5 +1,5 @@
 /*jslint indent: 2, regexp: false */
-/*globals $, Control, Element, Class, window, setTimeout */
+/*globals $, Control, Element, Class, Event, window, setTimeout */
 /*globals console */
 var Backlogs = (function () {
   var Modal, ModalLink, width;
@@ -19,6 +19,20 @@ var Backlogs = (function () {
     initialize : function ($super, container, options) {
       Modal.InstanceMethods.beforeInitialize.bind(this)();
       $super(container, Object.extend(Object.clone(Modal.defaultOptions), options || {}));
+    },
+
+    open : function ($super, event) {
+      if (event) {
+        // catches middle clicks
+        if (!Event.isLeftClick(event)) {
+          return true;
+        }
+        // catches modifier keys
+        if (event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) {
+          return true;
+        }
+      }
+      return $super(event);
     },
 
     position : function ($super, event) {
