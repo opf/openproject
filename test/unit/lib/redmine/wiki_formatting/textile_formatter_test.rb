@@ -194,6 +194,14 @@ EXPECTED
     assert_equal '<p>[msg1][msg2]</p>', to_html('[msg1][msg2]')
   end
 
+  def test_textile_should_escape_image_urls
+    # this is onclick="alert('XSS');" in encoded form
+    raw = '!/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;!'
+    expected = '<p><img src="/images/comment.png&quot;onclick=&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x27;&amp;#x58;&amp;#x53;&amp;#x53;&amp;#x27;&amp;#x29;;&amp;#x22;" alt="" /></p>'
+
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)

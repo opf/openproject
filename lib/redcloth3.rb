@@ -939,7 +939,7 @@ class RedCloth3 < String
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )
-            atts = " src=\"#{ url }\"#{ atts }"
+            atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
             atts << " alt=\"#{ title }\"" 
             # size = @getimagesize($url);
