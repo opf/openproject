@@ -5,3 +5,4 @@ en:
   label_custom_element: Add teaser ...
   info_custom_text: Custom text
   label_toggle_edit_preview: Toggle preview/edit
+  label_confirm_delete: Really delete this element?
