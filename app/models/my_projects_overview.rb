@@ -3,6 +3,9 @@ class MyProjectsOverview < ActiveRecord::Base
   serialize :left, Array
   serialize :right, Array
   serialize :hidden, Array
+  belongs_to :project
+
+  attr_accessor :unsaved_attachments
 
   def save_custom_element(name, title, new_content)
     el = custom_elements.detect {|x| x.first == name}
@@ -23,5 +26,9 @@ class MyProjectsOverview < ActiveRecord::Base
 
   def custom_elements
     elements.select {|x| x.respond_to? :to_ary }
+  end
+
+  def attachments_visible?(user)
+    true
   end
 end

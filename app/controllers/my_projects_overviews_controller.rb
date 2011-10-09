@@ -49,7 +49,22 @@ class MyProjectsOverviewsController < ApplicationController
     block_name = params["block_name"]
     block_title = params["block_title_#{block_name}"]
     textile = params["textile_#{block_name}"]
+
+    if params["attachments"]
+      # Attach files, save them, then gsub references
+      attachments = Attachment.attach_files(@overview, params["attachments"])
+      unless attachments[:unsaved].blank?
+        flash[:error] = l(:warning_attachments_not_saved, attachments[:unsaved].size)
+      end
+      attachments[:files].each do |attached|
+        filename = attached.filename
+        textile.gsub!(/!#{Regexp.escape(filename)}!/,
+                      "!/attachments/#{attached.id}/#{filename}!")
+      end
+    end
+
     @overview.save_custom_element(block_name, block_title, textile)
+
     redirect_to :back
   end
 

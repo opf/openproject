@@ -33,6 +33,9 @@
           <%= wikitoolbar_for "textile_#{block_name}" %>
 	  <%= submit_tag l(:button_save),
 	      :id => "#{block_name}-form-submit", :style => "display:none;" %>
+	  <p><label><%=l(:label_attachment_plural)%></label><br />
+	    <%= render :partial => 'attachments/form' %>
+	  </p>
         </fieldset>
       <% end %>
     </div>
