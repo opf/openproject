@@ -4,5 +4,5 @@ de:
   label_project_details: Projektdetails
   label_custom_element: Teaser hinzufügen ...
   info_custom_text: Benutzerdefinierter Text
-  label_toggle_edit_preview: Umschalten Vorschau/Bearbeiten
   label_confirm_delete: Dieses Element wirklich löschen?
+  label_save_or_reset_teaser: Änderungen am Teaser speichern?

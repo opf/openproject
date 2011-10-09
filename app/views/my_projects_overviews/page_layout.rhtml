@@ -49,6 +49,25 @@ function removeBlock(block) {
     $(block).remove();
     updateSelect();
 }
+
+function saveTextilizable(name) {
+    $(name + "-form-submit").click();
+    return false;
+}
+
+function resetTextilizable(name) {
+    $("textile_" + name).setValue(window["page_layout-textile" + name] + "");
+    $(name + '-form-div').toggle();
+    $(name + '-preview-div').toggle();
+    return false;
+}
+
+function editTextilizable(name) {
+    window["page_layout-textile" + name] = $("textile_" + name).getValue();
+    $(name + '-form-div').toggle();
+    $(name + '-preview-div').toggle();
+    return false;
+}
 //]]>
 </script>
 

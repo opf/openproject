@@ -5,16 +5,21 @@
           :confirm => l(:label_confirm_delete),
           :url => { :action => "remove_block", :block => block_name },
           :complete => "removeBlock('block_#{block_name.dasherize}')" },
-        :class => "close-icon"
+        :class => "icon icon-del"
         %>
-  </div>
-  <div style="float:right;margin-right:6px;z-index:500;">
-    <a href="#" onclick="$('<%= block_name %>-form-div').toggle(); $('<%= block_name %>-preview-div').toggle(); return false"
-       class="preview-or-edit-icon" title="<%= l(:label_toggle_edit_preview) %>"></a>
   </div>
 
   <div class="handle">
-    <div id="<%= block_name %>-form-div" style="display: none">
+    <div id="<%= block_name %>-form-div" style="display: none;">
+      <div style="float:right;margin-right:6px;z-index:500;">
+	<a href="#" onclick="return saveTextilizable('<%= block_name %>');"
+	   class="icon icon-save"><%= l(:button_save) %></a>
+      </div>
+      <div style="float:right;margin-right:6px;z-index:500;">
+	<a href="#" onclick="return resetTextilizable('<%= block_name %>');"
+	   class="icon icon-cancel"><%= l(:button_cancel) %></a>
+      </div>
+      <div style="clear: right;"></div>
       <% form_for :overview, @overview,
                   :url => {:action => 'update_custom_element'},
                   :html => {:id => "block_form_#{block_name.dasherize}",
@@ -26,11 +31,16 @@
           <%= text_field_tag "block_title_#{block_name}", block_title %>
           <%= text_area_tag "textile_#{block_name}", textile, :cols => 40, :rows => 5, :class => 'wiki-edit' %>
           <%= wikitoolbar_for "textile_#{block_name}" %>
+	  <%= submit_tag l(:button_save),
+	      :id => "#{block_name}-form-submit", :style => "display:none;" %>
         </fieldset>
-        <%= submit_tag l(:button_submit) %>
       <% end %>
     </div>
     <div id="<%= block_name %>-preview-div">
+      <div style="float:right;margin-right:6px;z-index:500;">
+	<a href="#" onclick="return editTextilizable('<%= block_name %>');"
+	   class="icon icon-edit"><%= l(:button_edit) %></a>
+      </div>
       <%= render :partial => "my_projects_overviews/blocks/textilizable",
                  :locals => { :block_title => block_title,
                               :textile => textile }
