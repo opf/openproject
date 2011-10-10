@@ -96,10 +96,6 @@ Given /^I visit the scrum statistics page$/ do
   visit url_for(:controller => :rb_statistics, :action => :show)
 end
 
-When /^I download the calendar feed$/ do
-  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :project_id => @project })
-end
-
 When /^I view the master backlog$/ do
   visit url_for(:controller => :projects, :action => :show, :id => @project)
   click_link("Backlogs")

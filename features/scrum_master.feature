@@ -18,7 +18,6 @@ Feature: Scrum Master
         | create_impediments      |
         | update_impediments      |
         | update_tasks            |
-        | subscribe_to_calendars  |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_issues             |
@@ -227,16 +226,6 @@ Feature: Scrum Master
      Then the request should complete successfully
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
-
-  Scenario: Request the project calendar feed
-    Given I have set my API access key
-      And I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
-      And I am logged out
-     When I download the calendar feed
-     Then the request should complete successfully
-    Given I have guessed an API access key
-     When I download the calendar feed
-     Then the request should fail
 
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 8435B

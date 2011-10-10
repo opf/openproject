@@ -102,8 +102,7 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :update_impediments,     { :rb_impediments => [:edit, :update],
                                           :issue_boxes => [:edit, :update] }
 
-    permission :subscribe_to_calendars,  { :rb_calendars  => :show }
-    permission :view_scrum_statistics,   { :rb_statistics => :show }
+    permission :view_scrum_statistics,  { :rb_statistics => :show }
   end
 
   menu :project_menu,

@@ -18,7 +18,7 @@ namespace :redmine do
     task :install => :environment do |t|
       ENV["RAILS_ENV"] ||= "development"
 
-      ['holidays', 'icalendar', 'prawn'].each do |gem|
+      ['prawn'].each do |gem|
         begin
           require gem
         rescue LoadError

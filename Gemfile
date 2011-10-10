@@ -1,5 +1,3 @@
-gem "holidays"
-gem "icalendar"
 gem "prawn"
 
 group :development, :test do
