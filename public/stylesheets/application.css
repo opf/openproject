@@ -266,6 +266,9 @@ div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 #issue_tree table.issues { border: 0; }
 #issue_tree td.checkbox {display:none;}
 
+#content fieldset#filters {
+    padding-bottom:10px;
+  }
 fieldset#filters legend {
     -moz-border-radius-bottomleft:0px;
     -moz-border-radius-bottomright:0px;
@@ -1256,9 +1259,12 @@ input:-moz-placeholder {
   font-family:"Arial", Arial, sans-serif;
   font-style:normal;
   font-weight:normal;
-  margin:6px;
-  height:20px;
-  line-height:20px;
+  margin-top:3px;
+  margin-bottom:3px;
+  margin-left:6px;
+  margin-right:6px;
+  height:15px;
+  line-height:15px;
 }
 #breadcrumb {
 	height:38px;
