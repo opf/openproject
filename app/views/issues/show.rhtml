@@ -25,47 +25,33 @@
 
   <div class="meta">
     <table class="attributes">
-      <tr>
-        <th class="status"><%=l(:field_status)%>:</th>
-        <td class="status"><%= h(@issue.status.name) %></td>
-
-        <th class="category"><%=l(:field_category)%>:</th>
-        <td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
-
-        <th class="start-date"><%=l(:field_start_date)%>:</th>
-        <td class="start-date"><%= format_date(@issue.start_date) %></td>
-      </tr>
-      <tr>
-        <th class="priority"><%=l(:field_priority)%>:</th>
-        <td class="priority"><%= h(@issue.priority.name) %></td>
-
-        <th class="fixed-version"><%=l(:field_fixed_version)%>:</th>
-        <td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
-
-        <th class="due-date"><%=l(:field_due_date)%>:</th>
-        <td class="due-date"><%= format_date(@issue.due_date) %></td>
-      </tr>
-      <tr>
-        <th class="assigned-to"><%=l(:field_assigned_to)%>:</th>
-        <td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-
-        <th class="progress"><%=l(:field_done_ratio)%>:</th>
-        <td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
-
+    <tr>
+        <th class="status"><%=l(:field_status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
+        <th class="start-date"><%=l(:field_start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
+    </tr>
+    <tr>
+        <th class="priority"><%=l(:field_priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
+        <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
+    </tr>
+    <tr>
+        <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+        <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
+    </tr>
+    <tr>
+        <th class="category"><%=l(:field_category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
         <% if User.current.allowed_to?(:view_time_entries, @project) %>
-          <th class="spent-time"><%=l(:label_spent_time)%>:</th>
-          <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
+        <th class="spent-time"><%=l(:label_spent_time)%>:</th>
+        <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
         <% end %>
-        
+    </tr>
+    <tr>
+        <th class="fixed-version"><%=l(:field_fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
         <% if @issue.estimated_hours %>
-          <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th>
-          <td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
+        <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
         <% end %>
-      </tr>
-
-      <%= render_custom_fields_rows(@issue) %>
-      
-      <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+    </tr>
+    <%= render_custom_fields_rows(@issue) %>
+    <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
     </table>
   </div><!-- .meta -->
 
