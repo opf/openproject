@@ -4,7 +4,6 @@ describe Issue do
   describe 'behavior for #3200' do
     before(:each) do
       @example = Issue.new
-      @example.stub(:move_to_project_without_transaction_without_autolink).and_return(false)
     end
 
     it do
