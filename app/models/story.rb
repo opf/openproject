@@ -55,12 +55,6 @@ class Story < Issue
       end
     end
 
-    def self.find_all_updated_since(since, project_id)
-      find(:all,
-           :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?)", project_id, Time.parse(since), trackers],
-           :order => "updated_on ASC")
-    end
-
     def self.at_rank(project_id, sprint_id, rank)
       return Story.find(:first,
                         :order => Story::ORDER,

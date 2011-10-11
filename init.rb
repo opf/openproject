@@ -61,7 +61,6 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
                                        :rb_burndown_charts  => :show,
-                                       :rb_updated_items    => :show,
                                        :issue_boxes         => :show
                                      }
 
@@ -73,8 +72,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_impediments      => [:index, :show],
                                        :rb_wikis            => :show,
                                        :rb_server_variables => :show,
-                                       :rb_burndown_charts  => :show,
-                                       :rb_updated_items    => :show
+                                       :rb_burndown_charts  => :show
                                      }
 
     # Sprint permissions

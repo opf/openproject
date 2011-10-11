@@ -8,7 +8,6 @@ jQuery(function ($) {
                           // actually belongs!
 
   RB.Factory.initialize(RB.Taskboard, $('#taskboard'));
-  RB.TaskboardUpdater.start();
 
   $('#assigned_to_id_options').change(function () {
     var selected = $(this).children(':selected');

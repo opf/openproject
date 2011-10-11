@@ -34,14 +34,6 @@ class Task < Issue
     return task
   end
 
-  # TODO: there's an assumption here that impediments always have the
-  # task-tracker as their tracker.
-  def self.find_all_updated_since(since, project_id, find_impediments = false)
-    find(:all,
-         :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?) and parent_id IS #{ find_impediments ? '' : 'NOT' } NULL", project_id, Time.parse(since), tracker],
-         :order => "updated_on ASC")
-  end
-
   def self.tasks_for(story_id)
     tasks = []
     Story.find_by_id(story_id).children.

@@ -122,12 +122,6 @@ When /^I edit the sprint notes$/ do
   visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
 
-When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type, how_many, period, direction|
-  date = eval("#{ how_many }.#{ period }.#{ direction=='from now' ? 'from_now' : 'ago' }")
-  date = date.strftime("%B %d, %Y %H:%M:%S") + '.' + (date.to_f % 1 + 0.001).to_s.split('.')[1]
-  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project, :only => object_type, :since => date)
-end
-
 When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
   When %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
