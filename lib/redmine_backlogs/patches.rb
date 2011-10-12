@@ -1,0 +1,2 @@
+module RedmineBacklogs::Patches
+end
