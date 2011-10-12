@@ -35,9 +35,6 @@ module BacklogsNavigationHelpers
 
       "/rb/taskboards/#{sprint.id}"
 
-    when /^the scrum statistics page$/
-      "/rb/statistics"
-
     when /^the backlogs plugin configuration page$/
       "/settings/plugin/redmine_backlogs"
     else

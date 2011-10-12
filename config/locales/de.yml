@@ -27,7 +27,6 @@ de:
   points_to_resolve: "Nicht beschlossene Punkte"
   points_resolved: "Beschlossene Punkte"
   remaining_hours: "Verbleibende Stunden"
-  field_velocity_based_estimate: "Geschwindigkeitsbasierende Absch\xC3\xA4tzung"
 
   backlogs_active: "aktiv"
 
@@ -41,7 +40,6 @@ de:
   label_back_to_project: "Zur\xC3\xBCck zur Projektseite"
   label_sprint_name: "Sprint \"%{name}\""
   label_backlogs: "Backlogs"
-  label_scrum_statistics: "Scrum Statistiken"
 
   label_backlog: "Backlog"
   label_sprint_backlog: "Sprint Backlog"
@@ -114,7 +112,6 @@ de:
     remaining_hours: "Verbleibende Stunden"
     remaining_hours_ideal: "Verbleibende Stunden (ideal)"
     show_burndown_chart: "Burndown-Chart"
-    show_statistics: "Scrum Statistiken anzeigen"
     story: "Story"
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"

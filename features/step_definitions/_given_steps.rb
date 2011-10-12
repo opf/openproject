@@ -298,14 +298,6 @@ Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
   @project = Project.find_by_name(project_name)
 end
 
-Given /^the scrum statistics are disabled$/ do
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => false)
-end
-
-Given /^the scrum statistics are enabled$/ do
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => true)
-end
-
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
   tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?

@@ -45,7 +45,6 @@ pt-BR:
   points_to_resolve: "Pontos n\xC3\xA3o resolvidos"
   label_select_all: Selecinar Todos
   backlogs_sprint_unestimated: "Ativar ou desativar sprints com est\xC3\xB3rias sem estimativas"
-  label_scrum_statistics: "Estat\xC3\xADsticas do scrum"
   required_burn_rate_points: "Taxa pontos necess\xC3\xA1ria"
   error_blank: "[[cannot be blank]]"
   points_to_accept: "Pontos n\xC3\xA3o aceitos"
@@ -77,7 +76,6 @@ pt-BR:
     %{description}
   label_burndown: Burndown
   rb_label_copy_tasks_all: "[[All]]"
-  field_velocity_based_estimate: Velocidade estimada
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

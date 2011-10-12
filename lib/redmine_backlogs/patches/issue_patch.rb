@@ -125,15 +125,6 @@ module RedmineBacklogs::Patches::IssuePatch
       relations_to.collect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed? ? ir.issue_from : nil}.compact
     end
 
-    def velocity_based_estimate
-      return nil if !self.is_story? || !self.story_points || self.story_points <= 0
-
-      dpp = self.project.scrum_statistics.info[:average_days_per_point]
-      return nil if !dpp
-
-      (self.story_points * dpp).to_i
-    end
-
     def recalculate_attributes_for_with_remaining_hours(issue_id)
       recalculate_attributes_for_without_remaining_hours(issue_id)
 

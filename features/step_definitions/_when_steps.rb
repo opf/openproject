@@ -92,10 +92,6 @@ When /^I update the task$/ do
                    @task_params.merge({ "_method" => "put" })
 end
 
-Given /^I visit the scrum statistics page$/ do
-  visit url_for(:controller => :rb_statistics, :action => :show)
-end
-
 When /^I view the master backlog$/ do
   visit url_for(:controller => :projects, :action => :show, :id => @project)
   click_link("Backlogs")

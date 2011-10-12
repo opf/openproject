@@ -14,7 +14,6 @@ Dispatcher.to_prepare do
 
   require_dependency 'backlogs_query_patch'
   require_dependency 'backlogs_version_patch'
-  require_dependency 'backlogs_project_patch'
   require_dependency 'backlogs_user_patch'
   require_dependency 'backlogs_version_controller_patch'
   require_dependency 'backlogs_hooks'
@@ -99,8 +98,6 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,     { :rb_impediments => [:new, :create]  }
     permission :update_impediments,     { :rb_impediments => [:edit, :update],
                                           :issue_boxes => [:edit, :update] }
-
-    permission :view_scrum_statistics,  { :rb_statistics => :show }
   end
 
   menu :project_menu,
@@ -109,9 +106,4 @@ Redmine::Plugin.register :redmine_backlogs do
        :caption => :project_module_backlogs,
        :after => :new_issue,
        :param => :project_id
-  menu :application_menu,
-       :backlogs,
-       {:controller => :rb_statistics, :action => :show},
-       :caption => :label_scrum_statistics,
-       :if => proc { Setting.plugin_redmine_backlogs[:show_statistics] && User.current.allowed_to?(:view_scrum_statistics, nil, :global => true) }
 end

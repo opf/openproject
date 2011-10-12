@@ -49,16 +49,6 @@ module BacklogsPlugin
               <td class="story-points">#{issue.story_points || '-'}</td>
             </tr>
           }
-
-          if Setting.plugin_redmine_backlogs[:show_statistics]
-            vbe = issue.velocity_based_estimate
-            snippet += %Q{
-              <tr>
-                <th class="velocity-based-estimate">#{l(:field_velocity_based_estimate)}:</th>
-                <td class="velocity-based-estimate">#{vbe ? vbe.to_s + ' days' : '-'}</td>
-              </tr>
-            }
-          end
         end
 
         snippet += %Q{
