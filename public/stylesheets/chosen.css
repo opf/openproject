@@ -232,7 +232,7 @@
 }
 .chzn-container .chzn-results li {
   line-height: 80%;
-  padding: 7px 7px 8px;
+  padding: 7px 7px 8px !important;
   margin: 0;
   list-style: none;
 }
