@@ -1,6 +1,10 @@
+require_dependency 'issue_status'
+
 module RedmineBacklogs::Patches::IssueStatusPatch
   def self.included(base)
     base.class_eval do
+      unloadable
+
       include InstanceMethods
     end
   end

@@ -1,3 +1,5 @@
+require_dependency 'issue'
+
 module RedmineBacklogs::Patches::IssuePatch
   def self.included(base)
     base.class_eval do
