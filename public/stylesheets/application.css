@@ -1115,6 +1115,7 @@ a:hover {
         color:#ffffff;
 	height:43px;
 	border-top:0;
+  position:relative;
         }
 
 #account ul#account-info {
