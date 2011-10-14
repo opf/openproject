@@ -106,30 +106,6 @@ Feature: Team Member
      When I view the stories in the issues tab
      Then I should see the Issues page
 
-  Scenario: Fetch the updated stories
-    Given I am on the master backlog
-     When the browser fetches stories updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 4 updated stories
-
-  Scenario: Fetch the updated tasks
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches tasks updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 1 updated task
-
-  Scenario: Fetch the updated impediments
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches impediments updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 2 updated impediments
-
-  Scenario: Fetch zero updated impediments
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches impediments updated since 1 week from now
-     Then the request should complete successfully
-      And the server should return 0 updated impediments
-
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"
       And I want to create a task for Story 1
