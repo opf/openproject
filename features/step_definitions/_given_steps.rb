@@ -154,6 +154,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['status_id'] = IssueStatus.find_by_name(story['status']).id if story['status']
     params['tracker_id'] = Tracker.find_by_name(story['tracker']).id if story['tracker']
 
+    params.delete "position"
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller

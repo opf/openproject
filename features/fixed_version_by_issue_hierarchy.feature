@@ -48,10 +48,10 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | Sprint 004 | 2.weeks.ago       | 1.week.from_now |
         | Sprint 005 | 3.weeks.ago       | 2.weeks.from_now|
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 5        | Story A | Sprint 001 |
-        | 6        | Story B | Sprint 001 |
-        | 7        | Story C | Sprint 002 |
+        | subject | sprint     |
+        | Story A | Sprint 001 |
+        | Story B | Sprint 001 |
+        | Story C | Sprint 002 |
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |

@@ -35,11 +35,11 @@ Feature: Team Member
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 1        | Story 1 | Sprint 001 |
-        | 2        | Story 2 | Sprint 001 |
-        | 3        | Story 3 | Sprint 001 |
-        | 4        | Story 4 | Sprint 002 |
+        | subject | sprint     |
+        | Story 1 | Sprint 001 |
+        | Story 2 | Sprint 001 |
+        | Story 3 | Sprint 001 |
+        | Story 4 | Sprint 002 |
     And the project has the following tasks:
         | subject | parent  |
         | Task 1  | Story 1 |

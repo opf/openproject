@@ -49,16 +49,16 @@ Feature: Scrum Master
         | Product Backlog |
         | Wishlist        |
     And the project has the following stories in the following backlogs:
-        | position | subject | backlog |
-        | 1        | Story 1 | Product Backlog |
-        | 2        | Story 2 | Product Backlog |
-        | 3        | Story 3 | Product Backlog |
-        | 4        | Story 4 | Product Backlog |
+        | subject | backlog |
+        | Story 1 | Product Backlog |
+        | Story 2 | Product Backlog |
+        | Story 3 | Product Backlog |
+        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 5        | Story A | Sprint 001 |
-        | 6        | Story B | Sprint 001 |
-        | 7        | Story C | Sprint 002 |
+        | subject | sprint     |
+        | Story A | Sprint 001 |
+        | Story B | Sprint 001 |
+        | Story C | Sprint 002 |
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
