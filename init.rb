@@ -13,7 +13,6 @@ Dispatcher.to_prepare do
   end
 
   require_dependency 'backlogs_version_patch'
-  require_dependency 'backlogs_user_patch'
   require_dependency 'backlogs_version_controller_patch'
   require_dependency 'backlogs_hooks'
 
@@ -25,6 +24,7 @@ Dispatcher.to_prepare do
   require_dependency 'redmine_backlogs/patches/issue_status_patch'
   require_dependency 'redmine_backlogs/patches/my_controller_patch'
   require_dependency 'redmine_backlogs/patches/query_patch'
+  require_dependency 'redmine_backlogs/patches/user_patch'
 
   require_dependency 'redmine_backlogs/issue_view'
   require_dependency 'redmine_backlogs/issue_form'
