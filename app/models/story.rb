@@ -3,7 +3,7 @@ require_dependency 'backlogs_list'
 class Story < Issue
     unloadable
 
-    include Backlogs::List
+    include RedmineBacklogs::List
 
     def self.condition(project_id, sprint_id, extras=[])
       c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",

@@ -4,7 +4,7 @@ require_dependency 'backlogs_list'
 class Task < Issue
   unloadable
 
-  include Backlogs::List
+  include RedmineBacklogs::List
 
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
