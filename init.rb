@@ -14,13 +14,13 @@ Dispatcher.to_prepare do
 
   require_dependency 'backlogs_hooks'
 
-  require_dependency 'project_model_patch'
   require_dependency 'projects_helper_patch'
-  require_dependency 'projects_controller_patch'
 
   require_dependency 'redmine_backlogs/patches/issue_patch'
   require_dependency 'redmine_backlogs/patches/issue_status_patch'
   require_dependency 'redmine_backlogs/patches/my_controller_patch'
+  require_dependency 'redmine_backlogs/patches/project_patch'
+  require_dependency 'redmine_backlogs/patches/projects_controller_patch'
   require_dependency 'redmine_backlogs/patches/query_patch'
   require_dependency 'redmine_backlogs/patches/user_patch'
   require_dependency 'redmine_backlogs/patches/version_controller_patch'
