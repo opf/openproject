@@ -12,7 +12,6 @@ Dispatcher.to_prepare do
     Issue.safe_attributes "story_points", "remaining_hours", "position"
   end
 
-  require_dependency 'backlogs_version_patch'
   require_dependency 'backlogs_hooks'
 
   require_dependency 'project_model_patch'
@@ -25,6 +24,7 @@ Dispatcher.to_prepare do
   require_dependency 'redmine_backlogs/patches/query_patch'
   require_dependency 'redmine_backlogs/patches/user_patch'
   require_dependency 'redmine_backlogs/patches/version_controller_patch'
+  require_dependency 'redmine_backlogs/patches/version_patch'
 
   require_dependency 'redmine_backlogs/issue_view'
   require_dependency 'redmine_backlogs/issue_form'

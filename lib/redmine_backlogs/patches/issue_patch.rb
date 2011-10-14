@@ -11,7 +11,6 @@ module RedmineBacklogs::Patches::IssuePatch
       alias_method_chain :recalculate_attributes_for, :remaining_hours
       before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
-      after_save  :touch_sprint_burndowns
       before_save :inherit_version_from_story_or_root_task, :if => lambda {|i| i.is_task? }
       after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.story_or_root_task == i) }
 
@@ -200,29 +199,6 @@ module RedmineBacklogs::Patches::IssuePatch
         ensure
           Issue.place_child_update_semaphore
         end
-      end
-    end
-
-    def touch_sprint_burndowns
-      ## Normally one of the _before_save hooks ought to take
-      ## care of this, but appearantly neither root_id nor
-      ## parent_id are set at that point
-
-      touched_sprints = []
-      story = self.story
-
-      if self.is_story?
-        touched_sprints = Sprint.find_all_by_id(
-          [self.fixed_version_id, self.fixed_version_id_was].compact)
-      elsif self.is_task?
-        # for tasks we touch the sprints of the current and former stories
-        story_was = nil
-        story_was = Issue.find(self.parent_id_was).story if self.parent_id_was
-        touched_sprints = [story, story_was].compact.collect{ |s| s.fixed_version }
-      end
-
-      touched_sprints.compact.uniq.each do |sprint|
-        sprint.touch_burndown
       end
     end
   end
