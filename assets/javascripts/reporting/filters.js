@@ -308,7 +308,7 @@ Reporting.Filters = {
   // Param: select [optional] - the select-box of the filter which should activate it's dependents
   activate_dependents: function (selectBox, callbackWhenFinished) {
     var all_dependents, next_dependents, dependent, active_filters, source;
-    if (selectBox === undefined || selectBox.type.toLowerCase() == 'change') {
+    if (selectBox === undefined || (selectBox.type && selectBox.type.toLowerCase() == 'change')) {
       selectBox = this;
     }
     if (selectBox.tagName.toLowerCase() !== "select") {
