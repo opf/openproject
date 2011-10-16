@@ -94,34 +94,5 @@ module Redmine
         end
       end
     end
-
-    # Default formatter module
-    module NullFormatter
-      class Formatter
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::UrlHelper
-
-        def initialize(text)
-          @text = text
-        end
-
-        def to_html(*args)
-          simple_format(auto_link(CGI::escapeHTML(@text)))
-        end
-      end
-
-      module Helper
-        def wikitoolbar_for(field_id)
-        end
-
-        def heads_for_wiki_formatter
-        end
-
-        def initial_page_content(page)
-          page.pretty_title.to_s
-        end
-      end
-    end
   end
 end
