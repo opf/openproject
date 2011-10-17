@@ -1,4 +1,5 @@
 require 'chili_project/liquid/liquid_ext'
+require 'chili_project/liquid/filters'
 require 'chili_project/liquid/tags'
 
 module ChiliProject
