@@ -3,17 +3,8 @@ module RedmineBacklogs::List
 
   def self.included(base)
     base.class_eval do
-      # The leading and trailing quotes trick the eval code in
-      # acts_as_silent_list.  This way, we are able to execute actual code in
-      # our quote string. Also sanitize_sql seems to be unavailable in a
-      # sensible way. Therefore we're using send to circumvent visibility
-      # issues.
-      acts_as_silent_list :scope => <<-SCOPE
-        " + self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND tracker_id IN (?)',
-                                           self.project_id, self.fixed_version_id, self.class.trackers]) + "
-      SCOPE
+      include InstanceMethods
     end
-    base.send(:include, InstanceMethods)
   end
 
   module InstanceMethods
