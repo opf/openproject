@@ -112,6 +112,17 @@ module RedmineBacklogs::Patches::IssuePatch
       backlogs_enabled? and (self.parent_issue_id && self.tracker_id == Task.tracker && Task.tracker.present?)
     end
 
+    def trackers
+      case
+      when is_story?
+        Story.trackers
+      when is_task?
+        Task.trackers
+      else
+        []
+      end
+    end
+
     def story
       if self.is_story?
         return Story.find(self.id)
@@ -178,6 +189,7 @@ module RedmineBacklogs::Patches::IssuePatch
     end
 
     private
+
     def backlogs_before_validation
       if self.tracker_id == Task.tracker
         self.estimated_hours = self.remaining_hours if self.estimated_hours.blank? && ! self.remaining_hours.blank?
