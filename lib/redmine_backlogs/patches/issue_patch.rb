@@ -44,6 +44,8 @@ module RedmineBacklogs::Patches::IssuePatch
 
           if project_id_changed?
             restore_project_id = true
+            # I've got no idea, why there's a difference between setting the
+            # project via project= or via project_id=, but there is.
             new_project = project
             self.project = Project.find(project_id_was)
           end
