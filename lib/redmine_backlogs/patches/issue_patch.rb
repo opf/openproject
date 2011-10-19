@@ -67,12 +67,11 @@ module RedmineBacklogs::Patches::IssuePatch
     end
 
     def parent_issue_relationship_spanning_projects?(parent, child)
-      child.is_task? && backlogs_trackers.include?(parent.tracker_id) &&
-                      parent.present? && parent.project_id != child.project_id
+      child.is_task? && parent.in_backlogs_tracker? && parent.project_id != child.project_id
     end
 
     def validate_children(issue, attr, value)
-      if issue.backlogs_enabled? && Issue.backlogs_trackers.include?(issue.tracker_id)
+      if issue.in_backlogs_tracker?
         issue.children.each do |child|
           unless child.valid?
             child.errors.each do |key, value|
@@ -104,8 +103,16 @@ module RedmineBacklogs::Patches::IssuePatch
       update_attribute(attrib, v)
     end
 
+    def to_story
+      Story.find(id) if is_story?
+    end
+
     def is_story?
       backlogs_enabled? and Story.trackers.include?(self.tracker_id)
+    end
+
+    def to_task
+      Task.find(id) if is_task?
     end
 
     def is_task?
@@ -165,8 +172,12 @@ module RedmineBacklogs::Patches::IssuePatch
       self.project.try(:module_enabled?, "backlogs")
     end
 
+    def in_backlogs_tracker?
+      backlogs_enabled? and Issue.backlogs_trackers.include?(self.tracker.id)
+    end
+
     def story_or_root_task
-      return nil unless Issue.backlogs_trackers.include?(self.tracker_id)
+      return nil unless in_backlogs_tracker?
       return self if self.is_story?
 
       root = self
@@ -180,7 +191,7 @@ module RedmineBacklogs::Patches::IssuePatch
         ancestors ? ancestors << real_parent : [real_parent]
 
         ancestors.sort_by{ |a| a.right }.each do |p|
-          root = p if Issue.backlogs_trackers.include?(p.tracker_id)
+          root = p if p.backlogs_enabled?
           break if Story.trackers.include?(p.tracker_id)
         end
       end
