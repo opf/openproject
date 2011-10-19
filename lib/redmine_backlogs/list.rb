@@ -44,18 +44,6 @@ module RedmineBacklogs::List
 
     private
 
-    # Overwriting insert_at_position to make it work with aaj and not emit tons of
-    # mails
-    def insert_at_position(position)
-      # remove_from_list
-      if in_list?
-        decrement_positions_on_lower_items
-      end
-      # end of remove_from_list
-      increment_positions_on_lower_items(position)
-      update_attribute(position_column, position)
-    end
-
     def set_default_prev_positions_silently(prev)
       stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => self.class.trackers})
 
