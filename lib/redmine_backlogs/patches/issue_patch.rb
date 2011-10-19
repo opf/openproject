@@ -40,7 +40,7 @@ module RedmineBacklogs::Patches::IssuePatch
 
   module ClassMethods
     def backlogs_trackers
-      @backlogs_tracker ||= Story.trackers << Task.tracker
+      @backlogs_trackers ||= Story.trackers << Task.tracker
     end
 
     def take_child_update_semaphore
