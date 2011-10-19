@@ -15,6 +15,69 @@ module RedmineBacklogs::Patches::IssuePatch
         self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND tracker_id IN (?)',
                                         self.project_id, self.fixed_version_id, self.trackers])
       end
+
+      # add new items to top of list automatically
+      after_create :insert_at, :if => :in_backlogs_tracker?
+
+      # reorder list, if issue is removed from sprint
+      before_update :fix_other_issues_positions
+      before_update :fix_own_issue_position
+
+      # deactivate the default add_to_list_bottom callback
+      def add_to_list_bottom
+        super unless caller(2).first =~ /callbacks/
+      end
+
+      def fix_other_issues_positions
+        if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
+          if fixed_version_id_changed?
+            restore_version_id = true
+            new_version_id = fixed_version_id
+            self.fixed_version_id = fixed_version_id_was
+          end
+
+          if tracker_id_changed?
+            restore_tracker_id = true
+            new_tracker_id = tracker_id
+            self.tracker_id = tracker_id_was
+          end
+
+          if project_id_changed?
+            restore_project_id = true
+            new_project = project
+            self.project = Project.find(project_id_was)
+          end
+
+          remove_from_list if in_backlogs_tracker?
+
+          if restore_project_id
+            self.project = new_project
+          end
+
+          if restore_tracker_id
+            self.tracker_id = new_tracker_id
+          end
+
+          if restore_version_id
+            self.fixed_version_id = new_version_id
+          end
+        end
+      end
+
+      def fix_own_issue_position
+        if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
+          if in_backlogs_tracker? and fixed_version.present?
+            insert_at(1)
+          else
+            assume_not_in_list
+          end
+        end
+      end
+
+
+
+      # list end
+
       include InstanceMethods
       extend ClassMethods
 
