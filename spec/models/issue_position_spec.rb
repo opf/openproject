@@ -71,7 +71,7 @@ describe Issue do
       issue_c.move_to_bottom
     end
 
-    describe 'creating an issue in a sprint' do
+    describe '- Creating an issue in a sprint' do
       it 'adds it to the top of the list' do
         new_issue = create_issue(:subject => 'Newest Issue', :fixed_version_id => sprint_1.id)
 
@@ -86,7 +86,7 @@ describe Issue do
       end
     end
 
-    describe 'removing an issue from the sprint' do
+    describe '- Removing an issue from the sprint' do
       it 'reorders the remaining issues' do
         issue_2.fixed_version = sprint_2
         issue_2.save!
@@ -96,7 +96,7 @@ describe Issue do
       end
     end
 
-    describe 'adding an issue to a sprint' do
+    describe '- Adding an issue to a sprint' do
       it 'adds it to the top of the list' do
         issue_a.fixed_version = sprint_1
         issue_a.save!
@@ -112,7 +112,7 @@ describe Issue do
       end
     end
     
-    describe 'deleting an issue in a sprint' do
+    describe '- Deleting an issue in a sprint' do
       it 'reorders the existing issues' do
         issue_3.destroy
 
@@ -120,33 +120,33 @@ describe Issue do
       end
     end
 
-    describe 'changing the tracker' do
-      describe 'moving a story to another story tracker' do
+    describe '- Changing the tracker' do
+      describe 'by moving a story to another story tracker' do
         it 'keeps all positions in the sprint in tact'
       end
 
-      describe 'moving a story to a non-backlogs tracker' do
+      describe 'by moving a story to a non-backlogs tracker' do
         it 'removes it from any list'
         it 'reorders the remaining stories'
       end
       
-      describe 'moving a story to the task tracker' do
+      describe 'by moving a story to the task tracker' do
         it 'removes it from any list'
         it 'reorders the remaining stories'
       end
 
-      describe 'moving a task to the story tracker' do
+      describe 'by moving a task to the story tracker' do
         it 'adds it to the top of the list'
         it 'reorders the existing stories'
       end
 
-      describe 'moving a non-backlogs issue to a story tracker' do
+      describe 'by moving a non-backlogs issue to a story tracker' do
         it 'adds it to the top of the list'
         it 'reorders the existing stories'
       end
     end
 
-    describe 'moving issues between projects' do
+    describe '- Moving issues between projects' do
       # N.B.: You cannot move a ticket to another project and change the
       # fixed_version at the same time. OTOH chiliproject tries to keep
       # the fixed_version if possible (e.g. within project hierarchies with
@@ -177,7 +177,7 @@ describe Issue do
         version_go_live
       end
 
-      describe 'moving an issue from a project without backlogs to a backlogs_enabled project' do
+      describe '- Moving an issue from a project without backlogs to a backlogs_enabled project' do
         describe 'if the fixed_version may not be kept' do
           let(:issue_i) { create_issue(:subject => 'Issue I',
                                        :fixed_version_id => version_go_live.id,
@@ -230,7 +230,7 @@ describe Issue do
         end
       end
 
-      describe 'moving an issue away from backlogs_enabled project to a project without backlogs' do
+      describe '- Moving an issue away from backlogs_enabled project to a project without backlogs' do
         describe 'if the fixed_version may not be kept' do
           it 'sets the fixed_version_id to nil' do
             result = issue_3.move_to_project(project_wo_backlogs)
