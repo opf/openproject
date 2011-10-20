@@ -977,3 +977,7 @@ en:
   description_selected_columns: Selected Spalten
   description_ticket_reassign: Assign issues to
   description_wiki_reassign: Assign page to
+  description_date_range_list: Choose range from list
+  description_date_range_interval: Choose range by selecting start and end date
+  description_date_from: Enter start date
+  description_date_to: Enter end date

@@ -995,3 +995,7 @@ de:
   description_selected_columns: Ausgewählte Spalten
   description_ticket_reassign: Ticketzuordnung
   description_wiki_reassign: Wikiseitenzuordnung
+  description_date_range_list: Zeitraum aus einer Liste wählen
+  description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
+  description_date_from: Startdatum eintragen
+  description_date_to: Enddatum eintragen
