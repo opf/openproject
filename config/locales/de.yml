@@ -985,6 +985,7 @@ de:
   description_filter: Filter
   description_search: Suchfeld
   description_project_scope: Suchbereich
+  description_message_content: Nachrichteninhalt
   description_query_sort_criteria_attribute: Sortierattribut
   description_query_sort_criteria_direction: Sortierrichtung
   description_available_columns: Verfügbare Spalten
