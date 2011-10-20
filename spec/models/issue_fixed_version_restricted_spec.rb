@@ -241,9 +241,8 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
                                          :story_trackers => [tracker_feature.id],
                                          :task_tracker => tracker_task.id.to_s }
 
-    Issue.class_eval do
-      @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-    end
+    # otherwise the tracker id's from the previous test are still active
+    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   describe "WITH a story" do

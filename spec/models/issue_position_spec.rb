@@ -59,6 +59,7 @@ describe Issue do
       Setting.plugin_redmine_backlogs = {:story_trackers => [story_tracker.id, epic_tracker.id],
                                          :task_tracker   => task_tracker.id}
 
+      # otherwise the tracker id's from the previous test are still active
       Issue.instance_variable_set(:@backlogs_trackers, nil)
 
       project.trackers = [story_tracker, epic_tracker, task_tracker, other_tracker]

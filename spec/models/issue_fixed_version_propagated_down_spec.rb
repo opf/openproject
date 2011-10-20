@@ -140,9 +140,8 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                                          :story_trackers => [tracker_feature.id],
                                          :task_tracker => tracker_task.id.to_s }
 
-    Issue.class_eval do
-      @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-    end
+    # otherwise the tracker id's from the previous test are still active
+    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   def standard_child_layout
