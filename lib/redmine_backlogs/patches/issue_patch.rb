@@ -17,7 +17,7 @@ module RedmineBacklogs::Patches::IssuePatch
       end
 
       # add new items to top of list automatically
-      after_create :insert_at, :if => :in_backlogs_tracker?
+      after_create :insert_at, :if => :is_story?
 
       # reorder list, if issue is removed from sprint
       before_update :fix_other_issues_positions
@@ -30,6 +30,12 @@ module RedmineBacklogs::Patches::IssuePatch
 
       def fix_other_issues_positions
         if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
+          if changes.slice('project_id', 'fixed_version_id').blank? and
+                              Story.trackers.include?(tracker_id.to_i) and
+                              Story.trackers.include?(tracker_id_was.to_i)
+            return
+          end
+
           if fixed_version_id_changed?
             restore_version_id = true
             new_version_id = fixed_version_id
@@ -50,7 +56,7 @@ module RedmineBacklogs::Patches::IssuePatch
             self.project = Project.find(project_id_was)
           end
 
-          remove_from_list if in_backlogs_tracker?
+          remove_from_list if is_story?
 
           if restore_project_id
             self.project = new_project
@@ -68,7 +74,13 @@ module RedmineBacklogs::Patches::IssuePatch
 
       def fix_own_issue_position
         if changes.slice('project_id', 'tracker_id', 'fixed_version_id').present?
-          if in_backlogs_tracker? and fixed_version.present?
+          if changes.slice('project_id', 'fixed_version_id').blank? and
+                              Story.trackers.include?(tracker_id.to_i) and
+                              Story.trackers.include?(tracker_id_was.to_i)
+            return
+          end
+
+          if is_story? and fixed_version.present?
             insert_at(1)
           else
             assume_not_in_list

@@ -36,6 +36,12 @@ describe Issue do
     let(:issue_b) { create_issue(:subject => 'Issue b', :fixed_version_id => sprint_2.id) }
     let(:issue_c) { create_issue(:subject => 'Issue c', :fixed_version_id => sprint_2.id) }
 
+    let(:feedback_1)  { create_issue(:subject => 'Feedback 1', :fixed_version_id => sprint_1.id,
+                                                               :tracker_id => other_tracker.id) }
+
+    let(:task_1)  { create_issue(:subject => 'Task 1', :fixed_version_id => sprint_1.id,
+                                                       :tracker_id => task_tracker.id) }
+
     before do
       # had problems while writing these specs, that some elements kept creaping
       # around between tests. This should be fast enough to not harm anybody
@@ -55,7 +61,7 @@ describe Issue do
 
       Issue.instance_variable_set(:@backlogs_trackers, nil)
 
-      project.trackers = [story_tracker, task_tracker, other_tracker]
+      project.trackers = [story_tracker, epic_tracker, task_tracker, other_tracker]
       sprint_1
       sprint_2
 
@@ -122,27 +128,76 @@ describe Issue do
 
     describe '- Changing the tracker' do
       describe 'by moving a story to another story tracker' do
-        it 'keeps all positions in the sprint in tact'
+        it 'keeps all positions in the sprint in tact' do
+          issue_3.tracker = epic_tracker
+          issue_3.save!
+
+          [issue_1, issue_2, issue_3, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
+        end
       end
 
       describe 'by moving a story to a non-backlogs tracker' do
-        it 'removes it from any list'
-        it 'reorders the remaining stories'
+        it 'removes it from any list' do
+          issue_3.tracker = other_tracker
+          issue_3.save!
+
+          issue_3.should_not be_in_list
+        end
+
+        it 'reorders the remaining stories' do
+          issue_3.tracker = other_tracker
+          issue_3.save!
+
+          [issue_1, issue_2, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        end
       end
       
       describe 'by moving a story to the task tracker' do
-        it 'removes it from any list'
-        it 'reorders the remaining stories'
+        it 'removes it from any list' do
+          issue_3.tracker = task_tracker
+          issue_3.save!
+
+          issue_3.should_not be_in_list
+        end
+
+        it 'reorders the remaining stories' do
+          issue_3.tracker = task_tracker
+          issue_3.save!
+
+          [issue_1, issue_2, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        end
       end
 
       describe 'by moving a task to the story tracker' do
-        it 'adds it to the top of the list'
-        it 'reorders the existing stories'
+        it 'adds it to the top of the list' do
+          task_1.tracker = story_tracker
+          task_1.save!
+
+          task_1.should be_first
+        end
+
+        it 'reorders the existing stories' do
+          task_1.tracker = story_tracker
+          task_1.save!
+
+          [task_1, issue_1, issue_2, issue_3, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+        end
       end
 
       describe 'by moving a non-backlogs issue to a story tracker' do
-        it 'adds it to the top of the list'
-        it 'reorders the existing stories'
+        it 'adds it to the top of the list' do
+          feedback_1.tracker = story_tracker
+          feedback_1.save!
+
+          feedback_1.should be_first
+        end
+
+        it 'reorders the existing stories' do
+          feedback_1.tracker = story_tracker
+          feedback_1.save!
+
+          [feedback_1, issue_1, issue_2, issue_3, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+        end
       end
     end
 
