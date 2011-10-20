@@ -964,4 +964,5 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+  description_search: Searchfield
   description_project_scope: Search scope
