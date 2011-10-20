@@ -316,9 +316,8 @@ Given /^the following trackers are configured to track stories:$/ do |table|
     story_trackers << tracker
   end
 
-  Issue.class_eval do
-    @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-  end
+  # otherwise the tracker id's from the previous test are still active
+  Issue.instance_variable_set(:@backlogs_trackers, nil)
 
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))
 end
