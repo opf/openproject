@@ -990,3 +990,5 @@ de:
   description_query_sort_criteria_direction: Sortierrichtung
   description_available_columns: Verfügbare Spalten
   description_selected_columns: Ausgewählte Spalten
+  description_ticket_reassign: Ticketzuordnung
+  description_wiki_reassign: Wikiseitenzuordnung

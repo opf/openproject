@@ -972,3 +972,5 @@ en:
   description_query_sort_criteria_direction: Sort direction
   description_available_columns: Available Columns
   description_selected_columns: Selected Spalten
+  description_ticket_reassign: Assign issues to
+  description_wiki_reassign: Assign page to

@@ -6,6 +6,7 @@
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_issue_category_destroy_assignments) %></label><br />
 <% if @categories.size > 0 %>
 <label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_issue_category_reassign_to) %></label>:
+<%= label_tag "reassign_to_id", l(:description_ticket_reassign), :class => "hidden-for-sighted" %>
 <%= select_tag 'reassign_to_id', options_from_collection_for_select(@categories, 'id', 'name') %></p>
 <% end %>
 </div>
