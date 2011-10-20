@@ -988,6 +988,7 @@ de:
   description_message_content: Nachrichteninhalt
   description_query_sort_criteria_attribute: Sortierattribut
   description_query_sort_criteria_direction: Sortierrichtung
+  description_user_mail_notification: Mailbenachrichtigungseinstellung
   description_available_columns: Verfügbare Spalten
   description_selected_columns: Ausgewählte Spalten
   description_ticket_reassign: Ticketzuordnung
