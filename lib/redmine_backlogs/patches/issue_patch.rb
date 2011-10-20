@@ -267,10 +267,7 @@ module RedmineBacklogs::Patches::IssuePatch
         ancestors = real_parent.ancestors.find_all_by_tracker_id(Issue.backlogs_trackers)
         ancestors ? ancestors << real_parent : [real_parent]
 
-        ancestors.sort_by{ |a| a.right }.each do |p|
-          root = p if p.backlogs_enabled?
-          break if Story.trackers.include?(p.tracker_id)
-        end
+        root = ancestors.sort_by(&:right).find(&:is_story?)
       end
 
       root
