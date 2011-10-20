@@ -85,6 +85,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
         <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>
     </td>
     <td style="width:150px;">
+        <%= label_tag "op_#{field}", l(:description_filter), :class => "hidden-for-sighted" %>
         <%= select_tag "op[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>
     </td>
     <td>
