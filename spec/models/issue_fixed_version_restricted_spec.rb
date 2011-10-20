@@ -268,25 +268,25 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   describe "WITH a task" do
     subject { task }
 
-    describe "WITHOUT a parent issue (would than be an impediment)" do
-          it_should_behave_like "fixed version without restriction"
-        end
+    describe "WITHOUT a parent issue (would then be an impediment)" do
+      it_should_behave_like "fixed version without restriction"
+    end
 
-        describe "WITH a task as it's parent" do
-          before(:each) do
-            story.save!
-            task2.parent_issue_id = story.id #a task needs a parent
-            task2.save!
-            story.reload
-            task.parent_issue_id = task2.id
-            task.save!
-            task2.reload
-          end
+    describe "WITH a task as it's parent" do
+      before(:each) do
+        story.save!
+        task2.parent_issue_id = story.id # a task needs a parent
+        task2.save!
+        story.reload
+        task.parent_issue_id = task2.id
+        task.save!
+        task2.reload
+      end
 
-          let(:parent) { story } #it's actually the grandparent but it makes no difference for the test
+      let(:parent) { story } # it's actually the grandparent but it makes no difference for the test
 
-          it_should_behave_like "fixed version beeing inherited from the parent"
-        end
+      it_should_behave_like "fixed version beeing inherited from the parent"
+    end
 
     describe "WITH a story as it's parent" do
       let(:parent) { story }
