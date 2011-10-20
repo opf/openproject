@@ -424,6 +424,13 @@ margin-left: 5px !important;
 width: auto;
 }
 
+label#no-css {
+  font-weight: inherit;
+  float:none;
+  text-align:left;
+  margin-left:0px;
+  width:auto;
+}
 input#time_entry_comments { width: 90%;}
 
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
