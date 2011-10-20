@@ -973,3 +973,14 @@ h2 img { vertical-align:middle; }
 	table.list {margin-top:0.5em;}
 	table.list th, table.list td {border: 1px solid #aaa;}
 }
+
+
+/* Accessibility specific styles */
+.hidden-for-sighted {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
