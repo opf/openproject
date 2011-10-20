@@ -26,17 +26,17 @@
 <%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
 
 <p>
-  <label><%= l(:field_status) %></label>
+  <label for='status_id'><%= l(:field_status) %></label>
   <%= select_tag('status_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %>
 </p>
 
 <p>
-  <label><%= l(:field_priority) %></label>
+  <label for='priority_id'><%= l(:field_priority) %></label>
   <%= select_tag('priority_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %>
 </p>
 
 <p>
-  <label><%= l(:field_assigned_to) %></label>
+  <label for='assigned_to_id'><%= l(:field_assigned_to) %></label>
   <%= select_tag('assigned_to_id', content_tag('option', l(:label_no_change_option), :value => '') +
                                    content_tag('option', l(:label_nobody), :value => 'none') +
                                    options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
@@ -45,12 +45,12 @@
 
 <div class="splitcontentright">
 <p>
-  <label><%= l(:field_start_date) %></label>
+  <label for='start_date'><%= l(:field_start_date) %></label>
   <%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %>
 </p>
 
 <p>
-  <label><%= l(:field_due_date) %></label>
+  <label for='due_date'><%= l(:field_due_date) %></label>
   <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %>
 </p>
 </div>
