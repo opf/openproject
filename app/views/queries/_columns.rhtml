@@ -1,7 +1,8 @@
 <table style="border-collapse: collapse; border:0;">
 	<tr>
 		<td style="padding-left:0">
-                <%= label_tag "available_columns", l(:description_available_columns), :class => "hidden-for-sighted" %>
+                <%= label_tag "available_columns", l(:description_available_columns) %>
+                <br \>
                 <%= select_tag 'available_columns',
 		          options_for_select((query.available_columns - query.columns).collect {|column| [column.caption, column.name]}),
 		          :multiple => true, :size => 10, :style => "width:150px" %>
@@ -13,7 +14,8 @@
 			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
 		</td>
 		<td>
-                <%= label_tag "selected_columns", l(:description_selected_columns), :class => "hidden-for-sighted" %>
+                <%= label_tag "selected_columns", l(:description_selected_columns) %>
+                <br \>
                 <%= select_tag 'c[]',
 		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
