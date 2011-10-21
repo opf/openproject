@@ -820,9 +820,54 @@ padding: 15px 0 15px 0;
 }
 
 .mypage-box {
-margin:0 0 20px 0;
-color:#505050;
-line-height:1.5em;
+  margin-top:20px;
+  padding: 0px 10px 0px 10px;
+  border: #C4C4C4 solid 1px;
+  font-size:11px;
+  background: #FFFFFF url(../images/background_widgets.png) repeat-x 0 0;
+
+  /* Shadow definitions cross browser */
+  -moz-box-shadow: 1px 1px 1px #BFBFBF;
+  -webkit-box-shadow: 1px 1px 1px #BFBFBF;
+  box-shadow: 1px 1px 1px #BFBFBF;
+  /* For IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333')";
+  /* For IE 5.5 - 7 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#000000');
+  zoom: 1;
+}
+
+#content .mypage-box h3 {
+  margin: 9px 0px 6px;
+}
+
+#content .mypage-box table {
+  padding: 10;
+  margin-top:15px;
+  margin-bottom:15px;
+}
+
+.mypage-box h3, .mypage-box a {
+  font-size:11px;
+  font-weight:bold;
+}
+
+#content .mypage-box table.issues td, #content .mypage-box table th, #content .mypage-box table.list {
+  border:none;
+  padding:0;
+  width:auto;
+  padding-right:30px;
+  padding-bottom:5px;
+}
+
+#content .mypage-box table th {
+  border:none;
+  background: white;
+  font-weight: bold;
+}
+
+#content .mypage-box table tr.even {
+  background-color: white;
 }
 
 .handle {
@@ -831,7 +876,7 @@ cursor: move;
 
 a.close-icon {
 display:block;
-margin-top:3px;
+margin-top:10px;
 overflow:hidden;
 width:12px;
 height:12px;
