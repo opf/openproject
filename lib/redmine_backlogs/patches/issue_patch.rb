@@ -292,12 +292,13 @@ module RedmineBacklogs::Patches::IssuePatch
         begin
           Issue.take_child_update_semaphore
 
-          # we overwrite the version of all leaf issues that are tasks
-          # this way, the fixed_version_id is propagated up
-          # by the inherit_version_from_story_or_root_task before_filter and the update_parent_attributes after_filter
+          # we overwrite the version of all leaf issues that are tasks. This way,
+          # the fixed_version_id is propagated up by the
+          # inherit_version_from_story_or_root_task before_filter and the
+          # update_parent_attributes after_filter
           stop_descendants, descendant_tasks = self.descendants.partition{|d| d.tracker_id != Task.tracker }
-          descendant_tasks.reject!{ |t| stop_descendants.any?{ |s| s.left < t.left && s.right > t.right } }
-          leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any?{ |s| s.left > t.left && s.right < t.right } }
+          descendant_tasks.reject!{ |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } }
+          leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any? { |s| s.left > t.left && s.right < t.right } }
 
           leaf_tasks.each do |task|
             task.inherit_version_from(self)

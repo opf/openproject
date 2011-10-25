@@ -9,7 +9,7 @@ def project_boundaries_spanning_issue_hierarchy_allowed?
     @parent_issue = parent_issue
   end
   issue.valid?
-  #using not so good check on validity
+  # using not so good check on validity
   issue.errors[:parent_issue_id] != "doesn't belong to the same project"
 end
 
