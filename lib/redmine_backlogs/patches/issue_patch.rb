@@ -196,6 +196,10 @@ module RedmineBacklogs::Patches::IssuePatch
       backlogs_enabled? and (self.parent_issue_id && self.tracker_id == Task.tracker && Task.tracker.present?)
     end
 
+    def is_impediment?
+      backlogs_enabled? and (self.parent_issue_id.nil? && self.tracker_id == Task.tracker && Task.tracker.present?)
+    end
+
     def trackers
       case
       when is_story?
@@ -267,7 +271,7 @@ module RedmineBacklogs::Patches::IssuePatch
         ancestors = real_parent.ancestors.find_all_by_tracker_id(Issue.backlogs_trackers)
         ancestors ? ancestors << real_parent : [real_parent]
 
-        root = ancestors.sort_by(&:right).find(&:is_story?)
+        root = ancestors.sort_by(&:right).find { |i| i.is_story? or i.is_impediment? }
       end
 
       root
