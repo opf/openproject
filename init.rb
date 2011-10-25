@@ -1,5 +1,6 @@
 require 'redmine'
 require 'dispatcher'
+require 'acts_as_silent_list'
 
 Dispatcher.to_prepare do
   require_dependency 'issue'
