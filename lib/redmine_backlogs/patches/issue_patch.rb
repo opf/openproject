@@ -98,8 +98,8 @@ module RedmineBacklogs::Patches::IssuePatch
       alias_method_chain :recalculate_attributes_for, :remaining_hours
       before_validation :backlogs_before_validation, :if => lambda {|i| i.project && i.project.module_enabled?("backlogs")}
 
-      before_save :inherit_version_from_story_or_root_task, :if => lambda {|i| i.is_task? }
-      after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.story_or_root_task == i) }
+      before_save :inherit_version_from_closest_story_or_impediment, :if => lambda {|i| i.is_task? }
+      after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.closest_story_or_impediment == i) }
 
       validates_numericality_of :story_points, :only_integer             => true,
                                                :allow_nil                => true,
@@ -257,7 +257,7 @@ module RedmineBacklogs::Patches::IssuePatch
       backlogs_enabled? and Issue.backlogs_trackers.include?(self.tracker.id)
     end
 
-    def story_or_root_task
+    def closest_story_or_impediment
       return nil unless in_backlogs_tracker?
       return self if self.is_story?
 
@@ -286,8 +286,8 @@ module RedmineBacklogs::Patches::IssuePatch
       end
     end
 
-    def inherit_version_from_story_or_root_task
-      root = story_or_root_task
+    def inherit_version_from_closest_story_or_impediment
+      root = closest_story_or_impediment
       inherit_version_from(root) if root != self
     end
 
