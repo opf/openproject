@@ -247,28 +247,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         end
       end
 
-      describe "WITH a task" do
-        before(:each) do
-          bug2.save!
-          task.parent_issue_id = bug2.id #so that it is considered a task
-          task.save!
-        end
-
-        subject { task }
-
-        describe "WITH a task as child" do
-          let(:child) { task2 }
-
-          it_should_behave_like "changing parent's fixed_version changes child's fixed version"
-        end
-
-        describe "WITH a non backlogs issue as child" do
-          let(:child) { bug }
-
-          it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
-        end
-      end
-
       describe "WITH a task (impediment) without a parent" do
         subject { task }
 
