@@ -265,9 +265,9 @@ module RedmineBacklogs::Patches::IssuePatch
       unless self.parent_issue_id.nil?
 
         real_parent = Issue.find_by_id(self.parent_issue_id)
-        #unfortunately the nested set is only build on save
-        #hence, the #parent method is not always correct
-        #therefore we go to the parent the hard way and use nested set from there
+        # Unfortunately the nested set is only build on save hence, the #parent
+        # method is not always correct. Therefore we go to the parent the hard
+        # way and use nested set from there
         ancestors = real_parent.ancestors.find_all_by_tracker_id(Issue.backlogs_trackers)
         ancestors ? ancestors << real_parent : [real_parent]
 
@@ -296,10 +296,10 @@ module RedmineBacklogs::Patches::IssuePatch
         begin
           Issue.take_child_update_semaphore
 
-          # we overwrite the version of all leaf issues that are tasks. This way,
-          # the fixed_version_id is propagated up by the
-          # inherit_version_from_story_or_root_task before_filter and the
-          # update_parent_attributes after_filter
+          # We overwrite the version of all leaf issues that are tasks. This
+          # way, the fixed_version_id is propagated up by the
+          # inherit_version_from_closest_story_or_impediment before_filter and
+          # the update_parent_attributes after_filter
           stop_descendants, descendant_tasks = self.descendants.partition{|d| d.tracker_id != Task.tracker }
           descendant_tasks.reject!{ |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } }
           leaf_tasks = descendant_tasks.reject{ |t| descendant_tasks.any? { |s| s.left > t.left && s.right < t.right } }
