@@ -92,14 +92,6 @@ When /^I update the task$/ do
                    @task_params.merge({ "_method" => "put" })
 end
 
-Given /^I visit the scrum statistics page$/ do
-  visit url_for(:controller => :rb_statistics, :action => :show)
-end
-
-When /^I download the calendar feed$/ do
-  visit url_for({ :key => @api_key, :controller => 'rb_calendars', :action => 'show', :format => 'xml', :project_id => @project })
-end
-
 When /^I view the master backlog$/ do
   visit url_for(:controller => :projects, :action => :show, :id => @project)
   click_link("Backlogs")
@@ -124,12 +116,6 @@ end
 # Depends on deprecated behavior of path_for('the task board for "sprint name"')
 When /^I edit the sprint notes$/ do
   visit url_for(:controller => 'rb_wikis', :action => 'edit', :sprint_id => @sprint)
-end
-
-When /^the browser fetches (.+) updated since (\d+) (\w+) (.+)$/ do |object_type, how_many, period, direction|
-  date = eval("#{ how_many }.#{ period }.#{ direction=='from now' ? 'from_now' : 'ago' }")
-  date = date.strftime("%B %d, %Y %H:%M:%S") + '.' + (date.to_f % 1 + 0.001).to_s.split('.')[1]
-  visit url_for(:controller => 'rb_updated_items', :action => :show, :project_id => @project, :only => object_type, :since => date)
 end
 
 When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|

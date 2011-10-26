@@ -39,15 +39,15 @@ Feature: Edit story on backlogs view
         | Product Backlog |
         | Wishlist        |
     And the project has the following stories in the following owner backlogs:
-        | position | subject | backlog         |
-        | 1        | Story 1 | Product Backlog |
-        | 2        | Story 2 | Product Backlog |
-        | 3        | Story 3 | Product Backlog |
-        | 4        | Story 4 | Product Backlog |
+        | subject | backlog         |
+        | Story 1 | Product Backlog |
+        | Story 2 | Product Backlog |
+        | Story 3 | Product Backlog |
+        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     | story_points |
-        | 5        | Story A | Sprint 001 | 10           |
-        | 6        | Story B | Sprint 001 | 20           |
+        | subject | sprint     | story_points |
+        | Story A | Sprint 001 | 10           |
+        | Story B | Sprint 001 | 20           |
     And I am logged in as "mathias"
 
   @javascript

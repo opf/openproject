@@ -140,9 +140,8 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
                                          :story_trackers => [tracker_feature.id],
                                          :task_tracker => tracker_task.id.to_s }
 
-    Issue.class_eval do
-      @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-    end
+    # otherwise the tracker id's from the previous test are still active
+    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   def standard_child_layout
@@ -188,7 +187,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         subject.fixed_version = version2
         subject.save!
 
-        #due to performance, these assertions are all in one it statement
+        # due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
         task4.reload.fixed_version.should eql version2
@@ -213,7 +212,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         subject.fixed_version = version2
         subject.save!
 
-        #due to performance, these assertions are all in one it statement
+        # due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
@@ -243,28 +242,6 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
 
         describe "WITH a story as a child" do
           let(:child) { story2 }
-
-          it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
-        end
-      end
-
-      describe "WITH a task" do
-        before(:each) do
-          bug2.save!
-          task.parent_issue_id = bug2.id #so that it is considered a task
-          task.save!
-        end
-
-        subject { task }
-
-        describe "WITH a task as child" do
-          let(:child) { task2 }
-
-          it_should_behave_like "changing parent's fixed_version changes child's fixed version"
-        end
-
-        describe "WITH a non backlogs issue as child" do
-          let(:child) { bug }
 
           it_should_behave_like "changing parent's fixed_version does not change child's fixed_version"
         end
@@ -339,7 +316,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
       describe "WITH a task" do
         before(:each) do
           bug2.save!
-          task.parent_issue_id = bug2.id #so that it is considered a task
+          task.parent_issue_id = bug2.id # so that it is considered a task
           task.save!
         end
 
@@ -410,7 +387,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         child.parent_issue_id = parent.id
         child.save!
 
-        #due to performance, these assertions are all in one it statement
+        # due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
         task4.reload.fixed_version.should eql version2
@@ -432,7 +409,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
         child.parent_issue_id = parent.id
         child.save!
 
-        #due to performance, these assertions are all in one it statement
+        # due to performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
@@ -475,7 +452,7 @@ describe Issue, "changing a story's fixed_version changes the fixed_version of a
           task.reload
         end
 
-        let(:parent) { story } #needs to be the story because it is not possible to change a task's fixed_version_id
+        let(:parent) { story } # needs to be the story because it is not possible to change a task's fixed_version_id
 
         describe "WITH a task as child" do
           let(:child) { task2 }

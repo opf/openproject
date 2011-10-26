@@ -43,7 +43,6 @@ nl:
   field_blocks: Blokkeert
   label_select_all: Selecteer alles
   backlogs_sprint_unestimated: Gesloten of actieve sprints bevatten stories zonder tijdschattingen
-  label_scrum_statistics: Scrum statistieken
   required_burn_rate_points: benodigde burn rate (points)
   error_blank: mag niet leeg zijn
   points_to_accept: points niet geaccepteerd
@@ -79,7 +78,6 @@ nl:
     %{summary}: %{url}
     %{description}
   label_chart_options: Grafiek Opties
-  field_velocity_based_estimate: Schatting obv velocity
   backlogs_product_backlog: Product backlog
   remaining_hours: resterende uren
   error_outro: Verbeter a.u.b de eerdergenoemde problemen voordat u nogmaals verzend.

@@ -35,11 +35,11 @@ Feature: Team Member
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 1        | Story 1 | Sprint 001 |
-        | 2        | Story 2 | Sprint 001 |
-        | 3        | Story 3 | Sprint 001 |
-        | 4        | Story 4 | Sprint 002 |
+        | subject | sprint     |
+        | Story 1 | Sprint 001 |
+        | Story 2 | Sprint 001 |
+        | Story 3 | Sprint 001 |
+        | Story 4 | Sprint 002 |
     And the project has the following tasks:
         | subject | parent  |
         | Task 1  | Story 1 |
@@ -105,30 +105,6 @@ Feature: Team Member
     Given I am on the master backlog
      When I view the stories in the issues tab
      Then I should see the Issues page
-
-  Scenario: Fetch the updated stories
-    Given I am on the master backlog
-     When the browser fetches stories updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 4 updated stories
-
-  Scenario: Fetch the updated tasks
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches tasks updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 1 updated task
-
-  Scenario: Fetch the updated impediments
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches impediments updated since 1 week ago
-     Then the request should complete successfully
-      And the server should return 2 updated impediments
-
-  Scenario: Fetch zero updated impediments
-    Given I am on the taskboard for "Sprint 001"
-     When the browser fetches impediments updated since 1 week from now
-     Then the request should complete successfully
-      And the server should return 0 updated impediments
 
   Scenario: Copy estimate to remaining
     Given I am on the taskboard for "Sprint 001"

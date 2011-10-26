@@ -81,16 +81,6 @@ class Sprint < Version
     (self.start_date .. cutoff).select {|d| alldays || (d.wday > 0 and d.wday < 6) }
   end
 
-  def eta
-      return nil unless self.start_date
-
-      dpp = self.project.scrum_statistics.info[:average_days_per_point]
-      return nil unless dpp
-
-      # assume 5 out of 7 are working days
-      self.start_date + Integer(self.points * dpp * 7.0/5)
-  end
-
   def has_burndown?
     !!(self.effective_date and self.start_date)
   end

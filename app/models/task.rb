@@ -1,10 +1,9 @@
 require 'date'
-require_dependency 'backlogs_list'
 
 class Task < Issue
   unloadable
 
-  include Backlogs::List
+  include RedmineBacklogs::List
 
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
@@ -32,14 +31,6 @@ class Task < Issue
     end
 
     return task
-  end
-
-  # TODO: there's an assumption here that impediments always have the
-  # task-tracker as their tracker.
-  def self.find_all_updated_since(since, project_id, find_impediments = false)
-    find(:all,
-         :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?) and parent_id IS #{ find_impediments ? '' : 'NOT' } NULL", project_id, Time.parse(since), tracker],
-         :order => "updated_on ASC")
   end
 
   def self.tasks_for(story_id)
@@ -73,12 +64,11 @@ class Task < Issue
 
   # assumes the task is already under the same story as 'id'
   def move_after(id)
-    id = nil if id.respond_to?('blank?') && id.blank?
-    if id.nil?
+    if id.blank?
       sib = self.siblings
-      move_to_left_of sib[0].id if sib.any?
+      move_to_left_of(sib[0].id) if sib.any?
     else
-      move_to_right_of id
+      move_to_right_of(id)
     end
   end
 

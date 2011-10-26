@@ -108,10 +108,20 @@ class Burndown
         details.group_by(&:prop_key)
       end
 
-      # Missing performance
       def find_interesting_stories
-        puts "Warn: This needs to be fixed before it is deployed anywhere."
-        stories = Issue.find(:all)
+        fixed_version_query = "(issues.fixed_version_id = ? OR journals.changes LIKE '%fixed_version_id: - ? - [0-9]+%' OR journals.changes LIKE '%fixed_version_id: - [0-9]+ - ?%')"
+        project_id_query = "(issues.project_id = ? OR journals.changes LIKE '%project_id: - ? - [0-9]+%' OR journals.changes LIKE '%project_id: - [0-9]+ - ?%')"
+
+        trackers_string = "(#{collected_trackers.map{|i| "(#{i})"}.join("|")})"
+        tracker_id_query = "(issues.tracker_id in (?) OR journals.changes LIKE '%tracker_id: - #{trackers_string} - [0-9]+%' OR journals.changes LIKE '%tracker_id: - [0-9]+ - #{trackers_string}%')"
+
+        stories = Issue.all(:include => :journals,
+                            :conditions => ["#{ fixed_version_query }" +
+                                            " AND #{ project_id_query }" +
+                                            " AND #{ tracker_id_query }",
+                                            sprint.id, sprint.id, sprint.id,
+                                            project.id, project.id, project.id,
+                                            collected_trackers])
 
         stories.delete_if do |s|
           s.fixed_version_id != sprint.id and

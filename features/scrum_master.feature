@@ -18,7 +18,6 @@ Feature: Scrum Master
         | create_impediments      |
         | update_impediments      |
         | update_tasks            |
-        | subscribe_to_calendars  |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_issues             |
@@ -50,16 +49,16 @@ Feature: Scrum Master
         | Product Backlog |
         | Wishlist        |
     And the project has the following stories in the following backlogs:
-        | position | subject | backlog |
-        | 1        | Story 1 | Product Backlog |
-        | 2        | Story 2 | Product Backlog |
-        | 3        | Story 3 | Product Backlog |
-        | 4        | Story 4 | Product Backlog |
+        | subject | backlog |
+        | Story 1 | Product Backlog |
+        | Story 2 | Product Backlog |
+        | Story 3 | Product Backlog |
+        | Story 4 | Product Backlog |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint     |
-        | 5        | Story A | Sprint 001 |
-        | 6        | Story B | Sprint 001 |
-        | 7        | Story C | Sprint 002 |
+        | subject | sprint     |
+        | Story A | Sprint 001 |
+        | Story B | Sprint 001 |
+        | Story C | Sprint 002 |
     And there are the following issue status:
         | name        | is_closed  | is_default  |
         | New         | false      | true        |
@@ -227,16 +226,6 @@ Feature: Scrum Master
      Then the request should complete successfully
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
-
-  Scenario: Request the project calendar feed
-    Given I have set my API access key
-      And I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
-      And I am logged out
-     When I download the calendar feed
-     Then the request should complete successfully
-    Given I have guessed an API access key
-     When I download the calendar feed
-     Then the request should fail
 
   Scenario: Download printable cards for the task board
     Given I have selected card label stock Avery 8435B

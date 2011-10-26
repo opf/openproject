@@ -118,9 +118,6 @@ zh:
     5bey5YWz6Zet5LqG55qE77yI5oiW5rS76LeD55qE77yJ5Yay5Yi66YeM5a2Y
     5Zyo5pyq5Lyw6YeP55qE5pWF5LqL
 
-  label_scrum_statistics: !binary |
-    U2NydW0g57uf6K6h
-
   required_burn_rate_points: !binary |
     5b+F6KaB54eD54On546HICjngrnmlbAp
 
@@ -197,9 +194,6 @@ zh:
     54eD5bC9
 
   rb_label_copy_tasks_all: "[[All]]"
-  field_velocity_based_estimate: !binary |
-    6YCf5bqm6K6h6YeP5Y2V5L2N
-
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

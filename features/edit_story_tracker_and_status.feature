@@ -40,10 +40,10 @@ Feature: Edit story tracker and status
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
     And the project has the following stories in the following sprints:
-        | position | subject | sprint      | tracker | status | story_points |
-        | 5        | Story A | Sprint 001  | Bug    | New     | 10           |
-        | 6        | Story B | Sprint 001  | Story  | New     | 20           |
-        | 7        | Story C | Sprint 001  | Bug  | Resolved  | 20           |
+        | subject | sprint      | tracker | status | story_points |
+        | Story A | Sprint 001  | Bug    | New     | 10           |
+        | Story B | Sprint 001  | Story  | New     | 20           |
+        | Story C | Sprint 001  | Bug  | Resolved  | 20           |
     And the Tracker "Story" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Rejected   |
@@ -73,7 +73,7 @@ Feature: Edit story tracker and status
      Then "Rejected" should be an option for "status_id"
      When I select "Rejected" from "status_id"
      And I select "Bug" from "tracker_id"
-     Then the "status_id" field within ".editors" should contain "" 
+     Then the "status_id" field within ".editors" should contain ""
      And "New" should be an option for "status_id"
      When I confirm the story form
      Then the error alert should show "Status can't be blank"

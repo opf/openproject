@@ -18,7 +18,6 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | create_impediments      |
         | update_impediments      |
         | update_tasks            |
-        | subscribe_to_calendars  |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_issues             |

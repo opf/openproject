@@ -24,10 +24,6 @@ class Impediment < Task
     super
   end
 
-  def self.find_all_updated_since(since, project_id)
-    super(since, project_id, true)
-  end
-
   def blocks_ids=(ids)
     @blocks_ids_list = [ids] if ids.is_a?(Integer)
     @blocks_ids_list = ids.split(/\D+/).map{|id| id.to_i} if ids.is_a?(String)

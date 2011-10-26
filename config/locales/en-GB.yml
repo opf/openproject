@@ -43,7 +43,6 @@ en-GB:
   points_to_resolve: points not resolved
   label_select_all: Select all
   backlogs_sprint_unestimated: Closed or active sprints with unestimated stories
-  label_scrum_statistics: Scrum statistics
   required_burn_rate_points: required burn rate (points)
   error_blank: cannot be blank
   points_to_accept: points not accepted
@@ -75,7 +74,6 @@ en-GB:
     %{description}
   label_burndown: Burndown
   rb_label_copy_tasks_all: "[[All]]"
-  field_velocity_based_estimate: Velocity based estimate
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}
@@ -95,7 +93,6 @@ en-GB:
   error_must_block_at_least_one_issue: must contain the ID of at least one ticket
 
   backlogs:
-    show_statistics: 'Show Scrum statistics'
     show_burndown_chart: 'Burndown Chart'
     add_new_story: 'New Story'
     column_with: "Column width:"

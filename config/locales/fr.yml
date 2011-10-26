@@ -43,7 +43,6 @@ fr:
   points_to_resolve: "points non-résolus"
   label_select_all: "Sélectionner tout"
   backlogs_sprint_unestimated: "Sprints fermés ou actifs avec scénarios non-estimés"
-  label_scrum_statistics: Statistiques du Scrum
   required_burn_rate_points: taux de progression requis (points)
   error_blank: "ne peut être vide"
   points_to_accept: "points non-acceptés"
@@ -75,7 +74,6 @@ fr:
     %{description}
   label_burndown: Progression
   rb_label_copy_tasks_all: "[[All]]"
-  field_velocity_based_estimate: "Estimé basé sur la vélocité"
   todo_issue_description: |-
     %{summary}: %{url}
     %{description}

@@ -1,5 +1,6 @@
 require 'redmine'
 require 'dispatcher'
+require 'acts_as_silent_list'
 
 Dispatcher.to_prepare do
   require_dependency 'issue'
@@ -12,23 +13,21 @@ Dispatcher.to_prepare do
     Issue.safe_attributes "story_points", "remaining_hours", "position"
   end
 
-  require_dependency 'backlogs_query_patch'
-  require_dependency 'backlogs_issue_patch'
-  require_dependency 'backlogs_version_patch'
-  require_dependency 'backlogs_project_patch'
-  require_dependency 'backlogs_user_patch'
-  require_dependency 'backlogs_my_controller_patch'
-  require_dependency 'backlogs_version_controller_patch'
-  require_dependency 'backlogs_hooks'
-
-  require_dependency 'issue_model_patch'
-  require_dependency 'project_model_patch'
-  require_dependency 'projects_helper_patch'
-  require_dependency 'projects_controller_patch'
-  require_dependency 'issue_status_patch'
-
   require_dependency 'redmine_backlogs/issue_view'
   require_dependency 'redmine_backlogs/issue_form'
+
+  require_dependency 'redmine_backlogs/hooks'
+
+  require_dependency 'redmine_backlogs/patches/issue_patch'
+  require_dependency 'redmine_backlogs/patches/issue_status_patch'
+  require_dependency 'redmine_backlogs/patches/my_controller_patch'
+  require_dependency 'redmine_backlogs/patches/project_patch'
+  require_dependency 'redmine_backlogs/patches/projects_controller_patch'
+  require_dependency 'redmine_backlogs/patches/projects_helper_patch'
+  require_dependency 'redmine_backlogs/patches/query_patch'
+  require_dependency 'redmine_backlogs/patches/user_patch'
+  require_dependency 'redmine_backlogs/patches/version_controller_patch'
+  require_dependency 'redmine_backlogs/patches/version_patch'
 end
 
 Redmine::Plugin.register :redmine_backlogs do
@@ -61,7 +60,6 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_queries          => :show,
                                        :rb_server_variables => :show,
                                        :rb_burndown_charts  => :show,
-                                       :rb_updated_items    => :show,
                                        :issue_boxes         => :show
                                      }
 
@@ -73,8 +71,7 @@ Redmine::Plugin.register :redmine_backlogs do
                                        :rb_impediments      => [:index, :show],
                                        :rb_wikis            => :show,
                                        :rb_server_variables => :show,
-                                       :rb_burndown_charts  => :show,
-                                       :rb_updated_items    => :show
+                                       :rb_burndown_charts  => :show
                                      }
 
     # Sprint permissions
@@ -101,9 +98,6 @@ Redmine::Plugin.register :redmine_backlogs do
     permission :create_impediments,     { :rb_impediments => [:new, :create]  }
     permission :update_impediments,     { :rb_impediments => [:edit, :update],
                                           :issue_boxes => [:edit, :update] }
-
-    permission :subscribe_to_calendars,  { :rb_calendars  => :show }
-    permission :view_scrum_statistics,   { :rb_statistics => :show }
   end
 
   menu :project_menu,
@@ -112,9 +106,4 @@ Redmine::Plugin.register :redmine_backlogs do
        :caption => :project_module_backlogs,
        :after => :new_issue,
        :param => :project_id
-  menu :application_menu,
-       :backlogs,
-       {:controller => :rb_statistics, :action => :show},
-       :caption => :label_scrum_statistics,
-       :if => proc { Setting.plugin_redmine_backlogs[:show_statistics] && User.current.allowed_to?(:view_scrum_statistics, nil, :global => true) }
 end

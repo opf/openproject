@@ -9,7 +9,7 @@ def project_boundaries_spanning_issue_hierarchy_allowed?
     @parent_issue = parent_issue
   end
   issue.valid?
-  #using not so good check on validity
+  # using not so good check on validity
   issue.errors[:parent_issue_id] != "doesn't belong to the same project"
 end
 
@@ -102,9 +102,8 @@ describe Issue, 'parent-child relationships between backlogs stories and backlog
                                          :story_trackers => [tracker_feature.id],
                                          :task_tracker => tracker_task.id.to_s }
 
-    Issue.class_eval do
-      @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-    end
+    # otherwise the tracker id's from the previous test are still active
+    Issue.instance_variable_set(:@backlogs_trackers, nil)
   end
 
   if project_boundaries_spanning_issue_hierarchy_allowed?

@@ -154,6 +154,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['status_id'] = IssueStatus.find_by_name(story['status']).id if story['status']
     params['tracker_id'] = Tracker.find_by_name(story['tracker']).id if story['tracker']
 
+    params.delete "position"
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
@@ -298,14 +299,6 @@ Given /^I am working in [pP]roject "(.+?)"$/ do |project_name|
   @project = Project.find_by_name(project_name)
 end
 
-Given /^the scrum statistics are disabled$/ do
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => false)
-end
-
-Given /^the scrum statistics are enabled$/ do
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:show_statistics => true)
-end
-
 Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
   tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?
@@ -323,9 +316,8 @@ Given /^the following trackers are configured to track stories:$/ do |table|
     story_trackers << tracker
   end
 
-  Issue.class_eval do
-    @backlogs_tracker = nil #otherwise the tracker id's from the previous test are still active
-  end
+  # otherwise the tracker id's from the previous test are still active
+  Issue.instance_variable_set(:@backlogs_trackers, nil)
 
   Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))
 end

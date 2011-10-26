@@ -1,9 +1,7 @@
-require_dependency 'backlogs_list'
-
 class Story < Issue
     unloadable
 
-    include Backlogs::List
+    include RedmineBacklogs::List
 
     def self.condition(project_id, sprint_id, extras=[])
       c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
@@ -47,15 +45,12 @@ class Story < Issue
     def self.create_and_position(params)
       attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
-      s = Story.new(attribs)
-      s.move_after(params['prev_id']) if s.save
-      return s
-    end
 
-    def self.find_all_updated_since(since, project_id)
-      find(:all,
-           :conditions => ["project_id = ? AND updated_on > ? AND tracker_id in (?)", project_id, Time.parse(since), trackers],
-           :order => "updated_on ASC")
+      Story.new(attribs).tap do |s|
+        if s.save
+          s.move_after(params['prev_id'])
+        end
+      end
     end
 
     def self.at_rank(project_id, sprint_id, rank)
@@ -132,12 +127,13 @@ class Story < Issue
     def update_and_position!(params)
       attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
       attribs = Hash[*attribs.flatten]
-      result = journalized_update_attributes attribs
-      if result and params[:prev]
-        reload
-        move_after(params[:prev])
+
+      journalized_update_attributes(attribs).tap do |result|
+        if result and params[:prev]
+          reload
+          move_after(params[:prev])
+        end
       end
-      result
     end
 
   def rank=(r)

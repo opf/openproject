@@ -10,8 +10,6 @@ jQuery(function ($) {
     RB.Factory.initialize(RB.Backlog, this);
   });
 
-  RB.BacklogsUpdater.start();
-
   // Workaround for IE7
   if ($.browser.msie && $.browser.version <= 7) {
     var z = 50;

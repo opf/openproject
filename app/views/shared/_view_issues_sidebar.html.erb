@@ -11,17 +11,6 @@
         <% end %>
     <% end %>
 
-    <% if Setting.rest_api_enabled? && key %>
-      <a href="<%= url_for({
-                    :only_path  => false,
-                    :protocol   => webcal,
-                    :controller => :rb_calendars,
-                    :action     => :show,
-                    :project_id => project,
-                    :format     => 'xml',
-                    :key        => key }) %>"><%= l(:label_webcal) %></a><br>
-    <% end %>
-
     <% if sprint.present? %>
         <h3><%= l(:label_sprint_name, {:name => sprint.name}) %></h3>
         <%= link_to(l(:label_task_board), {
