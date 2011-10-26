@@ -98,15 +98,18 @@ de:
   backlogs:
     add_new_story: "Neue Story"
     any: "beliebig"
+    backlog_settings: "Backlog Einstellungen"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Format für Kartendruck"
     chart_options: "Aktive Wertereihen"
     close: "Schließen"
     column_with: "Spaltenbreite:"
     date: "Tag"
+    definition_of_done: "Definition of Done"
     generating_chart: "Generiere Graph..."
     hours: "Stunden"
     impediment: "Hindernis"
+    issue_is_closed: "Ticket ist abgeschlossen, wenn"
     no_burndown_data: "Keine Burndown Graphen verfügbar. Start- und Enddaten der Sprints müssen definiert sein."
     points: "Punkte"
     remaining_hours: "Verbleibende Stunden"
@@ -118,9 +121,6 @@ de:
     task: "Aufgabe"
     unassigned: "Nicht zugewiesen"
     x_more: "%{count} mehr..."
-    issue_is_closed: "Ticket ist abgeschlossen, wenn"
-    definition_of_done: "Definition of Done"
-    backlog_settings: "Backlog Einstellungen"
 
 
   project_module_backlogs: "Backlogs (Beta)"

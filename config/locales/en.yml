@@ -98,15 +98,18 @@ en:
   backlogs:
     add_new_story: "New Story"
     any: "any"
+    backlog_settings: "Backlog Settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Active series"
     close: "Close"
     column_with: "Column width:"
     date: "Day"
+    definition_of_done: "Definition of Done"
     generating_chart: "Generating Graph..."
     hours: "Hours"
     impediment: "Impediment"
+    issue_is_closed: "Issue is done, when"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"
     remaining_hours: "Remaining hours"
@@ -118,9 +121,6 @@ en:
     task: "Task"
     unassigned: "Unassigned"
     x_more: "%{count} more..."
-    issue_is_closed: "Issue is done, when"
-    definition_of_done: "Definition of Done"
-    backlog_settings: "Backlog Settings"
 
 
 
