@@ -27,6 +27,21 @@ module RedmineBacklogs::Patches::ProjectsControllerPatch
 
       redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
     end
+
+    def rebuild_positions
+      @project.rebuild_positions
+      flash[:notice] = l('backlogs.positions_rebuilt_successfully')
+
+      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
+    rescue ActiveRecord::ActiveRecordError
+      flash[:error] = l('backlogs.positions_could_not_be_rebuilt')
+
+      logger.error("Tried to rebuild positions for project #{@project.identifier.inspect} but could not...")
+      logger.error($!)
+      logger.error($@)
+
+      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
+    end
   end
 end
 

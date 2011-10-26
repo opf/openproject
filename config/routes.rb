@@ -21,5 +21,6 @@ ActionController::Routing::Routes.draw do |map|
 
 
   map.connect 'projects/:project_id/versions/:id/edit', :controller => 'version_settings', :action => 'edit'
-  map.connect '/projects/:id/project_issue_statuses', :controller => 'projects', :action => 'project_issue_statuses'
+  map.connect 'projects/:id/project_issue_statuses', :controller => 'projects', :action => 'project_issue_statuses'
+  map.connect 'projects/:id/rebuild_positions', :controller => 'projects', :action => 'rebuild_positions'
 end

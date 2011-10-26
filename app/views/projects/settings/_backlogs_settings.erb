@@ -21,3 +21,9 @@
 
 <p><%= submit_tag l(:button_save) %></p>
 <% end %>
+
+<h2><%=l('backlogs.rebuild_positions')%></h2>
+
+<% form_tag(:controller => "projects", :action => "rebuild_positions", :id => @project) do %>
+  <p><%= submit_tag l('backlogs.rebuild') %></p>
+<% end %>
