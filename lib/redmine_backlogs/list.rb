@@ -36,21 +36,8 @@ module RedmineBacklogs::List
     private
 
     def set_default_prev_positions_silently(prev)
-      stories = self.class.find(:all, :conditions => {:fixed_version_id => self.fixed_version_id, :tracker_id => self.class.trackers})
-
-      self.class.record_timestamps = false #temporarily turn off column updates
-
-      highest_pos = stories.sort_by{|s| s.position ? s.position : 0}.collect(&:position).last
-      highest_pos = 0 if highest_pos.nil?
-
-      stories.sort_by { |s| s.id }.each do |story|
-        next if story.in_list? || story.id > prev.id || self.id == story.id
-        story.insert_at(highest_pos += 1)
-      end
-
-      self.class.record_timestamps = true #turning updates back on
-
-      highest_pos
+      prev.version.rebuild_positions(prev.project)
+      prev.reload.position
     end
   end
 end
