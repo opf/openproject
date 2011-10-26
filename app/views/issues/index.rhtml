@@ -29,6 +29,20 @@
 						<td><%= l(:field_group_by) %></td>
 						<td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
 					</tr>
+					<tr>
+						<td><%= l(:label_project_plural) %></td>
+						<td>
+              <label>
+                <%= radio_button_tag('display_subprojects', '0', !@query.display_subprojects?) %>
+                <%= l(:text_current_project) %>
+              </label>
+              <br />
+              <label>
+                <%= radio_button_tag('display_subprojects', '1', @query.display_subprojects?) %>
+                <%= l(:label_and_its_subprojects, :value => l(:text_current_project)) %>
+              </label>
+            </td>
+					</tr>
 				</table>
 			</div>
 		</fieldset>
