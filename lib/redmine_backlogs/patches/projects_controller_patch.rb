@@ -5,13 +5,13 @@ module RedmineBacklogs::Patches::ProjectsControllerPatch
     base.class_eval do
       include InstanceMethods
 
-      alias_method_chain :settings, :project_issue_statuses
+      alias_method_chain :settings, :backlogs_settings
     end
   end
 
   module InstanceMethods
-    def settings_with_project_issue_statuses
-      settings_without_project_issue_statuses
+    def settings_with_backlogs_settings
+      settings_without_backlogs_settings
       @issue_statuses = IssueStatus.all
     end
 
@@ -25,7 +25,7 @@ module RedmineBacklogs::Patches::ProjectsControllerPatch
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to :action => 'settings', :id => @project, :tab => 'project_issue_statuses'
+      redirect_to :action => 'settings', :id => @project, :tab => 'backlogs_settings'
     end
   end
 end

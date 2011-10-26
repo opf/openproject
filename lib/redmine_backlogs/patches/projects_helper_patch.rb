@@ -3,20 +3,20 @@ require_dependency 'projects_helper'
 module RedmineBacklogs::Patches::ProjectsHelperPatch
   def self.included(base)
     base.module_eval do
-      def project_settings_tabs_with_project_issue_statuses
-        project_settings_tabs_without_project_issue_statuses.tap do |settings|
+      def project_settings_tabs_with_backlogs_settings
+        project_settings_tabs_without_backlogs_settings.tap do |settings|
           if @project.module_enabled? 'backlogs'
             settings << {
-              :name => 'project_issue_statuses',
+              :name => 'backlogs_settings',
               :action => :manage_project_activities,
-              :partial => 'projects/settings/project_issue_statuses',
+              :partial => 'projects/settings/backlogs_settings',
               :label => 'backlogs.backlog_settings'
             }
           end
         end
       end
 
-      alias_method_chain :project_settings_tabs, :project_issue_statuses
+      alias_method_chain :project_settings_tabs, :backlogs_settings
     end
   end
 end
