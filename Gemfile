@@ -23,7 +23,7 @@ group :openid do
 end
 
 group :rmagick do
-  gem "rmagick" '>= 1.15.17'
+  gem "rmagick", ">= 1.15.17"
   # Older distributions might not have a sufficiently new ImageMagick version
   # for the current rmagick release (current rmagick is rmagick 2, which
   # requires ImageMagick 6.4.9 or later). If this is the case for you, comment
