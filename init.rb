@@ -39,6 +39,7 @@ Redmine::Plugin.register :redmine_backlogs do
   requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
 
   Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
+  Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
 
 
   settings :default => {
