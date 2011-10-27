@@ -36,7 +36,7 @@ module RedmineBacklogs::List
     private
 
     def set_default_prev_positions_silently(prev)
-      prev.version.rebuild_positions(prev.project)
+      prev.fixed_version.rebuild_positions(prev.project)
       prev.reload.position
     end
   end
