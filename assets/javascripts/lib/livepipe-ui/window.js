@@ -192,7 +192,20 @@ Control.Window = Class.create({
                     }
                     //hover or click handling
                     this.sourceContainerOpenHandler = function(event){
-                        if (this.open(event) === false) {
+                        if (Event.isLeftClick(event)) {
+                          // catches modifier keys
+                          if (!(event.shiftKey || event.metaKey || event.ctrlKey || event.altKey)) {
+                            this.open(event);
+                            event.stop();
+                            return false;
+                          }
+                        }
+                        else if (Event.isMiddleClick) {
+                          // do nothing - let browser handle the click
+                        }
+                        else {
+                          // must be triggered my hover or such
+                          this.open(event);
                           event.stop();
                           return false;
                         }

@@ -21,20 +21,6 @@ var Backlogs = (function () {
       $super(container, Object.extend(Object.clone(Modal.defaultOptions), options || {}));
     },
 
-    open : function ($super, event) {
-      if (event) {
-        // catches middle clicks
-        if (!Event.isLeftClick(event)) {
-          return true;
-        }
-        // catches modifier keys
-        if (event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) {
-          return true;
-        }
-      }
-      return $super(event);
-    },
-
     position : function ($super, event) {
       $super(event);
       this.fixPosition();
