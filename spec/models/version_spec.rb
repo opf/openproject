@@ -64,7 +64,7 @@ describe Version do
       issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'position')
 
       issues.map(&:position).should == [1, 2, 3, 4, 5]
-      issues.map(&:subject).should == [i3, i4, i1, i2, i5].map(&:subject)
+      issues.map(&:subject).should == [i1, i2, i5, i3, i4].map(&:subject)
 
       issues.map(&:subject).uniq.size.should == 5 # makes sure, that all issue
             # subjects are uniq, so that the above assertion works as expected
