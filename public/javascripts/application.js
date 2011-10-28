@@ -506,16 +506,6 @@ jQuery(document).ready(function($) {
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
-	// move email checkbox inside div.box
-	$("#issue-form > p").clone().appendTo("#issue-form .box");
-	$("#issue-form > p").remove();
-
-	// move preview area inside div.box
-	if ($("form#issue-list").size() > 0 ) { // only do this on the issue list page
-		$("#issue-form-wrap #preview").remove();
-		$("#issue-form .box").append("<div id='preview' class='wiki'></div>");
-	}
-
 	// rejigger the main-menu sub-menu functionality.
 	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
