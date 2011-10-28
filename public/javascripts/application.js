@@ -370,19 +370,20 @@ function hideOnLoad() {
 
 Event.observe(window, 'load', hideOnLoad);
 
+// a few constants for animations speeds, etc.
+var animationRate = 100;
+
 /* jQuery code from #263 */
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
-	// a few constants for animations speeds, etc.
-	var animRate = 100;
 
 	// header menu hovers
 	$("#account .drop-down").hover(function() {
-		$(this).addClass("open").find("ul").slideDown(animRate);
+		$(this).addClass("open").find("ul").slideDown(animationRate);
 		$("#top-menu").toggleClass("open");
 	}, function() {
-		$(this).removeClass("open").find("ul").slideUp(animRate);
+		$(this).removeClass("open").find("ul").slideUp(animationRate);
 		$("#top-menu").toggleClass("open");
 	});
 
@@ -392,7 +393,7 @@ jQuery(document).ready(function($) {
 		var searchWidth = $("#account-nav").width();
 
 		$(this).toggleClass("open");
-		$("#nav-search").width(searchWidth).slideToggle(animRate, function(){
+		$("#nav-search").width(searchWidth).slideToggle(animationRate, function(){
 			$("#nav-search-box").select();
 		});
 
@@ -415,7 +416,7 @@ jQuery(document).ready(function($) {
 
 	// show/hide the files table
 	$(".attachments h4").click(function() {
-	  $(this).toggleClass("closed").next().slideToggle(animRate);
+	  $(this).toggleClass("closed").next().slideToggle(animationRate);
 	});
 
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
@@ -426,7 +427,7 @@ jQuery(document).ready(function($) {
 			// this forces IE to redraw the menu area, un-bollocksing things
 			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
 		} else {
-			this.slideToggle(animRate);
+			this.slideToggle(animationRate);
 		}
 
 		return this;
@@ -445,9 +446,9 @@ jQuery(document).ready(function($) {
 	// submenu flyouts
 	$("#main-menu li li:has(ul)").hover(function() {
 		$(this).find(".profile-box").show();
-		$(this).find("ul").slideDown(animRate);
+		$(this).find("ul").slideDown(animationRate);
 	}, function() {
-		$(this).find("ul").slideUp(animRate);
+		$(this).find("ul").slideUp(animationRate);
 	});
 
 	// add filter dropdown menu
@@ -456,18 +457,15 @@ jQuery(document).ready(function($) {
 
 		// is this inside the title bar?
 		if (tgt.parents().is(".title-bar")) {
-			$(".title-bar-extras:hidden").slideDown(animRate);
+			$(".title-bar-extras:hidden").slideDown(animationRate);
 		}
 
-		$(this).parent().find("ul").slideToggle(animRate);
+		$(this).parent().find("ul").slideToggle(animationRate);
 
 		return false;
 	});
 
 });
-
-/* Appended 2009-07-07 */
-var animRate = 100;
 
 // returns viewport height
 jQuery.viewportHeight = function() {
