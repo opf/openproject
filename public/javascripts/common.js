@@ -48,38 +48,6 @@ jQuery(document).ready(function($) {
 		$("div[rel="+tTarget+"]").hide();
 	});
 
-	// show/hide the profile box when hover over the gravatar
-	$(".profile-wrap").hover(function() {
-		/*
-		*  this is currently set to deal with profiles that are already in the document
-		*  if you wish to move to an ajax call instead, this is where it will occur
-		*/
-		$(this).find("a").removeAttr("title"); /* tooltips always mess with hovers */
-		$(this).find(".profile-box").slideDown(animRate);
-	}, function() {
-		$(this).find(".profile-box").slideUp(animRate);
-	});
-
-	// set up functions for delayed profile views.
-	function profileShow(){
-		var thisTop = $(this).height() + 5;
-		$(this).find("a").removeAttr("title"); /* tooltips always mess with hovers */
-		$(this).find(".profile-box").css('top', thisTop).slideDown(animRate);
-	};
-	function profileHide(){
-		$(this).find(".profile-box").hide();
-	};
-
-	// call a delayed profile view
-	$(".user").hoverIntent({
-		sensitivity: 3, // number = sensitivity threshold (must be 1 or higher)
-		interval: 400, // number = milliseconds for onMouseOver polling interval
-		over: profileShow, // function = onMouseOver callback (REQUIRED)
-		timeout: 50, // number = milliseconds delay before onMouseOut
-		out: profileHide // function = onMouseOut callback (REQUIRED)
-
-	});
-
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
