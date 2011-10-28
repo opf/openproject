@@ -200,11 +200,11 @@ Control.Window = Class.create({
                             return false;
                           }
                         }
-                        else if (Event.isMiddleClick) {
+                        else if (Event.isMiddleClick(event)) {
                           // do nothing - let browser handle the click
                         }
                         else {
-                          // must be triggered my hover or such
+                          // must be triggered by hover or such
                           this.open(event);
                           event.stop();
                           return false;
