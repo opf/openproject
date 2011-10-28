@@ -18,13 +18,12 @@
 <%= javascript_heads %>
 <%= stylesheet_link_tag 'jstoolbar' %>
 <%= javascript_include_tag 'jquery.1.3.2.min.js' %>
-<%= javascript_include_tag 'common.js' %>
+<%= javascript_include_tag 'jquery.menu_expand.js' %>
 <%= heads_for_theme %>
 <% heads_for_wiki_formatter %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
-<%= javascript_include_tag 'jquery.menu_expand.js' %>
 </head>
 <body class="<%=h body_css_classes %>">
 <div id="wrapper">
