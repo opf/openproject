@@ -1,63 +1,91 @@
-<%= render :partial => 'action_menu' %>
+<div class="title-bar" id="upper-title-bar">
+  <div class="subject"><%= content_tag('h2', h(@issue.subject)) %></div>
 
-<h2><%= h(@issue.tracker.name) %> #<%= h(@issue.id) %><%= call_hook(:view_issues_show_identifier, :issue => @issue) %></h2>
+  <div class="title-bar-actions">
+  <%= render :partial => 'action_menu' %>
+  </div>
+</div>
 
 <div class="<%= @issue.css_classes %> details">
-        <%= avatar(@issue.author, :size => "50") %>
+  <div class="profile-wrap">
+    <%= avatar(@issue.author, :size => "40") %>
+  </div>
+  <h3>
+    <%= h(@issue.tracker.name) %> #<%= @issue.id %>
+  </h3>
 
-<div class="subject">
-<%= render_issue_subject_with_tree(@issue) %>
-</div>
-        <p class="author">
-        <%= authoring @issue.created_on, @issue.author %>.
-        <% if @issue.created_on != @issue.updated_on %>
-        <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
+  <p class="author">
+    <%= authoring @issue.created_on, @issue.author %>.
+    <% if @issue.created_on != @issue.updated_on %>
+      <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
+    <% end %>
+  </p>
+  <hr />
+
+  <div class="meta">
+    <table class="attributes">
+      <tr>
+        <th class="status"><%=l(:field_status)%>:</th>
+        <td class="status"><%= h(@issue.status.name) %></td>
+
+        <th class="category"><%=l(:field_category)%>:</th>
+        <td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
+
+        <th class="start-date"><%=l(:field_start_date)%>:</th>
+        <td class="start-date"><%= format_date(@issue.start_date) %></td>
+      </tr>
+      <tr>
+        <th class="priority"><%=l(:field_priority)%>:</th>
+        <td class="priority"><%= h(@issue.priority.name) %></td>
+
+        <th class="fixed-version"><%=l(:field_fixed_version)%>:</th>
+        <td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
+
+        <th class="due-date"><%=l(:field_due_date)%>:</th>
+        <td class="due-date"><%= format_date(@issue.due_date) %></td>
+      </tr>
+      <tr>
+        <th class="assigned-to"><%=l(:field_assigned_to)%>:</th>
+        <td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+
+        <th class="progress"><%=l(:field_done_ratio)%>:</th>
+        <td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
+
+        <% if User.current.allowed_to?(:view_time_entries, @project) %>
+          <th class="spent-time"><%=l(:label_spent_time)%>:</th>
+          <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
         <% end %>
-        </p>
+        
+        <% if @issue.estimated_hours %>
+          <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th>
+          <td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
+        <% end %>
+      </tr>
 
-<table class="attributes">
-<tr>
-    <th class="status"><%=l(:field_status)%>:</th><td class="status"><%= h(@issue.status.name) %></td>
-    <th class="start-date"><%=l(:field_start_date)%>:</th><td class="start-date"><%= format_date(@issue.start_date) %></td>
-</tr>
-<tr>
-    <th class="priority"><%=l(:field_priority)%>:</th><td class="priority"><%= h(@issue.priority.name) %></td>
-    <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
-</tr>
-<tr>
-    <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td class="assigned-to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-    <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
-</tr>
-<tr>
-    <th class="category"><%=l(:field_category)%>:</th><td class="category"><%=h(@issue.category ? @issue.category.name : "-") %></td>
-    <% if User.current.allowed_to?(:view_time_entries, @project) %>
-    <th class="spent-time"><%=l(:label_spent_time)%>:</th>
-    <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
-    <% end %>
-</tr>
-<tr>
-    <th class="fixed-version"><%=l(:field_fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
-    <% if @issue.estimated_hours %>
-    <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
-    <% end %>
-</tr>
-<%= render_custom_fields_rows(@issue) %>
-<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
-</table>
+      <%= render_custom_fields_rows(@issue) %>
+      
+      <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+    </table>
+  </div><!-- .meta -->
 
-<% if @issue.description? || @issue.attachments.any? -%>
-<hr />
 <% if @issue.description? %>
-	<div class="contextual">
-	<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
-	</div>
+  <hr />
 
-	<p><strong><%=l(:field_description)%></strong></p>
-	<div class="wiki">
-	<%= textilizable @issue, :description, :attachments => @issue.attachments %>
-	</div>
+  <div class="description">
+	  <div class="contextual">
+	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
+	  </div>
+	
+	  <p><strong><%=l(:field_description)%></strong></p>
+	  <div class="wiki">
+	    <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+	  </div>
+  </div>
 <% end %>
-<%= link_to_attachments @issue %>
+
+<% if @issue.attachments.any? -%>
+  <hr />
+  <%= link_to_attachments @issue %>
 <% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
@@ -98,7 +126,13 @@
 
 
 <div style="clear: both;"></div>
-<%= render :partial => 'action_menu' %>
+
+<div class="title-bar" id="lower-title-bar">
+  <h2><%= h @issue.subject %></h2>
+  <div class="title-bar-actions">
+    <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
+  </div>
+</div>
 
 <div style="clear: both;"></div>
 <% if authorize_for('issues', 'edit') %>

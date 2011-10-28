@@ -369,3 +369,160 @@ function hideOnLoad() {
 }
 
 Event.observe(window, 'load', hideOnLoad);
+
+// a few constants for animations speeds, etc.
+var animationRate = 100;
+
+/* jQuery code from #263 */
+// returns viewport height
+jQuery.viewportHeight = function() {
+     return self.innerHeight ||
+        jQuery.boxModel && document.documentElement.clientHeight ||
+        document.body.clientHeight;
+};
+
+/* TODO: integrate with existing code and/or refactor */
+jQuery(document).ready(function($) {
+
+
+	// show/hide header search box
+  // TODO: switch to live after upgrading jQuery version. "flicker" bug.
+	$("#account a.search").click(function() {
+		var searchWidth = $("#account-nav").width();
+
+		$(this).toggleClass("open");
+		$("#nav-search").width(searchWidth).slideToggle(animationRate, function(){
+			$("#nav-search-box").select();
+		});
+
+		return false;
+	});
+
+	// file table thumbnails
+	$("table a.has-thumb").hover(function() {
+		$(this).removeAttr("title").toggleClass("active");
+
+		// grab the image dimensions to position it properly
+		var thumbImg = $(this).find("img");
+		var thumbImgLeft = -(thumbImg.outerWidth() );
+		var thumbImgTop = -(thumbImg.height() / 2 );
+		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+
+	}, function() {
+		$(this).toggleClass("active").find("img").hide();
+	});
+
+	// show/hide the files table
+	$(".attachments h4").click(function() {
+	  $(this).toggleClass("closed").next().slideToggle(animationRate);
+	});
+
+	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+	$.fn.mySlide = function() {
+		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+			// no animations, just toggle
+			this.toggle();
+			// this forces IE to redraw the menu area, un-bollocksing things
+			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+		} else {
+			this.slideToggle(animationRate);
+		}
+
+		return this;
+	};
+
+	// open and close the main-menu sub-menus
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		.append("<span class='toggler'></span>")
+		.click(function() {
+
+			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+
+			return false;
+	});
+
+	// submenu flyouts
+	$("#main-menu li li:has(ul)").hover(function() {
+		$(this).find(".profile-box").show();
+		$(this).find("ul").slideDown(animationRate);
+	}, function() {
+		$(this).find("ul").slideUp(animationRate);
+	});
+
+	// add filter dropdown menu
+	$(".button-large:has(ul) > a").click(function(event) {
+		var tgt = $(event.target);
+
+		// is this inside the title bar?
+		if (tgt.parents().is(".title-bar")) {
+			$(".title-bar-extras:hidden").slideDown(animationRate);
+		}
+
+		$(this).parent().find("ul").slideToggle(animationRate);
+
+		return false;
+	});
+
+	// remove .drop-down class from empty dropdowns
+	$("#account .drop-down").each(function(index) {
+		if ($(this).find("li").size() < 1) {
+			$(this).removeClass("drop-down");
+		}
+	});
+
+	$("#account .drop-down").hover(function() {
+		$(this).addClass("open").find("ul").show();
+		$("#top-menu").addClass("open");
+
+		// wraps long dropdown menu in an overflow:auto div to keep long project lists on the page
+		var $projectDrop = $("#account .drop-down:has(.projects) ul");
+
+		// only do the wrapping if it's the project dropdown, and more than 15 items
+		if ( $projectDrop.children().size() > 15 && $(this).find("> a").hasClass("projects") ) {
+
+			var overflowHeight = 15 * $projectDrop.find("li:eq(1)").outerHeight() - 2;
+
+			$projectDrop
+				.wrapInner("<div class='overflow'></div>").end()
+				.find(".overflow").css({overflow: 'auto', height: overflowHeight, position: 'relative'})
+				.find("li a").css('paddingRight', '25px');
+
+				// do hack-y stuff for IE6 & 7. don't ask why, I don't know.
+				if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+
+					$projectDrop.find(".overflow").css({width: 325, zoom: '1'});
+					$projectDrop.find("li a").css('marginLeft', '-15px');
+					$("#top-menu").css('z-index', '10000');
+				}
+
+		}
+
+
+	}, function() {
+		$(this).removeClass("open").find("ul").hide();
+		$("#top-menu").removeClass("open");
+	});
+
+	// deal with potentially problematic super-long titles
+	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
+
+	// rejigger the main-menu sub-menu functionality.
+	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
+
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		// 1. unbind the current click functions
+		.unbind("click")
+		// 2. wrap each in a span that we'll use for the new click element
+		.wrapInner("<span class='toggle-follow'></span>")
+		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
+		.append("<span class='toggler'></span>")
+		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
+		.click(function(event) {
+
+			if (!$(event.target).hasClass("toggle-follow") ) {
+				$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+				return false;
+			}
+		});
+
+});
