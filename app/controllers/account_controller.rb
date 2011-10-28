@@ -91,7 +91,7 @@ class AccountController < ApplicationController
         end
       else
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
 
         case Setting.self_registration
         when '1'
