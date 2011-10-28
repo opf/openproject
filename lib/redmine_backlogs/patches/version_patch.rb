@@ -18,7 +18,7 @@ module RedmineBacklogs::Patches::VersionPatch
 
       Issue.transaction do
         # remove position from all non-stories
-        Issue.update_all(:position => nil, ['project_id = ? AND tracker_id NOT IN (?) AND position IS NOT NULL', project, Story.trackers])
+        Issue.update_all({:position => nil}, ['project_id = ? AND tracker_id NOT IN (?) AND position IS NOT NULL', project, Story.trackers])
 
         # add issues w/o position to the top of the list
         # and add issues, that have a position, at the end
