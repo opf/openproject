@@ -49,10 +49,6 @@ class Task < Issue
     self.remaining_hours = 0 if IssueStatus.find(id).is_closed?
   end
 
-  def impediment?
-    parent_issue_id.nil?
-  end
-
   def update_with_relationships(params, is_impediment = false)
     attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
 
