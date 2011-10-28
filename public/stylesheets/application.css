@@ -1151,7 +1151,6 @@ a:hover {
 	position:absolute;
 	right:-1px;
 	top:23px;
-	background:#30849c url(../images/search-gradient.png) repeat-x left top;
 	border:1px solid #194E60;
 	border-top:0;
 	-moz-border-radius-bottomleft:5px;
@@ -1160,7 +1159,23 @@ a:hover {
 	-webkit-border-bottom-right-radius:5px;
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
+  background-color: #DDDDDD;
+  /* CSS3 gradient from #444444, #DDDDDD, #F3F3F3 */
+   background-image: linear-gradient(bottom, rgb(68,68,68) 46%, rgb(221,221,221) 73%, rgb(243,243,243) 87%);
+   background-image: -o-linear-gradient(bottom, rgb(68,68,68) 46%, rgb(221,221,221) 73%, rgb(243,243,243) 87%);
+   background-image: -moz-linear-gradient(bottom, rgb(68,68,68) 46%, rgb(221,221,221) 73%, rgb(243,243,243) 87%);
+   background-image: -webkit-linear-gradient(bottom, rgb(68,68,68) 46%, rgb(221,221,221) 73%, rgb(243,243,243) 87%);
+   background-image: -ms-linear-gradient(bottom, rgb(68,68,68) 46%, rgb(221,221,221) 73%, rgb(243,243,243) 87%);
+   background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.46, rgb(68,68,68)),
+      color-stop(0.73, rgb(221,221,221)),
+      color-stop(0.87, rgb(243,243,243))
+   );
 }
+
 #nav-search input 	{
 	margin:5px 5px;
 	width:94%;
