@@ -464,20 +464,6 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-    // Connect new issue lightbox to the New Issue link but only when
-    // on the issues list.
-    $('a.issues.selected + ul a.new-issue').click(function() {
-        // Make sure the Issue form is on the page
-        if ($('#issue-form-wrap').size() > 0) {
-            tb_show("Open a new issue", "#TB_inline?inlineId=issue-form-wrap&amp;height=510&amp;width=735", false);
-
-            // Taken from the custom override code
-            // call the resize function after 350 milliseconds. should be enough time to have it load, but not too much so that there's lag.
-            setTimeout(resizeNewIssue,350);
-
-            return false;
-        }
-    });
 });
 
 /* Appended 2009-07-07 */
@@ -489,63 +475,6 @@ jQuery.viewportHeight = function() {
         jQuery.boxModel && document.documentElement.clientHeight ||
         document.body.clientHeight;
 };
-
-// resizes the new issue box.
-function resizeNewIssue() {
-
-	jQuery("#TB_window").height(jQuery.viewportHeight() - 40).css({top: '20px', marginTop: '0' });
-	jQuery("#TB_ajaxContent").height(jQuery("#TB_window").height() - jQuery("#TB_title").height() );
-	jQuery("#TB_window #issue-form").height(jQuery("#TB_ajaxContent").height() );
-	jQuery("#TB_window #issue-form .box").height(jQuery("#TB_ajaxContent").height() - jQuery("#issue-form .tracker").outerHeight() - jQuery("#issue-form .submit").outerHeight() - 20 );
-
-	// hacks for thickbox not picking up the proper width from the query string
-	if (jQuery("#TB_ajaxContent").width() < 735 ) {
-		jQuery("#TB_ajaxContent").width(735);
-		jQuery("#TB_window").css({width: 765, marginLeft: -(765/2)});
-	}
-
-}
-
-function issuesPageActions() {
-
-
-	tb_init("a.thickbox");
-
-	// call the resize function after 350 milliseconds. should be enough time to have it load, but not too much so that there's lag.
-	jQuery(".new-issue a.thickbox").click(function() {
-		setTimeout(resizeNewIssue,350);
-	});
-
-	// tooltip handler
-
-
-	jQuery("table.issues td.issue").mouseover(function(event) {
-
-		// first check if .js-tooltip elements have been wrapped in the crucial .js-tooltip-inner div
-		// if not, the first hover will add everything
-		if (!jQuery(".js-tooltip:first > div").hasClass("js-tooltip-inner") ) {
-			jQuery(".js-tooltip").wrapInner("<div class='js-tooltip-inner'></div>").append("<span class='arrow'></span>"); // give an extra div for styling
-
-		}
-
-		var $thisTR = jQuery(event.target).parents("tr");
-		var trPos = $thisTR.position();
-		var tTarget = $thisTR.attr("id");
-
-		jQuery("form#issue-list").toggleClass("tooltip-active");
-		jQuery("div[rel="+tTarget+"]").css('top', trPos.top).show();
-
-	});
-
-	jQuery("table.issues td.issue").mouseout(function(event) {
-		var $thisTR = jQuery(event.target).parents("tr");
-		var tTarget = $thisTR.attr("id");
-
-		jQuery("form#issue-list").toggleClass("tooltip-active");
-		jQuery("div[rel="+tTarget+"]").hide();
-	});
-
-}
 
 jQuery(document).ready(function($) {
 
@@ -605,17 +534,6 @@ jQuery(document).ready(function($) {
 		$("#issue-form .box").append("<div id='preview' class='wiki'></div>");
 	}
 
-
-
-
-	// resize after a window resize.
-	$(window).resize(function() {
-		resizeNewIssue();
-	});
-
-
-
-
 	// rejigger the main-menu sub-menu functionality.
 	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
@@ -638,16 +556,3 @@ jQuery(document).ready(function($) {
 
 
 });
-
-// Sets the save_and_close field to tell Redmine to either keep the
-// thickbox open or close it when a New Issue is saved successfully.
-function setCloseAfterSave(on) {
-    var field = $('save_and_close');
-    if (field) {
-        if (on) {
-            field.value = '1';
-        } else {
-            field.value = '0';
-        }
-    }
-}
