@@ -118,7 +118,7 @@ describe Issue do
         [issue_1, issue_2, issue_3, issue_4, issue_5].each(&:reload).map(&:position).should == [2, 3, 4, 5, 6]
       end
     end
-    
+
     describe '- Deleting an issue in a sprint' do
       it 'reorders the existing issues' do
         issue_3.destroy
@@ -152,7 +152,7 @@ describe Issue do
           [issue_1, issue_2, issue_4, issue_5].each(&:reload).map(&:position).should == [1, 2, 3, 4]
         end
       end
-      
+
       describe 'by moving a story to the task tracker' do
         it 'removes it from any list' do
           issue_3.tracker = task_tracker
