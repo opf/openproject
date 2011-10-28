@@ -1,7 +1,6 @@
 class Story < Issue
     unloadable
 
-    include RedmineBacklogs::List
 
     def self.condition(project_id, sprint_id, extras=[])
       c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",

@@ -3,8 +3,6 @@ require 'date'
 class Task < Issue
   unloadable
 
-  include RedmineBacklogs::List
-
   def self.tracker
     task_tracker = Setting.plugin_redmine_backlogs[:task_tracker]
     task_tracker.blank? ? nil : task_tracker.to_i
@@ -15,7 +13,6 @@ class Task < Issue
   def self.trackers
     [self.tracker]
   end
-
 
   def self.create_with_relationships(params, project_id)
     task = new
