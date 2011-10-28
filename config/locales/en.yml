@@ -966,7 +966,7 @@ en:
   enumeration_system_activity: System Activity
   description_filter: Filter
   description_search: Searchfield
-  description_choose_project: Choose Project
+  description_choose_project: Projects
   description_project_scope: Search scope
   description_notes: Notes
   description_message_content: Message content
