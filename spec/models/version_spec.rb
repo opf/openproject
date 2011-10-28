@@ -8,8 +8,7 @@ describe Version do
       Factory.build(:issue, options.reverse_merge(:fixed_version_id => version.id,
                                                   :priority_id      => priority.id,
                                                   :project_id       => project.id,
-                                                  :status_id        => status.id,
-                                                  :tracker_id       => tracker.id))
+                                                  :status_id        => status.id))
     end
 
     def create_issue(options = {})
@@ -20,7 +19,10 @@ describe Version do
     let(:priority) { Factory.create(:priority_normal) }
     let(:project)  { Factory.create(:project)         }
 
-    let(:tracker) { Factory.create(:tracker, :name => 'Tracker')    }
+    let(:epic_tracker)  { Factory.create(:tracker, :name => 'Epic') }
+    let(:story_tracker) { Factory.create(:tracker, :name => 'Story') }
+    let(:task_tracker)  { Factory.create(:tracker, :name => 'Task')  }
+    let(:other_tracker) { Factory.create(:tracker, :name => 'Other') }
 
     let(:version) { Factory.create(:version, :project_id => project.id, :name => 'Version') }
 
@@ -38,35 +40,41 @@ describe Version do
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_redmine_backlogs = {:story_trackers => [tracker.id],
-                                         :task_tracker   => nil}
+      Setting.plugin_redmine_backlogs = {:story_trackers => [epic_tracker.id, story_tracker.id],
+                                         :task_tracker   => task_tracker.id}
 
       # otherwise the tracker id's from the previous test are still active
       Issue.instance_variable_set(:@backlogs_trackers, nil)
 
-      project.trackers = [tracker]
+      project.trackers = [epic_tracker, story_tracker, task_tracker, other_tracker]
       version
     end
 
     it 'rebuilds postions' do
-      i1 = create_issue
-      i2 = create_issue
-      i3 = create_issue
-      i4 = create_issue
-      i5 = create_issue
+      e1 = create_issue(:tracker_id => epic_tracker.id)
+      s2 = create_issue(:tracker_id => story_tracker.id)
+      s3 = create_issue(:tracker_id => story_tracker.id)
+      s4 = create_issue(:tracker_id => story_tracker.id)
+      s5 = create_issue(:tracker_id => story_tracker.id)
+      t3 = create_issue(:tracker_id => task_tracker.id)
+      o9 = create_issue(:tracker_id => other_tracker.id)
 
-      [i1, i2, i3, i4, i5].each(&:move_to_bottom)
+      [e1, s2, s3, s4, s5].each(&:move_to_bottom)
 
-      [i3, i4].map(&:assume_not_in_list)
+      # messing around with positions
+      [s3, s4].map(&:assume_not_in_list)
+
+      t3.send(:update_attribute_silently, :position, 3)
+      o9.send(:update_attribute_silently, :position, 9)
 
       version.rebuild_positions(project)
 
-      issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'position')
+      issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'position ASC, id ASC')
 
-      issues.map(&:position).should == [1, 2, 3, 4, 5]
-      issues.map(&:subject).should == [i1, i2, i5, i3, i4].map(&:subject)
+      issues.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
+      issues.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
 
-      issues.map(&:subject).uniq.size.should == 5 # makes sure, that all issue
+      issues.map(&:subject).uniq.size.should == 7 # makes sure, that all issue
             # subjects are uniq, so that the above assertion works as expected
     end
   end
