@@ -15,10 +15,11 @@
 <!--[if lte IE 7]><%= stylesheet_link_tag 'ie7', :media => 'all' %><![endif]-->
 <!--[if gte IE 8]><![endif]-->
 
-<%= javascript_heads %>
-<%= stylesheet_link_tag 'jstoolbar' %>
 <%= javascript_include_tag 'jquery.1.3.2.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
+<%= javascript_tag('jQuery.noConflict();') %>
+<%= javascript_heads %>
+<%= stylesheet_link_tag 'jstoolbar' %>
 <%= heads_for_theme %>
 <% heads_for_wiki_formatter %>
 <%= call_hook :view_layouts_base_html_head %>

@@ -372,8 +372,6 @@ Event.observe(window, 'load', hideOnLoad);
 
 /* jQuery code from #263 */
 /* TODO: integrate with existing code and/or refactor */
-jQuery.noConflict();
-
 jQuery(document).ready(function($) {
 
 	// a few constants for animations speeds, etc.
