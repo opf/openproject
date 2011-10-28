@@ -982,3 +982,20 @@ de:
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
+  description_filter: Filter
+  description_search: Suchfeld
+  description_choose_project: Projekte
+  description_project_scope: Suchbereich
+  description_notes: Kommentare
+  description_message_content: Nachrichteninhalt
+  description_query_sort_criteria_attribute: Sortierattribut
+  description_query_sort_criteria_direction: Sortierrichtung
+  description_user_mail_notification: Mailbenachrichtigungseinstellung
+  description_available_columns: Verfügbare Spalten
+  description_selected_columns: Ausgewählte Spalten
+  description_issue_category_reassign: Neue Kategorie wählen
+  description_wiki_subpages_reassign: Neue Elternseite wählen
+  description_date_range_list: Zeitraum aus einer Liste wählen
+  description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
+  description_date_from: Startdatum eintragen
+  description_date_to: Enddatum eintragen
