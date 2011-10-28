@@ -58,13 +58,13 @@ class Task < Issue
     result
   end
 
-  # assumes the task is already under the same story as 'id'
-  def move_after(id)
-    if id.blank?
+  # assumes the task is already under the same story as 'prev_id'
+  def move_after(prev_id)
+    if prev_id.blank?
       sib = self.siblings
       move_to_left_of(sib[0].id) if sib.any?
     else
-      move_to_right_of(id)
+      move_to_right_of(prev_id)
     end
   end
 
