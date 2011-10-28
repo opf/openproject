@@ -1,139 +1,137 @@
 class Story < Issue
-    unloadable
+  unloadable
 
+  def self.condition(project_id, sprint_id, extras=[])
+    c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
+          project_id, Story.trackers, sprint_id]
 
-    def self.condition(project_id, sprint_id, extras=[])
-      c = ["project_id = ? AND tracker_id in (?) AND fixed_version_id = ?",
-            project_id, Story.trackers, sprint_id]
-
-      if extras.size > 0
-        c[0] += ' ' + extras.shift
-        c += extras
-      end
-
-      c
+    if extras.size > 0
+      c[0] += ' ' + extras.shift
+      c += extras
     end
 
-    # this forces NULLS-LAST ordering
-    ORDER = 'case when issues.position is null then 1 else 0 end ASC, case when issues.position is NULL then issues.id else issues.position end ASC'
+    c
+  end
 
-    def self.backlog(project_id, sprint_id, options={})
-      stories = []
+  # This forces NULLS-LAST ordering
+  ORDER = 'CASE WHEN issues.position IS NULL THEN 1 ELSE 0 END ASC, CASE WHEN issues.position IS NULL THEN issues.id ELSE issues.position END ASC'
 
-      Story.find(:all,
-                 :order => Story::ORDER,
-                 :conditions => Story.condition(project_id, sprint_id),
-                 :joins => :status,
-                 :limit => options[:limit]).each_with_index {|story, i|
-                        next if story.ancestors.any? {|ancestor| ancestor.is_task? }
-                        story.rank = i + 1
-                        stories << story
-                      }
+  def self.backlog(project_id, sprint_id, options={})
+    stories = []
 
-      stories
-    end
+    Story.find(:all,
+               :order => Story::ORDER,
+               :conditions => Story.condition(project_id, sprint_id),
+               :joins => :status,
+               :limit => options[:limit]).each_with_index {|story, i|
+                      next if story.ancestors.any? {|ancestor| ancestor.is_task? }
+                      story.rank = i + 1
+                      stories << story
+                    }
 
-    def self.product_backlog(project, limit=nil)
-      return Story.backlog(project.id, nil, :limit => limit)
-    end
+    stories
+  end
 
-    def self.sprint_backlog(project, sprint, options={})
-      Story.backlog(project.id, sprint.id, options)
-    end
+  def self.product_backlog(project, limit=nil)
+    Story.backlog(project.id, nil, :limit => limit)
+  end
 
-    def self.create_and_position(params)
-      attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
-      attribs = Hash[*attribs.flatten]
+  def self.sprint_backlog(project, sprint, options={})
+    Story.backlog(project.id, sprint.id, options)
+  end
 
-      Story.new(attribs).tap do |s|
-        if s.save
-          s.move_after(params['prev_id'])
-        end
+  def self.create_and_position(params)
+    attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
+    attribs = Hash[*attribs.flatten]
+
+    Story.new(attribs).tap do |s|
+      if s.save
+        s.move_after(params['prev_id'])
       end
     end
+  end
 
-    def self.at_rank(project_id, sprint_id, rank)
-      return Story.find(:first,
-                        :order => Story::ORDER,
-                        :conditions => Story.condition(project_id, sprint_id),
-                        :joins => :status,
-                        :limit => 1,
-                        :offset => rank - 1)
+  def self.at_rank(project_id, sprint_id, rank)
+    return Story.find(:first,
+                      :order => Story::ORDER,
+                      :conditions => Story.condition(project_id, sprint_id),
+                      :joins => :status,
+                      :limit => 1,
+                      :offset => rank - 1)
+  end
+
+  def self.trackers
+    trackers = Setting.plugin_redmine_backlogs[:story_trackers]
+    return [] if trackers.blank?
+
+    trackers.map { |tracker| Integer(tracker) }
+  end
+
+  def tasks
+    Task.tasks_for(self.id)
+  end
+
+  def tasks_and_subtasks
+    return [] unless Task.tracker
+    self.descendants.find_all_by_tracker_id(Task.tracker)
+  end
+
+  def direct_tasks_and_subtasks
+    return [] unless Task.tracker
+    self.children.find_all_by_tracker_id(Task.tracker).collect { |t| [t] + t.descendants }.flatten
+  end
+
+  def set_points(p)
+    self.init_journal(User.current)
+
+    if p.blank? || p == '-'
+      self.update_attribute(:story_points, nil)
+      return
     end
 
-    def self.trackers
-        trackers = Setting.plugin_redmine_backlogs[:story_trackers]
-        return [] if trackers.blank?
-
-        return trackers.map { |tracker| Integer(tracker) }
+    if p.downcase == 's'
+      self.update_attribute(:story_points, 0)
+      return
     end
 
-    def tasks
-      return Task.tasks_for(self.id)
+    p = Integer(p)
+    if p >= 0
+      self.update_attribute(:story_points, p)
+      return
     end
+  end
 
-    def tasks_and_subtasks
-      return [] unless Task.tracker
-      self.descendants.find_all_by_tracker_id(Task.tracker)
-    end
+  # TODO: Refactor and add tests
+  #
+  # groups = tasks.partion(&:closed?)
+  # {:open => tasks.last.size, :closed => tasks.first.size}
+  #
+  def task_status
+    closed = 0
+    open = 0
 
-    def direct_tasks_and_subtasks
-      return [] unless Task.tracker
-      self.children.find_all_by_tracker_id(Task.tracker).collect { |t| [t] + t.descendants }.flatten
-    end
-
-    #def inherit_version_to_subtasks
-    #  # we overwrite the version of all descending issues that are tasks
-    #  self.direct_tasks_and_subtasks.each do |task|
-    #    task.inherit_version_from(self)
-    #    task.save! if task.changed?
-    #  end
-    #end
-
-    def set_points(p)
-        self.init_journal(User.current)
-
-        if p.blank? || p == '-'
-            self.update_attribute(:story_points, nil)
-            return
-        end
-
-        if p.downcase == 's'
-            self.update_attribute(:story_points, 0)
-            return
-        end
-
-        p = Integer(p)
-        if p >= 0
-            self.update_attribute(:story_points, p)
-            return
-        end
-    end
-
-    def task_status
-        closed = 0
-        open = 0
-        self.tasks.each {|task|
-            if task.closed?
-                closed += 1
-            else
-                open += 1
-            end
-        }
-        return {:open => open, :closed => closed}
-    end
-
-    def update_and_position!(params)
-      attribs = params.select{|k,v| k != 'id' and Story.column_names.include? k }
-      attribs = Hash[*attribs.flatten]
-
-      journalized_update_attributes(attribs).tap do |result|
-        if result and params[:prev]
-          reload
-          move_after(params[:prev])
-        end
+    self.tasks.each do |task|
+      if task.closed?
+        closed += 1
+      else
+        open += 1
       end
     end
+
+    {:open => open, :closed => closed}
+  end
+
+  def update_and_position!(params)
+    attribs = params.select { |k,v| k != 'id' and Story.column_names.include?(k) }
+    attribs = Hash[*attribs.flatten]
+
+    journalized_update_attributes(attribs).tap do |result|
+      if result and params[:prev]
+        reload
+        move_after(params[:prev])
+      end
+    end
+  end
 
   def rank=(r)
     @rank = r
