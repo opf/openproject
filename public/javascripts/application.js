@@ -374,6 +374,13 @@ Event.observe(window, 'load', hideOnLoad);
 var animationRate = 100;
 
 /* jQuery code from #263 */
+// returns viewport height
+jQuery.viewportHeight = function() {
+     return self.innerHeight ||
+        jQuery.boxModel && document.documentElement.clientHeight ||
+        document.body.clientHeight;
+};
+
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
@@ -465,17 +472,6 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-});
-
-// returns viewport height
-jQuery.viewportHeight = function() {
-     return self.innerHeight ||
-        jQuery.boxModel && document.documentElement.clientHeight ||
-        document.body.clientHeight;
-};
-
-jQuery(document).ready(function($) {
-
 	// header animation replacement - no animation, straight appear/hide
 	$("#account .drop-down").unbind('mouseenter').unbind("mouseleave"); //remove the current animated handlers
 
@@ -550,7 +546,5 @@ jQuery(document).ready(function($) {
 				return false;
 			}
 		});
-
-
 
 });
