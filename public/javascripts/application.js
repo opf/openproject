@@ -385,15 +385,6 @@ jQuery.viewportHeight = function() {
 jQuery(document).ready(function($) {
 
 
-	// header menu hovers
-	$("#account .drop-down").hover(function() {
-		$(this).addClass("open").find("ul").slideDown(animationRate);
-		$("#top-menu").toggleClass("open");
-	}, function() {
-		$(this).removeClass("open").find("ul").slideUp(animationRate);
-		$("#top-menu").toggleClass("open");
-	});
-
 	// show/hide header search box
   // TODO: switch to live after upgrading jQuery version. "flicker" bug.
 	$("#account a.search").click(function() {
@@ -471,9 +462,6 @@ jQuery(document).ready(function($) {
 
 		return false;
 	});
-
-	// header animation replacement - no animation, straight appear/hide
-	$("#account .drop-down").unbind('mouseenter').unbind("mouseleave"); //remove the current animated handlers
 
 	// remove .drop-down class from empty dropdowns
 	$("#account .drop-down").each(function(index) {
