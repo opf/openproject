@@ -11,7 +11,6 @@
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'print', :media => 'print' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-<%= stylesheet_link_tag 'thickbox', :media => 'all' %>
 <!--[if lte IE 6]><%= stylesheet_link_tag 'ie6', :media => 'all' %><![endif]-->
 <!--[if lte IE 7]><%= stylesheet_link_tag 'ie7', :media => 'all' %><![endif]-->
 <!--[if gte IE 8]><![endif]-->
@@ -20,8 +19,6 @@
 <%= stylesheet_link_tag 'jstoolbar' %>
 <%= javascript_include_tag 'jquery.1.3.2.min.js' %>
 <%= javascript_include_tag 'jquery.hoverIntent.minified.js' %>
-<%= javascript_include_tag 'thickbox.min.js' %>
-<%= javascript_tag("var tb_pathToImage='#{image_path('loadingAnimation.gif')}'") %>
 <%= javascript_include_tag 'common.js' %>
 <%= heads_for_theme %>
 <% heads_for_wiki_formatter %>
