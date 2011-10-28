@@ -8,7 +8,7 @@
 <% if @reassignable_to.any? %>
 <br />
 <label><%= radio_button_tag 'todo', 'reassign', false %> <%= l(:text_wiki_page_reassign_children) %></label>:
-<%= label_tag "reassign_to_id", l(:description_wiki_reassign), :class => "hidden-for-sighted" %>
+<%= label_tag "reassign_to_id", l(:description_wiki_subpages_reassign), :class => "hidden-for-sighted" %>
 <%= select_tag 'reassign_to_id', wiki_page_options_for_select(@reassignable_to),
 																 :onclick => "$('todo_reassign').checked = true;" %>
 <% end %>
