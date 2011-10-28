@@ -387,6 +387,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// show/hide header search box
+  // TODO: switch to live after upgrading jQuery version. "flicker" bug.
 	$("#account a.search").click(function() {
 		var searchWidth = $("#account-nav").width();
 
@@ -396,28 +397,6 @@ jQuery(document).ready(function($) {
 		});
 
 		return false;
-	});
-
-	// issue table info tooltips
-	$(".js-tooltip").wrapInner("<div class='js-tooltip-inner'></div>").append("<span class='arrow'></span>"); // give an extra div for styling
-
-	$("table.issues td.issue").hover(function(event) {
-		var $thisTR = $(event.target).parents("tr");
-		var trPos = $thisTR.position();
-		var tTarget = $thisTR.attr("id");
-
-		$("form#issue-list").toggleClass("tooltip-active");
-		$("div[rel="+tTarget+"]").css('top', trPos.top).fadeIn(animRate*2, function(){
-			//ie cleartype uglies
-			if ($.browser.msie) {this.style.removeAttribute('filter'); };
-			});
-
-	}, function(event) {
-		var $thisTR = $(event.target).parents("tr");
-		var tTarget = $thisTR.attr("id");
-
-		$("form#issue-list").toggleClass("tooltip-active");
-		$("div[rel="+tTarget+"]").hide();
 	});
 
 	// file table thumbnails
@@ -484,15 +463,6 @@ jQuery(document).ready(function($) {
 
 		return false;
 	});
-
-	// suckerfish-esque on those issue dropdown menus for IE6
-	if (parseInt($.browser.version, 10) < 7 && $.browser.msie) {
-		$(".issue-dropdown li").hover(function() {
-			$(this).toggleClass("hover");
-		}, function() {
-			$(this).toggleClass("hover");
-		});
-	}
 
     // Connect new issue lightbox to the New Issue link but only when
     // on the issues list.
@@ -621,9 +591,6 @@ jQuery(document).ready(function($) {
 		$(this).removeClass("open").find("ul").hide();
 		$("#top-menu").removeClass("open");
 	});
-
-	// first remove current event handlers for tooltips - overrides original common.js functionality. Remove this once common.js is merged with this.
-	$("table.issues td.issue").unbind('mouseenter').unbind("mouseleave");
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
