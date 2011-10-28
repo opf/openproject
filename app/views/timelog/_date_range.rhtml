@@ -16,16 +16,16 @@
 
 <%=
 l(:label_date_from_to,
-  :start => (
-    label_tag("from", l(:description_date_from), :class => "hidden-for-sighted") +
-    text_field_tag('from', @from, :size => 10, :disabled => !@free_period) +
-    calendar_for('from')
-  ),
-  :end => (
-    label_tag("to", l(:description_date_to), :class => "hidden-for-sighted") +
-    text_field_tag('to', @to, :size => 10, :disabled => !@free_period) +
-    calendar_for('to')
-  )
+  :start => (
+    label_tag("from", l(:description_date_from), :class => "hidden-for-sighted") +
+    text_field_tag('from', @from, :size => 10, :disabled => !@free_period) +
+    calendar_for('from')
+  ),
+  :end => (
+    label_tag("to", l(:description_date_to), :class => "hidden-for-sighted") +
+    text_field_tag('to', @to, :size => 10, :disabled => !@free_period) +
+    calendar_for('to')
+  )
 )
 %>
 </span>
