@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module Engines
   class Plugin
     class Loader < Rails::Plugin::Loader    

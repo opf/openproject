@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('veramobi') do |font|
   font[:type]='TrueTypeUnicode';
   font[:name]='BitstreamVeraSansMono-BoldOb';

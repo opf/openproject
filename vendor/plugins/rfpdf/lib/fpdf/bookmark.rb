@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Translation of the bookmark class from the PHP FPDF script from Olivier Plathey
 # Translated by Sylvain Lafleur and ?? with the help of Brian Ollenberger
 #

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 namespace :open_id_authentication do
   namespace :db do
     desc "Creates authentication tables for use with OpenIdAuthentication"

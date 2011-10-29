@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Rails <2.x doesn't define #except
 class Hash #:nodoc:
   # Returns a new hash without the given keys.

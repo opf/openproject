@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require 'digest/sha1'
 require 'openid/store/interface'
 

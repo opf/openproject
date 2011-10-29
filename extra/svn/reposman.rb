@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #

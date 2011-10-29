@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('courier') do |font|
   font[:cw] = {}
   0.upto(255) do |i|

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # An instance of Plugin is created for each plugin loaded by Rails, and
 # stored in the <tt>Engines.plugins</tt> PluginList 
 # (see Engines::RailsExtensions::RailsInitializer for more details).

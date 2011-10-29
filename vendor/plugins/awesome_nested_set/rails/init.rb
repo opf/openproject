@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require 'awesome_nested_set/compatability'
 require 'awesome_nested_set'
 

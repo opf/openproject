@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # ActsAsWatchable
 module Redmine
   module Acts
