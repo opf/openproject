@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 ActiveRecord::Schema.define(:version => 0) do
 
   create_table :categories, :force => true do |t|

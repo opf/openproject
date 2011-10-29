@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Various mathematical calculations extracted from the PDF::Writer for Ruby gem.
 # - http://rubyforge.org/projects/ruby-pdf
 # - Copyright 2003 - 2005 Austin Ziegler.

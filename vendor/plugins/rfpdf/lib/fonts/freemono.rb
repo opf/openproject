@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('freemono') do |font|
   font[:type]='TrueTypeUnicode';
   font[:name]='FreeMono';

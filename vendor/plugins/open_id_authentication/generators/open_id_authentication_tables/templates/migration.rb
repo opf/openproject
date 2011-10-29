@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class <%= class_name %> < ActiveRecord::Migration
   def self.up
     create_table :open_id_authentication_associations, :force => true do |t|

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 begin
   require 'zlib'
   @@__have_zlib = true

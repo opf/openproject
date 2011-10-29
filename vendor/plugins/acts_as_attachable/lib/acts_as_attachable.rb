@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Redmine - project management software
 # Copyright (C) 2006-2008  Jean-Philippe Lang
 #

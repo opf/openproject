@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: filter.rb 151 2006-08-15 08:34:53Z blackhedd $
 #
 #

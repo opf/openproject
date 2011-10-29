@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Tests in this file ensure that:
 #
 # * translations in the application take precedence over those in plugins

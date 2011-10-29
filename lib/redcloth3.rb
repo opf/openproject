@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #                                vim:ts=4:sw=4:
 # = RedCloth - Textile and Markdown Hybrid for Ruby
 #

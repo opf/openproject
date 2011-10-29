@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: testldif.rb 61 2006-04-18 20:55:55Z blackhedd $
 #
 #

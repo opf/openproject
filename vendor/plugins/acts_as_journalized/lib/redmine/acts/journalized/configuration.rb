@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License

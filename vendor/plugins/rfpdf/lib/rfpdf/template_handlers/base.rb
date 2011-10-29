@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module RFPDF
   module TemplateHandlers
     class Base < ::ActionView::TemplateHandlers::ERB

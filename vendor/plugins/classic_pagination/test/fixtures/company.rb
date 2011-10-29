@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class Company < ActiveRecord::Base
   attr_protected :rating
   set_sequence_name :companies_nonstd_seq

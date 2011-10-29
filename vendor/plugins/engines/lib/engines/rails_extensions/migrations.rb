@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Contains the enhancements to Rails' migrations system to support the 
 # Engines::Plugin::Migrator. See Engines::RailsExtensions::Migrations for more
 # information.

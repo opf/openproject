@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+#-- encoding: UTF-8
 #
 # Utility to generate font definition files
 # Version: 1.1

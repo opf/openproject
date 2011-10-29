@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require File.dirname(__FILE__) + '/test_helper'
 require File.dirname(__FILE__) + '/../lib/open_id_authentication/mem_cache_store'
 
