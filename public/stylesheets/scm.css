@@ -91,7 +91,7 @@ div.action_A { background: #bfb }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0; margin-right: 4px }
+.syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin: 0 7px 0 0; }
 .syntaxhl .code pre { overflow: auto }
 .syntaxhl .debug { color:white ! important; background:blue ! important; }
 
