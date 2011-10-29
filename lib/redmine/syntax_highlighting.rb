@@ -42,7 +42,7 @@ module Redmine
         # Highlights +text+ using +language+ syntax
         # Should not return outer pre tag
         def highlight_by_language(text, language)
-          ::CodeRay.scan(text, language).html(:line_numbers => :inline, :wrap => :span)
+          ::CodeRay.scan(text, language).html(:line_numbers => :inline, :line_number_anchors => false, :wrap => :span)
         end
       end
     end

@@ -13,20 +13,22 @@
     }
     a.new { color: #b73535; }
 
-    .CodeRay .c  { color:#666; }
+   .syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
+   .syntaxhl .comment  { color:#666; }
 
-    .CodeRay .cl { color:#B06; font-weight:bold }
-    .CodeRay .dl { color:black }
-    .CodeRay .fu { color:#06B; font-weight:bold }
+   .syntaxhl .class { color:#B06; font-weight:bold }
+   .syntaxhl .delimiter { color:black }
+   .syntaxhl .function { color:#06B; font-weight:bold }
 
-    .CodeRay .il { background: #eee }
-    .CodeRay .il .idl { font-weight: bold; color: #888 }
+   .syntaxhl .inline { background: #eee }
+   .syntaxhl .inline .inline-delimiter { font-weight: bold; color: #888 }
 
-    .CodeRay .iv { color:#33B }
-    .CodeRay .r  { color:#080; font-weight:bold }
+   .syntaxhl .instance-variable { color:#33B }
+   .syntaxhl .reserved { color:#080; font-weight:bold }
 
-    .CodeRay .s  { background-color:#fff0f0 }
-    .CodeRay .s  .dl { color:#710 }
+   .syntaxhl .string { background-color:#fff0f0; color: #D20; }
+   .syntaxhl .string .delimiter { color:#710 }
+
 <% end %>
 
 <% html_title "Wiki Formatting" %>
@@ -236,7 +238,7 @@ To go live, all you need to add is a database and a web server.
 
     <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
 
-    <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
+    <p>Default code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
 
     <p>You can highlight code in your wiki page using this syntax:</p>
 
@@ -248,15 +250,14 @@ To go live, all you need to add is a database and a web server.
 
     <p>Example:</p>
 
-<pre><code class="ruby CodeRay"><span class="no"> 1</span> <span class="c"># The Greeter class</span>
-<span class="no"> 2</span> <span class="r">class</span> <span class="cl">Greeter</span>
-<span class="no"> 3</span>   <span class="r">def</span> <span class="fu">initialize</span>(name)
-<span class="no"> 4</span>     <span class="iv">@name</span> = name.capitalize
-<span class="no"> 5</span>   <span class="r">end</span>
-<span class="no"> 6</span>
-<span class="no"> 7</span>   <span class="r">def</span> <span class="fu">salute</span>
-<span class="no"> 8</span>     puts <span class="s"><span class="dl">"</span><span class="k">Hello </span><span class="il"><span class="idl">#{</span><span class="iv">@name</span><span class="idl">}</span></span><span class="k">!</span><span class="dl">"</span></span>
-<span class="no"> 9</span>   <span class="r">end</span>
-<span class="no"><strong>10</strong></span> <span class="r">end</span>
-</code>
+<pre><code class="ruby syntaxhl"><span class="line-numbers"> 1</span> <span class="comment"># The Greeter class</span>
+<span class="line-numbers"> 2</span> <span class="reserved">class</span> <span class="class">Greeter</span>
+<span class="line-numbers"> 3</span>   <span class="reserved">def</span> <span class="function">initialize</span>(name)
+<span class="line-numbers"> 4</span>     <span class="instance-variable">@name</span> = name.capitalize
+<span class="line-numbers"> 5</span>   <span class="reserved">end</span>
+<span class="line-numbers"> 6</span> 
+<span class="line-numbers"> 7</span>   <span class="reserved">def</span> <span class="function">salute</span>
+<span class="line-numbers"> 8</span>     puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span> 
+<span class="line-numbers"> 9</span>   <span class="reserved">end</span>
+<span class="line-numbers"><strong>10</strong></span> <span class="reserved">end</span></code>
 </pre>
