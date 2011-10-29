@@ -798,6 +798,7 @@ de:
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
+  label_deleted_custom_field: '(gelöschtes benutzerdefiniertes Feld)'
 
   button_login: Anmelden
   button_submit: OK

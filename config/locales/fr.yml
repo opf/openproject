@@ -793,6 +793,7 @@ fr:
   label_user_search: "Rechercher un utilisateur :"
   label_additional_workflow_transitions_for_author: Autorisations supplémentaires lorsque l'utilisateur a créé la demande
   label_additional_workflow_transitions_for_assignee: Autorisations supplémentaires lorsque la demande est assignée à l'utilisateur
+  label_deleted_custom_field: '(champ personnalisé supprimé)'
 
   button_login: Connexion
   button_submit: Soumettre

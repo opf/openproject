@@ -812,6 +812,7 @@ en:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
+  label_deleted_custom_field: '(deleted custom field)'
 
   button_login: Login
   button_submit: Submit
