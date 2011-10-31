@@ -800,6 +800,7 @@ de:
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
+  label_enable_multi_select: Mehrfachauswahl umschalten
 
   button_login: Anmelden
   button_submit: OK
@@ -986,4 +987,3 @@ de:
   label_diff: diff
   description_remove_watcher: Entfernen
   description_remove_attachment: Entfernen
-  description_enable_multi_select: Mehrfach Auswahl ein/aus

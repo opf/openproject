@@ -814,6 +814,7 @@ en:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
+  label_enable_multi_select: Toggle multiselect
 
   button_login: Login
   button_submit: Submit
@@ -968,4 +969,3 @@ en:
   enumeration_system_activity: System Activity
   description_remove_watcher: Delete
   description_remove_attachment: Delete
-  description_enable_multi_select: Toggle multiselect
