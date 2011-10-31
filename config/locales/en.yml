@@ -583,6 +583,7 @@ en:
   label_add_note: Add a note
   label_per_page: Per page
   label_calendar: Calendar
+  label_calendar_show: Show Calendar
   label_months_from: months from
   label_gantt: Gantt
   label_internal: Internal
@@ -965,8 +966,6 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
-
-  description_open_calendar: Show Calendarpicker
   description_remove_watcher: Delete
   description_remove_attachment: Delete
   description_enable_multi_select: Toggle multiselect

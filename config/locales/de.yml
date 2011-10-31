@@ -586,6 +586,7 @@ de:
   label_add_note: Kommentar hinzufügen
   label_per_page: Pro Seite
   label_calendar: Kalender
+  label_calendar_show: Kalender anzeigen
   label_months_from: Monate ab
   label_gantt: Gantt-Diagramm
   label_internal: Intern
@@ -983,8 +984,6 @@ de:
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
-
-  description_open_calendar: Datum aus Kalendar auswählen
   description_remove_watcher: Entfernen
   description_remove_attachment: Entfernen
   description_enable_multi_select: Mehrfach Auswahl ein/aus
