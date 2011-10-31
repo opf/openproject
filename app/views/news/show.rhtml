@@ -45,7 +45,10 @@
     <% next if comment.new_record? %>
     <div class="contextual">
     <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
-                                                       :confirm => l(:text_are_you_sure), :method => :delete, :title => l(:button_delete) %>
+                                                       :confirm => l(:text_are_you_sure),
+                                                       :method  => :delete,
+                                                       :title   => l(:button_delete),
+                                                       :alt     => l(:button_delete) %>
     </div>
     <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>
