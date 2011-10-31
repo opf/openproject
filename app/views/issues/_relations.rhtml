@@ -19,7 +19,9 @@
 <td><%= format_date(relation.other_issue(@issue).due_date) %></td>
 <td><%= link_to_remote(image_tag('delete.png'), { :url => {:controller => 'issue_relations', :action => 'destroy', :issue_id => @issue, :id => relation},
                                                   :method => :post
-                                                }, :title => l(:label_relation_delete)) if authorize_for('issue_relations', 'destroy') %></td>
+                                                },
+                                                :title => l(:label_relation_delete),
+                                                :alt   => l(:label_relation_delete)) if authorize_for('issue_relations', 'destroy') %></td>
 </tr>
 <% end %>
 </table>
