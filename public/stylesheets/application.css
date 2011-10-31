@@ -473,6 +473,20 @@ input#principal_search, input#user_search {width:100%}
 	border: 2px solid;
 }
 
+span.errorSpan {
+  font-weight: bold;
+}
+
+span.errorSpan textarea {
+  border: 2px solid red;
+}
+span.errorSpan select {
+  border: 2px solid red;
+}
+span.errorSpan input {
+  border: 2px solid red;
+}
+
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
