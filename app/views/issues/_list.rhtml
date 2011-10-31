@@ -3,8 +3,10 @@
 <div class="autoscroll">
 <table class="list issues">
     <thead><tr>
-        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
-                                                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {},
+                                                         :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+                                                         :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                                         :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
 		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>
