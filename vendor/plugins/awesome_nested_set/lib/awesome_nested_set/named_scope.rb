@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Taken from Rails 2.1
 module CollectiveIdea #:nodoc:
   module NamedScope #:nodoc:

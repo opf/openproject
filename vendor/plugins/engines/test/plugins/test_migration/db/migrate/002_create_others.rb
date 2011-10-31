@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class CreateOthers < ActiveRecord::Migration
   def self.up
     create_table 'others' do |t|

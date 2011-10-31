@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Contains the enhancements to assist in testing plugins. See Engines::Testing
 # for more details.
 

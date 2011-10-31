@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # This code lets us redefine existing Rake tasks, which is extremely
 # handy for modifying existing Rails rake tasks.
 # Credit for the original snippet of code goes to Jeremy Kemper

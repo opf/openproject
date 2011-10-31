@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module TestHelper
   def self.report_location(path)
     [RAILS_ROOT + '/', 'vendor/plugins/'].each { |part| path.sub! part, ''}

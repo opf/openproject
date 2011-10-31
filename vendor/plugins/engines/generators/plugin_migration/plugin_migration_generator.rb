@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Generates a migration which migrates all plugins to their latest versions
 # within the database.
 class PluginMigrationGenerator < Rails::Generator::Base

@@ -28,7 +28,7 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <% @newss.each do |news| %>
-    <h3><%= link_to_project(news.project) + ': ' unless news.project == @project %>
+    <h3><%= avatar(news.author, :size => "24") %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
     <%= link_to h(news.title), news_path(news) %>
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>

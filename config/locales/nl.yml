@@ -123,7 +123,7 @@ nl:
         greater_than_start_date: "moet na de startdatum liggen"
         not_same_project: "hoort niet bij hetzelfde project"
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
-        cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        cant_link_an_issue_with_a_descendant: "Een issue kan niet gelinked worden met een subtask"
 
   actionview_instancetag_blank_option: Selecteer
 
@@ -183,8 +183,8 @@ nl:
   default_role_developer: Ontwikkelaar
   default_role_manager: Manager
   default_role_reporter: Rapporteur
-  default_role_non_member: Non member
-  default_role_anonymous: Anonymous
+  default_role_non_member: Niet-lid
+  default_role_anonymous: Anoniem
   default_tracker_bug: Bug
   default_tracker_feature: Feature
   default_tracker_support: Support
@@ -705,7 +705,7 @@ nl:
   setting_commit_fix_keywords: Gefixeerde trefwoorden
   setting_commit_logs_encoding: Encodering van commit berichten
   setting_commit_ref_keywords: Refererende trefwoorden
-  setting_cross_project_issue_relations: Sta crossproject issuerelaties toe
+  setting_cross_project_issue_relations: Sta cross-project issuerelaties toe
   setting_date_format: Datumformaat
   setting_default_language: Standaard taal
   setting_default_projects_public: Nieuwe projecten zijn standaard publiek
@@ -763,7 +763,7 @@ nl:
   text_no_configuration_data: "Rollen, trackers, issue statussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaard configuratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
   text_plugin_assets_writable: Plugin assets directory beschrijfbaar
   text_project_destroy_confirmation: Weet u zeker dat u dit project en alle gerelateerde gegevens wilt verwijderen?
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
+  text_project_identifier_info: 'Alleen kleine letter (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'
   text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'
   text_regexp_info: bv. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Koppel de Redminegebruikers aan gebruikers in de repository log.\nGebruikers met dezelfde Redmine en repository gebruikersnaam of email worden automatisch gekoppeld."
@@ -910,8 +910,8 @@ nl:
   label_user_mail_option_only_my_events: Alleen voor dingen die ik volg of bij betrokken ben
   label_user_mail_option_only_assigned: Alleen voor dingen die aan mij zijn toegewezen
   label_user_mail_option_none: Bij geen enkele gebeurtenis
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
+  field_member_of_group: Groep van toegewezene
+  field_assigned_to_role: Rol van toegewezene
   notice_not_authorized_archived_project: Het project dat u wilt bezoeken is gearchiveerd.
   label_principal_search: "Zoek naar gebruiker of groep:"
   label_user_search: "Zoek naar gebruiker:"
@@ -926,24 +926,42 @@ nl:
   text_warn_on_leaving_unsaved: De huidige pagina bevat tekst die niet is opgeslagen en dit zal verloren gaan als u deze pagina nu verlaat.
   label_my_queries: Mijn aangepaste zoekopdrachten
   label_news_comment_added: Commentaar toegevoegd aan een nieuwsitem
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
+  button_expand_all: Klap uit
+  button_collapse_all: Klap in
+  label_additional_workflow_transitions_for_assignee: Aanvullende veranderingen toegestaan wanneer de gebruiker de toegewezene is
+  label_additional_workflow_transitions_for_author: Aanvullende veranderingen toegestaan wanneer de gebruiker de auteur is
   label_cvs_module: Module
   label_filesystem_path: Root directory
   label_darcs_path: Root directory
   text_journal_changed_no_detail: "%{label} updated"
-  field_effective_date: Due date
+  field_effective_date: Einddatum
   label_bazaar_path: Root directory
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
+  label_git_path: Pad naar .git directory
   text_powered_by: Powered by %{link}
   label_mercurial_path: Root directory
-  text_default_encoding: "Default: UTF-8"
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  text_default_encoding: "Standaard: UTF-8"
+  text_git_repo_example: een kaal (bare) en lokaal repository (e.g. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
-  setting_issue_startdate_is_adddate: Use current date as start date for new issues
+  setting_issue_startdate_is_adddate: Gebruik huidige datum als startdatum voor nieuwe issues
+  description_search: Searchfield
+  description_user_mail_notification: Mail notification settings
+  description_date_range_list: Choose range from list
+  description_date_to: Enter end date
+  description_query_sort_criteria_attribute: Sort attribute
+  description_message_content: Message content
+  description_wiki_subpages_reassign: Choose new parent page
+  description_available_columns: Available Columns
+  description_selected_columns: Selected Columns
+  description_date_range_interval: Choose range by selecting start and end date
+  description_project_scope: Search scope
+  description_issue_category_reassign: Choose issue category
+  description_query_sort_criteria_direction: Sort direction
+  description_notes: Notes
+  description_filter: Filter
+  description_choose_project: Projects
+  description_date_from: Enter start date
+  label_deleted_custom_field: (deleted custom field)

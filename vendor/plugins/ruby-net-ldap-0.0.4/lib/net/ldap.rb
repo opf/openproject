@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: ldap.rb 154 2006-08-15 09:35:43Z blackhedd $
 #
 # Net::LDAP for Ruby

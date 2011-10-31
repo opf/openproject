@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module OpenIdAuthentication
   module Request
     def self.included(base)

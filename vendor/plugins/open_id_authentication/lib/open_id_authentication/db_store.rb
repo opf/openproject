@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require 'openid/store/interface'
 
 module OpenIdAuthentication

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Tests in this file ensure that:
 #
 # * Routes from plugins can be routed to

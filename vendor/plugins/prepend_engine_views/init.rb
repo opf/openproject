@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module PrependEngineViews
   def self.included(base)
     base.send(:include, InstanceMethods)

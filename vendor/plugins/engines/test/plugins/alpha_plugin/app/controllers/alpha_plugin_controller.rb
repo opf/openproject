@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class AlphaPluginController < ApplicationController
   def an_action
     render_class_and_action

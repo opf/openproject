@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require 'rubygems'
 require 'erb'  # to get "h"
 require 'active_support'  # to get "returning"

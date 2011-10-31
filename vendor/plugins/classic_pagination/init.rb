@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #--
 # Copyright (c) 2004-2006 David Heinemeier Hansson
 #

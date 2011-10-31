@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # The Plugin::Migrator class contains the logic to run migrations from
 # within plugin directories. The directory in which a plugin's migrations
 # should be is determined by the Plugin#migration_directory method.

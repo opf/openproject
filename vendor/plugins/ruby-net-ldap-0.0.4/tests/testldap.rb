@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: testldap.rb 65 2006-04-23 01:17:49Z blackhedd $
 #
 #

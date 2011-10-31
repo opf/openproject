@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module ActionView
   module Helpers
     # Provides methods for linking to ActionController::Pagination objects using a simple generator API.  You can optionally
