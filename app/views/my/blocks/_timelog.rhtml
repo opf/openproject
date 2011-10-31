@@ -37,10 +37,12 @@ entries_by_day = entries.group_by(&:spent_on)
     <td align="center">
     <% if entry.editable_by?(@user) -%>
         <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => entry},
+                                           :alt => l(:button_edit),
                                            :title => l(:button_edit) %>
         <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
                                              :confirm => l(:text_are_you_sure),
                                              :method => :delete,
+                                             :alt => l(:button_delete)
                                              :title => l(:button_delete) %>
     <% end -%>
     </td>
