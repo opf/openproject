@@ -74,7 +74,7 @@ module JournalsHelper
             :url => {:controller => controller, :action => action, :id => model, :journal_id => journal})
         end
         if editable
-          l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit)), "journal-#{journal.id}-notes",
+          l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
                 { :controller => 'journals', :action => 'edit', :id => journal },
                   :title => l(:button_edit))
         end

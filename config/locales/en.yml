@@ -552,6 +552,7 @@ en:
   label_export_to: 'Also available in:'
   label_read: Read...
   label_public_projects: Public projects
+  label_checked: checked
   label_open_issues: open
   label_open_issues_plural: open
   label_closed_issues: closed
@@ -965,8 +966,7 @@ en:
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
 
-  description_checked: checked
   description_open_calendar: Show Calendarpicker
   description_remove_watcher: Delete
   description_remove_attachment: Delete
-  description_enable_multi_select: Toggle multiselect 
+  description_enable_multi_select: Toggle multiselect

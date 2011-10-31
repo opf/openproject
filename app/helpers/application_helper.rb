@@ -798,7 +798,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag('toggle_check.png', :alt => l(:description_checked))
+      image_tag('toggle_check.png', :alt => l(:label_checked), :title => l(:label_checked))
     end
   end
 
