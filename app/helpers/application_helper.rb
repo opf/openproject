@@ -798,7 +798,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag 'toggle_check.png'
+      image_tag('toggle_check.png', :alt => l(:description_checked))
     end
   end
 
@@ -836,7 +836,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
+    image_tag("calendar.png",  {:id => "#{field_id}_trigger",:class => "calendar-trigger", :alt => l(:description_open_calendar)}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
 
