@@ -47,11 +47,6 @@ end
 # warned.
 
 platforms :mri, :mingw do
-  group :mysql do
-    gem "mysql"
-    #   gem "ruby-mysql"
-  end
-
   group :mysql2 do
     gem "mysql2", "~> 0.2.7"
   end
@@ -63,6 +58,11 @@ platforms :mri, :mingw do
 end
 
 platforms :mri_18, :mingw_18 do
+  group :mysql do
+    gem "mysql"
+    #   gem "ruby-mysql"
+  end
+
   group :sqlite do
     gem "sqlite3-ruby", "< 1.3", :require => "sqlite3"
   end
