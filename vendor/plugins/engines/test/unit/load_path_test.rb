@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Tests in this file ensure that:
 #
 # * the application /app/[controllers|helpers|models] and /lib 

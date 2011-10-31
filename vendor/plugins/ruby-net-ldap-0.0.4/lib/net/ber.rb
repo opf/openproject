@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: ber.rb 142 2006-07-26 12:20:33Z blackhedd $
 #
 # NET::BER

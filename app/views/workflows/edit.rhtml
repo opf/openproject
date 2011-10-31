@@ -6,11 +6,11 @@
 
 <% form_tag({}, :method => 'get') do %>
 <p>
-	<label><%=l(:label_role)%>:</label>
-	<%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
+	<label><%=l(:label_role)%>:
+	<%= select_tag 'role_id', options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %></label>
 
-  <label><%=l(:label_tracker)%>:</label>
-	<%= select_tag 'tracker_id', options_from_collection_for_select(@trackers, "id", "name", @tracker && @tracker.id) %>
+  <label><%=l(:label_tracker)%>:
+	<%= select_tag 'tracker_id', options_from_collection_for_select(@trackers, "id", "name", @tracker && @tracker.id) %></label>
 
   <%= hidden_field_tag 'used_statuses_only', '0' %>
   <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>

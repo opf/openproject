@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -199,5 +200,10 @@ class IssuesTest < ActionController::IntegrationTest
           :content => new_tester.name
         }
       }
+
+    # Test for deleted custom field handling
+    @field.destroy
+    get "/issues/#{issue.id}"
+    assert_response :success
   end
 end

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module Core::RFPDF
   COLOR_PALETTE = {
       :black => [0x00, 0x00, 0x00],

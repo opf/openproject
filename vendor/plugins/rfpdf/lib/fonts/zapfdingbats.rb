@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('zapfdingbats') do |font|
   font[:cw]={
 	0.chr=>0,1.chr=>0,2.chr=>0,3.chr=>0,4.chr=>0,5.chr=>0,6.chr=>0,7.chr=>0,8.chr=>0,9.chr=>0,10.chr=>0,11.chr=>0,12.chr=>0,13.chr=>0,14.chr=>0,15.chr=>0,16.chr=>0,17.chr=>0,18.chr=>0,19.chr=>0,20.chr=>0,21.chr=>0,

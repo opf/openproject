@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Copyright (c) 2006 4ssoM LLC <www.4ssoM.com>
 # 1.12 contributed by Ed Moss.
 #

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('timesi') do |font|
   font[:cw]={
 	0.chr=>250,1.chr=>250,2.chr=>250,3.chr=>250,4.chr=>250,5.chr=>250,6.chr=>250,7.chr=>250,8.chr=>250,9.chr=>250,10.chr=>250,11.chr=>250,12.chr=>250,13.chr=>250,14.chr=>250,15.chr=>250,16.chr=>250,17.chr=>250,18.chr=>250,19.chr=>250,20.chr=>250,21.chr=>250,

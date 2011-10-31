@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module ActiveRecord
   module Acts #:nodoc:
     module List #:nodoc:

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require File.dirname(__FILE__) + '/test_helper'
 
 class StatusTest < Test::Unit::TestCase

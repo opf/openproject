@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Ruby FPDF 1.53d
 # FPDF 1.53 by Olivier Plathey ported to Ruby by Brian Ollenberger
 # Copyright 2005 Brian Ollenberger

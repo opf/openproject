@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: dataset.rb 78 2006-04-26 02:57:34Z blackhedd $
 #
 #

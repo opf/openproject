@@ -26,7 +26,7 @@
 						<td><%= render :partial => 'queries/columns', :locals => {:query => @query} %></td>
 					</tr>
 					<tr>
-						<td><%= l(:field_group_by) %></td>
+						<td><label for='group_by'><%= l(:field_group_by) %></label></td>
 						<td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
 					</tr>
 				</table>

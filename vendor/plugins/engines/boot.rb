@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 begin
   require 'rails/version'
   unless Rails::VERSION::MAJOR >= 2 && Rails::VERSION::MINOR >= 3 && Rails::VERSION::TINY >= 2

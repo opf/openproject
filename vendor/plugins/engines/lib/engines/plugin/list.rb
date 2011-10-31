@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # The PluginList class is an array, enhanced to allow access to loaded plugins
 # by name, and iteration over loaded plugins in order of priority. This array is used
 # by Engines::RailsExtensions::RailsInitializer to create the Engines.plugins array.

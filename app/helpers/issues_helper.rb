@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -213,8 +214,8 @@ module IssuesHelper
   def send_notification_option
     content_tag(:p,
                 content_tag(:label,
-                            l(:label_notify_member_plural)) +
-                hidden_field_tag('send_notification', '0') +
+                            l(:label_notify_member_plural), :for => 'send_notification') +
+                hidden_field_tag('send_notification', '0', :id => nil) +
                 check_box_tag('send_notification', '1', true))
 
 

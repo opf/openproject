@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # == Using plugin assets for form tag helpers
 #
 # It's as easy to use plugin images for image_submit_tag using Engines as it is for image_tag:

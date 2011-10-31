@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class PluginMail < ActionMailer::Base
   def mail_from_plugin(note=nil)
     body(:note => note)

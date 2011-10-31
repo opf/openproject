@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('helveticab') do |font|
   font[:cw]={
 	0.chr=>278,1.chr=>278,2.chr=>278,3.chr=>278,4.chr=>278,5.chr=>278,6.chr=>278,7.chr=>278,8.chr=>278,9.chr=>278,10.chr=>278,11.chr=>278,12.chr=>278,13.chr=>278,14.chr=>278,15.chr=>278,16.chr=>278,17.chr=>278,18.chr=>278,19.chr=>278,20.chr=>278,21.chr=>278,

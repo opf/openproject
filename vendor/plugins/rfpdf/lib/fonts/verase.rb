@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('verase') do |font|
   font[:type]='TrueTypeUnicode';
   font[:name]='BitstreamVeraSerif-Roman';

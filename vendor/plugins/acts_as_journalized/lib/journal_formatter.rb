@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -83,9 +84,15 @@ module JournalFormatter
   end
 
   def format_custom_value_detail(custom_field, values, no_html)
-    label = custom_field.name
-    old_value = format_value(values.first, custom_field.field_format) if values.first
-    value = format_value(values.last, custom_field.field_format) if values.last
+    if custom_field
+      label = custom_field.name
+      old_value = format_value(values.first, custom_field.field_format) if values.first
+      value = format_value(values.last, custom_field.field_format) if values.last
+    else
+      label = l(:label_deleted_custom_field)
+      old_value = values.first
+      value = values.last
+    end
 
     [label, old_value, value]
   end

@@ -12,17 +12,17 @@
   <% end %>
   <%= render :partial => 'timelog/date_range' %>
 
-  <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+  <p><label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week'],
                                                                             [l(:label_day_plural).titleize, 'day']], @columns),
                                                         :onchange => "this.form.onsubmit();" %>
 
-  <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
+  <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l_or_humanize(@available_criterias[k][:label]), k]}),
                                                           :onchange => "this.form.submit();",
                                                           :style => 'width: 200px',
                                                           :id => nil,
-                                                          :disabled => (@criterias.length >= 3)) %>
+                                                          :disabled => (@criterias.length >= 3), :id => "criterias") %>
      <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns}, :class => 'icon icon-reload' %></p>
 <% end %>
 
