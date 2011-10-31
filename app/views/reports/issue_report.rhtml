@@ -1,31 +1,65 @@
 <h2><%=l(:label_report_plural)%></h2>
 
 <div class="splitcontentleft">
-<h3><%=l(:field_tracker)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'tracker' %></h3>
+<h3><%=l(:field_tracker)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_tracker)),
+                        :title  => l(:text_analyze, :subject => l(:field_tracker))),
+                        :action => 'issue_report_details', :detail => 'tracker' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_tracker, :field_name => "tracker_id", :rows => @trackers } %>
 <br />
-<h3><%=l(:field_priority)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'priority' %></h3>
+<h3><%=l(:field_priority)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_priority)),
+                        :title  => l(:text_analyze, :subject => l(:field_priority))),
+                        :action => 'issue_report_details', :detail => 'priority' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_priority, :field_name => "priority_id", :rows => @priorities } %>
 <br />
-<h3><%=l(:field_assigned_to)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'assigned_to' %></h3>
+<h3><%=l(:field_assigned_to)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_assigned_to)),
+                        :title  => l(:text_analyze, :subject => l(:field_assigned_to))),
+                        :action => 'issue_report_details', :detail => 'assigned_to' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_assigned_to, :field_name => "assigned_to_id", :rows => @assignees } %>
 <br />
-<h3><%=l(:field_author)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'author' %></h3>
+<h3><%=l(:field_author)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_author)),
+                        :title  => l(:text_analyze, :subject => l(:field_author))),
+                        :action => 'issue_report_details', :detail => 'author' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_author, :field_name => "author_id", :rows => @authors } %>
 <br />
 <%= call_hook(:view_reports_issue_report_split_content_left, :project => @project) %>
 </div>
 
 <div class="splitcontentright">
-<h3><%=l(:field_version)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'version' %></h3>
+<h3><%=l(:field_version)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_version)),
+                        :title  => l(:text_analyze, :subject => l(:field_version))),
+                        :action => 'issue_report_details', :detail => 'version' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_version, :field_name => "fixed_version_id", :rows => @versions } %>
 <br />
 <% if @project.children.any? %>
-<h3><%=l(:field_subproject)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'subproject' %></h3>
+<h3><%=l(:field_subproject)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_subproject)),
+                        :title  => l(:text_analyze, :subject => l(:field_subproject))),
+                        :action => 'issue_report_details', :detail => 'subproject' %>
+</h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_subproject, :field_name => "project_id", :rows => @subprojects } %>
 <br />
 <% end %>
-<h3><%=l(:field_category)%>&nbsp;&nbsp;<%= link_to image_tag('zoom_in.png'), :action => 'issue_report_details', :detail => 'category' %></h3>
+<h3><%=l(:field_category)%>&nbsp;&nbsp;
+  <%= link_to image_tag('zoom_in.png',
+                        :alt    => l(:text_analyze, :subject => l(:field_category)),
+                        :title  => l(:text_analyze, :subject => l(:field_category))),
+                        :action => 'issue_report_details', :detail => 'category' %></h3>
 <%= render :partial => 'simple', :locals => { :data => @issues_by_category, :field_name => "category_id", :rows => @categories } %>
 <br />
 <%= call_hook(:view_reports_issue_report_split_content_right, :project => @project) %>
