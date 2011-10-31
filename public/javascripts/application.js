@@ -385,6 +385,11 @@ function addClickEventToAllErrorMessages() {
   });
 }
 $(document).observe('dom:loaded', function() {
+  // Set focus on first error message
+  var focus = $$('a.afocus').first();
+  if (focus != undefined) {
+    focus.focus();
+  }
   // Focus on field with error
   addClickEventToAllErrorMessages();
 });
