@@ -61,7 +61,7 @@ module WatchersHelper
                :object_type => object.class.to_s.underscore,
                :object_id => object.id,
                :user_id => user}
-        s += ' ' + link_to_remote(image_tag('delete.png', :alt => l(:description_remove_watcher)),
+        s += ' ' + link_to_remote(image_tag('delete.png', :alt => l(:button_delete)),
                                   {:url => url},
                                   :href => url_for(url),
                                   :style => "vertical-align: middle",

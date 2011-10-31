@@ -982,3 +982,9 @@ de:
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
+  
+  description_checked: ausgewählt
+  description_open_calendar: Datum aus Kalendar auswählen
+  description_remove_watcher: Entfernen
+  description_remove_attachment: Entfernen
+  description_enable_multi_select: Mehrfach Auswahl ein/aus

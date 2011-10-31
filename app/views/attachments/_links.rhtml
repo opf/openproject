@@ -4,7 +4,7 @@
 <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
   <% if options[:deletable] %>
-    <%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => attachment},
+    <%= link_to image_tag('delete.png', l(:button_delete)), {:controller => 'attachments', :action => 'destroy', :id => attachment},
                                          :confirm => l(:text_are_you_sure),
                                          :method => :post,
                                          :class => 'delete',

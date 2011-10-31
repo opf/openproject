@@ -964,3 +964,9 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+
+  description_checked: checked
+  description_open_calendar: Show Calendarpicker
+  description_remove_watcher: Delete
+  description_remove_attachment: Delete
+  description_enable_multi_select: Toggle multiselect 

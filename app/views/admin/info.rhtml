@@ -6,7 +6,7 @@
 <% @checklist.each do |label, result| %>
 	<tr class="<%= cycle 'odd', 'even' %>">
 		<td><%= l(label) %></td>
-		<td width="30px"><%= image_tag((result ? 'true.png' : 'exclamation.png'), :style => "vertical-align:bottom;") %></td>
+		<td width="30px"><%= image_tag((result ? 'true.png' : 'exclamation.png'), :style => "vertical-align:bottom;", :alt => (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
 	</tr>
 <% end %>
 </table>
