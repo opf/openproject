@@ -49,7 +49,7 @@
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
-        <% unless Project.visible.empty? %>
+        <% if !Project.visible.empty? and (User.current.logged? or !Setting.login_required?) %>
           <li class="drop-down">
             <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
             <ul style="display:none;">
