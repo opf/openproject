@@ -6,17 +6,21 @@
 		</td>
 		<td align="center" valign="middle">
 			<input type="button" value="&#8594;"
-			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
+			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);"
+       title="<%= l(:label_sort_right) %>"/><br />
 			<input type="button" value="&#8592;"
-			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
+			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);"
+       title="<%= l(:label_sort_left) %>" />
 		</td>
 		<td><%= select_tag 'c[]',
 		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 		<td align="center" valign="middle">
-			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
-			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
+			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);"
+       title="<%= l(:label_sort_higher) %>" /><br />
+			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);"
+       title="<%= l(:label_sort_lower) %>" />
 		</td>
 	</tr>
 </table>
