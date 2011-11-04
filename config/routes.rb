@@ -9,5 +9,6 @@ ActionController::Routing::Routes.draw do |map|
     my.connect 'my_projects_overview/:id/page_layout/remove_block', :action => 'remove_block'
     my.connect 'my_projects_overview/:id/page_layout/order_blocks', :action => 'order_blocks'
     my.connect 'my_projects_overview/:id/page_layout/update_custom_element', :action => 'update_custom_element'
+    my.connect 'my_projects_overview/:id/page_layout/destroy_attachment', :action => 'destroy_attachment', :conditions => {:method => :post}
   end
 end
