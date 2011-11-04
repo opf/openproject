@@ -15,8 +15,9 @@ class MyProjectsOverviewsController < ApplicationController
 
   unloadable
 
-  before_filter :find_project, :find_user, :find_my_project_overview,
-                :find_page_blocks, :find_project_details
+  before_filter :find_project, :find_user, :find_my_project_overview
+  before_filter :find_page_blocks, :find_project_details
+  before_filter :find_attachments, :only => [:page_layout, :destroy_attachment]
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
     'issuesreportedbyme' => :label_reported_issues,
@@ -43,7 +44,6 @@ class MyProjectsOverviewsController < ApplicationController
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
     @block_options << [l(:label_custom_element), :custom_element]
-    @attachments = @overview.attachments
   end
 
   def update_custom_element
@@ -144,7 +144,7 @@ class MyProjectsOverviewsController < ApplicationController
       rescue ActiveRecord::RecordNotFound
       end
     end
-    @attachments = @overview.attachments
+    @attachments -= [att]
     render :partial => 'page_layout_attachments'
   end
 
@@ -187,5 +187,9 @@ class MyProjectsOverviewsController < ApplicationController
     if User.current.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
+  end
+
+  def find_attachments
+    @attachments = @overview.attachments
   end
 end
