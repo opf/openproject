@@ -59,13 +59,13 @@ module SettingsHelper
 
   def setting_check_box(setting, options={})
     setting_label(setting, options) +
-      hidden_field_tag("settings[#{setting}]", 0) +
+      content_tag(:input, nil, :type => "hidden", :name => "settings[#{setting}]", :value => 0, :id => "settings_#{setting}_hidden") +
       check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
   end
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", l(label || "setting_#{setting}")) : ''
+    label != false ? content_tag("label", l(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''
   end
 
   # Renders a notification field for a Redmine::Notifiable option
