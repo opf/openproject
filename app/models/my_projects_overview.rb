@@ -5,10 +5,7 @@ class MyProjectsOverview < ActiveRecord::Base
   serialize :hidden, Array
   belongs_to :project
 
-  has_many :attachments, :as => :container,
-                         :order => "#{Attachment.table_name}.created_on",
-                         :dependent => :destroy
-  attr_accessor :unsaved_attachments
+  acts_as_attachable :delete_permission => :edit_project, :view_permission => :view_project
 
   def save_custom_element(name, title, new_content)
     el = custom_elements.detect {|x| x.first == name}
