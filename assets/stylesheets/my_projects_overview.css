@@ -15,3 +15,10 @@ a.preview-or-edit-icon {
 a.preview-or-edit-icon:hover {
     background-image:url('../images/wiki_edit_hover.png');
 }
+
+.overview {
+  padding:6px;
+  margin-bottom: 10px;
+  line-height:1.5em;
+}
+
