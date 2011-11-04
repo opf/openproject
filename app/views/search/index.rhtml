@@ -2,6 +2,7 @@
 
 <div class="box">
 <% form_tag({}, :method => :get) do %>
+<%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
 <%= project_select_tag %>

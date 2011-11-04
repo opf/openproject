@@ -1,4 +1,5 @@
 <p>
+<%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
 <%= select_tag 'user[mail_notification]', options_for_select(user_mail_notification_options(@user), @user.mail_notification),
                                       :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
 </p>
@@ -8,5 +9,5 @@
 <% end %></p>
 <p><em><%= l(:text_user_mail_option) %></em></p>
 <% end %>
-<p><label><%= l(:label_user_mail_no_self_notified) %></label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></p>
+<p><label><%= l(:label_user_mail_no_self_notified) %><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %></label></p>
 
