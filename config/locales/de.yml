@@ -655,6 +655,8 @@ de:
   label_sort_higher: Eins höher
   label_sort_lower: Eins tiefer
   label_sort_lowest: Ans Ende
+  label_sort_right: Eins nach rechts
+  label_sort_left: Eins nach links
   label_roadmap: Roadmap
   label_roadmap_due_in: "Fällig in %{value}"
   label_roadmap_overdue: "%{value} verspätet"

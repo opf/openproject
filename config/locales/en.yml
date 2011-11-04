@@ -653,6 +653,8 @@ en:
   label_sort_higher: Move up
   label_sort_lower: Move down
   label_sort_lowest: Move to bottom
+  label_sort_right: Move right
+  label_sort_left: Move left
   label_roadmap: Roadmap
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_overdue: "%{value} late"
