@@ -359,6 +359,7 @@ Ajax.Responders.register({
         if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
             Element.hide('ajax-indicator');
         }
+        addClickEventToAllErrorMessages();
     }
 });
 
@@ -367,5 +368,30 @@ function hideOnLoad() {
   	el.hide();
 	});
 }
+
+function addClickEventToAllErrorMessages() {
+  $$('a.afocus').each(function(a) {
+    $(a).observe('click', function(event) {
+      var field;
+      field = $($(a).readAttribute('href').substr(1));
+      if (field == null) {
+        // Cut off '_id' (necessary for select boxes)
+        field = $($(a).readAttribute('href').substr(1).concat('_id'));
+      }
+      field.down('input, textarea, select').focus();
+      Event.stop(event);
+      return false;
+    });
+  });
+}
+$(document).observe('dom:loaded', function() {
+  // Set focus on first error message
+  var focus = $$('a.afocus').first();
+  if (focus != undefined) {
+    focus.focus();
+  }
+  // Focus on field with error
+  addClickEventToAllErrorMessages();
+});
 
 Event.observe(window, 'load', hideOnLoad);
