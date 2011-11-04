@@ -120,6 +120,11 @@ function editTextilizable(name) {
   <% end %>
 </div>
 
+<h4><%= l(:label_file_plural) %></h4>
+<div class="attachments" id="page_layout_attachments">
+  <%= render(:partial => "page_layout_attachments") %>
+</div>
+
 <% field_list.each do |f| %>
   <%= sortable_element "list-#{f}",
       :tag => 'div',

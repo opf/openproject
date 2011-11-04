@@ -43,6 +43,7 @@ class MyProjectsOverviewsController < ApplicationController
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
     @block_options << [l(:label_custom_element), :custom_element]
+    @attachments = @overview.attachments
   end
 
   def update_custom_element
@@ -132,6 +133,19 @@ class MyProjectsOverviewsController < ApplicationController
       block = @overview.custom_elements.detect {|ary| ary.first == block}
     end
     block
+  end
+
+  def destroy_attachment
+    if @user.allowed_to?(:edit_project, @project)
+      begin
+        att = Attachment.find(params[:attachment_id].to_i)
+        @overview.attachments.delete(att)
+        @overview.save
+      rescue ActiveRecord::RecordNotFound
+      end
+    end
+    @attachments = @overview.attachments
+    render :partial => 'page_layout_attachments'
   end
 
   def find_my_project_overview
