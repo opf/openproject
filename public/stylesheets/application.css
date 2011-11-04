@@ -424,7 +424,7 @@ margin-left: 5px !important;
 width: auto;
 }
 
-label#no-css {
+label.no-css {
   font-weight: inherit;
   float:none;
   text-align:left;
