@@ -19,7 +19,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#top-menu a {color: #444;; margin-right: 0px; font-weight: bold;}
+#top-menu a {color: #444; margin-right: 0px; font-weight: bold;}
 #top-menu #loggedas { float: right; margin-right: 0.5em; color: #fff; }
 
 #account {float:none;}

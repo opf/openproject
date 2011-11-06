@@ -43,6 +43,11 @@
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <% end %>
 
+<h3><%= l(:label_version_plural) %></h3>
+<% @versions.each do |version| %>
+<%= link_to format_version_name(version), "##{version.name}" %><br />
+<% end %>
+
 <% end %>
 
 <% html_title(l(:label_roadmap)) %>

@@ -2,7 +2,7 @@
 <%= hidden_field_tag 'back_url', url_for(params) %>
 <div class="autoscroll">
 <table class="list issues">
-    <thead><tr id="issue-header">
+    <thead><tr>
         <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
@@ -12,7 +12,7 @@
         <% end %>
 	</tr></thead>
 	<% previous_group = false %>
-	<tbody id="issue-list-body">
+	<tbody>
 	<% issue_list(issues) do |issue, level| -%>
   <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
     <% reset_cycle %>

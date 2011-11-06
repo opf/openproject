@@ -1,7 +1,3 @@
-<%# Added: classes to the li %>
-<%# Added: classes to the a %>
-<%# Added: div for submenu icons %>
-<%# Removed: icon-* on links %>
 <ul class="menu">
   <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
 
@@ -126,7 +122,6 @@
 
   <li class="move"><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
 	                        :class => 'context_item', :disabled => !@can[:move]  %></li>
-  <%# All users can copy because the copy acton will check their permissions on the target project %>
   <li class="copy"><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'bulk_copy', :project_id => @project, :ids => @issues.collect(&:id)},
                                 :class => 'context_item' %></li>
   <li class="delete"><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
