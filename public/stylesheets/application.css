@@ -1570,24 +1570,6 @@ div.issue h3 {
 .issue p {
 	margin-bottom:5px;
 }
-.issue .description {
-	float:left;
-	width:58%;
-}
-.issue #watchers {
-	float:right;
-	width:37%;
-}
-.issue #watchers .contextual {
-	float:right;
-}
-.issue #watchers li.user {
-	float:left;
-	margin-right:6px;
-}
-.user {
-	position:relative;
-}
 .attachments h4 {
 	margin-bottom:6px;
 	background:url(../images/files-showhide.png) no-repeat right bottom;
