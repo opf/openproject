@@ -41,23 +41,9 @@
         <% end %>
       </ul>
 
-      <%
-        items_for_main_level = []
-        items_for_more_level = []
-        menu_items_for(:top_menu) do |item|
-          if item.name == :home || item.name == :my_page
-            items_for_main_level << item
-          elsif item.name == :projects
-            # Remove
-          else
-            items_for_more_level << item
-          end
-        end
-      %>
-      
       <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
-        <% items_for_main_level.each do |item| %>
+        <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
         <li class="drop-down">
@@ -77,7 +63,7 @@
         <li class="drop-down" id="more-menu">
           <a class="more" href="#">More</a>
           <ul style="display:none;">
-            <% items_for_more_level.each do |item| %>
+            <% more_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
             <% end %>
             <%# TODO: Redmine defines these in a view, should be moved to a helper or data structure %>

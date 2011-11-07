@@ -962,7 +962,39 @@ module ApplicationHelper
     
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
-  
+
+  # Menu items for the main top menu
+  def main_top_menu_items
+    split_top_menu_into_main_or_more_menus[:main]
+  end
+
+  # Menu items for the more top menu
+  def more_top_menu_items
+    split_top_menu_into_main_or_more_menus[:more]
+  end
+
+  # Split the :top_menu into separate :main and :more items
+  def split_top_menu_into_main_or_more_menus
+    unless @top_menu_split
+      items_for_main_level = []
+      items_for_more_level = []
+      menu_items_for(:top_menu) do |item|
+        if item.name == :home || item.name == :my_page
+          items_for_main_level << item
+        elsif item.name == :projects
+          # Remove, present in layout
+        else
+          items_for_more_level << item
+        end
+      end
+      @top_menu_split = {
+        :main => items_for_main_level,
+        :more => items_for_more_level
+      }
+    end
+    @top_menu_split
+  end
+
   private
 
   def wiki_helper
