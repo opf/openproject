@@ -45,15 +45,29 @@ module ApplicationHelper
 
   # Displays a link to user's account page if active
   def link_to_user(user, options={})
-    if user.is_a?(User)
-      name = h(user.name(options[:format]))
-      if user.active?
-        link_to name, :controller => 'users', :action => 'show', :id => user
+    link_to_principal(user, options)
+  end
+
+  def link_to_group(role, options={})
+    link_to_principal(role, options)
+  end
+
+  def link_to_principal(principal, options={})
+    if principal.is_a?(User)
+      type = "user"
+    elsif principal.is_a?(Group)
+      type = "group"
+    end
+    if type
+      name = h(principal.name(options.delete(:format)))
+      if (principal.respond_to?(:active?) ? principal.active? : true)
+        (type == "group" ? (image_tag "group.png", :title => l(:label_group)) : "") +
+        link_to(name, { :controller => type.downcase.pluralize, :action => 'show', :id => principal }, options.reverse_merge(:title => name))
       else
         name
       end
     else
-      h(user.to_s)
+      h(principal.to_s)
     end
   end
 
