@@ -98,11 +98,14 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
         <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{field}');", :style => "vertical-align: bottom;",
             :title => l(:label_enable_multi_select), :alt => l(:label_enable_multi_select) %>
     <% when :date, :date_past %>
-        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
+      <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
+      <label for='<%= "values_#{field}" %>'><%= l(:label_day_plural) %></label>
     <% when :string, :text %>
-        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
+      <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
+      <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_text) %></label>
     <% when :integer %>
-        <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
+      <%= text_field_tag "v[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
+      <label for='<%= "values_#{field}" %>' class='hidden-for-sighted' ><%= l(:description_enter_number) %></label>
     <% end %>
     </div>
     <script type="text/javascript">toggle_filter('<%= field %>');</script>

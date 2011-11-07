@@ -980,10 +980,16 @@ en:
   description_query_sort_criteria_direction: Sort direction
   description_user_mail_notification: Mail notification settings
   description_available_columns: Available Columns
-  description_selected_columns: Selected Spalten
+  description_selected_columns: Selected Columns
   description_issue_category_reassign: Choose issue category
   description_wiki_subpages_reassign: Choose new parent page
   description_date_range_list: Choose range from list
   description_date_range_interval: Choose range by selecting start and end date
   description_date_from: Enter start date
   description_date_to: Enter end date
+  description_select_issue: Select issue
+  description_enter_number: Enter number
+  description_enter_text: Enter text
+  description_compare_from: Compare from version
+  description_compare_to: Compare to version
+  description_active: Active?

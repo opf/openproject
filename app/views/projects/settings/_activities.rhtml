@@ -24,7 +24,8 @@
     </td>
     <% end %>
     <td align="center" style="width:15%;">
-      <%= ff.check_box :active, :title => (enumeration.active? ? l(:general_text_Yes) : l(:general_text_No)) %>
+      <%= label_tag "enumerations_#{enumeration.id}_active", l(:description_active), :class => "hidden-for-sighted" %>
+      <%= ff.check_box :active %>
     </td>
   </tr>
   <% end %>
