@@ -8,6 +8,7 @@
 <%= csrf_meta_tag %>
 <%= favicon %>
 <%= stylesheet_link_tag 'reset', :media => 'all' %>
+<%= stylesheet_link_tag 'smoothness/jquery-ui', :media => 'all' %>
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'print', :media => 'print' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
@@ -15,7 +16,8 @@
 <!--[if lte IE 7]><%= stylesheet_link_tag 'ie7', :media => 'all' %><![endif]-->
 <!--[if gte IE 8]><![endif]-->
 
-<%= javascript_include_tag 'jquery.1.3.2.min.js' %>
+<%= javascript_include_tag 'jquery.min.js' %>
+<%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
 <%= javascript_tag('jQuery.noConflict();') %>
 <%= javascript_heads %>

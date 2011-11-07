@@ -470,8 +470,7 @@ jQuery(document).ready(function($) {
 
 
 	// show/hide header search box
-  // TODO: switch to live after upgrading jQuery version. "flicker" bug.
-	$("#account a.search").click(function() {
+	$("#account a.search").live('click', function() {
 		var searchWidth = $("#account-nav").width();
 
 		$(this).toggleClass("open");
