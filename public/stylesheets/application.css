@@ -466,8 +466,6 @@ div#tab-content-members fieldset legend, div#tab-content-memberships fieldset le
 div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
 div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
 
-table.members td.group { padding-left: 20px; background: url(../images/group.png) no-repeat 0% 50%; }
-
 input#principal_search, input#user_search {width:100%}
 
 * html div#tab-content-members fieldset div { height: 450px; }
