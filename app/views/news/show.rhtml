@@ -56,6 +56,7 @@
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">
+    <%= label_tag 'comment_comments', l(:field_notes), :class => 'hidden-for-sighted' %>
     <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
     <%= wikitoolbar_for 'comment_comments' %>
 </div>
