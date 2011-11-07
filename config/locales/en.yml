@@ -983,3 +983,5 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   description_select_issue: Select issue
+  description_enter_number: Enter number
+  description_enter_text: Enter text
