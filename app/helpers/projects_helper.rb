@@ -14,7 +14,8 @@
 module ProjectsHelper
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
-    link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
+    s = image_tag "package.png", :title => l(:label_version)
+    s << link_to_if(version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options)
   end
 
   def project_settings_tabs

@@ -17,9 +17,9 @@ while day <= calendar.enddt %>
   <span class="tip"><%= render_issue_tooltip i %></span>
   </div>
   <% else %>
-  <span class="icon icon-package">
+  <span>
     <%= h("#{i.project} -") unless @project && @project == i.project %>
-    <%= link_to_version i%>
+    <%= link_to_version i, :title => l(:label_version) %>
   </span>
   <% end %>
 <% end %>
