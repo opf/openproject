@@ -120,9 +120,9 @@
 	        :class => 'icon-duplicate', :disabled => !@can[:copy] %></li>
 <% end %>
 
-  <li class="move"><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
+  <li class="move"><%= context_menu_link l(:button_move), new_issue_move_path(:ids => @issues.collect(&:id)),
 	                        :class => 'context_item', :disabled => !@can[:move]  %></li>
-  <li class="copy"><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'bulk_copy', :project_id => @project, :ids => @issues.collect(&:id)},
+  <li class="copy"><%= context_menu_link l(:button_copy), new_issue_move_path(:ids => @issues.collect(&:id), :copy_options => {:copy => 't'}),
                                 :class => 'context_item' %></li>
   <li class="delete"><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
                             :method => :post, :confirm => l(:text_issues_destroy_confirmation), :class => 'context_item', :disabled => !@can[:delete] %></li>

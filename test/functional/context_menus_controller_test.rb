@@ -45,23 +45,18 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => '/projects/ecookbook/issues/1/copy',
                                              :class => 'icon-duplicate' }
     assert_tag :tag => 'a', :content => 'Copy',
-                            :attributes => { :href => '/issues/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1',
-                                             :class => 'icon-copy' }
+               :attributes => { :href => '/issues/move/new?copy_options%5Bcopy%5D=t&amp;ids%5B%5D=1' }
     assert_tag :tag => 'a', :content => 'Move',
-                            :attributes => { :href => '/issues/move/new?ids%5B%5D=1',
-                                             :class => 'icon-move' }
+               :attributes => { :href => '/issues/move/new?ids%5B%5D=1'}
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => '/issues/destroy?ids%5B%5D=1',
-                                             :class => 'icon-del' }
+               :attributes => { :href => '/issues/destroy?ids%5B%5D=1' }
   end
 
   def test_context_menu_one_issue_by_anonymous
     get :issues, :ids => [1]
     assert_response :success
     assert_template 'context_menu'
-    assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => '#',
-                                             :class => 'icon-del disabled' }
+    assert_select "a.disabled", :text => /Delete/
   end
 
   def test_context_menu_multiple_issues_of_same_project
@@ -86,14 +81,11 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=3",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Copy',
-                            :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}",
-                                             :class => 'icon-copy' }
+               :attributes => { :href => "/issues/move/new?copy_options%5Bcopy%5D=t&amp;#{ids}"}
     assert_tag :tag => 'a', :content => 'Move',
-                            :attributes => { :href => "/issues/move/new?#{ids}",
-                                             :class => 'icon-move' }
+               :attributes => { :href => "/issues/move/new?#{ids}"}
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => "/issues/destroy?#{ids}",
-                                             :class => 'icon-del' }
+               :attributes => { :href => "/issues/destroy?#{ids}"}
   end
 
   def test_context_menu_multiple_issues_of_different_projects
@@ -118,8 +110,7 @@ class ContextMenusControllerTest < ActionController::TestCase
                             :attributes => { :href => "/issues/bulk_edit?#{ids}&amp;issue%5Bassigned_to_id%5D=2",
                                              :class => '' }
     assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => "/issues/destroy?#{ids}",
-                                             :class => 'icon-del' }
+               :attributes => { :href => "/issues/destroy?#{ids}"}
   end
 
   def test_context_menu_issue_visibility

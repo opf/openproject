@@ -35,19 +35,17 @@ class LayoutTest < ActionController::IntegrationTest
     assert_select "#admin-menu", :count => 0
   end
 
-  def test_top_menu_and_search_not_visible_when_login_required
+  def test_top_menu_navigation_not_visible_when_login_required
     with_settings :login_required => '1' do
       get '/'
-      assert_select "#top-menu > ul", 0
-      assert_select "#quick-search", 0
+      assert_select "#account-nav", 0
     end
   end
 
-  def test_top_menu_and_search_visible_when_login_not_required
+  def test_top_menu_navigation_visible_when_login_not_required
     with_settings :login_required => '0' do
       get '/'
-      assert_select "#top-menu > ul"
-      assert_select "#quick-search"
+      assert_select "#account-nav"
     end
   end
 

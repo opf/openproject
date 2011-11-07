@@ -1373,9 +1373,9 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_default_search_scope
     get :index
-    assert_tag :div, :attributes => {:id => 'quick-search'},
-                     :child => {:tag => 'form',
-                                :child => {:tag => 'input', :attributes => {:name => 'issues', :type => 'hidden', :value => '1'}}}
+    assert_select "form#nav-search" do
+      assert_select "input[type=hidden][name=issues][value=1]"
+    end
   end
 
   def test_reply_to_note

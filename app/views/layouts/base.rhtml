@@ -53,6 +53,7 @@
         end
       %>
       
+      <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
         <% items_for_main_level.each do |item| %>
             <%= render_menu_node(item) %>
@@ -94,6 +95,7 @@
         <% end %>
         </li>
       </ul>
+      <% end %>
     </div>
 
   </div>
