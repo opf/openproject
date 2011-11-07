@@ -985,3 +985,5 @@ en:
   description_select_issue: Select issue
   description_enter_number: Enter number
   description_enter_text: Enter text
+  description_compare_from: Compare from version
+  description_compare_to: Compare to version
