@@ -13,7 +13,10 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::ThemesTest < ActiveSupport::TestCase
-
+  def setup
+    Redmine::Themes.rescan
+  end
+  
   def test_themes
     themes = Redmine::Themes.themes
     assert_kind_of Array, themes
