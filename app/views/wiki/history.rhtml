@@ -21,13 +21,13 @@
     <td class="id"><%= link_to h(ver.version), :action => 'show', :id => @page.title, :project_id => @page.project, :version => ver.version %></td>
     <td class="checkbox">
       <% if show_diff && (line_num < @versions.size)  %>
-      <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_from) + " " + ver.version.to_s %></label>
+      <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_from) + " " + h(ver.version.to_s) %></label>
         <%= radio_button_tag('version', ver.version, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") %>
       <% end %>
     </td>
     <td class="checkbox">
       <% if show_diff && (line_num > 1) %>
-        <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_to) + " " + ver.version.to_s %></label>
+        <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_to) + " " + h(ver.version.to_s) %></label>
         <%= radio_button_tag('version_from', ver.version, (line_num==2), :id => "cbto-#{line_num}") %>
       <% end %>
     </td>
