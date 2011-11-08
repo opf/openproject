@@ -42,7 +42,7 @@ module RedmineBacklogs::Patches::UserPatch
     def compute_backlogs_preference(attr)
       case attr
       when :task_color
-        "#" + rand(0xffffff).to_s(16).upcase
+        ("#%0.6x" % rand(0xFFFFFF)).upcase
       else
         raise "Unsupported attribute '#{attr}'"
       end
