@@ -17,7 +17,7 @@ class MyProjectsOverviewsController < ApplicationController
 
   before_filter :find_project, :find_user, :find_my_project_overview
   before_filter :find_page_blocks, :find_project_details
-  before_filter :find_attachments, :only => [:page_layout, :destroy_attachment]
+  before_filter :find_attachments
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
     'issuesreportedbyme' => :label_reported_issues,
@@ -185,6 +185,6 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def find_attachments
-    @attachments = @overview.attachments
+    @attachments = @overview.attachments || []
   end
 end
