@@ -322,6 +322,9 @@ fieldset.collapsible.header_collapsible legend {
     border-bottom-right-radius:0px;
 }
 
+fieldset.collapsible.header_collapsible legend:hover {
+  background-color:#d8d8d8;
+}
 fieldset.collapsible.collapsed.header_collapsible legend {
     background-image:url(../images/projectnavi_arrow_down.png);
     -moz-border-radius:5px;
@@ -1392,8 +1395,8 @@ div#optional_login_fields {
 	background:#f3f3f3;
 }
 #main-menu li {
-	border-bottom:1px solid #e2e2e2;
-	border-top:1px solid #f5f5f5;
+	border-top:1px solid #e2e2e2;
+	border-bottom:1px solid #f5f5f5;
 	position:relative;
         min-height:23px;
         background-color:#e9e9e9;
