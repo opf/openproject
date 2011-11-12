@@ -58,7 +58,7 @@
             </ul>
           </li>
         <% end %>
-        <% unless (items = items_for_more_level).empty? %>
+        <% unless (items = more_top_menu_items).empty? %>
           <li class="drop-down" id="more-menu">
             <a class="more" href="#">Modules</a>
             <ul style="display:none;">
@@ -86,6 +86,7 @@
           <% end %>
           </li>
       </ul>
+    <% end %>
     </div>
     </div>
     <div id="breadcrumb">
