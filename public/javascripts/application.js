@@ -578,25 +578,6 @@ jQuery(document).ready(function($) {
                 $(this).slideAndFocus();
                 $("#account-nav").toggleClass("hover");
 
-	$("#account .drop-down:has(ul) > a").click(function() {
-                //Close all other open menus
-                //Used to work around the rendering bug
-                jQuery("input#username").blur();
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-                $(this).slideAndFocus();
-                return false;
-            }
-        },
-        function(){
-          return false;
-          });
-	jQuery("#account-nav > li.drop-down").click(function() {
-          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-          }
-                $(this).slideAndFocus();
-                $("#account-nav").toggleClass("hover");
-
                 return false;
         });
 
