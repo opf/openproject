@@ -42,9 +42,8 @@
           <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
           <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
         <% end %>
-      </ul>
+      </div>
 
-      <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
@@ -54,7 +53,7 @@
             <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
             <ul style="display:none;">
                 <li><%= link_to "View all Projects", :controller => 'projects', :action => 'index' %></li>
-                <%= render_project_jump_box Project.visible, :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %>
+                <li><%= render_project_jump_box Project.visible, :id => "project-search", :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %></li>
             </ul>
           </li>
         <% end %>
@@ -86,7 +85,6 @@
           <% end %>
           </li>
       </ul>
-    <% end %>
     </div>
     </div>
     <div id="breadcrumb">
