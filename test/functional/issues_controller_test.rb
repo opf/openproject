@@ -1374,7 +1374,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_default_search_scope
     get :index
-    assert_select "form#nav-search" do
+    assert_select "#search form" do
       assert_select "input[type=hidden][name=issues][value=1]"
     end
   end
