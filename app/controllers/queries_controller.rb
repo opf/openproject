@@ -20,6 +20,7 @@ class QueriesController < ApplicationController
   def new
     @query = Query.new(params[:query])
     @query.project = params[:query_is_for_all] ? nil : @project
+    @query.display_subprojects = params[:display_subprojects] if params[:display_subprojects].present?
     @query.user = User.current
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
 

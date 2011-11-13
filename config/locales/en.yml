@@ -936,6 +936,8 @@ en:
   text_default_encoding: "Default: UTF-8"
   text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\\hgrepo)"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_display_subprojects: Display subprojects
+  text_current_project: Current project
 
   default_role_manager: Manager
   default_role_developer: Developer

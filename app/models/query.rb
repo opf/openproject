@@ -82,6 +82,7 @@ class Query < ActiveRecord::Base
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
+    self.display_subprojects ||= Setting.display_subprojects_issues?
   end
 
   def after_initialize
@@ -353,7 +354,7 @@ class Query < ActiveRecord::Base
           # all subprojects
           ids += project.descendants.collect(&:id)
         end
-      elsif Setting.display_subprojects_issues?
+      elsif display_subprojects?
         ids += project.descendants.collect(&:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')

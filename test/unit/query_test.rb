@@ -383,6 +383,50 @@ class QueryTest < ActiveSupport::TestCase
     assert !q.editable_by?(developer)
   end
 
+  context "#display_subprojects" do
+    setup do
+      Setting.display_subprojects_issues = 0
+      User.current = nil
+    end
+
+    should "not include subprojects when false" do
+      query = Query.new(:project => Project.find(1), :name => '_')
+      query.display_subprojects = false
+
+      issues = find_issues_with_query(query)
+      issue_ids = issues.collect(&:id)
+
+      assert issue_ids.include?(1), "Didn't find issue 1 on current project"
+      assert !issue_ids.include?(5), "Issue 5 on sub-project included when it shouldn't be"
+      assert !issue_ids.include?(6), "Issue 6 on a private sub-project included when it shouldn't be"
+    end
+
+    should "include subprojects when true" do
+      query = Query.new(:project => Project.find(1), :name => '_')
+      query.display_subprojects = true
+
+      issues = find_issues_with_query(query)
+      issue_ids = issues.collect(&:id)
+
+      assert issue_ids.include?(1), "Didn't find issue 1 on current project"
+      assert issue_ids.include?(5), "Didn't find issue 5 on sub-project"
+      assert !issue_ids.include?(6), "Issue 6 on a private sub-project included when it shouldn't be"
+    end
+
+    should "include private subprojects automatically when true" do
+      User.current = User.find(2)
+      query = Query.new(:project => Project.find(1), :name => '_')
+      query.display_subprojects = true
+
+      issues = find_issues_with_query(query)
+      issue_ids = issues.collect(&:id)
+
+      assert issue_ids.include?(1), "Didn't find issue 1 on current project"
+      assert issue_ids.include?(5), "Didn't find issue 5 on sub-project"
+      assert issue_ids.include?(6), "Didn't find issue 6 on a private sub-project"
+    end
+  end
+
   context "#available_filters" do
     setup do
       @query = Query.new(:name => "_")
