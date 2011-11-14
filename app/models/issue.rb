@@ -151,9 +151,6 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
       end
       issue.project = new_project
-      if issue.parent && issue.parent.project_id != issue.project_id
-        issue.parent_issue_id = nil
-      end
     end
     if new_tracker
       issue.tracker = new_tracker
@@ -337,9 +334,7 @@ class Issue < ActiveRecord::Base
 
     # Checks parent issue assignment
     if @parent_issue
-      if @parent_issue.project_id != project_id
-        errors.add :parent_issue_id, :not_same_project
-      elsif !new_record?
+      if !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
           # we can always move to another tree
