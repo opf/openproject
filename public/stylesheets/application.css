@@ -515,6 +515,7 @@ div#tab-content-members fieldset, div#tab-content-memberships fieldset, div#tab-
 div#tab-content-members fieldset legend, div#tab-content-memberships fieldset legend, div#tab-content-users fieldset legend { font-weight: bold; }
 div#tab-content-members fieldset label, div#tab-content-memberships fieldset label, div#tab-content-users fieldset label { display: block; }
 div#tab-content-members fieldset div, div#tab-content-users fieldset div { max-height: 400px; overflow:auto; }
+div#tab-content-members .user.status_registered, div#tab-content-members label.status_registered { filter: alpha(opacity=80); -khtml-opacity: 0.8; opacity: 0.8; -moz-opacity: 0.8; }
 
 table.members td.group { padding-left: 20px; background: url(../images/group.png) no-repeat 0% 50%; }
 
