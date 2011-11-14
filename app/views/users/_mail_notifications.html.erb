@@ -4,8 +4,9 @@
                                       :onchange => 'if (this.value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
 </p>
 <% content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
-<p><% @user.projects.each do |project| %>
-    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
+<p><% project_tree(@user.projects.each) do |project,level| %>
+    <% name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '') %>
+    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%= name_prefix + h(project.name) %></label><br />
 <% end %></p>
 <p><em><%= l(:text_user_mail_option) %></em></p>
 <% end %>
