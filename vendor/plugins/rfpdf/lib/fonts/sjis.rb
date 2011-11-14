@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('sjis') do |font|
   font[:type]='Type0';
   font[:name]='KozMinPro-Regular-Acro';

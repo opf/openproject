@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -17,6 +18,10 @@ class AdminController < ApplicationController
   before_filter :require_admin
 
   include SortHelper
+
+  menu_item :projects, :only => [:projects]
+  menu_item :plugins, :only => [:plugins]
+  menu_item :info, :only => [:info]
 
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?

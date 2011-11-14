@@ -35,7 +35,8 @@
           <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>
-	<% end -%>
+  <%= call_hook(:issue_list_group_bottom, :current_issue => issue, :issues => issues, :query => @query, :group => group) %>
+  <% end -%>
 	</tbody>
 </table>
 </div>

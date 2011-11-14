@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: entry.rb 123 2006-05-18 03:52:38Z blackhedd $
 #
 # LDAP Entry (search-result) support classes

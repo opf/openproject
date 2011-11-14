@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -69,7 +70,7 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
 
     unless User.current.admin?
-      if !@user.active? || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
         render_404
         return
       end

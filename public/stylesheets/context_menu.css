@@ -47,6 +47,5 @@
 #context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
 
 /* selected element */
-.context-menu-selection { background-color:#507AAA !important; color:#f8f8f8 !important; }
-.context-menu-selection a, .context-menu-selection a:hover { color:#f8f8f8 !important; }
-.context-menu-selection:hover { background-color:#507AAA !important; color:#f8f8f8  !important; }
+.context-menu-selection { background-color:#507AAA !important; color:#000 !important; }
+.context-menu-selection:hover { background-color:#507AAA !important; color:#000  !important; }

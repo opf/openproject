@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -112,7 +113,7 @@ ActionController::Routing::Routes.draw do |map|
     issues.resources :time_entries, :controller => 'timelog'
   end
 
-  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post } do |issues|
+  map.resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post, :all => :get } do |issues|
     issues.resources :time_entries, :controller => 'timelog'
   end
 

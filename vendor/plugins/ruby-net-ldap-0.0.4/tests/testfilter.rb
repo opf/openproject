@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: testfilter.rb 122 2006-05-15 20:03:56Z blackhedd $
 #
 #

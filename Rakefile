@@ -5,6 +5,13 @@ require(File.join(File.dirname(__FILE__), 'config', 'boot'))
 
 require 'rake'
 require 'rake/testtask'
-require 'rdoc/task'
+
+begin
+  # loading task with rake >= 0.9
+  require 'rdoc/task'
+rescue LoadError
+  # loading task with rake < 0.9
+  require 'rake/rdoctask'
+end
 
 require 'tasks/rails'

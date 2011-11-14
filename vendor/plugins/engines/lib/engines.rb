@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require 'active_support'
 require File.join(File.dirname(__FILE__), 'engines/plugin')
 require File.join(File.dirname(__FILE__), 'engines/plugin/list')

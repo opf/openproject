@@ -1,0 +1,48 @@
+/* These will be included for IE6 & IE7 */
+
+.title-bar h2 {
+	height:21px;	
+}
+td.dropdown {
+	z-index:50;
+	position:relative;
+}
+
+body .title-bar-extras {
+	overflow:hidden;
+}
+
+#main-menu, .title-bar {
+	z-index:4;
+}
+.title-bar .button-large ul {
+	z-index:15;
+}
+form.tooltip-active {
+	z-index:14;
+}
+#main-menu li li a span {
+	position:absolute;
+	right:0;
+	top:0;
+	display:block;
+}
+#main-menu li li li a span {
+	right:10px;
+}
+
+body .file-thumbs a {
+	max-width:150px;
+}
+
+#watchers {
+	position:relative;
+	z-index:5;
+}
+div.attachments {
+	position:relative;
+	z-index:4;
+}
+fieldset.collapsible.header_collapsible legend {
+  margin-left:-15px;
+}

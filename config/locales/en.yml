@@ -660,6 +660,7 @@ en:
   label_roadmap_overdue: "%{value} late"
   label_roadmap_no_issues: No issues for this version
   label_search: Search
+  search_input_placeholder: search ...
   label_result_plural: Results
   label_all_words: All words
   label_wiki: Wiki
@@ -817,6 +818,7 @@ en:
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   label_enable_multi_select: Toggle multiselect
+  label_deleted_custom_field: '(deleted custom field)'
 
   button_login: Login
   button_submit: Submit
@@ -891,7 +893,7 @@ en:
   text_tip_issue_begin_day: issue beginning this day
   text_tip_issue_end_day: issue ending this day
   text_tip_issue_begin_end_day: issue beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."

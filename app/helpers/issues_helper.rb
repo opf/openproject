@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -51,13 +52,14 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}"
   end
 
+  # TODO: deprecate and/or remove
   def render_issue_subject_with_tree(issue)
     s = ''
     ancestors = issue.root? ? [] : issue.ancestors.all
     ancestors.each do |ancestor|
-      s << '<div>' + content_tag('p', link_to_issue(ancestor))
+      s << '<div>' + content_tag('h2', link_to_issue(ancestor))
     end
-    s << '<div>' + content_tag('h3', h(issue.subject))
+    s << '<div class="subject">' + content_tag('h2', h(issue.subject))
     s << '</div>' * (ancestors.size + 1)
     s
   end

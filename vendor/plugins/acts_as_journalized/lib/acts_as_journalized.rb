@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -31,6 +32,10 @@ module Redmine
       end
 
       module ClassMethods
+        attr_writer :journal_class_name
+        def journal_class_name
+          defined?(@journal_class_name) ? @journal_class_name : superclass.journal_class_name
+        end
 
         def plural_name
           self.name.underscore.pluralize
@@ -54,6 +59,8 @@ module Redmine
         def acts_as_journalized(options = {}, &block)
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
+          self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
+
           acts_as_activity(activity_hash)
 
           return if journaled?
@@ -76,13 +83,13 @@ module Redmine
 
           (journal_hash[:except] ||= []) << self.primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
+
           prepare_journaled_options(journal_hash)
-          has_many :journals, journal_hash.merge({:class_name => journal_class.name,
-            :foreign_key => "journaled_id"}), &block
+
+          has_many :journals, journal_hash, &block
         end
 
         def journal_class
-          journal_class_name = "#{name.gsub("::", "_")}Journal"
           if Object.const_defined?(journal_class_name)
             Object.const_get(journal_class_name)
           else

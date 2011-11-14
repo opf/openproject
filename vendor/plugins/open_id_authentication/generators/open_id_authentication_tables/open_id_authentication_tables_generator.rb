@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class OpenIdAuthenticationTablesGenerator < Rails::Generator::NamedBase
   def initialize(runtime_args, runtime_options = {})
     super

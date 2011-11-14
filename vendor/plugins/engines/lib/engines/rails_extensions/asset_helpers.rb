@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # The engines plugin makes it trivial to share public assets using plugins. 
 # To do this, include an <tt>assets</tt> directory within your plugin, and put
 # your javascripts, stylesheets and images in subdirectories of that folder:

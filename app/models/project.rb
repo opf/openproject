@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -27,7 +28,7 @@ class Project < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status=#{User::STATUS_ACTIVE} OR #{Principal.table_name}.status=#{User::STATUS_REGISTERED}))"
   has_many :users, :through => :members
   has_many :principals, :through => :member_principals, :source => :principal
 
@@ -57,7 +58,7 @@ class Project < ActiveRecord::Base
                      :delete_permission => :manage_files
 
   acts_as_customizable
-  acts_as_searchable :columns => ['name', 'identifier', 'description'], :project_key => 'id', :permission => nil
+  acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
                 :author => nil
@@ -442,7 +443,14 @@ class Project < ActiveRecord::Base
 
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
-    description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
+    case
+    when summary.present?
+      summary
+    when description.present?
+      description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip
+    else
+      ""
+    end
   end
 
   def css_classes
@@ -526,6 +534,7 @@ class Project < ActiveRecord::Base
 
   safe_attributes 'name',
     'description',
+    'summary',
     'homepage',
     'is_public',
     'identifier',

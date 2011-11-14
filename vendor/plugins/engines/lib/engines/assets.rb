@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 module Engines
   module Assets    
     class << self      

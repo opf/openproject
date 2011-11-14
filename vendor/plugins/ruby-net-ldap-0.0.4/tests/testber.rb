@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: testber.rb 57 2006-04-18 00:18:48Z blackhedd $
 #
 #

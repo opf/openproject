@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 class NotifyMail < ActionMailer::Base
 
   helper :mail

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # Information
 # 
 # PDF_EPS class from Valentin Schmidt ported to ruby by Thiago Jackiw (tjackiw@gmail.com) 

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 class ChangesTest < Test::Unit::TestCase

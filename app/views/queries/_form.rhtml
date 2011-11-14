@@ -5,6 +5,7 @@
 <div class="tabular">
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
+<%= call_hook(:view_query_form_top, :query => query) %>
 
 <% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
 <p><label for="query_is_public"><%=l(:field_is_public)%></label>
@@ -30,7 +31,7 @@
 
 <fieldset><legend><%= l(:label_sort) %></legend>
 <% 3.times do |i| %>
-<%= i+1 %>: 
+<%= i+1 %>:
 <%= label_tag "query_sort_criteria_attribute_" + i.to_s, l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
 <%= select_tag("query[sort_criteria][#{i}][]", options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i)), :id => "query_sort_criteria_attribute_" + i.to_s)%>
 <%= label_tag "query_sort_criteria_direction_" + i.to_s, l(:description_query_sort_criteria_direction), :class => "hidden-for-sighted" %>

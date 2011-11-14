@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -426,21 +427,6 @@ class ProjectsControllerTest < ActionController::TestCase
     post :unarchive, :id => 1
     assert_redirected_to '/admin/projects'
     assert Project.find(1).active?
-  end
-
-  def test_project_breadcrumbs_should_be_limited_to_3_ancestors
-    CustomField.delete_all
-    parent = nil
-    6.times do |i|
-      p = Project.create!(:name => "Breadcrumbs #{i}", :identifier => "breadcrumbs-#{i}")
-      p.set_parent!(parent)
-      get :show, :id => p
-      assert_tag :h1, :parent => { :attributes => {:id => 'header'}},
-                      :children => { :count => [i, 3].min,
-                                     :only => { :tag => 'a' } }
-
-      parent = p
-    end
   end
 
   def test_copy_with_project

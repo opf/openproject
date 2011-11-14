@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -41,9 +42,7 @@ class RedmineTest < ActiveSupport::TestCase
   end
 
   def test_account_menu
-    assert_number_of_items_in_menu :account_menu, 4
-    assert_menu_contains_item_named :account_menu, :login
-    assert_menu_contains_item_named :account_menu, :register
+    assert_number_of_items_in_menu :account_menu, 2
     assert_menu_contains_item_named :account_menu, :my_account
     assert_menu_contains_item_named :account_menu, :logout
   end

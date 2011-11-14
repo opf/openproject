@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -21,6 +22,8 @@ class Principal < ActiveRecord::Base
   # Groups and active users
   named_scope :active, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status = 1)"
 
+  named_scope :active_or_registered, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status = 1 OR #{Principal.table_name}.status = 2))"
+  
   named_scope :like, lambda {|q|
     s = "%#{q.to_s.strip.downcase}%"
     {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
@@ -32,6 +35,10 @@ class Principal < ActiveRecord::Base
 
   def name(formatter = nil)
     to_s
+  end
+
+  def self.possible_members(criteria, limit)
+    Principal.active_or_registered.like(criteria).find(:all, :limit => limit)
   end
 
   def <=>(principal)

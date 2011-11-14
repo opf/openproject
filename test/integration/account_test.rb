@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -30,6 +31,15 @@ class AccountTest < ActionController::IntegrationTest
     get "my/account"
     assert_response :success
     assert_template "my/account"
+  end
+
+  def test_redirect_after_login
+    target_url =  "/my/account?q=%C3%A4"
+
+    get target_url
+    post "/login", :username => 'jsmith', :password => 'jsmith', :back_url => @response.redirected_to[:back_url]
+
+    assert_redirected_to target_url
   end
 
   def test_autologin

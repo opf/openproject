@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -89,7 +90,7 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    @principals = Principal.active.like(params[:q]).find(:all, :limit => 100) - @project.principals
+    @principals = Principal.possible_members(params[:q], 100) - @project.principals
     render :layout => false
   end
 

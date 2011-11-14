@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 TCPDFFontDescriptor.define('verab') do |font|
   font[:type]='TrueTypeUnicode';
   font[:name]='BitstreamVeraSans-Bold';

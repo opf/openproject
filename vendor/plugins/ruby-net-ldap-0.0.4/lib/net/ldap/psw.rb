@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: psw.rb 73 2006-04-24 21:59:35Z blackhedd $
 #
 #

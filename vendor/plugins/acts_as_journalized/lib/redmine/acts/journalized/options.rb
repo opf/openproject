@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -62,11 +63,12 @@ module Redmine::Acts::Journalized
         options.symbolize_keys!
         options.reverse_merge!(Configuration.options)
         options.reverse_merge!(
-          :class_name => 'Journal',
-          :dependent => :delete_all
+          :class_name => journal_class_name,
+          :dependent => :delete_all,
+          :foreign_key => "journaled_id"
         )
         options.reverse_merge!(
-          :order => "#{options[:class_name].constantize.table_name}.version ASC"
+          :order => "#{journal_class.table_name}.version ASC"
         )
 
         class_inheritable_accessor :vestal_journals_options

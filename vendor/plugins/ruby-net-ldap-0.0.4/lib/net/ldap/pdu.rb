@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # $Id: pdu.rb 126 2006-05-31 15:55:16Z blackhedd $
 #
 # LDAP PDU support classes

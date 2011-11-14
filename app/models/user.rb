@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -50,6 +51,7 @@ class User < Principal
 
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
+  named_scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
 
   acts_as_customizable
 

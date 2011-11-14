@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -11,64 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :default_order
-  include Redmine::I18n
-
-  def initialize(name, options={})
-    self.name = name
-    self.sortable = options[:sortable]
-    self.groupable = options[:groupable] || false
-    if groupable == true
-      self.groupable = name.to_s
-    end
-    self.default_order = options[:default_order]
-    @caption_key = options[:caption] || "field_#{name}"
-  end
-
-  def caption
-    l(@caption_key)
-  end
-
-  # Returns true if the column is sortable, otherwise false
-  def sortable?
-    !sortable.nil?
-  end
-
-  def value(issue)
-    issue.send name
-  end
-end
-
-class QueryCustomFieldColumn < QueryColumn
-
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statement || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statement
-    end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-
-  def caption
-    @cf.name
-  end
-
-  def custom_field
-    @cf
-  end
-
-  def value(issue)
-    cv = issue.custom_values.detect {|v| v.custom_field_id == @cf.id}
-    cv && @cf.cast_value(cv.value)
-  end
-end
-
 class Query < ActiveRecord::Base
-  class StatementInvalid < ::ActiveRecord::StatementInvalid
-  end
 
   belongs_to :project
   belongs_to :user
@@ -518,7 +462,7 @@ class Query < ActiveRecord::Base
   def issue_count
     Issue.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    raise Query::StatementInvalid.new(e.message)
   end
 
   # Returns the issue count by group or nil if query is not grouped
@@ -538,7 +482,7 @@ class Query < ActiveRecord::Base
     end
     r
   rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    raise Query::StatementInvalid.new(e.message)
   end
 
   # Returns the issues
@@ -553,7 +497,7 @@ class Query < ActiveRecord::Base
                      :limit  => options[:limit],
                      :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    raise Query::StatementInvalid.new(e.message)
   end
 
   # Returns the journals
@@ -565,7 +509,7 @@ class Query < ActiveRecord::Base
                        :limit => options[:limit],
                        :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    raise Query::StatementInvalid.new(e.message)
   end
 
   # Returns the versions
@@ -574,7 +518,7 @@ class Query < ActiveRecord::Base
     Version.find :all, :include => :project,
                        :conditions => Query.merge_conditions(project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    raise Query::StatementInvalid.new(e.message)
   end
 
   private

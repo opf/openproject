@@ -7,76 +7,129 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
+<%= stylesheet_link_tag 'reset', :media => 'all' %>
+<%= stylesheet_link_tag 'smoothness/jquery-ui', :media => 'all' %>
 <%= stylesheet_link_tag 'application', :media => 'all' %>
+<%= stylesheet_link_tag 'print', :media => 'print' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+<!--[if lte IE 6]><%= stylesheet_link_tag 'ie6', :media => 'all' %><![endif]-->
+<!--[if lte IE 7]><%= stylesheet_link_tag 'ie7', :media => 'all' %><![endif]-->
+<!--[if gte IE 8]><![endif]-->
+
+<%= javascript_include_tag 'jquery.min.js' %>
+<%= javascript_include_tag 'jquery-ui.min.js' %>
+<%= javascript_include_tag 'jquery.menu_expand.js' %>
+<%= javascript_include_tag 'chosen.js'%>
+<%= stylesheet_link_tag 'chosen'%>
+<%= javascript_tag('jQuery.noConflict();') %>
 <%= javascript_heads %>
+<%= stylesheet_link_tag 'jstoolbar' %>
 <%= heads_for_theme %>
-<!--[if IE 6]>
-    <style type="text/css">
-      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
-      body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
-    </style>
-<![endif]-->
+<% heads_for_wiki_formatter %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
 <body class="<%=h body_css_classes %>">
 <div id="wrapper">
-<div id="wrapper2">
-<div id="top-menu">
-    <div id="account">
-        <%= render_menu :account_menu -%>
-    </div>
-    <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
-    <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
-</div>
-
-<div id="header">
-    <% if User.current.logged? || !Setting.login_required? %>
-    <div id="quick-search">
-        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-        <label for='q'>
-          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
-        </label>
-        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+  <div id="top-menu">
+    <div id="header">
+      <div id="logo"></div>
+      <div id="top-menu-items">
+      <div id="search">
+        <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
+        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get) do %>
+          <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+          <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
         <% end %>
-        <%= render_project_jump_box %>
+      </div>
+
+      <ul id="account-nav">
+        <% main_top_menu_items.each do |item| %>
+            <%= render_menu_node(item) %>
+        <% end %>
+        <% if !Project.visible.empty? and (User.current.logged? or !Setting.login_required?) %>
+          <li class="drop-down">
+            <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
+            <ul style="display:none;">
+                <li><%= link_to "View all Projects", :controller => 'projects', :action => 'index' %></li>
+                <li><%= render_project_jump_box Project.visible, :id => "project-search", :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %></li>
+            </ul>
+          </li>
+        <% end %>
+        <% unless (items = more_top_menu_items).empty? %>
+          <li class="drop-down" id="more-menu">
+            <a class="more" href="#">Modules</a>
+            <ul style="display:none;">
+              <% items.each do |item| %>
+              <%= render_menu_node(item) %>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+          <%= render_menu_node(help_menu_item) %>
+            <li class="drop-down last-child">
+          <% unless User.current.logged? %>
+              <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
+              <!-- IE7 Fix - extra div needed for slideToggle animation -->
+                <ul>
+                <%= render :partial => 'account/login' %>
+                </ul>
+          <% else %>
+            <%= link_to_user(User.current) %>
+            <ul style="display:none;">
+            <% menu_items_for(:account_menu) do |item| %>
+              <%= render_menu_node(item) %>
+            <% end %>
+          </ul>
+          <% end %>
+          </li>
+      </ul>
     </div>
+    </div>
+    <div id="breadcrumb">
+      <%= page_header_title %>
+    </div>
+  </div>
+      
+  <% main_menu = render_main_menu(@project) %>
+  <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
+  <% display_sidebar = true %>
+  <% else %>
+  <% display_sidebar = false %>
+  <% end %>
+  <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
+    <% if (side_displayed) %>
+      <div id="main-menu">
+        <%= main_menu %>
+        <%= yield :main_menu %>
+      <% if display_sidebar %>
+        <!-- Sidebar -->
+        <div id="sidebar">        
+          <%= yield :sidebar %>
+          <%= call_hook :view_layouts_base_sidebar %>
+        </div>
+      <% end %>
+      </div>
+
+      <%= expand_current_menu %>
     <% end %>
-
-    <h1><%= page_header_title %></h1>
-
-    <% if display_main_menu?(@project) %>
-    <div id="main-menu">
-        <%= render_main_menu(@project) %>
+    <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
+      <%= render_flash_messages %>
+      <%= yield %>
+      <%= call_hook :view_layouts_base_content %>
+      <div style="clear:both;">&nbsp;</div>
     </div>
-    <% end %>
-</div>
+  </div>
 
-<%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar">
-        <%= yield :sidebar %>
-        <%= call_hook :view_layouts_base_sidebar %>
-    </div>
+  <div id="footer">
+    <div class="bgl"><div class="bgr">
+        <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>
+      </div></div>
+  </div>
 
-    <div id="content">
-				<%= render_flash_messages %>
-        <%= yield %>
-        <%= call_hook :view_layouts_base_content %>
-				<div style="clear:both;"></div>
-    </div>
-</div>
+  <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 
-<div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-
-<div id="footer">
-  <div class="bgl"><div class="bgr">
-    <%= l(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) %>
-  </div></div>
-</div>
-</div>
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>

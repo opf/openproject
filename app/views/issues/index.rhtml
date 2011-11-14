@@ -1,23 +1,29 @@
+<div class="title-bar">
+
+<h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
+
+<div class="title-bar-extras">
+
 <div class="contextual">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
 	<%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
 	<%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 <% end %>
+<%= render :partial => 'queries/new_issue_button' %>
 </div>
 
-<h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : h(@query.name)) %>
 
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content" class="hide-when-print">
-    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
+    	<div class="filter-fields" style="<%= @query.new_record? ? "" : "display: none;" %>">
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
-    <fieldset class="collapsible collapsed">
+    <fieldset id="column_options" class="header_collapsible collapsible collapsed">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     	<div style="display: none;">
     		<table>
@@ -30,6 +36,7 @@
 						<td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
 					</tr>
 				</table>
+      <%= call_hook(:view_issue_query_form_options_bottom, :query => @query) %>
 			</div>
 		</fieldset>
 		</div>
@@ -54,6 +61,9 @@
     <% end %>
     </p>
 <% end %>
+
+</div><!-- .title-bar-extras -->
+</div><!-- .title-bar -->
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>

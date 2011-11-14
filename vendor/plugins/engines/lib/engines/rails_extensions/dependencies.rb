@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 # One of the magic features that that engines plugin provides is the ability to
 # override selected methods in controllers and helpers from your application.
 # This is achieved by trapping requests to load those files, and then mixing in
