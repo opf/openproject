@@ -26,7 +26,7 @@
 <% end %>
 <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
 <p><%= f.password_field :password, :required => true, :size => 25, :autocomplete => :off %><br />
-<em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
+<%= password_complexity_requirements %></p>
 <p><%= f.password_field :password_confirmation, :required => true, :size => 25, :autocomplete => :off %></p>
 </div>
 </div>

@@ -1016,4 +1016,9 @@ module ApplicationHelper
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end
+  
+  def password_complexity_requirements
+    "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
+  end
+  
 end
