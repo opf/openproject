@@ -36,6 +36,7 @@
 						<td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
 					</tr>
 				</table>
+      <%= call_hook(:view_issue_query_form_options_bottom, :query => @query) %>
 			</div>
 		</fieldset>
 		</div>

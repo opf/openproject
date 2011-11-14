@@ -25,6 +25,8 @@ class IssuesController < ApplicationController
   before_filter :find_optional_project, :only => [:index, :all]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
+  before_filter :retrieve_query, :only => :index
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
@@ -50,8 +52,7 @@ class IssuesController < ApplicationController
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
 
   def index
-    retrieve_query
-    sort_init(@query.sort_criteria.empty? ? [['parent', 'desc']] : @query.sort_criteria)
+    sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
 
     if @query.valid?
