@@ -422,6 +422,23 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
+  context "description" do
+    setup do
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
+    end
+
+    def test_short_description_returns_shortened_description
+      @project.summary = ""
+      assert_equal (("Abcd " * 5 + "\n") * 10)[0..-2] + "...", @project.short_description
+    end
+
+    def test_short_description_returns_summary
+      @project.summary = "In short"
+      assert_equal "In short", @project.short_description
+    end
+  end
+
   context "#rolled_up_versions" do
     setup do
       @project = Project.generate!
