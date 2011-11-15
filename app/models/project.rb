@@ -616,7 +616,7 @@ class Project < ActiveRecord::Base
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
-      yield project, ancestors.size
+      yield project, ancestors.size if block_given?
       ancestors << project
     end
   end
