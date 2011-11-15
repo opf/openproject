@@ -13,7 +13,7 @@
     <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
     <td class="buttons">
     	<%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %>
-    	<%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :method => :post, :class => 'icon icon-del' %>
+      <%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :method => :post, :class => 'icon icon-del', :confirm => l(:text_are_you_sure) %>
     </td>
 	</tr>
 	<% end %>
