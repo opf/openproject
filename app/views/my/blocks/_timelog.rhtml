@@ -42,7 +42,7 @@ entries_by_day = entries.group_by(&:spent_on)
         <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => entry},
                                              :confirm => l(:text_are_you_sure),
                                              :method => :delete,
-                                             :alt => l(:button_delete)
+                                             :alt => l(:button_delete),
                                              :title => l(:button_delete) %>
     <% end -%>
     </td>
