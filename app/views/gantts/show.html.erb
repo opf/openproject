@@ -4,7 +4,7 @@
 <% form_tag(gantt_path(:month => params[:month], :year => params[:year], :months => params[:months]), :method => :put, :id => 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project%>
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-  <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+  <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
 	<div style="<%= @query.new_record? ? "" : "display: none;" %>">
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
