@@ -1,0 +1,4 @@
+= 1.0.0 - 2011-11-16 - Intial Release
+
+This Plugin adds features, that enable agile teams to work efficiently with
+ChiliProject in Scrum projects.
