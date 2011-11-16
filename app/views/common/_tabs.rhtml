@@ -3,10 +3,11 @@
 <div class="tabs">
   <ul>
   <% tabs.each do |tab| -%>
-    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+    <li><%= (tab[:name] == selected_tab  ? "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>" : "") +
+    link_to(l(tab[:label]), { :tab => tab[:name] },
                                     :id => "tab-#{tab[:name]}",
                                     :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
+                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;") %></li>
   <% end -%>
   </ul>
   <div class="tabs-buttons" style="display:none;">

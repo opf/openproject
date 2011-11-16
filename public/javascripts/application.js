@@ -119,6 +119,7 @@ function showTab(name) {
 	}
 	Element.show('tab-content-' + name);
 	Element.addClassName('tab-' + name, "selected");
+        Element.insert('tab-' + name, {before: $$('div.tabs .hidden-for-sighted')[0]})
 	return false;
 }
 
