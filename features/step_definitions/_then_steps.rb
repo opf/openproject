@@ -109,7 +109,7 @@ end
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
   version = Version.find_by_name(version_name)
   actual_story = Issue.find_by_subject_and_fixed_version_id(subject, version)
-  Then %%I should see "#{actual_story.id}" within ".story:nth-child(#{position}) .id div.t"%
+  step %%I should see "#{actual_story.id}" within ".story:nth-child(#{position}) .id div.t"%
 end
 
 Then /^all positions should be unique within versions$/ do
@@ -214,19 +214,19 @@ Then /^(issue|task|story) (.+) should have (.+) set to (.+)$/ do |type, subject,
 end
 
 Then /^the error alert should show "(.+?)"$/ do |msg|
-  Then %Q{I should see "#{msg}" within "#msgBox"}
+  step %Q{I should see "#{msg}" within "#msgBox"}
 end
 
 Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
   version = Version.find_by_name(sprint_name)
 
-  Then %Q{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
+  step %Q{I should see "#{date}" within "div#sprint_#{version.id} div.start_date"}
 end
 
 Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_name|
   story = Story.find_by_subject(story_name)
 
-  Then %{I should see "#{task_name}" within "tr.story_#{story.id}"}
+  step %{I should see "#{task_name}" within "tr.story_#{story.id}"}
 end
 
 Then /^the (?:issue|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
@@ -243,7 +243,7 @@ Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
 end
 
 Then /^I should be notified that the issue "(.+?)" is an invalid parent to the issue "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
-  Then %Q{I should see "#{I18n.t(:field_parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
+  step %Q{I should see "#{I18n.t(:field_parent_issue)} is invalid because the issue '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
 end
 
 Then /^"([^"]*)" should( not)? be an option for "([^"]*)"(?: within "([^\"]*)")?$/ do |value, negate, field, selector|
@@ -259,8 +259,8 @@ Then /^I should( not)? see the status "([^"]*)" for "([^"]*)" within "([^"]*)"$/
   story_id = Issue.find_by_subject(story_name).id
   selector = "#story_#{story_id} " + selector
   unless negate
-    Then %Q{I should see "#{value}" within "#{selector}"}
+    step %Q{I should see "#{value}" within "#{selector}"}
   else
-    Then %Q{I should not see "#{value}" within "#{selector}"}
+    step %Q{I should not see "#{value}" within "#{selector}"}
   end
 end

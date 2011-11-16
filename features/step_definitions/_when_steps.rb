@@ -120,17 +120,17 @@ end
 
 When /^I follow "(.+?)" within the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
-  When %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
+  step %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
 end
 
 When /^I open the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
-  When %Q{I hover over "#backlog_#{sprint.id} .menu"}
+  step %Q{I hover over "#backlog_#{sprint.id} .menu"}
 end
 
 When /^I close the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
-  When %Q{I stop hovering over "#backlog_#{sprint.id} .menu"}
+  step %Q{I stop hovering over "#backlog_#{sprint.id} .menu"}
 end
 
 When /^I click on the text "(.+?)"$/ do |locator|
@@ -148,19 +148,19 @@ end
 
 When /^I confirm the story form$/ do
   find(:xpath, XPath::HTML.fillable_field("subject")).native.send_key :return
-  When 'I wait for AJAX requests to finish'
-  Then 'I should not see ".saving"'
+  step 'I wait for AJAX requests to finish'
+  step 'I should not see ".saving"'
 end
 
 When /^I fill in the ids of the (tasks|issues|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
   model = Kernel.const_get(model_name.classify)
   ids = subjects.split(/,/).collect { |subject| model.find_by_subject(subject).id }
 
-  When %{I fill in "#{ids.join(", ")}" for "#{field}"}
+  step %{I fill in "#{ids.join(", ")}" for "#{field}"}
 end
 
 When /^I click on the impediment called "(.+?)"$/ do |impediment_name|
-  When %Q{I click on the text "#{impediment_name}"}
+  step %Q{I click on the text "#{impediment_name}"}
 end
 
 When /^I click to add a new task for story "(.+?)"$/ do |story_name|
@@ -172,9 +172,9 @@ end
 When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_name|
   issue = Issue.find_by_subject(issue_name)
 
-  When %Q{I fill in "#{issue.id}" for "issue_parent_issue_id"}
+  step %Q{I fill in "#{issue.id}" for "issue_parent_issue_id"}
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
-  When 'I wait for AJAX requests to finish'
+  step 'I wait for AJAX requests to finish'
 end

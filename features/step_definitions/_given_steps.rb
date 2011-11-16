@@ -81,9 +81,9 @@ end
 Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |project_name|
   project = get_project(project_name)
 
-  Given 'the following trackers are configured to track stories:', Cucumber::Ast::Table.new([['Story'], ['Epic']])
-  Given 'the tracker "Task" is configured to track tasks'
-  Given "the project \"#{project.name}\" uses the following trackers:", Cucumber::Ast::Table.new([['Story', 'Task']])
+  step 'the following trackers are configured to track stories:', Cucumber::Ast::Table.new([['Story'], ['Epic']])
+  step 'the tracker "Task" is configured to track tasks'
+  step "the project \"#{project.name}\" uses the following trackers:", Cucumber::Ast::Table.new([['Story', 'Task']])
 end
 
 Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
@@ -132,9 +132,9 @@ end
 
 Given /^the [pP]roject(?: "(.+?)")? has the following stories in the following (?:product )?(?:owner )?backlogs:$/ do |project_name, table|
   if project_name
-    Given %Q{the project "#{project_name}" has the following stories in the following sprints:}, table
+    step %Q{the project "#{project_name}" has the following stories in the following sprints:}, table
   else
-    Given "the project has the following stories in the following sprints:", table
+    step "the project has the following stories in the following sprints:", table
   end
 end
 
@@ -239,12 +239,12 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following trackers:$/ do |project
 end
 
 Given /^the [pP]roject uses the following modules:$/ do |table|
-  Given %Q{the project "#{get_project}" uses the following modules:}, table
+  step %Q{the project "#{get_project}" uses the following modules:}, table
 end
 
 
 Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
-  Given %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
+  step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
