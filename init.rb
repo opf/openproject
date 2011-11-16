@@ -34,9 +34,13 @@ Redmine::Plugin.register :backlogs do
   name 'ChiliProject Backlogs'
   author 'relaxdiego, friflaj, Gregor Schmidt, Jens Ulferts'
   description 'A plugin for agile teams'
-  version '1.0.0'
 
-  requires_redmine_plugin 'chiliproject_nissue', '0.1.0'
+  url 'http://github.com/finnlabs/chiliproject_backlogs'
+  author_url 'http://www.finn.de/'
+
+  version '1.0.1'
+
+  requires_redmine_plugin 'chiliproject_nissue', '1.0.0'
 
   Redmine::AccessControl.permission(:edit_project).actions << "projects/project_issue_statuses"
   Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"

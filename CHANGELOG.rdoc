@@ -1,4 +1,11 @@
-= 1.0.0 - 2011-11-16 - Intial Release
+= 1.0.1 - 2011-11-16 - Initial Release
+
+== Minor Changes
+
+* Adding links to ChiliProject Plugin configuration.
+* Requiring released version od ChiliProject NIssue Plugin
+
+= 1.0.0 - 2011-11-16 - Initial Release
 
 This Plugin adds features, that enable agile teams to work efficiently with
 ChiliProject in Scrum projects.
