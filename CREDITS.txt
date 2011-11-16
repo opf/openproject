@@ -1,8 +1,0 @@
-Thanks to the following people for their help:
-
-* Mark Maglana - Project maintainer
-* Emiliano Heyns - Project maintainer
-* Guy Naor - Project sponsorship
-* G2iX - Project sponsorship
-* Eric Davis - For the advice on the model patching pattern magic
-* Everyone at Redmine.org - For the pure awesomeness that is Redmine :-)

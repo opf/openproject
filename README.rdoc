@@ -1,0 +1,85 @@
+= ChiliProject Backlogs Plugin
+
+This Plugin adds features, that enable agile teams to work efficiently with
+ChiliProject in Scrum projects.
+
+It is largely based on {Redmine Backlogs}[http://www.redminebacklogs.net/].
+Development was separated from Redmine Backlogs in March 2011. At this time
+Redmine Backlogs v0.3.2 was current. ChiliProject Backlogs is more than just a
+port from Redmine to ChiliProject.
+
+
+== Requirements
+
+This plugin depends on the {ChiliProject NIssue
+Plugin}[https://github.com/finnlabs/chiliproject_nissue]. Make sure, to have a
+current version of that Plugin installed into your ChiliProject.
+
+This plugin requires some additional RubyGems. After you have extracted the
+plugin into `vendor/plugins`, make sure to run `bundle install` to install these
+additional dependencies.
+
+This plugin aims to be compatible with
+
+* ChiliProject 1.x
+* ChiliProject 2.x
+
+If you are running into compatibility issues, please report a bug in the
+project's issue tracker.
+
+
+
+== Installation
+
+Please follow the default {plugin installation instructions for
+ChiliProject}[https://www.chiliproject.org/projects/chiliproject/wiki/Plugin_Install].
+
+If you did not do it already, run the plugin's migrations.
+
+    rake db:migrate:plugin NAME=chiliproject_backlogs RAILS_ENV=production
+
+== Deinstallation
+
+Run the down-migrations to clean up your database.
+
+    rake db:migrate:plugin VERSION=0 NAME=chiliproject_backlogs RAILS_ENV=production
+
+Afterwards simply remove the plugin's directory from your vendor/plugins
+directory.
+
+
+== Development
+
+To run the tests, you will need a current version of our {ChiliProject Dev
+Tools}[https://github.com/finnlabs/redmine-dev-tools]. After running
+
+    bundle install
+
+You should be able to execute the tests with
+
+    rake redmine:rspec:backlogs
+    rake redmine:cucumber:backlogs RAILS_ENV=test
+
+If these instructions are insufficient, please open a ticket in the GitHub issue
+tracker with information, where you are stuck.
+
+
+== Credits
+
+We thank the original maintainers and developers of {Redmine
+Backlogs}[http://www.redminebacklogs.net/] for their immense work on this
+plugin. ChiliProject Backlogs would not have been possible without their
+original contribution.
+
+Additionally, we would like to thank
+
+* Deutsche Telekom AG (opensource@telekom.de) for project sponsorhip
+* Birthe Russmeyer and Niels Lindenthal of finnlabs for their consulting and
+  project management
+
+== Licence
+
+(c) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+(c) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH
+
+This plugin is licensed under the GNU GPL v2. See COPYRIGHT.txt and GPL.txt for details.
