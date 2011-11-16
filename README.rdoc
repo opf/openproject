@@ -33,13 +33,15 @@ ChiliProject version 2.1 and later. You may find the relevant changes at
 
     https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca
 
-Add them to you ChiliProject with
+Add them to your ChiliProject with
 
     curl https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca.patch | git am
 
-or
+if you are running from a git repository or
 
     curl https://github.com/finnlabs/chiliproject/commit/260f4d13f138d69ca23866c5772f54020d171dca.diff | patch -p1
+
+if you are using a tarball installation.
 
 We are currently working on a pull request, to get these changes into the
 ChiliProject core.
