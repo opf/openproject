@@ -1,4 +1,4 @@
-module RedmineBacklogs::List
+module Backlogs::List
   unloadable
 
   def self.included(base)

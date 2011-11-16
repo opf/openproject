@@ -1,4 +1,4 @@
-class RedmineBacklogs::IssueActions < ChiliProject::Nissue::View
+class Backlogs::IssueActions < ChiliProject::Nissue::View
   def initialize(issue)
     @issue = issue
   end

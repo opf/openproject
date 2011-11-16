@@ -1,6 +1,6 @@
 require_dependency 'version'
 
-module RedmineBacklogs::Patches::VersionPatch
+module Backlogs::Patches::VersionPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -36,4 +36,4 @@ module RedmineBacklogs::Patches::VersionPatch
   end
 end
 
-Version.send(:include, RedmineBacklogs::Patches::VersionPatch)
+Version.send(:include, Backlogs::Patches::VersionPatch)

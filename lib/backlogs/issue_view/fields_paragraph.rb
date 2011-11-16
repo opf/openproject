@@ -1,4 +1,4 @@
-class RedmineBacklogs::IssueView::FieldsParagraph < ChiliProject::Nissue::IssueView::FieldsParagraph
+class Backlogs::IssueView::FieldsParagraph < ChiliProject::Nissue::IssueView::FieldsParagraph
   def hook_context(t)
     super.merge(:from => self.class.name)
   end

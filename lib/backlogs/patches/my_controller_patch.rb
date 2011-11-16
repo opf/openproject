@@ -1,6 +1,6 @@
 require_dependency 'my_controller'
 
-module RedmineBacklogs::Patches::MyControllerPatch
+module Backlogs::Patches::MyControllerPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -25,4 +25,4 @@ module RedmineBacklogs::Patches::MyControllerPatch
   end
 end
 
-MyController.send(:include, RedmineBacklogs::Patches::MyControllerPatch)
+MyController.send(:include, Backlogs::Patches::MyControllerPatch)

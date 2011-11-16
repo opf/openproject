@@ -1,6 +1,6 @@
 require_dependency 'issue_status'
 
-module RedmineBacklogs::Patches::IssueStatusPatch
+module Backlogs::Patches::IssueStatusPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -16,4 +16,4 @@ module RedmineBacklogs::Patches::IssueStatusPatch
   end
 end
 
-IssueStatus.send(:include, RedmineBacklogs::Patches::IssueStatusPatch)
+IssueStatus.send(:include, Backlogs::Patches::IssueStatusPatch)

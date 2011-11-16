@@ -1,6 +1,6 @@
 require_dependency 'versions_controller'
 
-module RedmineBacklogs::Patches::VersionsControllerPatch
+module Backlogs::Patches::VersionsControllerPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -15,4 +15,4 @@ module RedmineBacklogs::Patches::VersionsControllerPatch
   end
 end
 
-VersionsController.send(:include, RedmineBacklogs::Patches::VersionsControllerPatch)
+VersionsController.send(:include, Backlogs::Patches::VersionsControllerPatch)

@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'lib/jquery-1.5.1.min.js', :plugin => 'redmine_backlogs' %>
+  <%= javascript_include_tag 'lib/jquery-1.5.1.min.js', :plugin => 'chiliproject_backlogs' %>
   <script type="text/javascript">
     jQuery.noConflict();
 
@@ -48,16 +48,16 @@
   <%= label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>
   <%= select_tag("settings[points_burn_direction]",
                  options_for_select([[l(:label_points_burn_up), 'up'], [l(:label_points_burn_down), 'down']],
-                                    Setting.plugin_redmine_backlogs[:points_burn_direction])) %>
+                                    Setting.plugin_backlogs[:points_burn_direction])) %>
 </p>
 <p>
   <%= label_tag("settings[card_spec]", l(:backlogs_card_specification)) %>
   <%= select_tag("settings[card_spec]",
                  options_for_select(TaskboardCard::PageLayout::LABELS.keys.sort.collect{|label| [label, label]},
-                                    Setting.plugin_redmine_backlogs[:card_spec])) %>
+                                    Setting.plugin_backlogs[:card_spec])) %>
 </p>
 <p>
   <%= label_tag("settings[wiki_template]", l(:backlogs_wiki_template)) %>
   <%= text_field_tag("settings[wiki_template]",
-                     Setting.plugin_redmine_backlogs[:wiki_template]) %>
+                     Setting.plugin_backlogs[:wiki_template]) %>
 </p>

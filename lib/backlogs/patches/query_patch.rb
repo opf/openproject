@@ -1,6 +1,6 @@
 require_dependency 'query'
 
-module RedmineBacklogs::Patches::QueryPatch
+module Backlogs::Patches::QueryPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -111,4 +111,4 @@ module RedmineBacklogs::Patches::QueryPatch
   end
 end
 
-Query.send(:include, RedmineBacklogs::Patches::QueryPatch)
+Query.send(:include, Backlogs::Patches::QueryPatch)

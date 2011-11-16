@@ -248,12 +248,12 @@ Given /the user "(.*?)" is a "(.*?)"/ do |user, role|
 end
 
 Given /^I have selected card label stock (.+)$/ do |stock|
-  settings = Setting.plugin_redmine_backlogs
+  settings = Setting.plugin_backlogs
   settings[:card_spec] = stock
-  Setting.plugin_redmine_backlogs = settings
+  Setting.plugin_backlogs = settings
 
   # If this goes wrong, you are probably missing
-  #   vendor/plugins/redmine_backlogs/config/labels.yml
+  #   vendor/plugins/chiliproject_backlogs/config/labels.yml
   # Run
   #   rake redmine:backlogs:default_labels
   # to get the ones, shipped with the plugin or
@@ -288,7 +288,7 @@ Given /^I have set the content for wiki page (.+) to (.+)$/ do |title, content|
 end
 
 Given /^I have made (.+) the template page for sprint notes/ do |title|
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge({:wiki_template => Wiki.titleize(title)})
+  Setting.plugin_backlogs = Setting.plugin_backlogs.merge({:wiki_template => Wiki.titleize(title)})
 end
 
 Given /^there are no stories in the [pP]roject$/ do
@@ -303,7 +303,7 @@ Given /^the tracker "(.+?)" is configured to track tasks$/ do |tracker_name|
   tracker = Tracker.find_by_name(tracker_name)
   tracker = Factory.create(:tracker, :name => tracker_name) if tracker.blank?
 
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:task_tracker => tracker.id)
+  Setting.plugin_backlogs = Setting.plugin_backlogs.merge(:task_tracker => tracker.id)
 end
 
 Given /^the following trackers are configured to track stories:$/ do |table|
@@ -319,7 +319,7 @@ Given /^the following trackers are configured to track stories:$/ do |table|
   # otherwise the tracker id's from the previous test are still active
   Issue.instance_variable_set(:@backlogs_trackers, nil)
 
-  Setting.plugin_redmine_backlogs = Setting.plugin_redmine_backlogs.merge(:story_trackers => story_trackers.map(&:id))
+  Setting.plugin_backlogs = Setting.plugin_backlogs.merge(:story_trackers => story_trackers.map(&:id))
 end
 
 Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following workflows:$/ do |tracker_name, role_name, table|

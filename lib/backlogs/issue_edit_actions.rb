@@ -1,4 +1,4 @@
-class RedmineBacklogs::IssueEditActions < ChiliProject::Nissue::View
+class Backlogs::IssueEditActions < ChiliProject::Nissue::View
   attr_reader :html_id
 
   def initialize(issue, html_id, form_id)
@@ -11,7 +11,7 @@ class RedmineBacklogs::IssueEditActions < ChiliProject::Nissue::View
     css_class = "watcher_link_#{@issue.id}"
     content_tag(:div, [
         t.link_to_issue_box(l(:button_cancel), @issue, :class => 'icon icon-cancel'),
-        (t.link_to_remote(l(:button_save), 
+        (t.link_to_remote(l(:button_save),
                            { :url => { :controller => 'issue_boxes', :action => 'update', :id => @issue },
                              :method => 'PUT',
                              :update => @html_id,

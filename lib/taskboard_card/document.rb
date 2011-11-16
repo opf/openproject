@@ -24,9 +24,9 @@ module TaskboardCard
     def initialize(lang)
       set_language_if_valid lang
 
-      raise "No label stock selected" unless Setting.plugin_redmine_backlogs[:card_spec]
+      raise "No label stock selected" unless Setting.plugin_backlogs[:card_spec]
       label = PageLayout.selected_label
-      raise "Label stock \"#{Setting.plugin_redmine_backlogs[:card_spec]}\" not found" unless label
+      raise "Label stock \"#{Setting.plugin_backlogs[:card_spec]}\" not found" unless label
 
       label['papersize'].upcase!
 

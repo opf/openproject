@@ -27,7 +27,7 @@ namespace :redmine do
       end
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
-      settings = Setting.plugin_redmine_backlogs
+      settings = Setting.plugin_backlogs
       settings[:points_burn_direction] ||= 'down'
       settings[:wiki_template]         ||= ''
 
@@ -122,13 +122,13 @@ namespace :redmine do
       end
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
-      Setting.plugin_redmine_backlogs = settings
+      Setting.plugin_backlogs = settings
 
       puts "Story and task trackers are now set."
 
       puts "Migrating the database..."
       STDOUT.flush
-      system('rake db:migrate_plugins --trace > redmine_backlogs_install.log')
+      system('rake db:migrate_plugins --trace > backlogs_install.log')
       if $?==0
         puts "done!"
         puts "Installation complete. Please restart Redmine."
@@ -137,7 +137,7 @@ namespace :redmine do
         puts "ERROR!"
         puts "*******************************************************"
         puts " Whoa! An error occurred during database migration."
-        puts " Please see redmine_backlogs_install.log for more info."
+        puts " Please see backlogs_install.log for more info."
         puts "*******************************************************"
       end
     end

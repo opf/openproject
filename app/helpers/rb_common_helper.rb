@@ -126,12 +126,12 @@ module RbCommonHelper
       jsfile.gsub!('jquery.jqplot.js', "jquery.jqplot#{min}.js")
     end
 
-    args.push(:plugin => 'redmine_backlogs')
+    args.push(:plugin => 'chiliproject_backlogs')
     javascript_include_tag *args
   end
 
   def available_story_trackers
-    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_redmine_backlogs[:story_trackers]},
+    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_backlogs[:story_trackers]},
                                   :order => 'position')
 
     trackers &= @project.trackers if @project

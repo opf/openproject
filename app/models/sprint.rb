@@ -50,7 +50,7 @@ class Sprint < Version
     page = project.wiki.find_page(self.wiki_page_title)
     return false if !page
 
-    template = project.wiki.find_page(Setting.plugin_redmine_backlogs[:wiki_template])
+    template = project.wiki.find_page(Setting.plugin_backlogs[:wiki_template])
     return false if template && page.text == template.text
 
     true
@@ -62,7 +62,7 @@ class Sprint < Version
     self.update_attribute(:wiki_page_title, Wiki.titleize(self.name)) if wiki_page_title.blank?
 
     page = project.wiki.find_page(self.wiki_page_title)
-    template = project.wiki.find_page(Setting.plugin_redmine_backlogs[:wiki_template])
+    template = project.wiki.find_page(Setting.plugin_backlogs[:wiki_template])
 
     if template and not page
       page = project.wiki.pages.build(:title => self.wiki_page_title)

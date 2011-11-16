@@ -13,25 +13,25 @@ Dispatcher.to_prepare do
     Issue.safe_attributes "story_points", "remaining_hours", "position"
   end
 
-  require_dependency 'redmine_backlogs/issue_view'
-  require_dependency 'redmine_backlogs/issue_form'
+  require_dependency 'backlogs/issue_view'
+  require_dependency 'backlogs/issue_form'
 
-  require_dependency 'redmine_backlogs/hooks'
+  require_dependency 'backlogs/hooks'
 
-  require_dependency 'redmine_backlogs/patches/issue_patch'
-  require_dependency 'redmine_backlogs/patches/issue_status_patch'
-  require_dependency 'redmine_backlogs/patches/my_controller_patch'
-  require_dependency 'redmine_backlogs/patches/project_patch'
-  require_dependency 'redmine_backlogs/patches/projects_controller_patch'
-  require_dependency 'redmine_backlogs/patches/projects_helper_patch'
-  require_dependency 'redmine_backlogs/patches/query_patch'
-  require_dependency 'redmine_backlogs/patches/user_patch'
-  require_dependency 'redmine_backlogs/patches/version_controller_patch'
-  require_dependency 'redmine_backlogs/patches/version_patch'
+  require_dependency 'backlogs/patches/issue_patch'
+  require_dependency 'backlogs/patches/issue_status_patch'
+  require_dependency 'backlogs/patches/my_controller_patch'
+  require_dependency 'backlogs/patches/project_patch'
+  require_dependency 'backlogs/patches/projects_controller_patch'
+  require_dependency 'backlogs/patches/projects_helper_patch'
+  require_dependency 'backlogs/patches/query_patch'
+  require_dependency 'backlogs/patches/user_patch'
+  require_dependency 'backlogs/patches/version_controller_patch'
+  require_dependency 'backlogs/patches/version_patch'
 end
 
-Redmine::Plugin.register :redmine_backlogs do
-  name 'Redmine Backlogs'
+Redmine::Plugin.register :backlogs do
+  name 'ChiliProject Backlogs'
   author 'relaxdiego, friflaj, Gregor Schmidt, Jens Ulferts'
   description 'A plugin for agile teams'
   version '0.12.3'

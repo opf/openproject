@@ -1,6 +1,6 @@
 require_dependency 'project'
 
-module RedmineBacklogs::Patches::ProjectPatch
+module Backlogs::Patches::ProjectPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -25,4 +25,4 @@ module RedmineBacklogs::Patches::ProjectPatch
   end
 end
 
-Project.send(:include, RedmineBacklogs::Patches::ProjectPatch)
+Project.send(:include, Backlogs::Patches::ProjectPatch)

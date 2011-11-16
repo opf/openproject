@@ -8,7 +8,7 @@
                               'app/task',
                               'app/impediment',
                               'app/burndown',
-                              :plugin => 'redmine_backlogs' %>
+                              :plugin => 'chiliproject_backlogs' %>
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
@@ -16,9 +16,9 @@
                                      :sprint_id => @sprint,
                                      :format => :js) %>
 
-  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
-  <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>
-  <%= stylesheet_link_tag 'taskboard_print.css', :media => 'print', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'taskboard.css', :media => 'print,screen', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'taskboard_print.css', :media => 'print', :plugin => 'chiliproject_backlogs' %>
 <% end %>
 
 <div class="contextual">

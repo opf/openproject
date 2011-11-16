@@ -35,7 +35,7 @@ if (window.RB === null || window.RB === undefined) {
     };
 
 
-    // Object factory for redmine_backlogs
+    // Object factory for chiliproject_backlogs
     Factory = object.create({
 
       initialize: function (objType, el) {

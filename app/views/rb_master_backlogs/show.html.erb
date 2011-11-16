@@ -9,16 +9,16 @@
                              'app/sprint',
                              'app/issue',
                              'app/story',
-                             :plugin => 'redmine_backlogs' %>
+                             :plugin => 'chiliproject_backlogs' %>
 
   <%= javascript_include_tag url_for(:controller => 'rb_server_variables',
                                      :action => 'show',
                                      :project_id => @project,
                                      :format => :js) %>
 
-  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'redmine_backlogs' %>
-  <%= stylesheet_link_tag 'master_backlog.css', :media => 'print,screen', :plugin => 'redmine_backlogs' %>
-  <%= stylesheet_link_tag 'master_backlog_print.css', :media => 'print', :plugin => 'redmine_backlogs' %>
+  <%= stylesheet_link_tag 'jqplot.css', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'master_backlog.css', :media => 'print,screen', :plugin => 'chiliproject_backlogs' %>
+  <%= stylesheet_link_tag 'master_backlog_print.css', :media => 'print', :plugin => 'chiliproject_backlogs' %>
 <% end %>
 
 <div class='contextual'></div>

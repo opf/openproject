@@ -1,6 +1,6 @@
 require_dependency 'projects_controller'
 
-module RedmineBacklogs::Patches::ProjectsControllerPatch
+module Backlogs::Patches::ProjectsControllerPatch
   def self.included(base)
     base.class_eval do
       include InstanceMethods
@@ -45,4 +45,4 @@ module RedmineBacklogs::Patches::ProjectsControllerPatch
   end
 end
 
-ProjectsController.send(:include, RedmineBacklogs::Patches::ProjectsControllerPatch)
+ProjectsController.send(:include, Backlogs::Patches::ProjectsControllerPatch)

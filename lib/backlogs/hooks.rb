@@ -1,4 +1,4 @@
-module RedmineBacklogs::Hooks
+module Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
@@ -35,7 +35,7 @@ module RedmineBacklogs::Hooks
 
     def view_issues_show_details_bottom(context = {})
       return '' unless context[:issue].project.module_enabled? 'backlogs'
-      return '' if context[:from] == 'RedmineBacklogs::IssueView::FieldsParagraph'
+      return '' if context[:from] == 'Backlogs::IssueView::FieldsParagraph'
 
       issue = context[:issue]
 

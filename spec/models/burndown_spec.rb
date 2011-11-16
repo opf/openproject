@@ -40,11 +40,11 @@ describe Burndown do
   let(:issue_resolved) { @status3 ||= Factory.create(:issue_status, :name => "status 3", :is_closed => false) }
 
   before(:each) do
-    Setting.plugin_redmine_backlogs = {:points_burn_direction => "down",
-                                       :wiki_template => "",
-                                       :card_spec => "Sattleford VM-5040",
-                                       :story_trackers => [tracker_feature.id.to_s],
-                                       :task_tracker => tracker_task.id.to_s }
+    Setting.plugin_backlogs = {:points_burn_direction => "down",
+                               :wiki_template => "",
+                               :card_spec => "Sattleford VM-5040",
+                               :story_trackers => [tracker_feature.id.to_s],
+                               :task_tracker => tracker_task.id.to_s }
 
 
     project.save!

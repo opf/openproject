@@ -1,4 +1,4 @@
-class RedmineBacklogs::IssueForm::NotesParagraph < ChiliProject::Nissue::IssueView::DescriptionParagraph
+class Backlogs::IssueForm::NotesParagraph < ChiliProject::Nissue::IssueView::DescriptionParagraph
   def visible?
     true
   end

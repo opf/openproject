@@ -1,6 +1,6 @@
 require_dependency 'issue'
 
-module RedmineBacklogs::Patches::IssuePatch
+module Backlogs::Patches::IssuePatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -26,7 +26,7 @@ module RedmineBacklogs::Patches::IssuePatch
         validate_children(record, attr, value) #not using validates_associated because the errors are not displayed nicely then
       end
 
-      include RedmineBacklogs::List
+      include Backlogs::List
     end
   end
 
@@ -232,4 +232,4 @@ module RedmineBacklogs::Patches::IssuePatch
   end
 end
 
-Issue.send(:include, RedmineBacklogs::Patches::IssuePatch)
+Issue.send(:include, Backlogs::Patches::IssuePatch)

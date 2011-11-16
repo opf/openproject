@@ -1,4 +1,4 @@
-class RedmineBacklogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::IssueView::SubIssuesParagraph
+class Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::IssueView::SubIssuesParagraph
   include IssuesHelper # mainly interested in issue_list helper method
 
   attr_reader :issue

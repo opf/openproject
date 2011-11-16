@@ -235,11 +235,11 @@ describe Issue, "fixed version restricted by an issues parents (if it's a task)"
   before(:each) do
     project.save!
 
-    Setting.plugin_redmine_backlogs  = { :points_burn_direction => "down",
-                                         :wiki_template => "",
-                                         :card_spec => "Sattleford VM-5040",
-                                         :story_trackers => [tracker_feature.id],
-                                         :task_tracker => tracker_task.id.to_s }
+    Setting.plugin_backlogs = {:points_burn_direction => "down",
+                               :wiki_template => "",
+                               :card_spec => "Sattleford VM-5040",
+                               :story_trackers => [tracker_feature.id],
+                               :task_tracker => tracker_task.id.to_s}
 
     # otherwise the tracker id's from the previous test are still active
     Issue.instance_variable_set(:@backlogs_trackers, nil)

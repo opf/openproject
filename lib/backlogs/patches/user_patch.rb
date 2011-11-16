@@ -1,6 +1,6 @@
 require_dependency 'user'
 
-module RedmineBacklogs::Patches::UserPatch
+module Backlogs::Patches::UserPatch
   def self.included(base)
     base.class_eval do
       unloadable
@@ -50,4 +50,4 @@ module RedmineBacklogs::Patches::UserPatch
   end
 end
 
-User.send(:include, RedmineBacklogs::Patches::UserPatch)
+User.send(:include, Backlogs::Patches::UserPatch)

@@ -1,6 +1,6 @@
 require_dependency 'projects_helper'
 
-module RedmineBacklogs::Patches::ProjectsHelperPatch
+module Backlogs::Patches::ProjectsHelperPatch
   def self.included(base)
     base.module_eval do
       def project_settings_tabs_with_backlogs_settings
@@ -21,4 +21,4 @@ module RedmineBacklogs::Patches::ProjectsHelperPatch
   end
 end
 
-ProjectsHelper.send(:include, RedmineBacklogs::Patches::ProjectsHelperPatch)
+ProjectsHelper.send(:include, Backlogs::Patches::ProjectsHelperPatch)
