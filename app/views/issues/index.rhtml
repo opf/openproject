@@ -18,13 +18,13 @@
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content" class="hide-when-print">
     <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    	<legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
     	<div class="filter-fields" style="<%= @query.new_record? ? "" : "display: none;" %>">
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
     <fieldset id="column_options" class="header_collapsible collapsible collapsed">
-    	<legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    	<legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
     	<div style="display: none;">
     		<table>
     			<tr>

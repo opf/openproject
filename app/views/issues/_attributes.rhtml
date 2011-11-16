@@ -15,8 +15,7 @@
                      l(:label_issue_category_new),
                      'category[name]',
                      {:controller => 'issue_categories', :action => 'new', :project_id => @project},
-                     :title => l(:label_issue_category_new),
-                     :tabindex => 199) if authorize_for('issue_categories', 'new') %></p>
+                     :title => l(:label_issue_category_new)) if authorize_for('issue_categories', 'new') %></p>
 <% end %>
 <% unless @issue.assignable_versions.empty? %>
 <p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %>
@@ -24,8 +23,7 @@
                      l(:label_version_new),
                      'version[name]',
                      {:controller => 'versions', :action => 'create', :project_id => @project},
-                     :title => l(:label_version_new),
-                     :tabindex => 200) if authorize_for('versions', 'new') %>
+                     :title => l(:label_version_new)) if authorize_for('versions', 'new') %>
 </p>
 <% end %>
 </div>

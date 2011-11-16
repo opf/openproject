@@ -5,23 +5,23 @@
 <table>
 <tr>
     <td align="right"><label for="username"><%=l(:field_login)%>:</label></td>
-    <td align="left"><%= text_field_tag 'username', nil, :tabindex => '2' %></td>
+    <td align="left"><%= text_field_tag 'username', nil %></td>
 </tr>
 <tr>
     <td align="right"><label for="password"><%=l(:field_password)%>:</label></td>
-    <td align="left"><%= password_field_tag 'password', nil, :tabindex => '2' %></td>
+    <td align="left"><%= password_field_tag 'password', nil %></td>
 </tr>
 <% if Setting.openid? %>
 <tr>
   <td align="right"><label for="openid_url"><%=l(:field_identity_url)%></label></td>
-  <td align="left"><%= text_field_tag "openid_url", nil, :tabindex => '3' %></td>
+  <td align="left"><%= text_field_tag "openid_url", nil %></td>
 </tr>
 <% end %>
 <tr>
     <td></td>
     <td align="left">
         <% if Setting.autologin? %>
-        <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
+        <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
         <% end %>
     </td>
 </tr>
@@ -32,7 +32,7 @@
         <% end %>
     </td>
     <td align="right">
-        <input type="submit" name="login" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
+        <input type="submit" name="login" value="<%=l(:button_login)%> &#187;"/>
     </td>
 </tr>
 </table>

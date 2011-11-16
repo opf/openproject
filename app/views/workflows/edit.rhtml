@@ -28,7 +28,7 @@
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
 
       <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
-        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_author) %></legend>
+        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a></legend>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
           <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
         </div>
@@ -36,7 +36,7 @@
       <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
 
       <fieldset class="collapsible" style="padding: 0;">
-        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_assignee) %></legend>
+        <legend onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a></legend>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
       <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
         </div>
