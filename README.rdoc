@@ -51,7 +51,8 @@ directory.
 == Development
 
 To run the tests, you will need a current version of our {ChiliProject Dev
-Tools}[https://github.com/finnlabs/redmine-dev-tools]. After running
+Tools}[https://github.com/finnlabs/redmine-dev-tools] and {ChiliProject
+Cucumber}[https://github.com/finnlabs/chiliproject_cucumber]. After running
 
     bundle install
 
