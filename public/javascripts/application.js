@@ -534,6 +534,9 @@ jQuery(document).ready(function($) {
                     input.focus();
                   }, 100);
               }
+              else {
+                $(this).find("li > a:first").focus();
+              }
             });
             
             return false;
