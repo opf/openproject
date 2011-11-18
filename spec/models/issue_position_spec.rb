@@ -98,8 +98,8 @@ describe Issue do
         issue_2.fixed_version = sprint_2
         issue_2.save!
 
-        sprint_1.fixed_issues.should == [issue_1, issue_3, issue_4, issue_5]
-        sprint_1.fixed_issues.each(&:reload).map(&:position).should == [1, 2, 3, 4]
+        sprint_1.fixed_issues.all(:order => 'id').should == [issue_1, issue_3, issue_4, issue_5]
+        sprint_1.fixed_issues.all(:order => 'id').each(&:reload).map(&:position).should == [1, 2, 3, 4]
       end
     end
 
