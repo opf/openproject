@@ -97,7 +97,7 @@ class Burndown
       end
 
       def details_by_property(story)
-        details = story.journals[1..-1].map do |journal|
+        details = story.journals.all(:order => "version")[1..-1].map do |journal|
           journal.changes.map do |prop_key, change|
             if collect_names.include?(prop_key) || out_names.include?(prop_key)
               JournalDetail.new(prop_key, change.first, change.last, journal)
@@ -121,7 +121,8 @@ class Burndown
                                             " AND #{ tracker_id_query }",
                                             sprint.id, sprint.id, sprint.id,
                                             project.id, project.id, project.id,
-                                            collected_trackers])
+                                            collected_trackers],
+                            :order => "#{Issue.table_name}.id")
 
         stories.delete_if do |s|
           s.fixed_version_id != sprint.id and
