@@ -115,7 +115,7 @@ class Burndown
         trackers_string = "(#{collected_trackers.map{|i| "(#{i})"}.join("|")})"
         tracker_id_query = "(issues.tracker_id in (?) OR journals.changes LIKE '%tracker_id: - #{trackers_string} - [0-9]+%' OR journals.changes LIKE '%tracker_id: - [0-9]+ - #{trackers_string}%')"
 
-        stories = Issue.all(:include => :journals,
+        stories = Issue.all(:include    => :journals,
                             :conditions => ["#{ fixed_version_query }" +
                                             " AND #{ project_id_query }" +
                                             " AND #{ tracker_id_query }",
