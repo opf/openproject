@@ -69,7 +69,7 @@ describe Version do
 
       version.rebuild_positions(project)
 
-      issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'position ASC, id ASC')
+      issues = version.fixed_issues.find(:all, :conditions => {:project_id => project}, :order => 'COALESCE(position, 0) ASC, id ASC')
 
       issues.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
       issues.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
