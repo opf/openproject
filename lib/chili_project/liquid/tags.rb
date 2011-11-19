@@ -23,10 +23,9 @@ module ChiliProject::Liquid
       end
     end
 
-    # TODO: reimplement old macros as tags and register them here
     register_tag('child_pages', ChildPages, :html => true)
     register_tag('hello_world', HelloWorld)
-    # include
+    register_tag('include', Include, :html => true)
     register_tag('tag_list', TagList, :html => true)
     register_tag('variable_list', VariableList, :html => true)
   end
@@ -36,3 +35,4 @@ end
 # existing pages to the new syntax.
 ChiliProject::Liquid::Legacy.add('child_pages', :tag)
 ChiliProject::Liquid::Legacy.add('hello_world', :tag)
+ChiliProject::Liquid::Legacy.add('include', :tag)
