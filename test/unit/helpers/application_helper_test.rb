@@ -593,7 +593,7 @@ RAW
 
 h1. Included
 
-{{include(Child_1)}}
+{% include 'Child_1' %}
 RAW
 
     expected = '<ul class="toc">' +
