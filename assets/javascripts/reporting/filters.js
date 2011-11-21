@@ -114,11 +114,12 @@ Reporting.Filters = {
     if (on_complete === undefined) {
       on_complete = function() { };
     }
+    // do this immediately instead of in callback to avoid concurrency issues during testing
+    Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
     Reporting.Filters.show_filter(field, { slowly: true, callback_func: function() {
         if (activate_dependent) {
           Reporting.Filters.activate_dependents($(field + "_arg_1_val"));
         }
-        Reporting.Filters.select_option_enabled($("add_filter_select"), filter_name, false);
         on_complete();
       }
     });
