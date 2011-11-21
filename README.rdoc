@@ -43,8 +43,14 @@ if you are running from a git repository or
 
 if you are using a tarball installation.
 
-We are currently working on a pull request, to get these changes into the
-ChiliProject core.
+We have submitted a pull request to ChiliProject and we hope, it will be part of
+the next ChiliProject releases. You may track the progress by watching [#708 in
+ChiliProject]{https://www.chiliproject.org/issues/708}.
+
+== Supported Databases
+
+Backlogs should run on PostgreSQL and MySQL databases. SQLite is not tested. It
+is likely to break.
 
 
 == Installation
