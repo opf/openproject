@@ -1,4 +1,15 @@
-= 1.0.1 - 2011-11-16 - Initial Release
+= 1.0.2 - 2011-11-21
+
+== Minor Changes
+
+* Removing unneccesary migrations
+* Added information about the needed core patch
+
+== Bug fixes
+
+* Fixing tests on Postgres
+
+= 1.0.1 - 2011-11-16
 
 == Minor Changes
 
