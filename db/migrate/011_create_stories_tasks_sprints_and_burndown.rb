@@ -17,10 +17,6 @@ class CreateStoriesTasksSprintsAndBurndown < ActiveRecord::Migration
     end
 
     add_index :burndown_days, :version_id
-
-    # RM core started needing this... I'm not agreeing, but I need to
-    # get the migration working
-    execute "update issues set start_date = NULL where due_date < start_date"
   end
 
   def self.down
