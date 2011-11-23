@@ -40,7 +40,7 @@ Reporting.GroupBys = {
   },
 
   create_remove_button: function(group_by) {
-    var button = new Element('span', {
+    var button = new Element('button', {
       'class': 'group_by_remove in_row',
       'id': group_by.identify() + '_remove'
     });
