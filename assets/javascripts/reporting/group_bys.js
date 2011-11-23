@@ -45,6 +45,23 @@ Reporting.GroupBys = {
       'id': group_by.identify() + '_remove'
     });
     button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
+    button.observe('keypress', function(e) {
+      var node;
+      if (e.keyCode == Event.KEY_RETURN) {
+        e.preventDefault();
+
+        if (node = group_by.next('span')) {
+          node = node.down('button');
+          if (node) {
+            node.focus();
+          }
+        }
+        else if (node = group_by.next('select')) {
+          node.focus();
+        }
+      }
+      Reporting.GroupBys.remove_group_by(button.up('.group_by_element'))
+    });
     return button;
   },
 
