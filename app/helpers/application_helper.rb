@@ -426,7 +426,7 @@ module ApplicationHelper
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
-    options.reverse_merge!(:builder => TabularFormBuilder, :lang => current_language, :html => {})
+    options.reverse_merge!(:builder => TabularFormBuilder, :html => {})
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
     form_for(record, options, &block)
   end
