@@ -59,8 +59,8 @@ Reporting.GroupBys = {
         else if (node = group_by.next('select')) {
           node.focus();
         }
+      Reporting.GroupBys.remove_group_by(button.up('.group_by_element'));
       }
-      Reporting.GroupBys.remove_group_by(button.up('.group_by_element'))
     });
     return button;
   },
