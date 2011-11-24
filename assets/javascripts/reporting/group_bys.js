@@ -47,7 +47,7 @@ Reporting.GroupBys = {
     button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
     button.observe('keypress', function(e) {
       var node;
-      if (e.keyCode == Event.KEY_RETURN) {
+      if (e.keyCode == Event.KEY_RETURN || e.keyCode == 32) {
         e.preventDefault();
 
         if (node = group_by.next('span')) {
