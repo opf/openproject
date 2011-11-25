@@ -864,6 +864,7 @@ en:
   button_quote: Quote
   button_duplicate: Duplicate
   button_show: Show
+  button_remove_widget: Remove widget
 
   status_active: active
   status_registered: registered
