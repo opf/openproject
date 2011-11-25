@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
-  before_filter :set_impaired_flag, :if => :check_if_login_required
+  before_filter :check_for_first_login, :if => :check_if_login_required
 
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
@@ -491,7 +491,7 @@ class ApplicationController < ActionController::Base
     render options
   end
 
-  def set_impaired_flag
+  def check_for_first_login
     user = User.current
     return true if (!user.first_login or !user.logged?)
     user.first_login = false
