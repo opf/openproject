@@ -960,26 +960,26 @@ bg:
   field_effective_date:  Дата
   text_default_encoding: "По подразбиране: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  label_notify_member_plural: Email issue updates
+  label_notify_member_plural: Изпращане на e-mail при промени в задачите
   label_path_encoding: Кодиране на пътищата
   text_mercurial_repo_example: локално хранилище (например /hgrepo, c:\hgrepo)
   label_diff: diff
-  setting_issue_startdate_is_adddate: Use current date as start date for new issues
-  description_search: Searchfield
-  description_user_mail_notification: Mail notification settings
-  description_date_range_list: Choose range from list
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_message_content: Message content
-  description_wiki_subpages_reassign: Choose new parent page
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_project_scope: Search scope
-  description_issue_category_reassign: Choose issue category
-  description_query_sort_criteria_direction: Sort direction
-  description_notes: Notes
-  description_filter: Filter
-  description_choose_project: Projects
-  description_date_from: Enter start date
-  label_deleted_custom_field: (deleted custom field)
+  setting_issue_startdate_is_adddate: Използване на текущата дата като начална дата за нови задачи
+  description_search: Търсене
+  description_user_mail_notification: Конфигурация известията по пощата
+  description_date_range_list: Изберете диапазон от списъка
+  description_date_to: Въведете крайна дата
+  description_query_sort_criteria_attribute: Атрибут на сортиране
+  description_message_content: Съдържание на съобщението
+  description_wiki_subpages_reassign: Изберете нова родителска страница
+  description_available_columns: Налични колони
+  description_selected_columns: Избрани колони
+  description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
+  description_project_scope: Обхват на търсенето
+  description_issue_category_reassign: Изберете категория
+  description_query_sort_criteria_direction: Посока на сортиране
+  description_notes: Бележки
+  description_filter: Филтър
+  description_choose_project: Проекти
+  description_date_from: Въведете начална дата
+  label_deleted_custom_field: (изтрито потребителско поле)
