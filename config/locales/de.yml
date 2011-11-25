@@ -800,6 +800,7 @@ de:
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
   label_deleted_custom_field: '(gelöschtes benutzerdefiniertes Feld)'
+  label_table_of_contents: Inhaltsverzeichnis
 
   button_login: Anmelden
   button_submit: OK

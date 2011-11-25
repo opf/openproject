@@ -723,7 +723,7 @@ module ApplicationHelper
         div_class = 'toc'
         div_class << ' right' if $1 == '>'
         div_class << ' left' if $1 == '<'
-        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'></legend><div>"
+        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'>#{l(:label_table_of_content)}</legend><div>"
         out << "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
         current = root

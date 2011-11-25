@@ -306,7 +306,7 @@ fieldset.collapsible.header_collapsible legend {
     padding-left:0px;
     width:100%;
     height:23px;
-    line-height:23px;
+    line-height:24px;
     text-indent:8px;
     -moz-border-radius-topleft:5px;
     -moz-border-radius-topright:5px;
@@ -800,6 +800,10 @@ div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: 
 div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li { list-style-type:none; margin: 0;}
 div.wiki ul.toc li li { margin-left: 1.5em; }
+div.wiki fieldset legend {
+  font-weight:bold;
+  font-size:10px;
+}
 
 div.wiki ul.toc a {
     font-weight: normal;
@@ -1844,7 +1848,7 @@ table.files {
 	display:block;
 }
 #content blockquote, .wiki ol, .wiki ul {
-	padding-left:40px;
+	padding-left:9px;
 }
 .wiki p {
 	margin-bottom:5px;
