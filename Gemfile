@@ -18,6 +18,10 @@ group :test do
   platforms :mri_19, :mingw_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
 end
 
+group :ldap do
+  gem "net-ldap", '~> 0.2.2'
+end
+
 group :openid do
   gem "ruby-openid", '~> 2.1.4', :require => 'openid'
 end
