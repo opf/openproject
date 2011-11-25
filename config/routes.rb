@@ -126,6 +126,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.with_options :controller => 'users' do |users|
     users.connect 'users/:id/edit/:tab', :action => 'edit', :tab => nil, :conditions => {:method => :get}
+    users.connect 'users/:id/set_impaired_flag', :action => 'set_impaired_flag'
 
     users.with_options :conditions => {:method => :post} do |user_actions|
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'

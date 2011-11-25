@@ -996,3 +996,7 @@ en:
   description_compare_to: Compare to version
   description_active: Active?
   description_current_position: "You are here:"
+
+  text_impaired_information: "Chiliproject offers a slightly different User Interface for visually/motorically impaired Users"
+  label_impaired_checkbox: "Check to use adjusted Chiliproject Interface"
+  label_impaired_settings: Impairment Settings

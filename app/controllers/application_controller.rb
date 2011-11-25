@@ -63,6 +63,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
+  before_filter :set_impaired_flag, :if => :check_if_login_required
+
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -281,7 +283,12 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_default(default)
-    back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
+    redirect_to default unless redirect_back
+    false
+  end
+
+  def redirect_back
+    back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank?
       begin
         uri = URI.parse(back_url)
@@ -291,10 +298,9 @@ class ApplicationController < ActionController::Base
           return
         end
       rescue URI::InvalidURIError
-        # redirect to default
+        # don't do anything
       end
     end
-    redirect_to default
     false
   end
 
@@ -483,6 +489,25 @@ class ApplicationController < ActionController::Base
       end
     )
     render options
+  end
+
+  def set_impaired_flag
+    user = User.current
+    return true if (!user.first_login or !user.logged?)
+    user.first_login = false
+    user.save
+    if request.get?
+      url = url_for(params)
+    else
+      url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+    end
+    respond_to do |format|
+      format.html { redirect_to :controller => "users", :action => "set_impaired_flag", :id => User.current, :back_url => url }
+      format.atom { redirect_to :controller => "users", :action => "set_impaired_flag", :id => User.current, :back_url => url }
+      format.xml { head :unauthorized }
+      format.json { head :unauthorized }
+    end
+    false
   end
 
   # Overrides #default_template so that the api template
