@@ -1,5 +1,4 @@
 <div class="contextual">
-<%= link_to(l(:button_change_password), :action => 'password') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 <h2><%=l(:label_my_account)%></h2>
