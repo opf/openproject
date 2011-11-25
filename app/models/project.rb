@@ -83,6 +83,10 @@ class Project < ActiveRecord::Base
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
+  def to_liquid
+    ProjectDrop.new(self)
+  end
+
   def initialize(attributes = nil)
     super
 
@@ -129,6 +133,11 @@ class Project < ActiveRecord::Base
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
+  end
+
+  # Is the project visible to the current user
+  def visible?
+    User.current.allowed_to?(:view_project, self)
   end
 
   def self.allowed_to_condition(user, permission, options={})

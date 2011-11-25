@@ -16,7 +16,6 @@ require 'forwardable'
 require 'cgi'
 
 module ApplicationHelper
-  include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
   include GravatarHelper::PublicMethods
 
@@ -461,7 +460,29 @@ module ApplicationHelper
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
+    begin
+      ChiliProject::Liquid::Legacy.run_macros(text)
+      liquid_template = ChiliProject::Liquid::Template.parse(text)
+      liquid_variables = get_view_instance_variables_for_liquid
+      liquid_variables.merge!({'current_user' => User.current})
+      liquid_variables.merge!({'toc' => '{{toc}}'}) # Pass toc through to replace later
+      liquid_variables.merge!(ChiliProject::Liquid::Variables.macro_backwards_compatibility)
+
+      # Pass :view in a register so this view (with helpers) can be used inside of a tag
+      text = liquid_template.render(liquid_variables, :registers => {:view => self, :object => obj, :attribute => attr})
+
+      # Add Liquid errors to the log
+      if Rails.logger && Rails.logger.debug?
+        msg = ""
+        liquid_template.errors.each do |exception|
+          msg << "[Liquid Error] #{exception.message}\n:\n#{exception.backtrace.join("\n")}"
+          msg << "\n\n"
+        end
+        Rails.logger.debug msg
+      end
+    rescue Liquid::SyntaxError
+      # Skip Liquid if there is a syntax error
+    end
 
     @parsed_headings = []
     text = parse_non_pre_blocks(text) do |text|
@@ -940,7 +961,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'projects' && params[:action] == 'changelog'
@@ -959,7 +980,7 @@ module ApplicationHelper
         params[:controller]
       end
 
-    
+
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
@@ -1006,4 +1027,23 @@ module ApplicationHelper
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end
+
+  def get_view_instance_variables_for_liquid
+    self.instance_variables.reject do |ivar|
+      ivar.match(/@_/) || # Rails "internal" variables: @_foo
+        ivar.match(/@template/) ||
+        ivar == '@output_buffer' ||
+        ivar == '@cookies' ||
+        ivar == '@helpers' ||
+        ivar == '@real_format' ||
+        ivar == '@assigns_added' ||
+        ivar == '@assigns' ||
+        ivar == '@view_paths' ||
+        ivar == '@controller'
+    end.inject({}) do |acc,ivar|
+      acc[ivar.sub('@','')] = instance_variable_get(ivar)
+      acc
+    end
+  end
+
 end

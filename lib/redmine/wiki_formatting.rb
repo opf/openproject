@@ -41,7 +41,7 @@ module Redmine
       end
 
       def to_html(format, text, options = {}, &block)
-        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute])
+        if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute])
           # Text retrieved from the cache store may be frozen
           # We need to dup it so we can do in-place substitutions with gsub!
           cache_store.fetch cache_key do
@@ -50,10 +50,6 @@ module Redmine
         else
           formatter_for(format).new(text).to_html
         end
-        if block_given?
-          execute_macros(text, block)
-        end
-        text
       end
 
       # Returns a cache key for the given text +format+, +object+ and +attribute+ or nil if no caching should be done
@@ -66,33 +62,6 @@ module Redmine
       # Returns the cache store used to cache HTML output
       def cache_store
         ActionController::Base.cache_store
-      end
-
-      MACROS_RE = /
-                    (!)?                        # escaping
-                    (
-                    \{\{                        # opening tag
-                    ([\w]+)                     # macro name
-                    (\(([^\}]*)\))?             # optional arguments
-                    \}\}                        # closing tag
-                    )
-                  /x unless const_defined?(:MACROS_RE)
-
-      # Macros substitution
-      def execute_macros(text, macros_runner)
-        text.gsub!(MACROS_RE) do
-          esc, all, macro = $1, $2, $3.downcase
-          args = ($5 || '').split(',').each(&:strip)
-          if esc.nil?
-            begin
-              macros_runner.call(macro, args)
-            rescue => e
-              "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
-            end || all
-          else
-            all
-          end
-        end
       end
     end
   end

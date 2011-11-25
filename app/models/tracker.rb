@@ -35,6 +35,10 @@ class Tracker < ActiveRecord::Base
     name <=> tracker.name
   end
 
+  def to_liquid
+    TrackerDrop.new(self)
+  end
+
   def self.all
     find(:all, :order => 'position')
   end
