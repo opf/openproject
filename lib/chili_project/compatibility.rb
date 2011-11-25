@@ -28,7 +28,7 @@ module ChiliProject
     #
     # Released: ChiliProject 2.5.0
     def self.using_jquery?
-      false
+      true
     end
   end
 end
