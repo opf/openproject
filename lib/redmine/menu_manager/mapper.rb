@@ -99,3 +99,21 @@ class Redmine::MenuManager::Mapper
     end
   end
 end
+
+class Redmine::MenuManager::MapDeferrer
+  def initialize(menu_builder_queue)
+    @menu_builder_queue = menu_builder_queue
+  end
+
+  def defer(method, *args)
+    ActiveSupport::Deprecation.warn "Calling #{method.to_s} and accessing the the menu object from outside of the block attached to the map method is deprecated and will be removed in ChiliProject 3.0. Please access the menu object from within the attached block instead. Please also note the differences between the APIs.", caller.drop(1)
+    menu_builder = proc{ |menu_mapper| menu_mapper.send(method, *args) }
+    @menu_builder_queue.push(menu_builder)
+  end
+
+  [:push, :delete, :exists?, :find, :position_of].each do |method|
+    define_method method do |*args|
+      defer(method, *args)
+    end
+  end
+end
