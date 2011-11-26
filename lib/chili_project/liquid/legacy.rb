@@ -22,11 +22,12 @@ module ChiliProject
       def self.run_macros(content)
         macros.each do |macro_name, macro|
           next unless macro[:match].present? && macro[:replace].present?
-          content.gsub!(macro[:match]) do |match|
+          content = content.gsub(macro[:match]) do |match|
             # Use block form so $1 and $2 are set properly
             "{#{macro[:replace]} #{macro[:new_name]} '#{$2}' #{macro[:replace]}}"
           end
         end
+        content
       end
 
       # Add support for a legacy macro syntax that was converted to liquid
