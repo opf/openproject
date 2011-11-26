@@ -30,5 +30,12 @@ module ChiliProject
     def self.using_jquery?
       true
     end
+
+    # Is Liquid markup available?
+    #
+    # Released: ChiliProject 3.0.0
+    def self.using_liquid?
+      true
+    end
   end
 end
