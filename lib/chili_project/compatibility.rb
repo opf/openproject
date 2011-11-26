@@ -30,5 +30,10 @@ module ChiliProject
     def self.using_jquery?
       false
     end
+
+    # Catch-all to be overwritten be future compatibility checks.
+    def self.method_missing(method, *args)
+      method.to_s.ends_with?('?') ? false : super
+    end
   end
 end
