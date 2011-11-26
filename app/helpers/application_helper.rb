@@ -1029,17 +1029,14 @@ module ApplicationHelper
   end
 
   def get_view_instance_variables_for_liquid
-    self.instance_variables.reject do |ivar|
-      ivar.match(/@_/) || # Rails "internal" variables: @_foo
-        ivar.match(/@template/) ||
-        ivar == '@output_buffer' ||
-        ivar == '@cookies' ||
-        ivar == '@helpers' ||
-        ivar == '@real_format' ||
-        ivar == '@assigns_added' ||
-        ivar == '@assigns' ||
-        ivar == '@view_paths' ||
-        ivar == '@controller'
+    internal_variables = %w{
+      @output_buffer @cookies @helpers @real_format @assigns_added @assigns
+      @view_paths @controller
+    }
+   self.instance_variables.collect(&:to_s).reject do |ivar|
+      ivar.match(/^@_/) || # Rails "internal" variables: @_foo
+      ivar.match(/^@template/) ||
+      internal_variables.include?(ivar)
     end.inject({}) do |acc,ivar|
       acc[ivar.sub('@','')] = instance_variable_get(ivar)
       acc
