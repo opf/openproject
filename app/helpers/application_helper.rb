@@ -413,7 +413,7 @@ module ApplicationHelper
       title = []
       title << h(@project.name) if @project
       title += @html_title if @html_title
-      title << Setting.app_title
+      title << h(Setting.app_title)
       title.select {|t| !t.blank? }.join(' - ')
     else
       @html_title ||= []
