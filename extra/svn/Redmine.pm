@@ -438,10 +438,12 @@ sub is_member {
 
   my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
 
+  my $access_mode = request_is_read_only($r) ? "R" : "W";
+
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
   my $usrprojpass;
   if ($cfg->{RedmineCacheCredsMax}) {
-    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id);
+    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id.":".$access_mode);
     return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
   }
   my $query = $cfg->{RedmineQuery};
@@ -485,10 +487,10 @@ sub is_member {
 
   if ($cfg->{RedmineCacheCredsMax} and $ret) {
     if (defined $usrprojpass) {
-      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id.":".$access_mode, $pass_digest);
     } else {
       if ($cfg->{RedmineCacheCredsCount} < $cfg->{RedmineCacheCredsMax}) {
-        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id.":".$access_mode, $pass_digest);
         $cfg->{RedmineCacheCredsCount}++;
       } else {
         $cfg->{RedmineCacheCreds}->clear();
