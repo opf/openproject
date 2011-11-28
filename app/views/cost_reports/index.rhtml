@@ -1,6 +1,7 @@
 <% content_for :header_tags do %>
   <%= javascript_include_tag "reporting", :plugin => "reporting_engine" %>
   <%= javascript_include_tag "sortable", :plugin => "reporting_engine" %>
+  <%= javascript_include_tag("reporting/lang/reporting-#{current_language.to_s.downcase}.js", :plugin => "reporting_engine") %>
   <%= stylesheet_link_tag 'reporting', :plugin => 'reporting_engine' %>
   <%= stylesheet_link_tag 'help', :plugin => 'reporting_engine' %>
 <% end %>
