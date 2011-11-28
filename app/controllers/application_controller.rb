@@ -283,7 +283,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_default(default)
-    redirect_to default unless redirect_back
+    redirect_to default unless (redirect_back != false)
     false
   end
 
