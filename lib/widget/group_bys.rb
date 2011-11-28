@@ -15,7 +15,7 @@ class Widget::GroupBys < Widget::Base
   def render_group_caption(type)
     content_tag :span do
       out = content_tag :span, :class => 'in_row group_by_caption' do
-        l("label_#{type}".to_sym) # :label_rows, :label_columns
+        content_tag(:h3, l("label_#{type}".to_sym), :class => 'reporting_formatting group_by_caption') # :label_rows, :label_columns
       end
       out += content_tag :span, :class => 'arrow in_row arrow_group_by_caption' do
         '' #cannot use tag here as it would generate <span ... /> which leads to wrong interpretation in most browsers

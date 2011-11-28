@@ -320,6 +320,17 @@ fieldset#filter-settings table td > label {
   background-color: #009999 !important;
 }
 
+/* Overwrite normal h3 definition - a h-tag is needed for accessibility purposes */
+h3.reporting_formatting {
+  font-size:11px;
+  font-weight:normal;
+  margin:0px;
+  padding:0px;
+  color:#333;
+  border:0px;
+  font-family: Arial,Geneva,Helvetica,sans-serif;
+}
+
 /* have #content here to overwrite line-heigth of other themes through being more specific*/
 #content .group_by_caption {
   color: #FFFFFF;
