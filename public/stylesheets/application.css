@@ -2228,7 +2228,7 @@ ul.projects div.root a.project {
 
 /* sidebar cleanup */
 #sidebar {
-	padding:10px 2px 2px 20px;
+	padding:10px 10px 2px 20px;
         width:auto;
         color:#888888;
 	font-weight:normal;
@@ -2262,7 +2262,7 @@ ul.projects div.root a.project {
 #sidebar input.button-small {
 	margin-top:6px;
 }
-#sidebar ul {border: none; }
+#sidebar ul {border: none; overflow-x: hidden;}
 #sidebar li {border: none; }
 #sidebar li a {padding: 0px; }
 
