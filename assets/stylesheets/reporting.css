@@ -310,7 +310,7 @@ fieldset#filter-settings table td > label {
   width: 8px;
   position: absolute;
   top: 7px;
-  right: 18px;
+  right: 21px;
   cursor: pointer;
   background: no-repeat left center;
   background-image: url(../images/remove.gif);
