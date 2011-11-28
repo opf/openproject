@@ -44,6 +44,9 @@ Reporting.GroupBys = {
       'class': 'group_by_remove in_row',
       'id': group_by.identify() + '_remove'
     });
+    if (Reporting._LA != undefined) {
+      button.setAttribute('title', Reporting._LA["REMOVE"] + ' ' + group_by.down('label').innerHTML);
+    }
     button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
     button.observe('keypress', function(e) {
       var node;
