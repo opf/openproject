@@ -1,0 +1,8 @@
+<% form_tag({:controller => 'my', :action => "first_login", :back_url => @back_url }, {:method => :put}) do %>
+  <h3><%=l(:field_impaired_settings)%></h3>
+  <div class="box tabular">
+    <%= render :partial => "users/impaired_settings" %>
+  </div>
+
+  <%= submit_tag l(:button_save) %>
+<% end %>

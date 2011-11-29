@@ -83,6 +83,20 @@ class MyController < ApplicationController
     end
   end
 
+  def first_login
+    if request.get?
+      @user = User.current
+      @back_url = url_for(params[:back_url])
+
+    elsif request.post? || request.put?
+      User.current.pref.attributes = params[:pref]
+      User.current.pref.save
+
+      flash[:notice] = l(:notice_account_updated)
+      redirect_back_or_default(:controller => 'my', :action => 'page')
+    end
+  end
+
   # Create a new feeds key
   def reset_rss_key
     if request.post?
