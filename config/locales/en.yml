@@ -448,6 +448,7 @@ en:
     other: "%{count} projects"
   label_project_all: All Projects
   label_project_latest: Latest projects
+  label_project_view_all: "View all projects"
   label_issue: Issue
   label_issue_new: New issue
   label_issue_plural: Issues

@@ -52,7 +52,7 @@
           <li class="drop-down">
             <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
             <ul style="display:none;">
-                <li><%= link_to "View all Projects", :controller => 'projects', :action => 'index' %></li>
+                <li><%= link_to l(:label_project_view_all), :controller => 'projects', :action => 'index' %></li>
                 <li><%= render_project_jump_box Project.visible, { :id => "project-search" } %></li>
             </ul>
           </li>
