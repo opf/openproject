@@ -20,6 +20,11 @@
 </div>
 
 <div class="box tabular">
+  <h3><%=l(:field_impaired_settings)%></h3>
+  <%= render :partial => "users/impaired_settings" %>
+</div>
+
+<div class="box tabular">
 <h3><%=l(:label_authentication)%></h3>
 <% unless @auth_sources.empty? %>
 <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %></p>
