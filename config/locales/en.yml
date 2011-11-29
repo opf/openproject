@@ -819,6 +819,7 @@ en:
   label_path_encoding: Path encoding
   label_enable_multi_select: Toggle multiselect
   label_deleted_custom_field: '(deleted custom field)'
+  label_table_of_contents: Table of Contents
 
   button_login: Login
   button_submit: Submit
