@@ -1,4 +1,3 @@
-
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
     write(content_tag :td, :width => 100 do
@@ -9,6 +8,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
                  :name => "operators[#{filter_class.underscore_name}]",
                  :"data-filter-name" => filter_class.underscore_name }
       options.merge! :style => "display: none" if hide_select_box
+
       select_box = content_tag :select, options do
         filter_class.available_operators.collect do |o|
           opts = {:value => h(o.to_s), :"data-arity" => o.arity}
@@ -17,12 +17,13 @@ class Widget::Filters::Operators < Widget::Filters::Base
           content_tag(:option, opts) { h(l(o.label)) }
         end.join.html_safe
       end
+      label1 = content_tag :label, l(:label_operator), :for => "operators[#{filter_class.underscore_name}]", :class => 'hidden-for-sighted'
       label = content_tag :label do
         if filter_class.available_operators.any?
           l(filter_class.available_operators.first.label)
         end
       end
-      hide_select_box ? select_box + label : select_box
+      hide_select_box ? label1 + select_box + label : label1 + select_box
     end)
   end
 end
