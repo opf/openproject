@@ -47,3 +47,9 @@ de:
 
   permission_save_private_cost_reports: "Speichern persönlicher Kostenauswertungen"
   permission_save_cost_reports: "Speichern gemeinsamer Kostenauswertungen"
+
+  description_filter_selection: "Auswahl"
+  label_operator: "Operator"
+  label_filter_text: "Filtertext"
+  description_multi_select: "Mehrfachauswahl anzeigen"
+  description_remove_filter: "Filter entfernen"

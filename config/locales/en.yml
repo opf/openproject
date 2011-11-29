@@ -47,3 +47,9 @@ en:
 
   permission_save_private_cost_reports: "Save private cost reports"
   permission_save_cost_reports: "Save public cost reports"
+
+  description_filter_selection: "Selection"
+  label_operator: "Operator"
+  label_filter_text: "Filter text"
+  description_multi_select: "Show multiselect"
+  description_remove_filter: "Remove Filter"
