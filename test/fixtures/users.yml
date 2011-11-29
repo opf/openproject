@@ -17,7 +17,6 @@ users_004:
   mail_notification: all
   login: rhill
   type: User
-  first_login: false
 users_001:
   created_on: 2006-07-19 19:12:21 +02:00
   status: 1
@@ -36,7 +35,6 @@ users_001:
   mail_notification: all
   login: admin
   type: User
-  first_login: false
 users_002:
   created_on: 2006-07-19 19:32:09 +02:00
   status: 1
@@ -55,7 +53,6 @@ users_002:
   mail_notification: all
   login: jsmith
   type: User
-  first_login: false
 users_003:
   created_on: 2006-07-19 19:33:19 +02:00
   status: 1
@@ -74,7 +71,6 @@ users_003:
   mail_notification: all
   login: dlopper
   type: User
-  first_login: false
 users_005:
   id: 5
   created_on: 2006-07-19 19:33:19 +02:00
@@ -92,7 +88,6 @@ users_005:
   mail_notification: all
   login: dlopper2
   type: User
-  first_login: false
 users_006:
   id: 6
   created_on: 2006-07-19 19:33:19 +02:00
@@ -109,7 +104,6 @@ users_006:
   mail_notification: only_my_events
   login: ''
   type: AnonymousUser
-  first_login: false
 users_007:
   id: 7
   created_on: 2006-07-19 19:33:19 +02:00
@@ -126,7 +120,6 @@ users_007:
   mail_notification: only_my_events
   login: someone
   type: User
-  first_login: false
 users_008:
   id: 8
   created_on: 2006-07-19 19:33:19 +02:00
@@ -143,7 +136,6 @@ users_008:
   mail_notification: only_my_events
   login: miscuser8
   type: User
-  first_login: false
 users_009:
   id: 9
   created_on: 2006-07-19 19:33:19 +02:00
@@ -160,7 +152,6 @@ users_009:
   mail_notification: only_my_events
   login: miscuser9
   type: User
-  first_login: false
 groups_010:
   id: 10
   lastname: A Team

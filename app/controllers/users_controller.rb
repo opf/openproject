@@ -144,7 +144,6 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
     @user.pref.attributes = params[:pref]
-    @user.pref[:impaired] = !!(params[:pref].try(:[], :impaired))
     @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
 
     if @user.save
@@ -209,19 +208,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
-    end
-  end
-
-  def set_impaired_flag
-    user = User.current
-    user.first_login = false
-    if request.get?
-      user.save
-      @back_url = url_for(params[:back_url])
-    elsif request.post? || request.put?
-      user.impaired = !!(params[:pref].try(:[], :impaired))
-      user.save
-      redirect_back
     end
   end
 

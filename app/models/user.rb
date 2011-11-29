@@ -250,20 +250,6 @@ class User < Principal
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
-  def impaired?
-    !!impaired
-  end
-
-  def impaired=(value)
-    @impaired = (self.pref[:impaired] = !!value)
-    self.pref.save
-    @impaired
-  end
-
-  def impaired
-    @impaired ||= (self.pref[:impaired].nil? ? self.pref[:impaired] = false : self.pref[:impaired])
-  end
-
   def wants_comments_in_reverse_order?
     self.pref[:comments_sorting] == 'desc'
   end

@@ -250,13 +250,11 @@ module ApplicationHelper
   def render_project_jump_box(projects = [], html_options = {})
     projects ||= User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
-      impaired = User.current.impaired?
-      option_tags = impaired ? (content_tag :option, l(:label_jump_to_a_project), :value => "") : (content_tag :option, "", :value => "")
-      option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      html_options[:class] ||= ""
-      html_options[:class] << " chzn-select " if !impaired
+        # option_tags = content_tag :option, l(:label_jump_to_a_project), :value => ""
+        option_tags = (content_tag :option, "", :value => "" )
+        option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        end
       select_tag "", option_tags, html_options.merge({ :onchange => "if (this.value != \'\') { window.location = this.value; }" })
     end
   end

@@ -1,7 +1,0 @@
-<% form_tag({ :controller => 'users', :action => "set_impaired_flag", :id => User.current, :back_url => @back_url }, {:method => :put}) do %>
-  <%= render :partial => "users/impaired_flag_description" %>
-  <div class="tabular box">
-    <%= render :partial => "users/impaired_flag_checkbox"%>
-  </div>
-  <%= submit_tag l(:button_save) %>
-<% end %>
