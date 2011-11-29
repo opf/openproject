@@ -12,6 +12,7 @@ class Widget::Filters < Widget::Base
       end
     end
     select = content_tag :div, :id => "add_filter_block" do
+      label = label_tag 'add_filter_select',l(:label_filter_add), :class => 'hidden-for-sighted'
       add_filter = select_tag 'add_filter_select',
           options_for_select([["-- #{l(:label_filter_add)} --",'']] + selectables),
             :class => "select-small",
@@ -19,7 +20,7 @@ class Widget::Filters < Widget::Base
       add_filter += maybe_with_help :icon => { :class => 'filter-icon' },
                                    :tooltip => { :class => 'filter-tip' },
                                    :instant_write => false # help associated with this kind of Widget
-      add_filter.html_safe
+      (label + add_filter).html_safe
     end
     write content_tag(:div, table + select)
   end
