@@ -48,14 +48,23 @@ Reporting.GroupBys = {
     if (Reporting._LA != undefined) {
       button.setAttribute('title', Reporting._LA["REMOVE"] + ' ' + group_by.down('label').innerHTML);
     }
-    button.observe('mousedown', function() { Reporting.GroupBys.remove_group_by(button.up('.group_by_element')) });
+    button.observe('click', function(e) {
+      Reporting.GroupBys.remove_element_event_action(e, group_by, button)
+    });
     button.observe('keypress', function(e) {
-      var node;
-      if (e.keyCode == Event.KEY_RETURN || e.keyCode == 32) {
+      /* keyCode 32: Space */
+      if (e.keyCode == 32) {
         e.preventDefault();
+        Reporting.GroupBys.remove_element_event_action(e, group_by, button)
+      }
+    });
+    return button;
+  },
 
+  remove_element_event_action: function(event, group_by, button) {
+      var node;
         if (node = group_by.next('span')) {
-          node = node.down('button');
+          node = node.down('a');
           if (node) {
             node.focus();
           }
@@ -64,9 +73,6 @@ Reporting.GroupBys = {
           node.focus();
         }
       Reporting.GroupBys.remove_group_by(button.up('.group_by_element'));
-      }
-    });
-    return button;
   },
 
   create_arrow: function(group_by, position) {
