@@ -1,3 +1,8 @@
+<% content_for :main_menu do %>
+	<%= render_menu :my_menu %>
+	<%= expand_current_menu %>
+<% end %>
+
 <h3><%=l(:label_my_account)%></h3>
 
 <p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />

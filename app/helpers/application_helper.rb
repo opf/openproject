@@ -965,7 +965,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'reports'
@@ -982,11 +982,12 @@ module ApplicationHelper
         'settings'
       when params[:controller] == 'contracts' || params[:controller] == 'deliverables'
         'contracts'
+      when params[:controller] == 'my' && params[:action] == 'account'
+        'account'
       else
         params[:controller]
       end
 
-    
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 

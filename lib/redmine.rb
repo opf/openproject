@@ -178,6 +178,11 @@ Redmine::MenuManager.map :application_menu do |menu|
   # Empty
 end
 
+Redmine::MenuManager.map :my_menu do |menu|
+  menu.push :account, {:controller => 'my', :action => 'account'}, :caption => :label_my_account
+  menu.push :password, {:controller => 'my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }
+end
+
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :projects, {:controller => 'admin', :action => 'projects'}, :caption => :label_project_plural
   menu.push :users, {:controller => 'users'}, :caption => :label_user_plural
