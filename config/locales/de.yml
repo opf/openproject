@@ -164,6 +164,7 @@ de:
   notice_account_wrong_password: Falsches Kennwort.
   notice_account_register_done: Konto wurde erfolgreich angelegt.
   notice_account_unknown_email: Unbekannter Benutzer.
+  notice_account_update_failed: Konto konnte nicht aktualisiert werden. Bitte besuchen Sie ihre Profilseite und überprüfen Sie die Einstellungen.
   notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
@@ -977,6 +978,9 @@ de:
   field_effective_date: Due date
   label_news_comment_added: Comment added to a news
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
+  field_impaired_settings: "ChiliProject bietet eine optimierte Oberfläche für motorisch- oder seh-behinderte Nutzer"
+  field_impaired: "Angepasste ChiliProject-Oberfläche benutzen"
+
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
   text_default_encoding: "Default: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)

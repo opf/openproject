@@ -308,8 +308,8 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  field_impaired_settings: "Chiliproject offers a slightly different User Interface for visually/motorically impaired Users"
-  field_impaired: "Use adjusted Chiliproject Interface"
+  field_impaired_settings: "ChiliProject offers a slightly different User Interface for visually/motorically impaired Users"
+  field_impaired: "Use adjusted ChiliProject Interface"
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
