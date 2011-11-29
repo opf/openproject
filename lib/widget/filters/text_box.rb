@@ -1,8 +1,10 @@
 class Widget::Filters::TextBox < Widget::Filters::Base
   def render
     write(content_tag :td do
+
+      label = content_tag :label, l(:label_filter_text), :for => "#{filter_class.underscore_name}_arg_1_val", :class => 'hidden-for-sighted'
       content_tag :div, :id => "#{filter_class.underscore_name}_arg_1", :class => "filter_values" do
-        text_field_tag("values[#{filter_class.underscore_name}]", "",
+        label + text_field_tag("values[#{filter_class.underscore_name}]", "",
             :size => "6",
             :class => "select-small",
             :id => "#{filter_class.underscore_name}_arg_1_val",
