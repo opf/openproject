@@ -1,4 +1,3 @@
-
 class Widget::Filters::MultiValues < Widget::Filters::Base
 
   def render
@@ -28,14 +27,15 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         end
         select_options.merge! :"data-dependent" => true if filter_class.is_dependent?
         box_content = "".html_safe
-        box = content_tag :select, select_options do
-          render_widget Widget::Filters::Option, filter, :to => box_content unless @options[:lazy]
+        label = label_tag "#{filter_class.underscore_name}_arg_1_val",l(:description_filter_selection), :class => 'hidden-for-sighted'
+        box = content_tag :select, select_options, :id => "#{filter_class.underscore_name}_select_1" do
+            render_widget Widget::Filters::Option, filter, :to => box_content unless @options[:lazy]
         end
-        plus = image_tag 'bullet_toggle_plus.png',
-                  :class => "filter_multi-select",
-                  :style => "vertical-align: bottom;",
-                  :"data-filter-name" => filter_class.underscore_name
-        box + plus
+        plus = content_tag :a, :href => 'javascript:', :class => "filter_multi-select", :"data-filter-name" => filter_class.underscore_name,
+          :title => l(:description_multi_select) do
+          image_tag 'bullet_toggle_plus.png', :style => "vertical-align: bottom;"
+        end
+        label + box + plus
       end
     end)
   end
