@@ -835,6 +835,16 @@ module ApplicationHelper
     hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
   end
 
+  def back_url_to_current_page_hidden_field_tag
+    back_url = params[:back_url]
+    if back_url.present?
+      back_url = back_url.to_s
+    else
+      back_url = url_for(params) if request.get?
+    end
+    hidden_field_tag('back_url', back_url) unless back_url.blank?
+  end
+
   def check_all_links(form_name)
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
     " | " +
