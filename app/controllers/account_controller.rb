@@ -202,7 +202,15 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
-    redirect_back_or_default :controller => 'my', :action => 'page'
+
+    if user.first_login
+      user.update_attribute(:first_login, false)
+
+      redirect_to :controller => "my", :action => "first_login", :back_url => params[:back_url]
+    else
+
+      redirect_back_or_default :controller => 'my', :action => 'page'
+    end
   end
 
   def set_autologin_cookie(user)

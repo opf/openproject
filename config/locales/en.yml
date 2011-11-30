@@ -147,6 +147,7 @@ en:
   notice_account_wrong_password: Wrong password
   notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
   notice_account_unknown_email: Unknown user.
+  notice_account_update_failed: Account setting could not be safed. Please have a look at your account page.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
@@ -307,6 +308,8 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
+  field_impaired_settings: "ChiliProject offers a slightly different User Interface for visually/motorically impaired Users"
+  field_impaired: "Use adjusted ChiliProject Interface"
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

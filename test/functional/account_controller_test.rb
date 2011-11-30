@@ -60,7 +60,7 @@ class AccountControllerTest < ActionController::TestCase
     assert existing_user.save!
 
     post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to '/my/page'
+    assert_redirected_to '/my/first_login'
   end
 
   def test_login_with_invalid_openid_provider

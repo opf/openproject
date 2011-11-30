@@ -1,0 +1,3 @@
+<% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
+  <p><%= pref_fields.check_box :impaired %></p>
+<% end %>
