@@ -1,5 +1,6 @@
 <div id="nav-login-content">
   <% form_tag({:controller => "account", :action=> "login"}) do %>
+    <%= back_url_to_current_page_hidden_field_tag %>
     <table>
       <tr>
         <td><label for="username-pulldown"><%= l(:field_login) %></label></td>
