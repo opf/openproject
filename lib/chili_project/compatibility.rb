@@ -21,5 +21,19 @@ module ChiliProject
       Journal.included_modules.include?(Redmine::Acts::Journalized)
     end
 
+    # Is any jQuery version available on all pages?
+    #
+    # This does not take modifications into account, that may be performed by
+    # plugins.
+    #
+    # Released: ChiliProject 2.5.0
+    def self.using_jquery?
+      false
+    end
+
+    # Catch-all to be overwritten be future compatibility checks.
+    def self.method_missing(method, *args)
+      method.to_s.ends_with?('?') ? false : super
+    end
   end
 end

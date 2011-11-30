@@ -70,6 +70,7 @@ class User < Principal
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
+  validates_inclusion_of :status, :in => [STATUS_ANONYMOUS, STATUS_ACTIVE, STATUS_REGISTERED, STATUS_LOCKED]
 
   named_scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -206,6 +207,11 @@ class User < Principal
   def lock!
     update_attribute(:status, STATUS_LOCKED)
   end
+
+  def deletable?
+    registered? && last_login_on.nil?
+  end
+
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   def check_password?(clear_password)
@@ -525,6 +531,24 @@ class User < Principal
     # Password length validation based on setting
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
+    end
+
+    # Status
+    if !new_record? && status_changed?
+      case status_was
+      when nil
+        # initial setting is always save
+        true
+      when STATUS_ANONYMOUS
+        # never allow a state change of the anonymous user
+        false
+      when STATUS_REGISTERED
+        [STATUS_ACTIVE, STATUS_LOCKED].include? status
+      when STATUS_ACTIVE
+        [STATUS_LOCKED].include? status
+      when STATUS_LOCKED
+        [STATUS_ACTIVE].include? status
+      end || errors.add(:status, :inclusion)
     end
   end
 

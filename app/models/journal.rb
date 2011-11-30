@@ -108,7 +108,7 @@ class Journal < ActiveRecord::Base
   ## => Try the journaled object with the same method and arguments
   ## => On error, call super
   def method_missing(method, *args, &block)
-    return super if attributes[method.to_s]
+    return super if respond_to?(method) || attributes[method.to_s]
     journaled.send(method, *args, &block)
   rescue NoMethodError => e
     e.name == method ? super : raise(e)
