@@ -1,7 +1,7 @@
 <h2 class="page-layout-only"><%=l(:label_issue_tracking)%></h2>
+<h3><%=l(:label_issue_tracking)%></h3>
 <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues overview">
-    <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
       <% for tracker in @trackers %>
         <li><%= link_to h(tracker.name), :controller => 'issues', :action => 'index', :project_id => @project,
