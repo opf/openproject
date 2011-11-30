@@ -452,6 +452,7 @@ de:
     other: "%{count} Projekte"
   label_project_all: Alle Projekte
   label_project_latest: Neueste Projekte
+  label_project_view_all: Alle Projekte anzeigen
   label_issue: Ticket
   label_issue_new: Neues Ticket
   label_issue_plural: Tickets

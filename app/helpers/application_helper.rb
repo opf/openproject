@@ -488,7 +488,7 @@ module ApplicationHelper
 
     @parsed_headings = []
     text = parse_non_pre_blocks(text) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings].each do |method_name|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -527,6 +527,41 @@ module ApplicationHelper
       parsed << "</#{tag}>"
     end
     parsed
+  end
+
+  RELATIVE_LINK_RE = %r{
+    <a
+    (?:
+      (\shref=
+        (?:                         # the href and link
+          (?:'(\/[^>]+?)')|
+          (?:"(\/[^>]+?)")
+        )
+      )|
+      [^>]
+    )*
+    >
+    [^<]*?<\/a>                     # content and closing link tag.
+  }x unless const_defined?(:RELATIVE_LINK_RE)
+
+  def parse_relative_urls(text, project, obj, attr, only_path, options)
+    return if only_path
+    text.gsub!(RELATIVE_LINK_RE) do |m|
+      href, relative_url = $1, $2 || $3
+      next m unless href.present?
+      if defined?(request) && request.present?
+        # we have a request!
+        protocol, host_with_port = request.protocol, request.host_with_port
+      elsif @controller
+        # use the same methods as url_for in the Mailer
+        url_opts = @controller.class.default_url_options
+        next m unless url_opts && url_opts[:protocol] && url_opts[:host]
+        protocol, host_with_port = "#{url_opts[:protocol]}://", url_opts[:host]
+      else
+        next m
+      end
+      m.sub href, " href=\"#{protocol}#{host_with_port}#{relative_url}\""
+    end
   end
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
