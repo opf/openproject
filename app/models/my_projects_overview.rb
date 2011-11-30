@@ -1,4 +1,6 @@
 class MyProjectsOverview < ActiveRecord::Base
+  unloadable
+
   serialize :top, Array
   serialize :left, Array
   serialize :right, Array
