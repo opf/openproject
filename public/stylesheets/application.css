@@ -2372,7 +2372,7 @@ fieldset#filters div.add-filter {
 	border:none;
 }
 .title-bar .contextual {
-	padding:0 140px 0 12px;
+	padding:0 0 0 12px;
 	position:absolute;
 	right:10px;
 	top:0;
