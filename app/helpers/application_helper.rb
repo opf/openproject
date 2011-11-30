@@ -723,7 +723,7 @@ module ApplicationHelper
         div_class = 'toc'
         div_class << ' right' if $1 == '>'
         div_class << ' left' if $1 == '<'
-        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'>#{l(:label_table_of_content)}</legend><div>"
+        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'>#{l(:label_table_of_contents)}</legend><div>"
         out << "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
         current = root
@@ -940,7 +940,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'reports'
@@ -961,7 +961,7 @@ module ApplicationHelper
         params[:controller]
       end
 
-    
+
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
