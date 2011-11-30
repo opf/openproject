@@ -1,5 +1,20 @@
 = ChiliProject changelog
 
+== 2011-11-30 v2.5.0
+
+* Bug #258: Upgrade from ruby-net-ldap to net-ldap gem
+* Bug #554: Failed to migrate from 1.2.0 to 2.1.0 with Ruby 1.9.2
+* Bug #688: doc/CHANGELOG.rdoc is very huge
+* Bug #698: Searching in issue is broken on ruby 1.9
+* Bug #707: Wiki diffs: incompatible character encoding error on Ruby 1.9.2
+* Bug #709: Redmine.pm potential security issue with cache credential enabled and subversion
+* Bug #711: translation missing: en, field_lock_version on issue edit on Ruby 1.9
+* Bug #735: any user can edit time entries via context menu
+* Bug #736: Adding users with a dash "-" in email address is broken sometimes
+* Feature #124: User deletion
+* Feature #706: Add hooks to view projects/index.rhtml
+* Feature #725: Compatibility check for jQuery and Prototype availability
+
 == 2011-10-31 v2.4.0
 
 * Bug #277: News list is missing Avatars
