@@ -634,4 +634,14 @@ jQuery(document).ready(function($) {
         $('#nav-login-content').click(function(event){
              event.stopPropagation();
          });
+
+        jQuery('table.cal div.issue.tooltip').each(function(){
+          var div = $(this);
+          div.find('a').first().focus(function(){
+            div.addClass('hover');
+          });
+          div.find('a').first().blur(function(){
+            div.removeClass('hover');
+          });
+        });
 });

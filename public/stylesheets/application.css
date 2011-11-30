@@ -608,10 +608,12 @@ p.cal.legend span {display:block;}
 
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}
-.tooltip:hover{z-index:25;color:#000;}
+.tooltip.hover, .tooltip:hover {
+  z-index:25;color:#000;
+}
 .tooltip span.tip{display: none; text-align:left;}
 
-div.tooltip:hover span.tip{
+div.tooltip:hover span.tip, div.tooltip.hover span.tip {
 display:block;
 position:absolute;
 top:12px; left:24px; width:270px;
