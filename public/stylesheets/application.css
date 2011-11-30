@@ -54,7 +54,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   z-index: 10;
 }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-html>body #content { min-height: 600px; } 
+html>body #content { min-height: 600px; }
 * html body #content { height: 600px; } /* IE */
 
 #main.nosidebar #sidebar{ display: none; }
@@ -255,7 +255,7 @@ textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
 div.issue {padding:6px; margin-bottom:6px;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
-p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; } 
+p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 
 div.issue div.subject div div { padding-left: 16px; }
@@ -296,9 +296,9 @@ fieldset.collapsible.header_collapsible > div {
   padding-bottom:5px;
 }
 fieldset.collapsible.header_collapsible > * {
-  border-left:1px solid #E6E6E6; 
-  border-right:1px solid #E6E6E6; 
-  border-bottom:1px solid #E6E6E6; 
+  border-left:1px solid #E6E6E6;
+  border-right:1px solid #E6E6E6;
+  border-bottom:1px solid #E6E6E6;
   width:100%;
   }
 fieldset.collapsible.header_collapsible legend {
@@ -363,7 +363,7 @@ div#activity dd span.description, #search-results dd span.description { display:
 div#search-results-counts {float:right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
-  
+
 dt.issue { background-image: url(../images/ticket.png); }
 dt.issue-edit { background-image: url(../images/ticket_edit.png); }
 dt.issue-closed { background-image: url(../images/ticket_checked.png); }
@@ -413,7 +413,7 @@ ul.projects div.root a.project { font-family:"Arial", Arial, sans-serif; font-we
 .my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
 #tracker_project_ids ul { margin: 0;  padding-left: 1em; }
-#tracker_project_ids li { list-style-type:none; } 
+#tracker_project_ids li { list-style-type:none; }
 
 ul.properties {padding:0; font-size: 0.9em; color: #777;}
 ul.properties li {list-style-type:none;}
@@ -427,7 +427,7 @@ ul.properties li span {font-style:italic;}
 
 #workflow_copy_form select { width: 200px; }
 
-textarea#custom_field_possible_values {width: 99%} 
+textarea#custom_field_possible_values {width: 99%}
 
 .pagination {font-size: 90%}
 p.pagination {margin-top:8px;}
@@ -448,7 +448,7 @@ font-weight: bold;
 float: left;
 text-align: right;
 margin-left: -180px; /*width of left column*/
-width: 175px; /*width of labels. Should be smaller than left column to create some right 
+width: 175px; /*width of labels. Should be smaller than left column to create some right
 margin*/
 }
 
@@ -817,7 +817,7 @@ a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
 a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
 
-div.wiki img { vertical-align: middle; } 
+div.wiki img { vertical-align: middle; }
 
 /***** My page layout *****/
 .block-receiver {
@@ -832,6 +832,7 @@ padding: 15px 0 15px 0;
   border: #C4C4C4 solid 1px;
   font-size:11px;
   background: #FFFFFF url(../images/background_widgets.png) repeat-x 0 0;
+  min-height: 65px;
 
   /* Shadow definitions cross browser */
   -moz-box-shadow: 1px 1px 1px #BFBFBF;
@@ -926,7 +927,7 @@ background-image:url('../images/close_hl.png');
 .task.label.project, .task.label.version { font-weight: bold; }
 
 .task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
-.task_done { background:#00c600 url(../images/task_done.png); border: 1px solid #00c600; }  
+.task_done { background:#00c600 url(../images/task_done.png); border: 1px solid #00c600; }
 .task_todo { background:#aaa url(../images/task_todo.png); border: 1px solid #aaa; }
 
 .task_todo.parent { background: #888; border: 1px solid #888; height: 3px;}
@@ -1007,7 +1008,7 @@ padding-bottom: 3px;
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
-img.gravatar { 
+img.gravatar {
 	padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
@@ -1080,7 +1081,7 @@ h2 img { vertical-align:middle; }
  * 06 - Projects Page
  * 07 - Behavior Styles
  * 08 - Reusable classes
- * 09 - New Issue Form 
+ * 09 - New Issue Form
  * 10 - Plugins and misc
  * 11 - Appended from staging
 */
@@ -1128,7 +1129,7 @@ a:hover {
 /*-------------------------------------------------------------------------------
  * =01 - Header
  *
- * This section includes the site logo, main navigation background, and styles 
+ * This section includes the site logo, main navigation background, and styles
  * the header and navigation links.
  ------------------------------------------------------------------------------*/
 
@@ -1979,7 +1980,7 @@ ul.projects li div.root {
 	right:auto;
 	left:0;
 }
-.journal .profile-box ul {	
+.journal .profile-box ul {
 	background-position: 13px top;
 }
 .profile-box ul li {
@@ -2014,7 +2015,7 @@ a.has-thumb img {
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 	border-radius:3px;
-	
+
 }
 a.has-thumb.active {
 	left:-10px;
@@ -2486,7 +2487,7 @@ html > body #content:after {
 	height: 0;
 	clear: both;
 	visibility: hidden;
-	
+
 }
 #content table.files .opt-desc {
 	width:45%;
@@ -2547,7 +2548,7 @@ Additional wiki styles
   display: block;
   margin-top: .5em;
   margin-bottom: .5em;
-  
+
   padding: 4px 4px 4px 34px;
   min-height: 24px;
 }
