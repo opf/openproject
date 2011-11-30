@@ -870,7 +870,7 @@ padding: 15px 0 15px 0;
 
 #content .mypage-box table th {
   border:none;
-  background: white;
+  background: transparent;
   font-weight: bold;
 }
 
