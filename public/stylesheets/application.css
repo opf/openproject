@@ -1287,6 +1287,7 @@ input:-moz-placeholder {
   position:absolute;
   height:auto;
   min-width:200px;
+  max-width:350px;
   left:-1px;
   z-index:20;
   border: 1px solid #b7b7b7;
