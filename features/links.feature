@@ -116,5 +116,5 @@ Feature: Cost Reporting Linkage
     And I am logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
     And I jump to project "Second Project"
-    Then I should see "Second Project" within "#header h1"
-    And I should not see "First Project" within "#header h1"
+    Then I should see "Second Project" within "#breadcrumb, #header h1"
+    And I should not see "First Project" within "#breadcrumb, #header h1"
