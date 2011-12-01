@@ -591,7 +591,7 @@ jQuery(document).ready(function($) {
 		// 1. unbind the current click functions
 		.unbind("click")
 		// 2. wrap each in a span that we'll use for the new click element
-		.wrapInner("<span class='toggle-follow'></span>")
+		.wrapInner("<span class='toggle-follow ellipsis'></span>")
 		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
 		.append("<span class='toggler'></span>")
 		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
