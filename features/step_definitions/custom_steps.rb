@@ -55,10 +55,11 @@ Given /^I set the filter "([^\"]*)" to "([^\"]*)" with the operator "([^\"]*)"$/
     find("[name='values[#{filter}][]']").find("[value='#{value}']").select_option
   rescue Capybara::ElementNotFound
     # we support both using all-values and all-texts parameters
-    When %{I select "#{filter}" from "add_filter_select"}
+    step %{I select "#{filter}" from "add_filter_select"}
+
     filter_id = find_by_id("add_filter_select").value
-    When %{I select "#{operator}" from "operators[#{filter_id}]"}
-    When %{I select "#{value}" from "#{filter_id}_arg_1_val"}
+    step %{I select "#{operator}" from "operators[#{filter_id}]"}
+    step %{I select "#{value}" from "#{filter_id}_arg_1_val"}
   end
 end
 
@@ -69,7 +70,7 @@ end
 
 When /the user with the login "([^\"]*)" should be selected for "([^\"]*)"/ do |login, select_id|
   user_id = User.find_by_login(login).id
-  Then %{"#{user_id}" should be selected for "#{select_id}"}
+  step %{"#{user_id}" should be selected for "#{select_id}"}
 end
 
 When /^I send the query$/ do
