@@ -2612,3 +2612,13 @@ Additional wiki styles
   height:1px;
   overflow:hidden;
 }
+
+/* Cut of text with '...' - working on all major browsers and IE6+
+ * not working for Firefox < 7 */
+.ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+}
