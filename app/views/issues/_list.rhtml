@@ -32,7 +32,12 @@
             <label for="issue<%= issue.id %>" class="hidden-for-sighted"><%= l(:description_select_issue) + '#' + issue.id.to_s %></label>
             <%= check_box_tag("ids[]", issue.id, false, :id => "issue#{issue.id}") %>
           </td>
-          <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+          <td class="id">
+            <% if parent_issue = issue.parent_issue_id %>
+              <span class='hidden-for-sighted'><%=l(:description_subissue) + ' ' + l(:label_issue) + ' #' + parent_issue.to_s %></span>
+            <% end -%>
+            <%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+          </td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>
   <%= call_hook(:issue_list_group_bottom, :current_issue => issue, :issues => issues, :query => @query, :group => group) %>
