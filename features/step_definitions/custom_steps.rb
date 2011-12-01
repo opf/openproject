@@ -64,7 +64,7 @@ end
 
 Given /^I set the filter "([^\"]*)" to the user with the login "([^\"]*)" with the operator "([^\"]*)"$/ do |filter, login, operator|
   user_id = User.find_by_login(login).id
-  Given %{I set the filter "#{filter}" to "#{user_id}" with the operator "#{operator}"}
+  step %{I set the filter "#{filter}" to "#{user_id}" with the operator "#{operator}"}
 end
 
 When /the user with the login "([^\"]*)" should be selected for "([^\"]*)"/ do |login, select_id|
@@ -91,7 +91,7 @@ Then /^(?:|I )should( not)? see "([^\"]*)" in (columns|rows)$/ do |negation, tex
 end
 
 Given /^I group (rows|columns) by "([^\"]*)"/ do |target, group|
-  When %{I select "#{group}" from "add_group_by_#{target}" within "#group_by_#{target}"}
+  step %{I select "#{group}" from "add_group_by_#{target}" within "#group_by_#{target}"}
 end
 
 Given /^I remove "([^\"]*)" from (rows|columns)/ do |group, source|
