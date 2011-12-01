@@ -8,6 +8,7 @@
     <%= link_to(l(:label_overall_spent_time), { :controller => 'time_entries' }) + ' |' if User.current.allowed_to?(:view_time_entries, nil, :global => true) %>
     <%= link_to(l(:label_news_view_all), { :controller => 'news' }) + ' |' if User.current.allowed_to?(:view_news, nil, :global => true) %>
     <%= link_to l(:label_overall_activity), { :controller => 'activities', :action => 'index' }%>
+    <%= call_hook(:view_projects_show_contextual) %>
 </div>
 
 <h2><%=l(:label_project_plural)%></h2>
@@ -15,6 +16,8 @@
 <div class="wiki">
   <%= textilizable Setting.welcome_text %>
 </div>
+
+<%= call_hook(:view_projects_show_top) %>
 
 <%= render_project_hierarchy(@projects)%>
 

@@ -15,7 +15,7 @@
         <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
         </fieldset>
     <% end %>
-    <% if authorize_for('timelog', 'edit') %>
+    <% if User.current.allowed_to?(:log_time, @project) %>
         <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
         <% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
         <div class="splitcontentleft">
@@ -26,7 +26,7 @@
         </div>
         <p><%= time_entry.text_field :comments, :size => 60 %></p>
         <% @time_entry.custom_field_values.each do |value| %>
-        	<p><%= custom_field_tag_with_label :time_entry, value %></p>
+          <p><%= custom_field_tag_with_label :time_entry, value %></p>
         <% end %>
         <% end %>
     </fieldset>

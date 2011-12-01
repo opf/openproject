@@ -396,8 +396,8 @@ class Mailer < ActionMailer::Base
     # if he doesn't want to receive notifications about what he does
     @author ||= User.current
     if @author.pref[:no_self_notified]
-      recipients.delete(@author.mail) if recipients
-      cc.delete(@author.mail) if cc
+      recipients((recipients.is_a?(Array) ? recipients : [recipients]) - [@author.mail]) if recipients.present?
+      cc((cc.is_a?(Array) ? cc : [cc]) - [@author.mail]) if cc.present?
     end
 
     notified_users = [recipients, cc].flatten.compact.uniq

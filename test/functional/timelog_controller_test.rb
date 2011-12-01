@@ -111,6 +111,18 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, t.user_id
   end
 
+  def test_create_without_log_time_permission_should_be_denied
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :log_time
+    post :create, :project_id => 1,
+                :time_entry => {:activity_id => '11',
+                                :issue_id => '',
+                                :spent_on => '2008-03-14',
+                                :hours => '7.3'}
+
+    assert_response 403
+  end
+
   def test_update
     entry = TimeEntry.find(1)
     assert_equal 1, entry.issue_id

@@ -270,6 +270,31 @@ class UsersControllerTest < ActionController::TestCase
     assert u.check_password?('newpass')
   end
 
+  def test_destroy
+    u = User.new(:firstname => 'Death', :lastname => 'Row', :mail => 'death.row@example.com', :language => 'en')
+    u.login = 'death.row'
+    u.status = User::STATUS_REGISTERED
+    u.save!
+
+    delete :destroy, :id => u.id
+    assert_redirected_to :action => 'index'
+    # make sure that the user was actually destroyed
+    assert_raises(ActiveRecord::RecordNotFound) { u.reload }
+  end
+
+  def test_failing_destroy
+    u = User.new(:firstname => 'Surviving', :lastname => 'Patient', :mail => 'surviving.patient@example.com', :language => 'en')
+    u.login = 'surviving.patient'
+    u.status = User::STATUS_ACTIVE
+    u.save!
+
+    delete :destroy, :id => u.id
+    assert_response :forbidden
+    # make sure the user is still around
+    assert !u.reload.destroyed?
+  end
+
+
   def test_edit_membership
     post :edit_membership, :id => 2, :membership_id => 1,
                            :membership => { :role_ids => [2]}
