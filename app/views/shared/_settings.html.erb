@@ -1,8 +1,12 @@
 <% content_for :header_tags do %>
-  <%= javascript_include_tag 'lib/jquery-1.5.1.min.js', :plugin => 'chiliproject_backlogs' %>
-  <script type="text/javascript">
-    jQuery.noConflict();
+  <% unless ChiliProject::Compatibility.respond_to?(:using_jquery?) and
+            ChiliProject::Compatibility.using_jquery? %>
 
+    <%= javascript_include_tag 'lib/jquery-1.5.1.min.js', :plugin => 'chiliproject_backlogs' %>
+    <%= javascript_tag "jQuery.noConflict();" %>
+  <% end %>
+
+  <script type="text/javascript">
     jQuery(function($) {
       var enable_apply = function () {
         var tasktracker,

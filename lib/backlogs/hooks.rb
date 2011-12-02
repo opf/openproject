@@ -76,17 +76,21 @@ module Backlogs::Hooks
         snippet << '</p>'
 
         if issue.descendants.length != 0
-          snippet << javascript_include_tag_backlogs('lib/jquery.js')
-          snippet << javascript_tag(<<-JS)
-            var $j = jQuery.noConflict();
+          unless ChiliProject::Compatibility.respond_to?(:using_jquery?) and
+                 ChiliProject::Compatibility.using_jquery?
+            snippet << javascript_include_tag_backlogs('lib/jquery.js')
+          end
 
-            $j(document).ready(function() {
-              $j('#issue_estimated_hours').attr('disabled', 'disabled');
-              $j('#issue_remaining_hours').attr('disabled', 'disabled');
-              $j('#issue_done_ratio').attr('disabled', 'disabled');
-              $j('#issue_start_date').parent().hide();
-              $j('#issue_due_date').parent().hide();
-            });
+          snippet << javascript_tag(<<-JS)
+            (function($) {
+              $(document).ready(function() {
+                $('#issue_estimated_hours').attr('disabled', 'disabled');
+                $('#issue_remaining_hours').attr('disabled', 'disabled');
+                $('#issue_done_ratio').attr('disabled', 'disabled');
+                $('#issue_start_date').parent().hide();
+                $('#issue_due_date').parent().hide();
+              });
+            }(jQuery))
           JS
         end
       end
@@ -129,12 +133,16 @@ module Backlogs::Hooks
 
         # this wouldn't be necesary if the schedules plugin
         # didn't disable the contextual hook
-        snippet += javascript_include_tag_backlogs('lib/jquery.js')
+        unless ChiliProject::Compatibility.respond_to?(:using_jquery?) and
+               ChiliProject::Compatibility.using_jquery?
+          snippet += javascript_include_tag_backlogs('lib/jquery.js')
+        end
         snippet += javascript_tag(<<-JS)
-          var $j = jQuery.noConflict();
-          $j(document).ready(function() {
-            $j('#edit_wiki_page_action').detach().appendTo("div.contextual");
-          });
+          (function ($) {
+            $(document).ready(function() {
+              $('#edit_wiki_page_action').detach().appendTo("div.contextual");
+            });
+          }(jQuery))
         JS
       end
     end
