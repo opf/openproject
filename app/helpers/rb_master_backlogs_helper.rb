@@ -6,7 +6,7 @@ module RbMasterBacklogsHelper
   def render_backlog_menu(backlog)
     content_tag(:div, :class => 'menu') do
       [
-        content_tag(:div, '', :class => "icon ui-icon ui-icon-carat-1-s"),
+        content_tag(:div, '', :class => "ui-icon ui-icon-carat-1-s"),
         content_tag(:ul, :class => 'items') do
 
           backlog_menu_items_for(backlog).map do |item|
