@@ -6,7 +6,6 @@
 <div id="roadmap">
 <% @versions.each do |version| %>
     <h3 class="version">
-      <%= image_tag "package.png", :title => l(:label_version), :alt => l(:label_version) %>
       <%= link_to_version version, :name => h(version.name) %>
     </h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
