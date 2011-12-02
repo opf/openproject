@@ -51,7 +51,7 @@
         <% if !Project.visible.empty? and (User.current.logged? or !Setting.login_required?) %>
           <li class="drop-down">
             <%= link_to l(:label_project_plural), :controller => 'projects', :action => 'index' %>
-            <ul style="display:none;">
+            <ul style="display:none;" class="limit-width-topmenu">
               <li><%= link_to l(:label_project_view_all), :controller => 'projects', :action => 'index' %></li>
               <li><%= render_project_jump_box Project.visible, { :id => "project-search" } %></li>
             </ul>
@@ -60,7 +60,7 @@
         <% unless (items = more_top_menu_items).empty? %>
           <li class="drop-down" id="more-menu">
             <a class="more" href="#">Modules</a>
-            <ul style="display:none;">
+            <ul style="display:none;" class="limit-width-topmenu">
               <% items.each do |item| %>
               <%= render_menu_node(item) %>
               <% end %>
@@ -77,7 +77,7 @@
                 </ul>
           <% else %>
             <%= link_to_user(User.current) %>
-            <ul style="display:none;">
+            <ul style="display:none;" class="limit-width-topmenu">
             <% menu_items_for(:account_menu) do |item| %>
               <%= render_menu_node(item) %>
             <% end %>
@@ -92,7 +92,7 @@
       <%= page_header_title %>
     </div>
   </div>
-      
+
   <% main_menu = render_main_menu(@project) %>
   <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
@@ -106,7 +106,7 @@
         <%= yield :main_menu %>
       <% if display_sidebar %>
         <!-- Sidebar -->
-        <div id="sidebar">        
+        <div id="sidebar">
           <%= yield :sidebar %>
           <%= call_hook :view_layouts_base_sidebar %>
         </div>

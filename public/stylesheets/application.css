@@ -1308,6 +1308,9 @@ input:-moz-placeholder {
   border-top: 0px;
   background-color:#FFFFFF;
 }
+#header li > ul.limit-width-topmenu {
+  max-width:350px;
+}
 #header li.last-child > ul {
         left:auto;
         right:-1px;
@@ -1475,8 +1478,8 @@ div#optional_login_fields {
 	position:absolute;
 	right:0px;
 	top:0px;
-	background:url(../images/projectnavi_arrow_down.png) no-repeat 32px 7px;
-	width:50px;
+	background:url(../images/projectnavi_arrow_down.png) no-repeat 22px 7px;
+	width:40px;
 	height:25px;
 }
 #main-menu li .open .toggler {
@@ -2444,7 +2447,9 @@ tr.time-entry {
 
 /* -- New #main-menu toggle CSS */
 #main-menu .toggle-follow {
-	padding:5px 100px 5px 0;
+  position:absolute;
+  width:120px;
+  height:25px;
 }
 
 /* Weird Safari cascade bug. More specificity */
