@@ -278,7 +278,7 @@
       var classes;
       if (!option.disabled) {
         option.dom_id = this.container_id + "_o_" + option.array_index;
-        classes = option.selected && this.is_multiple ? [] : ["active-result"];
+        classes = option.selected && this.is_multiple ? ["ellipsis"] : ["active-result", "ellipsis"];
         if (option.selected) {
           classes.push("result-selected");
         }
