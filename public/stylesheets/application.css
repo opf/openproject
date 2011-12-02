@@ -1293,6 +1293,9 @@ input:-moz-placeholder {
   border-top: 0px;
   background-color:#FFFFFF;
 }
+#header li > ul.limit-width-topmenu {
+  max-width:350px;
+}
 #header li.last-child > ul {
         left:auto;
         right:-1px;
