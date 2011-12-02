@@ -20,6 +20,7 @@ require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
+require File.expand_path(File.dirname(__FILE__) + '/integration_test_helpers')
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -432,6 +433,10 @@ class ActiveSupport::TestCase
     end
   end
 
+end
+
+class ActionController::IntegrationTest
+  include IntegrationTestHelpers
 end
 
 # Simple module to "namespace" all of the API tests
