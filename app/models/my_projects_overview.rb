@@ -2,23 +2,34 @@ class MyProjectsOverview < ActiveRecord::Base
   unloadable
 
   DEFAULTS = {
-    "left" => ["wiki", "projectdetails", "issuetracking"].to_yaml,
-    "right" => ["members", "news"].to_yaml,
-    "top" => [].to_yaml,
-    "hidden" => [].to_yaml }
+    "left" => ["wiki", "projectdetails", "issuetracking"],
+    "right" => ["members", "news"],
+    "top" => [],
+    "hidden" => [] }
 
-  after_initialize do
+  def after_initialize
     hs = attributes
-    DEFAULTS.each_pair {|k, v| update_attribute(k, v) if hs[k].blank? }
+    DEFAULTS.each_pair do |k, v|
+      if hs[k].blank?
+        update_attribute(k, v.to_yaml)
+        self.send("#{k}=", v)
+      end
+    end
   end
 
-  serialize :top, Array
-  serialize :left, Array
-  serialize :right, Array
-  serialize :hidden, Array
+  serialize :top
+  serialize :left
+  serialize :right
+  serialize :hidden
   belongs_to :project
 
+  validate :fields_are_arrays
+
   acts_as_attachable :delete_permission => :edit_project, :view_permission => :view_project
+
+  def fields_are_arrays
+    Array === top && Array === left && Array === right && Array === hidden
+  end
 
   def save_custom_element(name, title, new_content)
     el = custom_elements.detect {|x| x.first == name}
