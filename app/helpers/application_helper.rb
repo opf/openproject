@@ -47,9 +47,9 @@ module ApplicationHelper
   # Displays a link to user's account page if active
   def link_to_user(user, options={})
     if user.is_a?(User)
-      name = h(user.name(options[:format]))
+      name = h(user.name(options.delete(:format)))
       if user.active?
-        link_to name, :controller => 'users', :action => 'show', :id => user
+        link_to(name, {:controller => 'users', :action => 'show', :id => user},options)
       else
         name
       end
@@ -940,7 +940,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'reports'
@@ -961,7 +961,7 @@ module ApplicationHelper
         params[:controller]
       end
 
-    
+
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
