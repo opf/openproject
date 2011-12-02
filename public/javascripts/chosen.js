@@ -538,8 +538,8 @@
               if (searchText.length) {
                 startpos = option.html.search(zregex);
                 text = $('<div/>').html(option.html).text();
-                text = text.substr(0, startpos + searchText.length) + '</em>' + text.substr(startpos + searchText.length);
-                text = text.substr(0, startpos) + '<em>' + text.substr(startpos);
+                text = text.substr(0, startpos + searchText.length) + text.substr(startpos + searchText.length);
+                text = text.substr(0, startpos) + text.substr(startpos);
               } else {
                 text = option.html;
               }
