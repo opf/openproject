@@ -466,6 +466,7 @@ en:
   label_member: Member
   label_member_new: New member
   label_member_plural: Members
+  label_modules: Modules
   label_tracker: Tracker
   label_tracker_plural: Trackers
   label_tracker_new: New tracker
