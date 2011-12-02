@@ -285,7 +285,7 @@
         if (option.group_array_index != null) {
           classes.push("group-option");
         }
-        return '<li id="' + option.dom_id + '" class="' + classes.join(' ') + '">' + $('<div/>').html(option.html).text() + '</li>';
+        return '<li id="' + option.dom_id + '" class="' + classes.join(' ') + '" title="' + option.title + '">' + $('<div/>').html(option.html).text() + '</li>';
       } else {
         return "";
       }
@@ -801,6 +801,7 @@
             options_index: this.options_index,
             value: option.value,
             text: option.text,
+            title: option.title,
             html: option.innerHTML,
             selected: option.selected,
             disabled: group_disabled === true ? group_disabled : option.disabled,
