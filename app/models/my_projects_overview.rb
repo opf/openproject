@@ -1,6 +1,17 @@
 class MyProjectsOverview < ActiveRecord::Base
   unloadable
 
+  DEFAULTS = {
+    "left" => ["wiki", "projectdetails", "issuetracking"].to_yaml,
+    "right" => ["members", "news"].to_yaml,
+    "top" => [].to_yaml,
+    "hidden" => [].to_yaml }
+
+  after_initialize do
+    hs = attributes
+    DEFAULTS.each_pair {|k, v| update_attribute(k, v) if hs[k].blank? }
+  end
+
   serialize :top, Array
   serialize :left, Array
   serialize :right, Array
