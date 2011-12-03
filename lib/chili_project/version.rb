@@ -38,12 +38,7 @@ module ChiliProject
     end
 
     def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
-      end
+      `git --git-dir="#{Rails.root.join('.git')}" rev-parse --short=9 HEAD`.chomp if File.directory? Rails.root.join('.git')
     end
 
     REVISION = self.revision
