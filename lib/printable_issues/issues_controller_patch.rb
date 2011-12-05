@@ -8,10 +8,10 @@ module IssuesControllerPatch
     base.class_eval do
       before_filter :find_optional_project,
         :only => self.filter_chain.select{|f| f.method == :find_optional_project}[0].options[:only] + [:printable]
-      
+
       before_filter :authorize,
         :except => self.filter_chain.select{|f| f.method == :authorize}[0].options[:except] + [:printable]
-      
+
       accept_key_auth :printable
     end
   end
@@ -35,7 +35,7 @@ module IssuesControllerPatch
                                 :offset => 0,
                                 :order => sort_clause)
         @issue_count_by_group = @query.issue_count_by_group
-        
+
         @columns = @query.columns.reject{|c| %w(subject).include? c.name.to_s}
 
         respond_to do |format|
