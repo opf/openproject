@@ -31,7 +31,7 @@ RB.Burndown = (function ($) {
                                                            project_id: RB.constants.project_id}));
       $('#charts').dialog({
         dialogClass: "rb_dialog",
-        height: 500,
+        height: 530,
         width: 710,
         position: 'center',
         modal: true,
