@@ -19,6 +19,15 @@
   <% if @issues.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>
+    <style type='text/css'>
+      #main-menu { display: none; }
+      #content { margin-left: 0; }
+    </style>
+
+    <p><%= link_to l(:button_back), :project_id => @project, :action => 'index' %></p>
+
     <%= render :partial => 'issues/list_printable', :locals => {:issues => @issues, :query => @query} %>
+
+    <p><%= link_to l(:button_back), :project_id => @project, :action => 'index' %></p>
   <% end %>
 <% end %>
