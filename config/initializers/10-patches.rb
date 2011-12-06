@@ -101,7 +101,7 @@ module ActionView
 
             error_messages = objects.sum {|object| object.errors.full_messages.each_with_index.map do |msg,index|
               # Generating unique identifier in order to jump directly to the field with the error
-              object_identifier = (object_name.parameterize("_")).to_s  + "_" + (object.errors.to_a.at(index).first) + "_error"
+              object_identifier = (object_name.parameterize("_")).to_s  + "_" + (object.errors.errors_including_custom_values.to_a.at(index).first) + "_error"
               content_tag(:li, content_tag(:a,(ERB::Util.html_escape(msg)), :href => "#" + object_identifier, :class => "afocus"))
             end}.join.html_safe
 
