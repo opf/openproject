@@ -97,17 +97,17 @@ module ApplicationHelper
   def link_to_issue(issue, options={})
     title = nil
     subject = nil
-    title = "#{h(issue.tracker)} #{issue.id}: #{(truncate(issue.subject, :length => 60))}"
-    unless options[:subject] == false
+    if options[:subject] == false
+      title = truncate(issue.subject, :length => 60)
+    else
       subject = issue.subject
       if options[:truncate]
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    s = image_tag "bullet_go.png", :alt => l(:label_issue), :title => l(:label_issue)
-    s << link_to("#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
+    s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
-                                                 :title => title)
+                                                 :title => title
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
