@@ -37,6 +37,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_menu_node(node, project=nil)
+    return "" if project and not allowed_node?(node, User.current, project)
     if node.hasChildren? || !node.child_menus.nil?
       return render_menu_node_with_children(node, project)
     else
