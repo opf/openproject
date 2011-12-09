@@ -1212,7 +1212,6 @@ a:hover {
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
         background-color:#7F7F7F;
-        font-weight:bold;
         color:#FFFFFF;
 }
 
@@ -1233,6 +1232,7 @@ li a.help:hover {
   background-image:url(../images/icon_help_grey.png);
 }
 #header li.drop-down.open > a {
+  color: #6A0406;
 	background:#FFFFFF url(../images/arrow-down-grey.png) no-repeat right center;
 	padding-right:35px;
 }
@@ -1333,8 +1333,9 @@ input:-moz-placeholder {
 	width:94%;
 }
 #nav-login-content {
-        position: relative;
-        position-top:44px;
+        position: absolute;
+        top:44px;
+   right: 0px;
         float: right;
 	background: white;
 	border:1px solid #194E60;

@@ -469,32 +469,6 @@ jQuery.viewportHeight = function() {
 jQuery(document).ready(function($) {
 
 
-	// show/hide header search box
-	$("#account a.search").live('click', function() {
-		var searchWidth = $("#account-nav").width();
-
-		$(this).toggleClass("open");
-		$("#nav-search").width(searchWidth).slideToggle(animationRate, function(){
-			$("#nav-search-box").select();
-		});
-
-		return false;
-	});
-
-        // show/hide login box
-	$("#account a.login").click(function() {
-		$(this).parent().toggleClass("open");
-                // Focus the username field if the login field has opened
-                $("#nav-login").slideToggle(animRate, function () {
-                    if ($(this).parent().hasClass("open")) {
-                      $("input#username").focus()
-                    }
-                  });
-                $("#account .drop-down.open").toggleClass("open").find("ul").mySlide();
-          
-		return false;
-	});
-        
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -560,35 +534,53 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-        jQuery("#account-nav > li").hover(function() {
-          if ($("#account-nav").hasClass("hover") && ($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                //Close all other open menus
-                //Used to work around the rendering bug  TODO: fix
-                jQuery("input#username-pulldown").blur();
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-                $(this).slideAndFocus();
-                return false;
-            }
-        },
-        function(){
-          return false;
-          });
-	jQuery("#account-nav > li.drop-down").click(function() {
-          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-          }
-                $(this).slideAndFocus();
-                $("#account-nav").toggleClass("hover");
+  // Toggle a top menu item open or closed, showing or hiding its submenu
+  function toggleTopMenu(menuItem) {
+    menuItem.toggleClass("open").find('ul').mySlide();
+  };
 
-	$("#account .drop-down:has(ul) > a").click(function() {
-                //Close all other open menus
-                $("#account .drop-down.open:has(ul)").not($(this).parent()).toggleClass("open").find("ul").mySlide();
-                //Close login pull down when open
-                $("li.open div#nav-login").parent().toggleClass("open").find("div#nav-login").slideToggle(animRate);
-                //Toggle clicked menu item
-                $(this).parent().toggleClass("open").find("ul").mySlide();
-                return false;
-        });
+  // Handle a single click event on the page to close an open menu item
+  
+  function handleClickEventOnPageToCloseOpenMenu(openMenuItem) {
+    $('html').one("click", function(htmlEvent) {
+      if (openMenuItem.has(htmlEvent.target).length > 0) {
+        // Clicked on the open menu, let it bubble up
+      } else {
+        // Clicked elsewhere, close menu
+        toggleTopMenu(openMenuItem);
+      }
+    });
+  };
+
+  // Click on the menu header with a dropdown menu
+  $('#account-nav .drop-down').live('click', function(event) {
+    var menuItem = $(this);
+
+    toggleTopMenu(menuItem);
+
+    if (menuItem.hasClass('open')) {
+      handleClickEventOnPageToCloseOpenMenu(menuItem);
+    }
+    return false;
+  });
+
+  // Click on an actual item
+  $('#account-nav .drop-down ul a').live('click', function(event) {
+    event.stopPropagation();
+  });
+
+  // show/hide login box
+  $("#account-nav a.login").click(function() {
+    $(this).parent().toggleClass("open");
+    // Focus the username field if the login field has opened
+    $("#nav-login").slideToggle(animationRate, function () {
+      if ($(this).parent().hasClass("open")) {
+        $("input#username").focus()
+      }
+    });
+    
+    return false;
+  });
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
@@ -612,12 +604,8 @@ jQuery(document).ready(function($) {
 			}
 		});
 
-        $('html').click(function() {
-          $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
-          $("#account-nav.hover").toggleClass("hover");
-         });
-        // Do not close the login window when using it
-        $('#nav-login-content').click(function(event){
-             event.stopPropagation();
-         });
+  // Do not close the login window when using it
+  $('#nav-login-content').click(function(event){
+    event.stopPropagation();
+  });
 });
