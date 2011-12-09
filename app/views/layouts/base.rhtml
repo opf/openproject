@@ -40,7 +40,7 @@
           <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
           <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
         <% end %>
-      </ul>
+      </div>
 
       <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
@@ -70,14 +70,7 @@
           </ul>
         </li>
         <li>
-          <label for='q'>
-            <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search), :class => 'search' %>
-          </label>
-          <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'nav-search' ) do %>
-            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
-        <% end %>
-        <%= render_menu_node(help_menu_item) %>
+          <%= render_menu_node(help_menu_item) %>
           <% unless User.current.logged? %>
             <li>
               <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
