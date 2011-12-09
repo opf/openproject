@@ -2354,6 +2354,17 @@ Additional wiki styles
   padding: 4px 4px 4px 48px;
   min-height: 33px;
 }
+
+/* Reset .wiki p.important for syntax highlighting rules */
+.syntaxhl .CodeRay .important {
+  background: none;
+  border: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+}
+
 .wiki p.smallsee-also,    .wiki p.smallcaution,    .wiki p.smallimportant,    .wiki p.smallinfo,    .wiki p.smalltip,    .wiki p.smallnote,
 .wiki span.smallsee-also, .wiki span.smallcaution, .wiki span.smallimportant, .wiki span.smallinfo, .wiki span.smalltip, .wiki span.smallnote {
   display: block;
