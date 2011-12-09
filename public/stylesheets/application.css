@@ -1138,7 +1138,12 @@ a:hover {
         float:left;
         width:200px;
         height:43px;
-	background: url(../images/logo_chiliproject.png) no-repeat 15px;
+   font-size: 3em;
+   padding-left: 15px;
+}
+#logo a, #logo a:hover {
+   color: #FFFFFF;
+   text-decoration: none;
 }
 #top-menu-items {
         float:right;

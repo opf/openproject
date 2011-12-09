@@ -32,7 +32,7 @@
 <div id="wrapper">
   <div id="top-menu">
     <div id="header">
-      <div id="logo"></div>
+      <div id="logo"><%= link_to(h(Setting.app_title), home_path) %></div>
       <div id="top-menu-items">
       <div id="search">
         <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
