@@ -8,6 +8,31 @@ describe MyProjectsOverview do
     @overview = MyProjectsOverview.create(:project_id => @project.id)
   end
 
+  it 'sets default elements for new records if no elements are provided' do
+    o = MyProjectsOverview.new
+    o.left.should =~ ["wiki", "projectdetails", "issuetracking"]
+    o.right.should =~ ["members", "news"]
+    o.top.should =~ []
+    o.hidden.should =~ []
+  end
+
+  it 'does not set default elements if elements are provided' do
+    o = MyProjectsOverview.new :left => ["members"]
+    o.left.should =~ ["members"]
+    o.right.should =~ []
+    o.top.should =~ []
+    o.hidden.should =~ []
+  end
+
+
+  it 'does not enforce default elements' do
+    @overview.right = []
+    @overview.save!
+
+    @overview.reload
+    @overview.right.should =~ []
+  end
+
   it 'creates a new custom element' do
     @overview.new_custom_element.should_not be_nil
   end
