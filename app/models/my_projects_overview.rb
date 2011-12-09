@@ -21,12 +21,18 @@ class MyProjectsOverview < ActiveRecord::Base
     "top" => [],
     "hidden" => [] }
 
-  def after_initialize
-    hs = attributes
-    DEFAULTS.each_pair do |k, v|
-      if hs[k].blank?
-        update_attribute(k, v.to_yaml)
+  def initialize(attributes = nil)
+    super
+
+    if attributes.nil?
+      DEFAULTS.each_pair do |k, v|
         self.send("#{k}=", v)
+      end
+    else
+      not_provided = DEFAULTS.keys - attributes.keys.collect(&:to_s)
+
+      not_provided.each do |k|
+        self.send("#{k}=", [])
       end
     end
   end
