@@ -35,11 +35,7 @@
       <div id="logo"><%= link_to(h(Setting.app_title), home_path) %></div>
       <div id="top-menu-items">
       <div id="search">
-        <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
-        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get) do %>
-          <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-          <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
-        <% end %>
+        <%= render :partial => 'search/quick_search', :locals => {:search_term => @question} %>
       </div>
 
       <% if User.current.logged? || !Setting.login_required? %>
