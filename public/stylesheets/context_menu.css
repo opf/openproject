@@ -1,4 +1,4 @@
-#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
+#context-menu { position: absolute; z-index: 40; }
 
 #context-menu ul, #context-menu li, #context-menu a {
 	display:block;
