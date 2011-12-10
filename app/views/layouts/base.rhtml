@@ -78,6 +78,11 @@
         <li>
           <%= render_menu_node(help_menu_item) %>
           <% unless User.current.logged? %>
+            <% if Setting.self_registration? %>
+            <li>
+              <%= link_to l(:label_register), { :controller => 'account', :action => 'register' } %>
+            </li>
+            <% end %>
             <li id="login-menu" class="drop-down last-child">
               <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
               <div id="nav-login" style="display:none;">
