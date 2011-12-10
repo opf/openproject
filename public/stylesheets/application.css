@@ -302,7 +302,7 @@ fieldset.collapsible.header_collapsible > * {
   width:100%;
   }
 fieldset.collapsible.header_collapsible legend {
-    background:#E6E6E6 url(../images/projectnavi_arrow_up.png) no-repeat 99% 50%; cursor:pointer;
+    background:#E6E6E6 url(../images/double_arrow_toggle_up.png) no-repeat 99% 50%; cursor:pointer;
     padding-left:0px;
     width:100%;
     height:23px;
@@ -326,7 +326,7 @@ fieldset.collapsible.header_collapsible legend:hover {
   background-color:#d8d8d8;
 }
 fieldset.collapsible.collapsed.header_collapsible legend {
-    background-image:url(../images/projectnavi_arrow_down.png);
+    background-image:url(../images/double_arrow_toggle_down.png);
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
@@ -1251,7 +1251,7 @@ li a.help:hover {
 #header .search_field {
         border:0px;
         color:white;
-	background:transparent url(../images/background_suche.png);
+	background:transparent url(../images/background_search.png);
 	background-repeat:repeat-x;
         margin-right:15px;
         margin-top:6px;
@@ -1458,24 +1458,24 @@ div#optional_login_fields {
 	position:absolute;
 	right:0px;
 	top:0px;
-	background:url(../images/projectnavi_arrow_down.png) no-repeat 32px 7px;
+	background:url(../images/double_arrow_toggle_down.png) no-repeat 32px 7px;
 	width:50px;
 	height:25px;
 }
 #main-menu li .open .toggler {
-  background-image:url(../images/projectnavi_arrow_up.png);
+  background-image:url(../images/double_arrow_toggle_up.png);
 }
 #main-menu li .open:hover .toggler {
-  background-image:url(../images/projectnavi_arrow_up_white.png);
+  background-image:url(../images/double_arrow_toggle_up_white.png);
 }
 #main-menu li .selected .toggler {
-  background-image:url(../images/projectnavi_arrow_down_white.png);
+  background-image:url(../images/double_arrow_toggle_down_white.png);
 }
 #main-menu li .selected.open .toggler {
-  background-image:url(../images/projectnavi_arrow_up_white.png);
+  background-image:url(../images/double_arrow_toggle_up_white.png);
 }
 #main-menu li a:hover .toggler {
-  background-image:url(../images/projectnavi_arrow_down_white.png);
+  background-image:url(../images/double_arrow_toggle_down_white.png);
 }
 
 #main-menu li li .toggler {
