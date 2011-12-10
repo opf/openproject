@@ -1,7 +1,6 @@
 <div class="title-bar">
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
-<% html_title(@query.new_record? ? l(:label_issue_plural) : h(@query.name)) %>
 
 <div class="title-bar-extras">
 
@@ -13,16 +12,18 @@
 <%= render :partial => 'queries/new_issue_button' %>
 </div>
 
+<% html_title(@query.new_record? ? l(:label_issue_plural) : h(@query.name)) %>
+
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content" class="hide-when-print">
-    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <fieldset id="filters" class="header_collapsible collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
     	<div class="filter-fields" style="<%= @query.new_record? ? "" : "display: none;" %>">
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
-    <fieldset class="collapsible collapsed">
+    <fieldset id="column_options" class="header_collapsible collapsible collapsed">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     	<div style="display: none;">
     		<table>

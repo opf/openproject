@@ -658,6 +658,7 @@ de:
   label_roadmap_overdue: "%{value} verspätet"
   label_roadmap_no_issues: Keine Tickets für diese Version
   label_search: Suche
+  search_input_placeholder: Suche ...
   label_result_plural: Resultate
   label_all_words: Alle Wörter
   label_wiki: Wiki

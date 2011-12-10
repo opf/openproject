@@ -469,18 +469,6 @@ jQuery.viewportHeight = function() {
 jQuery(document).ready(function($) {
 
 
-	// show/hide header search box
-	$("#account a.search").live('click', function() {
-		var searchWidth = $("#account-nav").width();
-
-		$(this).toggleClass("open");
-		$("#nav-search").width(searchWidth).slideToggle(animationRate, function(){
-			$("#nav-search-box").select();
-		});
-
-		return false;
-	});
-
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
 		$(this).removeAttr("title").toggleClass("active");
@@ -546,45 +534,53 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	// remove .drop-down class from empty dropdowns
-	$("#account .drop-down").each(function(index) {
-		if ($(this).find("li").size() < 1) {
-			$(this).removeClass("drop-down");
-		}
-	});
+  // Toggle a top menu item open or closed, showing or hiding its submenu
+  function toggleTopMenu(menuItem) {
+    menuItem.toggleClass("open").find('ul').mySlide();
+  };
 
-	$("#account .drop-down").hover(function() {
-		$(this).addClass("open").find("ul").show();
-		$("#top-menu").addClass("open");
+  // Handle a single click event on the page to close an open menu item
+  
+  function handleClickEventOnPageToCloseOpenMenu(openMenuItem) {
+    $('html').one("click", function(htmlEvent) {
+      if (openMenuItem.has(htmlEvent.target).length > 0) {
+        // Clicked on the open menu, let it bubble up
+      } else {
+        // Clicked elsewhere, close menu
+        toggleTopMenu(openMenuItem);
+      }
+    });
+  };
 
-		// wraps long dropdown menu in an overflow:auto div to keep long project lists on the page
-		var $projectDrop = $("#account .drop-down:has(.projects) ul");
+  // Click on the menu header with a dropdown menu
+  $('#account-nav .drop-down').live('click', function(event) {
+    var menuItem = $(this);
 
-		// only do the wrapping if it's the project dropdown, and more than 15 items
-		if ( $projectDrop.children().size() > 15 && $(this).find("> a").hasClass("projects") ) {
+    toggleTopMenu(menuItem);
 
-			var overflowHeight = 15 * $projectDrop.find("li:eq(1)").outerHeight() - 2;
+    if (menuItem.hasClass('open')) {
+      handleClickEventOnPageToCloseOpenMenu(menuItem);
+    }
+    return false;
+  });
 
-			$projectDrop
-				.wrapInner("<div class='overflow'></div>").end()
-				.find(".overflow").css({overflow: 'auto', height: overflowHeight, position: 'relative'})
-				.find("li a").css('paddingRight', '25px');
+  // Click on an actual item
+  $('#account-nav .drop-down ul a').live('click', function(event) {
+    event.stopPropagation();
+  });
 
-				// do hack-y stuff for IE6 & 7. don't ask why, I don't know.
-				if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-
-					$projectDrop.find(".overflow").css({width: 325, zoom: '1'});
-					$projectDrop.find("li a").css('marginLeft', '-15px');
-					$("#top-menu").css('z-index', '10000');
-				}
-
-		}
-
-
-	}, function() {
-		$(this).removeClass("open").find("ul").hide();
-		$("#top-menu").removeClass("open");
-	});
+  // show/hide login box
+  $("#account-nav a.login").click(function() {
+    $(this).parent().toggleClass("open");
+    // Focus the username field if the login field has opened
+    $("#nav-login").slideToggle(animationRate, function () {
+      if ($(this).parent().hasClass("open")) {
+        $("input#username").focus()
+      }
+    });
+    
+    return false;
+  });
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
@@ -608,4 +604,8 @@ jQuery(document).ready(function($) {
 			}
 		});
 
+  // Do not close the login window when using it
+  $('#nav-login-content').click(function(event){
+    event.stopPropagation();
+  });
 });

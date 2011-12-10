@@ -31,15 +31,16 @@
 <body class="<%=h body_css_classes %>">
 <div id="wrapper">
   <div id="top-menu">
-    <div id="account">
-      <% account_items =  menu_items_for(:account_menu) %>
-
-      <ul id="account-info">
-        <%= content_tag('li', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => '') if User.current.logged? %>
-        <% account_items.each do |item| %>
-            <%= render_menu_node(item) %>
+    <div id="header">
+      <div id="logo"><%= link_to(h(Setting.app_title), home_path) %></div>
+      <div id="top-menu-items">
+      <div id="search">
+        <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
+        <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get) do %>
+          <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+          <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
         <% end %>
-      </ul>
+      </div>
 
       <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
@@ -61,12 +62,12 @@
           </ul>
         </li>
         <li class="drop-down" id="more-menu">
-          <a class="more" href="#">More</a>
+          <a class="more" href="#">Modules</a>
           <ul style="display:none;">
             <% more_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
             <% end %>
-            <%# TODO: Redmine defines these in a view, should be moved to a helper or data structure %>
+            <%# TODO: Extract to helper %>
             <% if User.current.admin? %>
               <% menu_items_for(:admin_menu) do |item| -%>
                 <li><%= link_to h(item.caption), item.url, item.html_options %></li>
@@ -75,50 +76,67 @@
           </ul>
         </li>
         <li>
-          <label for='q'>
-            <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search), :class => 'search' %>
-          </label>
-          <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :id => 'nav-search' ) do %>
-            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
-        <% end %>
+          <%= render_menu_node(help_menu_item) %>
+          <% unless User.current.logged? %>
+            <% if Setting.self_registration? %>
+            <li>
+              <%= link_to l(:label_register), { :controller => 'account', :action => 'register' } %>
+            </li>
+            <% end %>
+            <li id="login-menu" class="drop-down last-child">
+              <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
+              <div id="nav-login" style="display:none;">
+                <%= render :partial => 'account/login' %>
+              </div>
+            </li>
+          <% else %>
+            <li class="drop-down last-child">
+            <%= link_to_user(User.current) %>
+            <ul style="display:none;">
+            <% menu_items_for(:account_menu) do |item| %>
+              <%= render_menu_node(item) %>
+            <% end %>
+            </ul>
+            </li>
+          <% end %>
         </li>
       </ul>
       <% end %>
     </div>
-
+    </div>
+    <div id="breadcrumb">
+      <%= page_header_title %>
+    </div>
   </div>
       
   <% main_menu = render_main_menu(@project) %>
-  <% if has_content?(:sidebar) || !main_menu.blank? %>
+  <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
   <% else %>
   <% display_sidebar = false %>
   <% end %>
-  <div id="main" class="<%= display_sidebar ? '' : "nosidebar" %>">
-  
-    <h1 class="title"><%= page_header_title %></h1>
-    <% if display_sidebar %>
-    <div id="main-menu">
-      <%= main_menu %>
-      <!-- Sidebar -->
-      <div id="sidebar">        
-        <%= yield :sidebar %>
-        <%= call_hook :view_layouts_base_sidebar %>
+  <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
+    <% if (side_displayed) %>
+      <div id="main-menu">
+        <%= main_menu %>
+        <%= yield :main_menu %>
+      <% if display_sidebar %>
+        <!-- Sidebar -->
+        <div id="sidebar">        
+          <%= yield :sidebar %>
+          <%= call_hook :view_layouts_base_sidebar %>
+        </div>
+      <% end %>
       </div>
-    </div>
 
-    <%= expand_current_menu %>
+      <%= expand_current_menu %>
     <% end %>
-
-    <div class="<%= display_sidebar ? '' : "nosidebar" %>" id="content">
+    <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
       <%= render_flash_messages %>
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>
-
     </div>
-
   </div>
 
   <div id="footer">

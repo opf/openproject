@@ -1,4 +1,4 @@
-#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
+#context-menu { position: absolute; z-index: 40; }
 
 #context-menu ul, #context-menu li, #context-menu a {
 	display:block;
@@ -48,5 +48,4 @@
 
 /* selected element */
 .context-menu-selection { background-color:#507AAA !important; color:#000 !important; }
-.context-menu-selection a, .context-menu-selection a:hover { color:#000 !important; }
 .context-menu-selection:hover { background-color:#507AAA !important; color:#000  !important; }

@@ -58,7 +58,7 @@ module JournalsHelper
       end
     end
 
-    content_tag("div", "#{header}#{details}", :id => "change-#{journal.id}", :class => "journal")
+    return "#{header}#{details}"
   end
 
   def render_notes(model, journal, options={})

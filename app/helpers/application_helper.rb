@@ -223,17 +223,15 @@ module ApplicationHelper
   end
 
   # Renders the project quick-jump box
-  def render_project_jump_box
-    projects = User.current.memberships.collect(&:project).compact.uniq
+  def render_project_jump_box(projects = [], html_options = {})
+    projects ||= User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
-      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-            '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      s << '</select>'
-      s
+        # option_tags = content_tag :option, l(:label_jump_to_a_project), :value => ""
+        option_tags = (content_tag :option, "", :value => "" )
+        option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        end
+      select_tag "", option_tags, html_options.merge({ :onchange => "if (this.value != \'\') { window.location = this.value; }" })
     end
   end
 
@@ -746,7 +744,8 @@ module ApplicationHelper
         div_class = 'toc'
         div_class << ' right' if $1 == '>'
         div_class << ' left' if $1 == '<'
-        out = "<ul class=\"#{div_class}\"><li>"
+        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'></legend><div>"
+        out << "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
         current = root
         started = false
@@ -764,6 +763,7 @@ module ApplicationHelper
         end
         out << '</li></ul>' * (current - root)
         out << '</li></ul>'
+        out << '</div></fieldset>'
       end
     end
   end
@@ -994,14 +994,21 @@ module ApplicationHelper
     split_top_menu_into_main_or_more_menus[:more]
   end
 
+  def help_menu_item
+    split_top_menu_into_main_or_more_menus[:help]
+  end
+
   # Split the :top_menu into separate :main and :more items
   def split_top_menu_into_main_or_more_menus
     unless @top_menu_split
       items_for_main_level = []
       items_for_more_level = []
+      help_menu = nil
       menu_items_for(:top_menu) do |item|
         if item.name == :home || item.name == :my_page
           items_for_main_level << item
+        elsif item.name == :help
+          help_menu = item
         elsif item.name == :projects
           # Remove, present in layout
         else
@@ -1010,7 +1017,8 @@ module ApplicationHelper
       end
       @top_menu_split = {
         :main => items_for_main_level,
-        :more => items_for_more_level
+        :more => items_for_more_level,
+        :help => help_menu
       }
     end
     @top_menu_split

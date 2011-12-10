@@ -1,16 +1,6 @@
 <h3><%= l(:label_issue_plural) %></h3>
-<%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
-<% if @project %>
-<%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
-<% end %>
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>
 
-<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-	<%= link_to(l(:label_calendar), :controller => 'calendars', :action => 'show', :project_id => @project) %><br />
-<% end %>
-<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-	<%= link_to(l(:label_gantt), :controller => 'gantts', :action => 'show', :project_id => @project) %><br />
-<% end %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
 <%= render_sidebar_queries %>
