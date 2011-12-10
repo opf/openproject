@@ -1806,13 +1806,8 @@ table.files {
 	font-size:12px;
 	font-weight:normal;
 	margin-bottom:-1px;
-	padding-bottom:12px;
-	background:url(../images/speech-white.png) no-repeat 30px bottom;
 	position:relative;
 	z-index:5;
-}
-.journal.question h4 {
-	background-image:url(../images/speech-blue.png);
 }
 .journal h4 .history-id {
 	float:right;
@@ -2471,6 +2466,10 @@ a.has-thumb img {
 /* Make icons non repeating */
 
 #more-menu.drop-down ul li a.projects { border-top:1px solid #555; }
+
+/* Adds a simple rounded corner background */
+.rounded-background { background: #E6E5E5; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; }
+
 
 /*************************************************************************
 Additional wiki styles
