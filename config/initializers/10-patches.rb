@@ -57,6 +57,79 @@ end
 
 module ActionView
   module Helpers
+    module AccessibleErrors
+
+      def self.included(base)
+        base.send(:include, InstanceMethods)
+        base.extend(ClassMethods)
+      end
+
+      module ClassMethods
+        def wrap_with_error_span(html_tag, object, method)
+          object_identifier = erroneous_object_identifier(object.object_id.to_s, method)
+
+          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+        end
+
+        def erroneous_object_identifier(id, method)
+          # select boxes use name_id whereas the validation uses name
+          # we have to cut the '_id' of in order for the field to match
+          id + "_" + method.gsub("_id", "") + "_error"
+        end
+      end
+
+      module InstanceMethods
+
+        def error_message_list(objects)
+          objects.collect do |object|
+            error_messages = []
+
+            object.errors.each_error do |attr, error|
+              unless attr == "custom_values"
+                # Generating unique identifier in order to jump directly to the field with the error
+                object_identifier = erroneous_object_identifier(object.object_id.to_s, attr)
+
+                error_messages << [object.class.human_attribute_name(attr) + " " + error.message, object_identifier]
+              end
+            end
+
+            # excluding custom_values from the errors.each loop before
+            # as more than one error can be assigned to custom_values
+            # which would add to many error messages
+            if object.errors.on(:custom_values)
+              object.custom_values.each do |value|
+                value.errors.collect do |attr, msg|
+                  # Generating unique identifier in order to jump directly to the field with the error
+                  object_identifier = erroneous_object_identifier(value.object_id.to_s, attr)
+                  error_messages << [value.custom_field.name + " " + msg, object_identifier]
+                end
+              end
+            end
+
+            error_message_list_elements(error_messages)
+          end
+        end
+
+        private
+
+        def erroneous_object_identifier(id, method)
+          self.class.erroneous_object_identifier(id, method)
+        end
+
+        def error_message_list_elements(array)
+          array.collect do |msg, identifier|
+            content_tag :li do
+              content_tag :a,
+                          ERB::Util.html_escape(msg),
+                          :href => "#" + identifier,
+                          :class => "afocus"
+            end
+          end
+        end
+      end
+    end
+
+
     module ActiveRecordHelper
       def error_messages_for(*params)
         options = params.extract_options!.symbolize_keys
@@ -66,7 +139,6 @@ module ActionView
         else
           objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
         end
-
 
         count  = objects.inject(0) {|sum, object| sum + object.errors.count }
         unless count.zero?
@@ -91,16 +163,10 @@ module ActionView
             end
             message = options.include?(:message) ? options[:message] : locale.t(:body)
 
-            error_messages = objects.sum {|object| object.errors.full_messages.each_with_index.map do |msg,index|
-              # Generating unique identifier in order to jump directly to the field with the error
-              object_identifier = (object_name.parameterize("_")).to_s  + "_" + (object.errors.to_a.at(index).first) + "_error"
-              content_tag(:li, content_tag(:a,(ERB::Util.html_escape(msg)), :href => "#" + object_identifier, :class => "afocus"))
-            end}.join.html_safe
-
             contents = ''
             contents << content_tag(options[:header_tag] || :h2, header_message) unless header_message.blank?
             contents << content_tag(:p, message) unless message.blank?
-            contents << content_tag(:ul, error_messages)
+            contents << content_tag(:ul, error_message_list(objects))
 
             content_tag(:div, contents.html_safe, html)
           end
@@ -129,19 +195,13 @@ module ActionView
   end
 end
 
+ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors
+
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   if html_tag.include?("<label")
     html_tag.to_s
   else
-    object_identifier = (instance.instance_variable_get("@object_name").parameterize).to_s + "_" + (instance.instance_variable_get("@method_name"))
-
-    # select boxes used name_id whereas the validation uses name
-    # we have to cut the '_id' of in order for the field to match
-    if (html_tag.include?("<select") or html_tag.include?('type="checkbox"'))
-      object_identifier = object_identifier[0..-4]
-    end
-    object_identifier = object_identifier + "_error"
-    "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+    ActionView::Base.wrap_with_error_span(html_tag, instance.object, instance.method_name)
   end
 end
 
