@@ -30,35 +30,27 @@ module ActiveRecord
     def full_messages(options = {})
       full_messages = []
 
-      errors = errors_including_custom_values
-
-      errors.each_key do |attr|
-        errors[attr].each do |message|
+      @errors.each_key do |attr|
+        @errors[attr].each do |message|
           next unless message
 
           if attr == "base"
             full_messages << message
+          elsif attr == "custom_values"
+            # Replace the generic "custom values is invalid"
+            # with the errors on custom values
+            @base.custom_values.each do |value|
+              value.errors.each do |attr, msg|
+                full_messages << value.custom_field.name + ' ' + msg
+              end
+            end
           else
-            attr_name = @base.respond_to?(attr) ? @base.class.human_attribute_name(attr) : attr
+            attr_name = @base.class.human_attribute_name(attr)
             full_messages << attr_name + ' ' + message.to_s
           end
         end
       end
       full_messages
-    end
-
-    def errors_including_custom_values
-      errors = @errors.dup
-
-      if errors["custom_values"].present?
-        @base.custom_values.select{ |v| v.errors.length > 0 }.each do |value|
-          errors[value.custom_field.name] = value.errors.instance_variable_get("@errors").values
-        end
-
-        errors.delete("custom_values")
-      end
-
-      errors
     end
   end
 end
