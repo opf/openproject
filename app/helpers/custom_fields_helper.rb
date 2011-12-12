@@ -52,7 +52,9 @@ module CustomFieldsHelper
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
 
-    custom_value.invalid? ? ActionView::Base.wrap_with_error_span(tag, custom_value, "value") : tag
+    custom_value.errors.empty? ?
+      tag :
+      ActionView::Base.wrap_with_error_span(tag, custom_value, "value")
   end
 
   # Return custom field label tag
