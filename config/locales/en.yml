@@ -825,6 +825,9 @@ en:
   label_enable_multi_select: Toggle multiselect
   label_deleted_custom_field: '(deleted custom field)'
   label_table_of_contents: Table of Contents
+  label_top_menu: Top Menu
+  label_main_menu: Side Menu
+  label_content: Content
 
   button_login: Login
   button_submit: Submit

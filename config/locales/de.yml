@@ -809,6 +809,9 @@ de:
   label_enable_multi_select: Mehrfachauswahl umschalten
   label_deleted_custom_field: '(gelöschtes benutzerdefiniertes Feld)'
   label_table_of_contents: Inhaltsverzeichnis
+  label_top_menu: Hauptmenu
+  label_main_menu: Nebenmenu
+  label_content: Inhalt
 
   button_login: Anmelden
   button_submit: OK
