@@ -61,7 +61,7 @@ class MyProjectsOverview < ActiveRecord::Base
 
   def new_custom_element
     idx = custom_elements.any? ? custom_elements.sort.last.first.next : "a"
-    [idx, l(:label_custom_text), "h2. #{l(:info_custom_text)}"]
+    [idx, l(:label_custom_text), "h3. #{l(:info_custom_text)}"]
   end
 
   def elements
