@@ -257,7 +257,10 @@ module ApplicationHelper
       end
       html_options[:class] ||= ""
       html_options[:class] << " chzn-select " if !impaired
-      select_tag "", option_tags, html_options.merge({ :onchange => "if (this.value != \'\') { window.location = this.value; }" })
+      select_tag "", option_tags, html_options.merge({
+        :onchange => "if (this.value != \'\') { window.location = this.value; }",
+        :title => l(:label_jump_to_a_project)
+      })
     end
   end
 
