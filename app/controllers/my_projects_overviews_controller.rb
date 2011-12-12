@@ -14,6 +14,8 @@
 
 class MyProjectsOverviewsController < ApplicationController
 
+  menu_item :overview
+
   unloadable
 
   before_filter :find_project, :find_user, :find_my_project_overview
