@@ -47,9 +47,9 @@ module ApplicationHelper
   # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
-      name = h(user.name(options[:format]))
+      name = h(user.name(options.delete(:format)))
       if user.active? || user.registered?
-        link_to name, :controller => 'users', :action => 'show', :id => user
+        link_to(name, {:controller => 'users', :action => 'show', :id => user}, options)
       else
         name
       end
@@ -265,7 +265,7 @@ module ApplicationHelper
     s = ''
     project_tree(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
-      tag_options = {:value => project.id}
+      tag_options = {:value => project.id, :title => h(project)}
       if project == options[:selected] || (options[:selected].respond_to?(:include?) && options[:selected].include?(project))
         tag_options[:selected] = 'selected'
       else
