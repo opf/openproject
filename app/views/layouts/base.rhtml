@@ -53,7 +53,7 @@
           <%= link_to l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :title => l(:label_project_plural) %>
             <ul style="display:none;" class="limit-width-topmenu">
               <li><%= link_to l(:label_project_view_all), :controller => 'projects', :action => 'index' %></li>
-              <li><%= render_project_jump_box Project.visible, :id => "project-search", :class => "chzn-select", :'data-placeholder' => "Enter Project Name..." %></li>
+              <li><%= render_project_jump_box Project.visible, { :id => "project-search" } %></li>
             </ul>
           </li>
         <% end %>
