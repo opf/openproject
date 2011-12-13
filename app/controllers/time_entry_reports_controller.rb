@@ -72,8 +72,7 @@ class TimeEntryReportsController < ApplicationController
       @periods = []
       # Date#at_beginning_of_ not supported in Rails 1.2.x
       date_from = @from.to_time
-      # 100 columns max
-      while date_from <= @to.to_time && @periods.length < 100
+      while date_from <= @to.to_time
         case @columns
         when 'year'
           @periods << "#{date_from.year}"
