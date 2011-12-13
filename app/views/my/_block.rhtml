@@ -4,7 +4,8 @@
     <%= link_to_remote "", {
         :url => { :action => "remove_block", :block => block_name },
         :complete => "removeBlock('block_#{block_name.dasherize}')" },
-        :class => "close-icon"
+        :class => "close-icon",
+        :title => l(:button_remove_widget)
          %>
     </div>
 

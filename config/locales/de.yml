@@ -658,8 +658,8 @@ de:
   label_sort_higher: Eins höher
   label_sort_lower: Eins tiefer
   label_sort_lowest: Ans Ende
-  label_sort_right: Eins nach rechts
-  label_sort_left: Eins nach links
+  label_add_columns: Ausgewählte Spalten hinzufügen
+  label_remove_columns: Ausgewählte Spalten entfernen
   label_roadmap: Roadmap
   label_roadmap_due_in: "Fällig in %{value}"
   label_roadmap_overdue: "%{value} verspätet"
@@ -857,6 +857,7 @@ de:
   button_quote: Zitieren
   button_duplicate: Duplizieren
   button_show: Anzeigen
+  button_remove_widget: Infobox löschen
 
   status_active: aktiv
   status_registered: angemeldet
