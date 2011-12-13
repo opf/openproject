@@ -7,10 +7,10 @@
 		<td align="center" valign="middle">
 			<input type="button" value="&#8594;"
 			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);"
-       title="<%= l(:label_sort_right) %>"/><br />
+       title="<%= l(:label_add_columns) %>"/><br />
 			<input type="button" value="&#8592;"
 			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);"
-       title="<%= l(:label_sort_left) %>" />
+       title="<%= l(:label_remove_columns) %>" />
 		</td>
 		<td><%= select_tag 'c[]',
 		          options_for_select(query.columns.collect {|column| [column.caption, column.name]}),
