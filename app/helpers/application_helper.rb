@@ -956,7 +956,7 @@ module ApplicationHelper
       when params[:controller] == 'contracts' || params[:controller] == 'deliverables'
         'contracts'
       else
-        params[:controller]
+        params[:controller].dasherize
       end
 
     
