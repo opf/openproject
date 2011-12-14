@@ -41,7 +41,7 @@ describe MyProjectsOverview do
     ce = @overview.new_custom_element
     ce[0].should == "a"
     ce[1].should be_kind_of String
-    ce[2].should =~ /^h2\./
+    ce[2].should =~ /^h3\./
   end
 
   it "can save a custom element" do
