@@ -368,7 +368,7 @@ function observeProjectModules() {
     setVisible('project_trackers', c);
     setVisible('project_issue_custom_fields', c);
   };
-  
+
   Event.observe(window, 'load', f);
   Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
 }
@@ -383,43 +383,43 @@ var WarnLeavingUnsaved = Class.create({
 	observedElements: false,
 	changedForms: false,
 	message: null,
-	
+
 	initialize: function(message){
 		this.observedForms = $$('form');
 		this.observedElements =  $$('textarea');
 		this.message = message;
-		
+
 		this.observedElements.each(this.observeChange.bind(this));
 		this.observedForms.each(this.submitAction.bind(this));
-		
+
 		window.onbeforeunload = this.unload.bind(this);
 	},
-	
+
 	unload: function(){
 		if(this.changedForms)
       return this.message;
 	},
-	
+
 	setChanged: function(){
     this.changedForms = true;
 	},
-	
+
 	setUnchanged: function(){
     this.changedForms = false;
 	},
-	
+
 	observeChange: function(element){
     element.observe('change',this.setChanged.bindAsEventListener(this));
 	},
-	
+
 	submitAction: function(element){
     element.observe('submit',this.setUnchanged.bindAsEventListener(this));
 	}
 });
 
-/* 
+/*
  * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to 
+ * X-CSRF-Token header with each ajax request.  Necessary to
  * work with rails applications which have fixed
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
@@ -538,7 +538,7 @@ jQuery(document).ready(function($) {
                 $(this).find("li > a:first").focus();
               }
             });
-            
+
             return false;
           };
 	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
@@ -629,7 +629,7 @@ jQuery(document).ready(function($) {
 		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
 		.click(function(event) {
 
-			if (!$(event.target).hasClass("toggle-follow") ) {
+			if ($(event.target).hasClass("toggler") ) {
                           var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
                           menuParent.mySlide();
                           if ($(this).hasClass("open")) {
