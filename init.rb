@@ -109,7 +109,7 @@ Redmine::Plugin.register :backlogs do
        :backlogs,
        {:controller => :rb_master_backlogs, :action => :show},
        :caption => :project_module_backlogs,
-       :after => :new_issue,
+       :before => :calendar,
        :param => :project_id,
        :if => lambda { User.current.respond_to?("impaired?") and !User.current.impaired? }
 end
