@@ -597,7 +597,7 @@ jQuery(document).ready(function($) {
 		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
 		.click(function(event) {
 
-			if (!$(event.target).hasClass("toggle-follow") ) {
+			if ($(event.target).hasClass("toggler") ) {
 				$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
 				return false;
 			}
