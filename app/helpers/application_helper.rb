@@ -1034,7 +1034,7 @@ module ApplicationHelper
       when params[:controller] == 'my' && params[:action] == 'account'
         'account'
       else
-        params[:controller]
+        params[:controller].dasherize
       end
 
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
