@@ -91,7 +91,7 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_menu_node(item, caption, url, selected)
     position_span = selected ? "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>" : ""
-    position_span + link_to(h(caption), url, item.html_options(:selected => selected))
+    link_to(position_span + h(caption), url, item.html_options(:selected => selected))
   end
 
   def render_unattached_menu_item(menu_item, project)
