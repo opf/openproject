@@ -19,10 +19,10 @@ module Redmine
     module Adapters
       class GitAdapter < AbstractAdapter
 
-        SCM_GIT_REPORT_LAST_COMMIT = true
+        SCM_GIT_REPORT_LAST_COMMIT = true unless defined?(SCM_GIT_REPORT_LAST_COMMIT)
 
         # Git executable name
-        GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
+        GIT_BIN = Redmine::Configuration['scm_git_command'] || "git" unless defined?(GIT_BIN)
 
         # raised if scm command exited with error, e.g. unknown revision.
         class ScmCommandAborted < CommandFailed; end

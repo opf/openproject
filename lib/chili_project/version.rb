@@ -38,7 +38,14 @@ module ChiliProject
     end
 
     def self.revision
-      `git --git-dir="#{Rails.root.join('.git')}" rev-parse --short=9 HEAD`.chomp if File.directory? Rails.root.join('.git')
+      @revision ||= begin
+        git = Redmine::Scm::Adapters::GitAdapter
+        git_dir = Rails.root.join('.git')
+
+        if File.directory? git_dir
+          git.send(:shellout, "#{git.sq_bin} --git-dir='#{git_dir}' rev-parse --short=9 HEAD") { |io| io.read }.to_s.chomp
+        end
+      end
     end
 
     REVISION = self.revision
