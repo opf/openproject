@@ -7,7 +7,7 @@
   allow_view = User.current.allowed_to?(:view_hourly_rates, project, :for => member.user)
   allow_edit = User.current.allowed_to?(:edit_hourly_rates, project, :for => member.user)
 -%>
-  
+
 <%- if allow_view -%>
   <% rate = member.user.current_rate(project) -%>
   <td class="currency" id="rate_for_<%= member.user.id %>">
@@ -20,9 +20,8 @@
 <% if allow_edit %>
   <td align="center" style="white-space: nowrap;">
     <% remote_form_for :rate, :url => { :controller => 'hourly_rates', :action => 'set_rate', :id => member.user, :project_id => project}, :method => :posts  do |f| %>
-      <label class="hidden-for-sighted"><%= l(:caption_set_rate) %>
-        <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
-      </label>
+      <label class="hidden-for-sighted", for="rate_text_field_for_<%= member.user.id %>"><%= l(:caption_set_rate) %></label>
+      <%= f.text_field :rate, :value => "", :name => :rate, :size => 7, :id => "rate_text_field_for_#{member.user.id}"%>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
       <%= image_submit_tag "save.png", :alt => l(:button_save) %>
     <% end %>
   </td>
