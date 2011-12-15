@@ -25,13 +25,13 @@
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'set_rate', :id => cost_type }  do |f| %>
           <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
-          <%= image_submit_tag "save.png" %>
+          <%= image_submit_tag "save.png", :alt => l(:caption_save_rate), :title => l(:caption_save_rate) %>
         <% end %>
       </td>
-      <%= content_tag :td, cost_type.is_default? ? image_tag('true.png') : "" %>
+      <%= content_tag :td, cost_type.is_default? ? image_tag('true.png', :alt => l(:general_text_Yes)) : "" %>
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'toggle_delete', :id => cost_type }  do |f| %>
-          <%= image_submit_tag "locked.png", :onclick => "return #{confirm_javascript_function(l(:text_are_you_sure))}" %>
+          <%= image_submit_tag "locked.png", :alt => l(:button_lock), :title => l(:button_lock), :onclick => "return #{confirm_javascript_function(l(:text_are_you_sure))}" %>
         <% end %>
       </td>
     </tr>

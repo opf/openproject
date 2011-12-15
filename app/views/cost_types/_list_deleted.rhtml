@@ -9,7 +9,7 @@
     <%= sort_header_tag "unit", :caption => l(:caption_cost_type_unit_name) %>
     <%= sort_header_tag "unit_plural", :caption => l(:caption_cost_type_unit_name_plural) %>
     <th><%= l(:caption_current_rate) %></th>
-    <th><%= l(:caption_deleted_at) %></th>
+    <th><%= l(:caption_locked_on) %></th>
     <th></th>
   </tr></thead>
   <tbody>
@@ -23,7 +23,7 @@
       <%= content_tag :td, cost_type.deleted_at.to_date %>
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'toggle_delete', :id => cost_type }  do |f| %>
-          <%= image_submit_tag "unlock.png" %>
+          <%= image_submit_tag "unlock.png" , :alt => l(:button_unlock), :title => l(:button_unlock) %>
         <% end %>
       </td>
     </tr>
