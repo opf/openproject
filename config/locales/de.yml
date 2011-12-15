@@ -1,13 +1,13 @@
---- 
-de: 
+---
+de:
   cost_objects_title: Budgets
   cost_types_title: Kostenarten
   cost_reports_title: Reports
   project_module_costs_module: Controlling
-  
+
   currency_separator: ","
   currency_delimiter: .
-  
+
   x_entries:
     one: "1 Eintrag"
     other: "%{count} Einträge"
@@ -37,7 +37,6 @@ de:
   caption_default: Standard
   caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr %{user}"
   caption_default_rates: "Standards\xC3\xA4tze"
-  caption_deleted_at: "Gel\xC3\xB6scht am"
   caption_fixed_date: Referenzdatum
   caption_issue: Ticket
   caption_labor: Personal
@@ -159,3 +158,6 @@ de:
   text_destroy_time_and_cost_entries_question: Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_reassign_time_and_cost_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
+  caption_save_rate: "Satz speichern"
+  caption_locked_on: "Gesperrt am"
+  caption_show_locked: "Gesperrte Typen anzeigen"

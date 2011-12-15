@@ -1,5 +1,5 @@
---- 
-en: 
+---
+en:
   cost_objects_title: Budgets
   cost_types_title: Cost Types
   cost_reports_title: Cost Reports
@@ -7,7 +7,7 @@ en:
 
   currency_separator: .
   currency_delimiter: ","
-  
+
   x_entries:
     one: "1 Entry"
     other: "%{count} Entries"
@@ -36,7 +36,6 @@ en:
   caption_default: Default
   caption_default_rate_history_for: Default Rate History for %{user}
   caption_default_rates: Default Rates
-  caption_deleted_at: Deleted on
   caption_fixed_date: Fixed Date
   caption_issue: Issue
   caption_labor: Labor
@@ -56,9 +55,9 @@ en:
   caption_status: Status
   caption_subject: Title
   caption_valid_from: Valid from
-  
+
   error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
-  
+
   field_budget_ratio: Spent Budget
   field_client_signoff: Client signoff
   field_cost_object: Budget
@@ -81,11 +80,11 @@ en:
   field_unit_plural: Pluralized unit name
   field_unit_price: Unit price
   field_units: Units
-  
+
   help_click_to_edit: Click here to edit.
   help_currency_format: Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit.
   help_override_rate: Enter a value here to override the default rate.
-  
+
   label_awaiting_client: Awaiting client response
   label_status_awaiting_client: Awaiting client response
   label_awaiting_manager: Awaiting manager response
@@ -131,12 +130,12 @@ en:
   label_variable_cost_object: Variable rate based budget
   label_view_all_cost_objects: View all Budgets
   label_yes: "Yes"
-  
+
   notice_cost_object_conflict: "Issues must be of the same project."
   notice_no_cost_objects_available: "No budgets available."
   notice_something_wrong: Something went wrong. Please try again.
   notice_successful_restore: Successful restore.
-  
+
   permission_block_tickets: Block tickets
   permission_edit_cost_entries: Edit booked unit costs
   permission_edit_cost_objects: Edit Budgets
@@ -149,7 +148,7 @@ en:
   permission_view_cost_rates: View cost rates
   permission_view_hourly_rates: View all hourly rates
   permission_view_own_hourly_rate: View own hourly rate
-  
+
   text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
   text_cost_object_change_type_confirmation: Are you sure? This operation will destroy information of the specific budget type.
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the issues you are about to delete. What do you want to do ?"
@@ -157,3 +156,6 @@ en:
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the issues you are about to delete. What do you want to do ?"
   text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this issue:'
   text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+  caption_save_rate: "Save rate"
+  caption_locked_on: "Locked on"
+  caption_show_locked: "Show locked types"
