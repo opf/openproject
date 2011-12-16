@@ -14,7 +14,7 @@
         <td align="center" style="white-space: nowrap;">
           <% remote_form_for :group_user, group_user, :url => { :controller => 'groups', :action => 'set_membership_type', :id => @group, :user_id => user}, :method => :post  do |f| %>
             <%= f.select :membership_type, GroupUser::MEMBERSHIP_TYPES.collect{|t| [l(t), t]} %>
-            <%= image_submit_tag "save.png" %>
+            <%= image_submit_tag "save.png", :alt => l(:button_save) %>
           <% end %>
         </td>
         <td class="buttons">
@@ -36,24 +36,24 @@
 <% if users.any? %>
   <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
-    
+
     <p><%= text_field_tag 'user_search', nil, :size => "40" %></p>
     <p>
       <%= label_tag :membership_type, l(:label_membership_type) %>
       <%= select_tag :membership_type, options_for_select(GroupUser::MEMBERSHIP_TYPES.collect{|t| [l(t), t]}, GroupUser::DEFAULT_MEMBERSHIP_TYPE) %>
     </p>
-    
+
     <%= observe_field(:user_search,
                  :frequency => 0.5,
                  :update => :users,
                  :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
                  :with => 'q')
                   %>
-    
+
     <div id="users">
       <%= principals_check_box_tags 'user_ids[]', users %>
     </div>
-    
+
     <p><%= submit_tag l(:button_add) %></p>
     </fieldset>
   <% end %>

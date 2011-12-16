@@ -163,4 +163,5 @@ en:
   caption_locked_on: "Locked on"
   caption_show_locked: "Show locked types"
   button_cancel_edit_budget: "Cancel editing budget"
+  button_cancel_edit_costs: "Cancel editing costs"
   description_date_for_new_rate: "Date for new rate"
