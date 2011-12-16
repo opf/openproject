@@ -33,3 +33,5 @@ en:
   text_review_minutes: "%{author} has put the %{link} up for review."
   text_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   notice_successful_notification: "Notification sent successfully"
+  description_invite: invited
+  description_attended: attended

@@ -33,3 +33,5 @@ de:
   text_review_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
   text_minutes_for_meeting: 'Protokoll für das Meeting "%{meeting}"'
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
+  description_invite: eingeladen
+  description_attended: teilgenommen

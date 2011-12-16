@@ -18,12 +18,24 @@
         <tr class="<%= cycle("odd", "even")%>">
           <td><%=h user %></td>
           <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
-          <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
-          <td class="checkox" align="center"><%= check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited? %></td>
-          <td class="checkox" align="center"><%= check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended? %></td>
+            <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
+            <td class="checkox" align="center">
+              <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + l(:description_invite), :class => "hidden-for-sighted" %>
+              <%= check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?, :id => "checkbox_invited_#{user.id}" %>
+            </td>
+            <td class="checkox" align="center">
+              <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + l(:description_attended), :class => "hidden-for-sighted" %>
+              <%= check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?, :id => "checkbox_attended_#{user.id}" %>
+            </td>
           <% else -%>
-          <td class="checkox" align="center"><%= check_box_tag "meeting[participants_attributes][][invited]" %></td>
-          <td class="checkox" align="center"><%= check_box_tag "meeting[participants_attributes][][attended]" %></td>
+            <td class="checkox" align="center">
+              <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + l(:description_invite), :class => "hidden-for-sighted" %>
+              <%= check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
+            </td>
+            <td class="checkox" align="center">
+              <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + l(:description_attended), :class => "hidden-for-sighted" %>
+              <%= check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false, :id => "checkbox_attended_#{user.id}" %>
+            </td>
           <% end -%>
         </tr>
         <% end -%>
