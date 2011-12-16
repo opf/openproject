@@ -23,18 +23,20 @@
   <div id="list-<%= position %>" class="splitcontent<%= position %>">
     <% @blocks[position].each do |b| %>
       <div class="mypage-box">
-        <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
-          <%= render :partial => "my_projects_overviews/blocks/#{b}",
-                     :locals => { :project => @project,
-                                  :user => @user,
-                                  :news => @news } %>
-        <% elsif b.respond_to? :to_ary %>
-          <%= render :partial => "my_projects_overviews/blocks/textilizable",
-                     :locals => { :project => @project,
-                                  :user => @user,
-                                  :block_title => b[1],
-                                  :textile => b.last } %>
-        <% end %>
+        <div class="wiki">
+          <% if MyProjectsOverviewsController::BLOCKS.keys.include? b %>
+            <%= render :partial => "my_projects_overviews/blocks/#{b}",
+                       :locals => { :project => @project,
+                                    :user => @user,
+                                    :news => @news } %>
+          <% elsif b.respond_to? :to_ary %>
+            <%= render :partial => "my_projects_overviews/blocks/textilizable",
+                       :locals => { :project => @project,
+                                    :user => @user,
+                                    :block_title => b[1],
+                                    :textile => b.last } %>
+          <% end %>
+        </div>
       </div>
     <% end if @blocks[position] %>
   </div>
