@@ -24,7 +24,7 @@ class Backlogs::IssueForm < Backlogs::IssueView
 
   def errors_paragraph
     @errors_paragraph ||= ChiliProject::Nissue::SimpleParagraph.new(@issue) do |t|
-      content_tag(:div, [ t.error_messages_for 'issue' ], :style => "clear:right")
+      content_tag(:div, [t.error_messages_for('issue')], :style => "clear:right")
     end
   end
 
