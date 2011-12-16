@@ -15,12 +15,15 @@
 <% fields_for prefix, labor_budget_item do |cost_form| %>
 <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
   <td class="units">
+    <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= l(:field_hours) %></label>
     <%= cost_form.text_field :hours, :index => id_or_index, :size => 3 %>
   </td>
   <td class="user">
+    <label class="hidden-for-sighted" for="<%= id_prefix %>_user_id"><%= l(:label_user) %></label>
     <%= cost_form.select :user_id, @project.assignable_users.sort.collect{|u| [u.name, u.id]}, {:prompt => true}, {:index => id_or_index} %>
   </td>
   <td class="comment">
+    <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= l(:field_comments) %></label>
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
