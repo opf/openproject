@@ -5,6 +5,7 @@ class CostRate < Rate
   
   def validate
     # Only allow change of project and user on first creation
+    super
     return if self.new_record?
     
     errors.add :cost_type_id, :activerecord_error_invalid if cost_type_id_changed?

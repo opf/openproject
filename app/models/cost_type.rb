@@ -63,12 +63,12 @@ class CostType < ActiveRecord::Base
       end
     end
   end
-  
+
   def save_rates
     rates.each do |rate|
-      rate.save(false)
+      rate.save!
     end
   end
-  
-  
+
+
 end

@@ -1,5 +1,8 @@
 class Rate < ActiveRecord::Base
-  validates_numericality_of :rate, :allow_nil => false, :message => :activerecord_error_invalid
+  validates_presence_of :valid_from
+  validates_presence_of :rate
+  validates_numericality_of :rate, :allow_nil => false
+
   belongs_to :user
   belongs_to :project
 
@@ -12,11 +15,11 @@ class Rate < ActiveRecord::Base
       value
     end
   end
-  
+
   def validate
     valid_from.to_date
   rescue Exception
-    errors.add :valid_from, :activerecord_error_invalid
+    errors.add :valid_from, :not_a_date
   end
 
   def before_save

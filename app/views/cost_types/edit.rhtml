@@ -10,7 +10,7 @@
     <p><%= f.text_field :unit_plural, :size => 20 %></p>
     <p><%= f.check_box :default %></p>
   </div>
-  
+
   <h3><%= l :caption_rate_history %></h3>
   <% javascript_tag do -%>
     RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => CostRate.new )) %>',<%= @cost_type.rates.length %>,'rates_body');
@@ -22,7 +22,15 @@
       <th></th>
     </tr></thead>
     <tbody id="rates_body">
-      <%- @cost_type.rates.sort { |a,b| b.valid_from <=> a.valid_from }.each_with_index do |rate, index| -%>
+      <%- @cost_type.rates.sort { |a,b|
+        case
+        when !a.valid? && !b.valid?: 0
+        when !a.valid?: -1
+        when !b.valid?: 1
+        else
+          b.valid_from <=> a.valid_from
+        end
+      }.each_with_index do |rate, index| -%>
         <%= render :partial => 'rate', :object => rate, :locals => {:index => index, :classes => cycle('odd', 'even')} %>
       <%- end -%>
     </tbody>

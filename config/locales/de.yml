@@ -35,6 +35,8 @@ de:
   caption_costs: Kosten
   caption_current_rate: Aktueller Satz
   caption_default: Standard
+  field_rate: Satz
+  field_rates: Sätze
   caption_default_rate_history_for: "Standardsatz-Historie f\xC3\xBCr %{user}"
   caption_default_rates: "Standards\xC3\xA4tze"
   caption_fixed_date: Referenzdatum
@@ -56,6 +58,7 @@ de:
   caption_status: Status
   caption_subject: Titel
   caption_valid_from: "G\xC3\xBCltig ab"
+  field_valid_from: "G\xC3\xBCltig ab"
 
   error_generic: "Bei der Anfrage ist ein Fehler aufgetreten. Sie wurde zurückgesetzt. Bitte melden Sie das Problem Ihrem Redmine Administrator"
 

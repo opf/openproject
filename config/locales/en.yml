@@ -34,6 +34,8 @@ en:
   caption_costs: Costs
   caption_current_rate: Current Rate
   caption_default: Default
+  field_rate: Rate
+  field_rates: Rates
   caption_default_rate_history_for: Default Rate History for %{user}
   caption_default_rates: Default Rates
   caption_fixed_date: Fixed Date
@@ -55,6 +57,7 @@ en:
   caption_status: Status
   caption_subject: Title
   caption_valid_from: Valid from
+  field_valid_from: Valid from
 
   error_generic: "An error occurred while executing the query. It has been resetted. Please report this error to your Redmine administrator."
 
