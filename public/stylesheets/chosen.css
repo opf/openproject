@@ -90,7 +90,7 @@
   width: 18px;
 }
 .chzn-container-single .chzn-single div b {
-  background: url('chosen-sprite.png') no-repeat 0 1px;
+  background: url('../images/chosen/chosen-sprite.png') no-repeat 0 1px;
   display: block;
   width: 100%;
   height: 100%;
@@ -202,7 +202,7 @@
   width: 12px;
   height: 13px;
   font-size: 1px;
-  background: url(chosen-sprite.png) right top no-repeat;
+  background: url('../images/chosen/chosen-sprite.png') right top no-repeat;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close:hover {
   background-position: right -11px;
@@ -371,14 +371,14 @@
 .chzn-rtl .chzn-results .group-option { padding-left: 0; padding-right: 20px; }
 .chzn-rtl.chzn-container-active .chzn-single-with-drop div { border-right: none; }
 .chzn-rtl .chzn-search input {
-  background: url('chosen-sprite.png') no-repeat -38px -20px, #ffffff;
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat -38px -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat -38px -20px, linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, #ffffff;
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url('../images/chosen/chosen-sprite.png') no-repeat -38px -20px, linear-gradient(top, #ffffff 85%,#eeeeee 99%);
   padding: 4px 5px 4px 20px;
 }
 /* @end */
