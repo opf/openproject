@@ -9,11 +9,11 @@
 <p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
 <%= text_field 'user', 'login', :size => 25 %></p>
 
-<p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
+<p><label for="user_password"><%=l(:field_password)%> <span class="required">*</span></label>
 <%= password_field 'user', 'password', :size => 25  %><br />
 <em><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
 
-<p><label for="password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
+<p><label for="user_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
 <%= password_field 'user', 'password_confirmation', :size => 25  %></p>
 <% end %>
 
