@@ -28,8 +28,8 @@ namespace :redmine do
 
       # Necessary because adding key-value pairs one by one doesn't seem to work
       settings = Setting.plugin_backlogs
-      settings[:points_burn_direction] ||= 'down'
-      settings[:wiki_template]         ||= ''
+      settings["points_burn_direction"] ||= 'down'
+      settings["wiki_template"]         ||= ''
 
       puts
       puts "====================================================="
@@ -41,7 +41,7 @@ namespace :redmine do
         Rake::Task['redmine:backlogs:current_labels'].invoke
       end
 
-      settings[:card_spec] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
+      settings["card_spec"] ||= Cards::TaskboardCards::LABELS.keys[0] unless Cards::TaskboardCards::LABELS.size == 0
 
       trackers = Tracker.find(:all)
 
@@ -79,19 +79,19 @@ namespace :redmine do
           end
         end
 
-        settings[:story_trackers] = selection.map{ |s| trackers[s.to_i-1].id }
+        settings["story_trackers"] = selection.map{ |s| trackers[s.to_i-1].id }
       end
 
 
       if !Task.tracker
         # Check if there is at least one tracker available
         puts "-----------------------------------------------------"
-        if settings[:story_trackers].length < trackers.length
+        if settings["story_trackers"].length < trackers.length
           invalid = true
           while invalid
             # If there's at least one, ask the user to pick one
             puts "Which tracker do you want to use for your tasks?"
-            available_trackers = trackers.select{|t| !settings[:story_trackers].include? t.id}
+            available_trackers = trackers.select{|t| !settings["story_trackers"].include? t.id}
             j = 0
             available_trackers.each_with_index { |t, i| puts "  #{ j = i + 1 }. #{ t.name }" }
 
@@ -104,7 +104,7 @@ namespace :redmine do
               print "You selected #{available_trackers[selection.first.to_i-1].name}. Is this correct? (y/n) "
               STDOUT.flush
               if (STDIN.gets.chomp!).match("y")
-                settings[:task_tracker] = available_trackers[selection.first.to_i-1].id
+                settings["task_tracker"] = available_trackers[selection.first.to_i-1].id
                 invalid = false
               end
             else

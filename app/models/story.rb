@@ -61,7 +61,7 @@ class Story < Issue
   end
 
   def self.trackers
-    trackers = Setting.plugin_backlogs[:story_trackers]
+    trackers = Setting.plugin_backlogs["story_trackers"]
     return [] if trackers.blank?
 
     trackers.map { |tracker| Integer(tracker) }

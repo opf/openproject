@@ -212,7 +212,7 @@ class Burndown
   end
 
   def initialize(sprint, project, burn_direction = nil)
-    burn_direction ||= Setting.plugin_backlogs[:points_burn_direction]
+    burn_direction ||= Setting.plugin_backlogs["points_burn_direction"]
 
     @sprint_id = sprint.id
 

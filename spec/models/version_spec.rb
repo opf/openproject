@@ -40,8 +40,8 @@ describe Version do
 
       # enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
-      Setting.plugin_backlogs = {:story_trackers => [epic_tracker.id, story_tracker.id],
-                                 :task_tracker   => task_tracker.id}
+      Setting.plugin_backlogs = {"story_trackers" => [epic_tracker.id, story_tracker.id],
+                                 "task_tracker"   => task_tracker.id}
 
       # otherwise the tracker id's from the previous test are still active
       Issue.instance_variable_set(:@backlogs_trackers, nil)

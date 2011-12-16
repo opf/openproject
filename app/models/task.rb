@@ -4,7 +4,7 @@ class Task < Issue
   unloadable
 
   def self.tracker
-    task_tracker = Setting.plugin_backlogs[:task_tracker]
+    task_tracker = Setting.plugin_backlogs["task_tracker"]
     task_tracker.blank? ? nil : task_tracker.to_i
   end
 

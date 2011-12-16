@@ -48,9 +48,9 @@ Redmine::Plugin.register :backlogs do
 
 
   settings :default => {
-                         :story_trackers  => nil,
-                         :task_tracker    => nil,
-                         :card_spec       => nil
+                         "story_trackers"  => nil,
+                         "task_tracker"    => nil,
+                         "card_spec"       => nil
                        },
            :partial => 'shared/settings'
 
