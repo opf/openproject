@@ -26,6 +26,7 @@
 </table>
 <div>
 <div>
+  <label class="hidden-for-sighted", for="add_rate_date" %>"><%= l(:description_date_for_new_rate) %></label>
   <%= text_field_tag :add_rate_date, "", :size => 10, :value => Date.today %><%= calendar_for("add_rate_date") %>
   <%= link_to_function l(:button_add_rate), "addRate($('add_rate_date'))", {:class => "icon icon-add"} %>
 </div>

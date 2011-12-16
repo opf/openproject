@@ -15,8 +15,14 @@
 <% unless error_messages.blank? %><tr><td colspan="3"><%= error_messages %></td></tr><% end %>
 <% fields_for prefix, rate do |rate_form| %>
 <tr class="<%= classes %>" id="<%= id_prefix %>">
-  <td><%= rate_form.text_field :valid_from, :size => 10, :class => 'date', :index => id_or_index %><%= calendar_for("#{id_prefix}_valid_from") %></td>
-  <td class="currency"><%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : ""  %>  <%= Setting.plugin_redmine_costs['costs_currency'] %></td>
+  <td>
+    <label class="hidden-for-sighted", for="<%= "#{id_prefix}_valid_from" %>"><%= l(:caption_valid_from) %></label>
+    <%= rate_form.text_field :valid_from, :size => 10, :class => 'date', :index => id_or_index %><%= calendar_for("#{id_prefix}_valid_from") %>
+  </td>
+  <td class="currency">
+    <label class="hidden-for-sighted", for="<%= "#{id_prefix}_rate" %>"><%= l(:caption_rate) %></label>
+    <%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : ""  %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
+  </td>
   <td><%= image_to_function 'delete.png', "var e = $('#{id_prefix}');parent=e.up();e.remove();recalculate_even_odd(parent)", {:alt => l(:button_delete), :title => l(:button_delete)}%></td>
 </tr>
 <% end %>
