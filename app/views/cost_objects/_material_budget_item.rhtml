@@ -1,15 +1,15 @@
-<%- 
-  index ||= "INDEX" 
+<%-
+  index ||= "INDEX"
   new_or_existing = material_budget_item.new_record? ? 'new' : 'existing'
-  id_or_index = material_budget_item.new_record? ? index : material_budget_item.id 
+  id_or_index = material_budget_item.new_record? ? index : material_budget_item.id
   prefix = "cost_object[#{new_or_existing}_material_budget_item_attributes][]"
   id_prefix = "cost_object_#{new_or_existing}_material_budget_item_attributes_#{id_or_index}"
   name_prefix = "cost_object[#{new_or_existing}_material_budget_item_attributes][#{id_or_index}]"
   classes ||= ""
-  
+
   @material_budget_item = material_budget_item
   error_messages = error_messages_for 'material_budget_item'
--%> 
+-%>
 
 <% unless error_messages.blank? %><tr><td colspan="5"><%= error_messages %></td></tr><% end %>
 <% fields_for prefix, material_budget_item do |cost_form| %>
@@ -38,8 +38,8 @@
     end %>
   </td>
   <td class="delete">
-    <%= link_to_function image_tag('delete.png'), "deleteMaterialBudgetItem('#{id_prefix}')" %>
+    <%= link_to_function image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)), "deleteMaterialBudgetItem('#{id_prefix}')" %>
   </td>
 </tr>
 <% end %>
-  
+

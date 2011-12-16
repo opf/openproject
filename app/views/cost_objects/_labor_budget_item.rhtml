@@ -1,7 +1,7 @@
-<%- 
-  index ||= "INDEX" 
+<%-
+  index ||= "INDEX"
   new_or_existing = labor_budget_item.new_record? ? 'new' : 'existing'
-  id_or_index = labor_budget_item.new_record? ? index : labor_budget_item.id 
+  id_or_index = labor_budget_item.new_record? ? index : labor_budget_item.id
   prefix = "cost_object[#{new_or_existing}_labor_budget_item_attributes][]"
   id_prefix = "cost_object_#{new_or_existing}_labor_budget_item_attributes_#{id_or_index}"
   name_prefix = "cost_object[#{new_or_existing}_labor_budget_item_attributes][#{id_or_index}]"
@@ -9,7 +9,7 @@
 
   @labor_budget_item = labor_budget_item
   error_messages = error_messages_for 'labor_budget_item'
--%> 
+-%>
 
 <% unless error_messages.blank? %><tr><td colspan="5"><%= error_messages %></td></tr><% end %>
 <% fields_for prefix, labor_budget_item do |cost_form| %>
@@ -35,7 +35,7 @@
     <%= observe_field( "#{id_prefix}_hours", :frequency => 1, :url => {:action => :update_labor_budget_item, :project_id => @project.id}, :with => "'user_id=' + encodeURIComponent(document.getElementById('#{id_prefix}_user_id').value) + '&hours=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_object_fixed_date').value) + '&element_id=#{id_prefix}'") %>
   </td>
   <td class="delete">
-    <%= link_to_function image_tag('delete.png'), "deleteLaborBudgetItem('#{id_prefix}')" %>
+    <%= link_to_function image_tag('delete.png', :alt => l(:button_delete), :title => l(:button_delete)), "deleteLaborBudgetItem('#{id_prefix}')" %>
   </td>
 </tr>
 <% end %>

@@ -17,7 +17,7 @@
     <tr class="<%= cycle('odd', 'even') %>">
       <td style="padding-right: 1em;"><%= rate.valid_from %></td>
       <td class="currency"><%= number_to_currency(rate.rate) %></td>
-      <td><%= rate == current_rate ? image_tag('true.png') : "" %></td>
+      <td><%= rate == current_rate ? image_tag('true.png', :alt => l(:general_text_Yes)) : "" %></td>
     </tr>
   <%- end -%>
   </tbody>
