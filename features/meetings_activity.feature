@@ -32,8 +32,7 @@ Feature: Show meeting activity
   @javascript
   Scenario: Navigate to the project's activity page and see the meeting activity
        When I login as "alice"
-        And I go to the activity page for the project called "dingens"
-        And I click on "Meetings"
+        And I go to the meetings activity page for the project "dingens"
        Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 am-01:30 pm)" within ".meeting"
         And I should see "Agenda: Bobs Meeting" within ".meeting-agenda"
         And I should see "Minutes: Bobs Meeting" within ".meeting-minutes"
@@ -47,6 +46,5 @@ Feature: Show meeting activity
         And I fill in the following:
             | meeting_location | Geheimer Ort! |
         And I click on "Save"
-        And I go to the activity page for the project called "dingens"
-        And I click on "Meetings"
+        And I go to the meetings activity page for the project "dingens"
        Then I should see "Meeting: Bobs Meeting (02/10/2011 11:00 am-01:30 pm)" within ".meeting.me"
