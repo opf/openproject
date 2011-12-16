@@ -1,3 +1,14 @@
+= 1.1.0 - 2011-12-16
+
+= Minor Changes
+
+* Tested with the new layout of yet to be released ChiliProject 3.0
+* Loading jQuery only if ChiliProject doesn't
+
+= Bug Fixes
+
+* Fixing syntactic ambiguity in Ruby 1.9 (#1)
+
 = 1.0.2 - 2011-11-21
 
 == Minor Changes
