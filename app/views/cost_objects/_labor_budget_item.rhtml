@@ -24,9 +24,9 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <span id="<%= "#{id_prefix}_costs" %>" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+    <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
       <%= number_to_currency(labor_budget_item.calculated_costs(@cost_object.fixed_date, @cost_object.project_id)) if labor_budget_item.can_view_costs?(User.current, @project) %>
-    </span>
+    </a>
     <%= update_page_tag do |page|
       page << "makeEditable('#{id_prefix}_costs', '#{name_prefix}[budget]');"
       page << "edit($('#{id_prefix}_costs'), '#{name_prefix}[budget]', '#{number_to_currency(labor_budget_item.budget)}');" if labor_budget_item.budget

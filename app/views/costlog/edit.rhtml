@@ -19,11 +19,11 @@
         <%= observe_field( "cost_entry_spent_on", :frequency => 1, :url => {:controller => :cost_objects, :action => :update_material_budget_item, :project_id => @cost_entry.project}, :with => "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
     </p>
     <p>
-      <label><%= l(:field_costs) %></label>
+      <label for="cost_entry_costs_edit"><%= l(:field_costs) %></label>
       <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
-        <span id="cost_entry_costs" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+        <a href="javascript:;" id="cost_entry_costs" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
           <%= number_to_currency(@cost_entry.calculated_costs) %>
-        </span>
+        </a>
         <%= update_page_tag do |page|
           page << "makeEditable('cost_entry_costs', 'cost_entry[overridden_costs]');"
           page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
