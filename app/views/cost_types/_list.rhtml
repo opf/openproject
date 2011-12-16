@@ -24,7 +24,8 @@
       <%= content_tag :td, number_to_currency( rate ? rate.rate : 0.0), :class => "currency", :id => "cost_type_#{cost_type.id}_rate"%>
       <td>
         <% form_for :cost_type, cost_type, :url => { :controller => 'cost_types', :action => 'set_rate', :id => cost_type }  do |f| %>
-          <%= f.text_field :rate, :value => "", :name => :rate, :size => 7 %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
+          <label class="hidden-for-sighted" for="<%= "rate_field_#{cost_type.id}" %>"><%= l(:caption_set_rate) %></label>
+          <%= f.text_field :rate, :value => "", :name => :rate, :size => 7, :id => "rate_field_#{cost_type.id}" %>  <%= Setting.plugin_redmine_costs['costs_currency'] %>
           <%= image_submit_tag "save.png", :alt => l(:caption_save_rate), :title => l(:caption_save_rate) %>
         <% end %>
       </td>
