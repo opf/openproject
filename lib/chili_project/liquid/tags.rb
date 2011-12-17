@@ -31,8 +31,3 @@ module ChiliProject::Liquid
   end
 end
 
-# FIXME: remove the deprecated syntax for 4.0, provide a way to migrate
-# existing pages to the new syntax.
-ChiliProject::Liquid::Legacy.add('child_pages', :tag)
-ChiliProject::Liquid::Legacy.add('hello_world', :tag)
-ChiliProject::Liquid::Legacy.add('include', :tag)
