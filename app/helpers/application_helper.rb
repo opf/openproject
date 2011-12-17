@@ -446,20 +446,20 @@ module ApplicationHelper
     case args.size
     when 1
       obj = options[:object]
-      text = args.shift
+      input_text = args.shift
     when 2
       obj = args.shift
       attr = args.shift
-      text = obj.send(attr).to_s
+      input_text = obj.send(attr).to_s
     else
       raise ArgumentError, 'invalid arguments to textilizable'
     end
-    return '' if text.blank?
+    return '' if input_text.blank?
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
     begin
-      text = ChiliProject::Liquid::Legacy.run_macros(text)
+      text = ChiliProject::Liquid::Legacy.run_macros(input_text)
       liquid_template = ChiliProject::Liquid::Template.parse(text)
       liquid_variables = get_view_instance_variables_for_liquid
       liquid_variables.merge!({'current_user' => User.current})
@@ -478,8 +478,15 @@ module ApplicationHelper
         end
         Rails.logger.debug msg
       end
-    rescue Liquid::SyntaxError
+    rescue Liquid::SyntaxError => exception
+      if Rails.logger && Rails.logger.debug?
+        msg = "[Liquid Syntax Error] #{exception.message}\n:\n#{exception.backtrace.join("\n")}"
+        msg << "\n\n"
+        Rails.logger.debug msg
+      end
+
       # Skip Liquid if there is a syntax error
+      text = h(input_text)
     end
 
     @parsed_headings = []

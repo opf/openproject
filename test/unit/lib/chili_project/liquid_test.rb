@@ -208,4 +208,14 @@ class ChiliProject::LiquidTest < ActionView::TestCase
       end
     end
   end
+
+  context "invalid input" do
+    should "be escaped" do
+      text =  "{% --- something invalid %}\n"
+      text << '<script>alert("Hello")</script>'
+
+      formatted = textilizable(text)
+      assert_match  '&lt;script&gt;alert(&quot;Hello&quot;)&lt;/script&gt;', formatted
+    end
+  end
 end
