@@ -63,5 +63,11 @@ module ChiliProject
     Legacy.add('child_pages', :tag)
     Legacy.add('hello_world', :tag)
     Legacy.add('include', :tag)
+
+    # Transform the old textile TOC tags to syntax suported by liquid
+    Legacy.add('toc', :tag)
+    Legacy.add('>toc', :tag, "toc_right")
+    Legacy.add('<toc', :tag, "toc_left")
+
   end
 end

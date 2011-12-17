@@ -28,6 +28,15 @@ module ChiliProject::Liquid
     register_tag('include', Include, :html => true)
     register_tag('tag_list', TagList, :html => true)
     register_tag('variable_list', VariableList, :html => true)
+
+    # Output these tags again as they were typed
+    # These are to be handled later
+    register_tag('toc', Identity, :html => true)
+    register_tag('toc_left', Identity, :html => true)
+    register_tag('toc_right', Identity, :html => true)
+
+    # See ChiliProject::Liquid::Legacy for the definition of legacy tags,
+    # most of which are also defined here
   end
 end
 

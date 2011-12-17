@@ -740,7 +740,7 @@ module ApplicationHelper
     end
   end
 
-  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
+  TOC_RE = /<p>\{%\s*toc(_right|_left)?\s*%\}<\/p>/i unless const_defined?(:TOC_RE)
 
   # Renders the TOC with given headings
   def replace_toc(text, headings)
@@ -749,8 +749,8 @@ module ApplicationHelper
         ''
       else
         div_class = 'toc'
-        div_class << ' right' if $1 == '>'
-        div_class << ' left' if $1 == '<'
+        div_class << ' right' if $1 == '_right'
+        div_class << ' left' if $1 == '_left'
         out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'></legend><div>"
         out << "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
