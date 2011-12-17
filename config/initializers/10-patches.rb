@@ -12,6 +12,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Patches active_support/core_ext/load_error.rb to support 1.9.3 LoadError message
+if RUBY_VERSION >= '1.9.3'
+  MissingSourceFile::REGEXPS << [/^cannot load such file -- (.+)$/i, 1] 
+end
 
 require 'active_record'
 

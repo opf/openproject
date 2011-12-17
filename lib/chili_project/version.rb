@@ -38,11 +38,13 @@ module ChiliProject
     end
 
     def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
+      @revision ||= begin
+        git = Redmine::Scm::Adapters::GitAdapter
+        git_dir = Rails.root.join('.git')
+
+        if File.directory? git_dir
+          git.send(:shellout, "#{git.sq_bin} --git-dir='#{git_dir}' rev-parse --short=9 HEAD") { |io| io.read }.to_s.chomp
+        end
       end
     end
 
