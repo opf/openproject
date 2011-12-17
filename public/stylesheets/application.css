@@ -780,16 +780,19 @@ div.wiki pre {
 }
 
 div.wiki ul.toc {
-    margin-bottom: 12px;
-    margin-right: 12px;
-    margin-left: 0;
+    margin: 0;
+    padding: 0 12px;
     display: table
 }
+
 * html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
-div.wiki ul.toc {font-size: 0.8em;}
-div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
-div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
+div.wiki fieldset {padding: 0}
+div.wiki fieldset.collapsible.header_collapsible legend  {background-position: 95% 50%}
+div.wiki fieldset legend span { padding-right: 20px}
+div.wiki fieldset.toc div {background-color: #fff}
+div.wiki fieldset.toc.right { float: right; padding-left: 12px; width: auto; position: relative; }
+div.wiki fieldset.toc.left  { float: left; padding-right: 12px; width: auto; position: relative;}
 div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li { list-style-type:none; margin: 0;}
 div.wiki ul.toc li li { margin-left: 1.5em; }

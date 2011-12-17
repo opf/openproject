@@ -814,6 +814,7 @@ en:
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   label_deleted_custom_field: '(deleted custom field)'
+  label_toc: "Contents"
 
   button_login: Login
   button_submit: Submit

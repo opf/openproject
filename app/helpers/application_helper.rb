@@ -748,11 +748,14 @@ module ApplicationHelper
       if headings.empty?
         ''
       else
-        div_class = 'toc'
-        div_class << ' right' if $1 == '_right'
-        div_class << ' left' if $1 == '_left'
-        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'></legend><div>"
-        out << "<ul class=\"#{div_class}\"><li>"
+        toc_class = 'toc'
+        toc_class << ' right' if $1 == '_right'
+        toc_class << ' left' if $1 == '_left'
+
+        out = "<fieldset class=\"header_collapsible collapsible #{toc_class}\">"
+        out << "<legend onclick=\"toggleFieldset(this);\"><span>#{l(:label_toc)}</span></legend>"
+        out << "<div>"
+        out << "<ul class=\"toc\"><li>"
         root = headings.map(&:first).min
         current = root
         started = false
