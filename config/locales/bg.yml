@@ -983,3 +983,7 @@ bg:
   description_choose_project: Проекти
   description_date_from: Въведете начална дата
   label_deleted_custom_field: (изтрито потребителско поле)
+  text_display_subprojects: Display subprojects
+  text_current_project: Current project
+  label_toc: Contents
+  search_input_placeholder: search ...

@@ -1001,3 +1001,7 @@ fr:
   description_filter: Filter
   description_choose_project: Projects
   description_date_from: Enter start date
+  text_display_subprojects: Display subprojects
+  text_current_project: Current project
+  label_toc: Contents
+  search_input_placeholder: search ...

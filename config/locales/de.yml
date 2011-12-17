@@ -1002,3 +1002,5 @@ de:
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
   label_toc: "Inhaltsverzeichnis"
+  text_display_subprojects: Display subprojects
+  text_current_project: Current project
