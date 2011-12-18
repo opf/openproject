@@ -173,6 +173,7 @@ class WikiController < ApplicationController
   def annotate
     @annotate = @page.annotate(params[:version])
     render_404 unless @annotate
+    @editable = editable?
   end
 
   verify :method => :delete, :only => [:destroy], :redirect_to => { :action => :show }
