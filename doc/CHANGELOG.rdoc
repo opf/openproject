@@ -1,4 +1,34 @@
-= ChiliProject changelog
+= ChiliProject Changelog
+
+== 2011-12-18 v3.0.0-beta1
+
+* Bug #653: Multiple query related models defined in one file
+* Bug #734: Liquid integration breaks on 1.9.2
+* Bug #766: Broken formatting for TOCs
+* Feature #263: New layout
+* Feature #329: Forum replies poorly highlighted
+* Feature #604: Liquid Markup on top of Textile
+* Feature #649: Update CodeRay to 1.0.0
+* Feature #658: Include jquery and jquery ui
+* Feature #672: Allow queries to include subproject issues
+* Feature #692: new design with 263-new-layout-ready
+* Feature #720: Tagging
+* Feature #747: Include capybara for integration tests
+* Feature #760: Update quick search to use a partial
+
+== to-be-released v2.6.0
+
+* Bug #356: Clicking on login while logged-in logs you out
+* Bug #463: REST API does not accept Basic HTTP auth when running through Apache mod_proxy
+* Bug #708: AAJ does not create journals, when models are created using sub classes
+* Bug #740: Revision page, new files are not displayed (Git Repo)
+* Bug #746: Problems with rdm-mailhandler.rb
+* Bug #748: ChiliProject::VERSION.revision doesn't capture error output
+* Bug #761: Fix quoting in shell-out (git adapter)
+* Feature #298: Seperate core plugins and user plugins into different directories
+* Feature #388: Add LDAP filter to ldap authentication
+* Feature #486: Do not display edit link in annotation page when you don't have permissions
+* Feature #733: Add css class for issues that are due today
 
 == 2011-11-30 v2.5.0
 
