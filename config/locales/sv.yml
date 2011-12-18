@@ -1029,3 +1029,4 @@ sv:
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
+  field_custom_filter: Custom LDAP filter

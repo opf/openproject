@@ -1004,3 +1004,4 @@ de:
   label_toc: "Inhaltsverzeichnis"
   text_display_subprojects: Display subprojects
   text_current_project: Current project
+  field_custom_filter: Custom LDAP filter
