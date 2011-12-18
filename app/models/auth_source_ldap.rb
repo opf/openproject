@@ -21,6 +21,7 @@ class AuthSourceLdap < AuthSource
   validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
+  validate :custom_filter_should_be_valid_ldap_filter_syntax
 
   before_validation :strip_ldap_attributes
 
@@ -101,10 +102,17 @@ class AuthSourceLdap < AuthSource
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
     object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
-    attrs = {}
+    custom_ldap_filter = custom_filter_to_ldap
 
-    ldap_con.search( :base => self.base_dn,
-                     :filter => object_filter & login_filter,
+    if custom_ldap_filter.present?
+      search_filters = object_filter & login_filter & custom_ldap_filter
+    else
+      search_filters = object_filter & login_filter
+    end
+    attrs = {}
+    
+    ldap_con.search( :base => self.base_dn, 
+                     :filter => search_filters, 
                      :attributes=> search_attributes) do |entry|
 
       if onthefly_register?
@@ -119,6 +127,27 @@ class AuthSourceLdap < AuthSource
     attrs
   end
 
+  def custom_filter_to_ldap
+    return nil unless custom_filter.present?
+    
+    begin
+      return Net::LDAP::Filter.construct(custom_filter)
+    rescue Net::LDAP::LdapError # Filter syntax error
+      logger.debug "LDAP custom filter syntax error for: #{custom_filter}" if logger && logger.debug?
+      return nil
+    end
+  end
+
+  def custom_filter_should_be_valid_ldap_filter_syntax
+    return true unless custom_filter.present?
+
+    begin
+      return Net::LDAP::Filter.construct(custom_filter)
+    rescue Net::LDAP::LdapError # Filter syntax error
+      errors.add(:custom_filter, :invalid)
+    end
+  end
+  
   def self.get_attr(entry, attr_name)
     if !attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
