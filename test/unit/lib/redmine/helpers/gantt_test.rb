@@ -13,39 +13,18 @@
 #++
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
-  # Utility methods and classes so assert_select can be used.
-  class GanttViewTest < ActionView::Base
-    include ActionView::Helpers::UrlHelper
-    include ActionView::Helpers::TextHelper
-    include ActionController::UrlWriter
-    include ApplicationHelper
-    include ProjectsHelper
-    include IssuesHelper
-
-    def self.default_url_options
-      {:only_path => true }
-    end
-
-  end
-
-  include ActionController::Assertions::SelectorAssertions
+class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
+  include ApplicationHelper
+  include ProjectsHelper
+  include IssuesHelper
 
   def setup
-    @response = ActionController::TestResponse.new
+    setup_with_controller
     # Fixtures
     ProjectCustomField.delete_all
     Project.destroy_all
 
     User.current = User.find(1)
-  end
-
-  def build_view
-    @view = GanttViewTest.new
-  end
-
-  def html_document
-    HTML::Document.new(@response.body)
   end
 
   # Creates a Gantt chart for a 4 week span
@@ -54,7 +33,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     @gantt = Redmine::Helpers::Gantt.new(options)
     @gantt.project = @project
     @gantt.query = Query.generate_default!(:project => @project)
-    @gantt.view = build_view
+    @gantt.view = self
     @gantt.instance_variable_set('@date_from', options[:date_from] || 2.weeks.ago.to_date)
     @gantt.instance_variable_set('@date_to', options[:date_to] || 2.weeks.from_now.to_date)
   end
@@ -132,24 +111,24 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
     context "project" do
       should "be rendered" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.project-name a", /#{@project.name}/
       end
 
       should "have an indent of 4" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.project-name[style*=left:4px]"
       end
     end
 
     context "version" do
       should "be rendered" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.version-name a", /#{@version.name}/
       end
 
       should "be indented 24 (one level)" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.version-name[style*=left:24px]"
       end
 
@@ -160,7 +139,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         end
 
         should "not be rendered" do
-          @response.body = @gantt.subjects
+          @output_buffer = @gantt.subjects
           assert_select "div.version-name a", :text => /#{@version.name}/, :count => 0
         end
       end
@@ -168,12 +147,12 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
     context "issue" do
       should "be rendered" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.issue-subject", /#{@issue.subject}/
       end
 
       should "be indented 44 (two levels)" do
-        @response.body = @gantt.subjects
+        @output_buffer = @gantt.subjects
         assert_select "div.issue-subject[style*=left:44px]"
       end
 
@@ -197,7 +176,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         end
 
         should "be rendered" do
-          @response.body = @gantt.subjects
+          @output_buffer = @gantt.subjects
           assert_select "div.issue-subject", /#{@issue.subject}/
         end
       end
@@ -211,14 +190,14 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         end
 
         should "indent subtasks" do
-          @response.body = @gantt.subjects
+          @output_buffer = @gantt.subjects
           # parent task 44px
           assert_select "div.issue-subject[style*=left:44px]", /#{@issue.subject}/
           # children 64px
           assert_select "div.issue-subject[style*=left:64px]", /child1/
           assert_select "div.issue-subject[style*=left:64px]", /child2/
           # grandchild 84px
-          assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @response.body
+          assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @output_buffer
         end
       end
     end
@@ -241,7 +220,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
                                :due_date => 1.week.from_now.to_date)
       @project.issues << @issue
 
-      @response.body = @gantt.lines
+      @output_buffer = @gantt.lines
     end
 
     context "project" do
@@ -290,22 +269,22 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
     context ":html format" do
       should "add an absolute positioned div" do
-        @response.body = @gantt.subject_for_project(@project, {:format => :html})
+        @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
         assert_select "div[style*=absolute]"
       end
 
       should "use the indent option to move the div to the right" do
-        @response.body = @gantt.subject_for_project(@project, {:format => :html, :indent => 40})
+        @output_buffer = @gantt.subject_for_project(@project, {:format => :html, :indent => 40})
         assert_select "div[style*=left:40]"
       end
 
       should "include the project name" do
-        @response.body = @gantt.subject_for_project(@project, {:format => :html})
+        @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
         assert_select 'div', :text => /#{@project.name}/
       end
 
       should "include a link to the project" do
-        @response.body = @gantt.subject_for_project(@project, {:format => :html})
+        @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
         assert_select 'a[href=?]', "/projects/#{@project.identifier}", :text => /#{@project.name}/
       end
 
@@ -314,7 +293,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         @project.versions << Version.generate!(:effective_date => Date.yesterday)
 
         assert @project.overdue?, "Need an overdue project for this test"
-        @response.body = @gantt.subject_for_project(@project, {:format => :html})
+        @output_buffer = @gantt.subject_for_project(@project, {:format => :html})
 
         assert_select 'div span.project-overdue'
       end
@@ -347,38 +326,38 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     context ":html format" do
       context "todo line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_todo[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_todo[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total width of the project" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_todo[style*=width:58px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_todo[style*=width:58px]", true, @output_buffer
         end
 
       end
 
       context "late line" do
         should_eventually "start from the starting point on the left" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_late[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_late[style*=left:28px]", true, @output_buffer
         end
 
         should_eventually "be the total delayed width of the project" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_late[style*=width:30px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_late[style*=width:30px]", true, @output_buffer
         end
       end
 
       context "done line" do
         should_eventually "start from the starting point on the left" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_done[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_done[style*=left:28px]", true, @output_buffer
         end
 
         should_eventually "Be the total done width of the project"  do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.task_done[style*=width:18px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.task_done[style*=width:18px]", true, @output_buffer
         end
       end
 
@@ -387,13 +366,13 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           # Shift the date range of the chart
           @gantt.instance_variable_set('@date_from', Date.today)
 
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.starting", false, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.starting", false, @output_buffer
         end
 
         should "appear at the starting point" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.starting[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.starting[style*=left:28px]", true, @output_buffer
         end
       end
 
@@ -402,14 +381,14 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           # Shift the date range of the chart
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.ending", false, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.ending", false, @output_buffer
 
         end
 
         should "appear at the end of the date range" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
-          assert_select "div.project.ending[style*=left:88px]", true, @response.body
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          assert_select "div.project.ending[style*=left:88px]", true, @output_buffer
         end
       end
 
@@ -417,17 +396,17 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         should "appear at the far left, even if it's far in the past" do
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /#{@project.name}/
         end
 
         should "show the project name" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /#{@project.name}/
         end
 
         should_eventually "show the percent complete" do
-          @response.body = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_project(@project, {:format => :html, :zoom => 4})
           assert_select "div.project.label", /0%/
         end
       end
@@ -456,35 +435,35 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
     context ":html format" do
       should "add an absolute positioned div" do
-        @response.body = @gantt.subject_for_version(@version, {:format => :html})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html})
         assert_select "div[style*=absolute]"
       end
 
       should "use the indent option to move the div to the right" do
-        @response.body = @gantt.subject_for_version(@version, {:format => :html, :indent => 40})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html, :indent => 40})
         assert_select "div[style*=left:40]"
       end
 
       should "include the version name" do
-        @response.body = @gantt.subject_for_version(@version, {:format => :html})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html})
         assert_select 'div', :text => /#{@version.name}/
       end
 
       should "include a link to the version" do
-        @response.body = @gantt.subject_for_version(@version, {:format => :html})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html})
         assert_select 'a[href=?]', Regexp.escape("/versions/show/#{@version.to_param}"), :text => /#{@version.name}/
       end
 
       should "style late versions" do
         assert @version.overdue?, "Need an overdue version for this test"
-        @response.body = @gantt.subject_for_version(@version, {:format => :html})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html})
 
         assert_select 'div span.version-behind-schedule'
       end
 
       should "style behind schedule versions" do
         assert @version.behind_schedule?, "Need a behind schedule version for this test"
-        @response.body = @gantt.subject_for_version(@version, {:format => :html})
+        @output_buffer = @gantt.subject_for_version(@version, {:format => :html})
 
         assert_select 'div span.version-behind-schedule'
       end
@@ -514,38 +493,38 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     context ":html format" do
       context "todo line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_todo[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_todo[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total width of the version" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_todo[style*=width:58px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_todo[style*=width:58px]", true, @output_buffer
         end
 
       end
 
       context "late line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_late[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_late[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total delayed width of the version" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_late[style*=width:30px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_late[style*=width:30px]", true, @output_buffer
         end
       end
 
       context "done line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_done[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_done[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total done width of the version"  do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.task_done[style*=width:16px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.task_done[style*=width:16px]", true, @output_buffer
         end
       end
 
@@ -554,13 +533,13 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           # Shift the date range of the chart
           @gantt.instance_variable_set('@date_from', Date.today)
 
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.starting", false
         end
 
         should "appear at the starting point" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.starting[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.starting[style*=left:28px]", true, @output_buffer
         end
       end
 
@@ -569,14 +548,14 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           # Shift the date range of the chart
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.ending", false
 
         end
 
         should "appear at the end of the date range" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
-          assert_select "div.version.ending[style*=left:88px]", true, @response.body
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          assert_select "div.version.ending[style*=left:88px]", true, @output_buffer
         end
       end
 
@@ -584,17 +563,17 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         should "appear at the far left, even if it's far in the past" do
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.label", /#{@version.name}/
         end
 
         should "show the version name" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.label", /#{@version.name}/
         end
 
         should "show the percent complete" do
-          @response.body = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_version(@version, {:format => :html, :zoom => 4})
           assert_select "div.version.label", /30%/
         end
       end
@@ -622,28 +601,28 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
     context ":html format" do
       should "add an absolute positioned div" do
-        @response.body = @gantt.subject_for_issue(@issue, {:format => :html})
+        @output_buffer = @gantt.subject_for_issue(@issue, {:format => :html})
         assert_select "div[style*=absolute]"
       end
 
       should "use the indent option to move the div to the right" do
-        @response.body = @gantt.subject_for_issue(@issue, {:format => :html, :indent => 40})
+        @output_buffer = @gantt.subject_for_issue(@issue, {:format => :html, :indent => 40})
         assert_select "div[style*=left:40]"
       end
 
       should "include the issue subject" do
-        @response.body = @gantt.subject_for_issue(@issue, {:format => :html})
+        @output_buffer = @gantt.subject_for_issue(@issue, {:format => :html})
         assert_select 'div', :text => /#{@issue.subject}/
       end
 
       should "include a link to the issue" do
-        @response.body = @gantt.subject_for_issue(@issue, {:format => :html})
+        @output_buffer = @gantt.subject_for_issue(@issue, {:format => :html})
         assert_select 'a[href=?]', Regexp.escape("/issues/#{@issue.to_param}"), :text => /#{@tracker.name} ##{@issue.id}/
       end
 
       should "style overdue issues" do
         assert @issue.overdue?, "Need an overdue issue for this test"
-        @response.body = @gantt.subject_for_issue(@issue, {:format => :html})
+        @output_buffer = @gantt.subject_for_issue(@issue, {:format => :html})
 
         assert_select 'div span.issue-overdue'
       end
@@ -674,47 +653,47 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
     context ":html format" do
       context "todo line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_todo[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_todo[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total width of the issue" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_todo[style*=width:58px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_todo[style*=width:58px]", true, @output_buffer
         end
 
       end
 
       context "late line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_late[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_late[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total delayed width of the issue" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_late[style*=width:30px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_late[style*=width:30px]", true, @output_buffer
         end
       end
 
       context "done line" do
         should "start from the starting point on the left" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=left:28px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_done[style*=left:28px]", true, @output_buffer
         end
 
         should "be the total done width of the issue"  do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           # 15 days * 4 px * 30% - 2 px for borders = 16 px
-          assert_select "div.task_done[style*=width:16px]", true, @response.body
+          assert_select "div.task_done[style*=width:16px]", true, @output_buffer
         end
 
         should "not be the total done width if the chart starts after issue start date"  do
           create_gantt(@project, :date_from => 5.days.ago.to_date)
 
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task_done[style*=left:0px]", true, @response.body
-          assert_select "div.task_done[style*=width:8px]", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task_done[style*=left:0px]", true, @output_buffer
+          assert_select "div.task_done[style*=width:8px]", true, @output_buffer
         end
 
         context "for completed issue" do
@@ -723,14 +702,14 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
           end
 
           should "be the total width of the issue"  do
-            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-            assert_select "div.task_done[style*=width:58px]", true, @response.body
+            @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:58px]", true, @output_buffer
           end
 
           should "be the total width of the issue with due_date=start_date"  do
             @issue.due_date = @issue.start_date
-            @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-            assert_select "div.task_done[style*=width:2px]", true, @response.body
+            @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+            assert_select "div.task_done[style*=width:2px]", true, @output_buffer
           end
         end
       end
@@ -739,24 +718,24 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
         should "appear at the far left, even if it's far in the past" do
           @gantt.instance_variable_set('@date_to', 2.weeks.ago.to_date)
 
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
-          assert_select "div.task.label", true, @response.body
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          assert_select "div.task.label", true, @output_buffer
         end
 
         should "show the issue status" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task.label", /#{@issue.status.name}/
         end
 
         should "show the percent complete" do
-          @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+          @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
           assert_select "div.task.label", /30%/
         end
       end
     end
 
     should "have an issue tooltip" do
-      @response.body = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
+      @output_buffer = @gantt.line_for_issue(@issue, {:format => :html, :zoom => 4})
       assert_select "div.tooltip", /#{@issue.subject}/
     end
 
