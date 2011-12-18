@@ -19,7 +19,7 @@ class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :journals, :attachments, :enumerations
-  
+
   def setup
     @controller = WikiController.new
     @request    = ActionController::TestRequest.new

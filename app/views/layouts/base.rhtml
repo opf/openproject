@@ -46,7 +46,7 @@
         <li class="drop-down">
           <%= link_to l(:label_project_plural), { :controller => 'projects', :action => 'index' }, :class => "projects" %>
           <ul style="display:none;">
-            <% 
+            <%
             project_content = ''
             project_tree(User.current.projects.all) do |project, level|
               name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
@@ -104,7 +104,7 @@
       <%= page_header_title %>
     </div>
   </div>
-      
+
   <% main_menu = render_main_menu(@project) %>
   <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
@@ -118,7 +118,7 @@
         <%= yield :main_menu %>
       <% if display_sidebar %>
         <!-- Sidebar -->
-        <div id="sidebar">        
+        <div id="sidebar">
           <%= yield :sidebar %>
           <%= call_hook :view_layouts_base_sidebar %>
         </div>

@@ -10,7 +10,7 @@
 <% end %>
 
   <% if @allowed_statuses.present? %>
-	<li class="folder status">			
+	<li class="folder status">
 		<a href="#" class="context_item" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| -%>
@@ -23,7 +23,7 @@
   <% end %>
 
 	<% unless @trackers.nil? %>
-	<li class="folder tracker">			
+	<li class="folder tracker">
 		<a href="#" class="context_item"><%= l(:field_tracker) %></a>
 		<ul>
 		<% @trackers.each do |t| -%>
@@ -35,7 +35,7 @@
 	</li>
 	<% end %>
 
-	<li class="folder priority">			
+	<li class="folder priority">
 		<a href="#" class="context_item"><%= l(:field_priority) %></a>
 		<ul>
 		<% @priorities.each do |p| -%>
@@ -48,7 +48,7 @@
 
   <% #TODO: allow editing versions when multiple projects %>
 	<% unless @project.nil? || @project.shared_versions.open.empty? -%>
-	<li class="folder fixed_version">			
+	<li class="folder fixed_version">
 		<a href="#" class="context_item"><%= l(:field_fixed_version) %></a>
 		<ul>
 		<% @project.shared_versions.open.sort.each do |v| -%>
@@ -63,7 +63,7 @@
 	<% end %>
 
 	<% if @assignables.present? -%>
-	<li class="folder assigned">			
+	<li class="folder assigned">
 		<a href="#" class="context_item"><%= l(:field_assigned_to) %></a>
 		<ul>
 		<% @assignables.each do |u| -%>
@@ -78,7 +78,7 @@
 	<% end %>
 
 	<% unless @project.nil? || @project.issue_categories.empty? -%>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="context_item"><%= l(:field_category) %></a>
 		<ul>
 		<% @project.issue_categories.each do |u| -%>
@@ -104,7 +104,7 @@
     <div class="submenu"></div>
 	</li>
   <% end %>
-	
+
 <% if !@issue.nil? %>
 	<% if @can[:log_time] -%>
 	<li class="log_time"><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue},
