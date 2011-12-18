@@ -281,9 +281,6 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_default(default)
-    p params[:back_url].to_s
-    p URI.escape(CGI.unescape(params[:back_url].to_s))
-
     back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
     if !back_url.blank?
       begin
