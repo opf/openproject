@@ -19,6 +19,7 @@ class ChangesetTest < ActiveSupport::TestCase
            :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
 
   def setup
+    super
   end
 
   def test_ref_keywords_any

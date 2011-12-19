@@ -22,6 +22,7 @@ class NewsTest < ActiveSupport::TestCase
 
 
   def setup
+    super
   end
 
   def test_create_should_send_email_notification

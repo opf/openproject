@@ -15,6 +15,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class JournalObserverTest < ActiveSupport::TestCase
   def setup
+    super
     @user = User.generate!(:mail_notification => 'all')
     @project = Project.generate!
     User.add_to_project(@user, @project, Role.generate!(:permissions => [:view_issues, :edit_issues]))
