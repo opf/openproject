@@ -547,10 +547,10 @@ span.errorSpan input {
 
 div.flash {margin-top: 8px;}
 
-div.flash.error a, div.flash.notice a, #errorExplanation a ,
-div.flash.error a:link, div.flash.notice a:link, #errorExplanation a:link ,
-div.flash.error a:hover, div.flash.notice a:hover, #errorExplanation a:hover ,
-div.flash.error a:visited, div.flash.notice a:visited, #errorExplanation a:visited {
+div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a ,
+div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link ,
+div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover ,
+div.flash.error a:visited, div.flash.warning a:visited, div.flash.notice a:visited, #errorExplanation a:visited {
   font: bold bold bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
   color: #333;
   text-decoration: none;
