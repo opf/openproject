@@ -75,8 +75,6 @@ class ApplicationController < ActionController::Base
   end
 
   def user_setup
-    # Check the settings cache for each request
-    Setting.check_cache
     # Find the current user
     User.current = find_current_user
   end
