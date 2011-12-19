@@ -532,6 +532,15 @@ input#principal_search, input#user_search {width:100%}
 
 div.flash {margin-top: 8px;}
 
+div.flash.error a, div.flash.notice a, #errorExplanation a ,
+div.flash.error a:link, div.flash.notice a:link, #errorExplanation a:link ,
+div.flash.error a:hover, div.flash.notice a:hover, #errorExplanation a:hover ,
+div.flash.error a:visited, div.flash.notice a:visited, #errorExplanation a:visited {
+  font: bold bold bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
+  color: #333;
+  text-decoration: none;
+  cursor:default;
+}
 div.flash.error, #errorExplanation {
 	background: url(../images/exclamation.png) 8px 50% no-repeat;
 	background-color: #ffe3e3;
