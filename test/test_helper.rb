@@ -46,6 +46,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   def setup
     super
+    Rails.cache.clear
   end
 
   def log_user(login, password)
