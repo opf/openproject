@@ -526,8 +526,13 @@ input#principal_search, input#user_search {width:100%}
 #errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
-	font-size: 1.1em;
-	border: 2px solid;
+    font-size: 1.1em;
+    border: 2px solid;
+    margin:0 0 10px;
+    border:1px solid;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
 }
 
 div.flash {margin-top: 8px;}
