@@ -7,7 +7,7 @@
                                 :order => "#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
 <% if assigned_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues',
+<p class="small"><%= link_to l(:label_issue_view_all_assigned_to_me), :controller => 'issues',
 																											 :action => 'index',
 																											 :set_filter => 1,
 																											 :assigned_to_id => 'me',

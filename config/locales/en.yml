@@ -456,6 +456,9 @@ en:
   label_issue_new: New issue
   label_issue_plural: Issues
   label_issue_view_all: View all issues
+  label_issue_view_all_assigned_to_me: View all issues assigned to me
+  label_issue_view_all_watched: View all watched issues
+  label_issue_view_all_reported_by_me: View all issues reported by me
   label_issues_by: "Issues by %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
@@ -698,6 +701,7 @@ en:
   label_permissions_report: Permissions report
   label_watched_issues: Watched issues
   label_related_issues: Related issues
+  label_add_related_issues: Add related issue
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: New relation
@@ -732,6 +736,8 @@ en:
   label_year: Year
   label_month: Month
   label_week: Week
+  label_previous_week: Previous week
+  label_next_week: Next week
   label_date_from: From
   label_date_to: To
   label_language_based: Based on user's language
@@ -808,6 +814,7 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_profile: Profile
   label_subtask_plural: Subtasks
+  label_add_subtask: Add subtask
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

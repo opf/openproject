@@ -1,7 +1,7 @@
 <p>
   <strong><%=l(:label_related_issues)%></strong>
   <% if authorize_for('issue_relations', 'new') %>
-    (<%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>)
+    (<%= toggle_link l(:label_add_related_issues), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>)
   <% end %>
 </p>
 

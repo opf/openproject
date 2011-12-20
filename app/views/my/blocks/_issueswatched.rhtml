@@ -3,7 +3,7 @@
 
 <%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues } %>
 <% if watched_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues',
+<p class="small"><%= link_to l(:label_issue_view_all_watched), :controller => 'issues',
 																											 :action => 'index',
 																											 :set_filter => 1,
 																											 :watcher_id => 'me',
