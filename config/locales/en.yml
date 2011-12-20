@@ -984,3 +984,7 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   total_progress: Total progress
+  description_filter_toggle: Show/Hide filter
+  description_option_toggle: Show/Hide options
+  description_toc_toggle: Show/Hide table of contents
+  description_attachment_toggle: Show/Hide attachments

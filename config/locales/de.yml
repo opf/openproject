@@ -1002,3 +1002,7 @@ de:
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
   total_progress: Gesamtfortschritt
+  description_filter_toggle: Filter aus/einblenden
+  description_option_toggle: Optionen aus/einblenden
+  description_toc_toggle: Inhaltsverzeichnis aus/einblenden
+  description_attachment_toggle: Dateien aus/einblenden
