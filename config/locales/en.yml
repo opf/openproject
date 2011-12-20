@@ -692,6 +692,7 @@ en:
   label_permissions_report: Permissions report
   label_watched_issues: Watched issues
   label_related_issues: Related issues
+  label_add_related_issues: Add related issue
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: New relation
@@ -804,6 +805,7 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_profile: Profile
   label_subtask_plural: Subtasks
+  label_add_subtask: Add subtask
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

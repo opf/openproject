@@ -693,6 +693,7 @@ de:
   label_permissions_report: Berechtigungsübersicht
   label_watched_issues: Beobachtete Tickets
   label_related_issues: Zugehörige Tickets
+  label_add_related_issues: Zugehöriges Ticket hinzufügen
   label_applied_status: Zugewiesener Status
   label_loading: Lade...
   label_relation_new: Neue Beziehung
@@ -801,6 +802,7 @@ de:
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor %{value} erstellt
   label_profile: Profil
   label_subtask_plural: Unteraufgaben
+  label_add_subtask: Unteraufgabe hinzufügen
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"
