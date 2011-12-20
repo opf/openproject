@@ -1007,3 +1007,8 @@ en:
   description_active: Active?
   description_current_position: "You are here:"
   description_subissue: Subissue of
+  total_progress: Total progress
+  description_filter_toggle: Show/Hide filter
+  description_option_toggle: Show/Hide options
+  description_toc_toggle: Show/Hide table of contents
+  description_attachment_toggle: Show/Hide attachments

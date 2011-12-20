@@ -105,9 +105,11 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
+    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : nil
     s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
+    s << closed unless closed.nil?
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
@@ -785,7 +787,7 @@ module ApplicationHelper
         div_class = 'toc'
         div_class << ' right' if $1 == '>'
         div_class << ' left' if $1 == '<'
-        out = "<fieldset class='header_collapsible collapsible'><legend onclick='toggleFieldset(this);'>#{l(:label_table_of_contents)}</legend><div>"
+        out = "<fieldset class='header_collapsible collapsible'><legend title='" + l(:description_toc_toggle)+ "', onclick='toggleFieldset(this);'>#{l(:label_table_of_contents)}</legend><div>"
         out << "<ul class=\"#{div_class}\"><li>"
         root = headings.map(&:first).min
         current = root
@@ -868,7 +870,7 @@ module ApplicationHelper
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
         (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
-      content_tag('p', legend, :class => 'pourcent')
+      content_tag('p', legend + " " + l(:total_progress), :class => 'pourcent')
   end
 
   def checked_image(checked=true)
