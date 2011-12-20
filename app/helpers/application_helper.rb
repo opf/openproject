@@ -796,7 +796,7 @@ module ApplicationHelper
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
         (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
-      content_tag('p', legend, :class => 'pourcent')
+      content_tag('p', legend + " " + l(:total_progress), :class => 'pourcent')
   end
 
   def checked_image(checked=true)
@@ -940,7 +940,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'reports'
@@ -961,7 +961,7 @@ module ApplicationHelper
         params[:controller]
       end
 
-    
+
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
