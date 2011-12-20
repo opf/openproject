@@ -456,6 +456,9 @@ de:
   label_issue_new: Neues Ticket
   label_issue_plural: Tickets
   label_issue_view_all: Alle Tickets anzeigen
+  label_issue_view_all_assigned_to_me: Alle mir zugewiesenen Tickets anzeigen
+  label_issue_view_all_watched: Alle beobachteten Tickets anzeigen
+  label_issue_view_all_reported_by_me: Alle von mir erstellten Tickets anzeigen
   label_issues_by: "Tickets von %{value}"
   label_issue_added: Ticket hinzugefügt
   label_issue_updated: Ticket aktualisiert

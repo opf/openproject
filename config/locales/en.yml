@@ -452,6 +452,9 @@ en:
   label_issue_new: New issue
   label_issue_plural: Issues
   label_issue_view_all: View all issues
+  label_issue_view_all_assigned_to_me: View all issues assigned to me
+  label_issue_view_all_watched: View all watched issues
+  label_issue_view_all_reported_by_me: View all issues reported by me
   label_issues_by: "Issues by %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
