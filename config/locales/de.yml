@@ -727,6 +727,8 @@ de:
   label_year: Jahr
   label_month: Monat
   label_week: Woche
+  label_previous_week: Woche zurück
+  label_next_week: Woche vor
   label_date_from: Von
   label_date_to: Bis
   label_language_based: Sprachabhängig
