@@ -158,7 +158,7 @@ tr.message td.last_message { font-size: 80%; white-space: nowrap; }
 tr.message.locked td.subject { background: url(../images/locked.png) no-repeat 0 1px; }
 tr.message.sticky td.subject { background: url(../images/bullet_go.png) no-repeat 0 1px; font-weight: bold; }
 
-tr.version.closed, tr.version.closed a { color: #999; }
+tr.version td.closed, tr.version td.closed a { text-decoration: line-through; }
 tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
