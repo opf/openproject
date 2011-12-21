@@ -14,11 +14,10 @@
 
 module Redmine
   module AccessKeys
-    ACCESSKEYS = {:edit => 'e',
-                  :preview => 'r',
-                  :quick_search => 'f',
-                  :search => '4',
-                  :new_issue => '7'
+    ACCESSKEYS = {:edit => '3',
+                  :preview => '1',
+                  :quick_search => '4',
+                  :new_issue => '2'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
     def self.key_for(action)
