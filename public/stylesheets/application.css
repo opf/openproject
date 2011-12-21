@@ -1348,18 +1348,17 @@ input:-moz-placeholder {
   height:15px;
   line-height:15px;
 }
-#breadcrumb {
+#breadcrumb h1 {
 	height:38px;
         line-height:38px;
         background:url(../images/background_breadcrumb.png) repeat-x left top;
         border-bottom: 1px #d9d9d9;
         color:#333333;
         padding-left:15px;
-        text-decoration: underline;
-        font-size:11px;
         font-family:"Arial", Arial, sans-serif;
         font-style:normal;
         font-weight:normal;
+        font-size: 13px;
 }
 #breadcrumb a {
         text-decoration:underline;
