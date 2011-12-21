@@ -62,7 +62,8 @@ describe Version do
       [e1, s2, s3, s4, s5].each(&:move_to_bottom)
 
       # messing around with positions
-      [s3, s4].map(&:assume_not_in_list)
+      s3.send :assume_not_in_list
+      s4.send :assume_not_in_list
 
       t3.send(:update_attribute_silently, :position, 3)
       o9.send(:update_attribute_silently, :position, 9)
