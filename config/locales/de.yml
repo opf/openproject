@@ -1007,3 +1007,4 @@ de:
   description_toc_toggle: Inhaltsverzeichnis aus/einblenden
   description_attachment_toggle: Dateien aus/einblenden
   description_autocomplete: Für dieses Feld werden sie mit einer Autovervollständigung unterstützt. Sie können einen Teil des Tickettitels schreiben und bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab oder Enter. Sie können aber auch die Ticketnummer direkt eintragen.
+  description_noscript: Sie müssen JavaScript aktiveren, um Chiliproject nutzen zu können!
