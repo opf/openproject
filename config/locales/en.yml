@@ -1020,3 +1020,4 @@ en:
   description_toc_toggle: Show/Hide table of contents
   description_attachment_toggle: Show/Hide attachments
   description_autocomplete: This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly.
+  description_noscript: You need to activate JavaScript in order to use Chiliproject!
