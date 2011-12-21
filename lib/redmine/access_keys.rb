@@ -17,6 +17,7 @@ module Redmine
     ACCESSKEYS = {:edit => '3',
                   :preview => '1',
                   :quick_search => '4',
+                  :help => '6',
                   :new_issue => '2'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
