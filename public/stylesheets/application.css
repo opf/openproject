@@ -89,7 +89,7 @@ a, a:link, a:visited {
 a:hover, a:active{ text-decoration: underline;}
 a img{ border: 0; }
 
-a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
+a.issue.closed, a.issue.closed:link, a.issue.closed:visited { text-decoration: line-through; }
 
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
@@ -155,7 +155,7 @@ tr.message { height: 2.6em; }
 tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { font-size: 80%; white-space: nowrap; }
 
-tr.version.closed, tr.version.closed a { color: #999; }
+tr.version td.closed, tr.version td.closed a { text-decoration: line-through; }
 tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
@@ -389,7 +389,7 @@ div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary .total-hours { text-align: right; }
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
-table#time-report tbody tr { font-style: italic; color: #777; }
+table#time-report tbody tr { font-style: italic; color: #333; }
 table#time-report tbody tr.last-level { font-style: normal; color: #555; }
 table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
 table#time-report .hours-dec { font-size: 0.9em; }
@@ -410,7 +410,7 @@ ul.projects div.root a.project { font-family:"Arial", Arial, sans-serif; font-we
 #tracker_project_ids ul { margin: 0;  padding-left: 1em; }
 #tracker_project_ids li { list-style-type:none; }
 
-ul.properties {padding:0; font-size: 0.9em; color: #777;}
+ul.properties {padding:0; font-size: 0.9em; color: #333;}
 ul.properties li {list-style-type:none;}
 ul.properties li span {font-style:italic;}
 
@@ -694,7 +694,7 @@ padding:4px 6px 4px 6px;
 border: 1px solid #ccc;
 border-bottom: 1px solid #bbbbbb;
 background-color: #eeeeee;
-color:#777;
+color:#333;
 font-weight:bold;
 }
 
@@ -1353,7 +1353,7 @@ input:-moz-placeholder {
         line-height:38px;
         background:url(../images/background_breadcrumb.png) repeat-x left top;
         border-bottom: 1px #d9d9d9;
-        color:#777777;
+        color:#333333;
         padding-left:15px;
         text-decoration: underline;
         font-size:11px;
@@ -1363,7 +1363,7 @@ input:-moz-placeholder {
 }
 #breadcrumb a {
         text-decoration:underline;
-        color:#777777;
+        color:#333333;
 }
 #nav-search {
         float: right;
@@ -1384,7 +1384,7 @@ input:-moz-placeholder {
         padding-top:5px;
         padding-right:10px;
         padding-bottom:8px;
-        color:black;
+        color:#333333;
         line-height:19px;
 }
 #nav-login-content  input[type=text], #nav-login-content input[type=password] {
@@ -1393,7 +1393,7 @@ input:-moz-placeholder {
 }
 #nav-login-content  div a {
         display: inline;
-        color:black;
+        color:#333333;
         padding:0;
 }
 div#optional_login_fields {
@@ -1910,7 +1910,7 @@ blockquote {
 	border:0;
 }
 
-.journal-attributes {color: #999999;}
+.journal-attributes {color: #333333;}
 
 /*-------------------------------------------------------------------------------
  * =06 - Projects Page
@@ -2251,14 +2251,14 @@ ul.projects div.root a.project {
 #sidebar {
 	padding:10px 10px 2px 20px;
         width:auto;
-        color:#888888;
+        color:#333333;
 	font-weight:normal;
         font-size:11px;
         font-family:"Arial", Arial, sans-serif;
         font-style:normal;
 }
 #sidebar h3 {
-        color:#777777;
+        color:#333333;
 	font-weight:bold;
         font-size:12px;
         font-family:"Arial", Arial, sans-serif;

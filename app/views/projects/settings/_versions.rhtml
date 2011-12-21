@@ -12,8 +12,8 @@
     </tr></thead>
 	<tbody>
 <% for version in @project.shared_versions.sort %>
-    <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %> <%= 'shared' if version.project != @project %>">
-    <td class="name"><%= link_to_version version %></td>
+    <tr class="version <%= cycle 'odd', 'even' %>  <%= 'shared' if version.project != @project %>">
+    <td class="name <%=h version.status %>"><%= link_to_version version %></td>
     <td class="date"><%= format_date(version.start_date) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%=h version.description %></td>
