@@ -88,10 +88,12 @@
     </div>
     </div>
     <div id="breadcrumb">
-      <%= page_header_title %>
+      <h1>
+        <%= page_header_title %>
+      </h1>
     </div>
   </div>
-      
+
   <% main_menu = render_main_menu(@project) %>
   <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
@@ -105,7 +107,7 @@
         <%= yield :main_menu %>
       <% if display_sidebar %>
         <!-- Sidebar -->
-        <div id="sidebar">        
+        <div id="sidebar">
           <%= yield :sidebar %>
           <%= call_hook :view_layouts_base_sidebar %>
         </div>
