@@ -43,6 +43,8 @@ describe Impediment do
                                                 :status => issue_status1)}
 
   before(:each) do
+    Setting.use_caching = false
+
     Setting.plugin_backlogs = {:points_burn_direction => "down",
                                :wiki_template => "",
                                :card_spec => "Sattleford VM-5040",
