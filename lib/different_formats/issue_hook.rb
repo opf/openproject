@@ -2,6 +2,6 @@
 module PrintableIssues
   class IssueHook  < Redmine::Hook::ViewListener
     # Renders the Cost Object subject and basic costs information
-    render_on :view_issues_sidebar_issues_bottom, :partial => 'hooks/printable_issues/view_issues_sidebar_issues_bottom'
+    render_on :view_issues_sidebar_issues_bottom, :partial => 'hooks/different_formats/view_issues_sidebar_issues_bottom'
   end
 end

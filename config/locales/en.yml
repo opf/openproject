@@ -1,4 +1,5 @@
 en:
   export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print with description"
+  print_with_description: "Print preview with description"
   sentence_separator_or: "or"
+  different_formats: Different formats

@@ -1,0 +1,5 @@
+<h3><%= l(:different_formats) %></h3>
+<% if params[:action] == "index" %>
+  <%= link_to l(:print_with_description), :controller => 'issues', :action => 'printable', :project_id => @project %><br />
+  <%= link_to l(:export_to_excel), :controller => 'issues', :action => 'index', :format => 'xls', :project_id => @project %><br />
+<% end %>

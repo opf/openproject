@@ -1,4 +1,5 @@
 de:
-  print_with_description: "Drucken mit Beschreibung"
+  print_with_description: "Druckvorschau mit Beschreibung"
   export_to_excel: "Exportieren als Excel Spreadsheet"
   sentence_separator_or: "oder"
+  different_formats: Andere Formate

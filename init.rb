@@ -26,6 +26,5 @@ end
 
 # Hooks
 require 'additional_formats/filename_helper'
-require 'printable_issues/issue_hook'
-require 'xls_report/issue_hook'
+require 'different_formats/issue_hook'
 require 'xls_report/cost_report_hook'
