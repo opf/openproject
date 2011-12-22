@@ -29,7 +29,7 @@
 
 <% content_for :sidebar do %>
 <% form_tag({}, :method => :get) do %>
-<h3><%= l(:label_roadmap) %></h3>
+<h3><%= l(:description_filter) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
   <%=h tracker.name %></label><br />

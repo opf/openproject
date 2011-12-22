@@ -494,6 +494,7 @@ de:
   label_home: Hauptseite
   label_my_page: Meine Seite
   label_my_account: Mein Konto
+  label_my_account_data: Meine Kontodaten
   label_my_projects: Meine Projekte
   label_my_page_block: Bereich "Meine Seite"
   label_administration: Administration
@@ -662,6 +663,7 @@ de:
   label_result_plural: Resultate
   label_all_words: Alle Wörter
   label_wiki: Wiki
+  label_wiki_navigation: Wiki Navigation
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
