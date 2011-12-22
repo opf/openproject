@@ -41,7 +41,7 @@
 
 <% content_for :sidebar do %>
 <% form_tag({}, :method => :get) do %>
-<h3><%= l(:label_activity) %></h3>
+<h3><%= l(:description_filter) %></h3>
 <p><% @activity.event_types.each do |t| %>
 <%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
 <label for="show_<%=t%>"><%=l("label_#{t.singularize}_plural")%></label>

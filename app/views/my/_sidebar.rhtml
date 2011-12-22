@@ -3,13 +3,13 @@
 	<%= expand_current_menu %>
 <% end %>
 
-<h3><%=l(:label_my_account)%></h3>
+<h3><%=l(:label_my_account_data)%></h3>
 
 <p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
 <%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
 
 
-<h4><%= l(:label_feeds_access_key) %></h4>
+<h3><%= l(:label_feeds_access_key) %></h3>
 
 <p>
 <% if @user.rss_token %>
@@ -21,7 +21,7 @@
 </p>
 
 <% if Setting.rest_api_enabled? %>
-<h4><%= l(:label_api_access_key) %></h4>
+<h3><%= l(:label_api_access_key) %></h3>
 <div>
   <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
   <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>

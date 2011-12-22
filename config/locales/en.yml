@@ -498,6 +498,7 @@ en:
   label_home: Home
   label_my_page: My page
   label_my_account: My account
+  label_my_account_data: My account data
   label_my_projects: My projects
   label_my_page_block: My page block
   label_administration: Administration
@@ -672,6 +673,7 @@ en:
   label_result_plural: Results
   label_all_words: All words
   label_wiki: Wiki
+  label_wiki_navigation: Wiki navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
