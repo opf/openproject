@@ -52,10 +52,6 @@
 
 <% html_title "#{l(:label_cost_object)} ##{@cost_object.id}: #{@cost_object.subject}" %>
 
-<% content_for :sidebar do %>
-    <%= render :partial => 'cost_objects/sidebar' %>
-<% end %>
-
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
     <%= stylesheet_link_tag 'costs', :plugin => 'redmine_costs' %>

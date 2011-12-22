@@ -129,6 +129,9 @@ Redmine::Plugin.register :redmine_costs do
   menu :project_menu, :cost_objects, {:controller => 'cost_objects', :action => 'index'},
     :param => :project_id, :before => :settings, :caption => :cost_objects_title
 
+  menu :project_menu, :new_budget, {:action => 'new', :controller => 'cost_objects' }, :param => :project_id, :caption => :label_cost_object_new, :parent => :cost_objects
+  menu :project_menu, :show_all, {:action => 'index', :controller => 'cost_objects' }, :param => :project_id, :caption => :label_view_all_cost_objects, :parent => :cost_objects
+
   # Activities
   activity_provider :cost_objects
 end
