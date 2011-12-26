@@ -54,6 +54,23 @@ module ChiliProject
       def strip(input)
         input.to_s.strip
       end
+
+      def to_list(array, header_or_depth = nil)
+        result = []
+        if header_or_depth.is_a?(String)
+          result << "\np. #{header_or_depth}\n"
+          depth = 1
+        else
+          if header_or_depth.respond_to?(:to_i)
+            depth = [1, header_or_depth.to_i].max
+          else
+            depth = 1
+          end
+        end
+
+        result += (array || []).collect{|elm| "#{"*" * depth.to_i } #{elm.to_s}"}
+        result.join("\n")
+      end
     end
 
     Template.register_filter(OverriddenFilters)
