@@ -15,14 +15,32 @@
 module ChiliProject
   module Liquid
     module Variables
-      # Liquid "variables" that are used for backwards compatability with macros
-      #
-      # Variables are used in liquid like {{var}}
-      def self.macro_backwards_compatibility
-        {
-          'macro_list' => "Use the '{% variable_list %}' tag to see all Liquid variables and '{% tag_list %}' to see all of the Liquid tags."
-        }
+      class LazyVariable
+        def initialize(context, &block)
+          @block = block
+          @context = context
+        end
+
+        def to_liquid()
+          (@block.arity == 0) ? @block.call : @block.call(@context)
+        end
       end
+
+      # Register a Liquid variable.
+      # Pass a value to register a fixed variable or a block to create a lazy
+      # evaluated variable. The block can take the current context
+      def self.register(name, value=nil, &block)
+        var = block_given? ? Proc.new(){|ctx| LazyVariable.new(ctx, &block)} : value
+        all[name.to_s] = var
+      end
+
+      def self.all
+        @variables ||= {}
+      end
+
+      # DEPRACATED: This is just a hint on how to use Liquid introspection
+      register "macro_list",
+        "Use the '{% variable_list %}' tag to see all Liquid variables and '{% tag_list %}' to see all of the Liquid tags."
     end
   end
 end

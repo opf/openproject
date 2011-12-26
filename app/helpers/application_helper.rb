@@ -472,7 +472,7 @@ module ApplicationHelper
       liquid_variables = get_view_instance_variables_for_liquid
       liquid_variables.merge!({'current_user' => User.current})
       liquid_variables.merge!({'toc' => '{{toc}}'}) # Pass toc through to replace later
-      liquid_variables.merge!(ChiliProject::Liquid::Variables.macro_backwards_compatibility)
+      liquid_variables.merge!(ChiliProject::Liquid::Variables.all)
 
       # Pass :view in a register so this view (with helpers) can be used inside of a tag
       text = liquid_template.render(liquid_variables, :registers => {:view => self, :object => obj, :attribute => attr})
