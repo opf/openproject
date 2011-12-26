@@ -23,13 +23,25 @@ class ChiliProject::LiquidTest < ActionView::TestCase
     end
   end
 
-  context "variable_list tag" do
+  context "variables" do
     should "render a list of the current variables" do
-      text = "{% variable_list %}"
+      text = "{{ variables | to_list }}"
       formatted = textilizable(text)
 
       assert formatted.include?('<ul>'), "Not in a list format"
       assert formatted.include?('current_user')
+    end
+
+    should "be lazily evaluated" do
+      text = ["{{ variables | to_list }}"]
+      text << '{% assign foo = \"bar\" %}'
+      text << "{{ variables | to_list }}"
+      formatted = textilizable(text.join("\n"))
+
+      assert (formatted.scan('<ul>').size == 2), "Not in a list format"
+      assert (formatted.scan('current_user').size == 2)
+
+      assert (formatted.scan('foo').size == 1), "Not updated on added variable"
     end
   end
 
