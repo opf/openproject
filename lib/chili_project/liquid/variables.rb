@@ -38,9 +38,24 @@ module ChiliProject
         @variables ||= {}
       end
 
+      register "tags" do
+        ::Liquid::Template.tags.keys.sort
+      end
+
+      register "variables" do |context|
+        vars = []
+
+        vars = context.environments.first.keys.reject do |var|
+          # internal variable
+          var == "text"
+        end if context.environments.present?
+        vars += context.scopes.collect(&:keys).flatten
+        vars.uniq.sort
+      end
+
       # DEPRACATED: This is just a hint on how to use Liquid introspection
       register "macro_list",
-        "Use the '{% variable_list %}' tag to see all Liquid variables and '{% tag_list %}' to see all of the Liquid tags."
+        "Use '{{ variables | to_list: \"Variables:\" }}' to see all Liquid variables and '{{ tags | to_list: \"Tags:\" }}' to see all of the Liquid tags."
     end
   end
 end
