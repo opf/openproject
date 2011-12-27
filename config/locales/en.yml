@@ -774,6 +774,7 @@ en:
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
+  label_document_watchers: Watchers
   label_example: Example
   label_display: Display
   label_sort: Sort
