@@ -2471,6 +2471,8 @@ a.has-thumb img {
 /* Adds a simple rounded corner background */
 .rounded-background { background: #E6E5E5; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; }
 
+/* Used on the wiki to show a page hierarchy/tree */
+.pages-hierarchy { padding-left: 10px; }
 
 /*************************************************************************
 Additional wiki styles
