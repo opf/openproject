@@ -18,7 +18,7 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :groups_users
+  fixtures :all
 
   def setup
     @controller = GroupsController.new
