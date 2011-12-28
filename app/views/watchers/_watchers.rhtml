@@ -1,24 +1,31 @@
 <div class="contextual">
-<%= link_to_remote l(:button_add),
-                   :url => {:controller => 'watchers',
-                            :action => 'new',
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched} if User.current.allowed_to?(:add_issue_watchers, @project) %>
+<%= link_to_function(l(:button_add), "$('new-watcher-form').toggle();") if User.current.allowed_to?(:add_issue_watchers, @project) %>
 </div>
 
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
 
-<% unless @watcher.nil? %>
-	<% remote_form_for(:watcher, @watcher,
+<% if User.current.allowed_to?(:add_issue_watchers, @project) %>
+	<% remote_form_for(:watcher, @watcher, 
                 	   :url => {:controller => 'watchers',
               	              :action => 'new',
             	                :object_type => watched.class.name.underscore,
          	                    :object_id => watched},
        	             :method => :post,
-      	             :html => {:id => 'new-watcher-form'}) do |f| %>
-		<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+      	             :html => {:id => 'new-watcher-form', :style => 'display:none;'}) do |f| %>
+    <% users = User.active.find(:all, :limit => 25) - watched.watcher_users %>
+		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil, :style => "width:98%;" %></p>
+		<%= observe_field(:user_search,
+                 :frequency => 0.5,
+                 :update => :users,
+                 :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class),
+                 :with => 'q')
+                  %>
+		
+		<div id="users">
+			<%= principals_check_box_tags 'user_ids[]', users %>
+		</div>
 
-		<%= submit_tag l(:button_add) %>
+		<p><%= submit_tag l(:button_add) %>
 		<%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
 	<% end %>
 <% end %>

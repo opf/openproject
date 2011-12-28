@@ -63,4 +63,69 @@ class AutoCompletesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal [], assigns(:issues)
   end
+
+  context "GET :users" do
+    setup do
+      @login = User.generate!(:login => 'Acomplete')
+      @firstname = User.generate!(:firstname => 'Complete')
+      @lastname = User.generate!(:lastname => 'Complete')
+      @none = User.generate!(:login => 'hello', :firstname => 'ABC', :lastname => 'DEF')
+      @inactive = User.generate!(:firstname => 'Complete', :status => User::STATUS_LOCKED)
+    end
+
+    context "with no restrictions" do
+      setup do
+        get :users, :q => 'complete'
+      end
+      
+      should_respond_with :success
+      
+      should "render a list of matching users in checkboxes" do
+        assert_select "input[type=checkbox][value=?]", @login.id
+        assert_select "input[type=checkbox][value=?]", @firstname.id
+        assert_select "input[type=checkbox][value=?]", @lastname.id
+        assert_select "input[type=checkbox][value=?]", @none.id, :count => 0
+      end
+      
+      should "only show active users" do
+        assert_select "input[type=checkbox][value=?]", @inactive.id, :count => 0
+      end
+    end
+
+    context "restrict by removing group members" do
+      setup do
+        @group = Group.first
+        @group.users << @login
+        @group.users << @firstname
+        get :users, :q => 'complete', :remove_group_members => @group.id
+      end
+      
+      should_respond_with :success
+      
+      should "not include existing members of the Group" do
+        assert_select "input[type=checkbox][value=?]", @lastname.id
+
+        assert_select "input[type=checkbox][value=?]", @login.id, :count => 0
+        assert_select "input[type=checkbox][value=?]", @firstname.id, :count => 0
+      end
+    end
+    
+    context "restrict by removing issue watchers" do
+      setup do
+        @issue = Issue.find(2)
+        @issue.add_watcher(@login)
+        @issue.add_watcher(@firstname)
+        get :users, :q => 'complete', :remove_watchers => @issue.id, :klass => 'Issue'
+      end
+      
+      should_respond_with :success
+      
+      should "not include existing watchers" do
+        assert_select "input[type=checkbox][value=?]", @lastname.id
+
+        assert_select "input[type=checkbox][value=?]", @login.id, :count => 0
+        assert_select "input[type=checkbox][value=?]", @firstname.id, :count => 0
+      end
+    end
+  end
 end

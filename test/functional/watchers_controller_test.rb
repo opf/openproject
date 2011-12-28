@@ -114,11 +114,22 @@ class WatchersControllerTest < ActionController::TestCase
   def test_new_watcher
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
-      xhr :post, :new, :object_type => 'issue', :object_id => '2', :watcher => {:user_id => '4'}
+      xhr :post, :new, :object_type => 'issue', :object_id => '2', :user_ids => ['4']
       assert_response :success
       assert_select_rjs :replace_html, 'watchers'
     end
     assert Issue.find(2).watched_by?(User.find(4))
+  end
+
+  def test_new_multiple_users
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', 2) do
+      xhr :post, :new, :object_type => 'issue', :object_id => '2', :user_ids => ['4','7']
+      assert_response :success
+      assert_select_rjs :replace_html, 'watchers'
+    end
+    assert Issue.find(2).watched_by?(User.find(4))
+    assert Issue.find(2).watched_by?(User.find(7))
   end
 
   def test_remove_watcher
