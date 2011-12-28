@@ -305,7 +305,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
   else
-    puts "Git test repository NOT FOUND. Skipping unit tests !!!"
+    should "Git test repository not found."
     def test_fake; assert true end
   end
 end

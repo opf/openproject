@@ -362,7 +362,6 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       end
     end
   else
-    puts "Mercurial test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "Mercurial test repository not found."
   end
 end

@@ -98,7 +98,6 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
                                :content => /def remove/ }
     end
   else
-    puts "Darcs test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "Darcs test repository not found."
   end
 end

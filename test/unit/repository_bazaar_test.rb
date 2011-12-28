@@ -96,7 +96,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       assert_nil changeset.next
     end
   else
-    puts "Bazaar test repository NOT FOUND. Skipping unit tests !!!"
+    should "Bazaar test repository not found."
     def test_fake; assert true end
   end
 end

@@ -353,7 +353,7 @@ begin
         assert File.exist?(@adapter.class.template_path_for(version))
       end
     else
-      puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
+      should "Mercurial test repository not found."
       def test_fake; assert true end
     end
   end

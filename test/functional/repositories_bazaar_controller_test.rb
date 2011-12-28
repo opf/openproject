@@ -131,7 +131,6 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /Main purpose/ }
     end
   else
-    puts "Bazaar test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "Bazaar test repository not found."
   end
 end

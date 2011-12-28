@@ -102,7 +102,6 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       end
     end
   else
-    puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "Filesystem test repository not found."
   end
 end

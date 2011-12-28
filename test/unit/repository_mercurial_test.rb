@@ -273,7 +273,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       end
     end
   else
-    puts "Mercurial test repository NOT FOUND. Skipping unit tests !!!"
+    should "Mercurial test repository not found."
     def test_fake; assert true end
   end
 end

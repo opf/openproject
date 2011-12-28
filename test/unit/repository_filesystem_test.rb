@@ -45,7 +45,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     end
 
   else
-    puts "Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS."
+    should "Filesystem test repository not found."
     def test_fake; assert true end
   end
 end

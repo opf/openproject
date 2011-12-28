@@ -285,7 +285,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_tag :tag => 'h2', :content => /@ 8/
     end
   else
-    puts "Subversion test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "Subversion test repository not found."
+
   end
 end
