@@ -26,7 +26,7 @@ h5, .wiki h4 {font-size: 11px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
+#side-container {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu ul {margin: 0;  padding: 0;}
 #main-menu li {
   float: none;
@@ -1369,12 +1369,12 @@ div#optional_login_fields {
   margin-left:2px;
 }
 /*-------------------------------------------------------------------------------
- * =02 - Main Menu
+ * =02 - Side container
  *
- * This section includes the layout and styles for the left navigation column.
+ * This section includes the layout and styles for the left navigation column and menu.
  ------------------------------------------------------------------------------*/
 
-#main-menu {
+#side-container {
 	width:185px;
         height:100%;
 	position:absolute;

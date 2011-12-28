@@ -113,9 +113,12 @@
   <% end %>
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
     <% if (side_displayed) %>
-      <div id="main-menu">
-        <%= main_menu %>
-        <%= yield :main_menu %>
+      <div id="side-container">
+        <div id="main-menu">
+          <%= main_menu %>
+          <%= yield :main_menu %>
+        </div>
+
       <% if display_sidebar %>
         <!-- Sidebar -->
         <div id="sidebar">
