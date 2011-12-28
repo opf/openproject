@@ -24,6 +24,7 @@ class MailerTest < ActiveSupport::TestCase
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
     Setting.plain_text_mail = '0'
+    Setting.default_language = 'en'
   end
 
   def test_generated_links_in_emails
@@ -212,37 +213,24 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
-  # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_issue_add(issue, 'dlopper@somenet.foo')
-    end
+    assert Mailer.deliver_issue_add(issue, 'dlopper@somenet.foo')
   end
 
   def test_issue_edit
     journal = Journal.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_issue_edit(journal, "jsmith@somenet.foo")
-    end
+    assert Mailer.deliver_issue_edit(journal, "jsmith@somenet.foo")
   end
 
   def test_document_added
     document = Document.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_document_added(document, "jsmith@somenet.foo")
-    end
+    assert Mailer.deliver_document_added(document, "jsmith@somenet.foo")
   end
 
   def test_attachments_added
     attachements = [ Attachment.find_by_container_type('Document') ]
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_attachments_added(attachements, "jsmith@somenet.foo")
-    end
+    assert Mailer.deliver_attachments_added(attachements, "jsmith@somenet.foo")
   end
 
   def test_version_file_added
@@ -259,64 +247,41 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_news_added
     news = News.find(:first)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_news_added(news, "jsmith@somenet.foo")
-    end
+    assert Mailer.deliver_news_added(news, "jsmith@somenet.foo")
   end
 
   def test_news_comment_added
     comment = Comment.find(2)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_news_comment_added(comment)
-    end
+    assert Mailer.deliver_news_comment_added(comment)
   end
 
   def test_message_posted
     message = Message.find(:first)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_message_posted(message, "jsmith@somenet.foo")
-    end
+    assert Mailer.deliver_message_posted(message, "jsmith@somenet.foo")
   end
 
   def test_wiki_content_added
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert_difference 'ActionMailer::Base.deliveries.size' do
-        assert Mailer.deliver_wiki_content_added(content, "jsmith@somenet.foo")
-      end
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert Mailer.deliver_wiki_content_added(content, "jsmith@somenet.foo")
     end
   end
 
   def test_wiki_content_updated
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert_difference 'ActionMailer::Base.deliveries.size' do
-        assert Mailer.deliver_wiki_content_updated(content, "jsmith@somenet.foo")
-      end
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert Mailer.deliver_wiki_content_updated(content, "jsmith@somenet.foo")
     end
   end
 
   def test_account_information
     user = User.find(2)
-    valid_languages.each do |lang|
-      user.update_attribute :language, lang.to_s
-      user.reload
-      assert Mailer.deliver_account_information(user, 'pAsswORd')
-    end
+    assert Mailer.deliver_account_information(user, 'pAsswORd')
   end
 
   def test_lost_password
     token = Token.find(2)
-    valid_languages.each do |lang|
-      token.user.update_attribute :language, lang.to_s
-      token.reload
-      assert Mailer.deliver_lost_password(token)
-    end
+    assert Mailer.deliver_lost_password(token)
   end
 
   def test_register
@@ -324,22 +289,15 @@ class MailerTest < ActiveSupport::TestCase
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
 
-    valid_languages.each do |lang|
-      token.user.update_attribute :language, lang.to_s
-      token.reload
-      ActionMailer::Base.deliveries.clear
-      assert Mailer.deliver_register(token)
-      mail = ActionMailer::Base.deliveries.last
-      assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
-    end
+    ActionMailer::Base.deliveries.clear
+    assert Mailer.deliver_register(token)
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
   def test_test
     user = User.find(1)
-    valid_languages.each do |lang|
-      user.update_attribute :language, lang.to_s
-      assert Mailer.deliver_test(user)
-    end
+    assert Mailer.deliver_test(user)
   end
 
   def test_reminders
