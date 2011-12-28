@@ -42,7 +42,7 @@ module Redmine
         
         # Removes user from the watchers list
         def remove_watcher(user)
-          return nil unless user && user.is_a?(User)
+          return nil unless user && user.is_a?(Principal)
           Watcher.delete_all "watchable_type = '#{self.class}' AND watchable_id = #{self.id} AND user_id = #{user.id}"
         end
         
@@ -64,7 +64,14 @@ module Redmine
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
           end
-          notified.collect(&:mail).compact
+
+          notified.collect {|w|
+            if w.respond_to?(:mail) && w.mail.present? # Single mail
+              w.mail
+            elsif w.respond_to?(:mails) && w.mails.present? # Multiple mail
+              w.mails
+            end
+          }.flatten.compact
         end
 
         module ClassMethods; end
