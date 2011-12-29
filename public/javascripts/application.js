@@ -465,6 +465,15 @@ jQuery.viewportHeight = function() {
         document.body.clientHeight;
 };
 
+// Automatically use format.js for jQuery Ajax
+jQuery.ajaxSetup({
+  'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+})
+
+// Show/hide the ajax indicators
+jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show().css('z-index', '9999');  });
+jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
+
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
@@ -608,4 +617,31 @@ jQuery(document).ready(function($) {
   $('#nav-login-content').click(function(event){
     event.stopPropagation();
   });
+
+  $('.lightbox-ajax').click(function(event) {
+    $('#dialog-window').
+      html('').
+      load(this.href, function() {
+        // Set width to the content width
+        var width = $('#content').width();
+        $(this).dialog("option", "width", width).dialog('open');
+      });
+
+    event.preventDefault();
+    return false;
+
+  });
+
+  // Configures the default dialog window
+  function setUpDialogWindow() {
+    $('#dialog-window').
+      dialog({
+        autoOpen: false,
+        minWidth: 400,
+        width: 800
+      });
+
+  }
+
+  setUpDialogWindow();
 });
