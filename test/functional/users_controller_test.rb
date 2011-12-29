@@ -302,6 +302,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [2], Member.find(1).role_ids
   end
 
+
+  def test_new_membership_with_multiple_projects
+    assert_difference 'User.find(2).members.count', 2 do
+      post :edit_membership, :id => 2, :project_ids => [3,6], :membership => { :role_ids => ['1', '2']}
+    end
+  end
+  
   def test_destroy_membership
     post :destroy_membership, :id => 2, :membership_id => 1
     assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'

@@ -14,6 +14,7 @@
 
 class AutoCompletesController < ApplicationController
   before_filter :find_project, :only => :issues
+  before_filter :require_admin, :only => :projects
 
   def issues
     @issues = []
@@ -56,6 +57,12 @@ class AutoCompletesController < ApplicationController
     end
     
     @users = user_finder.active.like(params[:q]).find(:all, :limit => 100) - @removed_users
+    render :layout => false
+  end
+
+  def projects
+    @principal = Principal.find(params[:id])
+    @projects = Project.active.like(params[:q]).find(:all, :limit => 100) - @principal.projects
     render :layout => false
   end
   
