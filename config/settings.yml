@@ -178,5 +178,9 @@ default_notification_option:
   default: 'only_my_events'
 emails_header:
   default: ''
+mail_handler_confirmation_on_success:
+  default: 1
+mail_handler_confirmation_on_failure:
+  default: 1
 issue_startdate_is_adddate:
   default: 1

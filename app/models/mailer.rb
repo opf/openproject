@@ -285,6 +285,44 @@ class Mailer < ActionMailer::Base
     render_multipart('register', body)
   end
 
+  def mail_handler_confirmation(object, user, email_subject)
+    recipients user.mail
+
+    case
+    when object.is_a?(Issue)
+      project = object.project.name
+      url = url_for(:controller => 'issues', :action => 'show', :id => object.id)
+    when object.is_a?(Journal)
+      project = object.project.name
+      url = url_for(:controller => 'issues', :action => 'show', :id => object.issue.id)
+    when object.class == Message
+      project = object.project.name
+      url = url_for(object.event_url)
+    else
+      project = ''
+      url = ''
+    end
+    
+    subject "[#{project}] #{l(:label_mail_handler_confirmation, :subject => email_subject)}"
+    body(:object => object,
+         :url => url)
+    render_multipart('mail_handler_confirmation', body)
+  end
+
+  def mail_handler_unauthorized_action(user, email_subject, options={})
+    recipients options[:to] || user.mail
+    subject l(:label_mail_handler_failure, :subject => email_subject)
+    body({})
+    render_multipart('mail_handler_unauthorized_action', body)
+  end
+  
+  def mail_handler_missing_information(user, email_subject, error_message)
+    recipients user.mail
+    subject l(:label_mail_handler_failure, :subject => email_subject)
+    body({:errors => error_message.to_s})
+    render_multipart('mail_handler_missing_information', body)
+  end
+
   def test(user)
     redmine_headers 'Type' => "Test"
     set_language_if_valid(user.language)

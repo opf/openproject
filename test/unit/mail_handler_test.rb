@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+#-- encoding: utf-8 -8
 #-- copyright
 # ChiliProject is a project management system.
 #
@@ -39,6 +39,8 @@ class MailHandlerTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
+    Setting.mail_handler_confirmation_on_success = true
+    Setting.mail_handler_confirmation_on_failure = true
   end
 
   def test_add_issue
@@ -67,6 +69,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.description.match(/^Status:/i)
     assert !issue.description.match(/^Start Date:/i)
     # Email notification should be sent
+    assert_equal 2, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert mail.subject.include?('New ticket on a given project')
@@ -289,21 +292,12 @@ class MailHandlerTest < ActiveSupport::TestCase
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_add_issue_note
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal Issue.find(2), journal.journaled
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.issue.tracker.name
-  end
-
-  test "reply to issue update (Journal) by message_id" do
-    journal = submit_email('ticket_reply_by_message_id.eml')
-    assert journal.is_a?(IssueJournal), "Email was a #{journal.class}"
     assert_equal User.find_by_login('jsmith'), journal.user
     assert_equal Issue.find(2), journal.journaled
     assert_match /This is reply/, journal.notes
@@ -333,7 +327,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
   def test_add_issue_note_should_not_set_defaults
@@ -454,6 +448,116 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(Issue)
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
+  end
+
+  context "with an email that performs an unauthorized action" do
+    should "deliver an email error confirmation for an unknown user" do
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_by_unknown_user.eml')
+      assert_equal false, issue
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.to.include?('john.doe@somenet.foo')
+      assert mail.subject.include?('Failed email submission: Ticket by unknown user')
+      assert mail.body.include?('You are not authorized to perform this action')
+    end
+
+    should "deliver an email error confirmation for a user without permission" do
+      ActionMailer::Base.deliveries.clear
+      # Clear memberships for the sending user so they fail permission checks
+      Project.find(1).update_attributes(:is_public => false)
+      Member.all(:conditions => {:user_id => 2}).collect(&:destroy)
+      assert_no_difference('Journal.count') do
+        assert_equal false, submit_email('ticket_reply.eml')
+      end
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.to.include?('jsmith@somenet.foo')
+      assert mail.subject.include?('Failed email submission: Re: Add ingredients categories')
+      assert mail.body.include?('You are not authorized to perform this action')
+    end
+  end
+
+  context "with an email that is missing required information" do
+    should "deliver an email error confirmation to the sender for a missing project" do
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_with_attachment.eml') # No project set
+      assert_equal false, issue
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.to.include?('jsmith@somenet.foo')
+      assert mail.subject.include?('Failed email submission: Ticket created by email with attachment')
+      assert mail.body.include?('There were errors with your email submission')
+      assert mail.body.include?('Unable to determine target project')
+
+    end
+
+    should "deliver an email error confirmation to the sender for a missing other attributes" do
+      # Add a required custom field to simulate the error
+      project = Project.find('onlinestore')
+      project.issue_custom_fields << IssueCustomField.generate(:name => 'Required Custom Field0', :is_required => true, :trackers => project.trackers)
+      project.save
+
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_on_project_with_missing_information.eml')
+      assert_equal false, issue
+      
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.bcc.include?('jsmith@somenet.foo')
+      assert mail.subject.include?('Failed email submission: New ticket on a given project')
+      assert mail.body.include?('There were errors with your email submission')
+      assert mail.body.include?('Required Custom Field0 can\'t be blank')
+    end
+  end
+
+  context "#receive_issue" do
+    should "deliver an email confirmation when configured" do
+      ActionMailer::Base.deliveries.clear
+      issue = submit_email('ticket_on_given_project.eml')
+      
+      assert_equal 2, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[OnlineStore]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: New ticket on a given project'), "Main subject missing"
+      assert mail.body.include?("/issues/#{issue.reload.id}"), "Link to issue missing"
+    end
+  end
+
+  context "#receive_issue_reply" do
+    should "deliver an email confirmation when configured" do
+      journal = submit_email('ticket_reply.eml')
+
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[eCookbook]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: Re: Add ingredients categories'), "Main subject missing"
+      assert mail.body.include?("/issues/2"), "Link to issue missing"
+    end
+    
+  end
+
+  context "#receive_message_reply" do
+    should "deliver an email confirmation when configured" do
+      ActionMailer::Base.deliveries.clear
+      m = submit_email('message_reply.eml')
+
+      assert_equal 3, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_not_nil mail
+      assert mail.subject.include?('[eCookbook]'), "Project name missing"
+      assert mail.subject.include?('Confirmation of email submission: Reply via email'), "Main subject missing"
+      assert mail.body.include?("/boards/1/topics/1"), "Link to message missing"
+    end
   end
 
   private
