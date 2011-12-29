@@ -14,29 +14,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MailHandlerTest < ActiveSupport::TestCase
-  fixtures :users, :projects,
-                   :enabled_modules,
-                   :roles,
-                   :members,
-                   :member_roles,
-                   :users,
-                   :issues,
-                   :issue_statuses,
-                   :workflows,
-                   :trackers,
-                   :projects_trackers,
-                   :versions,
-                   :enumerations,
-                   :issue_categories,
-                   :custom_fields,
-                   :custom_fields_trackers,
-                   :custom_fields_projects,
-                   :boards,
-                   :messages
+  fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   def setup
+    Setting.bcc_recipients = '0'
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
     Setting.mail_handler_confirmation_on_success = true
@@ -327,7 +310,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 4, ActionMailer::Base.deliveries.size
   end
 
   def test_add_issue_note_should_not_set_defaults
@@ -511,7 +494,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
-      assert mail.bcc.include?('jsmith@somenet.foo')
+      assert mail.to.include?('jsmith@somenet.foo')
       assert mail.subject.include?('Failed email submission: New ticket on a given project')
       assert mail.body.include?('There were errors with your email submission')
       assert mail.body.include?('Required Custom Field0 can\'t be blank')
@@ -536,7 +519,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     should "deliver an email confirmation when configured" do
       journal = submit_email('ticket_reply.eml')
 
-      assert_equal 1, ActionMailer::Base.deliveries.size
+      assert_equal 4, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
       assert mail.subject.include?('[eCookbook]'), "Project name missing"
@@ -551,7 +534,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       m = submit_email('message_reply.eml')
 
-      assert_equal 3, ActionMailer::Base.deliveries.size
+      assert_equal 4, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
       assert mail.subject.include?('[eCookbook]'), "Project name missing"
