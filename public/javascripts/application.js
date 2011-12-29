@@ -617,4 +617,31 @@ jQuery(document).ready(function($) {
   $('#nav-login-content').click(function(event){
     event.stopPropagation();
   });
+
+  $('.lightbox-ajax').click(function(event) {
+    $('#dialog-window').
+      html('').
+      load(this.href, function() {
+        // Set width to the content width
+        var width = $('#content').width();
+        $(this).dialog("option", "width", width).dialog('open');
+      });
+
+    event.preventDefault();
+    return false;
+
+  });
+
+  // Configures the default dialog window
+  function setUpDialogWindow() {
+    $('#dialog-window').
+      dialog({
+        autoOpen: false,
+        minWidth: 400,
+        width: 800
+      });
+
+  }
+
+  setUpDialogWindow();
 });

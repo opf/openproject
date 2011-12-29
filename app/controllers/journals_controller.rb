@@ -95,6 +95,7 @@ class JournalsController < ApplicationController
       @issue = @journal.journaled
       respond_to do |format|
         format.html { }
+        format.js { render :layout => false }
       end
     else
       render_404

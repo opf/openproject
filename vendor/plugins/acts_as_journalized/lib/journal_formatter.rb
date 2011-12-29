@@ -127,7 +127,7 @@ module JournalFormatter
   #
   # Truncates the content. Adds a link to view a diff.
   def format_html_diff_detail(key, label, old_value, value)
-    link = link_to(l(:label_more), {:controller => 'journals', :action => 'diff', :id => id, :field => key.to_s})
+    link = link_to(l(:label_more), {:controller => 'journals', :action => 'diff', :id => id, :field => key.to_s}, :class => 'lightbox-ajax')
     old_value = truncate(old_value, :length => 80)
     value = truncate(value, :length => 80) + " " + link
     [old_value, value]
