@@ -24,7 +24,7 @@
       <%= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
       <%= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
-      <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :width => '100%')) %>
+      <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :width => '100%', :legend => "#{cost_object.budget_ratio}%")) %>
       <%-
         total_budget += cost_object.budget
         labor_budget += cost_object.labor_budget
@@ -42,7 +42,7 @@
       <td />
     <tr>
     <% end %>
-    
+
   </tbody>
 </table>
 <% end -%>
