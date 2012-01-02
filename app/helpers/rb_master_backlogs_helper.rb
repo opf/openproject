@@ -11,10 +11,10 @@ module RbMasterBacklogsHelper
 
           backlog_menu_items_for(backlog).map do |item|
             content_tag(:li, item, :class => 'item')
-          end
+          end.join
 
         end
-      ]
+      ].join
     end
   end
 

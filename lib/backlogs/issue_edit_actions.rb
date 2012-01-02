@@ -17,6 +17,6 @@ class Backlogs::IssueEditActions < ChiliProject::Nissue::View
                              :update => @html_id,
                              :with => "Form.serialize('#{@form_id}')"
                            }, { :class => 'icon icon-save', :accesskey => t.accesskey(:update) }) if t.authorize_for('issue_boxes', 'update'))
-      ], :class => 'contextual')
+      ].join, :class => 'contextual')
   end
 end

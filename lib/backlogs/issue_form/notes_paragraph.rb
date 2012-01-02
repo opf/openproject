@@ -8,7 +8,7 @@ class Backlogs::IssueForm::NotesParagraph < ChiliProject::Nissue::IssueView::Des
     s = content_tag(:fieldset, [
       content_tag(:legend, l(:field_notes)),
       t.text_area_tag('issue[notes]', '', :cols => 60, :rows => 10, :class => 'wiki-edit', :id => html_id),
-      t.wikitoolbar_for(html_id) ]
+      t.wikitoolbar_for(html_id) ].join
     )
   end
 end

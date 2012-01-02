@@ -4,6 +4,7 @@ require 'acts_as_silent_list'
 
 Dispatcher.to_prepare do
   require_dependency 'issue'
+  require_dependency 'task'
 
   if Issue.const_defined? "SAFE_ATTRIBUTES"
     Issue::SAFE_ATTRIBUTES << "story_points"
@@ -47,9 +48,9 @@ Redmine::Plugin.register :backlogs do
 
 
   settings :default => {
-                         :story_trackers  => nil,
-                         :task_tracker    => nil,
-                         :card_spec       => nil
+                         "story_trackers"  => nil,
+                         "task_tracker"    => nil,
+                         "card_spec"       => nil
                        },
            :partial => 'shared/settings'
 
@@ -111,5 +112,5 @@ Redmine::Plugin.register :backlogs do
        :caption => :project_module_backlogs,
        :before => :calendar,
        :param => :project_id,
-       :if => lambda { not(User.current.respond_to?(:impaired?) and User.current.impaired?) }
+       :if => proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) }
 end

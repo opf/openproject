@@ -65,7 +65,7 @@ class Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::Issue
         content_tag('td', h(issue.status)),
         content_tag('td', t.link_to_user(issue.assigned_to)),
         content_tag('td', t.link_to_version(issue.fixed_version))
-      ],
+      ].join,
       :class => css_classes.join(' '))
   end
 end
