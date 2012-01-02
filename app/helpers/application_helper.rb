@@ -348,7 +348,7 @@ module ApplicationHelper
     if @project
       link_to(text, {:controller => 'activities', :action => 'index', :id => @project, :from => time.to_date}, :title => format_time(time))
     else
-      content_tag('acronym', text, :title => format_time(time))
+      content_tag('label', text, :title => format_time(time), :class => "timestamp")
     end
   end
 
