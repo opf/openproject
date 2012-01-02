@@ -1,3 +1,11 @@
+= 1.2.0 - 2012-01-02
+
+= Minor Changes
+
+* Improved Ruby 1.9 support
+* Improved support for the proposed fix of Chili #780
+* Moved from symbol keys to string keys for plugin settings
+
 = 1.1.0 - 2011-12-16
 
 = Minor Changes
