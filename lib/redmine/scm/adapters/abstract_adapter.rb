@@ -251,6 +251,14 @@ module Redmine
         def revisions
           revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
         end
+
+        # Required since Ruby 1.9.3 as the core compact always returns an
+        # instance of Array. This method follows the spec for Array#compact
+        def compact
+          ary = self.dup
+          ary.compact!
+          ary
+        end
       end
 
       class Info
