@@ -110,9 +110,9 @@ class AuthSourceLdap < AuthSource
       search_filters = object_filter & login_filter
     end
     attrs = {}
-    
-    ldap_con.search( :base => self.base_dn, 
-                     :filter => search_filters, 
+
+    ldap_con.search( :base => self.base_dn,
+                     :filter => search_filters,
                      :attributes=> search_attributes) do |entry|
 
       if onthefly_register?
@@ -129,7 +129,7 @@ class AuthSourceLdap < AuthSource
 
   def custom_filter_to_ldap
     return nil unless custom_filter.present?
-    
+
     begin
       return Net::LDAP::Filter.construct(custom_filter)
     rescue Net::LDAP::LdapError # Filter syntax error
@@ -147,7 +147,7 @@ class AuthSourceLdap < AuthSource
       errors.add(:custom_filter, :invalid)
     end
   end
-  
+
   def self.get_attr(entry, attr_name)
     if !attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]

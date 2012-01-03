@@ -41,10 +41,10 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       @auth.custom_filter = "(& (homeDirectory=*) (sn=O*))"
       assert @auth.valid?
       assert_equal nil, @auth.errors.on(:custom_filter)
-      
+
     end
   end
-  
+
   if ldap_configured?
     context '#authenticate' do
       setup do
