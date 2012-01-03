@@ -795,7 +795,7 @@ gl:
   text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_reassign_time_entries: 'Reasignar as horas a esta petición:'
   text_regexp_info: ex. ^[A-Z0-9]+$
-  text_repository_usernames_mapping: "Estableza a correspondencia entre os usuarios de Redmine e os presentes no log do repositorio.\nOs usuarios co mesmo nome ou correo en Redmine e no repositorio serán asociados automaticamente."
+  text_repository_usernames_mapping: "Estableza a correspondencia entre os usuarios de ChiliProject e os presentes no log do repositorio.\nOs usuarios co mesmo nome ou correo en ChiliProject e no repositorio serán asociados automaticamente."
   text_rmagick_available: RMagick dispoñible (opcional)
   text_select_mail_notifications: Seleccionar os eventos a notificar
   text_select_project_modules: 'Seleccione os módulos a activar para este proxecto:'
@@ -995,3 +995,4 @@ gl:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

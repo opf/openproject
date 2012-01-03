@@ -1,25 +1,25 @@
 # General Apache options
 <IfModule mod_fastcgi.c>
-	AddHandler fastcgi-script .fcgi
+  AddHandler fastcgi-script .fcgi
 </IfModule>
 <IfModule mod_fcgid.c>
-	AddHandler fcgid-script .fcgi
+  AddHandler fcgid-script .fcgi
 </IfModule>
 <IfModule mod_cgi.c>
-	AddHandler cgi-script .cgi
+  AddHandler cgi-script .cgi
 </IfModule>
 Options +FollowSymLinks +ExecCGI
 
 # If you don't want Rails to look in certain directories,
 # use the following rewrite rules so that Apache won't rewrite certain requests
-# 
+#
 # Example:
 #   RewriteCond %{REQUEST_URI} ^/notrails.*
 #   RewriteRule .* - [L]
 
 # Redirect all requests not available on the filesystem to Rails
 # By default the cgi dispatcher is used which is very slow
-# 
+#
 # For better performance replace the dispatcher with the fastcgi one
 #
 # Example:
@@ -37,18 +37,18 @@ RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 <IfModule mod_fastcgi.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+  RewriteRule ^(.*)$ dispatch.fcgi [E=X-HTTP_AUTHORIZATION:{HTTP:Authorization},QSA,L]
 </IfModule>
 <IfModule mod_fcgid.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+  RewriteRule ^(.*)$ dispatch.fcgi [E=X-HTTP_AUTHORIZATION:{HTTP:Authorization},QSA,L]
 </IfModule>
 <IfModule mod_cgi.c>
-	RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
+  RewriteRule ^(.*)$ dispatch.cgi [E=X-HTTP_AUTHORIZATION:{HTTP:Authorization},QSA,L]
 </IfModule>
 
 # In case Rails experiences terminal errors
 # Instead of displaying this message you can supply a file here which will be rendered instead
-# 
+#
 # Example:
 #   ErrorDocument 500 /500.html
 

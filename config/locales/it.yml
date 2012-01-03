@@ -792,7 +792,7 @@ it:
   permission_edit_own_issue_notes: Modifica proprie note
   setting_gravatar_enabled: Usa icone utente Gravatar
   label_example: Esempio
-  text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza tra gli utenti Redmine e quelli presenti nel log del repository.\nGli utenti Redmine e repository con lo stesso note utente o email sono mappati automaticamente."
+  text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza tra gli utenti ChiliProject e quelli presenti nel log del repository.\nGli utenti ChiliProject e repository con lo stesso note utente o email sono mappati automaticamente."
   permission_edit_own_messages: Modifica propri messaggi
   permission_delete_own_messages: Elimina propri messaggi
   label_user_activity: "attività di %{value}"
@@ -984,3 +984,4 @@ it:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

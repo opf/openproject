@@ -872,7 +872,7 @@ zh:
   text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
   text_enumeration_destroy_question: "%{count} 个对象被关联到了这个枚举值。"
   text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/configuration.yml中配置您的SMTP服务器信息并重新启动以使其生效。"
-  text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的Redmine用户。\n版本库中与Redmine中的同名用户将被自动对应。"
+  text_repository_usernames_mapping: "选择或更新与版本库中的用户名对应的ChiliProject用户。\n版本库中与ChiliProject中的同名用户将被自动对应。"
   text_diff_truncated: '... 差别内容超过了可显示的最大行数并已被截断'
   text_custom_field_possible_values_info: '每项数值一行'
   text_wiki_page_destroy_question: 此页面有 %{descendants} 个子页面和下级页面。您想进行那种操作？
@@ -997,3 +997,4 @@ zh:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

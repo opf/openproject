@@ -801,7 +801,7 @@ el:
   text_enumeration_destroy_question: "%{count} αντικείμενα έχουν τεθεί σε αυτή την τιμή."
   text_enumeration_category_reassign_to: 'Επανεκχώρηση τους στην παρούσα αξία:'
   text_email_delivery_not_configured: "Δεν έχουν γίνει ρυθμίσεις παράδοσης email, και οι ειδοποιήσεις είναι απενεργοποιημένες.\nΔηλώστε τον εξυπηρετητή SMTP στο config/configuration.yml και κάντε επανακκίνηση την εφαρμογή για να τις ρυθμίσεις."
-  text_repository_usernames_mapping: "Επιλέξτε ή ενημερώστε τον χρήστη Redmine που αντιστοιχεί σε κάθε όνομα χρήστη  στο ιστορικό του αποθετηρίου.\nΧρήστες με το ίδιο όνομα χρήστη ή email στο Redmine και στο αποθετηρίο αντιστοιχίζονται αυτόματα."
+  text_repository_usernames_mapping: "Επιλέξτε ή ενημερώστε τον χρήστη ChiliProject που αντιστοιχεί σε κάθε όνομα χρήστη  στο ιστορικό του αποθετηρίου.\nΧρήστες με το ίδιο όνομα χρήστη ή email στο ChiliProject και στο αποθετηρίο αντιστοιχίζονται αυτόματα."
   text_diff_truncated: '... Αυτό το diff εχεί κοπεί επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να προβληθεί.'
   text_custom_field_possible_values_info: 'Μία γραμμή για κάθε τιμή'
   text_wiki_page_destroy_question: "Αυτή η σελίδα έχει %{descendants} σελίδες τέκνων και απογόνων. Τι θέλετε να κάνετε ;"
@@ -983,3 +983,4 @@ el:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

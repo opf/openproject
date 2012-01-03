@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,9 +20,9 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if request.get?
-      logout_user
-    else
+    if User.current.logged?
+      redirect_to home_url
+    elsif request.post?
       authenticate_user
     end
   end

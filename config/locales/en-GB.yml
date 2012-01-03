@@ -912,7 +912,7 @@ en-GB:
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
-  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+  text_repository_usernames_mapping: "Select or update the ChiliProject user mapped to each username found in the repository log.\nUsers with the same ChiliProject and repository username or email are automatically mapped."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   text_custom_field_possible_values_info: 'One line for each value'
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
@@ -987,3 +987,4 @@ en-GB:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

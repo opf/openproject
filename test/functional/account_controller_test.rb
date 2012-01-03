@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,6 +45,17 @@ class AccountControllerTest < ActionController::TestCase
     assert_tag 'div',
                :attributes => { :class => "flash error" },
                :content => /Invalid user or password/
+  end
+
+  def test_login
+    get :login
+    assert_template 'login'
+  end
+
+  def test_login_with_logged_account
+    @request.session[:user_id] = 2
+    get :login
+    assert_redirected_to home_url
   end
 
   if Object.const_defined?(:OpenID)

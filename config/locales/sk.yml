@@ -786,7 +786,7 @@ sk:
   setting_gravatar_enabled: Použitie užívateľských Gravatar ikon
   permission_edit_own_messages: Úprava vlastných správ
   permission_delete_own_messages: Mazanie vlastných správ
-  text_repository_usernames_mapping: "Vyberte alebo upravte mapovanie medzi užívateľmi systému Redmine a užívateľskými menami nájdenými v logu repozitára.\nUžívatelia s rovnakým prihlasovacím menom alebo emailom v systéme Redmine a repozitára sú mapovaní automaticky."
+  text_repository_usernames_mapping: "Vyberte alebo upravte mapovanie medzi užívateľmi systému ChiliProject a užívateľskými menami nájdenými v logu repozitára.\nUžívatelia s rovnakým prihlasovacím menom alebo emailom v systéme ChiliProject a repozitára sú mapovaní automaticky."
   label_example: Príklad
   label_user_activity: "Aktivita užívateľa %{value}"
   label_updated_time_by: "Aktualizované užívateľom %{author} pred %{age}"
@@ -978,3 +978,4 @@ sk:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

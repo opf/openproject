@@ -940,7 +940,7 @@ ru:
   text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: "например: ^[A-Z0-9]+$"
-  text_repository_usernames_mapping: "Выберите или обновите пользователя Redmine, связанного с найденными именами в журнале хранилища.\nПользователи с одинаковыми именами или email в Redmine и хранилище связываются автоматически."
+  text_repository_usernames_mapping: "Выберите или обновите пользователя ChiliProject, связанного с найденными именами в журнале хранилища.\nПользователи с одинаковыми именами или email в ChiliProject и хранилище связываются автоматически."
   text_rmagick_available: Доступно использование RMagick (опционально)
   text_select_mail_notifications: Выберите действия, при которых будет отсылаться уведомление на электронную почту.
   text_select_project_modules: 'Выберите модули, которые будут использованы в проекте:'
@@ -1096,3 +1096,4 @@ ru:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

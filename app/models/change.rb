@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ class Change < ActiveRecord::Base
 
   def from_path
     # TODO: shouldn't access Changeset#to_utf8 directly
-    self.path = Changeset.to_utf8(read_attribute(:from_path), changeset_repository_encoding)
+    self.from_path = Changeset.to_utf8(read_attribute(:from_path), changeset_repository_encoding)
   end
 
   def init_path

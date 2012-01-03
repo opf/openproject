@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -68,6 +68,9 @@ Rails::Initializer.run do |config|
   # Define your email configuration in configuration.yml instead.
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
+
+  # Insert vendor/chiliproject_plugins at the top of the plugin load paths
+  config.plugin_paths.insert(0, File.join(Rails.root, "vendor", "chiliproject_plugins"))
 
   # Use redmine's custom plugin locater
   require File.join(RAILS_ROOT, "lib/redmine_plugin_locator")

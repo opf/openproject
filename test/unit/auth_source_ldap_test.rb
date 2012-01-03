@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,20 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
                            :attr_firstname => 'givenName ')
     assert a.save
     assert_equal 'givenName', a.reload.attr_firstname
+  end
+
+  context "validations" do
+    should "validate that custom_filter is a valid LDAP filter" do
+      @auth = AuthSourceLdap.new(:name => 'Validation', :host => 'localhost', :port => 389, :attr_login => 'login')
+      @auth.custom_filter = "(& (homeDirectory=*) (sn=O*" # Missing ((
+      assert @auth.invalid?
+      assert_equal "is invalid", @auth.errors.on(:custom_filter)
+
+      @auth.custom_filter = "(& (homeDirectory=*) (sn=O*))"
+      assert @auth.valid?
+      assert_equal nil, @auth.errors.on(:custom_filter)
+
+    end
   end
 
   if ldap_configured?
@@ -66,6 +80,32 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       context 'without a password' do
         should 'return nil' do
           assert_equal nil, @auth.authenticate('edavis','')
+        end
+      end
+
+      context "using a valid custom filter" do
+        setup do
+          @auth.update_attributes(:custom_filter => "(& (homeDirectory=*) (sn=O*))")
+        end
+
+        should "find a user who authenticates and matches the custom filter" do
+          assert_not_nil @auth.authenticate('example1', '123456')
+        end
+
+        should "be nil for users who don't match the custom filter" do
+          assert_nil @auth.authenticate('edavis', '123456')
+        end
+      end
+
+      context "using an invalid custom filter" do
+        setup do
+          # missing )) at the end
+          @auth.update_attributes(:custom_filter => "(& (homeDirectory=*) (sn=O*")
+        end
+
+        should "skip the custom filter" do
+          assert_not_nil @auth.authenticate('example1', '123456')
+          assert_not_nil @auth.authenticate('edavis', '123456')
         end
       end
 

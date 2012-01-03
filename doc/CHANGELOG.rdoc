@@ -1,5 +1,22 @@
 = ChiliProject changelog
 
+== 2012-01-03 v2.6.0
+
+* Bug #356: Clicking on login while logged-in logs you out
+* Bug #463: REST API does not accept Basic HTTP auth when running through Apache mod_proxy
+* Bug #708: AAJ does not create journals, when models are created using sub classes
+* Bug #740: Revision page, new files are not displayed (Git Repo)
+* Bug #746: Problems with rdm-mailhandler.rb
+* Bug #748: ChiliProject::VERSION.revision doesn't capture error output
+* Bug #761: Fix quoting in shell-out (git adapter)
+* Bug #812: Change references to Redmine
+* Feature #298: Seperate core plugins and user plugins into different directories
+* Feature #388: Add LDAP filter to ldap authentication
+* Feature #486: Do not display edit link in annotation page when you don't have permissions
+* Feature #733: Add css class for issues that are due today
+* Feature #785: pt-BR translation updates
+* Feature #789: Provide a rackup file for Rack-only servers like pow.cx
+
 == 2011-11-30 v2.5.0
 
 * Bug #258: Upgrade from ruby-net-ldap to net-ldap gem

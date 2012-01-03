@@ -764,7 +764,7 @@ sl:
   text_enumeration_destroy_question: "%{count} objektov je določenih tej vrednosti."
   text_enumeration_category_reassign_to: 'Ponastavi jih na to vrednost:'
   text_email_delivery_not_configured: "E-poštna dostava ni nastavljena in oznanila so onemogočena.\nNastavite vaš SMTP strežnik v config/configuration.yml in ponovno zaženite aplikacijo da ga omogočite.\n"
-  text_repository_usernames_mapping: "Izberite ali posodobite Redmine uporabnika dodeljenega vsakemu uporabniškemu imenu najdenemu v zapisniku shrambe.\n Uporabniki z enakim Redmine ali shrambinem uporabniškem imenu ali e-poštnem naslovu so samodejno dodeljeni."
+  text_repository_usernames_mapping: "Izberite ali posodobite ChiliProject uporabnika dodeljenega vsakemu uporabniškemu imenu najdenemu v zapisniku shrambe.\n Uporabniki z enakim ChiliProject ali shrambinem uporabniškem imenu ali e-poštnem naslovu so samodejno dodeljeni."
   text_diff_truncated: '... Ta sprememba je bila odsekana ker presega največjo velikost ki je lahko prikazana.'
 
   default_role_manager: Upravnik
@@ -979,3 +979,4 @@ sl:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter

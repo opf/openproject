@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -114,5 +114,30 @@ class JournalTest < ActiveSupport::TestCase
 
     assert_equal "Test setting fields on Journal from Issue", @issue.last_journal.notes
     assert_equal @issue.author, @issue.last_journal.user
+  end
+
+  test "subclasses of journaled models should have journal of parent type" do
+    Ticket = Class.new(Issue)
+
+    project = Project.generate!
+    ticket = Ticket.new do |t|
+      t.project = project
+      t.subject = "Test initial journal"
+      t.tracker = project.trackers.first
+      t.author = User.generate!
+      t.description = "Some content"
+    end
+
+    begin
+      oldstdout = $stdout
+      $stdout = StringIO.new
+      ticket.save!
+      assert $stdout.string.empty?, "No errors should be logged to stdout."
+    ensure
+      $stdout = oldstdout
+    end
+
+    journal = ticket.journals.first
+    assert_equal IssueJournal, journal.class
   end
 end
