@@ -814,7 +814,7 @@ pt-BR:
   permission_edit_own_issue_notes: Editar suas próprias notas
   setting_gravatar_enabled: Usar ícones do Gravatar
   label_example: Exemplo
-  text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do Redmine mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou e-mail no Redmine e no repositório serão mapeados automaticamente."
+  text_repository_usernames_mapping: "Seleciona ou atualiza os usuários do ChiliProject mapeando para cada usuário encontrado no log do repositório.\nUsuários com o mesmo login ou e-mail no ChiliProject e no repositório serão mapeados automaticamente."
   permission_edit_own_messages: Editar próprias mensagens
   permission_delete_own_messages: Excluir próprias mensagens
   label_user_activity: "Atividade de %{value}"

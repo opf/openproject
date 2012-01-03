@@ -814,7 +814,7 @@ da:
   permission_save_queries: Gem forespørgsler
   label_copied: kopieret
   setting_commit_logs_encoding: Kodning af Commit beskeder
-  text_repository_usernames_mapping: "Vælg eller opdatér de Redmine brugere der svarer til de enkelte brugere fundet i repository loggen.\nBrugere med samme brugernavn eller email adresse i både Redmine og det valgte repository bliver automatisk koblet sammen."
+  text_repository_usernames_mapping: "Vælg eller opdatér de ChiliProject brugere der svarer til de enkelte brugere fundet i repository loggen.\nBrugere med samme brugernavn eller email adresse i både ChiliProject og det valgte repository bliver automatisk koblet sammen."
   permission_edit_time_entries: Redigér tidsregistreringer
   general_csv_decimal_separator: ','
   permission_edit_own_time_entries: Redigér egne tidsregistreringer

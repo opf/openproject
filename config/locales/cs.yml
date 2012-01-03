@@ -904,7 +904,7 @@ cs:
   text_enumeration_destroy_question: "Několik (%{count}) objektů je přiřazeno k této hodnotě."
   text_enumeration_category_reassign_to: 'Přeřadit je do této:'
   text_email_delivery_not_configured: "Doručování e-mailů není nastaveno a odesílání notifikací je zakázáno.\nNastavte Váš SMTP server v souboru config/email.yml a restartujte aplikaci."
-  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi Redmine uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé se shodným Redmine uživatelským jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
+  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi ChiliProject uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé se shodným ChiliProject uživatelským jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
   text_diff_truncated: '... Rozdílový soubor je zkrácen, protože jeho délka přesahuje max. limit.'
   text_custom_field_possible_values_info: 'Každá hodnota na novém řádku'
   text_wiki_page_destroy_question: Tato stránka má %{descendants} podstránek a potomků. Co chcete udělat?
@@ -1015,7 +1015,7 @@ cs:
   permission_edit_own_issue_notes: Upravování vlastních poznámek
   setting_gravatar_enabled: Použít uživatelské ikony Gravatar
   label_example: Příklad
-  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi Redmine uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé se shodným Redmine uživatelským jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
+  text_repository_usernames_mapping: "Vybrat nebo upravit mapování mezi ChiliProject uživateli a uživatelskými jmény nalezenými v logu repozitáře.\nUživatelé se shodným ChiliProject uživatelským jménem a uživatelským jménem v repozitáři jsou mapovaní automaticky."
   permission_edit_own_messages: Upravit vlastní zprávy
   permission_delete_own_messages: Smazat vlastní zprávy
   label_user_activity: "Aktivita uživatele: %{value}"

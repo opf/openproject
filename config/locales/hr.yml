@@ -857,7 +857,7 @@ hr:
   text_enumeration_destroy_question: "%{count} objekata je pridruženo toj vrijednosti."
   text_enumeration_category_reassign_to: 'Premjesti ih ovoj vrijednosti:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
-  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
+  text_repository_usernames_mapping: "Select or update the ChiliProject user mapped to each username found in the repository log.\nUsers with the same ChiliProject and repository username or email are automatically mapped."
   text_diff_truncated: '... Ovaj diff je odrezan zato što prelazi maksimalnu veličinu koja može biti prikazana.'
   text_custom_field_possible_values_info: 'One line for each value'
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"

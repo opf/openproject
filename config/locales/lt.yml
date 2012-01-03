@@ -1,6 +1,6 @@
 # Lithuanian translations for Ruby on Rails
 # by Laurynas Butkus (laurynas.butkus@gmail.com)
-# Redmine translation by Gediminas Muižis gediminas.muizis@gmail.com
+# ChiliProject translation by Gediminas Muižis gediminas.muizis@gmail.com
 #                      and Sergej Jegorov sergej.jegorov@gmail.com
 #					   and Gytis Gurklys gytis.gurklys@gmail.com
 lt:
@@ -888,7 +888,7 @@ lt:
   text_enumeration_destroy_question: "%{count} objektai priskirti šiai reikšmei."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
   text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas, ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
-  text_repository_usernames_mapping: "Parinkite  ar atnaujinkite Redmine vartotojo vardą kiekvienam saugyklos vardui, kuris paminėtas saugyklos log'e.\nVartotojai, turintys tą patį Redmine ir saugyklos vardą ar el.paštą automatiškai surišti."
+  text_repository_usernames_mapping: "Parinkite  ar atnaujinkite ChiliProject vartotojo vardą kiekvienam saugyklos vardui, kuris paminėtas saugyklos log'e.\nVartotojai, turintys tą patį ChiliProject ir saugyklos vardą ar el.paštą automatiškai surišti."
   text_diff_truncated: "... Šis diff'as nukarpytas, nes jis viršijo maksimalų rodomą eilučių skaičių."
   text_custom_field_possible_values_info: 'Po vieną eilutę kiekvienai reikšmei'
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?

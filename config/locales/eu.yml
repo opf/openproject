@@ -1,7 +1,7 @@
-# Redmine EU language
+# ChiliProject EU language
 # Author: Ales Zabala Alava (Shagi), <shagi@gisa-elkartea.org>
 # 2010-01-25
-# Distributed under the same terms as the Redmine itself.
+# Distributed under the same terms as the ChiliProject itself.
 eu:
   direction: ltr
   date:
@@ -862,7 +862,7 @@ eu:
   text_enumeration_destroy_question: "%{count} objetu balio honetara esleituta daude."
   text_enumeration_category_reassign_to: 'Beste balio honetara esleitu:'
   text_email_delivery_not_configured: "Eposta bidalketa ez dago konfiguratuta eta jakinarazpenak ezgaituta daude.\nKonfiguratu zure SMTP zerbitzaria config/configuration.yml-n eta aplikazioa berrabiarazi hauek gaitzeko."
-  text_repository_usernames_mapping: "Hautatu edo eguneratu Redmineko erabiltzailea biltegiko egunkarietan topatzen diren erabiltzaile izenekin erlazionatzeko.\nRedmine-n eta biltegian erabiltzaile izen edo eposta berdina duten erabiltzaileak automatikoki erlazionatzen dira."
+  text_repository_usernames_mapping: "Hautatu edo eguneratu ChiliProjectko erabiltzailea biltegiko egunkarietan topatzen diren erabiltzaile izenekin erlazionatzeko.\nChiliProject-n eta biltegian erabiltzaile izen edo eposta berdina duten erabiltzaileak automatikoki erlazionatzen dira."
   text_diff_truncated: '... Diff hau moztua izan da erakus daitekeen tamaina maximoa gainditu duelako.'
   text_custom_field_possible_values_info: 'Lerro bat balio bakoitzeko'
   text_wiki_page_destroy_question: "Orri honek %{descendants} orri seme eta ondorengo ditu. Zer egin nahi duzu?"

@@ -945,7 +945,7 @@ sv:
   text_enumeration_destroy_question: "%{count} objekt är tilldelade till detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
   text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
-  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller mailadress i både Redmine och versionsarkivet mappas automatiskt."
+  text_repository_usernames_mapping: "Välj eller uppdatera den ChiliProject-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller mailadress i både ChiliProject och versionsarkivet mappas automatiskt."
   text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
   text_custom_field_possible_values_info: 'Ett värde per rad'
   text_wiki_page_destroy_question: "Denna sida har %{descendants} underliggande sidor. Vad vill du göra?"

@@ -1,6 +1,6 @@
 # Spanish translations for Rails
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
-# Redmine spanish translation:
+# ChiliProject spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
 
 es:
@@ -818,7 +818,7 @@ es:
   text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier can not be changed.'
   text_reassign_time_entries: 'Reasignar las horas a esta petición:'
   text_regexp_info: ej. ^[A-Z0-9]+$
-  text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de Redmine y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en Redmine y en el repositorio serán asociados automáticamente."
+  text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de ChiliProject y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en ChiliProject y en el repositorio serán asociados automáticamente."
   text_rmagick_available: RMagick disponible (opcional)
   text_select_mail_notifications: Seleccionar los eventos a notificar
   text_select_project_modules: 'Seleccione los módulos a activar para este proyecto:'

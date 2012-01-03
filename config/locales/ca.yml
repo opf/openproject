@@ -1,4 +1,4 @@
-# Redmine catalan translation:
+# ChiliProject catalan translation:
 # by Joan Duran
 
 ca:
@@ -883,7 +883,7 @@ ca:
   text_enumeration_destroy_question: "%{count} objectes estan assignats a aquest valor."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo."
-  text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del Redmine i cada nom d'usuari trobat al dipòsit.\nEls usuaris amb el mateix nom d'usuari o correu del Redmine i del dipòsit s'assignaran automàticament."
+  text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del ChiliProject i cada nom d'usuari trobat al dipòsit.\nEls usuaris amb el mateix nom d'usuari o correu del ChiliProject i del dipòsit s'assignaran automàticament."
   text_diff_truncated: "... Aquestes diferències s'han trucat perquè excedeixen la mida màxima que es pot mostrar."
   text_custom_field_possible_values_info: "Una línia per a cada valor"
   text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill i descendents. Què voleu fer?"

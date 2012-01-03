@@ -1,4 +1,4 @@
-# Serbian translations for Redmine
+# Serbian translations for ChiliProject
 # by Vladimir Medarović (vlada@medarovic.com)
 sr-YU:
   direction: ltr
@@ -877,7 +877,7 @@ sr-YU:
   text_enumeration_destroy_question: "%{count} objekat(a) je dodeljeno ovoj vrednosti."
   text_enumeration_category_reassign_to: 'Dodeli ih ponovo ovoj vrednosti:'
   text_email_delivery_not_configured: "Isporuka e-poruka nije konfigurisana i obaveštenja su onemogućena.\nPodesite vaš SMTP server u config/configuration.yml i pokrenite ponovo aplikaciju za njihovo omogućavanje."
-  text_repository_usernames_mapping: "Odaberite ili ažurirajte Redmine korisnike mapiranjem svakog korisničkog imena pronađenog u evidenciji spremišta.\nKorisnici sa istim Redmine imenom i imenom spremišta ili e-adresom su automatski mapirani."
+  text_repository_usernames_mapping: "Odaberite ili ažurirajte ChiliProject korisnike mapiranjem svakog korisničkog imena pronađenog u evidenciji spremišta.\nKorisnici sa istim ChiliProject imenom i imenom spremišta ili e-adresom su automatski mapirani."
   text_diff_truncated: '... Ova razlika je isečena jer je dostignuta maksimalna veličina prikaza.'
   text_custom_field_possible_values_info: 'Jedan red za svaku vrednost'
   text_wiki_page_destroy_question: "Ova stranica ima %{descendants} podređenih stranica i podstranica. Šta želite da uradite?"

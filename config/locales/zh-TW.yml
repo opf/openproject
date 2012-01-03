@@ -272,13 +272,13 @@
   error_unable_to_connect: "無法連線至（%{value}）"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
 
-  mail_subject_lost_password: 您的 Redmine 網站密碼
-  mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
-  mail_subject_register: 啟用您的 Redmine 帳號
-  mail_body_register: '欲啟用您的 Redmine 帳號, 請點選以下鏈結:'
-  mail_body_account_information_external: "您可以使用 %{value} 帳號登入 Redmine 網站。"
-  mail_body_account_information: 您的 Redmine 帳號資訊
-  mail_subject_account_activation_request: Redmine 帳號啟用需求通知
+  mail_subject_lost_password: 您的 ChiliProject 網站密碼
+  mail_body_lost_password: '欲變更您的 ChiliProject 網站密碼, 請點選以下鏈結:'
+  mail_subject_register: 啟用您的 ChiliProject 帳號
+  mail_body_register: '欲啟用您的 ChiliProject 帳號, 請點選以下鏈結:'
+  mail_body_account_information_external: "您可以使用 %{value} 帳號登入 ChiliProject 網站。"
+  mail_body_account_information: 您的 ChiliProject 帳號資訊
+  mail_subject_account_activation_request: ChiliProject 帳號啟用需求通知
   mail_body_account_activation_request: "有位新用戶 (%{value}) 已經完成註冊，正等候您的審核："
   mail_subject_reminder: "您有 %{count} 個項目即將到期 (%{days})"
   mail_body_reminder: "%{count} 個指派給您的項目，將於 %{days} 天之內到期："
@@ -984,8 +984,8 @@
   text_user_wrote: "%{value} 先前提到:"
   text_enumeration_destroy_question: "目前有 %{count} 個物件使用此列舉值。"
   text_enumeration_category_reassign_to: '重新設定其列舉值為：'
-  text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/configuration.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"
-  text_repository_usernames_mapping: "選擇或更新 Redmine 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 Redmine 設定相同者，將自動產生對應關係。"
+  text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/configuration.yml 中設定 SMTP 之後，重新啟動 ChiliProject，以啟用電子郵件提醒選項。"
+  text_repository_usernames_mapping: "選擇或更新 ChiliProject 使用者與版本庫使用者之對應關係。\n版本庫中之使用者帳號或電子郵件信箱，與 ChiliProject 設定相同者，將自動產生對應關係。"
   text_diff_truncated: '... 這份差異已被截短以符合顯示行數之最大值'
   text_custom_field_possible_values_info: '一列輸入一個值'
   text_wiki_page_destroy_question: "此頁面包含 %{descendants} 個子頁面及延伸頁面。 請選擇您想要的動作?"

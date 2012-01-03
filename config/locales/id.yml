@@ -836,7 +836,7 @@ id:
   text_enumeration_destroy_question: "%{count} obyek ditugaskan untuk nilai ini."
   text_enumeration_category_reassign_to: 'Tugaskan kembali untuk nilai ini:'
   text_email_delivery_not_configured: "Pengiriman email belum dikonfigurasi, notifikasi tidak diaktifkan.\nAnda harus mengkonfigur SMTP server anda pada config/configuration.yml dan restart kembali aplikasi untuk mengaktifkan."
-  text_repository_usernames_mapping: "Pilih atau perbarui pengguna Redmine yang terpetakan ke setiap nama pengguna yang ditemukan di log repositori.\nPengguna dengan nama pengguna dan repositori atau email yang sama  secara otomasit akan dipetakan."
+  text_repository_usernames_mapping: "Pilih atau perbarui pengguna ChiliProject yang terpetakan ke setiap nama pengguna yang ditemukan di log repositori.\nPengguna dengan nama pengguna dan repositori atau email yang sama  secara otomasit akan dipetakan."
   text_diff_truncated: '... Perbedaan terpotong karena melebihi batas maksimum yang bisa ditampilkan.'
   text_custom_field_possible_values_info: 'Satu baris untuk setiap nilai'
   text_wiki_page_destroy_question: "Halaman ini mempunyai %{descendants} halaman anak dan turunannya. Apa yang akan anda lakukan ?"

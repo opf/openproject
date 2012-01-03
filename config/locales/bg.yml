@@ -903,8 +903,8 @@ bg:
   text_user_wrote: "%{value} написа:"
   text_enumeration_destroy_question: "%{count} обекта са свързани с тази стойност."
   text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
-  text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/configuration.yml и рестартирайте Redmine, за да ги разрешите."
-  text_repository_usernames_mapping: "Изберете или променете потребителите в Redmine, съответстващи на потребителите в дневника на хранилището (repository).\nПотребителите с еднакви имена в Redmine и хранилищата се съвместяват автоматично."
+  text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/configuration.yml и рестартирайте ChiliProject, за да ги разрешите."
+  text_repository_usernames_mapping: "Изберете или променете потребителите в ChiliProject, съответстващи на потребителите в дневника на хранилището (repository).\nПотребителите с еднакви имена в ChiliProject и хранилищата се съвместяват автоматично."
   text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
   text_custom_field_possible_values_info: 'Една стойност на ред'
   text_wiki_page_destroy_question: Тази страница има %{descendants} страници деца и descendant(s). Какво желаете да правите?

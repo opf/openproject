@@ -766,7 +766,7 @@ nl:
   text_project_identifier_info: 'Alleen kleine letter (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'
   text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'
   text_regexp_info: bv. ^[A-Z0-9]+$
-  text_repository_usernames_mapping: "Koppel de Redminegebruikers aan gebruikers in de repository log.\nGebruikers met dezelfde Redmine en repository gebruikersnaam of email worden automatisch gekoppeld."
+  text_repository_usernames_mapping: "Koppel de ChiliProjectgebruikers aan gebruikers in de repository log.\nGebruikers met dezelfde ChiliProject en repository gebruikersnaam of email worden automatisch gekoppeld."
   text_rmagick_available: RMagick beschikbaar (optioneel)
   text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
   text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
