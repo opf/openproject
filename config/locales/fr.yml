@@ -1001,3 +1001,4 @@ fr:
   description_filter: Filter
   description_choose_project: Projects
   description_date_from: Enter start date
+  field_custom_filter: Custom LDAP filter

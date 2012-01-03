@@ -1000,3 +1000,4 @@ de:
   description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
+  field_custom_filter: Custom LDAP filter

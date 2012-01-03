@@ -1007,3 +1007,4 @@ pt-BR:
   description_choose_project: Projetos
   description_date_from: Digita a data inicial
   label_deleted_custom_field: (campo personalizado excluído)
+  field_custom_filter: Custom LDAP filter

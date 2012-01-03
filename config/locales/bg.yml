@@ -983,3 +983,4 @@ bg:
   description_choose_project: Проекти
   description_date_from: Въведете начална дата
   label_deleted_custom_field: (изтрито потребителско поле)
+  field_custom_filter: Custom LDAP filter
