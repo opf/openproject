@@ -584,7 +584,7 @@ jQuery(document).ready(function($) {
     // Focus the username field if the login field has opened
     $("#nav-login").slideToggle(animationRate, function () {
       if ($(this).parent().hasClass("open")) {
-        $("input#username").focus()
+        $("input#username-pulldown").focus()
       }
     });
     
