@@ -191,13 +191,13 @@
   error_scm_annotate: "A bejegyzés nem létezik, vagy nics jegyzetekkel ellátva."
   error_issue_not_found_in_project: 'A feladat nem található, vagy nem ehhez a projekthez tartozik'
 
-  mail_subject_lost_password: Az Ön Redmine jelszava
-  mail_body_lost_password: 'A Redmine jelszó megváltoztatásához, kattintson a következő linkre:'
-  mail_subject_register: Redmine azonosító aktiválása
-  mail_body_register: 'A Redmine azonosítója aktiválásához, kattintson a következő linkre:'
-  mail_body_account_information_external: "A %{value} azonosító használatával bejelentkezhet a Redmine-ba."
-  mail_body_account_information: Az Ön Redmine azonosítójának információi
-  mail_subject_account_activation_request: Redmine azonosító aktiválási kérelem
+  mail_subject_lost_password: Az Ön ChiliProject jelszava
+  mail_body_lost_password: 'A ChiliProject jelszó megváltoztatásához, kattintson a következő linkre:'
+  mail_subject_register: ChiliProject azonosító aktiválása
+  mail_body_register: 'A ChiliProject azonosítója aktiválásához, kattintson a következő linkre:'
+  mail_body_account_information_external: "A %{value} azonosító használatával bejelentkezhet a ChiliProject-ba."
+  mail_body_account_information: Az Ön ChiliProject azonosítójának információi
+  mail_subject_account_activation_request: ChiliProject azonosító aktiválási kérelem
   mail_body_account_activation_request: "Egy új felhasználó (%{value}) regisztrált, azonosítója jóváhasgyásra várakozik:"
 
   gui_validation_error: 1 hiba
@@ -810,7 +810,7 @@
   permission_edit_own_issue_notes: Saját jegyzetek szerkesztése
   setting_gravatar_enabled: Felhasználói fényképek engedélyezése
   label_example: Példa
-  text_repository_usernames_mapping: "Állítsd be a felhasználó összerendeléseket a Redmine, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
+  text_repository_usernames_mapping: "Állítsd be a felhasználó összerendeléseket a ChiliProject, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
   permission_edit_own_messages: Saját üzenetek szerkesztése
   permission_delete_own_messages: Saját üzenetek törlése
   label_user_activity: "%{value} tevékenységei"
@@ -1002,8 +1002,8 @@
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

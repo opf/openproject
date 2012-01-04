@@ -928,7 +928,7 @@ ja:
   text_enumeration_destroy_question: "%{count}個のオブジェクトがこの値に割り当てられています。"
   text_enumeration_category_reassign_to: '次の値に割り当て直す:'
   text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/configuration.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
-  text_repository_usernames_mapping: "リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\nログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
+  text_repository_usernames_mapping: "リポジトリのログから検出されたユーザー名をどのChiliProjectユーザーに関連づけるのか選択してください。\nログ上のユーザー名またはメールアドレスがChiliProjectのユーザーと一致する場合は自動的に関連づけられます。"
   text_diff_truncated: '... 差分の行数が表示可能な上限を超えました。超過分は表示しません。'
   text_custom_field_possible_values_info: '選択肢の値は1行に1個ずつ記述してください。'
   text_wiki_page_destroy_question: "この親ページの配下に%{descendants}ページの子孫ページがあります。"
@@ -1005,8 +1005,8 @@ ja:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

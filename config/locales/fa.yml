@@ -901,7 +901,7 @@ fa:
   text_enumeration_destroy_question: "%{count} داده به این برشمردنی وابسته شده‌اند."
   text_enumeration_category_reassign_to: 'به این برشمردنی وابسته شوند:'
   text_email_delivery_not_configured: "دریافت ایمیل پیکربندی نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml پیکربندی کنید و برنامه را بازنشانی کنید تا فعال شوند."
-  text_repository_usernames_mapping: "کاربر Redmine که به هر نام کاربری پیام‌های انباره نگاشت می‌شود را برگزینید.\nکاربرانی که نام کاربری یا ایمیل همسان دارند، خود به خود نگاشت می‌شوند."
+  text_repository_usernames_mapping: "کاربر ChiliProject که به هر نام کاربری پیام‌های انباره نگاشت می‌شود را برگزینید.\nکاربرانی که نام کاربری یا ایمیل همسان دارند، خود به خود نگاشت می‌شوند."
   text_diff_truncated: '... این تفاوت بریده شده چون بیشتر از بیشترین اندازه نمایش دادنی است.'
   text_custom_field_possible_values_info: 'یک خط برای هر مقدار'
   text_wiki_page_destroy_question: "این برگه %{descendants} زیربرگه دارد.می‌خواهید چه کنید؟"
@@ -986,8 +986,8 @@ fa:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

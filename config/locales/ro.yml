@@ -777,7 +777,7 @@ ro:
   text_enumeration_destroy_question: "Această valoare are %{count} obiecte."
   text_enumeration_category_reassign_to: 'Atribuie la această valoare:'
   text_email_delivery_not_configured: "Trimiterea de emailuri nu este configurată și ca urmare, notificările sunt dezactivate.\nConfigurați serverul SMTP în config/configuration.yml și reporniți aplicația pentru a le activa."
-  text_repository_usernames_mapping: "Selectați sau modificați contul Redmine echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic în Redmine și depozit sunt echivalate automat."
+  text_repository_usernames_mapping: "Selectați sau modificați contul ChiliProject echivalent contului din istoricul depozitului.\nUtilizatorii cu un cont (sau e-mail) identic în ChiliProject și depozit sunt echivalate automat."
   text_diff_truncated: '... Comparația a fost trunchiată pentru ca depășește lungimea maximă de text care poate fi afișat.'
   text_custom_field_possible_values_info: 'O linie pentru fiecare valoare'
 
@@ -976,8 +976,8 @@ ro:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

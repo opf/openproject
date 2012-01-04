@@ -1,4 +1,4 @@
-# Serbian translations for Redmine
+# Serbian translations for ChiliProject
 # by Vladimir Medarović (vlada@medarovic.com)
 sr:
   direction: ltr
@@ -877,7 +877,7 @@ sr:
   text_enumeration_destroy_question: "%{count} објекат(а) је додељено овој вредности."
   text_enumeration_category_reassign_to: 'Додели их поново овој вредности:'
   text_email_delivery_not_configured: "Испорука е-порука није конфигурисана и обавештења су онемогућена.\nПодесите ваш SMTP сервер у config/configuration.yml и покрените поново апликацију за њихово омогућавање."
-  text_repository_usernames_mapping: "Одаберите или ажурирајте Redmine кориснике мапирањем сваког корисничког имена пронађеног у евиденцији спремишта.\nКорисници са истим Redmine именом и именом спремишта или е-адресом су аутоматски мапирани."
+  text_repository_usernames_mapping: "Одаберите или ажурирајте ChiliProject кориснике мапирањем сваког корисничког имена пронађеног у евиденцији спремишта.\nКорисници са истим ChiliProject именом и именом спремишта или е-адресом су аутоматски мапирани."
   text_diff_truncated: '... Ова разлика је исечена јер је достигнута максимална величина приказа.'
   text_custom_field_possible_values_info: 'Један ред за сваку вредност'
   text_wiki_page_destroy_question: "Ова страница има %{descendants} подређених страница и подстраница. Шта желите да урадите?"
@@ -984,8 +984,8 @@ sr:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

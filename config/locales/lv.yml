@@ -857,7 +857,7 @@ lv:
   text_enumeration_destroy_question: "%{count} objekti ir piešķirti šai vērtībai."
   text_enumeration_category_reassign_to: 'Piešķirt tos šai vērtībai:'
   text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/configuration.yml un pārstartējiet lietotni."
-  text_repository_usernames_mapping: "Izvēlieties vai atjaunojiet Redmine lietotāju, saistītu ar katru lietotājvārdu, kas atrodams repozitorija žurnālā.\nLietotāji ar to pašu Redmine un repozitorija lietotājvārdu būs saistīti automātiski."
+  text_repository_usernames_mapping: "Izvēlieties vai atjaunojiet ChiliProject lietotāju, saistītu ar katru lietotājvārdu, kas atrodams repozitorija žurnālā.\nLietotāji ar to pašu ChiliProject un repozitorija lietotājvārdu būs saistīti automātiski."
   text_diff_truncated: '... Šis diff tika nošķelts, jo tas pārsniedz maksimālo izmēru, ko var parādīt.'
   text_custom_field_possible_values_info: 'Katra vērtības savā rindā'
   text_wiki_page_destroy_question: "Šij lapai ir %{descendants} apakšlapa(as) un pēcnācēji. Ko darīt?"
@@ -978,8 +978,8 @@ lv:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  field_custom_filter: Custom LDAP filter
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   label_toc: Contents
   search_input_placeholder: search ...
-  field_custom_filter: Custom LDAP filter

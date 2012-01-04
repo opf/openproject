@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2012 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -250,6 +250,14 @@ module Redmine
 
         def revisions
           revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
+        end
+
+        # Required since Ruby 1.9.3 as the core compact always returns an
+        # instance of Array. This method follows the spec for Array#compact
+        def compact
+          ary = self.dup
+          ary.compact!
+          ary
         end
       end
 
