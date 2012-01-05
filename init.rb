@@ -39,7 +39,7 @@ Redmine::Plugin.register :backlogs do
   url 'http://github.com/finnlabs/chiliproject_backlogs'
   author_url 'http://www.finn.de/'
 
-  version '1.2.0'
+  version '1.2.1'
 
   requires_redmine_plugin 'chiliproject_nissue', '1.0.0'
 
