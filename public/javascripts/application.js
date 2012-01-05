@@ -378,7 +378,9 @@ function addClickEventToAllErrorMessages() {
         // Cut off '_id' (necessary for select boxes)
         field = $($(a).readAttribute('href').substr(1).concat('_id'));
       }
-      field.down('input, textarea, select').focus();
+      if (field) {
+        field.down('input, textarea, select').focus();
+      }
       Event.stop(event);
       return false;
     });
