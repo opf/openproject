@@ -1002,3 +1002,29 @@
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  label_checked: checked
+  label_calendar_show: Show Calendar
+  description_compare_to: Compare to version
+  description_active: Active?
+  label_main_menu: Side Menu
+  label_enable_multi_select: Toggle multiselect
+  label_remove_columns: Remove selected columns
+  notice_account_inactive: Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
+  description_enter_text: Enter text
+  label_content: Content
+  description_current_position: "You are here:"
+  label_top_menu: Top Menu
+  description_compare_from: Compare from version
+  label_add_columns: Add selected columns
+  button_remove_widget: Remove widget
+  label_modules: Modules
+  notice_account_update_failed: Account setting could not be safed. Please have a look at your account page.
+  description_enter_number: Enter number
+  description_select_issue: Select issue
+  label_table_of_contents: Table of Contents
+  field_impaired_settings: ChiliProject offers a slightly different User Interface for visually/motorically impaired Users
+  search_input_placeholder: search ...
+  text_analyze: "Further analyze: %{subject}"
+  label_project_view_all: View all projects
+  description_subissue: Subissue of
+  field_impaired: Use adjusted ChiliProject Interface

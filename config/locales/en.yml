@@ -151,6 +151,7 @@ en:
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
+  notice_account_inactive: Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
   notice_successful_create: Successful creation.
   notice_successful_update: Successful update.
   notice_successful_delete: Successful deletion.

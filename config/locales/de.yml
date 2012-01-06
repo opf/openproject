@@ -162,12 +162,13 @@ de:
   notice_account_invalid_creditentials: Benutzer oder Kennwort ist ungültig.
   notice_account_password_updated: Kennwort wurde erfolgreich aktualisiert.
   notice_account_wrong_password: Falsches Kennwort.
-  notice_account_register_done: Konto wurde erfolgreich angelegt.
+  notice_account_register_done: Konto wurde erfolgreich angelegt. Zur Aktivierung folgen Sie dem Link, der Ihnen per E-Mail zugeschickt wurde.
   notice_account_unknown_email: Unbekannter Benutzer.
   notice_account_update_failed: Konto konnte nicht aktualisiert werden. Bitte besuchen Sie ihre Profilseite und überprüfen Sie die Einstellungen.
   notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Kennwort zu ändern.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
+  notice_account_inactive: Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
   notice_successful_create: Erfolgreich angelegt
   notice_successful_update: Erfolgreich aktualisiert.
   notice_successful_delete: Erfolgreich gelöscht.

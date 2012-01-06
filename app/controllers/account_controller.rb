@@ -143,7 +143,12 @@ class AccountController < ApplicationController
     user = User.try_to_login(params[:username], params[:password])
 
     if user.nil?
-      invalid_credentials
+      u = User.find_by_login(params[:username])
+      if u && !u.active? && u.check_password?(params[:password])
+        inactive_account
+      else
+        invalid_credentials
+      end
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     else
@@ -235,6 +240,11 @@ class AccountController < ApplicationController
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
     flash.now[:error] = l(:notice_account_invalid_creditentials)
+  end
+
+  def inactive_account
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc} (INACTIVE)"
+    flash.now[:error] = l(:notice_account_inactive)
   end
 
   # Register a user for email activation.
