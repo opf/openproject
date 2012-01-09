@@ -2637,6 +2637,11 @@ Additional wiki styles
   border: 1px solid #C7CFCA;
 }
 
+td.small-icons img {
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
 
 /* Accessibility specific styles */
 .hidden-for-sighted {
