@@ -1010,7 +1010,6 @@ de:
   label_path_encoding: Path encoding
   text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
   label_diff: diff
-<<<<<<< HEAD
   description_filter: Filter
   description_search: Suchfeld
   description_choose_project: Projekte
