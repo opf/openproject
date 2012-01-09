@@ -69,7 +69,7 @@ module ProjectsHelper
         end
         classes = (ancestors.empty? ? 'root' : 'child')
         s << "<li class='#{classes}'><div class='#{classes}'>" +
-               link_to_project(project, {}, :class => "project #{User.current.member_of?(project) ? 'my-project' : nil}")
+               link_to_project(project, {}, {:class => "project"}, true)
         s << "<div class='wiki description'>#{textilizable(project.short_description, :project => project)}</div>" unless project.description.blank?
         s << "</div>\n"
         ancestors << project

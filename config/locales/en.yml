@@ -992,6 +992,7 @@ en:
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
+<<<<<<< HEAD
   description_filter: Filter
   description_search: Searchfield
   description_choose_project: Projects
@@ -1024,3 +1025,4 @@ en:
   description_attachment_toggle: Show/Hide attachments
   description_autocomplete: This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly.
   description_noscript: You need to activate JavaScript in order to use Chiliproject!
+  description_my_project: You are member
