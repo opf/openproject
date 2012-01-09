@@ -12,7 +12,7 @@
 	<tr class="<%= cycle 'odd', 'even' %>">
     <td><%=h board.name %></td>
     <td><%=h board.description %></td>
-    <td align="center">
+    <td class="small-icons" align="center">
     <% if authorize_for("boards", "edit") %>
 			<%= reorder_links('board', {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}) %>
     <% end %>
