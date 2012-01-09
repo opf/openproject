@@ -45,8 +45,8 @@
         <% end %>
       </div>
 
+      <h1 class="hidden-for-sighted"><%= l(:label_top_menu) %></h1>
       <ul id="account-nav">
-        <h1 class="hidden-for-sighted"><%= l(:label_top_menu) %></h1>
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
