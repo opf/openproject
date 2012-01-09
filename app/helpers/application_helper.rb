@@ -147,12 +147,18 @@ module ApplicationHelper
   #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
-  def link_to_project(project, options={}, html_options = nil)
+  def link_to_project(project, options={}, html_options = nil, show_icon = false)
+    if show_icon && User.current.member_of?(project)
+      icon = image_tag('fav.png', :title => l(:description_my_project))
+    else
+      icon = ""
+    end
+
     if project.active?
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to(h(project), url, html_options)
+      link_to(h(project) + icon, url, html_options)
     else
-      h(project)
+      h(project) + icon
     end
   end
 
