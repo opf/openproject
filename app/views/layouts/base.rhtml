@@ -45,6 +45,9 @@
       </div>
 
       <ul id="account-nav">
+        <li>
+          <%= link_to(image_tag('icon_home.png', :alt => home_menu_item.caption, :title => home_menu_item.caption), home_menu_item.url, {:class => "home"}) %>
+        </li>
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
@@ -67,7 +70,9 @@
             </ul>
           </li>
         <% end %>
-          <%= render_menu_node(help_menu_item) %>
+        <li>
+        <%= link_to(image_tag('icon_help.png', :alt => help_menu_item.caption, :title => help_menu_item.caption), help_menu_item.url, {:class => "help"}) %>
+        </li>
             <li class="drop-down last-child">
           <% unless User.current.logged? %>
               <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
@@ -91,7 +96,7 @@
       <%= page_header_title %>
     </div>
   </div>
-      
+
   <% main_menu = render_main_menu(@project) %>
   <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
@@ -105,7 +110,7 @@
         <%= yield :main_menu %>
       <% if display_sidebar %>
         <!-- Sidebar -->
-        <div id="sidebar">        
+        <div id="sidebar">
           <%= yield :sidebar %>
           <%= call_hook :view_layouts_base_sidebar %>
         </div>

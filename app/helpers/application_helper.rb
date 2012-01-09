@@ -940,7 +940,7 @@ module ApplicationHelper
   # Expands the current menu item using JavaScript based on the params
   def expand_current_menu
     current_menu_class =
-      case 
+      case
       when params[:controller] == "timelog"
         "reports"
       when params[:controller] == 'reports'
@@ -961,7 +961,7 @@ module ApplicationHelper
         params[:controller]
       end
 
-    
+
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
@@ -975,6 +975,10 @@ module ApplicationHelper
     split_top_menu_into_main_or_more_menus[:more]
   end
 
+  def home_menu_item
+    split_top_menu_into_main_or_more_menus[:home]
+  end
+
   def help_menu_item
     split_top_menu_into_main_or_more_menus[:help]
   end
@@ -985,11 +989,14 @@ module ApplicationHelper
       items_for_main_level = []
       items_for_more_level = []
       help_menu = nil
+      home_menu = nil
       menu_items_for(:top_menu) do |item|
-        if item.name == :home || item.name == :my_page
+        if item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help
           help_menu = item
+        elsif item.name == :home
+          home_menu = item
         elsif item.name == :projects
           # Remove, present in layout
         else
@@ -999,6 +1006,7 @@ module ApplicationHelper
       @top_menu_split = {
         :main => items_for_main_level,
         :more => items_for_more_level,
+        :home => home_menu,
         :help => help_menu
       }
     end
