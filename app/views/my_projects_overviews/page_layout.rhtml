@@ -141,10 +141,7 @@ function editTextilizable(name) {
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "my_projects_overview.css", :plugin => "chiliproject_my_project_page", :media => 'all' %>
-  <%= javascript_include_tag('jstoolbar/jstoolbar') %>
-  <%= javascript_include_tag('jstoolbar/textile') %>
-  <%= javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") %>
-  <%= stylesheet_link_tag('jstoolbar') %>
+  <% heads_for_wiki_formatter %>
 <% end %>
 
 <% html_title(l(:label_overview)) -%>
