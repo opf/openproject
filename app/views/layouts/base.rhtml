@@ -46,6 +46,7 @@
         <li class="drop-down">
           <%= link_to l(:label_project_plural), { :controller => 'projects', :action => 'index' }, :class => "projects" %>
           <ul style="display:none;">
+            <li><%= link_to l(:label_project_all), { :controller => 'projects', :action => 'index' }, :class => "projects separator" %></li>
             <%
             project_content = ''
             project_tree(User.current.projects.all) do |project, level|

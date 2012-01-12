@@ -1316,6 +1316,9 @@ input:-moz-placeholder {
   height:15px;
   line-height:15px;
 }
+#header li.drop-down li > a.separator {
+ border-bottom: 1px solid #555555;
+}
 #breadcrumb {
 	height:38px;
         line-height:38px;
