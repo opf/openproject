@@ -58,6 +58,7 @@
             <%= project_content %>
           </ul>
         </li>
+        <% if more_top_menu_items.present? || User.current.admin? %>
         <li class="drop-down" id="more-menu">
           <a class="more" href="#"><%= l(:label_more) %></a>
           <ul style="display:none;">
@@ -72,6 +73,7 @@
             <% end %>
           </ul>
         </li>
+        <% end %>
         <li>
           <%= render_menu_node(help_menu_item) %>
           <% unless User.current.logged? %>
