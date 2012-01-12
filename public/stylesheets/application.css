@@ -1222,27 +1222,21 @@ a:hover {
         font-weight:bold;
         color:#FFFFFF;
 }
-
 li a.home {
+  text-indent:-999em;
   width:20px;
   height:43px;
-}
-
-li a.home img {
-  position:relative;
-  top: 16px;
-  left: 3px;
+  background:url(../images/icon_home.png) no-repeat 50% 50%;
 }
 
 li a.help {
+  text-indent:-999em;
   width:20px;
   height:43px;
+  background:url(../images/icon_help.png) no-repeat 50% 50%;
 }
-
-li a.help img {
-  position:relative;
-  top: 14px;
-  left: 6px;
+li a.help:hover {
+  background-image:url(../images/icon_help_grey.png);
 }
 #header li.drop-down.open > a {
 	background:#FFFFFF url(../images/arrow-down-grey.png) no-repeat right center;
