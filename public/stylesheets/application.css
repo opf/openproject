@@ -27,14 +27,14 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
 
 #main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
 #main-menu ul {margin: 0;  padding: 0;}
-#main-menu li {
+#main-menu ul.menu_root li {
   float: none;
   list-style-type:none;
   margin: 0px;
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#main-menu li a {
+#main-menu ul.menu_root li a {
   display: block;
   text-decoration: none;
   font-weight: normal;
@@ -42,7 +42,7 @@ h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   margin: 0;
   padding: 0 0 0 24px;
 }
-#main-menu li a:hover {color:#555; text-decoration: none;}
+#main-menu ul.menu_root li a:hover {color:#555; text-decoration: none;}
 
 #content {
   width: 75%;
@@ -1236,7 +1236,7 @@ a:hover {
         background-color:#FFFFFF;
         color:#222222;
 }
-#header li.drop-down li > a:hover, #main-menu li a.selected, #main-menu li a:hover  {
+#header li.drop-down li > a:hover, #main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover  {
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
 	-webkit-border-top-left-radius:5px;
@@ -1430,24 +1430,24 @@ div#optional_login_fields {
 	border:1px solid #AFAFAF;
 	background:#f3f3f3;
 }
-#main-menu li {
+#main-menu ul.menu_root li {
 	border-top:1px solid #f5f5f5;
 	border-bottom:1px solid #e2e2e2;
 	position:relative;
         min-height:23px;
         background-color:#e9e9e9;
 }
-#main-menu li li {
+#main-menu ul.menu_root li li {
 	border:0;
         background-color:white;
 }
-#main-menu li li li {
+#main-menu ul.menu_root li li li {
 	padding:0;
 	width:100%;
 	border-bottom:1px solid #DDDDDD;
 	border-top:1px solid #FFFFFF;
 }
-#main-menu li li li:first-child {
+#main-menu ul.menu_root li li li:first-child {
 	border-top:0;
 }
 #main-menu a {
@@ -1462,26 +1462,26 @@ div#optional_login_fields {
         font-family:"Arial", Arial, sans-serif;
         font-style:normal;
 }
-#main-menu li a {
+#main-menu ul.menu_root li a {
         margin:6px;
 	font-weight:bold;
         padding: 0 0 0 20px;
 }
 #main-menu a.selected, #main-menu a:hover {
 }
-#main-menu li li a {
+#main-menu ul.menu_root li li a {
 	font-weight:normal;
 }
-#main-menu li li.current a {
+#main-menu ul.menu_root li li.current a {
 	font-weight:bold;
 }
-#main-menu li li a span {
+#main-menu ul.menu_root li li a span {
 	font-weight:normal;
 	color:#999;
 	float:right;
 	padding-right:9px;
 }
-#main-menu li li li a span {
+#main-menu ul.menu_root li li li a span {
 	padding:0;
 }
 #main-menu .toggler {
@@ -1492,43 +1492,43 @@ div#optional_login_fields {
 	width:40px;
 	height:25px;
 }
-#main-menu li .open .toggler {
+#main-menu ul.menu_root li .open .toggler {
   background-image:url(../images/projectnavi_arrow_up.png);
 }
-#main-menu li .open:hover .toggler {
+#main-menu ul.menu_root li .open:hover .toggler {
   background-image:url(../images/projectnavi_arrow_up_white.png);
 }
-#main-menu li .selected .toggler {
+#main-menu ul.menu_root li .selected .toggler {
   background-image:url(../images/projectnavi_arrow_down_white.png);
 }
-#main-menu li .selected.open .toggler {
+#main-menu ul.menu_root li .selected.open .toggler {
   background-image:url(../images/projectnavi_arrow_up_white.png);
 }
-#main-menu li a:hover .toggler {
+#main-menu ul.menu_root li a:hover .toggler {
   background-image:url(../images/projectnavi_arrow_down_white.png);
 }
 
-#main-menu li li .toggler {
+#main-menu ul.menu_root li li .toggler {
 	display:none;
 }
-#main-menu li li li a {
+#main-menu ul.menu_root li li li a {
 	padding:0 12px;
 }
-#main-menu li li ul.profile-box li {
+#main-menu ul.menu_root li li ul.profile-box li {
 	padding:6px 12px;
 }
-#main-menu li li ul.profile-box li a {
+#main-menu ul.menu_root li li ul.profile-box li a {
 	display:inline;
 	padding:0;
 	color:#226D81;
 	line-height:1.5;
 }
-#main-menu li li ul.profile-box li a:hover {
+#main-menu ul.menu_root li li ul.profile-box li a:hover {
 	text-decoration:underline;
 }
 
 /* Mimic ".icon .icon-time" */
-#main-menu li a.time-details, #main-menu li a.billable-time-details, #main-menu li a.overhead-time-details { background-image:url(../../../images/time.png); background-position:30px 40%; background-repeat:no-repeat; padding-left:50px; }
+#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details { background-image:url(../../../images/time.png); background-position:30px 40%; background-repeat:no-repeat; padding-left:50px; }
 
 #main-menu p.password { font-weight: bold; margin: 25px 0; }
 
@@ -2286,13 +2286,13 @@ ul.projects div.root a.project {
 #sidebar li {border: none; }
 #sidebar li a {padding: 0px; }
 
-#main-menu li li a {
+#main-menu ul.menu_root li li a {
 	padding-left:30px;
 	padding-right:3px;
 	text-indent:-6px;
 	letter-spacing:-.01em;
 }
-#main-menu li a.time-details, #main-menu li a.overhead-time-details, #main-menu li a.billable-time-details {
+#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.overhead-time-details, #main-menu ul.menu_root li a.billable-time-details {
 	padding-left:40px;
 	background-position:12px 45%;
 }

@@ -46,7 +46,7 @@
       </div>
 
       <h1 class="hidden-for-sighted"><%= l(:label_top_menu) %></h1>
-      <ul id="account-nav">
+      <ul id="account-nav" class="menu_root">
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
@@ -99,7 +99,7 @@
       </h1>
     </div>
   </div>
-      
+
   <% main_menu = render_main_menu(@project) %>
   <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
   <% display_sidebar = true %>
@@ -114,7 +114,7 @@
         <%= yield :main_menu %>
       <% if display_sidebar %>
         <!-- Sidebar -->
-        <div id="sidebar">        
+        <div id="sidebar">
           <%= yield :sidebar %>
           <%= call_hook :view_layouts_base_sidebar %>
         </div>
