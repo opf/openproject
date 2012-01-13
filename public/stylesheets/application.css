@@ -1683,9 +1683,6 @@ form#issue-list {
 #content table tr.context-menu-selection {
 	background:#FEFBD0 url(../images/selected-gradient.jpg) repeat-x left top;
 }
-#content table td.priority {
-	text-align:center;
-}
 #content table td.issue {
 	background:url(../images/arrow-bottom-right.png) no-repeat right bottom;
 	width:42px;
