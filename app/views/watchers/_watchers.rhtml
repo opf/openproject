@@ -1,9 +1,11 @@
 <div class="contextual">
-<%= link_to_remote l(:button_add),
+<%= link_to_remote(l(:button_add),
                    :url => {:controller => 'watchers',
                             :action => 'new',
                             :object_type => watched.class.name.underscore,
-                            :object_id => watched} if User.current.allowed_to?(:add_issue_watchers, @project) %>
+                            :object_id => watched},
+                            :method => :get) if User.current.allowed_to?(:add_issue_watchers, @project)
+%>
 </div>
 
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
