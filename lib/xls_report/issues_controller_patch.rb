@@ -6,17 +6,17 @@ module XlsReport
   module IssuesControllerPatch
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethods)
-  
+
       base.class_eval do
         unloadable
       end
     end
-  
+
     module InstanceMethods
-    
+
       # If the index action is called, hook the xls format into the issues controller
       def respond_to(&block)
-        if (params["action"].to_sym == :index && params["format"].to_s.downcase == "xls")
+        if ((params["action"].to_sym == :index or params[:action] == "all") && params["format"].to_s.downcase == "xls")
           super do |format|
             yield format
             format.xls do
