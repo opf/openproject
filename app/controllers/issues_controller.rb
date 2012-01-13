@@ -93,6 +93,7 @@ class IssuesController < ApplicationController
 
   def all
     params[:set_filter] = '1'
+    retrieve_query
     index
   end
 
