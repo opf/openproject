@@ -5,11 +5,11 @@ describe Backlog do
 
   before(:each) do
     @feature = Factory.create(:tracker_feature)
-    Setting.plugin_backlogs  = {:points_burn_direction => "down",
-                                :wiki_template => "",
-                                :card_spec => "Sattleford VM-5040",
-                                :story_trackers => [@feature.id.to_s],
-                                :task_tracker => "0"}
+    Setting.plugin_backlogs  = {"points_burn_direction" => "down",
+                                "wiki_template"         => "",
+                                "card_spec"             => "Sattleford VM-5040",
+                                "story_trackers"        => [@feature.id.to_s],
+                                "task_tracker"          => "0"}
     @status = Factory.create(:issue_status)
   end
 

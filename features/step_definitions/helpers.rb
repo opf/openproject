@@ -1,11 +1,3 @@
-def get_project(project_name = nil)
-  if project_name.blank?
-    project = @project
-  else
-    project = Project.find_by_name(project_name)
-  end
-end
-
 def initialize_story_params(project, user = User.find(:first))
   story = HashWithIndifferentAccess.new(Story.new.attributes)
   story['project_id'] = project.id

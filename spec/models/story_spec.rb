@@ -20,11 +20,13 @@ describe Story do
   end
 
   before(:each) do
-    Setting.plugin_backlogs = {:points_burn_direction => "down",
-                               :wiki_template => "",
-                               :card_spec => "Sattleford VM-5040",
-                               :story_trackers => [tracker_feature.id.to_s],
-                               :task_tracker => "0"}
+    Setting.use_caching = false
+
+    Setting.plugin_backlogs = {"points_burn_direction" => "down",
+                               "wiki_template"         => "",
+                               "card_spec"             => "Sattleford VM-5040",
+                               "story_trackers"        => [tracker_feature.id.to_s],
+                               "task_tracker"          => "0"}
   end
 
   describe "Class methods" do

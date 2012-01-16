@@ -131,7 +131,7 @@ module RbCommonHelper
   end
 
   def available_story_trackers
-    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_backlogs[:story_trackers]},
+    trackers = Tracker.find(:all, :conditions => {:id => Setting.plugin_backlogs["story_trackers"]},
                                   :order => 'position')
 
     trackers &= @project.trackers if @project
