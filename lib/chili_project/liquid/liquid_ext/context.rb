@@ -47,6 +47,14 @@ module ChiliProject
           def html_results
             registers[:html_results] ||= {}
           end
+
+          def cacheable?
+            registers.has_key?(:cachable) ? !!registers[:cachable] : true
+          end
+
+          def not_cachable!
+            registers[:cachable] = false
+          end
         end
       end
     end

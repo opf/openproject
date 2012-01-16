@@ -19,15 +19,19 @@ module ChiliProject
         def self.included(base)
           base.send(:include, InstanceMethods)
           base.class_eval do
-            alias_method_chain :render_all, :cleaned_whitespace
+            alias_method_chain :render_all, :cleaned_whitespace_and_cache
           end
         end
 
         module InstanceMethods
-          def render_all_with_cleaned_whitespace(list, context)
+          def render_all_with_cleaned_whitespace_and_cache(list, context)
             # Remove the leading newline in a block's content
             list[0].sub!(/\A\r?\n/, "") if list[0].is_a?(String)
-            render_all_without_cleaned_whitespace(list, context)
+
+            # prevent caching if there are any potentially active elements
+            context.not_cachable! if list.any? { |token| token.respond_to?(:render) }
+
+            render_all_without_cleaned_whitespace_and_cache(list, context)
           end
         end
       end

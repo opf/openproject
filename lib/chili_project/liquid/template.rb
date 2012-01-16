@@ -74,6 +74,26 @@ module ChiliProject
         context = context_from_render_options(*args)
         context.registers[:html_results] ||= {}
 
+        obj = context.registers[:object]
+        attribute = context.registers[:attribute]
+
+        if Setting.cache_formatted_text? && cache_key = cache_key_for(Setting.text_formatting, obj, attribute)
+          # Text retrieved from the cache store may be frozen
+          # We need to dup it so we can do in-place substitutions with gsub!
+          result = Rails.cache.fetch(cache_key)
+          result ||= begin
+            result = render_context(context)
+            Rails.cache.write(cache_key, result) if context.cacheable?
+            result
+          end.dup
+        else
+          render_context(context)
+        end
+      end
+
+      def render_context(context)
+        return '' if @root.nil?
+
         # ENTER THE RENDERING STAGE
 
         # 1. Render the input as Liquid
@@ -88,8 +108,8 @@ module ChiliProject
 
         # 2. Perform the Wiki markup transformation (e.g. Textile)
         obj = context.registers[:object]
-        attr = context.registers[:attribute]
-        result = Redmine::WikiFormatting.to_html(Setting.text_formatting, result, :object => obj, :attribute => attr)
+        attribute = context.registers[:attribute]
+        result = Redmine::WikiFormatting.to_html(Setting.text_formatting, result, :object => obj, :attribute => attribute)
 
         # 3. Now finally, replace the captured raw HTML bits in the final content
         length = nil
@@ -104,6 +124,13 @@ module ChiliProject
         end
 
         result
+      end
+
+    private
+      def cache_key_for(format, object, attribute)
+        if object && attribute && !object.new_record? && object.respond_to?(:updated_on) && !format.blank?
+          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{object.updated_on.to_s(:number)}"
+        end
       end
     end
   end
