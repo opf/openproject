@@ -18,7 +18,7 @@ module Redmine
       def app_name; 'ChiliProject' end
       def url; 'https://www.chiliproject.org/' end
       def help_url
-        "https://www.chiliproject.org/help/v#{Redmine::VERSION.to_semver}"
+        "https://www.chiliproject.org/help/v#{ChiliProject::VERSION::MAJOR.to_s}"
       end
       def versioned_name; "#{app_name} #{Redmine::VERSION}" end
 
