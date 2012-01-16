@@ -490,6 +490,9 @@ fieldset#notified_events .parent { padding-left: 20px; }
 .required {color: #bb0000;}
 .summary {font-style: italic;}
 
+input.attachment_choose_file {
+  float:left;
+}
 #attachments {font-size: 1em; }
 #attachments_fields input[type=text] {margin-left: 8px; }
 
@@ -2658,4 +2661,16 @@ td.small-icons img {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   -ms-text-overflow: ellipsis;
+}
+
+.label-with-input {
+  display: block;
+  white-space: nowrap;
+  zoom: 1;
+}
+
+fieldset#attachments input, fieldset#attachments span.add_another_file {
+  zoom: 1;
+  margin-left: 10px;
+  margin-right: 10px;
 }

@@ -86,26 +86,12 @@ function hideFieldset(el) {
 var fileFieldCount = 1;
 
 function addFileField() {
-    if (fileFieldCount >= 10) return false
-    fileFieldCount++;
-    var f = document.createElement("input");
-    f.type = "file";
-    f.name = "attachments[" + fileFieldCount + "][file]";
-    f.size = 30;
-    var d = document.createElement("input");
-    d.type = "text";
-    d.name = "attachments[" + fileFieldCount + "][description]";
-    d.size = 60;
-    var dLabel = new Element('label');
-    dLabel.addClassName('inline');
-    // Pulls the languge value used for Optional Description
-    dLabel.update($('attachment_description_label_content').innerHTML)
-    p = document.getElementById("attachments_fields");
-    p.appendChild(document.createElement("br"));
-    p.appendChild(f);
-    p.appendChild(dLabel);
-    dLabel.appendChild(d);
-
+  fileFieldCount++;
+  if (fileFieldCount >= 10) return false
+  $('attachments_fields').insert($('attachment_template').innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']'))
+    //
+  // Pulls the languge value used for Optional Description
+  $('attachments_fields').down('label:last').down('span').update($$('.attachment_description_label_content').first().innerHTML)
 }
 
 function showTab(name) {

@@ -1,8 +1,16 @@
 <span id="attachments_fields">
-<%= file_field_tag 'attachments[1][file]', :size => 30, :id => nil  -%><label class="inline"><span id="attachment_description_label_content"><%= l(:label_optional_description) %></span><%= text_field_tag 'attachments[1][description]', '', :size => 60, :id => nil %>
-</label>
+  <span id="attachment_template">
+    <%= file_field_tag 'attachments[1][file]', :size => 30, :id => nil, :class => "attachment_choose_file"  -%>
+    <label class="label-with-input" >
+      <span class="attachment_description_label_content">
+        <%= l(:label_optional_description) %>
+      </span>
+      <%= text_field_tag 'attachments[1][description]', '', :size => 60, :id => nil %>
+    </label>
+  </span>
 </span>
 <br />
-<small><%= link_to l(:label_add_another_file), '#', :onclick => 'addFileField(); return false;' %>
-(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
-</small>
+<span class="add_another_file">
+  <%= link_to l(:label_add_another_file), '#', :onclick => 'addFileField(); return false;' %>
+  (<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+</span>
