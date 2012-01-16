@@ -19,6 +19,8 @@ module ChiliProject
         def self.included(base)
           base.send(:include, InstanceMethods)
           base.class_eval do
+            unloadable
+
             alias_method_chain :handle_error, :formatting
           end
         end

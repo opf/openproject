@@ -12,28 +12,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# Required until https://github.com/Shopify/liquid/pull/87 got merged upstream
 module ChiliProject
   module Liquid
     module LiquidExt
-      module Block
+      module Strainer
         def self.included(base)
-          base.send(:include, InstanceMethods)
+          base.extend(ClassMethods)
           base.class_eval do
             unloadable
 
-            alias_method_chain :render_all, :cleaned_whitespace_and_cache
+            @@filters = []
           end
         end
 
-        module InstanceMethods
-          def render_all_with_cleaned_whitespace_and_cache(list, context)
-            # Remove the leading newline in a block's content
-            list[0].sub!(/\A\r?\n/, "") if list[0].is_a?(String)
+        module ClassMethods
+          def global_filter(filter)
+            raise ArgumentError, "Passed filter is not a module" unless filter.is_a?(Module)
+            @@filters << filter
+          end
 
-            # prevent caching if there are any potentially active elements
-            context.not_cachable! if list.any? { |token| token.respond_to?(:render) }
-
-            render_all_without_cleaned_whitespace_and_cache(list, context)
+          def create(context)
+            strainer = self.new(context)
+            @@filters.each { |filter| strainer.extend(filter) }
+            strainer
           end
         end
       end

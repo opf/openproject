@@ -17,6 +17,8 @@ module ChiliProject
     module LiquidExt
       ::Liquid::Block.send(:include, Block)
       ::Liquid::Context.send(:include, Context)
+      # Required until https://github.com/Shopify/liquid/pull/87 got merged upstream
+      ::Liquid::Strainer.send(:include, Strainer)
     end
   end
 end
