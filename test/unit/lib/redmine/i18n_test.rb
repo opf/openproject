@@ -18,6 +18,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   include ActionView::Helpers::NumberHelper
 
   def setup
+    super
     @hook_module = Redmine::Hook
   end
 

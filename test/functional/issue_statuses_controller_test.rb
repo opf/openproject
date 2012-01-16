@@ -23,6 +23,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
   fixtures :issue_statuses, :issues
 
   def setup
+    super
     @controller = IssueStatusesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
