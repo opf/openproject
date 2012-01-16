@@ -138,14 +138,6 @@ When /^I click on the text "(.+?)"$/ do |locator|
   page.all(:xpath, %Q{//*[contains(., "#{locator}")]}, :message => msg).last.click
 end
 
-When /^I hover over "([^"]+)"$/ do |selector|
-  page.execute_script "jQuery(#{selector.inspect}).addClass('hover');"
-end
-
-When /^I stop hovering over "([^"]*)"$/ do |selector|
-  page.execute_script "jQuery(#{selector.inspect}).removeClass('hover');"
-end
-
 When /^I confirm the story form$/ do
   find(:xpath, XPath::HTML.fillable_field("subject")).native.send_key :return
   step 'I wait for AJAX requests to finish'
