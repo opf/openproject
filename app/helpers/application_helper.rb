@@ -295,7 +295,7 @@ module ApplicationHelper
     projects.each do |project|
       s << "<label>#{ check_box_tag name, project.id, false } #{h project}</label>\n"
     end
-    s 
+    s
   end
 
   # Truncates and returns the string as a single line
@@ -487,14 +487,17 @@ module ApplicationHelper
         Rails.logger.debug msg
       end
     rescue Liquid::SyntaxError => exception
+      msg = "[Liquid Syntax Error] #{exception.message}"
       if Rails.logger && Rails.logger.debug?
-        msg = "[Liquid Syntax Error] #{exception.message}\n:\n#{exception.backtrace.join("\n")}"
-        msg << "\n\n"
-        Rails.logger.debug msg
+        log_msg = "#{msg}\n"
+        log_msg << exception.backtrace.collect{ |str| "    #{str}" }.join("\n")
+        log_msg << "\n\n"
+        Rails.logger.debug log_msg
       end
 
       # Skip Liquid if there is a syntax error
-      text = h(input_text)
+      text = content_tag(:div, msg, :class => "flash error")
+      text << h(input_text)
     end
 
     @parsed_headings = []

@@ -229,5 +229,13 @@ class ChiliProject::LiquidTest < ActionView::TestCase
       formatted = textilizable(text)
       assert_match  '&lt;script&gt;alert(&quot;Hello&quot;)&lt;/script&gt;', formatted
     end
+
+    should "have an error flash" do
+      text =  "{% --- something invalid %}\n"
+      formatted = textilizable(text)
+
+      assert_match /flash error/, formatted
+      assert_match '[Liquid Syntax Error]', formatted
+    end
   end
 end
