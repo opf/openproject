@@ -140,6 +140,7 @@ class Setting < ActiveRecord::Base
   # Deprecation Warning: This method is no longer available. There is no
   # replacement.
   def self.check_cache
+    # DEPRECATED SINCE 3.0.0beta2
     ActiveSupport::Deprecation.warn "The Setting.check_cache method is " +
       "deprecated and will be removed in the future. There should be no " +
       "replacement for this functionality needed."
@@ -147,9 +148,12 @@ class Setting < ActiveRecord::Base
 
   # Clears all of the Setting caches
   def self.clear_cache
+    # DEPRECATED SINCE 3.0.0beta2
     ActiveSupport::Deprecation.warn "The Setting.clear_cache method is " +
       "deprecated and will be removed in the future. There should be no " +
-      "replacement for this functionality needed."
+      "replacement for this functionality needed. To sweep the whole " +
+      "cache Rails.cache.clear may be used. To invalidate the Settings " +
+      "only, you may use Setting.first.try(:touch)"
   end
 
 private
