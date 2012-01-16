@@ -1,3 +1,9 @@
+= 1.2.2 - 2012-01-16
+
+= Minor Test Change
+
+* Moving cucumber step definitions to chiliproject cucumber to use them in other plugins as well.
+
 = 1.2.1 - 2012-01-05
 
 = Minor Change
