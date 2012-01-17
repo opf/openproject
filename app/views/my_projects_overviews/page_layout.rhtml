@@ -68,21 +68,27 @@ function editTextilizable(name) {
     $(name + '-preview-div').toggle();
     return false;
 }
+
+function addBlock() {
+  new Ajax.Updater('list-hidden',
+                   $('block-form').action,
+                   { insertion: 'top',
+                     onComplete: afterAddBlock,
+                     parameters: Form.serialize('block-form')
+                   });
+
+  return false;
+}
 //]]>
 </script>
 
 <div class="contextual">
 <% form_tag({:action => "add_block"}, :id => "block-form") do %>
-<%= label_tag('block-select', l(:label_my_page_block)) %>:
-<%= select_tag 'block', "<option></option>" + options_for_select(@block_options), :id => "block-select" %>
-<%= link_to_remote l(:button_add),
-           {:url => { :action => "add_block" },
-            :with => "Form.serialize('block-form')",
-            :update => "list-hidden",
-            :position => :top,
-            :complete => "afterAddBlock();"
-           }, :class => 'icon icon-add'
-             %>
+  <%= select_tag 'block',
+                 "<option>--#{t(:button_add)}--</option>" + options_for_select(@block_options),
+                 :id => "block-select",
+                 :onChange => "addBlock();"
+%>
 <% end %>
 <%= link_to l(:button_back), {:action => 'index'}, :class => 'icon icon-cancel' %>
 </div>
