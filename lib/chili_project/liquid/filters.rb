@@ -44,6 +44,26 @@ module ChiliProject
       def replace_first(input, string, replacement = '')
         input.to_s.sub(string){replacement}
       end
+
+      # Get the first element(s) of the passed in array
+      # Example:
+      #    {{ product.images | first | to_img }}
+      def first(array, count=nil)
+        return array.first if count.nil? && array.respond_to?(:first)
+        if array.respond_to?(:[])
+          count.to_i > 0 ? array[0..count.to_i-1] : []
+        end
+      end
+
+      # Get the last element(s) of the passed in array
+      # Example:
+      #    {{ product.images | last | to_img }}
+      def last(array, count=nil)
+        array.last if count=nil? && array.respond_to?(:last)
+        if array.respond_to?(:[])
+          count.to_i > 0 ? array[(count.to_i * -1)..-1] : []
+        end
+      end
     end
 
     module Filters
