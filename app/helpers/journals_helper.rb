@@ -54,7 +54,7 @@ module JournalsHelper
     header << render_notes(model, journal, options) unless journal.notes.blank?
 
     if journal.details.any?
-      details = content_tag "ul", :class => "journal-attributes" do
+      details = content_tag "ul", :class => "journal-attributes details" do
         journal.details.collect do |detail|
           if d = journal.render_detail(detail)
             content_tag("li", d)
