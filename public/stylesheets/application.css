@@ -1006,13 +1006,8 @@ img.gravatar {
   background: #fff;
 }
 
-div.issue img.gravatar {
-	float: right;
-	margin: 0 0 0 1em;
-	padding: 5px;
-}
-
-div.issue table img.gravatar {
+div.issue table img.gravatar,
+p.author img.gravatar {
 	height: 14px;
 	width: 14px;
 	padding: 2px;
@@ -1794,23 +1789,21 @@ table.files {
 	margin-bottom:20px;
 }
 #history .journal {
-	position:relative;
-	padding-left:50px;
-	margin:0 0 15px;
-	clear:both;
-	min-height:40px;
+  margin:0 0 45px;
+}
+.journal.has-avatar .journal-details {
+  padding-left: 50px;
 }
 .journal .profile-wrap {
-	float:none;
-	position:absolute;
-	left:0;
-	top:0;
+  float: left;
+  margin: 5px 0 0;
 }
+
 .journal h4 {
 	font-size:12px;
 	font-weight:normal;
-	margin-bottom:-1px;
-	position:relative;
+	margin-bottom:10px;
+	padding-right: 0;
 	z-index:5;
 }
 .journal h4 .history-id {
@@ -1818,7 +1811,6 @@ table.files {
 	color:#999;
 }
 .journal .wiki {
-	padding:10px 10px 5px;
 	overflow:auto;
 }
 .journal .contextual {
@@ -1949,12 +1941,6 @@ ul.projects li div.root {
  * This section defines the styles for handling behaviors - popups, flyouts, etc.
  ------------------------------------------------------------------------------*/
 
-.profile-wrap {
-	float:right;
-	position:relative;
-	width:42px;
-	height:42px;
-}
 .profile-box {
 	position:absolute;
 	right:0;
@@ -2289,15 +2275,11 @@ div.issue hr {
 #content h2 + h3 {
 	margin-top:12px;
 }
-div.issue img.gravatar, #history img.gravatar {
-	float:none;
-	margin:0;
-	padding:0;
-}
 p.author {
 	margin-bottom:3px;
 	font-style:italic;
 }
+
 /* add filter select box on non-issue pages */
 fieldset#filters div.add-filter {
 	text-align:left;
@@ -2397,6 +2379,7 @@ div.issue p, div.issue div, #content td {
 }
 #history .journal {
 	clear:left;
+	min-height: 50px;
 	margin-bottom:45px;
 }
 
