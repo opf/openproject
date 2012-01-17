@@ -69,9 +69,9 @@
         container_div.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chzn-drop" style="left:-9000px;"><ul class="chzn-results"></ul></div>');
       } else {
         if (this.options.floating_free != null) {
-          container_div.html('<div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input type="text" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
+          container_div.html('<div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input placeholder="' + this.default_text + '" type="text" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
         } else {
-          container_div.html('<a href="javascript:void(0)" class="chzn-single"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input type="text" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
+          container_div.html('<a href="javascript:void(0)" class="chzn-single"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chzn-drop" style="left:-9000px;"><div class="chzn-search"><input type="text" title="' + this.default_text + '" placeholder="' + this.default_text + '" autocomplete="off" /></div><ul class="chzn-results"></ul></div>');
         }
       }
       this.form_field_jq.hide().after(container_div);
@@ -94,7 +94,7 @@
         this.selected_item = this.container.find('.chzn-single').first();
       }
       this.results_build();
-      return this.set_tab_index();
+      return;
     };
     Chosen.prototype.register_observers = function() {
       this.container.mousedown(__bind(function(evt) {
@@ -215,10 +215,6 @@
         return;
     };
     Chosen.prototype.activate_field = function() {
-      if (!this.is_multiple && !this.active_field) {
-        this.search_field.attr("tabindex", this.selected_item.attr("tabindex"));
-        this.selected_item.attr("tabindex", -1);
-      }
       this.container.addClass("chzn-container-active");
       this.active_field = true;
       this.search_field.val(this.search_field.val());
@@ -353,19 +349,6 @@
         "left": "-9000px"
       });
       return this.results_showing = false;
-    };
-    Chosen.prototype.set_tab_index = function(el) {
-      var ti;
-      if (this.form_field_jq.attr("tabindex")) {
-        ti = this.form_field_jq.attr("tabindex");
-        this.form_field_jq.attr("tabindex", -1);
-        if (this.is_multiple) {
-          return this.search_field.attr("tabindex", ti);
-        } else {
-          this.selected_item.attr("tabindex", ti);
-          return this.search_field.attr("tabindex", -1);
-        }
-      }
     };
     Chosen.prototype.show_search_field_default = function() {
       if (this.is_multiple && this.choices < 1 && !this.active_field) {
