@@ -27,8 +27,18 @@ module JournalsHelper
 
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
+
+    journal_classes = journal.css_classes
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }
+
+    avatar = avatar(journal.user, :size => "40")
+    unless avatar.blank?
+      profile_wrap = content_tag("div", avatar, {:class => "profile-wrap"}, false)
+      journal_content = profile_wrap + journal_content
+      journal_classes << " has-avatar"
+    end
+
+    content_tag("div", journal_content, :id => "change-#{journal.id}", :class => journal_classes)
   end
 
   # This renders a journal entry with a header and details
@@ -39,17 +49,12 @@ module JournalsHelper
         #{authoring journal.created_at, journal.user, :label => header_label}
         #{content_tag('a', '', :name => "note-#{journal.anchor}")}
       </h4>
-
-      <div class="profile-wrap">
-        #{avatar(journal.user, :size => "40")}
-      </div>
-
-      #{render_notes(model, journal, options) unless journal.notes.blank?}
-
     HTML
 
+    header << render_notes(model, journal, options) unless journal.notes.blank?
+
     if journal.details.any?
-      details = content_tag "ul", :class => "details journal-attributes" do
+      details = content_tag "ul", :class => "journal-attributes" do
         journal.details.collect do |detail|
           if d = journal.render_detail(detail)
             content_tag("li", d)
@@ -58,7 +63,7 @@ module JournalsHelper
       end
     end
 
-    return "#{header}#{details}"
+    content_tag "div", "#{header}#{details}", :class => "journal-details"
   end
 
   def render_notes(model, journal, options={})
