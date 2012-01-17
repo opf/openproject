@@ -5,9 +5,6 @@
 </div>
 
 <div class="<%= @issue.css_classes %> details">
-  <div class="profile-wrap">
-    <%= avatar(@issue.author, :size => "40") %>
-  </div>
 
   <h1 class="subject">
     <%=h(@issue.subject)  %> (<%= h(@issue.tracker.name) + ' #' +@issue.id.to_s %>)
@@ -15,6 +12,7 @@
   <hr />
 
   <p class="author">
+    <%= avatar(@issue.author, :size => "14") %>
     <%= authoring @issue.created_on, @issue.author %>.
     <% if @issue.created_on != @issue.updated_on %>
       <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
