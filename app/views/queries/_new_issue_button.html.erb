@@ -1,5 +1,5 @@
 <% if @project %>
 <div class="new-issue button-large">
-  <%= link_to(l(:label_issue_new), {:controller => 'issues', :action => 'new', :project_id => @project}, :title => l(:label_issue_new), :class => '') %>
+  <%= link_to_if_authorized(l(:label_issue_new), {:controller => 'issues', :action => 'new', :project_id => @project}, :title => l(:label_issue_new), :class => '') %>
 </div>
 <% end %>
