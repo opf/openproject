@@ -17,7 +17,7 @@ class WatchersController < ApplicationController
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => [:new, :destroy]
   before_filter :authorize_access_to_object, :only => [:new, :destroy]
-  
+
   verify :method => :post,
          :only => [ :watch, :unwatch ],
          :render => { :nothing => true, :status => :method_not_allowed }
@@ -40,7 +40,7 @@ class WatchersController < ApplicationController
       @watcher.watchable = @watched
       @watcher.save if request.post?
     end if params[:user_ids].present?
-    
+
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
@@ -117,5 +117,5 @@ private
       deny_access
     end
   end
-  
+
 end

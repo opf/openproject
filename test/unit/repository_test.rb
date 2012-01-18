@@ -96,7 +96,7 @@ class RepositoryTest < ActiveSupport::TestCase
     journal = fixed_issue.journals.last
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
-    
+
     # 2 email notifications to 5 users
     assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first

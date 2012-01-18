@@ -138,7 +138,7 @@ class GroupsController < ApplicationController
       @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
       @membership.save if request.post?
     end
-    
+
     respond_to do |format|
       if @membership.valid?
         format.html { redirect_to :controller => 'groups', :action => 'edit', :id => @group, :tab => 'memberships' }

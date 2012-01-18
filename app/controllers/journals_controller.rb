@@ -101,7 +101,7 @@ class JournalsController < ApplicationController
       render_404
     end
   end
-  
+
   private
 
   def find_journal

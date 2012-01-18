@@ -33,7 +33,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -55,7 +55,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -80,7 +80,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 

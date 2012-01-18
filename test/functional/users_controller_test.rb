@@ -308,7 +308,7 @@ class UsersControllerTest < ActionController::TestCase
       post :edit_membership, :id => 2, :project_ids => [3,6], :membership => { :role_ids => ['1', '2']}
     end
   end
-  
+
   def test_destroy_membership
     post :destroy_membership, :id => 2, :membership_id => 1
     assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'

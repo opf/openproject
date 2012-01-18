@@ -55,7 +55,7 @@ class AutoCompletesController < ApplicationController
     else
       user_finder = User
     end
-    
+
     @users = user_finder.active.like(params[:q]).find(:all, :limit => 100) - @removed_users
     render :layout => false
   end
@@ -65,7 +65,7 @@ class AutoCompletesController < ApplicationController
     @projects = Project.active.like(params[:q]).find(:all, :limit => 100) - @principal.projects
     render :layout => false
   end
-  
+
   private
 
   def find_project

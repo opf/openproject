@@ -26,7 +26,7 @@ class Group < Principal
   def mails
     users.collect(&:mail)
   end
-  
+
   def to_s
     lastname.to_s
   end

@@ -221,7 +221,7 @@ class Query < ActiveRecord::Base
   def has_filter?(field)
     filters and filters[field]
   end
-  
+
   def type_for(field)
     available_filters[field][:type] if available_filters.has_key?(field)
   end
@@ -647,7 +647,7 @@ class Query < ActiveRecord::Base
       @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
     end
   end
-  
+
   # Returns a SQL clause for a date or datetime field.
   def date_clause(table, field, from, to)
     s = []
@@ -659,7 +659,7 @@ class Query < ActiveRecord::Base
     end
     s.join(' AND ')
   end
-  
+
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to)
     date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil))

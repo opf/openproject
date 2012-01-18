@@ -87,14 +87,14 @@ class JournalsControllerTest < ActionController::TestCase
       @issue = Issue.find(6)
       @previous_description = @issue.description
       @new_description = "New description"
-      
+
       assert_difference("Journal.count") do
         @issue.description = @new_description
         assert @issue.save
       end
       @last_journal = @issue.last_journal
     end
-    
+
     context "without a valid journal" do
       should "return a 404" do
         get :diff, :id => '0'
@@ -124,14 +124,14 @@ class JournalsControllerTest < ActionController::TestCase
 
         assert_response :forbidden
       end
-      
+
     end
 
     context "with permission to view_issues" do
       setup do
         get :diff, :id => @last_journal.id, :field => 'description'
       end
-      
+
       should "create a diff" do
         assert_not_nil assigns(:diff)
         assert assigns(:diff).is_a?(Redmine::Helpers::Diff)
@@ -140,9 +140,9 @@ class JournalsControllerTest < ActionController::TestCase
       should "render an inline diff" do
         assert_select "#content .text-diff"
       end
-      
+
     end
-      
+
   end
-  
+
 end

@@ -5,7 +5,7 @@
 <h3><%= l(:label_issue_watchers) %> (<%= watched.watcher_users.size %>)</h3>
 
 <% if User.current.allowed_to?("add_#{watched.class.name.underscore}_watchers".to_sym, @project) %>
-	<% remote_form_for(:watcher, @watcher, 
+	<% remote_form_for(:watcher, @watcher,
                 	   :url => {:controller => 'watchers',
               	              :action => 'new',
             	                :object_type => watched.class.name.underscore,
@@ -20,7 +20,7 @@
                  :url => auto_complete_users_path(:remove_watchers => watched.id, :klass => watched.class, :include_groups => true),
                  :with => 'q')
                   %>
-		
+
 		<div id="users">
 			<%= principals_check_box_tags 'user_ids[]', users %>
 		</div>

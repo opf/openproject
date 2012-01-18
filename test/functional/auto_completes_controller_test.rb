@@ -77,16 +77,16 @@ class AutoCompletesControllerTest < ActionController::TestCase
       setup do
         get :users, :q => 'complete'
       end
-      
+
       should_respond_with :success
-      
+
       should "render a list of matching users in checkboxes" do
         assert_select "input[type=checkbox][value=?]", @login.id
         assert_select "input[type=checkbox][value=?]", @firstname.id
         assert_select "input[type=checkbox][value=?]", @lastname.id
         assert_select "input[type=checkbox][value=?]", @none.id, :count => 0
       end
-      
+
       should "only show active users" do
         assert_select "input[type=checkbox][value=?]", @inactive.id, :count => 0
       end
@@ -97,9 +97,9 @@ class AutoCompletesControllerTest < ActionController::TestCase
         @group = Group.generate(:lastname => 'Complete Group').reload
         get :users, :q => 'complete', :include_groups => true
       end
-      
+
       should_respond_with :success
-      
+
       should "include matching groups" do
         assert_select "input[type=checkbox][value=?]", @group.id
       end
@@ -113,9 +113,9 @@ class AutoCompletesControllerTest < ActionController::TestCase
         @group.users << @firstname
         get :users, :q => 'complete', :remove_group_members => @group.id
       end
-      
+
       should_respond_with :success
-      
+
       should "not include existing members of the Group" do
         assert_select "input[type=checkbox][value=?]", @lastname.id
 
@@ -123,7 +123,7 @@ class AutoCompletesControllerTest < ActionController::TestCase
         assert_select "input[type=checkbox][value=?]", @firstname.id, :count => 0
       end
     end
-    
+
     context "restrict by removing issue watchers" do
       setup do
         @issue = Issue.find(2)
@@ -131,9 +131,9 @@ class AutoCompletesControllerTest < ActionController::TestCase
         @issue.add_watcher(@firstname)
         get :users, :q => 'complete', :remove_watchers => @issue.id, :klass => 'Issue'
       end
-      
+
       should_respond_with :success
-      
+
       should "not include existing watchers" do
         assert_select "input[type=checkbox][value=?]", @lastname.id
 
@@ -156,7 +156,7 @@ class AutoCompletesControllerTest < ActionController::TestCase
 
       assert_response 403
     end
-    
+
     context 'with a valid search' do
       setup do
         @user = User.generate_with_protected!
@@ -165,15 +165,15 @@ class AutoCompletesControllerTest < ActionController::TestCase
                      Project.generate!(:name => "This is a Test")
                     ]
         Project.generate!(:name => "No match")
-        
+
         @request.session[:user_id] = 1
         post :projects, {
           :id => @user.id,
           :q => 'TeST'
         }
-        
+
       end
-      
+
       should_assign_to(:principal) { @user }
       should_assign_to(:projects) { @projects }
       should_render_template :projects
@@ -183,18 +183,18 @@ class AutoCompletesControllerTest < ActionController::TestCase
       setup do
         @user = User.generate_with_protected!
         Project.generate!(:name => "Test")
-        
+
         @request.session[:user_id] = 1
         post :projects, {
           :id => @user.id,
           :q => 'nothing'
         }
-        
+
       end
       should_assign_to(:principal) { @user }
       should_assign_to(:projects) { [] }
       should_render_template :projects
-      
+
     end
   end
 end

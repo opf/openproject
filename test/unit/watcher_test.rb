@@ -129,26 +129,26 @@ class WatcherTest < ActiveSupport::TestCase
       @group.users << @user = User.find(1)
       @group.users << @user2 = User.find(2)
     end
-    
+
     should "be valid" do
       assert @issue.add_watcher(@group)
       @issue.reload
       assert @issue.watchers.detect { |w| w.user == @group }
     end
-    
+
     should "add all group members to recipients" do
       @issue.watchers.delete_all
       @issue.reload
-    
+
       assert @issue.watcher_recipients.empty?
       assert @issue.add_watcher(@group)
 
-      @user.save    
+      @user.save
       @issue.reload
       assert @issue.watcher_recipients.include?(@user.mail)
       assert @issue.watcher_recipients.include?(@user2.mail)
 
     end
-    
+
   end
 end

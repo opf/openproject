@@ -123,7 +123,7 @@ class Principal < ActiveRecord::Base
     end
     roles
   end
-  
+
   protected
 
   # Make sure we don't try to insert NULL values (see #4632)

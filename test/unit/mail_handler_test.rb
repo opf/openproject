@@ -438,7 +438,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       issue = submit_email('ticket_by_unknown_user.eml')
       assert_equal false, issue
-      
+
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
@@ -455,7 +455,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_no_difference('Journal.count') do
         assert_equal false, submit_email('ticket_reply.eml')
       end
-      
+
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
@@ -470,7 +470,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       issue = submit_email('ticket_with_attachment.eml') # No project set
       assert_equal false, issue
-      
+
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
@@ -490,7 +490,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       ActionMailer::Base.deliveries.clear
       issue = submit_email('ticket_on_project_with_missing_information.eml')
       assert_equal false, issue
-      
+
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
@@ -505,7 +505,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     should "deliver an email confirmation when configured" do
       ActionMailer::Base.deliveries.clear
       issue = submit_email('ticket_on_given_project.eml')
-      
+
       assert_equal 2, ActionMailer::Base.deliveries.size
       mail = ActionMailer::Base.deliveries.last
       assert_not_nil mail
@@ -526,7 +526,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert mail.subject.include?('Confirmation of email submission: Re: Add ingredients categories'), "Main subject missing"
       assert mail.body.include?("/issues/2"), "Link to issue missing"
     end
-    
+
   end
 
   context "#receive_message_reply" do

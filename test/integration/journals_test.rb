@@ -19,7 +19,7 @@ class JournalsTest < ActionController::IntegrationTest
 
   include IntegrationTestHelpers::CapybaraHelpers
   include Capybara::DSL
-  
+
   test "showing issue description changes as a diff" do
     # Description change
     @issue = Issue.find(1)
@@ -30,7 +30,7 @@ class JournalsTest < ActionController::IntegrationTest
       @issue.description = "A new description"
       assert @issue.save
     end
-    
+
     log_user('jsmith', 'jsmith')
 
     # Issue page

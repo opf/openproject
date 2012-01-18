@@ -97,7 +97,7 @@ class MemberTest < ActiveSupport::TestCase
             @member_on_public_project.destroy
           end
         end
-        
+
       end
 
       context "by updating roles" do

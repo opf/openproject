@@ -68,5 +68,5 @@ class DocumentTest < ActiveSupport::TestCase
       assert document.recipients.include?(user.mail), "Watcher not included in recipients"
     end
   end
-  
+
 end

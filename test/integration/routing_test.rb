@@ -112,7 +112,7 @@ class RoutingTest < ActionController::IntegrationTest
   context "journals" do
     should_route :get, "/journals/100/diff/description", :controller => 'journals', :action => 'diff', :id => '100', :field => 'description'
   end
-  
+
   context "issue categories" do
     should_route :get, "/projects/test/issue_categories/new", :controller => 'issue_categories', :action => 'new', :project_id => 'test'
 
@@ -354,5 +354,5 @@ class RoutingTest < ActionController::IntegrationTest
   context "auto_completes" do
     should_route :get, "/users/auto_complete", :controller => 'auto_completes', :action => 'users'
   end
-  
+
 end

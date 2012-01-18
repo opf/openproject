@@ -950,7 +950,7 @@ en:
   text_display_subprojects: Display subprojects
   text_current_project: Current project
   text_mail_handler_confirmation_successful: "Your email has been successful added at the following url"
-  
+
   default_role_manager: Manager
   default_role_developer: Developer
   default_role_reporter: Reporter

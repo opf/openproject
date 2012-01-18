@@ -302,7 +302,7 @@ class Mailer < ActionMailer::Base
       project = ''
       url = ''
     end
-    
+
     subject "[#{project}] #{l(:label_mail_handler_confirmation, :subject => email_subject)}"
     body(:object => object,
          :url => url)
@@ -315,7 +315,7 @@ class Mailer < ActionMailer::Base
     body({})
     render_multipart('mail_handler_unauthorized_action', body)
   end
-  
+
   def mail_handler_missing_information(user, email_subject, error_message)
     recipients user.mail
     subject l(:label_mail_handler_failure, :subject => email_subject)
