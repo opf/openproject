@@ -1,5 +1,32 @@
 = ChiliProject Changelog
 
+== 2011-01-18 v3.0.0-beta2
+
+Bug #558: Reduce version information from Help link
+Bug #774: Gravatar on issue#show is at a weird position
+Bug #778: Textile Caching breaks Liquid
+Bug #780: Setting Cache is not invalidated properly
+Bug #783: Link to new issue on issues list displayed although user is not allowed to create issue
+Bug #791: Allow SSL in POP3 in receive_pop3 task
+Bug #797: Wiki page list is shown as one long list and not a nested one
+Bug #798: Sidebar design looks bad
+Bug #807: History elements overlays revisions in Issues
+Bug #815: Inconsistent margin used for gravatars
+Bug #827: Group issues by the Status field
+Feature #672: Allow queries to include subproject issues
+Feature #674: Change outgoing email to be sent-per user and not as a single BCC email
+Feature #790: Allow plugins to register custom static and lazy evaluated variables
+Feature #792: Confirmation emails when an incoming email is submitted
+Feature #796: Filter issues based on a date range
+Feature #799: Watch documents
+Feature #800: Allow non-members to watch issues
+Feature #801: Bulk adding issue watchers
+Feature #802: Allow groups to watch issues
+Feature #805: Set watchers on a wiki page
+Feature #806: Set watchers on a Forum or Forum Thread
+Feature #808: Show description changes on issues in a diff
+Feature #809: Bulk add and search for projects when adding a member
+
 == 2011-12-18 v3.0.0-beta1
 
 * Bug #653: Multiple query related models defined in one file
@@ -16,19 +43,11 @@
 * Feature #747: Include capybara for integration tests
 * Feature #760: Update quick search to use a partial
 
-== to-be-released v2.6.0
+== to-be-released v2.7.0
 
-* Bug #356: Clicking on login while logged-in logs you out
-* Bug #463: REST API does not accept Basic HTTP auth when running through Apache mod_proxy
-* Bug #708: AAJ does not create journals, when models are created using sub classes
-* Bug #740: Revision page, new files are not displayed (Git Repo)
-* Bug #746: Problems with rdm-mailhandler.rb
-* Bug #748: ChiliProject::VERSION.revision doesn't capture error output
-* Bug #761: Fix quoting in shell-out (git adapter)
-* Feature #298: Seperate core plugins and user plugins into different directories
-* Feature #388: Add LDAP filter to ldap authentication
-* Feature #486: Do not display edit link in annotation page when you don't have permissions
-* Feature #733: Add css class for issues that are due today
+* Bug #819: RAILS_ENV is not properly set if running under thin
+* Bug #822: Initial journal creation fails because of the missing log_encoding of Repositories
+* Bug #823: Plugin in new directory not picking up Gemfile
 
 == 2012-01-03 v2.6.0
 
