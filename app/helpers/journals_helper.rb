@@ -34,18 +34,14 @@ module JournalsHelper
   # This renders a journal entry with a header and details
   def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
     header = <<-HTML
+      <div class="profile-wrap">
+        #{avatar(journal.user, :size => "40")}
+      </div>
       <h4>
         <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
         #{authoring journal.created_at, journal.user, :label => header_label}
         #{content_tag('a', '', :name => "note-#{journal.anchor}")}
       </h4>
-
-      <div class="profile-wrap">
-        #{avatar(journal.user, :size => "40")}
-      </div>
-
-      #{render_notes(model, journal, options) unless journal.notes.blank?}
-
     HTML
 
     if journal.details.any?
@@ -58,7 +54,10 @@ module JournalsHelper
       end
     end
 
-    content_tag("div", "#{header}#{details}", :id => "change-#{journal.id}", :class => "journal")
+    notes = <<-HTML
+      #{render_notes(model, journal, options) unless journal.notes.blank?}
+    HTML
+    content_tag("div", "#{header}#{details}#{notes}", :id => "change-#{journal.id}", :class => "journal")
   end
 
   def render_notes(model, journal, options={})

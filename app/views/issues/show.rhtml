@@ -13,7 +13,6 @@
   <h3>
     <%=h(@issue.subject)  %>
   </h3>
-  <hr />
 
   <p class="author">
     <%= authoring @issue.created_on, @issue.author %>.
@@ -21,7 +20,6 @@
       <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
     <% end %>
   </p>
-  <hr />
 
   <div class="meta">
     <table class="attributes">
@@ -63,16 +61,15 @@
 	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
 	  </div>
 
-	  <p><strong><%=l(:field_description)%></strong></p>
-	  <div class="wiki">
-	    <%= textilizable @issue, :description, :attachments => @issue.attachments %>
-	  </div>
-  </div>
+        <p><strong><%=l(:field_description)%></strong></p>
+        <div class="wiki">
+          <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+        </div>
+</div>
 <% end %>
 
 <% if @issue.attachments.any? -%>
-  <hr />
-  <%= link_to_attachments @issue %>
+<%= link_to_attachments @issue %>
 <% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
@@ -81,8 +78,8 @@
 <hr />
 <div id="issue_tree">
 <p>
-  <strong><%=l(:label_subtask_plural)%></strong>
-  (<%= link_to(l(:label_add_subtask), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
+<strong><%=l(:label_subtask_plural)%></strong>
+(<%= link_to(l(:label_add_subtask), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
 </p>
 
 <%= render_descendants_tree(@issue) unless @issue.leaf? %>
@@ -118,14 +115,14 @@
 
 <div class="title-bar" id="lower-title-bar">
   <div class="title-bar-actions">
-    <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
+  <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
   </div>
+  <h2><%= l(:button_update) %></h2>
 </div>
 
 <div style="clear: both;"></div>
 <% if authorize_for('issues', 'edit') %>
-  <div id="update" style="display:none;">
-  <h3><%= l(:button_update) %></h3>
+<div id="update" style="display:none;">
   <%= render :partial => 'edit' %>
   </div>
 <% end %>

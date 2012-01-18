@@ -1,11 +1,10 @@
 html {overflow-y:scroll;}
-body { font-size: 12px; margin: 0; padding: 0; min-width: 900px; }
+body { margin: 0; padding: 0; min-width: 900px; }
 
-h1, h2, h3, h4 { font-family:"Arial", Arial, sans-serif; }
 h1 {margin:0; padding:0; font-size: 24px;}
 h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
 h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
-h4, .wiki h3 {font-size: 13px;padding: 2px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
+h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
 
 /***** Layout *****/
 #wrapper {background: none;}
@@ -1122,7 +1121,7 @@ h2 img { vertical-align:middle; }
  ------------------------------------------------------------------------------*/
 
 body {
-	font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
+	font: normal normal normal 13px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
 	background:#f3f3f3;
 	color:#333;
 
@@ -1139,7 +1138,6 @@ h2 {
 }
 h3 {
 	font-size:16px;
-	font-weight:normal;
 	margin-bottom:16px;
 }
 h4 {
@@ -1555,18 +1553,17 @@ h1.title {
 #content {
 	margin:0 15px 10px 185px;
 	padding:10px;
-	font-size:11px;
         width: auto;
 }
 #content .title-bar {
 	position:relative;
-	margin-bottom:10px;
 }
 .title-bar h2 {
-	padding:9px 100px 9px 12px;
+        font-size:14px;
+        font-weight:normal;
+	padding:12px 100px 4px 12px;
 	color:#000;
-	font-weight:normal;
-	font-weight:bold;
+        margin-bottom: 0px;
 }
 .title-bar h2 span {
 	font-weight:bold;
@@ -1726,6 +1723,7 @@ form#issue-list {
 	top:0;
 	padding:0 100px 0 10px;
 	height:100%;
+        margin-top: 2px;
 }
 .title-bar .title-bar-actions .contextual {
 /*	line-height:3.5;*/
@@ -1753,9 +1751,12 @@ div.issue hr {
 	margin:10px -10px;
 	clear:both;
 }
-div.issue h3 {
-	font-size:14px;
+#content div.issue h3 {
+	font-size:18px;
+        font-weight: bold;
         border:0px;
+        margin-top: -6px;
+        margin-bottom: 0px;
 }
 #content .meta table {
 	border:0 none;
@@ -1817,32 +1818,33 @@ table.files {
 	margin:20px 0;
 }
 #history h3 {
-	font-size:14px;
 	border-bottom:1px solid #ddd;
 	padding-left:10px;
 	margin-bottom:20px;
 }
 #history .journal {
 	position:relative;
-	padding-left:50px;
 	margin:0 0 15px;
-	clear:both;
+        margin-bottom:45px;
 	min-height:40px;
+	clear:left;
+        margin-left: 3px;
 }
 .journal .profile-wrap {
-	float:none;
-	position:absolute;
+	float:left;
+	position:relative;
 	left:0;
 	top:0;
+        padding-left:4px;
+        padding-right:4px;
 }
 .journal h4 {
 	font-size:12px;
 	font-weight:normal;
-	margin-bottom:-1px;
-	padding-bottom:12px;
-	background:url(../images/speech-white.png) no-repeat 30px bottom;
 	position:relative;
 	z-index:5;
+        border: 0;
+        margin-bottom: 0px;
 }
 .journal.question h4 {
 	background-image:url(../images/speech-blue.png);
@@ -1852,8 +1854,9 @@ table.files {
 	color:#999;
 }
 .journal .wiki {
-	padding:10px 10px 5px;
+	padding:10px 10px 5px 0px;
 	overflow:auto;
+        margin-left:50px;
 }
 .journal .contextual {
 	float:right;
@@ -1909,7 +1912,16 @@ blockquote {
 	border:0;
 }
 
-.journal-attributes {color: #333333;}
+.journal-attributes {
+  color: #333333;
+  font-size: 11px;
+}
+ul.journal-attributes {
+  list-style-type: square;
+}
+ul.journal-attributes li {
+  margin-left: 75px;
+}
 
 /*-------------------------------------------------------------------------------
  * =06 - Projects Page
@@ -1987,6 +1999,7 @@ ul.projects li div.root {
 	position:relative;
 	width:42px;
 	height:42px;
+        top: -3px;
 }
 .profile-box {
 	position:absolute;
@@ -2356,9 +2369,6 @@ div.issue hr {
 .question .wiki {
 	margin:0;
 }
-.wiki {
-	font-size:12px;
-}
 .wiki ol, .wiki ul {
 	margin-bottom:6px;
 }
@@ -2374,7 +2384,7 @@ div.issue img.gravatar, #history img.gravatar {
 	padding:0;
 }
 p.author {
-	margin-bottom:3px;
+	margin-bottom: 15px;
 	font-style:italic;
 }
 /* add filter select box on non-issue pages */
@@ -2462,11 +2472,6 @@ tr.time-entry {
   height:25px;
 }
 
-/* Weird Safari cascade bug. More specificity */
-div.issue p, div.issue div, #content td {
-	font-size:11px;
-}
-
 /* comments */
 .wiki ol li {
 	list-style: decimal outside;
@@ -2475,10 +2480,6 @@ div.issue p, div.issue div, #content td {
 /* scm */
 #content table .changeset td.id a:hover {
 	text-decoration:underline;
-}
-#history .journal {
-	clear:left;
-	margin-bottom:45px;
 }
 
 /* issue updates */
@@ -2673,4 +2674,8 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
   zoom: 1;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+#query_form_content {
+  padding-top: 10px;
 }
