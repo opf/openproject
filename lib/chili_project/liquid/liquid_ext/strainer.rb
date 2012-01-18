@@ -19,20 +19,22 @@ module ChiliProject
       module Strainer
         def self.included(base)
           base.extend(ClassMethods)
-          base.class_eval do
-            @@filters = []
-          end
+
+          base.class_attribute :filters, :instance_reader => false, :instance_writer => false
+          base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+            self.filters = @@filters.values
+          RUBY
         end
 
         module ClassMethods
           def global_filter(filter)
             raise ArgumentError, "Passed filter is not a module" unless filter.is_a?(Module)
-            @@filters << filter
+            filters += [filter]
           end
 
           def create(context)
             strainer = self.new(context)
-            @@filters.each { |filter| strainer.extend(filter) }
+            filters.each { |filter| strainer.extend(filter) }
             strainer
           end
         end
