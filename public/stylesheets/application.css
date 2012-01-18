@@ -2664,10 +2664,12 @@ td.small-icons img {
   -ms-text-overflow: ellipsis;
 }
 
-.label-with-input {
+label.label-with-input {
   display: block;
   white-space: nowrap;
   zoom: 1;
+  margin-left: 0px;
+  float: none;
 }
 
 fieldset#attachments input, fieldset#attachments span.add_another_file {

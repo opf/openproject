@@ -26,7 +26,10 @@
 </div>
 
 <% if @issue.new_record? %>
-<p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
+  <p>
+    <%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
+    <%= render :partial => 'attachments/form' %>
+  </p>
 <% end %>
 
 <% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
