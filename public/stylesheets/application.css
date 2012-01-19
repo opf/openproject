@@ -232,7 +232,7 @@ div.square {
  overflow: hidden;
  width: .6em; height: .6em;
 }
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;}
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top: 8px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
@@ -1558,7 +1558,7 @@ h1.title {
 #content .title-bar {
 	position:relative;
 }
-.title-bar h2 {
+.title-bar div.subject h2 {
         font-size:14px;
         font-weight:normal;
 	padding:12px 100px 4px 12px;
@@ -2680,4 +2680,16 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
 
 #query_form_content {
   padding-top: 10px;
+}
+#lower-title-bar div.contextual {
+  margin-top: -8px;
+}
+#lower-title-bar {
+  margin-left: 10px;
+}
+#watchers .contextual {
+  margin-top:0px;
+}
+div.description, div.issue_tree, div.relations {
+  padding-left: 3px;
 }

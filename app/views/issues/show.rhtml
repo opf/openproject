@@ -54,9 +54,9 @@
   </div><!-- .meta -->
 
 <% if @issue.description? %>
-  <hr />
 
   <div class="description">
+    <hr />
 	  <div class="contextual">
 	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
 	  </div>
@@ -74,8 +74,8 @@
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
 
-<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
 <hr />
+<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
 <div id="issue_tree">
 <p>
 <strong><%=l(:label_subtask_plural)%></strong>
@@ -87,11 +87,9 @@
 <% end %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
-<hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>
-<hr />
 <% end %>
 
 </div>
@@ -117,7 +115,7 @@
   <div class="title-bar-actions">
   <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
   </div>
-  <h2><%= l(:button_update) %></h2>
+  <h3><%= l(:button_update) %></h3>
 </div>
 
 <div style="clear: both;"></div>
