@@ -325,7 +325,7 @@ fieldset.collapsible.collapsed.header_collapsible legend {
     -webkit-border-radius:5px;
     border-radius:5px;
   }
-fieldset.collapsible { border-width: 1px 0 0 0; font-size: 0.9em; }
+fieldset.collapsible { border-width: 1px 0 0 0; }
 fieldset.collapsible.borders { border-width: 1px; }
 fieldset.collapsible.collapsed.borders { border-width: 1px 0 0 0; }
 fieldset.collapsible legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
@@ -336,7 +336,7 @@ fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2em; }
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
-.buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
+.buttons { margin-bottom: 1.4em; margin-top: 1em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
 div#issue-changesets div.changeset { padding: 4px;}
@@ -524,7 +524,6 @@ input#principal_search, input#user_search {width:100%}
 #errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
-    font-size: 1.1em;
     border: 2px solid;
     margin:0 0 10px;
     border:1px solid;
@@ -2272,7 +2271,7 @@ ul.projects div.root a.project {
 #sidebar h3 {
         color:#333333;
 	font-weight:bold;
-        font-size:12px;
+        font-size:14px;
         font-family:"Arial", Arial, sans-serif;
         font-style:normal;
         margin:0px;
@@ -2285,7 +2284,6 @@ ul.projects div.root a.project {
         height:auto;
         display:inline;
         position:static;
-        font-size:11px;
         font-style:normal;
         line-height:1.5;
 }
