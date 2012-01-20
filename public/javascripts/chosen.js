@@ -119,7 +119,9 @@
         return this.search_results_mouseout(evt);
       }, this));
       this.form_field_jq.bind("liszt:updated", __bind(function(evt) {
-        return this.results_update_field(evt);
+        this.results_update_field(evt);
+        this.results_show();
+        return false;
       }, this));
       this.search_field.blur(__bind(function(evt) {
         return this.input_blur(evt);
