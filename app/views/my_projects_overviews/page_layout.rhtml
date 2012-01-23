@@ -38,10 +38,15 @@ function updateSelect() {
     s.options[0].selected = true;
 }
 
-function afterAddBlock() {
+function afterAddBlock(response) {
     recreateSortables();
     updateSelect();
+    editTextilizable(extractBlockName(response));
     new Effect.ScrollTo('list-hidden');
+}
+
+function extractBlockName(response) {
+    return response.responseText.match(/id="block_(.*?)"/)[1];
 }
 
 function removeBlock(block) {
@@ -63,9 +68,12 @@ function resetTextilizable(name) {
 }
 
 function editTextilizable(name) {
-    window["page_layout-textile" + name] = $("textile_" + name).getValue();
-    $(name + '-form-div').toggle();
-    $(name + '-preview-div').toggle();
+    var textile_name = $("textile_" + name);
+    if (textile_name != null) {
+      window["page_layout-textile" + name] = textile_name.getValue();
+      $(name + '-form-div').toggle();
+      $(name + '-preview-div').toggle();
+    }
     return false;
 }
 
