@@ -855,9 +855,8 @@ padding: 15px 0 15px 0;
 
 .mypage-box {
   margin-top:20px;
-  padding: 0px 10px 0px 10px;
+  padding: 8px 10px 0px 10px;
   border: #C4C4C4 solid 1px;
-  font-size:11px;
   background: #FFFFFF url(../images/background_widgets.png) repeat-x 0 0;
   min-height: 65px;
 
@@ -883,7 +882,6 @@ padding: 15px 0 15px 0;
 }
 
 .mypage-box h3, .mypage-box a {
-  font-size:11px;
   font-weight:bold;
 }
 
@@ -2690,4 +2688,16 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
 }
 div.description, div.issue_tree, div.relations {
   padding-left: 3px;
+}
+div.box-actions {
+  float:right;
+  margin-right:16px;
+  z-index:500;
+}
+div.block-receiver div.mypage-box {
+  margin-top: 8px;
+  padding-bottom: 8px;
+}
+div.block-receiver div.mypage-box div.box-actions {
+  margin-top: 5px;
 }

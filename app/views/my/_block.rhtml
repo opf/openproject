@@ -1,6 +1,6 @@
 <div id="block_<%= block_name.dasherize %>" class="mypage-box">
 
-    <div style="float:right;margin-right:16px;z-index:500;">
+    <div class="box-actions">
     <%= link_to_remote "", {
         :url => { :action => "remove_block", :block => block_name },
         :complete => "removeBlock('block_#{block_name.dasherize}')" },
