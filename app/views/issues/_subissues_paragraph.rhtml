@@ -1,0 +1,26 @@
+<strong><%= l(:label_issue_hierarchy) %></strong>
+(<%= link_to(l(:label_add_subtask), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
+
+<% indent = 0 %>
+
+<form action="#">
+  <table id="issue_tree" class="list">
+
+    <!-- render parent elements -->
+    <% @issue.ancestors.each do |issue| %>
+      <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent, :relation => "parent" } %>
+      <% indent += 1 %>
+    <% end %>
+
+    <!-- render current element -->
+    <%= render :partial => 'subissue_row', :locals => { :issue => @issue, :level => indent, :relation => "root" } %>
+    <% indent += 1 %>
+
+    <!-- render child elements -->
+    <% issue_list(@issue.descendants.sort_by(&:lft)) do |issue, level| %>
+      <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent, :relation => "child" } %>
+    <% end %>
+
+  </table>
+</form>
+
