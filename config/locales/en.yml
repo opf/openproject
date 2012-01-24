@@ -1025,3 +1025,5 @@ en:
   description_autocomplete: This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly.
   description_noscript: You need to activate JavaScript in order to use Chiliproject!
   description_my_project: You are member
+  description_parent_issue: Parent issue of current
+  description_sub_issue: Subissue of current
