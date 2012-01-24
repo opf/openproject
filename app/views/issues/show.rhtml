@@ -75,15 +75,9 @@
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
 
 <hr />
-<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
-<div id="issue_tree">
-<p>
-<strong><%=l(:label_subtask_plural)%></strong>
-(<%= link_to(l(:label_add_subtask), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
-</p>
 
-<%= render_descendants_tree(@issue) unless @issue.leaf? %>
-</div>
+<% if !@issue.leaf? || @issue.parent %>
+  <%= render :partial => 'subissues_paragraph' %>
 <% end %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>

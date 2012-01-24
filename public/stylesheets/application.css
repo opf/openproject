@@ -257,6 +257,7 @@ div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color:
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 
+#issue_tree { border: 0; }
 #issue_tree table.issues { border: 0; }
 #issue_tree td.checkbox {display:none;}
 
@@ -2254,6 +2255,10 @@ ul.projects div.root a.project {
 /* tables don't all need border you know */
 #relations table td, #relations table th {
 	border:0 none;
+}
+
+div.issue div#relations {
+  margin-top: 25px;
 }
 
 /* sidebar cleanup */
