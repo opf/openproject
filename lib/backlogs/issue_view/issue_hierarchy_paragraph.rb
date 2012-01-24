@@ -26,7 +26,7 @@ class Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::Issue
 
     # render parent issues
     @issue.ancestors.each do |issue|
-      s << render_row(t, issue, indent)
+      s << render_row(t, issue, indent, "parent")
       indent += 1
     end
 
@@ -36,25 +36,34 @@ class Backlogs::IssueView::IssueHierarchyParagraph < ChiliProject::Nissue::Issue
 
     # render children
     issue_list(@issue.descendants.sort_by(&:lft)) do |issue, level|
-      s << render_row(t, issue, level + indent)
+      s << render_row(t, issue, level + indent, "child")
     end
 
     s << '</table></form>'
     s
   end
 
-  def render_row(t, issue, level)
+  def render_row(t, issue, level, relation = "root")
     css_classes = ["issue"]
     css_classes << "issue-#{issue.id}"
     css_classes << "idnt" << "idnt-#{level}" if level > 0
 
     if @issue == issue
-      issue_text = t.link_to("#{issue.tracker.name} ##{issue.id}",
+      issue_text = t.link_to("#{h(issue.tracker.name)} ##{issue.id}",
                              'javascript:void(0)',
                              :style => "color:inherit; font-weight: bold",
                              :class => issue.css_classes)
     else
-      issue_text = t.link_to_issue_box("#{issue.tracker.name} ##{issue.id}", issue, :class => issue.css_classes)
+      title = ''
+
+      if relation == "parent"
+        title << content_tag(:span, l(:description_parent_issue), :class => "hidden-for-sighted")
+      elsif relation == "child"
+        title << content_tag(:span, l(:description_sub_issue), :class => "hidden-for-sighted")
+      end
+      title << " #{h(issue.tracker.name)} ##{issue.id}"
+
+      issue_text = t.link_to_issue_box(title, issue, :class => issue.css_classes)
     end
     issue_text << ": "
     issue_text << t.truncate(issue.subject, :length => 60)
