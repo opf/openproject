@@ -1,24 +1,30 @@
+= 1.2.4 - 2012-01-25
+
+== Minor Change
+
+* Improved accessibility of issue box's issue hierarchy view
+
 = 1.2.3 - 2012-01-20
 
-= Minor Test Change
+== Minor Test Change
 
 * Moving cucumber step definitions to chiliproject cucumber to use them in other plugins as well.
 
 = 1.2.2 - 2012-01-16
 
-= Minor Test Change
+== Minor Test Change
 
 * Moving cucumber step definitions to chiliproject cucumber to use them in other plugins as well.
 
 = 1.2.1 - 2012-01-05
 
-= Minor Change
+== Minor Change
 
 * Adding missing space on version setting page to fix test and design
 
 = 1.2.0 - 2012-01-02
 
-= Minor Changes
+== Minor Changes
 
 * Improved Ruby 1.9 support
 * Improved support for the proposed fix of Chili #780
@@ -26,12 +32,12 @@
 
 = 1.1.0 - 2011-12-16
 
-= Minor Changes
+== Minor Changes
 
 * Tested with the new layout of yet to be released ChiliProject 3.0
 * Loading jQuery only if ChiliProject doesn't
 
-= Bug Fixes
+== Bug Fixes
 
 * Fixing syntactic ambiguity in Ruby 1.9 (#1)
 
