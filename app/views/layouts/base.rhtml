@@ -41,7 +41,9 @@
         <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get) do %>
           <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-          <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+          <div id='search_wrap'>
+            <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+          </div>
         <% end %>
       </div>
 
