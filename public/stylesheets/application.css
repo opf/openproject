@@ -232,7 +232,7 @@ div.square {
  overflow: hidden;
  width: .6em; height: .6em;
 }
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top: 8px; padding-left: 10px; font-size:0.9em;}
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top: 8px; padding-left: 10px;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
@@ -1936,7 +1936,6 @@ ul.journal-attributes li {
 #content.nosidebar {
 	margin-left:20px;
 	padding:15px 60px 15px 25px;
-	font-size:12px;
 
 }
 #project-links {
