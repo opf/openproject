@@ -174,6 +174,7 @@ de:
   notice_successful_delete: Erfolgreich gelöscht.
   notice_successful_connection: Verbindung erfolgreich.
   notice_file_not_found: Anhang existiert nicht oder ist gelöscht worden.
+  notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte ihren %{app_title} Administrator wenn sie wiederholt Probleme mit dem Aufrufen der Seite haben."
   notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
