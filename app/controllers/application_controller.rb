@@ -307,6 +307,34 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  def render_500(options={})
+    message = t(:notice_internal_server_error, :app_title => Setting.app_title)
+
+    if $!.is_a?(ActionView::ActionViewError)
+      @template.instance_variable_set("@project", nil)
+      @template.instance_variable_set("@status", 500)
+      @template.instance_variable_set("@message", message)
+    else
+      @project = nil
+    end
+
+    render_error({:message => message}.merge(options))
+    return false
+  end
+
+  def render_optional_error_file(status_code)
+    user_setup unless User.current.logged?
+
+    case status_code
+    when :not_found
+      render_404
+    when :internal_server_error
+      render_500
+    else
+      super
+    end
+  end
+
   # Renders an error response
   def render_error(arg)
     arg = {:message => arg} unless arg.is_a?(Hash)

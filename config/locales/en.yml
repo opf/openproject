@@ -157,6 +157,7 @@ en:
   notice_successful_delete: Successful deletion.
   notice_successful_connection: Successful connection.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
+  notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
