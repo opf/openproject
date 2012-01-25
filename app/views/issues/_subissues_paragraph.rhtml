@@ -18,7 +18,7 @@
 
     <!-- render child elements -->
     <% issue_list(@issue.descendants.sort_by(&:lft)) do |issue, level| %>
-      <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent, :relation => "child" } %>
+      <%= render :partial => 'subissue_row', :locals => { :issue => issue, :level => indent + level, :relation => "child" } %>
     <% end %>
 
   </table>
