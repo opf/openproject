@@ -1001,8 +1001,8 @@ de:
   field_effective_date: "Abgabedatum"
   label_news_comment_added: "Kommentar einer News hinzugefügt"
   field_warn_on_leaving_unsaved: "Beim Verlassen einer Seite mit ungespeichertem Text warnen"
-  field_impaired_settings: "ChiliProject bietet eine optimierte Oberfläche für motorisch- oder seh-behinderte Nutzer"
-  field_impaired: "Angepasste ChiliProject-Oberfläche benutzen"
+  field_impaired_settings: "%{app_title} bietet eine optimierte Oberfläche für motorisch- oder seh-behinderte Nutzer"
+  field_impaired: "Angepasste %{app_title}-Oberfläche benutzen"
   text_warn_on_leaving_unsaved: "Der eingegebene Text wird nicht gespeichert, wenn sie die Seite jetzt verlassen."
   text_default_encoding: "Default: UTF-8"
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
