@@ -776,7 +776,7 @@ de:
   label_plugins: Plugins
   label_ldap_authentication: LDAP-Authentifizierung
   label_downloads_abbr: D/L
-  label_optional_description: Beschreibung (optional)
+  label_optional_description: Beschreibung
   label_add_another_file: Eine weitere Datei hinzufügen
   label_preferences: Präferenzen
   label_chronological_order: in zeitlicher Reihenfolge
