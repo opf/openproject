@@ -2711,3 +2711,16 @@ div.block-receiver div.mypage-box {
 div.block-receiver div.mypage-box div.box-actions {
   margin-top: 5px;
 }
+h4.overview {
+  margin-bottom: 0px;
+  border: 0;
+}
+div.mypage-box p.summary {
+  font-style: normal;
+}
+div.mypage-box div.overview p.author {
+  margin-bottom: 7px;
+}
+#content .additional-information {
+  font-size: 11px;
+}
