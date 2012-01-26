@@ -232,7 +232,7 @@ div.square {
  overflow: hidden;
  width: .6em; height: .6em;
 }
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top: 8px; padding-left: 10px; font-size:0.9em;}
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top: 8px; padding-left: 10px;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
@@ -1281,17 +1281,23 @@ li a.help:hover {
 	padding:0px 9px 0px;
 }
 #header .search_field {
+        position: relative;
         border:0px;
         color:white;
-	background:transparent url(../images/background_suche.png);
-	background-repeat:repeat-x;
-        margin-right:15px;
-        margin-top:6px;
-        margin-bottom:4px;
-        padding-left:10px;
-        padding-right:27px;
-        width:125px;
-	height:30px;
+        background: none;
+        top: 6px;
+        width: 119px;
+        left: 8px;
+        outline: 0px;
+}
+#header #search_wrap {
+  background:transparent url(../images/background_suche.png);
+  background-repeat:repeat-x;
+  width:162px;
+  height: 30px;
+  margin-right:15px;
+  margin-top:6px;
+  margin-bottom:4px;
 }
 input::-webkit-input-placeholder {
         color:    white;
@@ -1930,7 +1936,6 @@ ul.journal-attributes li {
 #content.nosidebar {
 	margin-left:20px;
 	padding:15px 60px 15px 25px;
-	font-size:12px;
 
 }
 #project-links {
