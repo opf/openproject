@@ -152,7 +152,7 @@ table.members td.roles, table.memberships td.roles { width: 45%; }
 
 tr.message { height: 2.6em; }
 tr.message td.created_on { white-space: nowrap; }
-tr.message td.last_message { font-size: 80%; white-space: nowrap; }
+tr.message td.last_message { white-space: nowrap; }
 
 tr.version td.closed, tr.version td.closed a { text-decoration: line-through; }
 tr.version td.name { padding-left: 20px; }
