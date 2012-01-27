@@ -1673,6 +1673,10 @@ form#issue-list {
 	color:#111;
 	text-decoration:none;
 }
+#content table th a:hover {
+	color:#6a0406;
+	text-decoration:underline;
+}
 #content table th.current-sort {
 	background:#fff url(../images/gradient-up.png) repeat-x;
 }
