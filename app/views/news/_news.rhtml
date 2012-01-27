@@ -1,14 +1,11 @@
-<p>
-  <%= link_to_project(news.project) + ': ' unless @project %>
+<div class="news">
+<%= link_to_project(news.project) + ': ' unless @project %>
   <h4 class='overview'><%= link_to h(news.title), news_path(news) %></h4>
   <p class="author additional-information"><%= authoring news.created_on, news.author %></p>
-  <p>
+  <div>
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
     <% unless news.summary.blank? %>
-      <p class="summary">
-        <%=h news.summary %>
-      </p>
-      <br />
+      <p class="summary"><%=h news.summary %></p>
     <% end %>
-  </p>
-</p>
+  </div>
+</div>
