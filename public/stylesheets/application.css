@@ -2732,3 +2732,9 @@ div.overview {
   margin-bottom: 10px;
   line-height:1.5em;
 }
+td.table-buttons {
+  vertical-align:middle;
+}
+select#available_columns {
+  margin-right: 0px;
+}
