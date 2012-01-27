@@ -13,7 +13,6 @@
   min-width: 470px;
 }
 #rb #owner_backlogs_container .backlog .header > .add_new_story {
-  font-size:11px;
   height:28px;
   line-height:31px;
   padding:0;
@@ -88,7 +87,6 @@
 }
 #rb .backlog .header .menu .item a {
   display:block;
-  font-size:12px;
   height:100%;
   padding:6px;
   width:100%;
@@ -99,7 +97,6 @@
   text-decoration:none;
 }
 #rb #backlogs_container .backlog .header .velocity {
-  font-size: 12px;
   height: 28px;
   line-height: 31px;
   padding: 0 3px 0 9px;
@@ -143,7 +140,6 @@
 #rb #backlogs_container .backlog .sprint .start_date,
 #rb #backlogs_container .backlog .sprint .effective_date {
   float: right;
-  font-size: 12px;
   height: 28px;
   line-height: 31px;
   width: 6.5em;
@@ -159,7 +155,6 @@
 #rb #backlogs_container .stories .story {
   cursor:move;
   display:block;
-  font-size:11px;
   height:26px;
   margin:0;
   overflow:hidden;
