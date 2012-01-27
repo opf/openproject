@@ -1673,6 +1673,10 @@ form#issue-list {
 	color:#111;
 	text-decoration:none;
 }
+#content table th a:hover {
+	color:#6a0406;
+	text-decoration:underline;
+}
 #content table th.current-sort {
 	background:#fff url(../images/gradient-up.png) repeat-x;
 }
@@ -2731,4 +2735,10 @@ div.overview {
   padding:6px;
   margin-bottom: 10px;
   line-height:1.5em;
+}
+td.table-buttons {
+  vertical-align:middle;
+}
+select#available_columns {
+  margin-right: 0px;
 }
