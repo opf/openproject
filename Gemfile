@@ -13,9 +13,7 @@ group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
-
-  platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
-  platforms :mri_19, :mingw_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
+  gem 'capybara'
 end
 
 group :ldap do
