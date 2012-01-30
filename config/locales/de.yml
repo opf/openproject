@@ -6,6 +6,7 @@ de:
   backlogs_sprints: "Sprints"
   field_story_points: "Story Punkte"
   field_remaining_hours: "Verbleibende Stunden"
+  label_issue_hierarchy: "Tickethierarchie"
   button_edit_wiki: "Wiki Seite bearbeiten"
   field_backlogs_issue_type: "Backlog Typ"
   backlogs_story: "Story"
