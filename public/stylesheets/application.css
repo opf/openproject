@@ -2742,3 +2742,7 @@ td.table-buttons {
 select#available_columns {
   margin-right: 0px;
 }
+.pages-hierarchy {
+  padding-left: 10px;
+}
+
