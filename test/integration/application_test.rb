@@ -49,4 +49,13 @@ class ApplicationTest < ActionController::IntegrationTest
     assert_response 200
     assert_nil session[:user_id]
   end
+
+  def test_always_use_custom_404
+    get 'something_not_existing'
+    assert_response :not_found
+
+    assert_tag :tag => 'p',
+      :attributes => {:id => 'errorExplanation'},
+      :content => "The page you were trying to access doesn't exist or has been removed."
+  end
 end

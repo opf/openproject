@@ -65,6 +65,9 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
+  # FIXME: This doesn't work with Rails >= 3.0 anymore
+  # Possible workaround: https://github.com/rails/rails/issues/671#issuecomment-1780159
+  rescue_from ActionController::RoutingError, :with => proc{render_404}
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
