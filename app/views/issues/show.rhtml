@@ -76,9 +76,7 @@
 
 <hr />
 
-<% if !@issue.leaf? || @issue.parent %>
-  <%= render :partial => 'subissues_paragraph' %>
-<% end %>
+<%= render :partial => 'subissues_paragraph' %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
 <div id="relations">
