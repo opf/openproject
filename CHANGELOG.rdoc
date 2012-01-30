@@ -1,3 +1,10 @@
+= 1.2.5 - 2012-01-30
+
+== Minor Change
+
+* Removing BETA
+* Removing font-size definitions to let the global ones kick in
+
 = 1.2.4 - 2012-01-25
 
 == Minor Change
