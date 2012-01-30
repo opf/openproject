@@ -1660,7 +1660,6 @@ form#issue-list {
 }
 #content table th {
 	font-weight:normal;
-	background:#f3f3f3 url(../images/gradient-down.png) repeat-x;
 }
 #content table.issues td, #content table th {
 	border:1px solid #e6e6e6;
@@ -1685,11 +1684,17 @@ form#issue-list {
 	padding-right:16px;
 	display:block;
 }
-#content table tr.even {
-	background-color:#f9f9f9;
+#content table tr.odd {
+	background-color:white;
 }
-#content table tr.context-menu-selection {
-	background:#FEFBD0 url(../images/selected-gradient.jpg) repeat-x left top;
+#content table tr.even {
+	background-color:#f6f7f8;
+}
+#content table tr.even:hover, #content table tr.odd:hover {
+        background-color: #FFD;
+}
+#content table tr.context-menu-selection, #content table tr.context-menu-selection:hover {
+	background-color:#FFFFB2;
 }
 #content table td.issue {
 	background:url(../images/arrow-bottom-right.png) no-repeat right bottom;
