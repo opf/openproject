@@ -1045,3 +1045,4 @@ de:
   description_my_project: Sie sind Mitglied
   description_parent_issue: Übergeordnetes Ticket
   description_sub_issue: Untergeordnetes Ticket
+  label_issue_hierarchy: "Tickethierarchie"
