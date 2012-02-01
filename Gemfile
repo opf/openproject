@@ -34,7 +34,7 @@ group :rmagick do
   # the line above this comment block and uncomment the one underneath it to
   # get an rmagick version known to work on older distributions.
   #
-  # The following distributíons are known to *not* ship with a usable
+  # The following distributions are known to *not* ship with a usable
   # ImageMagick version. There might be additional ones.
   #   * Ubuntu 9.10 and older
   #   * Debian Lenny 5.0 and older
