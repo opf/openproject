@@ -1930,7 +1930,7 @@ blockquote {
   font-size: 11px;
 }
 ul.journal-attributes {
-  list-style-type: square;
+  list-style-type: disc;
 }
 ul.journal-attributes li {
   margin-left: 75px;
