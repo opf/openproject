@@ -1872,7 +1872,7 @@ blockquote {
 	background:url(../images/blockquote-bg.png) no-repeat 25px 3px;
 }
 .wiki ul li {
-	list-style: disc outside none;
+	list-style: disc inside none;
 }
 .file-thumbs {
 	margin:20px 0 0;
