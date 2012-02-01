@@ -264,22 +264,6 @@ div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 #content fieldset#filters {
     padding-bottom:10px;
   }
-fieldset#filters legend {
-    -moz-border-radius-bottomleft:0px;
-    -moz-border-radius-bottomright:0px;
-    -webkit-border-bottom-left-radius:0px;
-    -webkit-border-bottom-right-radius:0px;
-    border-bottom-left-radius:0px;
-    border-bottom-right-radius:0px;
-  }
-fieldset#column_options legend {
-    -moz-border-radius-topleft:0px;
-    -moz-border-radius-topright:0px;
-    -webkit-border-top-left-radius:0px;
-    -webkit-border-top-right-radius:0px;
-    border-top-left-radius:0px;
-    border-top-right-radius:0px;
-  }
 #content fieldset.collapsible.header_collapsible {
   padding-top:0px;
   padding-bottom:0px;
@@ -303,18 +287,6 @@ fieldset.collapsible.header_collapsible legend {
     height:23px;
     line-height:24px;
     text-indent:8px;
-    -moz-border-radius-topleft:5px;
-    -moz-border-radius-topright:5px;
-    -webkit-border-top-left-radius:5px;
-    -webkit-border-top-right-radius:5px;
-    border-top-left-radius:5px;
-    border-top-right-radius:5px;
-    -moz-border-radius-bottomleft:0px;
-    -moz-border-radius-bottomright:0px;
-    -webkit-border-bottom-left-radius:0px;
-    -webkit-border-bottom-right-radius:0px;
-    border-bottom-left-radius:0px;
-    border-bottom-right-radius:0px;
 }
 
 fieldset.collapsible.header_collapsible legend:hover {
@@ -322,9 +294,6 @@ fieldset.collapsible.header_collapsible legend:hover {
 }
 fieldset.collapsible.collapsed.header_collapsible legend {
     background-image:url(../images/projectnavi_arrow_down.png);
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
-    border-radius:5px;
   }
 fieldset.collapsible { border-width: 1px 0 0 0; }
 fieldset.collapsible.borders { border-width: 1px; }
@@ -1930,7 +1899,7 @@ blockquote {
   font-size: 11px;
 }
 ul.journal-attributes {
-  list-style-type: square;
+  list-style-type: disc;
 }
 ul.journal-attributes li {
   margin-left: 75px;
