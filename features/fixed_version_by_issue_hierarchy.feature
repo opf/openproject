@@ -99,7 +99,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
   # not testable for now
 
   @javascript
-  Scenario: Creating a task, via subtask, as a subtask to a story set´s the new task´s fixed version to the parent´s fixed version
+  Scenario: Creating a task, via subtask, as a subtask to a story sets the new task's fixed version to the parent's fixed version
      When I go to the page of the issue "Story A"
       And I follow "Add" within "div#issue_tree"
       And I select "Task" from "issue_tracker_id"
