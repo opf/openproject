@@ -1,3 +1,10 @@
+= 1.2.6 - 2012-02-02
+
+== Minor Change
+
+* Supporting changes in accessibility master
+** Sub issues are now rendered differently and therefor the link has changed
+
 = 1.2.5 - 2012-01-30
 
 == Minor Change
