@@ -170,3 +170,13 @@ end
 When /^the request on task "(.+?)" is finished$/ do |task_name|
   step 'I wait for AJAX requests to finish'
 end
+
+When /^I follow the link to add a subtask$/ do
+  begin
+    # new layout
+    step 'I follow "Add subtask"'
+  rescue Capybara::ElementNotFound
+    # old layout
+    step 'I follow "Add" within "#issue_tree"'
+  end
+end
