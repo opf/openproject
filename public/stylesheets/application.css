@@ -2721,5 +2721,7 @@ select#available_columns {
 }
 .pages-hierarchy {
   padding-left: 10px;
+  list-style-type: disc;
+  list-style-position: inside;
 }
 
