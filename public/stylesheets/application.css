@@ -25,7 +25,11 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 #quick-search {float:right;}
 
 #main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
-#main-menu ul {margin: 0;  padding: 0;}
+#main-menu ul {
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid #ddd;
+}
 #main-menu ul.menu_root li {
   float: none;
   list-style-type:none;
@@ -2724,4 +2728,3 @@ select#available_columns {
   list-style-type: disc;
   list-style-position: inside;
 }
-
