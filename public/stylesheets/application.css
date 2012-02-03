@@ -641,8 +641,17 @@ p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
-#content .tabs {height: 2.6em; margin-bottom:1.2em; z-index:1; overflow:hidden;}
+#content .tabs {
+  position: relative;
+  height: 2.6em;
+  margin-bottom:1.2em;
+  z-index:1;
+  overflow:hidden;
+}
 #content .tabs ul {
+  position: absolute;
+  left: 0px;
+  right: 60px;
   margin:0;
   bottom:0;
   padding-left:1em;
