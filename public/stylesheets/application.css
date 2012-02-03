@@ -25,7 +25,11 @@ h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; bord
 #quick-search {float:right;}
 
 #main-menu {position: absolute;  bottom: auto;  left:6px; margin-right: -500px;}
-#main-menu ul {margin: 0;  padding: 0;}
+#main-menu ul {
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid #ddd;
+}
 #main-menu ul.menu_root li {
   float: none;
   list-style-type:none;
@@ -58,7 +62,7 @@ html>body #content { min-height: 600px; }
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
-#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:right;}
+#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center;}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
@@ -1382,9 +1386,8 @@ div#optional_login_fields {
 #main-menu {
 	width:185px;
         height:100%;
+	position:absolute;
 	left:0;
-        float:left;
-        position: relative;
 }
 #main-menu ul ul {
 	display:none;
@@ -1520,7 +1523,7 @@ div#optional_login_fields {
  }
 #footer {
   color: #aaa;
-  border-top:1px solid #ddd;
+  border-top:0px;
 }
 
 h1.title {
@@ -2724,4 +2727,3 @@ select#available_columns {
   list-style-type: disc;
   list-style-position: inside;
 }
-
