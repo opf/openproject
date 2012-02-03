@@ -39,16 +39,14 @@ See RB.Taskboard.initialize()
 #rb #board_header td {
   background-color:#EBEBEB;
   border-right:1px dotted #CFCFCF;
-  color:#7E7E7E;
-  font-size:14px;
+  color:black;
   font-weight:bold;
-  height:30px;
   text-align:center;
   vertical-align:middle;
 }
 #rb #board_header td:first-child {
   min-width:231px;
-  padding:10px;
+  padding: 6px 10px 6px 10px;
   width:231px;
 }
 #rb #board_header td:last-child {
