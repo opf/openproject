@@ -1,5 +1,16 @@
 = ChiliProject changelog
 
+== 2012-02-06 v2.7.0
+
+* Bug #593: Notification Mail for Wiki-Changes has wrong Diff
+* Bug #775: Activity view too verbose
+* Bug #819: RAILS_ENV is not properly set if running under thin
+* Bug #822: Initial journal creation fails because of the missing log_encoding of Repositories
+* Bug #823: Plugin in new directory not picking up Gemfile
+* Bug #839: ruby-debug19 breaks on Ruby 1.9.3
+* Bug #849: Prefix parameter of thin is not working
+* Bug #857: Gemfile has an non ASCII character
+
 == 2012-01-03 v2.6.0
 
 * Bug #356: Clicking on login while logged-in logs you out
