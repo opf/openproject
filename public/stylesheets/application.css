@@ -1547,12 +1547,12 @@ h1.title {
 
 /* .button-large was too generic and targeted other pages with it's positioning */
 .title-bar .button-large {
-	position:absolute;
-	top:8px;
+	float: left;
+	padding: 2px 0 3px;
 }
 
 .button-large a {
-	padding:3px 9px;
+	line-height: 3.5;
 	display:block;
 	color:#6a0406;
 }
@@ -2310,6 +2310,7 @@ fieldset#filters div.add-filter {
 	margin:0;
 }
 .title-bar .contextual a.icon {
+	float: left;
 	line-height:3.5;
 	margin-right:16px;
 }
