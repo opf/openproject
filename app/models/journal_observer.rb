@@ -16,8 +16,24 @@ class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(journal)
-    if journal.type == "IssueJournal" and !journal.initial? and send_notification
-      after_create_issue_journal(journal)
+    case journal.type
+    when "IssueJournal"
+      if !journal.initial? && send_notification
+        after_create_issue_journal(journal)
+      end
+    when "WikiContentJournal"
+      wiki_content = journal.journaled
+      wiki_page = wiki_content.page
+
+      if journal.initial?
+        if Setting.notified_events.include?('wiki_content_added')
+          Mailer.deliver_wiki_content_added(wiki_content)
+        end
+      else
+        if Setting.notified_events.include?('wiki_content_updated')
+          Mailer.deliver_wiki_content_updated(wiki_content)
+        end
+      end
     end
     clear_notification
   end
