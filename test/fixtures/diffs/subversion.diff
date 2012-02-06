@@ -22,7 +22,7 @@ Index: app/views/common/_diff.rhtml
 +<% diff.each do |table_file| -%>
  <div class="autoscroll">
  <% if diff_type == 'sbs' -%>
- <table class="filecontent CodeRay">
+ <table class="filecontent syntaxhl">
 @@ -62,3 +63,5 @@
  
  </div>

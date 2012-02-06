@@ -21,6 +21,7 @@ class AccountControllerTest < ActionController::TestCase
   fixtures :users, :roles
 
   def setup
+    super
     @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new

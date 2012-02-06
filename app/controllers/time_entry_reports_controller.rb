@@ -72,8 +72,7 @@ class TimeEntryReportsController < ApplicationController
       @periods = []
       # Date#at_beginning_of_ not supported in Rails 1.2.x
       date_from = @from.to_time
-      # 100 columns max
-      while date_from <= @to.to_time && @periods.length < 100
+      while date_from <= @to.to_time
         case @columns
         when 'year'
           @periods << "#{date_from.year}"
@@ -161,6 +160,9 @@ class TimeEntryReportsController < ApplicationController
     @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
                                           :klass => Project,
                                           :label => :label_project},
+                             'status' => {:sql => "#{Issue.table_name}.status_id",
+                                          :klass => IssueStatus,
+                                          :label => :field_status},
                              'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
                                           :klass => Version,
                                           :label => :label_version},

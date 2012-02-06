@@ -82,6 +82,16 @@ class Project < ActiveRecord::Base
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  named_scope :like, lambda {|q|
+    s = "%#{q.to_s.strip.downcase}%"
+    {
+      :conditions => ["LOWER(name) LIKE ?", s]
+    }
+  }
+
+  def to_liquid
+    ProjectDrop.new(self)
+  end
 
   def initialize(attributes = nil)
     super
@@ -129,6 +139,11 @@ class Project < ActiveRecord::Base
     else
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
+  end
+
+  # Is the project visible to the current user
+  def visible?
+    User.current.allowed_to?(:view_project, self)
   end
 
   def self.allowed_to_condition(user, permission, options={})
@@ -616,7 +631,7 @@ class Project < ActiveRecord::Base
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
-      yield project, ancestors.size
+      yield project, ancestors.size if block_given?
       ancestors << project
     end
   end

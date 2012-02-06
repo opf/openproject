@@ -54,7 +54,7 @@ begin
       end
 
     else
-      puts "Darcs test repository NOT FOUND. Skipping unit tests !!!"
+      should "Darcs test repository not found."
       def test_fake; assert true end
     end
   end

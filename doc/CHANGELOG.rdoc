@@ -1,4 +1,52 @@
-= ChiliProject changelog
+= ChiliProject Changelog
+
+== 2012-02-06 v3.0.0
+
+* Bug #826: Top right toolbar items overlap for custom issues query
+* Feature #843: Add config/setup_load_paths.rb to .gitignore
+
+== 2012-01-18 v3.0.0-beta2
+
+* Bug #558: Reduce version information from Help link
+* Bug #774: Gravatar on issue#show is at a weird position
+* Bug #778: Textile Caching breaks Liquid
+* Bug #780: Setting Cache is not invalidated properly
+* Bug #783: Link to new issue on issues list displayed although user is not allowed to create issue
+* Bug #791: Allow SSL in POP3 in receive_pop3 task
+* Bug #797: Wiki page list is shown as one long list and not a nested one
+* Bug #798: Sidebar design looks bad
+* Bug #807: History elements overlays revisions in Issues
+* Bug #815: Inconsistent margin used for gravatars
+* Bug #827: Group issues by the Status field
+* Feature #672: Allow queries to include subproject issues
+* Feature #674: Change outgoing email to be sent-per user and not as a single BCC email
+* Feature #790: Allow plugins to register custom static and lazy evaluated variables
+* Feature #792: Confirmation emails when an incoming email is submitted
+* Feature #796: Filter issues based on a date range
+* Feature #799: Watch documents
+* Feature #800: Allow non-members to watch issues
+* Feature #801: Bulk adding issue watchers
+* Feature #802: Allow groups to watch issues
+* Feature #805: Set watchers on a wiki page
+* Feature #806: Set watchers on a Forum or Forum Thread
+* Feature #808: Show description changes on issues in a diff
+* Feature #809: Bulk add and search for projects when adding a member
+
+== 2011-12-18 v3.0.0-beta1
+
+* Bug #653: Multiple query related models defined in one file
+* Bug #734: Liquid integration breaks on 1.9.2
+* Bug #766: Broken formatting for TOCs
+* Feature #263: New layout
+* Feature #329: Forum replies poorly highlighted
+* Feature #604: Liquid Markup on top of Textile
+* Feature #649: Update CodeRay to 1.0.0
+* Feature #658: Include jquery and jquery ui
+* Feature #672: Allow queries to include subproject issues
+* Feature #692: new design with 263-new-layout-ready
+* Feature #720: Tagging
+* Feature #747: Include capybara for integration tests
+* Feature #760: Update quick search to use a partial
 
 == 2012-02-06 v2.7.0
 

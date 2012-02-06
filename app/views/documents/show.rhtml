@@ -27,6 +27,16 @@
 
 <% html_title h(@document.title) -%>
 
+<% content_for :sidebar do %>
+  <% if User.current.allowed_to?(:add_document_watchers, @project) ||
+    (@document.watchers.present? && User.current.allowed_to?(:view_document_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @document} %>
+    </div>
+  <% end %>
+
+<% end %>
+
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
 <% end %>

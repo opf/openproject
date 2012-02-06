@@ -16,7 +16,6 @@ require 'forwardable'
 require 'cgi'
 
 module ApplicationHelper
-  include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
   include GravatarHelper::PublicMethods
 
@@ -224,17 +223,15 @@ module ApplicationHelper
   end
 
   # Renders the project quick-jump box
-  def render_project_jump_box
-    projects = User.current.memberships.collect(&:project).compact.uniq
+  def render_project_jump_box(projects = [], html_options = {})
+    projects ||= User.current.memberships.collect(&:project).compact.uniq
     if projects.any?
-      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-            '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      s << '</select>'
-      s
+        # option_tags = content_tag :option, l(:label_jump_to_a_project), :value => ""
+        option_tags = (content_tag :option, "", :value => "" )
+        option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        end
+      select_tag "", option_tags, html_options.merge({ :onchange => "if (this.value != \'\') { window.location = this.value; }" })
     end
   end
 
@@ -288,7 +285,15 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = ''
     principals.sort.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+      s << "<label style='display:block;'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+    end
+    s
+  end
+
+  def projects_check_box_tags(name, projects)
+    s = ''
+    projects.each do |project|
+      s << "<label>#{ check_box_tag name, project.id, false } #{h project}</label>\n"
     end
     s
   end
@@ -389,7 +394,9 @@ module ApplicationHelper
   end
 
   def page_header_title
-    if @project.nil? || @project.new_record?
+    if @page_header_title.present?
+      h(@page_header_title)
+    elsif @project.nil? || @project.new_record?
       h(Setting.app_title)
     else
       b = []
@@ -429,8 +436,8 @@ module ApplicationHelper
       css << 'theme-' + theme.name
     end
 
-    css << 'controller-' + params[:controller]
-    css << 'action-' + params[:action]
+    css << 'controller-' + params[:controller] if params[:controller]
+    css << 'action-' + params[:action] if params[:action]
     css.join(' ')
   end
 
@@ -447,19 +454,51 @@ module ApplicationHelper
     case args.size
     when 1
       obj = options[:object]
-      text = args.shift
+      input_text = args.shift
     when 2
       obj = args.shift
       attr = args.shift
-      text = obj.send(attr).to_s
+      input_text = obj.send(attr).to_s
     else
       raise ArgumentError, 'invalid arguments to textilizable'
     end
-    return '' if text.blank?
+    return '' if input_text.blank?
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
+    begin
+      text = ChiliProject::Liquid::Legacy.run_macros(input_text)
+      liquid_template = ChiliProject::Liquid::Template.parse(text)
+      liquid_variables = get_view_instance_variables_for_liquid
+      liquid_variables.merge!({'current_user' => User.current})
+      liquid_variables.merge!({'toc' => '{{toc}}'}) # Pass toc through to replace later
+      liquid_variables.merge!(ChiliProject::Liquid::Variables.all)
+
+      # Pass :view in a register so this view (with helpers) can be used inside of a tag
+      text = liquid_template.render(liquid_variables, :registers => {:view => self, :object => obj, :attribute => attr})
+
+      # Add Liquid errors to the log
+      if Rails.logger && Rails.logger.debug?
+        msg = ""
+        liquid_template.errors.each do |exception|
+          msg << "[Liquid Error] #{exception.message}\n:\n#{exception.backtrace.join("\n")}"
+          msg << "\n\n"
+        end
+        Rails.logger.debug msg
+      end
+    rescue Liquid::SyntaxError => exception
+      msg = "[Liquid Syntax Error] #{exception.message}"
+      if Rails.logger && Rails.logger.debug?
+        log_msg = "#{msg}\n"
+        log_msg << exception.backtrace.collect{ |str| "    #{str}" }.join("\n")
+        log_msg << "\n\n"
+        Rails.logger.debug log_msg
+      end
+
+      # Skip Liquid if there is a syntax error
+      text = content_tag(:div, msg, :class => "flash error")
+      text << h(input_text)
+    end
 
     @parsed_headings = []
     text = parse_non_pre_blocks(text) do |text|
@@ -712,7 +751,7 @@ module ApplicationHelper
     end
   end
 
-  TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
+  TOC_RE = /<p>\{%\s*toc(_right|_left)?\s*%\}<\/p>/i unless const_defined?(:TOC_RE)
 
   # Renders the TOC with given headings
   def replace_toc(text, headings)
@@ -720,10 +759,14 @@ module ApplicationHelper
       if headings.empty?
         ''
       else
-        div_class = 'toc'
-        div_class << ' right' if $1 == '>'
-        div_class << ' left' if $1 == '<'
-        out = "<ul class=\"#{div_class}\"><li>"
+        toc_class = 'toc'
+        toc_class << ' right' if $1 == '_right'
+        toc_class << ' left' if $1 == '_left'
+
+        out = "<fieldset class=\"header_collapsible collapsible #{toc_class}\">"
+        out << "<legend onclick=\"toggleFieldset(this);\"><span>#{l(:label_toc)}</span></legend>"
+        out << "<div>"
+        out << "<ul class=\"toc\"><li>"
         root = headings.map(&:first).min
         current = root
         started = false
@@ -741,6 +784,7 @@ module ApplicationHelper
         end
         out << '</li></ul>' * (current - root)
         out << '</li></ul>'
+        out << '</div></fieldset>'
       end
     end
   end
@@ -879,6 +923,12 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
+      if user.is_a?(Group)
+        size = options[:size] || 50
+        size = "#{size}x#{size}" # image_tag uses WxH
+        options[:class] ||= 'gravatar'
+        return image_tag("group.png", options.merge(:size => size))
+      end
       options.merge!({:ssl => (defined?(request) && request.ssl?), :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
@@ -935,6 +985,72 @@ module ApplicationHelper
     end
   end
 
+  # Expands the current menu item using JavaScript based on the params
+  def expand_current_menu
+    current_menu_class =
+      case
+      when params[:controller] == "timelog"
+        "reports"
+      when params[:controller] == 'projects' && params[:action] == 'changelog'
+        "reports"
+      when params[:controller] == 'issues' && ['calendar','gantt'].include?(params[:action])
+        "reports"
+      when params[:controller] == 'projects' && params[:action] == 'roadmap'
+        'roadmap'
+      when params[:controller] == 'versions' && params[:action] == 'show'
+        'roadmap'
+      when params[:controller] == 'projects' && params[:action] == 'settings'
+        'settings'
+      when params[:controller] == 'contracts' || params[:controller] == 'deliverables'
+        'contracts'
+      else
+        params[:controller]
+      end
+
+
+    javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
+  end
+
+  # Menu items for the main top menu
+  def main_top_menu_items
+    split_top_menu_into_main_or_more_menus[:main]
+  end
+
+  # Menu items for the more top menu
+  def more_top_menu_items
+    split_top_menu_into_main_or_more_menus[:more]
+  end
+
+  def help_menu_item
+    split_top_menu_into_main_or_more_menus[:help]
+  end
+
+  # Split the :top_menu into separate :main and :more items
+  def split_top_menu_into_main_or_more_menus
+    unless @top_menu_split
+      items_for_main_level = []
+      items_for_more_level = []
+      help_menu = nil
+      menu_items_for(:top_menu) do |item|
+        if item.name == :home || item.name == :my_page
+          items_for_main_level << item
+        elsif item.name == :help
+          help_menu = item
+        elsif item.name == :projects
+          # Remove, present in layout
+        else
+          items_for_more_level << item
+        end
+      end
+      @top_menu_split = {
+        :main => items_for_main_level,
+        :more => items_for_more_level,
+        :help => help_menu
+      }
+    end
+    @top_menu_split
+  end
+
   private
 
   def wiki_helper
@@ -946,4 +1062,20 @@ module ApplicationHelper
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end
+
+  def get_view_instance_variables_for_liquid
+    internal_variables = %w{
+      @output_buffer @cookies @helpers @real_format @assigns_added @assigns
+      @view_paths @controller
+    }
+   self.instance_variables.collect(&:to_s).reject do |ivar|
+      ivar.match(/^@_/) || # Rails "internal" variables: @_foo
+      ivar.match(/^@template/) ||
+      internal_variables.include?(ivar)
+    end.inject({}) do |acc,ivar|
+      acc[ivar.sub('@','')] = instance_variable_get(ivar)
+      acc
+    end
+  end
+
 end

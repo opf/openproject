@@ -17,8 +17,8 @@ require 'rexml/document'
 module ChiliProject
   module VERSION #:nodoc:
 
-    MAJOR = 2
-    MINOR = 7
+    MAJOR = 3
+    MINOR = 0
     PATCH = 0
     TINY  = PATCH # Redmine compat
 

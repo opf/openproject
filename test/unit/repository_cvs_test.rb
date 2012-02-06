@@ -98,7 +98,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal entries[2].lastrev.author, 'LANG'
     end
   else
-    puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
+    should "CVS test repository not found."
     def test_fake; assert true end
   end
 end

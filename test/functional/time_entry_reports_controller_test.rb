@@ -128,6 +128,14 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal "0.00", "%.2f" % assigns(:total_hours)
   end
 
+  def test_report_status_criterion
+    get :report, :project_id => 1, :criterias => ['status']
+    assert_response :success
+    assert_template 'report'
+    assert_tag :tag => 'th', :content => 'Status'
+    assert_tag :tag => 'td', :content => 'New'
+  end
+
   def test_report_all_projects_csv_export
     get :report, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success

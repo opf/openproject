@@ -3,7 +3,7 @@ wiki_contents_001:
   text: |-
     h1. CookBook documentation
 
-    {{child_pages}}
+    {% child_pages %}
 
     Some updated [[documentation]] here with gzipped history
   updated_on: 2007-03-07 00:10:51 +01:00
@@ -17,7 +17,7 @@ wiki_contents_002:
 
     This is a link to a ticket: #2
     And this is an included page:
-    {{include(Page with an inline image)}}
+    {% include 'Page with an inline image' %}
   updated_on: 2007-03-08 00:18:07 +01:00
   page_id: 2
   id: 2

@@ -1,0 +1,23 @@
+Return-Path: <JSmith@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer ; Sun, 22 Jun 2008 12:28:07 +0200
+Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
+From: "John Smith" <JSmith@somenet.foo>
+To: <redmine@somenet.foo>
+Subject: New ticket on a given project
+Date: Sun, 22 Jun 2008 12:28:07 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+	format=flowed;
+	charset="iso-8859-1";
+	reply-type=original
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+Test with missing information
+
+Project: onlinestore

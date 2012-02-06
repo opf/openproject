@@ -44,19 +44,32 @@ class DocumentsController < ApplicationController
 
   def new
     @document = @project.documents.build(params[:document])
-    if request.post? and @document.save
-      attachments = Attachment.attach_files(@document, params[:attachments])
-      render_attachment_warning_if_needed(@document)
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index', :project_id => @project
+    if request.post?
+      if User.current.allowed_to?(:add_document_watchers, @project) && params[:document]['watcher_user_ids'].present?
+        @document.watcher_user_ids = params[:document]['watcher_user_ids']
+      end
+
+      if @document.save
+        attachments = Attachment.attach_files(@document, params[:attachments])
+        render_attachment_warning_if_needed(@document)
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to :action => 'index', :project_id => @project
+      end
     end
   end
 
   def edit
     @categories = DocumentCategory.all
-    if request.post? and @document.update_attributes(params[:document])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'show', :id => @document
+
+    if request.post?
+      if User.current.allowed_to?(:add_document_watchers, @project) && params[:document]['watcher_user_ids'].present?
+        @document.watcher_user_ids = params[:document]['watcher_user_ids']
+      end
+
+      if @document.update_attributes(params[:document])
+        flash[:notice] = l(:notice_successful_update)
+        redirect_to :action => 'show', :id => @document
+      end
     end
   end
 
@@ -69,7 +82,12 @@ class DocumentsController < ApplicationController
     attachments = Attachment.attach_files(@document, params[:attachments])
     render_attachment_warning_if_needed(@document)
 
-    Mailer.deliver_attachments_added(attachments[:files]) if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+    if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+      # TODO: refactor
+      attachments.first.container.recipients.each do |recipient|
+        Mailer.deliver_attachments_added(attachments[:files], recipient)
+      end
+    end
     redirect_to :action => 'show', :id => @document
   end
 

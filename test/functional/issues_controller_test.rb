@@ -521,9 +521,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [2, 3], issue.watcher_user_ids.sort
     assert issue.watched_by?(User.find(3))
     # Watchers notified
-    mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
-    assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
+    recipients = ActionMailer::Base.deliveries.collect(&:to)
+    assert recipients.flatten.include?(User.find(3).mail)
   end
 
   def test_post_create_subissue
@@ -568,7 +567,7 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_post_create_should_preserve_fields_values_on_validation_failure
@@ -1017,7 +1016,7 @@ class IssuesControllerTest < ActionController::TestCase
                                      :priority_id => '6',
                                      :category_id => '1' # no change
                                     }
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_put_update_should_not_send_a_notification_if_send_notification_is_off
@@ -1240,7 +1239,7 @@ class IssuesControllerTest < ActionController::TestCase
          })
 
     assert_response 302
-    assert_equal 2, ActionMailer::Base.deliveries.size
+    assert_equal 5, ActionMailer::Base.deliveries.size
   end
 
   def test_bulk_update_status
@@ -1390,9 +1389,9 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_default_search_scope
     get :index
-    assert_tag :div, :attributes => {:id => 'quick-search'},
-                     :child => {:tag => 'form',
-                                :child => {:tag => 'input', :attributes => {:name => 'issues', :type => 'hidden', :value => '1'}}}
+    assert_select "#search form" do
+      assert_select "input[type=hidden][name=issues][value=1]"
+    end
   end
 
   def test_reply_to_note

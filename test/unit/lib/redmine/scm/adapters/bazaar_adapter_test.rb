@@ -55,7 +55,7 @@ begin
         assert_equal version, @adapter.class.scm_command_version
       end
     else
-      puts "Bazaar test repository NOT FOUND. Skipping unit tests !!!"
+      should "Bazaar test repository NOT FOUND."
       def test_fake; assert true end
     end
   end

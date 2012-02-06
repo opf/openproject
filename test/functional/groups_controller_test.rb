@@ -18,7 +18,7 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :groups_users
+  fixtures :all
 
   def setup
     @controller = GroupsController.new
@@ -95,18 +95,16 @@ class GroupsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_membership_with_multiple_projects
+    assert_difference 'Group.find(10).members.count', 3 do
+      post :edit_membership, :id => 10, :project_ids => [1,2,3], :membership => { :role_ids => ['1', '2']}
+    end
+  end
+
   def test_destroy_membership
     assert_difference 'Group.find(10).members.count', -1 do
       post :destroy_membership, :id => 10, :membership_id => 6
     end
   end
 
-  def test_autocomplete_for_user
-    get :autocomplete_for_user, :id => 10, :q => 'mis'
-    assert_response :success
-    users = assigns(:users)
-    assert_not_nil users
-    assert users.any?
-    assert !users.include?(Group.find(10).users.first)
-  end
 end

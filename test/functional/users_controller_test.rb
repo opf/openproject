@@ -179,7 +179,7 @@ class UsersControllerTest < ActionController::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal [user.mail], mail.bcc
+    assert_equal [user.mail], mail.to
     assert mail.body.include?('secret')
   end
 
@@ -240,7 +240,7 @@ class UsersControllerTest < ActionController::TestCase
     assert u.reload.active?
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal ['foo.bar@somenet.foo'], mail.bcc
+    assert_equal ['foo.bar@somenet.foo'], mail.to
     assert mail.body.include?(ll('fr', :notice_account_activated))
   end
 
@@ -254,7 +254,7 @@ class UsersControllerTest < ActionController::TestCase
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal [u.mail], mail.bcc
+    assert_equal [u.mail], mail.to
     assert mail.body.include?('newpass')
   end
 
@@ -300,6 +300,13 @@ class UsersControllerTest < ActionController::TestCase
                            :membership => { :role_ids => [2]}
     assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
     assert_equal [2], Member.find(1).role_ids
+  end
+
+
+  def test_new_membership_with_multiple_projects
+    assert_difference 'User.find(2).members.count', 2 do
+      post :edit_membership, :id => 2, :project_ids => [3,6], :membership => { :role_ids => ['1', '2']}
+    end
   end
 
   def test_destroy_membership

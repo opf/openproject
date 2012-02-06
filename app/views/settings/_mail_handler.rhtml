@@ -5,6 +5,9 @@
     <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
     <br /><em><%= l(:text_line_separated) %></em>
   </p>
+
+  <p><%= setting_check_box :mail_handler_confirmation_on_success %></p>
+  <p><%= setting_check_box :mail_handler_confirmation_on_failure %></p>
 </div>
 
 <div class="box tabular settings">

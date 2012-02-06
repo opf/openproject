@@ -189,7 +189,6 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
                                }
     end
   else
-    puts "CVS test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    should "CVS test repository not found."
   end
 end

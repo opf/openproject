@@ -1,0 +1,9 @@
+<p><%= authoring @journal.created_at, @journal.user, :label => :label_updated_time_by %></p>
+
+<div class="text-diff">
+<%= simple_format_without_paragraph @diff.to_html %>
+</div>
+
+<p><%= link_to(l(:button_back), issue_path(@issue)) %></p>
+
+<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>

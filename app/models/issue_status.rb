@@ -28,6 +28,10 @@ class IssueStatus < ActiveRecord::Base
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
   end
 
+  def to_liquid
+    IssueStatusDrop.new(self)
+  end
+
   # Returns the default status for new issues
   def self.default
     find(:first, :conditions =>["is_default=?", true])

@@ -157,6 +157,7 @@ en:
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorized to access this page.
+  notice_not_authorized_action: You are not authorized to perform this action.
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
   notice_email_error: "An error occurred while sending mail (%{value})"
@@ -368,6 +369,8 @@ en:
   setting_commit_logtime_activity_id: Activity for logged time
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   setting_issue_startdate_is_adddate: Use current date as start date for new issues
+  setting_mail_handler_confirmation_on_success: "Send confirmation email on successful incoming email"
+  setting_mail_handler_confirmation_on_failure: "Send confirmation email on failed incoming email"
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -610,6 +613,7 @@ en:
   label_in_more_than: in more than
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
+  label_between: "between"
   label_in: in
   label_today: today
   label_all_time: all time
@@ -657,6 +661,7 @@ en:
   label_roadmap_overdue: "%{value} late"
   label_roadmap_no_issues: No issues for this version
   label_search: Search
+  search_input_placeholder: search ...
   label_result_plural: Results
   label_all_words: All words
   label_wiki: Wiki
@@ -772,6 +777,7 @@ en:
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
+  label_document_watchers: Watchers
   label_example: Example
   label_display: Display
   label_sort: Sort
@@ -814,6 +820,10 @@ en:
   label_notify_member_plural: Email issue updates
   label_path_encoding: Path encoding
   label_deleted_custom_field: '(deleted custom field)'
+  label_toc: "Contents"
+  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
+  label_mail_handler_failure: "Failed email submission: %{subject}"
+  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
 
   button_login: Login
   button_submit: Submit
@@ -937,6 +947,9 @@ en:
   text_default_encoding: "Default: UTF-8"
   text_mercurial_repo_example: "local repository (e.g. /hgrepo, c:\\hgrepo)"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_display_subprojects: Display subprojects
+  text_current_project: Current project
+  text_mail_handler_confirmation_successful: "Your email has been successful added at the following url"
 
   default_role_manager: Manager
   default_role_developer: Developer

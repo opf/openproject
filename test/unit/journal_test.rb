@@ -45,7 +45,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
     issue.reload
     issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_create_should_not_send_email_notification_if_told_not_to

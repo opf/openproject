@@ -183,7 +183,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert_nil changeset.next
     end
   else
-    puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
+    should "Subversion test repository not found."
     def test_fake; assert true end
   end
 end

@@ -39,9 +39,6 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)
-    # escaping
-    text = "!{{hello_world}}"
-    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
   end
 
   def test_macro_include
@@ -59,7 +56,7 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
     assert textilizable(text).match(/CookBook documentation/)
 
     text = "{{include(unknowidentifier:somepage)}}"
-    assert textilizable(text).match(/Page not found/)
+    assert textilizable(text).match(/No such page/)
   end
 
   def test_macro_child_pages

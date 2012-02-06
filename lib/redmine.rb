@@ -116,6 +116,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
+    map.permission :view_document_watchers, {}
+    map.permission :add_document_watchers, {:watchers => :new}
+    map.permission :delete_document_watchers, {:watchers => :destroy}
   end
 
   map.project_module :files do |map|
@@ -133,6 +136,9 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment]
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
+    map.permission :view_wiki_page_watchers, {}
+    map.permission :add_wiki_page_watchers, {:watchers => :new}
+    map.permission :delete_wiki_page_watchers, {:watchers => :destroy}
   end
 
   map.project_module :repository do |map|
@@ -150,6 +156,14 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_messages, {:messages => :edit}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
+    map.permission :view_board_watchers, {}
+    map.permission :add_board_watchers, {:watchers => :new}
+    map.permission :delete_board_watchers, {:watchers => :destroy}
+
+    map.permission :view_message_watchers, {}
+    map.permission :add_message_watchers, {:watchers => :new}
+    map.permission :delete_message_watchers, {:watchers => :destroy}
+
   end
 
   map.project_module :calendar do |map|
@@ -166,12 +180,10 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural
   menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, Redmine::Info.help_url, :last => true
+  menu.push :help, Redmine::Info.help_url, :last => true, :caption => "?"
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
 end

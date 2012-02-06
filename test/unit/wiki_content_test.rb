@@ -44,7 +44,7 @@ class WikiContentTest < ActiveSupport::TestCase
     page.content = WikiContent.new(:text => "Content text", :author => User.find(1), :comments => "My comment")
     assert page.save
 
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_update
@@ -64,7 +64,7 @@ class WikiContentTest < ActiveSupport::TestCase
     content.text = "My new content"
     assert content.save
 
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_fetch_history

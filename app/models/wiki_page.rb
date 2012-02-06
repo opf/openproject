@@ -53,6 +53,10 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
+  def to_liquid
+    WikiPageDrop.new(self)
+  end
+
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end

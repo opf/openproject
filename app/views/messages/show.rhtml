@@ -63,4 +63,14 @@
   <%= stylesheet_link_tag 'scm' %>
 <% end %>
 
+<% content_for :sidebar do %>
+  <% if User.current.allowed_to?(:add_message_watchers, @project) ||
+    (@topic.watchers.present? && User.current.allowed_to?(:view_message_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @topic} %>
+    </div>
+  <% end %>
+
+<% end %>
+
 <% html_title h(@topic.subject) %>

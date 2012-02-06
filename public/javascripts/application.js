@@ -453,3 +453,195 @@ function hideOnLoad() {
 }
 
 Event.observe(window, 'load', hideOnLoad);
+
+// a few constants for animations speeds, etc.
+var animationRate = 100;
+
+/* jQuery code from #263 */
+// returns viewport height
+jQuery.viewportHeight = function() {
+     return self.innerHeight ||
+        jQuery.boxModel && document.documentElement.clientHeight ||
+        document.body.clientHeight;
+};
+
+// Automatically use format.js for jQuery Ajax
+jQuery.ajaxSetup({
+  'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+})
+
+// Show/hide the ajax indicators
+jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show().css('z-index', '9999');  });
+jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
+
+/* TODO: integrate with existing code and/or refactor */
+jQuery(document).ready(function($) {
+
+
+	// file table thumbnails
+	$("table a.has-thumb").hover(function() {
+		$(this).removeAttr("title").toggleClass("active");
+
+		// grab the image dimensions to position it properly
+		var thumbImg = $(this).find("img");
+		var thumbImgLeft = -(thumbImg.outerWidth() );
+		var thumbImgTop = -(thumbImg.height() / 2 );
+		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+
+	}, function() {
+		$(this).toggleClass("active").find("img").hide();
+	});
+
+	// show/hide the files table
+	$(".attachments h4").click(function() {
+	  $(this).toggleClass("closed").next().slideToggle(animationRate);
+	});
+
+	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+	$.fn.mySlide = function() {
+		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+			// no animations, just toggle
+			this.toggle();
+			// this forces IE to redraw the menu area, un-bollocksing things
+			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+		} else {
+			this.slideToggle(animationRate);
+		}
+
+		return this;
+	};
+
+	// open and close the main-menu sub-menus
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		.append("<span class='toggler'></span>")
+		.click(function() {
+
+			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+
+			return false;
+	});
+
+	// submenu flyouts
+	$("#main-menu li li:has(ul)").hover(function() {
+		$(this).find(".profile-box").show();
+		$(this).find("ul").slideDown(animationRate);
+	}, function() {
+		$(this).find("ul").slideUp(animationRate);
+	});
+
+	// add filter dropdown menu
+	$(".button-large:has(ul) > a").click(function(event) {
+		var tgt = $(event.target);
+
+		// is this inside the title bar?
+		if (tgt.parents().is(".title-bar")) {
+			$(".title-bar-extras:hidden").slideDown(animationRate);
+		}
+
+		$(this).parent().find("ul").slideToggle(animationRate);
+
+		return false;
+	});
+
+  // Toggle a top menu item open or closed, showing or hiding its submenu
+  function toggleTopMenu(menuItem) {
+    menuItem.toggleClass("open").find('ul').mySlide();
+  };
+
+  // Handle a single click event on the page to close an open menu item
+  
+  function handleClickEventOnPageToCloseOpenMenu(openMenuItem) {
+    $('html').one("click", function(htmlEvent) {
+      if (openMenuItem.has(htmlEvent.target).length > 0) {
+        // Clicked on the open menu, let it bubble up
+      } else {
+        // Clicked elsewhere, close menu
+        toggleTopMenu(openMenuItem);
+      }
+    });
+  };
+
+  // Click on the menu header with a dropdown menu
+  $('#account-nav .drop-down').live('click', function(event) {
+    var menuItem = $(this);
+
+    toggleTopMenu(menuItem);
+
+    if (menuItem.hasClass('open')) {
+      handleClickEventOnPageToCloseOpenMenu(menuItem);
+    }
+    return false;
+  });
+
+  // Click on an actual item
+  $('#account-nav .drop-down ul a').live('click', function(event) {
+    event.stopPropagation();
+  });
+
+  // show/hide login box
+  $("#account-nav a.login").click(function() {
+    $(this).parent().toggleClass("open");
+    // Focus the username field if the login field has opened
+    $("#nav-login").slideToggle(animationRate, function () {
+      if ($(this).parent().hasClass("open")) {
+        $("input#username-pulldown").focus()
+      }
+    });
+    
+    return false;
+  });
+
+	// deal with potentially problematic super-long titles
+	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
+
+	// rejigger the main-menu sub-menu functionality.
+	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
+
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		// 1. unbind the current click functions
+		.unbind("click")
+		// 2. wrap each in a span that we'll use for the new click element
+		.wrapInner("<span class='toggle-follow'></span>")
+		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
+		.append("<span class='toggler'></span>")
+		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
+		.click(function(event) {
+
+			if (!$(event.target).hasClass("toggle-follow") ) {
+				$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+				return false;
+			}
+		});
+
+  // Do not close the login window when using it
+  $('#nav-login-content').click(function(event){
+    event.stopPropagation();
+  });
+
+  $('.lightbox-ajax').click(function(event) {
+    $('#dialog-window').
+      html('').
+      load(this.href, function() {
+        // Set width to the content width
+        var width = $('#content').width();
+        $(this).dialog("option", "width", width).dialog('open');
+      });
+
+    event.preventDefault();
+    return false;
+
+  });
+
+  // Configures the default dialog window
+  function setUpDialogWindow() {
+    $('#dialog-window').
+      dialog({
+        autoOpen: false,
+        minWidth: 400,
+        width: 800
+      });
+
+  }
+
+  setUpDialogWindow();
+});

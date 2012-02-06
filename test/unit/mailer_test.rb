@@ -19,10 +19,12 @@ class MailerTest < ActiveSupport::TestCase
   fixtures :all
 
   def setup
+    User.current = nil # Clear current user in case of tests setting it and leaking data
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
     Setting.plain_text_mail = '0'
+    Setting.default_language = 'en'
   end
 
   def test_generated_links_in_emails
@@ -30,7 +32,7 @@ class MailerTest < ActiveSupport::TestCase
     Setting.protocol = 'https'
 
     journal = Journal.find(2)
-    assert Mailer.deliver_issue_edit(journal)
+    assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
 
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
@@ -52,7 +54,7 @@ class MailerTest < ActiveSupport::TestCase
     Redmine::Utils.relative_url_root = '/rdm'
 
     journal = Journal.find(2)
-    assert Mailer.deliver_issue_edit(journal)
+    assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
 
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
@@ -77,7 +79,7 @@ class MailerTest < ActiveSupport::TestCase
     Redmine::Utils.relative_url_root = nil
 
     journal = Journal.find(2)
-    assert Mailer.deliver_issue_edit(journal)
+    assert Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
 
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
@@ -97,7 +99,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_email_headers
     issue = Issue.find(1)
-    Mailer.deliver_issue_add(issue)
+    Mailer.deliver_issue_add(issue,'dlopper@somenet.foo')
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal 'bulk', mail.header_string('Precedence')
@@ -107,7 +109,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_plain_text_mail
     Setting.plain_text_mail = 1
     journal = Journal.find(2)
-    Mailer.deliver_issue_edit(journal)
+    Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
     mail = ActionMailer::Base.deliveries.last
     assert_equal "text/plain", mail.content_type
     assert_equal 0, mail.parts.size
@@ -117,7 +119,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_html_mail
     Setting.plain_text_mail = 0
     journal = Journal.find(2)
-    Mailer.deliver_issue_edit(journal)
+    Mailer.deliver_issue_edit(journal,'dlopper@somenet.foo')
     mail = ActionMailer::Base.deliveries.last
     assert_equal 2, mail.parts.size
     assert mail.encoded.include?('href')
@@ -141,21 +143,21 @@ class MailerTest < ActiveSupport::TestCase
     user.pref[:no_self_notified] = false
     user.pref.save
     User.current = user
-    Mailer.deliver_news_added(news.reload)
-    assert_equal 1, last_email.bcc.size
+    Mailer.deliver_news_added(news.reload, user.mail)
+    assert_equal 1, last_email.to.size
 
     # nobody to notify
     user.pref[:no_self_notified] = true
     user.pref.save
     User.current = user
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_news_added(news.reload)
+    Mailer.deliver_news_added(news.reload, user.mail)
     assert ActionMailer::Base.deliveries.empty?
   end
 
   def test_issue_add_message_id
     issue = Issue.find(1)
-    Mailer.deliver_issue_add(issue)
+    Mailer.deliver_issue_add(issue, 'dlopper@somenet.foo')
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(issue), mail.message_id
@@ -164,7 +166,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_issue_edit_message_id
     journal = Journal.find(1)
-    Mailer.deliver_issue_edit(journal)
+    Mailer.deliver_issue_edit(journal, "jsmith@somenet.foo")
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(journal), mail.message_id
@@ -173,7 +175,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_message_posted_message_id
     message = Message.find(1)
-    Mailer.deliver_message_posted(message)
+    Mailer.deliver_message_posted(message, "jsmith@somenet.foo")
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(message), mail.message_id
@@ -186,7 +188,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_reply_posted_message_id
     message = Message.find(3)
-    Mailer.deliver_message_posted(message)
+    Mailer.deliver_message_posted(message, "jsmith@somenet.foo")
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal Mailer.message_id_for(message), mail.message_id
@@ -204,154 +206,82 @@ class MailerTest < ActiveSupport::TestCase
       @issue = Issue.find(1)
     end
 
-    should "notify project members" do
-      assert Mailer.deliver_issue_add(@issue)
-      assert last_email.bcc.include?('dlopper@somenet.foo')
-    end
-
-    should "not notify project members that are not allow to view the issue" do
-      Role.find(2).remove_permission!(:view_issues)
-      assert Mailer.deliver_issue_add(@issue)
-      assert !last_email.bcc.include?('dlopper@somenet.foo')
-    end
-
-    should "notify issue watchers" do
-      user = User.find(9)
-      # minimal email notification options
-      user.pref[:no_self_notified] = '1'
-      user.pref.save
-      user.mail_notification = false
-      user.save
-
-      Watcher.create!(:watchable => @issue, :user => user)
-      assert Mailer.deliver_issue_add(@issue)
-      assert last_email.bcc.include?(user.mail)
-    end
-
-    should "not notify watchers not allowed to view the issue" do
-      user = User.find(9)
-      Watcher.create!(:watchable => @issue, :user => user)
-      Role.non_member.remove_permission!(:view_issues)
-      assert Mailer.deliver_issue_add(@issue)
-      assert !last_email.bcc.include?(user.mail)
+    should "send one email per recipient" do
+      assert Mailer.deliver_issue_add(@issue, 'dlopper@somenet.foo')
+      assert_equal 1, ActionMailer::Base.deliveries.length
+      assert_equal ['dlopper@somenet.foo'], last_email.to
     end
   end
 
-  # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_issue_add(issue)
-    end
+    assert Mailer.deliver_issue_add(issue, 'dlopper@somenet.foo')
   end
 
   def test_issue_edit
     journal = Journal.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_issue_edit(journal)
-    end
+    assert Mailer.deliver_issue_edit(journal, "jsmith@somenet.foo")
   end
 
   def test_document_added
     document = Document.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_document_added(document)
-    end
+    assert Mailer.deliver_document_added(document, "jsmith@somenet.foo")
   end
 
   def test_attachments_added
     attachements = [ Attachment.find_by_container_type('Document') ]
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_attachments_added(attachements)
-    end
+    assert Mailer.deliver_attachments_added(attachements, "jsmith@somenet.foo")
   end
 
   def test_version_file_added
     attachements = [ Attachment.find_by_container_type('Version') ]
-    assert Mailer.deliver_attachments_added(attachements)
-    assert_not_nil last_email.bcc
-    assert last_email.bcc.any?
-    assert_select_email do
-      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
-    end
+    assert Mailer.deliver_attachments_added(attachements, "jsmith@somenet.foo")
+    assert_equal ["jsmith@somenet.foo"], last_email.to
   end
 
   def test_project_file_added
     attachements = [ Attachment.find_by_container_type('Project') ]
-    assert Mailer.deliver_attachments_added(attachements)
-    assert_not_nil last_email.bcc
-    assert last_email.bcc.any?
-    assert_select_email do
-      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
-    end
+    assert Mailer.deliver_attachments_added(attachements, "jsmith@somenet.foo")
+    assert_equal ["jsmith@somenet.foo"], last_email.to
   end
 
   def test_news_added
     news = News.find(:first)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_news_added(news)
-    end
+    assert Mailer.deliver_news_added(news, "jsmith@somenet.foo")
   end
 
   def test_news_comment_added
     comment = Comment.find(2)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_news_comment_added(comment)
-    end
+    assert Mailer.deliver_news_comment_added(comment)
   end
 
   def test_message_posted
     message = Message.find(:first)
-    recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
-    recipients = recipients.compact.uniq
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert Mailer.deliver_message_posted(message)
-    end
+    assert Mailer.deliver_message_posted(message, "jsmith@somenet.foo")
   end
 
   def test_wiki_content_added
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert_difference 'ActionMailer::Base.deliveries.size' do
-        assert Mailer.deliver_wiki_content_added(content)
-      end
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert Mailer.deliver_wiki_content_added(content, "jsmith@somenet.foo")
     end
   end
 
   def test_wiki_content_updated
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
-      assert_difference 'ActionMailer::Base.deliveries.size' do
-        assert Mailer.deliver_wiki_content_updated(content)
-      end
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert Mailer.deliver_wiki_content_updated(content, "jsmith@somenet.foo")
     end
   end
 
   def test_account_information
     user = User.find(2)
-    valid_languages.each do |lang|
-      user.update_attribute :language, lang.to_s
-      user.reload
-      assert Mailer.deliver_account_information(user, 'pAsswORd')
-    end
+    assert Mailer.deliver_account_information(user, 'pAsswORd')
   end
 
   def test_lost_password
     token = Token.find(2)
-    valid_languages.each do |lang|
-      token.user.update_attribute :language, lang.to_s
-      token.reload
-      assert Mailer.deliver_lost_password(token)
-    end
+    assert Mailer.deliver_lost_password(token)
   end
 
   def test_register
@@ -359,40 +289,33 @@ class MailerTest < ActiveSupport::TestCase
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
 
-    valid_languages.each do |lang|
-      token.user.update_attribute :language, lang.to_s
-      token.reload
-      ActionMailer::Base.deliveries.clear
-      assert Mailer.deliver_register(token)
-      mail = ActionMailer::Base.deliveries.last
-      assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
-    end
+    ActionMailer::Base.deliveries.clear
+    assert Mailer.deliver_register(token)
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
   def test_test
     user = User.find(1)
-    valid_languages.each do |lang|
-      user.update_attribute :language, lang.to_s
-      assert Mailer.deliver_test(user)
-    end
+    assert Mailer.deliver_test(user)
   end
 
   def test_reminders
     Mailer.reminders(:days => 42)
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.to.include?('dlopper@somenet.foo')
     assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 
   def test_reminders_for_users
     Mailer.reminders(:days => 42, :users => ['5'])
-    assert_equal 0, ActionMailer::Base.deliveries.size # No mail for dlopper
+    assert_equal 0, ActionMailer::Base.deliveries.size
     Mailer.reminders(:days => 42, :users => ['3'])
-    assert_equal 1, ActionMailer::Base.deliveries.size # No mail for dlopper
+    assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.last
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.to.include?('dlopper@somenet.foo')
     assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
   end
 
