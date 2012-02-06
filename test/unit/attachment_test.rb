@@ -14,7 +14,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentTest < ActiveSupport::TestCase
-  fixtures :issues, :users
+  fixtures :issues, :projects, :users, :issue_statuses, :trackers, :projects_trackers
 
   def setup
   end
@@ -74,6 +74,26 @@ class AttachmentTest < ActiveSupport::TestCase
         assert response[:unsaved].second.new_record?
         assert_equal response[:unsaved], @project.unsaved_attachments
       end
+    end
+  end
+
+  context "Attachment#increment_download" do
+    should "not create a journal entry" do
+      issue = Issue.generate!(:status_id => 1, :tracker_id => 1, :project_id => 1)
+      attachment = Attachment.create!(:container => issue,
+                              :file => mock_file,
+                              :author => User.find(1))
+
+      assert_equal 0, attachment.downloads
+      # just the initial journal
+      assert_equal 1, attachment.journals.count
+
+      attachment.reload
+      attachment.increment_download
+
+      assert_equal 1, attachment.downloads
+      # no added journal
+      assert_equal 1, attachment.journals.count
     end
   end
 end

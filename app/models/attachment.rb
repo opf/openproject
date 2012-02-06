@@ -34,7 +34,8 @@ class Attachment < ActiveRecord::Base
         end),
         :activity_type => 'files',
         :activity_permission => :view_files,
-        :activity_find_options => { :include => { :version => :project } }
+        :activity_find_options => { :include => { :version => :project } },
+        :except => [:downloads]
 
   acts_as_activity :type => 'documents', :permission => :view_documents,
         :find_options => { :include => { :document => :project } }

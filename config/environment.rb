@@ -18,6 +18,9 @@
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
 
+# use RACK_ENV if we are running as a simple rack app
+ENV['RAILS_ENV'] ||= ENV['RACK_ENV'] if ENV['RACK_ENV']
+
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
@@ -55,7 +58,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = :journal_observer, :message_observer, :issue_observer, :news_observer, :document_observer, :wiki_content_observer, :comment_observer
+  config.active_record.observers = :journal_observer, :message_observer, :issue_observer, :news_observer, :document_observer, :comment_observer
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc

@@ -12,14 +12,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiContentObserver < ActiveRecord::Observer
-  def after_create(wiki_content)
-    Mailer.deliver_wiki_content_added(wiki_content) if Setting.notified_events.include?('wiki_content_added')
+class RemoveNoisyAttachmentJournals < ActiveRecord::Migration
+  def self.up
+    AttachmentJournal.find_each(:batch_size => 100 ) do |j|
+      if j.changes.keys == ["downloads"]
+        j.destroy
+      elsif j.changes.keys.include? "downloads"
+        j.changes.delete("downloads")
+        j.save!
+      end
+    end
   end
 
-  def after_update(wiki_content)
-    if wiki_content.text_changed?
-      Mailer.deliver_wiki_content_updated(wiki_content) if Setting.notified_events.include?('wiki_content_updated')
-    end
+  def self.down
+    # no-op as the downloads counter shouldn't be journaled in the first time
   end
 end

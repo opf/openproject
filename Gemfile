@@ -13,9 +13,7 @@ group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
-
-  platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
-  platforms :mri_19, :mingw_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
+  gem 'capybara'
 end
 
 group :ldap do
@@ -34,7 +32,7 @@ group :rmagick do
   # the line above this comment block and uncomment the one underneath it to
   # get an rmagick version known to work on older distributions.
   #
-  # The following distributíons are known to *not* ship with a usable
+  # The following distributions are known to *not* ship with a usable
   # ImageMagick version. There might be additional ones.
   #   * Ubuntu 9.10 and older
   #   * Debian Lenny 5.0 and older
@@ -102,7 +100,9 @@ if File.readable?(gemfile_local)
 end
 
 # Load plugins' Gemfiles
-Dir.glob File.expand_path("../vendor/plugins/*/Gemfile", __FILE__) do |file|
-  puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
-  instance_eval File.read(file)
+["plugins", "chiliproject_plugins"].each do |plugin_path|
+  Dir.glob File.expand_path("../vendor/#{plugin_path}/*/Gemfile", __FILE__) do |file|
+    puts "Loading #{file} ..." if $DEBUG # `ruby -d` or `bundle -v`
+    instance_eval File.read(file)
+  end
 end

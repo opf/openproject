@@ -200,6 +200,14 @@ class Repository < ActiveRecord::Base
     encoding.blank? ? 'UTF-8' : encoding
   end
 
+  # Provide a log encoding even if the column was not created yet
+  # It's used by 20100714111653_build_initial_journals_for_acts_as_journalized
+  # for initial journal creaetion of the changesets while the colum is only
+  # created by 20110228000000_add_repositories_log_encoding
+  def log_encoding
+    read_attribute(:log_encoding)
+  end
+
   # Fetches new changesets for all repositories of active projects
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
