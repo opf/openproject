@@ -1,16 +1,16 @@
 <% content_for :action_menu_main do %>
-  <li><%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %></li>
-  <li><%= watcher_link(@issue,
+  <%= li_unless_nil(link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit))) %>
+  <%= li_unless_nil(watcher_link(@issue,
                        User.current,
                        { :class => 'watcher_link',
-                         :replace => User.current.allowed_to?(:view_issue_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] }) %></li>
+                         :replace => User.current.allowed_to?(:view_issue_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
 <% end %>
 <% content_for :action_menu_more do %>
-  <li><%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-time-add' %></li>
-  <li><%= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %></li>
-  <li><%= link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy' %></li>
-  <li><%= link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move' %></li>
-  <li><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => (@issue.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)), :method => :post, :class => 'icon icon-del' %></li>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-time-add') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => (@issue.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)), :method => :post, :class => 'icon icon-del') %>
 <% end %>
 
 <%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s, :id => "trackerid") %>

@@ -38,6 +38,10 @@ module ApplicationHelper
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
+  def li_unless_nil(link)
+    content_tag(:li, link) if link
+  end
+
   # Display a link to remote if user is authorized
   def link_to_remote_if_authorized(name, options = {}, html_options = nil)
     url = options[:url] || {}
