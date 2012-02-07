@@ -546,6 +546,28 @@ jQuery(document).ready(function($) {
 		return this;
 	};
 
+        $.fn.onClickDropDown = function(){
+          var that = this;
+          $('html').click(function() {
+            that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+            that.removeClass("hover");
+          });
+
+          // Do not close the login window when using it
+          that.find("li li").click(function(event){
+             event.stopPropagation();
+          });
+
+          this.find(" > li.drop-down").click(function() {
+            if (that.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
+              that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+            }
+            $(this).slideAndFocus();
+            $(that).toggleClass("hover");
+            return false;
+          });
+        };
+
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
