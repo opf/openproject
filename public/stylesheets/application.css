@@ -1552,7 +1552,7 @@ h1.title {
 h2#trackerid {
         font-size:14px;
         font-weight:normal;
-	padding:12px 100px 4px 12px;
+	padding:5px 100px 4px 12px;
 	color:#000;
         margin-bottom: 0px;
 }
@@ -2740,7 +2740,7 @@ select#available_columns {
 }
 ul.action_menu_main {
   float:right;
-  margin-top: 14px;
+  margin-top: 7px;
 }
 ul.action_menu_main > li {
   float:left;
