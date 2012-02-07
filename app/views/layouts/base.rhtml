@@ -128,6 +128,22 @@
     <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
+
+      <!-- Action menu -->
+      <% if @content_for_action_menu_main %>
+        <ul class="action_menu_main">
+          <%= yield :action_menu_main %>
+          <% if @content_for_action_menu_more %>
+            <li class="drop-down">
+              <a href="javascript:" class="icon icon-more"><%= l(:more_actions) %></a>
+              <ul class="action_menu_more" style="display:none;">
+                <%= yield :action_menu_more %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>

@@ -2,7 +2,6 @@ html {overflow-y:scroll;}
 body { margin: 0; padding: 0; min-width: 900px; }
 
 h1 {margin:0; padding:0; font-size: 24px;}
-h2, .wiki h1 {font-size: 20px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
 h3, .wiki h2 {font-size: 16px;padding: 2px 10px 1px 0px;margin: 0 0 10px 0; border-bottom: 1px solid #bbbbbb; }
 h4, .wiki h3 {font-size: 13px;padding: 0px 10px 1px 0px;margin-bottom: 5px; border-bottom: 1px dotted #bbbbbb;}
 
@@ -641,8 +640,17 @@ p.pourcent {font-size: 80%;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
-#content .tabs {height: 2.6em; margin-bottom:1.2em; z-index:1; overflow:hidden;}
+#content .tabs {
+  position: relative;
+  height: 2.6em;
+  margin-bottom:1.2em;
+  z-index:1;
+  overflow:hidden;
+}
 #content .tabs ul {
+  position: absolute;
+  left: 0px;
+  right: 60px;
   margin:0;
   bottom:0;
   padding-left:1em;
@@ -990,6 +998,7 @@ padding-bottom: 3px;
 .icon-issue { background-image: url(../images/ticket.png); }
 .icon-zoom-in { background-image: url(../images/zoom_in.png); }
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
+.icon-more { background-image: url(../images/text_list_bullets.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -1103,8 +1112,11 @@ h1,h2,h3,h4,h5,h6 {
 h1 {
 	font-size:21px;
 }
-h2 {
-	font-size:18px;
+h2, .wiki h1 {
+        font-size: 18px;
+        padding: 2px 10px 1px 0px;
+        margin: 0 0 10px 0;
+        border-bottom: 1px solid #bbbbbb;
 }
 h3 {
 	font-size:16px;
@@ -1537,10 +1549,10 @@ h1.title {
 #content .title-bar {
 	position:relative;
 }
-.title-bar div.subject h2 {
+h2#trackerid {
         font-size:14px;
         font-weight:normal;
-	padding:12px 100px 4px 12px;
+	padding:5px 100px 4px 12px;
 	color:#000;
         margin-bottom: 0px;
 }
@@ -1721,8 +1733,7 @@ form#issue-list {
 /*	color:#fff;*/
 }
 .title-bar .title-bar-actions .contextual a.icon {
-	color:#000000;
-  margin-right: 0px;
+        margin-right: 0px;
 }
 .title-bar .update {
 	right:0;
@@ -2726,4 +2737,35 @@ select#available_columns {
   padding-left: 10px;
   list-style-type: disc;
   list-style-position: inside;
+}
+ul.action_menu_main {
+  float:right;
+  margin-top: 7px;
+}
+ul.action_menu_main > li {
+  float:left;
+  padding-right:10px;
+}
+ul.action_menu_more > li {
+  padding-top: 5px;
+}
+ul.action_menu_more {
+  padding: 5px;
+  padding-bottom:10px;
+  width: 165px;
+  position: absolute;
+  background: white;
+  margin-left: -54px;
+  margin-top: 5px;
+  border: 1px solid #B7B7B7;
+  -webkit-box-shadow: 1px 1px 2px #aaa;
+  z-index:100;
+}
+#lower-title-bar ul.action_menu_more {
+  bottom: 0;
+  left: 0;
+  margin-bottom: 25px;
+}
+#lower-title-bar ul.action_menu_main > li.drop-down {
+  position: relative;
 }
