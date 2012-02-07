@@ -1,10 +1,19 @@
-<div class="title-bar" id="upper-title-bar">
-  <div class="subject"><%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %></div>
+<% content_for :action_menu_main do %>
+  <li><%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %></li>
+  <li><%= watcher_link(@issue,
+                       User.current,
+                       { :class => 'watcher_link',
+                         :replace => User.current.allowed_to?(:view_issue_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] }) %></li>
+<% end %>
+<% content_for :action_menu_more do %>
+  <li><%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-time-add' %></li>
+  <li><%= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %></li>
+  <li><%= link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy' %></li>
+  <li><%= link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move' %></li>
+  <li><%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => (@issue.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)), :method => :post, :class => 'icon icon-del' %></li>
+<% end %>
 
-  <div class="title-bar-actions">
-  <%= render :partial => 'action_menu' %>
-  </div>
-</div>
+<%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s, :id => "trackerid") %>
 
 <div class="<%= @issue.css_classes %> details">
   <div class="profile-wrap">
@@ -104,10 +113,7 @@
 <div style="clear: both;"></div>
 
 <div class="title-bar" id="lower-title-bar">
-  <div class="title-bar-actions">
-  <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
-  </div>
-  <h3><%= l(:button_update) %></h3>
+  <%= javascript_include_tag 'copy_issue_actions' %>
 </div>
 
 <div style="clear: both;"></div>

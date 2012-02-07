@@ -613,15 +613,8 @@ jQuery(document).ready(function($) {
         function(){
           return false;
           });
-	jQuery("#account-nav > li.drop-down").click(function() {
-          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-          }
-                $(this).slideAndFocus();
-                $("#account-nav").toggleClass("hover");
-
-                return false;
-        });
+        $("#account-nav").onClickDropDown();
+        $(".action_menu_main").onClickDropDown();
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
@@ -669,14 +662,7 @@ jQuery(document).ready(function($) {
           });
         });
 
-        $('html').click(function() {
-          $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
-          $("#account-nav.hover").toggleClass("hover");
-         });
         // Do not close the login window when using it
-        $('#account-nav li li').click(function(event){
-             event.stopPropagation();
-         });
         $('#nav-login-content').click(function(event){
              event.stopPropagation();
          });

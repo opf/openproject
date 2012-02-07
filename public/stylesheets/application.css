@@ -1547,7 +1547,7 @@ h1.title {
 #content .title-bar {
 	position:relative;
 }
-.title-bar div.subject h2 {
+h2#trackerid {
         font-size:14px;
         font-weight:normal;
 	padding:12px 100px 4px 12px;
@@ -1731,8 +1731,7 @@ form#issue-list {
 /*	color:#fff;*/
 }
 .title-bar .title-bar-actions .contextual a.icon {
-	color:#000000;
-  margin-right: 0px;
+        margin-right: 0px;
 }
 .title-bar .update {
 	right:0;
@@ -2759,4 +2758,12 @@ ul.action_menu_more {
   border: 1px solid #B7B7B7;
   -webkit-box-shadow: 1px 1px 2px #aaa;
   z-index:100;
+}
+#lower-title-bar ul.action_menu_more {
+  bottom: 0;
+  left: 0;
+  margin-bottom: 25px;
+}
+#lower-title-bar ul.action_menu_main > li.drop-down {
+  position: relative;
 }
