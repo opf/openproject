@@ -2769,3 +2769,34 @@ ul.action_menu_more {
 #lower-title-bar ul.action_menu_main > li.drop-down {
   position: relative;
 }
+#toggle-project-menu {
+  height:15px;
+  width:184px;
+  border-bottom: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+  background-color:#E9E9E9;
+}
+#toggle-project-menu:hover {
+  background-color: #D8D8D8;
+}
+#toggle-project-menu.show {
+  width:15px;
+}
+#content.hidden-navigation {
+  margin-left: 15px;
+}
+#main-menu #toggle-project-menu a.navigation-toggler {
+  position:relative;
+  float:right;
+  background: url(../images/projectnavi_arrow_left.png) 160px 5px no-repeat;
+  width:100%;
+  height:15px;
+}
+#main-menu #toggle-project-menu.show a.navigation-toggler {
+  background: url(../images/projectnavi_arrow_right.png) 4px 5px no-repeat;
+  width:15px;
+  height:100%;
+}
+#menu-sidebar.hidden {
+  display:none;
+}

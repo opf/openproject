@@ -112,15 +112,20 @@
     <% if (side_displayed) %>
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-        <%= main_menu %>
-        <%= yield :main_menu %>
-      <% if display_sidebar %>
-        <!-- Sidebar -->
-        <div id="sidebar">
-          <%= yield :sidebar %>
-          <%= call_hook :view_layouts_base_sidebar %>
+        <div id="toggle-project-menu">
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler"></a>
         </div>
-      <% end %>
+        <div id="menu-sidebar">
+          <%= main_menu %>
+          <%= yield :main_menu %>
+          <% if display_sidebar %>
+            <!-- Sidebar -->
+            <div id="sidebar">
+              <%= yield :sidebar %>
+              <%= call_hook :view_layouts_base_sidebar %>
+            </div>
+          <% end %>
+        </div>
       </div>
 
       <%= expand_current_menu %>

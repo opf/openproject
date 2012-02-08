@@ -676,4 +676,22 @@ jQuery(document).ready(function($) {
             div.removeClass('hover');
           });
         });
+
+        jQuery('#main-menu #toggle-project-menu a.navigation-toggler').click(function(){
+          if ($('#main-menu #toggle-project-menu').hasClass('show')) {
+            // Show project navigation
+            $('#menu-sidebar').removeClass('hidden');
+            $('#main-menu #toggle-project-menu').removeClass('show');
+            $('#main-menu #toggle-project-menu').removeAttr("style");
+            $('#content').removeClass('hidden-navigation');
+          }
+          else {
+            // Hide project navigation
+            var height = $('#menu-sidebar').height();
+            $('#menu-sidebar').addClass('hidden');
+            $('#main-menu #toggle-project-menu').addClass('show');
+            $('#main-menu #toggle-project-menu.show').css({height:height});
+            $('#content').addClass('hidden-navigation');
+          };
+        });
 });
