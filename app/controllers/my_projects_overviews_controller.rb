@@ -32,7 +32,7 @@ class MyProjectsOverviewsController < ApplicationController
     'members' => :label_member_plural,
     'issuetracking' => :label_issue_tracking,
     'projectdetails' => :label_project_details,
-    'wiki' => :label_wiki
+    'projectdescription' => :label_project_description
   }
 
   verify :xhr => true,
