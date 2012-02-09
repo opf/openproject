@@ -1,9 +1,3 @@
 <% if @wiki && @wiki.sidebar -%>
   <%= textilizable @wiki.sidebar.content, :text %>
 <% end -%>
-
-<h3><%= l(:label_wiki_navigation) %></h3>
-
-<%= link_to l(:field_start_page), {:action => 'show', :id => nil} %><br />
-<%= link_to l(:label_index_by_title), {:action => 'index'} %><br />
-<%= link_to l(:label_index_by_date), {:action => 'date_index'} %><br />
