@@ -1,3 +1,4 @@
+<%= call_hook :wiki_navigation %>
 <% content_for :action_menu_main do %>
   <% if @editable %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
