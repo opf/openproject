@@ -2,7 +2,7 @@
 <% content_for :action_menu_main do %>
   <% if @editable %>
     <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
-    <%= li_unless_nil(watcher_link(@page, User.current)) %>
+    <%= li_unless_nil(watcher_link(@page, User.current)) if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
   <% end %>
 <% end %>
 <% content_for :action_menu_more do %>
