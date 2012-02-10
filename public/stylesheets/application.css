@@ -2800,3 +2800,6 @@ ul.action_menu_more {
 #menu-sidebar.hidden {
   display:none;
 }
+div#history div.journal div.wiki {
+  overflow:visible;
+}
