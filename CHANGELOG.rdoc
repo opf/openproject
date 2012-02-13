@@ -1,3 +1,9 @@
+= 1.2.7 - 2012-02-13
+
+== Minor Change
+
+* Design fix
+
 = 1.2.6 - 2012-02-02
 
 == Minor Change
