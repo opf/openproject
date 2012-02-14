@@ -190,4 +190,8 @@ class MyProjectsOverviewsController < ApplicationController
   def find_attachments
     @attachments = @overview.attachments || []
   end
+
+  def default_breadcrumb
+    l(:label_overview)
+  end
 end
