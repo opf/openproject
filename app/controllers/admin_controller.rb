@@ -83,4 +83,8 @@ class AdminController < ApplicationController
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
   end
+
+  def default_breadcrumb
+    l(:label_administration)
+  end
 end

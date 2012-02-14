@@ -16,7 +16,7 @@
   <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history')) %>
 <% end %>
 
-<%= breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
+<% breadcrumb_paths(*@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:id => parent.title, :project_id => parent.project}}) %>
 
 <% if @content.version != @page.content.version %>
     <p>
