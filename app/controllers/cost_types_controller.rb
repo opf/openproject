@@ -92,4 +92,8 @@ private
       @cost_type = CostType.find(params[:id])
     end
   end
+
+  def default_breadcrumb
+    l(:caption_cost_type_plural)
+  end
 end
