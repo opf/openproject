@@ -422,10 +422,28 @@ module ApplicationHelper
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
 
+  def breadcrumb_list(*args)
+    elements = args.flatten
+    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, :style => 'list-style-image:none;')]
+    breadcrumb_elements += elements.collect do |element|
+      content_tag(:li, element.to_s) if element
+    end
+
+    content_tag(:ul, breadcrumb_elements, :class => 'breadcrumb')
+  end
+
   def other_formats_links(&block)
     concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>')
+  end
+
+  def link_to_project_ancestors(project)
+    if @project
+      ancestors = (project.root? ? [] : project.ancestors.visible)
+      ancestors << project
+      ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item})}
+    end
   end
 
   def page_header_title
@@ -1113,4 +1131,12 @@ module ApplicationHelper
     "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
   end
 
+  def breadcrumb_paths(*args)
+    if args.empty?
+      @breadcrumb_paths ||= [default_breadcrumb]
+    else
+      @breadcrumb_paths ||= []
+      @breadcrumb_paths += args
+    end
+  end
 end
