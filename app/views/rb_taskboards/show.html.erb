@@ -32,7 +32,7 @@
   </span>
 </div>
 
-<%= breadcrumb(link_to l(:label_backlogs), rb_master_backlog_path(@project)) %>
+<% breadcrumb_paths(link_to(l(:label_backlogs), rb_master_backlog_path(@project)), link_to(@sprint.name, rb_taskboard_path(@sprint))) %>
 
 <h2>
   <%= link_to @sprint.name, rb_taskboard_path(@sprint) %>

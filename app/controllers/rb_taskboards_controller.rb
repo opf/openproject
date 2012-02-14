@@ -12,4 +12,8 @@ class RbTaskboardsController < RbApplicationController
                               :conditions => ["parent_id in (?)", @story_ids],
                               :order      => "updated_on DESC")
   end
+
+  def default_breadcrumb
+    l(:label_backlogs)
+  end
 end

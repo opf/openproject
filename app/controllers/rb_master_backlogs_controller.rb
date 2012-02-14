@@ -28,4 +28,8 @@ class RbMasterBacklogsController < RbApplicationController
     end
     return available_statuses_by_tracker
   end
+
+  def default_breadcrumb
+    l(:label_backlogs)
+  end
 end
