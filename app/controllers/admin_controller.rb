@@ -24,10 +24,12 @@ class AdminController < ApplicationController
   menu_item :info, :only => [:info]
 
   def index
-    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+    redirect_to :action => 'projects'
   end
 
   def projects
+    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
