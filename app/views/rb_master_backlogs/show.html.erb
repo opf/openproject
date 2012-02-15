@@ -1,5 +1,6 @@
 <%= render :partial => 'shared/backlogs_header' %>
 
+
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'app/master_backlog',
                              'app/backlog',
@@ -23,7 +24,7 @@
 
 <div class='contextual'></div>
 <h2>
-  <%= link_to l(:label_backlogs), rb_master_backlog_path(@project) %>
+  <%= l(:label_backlogs) %>
 </h2>
 
 <div id="rb">
