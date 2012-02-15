@@ -87,6 +87,13 @@ class AdminController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_administration)
+    case params[:action]
+    when 'projects'
+      l(:label_project_plural)
+    when 'plugins'
+      l(:label_plugins)
+    when 'info'
+      l(:label_information)
+    end
   end
 end
