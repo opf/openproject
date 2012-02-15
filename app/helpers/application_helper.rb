@@ -424,8 +424,22 @@ module ApplicationHelper
 
   def breadcrumb_list(*args)
     elements = args.flatten
+    cutme_elements = []
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, :style => 'list-style-image:none;')]
-    breadcrumb_elements += elements.collect do |element|
+    breadcrumb_elements << content_tag(:li, elements.shift.to_s) if elements.first
+
+    if elements.size > 2
+      normal_elements = elements.pop(2)
+      cutme_elements = elements
+    else
+      normal_elements = elements
+    end
+
+    breadcrumb_elements += cutme_elements.collect do |element|
+      content_tag(:li, element.to_s, :class => 'cutme ellipsis') if element
+    end
+
+    breadcrumb_elements += normal_elements.collect do |element|
       content_tag(:li, element.to_s) if element
     end
 

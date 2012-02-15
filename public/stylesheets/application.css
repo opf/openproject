@@ -1337,6 +1337,11 @@ input:-moz-placeholder {
   height:15px;
   line-height:15px;
 }
+
+#breadcrumb {
+  height:38px;
+}
+
 #breadcrumb h1 {
 	height:38px;
         line-height:38px;
@@ -2815,4 +2820,8 @@ ul.breadcrumb {
 
 #breadcrumb a:hover {
   text-decoration: underline;
+}
+
+#breadcrumb li.cutme {
+  width: 35px;
 }
