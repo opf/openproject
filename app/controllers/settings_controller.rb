@@ -58,4 +58,8 @@ class SettingsController < ApplicationController
   rescue Redmine::PluginNotFound
     render_404
   end
+
+  def default_breadcrumb
+    l(:label_settings)
+  end
 end
