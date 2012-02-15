@@ -455,7 +455,7 @@ module ApplicationHelper
     if @project
       ancestors = (project.root? ? [] : project.ancestors.visible)
       ancestors << project
-      ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item})}
+      ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, {:title => p})}
     end
   end
 
