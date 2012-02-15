@@ -1340,6 +1340,7 @@ input:-moz-placeholder {
 
 #breadcrumb {
   height:38px;
+  overflow:hidden;
 }
 
 #breadcrumb h1 {
@@ -2808,6 +2809,7 @@ ul.action_menu_more {
 ul.breadcrumb {
   list-style-image: url(../images/breadcrumb-list.png);
   list-style-position: inside;
+  width:10000px;
 }
 #top-menu ul.breadcrumb li {
   float:left;
@@ -2823,5 +2825,5 @@ ul.breadcrumb {
 }
 
 #breadcrumb li.cutme {
-  width: 35px;
+  width: 50px;
 }
