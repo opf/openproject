@@ -1337,6 +1337,12 @@ input:-moz-placeholder {
   height:15px;
   line-height:15px;
 }
+
+#breadcrumb {
+  height:38px;
+  overflow:hidden;
+}
+
 #breadcrumb h1 {
 	height:38px;
         line-height:38px;
@@ -2807,6 +2813,7 @@ div#history div.journal div.wiki {
 ul.breadcrumb {
   list-style-image: url(../images/breadcrumb-list.png);
   list-style-position: inside;
+  width:10000px;
 }
 #top-menu ul.breadcrumb li {
   float:left;
@@ -2819,4 +2826,8 @@ ul.breadcrumb {
 
 #breadcrumb a:hover {
   text-decoration: underline;
+}
+
+#breadcrumb li.cutme {
+  width: 50px;
 }
