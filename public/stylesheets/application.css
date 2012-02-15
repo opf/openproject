@@ -2803,3 +2803,20 @@ ul.action_menu_more {
 div#history div.journal div.wiki {
   overflow:visible;
 }
+
+ul.breadcrumb {
+  list-style-image: url(../images/breadcrumb-list.png);
+  list-style-position: inside;
+}
+#top-menu ul.breadcrumb li {
+  float:left;
+  padding-left: 6px;
+}
+#breadcrumb a {
+  font-weight: normal;
+  text-decoration: none;
+}
+
+#breadcrumb a:hover {
+  text-decoration: underline;
+}

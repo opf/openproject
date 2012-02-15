@@ -530,4 +530,13 @@ class ApplicationController < ActionController::Base
   def pick_layout(*args)
     api_request? ? nil : super
   end
+
+  def default_breadcrumb
+    name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize + "_plural")
+    if name =~ /translation missing/i
+      name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize)
+    end
+    name
+  end
+  helper_method :default_breadcrumb
 end

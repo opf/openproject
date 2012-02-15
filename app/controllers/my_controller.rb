@@ -184,4 +184,8 @@ class MyController < ApplicationController
     end
     render :nothing => true
   end
+
+  def default_breadcrumb
+    l(:label_my_account)
+  end
 end
