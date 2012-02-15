@@ -103,7 +103,7 @@
 </div>
 <% end %>
 
-<% if @journals.present? %>
+<% if @journals.size > 1 %>
 <div id="history">
 <h3><%=l(:label_history)%></h3>
 <%= render :partial => 'history', :locals => { :issue => @issue, :journals => @journals } %>
