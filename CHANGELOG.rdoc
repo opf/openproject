@@ -1,3 +1,11 @@
+= 2.0.0 - 2012-02-16
+
+Incompatible with older versions of ChiliProject
+
+== Major Change
+
+* Adds support for breadcrumb navigation within OpenProject
+
 = 1.2.7 - 2012-02-13
 
 == Minor Change
