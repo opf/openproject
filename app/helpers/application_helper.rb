@@ -242,11 +242,11 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    s = ''
-    flash.each do |k,v|
-      s << content_tag('div', content_tag('a',v, :href => 'javascript:;'), :class => "flash #{k}")
+    if User.current.impaired?
+      flash.map { |k,v| content_tag('div', content_tag('a', v, :href => 'javascript:;'), :class => "flash #{k}") }.join
+    else
+      flash.map { |k,v| content_tag('div', v, :class => "flash #{k}") }.join
     end
-    s
   end
 
   # Renders tabs and their content
