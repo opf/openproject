@@ -99,7 +99,6 @@ opts = GetoptLong.new(
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
                       ['--public-mode',        GetoptLong::REQUIRED_ARGUMENT],
                       ['--private-mode',       GetoptLong::REQUIRED_ARGUMENT],
-                      ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
                       ['--command' ,     '-c', GetoptLong::REQUIRED_ARGUMENT],
                       ['--scm',                GetoptLong::REQUIRED_ARGUMENT],
                       ['--test',         '-t', GetoptLong::NO_ARGUMENT],
@@ -238,6 +237,7 @@ def set_owner_and_rights(project, repos_path, &block)
   else
     uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : Etc.getgrnam($svn_group).gid)
     right = project.is_public ? $public_mode : $private_mode
+    right = right.to_i(8) & 007777
     yield if block_given?
     Find.find(repos_path) do |f|
       File.chmod right, f
