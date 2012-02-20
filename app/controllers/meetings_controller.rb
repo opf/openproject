@@ -1,15 +1,17 @@
 class MeetingsController < ApplicationController
   unloadable
-  
+
   before_filter :find_project, :only => [:index, :new, :create]
   before_filter :find_meeting, :except => [:index, :new, :create]
   before_filter :convert_params, :only => [:create, :update]
   before_filter :authorize
-  
+
   helper :journals
   helper :watchers
   helper :meeting_contents
   include WatchersHelper
+
+  menu_item :new_meeting, :only => [:new, :create]
 
   def index
     # Wo sollen Meetings ohne Termin hin?
@@ -38,7 +40,7 @@ class MeetingsController < ApplicationController
 
   def new
   end
-  
+
   def copy
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
@@ -64,21 +66,21 @@ class MeetingsController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   private
-  
+
   def find_project
     @project = Project.find(params[:project_id])
     @meeting = Meeting.new(:project => @project, :author => User.current)
   end
-  
+
   def find_meeting
     @meeting = Meeting.find(params[:id], :include => [:project, :author, {:participants => :user}, :agenda, :minutes])
     @project = @meeting.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def convert_params
     start_date, start_time_4i, start_time_5i = params[:meeting].delete(:start_date), params[:meeting].delete(:"start_time(4i)").to_i, params[:meeting].delete(:"start_time(5i)").to_i
     begin

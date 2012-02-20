@@ -1,9 +1,3 @@
-<div class="contextual">
-<%= link_to_if_authorized(l(:label_meeting_new),
-                          {:controller => 'meetings', :action => 'new', :project_id => @project},
-                          :class => 'icon icon-add') %>
-</div>
-
 <h2><%= l(:label_meeting_plural)%></h2>
 
 <% if @meetings_by_start_year_month_date.empty? -%>
