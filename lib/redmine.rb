@@ -228,7 +228,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
 end
 
 Redmine::Activity.map do |activity|
