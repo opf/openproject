@@ -242,7 +242,7 @@ div.square {
 .splitcontentright{float:right; width:49%;}
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
-fieldset {border: 1px solid #e4e4e4; margin:0; padding:4px;}
+fieldset {border: 1px solid #e4e4e4; margin:0}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 2.4em;}
 blockquote blockquote { margin-left: 0;}
