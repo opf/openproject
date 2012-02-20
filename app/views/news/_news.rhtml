@@ -5,7 +5,7 @@
   <div>
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
     <% unless news.summary.blank? %>
-      <p class="summary"><%=h news.summary %></p>
+      <div class="summary"><%=h news.summary %></div>
     <% end %>
   </div>
 </div>

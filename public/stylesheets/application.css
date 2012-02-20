@@ -2725,6 +2725,13 @@ div.mypage-box div.overview p.author {
 #content .additional-information {
   font-size: 11px;
 }
+div.issues.box > p, div.mypage-box p {
+  margin-top: 15px;
+}
+
+div.news.box > p {
+  margin-top: -15px;
+}
 div.news {
   margin-bottom: 30px;
 }
