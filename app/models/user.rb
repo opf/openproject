@@ -256,7 +256,7 @@ class User < Principal
   end
 
   def impaired
-    !!self.pref.impaired
+    anonymous? || !!self.pref.impaired
   end
 
   def impaired?
