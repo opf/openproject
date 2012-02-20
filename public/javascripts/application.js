@@ -687,7 +687,7 @@ jQuery(document).ready(function($) {
           }
           else {
             // Hide project navigation
-            var height = $('#menu-sidebar').height();
+            var height = $(document).height();
             $('#menu-sidebar').addClass('hidden');
             $('#main-menu #toggle-project-menu').addClass('show');
             $('#main-menu #toggle-project-menu.show').css({height:height});
