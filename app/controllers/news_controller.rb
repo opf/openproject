@@ -22,6 +22,8 @@ class NewsController < ApplicationController
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
 
+  menu_item :new_news, :only => [:new, :create]
+
 
   def index
     case params[:format]
