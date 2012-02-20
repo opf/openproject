@@ -2277,6 +2277,7 @@ div.issue div#relations {
         font-family:"Arial", Arial, sans-serif;
         font-style:normal;
 }
+
 #sidebar h3 {
         color:#333333;
 	font-weight:bold;
@@ -2285,8 +2286,14 @@ div.issue div#relations {
         font-style:normal;
         margin:0px;
         padding:0px;
+        margin-top:20px;
         margin-bottom:8px;
 }
+
+div#sidebar > h3:first-child {
+  margin-top: 0px;
+}
+
 #sidebar a, #sidebar a:link, #sidebar a:visited {
         color: #6a0406;
         font-weight:bold;
