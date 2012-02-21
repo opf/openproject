@@ -892,8 +892,8 @@ module ApplicationHelper
     back_url = params[:back_url]
     if back_url.present?
       back_url = back_url.to_s
-    else
-      back_url = url_for(params) if request.get?
+    elsif request.get? and !params.blank?
+      back_url = url_for(params)
     end
     hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
