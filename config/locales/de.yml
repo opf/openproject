@@ -787,6 +787,7 @@ de:
   label_incoming_emails: Eingehende E-Mails
   label_generate_key: Generieren
   label_issue_watchers: Beobachter
+  button_add_watcher: Beobatcher hinzufügen
   label_example: Beispiel
   label_display: Anzeige
   label_sort: Sortierung

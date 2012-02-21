@@ -209,8 +209,8 @@ div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left
 div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
-#watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
-#watchers select {width: 95%; display: block;}
+#watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float:left;}
+#watchers select {width: 200px; display: block;float:left;margin-right:10px;}
 #watchers a.delete {opacity: 0.4;}
 #watchers a.delete:hover {opacity: 1;}
 #watchers img.gravatar {vertical-align: middle;margin: 0 4px 2px 0;}
@@ -1812,6 +1812,7 @@ table.files {
 }
 #history {
 	margin:20px 0;
+  margin-bottom:0px;
 }
 #history h3 {
 	border-bottom:1px solid #ddd;
@@ -2691,6 +2692,7 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
   margin-top: -8px;
 }
 #lower-title-bar {
+  margin-top: 30px;
   margin-left: 10px;
 }
 #watchers .contextual {
@@ -2838,4 +2840,10 @@ ul.breadcrumb {
 
 #breadcrumb li.cutme {
   width: 50px;
+}
+div#watchers{
+  margin-top:25px;
+}
+div#watchers > form > p {
+  margin-top:5px;
 }
