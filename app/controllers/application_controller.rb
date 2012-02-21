@@ -323,7 +323,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_optional_error_file(status_code)
-    user_setup unless User.current.logged?
+    user_setup unless User.current.id == session[:user_id]
 
     case status_code
     when :not_found
