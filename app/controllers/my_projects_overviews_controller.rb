@@ -32,7 +32,8 @@ class MyProjectsOverviewsController < ApplicationController
     'members' => :label_member_plural,
     'issuetracking' => :label_issue_tracking,
     'projectdetails' => :label_project_details,
-    'projectdescription' => :label_project_description
+    'projectdescription' => :label_project_description,
+    'subprojects' => :label_subproject_plural
   }
 
   verify :xhr => true,
