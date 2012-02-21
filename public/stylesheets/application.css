@@ -2779,8 +2779,9 @@ ul.action_menu_more {
 }
 #lower-title-bar ul.action_menu_more {
   bottom: 0;
-  left: 0;
+  right: 0;
   margin-bottom: 25px;
+  top: auto;
 }
 #lower-title-bar ul.action_menu_main > li.drop-down {
   position: relative;
