@@ -61,7 +61,7 @@ html>body #content { min-height: 600px; }
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
-#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center;}
+#footer {clear: both; font-size: 0.9em; color: #aaa; padding: 5px; text-align:right;}
 
 #login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
 #login-form table td {padding: 6px;}
@@ -209,8 +209,8 @@ div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left
 div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
-#watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
-#watchers select {width: 95%; display: block;}
+#watchers li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float:left;}
+#watchers select {width: 200px; display: block;float:left;margin-right:10px;}
 #watchers a.delete {opacity: 0.4;}
 #watchers a.delete:hover {opacity: 1;}
 #watchers img.gravatar {vertical-align: middle;margin: 0 4px 2px 0;}
@@ -249,7 +249,6 @@ blockquote blockquote { margin-left: 0;}
 .news label.timestamp  { border-bottom: 1px dotted; cursor: help; }
 textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
-div.issue {padding:6px; margin-bottom:6px;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
@@ -1548,20 +1547,14 @@ h1.title {
 	margin:12px 24px 9px;
 }
 #content {
-	margin:0 15px 10px 185px;
+	margin:0 15px 10px 187px;
 	padding:10px;
         width: auto;
 }
 #content .title-bar {
 	position:relative;
 }
-h2#trackerid {
-        font-size:14px;
-        font-weight:normal;
-	padding:5px 100px 4px 12px;
-	color:#000;
-        margin-bottom: 0px;
-}
+
 .title-bar h2 span {
 	font-weight:bold;
 }
@@ -1750,18 +1743,15 @@ form#issue-list {
 	font-weight:bold;
 }
 div.issue {
-	padding:10px;
 }
 div.issue hr {
 	margin:10px -10px;
 	clear:both;
 }
 #content div.issue h3 {
-	font-size:18px;
-        font-weight: bold;
-        border:0px;
-        margin-top: -6px;
-        margin-bottom: 0px;
+  border:0px;
+  margin-top: -6px;
+  margin-bottom: 0px;
 }
 #content .meta table {
 	border:0 none;
@@ -1773,6 +1763,7 @@ div.issue hr {
   background: none;
 	border:0 none;
 	padding:0 3px;
+  padding-left: 0px;
 }
 #content .meta table th {
 	font-weight:bold;
@@ -1821,6 +1812,7 @@ table.files {
 }
 #history {
 	margin:20px 0;
+  margin-bottom:0px;
 }
 #history h3 {
 	border-bottom:1px solid #ddd;
@@ -2003,7 +1995,8 @@ ul.projects li div.root {
 	position:relative;
 	width:42px;
 	height:42px;
-        top: -3px;
+  top: 7px;
+  right: 14px;
 }
 .profile-box {
 	position:absolute;
@@ -2699,6 +2692,7 @@ fieldset#attachments input, fieldset#attachments span.add_another_file {
   margin-top: -8px;
 }
 #lower-title-bar {
+  margin-top: 30px;
   margin-left: 10px;
 }
 #watchers .contextual {
@@ -2846,4 +2840,10 @@ ul.breadcrumb {
 
 #breadcrumb li.cutme {
   width: 50px;
+}
+div#watchers{
+  margin-top:25px;
+}
+div#watchers > form > p {
+  margin-top:5px;
 }
