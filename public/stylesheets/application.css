@@ -1340,19 +1340,25 @@ input:-moz-placeholder {
 #breadcrumb {
   height:38px;
   overflow:hidden;
+  padding-left:20px;
+  background:url(../images/background_breadcrumb.png) repeat-x left top;
+}
+
+#breadcrumb.noproject > h1 {
+  margin-top: 12px;
 }
 
 #breadcrumb h1 {
-	height:38px;
-        line-height:38px;
-        background:url(../images/background_breadcrumb.png) repeat-x left top;
-        border-bottom: 1px #d9d9d9;
-        color:#333333;
-        padding-left:15px;
-        font-family:"Arial", Arial, sans-serif;
-        font-style:normal;
-        font-weight:normal;
-        font-size: 11px;
+	height:16px;
+  line-height:16px;
+  border-bottom: 1px #d9d9d9;
+  color:#333333;
+  font-family:"Arial", Arial, sans-serif;
+  font-style:normal;
+  font-weight:normal;
+  font-size: 11px;
+  margin-top:5px;
+  margin-bottom:-2px;
 }
 #breadcrumb a {
         text-decoration:underline;
@@ -2779,8 +2785,9 @@ ul.action_menu_more {
 }
 #lower-title-bar ul.action_menu_more {
   bottom: 0;
-  left: 0;
+  right: 0;
   margin-bottom: 25px;
+  top: auto;
 }
 #lower-title-bar ul.action_menu_main > li.drop-down {
   position: relative;
@@ -2825,6 +2832,9 @@ ul.breadcrumb {
   list-style-position: inside;
   width:10000px;
 }
+#top-menu ul.breadcrumb li.first-breadcrumb-element {
+  padding-left:0px;
+}
 #top-menu ul.breadcrumb li {
   float:left;
   padding-left: 6px;
@@ -2846,4 +2856,11 @@ div#watchers{
 }
 div#watchers > form > p {
   margin-top:5px;
+}
+h1#project-title {
+  font-size: 12px;
+  font-weight:bold;
+  height:13px;
+  margin-top:0px;
+  margin-bottom:0px;
 }
