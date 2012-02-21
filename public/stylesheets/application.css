@@ -249,7 +249,6 @@ blockquote blockquote { margin-left: 0;}
 .news label.timestamp  { border-bottom: 1px dotted; cursor: help; }
 textarea.wiki-edit { width: 99%; }
 li p {margin-top: 0;}
-div.issue {padding:6px; margin-bottom:6px;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
@@ -1548,20 +1547,14 @@ h1.title {
 	margin:12px 24px 9px;
 }
 #content {
-	margin:0 15px 10px 185px;
+	margin:0 15px 10px 187px;
 	padding:10px;
         width: auto;
 }
 #content .title-bar {
 	position:relative;
 }
-h2#trackerid {
-        font-size:14px;
-        font-weight:normal;
-	padding:5px 100px 4px 12px;
-	color:#000;
-        margin-bottom: 0px;
-}
+
 .title-bar h2 span {
 	font-weight:bold;
 }
@@ -1750,18 +1743,15 @@ form#issue-list {
 	font-weight:bold;
 }
 div.issue {
-	padding:10px;
 }
 div.issue hr {
 	margin:10px -10px;
 	clear:both;
 }
 #content div.issue h3 {
-	font-size:18px;
-        font-weight: bold;
-        border:0px;
-        margin-top: -6px;
-        margin-bottom: 0px;
+  border:0px;
+  margin-top: -6px;
+  margin-bottom: 0px;
 }
 #content .meta table {
 	border:0 none;
@@ -1773,6 +1763,7 @@ div.issue hr {
   background: none;
 	border:0 none;
 	padding:0 3px;
+  padding-left: 0px;
 }
 #content .meta table th {
 	font-weight:bold;
@@ -2003,7 +1994,8 @@ ul.projects li div.root {
 	position:relative;
 	width:42px;
 	height:42px;
-        top: -3px;
+  top: 7px;
+  right: 14px;
 }
 .profile-box {
 	position:absolute;
@@ -2770,16 +2762,18 @@ ul.action_menu_more > li {
   padding-top: 5px;
 }
 ul.action_menu_more {
-  padding: 5px;
-  padding-bottom:10px;
-  width: 177px;
   position: absolute;
+  top: 40px;
+  right: 25px;
+  z-index: 100;
+
+  padding: 10px;
+  padding-top: 5px;
+
   background: white;
   border: 1px solid #B7B7B7;
-  -webkit-box-shadow: 1px 1px 2px #aaa;
-  z-index:100;
-  right: 25px;
-  top: 40px;
+
+  box-shadow: 1px 1px 2px #aaa;
 }
 #lower-title-bar ul.action_menu_more {
   bottom: 0;

@@ -14,7 +14,7 @@
 <% end %>
 
 <% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => 'issues', :action => 'index'})] << @issue.ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => 'issues', :action => 'show', :id => parent}}) unless @issue.ancestors.empty? %>
-<%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s, :id => "trackerid") %>
+<%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %>
 
 <div class="<%= @issue.css_classes %> details">
   <div class="profile-wrap">
