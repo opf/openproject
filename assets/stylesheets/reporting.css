@@ -309,8 +309,6 @@ fieldset#filter-settings table td > label {
   top: 7px;
   right: 21px;
   cursor: pointer;
-  background: no-repeat left center;
-  background-image: url(../images/remove.gif);
 }
 
 .group_by_remove.hover {
