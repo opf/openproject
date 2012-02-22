@@ -6,8 +6,8 @@ class Widget::GroupBys < Widget::Base
       l(group_by.label)
     end.collect do |group_by|
       next unless group_by.selectable?
-      content_tag :option, :value => group_by.underscore_name, :'data-label' => "#{l(group_by.label)}" do
-        l(group_by.label)
+      content_tag :option, :value => group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(l(group_by.label)))}" do
+        h(l(group_by.label))
       end
     end.join.html_safe
   end
@@ -26,7 +26,7 @@ class Widget::GroupBys < Widget::Base
 
   def render_group(type, initially_selected, show_help = false)
     initially_selected = initially_selected.map do |group_by|
-      [group_by.class.underscore_name, l(group_by.class.label)]
+      [group_by.class.underscore_name, h(l(group_by.class.label))]
     end
     content_tag :div,
         :id => "group_by_#{type}",
@@ -40,7 +40,7 @@ class Widget::GroupBys < Widget::Base
         content += engine::GroupBy.all_grouped.sort_by do |label, group_by_ary|
           l(label)
         end.collect do |label, group_by_ary|
-          content_tag :optgroup, :label => l(label) do
+          content_tag :optgroup, :label => h(l(label)) do
             render_options group_by_ary
           end
         end.join.html_safe
