@@ -106,11 +106,7 @@
   </div>
 
   <% main_menu = render_main_menu(@project) %>
-  <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
-  <% display_sidebar = true %>
-  <% else %>
-  <% display_sidebar = false %>
-  <% end %>
+  <% side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank? %>
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
     <% if (side_displayed) %>
       <div id="main-menu">
@@ -121,13 +117,11 @@
         <div id="menu-sidebar">
           <%= main_menu %>
           <%= yield :main_menu %>
-          <% if display_sidebar %>
-            <!-- Sidebar -->
-            <div id="sidebar">
-              <%= yield :sidebar %>
-              <%= call_hook :view_layouts_base_sidebar %>
-            </div>
-          <% end %>
+          <!-- Sidebar -->
+          <div id="sidebar">
+            <%= yield :sidebar %>
+            <%= call_hook :view_layouts_base_sidebar %>
+          </div>
         </div>
       </div>
 
