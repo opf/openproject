@@ -546,27 +546,38 @@ jQuery(document).ready(function($) {
 		return this;
 	};
 
-        $.fn.onClickDropDown = function(){
-          var that = this;
-          $('html').click(function() {
-            that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
-            that.removeClass("hover");
-          });
+  $.fn.onClickDropDown = function(){
+    var that = this;
+    $('html').click(function() {
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.removeClass("hover");
+    });
 
-          // Do not close the login window when using it
-          that.find("li li").click(function(event){
-             event.stopPropagation();
-          });
+    // Do not close the login window when using it
+    that.find("li li").click(function(event){
+       event.stopPropagation();
+    });
 
-          this.find(" > li.drop-down").click(function() {
-            if (that.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-              that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
-            }
-            $(this).slideAndFocus();
-            $(that).toggleClass("hover");
-            return false;
-          });
-        };
+    this.find(" > li.drop-down").click(function() {
+      // if an h2 tag follows the submenu should unfold out at the border
+      if (that.next().get(0) != undefined && that.next().get(0).tagName == 'H2'){
+        var menu_start_position = that.next().innerHeight() + that.next().position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+
+      $(this).toggleSubmenu(that);
+      return false;
+    });
+  };
+
+  $.fn.toggleSubmenu = function(menu){
+    if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+    }
+
+    $(this).slideAndFocus();
+    menu.toggleClass("hover");
+  }
 
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
