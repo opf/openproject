@@ -560,8 +560,13 @@ jQuery(document).ready(function($) {
 
     this.find(" > li.drop-down").click(function() {
       // if an h2 tag follows the submenu should unfold out at the border
-      if (that.next().get(0) != undefined && that.next().get(0).tagName == 'H2'){
-        var menu_start_position = that.next().innerHeight() + that.next().position().top;
+      var menu_start_position;
+      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
+        menu_start_position = that.next().innerHeight() + that.next().position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0).tagName == 'H1'){
+        menu_start_position = that.next().children().next().first().innerHeight() + that.next().children().next().first().position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
 
