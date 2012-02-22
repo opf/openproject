@@ -1342,6 +1342,7 @@ input:-moz-placeholder {
   overflow:hidden;
   padding-left:20px;
   background:url(../images/background_breadcrumb.png) repeat-x left top;
+  min-width:1000px;
 }
 
 #breadcrumb.noproject > h1 {
