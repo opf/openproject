@@ -36,6 +36,7 @@ en:
   label_public_report_plural: "Public cost reports"
   label_private_report_plural: "Private cost reports"
   label_filter: "Filter"
+  label_filter_value: "Value"
   label_days_ago: "during the last days"
   button_save_as: "Save Report As..."
 
@@ -53,3 +54,4 @@ en:
   label_filter_text: "Filter text"
   description_multi_select: "Show multiselect"
   description_remove_filter: "Remove Filter"
+  toggle_multiselect: "activate/deactivate multiselect"
