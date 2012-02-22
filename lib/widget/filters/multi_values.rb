@@ -33,7 +33,9 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
         end
         plus = content_tag :a, :href => 'javascript:', :class => "filter_multi-select", :"data-filter-name" => filter_class.underscore_name,
           :title => l(:description_multi_select) do
-          image_tag 'bullet_toggle_plus.png', :style => "vertical-align: bottom;"
+          image_tag 'bullet_toggle_plus.png',
+                    :alt => l(:toggle_multiselect),
+                    :style => "vertical-align: bottom;"
         end
         label + box + plus
       end
