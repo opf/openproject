@@ -17,7 +17,10 @@ class Widget::Filters::Operators < Widget::Filters::Base
           content_tag(:option, opts) { h(l(o.label)) }
         end.join.html_safe
       end
-      label1 = content_tag :label, l(:label_operator), :for => "operators[#{filter_class.underscore_name}]", :class => 'hidden-for-sighted'
+      label1 = content_tag :label,
+                           h(l(filter_class.label)) + " " + l(:label_operator),
+                           :for => "operators[#{filter_class.underscore_name}]",
+                           :class => 'hidden-for-sighted'
       label = content_tag :label do
         if filter_class.available_operators.any?
           l(filter_class.available_operators.first.label)
