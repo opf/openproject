@@ -14,9 +14,7 @@ class Widget::GroupBys < Widget::Base
 
   def render_group_caption(type)
     content_tag :span do
-      out = content_tag :span, :class => 'in_row group_by_caption' do
-        content_tag(:h3, l("label_#{type}".to_sym), :class => 'reporting_formatting group_by_caption') # :label_rows, :label_columns
-      end
+      out = content_tag :span, l("label_#{type}".to_sym), :class => 'in_row group_by_caption'
       out += content_tag :span, :class => 'arrow in_row arrow_group_by_caption' do
         '' #cannot use tag here as it would generate <span ... /> which leads to wrong interpretation in most browsers
       end
@@ -28,15 +26,23 @@ class Widget::GroupBys < Widget::Base
     initially_selected = initially_selected.map do |group_by|
       [group_by.class.underscore_name, h(l(group_by.class.label))]
     end
-    content_tag :div,
-        :id => "group_by_#{type}",
-        :class => 'drag_target drag_container',
-        :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
-      out = render_group_caption type
+
+    content_tag :fieldset,
+                :id => "group_by_#{type}",
+                :class => 'drag_target drag_container',
+                :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
+
+      out = content_tag :legend, l(:"label_#{type}"), :class => "hidden-for-sighted"
+
+      out += render_group_caption type
+
+      out += label_tag  "add_group_by_#{type}",
+                        l(:"label_group_by_add"),
+                        :class => 'hidden-for-sighted'
+
       out += content_tag :select, :id => "add_group_by_#{type}", :class => 'select-small' do
-        content = content_tag :option, :value => '' do
-          "-- #{l(:label_group_by_add)} --"
-        end
+        content = content_tag :option, "-- #{l(:label_group_by_add)} --", :value => ''
+
         content += engine::GroupBy.all_grouped.sort_by do |label, group_by_ary|
           l(label)
         end.collect do |label, group_by_ary|
@@ -44,13 +50,16 @@ class Widget::GroupBys < Widget::Base
             render_options group_by_ary
           end
         end.join.html_safe
+
         content
       end
+
       if show_help
         out += maybe_with_help :icon => { :class => 'group-by-icon' },
                                :tooltip => { :class => 'group-by-tip' },
                                :instant_write => false
       end
+
       out
     end
   end
