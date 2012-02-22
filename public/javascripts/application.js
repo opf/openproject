@@ -565,7 +565,7 @@ jQuery(document).ready(function($) {
         menu_start_position = that.next().innerHeight() + that.next().position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
-      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0).tagName == 'H1'){
+      else if(that.next().hasClass("wiki-content") && that.next().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
         menu_start_position = that.next().children().next().first().innerHeight() + that.next().children().next().first().position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
