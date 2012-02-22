@@ -566,7 +566,8 @@ jQuery(document).ready(function($) {
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
       else if(that.next().hasClass("wiki-content") && that.next().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
-        menu_start_position = that.next().children().next().first().innerHeight() + that.next().children().next().first().position().top;
+        var wiki_heading = that.next().children().next().first();
+        menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
         that.find("ul.action_menu_more").css({ top: menu_start_position });
       }
 
