@@ -256,7 +256,6 @@ p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 div.issue div.subject div div { padding-left: 16px; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
 div.issue div.subject>div>p { margin-top: 0.5em; }
-div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 
 #issue_tree { border: 0; }
 #issue_tree table.issues { border: 0; }
@@ -1342,6 +1341,7 @@ input:-moz-placeholder {
   overflow:hidden;
   padding-left:20px;
   background:url(../images/background_breadcrumb.png) repeat-x left top;
+  min-width:1000px;
 }
 
 #breadcrumb.noproject > h1 {
@@ -1754,7 +1754,7 @@ div.issue hr {
 	margin:10px -10px;
 	clear:both;
 }
-#content div.issue h3 {
+#content div.issue h3, div.issue h3 {
   border:0px;
   margin-top: -6px;
   margin-bottom: 0px;
@@ -1822,7 +1822,6 @@ table.files {
 }
 #history h3 {
 	border-bottom:1px solid #ddd;
-	padding-left:10px;
 	margin-bottom:20px;
 }
 #history .journal {
@@ -2385,7 +2384,7 @@ div.issue hr {
 .wiki ol, .wiki ul {
 	margin-bottom:6px;
 }
-#content h3 {
+#content h3, #history h3 {
 	margin:12px 0 6px;
 }
 #content h2 + h3 {
