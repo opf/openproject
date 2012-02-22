@@ -100,7 +100,7 @@ ContextMenu.prototype = {
     var mouse_x = Event.pointerX(e);
     var mouse_y = Event.pointerY(e);
     var render_x = mouse_x;
-    var render_y = mouse_y;
+    var render_y = mouse_y - $('top-menu').getHeight();
     var dims;
     var menu_width;
     var menu_height;
@@ -122,9 +122,9 @@ ContextMenu.prototype = {
 				 dims = $('context-menu').getDimensions();
 				 menu_width = dims.width;
 				 menu_height = dims.height;
-				 max_width = mouse_x + 2*menu_width;
-				 max_height = mouse_y + menu_height;
-			
+				 max_width = render_x + 2*menu_width;
+				 max_height = render_y + menu_height;
+
 				 var ws = window_size();
 				 window_width = ws.width;
 				 window_height = ws.height;
