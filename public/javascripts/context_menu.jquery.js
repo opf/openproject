@@ -209,3 +209,10 @@
         lastSelected = null;
     };
 })(jQuery);
+
+/**
+ * Wrapper function to support the old way of creating aa context menu.
+ */
+function ContextMenu() {
+    jQuery(document).ContextMenu(arguments);
+}
