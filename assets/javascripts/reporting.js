@@ -1,5 +1,5 @@
 /*jslint white: false, nomen: true, devel: true, on: true, debug: false, evil: true, onevar: false, browser: true, white: false, indent: 2 */
-/*global window, $, $$, Reporting */
+/*global window, $, $$, Reporting, Element */
 
 window.Reporting = {
   source: ($$("head")[0].select("script[src*='reporting.js']")[0].src),
@@ -26,15 +26,20 @@ window.Reporting = {
     if (type === undefined) {
       type = "error";
     }
+
     if ($("flash_" + type) !== null) {
       $("flash_" + type).remove();
     }
-    var flash = document.createElement('div');
-    flash.setAttribute('id', 'flash_' + type);
-    flash.setAttribute('onclick', '$(this).remove();');
-    flash.className = 'flash ' + type;
-    flash.innerHTML = string;
-    $("content").insert({before: flash});
+
+    var flash = new Element('div', {
+      'id': 'flash_' + type,
+      'class': 'flash ' + type
+    }).update(new Element('a', {
+      'href': '#'
+    }).update(string));
+
+    $("content").insert({top: flash});
+    $$("#flash_" + type + " a")[0].focus();
   },
 
   clearFlash: function () {
