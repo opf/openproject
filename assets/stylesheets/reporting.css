@@ -130,6 +130,9 @@
   width: 916px;
 }
 
+#query_form fieldset.header_collapsible.collapsible {
+  padding-bottom: 10px;
+}
 
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
