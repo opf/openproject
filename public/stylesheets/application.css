@@ -2821,6 +2821,18 @@ ul.action_menu_more {
   width:15px;
   height:100%;
 }
+.navigate-left {
+  background: url(../images/arrow_left_darkred.png) 0 0px no-repeat;
+  width:100%;
+  height:15px;
+  padding-left: 18px;
+}
+.navigate-right {
+  background: url(../images/arrow_right_darkred.png) right 0px no-repeat;
+  width:100%;
+  height:15px;
+  padding-right: 18px;
+}
 #menu-sidebar.hidden {
   display:none;
 }
