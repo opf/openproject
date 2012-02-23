@@ -6,7 +6,7 @@ class Widget::Settings < Widget::Base
       content_tag :div, :id => "query_form_content" do
 
         fieldsets = render_widget Widget::Settings::Fieldset, @subject,
-            { :type => "filter", :help_text => self.filter_help } do
+            { :type => "filters", :help_text => self.filter_help } do
           render_widget Widget::Filters, @subject
         end
 
