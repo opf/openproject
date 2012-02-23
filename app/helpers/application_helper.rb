@@ -109,11 +109,10 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : nil
-    s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
+    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
+    s = link_to closed + "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
-    s << closed unless closed.nil?
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
