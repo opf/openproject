@@ -1,6 +1,7 @@
 class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
   label :field_cost_type
   extra_options :display
+  selectable false
 
   def initialize(child = nil, options = {})
     super
@@ -13,15 +14,6 @@ class CostQuery::Filter::CostTypeId < CostQuery::Filter::Base
   def display?
     return super if @display.nil?
     @display
-  end
-
-  ##
-  # @Override
-  # Do not serialize the dont_display filter, we assume that filters
-  # added through navigation rather than the filter UI are not
-  # explicitly part of the query
-  def serialize
-    super if display?
   end
 
   def self.available_values(*)

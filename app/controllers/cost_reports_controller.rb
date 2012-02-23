@@ -136,9 +136,15 @@ class CostReportsController < ApplicationController
   # Determine the currently active unit from the parameters or session
   #   sets the @unit_id -> this is used in the index for determining the active unit tab
   def set_unit
-    @unit_id = params[:unit].try(:to_i) || session[:unit_id].to_i
+    @unit_id = if set_unit?
+      params[:unit].to_i
+    elsif @query.present?
+      cost_type_filter =  @query.filters.detect{ |f| f.is_a?(CostQuery::Filter::CostTypeId) }
+
+      cost_type_filter.values.first.to_i if cost_type_filter
+    end
+
     @unit_id = 0 unless @cost_types.include? @unit_id
-    session[:unit_id] = @unit_id
   end
 
   # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
