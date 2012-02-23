@@ -165,16 +165,16 @@ module ApplicationHelper
   #
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
     if show_icon && User.current.member_of?(project)
-      icon = image_tag('fav.png', :title => l(:description_my_project))
+      icon = image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
     else
       icon = ""
     end
 
     if project.active?
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to(h(project) + icon, url, html_options)
+      icon + link_to(h(project), url, html_options)
     else
-      h(project) + icon
+      icon + h(project)
     end
   end
 
