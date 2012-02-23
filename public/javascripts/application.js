@@ -461,9 +461,13 @@ function addClickEventToAllErrorMessages() {
 }
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
-  var focus = $$('a.afocus').first();
-  if (focus != undefined) {
-    focus.focus();
+  var error_focus = $$('a.afocus').first();
+  var input_focus = $$('.autofocus').first();
+  if (error_focus != undefined) {
+    error_focus.focus();
+  }
+  else if (input_focus != undefined){
+    input_focus.focus();
   }
   // Focus on field with error
   addClickEventToAllErrorMessages();
