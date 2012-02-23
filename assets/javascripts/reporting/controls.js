@@ -129,7 +129,7 @@ Reporting.Controls = {
       Reporting.flash(response.responseText);
       Reporting.Progress.abort();
     } else {
-      Reporting.flash("There was an error getting the results. The administrator has been informed.");
+      Reporting.flash(Reporting._LA["RESPONSE_ERROR"]);
       Reporting.Progress.abort();
     }
   },
