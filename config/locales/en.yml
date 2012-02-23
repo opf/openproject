@@ -35,7 +35,7 @@ en:
   label_new_report: "New Cost Report"
   label_public_report_plural: "Public cost reports"
   label_private_report_plural: "Private cost reports"
-  label_filter: "Filter"
+  label_filters: "Filter"
   label_filter_value: "Value"
   label_days_ago: "during the last days"
   button_save_as: "Save Report As..."

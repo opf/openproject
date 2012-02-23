@@ -35,7 +35,7 @@ de:
   label_new_report: "Neue Kostenauswertung"
   label_public_report_plural: "Gemeinsame Kostenauswertungen"
   label_private_report_plural: "Persönliche Kostenauswertungen"
-  label_filter: "Filter"
+  label_filters: "Filter"
   label_filter_value: "Wert"
   label_days_ago: "in den letzten Tagen"
   button_save_as: "Speichern unter ..."
