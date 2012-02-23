@@ -31,6 +31,7 @@ en:
   cost_reports_title: "Cost Reports"
 
   units: "Units"
+  label_units: "Units"
 
   label_new_report: "New Cost Report"
   label_public_report_plural: "Public cost reports"

@@ -31,6 +31,7 @@ de:
   cost_reports_title: "Kostenauswertungen"
 
   units: "Einheiten"
+  label_units: "Einheiten"
 
   label_new_report: "Neue Kostenauswertung"
   label_public_report_plural: "Gemeinsame Kostenauswertungen"

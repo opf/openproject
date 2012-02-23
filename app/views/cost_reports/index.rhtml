@@ -17,36 +17,7 @@
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
 </h2>
 
-<%= render_widget Widget::Settings, @query %>
-
-<!-- FIXME: Extract into widget + javascript -->
-<div class='cost_types'>
-  <b><%= l(:label_report) %>:</b>
-  <%= delimit(
-    available_cost_type_tabs(@cost_types).map do |id, label|
-      link_to(label, {}, :href => "#",
-                :id => "cost-type-#{h(label)}",
-                :style => (@unit_id == id ? "color: black; font-weight: bold;" : ""),
-                :"data-target" => url_for(:action => 'index', :set_filter => '1', :unit => id))
-    end)
-  %>
-</div>
-<%=
-   javascript_tag(available_cost_type_tabs(@cost_types).map do |id, label|
-                    "Reporting.Controls.attach_settings_callback(
-                     $('cost-type-#{h(label)}'),
-                     function (response) {
-                       $$(\"[id^='cost-type-']\").each(function (lnk) {
-                         lnk.style.color = \"\";
-                         lnk.style.fontWeight = \"\";
-                       });
-                       $('cost-type-#{h(label)}').style.color = \"black\";
-                       $('cost-type-#{h(label)}').style.fontWeight = \"bold\";
-                       Reporting.Controls.update_result_table(response);
-                     });\n"
-                  end)
-%>
-<!-- END FIXME -->
+<%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
 
 <div id="result-table">
   <!-- FIXME. Progress doesn't work with Prototype < 1.7 -->
