@@ -1703,6 +1703,7 @@ form#issue-list {
 .title-bar .title-bar-actions .contextual a.icon {
 	color:#000000;
   margin-right: 0px;
+	float: none;
 }
 .title-bar .update {
 	right:0;
