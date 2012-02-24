@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/darcs_adapter'
+require_dependency 'redmine/scm/adapters/darcs_adapter'
 
 class Repository::Darcs < Repository
   validates_presence_of :url, :log_encoding

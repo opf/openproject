@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/subversion_adapter'
+require_dependency 'redmine/scm/adapters/subversion_adapter'
 
 class Repository::Subversion < Repository
   attr_protected :root_url
