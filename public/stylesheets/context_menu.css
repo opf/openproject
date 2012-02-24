@@ -39,7 +39,6 @@
 }
 #context-menu li>a { width:auto; } /* others */
 #context-menu a.disabled, #context-menu a.disabled:hover {color: #ccc;}
-#context-menu li a.submenu { background:url("../images/bullet_arrow_right.png") right no-repeat; }
 #context-menu li:hover { border:1px solid gray; background-color:#eee; }
 #context-menu a:hover {color:#2A5685;}
 #context-menu li.folder:hover { z-index:40; }		
@@ -49,3 +48,15 @@
 /* selected element */
 .context-menu-selection { background-color:#507AAA !important; color:#000 !important; }
 .context-menu-selection:hover { background-color:#507AAA !important; color:#000  !important; }
+
+#context-menu .submenu {
+  border: transparent solid 5px;
+  border-left-color: #6A0406;
+  position: absolute;
+  top: 5px;
+  right: 3px;
+}
+
+#context-menu .folder:hover .submenu {
+  border-left-color: #2A5685;
+}
