@@ -2877,3 +2877,7 @@ h1#project-title {
   margin-top:0px;
   margin-bottom:0px;
 }
+a > img.imgtag-icon {
+  float: left;
+  margin-right: 3px;
+}
