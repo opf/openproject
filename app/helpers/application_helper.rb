@@ -851,7 +851,7 @@ module ApplicationHelper
   def back_url_hidden_field_tag
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)
-    hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
+    hidden_field_tag('back_url', CGI.escape(back_url), :id => nil) unless back_url.blank?
   end
 
   def check_all_links(form_name)
