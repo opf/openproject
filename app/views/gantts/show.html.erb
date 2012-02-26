@@ -72,7 +72,7 @@ t_height = g_height + headers_height
 	<p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
 <% end %>
 
-<table width="100%" style="border:0; border-collapse: collapse;">
+<table style="width:100%; border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">
 
@@ -176,7 +176,7 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </tr>
 </table>
 
-<table width="100%">
+<table style="width:100%">
 <tr>
 <td align="left"><%= link_to_content_update('&#171; ' + l(:label_previous), params.merge(@gantt.params_previous)) %></td>
 <td align="right"><%= link_to_content_update(l(:label_next) + ' &#187;', params.merge(@gantt.params_next)) %></td>
