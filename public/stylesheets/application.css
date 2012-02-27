@@ -1339,7 +1339,6 @@ input:-moz-placeholder {
 #breadcrumb {
   height:38px;
   overflow:hidden;
-  padding-left:20px;
   background:url(../images/background_breadcrumb.png) repeat-x left top;
   min-width:1000px;
 }
@@ -1359,6 +1358,7 @@ input:-moz-placeholder {
   font-size: 11px;
   margin-top:3px;
   margin-bottom:0px;
+  margin-left:20px;
 }
 #breadcrumb a {
         text-decoration:underline;
