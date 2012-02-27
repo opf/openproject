@@ -21,6 +21,9 @@
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
 <%= javascript_include_tag 'chosen.js'%>
 <%= stylesheet_link_tag 'chosen'%>
+<% if User.current.impaired? %>
+  <%= stylesheet_link_tag 'accessibility' %>
+<% end %>
 <%= javascript_tag('jQuery.noConflict();') %>
 <%= javascript_heads %>
 <%= stylesheet_link_tag 'jstoolbar' %>

@@ -13,9 +13,10 @@
 #++
 
 module ProjectsHelper
-  def link_to_version(version, options = {})
+  def link_to_version(version, html_options = {}, options={})
     return '' unless version && version.is_a?(Version)
-    link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
+    options
+    link_to_if version.visible?, options[:before_text].to_s + format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, html_options
   end
 
   def project_settings_tabs

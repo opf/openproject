@@ -109,11 +109,10 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : nil
-    s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
+    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
+    s = link_to closed + options[:before_text].to_s + "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
-    s << closed unless closed.nil?
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
@@ -165,16 +164,16 @@ module ApplicationHelper
   #
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
     if show_icon && User.current.member_of?(project)
-      icon = image_tag('fav.png', :title => l(:description_my_project))
+      icon = image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
     else
       icon = ""
     end
 
     if project.active?
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to(h(project) + icon, url, html_options)
+      icon + link_to(h(project), url, html_options)
     else
-      h(project) + icon
+      icon + h(project)
     end
   end
 
