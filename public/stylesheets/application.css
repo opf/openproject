@@ -1488,24 +1488,29 @@ div#optional_login_fields {
 	position:absolute;
 	right:0px;
 	top:0px;
-	background:url(../images/projectnavi_arrow_down.png) no-repeat 22px 7px;
 	width:40px;
 	height:25px;
 }
+#main-menu .toggler {
+  /* Arrow down */
+  background-image: url(../images/double_arrows_grey_white_sprite.png);
+  background-position: 10px -1px;
+}
+
 #main-menu ul.menu_root li .open .toggler {
-  background-image:url(../images/projectnavi_arrow_up.png);
+  /* Arrow up */
+  background-image: url(../images/double_arrows_grey_white_sprite.png);
+  background-position: 10px -26px;
 }
-#main-menu ul.menu_root li .open:hover .toggler {
-  background-image:url(../images/projectnavi_arrow_up_white.png);
+#main-menu ul.menu_root li .selected.open .toggler, #main-menu ul.menu_root li .open:hover .toggler {
+  /* Arrow up white */
+  background-image: url(../images/double_arrows_grey_white_sprite.png);
+  background-position: 10px -159px;
 }
-#main-menu ul.menu_root li .selected .toggler {
-  background-image:url(../images/projectnavi_arrow_down_white.png);
-}
-#main-menu ul.menu_root li .selected.open .toggler {
-  background-image:url(../images/projectnavi_arrow_up_white.png);
-}
-#main-menu ul.menu_root li a:hover .toggler {
-  background-image:url(../images/projectnavi_arrow_down_white.png);
+#main-menu ul.menu_root li a:hover .toggler, #main-menu ul.menu_root li .selected .toggler {
+  /* Arrow down white */
+  background-image: url(../images/double_arrows_grey_white_sprite.png);
+  background-position: 10px -120px;
 }
 
 #main-menu ul.menu_root li li .toggler {
@@ -2810,14 +2815,32 @@ ul.action_menu_more {
 #main-menu #toggle-project-menu a.navigation-toggler {
   position:relative;
   float:right;
-  background: url(../images/projectnavi_arrow_left.png) 160px 5px no-repeat;
   width:100%;
   height:15px;
+
+  /* Arrow left */
+  background-image:url(../images/double_arrows_grey_white_sprite.png);
+  background-position:148px -91px;
+  background-repeat:no-repeat;
 }
 #main-menu #toggle-project-menu.show a.navigation-toggler {
-  background: url(../images/projectnavi_arrow_right.png) 4px 5px no-repeat;
   width:15px;
   height:100%;
+
+  /* Arrow right */
+  background-image:url(../images/double_arrows_grey_white_sprite.png);
+  background-position:-8px -200px;
+  background-repeat:no-repeat;
+}
+#main-menu #toggle-project-menu a.navigation-toggler:hover {
+  /* Arrow left white */
+  background-position:148px -58px;
+  background-repeat:no-repeat;
+}
+#main-menu #toggle-project-menu.show a.navigation-toggler:hover {
+  /* Arrow right white */
+  background-position:-39px -200px;
+  background-repeat:no-repeat;
 }
 #menu-sidebar.hidden {
   display:none;
