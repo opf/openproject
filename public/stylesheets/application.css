@@ -2904,13 +2904,21 @@ ul.breadcrumb {
 #breadcrumb li.cutme {
   width: 50px;
 }
+
 div#watchers{
   margin-top:25px;
 }
+
 div#watchers > form > p {
   margin-top:5px;
 }
+
 a > img.imgtag-icon {
   float: left;
   margin-right: 3px;
+}
+
+#breadcrumb a.breadcrumb-project-title {
+  font-weight: bold;
+  font-size: 13px;
 }

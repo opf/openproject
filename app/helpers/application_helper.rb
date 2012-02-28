@@ -454,7 +454,13 @@ module ApplicationHelper
     if @project
       ancestors = (project.root? ? [] : project.ancestors.visible)
       ancestors << project
-      ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, {:title => p})}
+      ancestors.collect do |p|
+        if p == project
+          link_to_project(p, {:jump => current_menu_item}, {:title => p, :class => 'breadcrumb-project-title'})
+        else
+          link_to_project(p, {:jump => current_menu_item}, {:title => p})
+        end
+      end
     end
   end
 
