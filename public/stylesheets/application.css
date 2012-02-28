@@ -1246,7 +1246,15 @@ li a.home {
   text-indent:-999em;
   width:20px;
   height:43px;
-  background:url(../images/icon_home.png) no-repeat 50% 50%;
+
+  /* Home Black */
+  background-image:url(../images/home_black_white_sprite.png);
+  background-position:center -3px;
+  background-repeat:no-repeat;
+}
+
+li a.home:hover {
+  background-position:center -35px;
 }
 
 li a.help {
