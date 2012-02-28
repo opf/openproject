@@ -1366,10 +1366,6 @@ input:-moz-placeholder {
   min-width:1000px;
 }
 
-#breadcrumb.noproject > h1 {
-  margin-top: 12px;
-}
-
 #breadcrumb h1 {
 	height:16px;
   line-height:16px;
@@ -1379,7 +1375,7 @@ input:-moz-placeholder {
   font-style:normal;
   font-weight:normal;
   font-size: 11px;
-  margin-top:3px;
+  margin-top: 12px;
   margin-bottom:0px;
   margin-left:20px;
 }
@@ -2913,13 +2909,6 @@ div#watchers{
 }
 div#watchers > form > p {
   margin-top:5px;
-}
-h1#project-title {
-  font-size: 12px;
-  font-weight:bold;
-  height:13px;
-  margin-top:0px;
-  margin-bottom:0px;
 }
 a > img.imgtag-icon {
   float: left;

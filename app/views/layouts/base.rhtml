@@ -97,14 +97,13 @@
     </div>
     </div>
 
-    <div id="breadcrumb" class="<%= @project.nil? ? 'noproject' : ' ' %>">
+    <div id="breadcrumb">
       <h1>
         <span class = 'hidden-for-sighted'><%=l(:description_current_position)%></span>
         <%= breadcrumb_list(link_to('Home', home_path),
                        link_to_project_ancestors(@project),
                        *breadcrumb_paths) %>
       </h1>
-      <h1 id="project-title"><%= @project %></h1>
     </div>
   </div>
 
