@@ -19,6 +19,7 @@
 <%= javascript_include_tag 'jquery.min.js' %>
 <%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
+<%= javascript_include_tag 'breadcrumb.js' %>
 <%= javascript_include_tag 'chosen.js'%>
 <%= stylesheet_link_tag 'chosen'%>
 <% if User.current.impaired? %>
@@ -105,6 +106,7 @@
                        *breadcrumb_paths) %>
       </h1>
     </div>
+    <%= javascript_tag('jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize()') %>
   </div>
 
   <% main_menu = render_main_menu(@project) %>

@@ -643,6 +643,20 @@ jQuery(document).ready(function($) {
 	// rejigger the main-menu sub-menu functionality.
 	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
+$(window).resize(function() {
+    // wait 200 milliseconds for no further resize event
+    // then readjust breadcrumb
+
+    if(this.resizeTO) clearTimeout(this.resizeTO);
+    this.resizeTO = setTimeout(function() {
+        $(this).trigger('resizeEnd');
+    }, 200);
+});
+
+$(window).bind('resizeEnd', function() {
+    jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
+});
+
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		// 1. unbind the current click functions
 		.unbind("click")
