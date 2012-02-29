@@ -43,7 +43,7 @@ module ChiliProject
         git_dir = Rails.root.join('.git')
 
         if File.directory? git_dir
-          git.send(:shellout, "#{git.sq_bin} --git-dir='#{git_dir}' rev-parse --short=9 HEAD") { |io| io.read }.to_s.chomp
+          git.send(:shellout, "#{git.sq_bin} --git-dir=\"#{git_dir}\" rev-parse --short=9 HEAD") { |io| io.read }.to_s.chomp
         end
       end
     end
