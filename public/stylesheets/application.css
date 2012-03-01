@@ -2790,7 +2790,6 @@ ul.action_menu_main {
 }
 ul.action_menu_main > li {
   float:left;
-  padding-right:10px;
 }
 ul.action_menu_more > li {
   padding-top: 5px;
@@ -2907,4 +2906,16 @@ h1#project-title {
   height:13px;
   margin-top:0px;
   margin-bottom:0px;
+}
+
+th.checkbox img {
+  margin-left: 3px;
+  margin-top: 3px;
+}
+
+p.buttons {
+  margin-left: 10px;
+}
+div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li {
+  padding-right:10px;
 }
