@@ -348,7 +348,10 @@ dt.time-entry { background-image: url(../images/time.png); }
 .search-pagination { text-align: center; }
 .search-pagination a {padding: 0 5px; }
 
-div#roadmap .related-issues { margin-bottom: 1em; }
+div#roadmap .related-issues {
+  border: 0;
+  margin-bottom: 1em;
+}
 div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
@@ -2916,4 +2919,8 @@ p.buttons {
 }
 div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li {
   padding-right:10px;
+}
+strong.related-issues-heading {
+  display:block;
+  margin-top: 10px;
 }
