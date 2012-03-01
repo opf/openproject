@@ -57,7 +57,7 @@ platforms :mri, :mingw do
   end
 
   group :postgres do
-    gem "pg", "~> 0.9.0"
+    gem "pg"
     #   gem "postgres-pr"
   end
 end
