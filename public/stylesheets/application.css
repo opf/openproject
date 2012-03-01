@@ -281,7 +281,7 @@ fieldset.collapsible.header_collapsible > * {
   border-right:1px solid #E6E6E6;
   border-bottom:1px solid #E6E6E6;
   width:100%;
-  padding-left:7px;
+  padding-left:6px;
   }
 fieldset.collapsible.header_collapsible legend {
     background:#E6E6E6 url(../images/projectnavi_arrow_up.png) no-repeat 99% 50%; cursor:pointer;
