@@ -272,6 +272,7 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
   border:0px;
   margin:0px;
   margin-right:10px;
+  margin-left:1px;
   }
 fieldset.collapsible.header_collapsible > div {
   padding-top:5px;
@@ -282,7 +283,7 @@ fieldset.collapsible.header_collapsible > * {
   border-right:1px solid #E6E6E6;
   border-bottom:1px solid #E6E6E6;
   width:100%;
-  padding-left:7px;
+  padding-left:6px;
   }
 fieldset.collapsible.header_collapsible legend {
     background:#E6E6E6 url(../images/projectnavi_arrow_up.png) no-repeat 99% 50%; cursor:pointer;
@@ -349,7 +350,10 @@ dt.time-entry { background-image: url(../images/time.png); }
 .search-pagination { text-align: center; }
 .search-pagination a {padding: 0 5px; }
 
-div#roadmap .related-issues { margin-bottom: 1em; }
+div#roadmap .related-issues {
+  border: 0;
+  margin-bottom: 1em;
+}
 div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
@@ -1016,7 +1020,6 @@ padding-bottom: 3px;
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 img.gravatar {
-	padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
 }
@@ -1036,13 +1039,11 @@ div.issue table img.gravatar {
 }
 
 h2 img.gravatar {
-	padding: 3px;
 	margin: -2px 4px -4px 0;
 	vertical-align: top;
 }
 
 h4 img.gravatar {
-	padding: 3px;
 	margin: -6px 0 -4px 0;
 	vertical-align: top;
 }
@@ -1775,7 +1776,8 @@ form#issue-list {
 div.issue {
 }
 div.issue hr {
-	margin:10px -10px;
+	margin-top:10px;
+	margin-bottom:10px;
 	clear:both;
 }
 #content div.issue h3, div.issue h3 {
@@ -2787,7 +2789,6 @@ ul.action_menu_main {
 }
 ul.action_menu_main > li {
   float:left;
-  padding-right:10px;
 }
 ul.action_menu_more > li {
   padding-top: 5px;
@@ -2921,4 +2922,20 @@ a > img.imgtag-icon {
 #breadcrumb a.breadcrumb-project-title {
   font-weight: bold;
   font-size: 13px;
+}
+
+th.checkbox img {
+  margin-left: 3px;
+  margin-top: 3px;
+}
+
+p.buttons {
+  margin-left: 10px;
+}
+div.contextual > a.icon, p.buttons > a, ul.action_menu_main > li {
+  padding-right:10px;
+}
+strong.related-issues-heading {
+  display:block;
+  margin-top: 10px;
 }
