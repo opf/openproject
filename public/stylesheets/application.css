@@ -270,6 +270,7 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
   border:0px;
   margin:0px;
   margin-right:10px;
+  margin-left:1px;
   }
 fieldset.collapsible.header_collapsible > div {
   padding-top:5px;
