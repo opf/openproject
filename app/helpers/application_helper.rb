@@ -1035,12 +1035,8 @@ module ApplicationHelper
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
-    tags << "\n" + javascript_include_tag("accessibility.js") if User.current.impaired? and not @no_focus_on_flash
+    tags << "\n" + javascript_include_tag("accessibility.js") if User.current.impaired? and accessibility_js_enabled?
     tags
-  end
-
-  def no_focus_on_flash!
-    @no_focus_on_flash = true
   end
 
   def favicon
@@ -1152,6 +1148,14 @@ module ApplicationHelper
 
   def accessibility_css_enabled?
     !@accessibility_css_disabled
+  end
+
+  def disable_accessibility_js!
+    @accessibility_js_disabled = true
+  end
+
+  def accessibility_js_enabled?
+    !@accessibility_js_disabled
   end
 
   private
