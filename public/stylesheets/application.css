@@ -1015,7 +1015,6 @@ padding-bottom: 3px;
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 img.gravatar {
-	padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
 }
@@ -1035,13 +1034,11 @@ div.issue table img.gravatar {
 }
 
 h2 img.gravatar {
-	padding: 3px;
 	margin: -2px 4px -4px 0;
 	vertical-align: top;
 }
 
 h4 img.gravatar {
-	padding: 3px;
 	margin: -6px 0 -4px 0;
 	vertical-align: top;
 }
