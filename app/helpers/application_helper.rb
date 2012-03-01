@@ -34,8 +34,21 @@ module ApplicationHelper
   # @param [Hash] options Hash params. This will checked by authorize_for to see if the user is authorized
   # @param [optional, Hash] html_options Options passed to link_to
   # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
-  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
+  #
+  # When a block is given, skip the name parameter
+  def link_to_if_authorized(*args, &block)
+    name = args.shift unless block_given?
+    options = args.shift || {}
+    html_options = args.shift
+    parameters_for_method_reference = args
+
+    return unless authorize_for(options[:controller] || params[:controller], options[:action])
+
+    if block_given?
+      link_to(options, html_options, *parameters_for_method_reference, &block)
+    else
+      link_to(name, options, html_options, *parameters_for_method_reference)
+    end
   end
 
   def li_unless_nil(link)
