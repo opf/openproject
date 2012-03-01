@@ -1146,6 +1146,14 @@ module ApplicationHelper
     @top_menu_split
   end
 
+  def disable_accessibility_css!
+    @accessibility_css_disabled = true
+  end
+
+  def accessibility_css_enabled?
+    !@accessibility_css_disabled
+  end
+
   private
 
   def wiki_helper
