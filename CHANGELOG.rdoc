@@ -1,3 +1,9 @@
+= 2.0.1 - 2012-03-02
+
+== Minor Change
+
+* Design fixes
+
 = 2.0.0 - 2012-02-16
 
 Incompatible with older versions of ChiliProject
