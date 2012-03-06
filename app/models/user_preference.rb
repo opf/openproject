@@ -16,7 +16,7 @@ class UserPreference < ActiveRecord::Base
   belongs_to :user
   serialize :others
 
-  attr_protected :others
+  attr_protected :others, :user_id
 
   def initialize(attributes = nil)
     super
