@@ -233,8 +233,18 @@
   margin-left: 20px;
 }
 
+.rb_dialog #charts h3 {
+  border:0px;
+}
+
 .rb_dialog #charts {
   overflow: hidden;
+}
+
+.rb_dialog #charts fieldset.burndown_control {
+  padding-left: 10px;
+  border: none;
+  border-top: 1px solid #BBB;
 }
 
 .rb_dialog #charts .axislabel{
