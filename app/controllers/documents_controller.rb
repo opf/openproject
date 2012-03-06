@@ -43,28 +43,13 @@ class DocumentsController < ApplicationController
   end
 
   def new
-<<<<<<< HEAD
-    @document = @project.documents.build(params[:document])
-    if request.post? and @document.save
+    @document = @project.documents.build
+    @document.safe_attributes = params[:document]
+    if request.post? && @document.save
       attachments = Attachment.attach_files(@document, params[:attachments])
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
-=======
-    @document = @project.documents.build
-    @document.safe_attributes = params[:document]
-    if request.post?
-      if User.current.allowed_to?(:add_document_watchers, @project) && params[:document]['watcher_user_ids'].present?
-        @document.watcher_user_ids = params[:document]['watcher_user_ids']
-      end
-
-      if @document.save
-        attachments = Attachment.attach_files(@document, params[:attachments])
-        render_attachment_warning_if_needed(@document)
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :action => 'index', :project_id => @project
-      end
->>>>>>> edaf457... Prevent mass-assignment vulnerability when adding/updating a document (#922).
     end
   end
 
