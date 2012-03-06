@@ -59,7 +59,8 @@ class ProjectsController < ApplicationController
   def new
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
-    @project = Project.new(params[:project])
+    @project = Project.new
+    @project.safe_attributes = params[:project]
   end
 
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
