@@ -76,6 +76,16 @@ class AdminController < ApplicationController
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
 
+  def force_user_language
+    available_languages = Setting.find_by_name("available_languages").value
+    User.find(:all, :conditions => ["language not in (?)", available_languages]).each do |u|
+      u.language = Setting.default_language
+      u.save
+    end
+
+    redirect_to :back
+  end
+
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [

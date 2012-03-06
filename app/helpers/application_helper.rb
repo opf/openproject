@@ -874,8 +874,17 @@ module ApplicationHelper
   end
 
   def lang_options_for_select(blank=true)
+    auto = if (blank && (valid_languages - all_languages) == (all_languages - valid_languages))
+            [["(auto)", ""]]
+           else
+            []
+          end
+    auto + valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+  end
+
+  def all_lang_options_for_select(blank=true)
     (blank ? [["(auto)", ""]] : []) +
-      valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+      all_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
   end
 
   def label_tag_for(name, option_tags = nil, options = {})
