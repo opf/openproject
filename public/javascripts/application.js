@@ -468,6 +468,9 @@ $(document).observe('dom:loaded', function() {
   }
   else if (input_focus != undefined){
     input_focus.focus();
+    if (input_focus.tagName === "INPUT") {
+      input_focus.select();
+    }
   }
   // Focus on field with error
   addClickEventToAllErrorMessages();
