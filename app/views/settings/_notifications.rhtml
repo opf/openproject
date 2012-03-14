@@ -22,11 +22,17 @@
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
-<%= setting_text_area :emails_header, :label => false, :class => 'wiki-edit', :rows => 5 %>
+  <% Setting.available_languages.each do |lang| %>
+    <%= label_tag l(:general_lang_name, :locale => lang) %>
+    <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+  <% end %>
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
-<%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
+  <% Setting.available_languages.each do |lang| %>
+    <%= label_tag l(:general_lang_name, :locale => lang) %>
+    <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+  <% end %>
 </fieldset>
 
 <div style="float:right;">

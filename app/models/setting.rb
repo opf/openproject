@@ -127,6 +127,14 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
+  
+  def self.localized_emails_header
+    self.emails_header[I18n.locale.to_s] || ''
+  end
+
+  def self.localized_emails_footer
+    self.emails_footer[I18n.locale.to_s] || ''
+  end
 
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
@@ -159,7 +167,12 @@ private
     name = name.to_s
     raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
     setting = find_by_name(name)
-    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
+    setting ||= begin
+      Setting.new do |s|
+        s.name = name
+        s.value = @@available_settings[name]['default']
+      end
+    end if @@available_settings.has_key? name
   end
 
   def self.cache_key(name)

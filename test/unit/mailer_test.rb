@@ -390,17 +390,20 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   context "layout" do
-    should "include the emails_header" do
-      with_settings(:emails_header => "*Header content*") do
-        assert Mailer.deliver_test(@user)
+    should "include the emails_header depeding on the locale" do
+      Setting.stubs(:available_languages).returns(['en', 'de'])
+      Setting.stubs(:emails_header).returns({"de"=>"deutscher header", "en"=>"english header"})
 
-        assert_select_email do
-          assert_select ".header" do
-            assert_select "strong", :text => "Header content"
-          end
-        end
-      end
+      user = User.find(1)
+      user.language = :en
+      assert Mailer.deliver_test(user)
+      mail = ActionMailer::Base.deliveries.last
+      assert mail.body.include?('english header')
 
+      user.language = :de
+      assert Mailer.deliver_test(user)
+      mail = ActionMailer::Base.deliveries.last
+      assert mail.body.include?('deutscher header')
     end
 
   end
