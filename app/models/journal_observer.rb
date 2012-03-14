@@ -28,8 +28,10 @@ class JournalObserver < ActiveRecord::Observer
         (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
         (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
       issue = journal.issue
-      (issue.recipients + issue.watcher_recipients).uniq.each do |recipient|
-        Mailer.deliver_issue_edit(journal, recipient)
+      recipients = issue.recipients + issue.watcher_recipients
+      users = User.find_all_by_mails(recipients.uniq)
+      users.each do |user|
+        Mailer.deliver_issue_edit(journal, user)
       end
     end
   end

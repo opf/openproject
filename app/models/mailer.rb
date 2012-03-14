@@ -33,16 +33,17 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email a recipient of the added issue.
   #
   # Example:
-  #   issue_add(issue, 'user@example.com') => tmail object
-  #   Mailer.deliver_issue_add(issue, 'user@example.com') => sends an email to 'user@example.com'
+  #   issue_add(issue, user) => tmail object
+  #   Mailer.deliver_issue_add(issue, user) => sends an email to user.mail
   def issue_add(issue, recipient)
+    set_language_if_valid recipient.language
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Type' => "Issue"
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
          :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
@@ -52,9 +53,10 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email recipients of the edited issue.
   #
   # Example:
-  #   issue_edit(journal, 'user@example.com') => tmail object
-  #   Mailer.deliver_issue_edit(journal, 'user@example.com') => sends an email to issue recipients
+  #   issue_edit(journal, user) => tmail object
+  #   Mailer.deliver_issue_edit(journal, user) => sends an email to user.mail
   def issue_edit(journal, recipient)
+    set_language_if_valid recipient.language
     issue = journal.journaled.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -64,7 +66,7 @@ class Mailer < ActionMailer::Base
     message_id journal
     references issue
     @author = journal.user
-    recipients [recipient]
+    recipients [recipient.mail]
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
     s << "(#{issue.status.name}) " if journal.details['status_id']
     s << issue.subject
@@ -90,12 +92,13 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email users belonging to the added document's project.
   #
   # Example:
-  #   document_added(document, 'test@example.com') => tmail object
-  #   Mailer.deliver_document_added(document, 'test@example.com') => sends an email to the document's project recipients
+  #   document_added(document, user) => tmail object
+  #   Mailer.deliver_document_added(document, user) => sends an email to user.mail
   def document_added(document, recipient)
+    set_language_if_valid recipient.language    
     redmine_headers 'Project' => document.project.identifier,
                     'Type' => "Document"
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
@@ -105,9 +108,10 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email recipients of a project when an attachements are added.
   #
   # Example:
-  #   attachments_added(attachments) => tmail object
-  #   Mailer.deliver_attachments_added(attachments) => sends an email to the project's recipients
+  #   attachments_added(attachments, user) => tmail object
+  #   Mailer.deliver_attachments_added(attachments, user) => sends an email to user.mail
   def attachments_added(attachments, recipient)
+    set_language_if_valid recipient.language    
     container = attachments.first.container
     added_to = ''
     added_to_url = ''
@@ -122,7 +126,7 @@ class Mailer < ActionMailer::Base
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
     end
-    recipients [recipient]
+    recipients [recipient.mail]
     redmine_headers 'Project' => container.project.identifier,
                     'Type' => "Attachment"
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
@@ -135,13 +139,14 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email recipients of a news' project when a news item is added.
   #
   # Example:
-  #   news_added(news) => tmail object
-  #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
+  #   news_added(news, user) => tmail object
+  #   Mailer.deliver_news_added(news, user) => sends an email to user.mail
   def news_added(news, recipient)
+    set_language_if_valid recipient.language
     redmine_headers 'Project' => news.project.identifier,
                     'Type' => "News"
     message_id news
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
     body :news => news,
          :news_url => url_for(:controller => 'news', :action => 'show', :id => news)
@@ -153,6 +158,8 @@ class Mailer < ActionMailer::Base
   # Example:
   #   news_comment_added(comment) => tmail object
   #   Mailer.news_comment_added(comment) => sends an email to the news' project recipients
+  #
+  # Note: not used?
   def news_comment_added(comment)
     news = comment.commented
     redmine_headers 'Project' => news.project.identifier
@@ -169,15 +176,16 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email the recipients of the specified message that was posted.
   #
   # Example:
-  #   message_posted(message) => tmail object
-  #   Mailer.deliver_message_posted(message) => sends an email to the recipients
+  #   message_posted(message, user) => tmail object
+  #   Mailer.deliver_message_posted(message, user) => sends an email to user.mail
   def message_posted(message, recipient)
+    set_language_if_valid recipient.language    
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id),
                     'Type' => "Forum"
     message_id message
     references message.parent unless message.parent.nil?
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for({ :controller => 'messages', :action => 'show', :board_id => message.board, :id => message.root, :r => message, :anchor => "message-#{message.id}" })
@@ -187,14 +195,15 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email the recipients of a project of the specified wiki content was added.
   #
   # Example:
-  #   wiki_content_added(wiki_content) => tmail object
-  #   Mailer.deliver_wiki_content_added(wiki_content) => sends an email to the project's recipients
+  #   wiki_content_added(wiki_content, user) => tmail object
+  #   Mailer.deliver_wiki_content_added(wiki_content, user) => sends an email to user.mail
   def wiki_content_added(wiki_content, recipient)
+    set_language_if_valid recipient.language    
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id,
                     'Type' => "Wiki"
     message_id wiki_content
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title)
@@ -204,14 +213,15 @@ class Mailer < ActionMailer::Base
   # Builds a tmail object used to email the recipients of a project of the specified wiki content was updated.
   #
   # Example:
-  #   wiki_content_updated(wiki_content) => tmail object
-  #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
+  #   wiki_content_updated(wiki_content, user) => tmail object
+  #   Mailer.deliver_wiki_content_updated(wiki_content, user) => sends an email to user.mail
   def wiki_content_updated(wiki_content, recipient)
+    set_language_if_valid recipient.language    
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id,
                     'Type' => "Wiki"
     message_id wiki_content
-    recipients [recipient]
+    recipients [recipient.mail]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
          :wiki_content_url => url_for(:controller => 'wiki', :action => 'show', :project_id => wiki_content.project, :id => wiki_content.page.title),
@@ -241,6 +251,7 @@ class Mailer < ActionMailer::Base
   #   account_activation_request(user) => tmail object
   #   Mailer.deliver_account_activation_request(user)=> sends an email to all active administrators
   def account_activation_request(user)
+    set_language_if_valid user.language    
     # Send the email to all active administrators
     redmine_headers 'Type' => "Account"
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
@@ -256,6 +267,7 @@ class Mailer < ActionMailer::Base
   #   account_activated(user) => tmail object
   #   Mailer.deliver_account_activated(user) => sends an email to the registered user
   def account_activated(user)
+    set_language_if_valid user.language    
     redmine_headers 'Type' => "Account"
     set_language_if_valid user.language
     recipients user.mail
@@ -366,6 +378,7 @@ class Mailer < ActionMailer::Base
   def initialize_defaults(method_name)
     super
     @initial_language = current_language
+    set_language_if_valid :en
     set_language_if_valid Setting.default_language
     from Setting.mail_from
 
