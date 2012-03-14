@@ -48,6 +48,8 @@ Dispatcher.to_prepare do
 
   require_dependency 'costs_issue_observer'
 
+  # loading the class so that acts_as_journalized gets registered
+  VariableCostObject
 end
 
 # Hooks
@@ -131,9 +133,6 @@ Redmine::Plugin.register :redmine_costs do
 
   menu :project_menu, :new_budget, {:action => 'new', :controller => 'cost_objects' }, :param => :project_id, :caption => :label_cost_object_new, :parent => :cost_objects
   menu :project_menu, :show_all, {:action => 'index', :controller => 'cost_objects' }, :param => :project_id, :caption => :label_view_all_cost_objects, :parent => :cost_objects
-
-  # Activities
-  activity_provider :cost_objects
 end
 
 # Observers

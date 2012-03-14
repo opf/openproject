@@ -10,6 +10,22 @@ class VariableCostObject < CostObject
   after_update :save_material_budget_items
   after_update :save_labor_budget_items
 
+  if respond_to? :acts_as_journalized
+    acts_as_journalized :event_type => 'cost-object',
+                        :event_title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.journaled.id}: #{o.subject}"},
+                        :event_url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.journaled.id}},
+                        :activity_type => superclass.plural_name,
+                        :activity_find_options => {:include => [:project, :author]},
+                        :activity_timestamp => "#{table_name}.updated_on",
+                        :activity_author_key => :author_id,
+                        :activity_permission => :view_cost_objects
+  end
+
+  # override acts_as_journalized method
+  def activity_type
+    self.class.superclass.plural_name
+  end
+
   def copy_from(arg)
     cost_object = arg.is_a?(VariableCostObject) ? arg : VariableCostObject.find(arg)
     self.attributes = cost_object.attributes.dup

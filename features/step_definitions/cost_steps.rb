@@ -166,3 +166,27 @@ Given /^users have times and the cost type "([^\"]*)" logged on the issue "([^\"
   end
 end
 
+Given /^there is a variable cost object with the following:$/ do |table|
+  cost_object = Factory.build(:variable_cost_object)
+
+  table_hash = table.rows_hash
+
+  cost_object.created_on = table_hash.has_key?("created_on") ?
+                             eval(table_hash["created_on"]) :
+                             Time.now
+  cost_object.fixed_date = cost_object.created_on.to_date
+  cost_object.project = (Project.find_by_identifier(table_hash["project"]) || Project.find_by_name(table_hash ["project"])) if table_hash.has_key? "project"
+  cost_object.author = User.current
+  cost_object.subject = table_hash["subject"] if table_hash.has_key? "subject"
+
+  cost_object.save!
+  cost_object.journals.first.update_attribute(:created_at, eval(table_hash["created_on"])) if table_hash.has_key?("created_on")
+end
+
+Given /^I update the variable cost object "([^"]*)" with the following:$/ do |subject, table|
+  cost_object = VariableCostObject.find_by_subject(subject)
+
+  cost_object.subject = table.rows_hash["subject"]
+  cost_object.save!
+end
+
