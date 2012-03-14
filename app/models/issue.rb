@@ -610,9 +610,11 @@ class Issue < ActiveRecord::Base
   def parent_issue_id=(arg)
     parent_issue_id = arg.blank? ? nil : arg.to_i
     if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
+      journal_changes["parent_id"] = [self.parent_id, @parent_issue.id]
       @parent_issue.id
     else
       @parent_issue = nil
+      journal_changes["parent_id"] = [self.parent_id, nil]
       nil
     end
   end
