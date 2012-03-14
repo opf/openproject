@@ -195,7 +195,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(message.parent), mail.references.first.to_s
     assert_select_email do
       # link to the reply
-      assert_select "a[href=?]", "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
+      assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
     end
   end
 
@@ -326,6 +326,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_mailer_should_not_change_locale
+    Setting.stubs(:available_languages).returns(['en', 'it', 'fr'])
     Setting.default_language = 'en'
     # Set current language to italian
     set_language_if_valid 'it'
@@ -335,7 +336,6 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.deliver_account_activated(user)
     mail = ActionMailer::Base.deliveries.last
     assert mail.body.include?('Votre compte')
-
     assert_equal :it, current_language
   end
 
