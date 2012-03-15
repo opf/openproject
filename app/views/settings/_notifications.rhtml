@@ -21,17 +21,19 @@
 <p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
-<fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
-  <% Setting.available_languages.each do |lang| %>
-    <%= label_tag l(:general_lang_name, :locale => lang) %>
-    <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+<fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
+  <% Setting.available_languages.each do |lang| %>  
+    <%= switch_emails_decorators_language lang %>
   <% end %>
-</fieldset>
 
-<fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
-  <% Setting.available_languages.each do |lang| %>
-    <%= label_tag l(:general_lang_name, :locale => lang) %>
-    <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+  <% Setting.available_languages.each do |lang| %>  
+    <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
+      <%= label_tag l(:setting_emails_header) %>
+      <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+
+      <%= label_tag l(:setting_emails_footer) %>  
+      <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+    </div>
   <% end %>
 </fieldset>
 
