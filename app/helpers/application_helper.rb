@@ -923,7 +923,7 @@ module ApplicationHelper
   def switch_emails_decorators_language(lang)
     localized_language_name = l(:general_lang_name, :locale => lang)
     # make that better
-    link_to_function(localized_language_name, "jQuery('#emails_decorators a').css('text-decoration', 'none'); jQuery(this).css('text-decoration', 'underline');  jQuery('.emails_decorators').hide(); jQuery('#emails_decorators_#{lang}').show();")
+    link_to_function(localized_language_name, "toggleEmailDecoratorFields(this, '#{lang}')")
   end
 
   def progress_bar(pcts, options={})

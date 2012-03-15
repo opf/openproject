@@ -459,6 +459,14 @@ function addClickEventToAllErrorMessages() {
     });
   });
 }
+
+function toggleEmailDecoratorFields(sender, lang) {
+  jQuery("#emails_decorators a").css("text-decoration", "none");
+  jQuery(".emails_decorators").hide();
+  jQuery(sender).css("text-decoration", "underline");
+  jQuery("#emails_decorators_" + lang).show();
+}
+
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();
