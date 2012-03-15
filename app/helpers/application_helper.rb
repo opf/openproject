@@ -920,12 +920,6 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
   
-  def switch_emails_decorators_language(lang)
-    localized_language_name = l(:general_lang_name, :locale => lang)
-    # make that better
-    link_to_function(localized_language_name, "toggleEmailDecoratorFields(this, '#{lang}')")
-  end
-
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
     pcts = pcts.collect(&:round)

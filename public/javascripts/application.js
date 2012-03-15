@@ -460,10 +460,9 @@ function addClickEventToAllErrorMessages() {
   });
 }
 
-function toggleEmailDecoratorFields(sender, lang) {
-  jQuery("#emails_decorators a").css("text-decoration", "none");
+function toggleEmailDecoratorFields() {
+  lang = jQuery("#emails_decorators_switch").val();
   jQuery(".emails_decorators").hide();
-  jQuery(sender).css("text-decoration", "underline");
   jQuery("#emails_decorators_" + lang).show();
 }
 
