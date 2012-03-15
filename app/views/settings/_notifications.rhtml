@@ -22,7 +22,7 @@
 </fieldset>
 
 <fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
-  <%= select_tag 'lang', options_from_collection_for_select(Setting.available_languages, :to_s, :to_s, current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+  <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
 
   <% Setting.available_languages.each do |lang| %>  
     <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
