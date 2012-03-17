@@ -264,8 +264,10 @@ div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color:
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 
+#issue_tree {border: none;}
 #issue_tree table.issues { border: 0; }
 #issue_tree td.checkbox {display:none;}
+#issue_tree tr.self a.issue {color: inherit;}
 
 #content fieldset#filters {
     padding-bottom:10px;

@@ -796,6 +796,8 @@ de:
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor %{value} erstellt
   label_profile: Profil
   label_subtask_plural: Unteraufgaben
+  label_subtask_add: Unteraufgabe hinzufügen
+  label_issue_hierarchy: Tickethierarchie
   label_project_copy_notifications: Sende Mailbenachrichtigungen beim Kopieren des Projekts.
   label_principal_search: "Nach Benutzer oder Gruppe suchen:"
   label_user_search: "Nach Benutzer suchen:"

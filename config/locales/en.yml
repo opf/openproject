@@ -808,6 +808,8 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_profile: Profile
   label_subtask_plural: Subtasks
+  label_subtask_add: Add a subtask
+  label_issue_hierarchy: Issue hierarchy
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

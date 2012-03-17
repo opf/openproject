@@ -1,0 +1,11 @@
+<% if !@issue.leaf? || @issue.parent || User.current.allowed_to?(:manage_subtasks, @project) %>
+<hr />
+<p>
+  <strong><%= l(:label_issue_hierarchy) %></strong>
+  <% if User.current.allowed_to?(:manage_subtasks, @project) %>
+    (<%= link_to(l(:label_subtask_add), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) %>)
+  <% end %>
+</p>
+<% end %>
+
+<%= render_parents_and_subtree @issue %>
