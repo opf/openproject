@@ -470,13 +470,12 @@ jQuery.ajaxSetup({
   'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
 })
 
-// Show/hide the ajax indicators
-jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show().css('z-index', '9999');  });
-jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
-
 /* TODO: integrate with existing code and/or refactor */
 jQuery(document).ready(function($) {
 
+    // Show/hide the ajax indicators
+    jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show().css('z-index', '9999');  });
+    jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
 
 	// file table thumbnails
 	$("table a.has-thumb").hover(function() {
