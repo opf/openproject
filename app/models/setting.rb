@@ -131,7 +131,7 @@ class Setting < ActiveRecord::Base
   # this should be fixed with globalize plugin
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC
-    def self.#{mail}
+    def self.localized_#{mail}
       I18n.fallbacks[I18n.locale].each do |lang|
         text = self[:#{mail}][lang.to_s]
         return text unless text.blank?
