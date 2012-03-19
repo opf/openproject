@@ -128,14 +128,20 @@ class Setting < ActiveRecord::Base
     class_eval src, __FILE__, __LINE__
   end
   
-  def self.localized_emails_header
-    self.emails_header[I18n.locale.to_s] || ''
+  # this should be fixed with globalize plugin
+  [:emails_header, :emails_footer].each do |mail|
+    src = <<-END_SRC
+    def self.#{mail}
+      I18n.fallbacks[I18n.locale].each do |lang|
+        text = self[:#{mail}][lang.to_s]
+        return text unless text.blank?
+      end
+      ''
+    end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
   end
-
-  def self.localized_emails_footer
-    self.emails_footer[I18n.locale.to_s] || ''
-  end
-
+  
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
