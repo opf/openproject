@@ -1054,8 +1054,7 @@ vi:
   description_enter_number: Enter number
   description_select_issue: Select issue
   label_table_of_contents: Table of Contents
-  field_impaired_settings: "%{app_title} offers a slightly different User Interface for visually/motorically impaired Users"
-  field_impaired: "Use adjusted %{app_title} Interface"
+  field_impaired: Accessibility mode
   search_input_placeholder: search ...
   text_analyze: "Further analyze: %{subject}"
   label_project_view_all: View all projects
