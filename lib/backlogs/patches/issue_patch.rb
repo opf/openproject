@@ -14,6 +14,9 @@ module Backlogs::Patches::IssuePatch
       before_save :inherit_version_from_closest_story_or_impediment, :if => lambda {|i| i.is_task? }
       after_save  :inherit_version_to_leaf_tasks, :if => lambda {|i| (i.backlogs_enabled? && i.closest_story_or_impediment == i) }
 
+      register_on_journal_formatter(:fraction, 'remaining_hours')
+      register_on_journal_formatter(:decimal, 'story_points')
+
       validates_numericality_of :story_points, :only_integer             => true,
                                                :allow_nil                => true,
                                                :greater_than_or_equal_to => 0,
