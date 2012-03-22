@@ -16,6 +16,7 @@ module Backlogs::Patches::IssuePatch
 
       register_on_journal_formatter(:fraction, 'remaining_hours')
       register_on_journal_formatter(:decimal, 'story_points')
+      register_on_journal_formatter(:decimal, 'position')
 
       validates_numericality_of :story_points, :only_integer             => true,
                                                :allow_nil                => true,
