@@ -80,4 +80,34 @@ describe Story do
       end
     end
   end
+
+  describe "journals created after adding a subtask to a story" do
+    before(:each) do
+      @current = Factory.create(:user, :login => "user1", :mail => "user1@users.com")
+      User.stub!(:current).and_return(@current)
+
+      @story = Factory.create(:story, :fixed_version => version,
+                                       :project => project,
+                                       :status => issue_status1,
+                                       :tracker => tracker_feature,
+                                       :priority => issue_priority)
+
+      @issue ||= Factory.create(:issue, :project => project, :status => issue_status1, :tracker => tracker_feature, :author => @current)
+    end
+
+    it "should create a journal when adding a subtask which has remaining hours set" do
+      @issue.remaining_hours = 15.0
+      @issue.parent_issue_id = @story.id
+      @issue.save!
+
+      @story.journals.last["changes"]["remaining_hours"].should == [nil, 15]
+    end
+
+    it "should not create an empty journal when adding a subtask without remaining hours set" do
+      @issue.parent_issue_id  = @story.id
+      @issue.save!
+
+      @story.journals.last["changes"]["remaining_hours"].should be_nil
+    end
+  end
 end
