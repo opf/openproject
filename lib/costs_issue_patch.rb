@@ -16,6 +16,16 @@ module CostsIssuePatch
       # disabled for now, implements part of ticket blocking
       alias_method_chain :validate, :cost_object
 
+      register_journal_formatter(:cost_association) do |value, journaled, field|
+        association = journaled.class.reflect_on_association(field.to_sym)
+        if association
+          record = association.class_name.constantize.find_by_id(value.to_i)
+          record.subject if record
+        end
+      end
+
+      register_on_journal_formatter(:cost_association, 'cost_object_id')
+
       def spent_hours
         # overwritten method
         @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
