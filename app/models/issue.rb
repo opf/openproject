@@ -558,7 +558,7 @@ class Issue < ActiveRecord::Base
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
   end
-
+  
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
@@ -587,7 +587,18 @@ class Issue < ActiveRecord::Base
           end
         rescue ActiveRecord::StaleObjectError
           attachments[:files].each(&:destroy)
-          errors.add_to_base l(:notice_locking_conflict)
+          error_message = l(:notice_locking_conflict)
+          
+          journals_since = self.journals.after(lock_version)
+          
+          if journals_since.any?
+            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+          end
+
+          error_message << " " << l(:notice_locking_conflict_reload_page)
+          
+          errors.add_to_base error_message
           raise ActiveRecord::Rollback
         end
       end
