@@ -2,6 +2,6 @@
 <h3><%=l(:label_subproject_plural)%></h3>
 <% if @subprojects.any? %>
 <div class="subprojects overview">
-  <p><%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ") %></p>
+  <p><%= @subprojects.collect{ |p| link_to(h(p), project_url(p)) }.join(", ") %></p>
 </div>
 <% end %>
