@@ -1,96 +1,123 @@
 .jstEditor {
-	padding-left: 0px;
+  padding-left: 0px;
 }
+
 .jstEditor textarea, .jstEditor iframe {
   margin: 0;
 }
 
 .jstHandle {
-	height: 10px;
-	font-size: 0.1em;
-	cursor: s-resize;
-	/*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/
+  height: 10px;
+  font-size: 0.1em;
+  cursor: s-resize;
+  /*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/
 }
 
 .jstElements {
-	padding: 3px 3px;
+  padding: 3px 3px;
 }
 
 .jstElements button {
-	margin-right : 6px;
-	width : 24px;
-	height: 24px;
-	padding: 4px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #ddd;
-	background-color : #f7f7f7;
-	background-position : 50% 50%;
-	background-repeat: no-repeat;
+  margin-right: 6px;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ddd;
+  background-color: #f7f7f7;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
+
 .jstElements button:hover {
-	border-color : #000;
+  border-color: #000;
 }
+
 .jstElements button span {
-	display : none;	
+  display: none;
 }
+
 .jstElements span {
-	display : inline;
+  display: inline;
 }
 
 .jstSpacer {
-	width : 0px;
-	font-size: 1px;
-	margin-right: 4px;
+  width: 0px;
+  font-size: 1px;
+  margin-right: 4px;
 }
 
-.jstElements .help { float: right; margin-right: 0.5em; padding-top: 8px; font-size: 0.9em; }
-.jstElements .help a {padding: 2px 0 2px 20px; background: url(../images/help.png) no-repeat 0 50%;}
+.jstElements .help {
+  float: right;
+  margin-right: 0.5em;
+  padding-top: 8px;
+  font-size: 0.9em;
+}
+
+.jstElements .help a {
+  padding: 2px 0 2px 20px;
+  background: url(../images/help.png) no-repeat 0 50%;
+}
 
 /* Buttons
 -------------------------------------------------------- */
 .jstb_strong {
-	background-image: url(../images/jstoolbar/bt_strong.png);
+  background-image: url(../images/jstoolbar/bt_strong.png);
 }
+
 .jstb_em {
-	background-image: url(../images/jstoolbar/bt_em.png);
+  background-image: url(../images/jstoolbar/bt_em.png);
 }
+
 .jstb_ins {
-	background-image: url(../images/jstoolbar/bt_ins.png);
+  background-image: url(../images/jstoolbar/bt_ins.png);
 }
+
 .jstb_del {
-	background-image: url(../images/jstoolbar/bt_del.png);
+  background-image: url(../images/jstoolbar/bt_del.png);
 }
+
 .jstb_code {
-	background-image: url(../images/jstoolbar/bt_code.png);
+  background-image: url(../images/jstoolbar/bt_code.png);
 }
+
 .jstb_h1 {
-	background-image: url(../images/jstoolbar/bt_h1.png);
+  background-image: url(../images/jstoolbar/bt_h1.png);
 }
+
 .jstb_h2 {
-	background-image: url(../images/jstoolbar/bt_h2.png);
+  background-image: url(../images/jstoolbar/bt_h2.png);
 }
+
 .jstb_h3 {
-	background-image: url(../images/jstoolbar/bt_h3.png);
+  background-image: url(../images/jstoolbar/bt_h3.png);
 }
+
 .jstb_ul {
-	background-image: url(../images/jstoolbar/bt_ul.png);
+  background-image: url(../images/jstoolbar/bt_ul.png);
 }
+
 .jstb_ol {
-	background-image: url(../images/jstoolbar/bt_ol.png);
+  background-image: url(../images/jstoolbar/bt_ol.png);
 }
+
 .jstb_bq {
-	background-image: url(../images/jstoolbar/bt_bq.png);
+  background-image: url(../images/jstoolbar/bt_bq.png);
 }
+
 .jstb_unbq {
-	background-image: url(../images/jstoolbar/bt_bq_remove.png);
+  background-image: url(../images/jstoolbar/bt_bq_remove.png);
 }
+
 .jstb_pre {
-	background-image: url(../images/jstoolbar/bt_pre.png);
+  background-image: url(../images/jstoolbar/bt_pre.png);
 }
+
 .jstb_link {
-	background-image: url(../images/jstoolbar/bt_link.png);
+  background-image: url(../images/jstoolbar/bt_link.png);
 }
+
 .jstb_img {
-	background-image: url(../images/jstoolbar/bt_img.png);
+  background-image: url(../images/jstoolbar/bt_img.png);
 }

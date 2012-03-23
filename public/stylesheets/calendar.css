@@ -1,14 +1,17 @@
-/* The main calendar widget.  DIV containing a table. */
-
+/* The main calendar widget. DIV containing a table. */
 img.calendar-trigger {
-    cursor: pointer;
-    vertical-align: middle;
-    margin-left: 4px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 4px;
 }
 
-div.calendar { position: relative; z-index: 30;}
+div.calendar {
+  position: relative;
+  z-index: 30;
+}
 
-div.calendar, div.calendar table {
+div.calendar,
+div.calendar table {
   border: 1px solid #556;
   font-size: 11px;
   color: #000;
@@ -18,10 +21,9 @@ div.calendar, div.calendar table {
 }
 
 /* Header part -- contains navigation buttons and day names. */
-
 div.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
-  text-align: center;    /* They are the navigation buttons */
-  padding: 2px;          /* Make the buttons seem like they're pressing */
+  text-align: center; /* They are the navigation buttons */
+  padding: 2px; /* Make the buttons seem like they're pressing */
 }
 
 div.calendar .nav {
@@ -29,7 +31,7 @@ div.calendar .nav {
 }
 
 div.calendar thead .title { /* This holds the current "month, year" */
-  font-weight: bold;      /* Pressing it will take you to the current date */
+  font-weight: bold; /* Pressing it will take you to the current date */
   text-align: center;
   background: #fff;
   color: #000;
@@ -68,17 +70,18 @@ div.calendar thead .active { /* Active (pressed) buttons in header */
 }
 
 /* The body part -- contains all the days in month. */
-
 div.calendar tbody .day { /* Cells <TD> containing month days dates */
   width: 2em;
   color: #456;
   text-align: right;
   padding: 2px 4px 2px 2px;
 }
+
 div.calendar tbody .day.othermonth {
   font-size: 80%;
   color: #bbb;
 }
+
 div.calendar tbody .day.othermonth.oweekend {
   color: #fbb;
 }
@@ -125,7 +128,9 @@ div.calendar tbody td.today { /* Cell showing selected date */
   color: #f00;
 }
 
-div.calendar tbody .disabled { color: #999; }
+div.calendar tbody .disabled {
+  color: #999;
+}
 
 div.calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
   visibility: hidden;
@@ -136,7 +141,6 @@ div.calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) 
 }
 
 /* The footer part -- status bar and "Close" button */
-
 div.calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
   text-align: center;
   background: #556;
@@ -163,7 +167,6 @@ div.calendar tfoot .active { /* Active (pressed) style for buttons in footer */
 }
 
 /* Combo boxes (menus that display months/years for direct selection) */
-
 div.calendar .combo {
   position: absolute;
   display: none;
