@@ -387,6 +387,7 @@ de:
   permission_manage_versions: Versionen verwalten
   permission_manage_categories: Ticket-Kategorien verwalten
   permission_view_issues: Tickets anzeigen
+  permission_export_issues: Tickets exportieren
   permission_add_issues: Tickets hinzufügen
   permission_edit_issues: Tickets bearbeiten
   permission_manage_issue_relations: Ticket-Beziehungen verwalten
