@@ -52,6 +52,7 @@ roles_001:
     - :manage_repository
     - :view_changesets
     - :manage_project_activities
+    - :export_issues
 
   position: 1
 roles_002:

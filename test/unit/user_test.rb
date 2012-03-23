@@ -443,6 +443,12 @@ class UserTest < ActiveSupport::TestCase
         assert @jsmith.allowed_to?(:delete_messages, project)    #Manager
         assert ! @dlopper.allowed_to?(:delete_messages, project) #Developper
       end
+
+      should "only managers are allowed to export tickets" do
+        project = Project.find(1)
+        assert @jsmith.allowed_to?(:export_issues, project)    #Manager
+        assert ! @dlopper.allowed_to?(:export_issues, project) #Developper
+      end
     end
 
     context "with multiple projects" do
