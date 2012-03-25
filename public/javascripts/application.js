@@ -467,7 +467,15 @@ jQuery.viewportHeight = function() {
 
 // Automatically use format.js for jQuery Ajax
 jQuery.ajaxSetup({
-  'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+    'beforeSend': function(xhr) {
+        xhr.setRequestHeader("Accept", "text/javascript");
+
+        // TODO: Remove once jquery-rails (Rails 3) has been added a dependency
+        var csrf_meta_tag = jQuery('meta[name="csrf-token"]');
+        if (csrf_meta_tag) {
+            xhr.setRequestHeader('X-CSRF-Token', csrf_meta_tag.attr('content'));
+        }
+    }
 })
 
 /* TODO: integrate with existing code and/or refactor */
