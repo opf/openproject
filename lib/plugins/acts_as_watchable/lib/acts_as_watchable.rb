@@ -10,8 +10,6 @@ module Redmine
       module ClassMethods
         def acts_as_watchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
-          send :include, Redmine::Acts::Watchable::InstanceMethods
-
           class_eval do
             has_many :watchers, :as => :watchable, :dependent => :delete_all
             has_many :watcher_users, :through => :watchers, :source => :user, :validate => false
@@ -22,6 +20,8 @@ module Redmine
             }
             attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
           end
+          send :include, Redmine::Acts::Watchable::InstanceMethods
+          alias_method_chain :watcher_user_ids=, :uniq_ids
         end
       end
 

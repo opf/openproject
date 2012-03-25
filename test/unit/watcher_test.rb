@@ -70,6 +70,24 @@ class WatcherTest < ActiveSupport::TestCase
     assert issue.watched_by?(User.find(1))
   end
 
+  def test_watcher_user_ids_should_make_ids_uniq
+    issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
+    issue.watcher_user_ids = ['1', '3', '1']
+    issue.save!
+    assert_equal 2, issue.watchers.count
+  end
+
+  def test_addable_watcher_users
+    addable_watcher_users = @issue.addable_watcher_users
+    assert_kind_of Array, addable_watcher_users
+    assert_kind_of User, addable_watcher_users.first
+  end
+
+  def test_addable_watcher_users_should_not_include_user_that_cannot_view_the_object
+    issue = Issue.new(:project => Project.find(1), :is_private => true)
+    assert_nil issue.addable_watcher_users.detect {|user| !issue.visible?(user)}
+  end
+
   def test_recipients
     @issue.watchers.delete_all
     @issue.reload
