@@ -42,10 +42,17 @@ function enableValues(field, indexes) {
       f[i].up('span').hide();
 		}
 	}
+  var hasDateFields = ((jQuery("#div_values_" + field).find('input[type="date"]').size() > 0) && (Modernizr.inputtypes.date === false));
 	if (indexes.length > 0) {
 		Element.show("div_values_" + field);
+    if(hasDateFields) {
+      jQuery("#div_values_" + field).find('input[type="date"]').datepicker('enable');
+    }
 	} else {
 		Element.hide("div_values_" + field);
+    if(hasDateFields) {
+      jQuery("#div_values_" + field).find('input[type="date"]').datepicker('disable');
+    }
 	}
 }
 
@@ -95,6 +102,9 @@ function apply_filters_observer() {
                           :complete => "e.stop(); apply_filters_observer()") %>
     }
   });
+  if(Modernizr.inputtypes.date === false) {
+    jQuery('#query_form input[type="date"]').datepicker(datepickerSettings);
+  }
 }
 Event.observe(document,"dom:loaded", apply_filters_observer);
 //]]>

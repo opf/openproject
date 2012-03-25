@@ -916,33 +916,25 @@ module ApplicationHelper
   end
 
   def calendar_for(field_id)
-    include_calendar_headers_tags
-    image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
-    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
+    javascript_tag("jQuery('##{field_id}').datepicker(datepickerSettings)")
   end
 
-  def include_calendar_headers_tags
-    unless @calendar_headers_tags_included
-      @calendar_headers_tags_included = true
-      content_for :header_tags do
-        start_of_week = case Setting.start_of_week.to_i
-        when 1
-          'Calendar._FD = 1;' # Monday
-        when 7
-          'Calendar._FD = 0;' # Sunday
-        when 6
-          'Calendar._FD = 6;' # Saturday
-        else
-          '' # use language
-        end
-
-        javascript_include_tag('calendar/calendar') +
-        javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
-        javascript_tag(start_of_week) +
-        javascript_include_tag('calendar/calendar-setup') +
-        stylesheet_link_tag('calendar')
-      end
+  def jquery_datepicker_settings
+    start_of_week = Setting.start_of_week.to_s
+    start_of_week_string = start_of_week.present? ? "firstDay: '#{start_of_week}', " : ''
+    script = javascript_tag("var datepickerSettings = {" +
+                   start_of_week_string +
+                   "showOn: 'both', " +
+                   "buttonImage: '" + path_to_image('/images/calendar.png') + "', " +
+                   "buttonImageOnly: true, " +
+                   "showButtonPanel: true, " +
+                   "dateFormat: 'yy-mm-dd' " +
+                   "}")
+    unless current_language == :en
+      jquery_locale = l("jquery.ui", :default => current_language.to_s)
+      script << javascript_include_tag("libs/ui/i18n/jquery.ui.datepicker-#{jquery_locale}.js")
     end
+    script
   end
 
   def content_for(name, content = nil, &block)
@@ -997,6 +989,7 @@ module ApplicationHelper
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
+    tags << jquery_datepicker_settings
     tags
   end
 

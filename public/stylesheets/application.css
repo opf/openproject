@@ -4372,3 +4372,9 @@ Additional wiki styles
   height: 1px;
   overflow: hidden;
 }
+
+/* jQuery datepicker */
+.ui-datepicker-trigger {
+    margin: 0 0 0 4px;
+    vertical-align: middle;
+}

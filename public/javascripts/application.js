@@ -658,4 +658,9 @@ jQuery(document).ready(function($) {
   }
 
   setUpDialogWindow();
+
+  if(Modernizr.inputtypes.date === false) {
+      $('input[type="date"]').datepicker(datepickerSettings)
+          .filter('[disabled="disabled"]').datepicker('disable');
+  }
 });
