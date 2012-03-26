@@ -48,4 +48,9 @@ class Group < Principal
                             :conditions => ["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids]).each(&:destroy)
     end
   end
+
+  def self.human_attribute_name(attribute_name)
+    attribute_name = "name" if attribute_name == "lastname"
+    super(attribute_name)
+  end
 end
