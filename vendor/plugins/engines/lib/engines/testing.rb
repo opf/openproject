@@ -54,7 +54,7 @@ require 'fileutils'
 #
 module Engines::Testing
   mattr_accessor :temporary_fixtures_directory
-  self.temporary_fixtures_directory = FileUtils.mkdir_p(File.join(Dir.tmpdir, "rails_fixtures"))
+  self.temporary_fixtures_directory = [*FileUtils.mkdir_p(File.join(Dir.tmpdir, "rails_fixtures"))].first
   
   # Copies fixtures from plugins and the application into a temporary directory 
   # (Engines::Testing.temporary_fixtures_directory). 

@@ -125,7 +125,7 @@ namespace :test do
         end.to_yaml)
       end
       out.puts "    installing exception_notification plugin"
-      run "cd #{test_app_dir} && ./script/plugin install git://github.com/rails/exception_notification.git"
+      run "cd #{test_app_dir} && ./script/plugin install git://github.com/rails/exception_notification.git -r 'tag pre-2-3'"
     end
   end
   
@@ -201,6 +201,7 @@ namespace :test do
     mirror_test_files('plugins', 'vendor')
     mirror_test_files('unit', 'test')
     mirror_test_files('functional', 'test')
+    mirror_test_files('initializers', 'config')
   end
   
   desc 'Prepare the engines test environment'
