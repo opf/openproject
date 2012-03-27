@@ -61,7 +61,7 @@ function toggle_custom_field_format() {
 </script>
 
 <div class="box">
-<p><%= f.text_field :name, :required => true %></p>
+  <p id="custom_field_name_attributes"><%= f.text_field :name, :required => true, :multi_locale => true %></p>
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :onchange => "toggle_custom_field_format();",
 																																		:disabled => !@custom_field.new_record? %></p>
 <p><label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>

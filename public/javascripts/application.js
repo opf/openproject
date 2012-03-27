@@ -787,3 +787,173 @@ var Administration = (function ($) {
     init_language_selection_handling: init_language_selection_handling
   };
 }(jQuery));
+
+var I18nForms = (function ($) {
+  var active_locale_selectors,
+    add_locale_fields,
+    destroy_locale,
+    next_localization_number,
+    number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
+    observer_add_locale_link,
+    observe_destroy_locale_links,
+    replace_number_in_id_and_name,
+    select_first_untaken_option,
+    taken_options,
+    update_add_link_status,
+    update_destroy_link_status,
+    update_interaction_elements,
+    update_locale_availability,
+    init;
+
+  active_locale_selectors = function(localized_p) {
+    return localized_p.find('.locale_selector:not([disabled=disabled])');
+  };
+
+  add_locale_fields = function () {
+    var backup = $('.translation').first(),
+        localized_p = backup.closest('p'),
+        add_link = localized_p.find('.add_locale'),
+        new_items = backup.clone(),
+        next_number = next_localization_number(localized_p);
+
+    new_items.find('input').val("");
+    new_items.insertBefore(add_link);
+
+    replace_number_in_id_and_name(new_items.find('select, input'), next_number);
+    select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
+    update_interaction_elements(localized_p);
+
+    new_items.find('.destroy_locale').click(function() {
+      destroy_locale($(this))
+    });
+  };
+
+  destroy_locale = function (element) {
+    var localized_p = element.closest('p');
+
+    element.siblings('.destroy_flag').attr('disabled', false);
+    element.parent().hide();
+    element.siblings('.locale_selector').attr('disabled', true);
+
+    update_interaction_elements(localized_p);
+  };
+
+  next_localization_number = function(localized_p) {
+    var selectors = localized_p.find('.locale_selector'),
+        taken_numbers;
+
+    taken_numbers = selectors.map(function (index, element) {
+      number_matcher.exec(element.name);
+      return RegExp.$2;
+    });
+
+    return parseInt(taken_numbers.sort().get().pop()) + 1;
+  };
+
+  observe_add_locale_link = function () {
+    $('.add_locale').click(add_locale_fields);
+  };
+
+  observe_destroy_locale_links = function() {
+    $('.destroy_locale').click(function() {
+      destroy_locale($(this));
+    });
+  };
+
+  replace_number_in_id_and_name = function(element, rep_number) {
+    element.each(function (index, e) {
+      e = $(e);
+      e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"))
+       .attr('id', e.attr('id').replace(number_matcher, "$1" + rep_number + "$3"));
+    });
+  };
+
+  select_first_untaken_option = function (select, others) {
+    var taken,
+        available;
+
+    taken = taken_options(others);
+
+    available = select.find('option').map(function (index, element) {
+      element = $(element);
+
+      if (taken.indexOf(element.val()) < 0) {
+        return element.val();
+      }
+    }).get();
+
+    select.val(available.pop());
+  };
+
+  update_add_link_status = function (localized_p) {
+    var indicator_selector = active_locale_selectors(localized_p),
+        taken = taken_options(indicator_selector),
+        all_options,
+        add_link = localized_p.find('.add_locale');
+
+    available = indicator_selector.first().find('option').map(function (index, element) {
+      element = $(element);
+
+      if (taken.indexOf(element.attr('value')) < 0) {
+        return element.val();
+      }
+    }).get();
+
+    add_link.toggle(available.size() > 0);
+  };
+
+  update_destroy_link_status = function (localized_p) {
+    var active_selectors = active_locale_selectors(localized_p);
+
+    localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
+  };
+
+  update_interaction_elements = function (localized_p) {
+    update_locale_availability(localized_p);
+    update_add_link_status(localized_p);
+    update_destroy_link_status(localized_p);
+  };
+
+  update_locale_availability = function (localized_p) {
+    var active_selectors = active_locale_selectors(localized_p),
+        active_locales = taken_options(active_selectors);
+
+    active_selectors.each(function (index, element) {
+      var selector = $(element),
+          selected_value = selector.val();
+
+      selector.find('option').each(function (index, element) {
+        var option = $(element);
+
+        option.attr('disabled', (active_locales.indexOf(option.val()) >= 0 && option.val() != selected_value));
+      });
+    });
+  };
+
+  taken_options = function (select_collection) {
+    return select_collection.map(function (index, element) {
+      element = $(element);
+
+      return element.val();
+    }).get();
+  };
+
+  init = function () {
+    var translated_paragraph = $('.translation').closest('p');
+
+    if (translated_paragraph.size() > 0) {
+      observe_add_locale_link();
+      observe_destroy_locale_links();
+      translated_paragraph.each(function (i, element) {
+        element = $(element);
+        update_interaction_elements(element);
+      });
+    };
+  };
+
+  return {
+    init : init
+  };
+}(jQuery));
+
+jQuery(document).ready(I18nForms.init);
