@@ -33,7 +33,7 @@ class ActivitiesController < ApplicationController
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
     @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
+    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty? unless params[:set_filter]
 
     events = @activity.events(@date_from, @date_to)
 
