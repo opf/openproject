@@ -20,7 +20,7 @@ class Query < ActiveRecord::Base
   serialize :column_names
   serialize :sort_criteria, Array
 
-  attr_protected :project_id, :user_id
+  attr_protected :project_id #, :user_id
 
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255

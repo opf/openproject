@@ -20,6 +20,8 @@ class Wiki < ActiveRecord::Base
 
   acts_as_watchable
 
+  attr_protected :project_id
+
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
 

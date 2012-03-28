@@ -61,6 +61,8 @@ class Issue < ActiveRecord::Base
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
+  attr_protected :project_id #, :author_id
+  
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 
   validates_length_of :subject, :maximum => 255
