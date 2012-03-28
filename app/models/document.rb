@@ -24,6 +24,8 @@ class Document < ActiveRecord::Base
       end)
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
+  
+  attr_protected :project_id
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60

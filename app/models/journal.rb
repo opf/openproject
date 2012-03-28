@@ -32,6 +32,8 @@ class Journal < ActiveRecord::Base
   belongs_to :journaled, :class_name => 'Journal'
   belongs_to :user
 
+  #attr_protected :user_id
+  
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation
 

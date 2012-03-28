@@ -39,7 +39,8 @@ class Message < ActiveRecord::Base
 
   acts_as_watchable
 
-  attr_protected :locked, :sticky
+  attr_protected :locked, :sticky #, :author_id
+  
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255
 

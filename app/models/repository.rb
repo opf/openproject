@@ -22,6 +22,8 @@ class Repository < ActiveRecord::Base
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
+  
+  attr_protected :project_id
 
   validates_length_of :password, :maximum => 255, :allow_nil => true
   # Checks if the SCM is enabled when creating a repository
