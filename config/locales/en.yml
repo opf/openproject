@@ -502,6 +502,7 @@ en:
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
+  label_account: Account
   label_my_account: My account
   label_my_account_data: My account data
   label_my_projects: My projects
