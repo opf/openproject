@@ -3,9 +3,9 @@ class ActiveRecord::Base
   # attr_accessible
 
   # call this to force mass assignment even of protected attributes
-  # def force_attributes=(new_attributes)
-  #   self.send(:attributes=, new_attributes, false)
-  # end
+  def force_attributes=(new_attributes)
+    self.send(:attributes=, new_attributes, false)
+  end
   
   # this override will protected the foreign key of certain belongs_to associations by default (see #protected_association?)
   # def self.belongs_to(association_id, options = {})
