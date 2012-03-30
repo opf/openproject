@@ -1,6 +1,8 @@
 class GlobalRolesController < ApplicationController
   unloadable (GlobalRolesController)
 
+  before_filter :require_admin
+
   def new
     @role = GlobalRole.new
     @giveable_permissions = Redmine::AccessControl.permissions

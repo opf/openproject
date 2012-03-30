@@ -1,8 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-
 describe GlobalRolesController do
   before (:each) do
+    @controller.stub!(:check_if_login_required)
+    @controller.should_receive(:require_admin)
     @role = mock_model GlobalRole
     @giveable_permissions = Redmine::AccessControl.permissions
     GlobalRole.stub!(:new).and_return(@role)

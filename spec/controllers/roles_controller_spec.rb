@@ -2,7 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe RolesController do
   before (:each) do
-    @controller.stub!(:require_admin).and_return(true)
+    @controller.stub!(:check_if_login_required)
+    @controller.should_receive(:require_admin)
     disable_flash_sweep
   end
 
