@@ -121,7 +121,7 @@ class Issue < ActiveRecord::Base
 
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
-    # project_id is protected from mass assignment
+    # attributes don't come from form, so it's save to force assign
     self.force_attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
