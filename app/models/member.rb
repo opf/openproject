@@ -74,7 +74,8 @@ class Member < ActiveRecord::Base
   # Find or initilize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
-    # project_id is protected from mass assignment    
+    # interface refactoring needed
+    # not critical atm because only admins can invoke it (see users and groups controllers)
     @membership.force_attributes = new_attributes
     @membership
   end
