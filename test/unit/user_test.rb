@@ -432,20 +432,23 @@ class UserTest < ActiveSupport::TestCase
 
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
+        project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
-        %w(edit_issues delete_issues manage_news manage_documents manage_wiki).each do |p|
+        %w(edit_issues delete_issues manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
       end
 
       should "authorize normal users depending on their roles" do
         project = Project.find(1)
+        project.enabled_module_names = ["boards"]
         assert @jsmith.allowed_to?(:delete_messages, project)    #Manager
         assert ! @dlopper.allowed_to?(:delete_messages, project) #Developper
       end
 
       should "only managers are allowed to export tickets" do
         project = Project.find(1)
+        project.enabled_module_names = ["issue_tracking"]
         assert @jsmith.allowed_to?(:export_issues, project)    #Manager
         assert ! @dlopper.allowed_to?(:export_issues, project) #Developper
       end
@@ -457,6 +460,11 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "return true only if user has permission on all these projects" do
+        Project.all.each do |project|
+          project.enabled_module_names = ["issue_tracking"]
+          project.save!
+        end
+
         assert @admin.allowed_to?(:view_project, Project.all)
         assert ! @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
         assert @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
