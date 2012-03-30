@@ -24,7 +24,7 @@ module CostsUserPatch
 
       before_save :save_rates
 
-      alias_method_chain :allowed_to?, :inheritance
+      register_allowance_evaluator Costs::PrincipalAllowanceEvaluator::Costs
     end
 
   end
@@ -37,8 +37,13 @@ module CostsUserPatch
         perm = Redmine::AccessControl.permission(action)
         if perm.granular_for
           allowed && users.include?(options[:for] || self)
-        elsif !allowed && options[:for] && granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
-          granulars.detect{|p| self.allowed_to? p.name, project, options}
+        elsif !allowed &&
+              options[:for] &&
+              granulars = Redmine::AccessControl.permissions.select{|p| p.granular_for == perm}
+
+          granulars.any?{|p| self.allowed_to? p.name, project, options} ?
+            role :
+            false
         else
           allowed
         end
@@ -66,73 +71,6 @@ module CostsUserPatch
         roles[@role_anonymous] = [self]
       end
       roles
-    end
-
-    # Return true if the user is allowed to do the specified action on project
-    # action can be:
-    # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
-    # * a permission Symbol (eg. :edit_project)
-    def allowed_to_with_inheritance?(action, context, options={})
-      allowed_for_role = Proc.new do |role, users|
-        self.allowed_for_role(action, context, role, users, options)
-      end
-
-      options[:for] = self unless options.has_key?(:for)
-
-      if context && context.is_a?(Project)
-        # No action allowed on archived projects
-        return false unless context.active?
-        # No action allowed on disabled modules
-        return false unless context.allows_to?(action)
-        # Admin users are authorized for anything else
-        return true if admin?
-        
-        roles = granular_roles_for_project(context)
-        return false unless roles
-        allowing_role_pair = roles.detect do |role, users|
-          if (context.is_public? || role.member?)
-            allowed_for_role.call(role, users)
-          else
-            false
-          end
-        end
-        allowing_role_pair ? allowing_role_pair[0] : allowing_role_pair #the role
-      elsif context && context.is_a?(Array)
-        # Authorize if user is authorized on every element of the array
-        context.map do |project|
-          allowed_to?(action, project, options)
-        end.inject do |memo,allowed|
-          memo && allowed
-        end
-
-      elsif options[:global]
-        # Admin users are always authorized
-        return true if admin?
-
-        # authorize if user has at least one role that has this permission
-        roles = memberships.inject({}) do |roles, m|
-          granular_roles(m.member_roles).each_pair do |role, users|
-            if roles[role]
-              roles[role] |= users unless users.nil?
-            else
-              roles[role] = users
-            end
-            
-            roles
-          end
-          roles
-        end
-
-        allowing_role = roles.detect(&allowed_for_role)
-        if allowing_role
-          allowing_role[0]
-        else
-          self.logged? ? allowed_for_role.call(Role.non_member, [self]) : allowed_for_role.call(Role.anonymous, [self])
-        end
-
-      else
-        false
-      end
     end
 
     def allowed_for(permission, projects = nil)
