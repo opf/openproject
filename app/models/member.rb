@@ -74,7 +74,10 @@ class Member < ActiveRecord::Base
   # Find or initilize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
-    @membership.force_attributes = new_attributes
+    # project_id is protected from mass-assignment    
+    project_id = new_attributes.delete('project_id')
+    @membership.attributes = new_attributes
+    @membership.project_id = project_id
     @membership
   end
 
