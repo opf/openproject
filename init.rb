@@ -10,10 +10,11 @@ Dispatcher.to_prepare do
 
   require_dependency 'global_roles/role_patch'
   require_dependency 'global_roles/principal_patch'
-  require_dependency 'global_roles/user_patch'
 
   require_dependency 'global_roles/users_helper_patch'
   require_dependency 'global_roles/roles_helper_patch'
+
+  User.register_allowance_evaluator GlobalRoles::PrincipalAllowanceEvaluator::Global
 end
 
 Redmine::Plugin.register :redmine_global_roles do
