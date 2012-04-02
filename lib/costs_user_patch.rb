@@ -186,20 +186,6 @@ module CostsUserPatch
       roles = {}
       member_roles.each do |r|
         roles[r.role] = [self]
-
-        if r.inherited_from
-          # the role was inherited from a group
-          case r.membership_type
-          when :controller
-            inherited = MemberRole.find_by_id(r.inherited_from)
-            users = [self]
-            users += inherited.member.users# if inherited.member.principal.is_a? Group
-
-            roles[r.role] = users
-          else # :default
-            #nothing
-          end
-        end
       end
       roles
     end
