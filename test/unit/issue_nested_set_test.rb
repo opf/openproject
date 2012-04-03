@@ -184,9 +184,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue2 = create_issue!
     issue3 = create_issue!(:parent_issue_id => issue2.id)
     issue4 = create_issue!
-    r1 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r2 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r3 = IssueRelation.create!(:issue_from => issue2, :issue_to => issue4, :relation_type => IssueRelation::TYPE_PRECEDES)
+    (r1 = IssueRelation.new).force_attributes = {:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES}
+    (r2 = IssueRelation.new).force_attributes = {:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES}
+    (r3 = IssueRelation.new).force_attributes = {:issue_from => issue2, :issue_to => issue4, :relation_type => IssueRelation::TYPE_PRECEDES}
     issue2.reload
     issue2.parent_issue_id = issue1.id
     issue2.save!
@@ -356,6 +356,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   # Helper that creates an issue with default attributes
   def create_issue!(attributes={})
-    Issue.create!({:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test'}.merge(attributes))
+    (i = Issue.new.force_attributes = {:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test'}.merge(attributes)).save!
+    i
   end
 end
