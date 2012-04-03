@@ -26,48 +26,23 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   (field_helpers - %w(radio_button hidden_field fields_for label) + %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
-      if options.delete(:multi_locale)
+      if options[:multi_locale] || options[:single_locale]
+
+        localized_field = Proc.new do |translation_form, multiple|
+          localized_field(translation_form, __method__, field, options)
+        end
+
         ret = label_for_field(field, options)
 
-        if self.object.translations.length == 0
-          locale = User.current.language.present? ? User.current.language : Setting.default_language
+        translation_objects = translation_objects field, options
 
-          self.object.translations.build :locale => locale
+        fields_for(:translations, translation_objects, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
+          ret.concat localized_field.call(translation_form)
         end
 
-        fields_for(:translations, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
-          ret.concat '<span class="translation ' + field.to_s + '_translation">'
-          ret.concat translation_form.send(__method__, field, options)
-          ret.concat translation_form.select :locale,
-                                             Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
-                                             {},
-                                             :class => 'locale_selector'
-          ret.concat translation_form.hidden_field '_destroy',
-                                             :disabled => true,
-                                             :class => 'destroy_flag',
-                                             :value => "1"
-          ret.concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
-          ret.concat "<br>"
-          ret.concat "</span>"
+        if options[:multi_locale]
+          ret.concat '<a href="#" class="add_locale">Add</a>'
         end
-
-        new_translation = object.translation_class.new :locale => User.current.language.present? ? User.current.language : Setting.default_language
-
-#        fields_for(:translations, new_translation, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
-#          ret.concat '<span class="backup_locale" style="display:none">'
-#          ret.concat translation_form.send(__method__,
-#                                           field,
-#                                           options.merge({ :disabled => true }))
-#          ret.concat translation_form.select :locale,
-#                                             Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_s ] },
-#                                             {},
-#                                             :disabled => true,
-#                                             :class => 'locale_selector'
-#          ret.concat '<br>'
-#          ret.concat '</span>'
-#
-#        end
-        ret.concat '<a href="#" class="add_locale">Add</a>'
 
         ret
       else
@@ -82,6 +57,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field(field, options) + super
   end
 
+  private
+
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
       return '' if options.delete(:no_label)
@@ -90,5 +67,74 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
       @template.label(@object_name, field.to_s, text,
                                      :class => (@object && @object.errors[field] ? "error" : nil))
+  end
+
+  def localized_field(translation_form, method, field, options)
+    ret = ""
+    ret.concat "<span class=\"translation #{field.to_s}_translation\">"
+
+    ret.concat translation_form.send(method, field, options)
+    ret.concat translation_form.hidden_field :id,
+                                             :class => 'translation_id'
+    if options[:multi_locale]
+      ret.concat translation_form.select :locale,
+                                         Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
+                                         {},
+                                         :class => 'locale_selector'
+      ret.concat translation_form.hidden_field '_destroy',
+                                               :disabled => true,
+                                               :class => 'destroy_flag',
+                                               :value => "1"
+      ret.concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
+      ret.concat "<br>"
+    else
+      ret.concat translation_form.hidden_field :locale,
+                                               :class => 'locale_selector'
+    end
+
+    ret.concat "</span>"
+
+    ret
+  end
+
+  def translation_objects field, options
+    if options[:multi_locale]
+      multi_translation_object field, options
+    elsif options[:single_locale]
+      single_translation_object field, options
+    end
+  end
+
+  def single_translation_object field, options
+    if self.object.translations.detect{ |t| t.locale == :en }.nil?
+      self.object.translations.build :locale => :en
+    end
+
+    self.object.translations.select{ |t| t.locale == :en }
+  end
+
+  def multi_translation_object field, options
+    if self.object.translations.size == 0
+      self.object.translations.build :locale => user_locale
+      self.object.translations
+    else
+      translations = self.object.translations.select do |t|
+        t.send(field).present?
+      end
+
+      if translations.size > 0
+        translations
+      else
+        self.object.translations.detect{ |t| t.locale == user_locale} ||
+        self.object.translations.first
+      end
+
+    end
+  end
+
+  def user_locale
+    User.current.language.present? ?
+      User.current.language.to_sym :
+      Setting.default_language.to_sym
   end
 end

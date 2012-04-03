@@ -97,12 +97,14 @@ class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
-  translates :name
+  translates :name,
+             :default_value
 
   extend Globalize::ActiveRecord::UniquenessValidation
   accepts_nested_attributes_for :translations,
                                 :allow_destroy => true,
-                                :reject_if =>  proc { |attributes| attributes['locale'].blank? || attributes['name'].blank? }
+                                :reject_if =>  proc { |attributes| attributes['locale'].blank? ||
+                                                                   (attributes.size == 1 && attributes.has_key?('locale')) }
 
   def translations_attributes_with_globalized= attr
     ret = self.translations_attributes_without_globalized=(attr)
