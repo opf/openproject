@@ -54,7 +54,7 @@ class WatcherTest < ActiveSupport::TestCase
     @user.reload
     assert !@user.valid?
 
-    issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
+    (issue = Issue.new).force_attributes = {:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2)}
     issue.watcher_users << @user
     issue.save!
     assert issue.watched_by?(@user)
@@ -106,7 +106,7 @@ class WatcherTest < ActiveSupport::TestCase
     Watcher.create!(:watchable => WikiPage.find(2), :user => user)
 
     # private project (id: 2)
-    Member.create!(:project => Project.find(2), :principal => user, :role_ids => [1])
+    (Member.new.force_attributes = {:project => Project.find(2), :principal => user, :role_ids => [1]}).save!
     Watcher.create!(:watchable => Issue.find(4), :user => user)
     Watcher.create!(:watchable => Message.find(7), :user => user)
     Watcher.create!(:watchable => Wiki.find(2), :user => user)
