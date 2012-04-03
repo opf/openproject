@@ -38,7 +38,7 @@ class Member < ActiveRecord::Base
 
     new_role_ids = ids - role_ids
     # Add new roles
-    new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
+    new_role_ids.each {|id| member_roles << MemberRole.new.tap {|r| r.role_id = id } }
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
