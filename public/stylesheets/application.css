@@ -1680,7 +1680,7 @@ form#issue-list {
 }
 #content table.issues td, #content table th {
 	border:1px solid #e6e6e6;
-	padding:6px;
+	padding: 3px 6px;
 	text-align:left;
 	position:relative;
 	vertical-align:top;
