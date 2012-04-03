@@ -47,12 +47,11 @@ class Task < Issue
   end
 
   def update_with_relationships(params, is_impediment = false)
-    attribs = params.reject { |k, v| !safe_attribute_names.include?(k.to_s) }
+    self.safe_attributes = params
 
-    result = journalized_update_attributes(attribs)
-    move_after params[:prev] if result
-
-    result
+    save.tap do |result|
+      move_after(params[:prev]) if result
+    end
   end
 
   # assumes the task is already under the same story as 'prev_id'
