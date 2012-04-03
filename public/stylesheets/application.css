@@ -82,12 +82,21 @@ input#openid_url { background: url(../images/openid-bg.gif) no-repeat; backgroun
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/
-a, a:link, a:visited {
+a, a:link, a:visited, input.input-as-link {
         text-decoration: none;
         color: #6a0406;
         font-weight:bold;
   }
-a:hover, a:active{ text-decoration: underline;}
+a:hover, a:active, input.input-as-link:hover { text-decoration: underline;}
+
+input.input-as-link {
+  border: none;
+  background-color: transparent;
+  font-size: 13px;
+  font-family: Arial;
+  cursor: pointer;
+  vertical-align: 0;
+}
 a img{ border: 0; }
 
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited {
