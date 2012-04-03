@@ -40,11 +40,12 @@ class Story < Issue
     Story.backlog(project.id, sprint.id, options)
   end
 
-  def self.create_and_position(params)
-    attribs = params.select{|k,v| k != 'prev_id' and k != 'id' and Story.column_names.include? k }
-    attribs = Hash[*attribs.flatten]
+  def self.create_and_position(params, safer_attributes)
+    Story.new.tap do |s|
+      s.safe_attributes = params
+      s.author  = safer_attributes[:author]  if safer_attributes[:author]
+      s.project = safer_attributes[:project] if safer_attributes[:project]
 
-    Story.new(attribs).tap do |s|
       if s.save
         s.move_after(params['prev_id'])
       end
@@ -122,10 +123,9 @@ class Story < Issue
   end
 
   def update_and_position!(params)
-    attribs = params.select { |k,v| k != 'id' and Story.column_names.include?(k) }
-    attribs = Hash[*attribs.flatten]
+    self.safe_attributes = params
 
-    journalized_update_attributes(attribs).tap do |result|
+    save.tap do |result|
       if result and params[:prev]
         reload
         move_after(params[:prev])

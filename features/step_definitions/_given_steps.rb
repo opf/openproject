@@ -158,7 +158,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position params
+    s = Story.create_and_position params, :project => project
     prev_id = s.id
   end
 end
