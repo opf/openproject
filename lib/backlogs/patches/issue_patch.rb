@@ -85,21 +85,6 @@ module Backlogs::Patches::IssuePatch
       self.project.issue_statuses.include?(self.status)
     end
 
-    def journalized_update_attributes!(attribs)
-      init_journal(User.current)
-      update_attributes!(attribs)
-    end
-
-    def journalized_update_attributes(attribs)
-      init_journal(User.current)
-      update_attributes(attribs)
-    end
-
-    def journalized_update_attribute(attrib, v)
-      init_journal(User.current)
-      update_attribute(attrib, v)
-    end
-
     def to_story
       Story.find(id) if is_story?
     end
