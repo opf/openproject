@@ -13,7 +13,7 @@ class RbMasterBacklogsController < RbApplicationController
   end
 
   def find_all_available_statuses_for_current_user
-    available_statuses_by_tracker = Hash.new()
+    available_statuses_by_tracker = {}
     user_roles = User.current.roles_for_project(@project)
     issue_statuses = Workflow.available_statuses(@project,User.current)
     Story.trackers.each do |tracker_id|
@@ -21,7 +21,7 @@ class RbMasterBacklogsController < RbApplicationController
         tracker = Tracker.find(tracker_id)
         allowed_statuses = status.new_statuses_allowed_to(user_roles,tracker)
         unless allowed_statuses.empty?
-          available_statuses_by_tracker[tracker] ||= Hash.new
+          available_statuses_by_tracker[tracker] ||= {}
           available_statuses_by_tracker[tracker][status] = (allowed_statuses << status).uniq
         end
       end
