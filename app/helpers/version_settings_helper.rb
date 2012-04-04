@@ -37,12 +37,12 @@ module VersionSettingsHelper
 
   def humanize_display_option(option)
     case option
-      when ::VersionSetting::DISPLAY_NONE
-        t("version_settings_display_option_none")
-      when ::VersionSetting::DISPLAY_LEFT
-        t("version_settings_display_option_left")
-      when ::VersionSetting::DISPLAY_RIGHT
-        t("version_settings_display_option_right")
+    when ::VersionSetting::DISPLAY_NONE
+      t("version_settings_display_option_none")
+    when ::VersionSetting::DISPLAY_LEFT
+      t("version_settings_display_option_left")
+    when ::VersionSetting::DISPLAY_RIGHT
+      t("version_settings_display_option_right")
     end
   end
 end
