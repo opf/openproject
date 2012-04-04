@@ -40,10 +40,11 @@ Feature: Edit story tracker and status
         | Closed   | true      | false      |
         | Rejected | true      | false      |
     And the project has the following stories in the following sprints:
-        | subject | sprint      | tracker | status | story_points |
-        | Story A | Sprint 001  | Bug    | New     | 10           |
-        | Story B | Sprint 001  | Story  | New     | 20           |
-        | Story C | Sprint 001  | Bug  | Resolved  | 20           |
+        | subject | sprint     | tracker | story_points |
+        | Story A | Sprint 001 | Bug     | 10           |
+        | Story B | Sprint 001 | Story   | 20           |
+        | Story C | Sprint 001 | Bug     | 20           |
+    And the status of "Story C" is "Resolved"
     And the Tracker "Story" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Rejected   |

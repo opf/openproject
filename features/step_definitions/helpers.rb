@@ -1,38 +1,58 @@
 def initialize_story_params(project, user = User.find(:first))
   story = HashWithIndifferentAccess.new(Story.new.attributes)
-  story['project_id'] = project.id
   story['tracker_id'] = Story.trackers.first
+
+  # unsafe attributes that will not be used directly but added for your
+  # convenience
+  story['project_id'] = project.id
   story['author_id']  = user.id
+  story['project'] = project
+  story['author']  = user
   story
 end
 
 def initialize_task_params(project, story, user = User.find(:first))
   params = HashWithIndifferentAccess.new
-  params['project_id'] = project.id
   params['tracker_id'] = Task.tracker
-  params['author_id']  = user.id
   params['parent_issue_id']  = story.id if story
   params['status_id'] = IssueStatus.find(:first).id
+
+  # unsafe attributes that will not be used directly but added for your
+  # convenience
+  params['project_id'] = project.id
+  params['author_id']  = user.id
+  params['project'] = project
+  params['author']  = user
   params
 end
 
 def initialize_issue_params(project, tracker = Tracker.find(:first), parent = nil, user = User.find(:first))
   params = HashWithIndifferentAccess.new
-  params['project_id'] = project.id
   params['tracker_id'] = tracker.id
-  params['author_id']  = user.id
   params['parent_issue_id']  = parent.id if parent
   params['status_id'] = IssueStatus.find(:first).id
+
+  # unsafe attributes that will not be used directly but added for your
+  # convenience
+  params['project_id'] = project.id
+  params['author_id']  = user.id
+  params['project'] = project
+  params['author']  = user
   params
 end
 
 def initialize_impediment_params(project, sprint, user = User.find(:first))
   params = HashWithIndifferentAccess.new(Task.new.attributes)
-  params['project_id'] = project.id
   params['tracker_id'] = Task.tracker
-  params['author_id']  = user.id
   params['fixed_version_id'] = sprint.id
   params['status_id'] = IssueStatus.find(:first).id
+
+  # unsafe attributes that will not be used directly but added for your
+  # convenience
+  params['project_id'] = project.id
+  params['author_id']  = user.id
+  params['project'] = project
+  params['author']  = user
   params
 end
 

@@ -158,7 +158,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position params, :project => project
+    s = Story.create_and_position(params, :project => params[:project], :author => params['author'])
     prev_id = s.id
   end
 end
@@ -307,4 +307,10 @@ Given /^the [tT]racker(?: "([^\"]*)")? has for the Role "(.+?)" the following wo
     tracker.workflows.build(:old_status_id => old_status , :new_status_id => new_status , :role => role)
   end
   tracker.save!
+end
+
+Given /^the status of "([^"]*)" is "([^"]*)"$/ do |issue_subject, status_name|
+  s = Issue.find_by_subject(issue_subject)
+  s.status = IssueStatus.find_by_name(status_name)
+  s.save!
 end
