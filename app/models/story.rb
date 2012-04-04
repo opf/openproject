@@ -124,6 +124,7 @@ class Story < Issue
 
   def update_and_position!(params)
     self.safe_attributes = params
+    self.status_id = nil if params[:status_id] == ''
 
     save.tap do |result|
       if result and params[:prev]
