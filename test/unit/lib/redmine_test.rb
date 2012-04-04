@@ -73,8 +73,8 @@ class RedmineTest < ActiveSupport::TestCase
     assert_menu_contains_item_named :project_menu, :settings
   end
 
-  def test_new_issue_should_have_root_as_a_parent
+  def test_new_issue_should_have_issues_as_a_parent
     new_issue = get_menu_item(:project_menu, :new_issue)
-    assert_equal :root, new_issue.parent.name
+    assert_equal :issues, new_issue.parent.name
   end
 end

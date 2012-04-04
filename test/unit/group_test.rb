@@ -16,9 +16,18 @@ require File.expand_path('../../test_helper', __FILE__)
 class GroupTest < ActiveSupport::TestCase
   fixtures :all
 
+  include Redmine::I18n
+
   def test_create
     g = Group.new(:lastname => 'New group')
     assert g.save
+  end
+
+  def test_blank_name_error_message
+    set_language_if_valid 'en'
+    new_group = Group.new
+    assert !new_group.valid?
+    assert new_group.errors.full_messages.include? "Name can't be blank"
   end
 
   def test_roles_given_to_new_user

@@ -53,17 +53,16 @@
 #
 # ==== SMTP server at using TLS (GMail)
 #
-# This requires some additional configuration.  See the article at:
-# http://redmineblog.com/articles/setup-redmine-to-send-email-using-gmail/
+# This might require some additional configuration.  See the guides at:
+# https://www.chiliproject.org/projects/chiliproject/wiki/Email_Delivery#SMTP-server-using-TLS-GMail
 #
 # production:
 #   email_delivery:
 #     delivery_method: :smtp
 #     smtp_settings:
-#       tls: true
+#       enable_starttls_auto: true
 #       address: "smtp.gmail.com"
 #       port: 587
-#       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
 #       authentication: :plain
 #       user_name: "your_email@gmail.com"
 #       password: "your_password"

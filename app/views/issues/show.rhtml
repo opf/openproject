@@ -39,12 +39,16 @@
         <% if User.current.allowed_to?(:view_time_entries, @project) %>
         <th class="spent-time"><%=l(:label_spent_time)%>:</th>
         <td class="spent-time"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-" %></td>
+        <% else %>
+        <th></th><td></td>
         <% end %>
     </tr>
     <tr>
         <th class="fixed-version"><%=l(:field_fixed_version)%>:</th><td class="fixed-version"><%= @issue.fixed_version ? link_to_version(@issue.fixed_version) : "-" %></td>
         <% if @issue.estimated_hours %>
         <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
+        <% else %>
+        <th></th><td></td>
         <% end %>
     </tr>
     <%= render_custom_fields_rows(@issue) %>
@@ -74,26 +78,16 @@
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
 
-<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
-<hr />
-<div id="issue_tree">
-<p>
-  <strong><%=l(:label_subtask_plural)%></strong>
-  (<%= link_to(l(:button_add), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
-</p>
-
-<%= render_descendants_tree(@issue) unless @issue.leaf? %>
-</div>
-<% end %>
+<%= render :partial => 'tree_simple' %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
 <hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>
-<hr />
 <% end %>
 
+<hr />
 </div>
 
 <% if @changesets.present? %>
@@ -148,9 +142,8 @@
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
     <%= stylesheet_link_tag 'scm' %>
-    <%= javascript_include_tag 'context_menu' %>
+    <%= javascript_include_tag 'context_menu.jquery' %>
     <%= stylesheet_link_tag 'context_menu' %>
     <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
-<div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{issues_context_menu_path}')" %>
+<%= javascript_tag "jQuery(document).ContextMenu('#{issues_context_menu_path}')" %>

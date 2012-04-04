@@ -13,6 +13,7 @@
 #++
 
 class News < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
@@ -21,7 +22,8 @@ class News < ActiveRecord::Base
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
 
-  acts_as_journalized :event_url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.journaled_id} }
+  acts_as_journalized :event_url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.journaled_id} },
+    :event_description => :description
   acts_as_searchable :columns => ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"], :include => :project
   acts_as_watchable
 
@@ -32,8 +34,15 @@ class News < ActiveRecord::Base
     :conditions => Project.allowed_to_condition(args.first || User.current, :view_news)
   }}
 
+  safe_attributes 'title', 'summary', 'description'
+
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)
+  end
+
+  # Returns true if the news can be commented by user
+  def commentable?(user=User.current)
+    user.allowed_to?(:comment_news, project)
   end
 
   # returns latest news for projects visible by user

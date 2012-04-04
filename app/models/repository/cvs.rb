@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/cvs_adapter'
+require_dependency 'redmine/scm/adapters/cvs_adapter'
 require 'digest/sha1'
 
 class Repository::Cvs < Repository

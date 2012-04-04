@@ -74,7 +74,6 @@
           </ul>
         </li>
         <% end %>
-        <li>
           <%= render_menu_node(help_menu_item) %>
           <% unless User.current.logged? %>
             <% if Setting.self_registration? %>
@@ -98,7 +97,6 @@
             </ul>
             </li>
           <% end %>
-        </li>
       </ul>
       <% end %>
     </div>

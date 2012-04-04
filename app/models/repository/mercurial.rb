@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/mercurial_adapter'
+require_dependency 'redmine/scm/adapters/mercurial_adapter'
 
 class Repository::Mercurial < Repository
   # sort changesets by revision number

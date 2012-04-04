@@ -76,7 +76,7 @@ class Journal < ActiveRecord::Base
   end
 
   def editable_by?(user)
-    journaled.journal_editable_by?(user)
+    journaled.journal_editable_by?(self, user)
   end
 
   def details

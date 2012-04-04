@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/abstract_adapter'
+require_dependency 'redmine/scm/adapters/abstract_adapter'
 require 'uri'
 
 module Redmine

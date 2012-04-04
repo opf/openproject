@@ -59,14 +59,12 @@ class NewsController < ApplicationController
 
   def create
     @news = News.new(:project => @project, :author => User.current)
-    if request.post?
-      @news.attributes = params[:news]
-      if @news.save
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'news', :action => 'index', :project_id => @project
-      else
-        render :action => 'new'
-      end
+    @news.safe_attributes = params[:news]
+    if @news.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :controller => 'news', :action => 'index', :project_id => @project
+    else
+      render :action => 'new'
     end
   end
 
@@ -74,7 +72,8 @@ class NewsController < ApplicationController
   end
 
   def update
-    if request.put? and @news.update_attributes(params[:news])
+    @news.safe_attributes = params[:news]
+    if @news.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     else

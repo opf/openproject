@@ -97,7 +97,7 @@ class TimelogController < ApplicationController
 
   def new
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
-    @time_entry.attributes = params[:time_entry]
+    @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
     render :action => 'edit'
@@ -106,7 +106,7 @@ class TimelogController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
-    @time_entry.attributes = params[:time_entry]
+    @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
 
@@ -127,14 +127,14 @@ class TimelogController < ApplicationController
   end
 
   def edit
-    @time_entry.attributes = params[:time_entry]
+    @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
   end
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @time_entry.attributes = params[:time_entry]
+    @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
 

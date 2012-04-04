@@ -1,5 +1,33 @@
 = ChiliProject Changelog
 
+== 2012-04-04 v3.1.0
+
+* Bug #739: Relative textile links not converted to full URLs in emails
+* Bug #828: uninitialized constant Redmine::Scm::Adapters::CommandFailed in RepositoryController
+* Bug #861: Apply Filter does not work on all-project-activities view
+* Bug #868: Done bar has no filling
+* Bug #869: Issue option list stacked vertically instead of horizontally
+* Bug #873: Incorrect error message text for groups
+* Bug #882: Right click context menu doesn't show submenu icon.
+* Bug #887: Stacked month (top row)
+* Bug #888: Cannot edit note
+* Bug #891: quotes around path when shelling out does not work on Windows
+* Bug #892: CP code or test assumes ordering where none is guaranteed
+* Bug #896: Enabling "Authentication required" mode returns 404s
+* Bug #903: ActionView::TemplateError (undefined method `new0' for DateTime:Class)
+* Bug #911: Sub-sub (and deeper) issues CSS rules are overridden
+* Bug #914: comments gets striked through, when description changes before
+* Bug #922: Mass assignment
+* Bug #927: Reposman script problem
+* Bug #929: Missing links in Issues section in left menu bar
+* Bug #933: News RSS Feed  tag not populating
+* Bug #939: GMail documentation in configuration.yml.default out of date
+* Feature #559: Group Menus
+* Feature #899: Create a jQuery verison of the context menu
+* Feature #906: Add Link back to Parent of Subtask
+* Feature #915: default bundle install installs old pg version
+* Feature #928: Increase username length limit from 30 to 60
+
 == 2012-02-06 v3.0.0
 
 * Bug #826: Top right toolbar items overlap for custom issues query

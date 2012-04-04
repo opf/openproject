@@ -29,3 +29,5 @@ doc/app
 /Gemfile.lock
 /Gemfile.local
 /.rvmrc*
+/*.iml
+/.idea

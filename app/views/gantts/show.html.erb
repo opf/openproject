@@ -72,7 +72,7 @@ t_height = g_height + headers_height
 	<p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
 <% end %>
 
-<table width="100%" style="border:0; border-collapse: collapse;">
+<table style="width:100%; border:0; border-collapse: collapse;">
 <tr>
 <td style="width:<%= subject_width %>px; padding:0px;">
 
@@ -98,7 +98,7 @@ month_f = @gantt.date_from
 left = 0
 height = (show_weeks ? header_heigth : header_heigth + g_height)
 @gantt.months.times do
-	width = ((month_f >> 1) - month_f) * zoom - 1
+	width = (((month_f >> 1) - month_f) * zoom - 1).to_i
 	%>
 	<div style="left:<%= left %>px;width:<%= width %>px;height:<%= height %>px;" class="gantt_hdr">
 	<%= link_to h("#{month_f.year}-#{month_f.month}"), @gantt.params.merge(:year => month_f.year, :month => month_f.month), :title => "#{month_name(month_f.month)} #{month_f.year}"%>
@@ -176,7 +176,7 @@ if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
 </tr>
 </table>
 
-<table width="100%">
+<table style="width:100%">
 <tr>
 <td align="left"><%= link_to_content_update('&#171; ' + l(:label_previous), params.merge(@gantt.params_previous)) %></td>
 <td align="right"><%= link_to_content_update(l(:label_next) + ' &#187;', params.merge(@gantt.params_next)) %></td>

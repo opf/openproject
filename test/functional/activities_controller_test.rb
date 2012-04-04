@@ -98,4 +98,12 @@ class ActivitiesControllerTest < ActionController::TestCase
       :attributes => {:href => 'http://test.host/issues/11'}}
   end
 
+  def test_index_without_filters
+    get :index, :set_filter => 1
+    assert_response :success
+    assert_template 'index'
+    assert_tag :tag => 'p',
+      :attributes => {:class => /nodata/},
+      :content => "No data to display"
+  end
 end

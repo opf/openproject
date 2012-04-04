@@ -309,6 +309,9 @@ en:
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
   field_custom_filter: Custom LDAP filter
+  field_issue_summary: Issue summary
+  field_new_saved_query: New saved query
+  field_issue_view_all_open: View all open issues
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -805,6 +808,8 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_profile: Profile
   label_subtask_plural: Subtasks
+  label_subtask_add: Add a subtask
+  label_issue_hierarchy: Issue hierarchy
   label_project_copy_notifications: Send email notifications during the project copy
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"

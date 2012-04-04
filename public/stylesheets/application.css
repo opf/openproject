@@ -121,16 +121,16 @@ tr.issue td.subject, tr.issue td.category, td.assigned_to { white-space: normal;
 tr.issue td.subject { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
-tr.issue.idnt td.subject a {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
-tr.issue.idnt-1 td.subject {padding-left: 0.5em;}
-tr.issue.idnt-2 td.subject {padding-left: 2em;}
-tr.issue.idnt-3 td.subject {padding-left: 3.5em;}
-tr.issue.idnt-4 td.subject {padding-left: 5em;}
-tr.issue.idnt-5 td.subject {padding-left: 6.5em;}
-tr.issue.idnt-6 td.subject {padding-left: 8em;}
-tr.issue.idnt-7 td.subject {padding-left: 9.5em;}
-tr.issue.idnt-8 td.subject {padding-left: 11em;}
-tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
+#content tr.issue.idnt td.subject a {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
+#content tr.issue.idnt-1 td.subject {padding-left: 0.5em;}
+#content tr.issue.idnt-2 td.subject {padding-left: 2em;}
+#content tr.issue.idnt-3 td.subject {padding-left: 3.5em;}
+#content tr.issue.idnt-4 td.subject {padding-left: 5em;}
+#content tr.issue.idnt-5 td.subject {padding-left: 6.5em;}
+#content tr.issue.idnt-6 td.subject {padding-left: 8em;}
+#content tr.issue.idnt-7 td.subject {padding-left: 9.5em;}
+#content tr.issue.idnt-8 td.subject {padding-left: 11em;}
+#content tr.issue.idnt-9 td.subject {padding-left: 12.5em;}
 
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
@@ -204,6 +204,16 @@ table.attributes td { vertical-align: top; }
 
 table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 
+table.query-columns {
+    border-collapse: collapse;
+    border: 0;
+}
+
+table.query-columns td.buttons {
+    vertical-align: middle;
+    text-align: center;
+}
+
 td.center {text-align:center;}
 
 h3.version { background: url(../images/package.png) no-repeat 0% 50%; padding-left: 20px; }
@@ -264,8 +274,10 @@ div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color:
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 
+#issue_tree {border: none;}
 #issue_tree table.issues { border: 0; }
 #issue_tree td.checkbox {display:none;}
+#issue_tree tr.self a.issue {color: inherit;}
 
 #content fieldset#filters {
     padding-bottom:10px;
@@ -351,7 +363,7 @@ div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 
 div#activity dl, #search-results { margin-left: 2em; }
-div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
+div#activity dd, #search-results dd { margin-bottom: 1em; font-size: 0.9em; overflow: hidden; }
 div#activity dt, #search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
 div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 80%; }
@@ -624,7 +636,7 @@ color:#505050;
 }
 
 /***** Progress bar *****/
-table.progress {
+#content table.progress {
     border: 1px solid #D7D7D7;
     border-collapse: collapse;
     border-spacing: 0pt;
@@ -634,12 +646,12 @@ table.progress {
     margin: 1px 6px 1px 0px;
 }
 
-table.progress td { height: 0.9em; }
-table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
-table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
-table.progress td.open { background: #FFF none repeat scroll 0%; }
-p.pourcent {font-size: 80%;}
-p.progress-info {clear: left; font-style: italic; font-size: 80%;}
+#content table.progress td { height: 0.9em; }
+#content table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
+#content table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
+#content table.progress td.open { background: #FFF none repeat scroll 0%; }
+#content p.pourcent {font-size: 80%;}
+#content p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
@@ -1703,6 +1715,7 @@ form#issue-list {
 .title-bar .title-bar-actions .contextual a.icon {
 	color:#000000;
   margin-right: 0px;
+	float: none;
 }
 .title-bar .update {
 	right:0;

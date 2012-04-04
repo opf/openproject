@@ -21,7 +21,10 @@ class CommentsController < ApplicationController
 
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
-    @comment = Comment.new(params[:comment])
+    raise Unauthorized unless @news.commentable?
+
+    @comment = Comment.new
+    @comment.safe_attributes = params[:comment]
     @comment.author = User.current
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)

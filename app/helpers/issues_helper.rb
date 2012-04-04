@@ -79,6 +79,22 @@ module IssuesHelper
     s
   end
 
+  def render_parents_and_subtree(issue)
+    return if issue.leaf? && !issue.parent
+    s = '<form><table id="issue_tree" class="list">'
+    issue_list(issue.self_and_ancestors.sort_by(&:lft) + issue.descendants.sort_by(&:lft)) do |el, level|
+      s << content_tag('tr',
+             content_tag('td', check_box_tag("ids[]", el.id, false, :id => nil), :class => 'checkbox') +
+             content_tag('td', link_to_issue(el, :truncate => 60), :class => 'subject') +
+             content_tag('td', h(el.status)) +
+             content_tag('td', link_to_user(el.assigned_to)) +
+             content_tag('td', progress_bar(el.done_ratio, :width => '80px')),
+             :class => "issue issue-#{el.id} #{"self" if el == issue} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
+    end
+    s << '</table></form>'
+    s
+  end
+
   def render_custom_fields_rows(issue)
     return if issue.custom_field_values.empty?
     ordered_values = []

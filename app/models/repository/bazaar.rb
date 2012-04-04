@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/scm/adapters/bazaar_adapter'
+require_dependency 'redmine/scm/adapters/bazaar_adapter'
 
 class Repository::Bazaar < Repository
   attr_protected :root_url

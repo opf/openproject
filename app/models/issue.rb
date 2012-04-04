@@ -707,6 +707,15 @@ class Issue < ActiveRecord::Base
     projects
   end
 
+  # Overrides Redmine::Acts::Journalized::Permissions
+  #
+  # The default assumption is that journals have the same permissions
+  # as the journaled object, issue notes have separate permissions though
+  def journal_editable_by?(journal, user)
+    return true if journal.author == user && user.allowed_to?(:edit_own_issue_notes, project)
+    user.allowed_to? :edit_issue_notes, project
+  end
+
   private
 
   def update_nested_set_attributes
