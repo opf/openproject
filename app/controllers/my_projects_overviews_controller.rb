@@ -147,6 +147,8 @@ class MyProjectsOverviewsController < ApplicationController
     render :partial => 'page_layout_attachments'
   end
 
+  private
+
   def find_my_project_overview
     @overview = MyProjectsOverview.find(:first, :conditions => "project_id = #{@project.id}")
     # Auto-create missing overviews
