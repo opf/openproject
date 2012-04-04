@@ -221,7 +221,7 @@ Redmine::MenuManager.map :project_menu do |menu|
     visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
     # Project specific queries and global queries
     visible << (p.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", p.id])
-    sidebar_queries = Query.find(:all, 
+    sidebar_queries = Query.find(:all,
                                  :select => 'id, name',
                                  :order => "name ASC",
                                  :conditions => visible.conditions)
@@ -234,7 +234,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                                          })
     end
   }
-  
+
   menu.push(:overview, { :controller => 'projects', :action => 'show' })
   menu.push(:activity, { :controller => 'activities', :action => 'index' })
   menu.push(:roadmap, { :controller => 'versions', :action => 'index' }, {
@@ -269,7 +269,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :param => :project_id,
               :caption => :field_issue_view_all_open,
               :parent => :issues
-            })  
+            })
   menu.push(:new_query, { :controller => 'queries', :action => 'new'}, {
               :param => :project_id,
               :caption => :field_new_saved_query,
