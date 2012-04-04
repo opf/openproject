@@ -4,50 +4,58 @@ Feature: Product Owner
   So that they get done according to my requirements
 
   Background:
-    Given there is 1 project with:
-        | name  | ecookbook |
-    And I am working in project "ecookbook"
-    And the project uses the following modules:
-        | backlogs |
-    And the following trackers are configured to track stories:
-        | Story |
-        | Epic  |
-    And the tracker "Task" is configured to track tasks
-    And the project uses the following trackers:
-        | Story |
-        | Epic  |
-        | Task  |
-    And there is 1 user with:
-        | login | mathias |
-    And there is a role "product owner"
-    And the role "product owner" may have the following rights:
-        | view_master_backlog   |
-        | create_stories        |
-        | update_stories        |
-        | view_issues           |
-        | edit_issues           |
-        | manage_subtasks       |
-    And the user "mathias" is a "product owner"
-    And the project has the following sprints:
-        | name       | start_date | effective_date |
-        | Sprint 001 | 2010-01-01        | 2010-01-31     |
-        | Sprint 002 | 2010-02-01        | 2010-02-28     |
-        | Sprint 003 | 2010-03-01        | 2010-03-31     |
-        | Sprint 004 | 2010-03-01        | 2010-03-31     |
-    And the project has the following product owner backlogs:
-        | Product Backlog |
-        | Wishlist        |
-    And the project has the following stories in the following product owner backlogs:
-        | subject | backlog         |
-        | Story 1 | Product Backlog |
-        | Story 2 | Product Backlog |
-        | Story 3 | Product Backlog |
-        | Story 4 | Product Backlog |
-    And the project has the following stories in the following sprints:
-        | subject | sprint     |
-        | Story A | Sprint 001 |
-        | Story B | Sprint 001 |
-    And I am logged in as "mathias"
+    Given the following trackers are configured to track stories:
+          | Story |
+          | Epic  |
+      And the tracker "Task" is configured to track tasks
+
+      And there is a role "product owner"
+      And the role "product owner" may have the following rights:
+          | view_master_backlog   |
+          | create_stories        |
+          | update_stories        |
+          | view_issues           |
+          | edit_issues           |
+          | manage_subtasks       |
+
+      And the tracker "Story" has the default workflow for the role "product owner"
+      And the tracker "Epic" has the default workflow for the role "product owner"
+      And the tracker "Task" has the default workflow for the role "product owner"
+
+      And there is 1 project with:
+          | name  | ecookbook |
+      And I am working in project "ecookbook"
+      And the project uses the following modules:
+          | backlogs |
+      And the project uses the following trackers:
+          | Story |
+          | Epic  |
+          | Task  |
+
+      And there is 1 user with:
+          | login | mathias |
+      And the user "mathias" is a "product owner"
+
+      And the project has the following sprints:
+          | name       | start_date | effective_date |
+          | Sprint 001 | 2010-01-01        | 2010-01-31     |
+          | Sprint 002 | 2010-02-01        | 2010-02-28     |
+          | Sprint 003 | 2010-03-01        | 2010-03-31     |
+          | Sprint 004 | 2010-03-01        | 2010-03-31     |
+      And the project has the following product owner backlogs:
+          | Product Backlog |
+          | Wishlist        |
+      And the project has the following stories in the following product owner backlogs:
+          | subject | backlog         |
+          | Story 1 | Product Backlog |
+          | Story 2 | Product Backlog |
+          | Story 3 | Product Backlog |
+          | Story 4 | Product Backlog |
+      And the project has the following stories in the following sprints:
+          | subject | sprint     |
+          | Story A | Sprint 001 |
+          | Story B | Sprint 001 |
+      And I am logged in as "mathias"
 
   Scenario: View the product backlog
      When I go to the master backlog
@@ -105,4 +113,3 @@ Feature: Product Owner
      Then the 2nd story in the "Product Backlog" should be "Story 4"
       And the 3rd story in the "Product Backlog" should be "Story 2"
       And the 4th story in the "Product Backlog" should be "Story 3"
-

@@ -32,13 +32,13 @@ Feature: Edit story tracker and status
         | manage_subtasks       |
     And the project has the following sprints:
         | name       | start_date | effective_date |
-        | Sprint 001 | 2010-01-01        | 2010-01-31     |
+        | Sprint 001 | 2010-01-01 | 2010-01-31     |
     And there are the following issue status:
-        | name        | is_closed  | is_default  |
-        | New         | false      | true        |
-        | Resolved    | false      | false       |
-        | Closed      | true       | false       |
-        | Rejected    | true       | false       |
+        | name     | is_closed | is_default |
+        | New      | false     | true       |
+        | Resolved | false     | false      |
+        | Closed   | true      | false      |
+        | Rejected | true      | false      |
     And the project has the following stories in the following sprints:
         | subject | sprint      | tracker | status | story_points |
         | Story A | Sprint 001  | Bug    | New     | 10           |
@@ -51,7 +51,7 @@ Feature: Edit story tracker and status
         | Rejected   | New        |
     And the Tracker "Bug" has for the Role "manager" the following workflows:
         | old_status | new_status |
-        | New        | Closed |
+        | New        | Closed     |
     And I am logged in as "romano"
 
   @javascript
@@ -71,16 +71,19 @@ Feature: Edit story tracker and status
     Given I am on the master backlog
      When I click on the text "Story B"
      Then "Rejected" should be an option for "status_id"
+
      When I select "Rejected" from "status_id"
-     And I select "Bug" from "tracker_id"
+      And I select "Bug" from "tracker_id"
      Then the "status_id" field within ".editors" should contain ""
-     And "New" should be an option for "status_id"
+      And "New" should be an option for "status_id"
+
      When I confirm the story form
      Then the error alert should show "Status can't be blank"
+
      When I press "OK"
-     When I click on the text "Story B"
-     And I select "New" from "status_id"
-     And I confirm the story form
+      And I click on the text "Story B"
+      And I select "New" from "status_id"
+      And I confirm the story form
      Then I should see the status "New" for "Story B" within ".status_id.editable"
 
   @javascript
