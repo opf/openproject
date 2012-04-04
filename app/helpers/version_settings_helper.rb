@@ -7,7 +7,6 @@ module VersionSettingsHelper
     ret = "<p>"
     ret += label_tag name_for_setting_attributes("display"), l(:field_display)
     ret += select_tag name_for_setting_attributes("display"), options_for_select(position_display_options, setting.display)
-    ret += hidden_field_tag name_for_setting_attributes("project_id"), project.id
     ret += hidden_field_tag name_for_setting_attributes("id"), setting.id if setting.id
     ret += "</p>"
 
@@ -17,9 +16,10 @@ module VersionSettingsHelper
   private
 
   def version_setting_for_project(version, project)
-    setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? } if version.version_settings.present?
-    #nil? because some settings in the active codebase do have that right now
-    setting = VersionSetting.new(:display => VersionSetting::DISPLAY_LEFT, :project => project) if setting.nil?
+    setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? }
+
+    # nil? because some settings in the active codebase do have that right now
+    setting ||= version.version_settings.new(:display => VersionSetting::DISPLAY_LEFT, :projec => project)
 
     setting
   end

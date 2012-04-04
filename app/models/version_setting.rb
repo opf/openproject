@@ -2,6 +2,8 @@ class VersionSetting < ActiveRecord::Base
   belongs_to :project
   belongs_to :version
 
+  attr_accessible :display, :project
+
   DISPLAY_NONE = 1
   DISPLAY_LEFT = 2
   DISPLAY_RIGHT = 3
