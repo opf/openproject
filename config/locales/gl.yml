@@ -1009,3 +1009,8 @@ gl:
   label_mail_handler_failure: "Failed email submission: %{subject}"
   notice_not_authorized_action: You are not authorized to perform this action.
   text_mail_handler_confirmation_successful: Your email has been successful added at the following url
+  field_issue_summary: Issue summary
+  field_new_saved_query: New saved query
+  field_issue_view_all_open: View all open issues
+  label_subtask_add: Add a subtask
+  label_issue_hierarchy: Issue hierarchy
