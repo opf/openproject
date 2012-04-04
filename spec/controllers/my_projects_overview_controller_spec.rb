@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe ProjectsController do
+describe MyProjectsOverviewsController do
   before :each do
     @controller.stub!(:set_localization)
+    @controller.should_receive(:authorize)
 
     @role = Factory.create(:non_member)
     @user = Factory.create(:admin)
