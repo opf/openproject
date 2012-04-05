@@ -963,28 +963,28 @@ de:
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden.
   text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
+  label_cvs_module: Modul
+  label_filesystem_path: Wurzelverzeichnis
+  label_darcs_path: Wurzelverzeichnis
+  label_bazaar_path: Wurzelverzeichnis
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-  label_my_queries: My custom queries
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  text_journal_changed_no_detail: "%{label} updated"
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  field_effective_date: Due date
-  label_news_comment_added: Comment added to a news
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  text_default_encoding: "Default: UTF-8"
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  label_notify_member_plural: Email issue updates
-  label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
+  label_git_path: Pfad zum .git Verzeichnis
+  label_mercurial_path: Wurzelverzeichnis
+  label_my_queries: Meine benutzerdefinierten Abfragen
+  label_additional_workflow_transitions_for_assignee: Zusätzliche Workflow-Übergänge wenn das Ticket an den Benutzer zugewiesen ist
+  text_journal_changed_no_detail: "%{label} aktualisiert"
+  button_expand_all: Alles ausklappen
+  button_collapse_all: Alles einklappen
+  label_additional_workflow_transitions_for_author: Zusätzliche Workflow-Übergänge wenn der Benutzer der Autor ist
+  field_effective_date: Abshlussdatum
+  label_news_comment_added: "Kommentar erfolgreich hinzugefügt"
+  field_warn_on_leaving_unsaved: "Warnen wenn eine Seite mit ungespeichertem Text verlassen wird"
+  text_warn_on_leaving_unsaved: "Die aktuelle Seite enthält ungespeicherten Text er verloren geht wenn Sie diese Seite verlassen."
+  text_default_encoding: "Standard: UTF-8"
+  text_git_repo_example: Ein lokales "bare Repository"  (z.B. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Benachrichtigungen verschicken
+  label_path_encoding: Pfadkodierung
+  text_mercurial_repo_example: Lokales Projektarchiv (z.B. /hgrepo, c:\hgrepo)
   label_diff: diff
   description_filter: Filter
   description_search: Suchfeld
@@ -1003,19 +1003,19 @@ de:
   description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
   description_date_from: Startdatum eintragen
   description_date_to: Enddatum eintragen
-  field_custom_filter: Custom LDAP filter
+  field_custom_filter: Benutzerdefinierter LDAP-Filter
   label_toc: "Inhaltsverzeichnis"
-  text_display_subprojects: Display subprojects
-  text_current_project: Current project
-  setting_mail_handler_confirmation_on_success: Send confirmation email on successful incoming email
-  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
-  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
-  label_document_watchers: Watchers
-  setting_mail_handler_confirmation_on_failure: Send confirmation email on failed incoming email
-  label_between: between
-  label_mail_handler_failure: "Failed email submission: %{subject}"
-  notice_not_authorized_action: You are not authorized to perform this action.
-  text_mail_handler_confirmation_successful: Your email has been successful added at the following url
-  field_issue_summary: Issue summary
-  field_new_saved_query: New saved query
-  field_issue_view_all_open: View all open issues
+  text_display_subprojects: Unterprojekte anzeigen
+  text_current_project: Aktuelles Project
+  setting_mail_handler_confirmation_on_success: Bestätigungs-E-Mail bei erfolgreich eingegangenen E-Mails versenden
+  label_mail_handler_confirmation: "Bestätigung der E-Mail-Verarbeitung: %{subject}"
+  label_mail_handler_errors_with_submission: "Es traten Fehler bei der E-Mail verarbeitung auf:"
+  label_document_watchers: Beobachter
+  setting_mail_handler_confirmation_on_failure: Bestätigungs-E-Mail bei fehlgeschlagenen eingehenden E-Mails versenden
+  label_between: zwischen
+  label_mail_handler_failure: "E-Mail-Versand fehlgeschlagen: %{subject}"
+  notice_not_authorized_action: Sie sind für diese Aktion nicht autorisiert.
+  text_mail_handler_confirmation_successful: Ihre E-Mil wurde erfolgreich zu folgender URL hinzugefügt
+  field_issue_summary: Ticketübersicht
+  field_new_saved_query: Neue gespeicherte Abfrage
+  field_issue_view_all_open: Alle offen Tickets
