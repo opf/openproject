@@ -1,7 +1,8 @@
-# French translations for Ruby on Rails
+# French translations for Ruby on Rails and ChiliProject
 # by Christian Lescuyer (christian@flyingcoders.com)
 # contributor: Sebastien Grosjean - ZenCocoon.com
 # contributor: Thibaut Cuvelier - Developpez.com
+# contributor: Sébastien Santoro aka Dereckson
 
 fr:
   direction: ltr
@@ -174,8 +175,8 @@ fr:
   notice_locking_conflict: Les données ont été mises à jour par un autre utilisateur. Mise à jour impossible.
   notice_not_authorized: "Vous n'êtes pas autorisé à accéder à cette page."
   notice_not_authorized_archived_project: Le projet auquel vous tentez d'accéder a été archivé.
-  notice_email_sent: "Un email a été envoyé à %{value}"
-  notice_email_error: "Erreur lors de l'envoi de l'email (%{value})"
+  notice_email_sent: "Un e-mail a été envoyé à %{value}"
+  notice_email_error: "Erreur lors de l'envoi de l'e-mail (%{value})"
   notice_feeds_access_key_reseted: "Votre clé d'accès aux flux RSS a été réinitialisée."
   notice_failed_to_save_issues: "%{count} demande(s) sur les %{total} sélectionnées n'ont pas pu être mise(s) à jour : %{ids}."
   notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
@@ -223,7 +224,7 @@ fr:
   field_is_required: Obligatoire
   field_firstname: Prénom
   field_lastname: Nom
-  field_mail: "Email "
+  field_mail: "E-mail "
   field_filename: Fichier
   field_filesize: Taille
   field_downloads: Téléchargements
@@ -253,12 +254,12 @@ fr:
   field_fixed_version: Version cible
   field_user: Utilisateur
   field_role: Rôle
-  field_homepage: "Site web "
+  field_homepage: "Site Web "
   field_is_public: Public
   field_parent: Sous-projet de
-  field_is_in_roadmap: Demandes affichées dans la roadmap
+  field_is_in_roadmap: Demandes affichées dans la feuille de route
   field_login: "Identifiant "
-  field_mail_notification: Notifications par mail
+  field_mail_notification: Notifications par e-mail
   field_admin: Administrateur
   field_last_login_on: "Dernière connexion "
   field_language: Langue
@@ -279,7 +280,7 @@ fr:
   field_start_date: Début
   field_done_ratio: "% réalisé"
   field_auth_source: Mode d'authentification
-  field_hide_mail: Cacher mon adresse mail
+  field_hide_mail: Cacher mon adresse e-mail
   field_comments: Commentaire
   field_url: URL
   field_start_page: Page de démarrage
@@ -321,10 +322,10 @@ fr:
   setting_issues_export_limit: Limite export demandes
   setting_mail_from: Adresse d'émission
   setting_bcc_recipients: Destinataires en copie cachée (cci)
-  setting_plain_text_mail: Mail texte brut (non HTML)
+  setting_plain_text_mail: Mail texte brut (sans HTML)
   setting_host_name: Nom d'hôte et chemin
   setting_text_formatting: Formatage du texte
-  setting_wiki_compression: Compression historique wiki
+  setting_wiki_compression: Compression de l'historique du wiki
   setting_feeds_limit: Limite du contenu des flux RSS
   setting_default_projects_public: Définir les nouveaux projets comme publics par défaut
   setting_autofetch_changesets: Récupération auto. des commits
@@ -338,15 +339,15 @@ fr:
   setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
   setting_repositories_encodings: Encodages des dépôts
   setting_commit_logs_encoding: Encodage des messages de commit
-  setting_emails_footer: Pied-de-page des emails
+  setting_emails_footer: Pied-de-page des e-mails
   setting_protocol: Protocole
   setting_per_page_options: Options d'objets affichés par page
   setting_user_format: Format d'affichage des utilisateurs
   setting_activity_days_default: Nombre de jours affichés sur l'activité des projets
   setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
   setting_enabled_scm: SCM activés
-  setting_mail_handler_body_delimiters: "Tronquer les emails après l'une de ces lignes"
-  setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
+  setting_mail_handler_body_delimiters: "Tronquer les e-mails après l'une de ces lignes"
+  setting_mail_handler_api_enabled: "Activer le WS pour la réception d'e-mails"
   setting_mail_handler_api_key: Clé de protection de l'API
   setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
   setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
@@ -472,8 +473,8 @@ fr:
   label_tracker_plural: Trackers
   label_tracker_new: Nouveau tracker
   label_workflow: Workflow
-  label_issue_status: Statut de demandes
-  label_issue_status_plural: Statuts de demandes
+  label_issue_status: Statut de demande
+  label_issue_status_plural: Statuts de demande
   label_issue_status_new: Nouveau statut
   label_issue_category: Catégorie de demandes
   label_issue_category_plural: Catégories de demandes
@@ -646,7 +647,7 @@ fr:
   label_sort_higher: Remonter
   label_sort_lower: Descendre
   label_sort_lowest: Descendre en dernier
-  label_roadmap: Roadmap
+  label_roadmap: Feuille de route
   label_roadmap_due_in: "Échéance dans %{value}"
   label_roadmap_overdue: "En retard de %{value}"
   label_roadmap_no_issues: Aucune demande pour cette version
@@ -718,7 +719,7 @@ fr:
   label_date_to: Au
   label_language_based: Basé sur la langue de l'utilisateur
   label_sort_by: "Trier par %{value}"
-  label_send_test_email: Envoyer un email de test
+  label_send_test_email: Envoyer un e-mail de test
   label_feeds_access_key_created_on: "Clé d'accès RSS créée il y a %{value}"
   label_module_plural: Modules
   label_added_time_by: "Ajouté par %{author} il y a %{age}"
@@ -736,7 +737,7 @@ fr:
   label_user_mail_option_all: "Pour tous les événements de tous mes projets"
   label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
   label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
-  label_registration_activation_by_email: activation du compte par email
+  label_registration_activation_by_email: activation du compte par e-mail
   label_registration_manual_activation: activation manuelle du compte
   label_registration_automatic_activation: activation automatique du compte
   label_display_per_page: "Par page : %{value}"
@@ -754,7 +755,7 @@ fr:
   label_chronological_order: Dans l'ordre chronologique
   label_reverse_chronological_order: Dans l'ordre chronologique inverse
   label_planning: Planning
-  label_incoming_emails: Emails entrants
+  label_incoming_emails: E-mails entrants
   label_generate_key: Générer une clé
   label_issue_watchers: Observateurs
   label_example: Exemple
@@ -909,7 +910,7 @@ fr:
   default_role_non_member: "Non membre "
   default_role_anonymous: "Anonyme "
   default_tracker_bug: Anomalie
-  default_tracker_feature: Evolution
+  default_tracker_feature: Évolution
   default_tracker_support: Assistance
   default_issue_status_new: Nouveau
   default_issue_status_in_progress: En cours
@@ -943,13 +944,13 @@ fr:
   text_journal_deleted: "%{label} %{old} supprimé"
   text_journal_added: "%{label} %{value} ajouté"
   enumeration_system_activity: Activité système
-  label_board_sticky: Sticky
+  label_board_sticky: Post-it
   label_board_locked: Verrouillé
   error_unable_delete_issue_status: Impossible de supprimer le statut de demande
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_unable_to_connect: Connexion impossible (%{value})
   error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
-  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
+  error_can_not_delete_tracker: "Ce tracker contenant des demandes, il ne peut pas être supprimé."
   field_principal: Principal
   notice_failed_to_save_members: "Erreur lors de la sauvegarde des membres: %{errors}."
   text_zoom_out: Zoom arrière
@@ -959,7 +960,7 @@ fr:
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendrier
-  button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
+  button_edit_associated_wikipage: "Modifier la page wiki associée : %{page_title}"
   text_are_you_sure_with_children: Supprimer la demande et toutes ses sous-demandes ?
   field_text: Champ texte
   label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
@@ -970,53 +971,53 @@ fr:
   field_member_of_group: Groupe de l'assigné
   field_assigned_to_role: Rôle de l'assigné
   setting_emails_header: En-tête des emails
-  text_powered_by: Powered by %{link}
+  text_powered_by: Propulsé par %{link}
   label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
+  label_filesystem_path: Dossier parent
+  label_darcs_path: Dossier parent
+  label_bazaar_path: Dossier parent
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-  field_effective_date: Due date
-  text_default_encoding: "Default: UTF-8"
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  label_git_path: Dossier .git
+  label_mercurial_path: Dossier parent
+  field_effective_date: Échéance
+  text_default_encoding: "par défaut, UTF-8"
+  text_git_repo_example: un dépôt local et nu (ex. /gitrepo, c:\gitrepo)
   label_notify_member_plural: Email issue updates
-  label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
-  description_search: Searchfield
+  label_path_encoding: Encodage du dossier
+  text_mercurial_repo_example: dépôt local (ex. /hgrepo, c:\hgrepo)
+  description_search: Case de recherche
   description_user_mail_notification: Mail notification settings
   description_date_range_list: Choose range from list
   description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
-  description_message_content: Message content
+  description_message_content: Contenu du message
   description_wiki_subpages_reassign: Choose new parent page
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_project_scope: Search scope
-  description_issue_category_reassign: Choose issue category
-  description_query_sort_criteria_direction: Sort direction
+  description_available_columns: Colonnes disponibles
+  description_selected_columns: Colonnes sélectionnées
+  description_date_range_interval: Choisissez l'intervalle de date en sélectionnant une date de début et une date de fin
+  description_project_scope: Portée de recherche
+  description_issue_category_reassign: Sélectionnez la catégorie de la demande
+  description_query_sort_criteria_direction: Tri par direction
   description_notes: Notes
-  description_filter: Filter
-  description_choose_project: Projects
-  description_date_from: Enter start date
-  field_custom_filter: Custom LDAP filter
-  text_display_subprojects: Display subprojects
-  text_current_project: Current project
-  label_toc: Contents
-  search_input_placeholder: search ...
-  setting_mail_handler_confirmation_on_success: Send confirmation email on successful incoming email
-  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
-  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
-  label_document_watchers: Watchers
-  setting_mail_handler_confirmation_on_failure: Send confirmation email on failed incoming email
-  label_between: between
-  label_mail_handler_failure: "Failed email submission: %{subject}"
-  notice_not_authorized_action: You are not authorized to perform this action.
-  text_mail_handler_confirmation_successful: Your email has been successful added at the following url
-  field_issue_summary: Issue summary
-  field_new_saved_query: New saved query
-  field_issue_view_all_open: View all open issues
-  label_subtask_add: Add a subtask
-  label_issue_hierarchy: Issue hierarchy
+  description_filter: Filtrer
+  description_choose_project: Projets
+  description_date_from: Entrer la date du début
+  field_custom_filter: Filtre LDAP personnalisé
+  text_display_subprojects: Afficher les sous-projets
+  text_current_project: Project en cours
+  label_toc: Table des matières
+  search_input_placeholder: recherche ...
+  setting_mail_handler_confirmation_on_success: Envoyer un e-mail
+  label_mail_handler_confirmation: "Confirmation de l 'envoi d'un e-mail : %{subject}"
+  label_mail_handler_errors_with_submission: "Des erreurs sont survenues lors de l'envoi de votre e-mail :"
+  label_document_watchers: Observateurs
+  setting_mail_handler_confirmation_on_failure: Envoyez une confirmation en cas d'erreur d'e-mail entrant
+  label_between: entre
+  label_mail_handler_failure: "Erreur d'envoi d'e-mail : %{subject}"
+  notice_not_authorized_action: Vous n'êtes pas autoriser à effectuer cette action.
+  text_mail_handler_confirmation_successful: Votre e-mail a été ajouté avec succès à l'adresse suivante
+  field_issue_summary: Rapports
+  field_new_saved_query: Nouveau rapport
+  field_issue_view_all_open: Demandes ouvertes
+  label_subtask_add: Ajouter une sous-tâche
+  label_issue_hierarchy: Hiérarchie de la demande
