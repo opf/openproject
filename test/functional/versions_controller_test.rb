@@ -112,13 +112,18 @@ class VersionsControllerTest < ActionController::TestCase
 
   def test_post_update
     @request.session[:user_id] = 2
+
+    today = Date.today
     put :update, :id => 2,
                 :version => { :name => 'New version name',
-                              :effective_date => Date.today.strftime("%Y-%m-%d")}
+                              :start_date => today.yesterday.strftime("%Y-%m-%d"),
+                              :effective_date => today.strftime("%Y-%m-%d"),
+                            }
     assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
     version = Version.find(2)
     assert_equal 'New version name', version.name
-    assert_equal Date.today, version.effective_date
+    assert_equal today.yesterday, version.start_date
+    assert_equal today, version.effective_date
   end
 
   def test_post_update_with_validation_failure
