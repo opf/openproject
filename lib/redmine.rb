@@ -259,7 +259,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :caption => :label_issue_plural,
               :children => issue_query_proc
             })
-  menu.push(:new_issue, { :controller => 'issues', :action => 'new' }, {
+  menu.push(:new_issue, { :controller => 'issues', :action => 'new', :copy_from => nil }, {
               :param => :project_id,
               :caption => :label_issue_new,
               :parent => :issues,
