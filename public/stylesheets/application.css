@@ -42,6 +42,12 @@ h5, .wiki h4 {font-size: 11px;padding: 2px 10px 1px 0px;margin-bottom: 5px; bord
   background: none;
   margin: 0;
   padding: 0 0 0 24px;
+
+  /* Cap long menu entries with an ellipsis. TODO: http://www.bramstein.com/projects/text-overflow/ */
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 #main-menu li a:hover {color:#555; text-decoration: none;}
 
