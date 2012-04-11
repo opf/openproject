@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :user_setup, :check_if_login_required, :set_localization
+  before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
   filter_parameter_logging :password
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
@@ -122,6 +122,12 @@ class ApplicationController < ActionController::Base
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
+  end
+
+  def reset_i18n_fallbacks
+    return if I18n.fallbacks.defaults == (fallbacks = [I18n.default_locale] + Setting.available_languages.map(&:to_sym))
+    I18n.fallbacks = nil
+    I18n.fallbacks.defaults = fallbacks
   end
 
   def set_localization
