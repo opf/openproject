@@ -46,7 +46,7 @@ module JournalFormatter
       registered_fields[klazz] ||= {}
       registered_fields[klazz].merge!(hash)
     else
-      formatters.merge(hash)
+      formatters.merge!(hash)
     end
   end
 
@@ -140,7 +140,7 @@ module JournalFormatter
       detail
     end
   end
-  
+
   def values(detail)
     key = prop_key(detail)
     if detail != key

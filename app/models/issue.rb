@@ -43,7 +43,8 @@ class Issue < ActiveRecord::Base
                                                 else
                                                   t << (IssueStatus.find_by_id(o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit')
                                                 end
-                                                t }
+                                                t },
+                      :except => ["root_id"]
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
@@ -557,7 +558,7 @@ class Issue < ActiveRecord::Base
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
   end
-
+  
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
   def save_issue_with_child_records(params, existing_time_entry=nil)
@@ -586,7 +587,18 @@ class Issue < ActiveRecord::Base
           end
         rescue ActiveRecord::StaleObjectError
           attachments[:files].each(&:destroy)
-          errors.add_to_base l(:notice_locking_conflict)
+          error_message = l(:notice_locking_conflict)
+          
+          journals_since = self.journals.after(lock_version)
+          
+          if journals_since.any?
+            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+          end
+
+          error_message << " " << l(:notice_locking_conflict_reload_page)
+          
+          errors.add_to_base error_message
           raise ActiveRecord::Rollback
         end
       end
@@ -610,9 +622,11 @@ class Issue < ActiveRecord::Base
   def parent_issue_id=(arg)
     parent_issue_id = arg.blank? ? nil : arg.to_i
     if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
+      journal_changes["parent_id"] = [self.parent_id, @parent_issue.id]
       @parent_issue.id
     else
       @parent_issue = nil
+      journal_changes["parent_id"] = [self.parent_id, nil]
       nil
     end
   end

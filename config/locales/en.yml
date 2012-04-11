@@ -158,7 +158,9 @@ en:
   notice_successful_connection: Successful connection.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_locking_conflict: Data has been updated by another user.
+  notice_locking_conflict: Information has been updated by at least one other user in the meantime.
+  notice_locking_conflict_additional_information: "The update(s) came from %{users}."
+  notice_locking_conflict_reload_page: Please reload the page, review the changes and reapply your updates.
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
@@ -267,6 +269,7 @@ en:
   field_host: Host
   field_port: Port
   field_account: Account
+  field_base: "General Error:"
   field_base_dn: Base DN
   field_attr_login: Login attribute
   field_attr_firstname: Firstname attribute
@@ -310,9 +313,8 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  field_impaired_settings: "%{app_title} offers a slightly different User Interface for visually/motorically impaired Users"
-  field_impaired: "Use adjusted %{app_title} Interface"
-
+  field_impaired: Accessibility mode
+  field_ui: User Interface
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -383,6 +385,7 @@ en:
   permission_manage_versions: Manage versions
   permission_manage_categories: Manage issue categories
   permission_view_issues: View Issues
+  permission_export_issues: Export Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
   permission_manage_issue_relations: Manage issue relations
@@ -500,6 +503,7 @@ en:
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
+  label_account: Account
   label_my_account: My account
   label_my_account_data: My account data
   label_my_projects: My projects
@@ -555,6 +559,7 @@ en:
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
+  label_summary: Summary
   label_project_settings: Project settings
   label_overview: Overview
   label_version: Version

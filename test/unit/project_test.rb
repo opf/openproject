@@ -725,7 +725,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
-
+  
+  def test_export_issues_is_allowed
+    project = Project.find(1)
+    assert project.allows_to?(:export_issues)
+  end
+  
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
