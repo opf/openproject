@@ -28,9 +28,9 @@ de:
   permission_send_meeting_minutess_notification: "Benachrichtigungen für Protokolle verschicken"
   text_in_hours: "in Stunden"
   text_meeting_agenda_open_are_you_sure: "Nicht-gespeicherte Inhalte des Protokolls werden durch diese Aktion verworfen! Weitermachen?"
-  text_review_agenda: "%{author} hat die %{link} zur Einsicht freigegeben."
+  text_review_agenda: "%{author} hat die %{link} zur Einsicht freigegeben:"
   text_agenda_for_meeting: 'Agenda für das Meeting "%{meeting}"'
-  text_review_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_review_minutes: "%{author} hat das %{link} zur Einsicht freigegeben:"
   text_minutes_for_meeting: 'Protokoll für das Meeting "%{meeting}"'
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   description_invite: eingeladen
