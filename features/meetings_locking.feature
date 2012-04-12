@@ -1,5 +1,5 @@
 Feature: Locking meetings
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -31,6 +31,6 @@ Feature: Locking meetings
             | text | and now for something completely different |
         And I fill in "Blabla oder?" for "meeting_agenda_text"
         And I click on "Save"
-       Then I should see "Data has been updated by another user."
-            # Prüfen, ob die Editbox noch sichtbar ist 
+       Then I should see "Information has been updated by at least one other user in the meantime."
+            # Prüfen, ob die Editbox noch sichtbar ist
        #And I should see "Text formatting" within "#tab-content-agenda"
