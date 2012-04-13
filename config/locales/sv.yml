@@ -1,65 +1,42 @@
-# Swedish translation for Ruby on Rails
+# Swedish translation for Ruby on Rails and ChiliProject
 # by Johan Lundström (johanlunds@gmail.com),
 # with parts taken from http://github.com/daniel/swe_rails
+# 
+# contributor: Björn Blissing
 
 sv:
-  number:
-    # Used in number_with_delimiter()
-    # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
-    format:
-      # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
-      separator: ","
-      # Delimets thousands (e.g. 1,000,000 is a million) (always in groups of three)
-      delimiter: "."
-      # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
-      precision: 2
+  # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: ltr
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y-%m-%d"
+      short: "%e %b"
+      long: "%e %B, %Y"
 
-    # Used in number_to_currency()
-    currency:
-      format:
-        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
-        format: "%n %u"
-        unit: "kr"
-        # These three are to override number.format and are optional
-        # separator: "."
-        # delimiter: ","
-        # precision: 2
+    day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
+    abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
 
-    # Used in number_to_percentage()
-    percentage:
-      format:
-        # These three are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        # precision:
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
+    abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
+    # Used in date_select and datime_select.
+    order:
+      - :day
+      - :month
+      - :year
 
-    # Used in number_to_precision()
-    precision:
-      format:
-        # These three are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        # precision:
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: ""
+    pm: ""
 
-    # Used in number_to_human_size()
-    human:
-      format:
-        # These three are to override number.format and are optional
-        # separator:
-        delimiter: ""
-        # precision: 1
-      storage_units:
-        format: "%n %u"
-        units:
-          byte:
-            one: "Byte"
-            other: "Bytes"
-          kb: "kB"
-          mb: "MB"
-          gb: "GB"
-          tb: "TB"
-
-  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
     distance_in_words:
       half_a_minute: "en halv minut"
@@ -97,16 +74,67 @@ sv:
         one:   "nästan 1 år"
         other: "nästan %{count} år"
 
+  number:
+    format:
+      separator: ","
+      delimiter: "."
+      precision: 2
+
+    # Used in number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+        format: "%n %u"
+        unit: "SEK"
+        # These three are to override number.format and are optional
+        # separator: "."
+        # delimiter: ","
+        # precision: 2
+
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "kB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "och"
+      skip_last_comma: true
+
   activerecord:
     errors:
       template:
         header:
           one:    "Ett fel förhindrade denna %{model} från att sparas"
           other:  "%{count} fel förhindrade denna %{model} från att sparas"
-        # The variable :count is also available
-        body: "Det var problem med följande fält:"
-      # The values :model, :attribute and :value are always available for interpolation
-      # The value :count is available when applicable. Can be used for pluralization.
       messages:
         inclusion: "finns inte i listan"
         exclusion: "är reserverat"
@@ -120,6 +148,7 @@ sv:
         wrong_length: "har fel längd (ska vara %{count} tecken)"
         taken: "har redan tagits"
         not_a_number: "är inte ett nummer"
+        not_a_date: "är inte ett giltigt datum"
         greater_than: "måste vara större än %{count}"
         greater_than_or_equal_to: "måste vara större än eller lika med %{count}"
         equal_to: "måste vara samma som"
@@ -131,43 +160,6 @@ sv:
         not_same_project: "tillhör inte samma projekt"
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
-
-  direction: ltr
-  date:
-    formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
-      default: "%Y-%m-%d"
-      short: "%e %b"
-      long: "%e %B, %Y"
-
-    day_names: [söndag, måndag, tisdag, onsdag, torsdag, fredag, lördag]
-    abbr_day_names: [sön, mån, tis, ons, tor, fre, lör]
-
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december]
-    abbr_month_names: [~, jan, feb, mar, apr, maj, jun, jul, aug, sep, okt, nov, dec]
-    # Used in date_select and datime_select.
-    order:
-      - :day
-      - :month
-      - :year
-
-  time:
-    formats:
-      default: "%Y-%m-%d %H:%M"
-      time: "%H:%M"
-      short: "%d %b %H:%M"
-      long: "%d %B, %Y %H:%M"
-    am: ""
-    pm: ""
-
-# Used in array.to_sentence.
-  support:
-    array:
-      sentence_connector: "och"
-      skip_last_comma: true
 
   actionview_instancetag_blank_option: Var god välj
 
@@ -198,6 +190,7 @@ sv:
   notice_file_not_found: Sidan du försökte komma åt existerar inte eller är borttagen.
   notice_locking_conflict: Data har uppdaterats av en annan användare.
   notice_not_authorized: Du saknar behörighet att komma åt den här sidan.
+  notice_not_authorized_action: Du saknar behörighet att utföra denna handling.
   notice_not_authorized_archived_project: Projektet du försöker komma åt har arkiverats.
   notice_email_sent: "Ett mail skickades till %{value}"
   notice_email_error: "Ett fel inträffade när mail skickades (%{value})"
@@ -230,7 +223,6 @@ sv:
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
   error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
-
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
 
   mail_subject_lost_password: "Ditt %{value} lösenord"
@@ -243,8 +235,8 @@ sv:
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerat sig och avvaktar ditt godkännande:"
   mail_subject_reminder: "%{count} ärende(n) har deadline under de kommande %{days} dagarna"
   mail_body_reminder: "%{count} ärende(n) som är tilldelat dig har deadline under de %{days} dagarna:"
-  mail_subject_wiki_content_added: "'%{id}' wikisida has lagts till"
-  mail_body_wiki_content_added: "The '%{id}' wikisida has lagts till av %{author}."
+  mail_subject_wiki_content_added: "'%{id}' wikisida har lagts till"
+  mail_body_wiki_content_added: "The '%{id}' wikisida har lagts till av %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
   mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
 
@@ -286,7 +278,7 @@ sv:
   field_priority: Prioritet
   field_fixed_version: Versionsmål
   field_user: Användare
-  field_principal: Principal
+  field_principal: Huvudsaklig
   field_role: Roll
   field_homepage: Hemsida
   field_is_public: Publik
@@ -297,6 +289,7 @@ sv:
   field_admin: Administratör
   field_last_login_on: Senaste inloggning
   field_language: Språk
+  field_effective_date: Förfallodag
   field_password: Lösenord
   field_new_password: Nytt lösenord
   field_password_confirmation: Bekräfta lösenord
@@ -348,6 +341,10 @@ sv:
   field_text: Textfält
   field_visible: Synlig
   field_warn_on_leaving_unsaved: Varna om jag lämnar en sida med osparad text
+  field_custom_filter: Anpassat LDAP filter
+  field_issue_summary: Sammanfattning av ärendet
+  field_new_saved_query: Skapa ny förfrågan
+  field_issue_view_all_open: Visa alla öppna ärenden
 
   setting_app_title: Applikationsrubrik
   setting_app_subtitle: Applikationsunderrubrik
@@ -407,6 +404,9 @@ sv:
   setting_commit_logtime_enabled: Aktivera tidloggning
   setting_commit_logtime_activity_id: Aktivitet för loggad tid
   setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
+  setting_issue_startdate_is_adddate: Använd nuvarande datum som startdatum för nya ärenden
+  setting_mail_handler_confirmation_on_success: "Skicka e-postbekräftelse på framgångsrika inkommande e-post"
+  setting_mail_handler_confirmation_on_failure: "Skicka e-postbekräftelse vid misslyckade inkommande e-post"
 
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt
@@ -416,9 +416,9 @@ sv:
   permission_manage_project_activities: Hantera projektaktiviteter
   permission_manage_versions: Hantera versioner
   permission_manage_categories: Hantera ärendekategorier
+  permission_view_issues: Visa ärenden
   permission_add_issues: Lägga till ärenden
   permission_edit_issues: Ändra ärenden
-  permission_view_issues: Visa ärenden
   permission_manage_issue_relations: Hantera ärenderelationer
   permission_add_issue_notes: Lägga till ärendenotering
   permission_edit_issue_notes: Ändra ärendenoteringar
@@ -581,6 +581,7 @@ sv:
   label_news_latest: Senaste nyheterna
   label_news_view_all: Visa alla nyheter
   label_news_added: Nyhet tillagd
+  label_news_comment_added: Kommentar tillagd till en nyhet
   label_settings: Inställningar
   label_overview: Översikt
   label_version: Version
@@ -648,6 +649,7 @@ sv:
   label_in_more_than: om mer än
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
+  label_between: "mellan"
   label_in: om
   label_today: idag
   label_all_time: närsom
@@ -670,8 +672,8 @@ sv:
   label_browse: Bläddra
   label_modification: "%{count} ändring"
   label_modification_plural: "%{count} ändringar"
-  label_branch: Branch
-  label_tag: Tag
+  label_branch: Gren
+  label_tag: Tagg
   label_revision: Revision
   label_revision_plural: Revisioner
   label_revision_id: "Revision %{value}"
@@ -695,6 +697,7 @@ sv:
   label_roadmap_overdue: "%{value} sen"
   label_roadmap_no_issues: Inga ärenden för denna version
   label_search: Sök
+  search_input_placeholder: sök ...
   label_result_plural: Resultat
   label_all_words: Alla ord
   label_wiki: Wiki
@@ -706,7 +709,7 @@ sv:
   label_index_by_date: Innehåll efter datum
   label_current_version: Nuvarande version
   label_preview: Förhandsgranska
-  label_feed_plural: Feeds
+  label_feed_plural: Flöde
   label_changes_details: Detaljer om alla ändringar
   label_issue_tracking: Ärendeuppföljning
   label_spent_time: Spenderad tid
@@ -718,6 +721,7 @@ sv:
   label_statistics: Statistik
   label_commits_per_month: Commits per månad
   label_commits_per_author: Commits per författare
+  label_diff: Skillnad
   label_view_diff: Visa skillnader
   label_diff_inline: i texten
   label_diff_side_by_side: sida vid sida
@@ -749,7 +753,7 @@ sv:
   label_board_new: Nytt forum
   label_board_plural: Forum
   label_board_locked: Låst
-  label_board_sticky: Sticky
+  label_board_sticky: Viktigt
   label_topic_plural: Ämnen
   label_message_plural: Meddelanden
   label_message_last: Senaste meddelande
@@ -796,7 +800,7 @@ sv:
   label_change_properties: Ändra inställningar
   label_general: Allmänt
   label_more: Mer
-  label_scm: SCM
+  label_scm: Versionshantering
   label_plugins: Tillägg
   label_ldap_authentication: LDAP-autentisering
   label_downloads_abbr: Nerl.
@@ -809,6 +813,7 @@ sv:
   label_incoming_emails: Inkommande mail
   label_generate_key: Generera en nyckel
   label_issue_watchers: Bevakare
+  label_document_watchers: Bevakare
   label_example: Exempel
   label_display: Visa
   label_sort: Sortera
@@ -836,15 +841,35 @@ sv:
   label_api_access_key_created_on: "API-nyckel skapad för %{value} sedan"
   label_profile: Profil
   label_subtask_plural: Underaktiviteter
+  label_subtask_add: Lägg till en underaktivitet
+  label_issue_hierarchy: Ärendehierarki
   label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
   label_principal_search: "Sök efter användare eller grupp:"
   label_user_search: "Sök efter användare:"
+  label_git_path: Sökväg till .git katalog
+  label_darcs_path: Rotkatalog
+  label_mercurial_path: Rotkatalog
+  label_cvs_path: CVSROOT
+  label_cvs_module: Modul
+  label_bazaar_path: Rotkatalog
+  label_filesystem_path: Rotkatalog
+  label_additional_workflow_transitions_for_assignee: Ytterligare övergångar tillåtna för tilldelad användare
+  label_additional_workflow_transitions_for_author: Ytterligare övergångar tillåtna när användaren är författaren
+  label_notify_member_plural: E-posta uppdateringar för ärende
+  label_path_encoding: Kodning av sökväg
+  label_deleted_custom_field: '(tog bort anpassat fält)'
+  label_toc: "Innehåll"
+  label_mail_handler_confirmation: "Bekräftelse inskickning via e-post: %{subject}"
+  label_mail_handler_failure: "Inskickning via e-post misslyckades: %{subject}"
+  label_mail_handler_errors_with_submission: "Det fanns fel med din inskickning via e-post:"
 
   button_login: Logga in
   button_submit: Skicka
   button_save: Spara
   button_check_all: Markera alla
   button_uncheck_all: Avmarkera alla
+  button_collapse_all: Minimera alla
+  button_expand_all: Maximera alla
   button_delete: Ta bort
   button_create: Skapa
   button_create_and_continue: Skapa och fortsätt
@@ -953,20 +978,27 @@ sv:
   text_wiki_page_destroy_children: "Ta bort alla underliggande sidor"
   text_wiki_page_reassign_children: "Flytta undersidor till denna föräldersida"
   text_own_membership_delete_confirmation: "Några av, eller alla, dina behörigheter kommer att tas bort och du kanske inte längre kommer kunna göra ändringar i det här projektet.\nVill du verkligen fortsätta?"
-  text_zoom_out: Zooma ut
   text_zoom_in: Zooma in
+  text_zoom_out: Zooma ut
+  text_powered_by: "Powered by %{link}"
   text_warn_on_leaving_unsaved: Nuvarande sida innehåller osparad text som kommer försvinna om du lämnar sidan.
-
+  text_default_encoding: "Standard: UTF-8"
+  text_mercurial_repo_example: "Lokalt arkiv (t.ex. /hgrepo, c:\\hgrepo)"
+  text_git_repo_example: "Ett lokalt bare git arkiv (t.ex. /gitrepo, c:\\gitrepo)"
+  text_display_subprojects: Visa underprojekt
+  text_current_project: Nuvarande project
+  text_mail_handler_confirmation_successful: "Din e-post har framgångsrikt lagts till på följande webbadress"
+  
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
   default_role_reporter: Rapportör
-  default_role_non_member: Non member
-  default_role_anonymous: Anonymous
+  default_role_non_member: Icke-medlem
+  default_role_anonymous: Anonym
   default_tracker_bug: Bugg
   default_tracker_feature: Funktionalitet
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_in_progress: Pågår
+  default_issue_status_in_progress: Pågående
   default_issue_status_resolved: Löst
   default_issue_status_feedback: Återkoppling
   default_issue_status_closed: Stängd
@@ -985,62 +1017,20 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
-  label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  field_effective_date: Due date
-  label_news_comment_added: Comment added to a news
-  text_default_encoding: "Default: UTF-8"
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  label_notify_member_plural: Email issue updates
-  label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
-  label_diff: diff
-  setting_issue_startdate_is_adddate: Use current date as start date for new issues
-  description_search: Searchfield
-  description_user_mail_notification: Mail notification settings
-  description_date_range_list: Choose range from list
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_message_content: Message content
-  description_wiki_subpages_reassign: Choose new parent page
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_project_scope: Search scope
-  description_issue_category_reassign: Choose issue category
-  description_query_sort_criteria_direction: Sort direction
-  description_notes: Notes
   description_filter: Filter
-  description_choose_project: Projects
-  description_date_from: Enter start date
-  label_deleted_custom_field: (deleted custom field)
-  field_custom_filter: Custom LDAP filter
-  text_display_subprojects: Display subprojects
-  text_current_project: Current project
-  label_toc: Contents
-  search_input_placeholder: search ...
-  setting_mail_handler_confirmation_on_success: Send confirmation email on successful incoming email
-  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
-  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
-  label_document_watchers: Watchers
-  setting_mail_handler_confirmation_on_failure: Send confirmation email on failed incoming email
-  label_between: between
-  label_mail_handler_failure: "Failed email submission: %{subject}"
-  notice_not_authorized_action: You are not authorized to perform this action.
-  text_mail_handler_confirmation_successful: Your email has been successful added at the following url
-  field_issue_summary: Issue summary
-  field_new_saved_query: New saved query
-  field_issue_view_all_open: View all open issues
-  label_subtask_add: Add a subtask
-  label_issue_hierarchy: Issue hierarchy
+  description_search: Sökfält
+  description_choose_project: Projekt
+  description_project_scope: Sökomfång
+  description_notes: Noteringar
+  description_message_content: Meddelandeinnehåll
+  description_query_sort_criteria_attribute: Sorteringsattribut
+  description_query_sort_criteria_direction: Sorteringsordning
+  description_user_mail_notification: E-post notifieringsinställningar
+  description_available_columns: Tillängliga kolumner
+  description_selected_columns: Valda kolumner
+  description_issue_category_reassign: Välj ärendekategori
+  description_wiki_subpages_reassign: Välj ny huvudsida
+  description_date_range_list: Välj omfång ifrån lista
+  description_date_range_interval: Välj omfång genom att ange start- och slutdatum
+  description_date_from: Ange startdatum
+  description_date_to: Ange slutdatum
