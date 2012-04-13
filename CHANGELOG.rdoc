@@ -1,3 +1,23 @@
+= 2.1.0 - 2012-04-13
+
+== Major Change
+
+* Fixing mass assignment vulnerabilities
+
+= 2.0.4 - 2012-04-03
+
+== Minor Change
+
+* fix acts_as_journalized issues
+* fix showing multiple status in backlogs view
+
+= 2.0.3 - 2012-03-14
+
+== Minor Change
+
+* Fixing typo
+
+
 = 2.0.2 - 2012-03-12
 
 == Minor Change
