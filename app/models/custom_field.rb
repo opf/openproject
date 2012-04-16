@@ -143,10 +143,14 @@ class CustomField < ActiveRecord::Base
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
     end
 
-    # validate default value
-    v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
-    v.custom_field.is_required = false
-    errors.add(:default_value, :invalid) unless v.valid?
+    # validate default value in every translation available
+    self.translated_locales.each do |locale|
+      I18n.with_locale(locale) do
+        v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
+        v.custom_field.is_required = false
+        errors.add(:default_value, :invalid) unless v.valid?
+      end
+    end
   end
 
   def possible_values_options(obj=nil)
