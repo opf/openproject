@@ -12,6 +12,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'wiki_content'
+
 class MergeWikiVersionsWithJournals < ActiveRecord::Migration
   # This is provided here for migrating up after the WikiContent::Version class has been removed
   class WikiContent < ActiveRecord::Base
