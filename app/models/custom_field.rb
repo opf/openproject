@@ -96,9 +96,9 @@ end
 class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
-  serialize :possible_values
   translates :name,
-             :default_value
+             :default_value,
+             :possible_values
 
   extend Globalize::ActiveRecord::UniquenessValidation
   accepts_nested_attributes_for :translations,
@@ -114,6 +114,7 @@ class CustomField < ActiveRecord::Base
     # remove previously set translated attributes so that they do not override
     # the ones set here
     globalize.reset
+    globalize.stash.clear
 
     ret
   end
@@ -143,7 +144,7 @@ class CustomField < ActiveRecord::Base
     end
 
     # validate default value
-    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
+    v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
     v.custom_field.is_required = false
     errors.add(:default_value, :invalid) unless v.valid?
   end
@@ -162,7 +163,10 @@ class CustomField < ActiveRecord::Base
         []
       end
     else
-      read_attribute :possible_values
+      locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
+      attribute = globalize.fetch(locale || self.class.locale || I18n.locale, :possible_values)
+      attribute = YAML.load(attribute) if attribute.is_a?(String)
+      attribute
     end
   end
 
@@ -171,14 +175,17 @@ class CustomField < ActiveRecord::Base
     when 'user'
       possible_values_options(obj).collect(&:last)
     else
-      read_attribute :possible_values
+      globalize.fetch(obj || self.class.locale || I18n.locale, :possible_values)
     end
   end
 
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      write_attribute(:possible_values, arg.compact.collect(&:strip).select {|v| !v.blank?})
+      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+
+      globalize.write(self.class.locale || I18n.locale, :possible_values, value)
+      self[:possible_values] = value
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
     end
@@ -246,4 +253,19 @@ class CustomField < ActiveRecord::Base
   def type_name
     nil
   end
+end
+
+class CustomField::Translation < ActiveRecord::Base
+  serialize :possible_values
+
+  def possible_values=(arg)
+    if arg.is_a?(Array)
+      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+
+      write_attribute(:possible_values, value)
+    else
+      self.possible_values = arg.to_s.split(/[\n\r]+/)
+    end
+  end
+
 end

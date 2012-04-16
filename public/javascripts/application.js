@@ -818,7 +818,7 @@ var I18nForms = (function ($) {
         new_items = backup.clone(),
         next_number = next_localization_number(localized_p);
 
-    new_items.find('input').val("");
+    new_items.find('input, textarea').val("");
     new_items.insertBefore(add_link);
 
     replace_number_in_id_and_name(new_items.find('select, input'), next_number);
@@ -856,7 +856,6 @@ var I18nForms = (function ($) {
         id_memo[locale] = id;
       }
     });
-
   }
 
   next_localization_number = function (localized_p) {
@@ -920,7 +919,7 @@ var I18nForms = (function ($) {
 
     for (locale in locales) {
       if (locales.hasOwnProperty(locale)) {
-        replace_number_in_id_and_name(locales[locale].find('select, input'), num);
+        replace_number_in_id_and_name(locales[locale].find('select, textarea, input'), num);
         num += 1;
 
         current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
@@ -946,7 +945,7 @@ var I18nForms = (function ($) {
       if (id_memo.hasOwnProperty(locale) && !locales.hasOwnProperty(locale)) {
         translation = $(removed_translations[i]);
 
-        replace_number_in_id_and_name(translation.find('input, select'), num);
+        replace_number_in_id_and_name(translation.find('input, textarea, select'), num);
         num += 1;
         translation.find('.destroy_flag').attr('disabled', false);
         translation.find('.translation_id').attr('value', id_memo[locale]);

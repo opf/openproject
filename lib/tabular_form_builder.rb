@@ -70,10 +70,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def localized_field(translation_form, method, field, options)
-    ret = ""
-    ret.concat "<span class=\"translation #{field.to_s}_translation\">"
+    ret = "<span class=\"translation #{field.to_s}_translation\">"
 
-    ret.concat translation_form.send(method, field, options)
+    localized_options = options.clone
+    localized_options[:value] = localized_options[:value][translation_form.object.locale] if options[:value].is_a?(Hash)
+
+    ret.concat translation_form.send(method, field, localized_options)
     ret.concat translation_form.hidden_field :id,
                                              :class => 'translation_id'
     if options[:multi_locale]

@@ -6,32 +6,32 @@ function toggle_custom_field_format() {
   var format = $("custom_field_field_format");
   var p_length = $("custom_field_min_length");
   var p_regexp = $("custom_field_regexp");
-  var p_values = $("custom_field_possible_values");
+  var p_values = $("custom_field_possible_values_attributes");
   var p_searchable = $("custom_field_searchable");
   var p_default_value = $("custom_field_default_value_attributes");
   var span_default_text_multi = $("default_value_text_multi");
   var span_default_text_single = $("default_value_text_single");
   var span_default_bool = $("default_value_bool");
-  var hide_default_value = function(element) {
+  var hide_and_disable = function(element) {
     element.hide().
-            select('input').each(function (element) {
-                                  if(!element.match('.destroy_flag')) {
-                                    element.writeAttribute('disabled', 'disabled');
-                                  }
-                                });
+            select('input, textbox').each(function (element) {
+                                      if(!element.match('.destroy_flag')) {
+                                        element.writeAttribute('disabled', 'disabled');
+                                      }
+                                    });
   }
-  var show_default_value = function(element) {
+  var show_and_enable = function(element) {
     element.show().
-            select('input').each(function (element) {
-                                  if(!element.match('.destroy_flag')) {
-                                    element.removeAttribute('disabled');
-                                  }
-                                });
+            select('input, textbox').each(function (element) {
+                                      if(!element.match('.destroy_flag')) {
+                                        element.removeAttribute('disabled');
+                                      }
+                                    });
   }
 
-  hide_default_value(span_default_bool);
-  hide_default_value(span_default_text_single);
-  show_default_value(span_default_text_multi);
+  hide_and_disable(span_default_bool);
+  hide_and_disable(span_default_text_single);
+  show_and_enable(span_default_text_multi);
   Element.show(p_default_value);
 
   switch (format.value) {
@@ -39,46 +39,46 @@ function toggle_custom_field_format() {
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.show(p_values.parentNode);
+      show_and_enable(p_values);
       break;
     case "bool":
-      show_default_value(span_default_bool);
-      hide_default_value(span_default_text_multi);
+      show_and_enable(span_default_bool);
+      hide_and_disable(span_default_text_multi);
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
+      hide_and_disable(p_values);
       break;
     case "date":
-      hide_default_value(span_default_text_multi);
-      show_default_value(span_default_text_single);
+      hide_and_disable(span_default_text_multi);
+      show_and_enable(span_default_text_single);
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
+      hide_and_disable(p_values);
       break;
     case "float":
     case "int":
-      hide_default_value(span_default_text_multi);
-      show_default_value(span_default_text_single);
+      hide_and_disable(span_default_text_multi);
+      show_and_enable(span_default_text_single);
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
+      hide_and_disable(p_values);
       break;
 		case "user":
     case "version":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
+      hide_and_disable(p_values);
       Element.hide(p_default_value);
 		  break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
       if (p_searchable) Element.show(p_searchable.parentNode);
-      Element.hide(p_values.parentNode);
+      hide_and_disable(p_values);
       break;
   }
 }
@@ -114,10 +114,18 @@ function toggle_custom_field_format() {
                      :size => 50 %><br>
     (<%=l(:text_regexp_info)%>)
   </p>
-  <p>
-    <%= f.text_area :possible_values,
-                    :value => @custom_field.possible_values.to_a.join("\n"),
-                    :rows => 15 %><br>
+
+  <p id="custom_field_possible_values_attributes">
+    <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
+      <% possible_values = @custom_field.translations.inject({}) do |h, t|
+        h[t.locale] = t.possible_values.to_a.join("\n")
+        h
+      end %>
+      <%= f.text_area :possible_values,
+                      :value => possible_values,
+                      :rows => 15,
+                      :multi_locale => true %><br>
+    <% end %>
     <em><%= l(:text_custom_field_possible_values_info) %></em>
   </p>
   <p id="custom_field_default_value_attributes">
