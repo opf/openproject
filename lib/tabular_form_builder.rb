@@ -41,7 +41,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
         end
 
         if options[:multi_locale]
-          ret.concat '<a href="#" class="add_locale">Add</a>'
+          ret.concat add_localization_link
         end
 
         ret
@@ -72,10 +72,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def localized_field(translation_form, method, field, options)
     ret = "<span class=\"translation #{field.to_s}_translation\">"
 
-    localized_options = options.clone
-    localized_options[:value] = localized_options[:value][translation_form.object.locale] if options[:value].is_a?(Hash)
+    field_options = localized_options options, translation_form.object.locale
 
-    ret.concat translation_form.send(method, field, localized_options)
+    ret.concat translation_form.send(method, field, field_options)
     ret.concat translation_form.hidden_field :id,
                                              :class => 'translation_id'
     if options[:multi_locale]
@@ -132,6 +131,19 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       end
 
     end
+  end
+
+  def add_localization_link
+    "<a href=\"#\" class=\"add_locale\">#{l(:button_add)}</a>"
+  end
+
+  def localized_options options, locale = :en
+    localized_options = options.clone
+    localized_options[:value] = localized_options[:value][locale] if options[:value].is_a?(Hash)
+    localized_options.delete(:single_locale)
+    localized_options.delete(:multi_locale)
+
+    localized_options
   end
 
   def user_locale
