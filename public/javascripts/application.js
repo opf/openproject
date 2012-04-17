@@ -792,21 +792,20 @@ var I18nForms = (function ($) {
   var active_locale_selectors,
     add_locale_fields,
     destroy_locale,
-    next_localization_number,
+    init,
+    id_memo = {},
+    memorize_ids,
     number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
     observe_add_locale_link,
     observe_destroy_locale_links,
     prepare_for_submit,
-    replace_number_in_id_and_name,
+    replace_number_in_name,
     select_first_untaken_option,
     taken_options,
     update_add_link_status,
     update_destroy_link_status,
     update_interaction_elements,
-    update_locale_availability,
-    init,
-    id_memo = [],
-    memorize_ids;
+    update_locale_availability;
 
   active_locale_selectors = function (localized_p) {
     return localized_p.find('.locale_selector:not([disabled=disabled])');
@@ -815,13 +814,11 @@ var I18nForms = (function ($) {
   add_locale_fields = function (localized_p) {
     var backup = localized_p.find('.translation').first(),
         add_link = localized_p.find('.add_locale'),
-        new_items = backup.clone(),
-        next_number = next_localization_number(localized_p);
+        new_items = backup.clone();
 
     new_items.find('input, textarea').val("");
     new_items.insertBefore(add_link);
 
-    replace_number_in_id_and_name(new_items.find('select, input'), next_number);
     select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
     update_interaction_elements(localized_p);
 
@@ -844,7 +841,7 @@ var I18nForms = (function ($) {
   memorize_ids = function (form) {
     var translations = $('.translation');
 
-    translations.each( function(i, element) {
+    translations.each(function (i, element) {
       var id,
           locale;
       element = $(element);
@@ -856,18 +853,6 @@ var I18nForms = (function ($) {
         id_memo[locale] = id;
       }
     });
-  }
-
-  next_localization_number = function (localized_p) {
-    var selectors = localized_p.find('.locale_selector'),
-        taken_numbers;
-
-    taken_numbers = selectors.map(function (index, element) {
-      number_matcher.exec(element.name);
-      return RegExp.$2;
-    });
-
-    return parseInt(taken_numbers.sort().get().pop(), 10) + 1;
   };
 
   observe_add_locale_link = function () {
@@ -883,81 +868,83 @@ var I18nForms = (function ($) {
   };
 
   prepare_for_submit = function (form) {
-    var num = 0,
+    var i,
+        num = 0,
         locales = {},
         locale,
-        to_destroy,
-        to_keep,
-        available_ids = [],
-        additional_ids,
         id_elements,
-        current_id,
         element,
         translation_classes = [],
-        translation_class,
-        translation_class_regexp = /\w+_translation/,
-        translation,
-        removed_translation;
+        removed_translations,
+        set_next_number_in_name = function (elements) {
+          replace_number_in_name(elements, num);
+          num += 1;
+        };
 
     form.find('.translation').each(function (i, element) {
-      var element = $(element);
-      var locale = element.find('.locale_selector').val();
-      var id_elements = element.find('.translation_id');
+      var locale,
+          translation_class;
+
+      element = $(element);
+      locale = element.find('.locale_selector').val();
 
       if (locales[locale] === undefined) {
-        locales[locale] = $('');
+        locales[locale] = element;
+      } else {
+        locales[locale] = locales[locale].add(element);
       }
 
-      locales[locale] = locales[locale].add(element);
-
-      translation_class = translation_class_regexp.exec(element.attr('class'))[0];
+      translation_class = /\w+_translation/.exec(element.attr('class'))[0];
 
       if (translation_classes.indexOf(translation_class) < 0) {
         translation_classes.push(translation_class);
       }
     });
 
-    for (locale in locales) {
-      if (locales.hasOwnProperty(locale)) {
-        replace_number_in_id_and_name(locales[locale].find('select, textarea, input'), num);
-        num += 1;
+    $.each(locales, function(locale, elements) {
+      var current_id,
+          to_destroy,
+          to_keep;
 
-        current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
-        locales[locale].find('.translation_id').attr('value', current_id);
+      set_next_number_in_name(elements.find('select, textarea, input'));
 
-        to_destroy = locales[locale].filter(':hidden');
-        to_keep = locales[locale].filter(':visible');
+      current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
+      elements.find('.translation_id').attr('value', current_id);
 
-        if (to_keep.size() > 0) {
-          to_destroy.find('.destroy_flag').attr('disabled', true);
-          for (var i = 0; i < translation_classes.size(); i++) {
-            if (to_keep.filter("." + translation_classes[i]).size() === 0) {
-              to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').attr('value', '');
-            }
+      to_destroy = elements.filter(':hidden');
+      to_keep = elements.filter(':visible');
+
+      if (to_keep.size() > 0) {
+        to_destroy.find('.destroy_flag').attr('disabled', true);
+        for (i = 0; i < translation_classes.size(); i += 1) {
+          if (to_keep.filter("." + translation_classes[i]).size() === 0) {
+            to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').attr('value', '');
           }
         }
       }
-    }
+    });
 
     removed_translations = form.find('.translation:hidden');
-    var i = 0;
-    for (locale in id_memo) {
-      if (id_memo.hasOwnProperty(locale) && !locales.hasOwnProperty(locale)) {
-        translation = $(removed_translations[i]);
 
-        replace_number_in_id_and_name(translation.find('input, textarea, select'), num);
-        num += 1;
+    $.each(id_memo, function(locale, id) {
+      var translation;
+
+      if (!locales.hasOwnProperty(locale)) {
+        translation = $(removed_translations[0]);
+        removed_translations.filter(translation);
+
+        set_next_number_in_name(translation.find('input[type=hidden]'));
+
         translation.find('.destroy_flag').attr('disabled', false);
         translation.find('.translation_id').attr('value', id_memo[locale]);
-        i += 1;
       }
-    }
+    });
   };
 
-  replace_number_in_id_and_name = function (element, rep_number) {
+  replace_number_in_name = function (element, rep_number) {
     element.each(function (index, e) {
       e = $(e);
-      e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"))
+      e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"));
     });
   };
 
