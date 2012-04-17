@@ -789,54 +789,155 @@ var Administration = (function ($) {
 }(jQuery));
 
 var I18nForms = (function ($) {
-  var active_locale_selectors,
-    add_locale_fields,
-    destroy_locale,
-    init,
-    id_memo = {},
-    memorize_ids,
-    number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
-    observe_add_locale_link,
-    observe_destroy_locale_links,
-    prepare_for_submit,
-    replace_number_in_name,
-    select_first_untaken_option,
-    taken_options,
-    update_add_link_status,
-    update_destroy_link_status,
-    update_interaction_elements,
-    update_locale_availability;
+  var event_handler,
+      init,
+      id_memo = {},
+      memorize_ids,
+      submit_preparer;
 
-  active_locale_selectors = function (localized_p) {
-    return localized_p.find('.locale_selector:not([disabled=disabled])');
-  };
+  event_handler = (function() {
+    var active_locale_selectors,
+        add_locale_fields,
+        destroy_locale,
+        init,
+        observe_add_locale_link,
+        observe_destroy_locale_links,
+        select_first_untaken_option,
+        taken_options,
+        update_add_link_status,
+        update_destroy_link_status,
+        update_interaction_elements,
+        update_locale_availability;
 
-  add_locale_fields = function (localized_p) {
-    var backup = localized_p.find('.translation').first(),
-        add_link = localized_p.find('.add_locale'),
-        new_items = backup.clone();
+    active_locale_selectors = function (localized_p) {
+      return localized_p.find('.locale_selector:not([disabled=disabled])');
+    };
 
-    new_items.find('input, textarea').val("");
-    new_items.insertBefore(add_link);
+    add_locale_fields = function (localized_p) {
+      var backup = localized_p.find('.translation').first(),
+          add_link = localized_p.find('.add_locale'),
+          new_items = backup.clone();
 
-    select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
-    update_interaction_elements(localized_p);
+      new_items.find('input, textarea').val("");
+      new_items.insertBefore(add_link);
 
-    new_items.find('.destroy_locale').click(function () {
-      destroy_locale($(this));
-    });
-  };
+      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
+      update_interaction_elements(localized_p);
 
-  destroy_locale = function (element) {
-    var localized_p = element.closest('p');
+      new_items.find('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
 
-    element.siblings('.destroy_flag').attr('disabled', false)
-                                     .attr('value', 1);
-    element.parent().hide();
-    element.siblings('.locale_selector').attr('disabled', true);
+    destroy_locale = function (element) {
+      var localized_p = element.closest('p');
 
-    update_interaction_elements(localized_p);
-  };
+      element.siblings('.destroy_flag').attr('disabled', false)
+                                       .attr('value', 1);
+      element.parent().hide();
+      element.siblings('.locale_selector').attr('disabled', true);
+
+      update_interaction_elements(localized_p);
+    };
+
+    observe_add_locale_link = function () {
+      $('.add_locale').click(function () {
+        add_locale_fields($(this).closest('p'));
+      });
+    };
+
+    observe_destroy_locale_links = function () {
+      $('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
+
+    select_first_untaken_option = function (select, others) {
+      var taken,
+          available;
+
+      taken = taken_options(others);
+
+      available = select.find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.val()) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      select.val(available.pop());
+    };
+
+    update_add_link_status = function (localized_p) {
+      var indicator_selector = active_locale_selectors(localized_p),
+          taken = taken_options(indicator_selector),
+          all_options,
+          available,
+          add_link = localized_p.find('.add_locale');
+
+      available = indicator_selector.first().find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.attr('value')) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      add_link.toggle(available.size() > 0);
+    };
+
+    update_destroy_link_status = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p);
+
+      localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
+    };
+
+    update_interaction_elements = function (localized_p) {
+      update_locale_availability(localized_p);
+      update_add_link_status(localized_p);
+      update_destroy_link_status(localized_p);
+    };
+
+    update_locale_availability = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p),
+          active_locales = taken_options(active_selectors);
+
+      active_selectors.each(function (index, element) {
+        var selector = $(element),
+            selected_value = selector.val();
+
+        selector.find('option').each(function (index, element) {
+          var option = $(element);
+
+          option.attr('disabled', (active_locales.indexOf(option.val()) >= 0 && option.val() !== selected_value));
+        });
+      });
+    };
+
+    taken_options = function (select_collection) {
+      return select_collection.map(function (index, element) {
+        element = $(element);
+
+        return element.val();
+      }).get();
+    };
+
+    init = function () {
+      observe_add_locale_link();
+      observe_destroy_locale_links();
+
+      $('form .translation').closest('p').each(function (i, element) {
+        element = $(element);
+        update_interaction_elements(element);
+      });
+    }
+
+    return {
+      init : init
+    }
+  })();
+
 
   memorize_ids = function (form) {
     var translations = $('.translation');
@@ -855,57 +956,127 @@ var I18nForms = (function ($) {
     });
   };
 
-  observe_add_locale_link = function () {
-    $('.add_locale').click(function () {
-      add_locale_fields($(this).closest('p'));
-    });
-  };
+  submit_preparer = (function() {
+    var add_destroy_elements,
+        collect_elements_by_locale,
+        collect_translation_classes,
+        element_numerator,
+        prepare,
+        unify_translations_across_attribute;
 
-  observe_destroy_locale_links = function () {
-    $('.destroy_locale').click(function () {
-      destroy_locale($(this));
-    });
-  };
+    add_destroy_elements = function(locale) {
+      var translation,
+          destroy_element,
+          id_element,
+          destroy_id_elements;
 
-  prepare_for_submit = function (form) {
-    var i,
-        num = 0,
-        locales = {},
-        locale,
-        id_elements,
-        element,
-        translation_classes = [],
-        set_next_number_in_name = function (elements) {
-          replace_number_in_name(elements, num);
-          num += 1;
-        };
+      translation = $('.translation').first();
+      destroy_id_elements = translation.find('.destroy_flag, .translation_id').clone();
+      destroy_element = translation.filter('.destroy_flag');
+      id_element = translation.filter('.translation_id');
 
-    form.find('.translation').each(function (i, element) {
-      var locale,
-          translation_class;
+      translation.after(destroy_id_elements);
 
-      element = $(element);
-      locale = element.find('.locale_selector').val();
+      destroy_id_elements.filter('.destroy_flag').attr('disabled', false);
+      destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
 
-      if (locales[locale] === undefined) {
-        locales[locale] = element;
-      } else {
-        locales[locale] = locales[locale].add(element);
+      element_numerator.set_next_number_in_name(destroy_id_elements);
+    };
+
+    collect_elements_by_locale = function(translations) {
+      var locales = {};
+
+      translations.each(function (i, element) {
+        var locale;
+
+        element = $(element);
+        locale = element.find('.locale_selector').val();
+
+        if (locales[locale] === undefined) {
+          locales[locale] = element;
+        } else {
+          locales[locale] = locales[locale].add(element);
+        }
+      });
+
+      return locales;
+    };
+
+    collect_translation_classes = function (translations) {
+      var translation_classes = [];
+
+      translations.each(function (i, element) {
+        var translation_class;
+
+        element = $(element);
+
+        translation_class = /\w+_translation/.exec(element.attr('class'))[0];
+
+        if (translation_classes.indexOf(translation_class) < 0) {
+          translation_classes.push(translation_class);
+        }
+      });
+
+      return translation_classes;
+    };
+
+    element_numerator = (function() {
+      var init,
+          num,
+          number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
+          replace_number_in_name,
+          set_next_number_in_name;
+
+      init = function() {
+        num = 0;
       }
 
-      translation_class = /\w+_translation/.exec(element.attr('class'))[0];
-
-      if (translation_classes.indexOf(translation_class) < 0) {
-        translation_classes.push(translation_class);
+      set_next_number_in_name = function(elements) {
+        replace_number_in_name(elements, num);
+        num += 1;
       }
-    });
 
-    $.each(locales, function(locale, elements) {
+      replace_number_in_name = function (element, rep_number) {
+        element.each(function (index, e) {
+          e = $(e);
+          e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"));
+        });
+      };
+
+      return {
+        init : init,
+        set_next_number_in_name : set_next_number_in_name
+      };
+    })();
+
+    prepare = function (form) {
+      var locales,
+          translation_classes = [],
+          translations = form.find('.translation');
+
+      element_numerator.init();
+
+      translation_classes = collect_translation_classes(translations);
+      locales = collect_elements_by_locale(translations);
+
+      $.each(locales, function(locale, elements) {
+        unify_translations_across_attribute(locale, elements, translation_classes);
+      });
+
+      $.each(id_memo, function(locale, id) {
+        if (!locales.hasOwnProperty(locale)) {
+          add_destroy_elements(locale);
+        }
+      });
+    };
+
+    unify_translations_across_attribute = function (locale, elements, translation_classes) {
       var current_id,
+          i,
           to_destroy,
           to_keep;
 
-      set_next_number_in_name(elements.find('select, textarea, input'));
+      element_numerator.set_next_number_in_name(elements.find('select, textarea, input'));
 
       current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
       elements.find('.translation_id').attr('value', current_id);
@@ -921,125 +1092,25 @@ var I18nForms = (function ($) {
           }
         }
       }
-    });
+    }
 
-    $.each(id_memo, function(locale, id) {
-      var translation,
-          destroy_element,
-          id_element,
-          destroy_id_elements;
-
-      if (!locales.hasOwnProperty(locale)) {
-        translation = $('.translation').first();
-        destroy_id_elements = translation.find('.destroy_flag, .translation_id').clone();
-        destroy_element = translation.filter('.destroy_flag');
-        id_element = translation.filter('.translation_id');
-
-        translation.after(destroy_id_elements);
-
-        destroy_id_elements.filter('.destroy_flag').attr('disabled', false);
-        destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
-
-        set_next_number_in_name(destroy_id_elements);
-      }
-    });
-  };
-
-  replace_number_in_name = function (element, rep_number) {
-    element.each(function (index, e) {
-      e = $(e);
-      e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"));
-    });
-  };
-
-  select_first_untaken_option = function (select, others) {
-    var taken,
-        available;
-
-    taken = taken_options(others);
-
-    available = select.find('option').map(function (index, element) {
-      element = $(element);
-
-      if (taken.indexOf(element.val()) < 0) {
-        return element.val();
-      }
-    }).get();
-
-    select.val(available.pop());
-  };
-
-  update_add_link_status = function (localized_p) {
-    var indicator_selector = active_locale_selectors(localized_p),
-        taken = taken_options(indicator_selector),
-        all_options,
-        available,
-        add_link = localized_p.find('.add_locale');
-
-    available = indicator_selector.first().find('option').map(function (index, element) {
-      element = $(element);
-
-      if (taken.indexOf(element.attr('value')) < 0) {
-        return element.val();
-      }
-    }).get();
-
-    add_link.toggle(available.size() > 0);
-  };
-
-  update_destroy_link_status = function (localized_p) {
-    var active_selectors = active_locale_selectors(localized_p);
-
-    localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
-  };
-
-  update_interaction_elements = function (localized_p) {
-    update_locale_availability(localized_p);
-    update_add_link_status(localized_p);
-    update_destroy_link_status(localized_p);
-  };
-
-  update_locale_availability = function (localized_p) {
-    var active_selectors = active_locale_selectors(localized_p),
-        active_locales = taken_options(active_selectors);
-
-    active_selectors.each(function (index, element) {
-      var selector = $(element),
-          selected_value = selector.val();
-
-      selector.find('option').each(function (index, element) {
-        var option = $(element);
-
-        option.attr('disabled', (active_locales.indexOf(option.val()) >= 0 && option.val() !== selected_value));
-      });
-    });
-  };
-
-  taken_options = function (select_collection) {
-    return select_collection.map(function (index, element) {
-      element = $(element);
-
-      return element.val();
-    }).get();
-  };
+    return {
+      prepare : prepare
+    }
+  })();
 
   init = function () {
     var translated_paragraph = $('form .translation').closest('p');
 
     if (translated_paragraph.size() > 0) {
       memorize_ids();
-      observe_add_locale_link();
-      observe_destroy_locale_links();
+      event_handler.init()
 
       translated_paragraph.closest('form').submit(function () {
-        prepare_for_submit($(this));
+        submit_preparer.prepare($(this));
         // allow default behaviour
       });
 
-      translated_paragraph.each(function (i, element) {
-        element = $(element);
-        update_interaction_elements(element);
-      });
     }
   };
 
