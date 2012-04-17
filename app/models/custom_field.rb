@@ -179,6 +179,9 @@ class CustomField < ActiveRecord::Base
   end
 end
 
+# for the sake of nested attributes it is necessary to redefine possible_values
+# the values get set directly on the translations association
+
 class CustomField::Translation < ActiveRecord::Base
   serialize :possible_values
 
