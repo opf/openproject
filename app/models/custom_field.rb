@@ -63,13 +63,15 @@ class CustomField < ActiveRecord::Base
     end
 
     # validate default value in every translation available
+    required_field = is_required
+    is_required = false
     self.translated_locales.each do |locale|
       I18n.with_locale(locale) do
         v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
-        v.custom_field.is_required = false
         errors.add(:default_value, :invalid) unless v.valid?
       end
     end
+    is_required = required_field
   end
 
   def possible_values_options(obj=nil)
@@ -88,7 +90,6 @@ class CustomField < ActiveRecord::Base
     else
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
       attribute = globalize.fetch(locale || self.class.locale || I18n.locale, :possible_values)
-      attribute = YAML.load(attribute) if attribute.is_a?(String)
       attribute
     end
   end
