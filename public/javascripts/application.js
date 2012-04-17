@@ -875,7 +875,6 @@ var I18nForms = (function ($) {
         id_elements,
         element,
         translation_classes = [],
-        removed_translations,
         set_next_number_in_name = function (elements) {
           replace_number_in_name(elements, num);
           num += 1;
@@ -924,19 +923,24 @@ var I18nForms = (function ($) {
       }
     });
 
-    removed_translations = form.find('.translation:hidden');
-
     $.each(id_memo, function(locale, id) {
-      var translation;
+      var translation,
+          destroy_element,
+          id_element,
+          destroy_id_elements;
 
       if (!locales.hasOwnProperty(locale)) {
-        translation = $(removed_translations[0]);
-        removed_translations.filter(translation);
+        translation = $('.translation').first();
+        destroy_id_elements = translation.find('.destroy_flag, .translation_id').clone();
+        destroy_element = translation.filter('.destroy_flag');
+        id_element = translation.filter('.translation_id');
 
-        set_next_number_in_name(translation.find('input[type=hidden]'));
+        translation.after(destroy_id_elements);
 
-        translation.find('.destroy_flag').attr('disabled', false);
-        translation.find('.translation_id').attr('value', id_memo[locale]);
+        destroy_id_elements.filter('.destroy_flag').attr('disabled', false);
+        destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
+
+        set_next_number_in_name(destroy_id_elements);
       }
     });
   };
