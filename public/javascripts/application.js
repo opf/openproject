@@ -958,6 +958,7 @@ var I18nForms = (function ($) {
 
   submit_preparer = (function() {
     var add_destroy_elements,
+        add_empty_values_for_missing_attributes,
         collect_elements_by_locale,
         collect_translation_classes,
         element_numerator,
@@ -981,6 +982,35 @@ var I18nForms = (function ($) {
       destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
 
       element_numerator.set_next_number_in_name(destroy_id_elements);
+    };
+
+    add_empty_values_for_missing_attributes = function (locale, translation_classes) {
+      var new_translations = $('');
+
+      $.each(translation_classes, function(i, translated_attribute) {
+        var translations = $('.' + translated_attribute + ':visible'),
+            locale_selectors = translations.find('.locale_selector'),
+            included,
+            new_translation;
+
+        included = locale_selectors.map(function(i, element) {
+          return $(element).val();
+        }).get().indexOf(locale) >= 0;
+
+        if (!included) {
+          new_translation = translations.first().clone();
+          new_translation.hide();
+          new_translation.find('.destroy_flag').val('1')
+                                               .attr('disabled', false);
+          new_translation.find('input, textarea').val('');
+          new_translation.find('.locale_selector').val(locale);
+          new_translation.insertAfter(translations.first());
+
+          new_translations = new_translations.add(new_translation);
+        }
+      });
+
+      return new_translations;
     };
 
     collect_elements_by_locale = function(translations) {
@@ -1060,7 +1090,8 @@ var I18nForms = (function ($) {
       locales = collect_elements_by_locale(translations);
 
       $.each(locales, function(locale, elements) {
-        unify_translations_across_attribute(locale, elements, translation_classes);
+        empty_value_elements = add_empty_values_for_missing_attributes(locale, translation_classes);
+        unify_translations_across_attribute(locale, elements.add(empty_value_elements), translation_classes);
       });
 
       $.each(id_memo, function(locale, id) {

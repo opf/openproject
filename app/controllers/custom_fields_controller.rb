@@ -16,6 +16,7 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :blank_translation_attributes_as_nil, :only => [:new, :edit]
 
   def index
     @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
@@ -57,5 +58,17 @@ class CustomFieldsController < ApplicationController
   rescue
     flash[:error] = l(:error_can_not_delete_custom_field)
     redirect_to :action => 'index'
+  end
+
+  private
+
+  def blank_translation_attributes_as_nil
+    return unless params['custom_field'] && params['custom_field']['translations_attributes']
+
+    params['custom_field']['translations_attributes'].each do |index, attributes|
+      attributes.each do |key, value|
+        attributes[key] = nil if value.blank?
+      end
+    end
   end
 end
