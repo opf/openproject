@@ -879,7 +879,7 @@ var I18nForms = (function ($) {
       available = indicator_selector.first().find('option').map(function (index, element) {
         element = $(element);
 
-        if (taken.indexOf(element.attr('value')) < 0) {
+        if (taken.indexOf(element.val()) < 0) {
           return element.val();
         }
       }).get();
@@ -1110,7 +1110,7 @@ var I18nForms = (function ($) {
       element_numerator.set_next_number_in_name(elements.find('select, textarea, input'));
 
       current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
-      elements.find('.translation_id').attr('value', current_id);
+      elements.find('.translation_id').val(current_id);
 
       to_destroy = elements.filter(':hidden');
       to_keep = elements.filter(':visible');
@@ -1119,7 +1119,7 @@ var I18nForms = (function ($) {
         to_destroy.find('.destroy_flag').attr('disabled', true);
         for (i = 0; i < translation_classes.size(); i += 1) {
           if (to_keep.filter("." + translation_classes[i]).size() === 0) {
-            to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').attr('value', '');
+            to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').val('');
           }
         }
       }
