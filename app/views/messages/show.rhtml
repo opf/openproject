@@ -1,5 +1,7 @@
-<%= breadcrumb link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}),
-               link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}) %>
+<% breadcrumb_paths(
+  link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}),
+  link_to(h(@board.name), {:controller => 'boards', :action => 'show', :project_id => @project, :id => @board}))
+%>
 
 <div class="contextual">
     <%= watcher_link(@topic, User.current) %>

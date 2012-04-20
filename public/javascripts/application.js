@@ -74,38 +74,24 @@ function toggleAllRowGroups(el) {
 function toggleFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
-	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
+	Effect.toggle(fieldset.down('>div'), 'slide', {duration:0.2});
 }
 
 function hideFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
-	fieldset.down('div').hide();
+	fieldset.down('>div').hide();
 }
 
 var fileFieldCount = 1;
 
 function addFileField() {
-    if (fileFieldCount >= 10) return false
-    fileFieldCount++;
-    var f = document.createElement("input");
-    f.type = "file";
-    f.name = "attachments[" + fileFieldCount + "][file]";
-    f.size = 30;
-    var d = document.createElement("input");
-    d.type = "text";
-    d.name = "attachments[" + fileFieldCount + "][description]";
-    d.size = 60;
-    var dLabel = new Element('label');
-    dLabel.addClassName('inline');
-    // Pulls the languge value used for Optional Description
-    dLabel.update($('attachment_description_label_content').innerHTML)
-    p = document.getElementById("attachments_fields");
-    p.appendChild(document.createElement("br"));
-    p.appendChild(f);
-    p.appendChild(dLabel);
-    dLabel.appendChild(d);
-
+  fileFieldCount++;
+  if (fileFieldCount >= 10) return false
+  $('attachments_fields').insert($('attachment_template').innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']'))
+    //
+  // Pulls the languge value used for Optional Description
+  $('attachments_fields').down('label:last').down('span').update($$('.attachment_description_label_content').first().innerHTML)
 }
 
 function showTab(name) {
@@ -164,7 +150,7 @@ function displayTabsButtons() {
 				tabsWidth += lis[i].getWidth() + 6;
 			}
 		}
-		if ((tabsWidth < el.getWidth() - 60) && (lis[0].visible())) {
+		if ((tabsWidth < el.getWidth() - 20) && (lis[0].visible())) {
 			el.down('div.tabs-buttons').hide();
 		} else {
 			el.down('div.tabs-buttons').show();
@@ -465,7 +451,9 @@ function addClickEventToAllErrorMessages() {
         // Cut off '_id' (necessary for select boxes)
         field = $($(a).readAttribute('href').substr(1).concat('_id'));
       }
-      field.down('input, textarea, select').focus();
+      if (field) {
+        field.down('input, textarea, select').focus();
+      }
       Event.stop(event);
       return false;
     });
@@ -473,9 +461,16 @@ function addClickEventToAllErrorMessages() {
 }
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
-  var focus = $$('a.afocus').first();
-  if (focus != undefined) {
-    focus.focus();
+  var error_focus = $$('a.afocus').first();
+  var input_focus = $$('.autofocus').first();
+  if (error_focus != undefined) {
+    error_focus.focus();
+  }
+  else if (input_focus != undefined){
+    input_focus.focus();
+    if (input_focus.tagName === "INPUT") {
+      input_focus.select();
+    }
   }
   // Focus on field with error
   addClickEventToAllErrorMessages();
@@ -558,6 +553,45 @@ jQuery(document).ready(function($) {
 		return this;
 	};
 
+  $.fn.onClickDropDown = function(){
+    var that = this;
+    $('html').click(function() {
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.removeClass("hover");
+    });
+
+    // Do not close the login window when using it
+    that.find("li li").click(function(event){
+       event.stopPropagation();
+    });
+
+    this.find(" > li.drop-down").click(function() {
+      // if an h2 tag follows the submenu should unfold out at the border
+      var menu_start_position;
+      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
+        menu_start_position = that.next().innerHeight() + that.next().position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
+        var wiki_heading = that.next().children().next().first();
+        menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+
+      $(this).toggleSubmenu(that);
+      return false;
+    });
+  };
+
+  $.fn.toggleSubmenu = function(menu){
+    if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+    }
+
+    $(this).slideAndFocus();
+    menu.toggleClass("hover");
+  }
+
 	// open and close the main-menu sub-menus
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		.append("<span class='toggler'></span>")
@@ -603,21 +637,28 @@ jQuery(document).ready(function($) {
         function(){
           return false;
           });
-	jQuery("#account-nav > li.drop-down").click(function() {
-          if (($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
-                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
-          }
-                $(this).slideAndFocus();
-                $("#account-nav").toggleClass("hover");
-
-                return false;
-        });
+        $("#account-nav").onClickDropDown();
+        $(".action_menu_main").onClickDropDown();
 
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
 	// rejigger the main-menu sub-menu functionality.
 	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
+
+$(window).resize(function() {
+    // wait 200 milliseconds for no further resize event
+    // then readjust breadcrumb
+
+    if(this.resizeTO) clearTimeout(this.resizeTO);
+    this.resizeTO = setTimeout(function() {
+        $(this).trigger('resizeEnd');
+    }, 200);
+});
+
+$(window).bind('resizeEnd', function() {
+    jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
+});
 
 	$("#main-menu li:has(ul) > a").not("ul ul a")
 		// 1. unbind the current click functions
@@ -659,14 +700,7 @@ jQuery(document).ready(function($) {
           });
         });
 
-        $('html').click(function() {
-          $("#header .drop-down.open").toggleClass("open").find("> ul").mySlide();
-          $("#account-nav.hover").toggleClass("hover");
-         });
         // Do not close the login window when using it
-        $('#account-nav li li').click(function(event){
-             event.stopPropagation();
-         });
         $('#nav-login-content').click(function(event){
              event.stopPropagation();
          });
@@ -679,5 +713,23 @@ jQuery(document).ready(function($) {
           div.find('a').first().blur(function(){
             div.removeClass('hover');
           });
+        });
+
+        jQuery('#main-menu #toggle-project-menu a.navigation-toggler').click(function(){
+          if ($('#main-menu #toggle-project-menu').hasClass('show')) {
+            // Show project navigation
+            $('#menu-sidebar').removeClass('hidden');
+            $('#main-menu #toggle-project-menu').removeClass('show');
+            $('#main-menu #toggle-project-menu').removeAttr("style");
+            $('#content').removeClass('hidden-navigation');
+          }
+          else {
+            // Hide project navigation
+            var height = $(document).height();
+            $('#menu-sidebar').addClass('hidden');
+            $('#main-menu #toggle-project-menu').addClass('show');
+            $('#main-menu #toggle-project-menu.show').css({height:height});
+            $('#content').addClass('hidden-navigation');
+          };
         });
 });

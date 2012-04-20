@@ -84,4 +84,8 @@ class EnumerationsController < ApplicationController
   #  flash[:error] = 'Unable to delete enumeration'
   #  redirect_to :action => 'index'
   end
+
+  def default_breadcrumb
+    l(:label_enumerations)
+  end
 end

@@ -114,7 +114,7 @@
   border: 1px solid #aaa;
   font-family: sans-serif;
   font-size: 1em;
-  min-width: 150px;
+  min-width: 236px;
 }
 .chzn-container-single .chzn-drop {
   -moz-background-clip   : padding;
@@ -215,7 +215,7 @@
 /* @group Results */
 .chzn-container .chzn-results {
   margin: 0 4px 4px 0;
-  max-height: 190px;
+  max-height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
   color: #222;

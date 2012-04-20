@@ -34,8 +34,25 @@ module ApplicationHelper
   # @param [Hash] options Hash params. This will checked by authorize_for to see if the user is authorized
   # @param [optional, Hash] html_options Options passed to link_to
   # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
-  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
+  #
+  # When a block is given, skip the name parameter
+  def link_to_if_authorized(*args, &block)
+    name = args.shift unless block_given?
+    options = args.shift || {}
+    html_options = args.shift
+    parameters_for_method_reference = args
+
+    return unless authorize_for(options[:controller] || params[:controller], options[:action])
+
+    if block_given?
+      link_to(options, html_options, *parameters_for_method_reference, &block)
+    else
+      link_to(name, options, html_options, *parameters_for_method_reference)
+    end
+  end
+
+  def li_unless_nil(link)
+    content_tag(:li, link) if link
   end
 
   # Display a link to remote if user is authorized
@@ -105,11 +122,10 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
-    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : nil
-    s = link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
+    closed = issue.closed? ? content_tag(:span, l(:label_closed_issues), :class => "hidden-for-sighted") : ""
+    s = link_to closed + options[:before_text].to_s + "#{h(issue.tracker)} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => issue.css_classes,
                                                  :title => title
-    s << closed unless closed.nil?
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
@@ -159,12 +175,18 @@ module ApplicationHelper
   #   link_to_project(project, {:only_path => false}, :class => "project") # => 3rd arg adds html options
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
-  def link_to_project(project, options={}, html_options = nil)
+  def link_to_project(project, options={}, html_options = nil, show_icon = false)
+    if show_icon && User.current.member_of?(project)
+      icon = image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
+    else
+      icon = ""
+    end
+
     if project.active?
       url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to(h(project), url, html_options)
+      icon + link_to(h(project), url, html_options)
     else
-      h(project)
+      icon + h(project)
     end
   end
 
@@ -232,11 +254,11 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    s = ''
-    flash.each do |k,v|
-      s << content_tag('div', content_tag('a',v, :href => 'javascript:;'), :class => "flash #{k}")
+    if User.current.impaired?
+      flash.map { |k,v| content_tag('div', content_tag('a', v, :href => 'javascript:;'), :class => "flash #{k}") }.join
+    else
+      flash.map { |k,v| content_tag('div', v, :class => "flash #{k}") }.join
     end
-    s
   end
 
   # Renders tabs and their content
@@ -268,7 +290,7 @@ module ApplicationHelper
   def project_tree_options_for_select(projects, options = {})
     s = ''
     project_tree(projects) do |project, level|
-      name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
+      name_prefix = (level > 0 ? ('&nbsp;' * 3 * level + '&#187; ') : '')
       tag_options = {:value => project.id, :title => h(project)}
       if project == options[:selected] || (options[:selected].respond_to?(:include?) && options[:selected].include?(project))
         tag_options[:selected] = 'selected'
@@ -398,10 +420,13 @@ module ApplicationHelper
   end
 
   def reorder_links(name, url)
-    link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
-    link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
-    link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => :post, :title => l(:label_sort_lower)) +
-    link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => :post, :title => l(:label_sort_lowest))
+    content_tag(:span,
+      link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
+      link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
+      link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => :post, :title => l(:label_sort_lower)) +
+      link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => :post, :title => l(:label_sort_lowest)),
+      :class => "reorder-icons"
+    )
   end
 
   def breadcrumb(*args)
@@ -409,10 +434,36 @@ module ApplicationHelper
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
 
+  def breadcrumb_list(*args)
+    elements = args.flatten
+    cutme_elements = []
+    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, :class => 'first-breadcrumb-element', :style => 'list-style-image:none;')]
+
+    breadcrumb_elements += elements.collect do |element|
+      content_tag(:li, element.to_s) if element
+    end
+
+    content_tag(:ul, breadcrumb_elements, :class => 'breadcrumb')
+  end
+
   def other_formats_links(&block)
     concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>')
+  end
+
+  def link_to_project_ancestors(project)
+    if @project
+      ancestors = (project.root? ? [] : project.ancestors.visible)
+      ancestors << project
+      ancestors.collect do |p|
+        if p == project
+          link_to_project(p, {:jump => current_menu_item}, {:title => p, :class => 'breadcrumb-project-title nocut'})
+        else
+          link_to_project(p, {:jump => current_menu_item}, {:title => p})
+        end
+      end
+    end
   end
 
   def page_header_title
@@ -458,8 +509,11 @@ module ApplicationHelper
       css << 'theme-' + theme.name
     end
 
-    css << 'controller-' + params[:controller]
-    css << 'action-' + params[:action]
+    if params[:controller] && params[:action]
+      css << 'controller-' + params[:controller]
+      css << 'action-' + params[:action]
+    end
+
     css.join(' ')
   end
 
@@ -845,8 +899,8 @@ module ApplicationHelper
     back_url = params[:back_url]
     if back_url.present?
       back_url = back_url.to_s
-    else
-      back_url = url_for(params) if request.get?
+    elsif request.get? and !params.blank?
+      back_url = url_for(params)
     end
     hidden_field_tag('back_url', back_url) unless back_url.blank?
   end
@@ -942,9 +996,16 @@ module ApplicationHelper
   end
 
   def content_for(name, content = nil, &block)
-    @has_content ||= {}
-    @has_content[name] = true
     super(name, content, &block)
+
+    # only care for non whitespace contents;
+    # rails 2.3 specific implementation
+    if instance_variable_get("@content_for_#{name}").match /\S+/
+      @has_content ||= {}
+      @has_content[name] = true
+    end
+
+    nil
   end
 
   def has_content?(name)
@@ -974,7 +1035,7 @@ module ApplicationHelper
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
-    tags << "\n" + javascript_include_tag("accessibility.js") if ( User.current.impaired? or User.current.anonymous? )
+    tags << "\n" + javascript_include_tag("accessibility.js") if User.current.impaired? and accessibility_js_enabled?
     tags
   end
 
@@ -1081,6 +1142,22 @@ module ApplicationHelper
     @top_menu_split
   end
 
+  def disable_accessibility_css!
+    @accessibility_css_disabled = true
+  end
+
+  def accessibility_css_enabled?
+    !@accessibility_css_disabled
+  end
+
+  def disable_accessibility_js!
+    @accessibility_js_disabled = true
+  end
+
+  def accessibility_js_enabled?
+    !@accessibility_js_disabled
+  end
+
   private
 
   def wiki_helper
@@ -1097,4 +1174,14 @@ module ApplicationHelper
     "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
   end
 
+  def breadcrumb_paths(*args)
+    if args.nil?
+      nil
+    elsif args.empty?
+      @breadcrumb_paths ||= [default_breadcrumb]
+    else
+      @breadcrumb_paths ||= []
+      @breadcrumb_paths += args
+    end
+  end
 end

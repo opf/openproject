@@ -1,27 +1,3 @@
-<div class="contextual">
-<%= link_to(l(:label_news_new),
-            new_project_news_path(@project),
-            :class => 'icon icon-add',
-            :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
-</div>
-
-<div id="add-news" style="display:none;">
-<h2><%=l(:label_news_new)%></h2>
-<% labelled_tabular_form_for :news, @news, :url => project_news_index_path(@project),
-                                           :html => { :id => 'news-form' } do |f| %>
-<%= render :partial => 'news/form', :locals => { :f => f } %>
-<%= submit_tag l(:button_create) %>
-<%= link_to_remote l(:label_preview),
-                   { :url => preview_news_path(:project_id => @project),
-                     :method => 'get',
-                     :update => 'preview',
-                     :with => "Form.serialize('news-form')"
-                   }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
-<% end if @project %>
-<div id="preview" class="wiki"></div>
-</div>
-
 <h2><%=l(:label_news_plural)%></h2>
 
 <% if @newss.empty? %>

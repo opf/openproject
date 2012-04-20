@@ -24,10 +24,12 @@ class AdminController < ApplicationController
   menu_item :info, :only => [:info]
 
   def index
-    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+    redirect_to :action => 'projects'
   end
 
   def projects
+    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -82,5 +84,16 @@ class AdminController < ApplicationController
       [:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
+  end
+
+  def default_breadcrumb
+    case params[:action]
+    when 'projects'
+      l(:label_project_plural)
+    when 'plugins'
+      l(:label_plugins)
+    when 'info'
+      l(:label_information)
+    end
   end
 end

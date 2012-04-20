@@ -1,10 +1,7 @@
-<div class="title-bar" id="upper-title-bar">
-  <div class="subject"><%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %></div>
+<%= render :partial => 'action_menu' %>
 
-  <div class="title-bar-actions">
-  <%= render :partial => 'action_menu' %>
-  </div>
-</div>
+<% breadcrumb_paths(*[link_to(l(:label_issue_plural), {:controller => 'issues', :action => 'index'})] << @issue.ancestors.collect {|parent| link_to '#' + h(parent.id), {:controller => 'issues', :action => 'show', :id => parent}}) unless @issue.ancestors.empty? %>
+<%= content_tag('h2', h(@issue.tracker.name) + ' #' +@issue.id.to_s) %>
 
 <div class="<%= @issue.css_classes %> details">
   <div class="profile-wrap">
@@ -13,7 +10,6 @@
   <h3>
     <%=h(@issue.subject)  %>
   </h3>
-  <hr />
 
   <p class="author">
     <%= authoring @issue.created_on, @issue.author %>.
@@ -21,7 +17,6 @@
       <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
     <% end %>
   </p>
-  <hr />
 
   <div class="meta">
     <table class="attributes">
@@ -56,48 +51,43 @@
   </div><!-- .meta -->
 
 <% if @issue.description? %>
-  <hr />
 
   <div class="description">
+    <hr />
 	  <div class="contextual">
 	    <%= link_to_remote_if_authorized(l(:button_quote), { :url => {:controller => 'journals', :action => 'new', :id => @issue} }, :class => 'icon icon-comment') %>
 	  </div>
 
-	  <p><strong><%=l(:field_description)%></strong></p>
-	  <div class="wiki">
-	    <%= textilizable @issue, :description, :attachments => @issue.attachments %>
-	  </div>
-  </div>
+        <p><strong><%=l(:field_description)%></strong></p>
+        <div class="wiki">
+          <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+        </div>
+</div>
 <% end %>
 
 <% if @issue.attachments.any? -%>
-  <hr />
-  <%= link_to_attachments @issue %>
+<%= link_to_attachments @issue %>
 <% end -%>
 
 <%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
 
-<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
 <hr />
-<div id="issue_tree">
-<p>
-  <strong><%=l(:label_subtask_plural)%></strong>
-  (<%= link_to(l(:label_add_subtask), {:controller => 'issues', :action => 'new', :project_id => @project, :issue => {:parent_issue_id => @issue}}) if User.current.allowed_to?(:manage_subtasks, @project) %>)
-</p>
 
-<%= render_descendants_tree(@issue) unless @issue.leaf? %>
-</div>
-<% end %>
+<%= render :partial => 'subissues_paragraph' %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.present? %>
-<hr />
 <div id="relations">
 <%= render :partial => 'relations' %>
 </div>
-<hr />
 <% end %>
-
+  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+    </div>
+  <% end %>
 </div>
+<div style="clear: both;"></div>
 
 <% if @changesets.present? %>
 <div id="issue-changesets">
@@ -117,15 +107,12 @@
 <div style="clear: both;"></div>
 
 <div class="title-bar" id="lower-title-bar">
-  <div class="title-bar-actions">
-    <%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
-  </div>
+  <%= javascript_include_tag 'copy_issue_actions' %>
 </div>
 
 <div style="clear: both;"></div>
 <% if authorize_for('issues', 'edit') %>
-  <div id="update" style="display:none;">
-  <h3><%= l(:button_update) %></h3>
+<div id="update" style="display:none;">
   <%= render :partial => 'edit' %>
   </div>
 <% end %>
@@ -139,13 +126,6 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'issues/sidebar' %>
-
-  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
-    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
-    <div id="watchers">
-      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
-    </div>
-  <% end %>
 <% end %>
 
 <% content_for :header_tags do %>

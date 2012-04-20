@@ -81,6 +81,7 @@ Redmine::AccessControl.map do |map|
                                   :journals => [:index, :diff],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}
+    map.permission :export_issues, {:issues => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form], :journals => [:new]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
@@ -216,15 +217,19 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
+  menu.push :new_news, { :controller => 'news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
+              :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'show', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
+  menu.push :wiki_index_by_title, {:action => 'index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_title, :parent => :wiki, :last => true
+  menu.push :wiki_index_by_date, {:action => 'date_index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_date, :parent => :wiki, :last => true
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
 end
 
 Redmine::Activity.map do |activity|

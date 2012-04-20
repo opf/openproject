@@ -19,8 +19,12 @@
 <%= javascript_include_tag 'jquery.min.js' %>
 <%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
+<%= javascript_include_tag 'breadcrumb.js' %>
 <%= javascript_include_tag 'chosen.js'%>
 <%= stylesheet_link_tag 'chosen'%>
+<% if User.current.impaired? && accessibility_css_enabled? %>
+  <%= stylesheet_link_tag 'accessibility' %>
+<% end %>
 <%= javascript_tag('jQuery.noConflict();') %>
 <%= javascript_heads %>
 <%= stylesheet_link_tag 'jstoolbar' %>
@@ -41,12 +45,14 @@
         <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get) do %>
           <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-          <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+          <div id='search_wrap'>
+            <%= text_field_tag 'q', @question, :size => 20, :class => 'search_field', :placeholder => l(:search_input_placeholder), :accesskey => accesskey(:quick_search) %>
+          </div>
         <% end %>
       </div>
 
-      <ul id="account-nav">
-        <h1 class="hidden-for-sighted"><%= l(:label_top_menu) %></h1>
+      <h1 class="hidden-for-sighted"><%= l(:label_top_menu) %></h1>
+      <ul id="account-nav" class="menu_root">
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
@@ -95,30 +101,32 @@
     <div id="breadcrumb">
       <h1>
         <span class = 'hidden-for-sighted'><%=l(:description_current_position)%></span>
-        <%= page_header_title %>
+        <%= breadcrumb_list(link_to('Home', home_path),
+                       link_to_project_ancestors(@project),
+                       *breadcrumb_paths) %>
       </h1>
     </div>
+    <%= javascript_tag('jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize()') %>
   </div>
 
   <% main_menu = render_main_menu(@project) %>
-  <% if (side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank?) %>
-  <% display_sidebar = true %>
-  <% else %>
-  <% display_sidebar = false %>
-  <% end %>
+  <% side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank? %>
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
     <% if (side_displayed) %>
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-        <%= main_menu %>
-        <%= yield :main_menu %>
-      <% if display_sidebar %>
-        <!-- Sidebar -->
-        <div id="sidebar">
-          <%= yield :sidebar %>
-          <%= call_hook :view_layouts_base_sidebar %>
+        <div id="toggle-project-menu">
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler"></a>
         </div>
-      <% end %>
+        <div id="menu-sidebar">
+          <%= main_menu %>
+          <%= yield :main_menu %>
+          <!-- Sidebar -->
+          <div id="sidebar">
+            <%= yield :sidebar %>
+            <%= call_hook :view_layouts_base_sidebar %>
+          </div>
+        </div>
       </div>
 
       <%= expand_current_menu %>
@@ -126,6 +134,22 @@
     <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
+
+      <!-- Action menu -->
+      <% if @content_for_action_menu_main %>
+        <ul class="action_menu_main">
+          <%= yield :action_menu_main %>
+          <% if @content_for_action_menu_more %>
+            <li class="drop-down">
+              <a href="javascript:" class="icon icon-more"><%= l(:more_actions) %></a>
+              <ul class="action_menu_more" style="display:none;">
+                <%= yield :action_menu_more %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>

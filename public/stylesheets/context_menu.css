@@ -15,6 +15,7 @@
 	border-right:1px solid #777;
 	background:white;
 	list-style:none;
+  position:relative;
 }
 
 #context-menu li {
@@ -42,10 +43,6 @@
 #context-menu li a.submenu { background:url("../images/bullet_arrow_right.png") right no-repeat; }
 #context-menu li:hover { border:1px solid gray; background-color:#eee; }
 #context-menu a:hover {color:#2A5685;}
-#context-menu li.folder:hover { z-index:40; }		
+#context-menu li.folder:hover { z-index:40; }
 #context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
 #context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
-
-/* selected element */
-.context-menu-selection { background-color:#507AAA !important; color:#000 !important; }
-.context-menu-selection:hover { background-color:#507AAA !important; color:#000  !important; }

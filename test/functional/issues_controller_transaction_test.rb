@@ -53,7 +53,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   def test_put_update_stale_issue
     issue = Issue.find(2)
     @request.session[:user_id] = 2
-
+    
     assert_no_difference 'Journal.count' do
       assert_no_difference 'TimeEntry.count' do
         assert_no_difference 'Attachment.count' do
@@ -73,6 +73,33 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /Data has been updated by another user/
+                              :content => /Information has been updated by at least one other user in the meantime./
   end
+  
+  def test_put_update_stale_issue_prints_users_that_were_changing_it
+    issue = Issue.find(1)
+    @request.session[:user_id] = 3
+
+    put :update,
+          :id => issue.id,
+          :issue => {
+            :fixed_version_id => 4,
+            :lock_version => 0
+          },
+          :notes => '',
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}},
+          :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id }
+
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
+                              :content => /redMine Admin \(19 Mar 00:00\), John Smith \(21 Mar 00:00\)/
+    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
+                              :content => /Please reload the page/
+  end
+  
 end
+
+
+

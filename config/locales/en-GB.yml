@@ -159,7 +159,9 @@ en-GB:
   notice_successful_delete: Successful deletion.
   notice_successful_connection: Successful connection.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-  notice_locking_conflict: Data has been updated by another user.
+  notice_locking_conflict: Information has been updated by at least one other user in the meantime.
+  notice_locking_conflict_additional_information: "The update(s) came from %{users}."
+  notice_locking_conflict_reload_page: Please reload the page, review the changes and reapply your updates.
   notice_not_authorized: You are not authorised to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
@@ -268,6 +270,7 @@ en-GB:
   field_host: Host
   field_port: Port
   field_account: Account
+  field_base: "General Error:"
   field_base_dn: Base DN
   field_attr_login: Login attribute
   field_attr_firstname: Firstname attribute
@@ -381,6 +384,7 @@ en-GB:
   permission_manage_versions: Manage versions
   permission_manage_categories: Manage issue categories
   permission_view_issues: View Issues
+  permission_export_issues: Export Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
   permission_manage_issue_relations: Manage issue relations
@@ -493,6 +497,7 @@ en-GB:
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
+  label_account: Account
   label_my_account: My account
   label_my_projects: My projects
   label_my_page_block: My page block
@@ -987,3 +992,28 @@ en-GB:
   description_choose_project: Projects
   description_date_from: Enter start date
   label_deleted_custom_field: (deleted custom field)
+  label_checked: checked
+  label_calendar_show: Show Calendar
+  description_compare_to: Compare to version
+  description_active: Active?
+  label_main_menu: Side Menu
+  label_enable_multi_select: Toggle multiselect
+  label_remove_columns: Remove selected columns
+  notice_account_inactive: Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
+  description_enter_text: Enter text
+  label_content: Content
+  description_current_position: "You are here:"
+  label_top_menu: Top Menu
+  description_compare_from: Compare from version
+  label_add_columns: Add selected columns
+  button_remove_widget: Remove widget
+  label_modules: Modules
+  notice_account_update_failed: Account setting could not be safed. Please have a look at your account page.
+  description_enter_number: Enter number
+  description_select_issue: Select issue
+  label_table_of_contents: Table of Contents
+  field_impaired: Accessibility mode
+  search_input_placeholder: search ...
+  text_analyze: "Further analyze: %{subject}"
+  label_project_view_all: View all projects
+  description_subissue: Subissue of

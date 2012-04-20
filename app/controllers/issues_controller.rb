@@ -13,6 +13,8 @@
 #++
 
 class IssuesController < ApplicationController
+  EXPORT_FORMATS = %w[atom rss api xls csv pdf]
+  
   menu_item :new_issue, :only => [:new, :create]
   menu_item :view_all_issues, :only => [:all]
   default_search_scope :issues
@@ -22,6 +24,7 @@ class IssuesController < ApplicationController
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index, :all]
+  before_filter :protect_from_unauthorized_export, :only => [:index, :all]
   before_filter :find_optional_project, :only => [:index, :all]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
@@ -52,7 +55,7 @@ class IssuesController < ApplicationController
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
+    sort_init(@query.sort_criteria.empty? ? [['parent', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
 
     if @query.valid?
@@ -93,11 +96,12 @@ class IssuesController < ApplicationController
 
   def all
     params[:set_filter] = '1'
+    retrieve_query
     index
   end
 
   def show
-    @journals = @issue.journals.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    @journals = @issue.journals.changing.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
@@ -318,5 +322,17 @@ private
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
     attributes
+  end
+  
+  def protect_from_unauthorized_export
+    return true unless EXPORT_FORMATS.include? params[:format]
+    
+    find_optional_project
+    return true if User.current.allowed_to? :export_issues, @project
+
+    # otherwise deny access
+    params[:format] = 'html'
+    deny_access
+    return false
   end
 end

@@ -1,10 +1,14 @@
+<% breadcrumb_paths(nil) %>
 <div class="splitcontentleft">
   <div class="wiki"><%= textilizable Setting.welcome_text %></div>
   <% if @news.any? %>
-  <div class="news box">
+  <div class="mypage-box">
 	<h3><%=l(:label_news_latest)%></h3>
+        <div class="overview">
 		<%= render :partial => 'news/news', :collection => @news %>
 		<%= link_to l(:label_news_view_all), :controller => 'news' %>
+
+  </div>
   </div>
   <% end %>
   <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
@@ -12,7 +16,7 @@
 
 <div class="splitcontentright">
     <% if @projects.any? %>
-	<div class="projects box">
+	<div class="projects mypage-box overview">
 	<h3><%=l(:label_project_latest)%></h3>
 		<ul>
 		<% for project in @projects %>

@@ -151,12 +151,16 @@ en:
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
+  notice_account_inactive: Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
   notice_successful_create: Successful creation.
   notice_successful_update: Successful update.
   notice_successful_delete: Successful deletion.
   notice_successful_connection: Successful connection.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-  notice_locking_conflict: Data has been updated by another user.
+  notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
+  notice_locking_conflict: Information has been updated by at least one other user in the meantime.
+  notice_locking_conflict_additional_information: "The update(s) came from %{users}."
+  notice_locking_conflict_reload_page: Please reload the page, review the changes and reapply your updates.
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
@@ -265,6 +269,7 @@ en:
   field_host: Host
   field_port: Port
   field_account: Account
+  field_base: "General Error:"
   field_base_dn: Base DN
   field_attr_login: Login attribute
   field_attr_firstname: Firstname attribute
@@ -308,9 +313,8 @@ en:
   field_text: Text field
   field_visible: Visible
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  field_impaired_settings: "ChiliProject offers a slightly different User Interface for visually/motorically impaired Users"
-  field_impaired: "Use adjusted ChiliProject Interface"
-
+  field_impaired: Accessibility mode
+  field_ui: User Interface
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
@@ -380,6 +384,7 @@ en:
   permission_manage_versions: Manage versions
   permission_manage_categories: Manage issue categories
   permission_view_issues: View Issues
+  permission_export_issues: Export Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
   permission_manage_issue_relations: Manage issue relations
@@ -497,6 +502,7 @@ en:
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
+  label_account: Account
   label_my_account: My account
   label_my_account_data: My account data
   label_my_projects: My projects
@@ -552,6 +558,8 @@ en:
   label_news_added: News added
   label_news_comment_added: Comment added to a news
   label_settings: Settings
+  label_summary: Summary
+  label_project_settings: Project settings
   label_overview: Overview
   label_version: Version
   label_version_new: New version
@@ -780,7 +788,7 @@ en:
   label_plugins: Plugins
   label_ldap_authentication: LDAP authentication
   label_downloads_abbr: D/L
-  label_optional_description: Optional description
+  label_optional_description: Description
   label_add_another_file: Add another file
   label_preferences: Preferences
   label_chronological_order: In chronological order
@@ -789,6 +797,7 @@ en:
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
+  button_add_watcher: Add watcher
   label_example: Example
   label_display: Display
   label_sort: Sort
@@ -1023,3 +1032,9 @@ en:
   description_attachment_toggle: Show/Hide attachments
   description_autocomplete: This field uses autocomplete. While typing the title of an issue you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the issue number directly.
   description_noscript: You need to activate JavaScript in order to use Chiliproject!
+  description_my_project: You are member
+  description_parent_issue: Parent issue of current
+  description_sub_issue: Subissue of current
+  label_issue_hierarchy: "Issue Hierarchy"
+  more_actions: More functions
+  show_hide_project_menu: Hide/Show project menu

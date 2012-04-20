@@ -33,7 +33,7 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n"))
+    links.empty? ? nil : content_tag('ul', links.join("\n"), :class => "menu_root")
   end
 
   def render_menu_node(node, project=nil)
