@@ -2835,7 +2835,7 @@ ul.action_menu_more {
 #toggle-project-menu:hover {
   background-color: #D8D8D8;
 }
-#toggle-project-menu.show {
+#toggle-project-menu.show, #main-menu.hidden {
   width:15px;
 }
 #content.hidden-navigation {
