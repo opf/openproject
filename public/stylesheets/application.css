@@ -2521,7 +2521,7 @@ tr.time-entry {
 
 /* comments */
 .wiki ol li {
-	list-style: decimal outside;
+	list-style: decimal inside;
 }
 
 /* scm */
