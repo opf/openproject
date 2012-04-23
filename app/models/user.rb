@@ -155,8 +155,9 @@ class User < Principal
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        user = User.new
-        user.safe_attributes = attrs
+        # login is both safe and protected in chilis core code
+        # in case it's intentional we keep it that way
+        user = new(attrs.except(:login))
         user.login = login
         user.language = Setting.default_language
         if user.save
