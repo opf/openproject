@@ -21,6 +21,18 @@ class VariableCostObject < CostObject
                         :activity_permission => :view_cost_objects
   end
 
+  def attributes=(attrs)
+    if attrs
+      [:new_material_budget_item_attributes, :new_labor_budget_item_attributes,
+        :existing_material_budget_item_attributes, :existing_labor_budget_item_attributes].each do |attribute|
+          if (value = attrs.delete(attribute.to_s)).present?
+            self.send(:"#{attribute}=", value)
+          end
+        end
+      end
+    super(attrs)
+  end
+
   # override acts_as_journalized method
   def activity_type
     self.class.superclass.plural_name
@@ -88,11 +100,13 @@ class VariableCostObject < CostObject
     material_budget_items.reject(&:new_record?).each do |material_budget_item|
       attributes = material_budget_item_attributes[material_budget_item.id.to_s]
 
-      if attributes && attributes[:units].to_i > 0
-        attributes[:budget] = Rate.clean_currency(attributes[:budget])
-        material_budget_item.attributes = attributes
-      else
-        material_budget_items.delete(material_budget_item)
+      if User.current.allowed_to? :edit_cost_objects, material_budget_item.cost_object.project
+        if attributes && attributes[:units].to_i > 0
+          attributes[:budget] = Rate.clean_currency(attributes[:budget])
+          material_budget_item.attributes = attributes
+        else
+          material_budget_items.delete(material_budget_item)
+        end
       end
     end
   end
@@ -112,12 +126,13 @@ class VariableCostObject < CostObject
   def existing_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
-
-      if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
-        attributes[:budget] = Rate.clean_currency(attributes[:budget])
-        labor_budget_item.attributes = attributes
-      else
-        labor_budget_items.delete(labor_budget_item)
+      if User.current.allowed_to? :edit_cost_objects, labor_budget_item.cost_object.project
+        if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
+          attributes[:budget] = Rate.clean_currency(attributes[:budget])
+          labor_budget_item.attributes = attributes
+        else
+          labor_budget_items.delete(labor_budget_item)
+        end
       end
     end
   end
