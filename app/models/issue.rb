@@ -120,6 +120,7 @@ class Issue < ActiveRecord::Base
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
+    self.parent_issue_id = issue.parent_id if issue.parent_id
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self
