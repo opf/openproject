@@ -497,6 +497,7 @@ en-GB:
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
+  label_account: Account
   label_my_account: My account
   label_my_projects: My projects
   label_my_page_block: My page block

@@ -21,17 +21,19 @@ class MembersController < ApplicationController
 
   def new
     members = []
-    if params[:member] && request.post?
-      attrs = params[:member].dup
-      if (user_ids = attrs.delete(:user_ids))
+    if params[:member]
+      if params[:member][:user_ids]
+        attrs = params[:member].dup
+        user_ids = attrs.delete(:user_ids)
         user_ids.each do |user_id|
-          members << Member.new(attrs.merge(:user_id => user_id))
+          members << Member.new(:role_ids => params[:member][:role_ids], :user_id => user_id)
         end
       else
-        members << Member.new(attrs)
+        members << Member.new(:role_ids => params[:member][:role_ids], :user_id => params[:member][:user_id])
       end
       @project.members << members
     end
+
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
 
