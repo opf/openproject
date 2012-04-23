@@ -121,7 +121,12 @@ class CostlogController < ApplicationController
       end
 
       new_user ||= User.current
-      @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
+      @cost_entry = CostEntry.new.tap do |ce|
+        ce.project  = @project
+        ce.issue    = @issue
+        ce.user     = new_user
+        ce.spent_on = Date.today
+      end
     end
 
     if params[:cost_entry].is_a?(Hash)
