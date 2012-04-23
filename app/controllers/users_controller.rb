@@ -136,7 +136,7 @@ class UsersController < ApplicationController
   def update
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
-    @user.safe_attributes = params[:user]
+    @user.safe_attributes = params[:user].except(:login) # :login is protected
     if params[:user][:password].present? && @user.change_password_allowed?
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
