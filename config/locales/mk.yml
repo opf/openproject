@@ -155,7 +155,7 @@ mk:
   notice_successful_delete: Успешно бришење.
   notice_successful_connection: Успешна конекција.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
-  notice_locking_conflict: Data has been updated by another user.
+  notice_locking_conflict: Information has been updated by at least one other user in the meantime.
   notice_not_authorized: You are not authorized to access this page.
   notice_email_sent: "Е-порака е пратена на %{value}"
   notice_email_error: "Се случи грешка при праќање на е-пораката (%{value})"
