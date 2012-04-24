@@ -52,10 +52,14 @@ class PrincipalRolesController < ApplicationController
   def new_principal_roles_from_params
     pr_params = params[:principal_role].dup
     role_ids = pr_params[:role_id] ? [pr_params.delete(:role_id)] : pr_params.delete(:role_ids)
+    principal_id = pr_params.delete(:principal_id)
+
     roles = Role.find role_ids
+
     principal_roles = []
     role_ids.map(&:to_i).each do |role_id|
       role = PrincipalRole.new(pr_params)
+      role.principal_id = principal_id
       role.role = roles.detect {|r| r.id == role_id}
       principal_roles << role
     end

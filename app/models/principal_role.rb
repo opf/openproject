@@ -2,6 +2,9 @@ class PrincipalRole < ActiveRecord::Base
   belongs_to :principal
   belongs_to :role
 
+  attr_accessible :principal,
+                  :role
+
   def validate
     add_error_can_not_be_assigned unless self.role.assignable_to?(self.principal)
   end
