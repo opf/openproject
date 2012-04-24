@@ -13,11 +13,15 @@ class MeetingAgenda < MeetingContent
   
   # TODO: internationalize the comments
   def lock!(user = User.current)
-    update_attributes :locked => true, :author => user, :comment => "Agenda closed"
+    self.attributes = {:author => user, :comment => "Agenda closed"}
+    self.locked = true
+    self.save
   end
   
   def unlock!(user = User.current)
-    update_attributes :locked => false, :author => user, :comment => "Agenda opened"
+    self.attributes = {:author => user, :comment => "Agenda opened"}
+    self.locked = false
+    self.save
   end
   
   def editable?

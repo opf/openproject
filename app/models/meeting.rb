@@ -8,6 +8,8 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
+  attr_protected :project_id, :author_id, :created_at, :updated_at
+
   acts_as_watchable
   
   acts_as_searchable :columns => ["#{table_name}.title", "#{MeetingContent.table_name}.text"],

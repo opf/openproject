@@ -8,6 +8,8 @@ class MeetingContent < ActiveRecord::Base
 
   validates_length_of :comment, :maximum => 255, :allow_nil => true
 
+  attr_protected :author_id, :type, :meeting_id, :created_at, :updated_at, :locked
+
   before_save :comment_to_journal_notes
 
   def editable?
