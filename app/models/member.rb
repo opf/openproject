@@ -15,7 +15,7 @@
 class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
-  has_many :member_roles, :dependent => :destroy
+  has_many :member_roles, :dependent => :destroy, :autosave => true
   has_many :roles, :through => :member_roles
   belongs_to :project
 
