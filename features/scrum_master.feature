@@ -252,8 +252,6 @@ Feature: Scrum Master
      Then the request should complete successfully
      Then the wiki page Sprint 001 should contain Sprint Template
 
-#here was it
-
   Scenario: View tasks that have subtasks
   Given I am on the taskboard for "Sprint 005"
    Then I should see "Task 10" within "#tasks"

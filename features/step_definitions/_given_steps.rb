@@ -104,11 +104,12 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_
   project = get_project(project_name)
 
   table.hashes.each do |version|
-    version['project_id'] = project.id
     ['effective_date', 'start_date'].each do |date_attr|
       version[date_attr] = eval(version[date_attr]).strftime("%Y-%m-%d") if version[date_attr].match(/^(\d+)\.(year|month|week|day|hour|minute|second)(s?)\.(ago|from_now)$/)
     end
-    sprint = Sprint.create! version
+    sprint = Sprint.new version
+    sprint.project = project
+    sprint.save!
 
     vs = sprint.version_settings.build
     vs.project = project
@@ -199,7 +200,9 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following issues:$/ do |project_n
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      Issue.create!(params)
+      issue = Issue.new
+      issue.force_attributes = params
+      issue.save!
     end
   end
 end
