@@ -29,7 +29,7 @@ class MeetingContentsController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = l(:notice_locking_conflict)
     params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
     render 'meetings/show'
   end
