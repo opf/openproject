@@ -667,6 +667,7 @@ de:
   label_view_revisions: Revisionen anzeigen
   label_view_all_revisions: Alle Revisionen anzeigen
   label_max_size: Maximale Größe
+  label_move_issue: Ticket verschieben
   label_sort_highest: An den Anfang
   label_sort_higher: Eins höher
   label_sort_lower: Eins tiefer

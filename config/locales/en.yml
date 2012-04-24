@@ -666,6 +666,7 @@ en:
   label_view_revisions: View revisions
   label_view_all_revisions: View all revisions
   label_max_size: Maximum size
+  label_move_issue: Move issue
   label_sort_highest: Move to top
   label_sort_higher: Move up
   label_sort_lower: Move down
