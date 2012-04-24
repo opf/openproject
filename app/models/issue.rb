@@ -159,6 +159,7 @@ class Issue < ActiveRecord::Base
       issue.reset_custom_values!
     end
     if options[:copy]
+      issue.author = User.current
       issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       issue.status = if options[:attributes] && options[:attributes][:status_id]
                        IssueStatus.find_by_id(options[:attributes][:status_id])
