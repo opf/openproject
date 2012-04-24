@@ -28,7 +28,7 @@ ContextMenu.prototype = {
 		Event.stop(e);
 		if (!this.isSelected(tr)) {
 			this.unselectAll();
-			this.addSelection(tr);
+			this.addSelection(tr, e);
 			this.lastSelected = tr;
 		}
 		this.showMenu(e);
@@ -51,25 +51,25 @@ ContextMenu.prototype = {
           }
         } else {
           if (e.ctrlKey || e.metaKey) {
-            this.toggleSelection(tr);
+            this.toggleSelection(tr, e);
           } else if (e.shiftKey) {
             if (this.lastSelected != null) {
               var toggling = false;
               var rows = $$('.hascontextmenu');
               for (i=0; i<rows.length; i++) {
                 if (toggling || rows[i]==tr) {
-                  this.addSelection(rows[i]);
+                  this.addSelection(rows[i], e);
                 }
                 if (rows[i]==tr || rows[i]==this.lastSelected) {
                   toggling = !toggling;
                 }
               }
             } else {
-              this.addSelection(tr);
+              this.addSelection(tr, e);
             }
           } else {
             this.unselectAll();
-            this.addSelection(tr);
+            this.addSelection(tr, e);
           }
           this.lastSelected = tr;
         }
@@ -155,18 +155,18 @@ ContextMenu.prototype = {
   hideMenu: function() {
     Element.hide('context-menu');
   },
-  
-  addSelection: function(tr) {
+
+  addSelection: function(tr, e) {
     tr.addClassName('context-menu-selection');
     this.checkSelectionBox(tr, true);
-    this.clearDocumentSelection();
+    this.clearDocumentSelection(e);
   },
-  
-  toggleSelection: function(tr) {
+
+  toggleSelection: function(tr,e) {
     if (this.isSelected(tr)) {
       this.removeSelection(tr);
     } else {
-      this.addSelection(tr);
+      this.addSelection(tr, e);
     }
   },
   
@@ -190,10 +190,12 @@ ContextMenu.prototype = {
   isSelected: function(tr) {
     return Element.hasClassName(tr, 'context-menu-selection');
   },
-  
-  clearDocumentSelection: function() {
+
+  clearDocumentSelection: function(e) {
     if (document.selection) {
-      document.selection.clear(); // IE
+      if (document.selection.type == "Text" && e.shiftKey) {
+        document.selection.empty(); // IE
+      }
     } else {
       window.getSelection().removeAllRanges();
     }
