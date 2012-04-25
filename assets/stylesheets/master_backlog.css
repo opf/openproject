@@ -2,6 +2,7 @@
   width:100%;
   min-width: 950px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 #rb #owner_backlogs_container {
   float: right;
