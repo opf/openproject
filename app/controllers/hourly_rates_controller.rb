@@ -65,15 +65,19 @@ class HourlyRatesController < ApplicationController
         @rates << @user.rates.build({:valid_from => Date.today, :project_id => @project}) if @rates.empty?
       end
       render :action => "edit", :layout => !request.xhr?
-    end 
+    end
   end
-  
+
   def set_rate
     today = Date.today
-    
+
     rate = @user.rate_at(today, @project)
-    rate ||= HourlyRate.new(:project => @project, :user => @user, :valid_from => today)
-    
+    rate ||= HourlyRate.new.tap do |hr|
+      hr.project    = @project
+      hr.user       = @user
+      hr.valid_from = today
+    end
+
     rate.rate = clean_currency(params[:rate])
     if rate.save
       if request.xhr?

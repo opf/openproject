@@ -7,19 +7,19 @@ class CostEntry < ActiveRecord::Base
   belongs_to :cost_type
   belongs_to :cost_object
   belongs_to :rate, :class_name => "CostRate"
-  
-  attr_protected :project_id, :costs, :rate_id
-  
+
+  attr_accessible :comments, :units, :spent_on, :created_on, :updated_on
+
   validates_presence_of :project_id, :user_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
-  
+
   named_scope :visible, lambda{|*args|
     { :include => [:project, :user],
       :conditions => (args.first || User.current).allowed_for(:view_cost_entries, args[1])
     }
   }
-  
+
   named_scope :visible_costs, lambda{|*args|
     view_cost_rates = (args.first || User.current).allowed_for(:view_cost_rates, args[1])
     view_cost_entries = (args.first || User.current).allowed_for(:view_cost_entries, args[1])

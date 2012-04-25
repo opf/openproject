@@ -41,8 +41,12 @@ describe TimeEntry do
       @example.hours = 1
       @example.save!
       @example.costs.should == rates("hourly_one").rate
-      hourly = HourlyRate.create! :valid_from => 1.day.ago, :rate => 1.0,
-      :user => User.current, :project => rates("hourly_one").project
+      (hourly = HourlyRate.new.tap do |hr|
+        hr.valid_from = 1.day.ago
+        hr.rate       = 1.0
+        hr.user       = User.current
+        hr.project    = rates("hourly_one").project
+      end).save!
       @example.reload
       @example.rate.should_not == rates("hourly_one")
       @example.costs.should == hourly.rate
@@ -54,8 +58,12 @@ describe TimeEntry do
       @example.hours = 1
       @example.save!
       @example.costs.should == rates("hourly_three").rate
-      hourly = HourlyRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0,
-      :user => User.current, :project => rates("hourly_one").project
+      (hourly = HourlyRate.new.tap do |hr|
+        hr.valid_from = 3.days.ago.to_date
+        hr.rate       = 1.0
+        hr.user       = User.current
+        hr.project    = rates("hourly_one").project
+      end).save!
       @example.reload
       @example.rate.should_not == rates("hourly_three")
       @example.costs.should == hourly.rate
@@ -114,7 +122,11 @@ describe TimeEntry do
       @default_example.hours = 1
       @default_example.save!
       @default_example.costs.should == rates("default_hourly_one").rate
-      hourly = DefaultHourlyRate.create! :valid_from => 1.day.ago.to_date, :rate => 1.0, :user => users("john")
+      (hourly = DefaultHourlyRate.new.tap do |dhr|
+        dhr.valid_from = 1.day.ago.to_date
+        dhr.rate       = 1.0
+        dhr.user       = users("john")
+      end).save!
       @default_example.reload
       @default_example.rate.should_not == rates("default_hourly_one")
       @default_example.costs.should == hourly.rate
@@ -126,7 +138,11 @@ describe TimeEntry do
       @default_example.hours = 1
       @default_example.save!
       @default_example.costs.should == rates("default_hourly_three").rate
-      hourly = DefaultHourlyRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0, :user => users("john")
+      (hourly = DefaultHourlyRate.new.tap do |dhr|
+        dhr.valid_from = 3.days.ago.to_date
+        dhr.rate       = 1.0
+        dhr.user       = users("john")
+      end).save!
       @default_example.reload
       @default_example.rate.should_not == rates("default_hourly_three")
       @default_example.costs.should == hourly.rate
@@ -158,8 +174,12 @@ describe TimeEntry do
     it "shoud be able to switch between default hourly rate and hourly rate" do
       user = users("john")
       @default_example.rate.should == rates("default_hourly_one")
-      rate = HourlyRate.create! :valid_from => 10.days.ago.to_date, :rate => 1337.0, :user => user,
-              :project => rates("hourly_one").project
+      (rate = HourlyRate.new.tap do |hr|
+        hr.valid_from = 10.days.ago.to_date
+        hr.rate       = 1337.0
+        hr.user       = user
+        hr.project    = rates("hourly_one").project
+      end).save!
       @default_example.reload
       @default_example.rate.should == rate
       rate.destroy

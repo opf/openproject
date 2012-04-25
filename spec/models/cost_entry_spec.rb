@@ -40,19 +40,27 @@ describe CostEntry do
     @example.units = 1
     @example.save!
     @example.costs.should == rates("cheap_one").rate
-    cheap = CostRate.create! :valid_from => 1.day.ago, :rate => 1.0, :cost_type => cost_types("umbrella")
+    (cheap = CostRate.new.tap do |cr|
+      cr.valid_from = 1.day.ago
+      cr.rate       = 1.0
+      cr.cost_type  = cost_types("umbrella")
+    end).save!
     @example.reload
     @example.rate.should_not == rates("cheap_one")
     @example.costs.should == cheap.rate
   end
-  
+
   it "should update cost if a new rate is added in between" do
     @example.cost_type = cost_types("umbrella")
     @example.spent_on = 3.days.ago
     @example.units = 1
     @example.save!
     @example.costs.should == rates("cheap_three").rate
-    cheap = CostRate.create! :valid_from => 3.days.ago.to_date, :rate => 1.0, :cost_type => cost_types("umbrella")
+    (cheap = CostRate.new.tap do |cr|
+      cr.valid_from = 3.days.ago.to_date
+      cr.rate       = 1.0
+      cr.cost_type  = cost_types("umbrella")
+    end).save!
     @example.reload
     @example.rate.should_not == rates("cheap_three")
     @example.costs.should == cheap.rate
@@ -80,7 +88,7 @@ describe CostEntry do
     @example.reload
     @example.costs.should == rates("cheap_five").rate
   end
-  
+
   it "should be able to change order of rates (sorted by valid_from)" do
     cheap_one = rates("cheap_one")
     cheap_three = rates("cheap_three")

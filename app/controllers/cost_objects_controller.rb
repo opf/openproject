@@ -114,16 +114,8 @@ class CostObjectsController < ApplicationController
     render :layout => !request.xhr?
   end
 
-  # Blacklist of attributes which can not be updated in edit
-  EDIT_BLACK_LIST = %w(kind type)
-
   def edit
-    if params[:cost_object]
-      attrs = params[:cost_object].dup
-      attrs.delete_if {|k,v| EDIT_BLACK_LIST.include?(k)}
-
-      @cost_object.attributes = attrs
-    end
+    @cost_object.attributes = params[:cost_object] if params[:cost_object]
 
     if request.post?
       if @cost_object.save

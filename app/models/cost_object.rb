@@ -10,10 +10,9 @@ class CostObject < ActiveRecord::Base
   has_many :cost_entries, :through => :issues
   has_many :time_entries, :through => :issues
 
-  attr_protected :author
+  attr_accessible :subject, :description, :fixed_date, :project_manager_signoff, :client_signoff
 
   acts_as_attachable :after_remove => :attachment_removed
-
 
   unless respond_to? :acts_as_journalized
     acts_as_event :title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
