@@ -1,6 +1,7 @@
 #rb #backlogs_container {
   width:100%;
   min-width: 950px;
+  overflow-y: auto;
 }
 #rb #owner_backlogs_container {
   float: right;
