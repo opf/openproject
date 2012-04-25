@@ -14,8 +14,10 @@
 
 I18n.default_locale = 'en'
 # Adds fallback to default locale for untranslated strings
-I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
+if Setting.table_exists? # don't want to prevent migrations
+  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+  I18n.fallbacks.defaults = [I18n.default_locale] + Setting.available_languages.map(&:to_sym)
+end
 
 require 'redmine'
 require 'chili_project'
