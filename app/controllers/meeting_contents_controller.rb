@@ -63,6 +63,9 @@ class MeetingContentsController < ApplicationController
     render :partial => 'common/preview'
   end
   
+  def default_breadcrumb
+    MeetingsController.new.send(:default_breadcrumb)
+  end
   private
     
   def find_meeting
