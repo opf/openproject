@@ -71,7 +71,9 @@ class MeetingsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-    @meeting = Meeting.new(:project => @project, :author => User.current)
+    @meeting = Meeting.new
+    @meeting.project = @project
+    @meeting.author = User.current
   end
 
   def find_meeting

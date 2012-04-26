@@ -8,7 +8,7 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
-  attr_protected :project_id, :author_id, :created_at, :updated_at
+  attr_accessible :title, :location, :start_time, :duration
 
   acts_as_watchable
   
@@ -68,6 +68,11 @@ class Meeting < ActiveRecord::Base
   def text
     agenda.text if agenda.present?
   end
+
+  def author=(user)
+    self.write_attribute(:author_id, user.id)
+    self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user) # Don't add the author as participant if we already have some through nested attributes
+  end
   
   def copy(attrs)
     copy = self.clone
@@ -84,7 +89,6 @@ class Meeting < ActiveRecord::Base
     # set defaults
     self.start_time ||= Date.tomorrow + 10.hours
     self.duration   ||= 1
-    self.participants.build(:user => self.author, :invited => true) if (self.new_record? && self.participants.empty? && self.author) # Don't add the author as participant if we already have some through nested attributes
   end
   
   private

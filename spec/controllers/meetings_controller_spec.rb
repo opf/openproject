@@ -43,6 +43,8 @@ describe MeetingsController do
       before(:each) do
         Project.stub!(:find).and_return(@p)
         @m = mock_model(Meeting)
+        @m.stub!(:project=)
+        @m.stub!(:author=)
         Meeting.stub!(:new).and_return(@m)
       end
       describe "html" do
@@ -58,6 +60,8 @@ describe MeetingsController do
       before(:each) do
         Project.stub!(:find).and_return(@p)
         @m = mock_model(Meeting)
+        @m.stub!(:project=)
+        @m.stub!(:author=)
         Meeting.stub!(:new).and_return(@m)
       end
       #describe "with a valid meeting ID" do

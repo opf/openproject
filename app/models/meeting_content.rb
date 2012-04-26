@@ -8,7 +8,7 @@ class MeetingContent < ActiveRecord::Base
 
   validates_length_of :comment, :maximum => 255, :allow_nil => true
 
-  attr_protected :author_id, :type, :meeting_id, :created_at, :updated_at, :locked
+  attr_accessible :text, :lock_version, :comment
 
   before_save :comment_to_journal_notes
 
