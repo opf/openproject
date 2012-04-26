@@ -3,7 +3,9 @@ class MeetingContentsController < ApplicationController
   
   menu_item :meetings
   
+  helper :watchers
   helper :wiki
+  helper :meetings
   helper :meeting_contents
   helper :watchers
   helper :meetings
@@ -13,8 +15,8 @@ class MeetingContentsController < ApplicationController
   
   def show
     # Redirect links to the last version
-    (redirect_to :controller => @content_type.pluralize, :action => :show, :meeting_id => @meeting and return) if params[:version].present? && @content.version == params[:version].to_i
-    @content = @content.find_version(params[:version]) unless params[:version].blank?
+    (redirect_to :controller => 'meetings', :action => :show, :id => @meeting, :tab => @content_type.sub(/^meeting_/, '') and return) if params[:version].present? && @content.version == params[:version].to_i
+    @content = @content.journals.at params[:version].to_i unless params[:version].blank?
     render 'meeting_contents/show'
   end
   
@@ -29,16 +31,16 @@ class MeetingContentsController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = l(:notice_locking_conflict)
     params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
     render 'meetings/show'
   end
   
   def history
-    @version_count = @content.versions.count
+    @version_count = @content.journals.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
-    @content_versions = @content.versions.all :select => "id, author_id, comment, updated_at, version", :order => 'version DESC', :limit => @version_pages.items_per_page + 1, :offset =>  @version_pages.current.offset
+    @content_versions = @content.journals.all :select => "id, user_id, notes, created_at, version", :order => 'version DESC', :limit => @version_pages.items_per_page + 1, :offset =>  @version_pages.current.offset
     render 'meeting_contents/history', :layout => !request.xhr?
   end
   
@@ -63,6 +65,9 @@ class MeetingContentsController < ApplicationController
     render :partial => 'common/preview'
   end
   
+  def default_breadcrumb
+    MeetingsController.new.send(:default_breadcrumb)
+  end
   private
     
   def find_meeting

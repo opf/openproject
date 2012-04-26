@@ -1,5 +1,5 @@
 Feature: Show meetings
-  
+
   Background:
         Given there is 1 project with the following:
               | identifier | dingens |
@@ -15,7 +15,7 @@ Feature: Show meetings
           And the user "alice" is a "user" in the project "dingens"
           And there is 1 meeting in project "dingens" created by "bob" with:
               | title | Bobs Meeting |
-  
+
   @javascript
   Scenario: Navigate to a meeting page with an open agenda
       Given the role "user" may have the following rights:
@@ -25,7 +25,7 @@ Feature: Show meetings
         And I click on "Bobs Meeting"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should see "No data to display" within ".meeting_agenda"
-  
+
   @javascript
   Scenario: Navigate to a meeting page with a closed agenda
       Given the role "user" may have the following rights:
@@ -49,7 +49,7 @@ Feature: Show meetings
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should not see "No data to display" within "#meeting_agenda-text"
         And I should see "Text formatting" within ".meeting_agenda"
-  
+
   @javascript
   Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes
       Given the role "user" may have the following rights:
@@ -105,7 +105,7 @@ Feature: Show meetings
        Then I should see "Minutes" within ".meeting_minutes" # I should see the Minutes tab
         And I should see "Some minutes!" within "#meeting_minutes-text"
         And I should not see "Text formatting" within "#edit-meeting_minutes"
-  
+
   @javascript
   Scenario: Navigate to a meeting page and view an older version of an agenda
       Given the role "user" may have the following rights:
@@ -118,6 +118,6 @@ Feature: Show meetings
         And I go to the Meetings page for the project called "dingens"
         And I click on "Bobs Meeting"
         And I click on "History"
-        And I click on "2"
+        And I click on "1"
        Then I should see "Agenda" within ".meeting_agenda" # I should see the Agenda tab
         And I should see "blah" within ".meeting_agenda"

@@ -10,6 +10,7 @@ describe "MeetingAgenda" do
   describe "#lock!" do
     it "locks the agenda" do
       @a.save
+      @a.reload
       @a.lock!
       @a.reload
       @a.locked.should be_true
@@ -20,6 +21,7 @@ describe "MeetingAgenda" do
     it "unlocks the agenda" do
       @a.locked = true
       @a.save
+      @a.reload
       @a.unlock!
       @a.reload
       @a.locked.should be_false

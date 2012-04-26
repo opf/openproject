@@ -14,8 +14,9 @@ Redmine::Plugin.register :redmine_meeting do
   author_url 'http://finn.de/team'
   description 'This plugin adds a meeting module with functionality to plan an agenda and save the minutes of a meeting.'
   url 'http://finn.de'
-  version '1.3.1'
+  version '2.0.0'
 
+  # This plugin actually requires chiliproject 2.0 or higher…
   requires_redmine :version_or_higher => '1.0'
 
   project_module :meetings do
@@ -34,7 +35,12 @@ Redmine::Plugin.register :redmine_meeting do
     search.register :meetings
   end
 
-  activity_provider :meetings, :default => false, :class_name => ['MeetingContent::Version', 'Meeting']
+  activity_provider :meetings, :default => false, :class_name => ['Meeting', 'MeetingAgenda', 'MeetingMinutes']
 
   menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
+  menu :project_menu, :new_meeting, {:controller => 'meetings', :action => 'new'}, :param => :project_id, :caption => :label_meeting_new, :parent => :meetings
+
+  ActiveSupport::Inflector.inflections do |inflect|
+    inflect.uncountable "meeting_minutes"
+  end
 end

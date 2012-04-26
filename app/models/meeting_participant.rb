@@ -3,12 +3,14 @@ class MeetingParticipant < ActiveRecord::Base
   
   belongs_to :meeting
   belongs_to :user
-  
+
   named_scope :invited, :conditions => {:invited => true}
   named_scope :attended, :conditions => {:attended => true}
   
   after_create :add_participant_as_watcher
-  
+
+  attr_protected :user_id, :meeting_id, :meeting_role_id, :created_at, :updated_at
+
   def name
     user.present? ? user.name : self.name
   end

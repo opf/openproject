@@ -10,12 +10,13 @@ end
 begin
   #require "config/environment" unless defined? RAILS_ROOT
   require 'spec/spec_helper'
+  require 'identical_ext'
 rescue LoadError => error
   puts <<-EOS
 
     You need to install rspec in your Redmine project.
     Please execute the following code:
-    
+
       gem install rspec-rails
       script/generate rspec
 
