@@ -13,8 +13,8 @@ class Report < ActiveRecord::Base
 
   before_save :serialize
   serialize :serialized, Hash
-  
-  attr_protected :project_id
+
+  attr_accessible :name, :is_public, :serialized
 
   self.abstract_class = true # lets have subclasses have their own SQL tables
 
