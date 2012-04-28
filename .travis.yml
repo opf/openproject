@@ -1,0 +1,25 @@
+language: ruby
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+env:
+  - "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+  - "RAILS_ENV=test DB=mysql2 BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite"
+  - "RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite"
+  - "RAILS_ENV=test DB=sqlite BUNDLE_WITHOUT=rmagick:mysql:mysql2:postgres"
+matrix:
+  exclude:
+    - rvm: 1.9.2
+      env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+    - rvm: 1.9.3
+      env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
+before_script:
+  - "sudo apt-get -qq update"
+  - "sudo apt-get -qq --no-install-recommends install bzr cvs darcs git mercurial subversion"
+  - "rake ci:travis:prepare"
+branches:
+  only:
+    - master
+notifications:
+  email: false
