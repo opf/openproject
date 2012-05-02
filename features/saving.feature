@@ -104,7 +104,7 @@ Feature: Saving Queries
     Then I should see "Public"
     And I fill in "Testreport" for "query_name"
     And I follow "Save" within "#save_as_form"
-    And I wait for Ajax
+    And I wait 15 seconds for Ajax
     Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     Then I should see "Save" within "#query-icon-save-as" # Save
