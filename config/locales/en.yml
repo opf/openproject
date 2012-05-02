@@ -126,10 +126,9 @@ en:
     unassigned: "Unassigned"
     x_more: "%{count} more..."
 
-
-
   project_module_backlogs: "Backlogs"
 
+  label_version_setting: "Versions"
   version_settings_display_option_none: "none"
   version_settings_display_option_left: "left"
   version_settings_display_option_right: "right"

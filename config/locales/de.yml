@@ -129,6 +129,7 @@ de:
 
   project_module_backlogs: "Backlogs"
 
+  label_version_setting: Versionen
   version_settings_display_option_none: "keine"
   version_settings_display_option_left: "links"
   version_settings_display_option_right: "rechts"

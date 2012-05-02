@@ -81,6 +81,7 @@ en-GB:
   backlogs_product_backlog: Product backlog
   remaining_hours: remaining hours
   error_outro: Please correct the above errors before submitting again.
+  label_version_setting: Versions
   version_settings_display_option_none: none
   version_settings_display_option_left: left
   version_settings_display_option_right: right
@@ -100,4 +101,4 @@ en-GB:
     task: Task
     story: Story
     any: any
-    
+
