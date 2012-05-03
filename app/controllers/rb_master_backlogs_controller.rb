@@ -22,7 +22,7 @@ class RbMasterBacklogsController < RbApplicationController
         allowed_statuses = status.new_statuses_allowed_to(user_roles,tracker)
         unless allowed_statuses.empty?
           available_statuses_by_tracker[tracker] ||= {}
-          available_statuses_by_tracker[tracker][status] = (allowed_statuses << status).uniq
+          available_statuses_by_tracker[tracker][status] = (allowed_statuses << status).uniq.sort_by(&:position)
         end
       end
     end

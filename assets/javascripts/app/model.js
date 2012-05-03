@@ -129,11 +129,14 @@ RB.Model = (function ($) {
         }
 
         $("<label></label>").text(fieldLabel).appendTo(editor);
-
         if (fieldType === 'select') {
           // Special handling for status_id => they are dependent of tracker_id
           if (fieldName === 'status_id') {
             trackerId = $.trim(self.$.find('.tracker_id .v').html());
+            // when creating stories we need to query the select directly
+            if (trackerId == '') {
+                trackerId = $('#tracker_id_options').val();
+            }
             statusId = $.trim(self.$.find('.status_id .v').html());
             input = self.findFactory(trackerId, statusId, fieldName);
           }
