@@ -129,11 +129,12 @@ class CostlogController < ApplicationController
       end
     end
 
-    if params[:cost_entry].is_a?(Hash)
-      params[:cost_entry]["overridden_costs"] = CostRate.clean_currency(params[:cost_entry]["overridden_costs"])
+    if params[:cost_entry]
+      @cost_entry.attributes = params[:cost_entry].except(:issue_id, :user_id, :overridden_costs, :cost_type_id)
+      @cost_entry.issue = Issue.find(params[:cost_entry][:issue_id])
+      @cost_entry.cost_type = CostType.find_by_id(params[:cost_entry][:cost_type_id]) || CostType.default
+      @cost_entry.overridden_costs = CostRate.clean_currency(params[:cost_entry][:overridden_costs])
     end
-    @cost_entry.attributes = params[:cost_entry]
-    @cost_entry.cost_type ||= CostType.default
 
     if request.post? and @cost_entry.save
       flash[:notice] = l(:notice_successful_update)
