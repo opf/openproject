@@ -24,7 +24,6 @@ Feature: Copy meetings
               | location | CZI            |
               | duration | 1.5            |
   
-  @javascript
   Scenario: Navigate to a meeting page with permission to create meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -34,7 +33,6 @@ Feature: Copy meetings
         And I click on "Alices Meeting"
        Then I should see "Copy" within "#content > .contextual"
   
-  @javascript
   Scenario: Navigate to a meeting copy page
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -49,7 +47,6 @@ Feature: Copy meetings
        #And no participant should be selected as attendee
        #And only invited participants should be selected as invitees
   
-  @javascript
   Scenario: Navigate to a meeting copy page to make sure the author is selected as invited but not as attendee
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -62,7 +59,6 @@ Feature: Copy meetings
        Then the "meeting[participants_attributes][][invited]" checkbox should be checked
         And the "meeting[participants_attributes][][attended]" checkbox should not be checked
   
-  @javascript
   Scenario: Copy a meeting and make sure the author isn''t copied over
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -75,7 +71,6 @@ Feature: Copy meetings
        Then I should not see "Alice Alice; Alice Alice"
         And I should see "Alice Alice"
   
-  @javascript
   Scenario: Copy a meeting and make sure the agenda is copied over
       Given the role "user" may have the following rights:
             | view_meetings   |
