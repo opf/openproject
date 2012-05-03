@@ -76,6 +76,7 @@ class Meeting < ActiveRecord::Base
   
   def copy(attrs)
     copy = self.clone
+    copy.author = attrs.delete(:author)
     copy.attributes = attrs
     copy.send(:after_initialize)
     copy_participant_user_ids = copy.participants.collect(&:user_id)

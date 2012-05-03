@@ -25,11 +25,14 @@ class MeetingsController < ApplicationController
 
   def create
     @meeting.participants.clear # Start with a clean set of participants
+    @meeting.participants_attributes = params[:meeting].delete(:participants_attributes)
     @meeting.attributes = params[:meeting]
-    @meeting.agenda = MeetingAgenda.new(:text => params[:copied_meeting_agenda_text],
-                                        :comment => "Copied from Meeting ##{params[:copied_from_meeting_id]}",
-                                        :author => User.current
-                                       ) if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
+    if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
+      @meeting.agenda = MeetingAgenda.new(
+        :text => params[:copied_meeting_agenda_text],
+        :comment => "Copied from Meeting ##{params[:copied_from_meeting_id]}")
+      @meeting.agenda.author = User.current
+    end
     if @meeting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'show', :id => @meeting
@@ -58,6 +61,7 @@ class MeetingsController < ApplicationController
   end
 
   def update
+    @meeting.participants_attributes = params[:meeting].delete(:participants_attributes)
     @meeting.attributes = params[:meeting]
     if @meeting.save
       flash[:notice] = l(:notice_successful_update)

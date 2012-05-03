@@ -9,7 +9,7 @@ class MeetingParticipant < ActiveRecord::Base
   
   after_create :add_participant_as_watcher
 
-  attr_accessible :email, :name, :invited, :attended, :user, :meeting
+  attr_accessible :email, :name, :invited, :attended, :user, :user_id, :meeting
 
   def name
     user.present? ? user.name : self.name
