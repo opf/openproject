@@ -42,9 +42,9 @@ class Story < Issue
 
   def self.create_and_position(params, safer_attributes)
     Story.new.tap do |s|
-      s.safe_attributes = params
       s.author  = safer_attributes[:author]  if safer_attributes[:author]
       s.project = safer_attributes[:project] if safer_attributes[:project]
+      s.safe_attributes = params
 
       if s.save
         s.move_after(params['prev_id'])
