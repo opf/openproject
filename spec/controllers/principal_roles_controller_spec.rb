@@ -43,6 +43,7 @@ describe PrincipalRolesController do
             Principal.stub!(:find).and_return(@user)
             @principal_role.stub!(:role=)
             @principal_role.stub!(:role).and_return(@global_role)
+            @principal_role.stub!(:principal_id=)
             @principal_role.stub!(:save)
             @principal_role.stub!(:role_id).and_return(@global_role.id)
             @principal_role.stub!(:valid?).and_return(true)
