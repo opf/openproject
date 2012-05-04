@@ -54,7 +54,8 @@ class MembersController < ApplicationController
   end
 
   def edit
-    if request.post? and update_member_from_params
+    if request.post? and member = update_member_from_params
+      member.save
   	 respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
         format.js {
@@ -98,7 +99,7 @@ class MembersController < ApplicationController
                elsif attrs[:user_id].present?
                  [attrs.delete(:user_id)]
                end
-    roles = Role.find(attrs.delete(:role_ids))
+    roles = Role.find_all_by_id(attrs.delete(:role_ids))
 
     user_ids.each do |user_id|
       member = Member.new attrs
@@ -132,6 +133,6 @@ class MembersController < ApplicationController
     end
 
     @member.attributes = attrs
-    @member.save
+    @member
   end
 end
