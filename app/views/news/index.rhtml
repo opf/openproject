@@ -9,7 +9,7 @@
     <%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author"><%= authoring news.created_on, news.author %></p>
     <div class="wiki">
-    <%= textilizable(news.description) %>
+      <%= textilizable(news.summary.present? ? news.summary : truncate(news.description)) %>
     </div>
 <% end %>
 <% end %>
