@@ -15,7 +15,7 @@ class CostEntry < ActiveRecord::Base
                   :created_on,
                   :updated_on
 
-  validates_presence_of :project_id, :user_id, :cost_type_id, :units, :spent_on
+  validates_presence_of :issue_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, :allow_nil => false, :message => :activerecord_error_invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 

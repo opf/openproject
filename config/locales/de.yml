@@ -88,6 +88,7 @@ de:
   help_currency_format: "Format der angezeigten W\xC3\xA4hrungswerte. %%n wird mit dem Zahlenwert ersetzt, %%u mit der W\xC3\xA4hrung."
   help_override_rate: "Hier einen Wert eingeben um den Standardwert zu \xC3\xBCberschreiben."
 
+  label_costlog: Stückkosten buchen
   label_awaiting_client: Warten auf Kundenantwort
   label_status_awaiting_client: Warten auf Kundenantwort
   label_awaiting_manager: Warten auf Managerantwort
