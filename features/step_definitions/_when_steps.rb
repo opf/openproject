@@ -168,7 +168,7 @@ When /^I fill in the id of the issue "(.+?)" as the parent issue$/ do |issue_nam
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
-  step 'I wait for AJAX requests to finish'
+  step 'I wait 10 seconds for AJAX requests to finish'
 end
 
 When /^I follow the link to add a subtask$/ do
