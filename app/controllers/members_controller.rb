@@ -56,8 +56,10 @@ class MembersController < ApplicationController
   end
 
   def edit
-    if request.post? and member = update_member_from_params
+    if request.post? and
+      member = update_member_from_params and
       member.save
+
   	 respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
         format.js {
