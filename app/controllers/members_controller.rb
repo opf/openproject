@@ -38,17 +38,19 @@ class MembersController < ApplicationController
           }
         }
       else
-
         format.js {
           render(:update) {|page|
-            errors = members.collect {|m|
-              m.errors.full_messages
-            }.flatten.uniq
-
-            page.alert(l(:notice_failed_to_save_members, :errors => errors.join(', ')))
-          }
+            if params[:member]
+              page.insert_html :top, "tab-content-members", :partial => "members/member_errors", :locals => {:member => members.first}
+            else
+              page.insert_html :top, "tab-content-members", content_tag(:div,
+                                                                          content_tag(:ul,
+                                                                          content_tag(:li,
+                                                                          content_tag(:a, l(:error_check_user_and_role)))),
+                                                                        :class => "errorExplanation", :id => "errorExplanation")
+            end
+            }
         }
-
       end
     end
   end
@@ -98,6 +100,8 @@ class MembersController < ApplicationController
                  attrs.delete(:user_ids)
                elsif attrs[:user_id].present?
                  [attrs.delete(:user_id)]
+               else
+                 []
                end
     roles = Role.find_all_by_id(attrs.delete(:role_ids))
 
