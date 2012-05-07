@@ -36,7 +36,6 @@ describe Costs::PrincipalAllowanceEvaluator::Costs do
 
       it { filter.granted_for_project?(role, permission.name, project, {}).should be_false }
     end
-
   end
 
   describe :granted_for_global? do
