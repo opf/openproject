@@ -60,6 +60,17 @@ Feature: Version Settings
     And I press "Save"
     Then I should be on the settings/versions page of the project called "ecookbook"
 
+  Scenario: Switch from right to left
+    When I go to the edit page of the version called "Sprint 001"
+    And I select "right" from "version[version_settings_attributes][][display]"
+    And I press "Save"
+    And I go to the edit page of the version called "Sprint 001"
+    Then the "version[version_settings_attributes][][display]" field within "#content form" should contain "3"
+    When I select "left" from "version[version_settings_attributes][][display]"
+    And I press "Save"
+    And I go to the edit page of the version called "Sprint 001"
+    Then the "version[version_settings_attributes][][display]" field within "#content form" should contain "2"
+
   Scenario: There should be a version start date field
     When I go to the edit page of the version called "Sprint 001"
     Then there should be a "version_start_date" field within "#content form"

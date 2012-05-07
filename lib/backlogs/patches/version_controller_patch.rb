@@ -12,16 +12,11 @@ module Backlogs::Patches::VersionsControllerPatch
       filter_chain.detect { |m| m.method == :find_project_from_association }.options[:except] << "update"
       filter_chain.detect { |m| m.method == :find_project }.options[:only] << "update"
 
-      before_filter :assign_project_to_version_settings, :only => [:create, :update]
+      before_filter :add_project_to_version_settings_attributes, :only => [:update, :create]
 
-      protected
-
-      def assign_project_to_version_settings
-        if params[:version] && params[:version][:version_settings_attributes]
-          params[:version][:version_settings_attributes].each do |attributes|
-            attributes[:project] = @project
-            attributes.delete(:project_id)
-          end
+      def add_project_to_version_settings_attributes
+        params["version"]["version_settings_attributes"].each do |h|
+          h["project"] = @project
         end
       end
     end

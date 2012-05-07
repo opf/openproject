@@ -4,6 +4,8 @@ class VersionSetting < ActiveRecord::Base
 
   attr_accessible :display, :project
 
+  validates_presence_of :project
+
   DISPLAY_NONE = 1
   DISPLAY_LEFT = 2
   DISPLAY_RIGHT = 3
