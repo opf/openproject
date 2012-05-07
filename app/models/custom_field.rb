@@ -67,7 +67,7 @@ class CustomField < ActiveRecord::Base
     is_required = false
     self.translated_locales.each do |locale|
       I18n.with_locale(locale) do
-        v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
+        v = CustomValue.new(:custom_field => self, :value => I18n.without_fallbacks{default_value}, :customized => nil)
         errors.add(:default_value, :invalid) unless v.valid?
       end
     end
