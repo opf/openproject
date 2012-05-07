@@ -28,9 +28,9 @@ describe User, "#allowed_to?" do
     member
   end
 
-
   before do
     project.save!
+    @orig_permissions = Redmine::AccessControl.permissions.dup
     Redmine::AccessControl.permissions.clear
     Redmine::AccessControl.permissions << permission
     Redmine::AccessControl.permissions << permission2
@@ -44,6 +44,7 @@ describe User, "#allowed_to?" do
 
   after do
     User.destroy_all
+    Redmine::AccessControl.instance_variable_set("@permissions", @orig_permissions)
   end
 
   describe "WHEN requesting a project permission

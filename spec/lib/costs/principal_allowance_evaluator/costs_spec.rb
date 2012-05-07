@@ -12,9 +12,14 @@ describe Costs::PrincipalAllowanceEvaluator::Costs do
   let(:permission2) { Redmine::AccessControl::Permission.new(:action2, {}, {}) }
 
   before do
+    @orig_permissions = Redmine::AccessControl.permissions.dup
     Redmine::AccessControl.permissions.clear
     Redmine::AccessControl.permissions << permission
     Redmine::AccessControl.permissions << permission2
+  end
+
+  after do
+    Redmine::AccessControl.instance_variable_set("@permissions", @orig_permissions)
   end
 
   describe :granted_for_project? do
@@ -31,7 +36,6 @@ describe Costs::PrincipalAllowanceEvaluator::Costs do
 
       it { filter.granted_for_project?(role, permission.name, project, {}).should be_false }
     end
-
   end
 
   describe :granted_for_global? do

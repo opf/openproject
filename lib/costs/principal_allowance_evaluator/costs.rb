@@ -15,7 +15,7 @@ class Costs::PrincipalAllowanceEvaluator::Costs < ChiliProject::PrincipalAllowan
 
   def granted_for_project? role, action, project, options
     (project.is_public? || role.member?) &&
-      @user.allowed_for_role(action, project, role, [@user], options.merge({:for => @user}))
+      @user.allowed_for_role(action, project, role, [@user], options.reverse_merge({:for => @user}))
   end
 
   def denied_for_project? role, action, project, options

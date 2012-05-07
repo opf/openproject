@@ -11,7 +11,7 @@
 <% end %>
 <% content_for :action_menu_more do %>
   <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-time-add') %>
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => 'costlog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-pieces') %>
+  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => 'costlog', :action => 'new', :issue_id => @issue}, :class => 'icon icon-pieces') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_copy), {:controller => 'issue_moves', :action => 'new', :id => @issue, :copy_options => {:copy => 't'}}, :class => 'icon icon-copy') %>
   <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => 'issue_moves', :action => 'new', :id => @issue}, :class => 'icon icon-move') %>

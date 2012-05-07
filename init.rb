@@ -88,16 +88,16 @@ Redmine::Plugin.register :redmine_costs do
       :inherits => :view_hourly_rates
 
     permission :view_cost_rates, {}
-    permission :log_own_costs, {:costlog => :edit},
+    permission :log_own_costs, {:costlog => [:new, :create]},
       :require => :loggedin,
       :granular_for => :log_costs
-    permission :log_costs, {:costlog => :edit},
+    permission :log_costs, {:costlog => [:new, :create]},
       :require => :member
-    permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]},
+    permission :edit_own_cost_entries, {:costlog => [:edit, :update, :destroy]},
       :require => :loggedin,
       :granular_for => :edit_cost_entries,
       :inherits => :view_own_cost_entries
-    permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
+    permission :edit_cost_entries, {:costlog => [:edit, :update, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
     permission :block_tickets, {}, :require => :member

@@ -1,7 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.connect 'cost_entries/:id/edit', :action => 'edit', :controller => 'costlog'
-  map.connect 'projects/:project_id/cost_entries/new', :action => 'edit', :controller => 'costlog'
-  map.connect 'projects/:project_id/issues/:issue_id/cost_entries/new', :action => 'edit', :controller => 'costlog'
+  map.connect 'cost_entries/:id', :action => 'update', :controller => 'costlog', :conditions => { :method => :put }
+  map.connect 'projects/:project_id/cost_entries/new', :action => 'new', :controller => 'costlog'
+  map.connect 'projects/:project_id/issues/:issue_id/cost_entries/new', :action => 'new', :controller => 'costlog'
+  map.connect 'projects/:project_id/cost_entries', :action => 'create', :controller => 'costlog', :conditions => { :method => :post }
 
   map.with_options :controller => 'costlog' do |costlog|
     costlog.connect 'projects/:project_id/cost_entries', :action => 'details'
@@ -16,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
       cost_details.connect 'projects/:project_id/issues/:issue_id/cost_entries.:format'
     end
 
-    costlog.with_options :action => 'edit', :conditions => {:method => :get} do |cost_edit|
+    costlog.with_options :action => 'new', :conditions => {:method => :get} do |cost_edit|
       cost_edit.connect 'issues/:issue_id/cost_entries/new'
     end
 
