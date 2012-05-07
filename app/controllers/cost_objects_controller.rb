@@ -33,6 +33,9 @@ class CostObjectsController < ApplicationController
   include CostObjectsHelper
   include Redmine::Export::PDF
 
+  menu_item :new_budget, :only => [:new]
+  menu_item :show_all, :only => [:index]
+
   def index
     limit = per_page_option
     respond_to do |format|

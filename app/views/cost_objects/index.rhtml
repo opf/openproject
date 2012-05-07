@@ -1,10 +1,6 @@
-<div class="contextual">
-<%= link_to_if_authorized l(:button_add_cost_object), {:controller => 'cost_objects', :action => 'new', :project_id => @project }, :class => 'icon icon-add' %>
-</div>
-
 <h2><%=l(:label_cost_object_plural)%></h2>
 <% html_title(l(:label_cost_object_plural)) %>
-    
+
 <% if @cost_objects.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -22,10 +18,6 @@
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 -->
 </p>
-
-<% content_for :sidebar do %>
-    <%= render :partial => 'cost_objects/sidebar' %>
-<% end %>
 
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'context_menu' %>
