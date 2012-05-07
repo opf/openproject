@@ -54,6 +54,10 @@ class IssueMovesController < ApplicationController
     end
   end
 
+  def default_breadcrumb
+    l(:label_move_issue)
+  end
+
   private
 
   def prepare_for_issue_move

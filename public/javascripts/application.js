@@ -718,6 +718,7 @@ $(window).bind('resizeEnd', function() {
         jQuery('#main-menu #toggle-project-menu a.navigation-toggler').click(function(){
           if ($('#main-menu #toggle-project-menu').hasClass('show')) {
             // Show project navigation
+            $('#main-menu').removeClass('hidden')
             $('#menu-sidebar').removeClass('hidden');
             $('#main-menu #toggle-project-menu').removeClass('show');
             $('#main-menu #toggle-project-menu').removeAttr("style");
@@ -726,6 +727,7 @@ $(window).bind('resizeEnd', function() {
           else {
             // Hide project navigation
             var height = $(document).height();
+            $('#main-menu').addClass('hidden');
             $('#menu-sidebar').addClass('hidden');
             $('#main-menu #toggle-project-menu').addClass('show');
             $('#main-menu #toggle-project-menu.show').css({height:height});
