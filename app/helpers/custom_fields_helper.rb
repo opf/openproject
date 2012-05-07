@@ -65,6 +65,12 @@ module CustomFieldsHelper
 	:class => (custom_value.errors.empty? ? nil : "error" )
   end
 
+  def blank_custom_field_label_tag(name, custom_field)
+    content_tag "label", h(custom_field.name) +
+    (custom_field.is_required? ? content_tag("span", "*", :class => "required") : ""),
+    :for => "#{name}_custom_field_values_#{custom_field.id}"
+  end
+
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value)
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
