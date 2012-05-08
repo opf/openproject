@@ -14,13 +14,12 @@ Feature: Backlog Settings
         | login | padme |
     And there is a role "project admin"
     And the role "project admin" may have the following rights:
-        | manage_versions     |
-        | view_master_backlog |
-        | edit_project |
+        | edit_project              |
+        | manage_project_activities |
     And the user "padme" is a "project admin"
     And I am logged in as "padme"
 
-@javascript
+  @javascript
   Scenario: One can select which status indicate that an issue is done
     Given there is 1 project with:
         | name  | parent  |
