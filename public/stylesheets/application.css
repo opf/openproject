@@ -412,12 +412,12 @@ textarea#custom_field_possible_values {width: 99%}
 p.pagination {margin-top:8px;}
 
 /***** Tabular forms ******/
-.tabular p{
-margin: 0;
-padding: 5px 0 8px 0;
-padding-left: 180px; /*width of left column containing the label elements*/
-height: auto;
-clear:left;
+.tabular p, div.handle_attachments {
+  margin: 0;
+  padding: 5px 0 8px 0;
+  padding-left: 180px; /*width of left column containing the label elements*/
+  height: auto;
+  clear:left;
 }
 
 html>body .tabular p {overflow:hidden;}
@@ -476,6 +476,10 @@ fieldset#notified_events .parent { padding-left: 20px; }
 
 input.attachment_choose_file {
   float:left;
+  margin-right: 10px;
+}
+div.attachment_field {
+  height: 30px;
 }
 #attachments {font-size: 1em; }
 #attachments_fields input[type=text] {margin-left: 8px; }

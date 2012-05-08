@@ -88,10 +88,10 @@ var fileFieldCount = 1;
 function addFileField() {
   fileFieldCount++;
   if (fileFieldCount >= 10) return false
-  $('attachments_fields').insert($('attachment_template').innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']'))
-    //
-  // Pulls the languge value used for Optional Description
-  $('attachments_fields').down('label:last').down('span').update($$('.attachment_description_label_content').first().innerHTML)
+  var clone = $('attachment_template').cloneNode(true);
+  clone.writeAttribute('id', '');
+  clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
+  $('attachments_fields').appendChild(clone);
 }
 
 function showTab(name) {

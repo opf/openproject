@@ -1,14 +1,12 @@
-<span id="attachments_fields">
-  <span id="attachment_template">
+<div id="attachments_fields">
+  <div id="attachment_template" class="attachment_field">
     <%= file_field_tag 'attachments[1][file]', :size => 15, :id => nil, :class => "attachment_choose_file"  -%>
     <label class="label-with-input" >
-      <span class="attachment_description_label_content">
-        <%= l(:label_optional_description) %>
-      </span>
+      <%= l(:label_optional_description) %>
       <%= text_field_tag 'attachments[1][description]', '', :size => 38, :id => nil %>
     </label>
-  </span>
-</span>
+  </div>
+</div>
 <br />
 <span class="add_another_file">
   <%= link_to l(:label_add_another_file), '#', :onclick => 'addFileField(); return false;' %>
