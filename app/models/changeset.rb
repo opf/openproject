@@ -54,7 +54,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def committed_on=(date)
-    self.commit_date = date
+    self.commit_date = date.to_date
     super
   end
 
