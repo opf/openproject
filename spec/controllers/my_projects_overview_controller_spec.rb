@@ -13,18 +13,33 @@ describe MyProjectsOverviewsController do
     @params = {}
   end
 
-  describe 'index' do
-    integrate_views
+  let(:project) { Factory.create(:project) }
 
-    before do
-      @project = Factory.create(:project)
-      @params[:id] = @project.id
+  describe 'index' do
+    let(:params) { { "id" => project.id.to_s } }
+
+    describe "WHEN calling the page" do
+      integrate_views
+
+      before do
+        get 'index', params
+      end
+
+      it 'renders the overview page' do
+        response.should be_success
+        response.should render_template 'index'
+      end
     end
 
-    it 'renders the overview page' do
-      get 'index', @params
-      response.should be_success
-      response.should render_template 'index'
+    describe "WHEN calling the page
+              WHEN providing a jump parameter" do
+
+      before do
+        params["jump"] = "issues"
+        get 'index', params
+      end
+
+      it { response.should redirect_to({ :controller => "issues", :action => "index", :project_id => project }) }
     end
   end
 end

@@ -22,6 +22,7 @@ class MyProjectsOverviewsController < ApplicationController
   before_filter :find_page_blocks, :find_project_details
   before_filter :find_attachments
   before_filter :authorize
+  before_filter :jump_to_project_menu_item, :only => :index
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
     'issuesreportedbyme' => :label_reported_issues,
@@ -197,5 +198,12 @@ class MyProjectsOverviewsController < ApplicationController
 
   def default_breadcrumb
     l(:label_overview)
+  end
+
+  def jump_to_project_menu_item
+    if params[:jump]
+      # try to redirect to the requested menu item
+      redirect_to_project_menu_item(@project, params[:jump]) && return
+    end
   end
 end
