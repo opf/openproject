@@ -80,18 +80,15 @@ end
 Given /^the issue "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the following:$/ do |issue, count, table|
   i = Issue.find(:last, :conditions => ["subject = '#{issue}'"])
   as_admin count do
-    ce = CostEntry.generate
-    ce.project = i.project
-    ce.issue = i
-    send_table_to_object(ce, table, {
-      :user => Proc.new do |o,v|
-        o.user = User.find_by_login(v)
-        o.save!
-      end,
-      :cost_type => Proc.new do |o,v|
-        o.cost_type = CostType.find_by_name(v)
-        o.save!
-      end})
+    ce = Factory.build(:cost_entry, :spent_on => (table.rows_hash["date"] ? table.rows_hash["date"].to_date : Date.today),
+                                    :units => table.rows_hash["units"],
+                                    :project => i.project,
+                                    :issue => i,
+                                    :user => User.find_by_login(table.rows_hash["user"]),
+                                    :comments => "lorem")
+
+    ce.cost_type = CostType.find_by_name(table.rows_hash["cost type"]) if table.rows_hash["cost type"]
+
     ce.save!
   end
 end

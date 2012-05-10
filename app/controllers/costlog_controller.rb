@@ -2,8 +2,17 @@ class CostlogController < ApplicationController
   unloadable
 
   menu_item :issues
-  before_filter :find_project, :authorize, :only => [:edit, :destroy]
-  before_filter :find_optional_project, :only => [:report, :details]
+  before_filter :find_project, :authorize, :only => [:edit,
+                                                     :new,
+                                                     :create,
+                                                     :update,
+                                                     :destroy]
+  before_filter :find_associated_objects, :only => [:create,
+                                                    :update]
+  before_filter :authorize_create, :only => :create
+  before_filter :authorize_update, :only => :update
+  before_filter :find_optional_project, :only => [:report,
+                                                  :details]
 
   helper :sort
   include SortHelper
@@ -50,7 +59,6 @@ class CostlogController < ApplicationController
                 'cost_type' => 'cost_type_id',
                 'units' => 'units',
                 'costs' => 'costs'
-
 
     cond = ARCondition.new
     if @project.nil?
@@ -105,35 +113,39 @@ class CostlogController < ApplicationController
     end
   end
 
+  def new
+    new_default_cost_entry
+
+    render :action => 'edit'
+  end
+
   def edit
-    render_403 and return if @cost_entry && !@cost_entry.editable_by?(User.current)
-    if !@cost_entry
-      # creates new CostEntry
-      if params[:cost_entry].is_a?(Hash)
-        # we have a new CostEntry in our request
-        new_user = User.find_by_id(params[:cost_entry][:user_id]) rescue nil
-        new_user ||= User.current
+    render_403 unless @cost_entry.try(:editable_by?, User.current)
+  end
 
-        unless User.current.allowed_to?(:log_own_costs, @project, :for => new_user)
-          render_403
-          return
-        end
-      end
+  def create
+    new_default_cost_entry
 
-      new_user ||= User.current
-      @cost_entry = CostEntry.new(:project => @project, :issue => @issue, :user => new_user, :spent_on => Date.today)
+    update_cost_entry_from_params
+
+    if @cost_entry.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
+      return
+    else
+      render :action => 'edit'
     end
+  end
 
-    if params[:cost_entry].is_a?(Hash)
-      params[:cost_entry]["overridden_costs"] = CostRate.clean_currency(params[:cost_entry]["overridden_costs"])
-    end
-    @cost_entry.attributes = params[:cost_entry]
-    @cost_entry.cost_type ||= CostType.default
+  def update
+    update_cost_entry_from_params
 
-    if request.post? and @cost_entry.save
+    if @cost_entry.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default :action => 'details', :project_id => @cost_entry.project
       return
+    else
+      render :action => 'edit'
     end
   end
 
@@ -193,6 +205,39 @@ private
     end
   end
 
+  def find_associated_objects
+    user_id = params[:cost_entry].delete(:user_id)
+    @user = @cost_entry.present? && @cost_entry.user_id == user_id ?
+              @cost_entry.user :
+              User.find_by_id(user_id)
+
+    issue_id = params[:cost_entry].delete(:issue_id)
+    @issue = @cost_entry.present? && @cost_entry.issue_id == issue_id ?
+               @cost_entry.issue :
+               Issue.find_by_id(issue_id)
+
+    cost_type_id = params[:cost_entry].delete(:cost_type_id)
+    @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
+                   @cost_entry.cost_type :
+                   CostType.find_by_id(cost_type_id)
+  end
+
+  def authorize_create
+    if !User.current.allowed_to?(:log_costs, @project, :for => @user)
+
+      render_403
+      return false
+    end
+  end
+
+  def authorize_update
+    if !User.current.allowed_to?(:edit_cost_entries, @project, :for => @user)
+
+      render_403
+      return false
+    end
+  end
+
   def retrieve_date_range
     # Mostly copied from timelog_controller.rb
     @free_period = false
@@ -239,4 +284,21 @@ private
     @to   ||= (CostEntry.maximum(:spent_on, :include => [:project, :user], :conditions => User.current.allowed_for(:view_cost_entries)) || Date.today)
   end
 
+  def new_default_cost_entry
+    @cost_entry = CostEntry.new.tap do |ce|
+      ce.project  = @project
+      ce.issue = @issue
+      ce.user = User.current
+      ce.spent_on = Date.today
+      # notice that cost_type is set to default cost_type in the model
+    end
+  end
+
+  def update_cost_entry_from_params
+    @cost_entry.user = @user
+    @cost_entry.issue = @issue
+    @cost_entry.cost_type = @cost_type
+
+    @cost_entry.attributes = params[:cost_entry]
+  end
 end

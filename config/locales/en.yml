@@ -88,6 +88,7 @@ en:
   help_currency_format: Format of displayed currency values. %%n is replaced with the currency value, %%u ist replaced with the currency unit.
   help_override_rate: Enter a value here to override the default rate.
 
+  label_costlog: Log unit costs
   label_awaiting_client: Awaiting client response
   label_status_awaiting_client: Awaiting client response
   label_awaiting_manager: Awaiting manager response

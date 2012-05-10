@@ -1,24 +1,24 @@
 class HourlyRatesController < ApplicationController
   unloadable
-  
+
   helper :users
   helper :sort
   include SortHelper
   helper :hourly_rates
   include HourlyRatesHelper
-  
+
   before_filter :find_user, :only => [:show, :edit, :set_rate]
-  
+
   before_filter :find_optional_project, :only => [:show, :edit]
   before_filter :find_project, :only => [:set_rate]
-  
+
   # #show, #edit have their own authorization
   before_filter :authorize, :except => [:show, :edit]
-  
+
   def show
     if @project
       return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, :for => @user)
-      
+
       @rates = HourlyRate.find(:all,
           :conditions =>  { :user_id => @user, :project_id => @project },
           :order => "#{HourlyRate.table_name}.valid_from desc")
@@ -27,7 +27,7 @@ class HourlyRatesController < ApplicationController
       @rates_default = @rates.delete(nil)
     end
   end
-  
+
   def edit
     if @project
       # Hourly Rate
@@ -36,7 +36,7 @@ class HourlyRatesController < ApplicationController
       # Default Hourly Rate
       return deny_access unless User.current.admin?
     end
-    
+
     if request.post?
       if params[:user].is_a?(Hash)
         new_attributes = params[:user][:new_rate_attributes]
@@ -62,18 +62,22 @@ class HourlyRatesController < ApplicationController
         @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
       else
         @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
-        @rates << @user.rates.build({:valid_from => Date.today, :project_id => @project}) if @rates.empty?
+        @rates << @user.rates.build({:valid_from => Date.today, :project => @project}) if @rates.empty?
       end
       render :action => "edit", :layout => !request.xhr?
-    end 
+    end
   end
-  
+
   def set_rate
     today = Date.today
-    
+
     rate = @user.rate_at(today, @project)
-    rate ||= HourlyRate.new(:project => @project, :user => @user, :valid_from => today)
-    
+    rate ||= HourlyRate.new.tap do |hr|
+      hr.project    = @project
+      hr.user       = @user
+      hr.valid_from = today
+    end
+
     rate.rate = clean_currency(params[:rate])
     if rate.save
       if request.xhr?
@@ -86,7 +90,7 @@ class HourlyRatesController < ApplicationController
       end
     end
   end
-    
+
 
 private
   def find_project
@@ -94,7 +98,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_project
     @project = params[:project_id].blank? ? nil : Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -103,9 +107,9 @@ private
 
   def find_user
     @user = params[:id] ? User.find(params[:id]) : User.current
-    
+
     p @user.allowed_to?(:view_hourly_rates, nil, :for => @user, :global => true)
-    
+
   rescue ActiveRecord::RecordNotFound
     render_404
   end

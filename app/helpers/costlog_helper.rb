@@ -1,6 +1,6 @@
 module CostlogHelper
   include TimelogHelper
-  
+
   def render_costlog_breadcrumb
     links = []
     links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
@@ -8,9 +8,9 @@ module CostlogHelper
     links << link_to_issue(@issue) if @issue
     breadcrumb links
   end
-  
+
   def cost_types_collection_for_select_options(selected_type = nil)
-    cost_types = CostType.find(:all, :conditions => {:deleted_at => nil}).sort
+    cost_types = CostType.active.all.sort
 
     if selected_type && !cost_types.include?(selected_type)
       cost_types << selected_type
@@ -21,19 +21,19 @@ module CostlogHelper
     cost_types.each { |t| collection << [t.name, t.id] }
     collection
   end
-  
+
   def user_collection_for_select_options(options = {})
     users = @project.assignable_users
     collection = []
     users.each { |u| collection << [u.name, u.id] }
     collection
   end
-  
+
   def entries_to_csv(entries)
     # TODO
     raise( NotImplementedError, "entries_to_csv is not implemented yet" )
 
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
+    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
@@ -50,7 +50,7 @@ module CostlogHelper
                  l(:field_units),
                  l(:field_overall_costs)
                  ]
-      
+
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       # csv lines
       entries.each do |entry|
@@ -73,10 +73,10 @@ module CostlogHelper
     export.rewind
     export
   end
-  
+
   def extended_progress_bar(pcts, options={})
     return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
-    
+
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     content_tag('table',
@@ -86,7 +86,7 @@ module CostlogHelper
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
-  
+
   def clean_currency(value)
     return nil if value.nil? || value == ""
 
@@ -96,4 +96,4 @@ module CostlogHelper
     BigDecimal.new(value)
   end
 end
-  
+

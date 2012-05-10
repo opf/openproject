@@ -6,6 +6,8 @@ class Rate < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
 
+  attr_accessible :rate, :project, :valid_from
+
   def self.clean_currency(value)
     if value && value.is_a?(String)
       value = value.strip

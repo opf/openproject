@@ -62,7 +62,7 @@ Redmine::Plugin.register :redmine_costs do
   author 'Holger Just @ finnlabs'
   author_url 'http://finn.de/team#h.just'
   description 'The costs plugin provides basic cost management functionality for Redmine.'
-  version '2.1.0'
+  version '2.1.1'
 
   requires_redmine :version_or_higher => '0.9'
 
@@ -88,16 +88,16 @@ Redmine::Plugin.register :redmine_costs do
       :inherits => :view_hourly_rates
 
     permission :view_cost_rates, {}
-    permission :log_own_costs, {:costlog => :edit},
+    permission :log_own_costs, {:costlog => [:new, :create]},
       :require => :loggedin,
       :granular_for => :log_costs
-    permission :log_costs, {:costlog => :edit},
+    permission :log_costs, {:costlog => [:new, :create]},
       :require => :member
-    permission :edit_own_cost_entries, {:costlog => [:edit, :destroy]},
+    permission :edit_own_cost_entries, {:costlog => [:edit, :update, :destroy]},
       :require => :loggedin,
       :granular_for => :edit_cost_entries,
       :inherits => :view_own_cost_entries
-    permission :edit_cost_entries, {:costlog => [:edit, :destroy]},
+    permission :edit_cost_entries, {:costlog => [:edit, :update, :destroy]},
       :require => :member,
       :inherits => :view_cost_entries
     permission :block_tickets, {}, :require => :member
