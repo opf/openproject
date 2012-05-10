@@ -22,7 +22,7 @@ Feature: Common
         | edit_issues         |
         | manage_subtasks     |
     And the user "paul" is a "team member"
-    And I am logged in as "paul"
+    And I am already logged in as "paul"
 
   Scenario: View the master backlog
     Given I am on the overview page of the project

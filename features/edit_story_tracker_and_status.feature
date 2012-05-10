@@ -53,7 +53,7 @@ Feature: Edit story tracker and status
     And the Tracker "Bug" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Closed     |
-    And I am logged in as "romano"
+    And I am already logged in as "romano"
 
   @javascript
   Scenario: Display only statuses which are allowed by workflow

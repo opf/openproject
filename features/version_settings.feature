@@ -23,7 +23,7 @@ Feature: Version Settings
         | Sprint 002 | 2010-02-01        | 2010-02-28     |
         | Sprint 003 | 2010-03-01        | 2010-03-31     |
         | Sprint 004 | 2010-03-01        | 2010-03-31     |
-    And I am logged in as "padme"
+    And I am already logged in as "padme"
 
   Scenario: Creating a new version
     When I go to the versions/new page of the project called "ecookbook"

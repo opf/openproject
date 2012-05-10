@@ -52,7 +52,7 @@ Feature: The issue hierarchy between backlogs stories and backlogs tasks can not
         | backlogs |
     And the user "markus" is a "scrum master" in the project "parent_project"
     And the user "markus" is a "scrum master" in the project "child_project"
-    And I am logged in as "markus"
+    And I am already logged in as "markus"
 
   @javascript
   Scenario: Adding a task in the child project as a child to the story is inhibited

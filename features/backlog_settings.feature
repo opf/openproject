@@ -17,7 +17,7 @@ Feature: Backlog Settings
         | edit_project              |
         | manage_project_activities |
     And the user "padme" is a "project admin"
-    And I am logged in as "padme"
+    And I am already logged in as "padme"
 
   @javascript
   Scenario: One can select which status indicate that an issue is done

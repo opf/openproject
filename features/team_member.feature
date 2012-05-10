@@ -47,7 +47,7 @@ Feature: Team Member
         | subject      | sprint     | blocks  |
         | Impediment 1 | Sprint 001 | Story 1 |
         | Impediment 2 | Sprint 001 | Story 2 |
-    And I am logged in as "paul"
+    And I am already logged in as "paul"
 
   Scenario: Create a task for a story
     Given I am on the taskboard for "Sprint 001"

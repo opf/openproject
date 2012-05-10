@@ -4,6 +4,6 @@ Feature: Plugin Administration
   So that it can be adjusted to the user_specific needs
 
   Scenario: Fields for configuration
-    Given I am admin
+    Given I am already logged in as "admin"
     When I go to the backlogs plugin configuration page
     Then there should be a "settings_card_spec" field

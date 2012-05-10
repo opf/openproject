@@ -39,7 +39,7 @@ Feature: Shared Versions
     And the project has the following sprints:
         | name       | start_date | effective_date |
         | ChildSprint | 2010-03-01        | 2010-03-31    |
-    And I am logged in as "padme"
+    And I am already logged in as "padme"
 
   Scenario: Inherited Sprints are displayed
     Given I am on the master backlog

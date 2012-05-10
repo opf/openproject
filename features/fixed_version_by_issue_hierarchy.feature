@@ -59,7 +59,7 @@ Feature: The issue hierarchy defines the allowed versions for each issue depende
         | Resolved    | false      | false       |
         | Closed      | true       | false       |
         | Rejected    | true       | false       |
-    And I am logged in as "markus"
+    And I am already logged in as "markus"
 
   @javascript
   Scenario: Creating a task, via the taskboard, as a subtask to a story sets the target version to the story´s version

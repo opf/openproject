@@ -48,7 +48,7 @@ Feature: Edit story on backlogs view
         | subject | sprint     | story_points |
         | Story A | Sprint 001 | 10           |
         | Story B | Sprint 001 | 20           |
-    And I am logged in as "mathias"
+    And I am already logged in as "mathias"
 
   @javascript
   Scenario: Create a new story in the backlog

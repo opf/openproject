@@ -90,7 +90,7 @@ Feature: Scrum Master
         | subject      | sprint     | parent     | tracker    |
         | Subfeature   | Sprint 005 | Task 10    | Bug        |
         | Subsubtask   | Sprint 005 | Subfeature | Task       |
-    And I am logged in as "markus"
+    And I am already logged in as "markus"
 
   @javascript
   Scenario: View stories that have a parent ticket
