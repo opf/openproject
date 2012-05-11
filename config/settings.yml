@@ -2,7 +2,7 @@
 # Settings can be defined through the application in Admin -> Settings
 
 app_title:
-  default: ChiliProject
+  default: OpenProject
 app_subtitle:
   default: Project management
 welcome_text:
@@ -28,7 +28,7 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: chiliproject@example.net
+  default: openproject@example.net
 bcc_recipients:
   default: 1
 plain_text_mail:
