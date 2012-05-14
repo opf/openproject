@@ -131,7 +131,7 @@ describe CostEntry do
                                            :principal => user) }
     let(:role) { Factory.create(:role, :permissions => []) }
     let(:units) { 5.0 }
-    let(:date) { Date.new }
+    let(:date) { Date.today }
 
     before do
       CostType.delete_all
