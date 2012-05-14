@@ -381,7 +381,8 @@ describe CostlogController do
 
       before do
         grant_current_user_permissions user, [:log_costs]
-        cost_type.update_attributes({ :deleted_at => Date.today })
+        cost_type.deleted_at = Date.today
+        cost_type.save!
       end
 
       it_should_behave_like "invalid create"
