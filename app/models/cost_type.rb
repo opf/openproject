@@ -8,6 +8,8 @@ class CostType < ActiveRecord::Base
 
   after_update :save_rates
 
+  attr_accessible :name, :unit, :unit_plural, :default, :new_rate_attributes
+
   named_scope :active, :conditions => { :deleted_at => nil }
 
   # finds the default CostType
