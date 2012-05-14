@@ -104,6 +104,9 @@ class CostObjectsController < ApplicationController
 
     unless request.get? || request.xhr?
       if @cost_object.save
+        Attachment.attach_files(@cost_object, params[:attachments])
+        render_attachment_warning_if_needed(@cost_object)
+
         flash[:notice] = l(:notice_successful_create)
         redirect_to(params[:continue] ? { :action => 'new' } :
                                         { :action => 'show', :id => @cost_object })
@@ -119,6 +122,9 @@ class CostObjectsController < ApplicationController
 
     if request.post?
       if @cost_object.save
+        Attachment.attach_files(@cost_object, params[:attachments])
+        render_attachment_warning_if_needed(@cost_object)
+
         flash[:notice] = l(:notice_successful_update)
         redirect_to(params[:back_to] || {:action => 'show', :id => @cost_object})
       end
