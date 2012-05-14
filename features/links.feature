@@ -37,6 +37,28 @@ Feature: Cost Reporting Linkage
     Then I should see "107.07" # 100 EUR (labour cost) + 7.07 EUR (words)
     And I should not see "No data to display"
 
+  @javascript
+  Scenario: If
+    Given there is a standard cost control project named "Standard Project"
+    And I am admin
+    And the user "manager" has 1 issue with:
+      | subject | manager issue |
+    And there is 1 cost type with the following:
+      | name      | word |
+      | cost rate | 1.01 |
+    And the issue "manager issue" has 1 cost entry with the following:
+      | units     | 7       |
+      | user      | manager |
+      | cost type | word    |
+    And I am on the Cost Reports page for the project called "Standard Project"
+    And I click on "Clear"
+    And I send the query
+    And I wait for Ajax
+    Then I should see "7.07" # 7.07 EUR (words)
+    And I delete the cost entry "7.07"
+    Then I should see "Successful deletion."
+    And I should see "No data to display"
+
   #have to use annotation capybara due to https://github.com/aslakhellesoy/cucumber-rails/issues/issue/77
   @javascript
   Scenario: Going from an Issue to the cost report should set the filter on this issue
