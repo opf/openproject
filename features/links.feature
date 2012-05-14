@@ -101,11 +101,13 @@ Feature: Cost Reporting Linkage
     And the user "manager" has 1 issue with:
       | subject | another issue |
     And the issue "manager issue" has 1 cost entry with the following:
-      | user  | manager |
-      | units | 10      |
+      | user      | manager |
+      | units     | 10      |
+      | cost type | word    |
     And the issue "another issue" has 1 cost entry with the following:
-      | user  | manager |
-      | units | 5       |
+      | user      | manager |
+      | units     | 5       |
+      | cost type | word    |
     And I am logged in as "manager"
     And I am on the page for the issue "manager issue"
     Then I should see "10.0 words"

@@ -1,6 +1,5 @@
 Feature: Navigating to reports page
 
-  @javascript
   Scenario: Navigating to the cost report of a project which is a subproject
     Given there is 1 project with the following:
       | name | ParentProject |
