@@ -837,7 +837,7 @@ class ProjectTest < ActiveSupport::TestCase
       user = User.find(7)
       group.users << user
       # group role
-      Member.create!(:project_id => @source_project.id, :principal => group, :role_ids => [2])
+      (Member.new.force_attributes = {:project_id => @source_project.id, :principal => group, :role_ids => [2]}).save
       member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
       # additional role
       member.role_ids = [1]

@@ -195,6 +195,7 @@ en-GB:
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   error_unable_delete_issue_status: 'Unable to delete issue status'
   error_unable_to_connect: "Unable to connect (%{value})"
+  error_must_be_project_member: "must be project member"
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   mail_subject_lost_password: "Your %{value} password"

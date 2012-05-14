@@ -209,6 +209,8 @@ de:
   error_workflow_copy_target: Bitte wählen Sie die Ziel-Tracker und -Rollen.
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: Fehler beim Verbinden (%{value})
+  error_check_user_and_role: "Bitte wählen Sie einen Nutzer und eine Rolle."
+  error_must_be_project_member: "muss Mitglied des Projekts sein"
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
 
   mail_subject_lost_password: "Ihr %{value} Kennwort"

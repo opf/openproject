@@ -13,6 +13,7 @@
 #++
 
 class Version < ActiveRecord::Base
+  include Redmine::SafeAttributes
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify
@@ -23,16 +24,29 @@ class Version < ActiveRecord::Base
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
 
+  attr_protected :project_id
+
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 60
   validates_format_of :effective_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
+  validates_format_of :start_date, :with => /^\d{4}-\d{2}-\d{2}$/, :message => :not_a_date, :allow_nil => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
 
   named_scope :open, :conditions => {:status => 'open'}
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+
+  safe_attributes 'name',
+    'description',
+    'effective_date',
+    'due_date',
+    'start_date',
+    'wiki_page_title',
+    'status',
+    'sharing',
+    'custom_field_values'
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user=User.current)

@@ -174,7 +174,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
     assert_tag :div,
       :attributes => { :class => /error/ },
-      :content => /Data has been updated by another user/
+      :content => /Information has been updated by at least one other user in the meantime/
     assert_tag 'textarea',
       :attributes => { :name => 'content[text]' },
       :content => /Text should not be lost/

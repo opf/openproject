@@ -155,7 +155,9 @@ class User < Principal
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        user = new(attrs)
+        # login is both safe and protected in chilis core code
+        # in case it's intentional we keep it that way
+        user = new(attrs.except(:login))
         user.login = login
         user.language = Setting.default_language
         if user.save
@@ -551,7 +553,13 @@ class User < Principal
   def self.anonymous
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?
-      anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
+      (anonymous_user = AnonymousUser.new.tap do |u|
+        u.lastname = 'Anonymous'
+        u.login = ''
+        u.firstname = ''
+        u.mail = ''
+        u.status = 0
+      end).save
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
     anonymous_user

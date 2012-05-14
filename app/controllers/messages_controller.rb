@@ -48,26 +48,26 @@ class MessagesController < ApplicationController
 
   # Create a new topic
   def new
-    @message = Message.new(params[:message])
+    @message = Message.new
     @message.author = User.current
     @message.board = @board
-    if params[:message] && User.current.allowed_to?(:edit_messages, @project)
-      @message.locked = params[:message]['locked']
-      @message.sticky = params[:message]['sticky']
-    end
-    if request.post? && @message.save
-      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-      attachments = Attachment.attach_files(@message, params[:attachments])
-      render_attachment_warning_if_needed(@message)
-      redirect_to :action => 'show', :id => @message
+    @message.safe_attributes = params[:message]
+    if request.post?
+      if @message.save
+        call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+        attachments = Attachment.attach_files(@message, params[:attachments])
+        render_attachment_warning_if_needed(@message)
+        redirect_to :action => 'show', :id => @message
+      end
     end
   end
 
   # Reply to a topic
   def reply
-    @reply = Message.new(params[:reply])
+    @reply = Message.new
     @reply.author = User.current
     @reply.board = @board
+    @reply.safe_attributes = params[:reply]
     @topic.children << @reply
     if !@reply.new_record?
       call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
@@ -80,11 +80,8 @@ class MessagesController < ApplicationController
   # Edit a message
   def edit
     (render_403; return false) unless @message.editable_by?(User.current)
-    if params[:message]
-      @message.locked = params[:message]['locked']
-      @message.sticky = params[:message]['sticky']
-    end
-    if request.post? && @message.update_attributes(params[:message])
+    @message.safe_attributes = params[:message]
+    if request.post? && @message.save
       attachments = Attachment.attach_files(@message, params[:attachments])
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)

@@ -23,7 +23,8 @@ class IssueCategoriesController < ApplicationController
   verify :method => :post, :only => :destroy
 
   def new
-    @category = @project.issue_categories.build(params[:category])
+    @category = @project.issue_categories.build
+    @category.safe_attributes = params[:category]
     if request.post?
       if @category.save
         respond_to do |format|
@@ -50,7 +51,8 @@ class IssueCategoriesController < ApplicationController
   end
 
   def edit
-    if request.post? and @category.update_attributes(params[:category])
+    @category.safe_attributes = params[:category]
+    if request.post? and @category.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'projects', :action => 'settings', :tab => 'categories', :id => @project
     end
