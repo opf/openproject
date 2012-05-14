@@ -20,6 +20,8 @@ before_script:
   - "rake ci:travis:prepare"
 branches:
   only:
+    - unstable
     - master
+    - stable
 notifications:
   email: false
