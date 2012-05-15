@@ -21,13 +21,25 @@
 <p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
-<fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
-<%= setting_text_area :emails_header, :label => false, :class => 'wiki-edit', :rows => 5 %>
+<fieldset id="emails_decorators" class="box"><legend><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
+  <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), :id => 'emails_decorators_switch', :onchange => "toggleEmailDecoratorFields()" %>
+
+  <% Setting.available_languages.each do |lang| %>  
+    <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
+      <%= label_tag l(:setting_emails_header) %>
+      <%= text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+
+      <%= label_tag l(:setting_emails_footer) %>  
+      <%= text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], :label => false, :class => 'wiki-edit', :rows => 5) %>
+    </div>
+  <% end %>
 </fieldset>
 
-<fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
-<%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
-</fieldset>
+<% javascript_tag do -%>
+  jQuery(document).ready(function () {
+    toggleEmailDecoratorFields();
+  });
+<% end -%>
 
 <div style="float:right;">
 <%= link_to l(:label_send_test_email), :controller => 'admin', :action => 'test_email' %>

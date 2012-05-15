@@ -11,14 +11,37 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+#
 
 class CustomField < ActiveRecord::Base
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
-  serialize :possible_values
+  translates :name,
+             :default_value,
+             :possible_values
+
+  accepts_nested_attributes_for :translations,
+                                :allow_destroy => true,
+                                :reject_if =>  proc { |attributes| attributes['locale'].blank? ||
+                                                                   (attributes.size == 1 && attributes.has_key?('locale')) }
+
+  def translations_attributes_with_globalized=(attr)
+    ret = self.translations_attributes_without_globalized=(attr)
+
+    # enable globalize to access newly set attributes
+    translations.loaded
+    # remove previously set translated attributes so that they do not override
+    # the ones set here
+    globalize.reset
+    globalize.stash.clear
+
+    ret
+  end
+
+  alias_method_chain :translations_attributes=, :globalized
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name, :scope => :type
+  validates_uniqueness_of :name, :scope => [:type, :locale]
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
@@ -39,10 +62,16 @@ class CustomField < ActiveRecord::Base
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
     end
 
-    # validate default value
-    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
-    v.custom_field.is_required = false
-    errors.add(:default_value, :invalid) unless v.valid?
+    # validate default value in every translation available
+    required_field = is_required
+    is_required = false
+    self.translated_locales.each do |locale|
+      I18n.with_locale(locale) do
+        v = CustomValue.new(:custom_field => self, :value => I18n.without_fallbacks{default_value}, :customized => nil)
+        errors.add(:default_value, :invalid) unless v.valid?
+      end
+    end
+    is_required = required_field
   end
 
   def possible_values_options(obj=nil)
@@ -59,7 +88,9 @@ class CustomField < ActiveRecord::Base
         []
       end
     else
-      read_attribute :possible_values
+      locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
+      attribute = globalize.fetch(locale || self.class.locale || I18n.locale, :possible_values)
+      attribute
     end
   end
 
@@ -68,14 +99,17 @@ class CustomField < ActiveRecord::Base
     when 'user'
       possible_values_options(obj).collect(&:last)
     else
-      read_attribute :possible_values
+      globalize.fetch(obj || self.class.locale || I18n.locale, :possible_values)
     end
   end
 
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      write_attribute(:possible_values, arg.compact.collect(&:strip).select {|v| !v.blank?})
+      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+
+      globalize.write(self.class.locale || I18n.locale, :possible_values, value)
+      self[:possible_values] = value
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
     end
@@ -143,4 +177,22 @@ class CustomField < ActiveRecord::Base
   def type_name
     nil
   end
+end
+
+# for the sake of nested attributes it is necessary to redefine possible_values
+# the values get set directly on the translations association
+
+class CustomField::Translation < ActiveRecord::Base
+  serialize :possible_values
+
+  def possible_values=(arg)
+    if arg.is_a?(Array)
+      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+
+      write_attribute(:possible_values, value)
+    else
+      self.possible_values = arg.to_s.split(/[\n\r]+/)
+    end
+  end
+
 end

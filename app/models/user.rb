@@ -354,6 +354,10 @@ class User < Principal
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
   end
 
+  def self.find_all_by_mails(mails)
+    find(:all, :conditions => ['LOWER(mail) IN (?)', mails])
+  end
+
   def to_s
     name
   end

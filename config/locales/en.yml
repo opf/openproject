@@ -320,6 +320,7 @@ en:
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
+  setting_available_languages: Available languages
   setting_default_language: Default language
   setting_login_required: Authentication required
   setting_self_registration: Self-registration
@@ -849,6 +850,7 @@ en:
   label_top_menu: Top Menu
   label_main_menu: Side Menu
   label_content: Content
+  label_force_user_language_to_default: Set language of users having a non allowed language to default
 
   button_login: Login
   button_submit: Submit

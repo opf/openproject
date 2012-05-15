@@ -22,6 +22,10 @@ group :openid do
   gem "ruby-openid", '~> 2.1.4', :require => 'openid'
 end
 
+group :globalize do
+  gem 'globalize2', :require => 'globalize'
+end
+
 group :rmagick do
   gem "rmagick", ">= 1.15.17"
   # Older distributions might not have a sufficiently new ImageMagick version

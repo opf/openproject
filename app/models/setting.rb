@@ -127,7 +127,21 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
-
+  
+  # this should be fixed with globalize plugin
+  [:emails_header, :emails_footer].each do |mail|
+    src = <<-END_SRC
+    def self.localized_#{mail}
+      I18n.fallbacks[I18n.locale].each do |lang|
+        text = self[:#{mail}][lang.to_s]
+        return text unless text.blank?
+      end
+      ''
+    end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+  
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
@@ -161,7 +175,7 @@ private
     find_by_name(name) or new do |s|
       s.name  = name
       s.value = @@available_settings[name]['default']
-    end
+    end if @@available_settings.has_key? name
   end
 
   def self.cache_key(name)

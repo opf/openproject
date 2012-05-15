@@ -459,6 +459,13 @@ function addClickEventToAllErrorMessages() {
     });
   });
 }
+
+function toggleEmailDecoratorFields() {
+  lang = jQuery("#emails_decorators_switch").val();
+  jQuery(".emails_decorators").hide();
+  jQuery("#emails_decorators_" + lang).show();
+}
+
 $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();
@@ -735,3 +742,414 @@ $(window).bind('resizeEnd', function() {
           };
         });
 });
+
+var Administration = (function ($) {
+  var update_default_language_options,
+      init_language_selection_handling,
+      toggle_default_language_select;
+
+  update_default_language_options = function (input) {
+    var default_language_select = $('#setting_default_language select'),
+        default_language_select_active;
+
+    if (input.attr('checked')) {
+      default_language_select.find('option[value="' + input.val() + '"]').removeAttr('disabled');
+    } else {
+      default_language_select.find('option[value="' + input.val() + '"]').attr('disabled', 'disabled');
+    }
+
+    default_language_select_active = default_language_select.find('option:not([disabled="disabled"])');
+
+    toggle_disabled_state(default_language_select_active.size() === 0);
+
+    if (default_language_select_active.size() === 1) {
+      default_language_select_active.attr('selected', true);
+    } else if (default_language_select.val() === input.val() && !input.attr('checked')) {
+      default_language_select_active.first().attr('selected', true);
+    }
+  };
+
+  toggle_disabled_state = function (active) {
+    $('#setting_default_language select').attr('disabled', active)
+                                         .closest('form')
+                                         .find('input:submit')
+                                         .attr('disabled', active);
+  };
+
+  init_language_selection_handling = function () {
+    $('#setting_available_languages input:not([checked="checked"])').each(function (index, input) {
+      update_default_language_options($(input));
+    });
+    $('#setting_available_languages input').click(function () {
+      update_default_language_options($(this));
+    });
+  };
+
+  return {
+    init_language_selection_handling: init_language_selection_handling
+  };
+}(jQuery));
+
+var I18nForms = (function ($) {
+  var event_handler,
+      init,
+      id_memo = {},
+      memorize_ids,
+      submit_preparer;
+
+  event_handler = (function() {
+    var active_locale_selectors,
+        add_locale_fields,
+        destroy_locale,
+        init,
+        observe_add_locale_link,
+        observe_destroy_locale_links,
+        select_first_untaken_option,
+        taken_options,
+        update_add_link_status,
+        update_destroy_link_status,
+        update_interaction_elements,
+        update_locale_availability;
+
+    active_locale_selectors = function (localized_p) {
+      return localized_p.find('.locale_selector:not([disabled=disabled])');
+    };
+
+    add_locale_fields = function (localized_p) {
+      var backup = localized_p.find('.translation').first(),
+          add_link = localized_p.find('.add_locale'),
+          new_items = backup.clone();
+
+      new_items.find('input, textarea').val("");
+      new_items.insertBefore(add_link);
+
+      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
+      update_interaction_elements(localized_p);
+
+      new_items.find('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
+
+    destroy_locale = function (element) {
+      var localized_p = element.closest('p');
+
+      element.siblings('.destroy_flag').attr('disabled', false)
+                                       .attr('value', 1);
+      element.parent().hide();
+      element.siblings('.locale_selector').attr('disabled', true);
+
+      update_interaction_elements(localized_p);
+    };
+
+    observe_add_locale_link = function () {
+      $('.add_locale').click(function () {
+        add_locale_fields($(this).closest('p'));
+      });
+    };
+
+    observe_destroy_locale_links = function () {
+      $('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
+
+    select_first_untaken_option = function (select, others) {
+      var taken,
+          available;
+
+      taken = taken_options(others);
+
+      available = select.find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.val()) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      select.val(available.pop());
+    };
+
+    update_add_link_status = function (localized_p) {
+      var indicator_selector = active_locale_selectors(localized_p),
+          taken = taken_options(indicator_selector),
+          all_options,
+          available,
+          add_link = localized_p.find('.add_locale');
+
+      available = indicator_selector.first().find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.val()) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      add_link.toggle(available.size() > 0);
+    };
+
+    update_destroy_link_status = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p);
+
+      localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
+    };
+
+    update_interaction_elements = function (localized_p) {
+      update_locale_availability(localized_p);
+      update_add_link_status(localized_p);
+      update_destroy_link_status(localized_p);
+    };
+
+    update_locale_availability = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p),
+          active_locales = taken_options(active_selectors);
+
+      active_selectors.each(function (index, element) {
+        var selector = $(element),
+            selected_value = selector.val();
+
+        selector.find('option').each(function (index, element) {
+          var option = $(element);
+
+          option.attr('disabled', (active_locales.indexOf(option.val()) >= 0 && option.val() !== selected_value));
+        });
+      });
+    };
+
+    taken_options = function (select_collection) {
+      return select_collection.map(function (index, element) {
+        element = $(element);
+
+        return element.val();
+      }).get();
+    };
+
+    init = function () {
+      observe_add_locale_link();
+      observe_destroy_locale_links();
+
+      $('form .translation').closest('p').each(function (i, element) {
+        element = $(element);
+        update_interaction_elements(element);
+      });
+    }
+
+    return {
+      init : init
+    }
+  })();
+
+
+  memorize_ids = function (form) {
+    var translations = $('.translation');
+
+    translations.each(function (i, element) {
+      var id,
+          locale;
+      element = $(element);
+
+      id = element.find(".translation_id").val();
+      locale = element.find(".locale_selector").val();
+
+      if (locale !== "" && id !== "" && id_memo[locale] === undefined) {
+        id_memo[locale] = id;
+      }
+    });
+  };
+
+  submit_preparer = (function() {
+    var add_destroy_elements,
+        add_empty_values_for_missing_attributes,
+        collect_elements_by_locale,
+        collect_translation_classes,
+        element_numerator,
+        prepare,
+        unify_translations_across_attribute;
+
+    add_destroy_elements = function(locale) {
+      var translation,
+          destroy_element,
+          id_element,
+          destroy_id_elements;
+
+      translation = $('.translation').first();
+      destroy_id_elements = translation.find('.destroy_flag, .translation_id').clone();
+      destroy_element = translation.filter('.destroy_flag');
+      id_element = translation.filter('.translation_id');
+
+      translation.after(destroy_id_elements);
+
+      destroy_id_elements.filter('.destroy_flag').attr('disabled', false);
+      destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
+
+      element_numerator.set_next_number_in_name(destroy_id_elements);
+    };
+
+    add_empty_values_for_missing_attributes = function (locale, translation_classes) {
+      var new_translations = $('');
+
+      $.each(translation_classes, function(i, translated_attribute) {
+        var translations = $('.' + translated_attribute + ':visible'),
+            locale_selectors = translations.find('.locale_selector'),
+            included,
+            new_translation;
+
+        included = locale_selectors.map(function(i, element) {
+          return $(element).val();
+        }).get().indexOf(locale) >= 0;
+
+        if (!included) {
+          new_translation = translations.first().clone();
+          new_translation.hide();
+          new_translation.find('.destroy_flag').val('1')
+                                               .attr('disabled', false);
+          new_translation.find('input, textarea').val('');
+          new_translation.find('.locale_selector').val(locale);
+          new_translation.insertAfter(translations.first());
+
+          new_translations = new_translations.add(new_translation);
+        }
+      });
+
+      return new_translations;
+    };
+
+    collect_elements_by_locale = function(translations) {
+      var locales = {};
+
+      translations.each(function (i, element) {
+        var locale;
+
+        element = $(element);
+        locale = element.find('.locale_selector').val();
+
+        if (locales[locale] === undefined) {
+          locales[locale] = element;
+        } else {
+          locales[locale] = locales[locale].add(element);
+        }
+      });
+
+      return locales;
+    };
+
+    collect_translation_classes = function (translations) {
+      var translation_classes = [];
+
+      translations.each(function (i, element) {
+        var translation_class;
+
+        element = $(element);
+
+        translation_class = /\w+_translation/.exec(element.attr('class'))[0];
+
+        if (translation_classes.indexOf(translation_class) < 0) {
+          translation_classes.push(translation_class);
+        }
+      });
+
+      return translation_classes;
+    };
+
+    element_numerator = (function() {
+      var init,
+          num,
+          number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
+          replace_number_in_name,
+          set_next_number_in_name;
+
+      init = function() {
+        num = 0;
+      }
+
+      set_next_number_in_name = function(elements) {
+        replace_number_in_name(elements, num);
+        num += 1;
+      }
+
+      replace_number_in_name = function (element, rep_number) {
+        element.each(function (index, e) {
+          e = $(e);
+          e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"));
+        });
+      };
+
+      return {
+        init : init,
+        set_next_number_in_name : set_next_number_in_name
+      };
+    })();
+
+    prepare = function (form) {
+      var locales,
+          translation_classes = [],
+          translations = form.find('.translation');
+
+      element_numerator.init();
+
+      translation_classes = collect_translation_classes(translations);
+      locales = collect_elements_by_locale(translations);
+
+      $.each(locales, function(locale, elements) {
+        empty_value_elements = add_empty_values_for_missing_attributes(locale, translation_classes);
+        unify_translations_across_attribute(locale, elements.add(empty_value_elements), translation_classes);
+      });
+
+      $.each(id_memo, function(locale, id) {
+        if (!locales.hasOwnProperty(locale)) {
+          add_destroy_elements(locale);
+        }
+      });
+    };
+
+    unify_translations_across_attribute = function (locale, elements, translation_classes) {
+      var current_id,
+          i,
+          to_destroy,
+          to_keep;
+
+      element_numerator.set_next_number_in_name(elements.find('select, textarea, input'));
+
+      current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
+      elements.find('.translation_id').val(current_id);
+
+      to_destroy = elements.filter(':hidden');
+      to_keep = elements.filter(':visible');
+
+      if (to_keep.size() > 0) {
+        to_destroy.find('.destroy_flag').attr('disabled', true);
+        for (i = 0; i < translation_classes.size(); i += 1) {
+          if (to_keep.filter("." + translation_classes[i]).size() === 0) {
+            to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').val('');
+          }
+        }
+      }
+    }
+
+    return {
+      prepare : prepare
+    }
+  })();
+
+  init = function () {
+    var translated_paragraph = $('form .translation').closest('p');
+
+    if (translated_paragraph.size() > 0) {
+      memorize_ids();
+      event_handler.init()
+
+      translated_paragraph.closest('form').submit(function () {
+        submit_preparer.prepare($(this));
+        // allow default behaviour
+      });
+
+    }
+  };
+
+  return {
+    init : init
+  };
+}(jQuery));
+
+jQuery(document).ready(I18nForms.init);

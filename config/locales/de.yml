@@ -328,6 +328,7 @@ de:
   setting_app_title: Applikations-Titel
   setting_app_subtitle: Applikations-Untertitel
   setting_welcome_text: Willkommenstext
+  setting_available_languages: Verfügbare Sprachen
   setting_default_language: Default-Sprache
   setting_login_required: Authentifizierung erforderlich
   setting_self_registration: Anmeldung ermöglicht
@@ -834,6 +835,7 @@ de:
   label_top_menu: Hauptmenu
   label_main_menu: Nebenmenu
   label_content: Inhalt
+  label_force_user_language_to_default: Setze Sprache für Nutzer die eine nicht erlaubte Sprache gewählt haben auf die Default-Sprache
 
   button_login: Anmelden
   button_submit: OK

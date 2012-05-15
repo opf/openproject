@@ -39,6 +39,10 @@ cache_formatted_text:
   default: 0
 wiki_compression:
   default: ""
+available_languages:
+  serialized: true
+  default:
+  - en
 default_language:
   default: en
 host_name:
@@ -161,9 +165,11 @@ repository_log_display_limit:
 ui_theme:
   default: ''
 emails_footer:
-  default: |-
-    You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://hostname/my/account
+  serialized: true
+  default:
+    en: |-
+      You have received this notification because you have either subscribed to it, or are involved in it.
+      To change your notification preferences, please click here: http://hostname/my/account
 gravatar_enabled:
   default: 0
 openid:
@@ -177,6 +183,8 @@ rest_api_enabled:
 default_notification_option:
   default: 'only_my_events'
 emails_header:
-  default: ''
+  serialized: true
+  default:
+    en: ''
 issue_startdate_is_adddate:
   default: 1
