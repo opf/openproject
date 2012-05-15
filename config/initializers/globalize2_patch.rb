@@ -85,4 +85,55 @@ module Globalize::ActiveRecord::ClassMethodsPatch
   end
 end
 
+module Globalize
+  module ActiveRecord
+    module AdapterPatch
+      module ClassMethods
+      end
+
+      module InstanceMethods
+        def stash_to_cache
+          @cache = @stash.dup
+        end
+
+        protected
+
+        def cache=(cache)
+          @cache = cache
+        end
+      end
+
+      def self.included(receiver)
+        receiver.extend         ClassMethods
+        receiver.send :include, InstanceMethods
+      end
+    end
+  end
+end
+
+module GlobalizePatch
+  module ClassMethods
+    # Executes block without cached translations.
+    def without_cache_for(object)
+      current_cache = object.globalize.cache
+      object.globalize.stash_to_cache
+      yield
+    ensure
+      object.globalize.send(:cache=, current_cache)
+    end
+  end
+
+  module InstanceMethods
+  end
+
+  def self.included(receiver)
+    receiver.extend         ClassMethods
+    receiver.send :include, InstanceMethods
+  end
+end
+
+
 Globalize::ActiveRecord::ClassMethods.send(:include, Globalize::ActiveRecord::ClassMethodsPatch)
+Globalize.send(:include, GlobalizePatch)
+Globalize::ActiveRecord::Adapter.send(:include, Globalize::ActiveRecord::AdapterPatch)
+
