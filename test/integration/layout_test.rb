@@ -23,7 +23,7 @@ class LayoutTest < ActionController::IntegrationTest
     assert_response :not_found
 
     # UsersController uses the admin layout by default
-    assert_select "#admin-menu", :count => 0
+    assert_select "#main-menu", :count => 0
   end
 
   test "browsing to an unauthorized page should render the base layout" do
@@ -33,22 +33,20 @@ class LayoutTest < ActionController::IntegrationTest
 
     get "/admin"
     assert_response :forbidden
-    assert_select "#admin-menu", :count => 0
+    assert_select "#main-menu", :count => 0
   end
 
-  def test_top_menu_and_search_not_visible_when_login_required
+  def test_top_menu_navigation_not_visible_when_login_required
     with_settings :login_required => '1' do
       get '/'
-      assert_select "#top-menu > ul", 0
-      assert_select "#quick-search", 0
+      assert_select "#account-nav", 0
     end
   end
 
-  def test_top_menu_and_search_visible_when_login_not_required
+  def test_top_menu_navigation_visible_when_login_not_required
     with_settings :login_required => '0' do
       get '/'
-      assert_select "#top-menu > ul"
-      assert_select "#quick-search"
+      assert_select "#account-nav"
     end
   end
 
@@ -59,5 +57,16 @@ class LayoutTest < ActionController::IntegrationTest
     assert_tag :script,
       :attributes => {:src => %r{^/javascripts/jstoolbar/textile.js}},
       :parent => {:tag => 'head'}
+  end
+
+  test "page titles should be properly escaped" do
+    project = Project.generate(:name => "C&A")
+
+    with_settings :app_title => '<3' do
+      get "/projects/#{project.to_param}"
+
+      assert_select "title", /C&amp;A/
+      assert_select "title", /&lt;3/
+    end
   end
 end

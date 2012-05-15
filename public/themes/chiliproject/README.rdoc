@@ -1,8 +1,0 @@
-= ChiliProject.org theme
-
-This theme is based on the Redmine Squeejee theme. It is available bundled with ChiliProject as well as on Github.
-
-* ChiliProject - https://www.chiliproject.org
-* Github - https://github.com/edavis10/squeejee_theme/tree/chiliproject.org
-
-See README.redmine for the official Squeejee theme readme.

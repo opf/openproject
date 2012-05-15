@@ -81,4 +81,8 @@ class AuthSourcesController < ApplicationController
   def auth_source_class
     AuthSource
   end
+
+  def default_breadcrumb
+    l(:label_auth_source_plural)
+  end
 end

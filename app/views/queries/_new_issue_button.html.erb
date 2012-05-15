@@ -1,0 +1,5 @@
+<% if @project %>
+<div class="new-issue button-large">
+  <%= link_to("Open a New Issue", {:controller => 'issues', :action => 'new', :project_id => @project}, :title => "Open a New Issue", :class => '') %>
+</div>
+<% end %>

@@ -74,38 +74,24 @@ function toggleAllRowGroups(el) {
 function toggleFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
-	Effect.toggle(fieldset.down('div'), 'slide', {duration:0.2});
+	Effect.toggle(fieldset.down('>div'), 'slide', {duration:0.2});
 }
 
 function hideFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
-	fieldset.down('div').hide();
+	fieldset.down('>div').hide();
 }
 
 var fileFieldCount = 1;
 
 function addFileField() {
-    if (fileFieldCount >= 10) return false
-    fileFieldCount++;
-    var f = document.createElement("input");
-    f.type = "file";
-    f.name = "attachments[" + fileFieldCount + "][file]";
-    f.size = 30;
-    var d = document.createElement("input");
-    d.type = "text";
-    d.name = "attachments[" + fileFieldCount + "][description]";
-    d.size = 60;
-    var dLabel = new Element('label');
-    dLabel.addClassName('inline');
-    // Pulls the languge value used for Optional Description
-    dLabel.update($('attachment_description_label_content').innerHTML)
-    p = document.getElementById("attachments_fields");
-    p.appendChild(document.createElement("br"));
-    p.appendChild(f);
-    p.appendChild(dLabel);
-    dLabel.appendChild(d);
-
+  fileFieldCount++;
+  if (fileFieldCount >= 10) return false
+  var clone = $('attachment_template').cloneNode(true);
+  clone.writeAttribute('id', '');
+  clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
+  $('attachments_fields').appendChild(clone);
 }
 
 function showTab(name) {
@@ -119,6 +105,7 @@ function showTab(name) {
 	}
 	Element.show('tab-content-' + name);
 	Element.addClassName('tab-' + name, "selected");
+        Element.insert('tab-' + name, {top: $$('div.tabs .hidden-for-sighted')[0]})
 	return false;
 }
 
@@ -163,7 +150,7 @@ function displayTabsButtons() {
 				tabsWidth += lis[i].getWidth() + 6;
 			}
 		}
-		if ((tabsWidth < el.getWidth() - 60) && (lis[0].visible())) {
+		if ((tabsWidth < el.getWidth() - 20) && (lis[0].visible())) {
 			el.down('div.tabs-buttons').hide();
 		} else {
 			el.down('div.tabs-buttons').show();
@@ -336,7 +323,9 @@ function observeParentIssueField(url) {
                            paramName: 'q',
                            updateElement: function(value) {
                              document.getElementById('issue_parent_issue_id').value = value.id;
-                           }});
+                           },
+                           parameters: 'scope=all'
+                           });
 }
 
 function observeRelatedIssueField(url) {
@@ -365,7 +354,7 @@ function observeProjectModules() {
     setVisible('project_trackers', c);
     setVisible('project_issue_custom_fields', c);
   };
-  
+
   Event.observe(window, 'load', f);
   Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
 }
@@ -380,43 +369,43 @@ var WarnLeavingUnsaved = Class.create({
 	observedElements: false,
 	changedForms: false,
 	message: null,
-	
+
 	initialize: function(message){
 		this.observedForms = $$('form');
 		this.observedElements =  $$('textarea');
 		this.message = message;
-		
+
 		this.observedElements.each(this.observeChange.bind(this));
 		this.observedForms.each(this.submitAction.bind(this));
-		
+
 		window.onbeforeunload = this.unload.bind(this);
 	},
-	
+
 	unload: function(){
 		if(this.changedForms)
       return this.message;
 	},
-	
+
 	setChanged: function(){
     this.changedForms = true;
 	},
-	
+
 	setUnchanged: function(){
     this.changedForms = false;
 	},
-	
+
 	observeChange: function(element){
     element.observe('change',this.setChanged.bindAsEventListener(this));
 	},
-	
+
 	submitAction: function(element){
     element.observe('submit',this.setUnchanged.bindAsEventListener(this));
 	}
 });
 
-/* 
+/*
  * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to 
+ * X-CSRF-Token header with each ajax request.  Necessary to
  * work with rails applications which have fixed
  * CVE-2011-0447
  * 2 - shows and hides ajax indicator
@@ -443,6 +432,7 @@ Ajax.Responders.register({
         if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
             Element.hide('ajax-indicator');
         }
+        addClickEventToAllErrorMessages();
     }
 });
 
@@ -452,4 +442,714 @@ function hideOnLoad() {
 	});
 }
 
+function addClickEventToAllErrorMessages() {
+  $$('a.afocus').each(function(a) {
+    $(a).observe('click', function(event) {
+      var field;
+      field = $($(a).readAttribute('href').substr(1));
+      if (field == null) {
+        // Cut off '_id' (necessary for select boxes)
+        field = $($(a).readAttribute('href').substr(1).concat('_id'));
+      }
+      if (field) {
+        field.down('input, textarea, select').focus();
+      }
+      Event.stop(event);
+      return false;
+    });
+  });
+}
+
+function toggleEmailDecoratorFields() {
+  lang = jQuery("#emails_decorators_switch").val();
+  jQuery(".emails_decorators").hide();
+  jQuery("#emails_decorators_" + lang).show();
+}
+
+$(document).observe('dom:loaded', function() {
+  // Set focus on first error message
+  var error_focus = $$('a.afocus').first();
+  var input_focus = $$('.autofocus').first();
+  if (error_focus != undefined) {
+    error_focus.focus();
+  }
+  else if (input_focus != undefined){
+    input_focus.focus();
+    if (input_focus.tagName === "INPUT") {
+      input_focus.select();
+    }
+  }
+  // Focus on field with error
+  addClickEventToAllErrorMessages();
+});
+
 Event.observe(window, 'load', hideOnLoad);
+
+// a few constants for animations speeds, etc.
+var animationRate = 100;
+
+/* jQuery code from #263 */
+// returns viewport height
+jQuery.viewportHeight = function() {
+     return self.innerHeight ||
+        jQuery.boxModel && document.documentElement.clientHeight ||
+        document.body.clientHeight;
+};
+
+/* TODO: integrate with existing code and/or refactor */
+jQuery(document).ready(function($) {
+	// file table thumbnails
+	$("table a.has-thumb").hover(function() {
+		$(this).removeAttr("title").toggleClass("active");
+
+		// grab the image dimensions to position it properly
+		var thumbImg = $(this).find("img");
+		var thumbImgLeft = -(thumbImg.outerWidth() );
+		var thumbImgTop = -(thumbImg.height() / 2 );
+		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+
+	}, function() {
+		$(this).toggleClass("active").find("img").hide();
+	});
+
+	// show/hide the files table
+	$(".attachments h4").click(function() {
+	  $(this).toggleClass("closed").next().slideToggle(animationRate);
+	});
+
+	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+	$.fn.slideAndFocus = function() {
+          this.toggleClass("open").find("> ul").mySlide(function() {
+              // actually a simple focus should be enough.
+              // The rest is only there to work around a rendering bug in webkit (as of Oct 2011) TODO: fix
+              if ($("input#username-pulldown").is(":visible")) {
+                var input = $("input#username-pulldown");
+              } else {
+                // reset input value and project search list
+                var input = $(".chzn-search input");
+                input.val("");
+                $("select#project-search").trigger($.Event("liszt:updated"));
+              }
+              if (input.is(":visible")) {
+                input.blur();
+                setTimeout(function() {
+                    input.focus();
+                  }, 100);
+              }
+              else {
+                $(this).find("li > a:first").focus();
+              }
+            });
+
+            return false;
+          };
+	// custom function for sliding the main-menu. IE6 & IE7 don't handle sliding very well
+	$.fn.mySlide = function(callback) {
+		if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
+			// no animations, just toggle
+			this.toggle();
+                        if (callback != undefined) {
+                          callback();
+                        }
+			// this forces IE to redraw the menu area, un-bollocksing things
+			$("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
+		} else {
+			this.slideToggle(animationRate,callback);
+		}
+
+		return this;
+	};
+
+  $.fn.onClickDropDown = function(){
+    var that = this;
+    $('html').click(function() {
+      that.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      that.removeClass("hover");
+    });
+
+    // Do not close the login window when using it
+    that.find("li li").click(function(event){
+       event.stopPropagation();
+    });
+
+    this.find(" > li.drop-down").click(function() {
+      // if an h2 tag follows the submenu should unfold out at the border
+      var menu_start_position;
+      if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
+        menu_start_position = that.next().innerHeight() + that.next().position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+      else if(that.next().hasClass("wiki-content") && that.next().children().next().first().get(0) != undefined && that.next().children().next().first().get(0).tagName == 'H1'){
+        var wiki_heading = that.next().children().next().first();
+        menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
+        that.find("ul.action_menu_more").css({ top: menu_start_position });
+      }
+
+      $(this).toggleSubmenu(that);
+      return false;
+    });
+  };
+
+  $.fn.toggleSubmenu = function(menu){
+    if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+    }
+
+    $(this).slideAndFocus();
+    menu.toggleClass("hover");
+  }
+
+	// open and close the main-menu sub-menus
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		.append("<span class='toggler'></span>")
+		.click(function() {
+
+			$(this).toggleClass("open").parent().find("ul").not("ul ul ul").mySlide();
+
+			return false;
+	});
+
+	// submenu flyouts
+	$("#main-menu li li:has(ul)").hover(function() {
+		$(this).find(".profile-box").show();
+		$(this).find("ul").slideDown(animationRate);
+	}, function() {
+		$(this).find("ul").slideUp(animationRate);
+	});
+
+	// add filter dropdown menu
+	$(".button-large:has(ul) > a").click(function(event) {
+		var tgt = $(event.target);
+
+		// is this inside the title bar?
+		if (tgt.parents().is(".title-bar")) {
+			$(".title-bar-extras:hidden").slideDown(animationRate);
+		}
+
+		$(this).parent().find("ul").slideToggle(animationRate);
+
+		return false;
+	});
+
+        jQuery("#account-nav > li").hover(function() {
+          if ($("#account-nav").hasClass("hover") && ($("#account-nav > li.drop-down.open").get(0) !== $(this).get(0))){
+                //Close all other open menus
+                //Used to work around the rendering bug  TODO: fix
+                jQuery("input#username-pulldown").blur();
+                $("#account-nav > li.drop-down.open").toggleClass("open").find("> ul").mySlide();
+                $(this).slideAndFocus();
+                return false;
+            }
+        },
+        function(){
+          return false;
+          });
+        $("#account-nav").onClickDropDown();
+        $(".action_menu_main").onClickDropDown();
+
+	// deal with potentially problematic super-long titles
+	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
+
+	// rejigger the main-menu sub-menu functionality.
+	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
+
+$(window).resize(function() {
+    // wait 200 milliseconds for no further resize event
+    // then readjust breadcrumb
+
+    if(this.resizeTO) clearTimeout(this.resizeTO);
+    this.resizeTO = setTimeout(function() {
+        $(this).trigger('resizeEnd');
+    }, 200);
+});
+
+$(window).bind('resizeEnd', function() {
+    jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
+});
+
+	$("#main-menu li:has(ul) > a").not("ul ul a")
+		// 1. unbind the current click functions
+		.unbind("click")
+		// 2. wrap each in a span that we'll use for the new click element
+		.wrapInner("<span class='toggle-follow ellipsis'></span>")
+		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
+		.append("<span class='toggler'></span>")
+		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
+		.click(function(event) {
+
+			if ($(event.target).hasClass("toggler") ) {
+                          var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
+                          menuParent.mySlide();
+                          if ($(this).hasClass("open")) {
+                            menuParent.find("li > a:first").focus();
+                          }
+                        return false;
+                      }
+		});
+
+        $('#header li.drop-down select.chzn-select').each(function (ix, select) {
+          // trigger an artificial mousedown event
+          var parent = $(select).parents('li.drop-down');
+          // deselect all options
+          $(select).find(":selected").each(function (ix, option) {
+            $(option).attr("selected", false);
+          });
+          $(select).chosen({allow_single_deselect:false});
+          parent.find('div.chzn-container').trigger(jQuery.Event("mousedown"))
+          parent.find('a.chzn-single').hide();
+          // prevent menu from getting closed prematurely
+          jQuery('div.chzn-search').click(function(event){
+             event.stopPropagation();
+          });
+          // remove highlights
+          parent.find(".chzn-results .active-result.highlighted").each(function (ix, option){
+            $(option).removeClass("highlighted");
+          });
+        });
+
+        // Do not close the login window when using it
+        $('#nav-login-content').click(function(event){
+             event.stopPropagation();
+         });
+
+        jQuery('table.cal div.issue.tooltip').each(function(){
+          var div = $(this);
+          div.find('a').first().focus(function(){
+            div.addClass('hover');
+          });
+          div.find('a').first().blur(function(){
+            div.removeClass('hover');
+          });
+        });
+
+        jQuery('#main-menu #toggle-project-menu a.navigation-toggler').click(function(){
+          if ($('#main-menu #toggle-project-menu').hasClass('show')) {
+            // Show project navigation
+            $('#main-menu').removeClass('hidden')
+            $('#menu-sidebar').removeClass('hidden');
+            $('#main-menu #toggle-project-menu').removeClass('show');
+            $('#main-menu #toggle-project-menu').removeAttr("style");
+            $('#content').removeClass('hidden-navigation');
+          }
+          else {
+            // Hide project navigation
+            var height = $(document).height();
+            $('#main-menu').addClass('hidden');
+            $('#menu-sidebar').addClass('hidden');
+            $('#main-menu #toggle-project-menu').addClass('show');
+            $('#main-menu #toggle-project-menu.show').css({height:height});
+            $('#content').addClass('hidden-navigation');
+          };
+        });
+});
+
+var Administration = (function ($) {
+  var update_default_language_options,
+      init_language_selection_handling,
+      toggle_default_language_select;
+
+  update_default_language_options = function (input) {
+    var default_language_select = $('#setting_default_language select'),
+        default_language_select_active;
+
+    if (input.attr('checked')) {
+      default_language_select.find('option[value="' + input.val() + '"]').removeAttr('disabled');
+    } else {
+      default_language_select.find('option[value="' + input.val() + '"]').attr('disabled', 'disabled');
+    }
+
+    default_language_select_active = default_language_select.find('option:not([disabled="disabled"])');
+
+    toggle_disabled_state(default_language_select_active.size() === 0);
+
+    if (default_language_select_active.size() === 1) {
+      default_language_select_active.attr('selected', true);
+    } else if (default_language_select.val() === input.val() && !input.attr('checked')) {
+      default_language_select_active.first().attr('selected', true);
+    }
+  };
+
+  toggle_disabled_state = function (active) {
+    $('#setting_default_language select').attr('disabled', active)
+                                         .closest('form')
+                                         .find('input:submit')
+                                         .attr('disabled', active);
+  };
+
+  init_language_selection_handling = function () {
+    $('#setting_available_languages input:not([checked="checked"])').each(function (index, input) {
+      update_default_language_options($(input));
+    });
+    $('#setting_available_languages input').click(function () {
+      update_default_language_options($(this));
+    });
+  };
+
+  return {
+    init_language_selection_handling: init_language_selection_handling
+  };
+}(jQuery));
+
+var I18nForms = (function ($) {
+  var event_handler,
+      init,
+      id_memo = {},
+      memorize_ids,
+      submit_preparer;
+
+  event_handler = (function() {
+    var active_locale_selectors,
+        add_locale_fields,
+        destroy_locale,
+        init,
+        observe_add_locale_link,
+        observe_destroy_locale_links,
+        select_first_untaken_option,
+        taken_options,
+        update_add_link_status,
+        update_destroy_link_status,
+        update_interaction_elements,
+        update_locale_availability;
+
+    active_locale_selectors = function (localized_p) {
+      return localized_p.find('.locale_selector:not([disabled=disabled])');
+    };
+
+    add_locale_fields = function (localized_p) {
+      var backup = localized_p.find('.translation').first(),
+          add_link = localized_p.find('.add_locale'),
+          new_items = backup.clone();
+
+      new_items.find('input, textarea').val("");
+      new_items.insertBefore(add_link);
+
+      select_first_untaken_option(new_items.find('.locale_selector'), active_locale_selectors(localized_p));
+      update_interaction_elements(localized_p);
+
+      new_items.find('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
+
+    destroy_locale = function (element) {
+      var localized_p = element.closest('p');
+
+      element.siblings('.destroy_flag').attr('disabled', false)
+                                       .attr('value', 1);
+      element.parent().hide();
+      element.siblings('.locale_selector').attr('disabled', true);
+
+      update_interaction_elements(localized_p);
+    };
+
+    observe_add_locale_link = function () {
+      $('.add_locale').click(function () {
+        add_locale_fields($(this).closest('p'));
+      });
+    };
+
+    observe_destroy_locale_links = function () {
+      $('.destroy_locale').click(function () {
+        destroy_locale($(this));
+      });
+    };
+
+    select_first_untaken_option = function (select, others) {
+      var taken,
+          available;
+
+      taken = taken_options(others);
+
+      available = select.find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.val()) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      select.val(available.pop());
+    };
+
+    update_add_link_status = function (localized_p) {
+      var indicator_selector = active_locale_selectors(localized_p),
+          taken = taken_options(indicator_selector),
+          all_options,
+          available,
+          add_link = localized_p.find('.add_locale');
+
+      available = indicator_selector.first().find('option').map(function (index, element) {
+        element = $(element);
+
+        if (taken.indexOf(element.val()) < 0) {
+          return element.val();
+        }
+      }).get();
+
+      add_link.toggle(available.size() > 0);
+    };
+
+    update_destroy_link_status = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p);
+
+      localized_p.find('.destroy_locale').toggle(active_selectors.size() > 1);
+    };
+
+    update_interaction_elements = function (localized_p) {
+      update_locale_availability(localized_p);
+      update_add_link_status(localized_p);
+      update_destroy_link_status(localized_p);
+    };
+
+    update_locale_availability = function (localized_p) {
+      var active_selectors = active_locale_selectors(localized_p),
+          active_locales = taken_options(active_selectors);
+
+      active_selectors.each(function (index, element) {
+        var selector = $(element),
+            selected_value = selector.val();
+
+        selector.find('option').each(function (index, element) {
+          var option = $(element);
+
+          option.attr('disabled', (active_locales.indexOf(option.val()) >= 0 && option.val() !== selected_value));
+        });
+      });
+    };
+
+    taken_options = function (select_collection) {
+      return select_collection.map(function (index, element) {
+        element = $(element);
+
+        return element.val();
+      }).get();
+    };
+
+    init = function () {
+      observe_add_locale_link();
+      observe_destroy_locale_links();
+
+      $('form .translation').closest('p').each(function (i, element) {
+        element = $(element);
+        update_interaction_elements(element);
+      });
+    }
+
+    return {
+      init : init
+    }
+  })();
+
+
+  memorize_ids = function (form) {
+    var translations = $('.translation');
+
+    translations.each(function (i, element) {
+      var id,
+          locale;
+      element = $(element);
+
+      id = element.find(".translation_id").val();
+      locale = element.find(".locale_selector").val();
+
+      if (locale !== "" && id !== "" && id_memo[locale] === undefined) {
+        id_memo[locale] = id;
+      }
+    });
+  };
+
+  submit_preparer = (function() {
+    var add_destroy_elements,
+        add_empty_values_for_missing_attributes,
+        collect_elements_by_locale,
+        collect_translation_classes,
+        element_numerator,
+        prepare,
+        unify_translations_across_attribute;
+
+    add_destroy_elements = function(locale) {
+      var translation,
+          destroy_element,
+          id_element,
+          destroy_id_elements;
+
+      translation = $('.translation').first();
+      destroy_id_elements = translation.find('.destroy_flag, .translation_id').clone();
+      destroy_element = translation.filter('.destroy_flag');
+      id_element = translation.filter('.translation_id');
+
+      translation.after(destroy_id_elements);
+
+      destroy_id_elements.filter('.destroy_flag').attr('disabled', false);
+      destroy_id_elements.filter('.translation_id').attr('value', id_memo[locale]);
+
+      element_numerator.set_next_number_in_name(destroy_id_elements);
+    };
+
+    add_empty_values_for_missing_attributes = function (locale, translation_classes) {
+      var new_translations = $('');
+
+      $.each(translation_classes, function(i, translated_attribute) {
+        var translations = $('.' + translated_attribute + ':visible'),
+            locale_selectors = translations.find('.locale_selector'),
+            included,
+            new_translation;
+
+        included = locale_selectors.map(function(i, element) {
+          return $(element).val();
+        }).get().indexOf(locale) >= 0;
+
+        if (!included) {
+          new_translation = translations.first().clone();
+          new_translation.hide();
+          new_translation.find('.destroy_flag').val('1')
+                                               .attr('disabled', false);
+          new_translation.find('input, textarea').val('');
+          new_translation.find('.locale_selector').val(locale);
+          new_translation.insertAfter(translations.first());
+
+          new_translations = new_translations.add(new_translation);
+        }
+      });
+
+      return new_translations;
+    };
+
+    collect_elements_by_locale = function(translations) {
+      var locales = {};
+
+      translations.each(function (i, element) {
+        var locale;
+
+        element = $(element);
+        locale = element.find('.locale_selector').val();
+
+        if (locales[locale] === undefined) {
+          locales[locale] = element;
+        } else {
+          locales[locale] = locales[locale].add(element);
+        }
+      });
+
+      return locales;
+    };
+
+    collect_translation_classes = function (translations) {
+      var translation_classes = [];
+
+      translations.each(function (i, element) {
+        var translation_class;
+
+        element = $(element);
+
+        translation_class = /\w+_translation/.exec(element.attr('class'))[0];
+
+        if (translation_classes.indexOf(translation_class) < 0) {
+          translation_classes.push(translation_class);
+        }
+      });
+
+      return translation_classes;
+    };
+
+    element_numerator = (function() {
+      var init,
+          num,
+          number_matcher = /([\[_])(\d+)([\]\[_]{1,2}\w+\]?$)/,
+          replace_number_in_name,
+          set_next_number_in_name;
+
+      init = function() {
+        num = 0;
+      }
+
+      set_next_number_in_name = function(elements) {
+        replace_number_in_name(elements, num);
+        num += 1;
+      }
+
+      replace_number_in_name = function (element, rep_number) {
+        element.each(function (index, e) {
+          e = $(e);
+          e.attr('name', e.attr('name').replace(number_matcher, "$1" + rep_number + "$3"));
+        });
+      };
+
+      return {
+        init : init,
+        set_next_number_in_name : set_next_number_in_name
+      };
+    })();
+
+    prepare = function (form) {
+      var locales,
+          translation_classes = [],
+          translations = form.find('.translation');
+
+      element_numerator.init();
+
+      translation_classes = collect_translation_classes(translations);
+      locales = collect_elements_by_locale(translations);
+
+      $.each(locales, function(locale, elements) {
+        empty_value_elements = add_empty_values_for_missing_attributes(locale, translation_classes);
+        unify_translations_across_attribute(locale, elements.add(empty_value_elements), translation_classes);
+      });
+
+      $.each(id_memo, function(locale, id) {
+        if (!locales.hasOwnProperty(locale)) {
+          add_destroy_elements(locale);
+        }
+      });
+    };
+
+    unify_translations_across_attribute = function (locale, elements, translation_classes) {
+      var current_id,
+          i,
+          to_destroy,
+          to_keep;
+
+      element_numerator.set_next_number_in_name(elements.find('select, textarea, input'));
+
+      current_id = id_memo[locale] !== undefined ? id_memo[locale] : '';
+      elements.find('.translation_id').val(current_id);
+
+      to_destroy = elements.filter(':hidden');
+      to_keep = elements.filter(':visible');
+
+      if (to_keep.size() > 0) {
+        to_destroy.find('.destroy_flag').attr('disabled', true);
+        for (i = 0; i < translation_classes.size(); i += 1) {
+          if (to_keep.filter("." + translation_classes[i]).size() === 0) {
+            to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').val('');
+          }
+        }
+      }
+    }
+
+    return {
+      prepare : prepare
+    }
+  })();
+
+  init = function () {
+    var translated_paragraph = $('form .translation').closest('p');
+
+    if (translated_paragraph.size() > 0) {
+      memorize_ids();
+      event_handler.init()
+
+      translated_paragraph.closest('form').submit(function () {
+        submit_preparer.prepare($(this));
+        // allow default behaviour
+      });
+
+    }
+  };
+
+  return {
+    init : init
+  };
+}(jQuery));
+
+jQuery(document).ready(I18nForms.init);

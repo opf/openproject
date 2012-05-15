@@ -1,0 +1,46 @@
+/* IE6 how i love to hate thee */
+
+#account-nav li a {
+	width:45px;
+}
+#account-nav li li a {
+	width:150px;
+}
+.title-bar {
+	zoom:1;
+}
+.title-bar-extras label {
+	float:none;
+	display:inline;
+	padding-right:10px;
+}
+.issue-dropdown li.hover {
+	background-color:#fff;
+}
+.issue-dropdown li.hover ul {
+	display:block;
+	left:112px;
+}
+body .file-thumbs a {
+	width:150px;
+}
+#history .journal {
+	zoom:1;
+}
+body #history .wiki {
+	overflow:hidden;
+	zoom:1;
+}
+#main-menu li li {
+	height:30px;
+}
+#main-menu li li li {
+	height:auto;
+}
+a.has-thumb.active {
+	background:none;
+}
+.title-bar-extras ul {
+	background-image:none;
+	border-top:1px solid #154E5D;
+}

@@ -70,7 +70,7 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
 
     unless User.current.admin?
-      if !@user.active? || (@user != User.current  && @memberships.empty? && events.empty?)
+      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
         render_404
         return
       end
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
   def update
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
-    @user.safe_attributes = params[:user]
+    @user.safe_attributes = params[:user].except(:login) # :login is protected
     if params[:user][:password].present? && @user.change_password_allowed?
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end

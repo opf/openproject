@@ -97,13 +97,13 @@ class Setting < ActiveRecord::Base
 
   # Returns the value of the setting named name
   def self.[](name)
-    Marshal.load(Rails.cache.fetch("chiliproject/setting/#{name}") {Marshal.dump(find_or_default(name).value)})
+    Marshal.load(Rails.cache.fetch(self.cache_key(name)) {Marshal.dump(find_or_default(name).value)})
   end
 
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
-    Rails.cache.delete "chiliproject/setting/#{name}"
+    Rails.cache.delete self.cache_key(name)
     setting.save
     setting.value
   end
@@ -127,7 +127,21 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
-
+  
+  # this should be fixed with globalize plugin
+  [:emails_header, :emails_footer].each do |mail|
+    src = <<-END_SRC
+    def self.localized_#{mail}
+      I18n.fallbacks[I18n.locale].each do |lang|
+        text = self[:#{mail}][lang.to_s]
+        return text unless text.blank?
+      end
+      ''
+    end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+  
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
@@ -137,23 +151,19 @@ class Setting < ActiveRecord::Base
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
 
-  # Checks if settings have changed since the values were read
-  # and clears the cache hash if it's the case
-  # Called once per request
+  # Deprecation Warning: This method is no longer available. There is no
+  # replacement.
   def self.check_cache
-    settings_updated_on = Setting.maximum(:updated_on)
-    cache_cleared_on = Rails.cache.read('chiliproject/setting-cleared_on')
-    cache_cleared_on = cache_cleared_on ? Marshal.load(cache_cleared_on) : Time.now
-    if settings_updated_on && cache_cleared_on <= settings_updated_on
-      clear_cache
-    end
+    ActiveSupport::Deprecation.warn "The Setting.check_cache method is " +
+      "deprecated and will be removed in the future. There should be no " +
+      "replacement for this functionality needed."
   end
 
   # Clears all of the Setting caches
   def self.clear_cache
-    Rails.cache.delete_matched( /^chiliproject\/setting\/.+$/ )
-    Rails.cache.write('chiliproject/setting-cleared_on', Marshal.dump(Time.now))
-    logger.info 'Settings cache cleared.' if logger
+    ActiveSupport::Deprecation.warn "The Setting.clear_cache method is " +
+      "deprecated and will be removed in the future. There should be no " +
+      "replacement for this functionality needed."
   end
 
 private
@@ -162,7 +172,13 @@ private
   def self.find_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
-    setting = find_by_name(name)
-    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
+    find_by_name(name) or new do |s|
+      s.name  = name
+      s.value = @@available_settings[name]['default']
+    end if @@available_settings.has_key? name
+  end
+
+  def self.cache_key(name)
+    "chiliproject/setting/#{Setting.maximum(:updated_on).to_i}/#{name}"
   end
 end

@@ -19,6 +19,7 @@ class ChangesetTest < ActiveSupport::TestCase
            :custom_fields, :custom_values, :users, :members, :member_roles, :trackers
 
   def setup
+    super
   end
 
   def test_ref_keywords_any
@@ -37,7 +38,7 @@ class ChangesetTest < ActiveSupport::TestCase
     fixed = Issue.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_ref_keywords

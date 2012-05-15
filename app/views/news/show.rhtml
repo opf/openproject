@@ -1,10 +1,10 @@
 <div class="contextual">
-<%= watcher_link(@news, User.current) %>
 <%= link_to(l(:button_edit),
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
       :onclick => 'Element.show("edit-news"); return false;') if User.current.allowed_to?(:manage_news, @project) %>
+<%= watcher_link(@news, User.current) %>
 <%= link_to(l(:button_delete),
       news_path(@news),
       :confirm => l(:text_are_you_sure),
@@ -45,7 +45,10 @@
     <% next if comment.new_record? %>
     <div class="contextual">
     <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
-                                                       :confirm => l(:text_are_you_sure), :method => :delete, :title => l(:button_delete) %>
+                                                       :confirm => l(:text_are_you_sure),
+                                                       :method  => :delete,
+                                                       :title   => l(:button_delete),
+                                                       :alt     => l(:button_delete) %>
     </div>
     <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
     <%= textilizable(comment.comments) %>
@@ -56,6 +59,7 @@
 <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">
+    <%= label_tag 'comment_comments', l(:field_notes), :class => 'hidden-for-sighted' %>
     <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
     <%= wikitoolbar_for 'comment_comments' %>
 </div>

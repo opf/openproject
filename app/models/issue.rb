@@ -43,7 +43,8 @@ class Issue < ActiveRecord::Base
                                                 else
                                                   t << (IssueStatus.find_by_id(o.new_value_for(:status_id)).try(:is_closed?) ? '-closed' : '-edit')
                                                 end
-                                                t }
+                                                t },
+                      :except => ["root_id"]
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:named_association, 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
@@ -59,6 +60,8 @@ class Issue < ActiveRecord::Base
                      :order_column => "#{table_name}.id"
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
+
+  attr_protected :project_id, :author_id
 
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 
@@ -118,7 +121,9 @@ class Issue < ActiveRecord::Base
 
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
-    self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
+    # attributes don't come from form, so it's save to force assign
+    self.force_attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on")
+    self.parent_issue_id = issue.parent_id if issue.parent_id
     self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
     self.status = issue.status
     self
@@ -151,15 +156,13 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
       end
       issue.project = new_project
-      if issue.parent && issue.parent.project_id != issue.project_id
-        issue.parent_issue_id = nil
-      end
     end
     if new_tracker
       issue.tracker = new_tracker
       issue.reset_custom_values!
     end
     if options[:copy]
+      issue.author = User.current
       issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       issue.status = if options[:attributes] && options[:attributes][:status_id]
                        IssueStatus.find_by_id(options[:attributes][:status_id])
@@ -337,9 +340,7 @@ class Issue < ActiveRecord::Base
 
     # Checks parent issue assignment
     if @parent_issue
-      if @parent_issue.project_id != project_id
-        errors.add :parent_issue_id, :not_same_project
-      elsif !new_record?
+      if !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
           # we can always move to another tree
@@ -591,7 +592,18 @@ class Issue < ActiveRecord::Base
           end
         rescue ActiveRecord::StaleObjectError
           attachments[:files].each(&:destroy)
-          errors.add_to_base l(:notice_locking_conflict)
+          error_message = l(:notice_locking_conflict)
+
+          journals_since = self.journals.after(lock_version)
+
+          if journals_since.any?
+            changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+            error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+          end
+
+          error_message << " " << l(:notice_locking_conflict_reload_page)
+
+          errors.add_to_base error_message
           raise ActiveRecord::Rollback
         end
       end
@@ -615,9 +627,11 @@ class Issue < ActiveRecord::Base
   def parent_issue_id=(arg)
     parent_issue_id = arg.blank? ? nil : arg.to_i
     if parent_issue_id && @parent_issue = Issue.find_by_id(parent_issue_id)
+      journal_changes["parent_id"] = [self.parent_id, @parent_issue.id]
       @parent_issue.id
     else
       @parent_issue = nil
+      journal_changes["parent_id"] = [self.parent_id, nil]
       nil
     end
   end

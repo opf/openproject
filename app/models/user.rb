@@ -51,6 +51,7 @@ class User < Principal
 
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
+  named_scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
 
   acts_as_customizable
 
@@ -115,6 +116,26 @@ class User < Principal
     self.read_attribute(:identity_url)
   end
 
+  def self.register_allowance_evaluator(filter)
+    self.registered_allowance_evaluators ||= []
+
+    registered_allowance_evaluators << filter
+  end
+
+  # replace by class_attribute when on rails 3.x
+  class_eval do
+    def self.registered_allowance_evaluators() nil end
+    def self.registered_allowance_evaluators=(val)
+      singleton_class.class_eval do
+        define_method(:registered_allowance_evaluators) do
+          val
+        end
+      end
+    end
+  end
+
+  register_allowance_evaluator ChiliProject::PrincipalAllowanceEvaluator::Default
+
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
@@ -134,7 +155,9 @@ class User < Principal
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
       if attrs
-        user = new(attrs)
+        # login is both safe and protected in chilis core code
+        # in case it's intentional we keep it that way
+        user = new(attrs.except(:login))
         user.login = login
         user.language = Setting.default_language
         if user.save
@@ -249,6 +272,19 @@ class User < Principal
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
+  def impaired=(value)
+    self.pref.update_attribute(:impaired, !!value)
+    !!value
+  end
+
+  def impaired
+    anonymous? || !!self.pref.impaired
+  end
+
+  def impaired?
+    impaired
+  end
+
   def wants_comments_in_reverse_order?
     self.pref[:comments_sorting] == 'desc'
   end
@@ -316,6 +352,10 @@ class User < Principal
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
+  end
+
+  def self.find_all_by_mails(mails)
+    find(:all, :conditions => ['LOWER(mail) IN (?)', mails])
   end
 
   def to_s
@@ -392,41 +432,59 @@ class User < Principal
   # * nil with options[:global] set : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
   def allowed_to?(action, context, options={})
-    if context && context.is_a?(Project)
-      # No action allowed on archived projects
-      return false unless context.active?
-      # No action allowed on disabled modules
-      return false unless context.allows_to?(action)
-      # Admin users are authorized for anything else
-      return true if admin?
-
-      roles = roles_for_project(context)
-      return false unless roles
-      roles.detect {|role| (context.is_public? || role.member?) && role.allowed_to?(action)}
-
-    elsif context && context.is_a?(Array)
+    if context.is_a?(Project)
+      allowed_to_in_project?(action, context, options)
+    elsif context.is_a?(Array)
       # Authorize if user is authorized on every element of the array
-      context.map do |project|
+      context.present? && context.all? do |project|
         allowed_to?(action,project,options)
-      end.inject do |memo,allowed|
-        memo && allowed
       end
     elsif options[:global]
-      # Admin users are always authorized
-      return true if admin?
-
-      # authorize if user has at least one role that has this permission
-      roles = memberships.collect {|m| m.roles}.flatten.uniq
-      roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
+      allowed_to_globally?(action, options)
     else
       false
     end
   end
 
+  def allowed_to_in_project?(action, project, options = {})
+    initialize_allowance_evaluators
+
+    # No action allowed on archived projects
+    return false unless project.active?
+    # No action allowed on disabled modules
+    return false unless project.allows_to?(action)
+    # Admin users are authorized for anything else
+    return true if admin?
+
+    candidates_for_project_allowance(project).any? do |candidate|
+      denied = @registered_allowance_evaluators.any? do |filter|
+        filter.denied_for_project? candidate, action, project, options
+      end
+
+      !denied && @registered_allowance_evaluators.any? do |filter|
+        filter.granted_for_project? candidate, action, project, options
+      end
+    end
+  end
+
   # Is the user allowed to do the specified action on any project?
   # See allowed_to? for the actions and valid options.
-  def allowed_to_globally?(action, options)
-    allowed_to?(action, nil, options.reverse_merge(:global => true))
+  def allowed_to_globally?(action, options = {})
+   initialize_allowance_evaluators
+
+   # Admin users are always authorized
+    return true if admin?
+
+    # authorize if user has at least one membership granting this permission
+    candidates_for_global_allowance.any? do |candidate|
+      denied = @registered_allowance_evaluators.any? do |evaluator|
+        evaluator.denied_for_global? candidate, action, options
+      end
+
+      !denied && @registered_allowance_evaluators.any? do |evaluator|
+        evaluator.granted_for_global? candidate, action, options
+      end
+    end
   end
 
   safe_attributes 'login',
@@ -499,7 +557,13 @@ class User < Principal
   def self.anonymous
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?
-      anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
+      (anonymous_user = AnonymousUser.new.tap do |u|
+        u.lastname = 'Anonymous'
+        u.login = ''
+        u.firstname = ''
+        u.mail = ''
+        u.status = 0
+      end).save
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
     anonymous_user
@@ -540,6 +604,19 @@ class User < Principal
     ActiveSupport::SecureRandom.hex(16)
   end
 
+  def initialize_allowance_evaluators
+    @registered_allowance_evaluators ||= self.class.registered_allowance_evaluators.collect do |evaluator|
+      evaluator.new(self)
+    end
+  end
+
+  def candidates_for_global_allowance
+    @registered_allowance_evaluators.map(&:global_granting_candidates).flatten.uniq
+  end
+
+  def candidates_for_project_allowance project
+    @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
+  end
 end
 
 class AnonymousUser < User

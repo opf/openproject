@@ -141,17 +141,18 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
   end
 
   def test_call_hook_should_not_change_the_default_url_for_email_notifications
+    user = User.find(1)
     issue = Issue.find(1)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue)
+    Mailer.deliver_issue_add(issue, user)
     mail = ActionMailer::Base.deliveries.last
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue)
+    Mailer.deliver_issue_add(issue, user)
     mail2 = ActionMailer::Base.deliveries.last
 
     assert_equal mail.body, mail2.body

@@ -8,6 +8,7 @@
     <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
 <% end %>
 
+<p><%= f.text_area :summary, :rows => 2, :class => 'wiki-edit' %></p>
 <p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
 <p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen? %>
 <% unless @project.identifier_frozen? %>

@@ -15,6 +15,8 @@
 class MyController < ApplicationController
   before_filter :require_login
 
+  menu_item :account, :only => [:account]
+  menu_item :password, :only => [:password]
 
   BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
              'issuesreportedbyme' => :label_reported_issues,
@@ -80,6 +82,20 @@ class MyController < ApplicationController
       else
         flash[:error] = l(:notice_account_wrong_password)
       end
+    end
+  end
+
+  def first_login
+    if request.get?
+      @user = User.current
+      @back_url = url_for(params[:back_url])
+
+    elsif request.post? || request.put?
+      User.current.pref.attributes = params[:pref]
+      User.current.pref.save
+
+      flash[:notice] = l(:notice_account_updated)
+      redirect_back_or_default(:controller => 'my', :action => 'page')
     end
   end
 
@@ -167,5 +183,9 @@ class MyController < ApplicationController
       end
     end
     render :nothing => true
+  end
+
+  def default_breadcrumb
+    l(:label_my_account)
   end
 end

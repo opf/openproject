@@ -1,0 +1,7 @@
+/* This file is used to define colors for ChiliProject. They are kept   */
+/* separate in order to make it easy for someone to create a new theme. */
+/*                                                                      */
+/* Some default colors are defined in application.css, mostly grays and */
+/* logical ones (e.g. errors are red).                                  */
+
+@import url(../../../stylesheets/application.css);

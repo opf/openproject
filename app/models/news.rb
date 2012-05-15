@@ -13,9 +13,12 @@
 #++
 
 class News < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
+
+  attr_protected :project_id, :author_id
 
   validates_presence_of :title, :description
   validates_length_of :title, :maximum => 60
@@ -31,6 +34,8 @@ class News < ActiveRecord::Base
     :include => :project,
     :conditions => Project.allowed_to_condition(args.first || User.current, :view_news)
   }}
+
+  safe_attributes 'title', 'summary', 'description'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)

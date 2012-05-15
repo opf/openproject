@@ -14,6 +14,11 @@
 
 class NewsObserver < ActiveRecord::Observer
   def after_create(news)
-    Mailer.deliver_news_added(news) if Setting.notified_events.include?('news_added')
+    if Setting.notified_events.include?('news_added')
+      users = User.find_all_by_mails(news.recipients)
+      users.each do |user|
+        Mailer.deliver_news_added(news, user)
+      end
+    end
   end
 end

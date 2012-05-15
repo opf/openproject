@@ -39,6 +39,8 @@ else
   FCSV = CSV
 end
 
+require 'globalize'
+
 Redmine::Scm::Base.add "Subversion"
 Redmine::Scm::Base.add "Darcs"
 Redmine::Scm::Base.add "Mercurial"
@@ -74,13 +76,14 @@ Redmine::AccessControl.map do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :issue_categories => [:new, :edit, :destroy]}, :require => :member
     # Issues
-    map.permission :view_issues, {:issues => [:index, :show],
+    map.permission :view_issues, {:issues => [:index, :all, :show],
                                   :auto_complete => [:issues],
                                   :context_menus => [:issues],
                                   :versions => [:index, :show, :status_by],
                                   :journals => [:index, :diff],
                                   :queries => :index,
                                   :reports => [:issue_report, :issue_report_details]}
+    map.permission :export_issues, {:issues => [:index, :all]}
     map.permission :add_issues, {:issues => [:new, :create, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :update, :bulk_edit, :bulk_update, :update_form], :journals => [:new]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
@@ -164,20 +167,23 @@ end
 Redmine::MenuManager.map :top_menu do |menu|
   menu.push :home, :home_path
   menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, Redmine::Info.help_url, :last => true
+  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_project_plural # menu-item projects will be overwritten by base.rhtml
+  menu.push :administration, { :controller => 'admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :help, Redmine::Info.help_url, :last => true, :caption => "?", :html => { :accesskey => Redmine::AccessKeys.key_for(:help) }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|
   # Empty
+end
+
+Redmine::MenuManager.map :my_menu do |menu|
+  menu.push :account, {:controller => 'my', :action => 'account'}, :caption => :label_my_account
+  menu.push :password, {:controller => 'my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
@@ -204,21 +210,28 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity, { :controller => 'activities', :action => 'index' }
   menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
               :if => Proc.new { |p| p.shared_versions.any? }
+
   menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
+  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new, :parent => :issues,
               :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
+  menu.push :view_all_issues, { :controller => 'issues', :action => 'all' }, :param => :project_id, :caption => :label_issue_view_all, :parent => :issues
+  menu.push :summary_field, {:controller => 'reports', :action => 'issue_report'}, :param => :id, :caption => :field_summary, :parent => :issues
   menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :param => :project_id, :caption => :label_gantt
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
+  menu.push :new_news, { :controller => 'news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
+              :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'show', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
+  menu.push :wiki_index_by_title, {:action => 'index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_title, :parent => :wiki, :last => true
+  menu.push :wiki_index_by_date, {:action => 'date_index', :controller => 'wiki'}, :param => :project_id, :caption => :label_index_by_date, :parent => :wiki, :last => true
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => 'repositories', :action => 'show' },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
+  menu.push :settings, { :controller => 'projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
 end
 
 Redmine::Activity.map do |activity|

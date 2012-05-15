@@ -34,7 +34,8 @@ module CustomFieldsHelper
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
 
     field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
-    case field_format.try(:edit_as)
+
+    tag = case field_format.try(:edit_as)
     when "date"
       text_field_tag(field_name, custom_value.value, :id => field_id, :size => 10) +
       calendar_for(field_id)
@@ -50,6 +51,10 @@ module CustomFieldsHelper
     else
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
+
+    custom_value.errors.empty? ?
+      tag :
+      ActionView::Base.wrap_with_error_span(tag, custom_value, "value")
   end
 
   # Return custom field label tag
@@ -58,6 +63,12 @@ module CustomFieldsHelper
 	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
 	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
 	:class => (custom_value.errors.empty? ? nil : "error" )
+  end
+
+  def blank_custom_field_label_tag(name, custom_field)
+    content_tag "label", h(custom_field.name) +
+    (custom_field.is_required? ? content_tag("span", "*", :class => "required") : ""),
+    :for => "#{name}_custom_field_values_#{custom_field.id}"
   end
 
   # Return custom field tag with its label tag

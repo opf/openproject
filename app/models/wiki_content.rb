@@ -21,6 +21,8 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
   attr_accessor :comments
+  
+  #attr_protected :author_id
 
   before_save :comments_to_journal_notes
 

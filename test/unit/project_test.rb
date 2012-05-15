@@ -422,6 +422,23 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
+  context "description" do
+    setup do
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
+    end
+
+    def test_short_description_returns_shortened_description
+      @project.summary = ""
+      assert_equal (("Abcd " * 5 + "\n") * 10)[0..-2] + "...", @project.short_description
+    end
+
+    def test_short_description_returns_summary
+      @project.summary = "In short"
+      assert_equal "In short", @project.short_description
+    end
+  end
+
   context "#rolled_up_versions" do
     setup do
       @project = Project.generate!
@@ -708,7 +725,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
-
+  
+  def test_export_issues_is_allowed
+    project = Project.find(1)
+    assert project.allows_to?(:export_issues)
+  end
+  
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
@@ -815,7 +837,7 @@ class ProjectTest < ActiveSupport::TestCase
       user = User.find(7)
       group.users << user
       # group role
-      Member.create!(:project_id => @source_project.id, :principal => group, :role_ids => [2])
+      (Member.new.force_attributes = {:project_id => @source_project.id, :principal => group, :role_ids => [2]}).save
       member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
       # additional role
       member.role_ids = [1]

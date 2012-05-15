@@ -32,6 +32,8 @@ class Journal < ActiveRecord::Base
   belongs_to :journaled, :class_name => 'Journal'
   belongs_to :user
 
+  #attr_protected :user_id
+  
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation
 
@@ -41,6 +43,10 @@ class Journal < ActiveRecord::Base
   # an underlying +changed_attributes+ method, not +changes+ itself.
   # undef_method :changes
   serialize :changes, Hash
+
+  # Scopes to all journals excluding the initial journal - useful for change
+  # logs like the history on issue#show
+  named_scope "changing", :conditions => ["version > 1"]
 
   def touch_journaled_after_creation
     journaled.touch

@@ -63,4 +63,30 @@ class MenuManagerTest < ActionController::IntegrationTest
       end
     end
   end
+
+  def test_dynamic_menu
+    list = []
+    Redmine::MenuManager.map :some_menu do |menu|
+      list.each do |item|
+        menu.push item[:name], item[:url], item[:options]
+      end
+    end
+
+    base_size = Redmine::MenuManager.items(:some_menu).size
+    list.push({ :name => :foo, :url => {:controller => 'projects', :action => 'show'}, :options => {:caption => 'Foo'}})
+    assert_equal base_size + 1, Redmine::MenuManager.items(:some_menu).size
+    list.push({ :name => :bar, :url => {:controller => 'projects', :action => 'show'}, :options => {:caption => 'Bar'}})
+    assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
+    list.push({ :name => :hello, :url => {:controller => 'projects', :action => 'show'}, :options => {:caption => 'Hello'}})
+    assert_equal base_size + 3, Redmine::MenuManager.items(:some_menu).size
+    list.pop
+    assert_equal base_size + 2, Redmine::MenuManager.items(:some_menu).size
+  end
+
+  def test_dynamic_menu_map_deferred
+    assert_no_difference 'Redmine::MenuManager.items(:some_menu).size' do
+      Redmine::MenuManager.map(:some_other_menu).push :baz, {:controller => 'projects', :action => 'show'}, :caption => 'Baz'
+      Redmine::MenuManager.map(:some_other_menu).delete :baz
+    end
+  end
 end

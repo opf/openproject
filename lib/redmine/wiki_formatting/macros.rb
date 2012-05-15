@@ -16,9 +16,15 @@ module Redmine
   module WikiFormatting
     module Macros
       module Definitions
-        def exec_macro(name, obj, args)
+        def exec_macro(name, obj, args, options={})
           method_name = "macro_#{name}"
-          send(method_name, obj, args) if respond_to?(method_name)
+          if respond_to?(method_name)
+            if method(method_name).arity == 2
+              send(method_name, obj, args)
+            else
+              send(method_name, obj, args, options)
+            end
+          end
         end
 
         def extract_macro_options(args, *keys)

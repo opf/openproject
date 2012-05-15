@@ -27,6 +27,10 @@ class ApplicationHelperTest < ActionView::TestCase
     super
   end
 
+  def request
+    @request ||= ActionController::TestRequest.new
+  end
+
   context "#link_to_if_authorized" do
     context "authorized user" do
       should "be tested"
@@ -142,6 +146,34 @@ RAW
       '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+  end
+
+  def test_textile_relative_to_full_links_in_a_controller
+    # we have a request here
+    {
+      # shouldn't change non-relative links
+      'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+    }.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :only_path => false) }
+  end
+
+  def test_textile_relative_to_full_links_in_the_mailer
+    # we don't a request here
+    undef request
+    # mimic the mailer default_url_options
+    @controller.class.class_eval {
+      def self.default_url_options
+        ::Mailer.default_url_options
+      end
+    }
+
+    {
+      # shouldn't change non-relative links
+      'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://localhost:3000/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+    }.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :only_path => false) }
   end
 
   def test_redmine_links

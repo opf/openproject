@@ -58,6 +58,125 @@ end
 
 module ActionView
   module Helpers
+    module AccessibleErrors
+
+      def self.included(base)
+        base.send(:include, InstanceMethods)
+        base.extend(ClassMethods)
+      end
+
+      module ClassMethods
+        def wrap_with_error_span(html_tag, object, method)
+          object_identifier = erroneous_object_identifier(object.object_id.to_s, method)
+
+          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+        end
+
+        def erroneous_object_identifier(id, method)
+          # select boxes use name_id whereas the validation uses name
+          # we have to cut the '_id' of in order for the field to match
+          id + "_" + method.gsub("_id", "") + "_error"
+        end
+      end
+
+      module InstanceMethods
+
+        def error_message_list(objects)
+          objects.collect do |object|
+            error_messages = []
+
+            object.errors.each_error do |attr, error|
+              unless attr == "custom_values"
+                # Generating unique identifier in order to jump directly to the field with the error
+                object_identifier = erroneous_object_identifier(object.object_id.to_s, attr)
+
+                error_messages << [object.class.human_attribute_name(attr) + " " + error.message, object_identifier]
+              end
+            end
+
+            # excluding custom_values from the errors.each loop before
+            # as more than one error can be assigned to custom_values
+            # which would add to many error messages
+            if object.errors.on(:custom_values)
+              object.custom_values.each do |value|
+                value.errors.collect do |attr, msg|
+                  # Generating unique identifier in order to jump directly to the field with the error
+                  object_identifier = erroneous_object_identifier(value.object_id.to_s, attr)
+                  error_messages << [value.custom_field.name + " " + msg, object_identifier]
+                end
+              end
+            end
+
+            error_message_list_elements(error_messages)
+          end
+        end
+
+        private
+
+        def erroneous_object_identifier(id, method)
+          self.class.erroneous_object_identifier(id, method)
+        end
+
+        def error_message_list_elements(array)
+          array.collect do |msg, identifier|
+            content_tag :li do
+              content_tag :a,
+                          ERB::Util.html_escape(msg),
+                          :href => "#" + identifier,
+                          :class => "afocus"
+            end
+          end
+        end
+      end
+    end
+
+
+    module ActiveRecordHelper
+      def error_messages_for(*params)
+        options = params.extract_options!.symbolize_keys
+
+        if object = options.delete(:object)
+          objects = Array.wrap(object)
+        else
+          objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
+        end
+
+        count  = objects.inject(0) {|sum, object| sum + object.errors.count }
+        unless count.zero?
+          html = {}
+          [:id, :class].each do |key|
+            if options.include?(key)
+              value = options[key]
+              html[key] = value unless value.blank?
+            else
+              html[key] = 'errorExplanation'
+            end
+          end
+          options[:object_name] ||= params.first
+
+          I18n.with_options :locale => options[:locale], :scope => [:activerecord, :errors, :template] do |locale|
+            header_message = if options.include?(:header_message)
+              options[:header_message]
+            else
+              object_name = options[:object_name].to_s
+              object_name = I18n.t(object_name, :default => object_name.gsub('_', ' '), :scope => [:activerecord, :models], :count => 1)
+              locale.t :header, :count => count, :model => object_name
+            end
+            message = options.include?(:message) ? options[:message] : locale.t(:body)
+
+            contents = ''
+            contents << content_tag(options[:header_tag] || :h2, header_message) unless header_message.blank?
+            contents << content_tag(:p, message) unless message.blank?
+            contents << content_tag(:ul, error_message_list(objects))
+
+            content_tag(:div, contents.html_safe, html)
+          end
+        else
+          ''
+        end
+      end
+    end
+
     module DateHelper
       # distance_of_time_in_words breaks when difference is greater than 30 years
       def distance_of_date_in_words(from_date, to_date = 0, options = {})
@@ -77,7 +196,28 @@ module ActionView
   end
 end
 
-ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| "#{html_tag}" }
+ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors
+
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  if html_tag.include?("<label")
+    html_tag.to_s
+  else
+    ActionView::Base.wrap_with_error_span(html_tag, instance.object, instance.method_name)
+  end
+end
+
+class ActiveRecord::Errors
+  def on_with_id_handling(attribute)
+    attribute = attribute.to_s
+    if attribute.ends_with? '_id'
+      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+    else
+      on_without_id_handling(attribute)
+    end
+  end
+
+  alias_method_chain :on, :id_handling
+end
 
 # Adds :async_smtp and :async_sendmail delivery methods
 # to perform email deliveries asynchronously

@@ -41,4 +41,8 @@ class User < Principal
     @last_lastname.succ!
     @last_lastname
   end
+
+  def self.first_login
+    false
+  end
 end

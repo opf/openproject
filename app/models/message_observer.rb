@@ -14,6 +14,14 @@
 
 class MessageObserver < ActiveRecord::Observer
   def after_create(message)
-    Mailer.deliver_message_posted(message) if Setting.notified_events.include?('message_posted')
+    if Setting.notified_events.include?('message_posted')
+      recipients = message.recipients
+      recipients += message.root.watcher_recipients
+      recipients += message.board.watcher_recipients
+      users = User.find_all_by_mails(recipients.uniq)
+      users.each do |user|
+        Mailer.deliver_message_posted(message, user)
+      end
+    end
   end
 end

@@ -32,6 +32,10 @@ module Redmine
       end
 
       module ClassMethods
+        attr_writer :journal_class_name
+        def journal_class_name
+          defined?(@journal_class_name) ? @journal_class_name : superclass.journal_class_name
+        end
 
         def plural_name
           self.name.underscore.pluralize
@@ -55,6 +59,8 @@ module Redmine
         def acts_as_journalized(options = {}, &block)
           activity_hash, event_hash, journal_hash = split_option_hashes(options)
 
+          self.journal_class_name = journal_hash.delete(:class_name) || "#{name.gsub("::", "_")}Journal"
+
           acts_as_activity(activity_hash)
 
           return if journaled?
@@ -77,15 +83,28 @@ module Redmine
 
           (journal_hash[:except] ||= []) << self.primary_key << inheritance_column <<
             :updated_on << :updated_at << :lock_version << :lft << :rgt
+
           prepare_journaled_options(journal_hash)
-          has_many :journals, journal_hash.merge({:class_name => journal_class.name,
-            :foreign_key => "journaled_id"}), &block
+
+          has_many :journals, journal_hash, &block
         end
 
         def journal_class
-          journal_class_name = "#{name.gsub("::", "_")}Journal"
           if Object.const_defined?(journal_class_name)
-            Object.const_get(journal_class_name)
+            jclass = Object.const_get(journal_class_name)
+            if jclass.superclass == Journal
+              jclass
+            else
+              # We are running into some nasty reloaded things in here. Journal
+              # is a reloaded version, jclass.superclass is an older version
+              # from a previous request.
+              #
+              # So we are just removing the const and triggering ourselves
+              # recursively to create a new up-to-date version of the
+              # journal_class with working superclass pointers.
+              Object.send :remove_const, journal_class_name
+              journal_class
+            end
           else
             Object.const_set(journal_class_name, Class.new(Journal)).tap do |c|
               # Run after the inherited hook to associate with the parent record.

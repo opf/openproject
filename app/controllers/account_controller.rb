@@ -20,9 +20,9 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if request.get?
-      logout_user
-    else
+    if User.current.logged?
+      redirect_to home_url
+    elsif request.post?
       authenticate_user
     end
   end
@@ -92,7 +92,7 @@ class AccountController < ApplicationController
         end
       else
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
 
         case Setting.self_registration
         when '1'
@@ -143,7 +143,12 @@ class AccountController < ApplicationController
     user = User.try_to_login(params[:username], params[:password])
 
     if user.nil?
-      invalid_credentials
+      u = User.find_by_login(params[:username])
+      if u && !u.active? && u.check_password?(params[:password])
+        inactive_account
+      else
+        invalid_credentials
+      end
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     else
@@ -202,7 +207,15 @@ class AccountController < ApplicationController
       set_autologin_cookie(user)
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
-    redirect_back_or_default :controller => 'my', :action => 'page'
+
+    if user.first_login
+      user.update_attribute(:first_login, false)
+
+      redirect_to :controller => "my", :action => "first_login", :back_url => params[:back_url]
+    else
+
+      redirect_back_or_default :controller => 'my', :action => 'page'
+    end
   end
 
   def set_autologin_cookie(user)
@@ -227,6 +240,11 @@ class AccountController < ApplicationController
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
     flash.now[:error] = l(:notice_account_invalid_creditentials)
+  end
+
+  def inactive_account
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc} (INACTIVE)"
+    flash.now[:error] = l(:notice_account_inactive)
   end
 
   # Register a user for email activation.

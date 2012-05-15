@@ -33,10 +33,11 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n"))
+    links.empty? ? nil : content_tag('ul', links.join("\n"), :class => "menu_root")
   end
 
   def render_menu_node(node, project=nil)
+    return "" if project and not allowed_node?(node, User.current, project)
     if node.hasChildren? || !node.child_menus.nil?
       return render_menu_node_with_children(node, project)
     else
@@ -90,7 +91,8 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_single_menu_node(item, caption, url, selected)
-    link_to(h(caption), url, item.html_options(:selected => selected))
+    position_span = selected ? "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>" : ""
+    link_to(position_span + h(caption), url, item.html_options(:selected => selected).merge({:title => h(caption)}))
   end
 
   def render_unattached_menu_item(menu_item, project)

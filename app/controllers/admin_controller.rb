@@ -19,11 +19,17 @@ class AdminController < ApplicationController
 
   include SortHelper
 
+  menu_item :projects, :only => [:projects]
+  menu_item :plugins, :only => [:plugins]
+  menu_item :info, :only => [:info]
+
   def index
-    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+    redirect_to :action => 'projects'
   end
 
   def projects
+    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -70,6 +76,16 @@ class AdminController < ApplicationController
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
 
+  def force_user_language
+    available_languages = Setting.find_by_name("available_languages").value
+    User.find(:all, :conditions => ["language not in (?)", available_languages]).each do |u|
+      u.language = Setting.default_language
+      u.save
+    end
+
+    redirect_to :back
+  end
+
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
@@ -78,5 +94,16 @@ class AdminController < ApplicationController
       [:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
+  end
+
+  def default_breadcrumb
+    case params[:action]
+    when 'projects'
+      l(:label_project_plural)
+    when 'plugins'
+      l(:label_plugins)
+    when 'info'
+      l(:label_information)
+    end
   end
 end

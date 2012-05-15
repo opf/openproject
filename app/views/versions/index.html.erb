@@ -5,14 +5,17 @@
 <% else %>
 <div id="roadmap">
 <% @versions.each do |version| %>
-    <h3 class="version"><%= tag 'a', :name => h(version.name) %><%= link_to_version version %></h3>
+    <h3 class="version">
+      <%= image_tag "package.png", :title => l(:label_version), :alt => l(:label_version) %>
+      <%= link_to_version version, :name => h(version.name) %>
+    </h3>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
 
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
+    <strong class="related-issues-heading"><%= l(:label_related_issues) %></strong>
     <% form_tag({}) do -%>
     <table class="list related-issues">
-    <caption><%= l(:label_related_issues) %></caption>
     <%- issues.each do |issue| -%>
       <tr class="hascontextmenu">
         <td class="checkbox"><%= check_box_tag 'ids[]', issue.id %></td>
@@ -29,7 +32,7 @@
 
 <% content_for :sidebar do %>
 <% form_tag({}, :method => :get) do %>
-<h3><%= l(:label_roadmap) %></h3>
+<h3><%= l(:description_filter) %></h3>
 <% @trackers.each do |tracker| %>
   <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s), :id => nil %>
   <%=h tracker.name %></label><br />
@@ -47,6 +50,7 @@
 <% @versions.each do |version| %>
 <%= link_to format_version_name(version), "##{version.name}" %><br />
 <% end %>
+
 <% end %>
 
 <% html_title(l(:label_roadmap)) %>

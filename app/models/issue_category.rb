@@ -13,13 +13,25 @@
 #++
 
 class IssueCategory < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   has_many :issues, :foreign_key => 'category_id', :dependent => :nullify
 
+  attr_protected :project_id
+
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:project_id]
   validates_length_of :name, :maximum => 30
+
+  # validates that assignee is member of the issue category's project
+  validates_each :assigned_to_id do |record, attr, value|
+    if value # allow nil
+      record.errors.add(attr, l(:error_must_be_project_member)) unless record.project.user_ids.include?(value.to_i)
+    end
+  end
+
+  safe_attributes 'name', 'assigned_to_id'
 
   alias :destroy_without_reassign :destroy
 

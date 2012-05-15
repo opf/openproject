@@ -21,6 +21,7 @@ class AccountControllerTest < ActionController::TestCase
   fixtures :users, :roles
 
   def setup
+    super
     @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -47,6 +48,17 @@ class AccountControllerTest < ActionController::TestCase
                :content => /Invalid user or password/
   end
 
+  def test_login
+    get :login
+    assert_template 'login'
+  end
+
+  def test_login_with_logged_account
+    @request.session[:user_id] = 2
+    get :login
+    assert_redirected_to home_url
+  end
+
   if Object.const_defined?(:OpenID)
 
   def test_login_with_openid_for_existing_user
@@ -60,7 +72,7 @@ class AccountControllerTest < ActionController::TestCase
     assert existing_user.save!
 
     post :login, :openid_url => existing_user.identity_url
-    assert_redirected_to '/my/page'
+    assert_redirected_to '/my/first_login'
   end
 
   def test_login_with_invalid_openid_provider

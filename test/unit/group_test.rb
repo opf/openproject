@@ -26,7 +26,7 @@ class GroupTest < ActiveSupport::TestCase
     user = User.find(9)
     project = Project.first
 
-    Member.create!(:principal => group, :project => project, :role_ids => [1, 2])
+    (m = Member.new.force_attributes = {:principal => group, :project => project, :role_ids => [1, 2]}).save!
     group.users << user
     assert user.member_of?(project)
   end
@@ -37,7 +37,7 @@ class GroupTest < ActiveSupport::TestCase
     project = Project.first
 
     group.users << user
-    m = Member.create!(:principal => group, :project => project, :role_ids => [1, 2])
+    (m = Member.new.force_attributes = {:principal => group, :project => project, :role_ids => [1, 2]}).save!
     assert user.member_of?(project)
   end
 
@@ -46,7 +46,7 @@ class GroupTest < ActiveSupport::TestCase
     user = User.find(9)
     project = Project.first
     group.users << user
-    m = Member.create!(:principal => group, :project => project, :role_ids => [1])
+    (m = Member.new.force_attributes = {:principal => group, :project => project, :role_ids => [1]}).save!
     assert_equal [1], user.reload.roles_for_project(project).collect(&:id).sort
 
     m.role_ids = [1, 2]

@@ -134,8 +134,7 @@ class AccountTest < ActionController::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar"},
-                             :password => "newpass", :password_confirmation => "newpass"
+    post 'account/register', :user => {:login => "newuser", :language => "en", :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar", :password => "newpass", :password_confirmation => "newpass"}
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
@@ -181,7 +180,7 @@ class AccountTest < ActionController::IntegrationTest
     AuthSource.expects(:authenticate).returns({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
 
     post 'account/login', :username => 'foo', :password => 'bar'
-    assert_redirected_to '/my/page'
+    assert_redirected_to '/my/first_login'
 
     user = User.find_by_login('foo')
     assert user.is_a?(User)

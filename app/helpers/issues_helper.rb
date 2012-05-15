@@ -52,13 +52,14 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}"
   end
 
+  # TODO: deprecate and/or remove
   def render_issue_subject_with_tree(issue)
     s = ''
     ancestors = issue.root? ? [] : issue.ancestors.all
     ancestors.each do |ancestor|
-      s << '<div>' + content_tag('p', link_to_issue(ancestor))
+      s << '<div>' + content_tag('h2', link_to_issue(ancestor))
     end
-    s << '<div>' + content_tag('h3', h(issue.subject))
+    s << '<div class="subject">' + content_tag('h2', h(issue.subject))
     s << '</div>' * (ancestors.size + 1)
     s
   end
@@ -67,11 +68,14 @@ module IssuesHelper
     s = '<form><table class="list issues">'
     issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
       s << content_tag('tr',
-             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
+             content_tag('td',
+                         "<label>#{l(:description_select_issue) + " #" + child.id.to_s}" +
+                         check_box_tag('ids[]', child.id, false, :id => nil) + '</label>',
+                         :class => 'checkbox') +
              content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+             content_tag('td', progress_bar(child.done_ratio, :width => '80px', :legend => "#{child.done_ratio}%")),
              :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}")
     end
     s << '</form></table>'

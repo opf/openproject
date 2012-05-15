@@ -27,24 +27,25 @@ module JournalsHelper
 
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
-    journal_content = render_journal_details(journal, :label_updated_time_by)
-    journal_content += render_notes(model, journal, options) unless journal.notes.blank?
+    journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
     content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }
   end
 
-  # This renders a journal entry wiht a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by)
+  # This renders a journal entry with a header and details
+  def render_journal_details(journal, header_label = :label_updated_time_by, model=nil, options={})
     header = <<-HTML
+      <div class="profile-wrap">
+        #{avatar(journal.user, :size => "40")}
+      </div>
       <h4>
-        <div style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
-        #{avatar(journal.user, :size => "24")}
-        #{content_tag('a', '', :name => "note-#{journal.anchor}")}
+        <div class="journal-link" style="float:right;">#{link_to "##{journal.anchor}", :anchor => "note-#{journal.anchor}"}</div>
         #{authoring journal.created_at, journal.user, :label => header_label}
+        #{content_tag('a', '', :name => "note-#{journal.anchor}")}
       </h4>
     HTML
 
     if journal.details.any?
-      details = content_tag "ul", :class => "details" do
+      details = content_tag "ul", :class => "details journal-attributes" do
         journal.details.collect do |detail|
           if d = journal.render_detail(detail)
             content_tag("li", d)
@@ -53,7 +54,10 @@ module JournalsHelper
       end
     end
 
-    content_tag("div", "#{header}#{details}", :id => "change-#{journal.id}", :class => "journal")
+    notes = <<-HTML
+      #{render_notes(model, journal, options) unless journal.notes.blank?}
+    HTML
+    content_tag("div", "#{header}#{details}#{notes}", :id => "change-#{journal.id}", :class => "journal")
   end
 
   def render_notes(model, journal, options={})
@@ -71,11 +75,11 @@ module JournalsHelper
     unless journal.notes.blank?
       links = [].tap do |l|
         if reply_links
-          l << link_to_remote(image_tag('comment.png'), :title => l(:button_quote),
+          l << link_to_remote(image_tag('comment.png', :alt => l(:button_quote), :title => l(:button_quote)),
             :url => {:controller => controller, :action => action, :id => model, :journal_id => journal})
         end
         if editable
-          l << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes",
+          l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
                 { :controller => 'journals', :action => 'edit', :id => journal },
                   :title => l(:button_edit))
         end

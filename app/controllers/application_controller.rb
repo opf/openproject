@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :user_setup, :check_if_login_required, :set_localization
+  before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
   filter_parameter_logging :password
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
@@ -75,8 +75,6 @@ class ApplicationController < ActionController::Base
   end
 
   def user_setup
-    # Check the settings cache for each request
-    Setting.check_cache
     # Find the current user
     User.current = find_current_user
   end
@@ -124,6 +122,12 @@ class ApplicationController < ActionController::Base
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
+  end
+
+  def reset_i18n_fallbacks
+    return if I18n.fallbacks.defaults == (fallbacks = [I18n.default_locale] + Setting.available_languages.map(&:to_sym))
+    I18n.fallbacks = nil
+    I18n.fallbacks.defaults = fallbacks
   end
 
   def set_localization
@@ -307,6 +311,34 @@ class ApplicationController < ActionController::Base
   def render_404(options={})
     render_error({:message => :notice_file_not_found, :status => 404}.merge(options))
     return false
+  end
+
+  def render_500(options={})
+    message = t(:notice_internal_server_error, :app_title => Setting.app_title)
+
+    if $!.is_a?(ActionView::ActionViewError)
+      @template.instance_variable_set("@project", nil)
+      @template.instance_variable_set("@status", 500)
+      @template.instance_variable_set("@message", message)
+    else
+      @project = nil
+    end
+
+    render_error({:message => message}.merge(options))
+    return false
+  end
+
+  def render_optional_error_file(status_code)
+    user_setup unless User.current.id == session[:user_id]
+
+    case status_code
+    when :not_found
+      render_404
+    when :internal_server_error
+      render_500
+    else
+      super
+    end
   end
 
   # Renders an error response
@@ -504,4 +536,13 @@ class ApplicationController < ActionController::Base
   def pick_layout(*args)
     api_request? ? nil : super
   end
+
+  def default_breadcrumb
+    name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize + "_plural")
+    if name =~ /translation missing/i
+      name = l("label_" + self.class.name.gsub("Controller", "").underscore.singularize)
+    end
+    name
+  end
+  helper_method :default_breadcrumb
 end

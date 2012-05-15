@@ -42,6 +42,10 @@
 #                             share repositories through Redmine.pm, you need
 #                             to use the apache owner.
 #   -g, --group=GROUP         group of the repository. (default: root)
+#   --public-mode=MODE        file mode for new public repositories
+#                             (default: 0775)
+#   --private-mode=MODE       file mode for new private repositories
+#                             (default: 0770)
 #   --scm=SCM                 the kind of SCM repository you want to create (and
 #                             register) in Redmine (default: Subversion).
 #                             reposman is able to create Git and Subversion
@@ -93,6 +97,8 @@ opts = GetoptLong.new(
                       ['--owner',        '-o', GetoptLong::REQUIRED_ARGUMENT],
                       ['--group',        '-g', GetoptLong::REQUIRED_ARGUMENT],
                       ['--url',          '-u', GetoptLong::REQUIRED_ARGUMENT],
+                      ['--public-mode',        GetoptLong::REQUIRED_ARGUMENT],
+                      ['--private-mode',       GetoptLong::REQUIRED_ARGUMENT],
                       ['--command' ,     '-c', GetoptLong::REQUIRED_ARGUMENT],
                       ['--scm',                GetoptLong::REQUIRED_ARGUMENT],
                       ['--test',         '-t', GetoptLong::NO_ARGUMENT],
@@ -109,6 +115,8 @@ $redmine_host = ''
 $repos_base   = ''
 $svn_owner    = 'root'
 $svn_group    = 'root'
+$public_mode  = '0775'
+$private_mode = '0770'
 $use_groupid  = true
 $svn_url      = false
 $test         = false
@@ -153,6 +161,8 @@ begin
     when '--key';            $api_key      = arg.dup
     when '--owner';          $svn_owner    = arg.dup; $use_groupid = false;
     when '--group';          $svn_group    = arg.dup; $use_groupid = false;
+    when '--public-mode';    $public_mode  = arg.dup;
+    when '--private-mode';   $private_mode = arg.dup;
     when '--url';            $svn_url      = arg.dup
     when '--scm';            $scm          = arg.dup.capitalize; log("Invalid SCM: #{$scm}", :exit => true) unless SUPPORTED_SCM.include?($scm)
     when '--command';        $command =      arg.dup
@@ -226,7 +236,8 @@ def set_owner_and_rights(project, repos_path, &block)
     yield if block_given?
   else
     uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : Etc.getgrnam($svn_group).gid)
-    right = project.is_public ? 0775 : 0770
+    right = project.is_public ? $public_mode : $private_mode
+    right = right.to_i(8) & 007777
     yield if block_given?
     Find.find(repos_path) do |f|
       File.chmod right, f

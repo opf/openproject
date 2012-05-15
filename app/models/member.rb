@@ -15,9 +15,11 @@
 class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
-  has_many :member_roles, :dependent => :destroy
+  has_many :member_roles, :dependent => :destroy, :autosave => true
   has_many :roles, :through => :member_roles
   belongs_to :project
+
+  attr_protected :project_id, :user_id, :role_ids
 
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
@@ -36,7 +38,7 @@ class Member < ActiveRecord::Base
 
     new_role_ids = ids - role_ids
     # Add new roles
-    new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
+    new_role_ids.each {|id| member_roles << MemberRole.new.tap {|r| r.role_id = id } }
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
@@ -72,14 +74,16 @@ class Member < ActiveRecord::Base
   # Find or initilize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
-    @membership.attributes = new_attributes
+    # interface refactoring needed
+    # not critical atm because only admins can invoke it (see users and groups controllers)
+    @membership.force_attributes = new_attributes
     @membership
   end
 
   protected
 
   def validate
-    errors.add_on_empty :role if member_roles.empty? && roles.empty?
+    errors.add_on_empty :role if member_roles.empty? && roles.empty? || !member_roles.empty? && member_roles.all?(&:marked_for_destruction?)
   end
 
   private

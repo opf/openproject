@@ -3,7 +3,8 @@
 	<tr>
 		<th align="left">
 			<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
-			                                              			:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                           :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
       <%=l(:label_current_status)%>
     </th>
 		<th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
@@ -13,7 +14,8 @@
 		<% for new_status in @statuses %>
 		<td width="<%= 75 / @statuses.size %>%" align="center">
 			<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
-	                                              			:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+	                         :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                           :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
 			<%=h new_status.name %>
 		</td>
 		<% end %>
@@ -24,7 +26,8 @@
 	<tr class="<%= cycle("odd", "even") %>">
 		<td>
 			<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
-			                                              			:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+			                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                     :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
 
 			<%=h old_status.name %>
 		</td>

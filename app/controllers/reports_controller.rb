@@ -13,7 +13,7 @@
 #++
 
 class ReportsController < ApplicationController
-  menu_item :issues
+  menu_item :summary_field, :only => [:issue_report]
   before_filter :find_project, :authorize, :find_issue_statuses
 
   def issue_report
@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
       @field = "project_id"
       @rows = @project.descendants.visible
       @data = Issue.by_subproject(@project) || []
-      @report_title = l(:field_subproject)
+      @report_title = l(:label_subproject_plural)
     end
 
     respond_to do |format|
@@ -88,5 +88,9 @@ class ReportsController < ApplicationController
 
   def find_issue_statuses
     @statuses = IssueStatus.find(:all, :order => 'position')
+  end
+
+  def default_breadcrumb
+    l(:label_summary)
   end
 end

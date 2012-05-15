@@ -13,17 +13,25 @@
 #++
 
 module Redmine::MenuManager
-  def self.map(menu_name)
-    @items ||= {}
-    mapper = Mapper.new(menu_name.to_sym, @items)
-    if block_given?
-      yield mapper
+  def self.map(menu_name, &menu_builder)
+    @menu_builder_queues ||= {}
+    current_queue = @menu_builder_queues[menu_name.to_sym] ||= []
+
+    if menu_builder
+      current_queue.push menu_builder
     else
-      mapper
+      MapDeferrer.new current_queue
     end
   end
 
   def self.items(menu_name)
-    @items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})
+    items = {}
+
+    mapper = Mapper.new(menu_name.to_sym, items)
+    @menu_builder_queues[menu_name.to_sym].each do |menu_builder|
+      menu_builder.call(mapper)
+    end
+
+    items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})
   end
 end

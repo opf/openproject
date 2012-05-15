@@ -28,7 +28,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @caption = options[:caption]
     @html_options = options[:html] || {}
     # Adds a unique class to each menu item based on its name
-    @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')
+    @html_options[:class] = [@html_options[:class], @name.to_s.dasherize, 'ellipsis'].compact.join(' ')
     @parent = options[:parent]
     @child_menus = options[:children]
     @last = options[:last] || false
