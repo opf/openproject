@@ -862,10 +862,6 @@ padding: 15px 0 15px 0;
   -moz-box-shadow: 1px 1px 1px #BFBFBF;
   -webkit-box-shadow: 1px 1px 1px #BFBFBF;
   box-shadow: 1px 1px 1px #BFBFBF;
-  /* For IE 8 */
-  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#333333')";
-  /* For IE 5.5 - 7 */
-  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#000000');
   zoom: 1;
 }
 
