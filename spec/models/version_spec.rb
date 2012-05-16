@@ -50,6 +50,45 @@ describe Version do
       version
     end
 
+    it 'moves an issue to a project where backlogs is disabled while using versions' do
+      project2 = Factory.create(:project, :name => "Project 2")
+      project2.enabled_module_names = project2.enabled_module_names - ["backlogs"]
+      project2.save!
+      project2.reload
+
+      issue1 = Factory.create(:issue, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue2 = Factory.create(:issue, :parent_issue_id => issue1.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+      issue3 = Factory.create(:issue, :parent_issue_id => issue2.id, :tracker_id => task_tracker.id, :status_id => status.id, :project_id => project.id)
+
+      issue1.reload
+      issue1.fixed_version_id = version.id
+      issue1.save!
+
+      issue1.reload
+      issue2.reload
+      issue3.reload
+
+      issue3.move_to_project(project2)
+
+      issue1.reload
+      issue2.reload
+      issue3.reload
+
+      issue2.move_to_project(project2)
+
+      issue1.reload
+      issue2.reload
+      issue3.reload
+
+      issue3.project.should == project2
+      issue2.project.should == project2
+      issue1.project.should == project
+
+      issue3.fixed_version_id.should be_nil
+      issue2.fixed_version_id.should be_nil
+      issue1.fixed_version_id.should == version.id
+    end
+
     it 'rebuilds postions' do
       e1 = create_issue(:tracker_id => epic_tracker.id)
       s2 = create_issue(:tracker_id => story_tracker.id)

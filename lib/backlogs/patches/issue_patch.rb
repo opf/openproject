@@ -154,7 +154,7 @@ module Backlogs::Patches::IssuePatch
     end
 
     def inherit_version_from(source)
-      self.fixed_version_id = source.fixed_version_id if source
+      self.fixed_version_id = source.fixed_version_id if source && self.project_id == source.project_id
     end
 
     def backlogs_enabled?
