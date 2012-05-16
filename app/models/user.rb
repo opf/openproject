@@ -72,6 +72,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
+  before_destroy :reassign_or_delete_associated
+
   named_scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     { :conditions => ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
@@ -617,6 +619,33 @@ class User < Principal
   def candidates_for_project_allowance project
     @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
   end
+
+  def reassign_or_delete_associated
+    substitute = User.anonymous
+
+    Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Issue.update_all ['assigned_to_id = ?', substitute.id], ['assigned_to_id = ?', id]
+    Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Comment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    Journal.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    Journal.all.each do |journal|
+      ['author_id', 'assigned_to_id', 'user_id'].each do |attribute|
+        if journal.changes[attribute].present?
+          journal.changes[attribute] = journal.changes[attribute].map { |a_id| a_id == id ? substitute.id : a_id }
+        end
+      end
+
+      journal.save
+    end
+
+    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    Watcher.delete_all ['user_id = ?', id]
+  end
 end
 
 class AnonymousUser < User
@@ -637,4 +666,5 @@ class AnonymousUser < User
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
+  def destroy; false end
 end
