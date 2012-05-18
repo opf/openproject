@@ -60,7 +60,12 @@ class User < Principal
   # Prevents unauthorized assignments
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 
-  validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+  validates_presence_of :login,
+                        :firstname,
+                        :lastname,
+                        :mail,
+                        :if => Proc.new { |user| !(user.is_a?(AnonymousUser) || user.is_a?(DeletedUser)) }
+
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
@@ -621,7 +626,7 @@ class User < Principal
   end
 
   def reassign_or_delete_associated
-    substitute = User.anonymous
+    substitute = DeletedUser.first
 
     Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     Issue.update_all ['assigned_to_id = ?', substitute.id], ['assigned_to_id = ?', id]
@@ -663,6 +668,26 @@ class AnonymousUser < User
   def logged?; false end
   def admin; false end
   def name(*args); I18n.t(:label_user_anonymous) end
+  def mail; nil end
+  def time_zone; nil end
+  def rss_key; nil end
+  def destroy; false end
+end
+
+class DeletedUser < User
+  def validate_on_create
+    # There should be only one DeletedUser in the database
+    errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
+  end
+
+  def self.first
+    find_or_create_by_type(self.to_s)
+  end
+
+  # Overrides a few properties
+  def logged?; false end
+  def admin; false end
+  def name(*args); I18n.t(:label_deleted_user) end
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
