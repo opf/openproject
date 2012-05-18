@@ -147,6 +147,28 @@ LOREM
     end
   end
 
+  context "#add_attachment" do
+    setup do
+      @request.session[:user_id] = 2
+      set_tmp_attachments_directory
+      @document = Document.generate!(:project => Project.find('ecookbook'),
+                                     :title => 'Test')
+    end
+
+    should "send a notification mail" do
+      ActionMailer::Base.deliveries.clear
+      Setting.notified_events = Setting.notified_events.dup << 'document_added'
+
+      post :add_attachment,
+           :id => @document.id,
+           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+
+      @document.reload
+      assert_not_nil @document
+      assert_equal 2, ActionMailer::Base.deliveries.size
+    end
+  end
+
   def test_destroy
     @request.session[:user_id] = 2
     post :destroy, :id => 1
