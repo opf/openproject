@@ -3,6 +3,7 @@
         var element = el;
         var opts = options;
         var observingContextMenuClick;
+        var observingToggleAllClick;
         var lastSelected = null;
         var menu;
         var menuId = 'context-menu';
@@ -194,6 +195,20 @@
                 inputs.each(function() {
                     inputs.attr('checked', checked ? 'checked' : false);
                 });
+            },
+            toggleIssuesSelection: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var issues = $(this).parents('form').find('tr.issue');
+                var checked = methods.isSelected(issues.eq(0));
+                issues.each(function() {
+                    var self = $(this);
+                    if(checked) {
+                        methods.removeSelection(self)
+                    } else {
+                        methods.addSelection(self);
+                    }
+                });
             }
         };
 
@@ -203,6 +218,11 @@
             element.bind('click.contextMenu', methods.click);
             element.bind('contextmenu.contextMenu', methods.click);
             observingContextMenuClick = true;
+        }
+
+        if(!observingToggleAllClick) {
+            element.find('.issues img[alt="Toggle_check"]').bind('click', methods.toggleIssuesSelection);
+            observingToggleAllClick = true;
         }
 
         methods.unselectAll();
