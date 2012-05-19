@@ -154,7 +154,7 @@
                         }
 
                         if(maxHeight > $(window).height()) {
-                            renderY =+ menu.height();
+                            renderY -= menu.height();
                             menu.addClass(reverseYClass);
                         } else {
                             menu.removeClass(reverseYClass);
