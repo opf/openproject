@@ -80,7 +80,13 @@ class Message < ActiveRecord::Base
   end
 
   def after_destroy
+    parent.reset_last_reply_id! if parent
     board.reset_counters!
+  end
+
+  def reset_last_reply_id!
+    clid = children.present? ? children.last.id : nil
+    self.update_attribute(:last_reply_id, clid)
   end
 
   def sticky=(arg)

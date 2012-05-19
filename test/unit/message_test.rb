@@ -101,6 +101,18 @@ class MessageTest < ActiveSupport::TestCase
     # Watchers removed
   end
 
+  def test_destroy_last_reply
+    message = Message.find(4)
+    last_reply = message.last_reply
+    penultimate_reply = message.children[-2]
+
+    assert last_reply.destroy
+
+    message.reload
+
+    assert_equal penultimate_reply, message.last_reply
+  end
+
   def test_destroy_reply
     message = Message.find(5)
     board = message.board
