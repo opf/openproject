@@ -136,9 +136,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :member => {
     :edit_membership => :post,
-    :destroy_membership => :post
-  },
-  :except => [:destroy]
+    :destroy_membership => :post,
+    :deletion_info => :get
+  }
 
   # For nice "roadmap" in the url for the index action
   map.connect 'projects/:project_id/roadmap', :controller => 'versions', :action => 'index'

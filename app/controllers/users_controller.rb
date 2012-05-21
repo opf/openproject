@@ -15,8 +15,16 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
+  before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
+  before_filter :find_user, :only => [:show,
+                                      :edit,
+                                      :update,
+                                      :edit_membership,
+                                      :destroy_membership,
+                                      :destroy,
+                                      :deletion_info]
+  before_filter :require_login, :only => [:deletion_info] # should also contain destroy but post data can not be redirected
+  before_filter :authorize_for_user, :only => [:destroy]
   accept_key_auth :index, :show, :create, :update
 
   include SortHelper
@@ -200,6 +208,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user.destroy
+
+    flash[:notice] = l('account.deleted')
+    logged_user = nil
+
+    redirect_to signin_path
+  end
+
   def destroy_membership
     @membership = Member.find(params[:membership_id])
     if request.post? && @membership.deletable?
@@ -209,6 +226,10 @@ class UsersController < ApplicationController
       format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
+  end
+
+  def deletion_info
+    render :action => 'deletion_info', :layout => 'my'
   end
 
   private
@@ -222,5 +243,14 @@ class UsersController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def authorize_for_user
+    if @user != User.current ||
+       User.current == User.anonymous
+
+      render_403
+      false
+    end
   end
 end

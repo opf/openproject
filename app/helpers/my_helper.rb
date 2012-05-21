@@ -13,4 +13,7 @@
 #++
 
 module MyHelper
+  def deletion_info_path
+    { :controller => 'users', :id => @user.id, :action => 'deletion_info' }
+  end
 end
