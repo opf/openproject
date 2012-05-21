@@ -26,7 +26,7 @@ class MeetingsController < ApplicationController
 
     @meetings_by_start_year_month_date = scope.find_time_sorted(:all,
                                             :include => [{:participants => :user}, :author],
-                                            :order   => "#{Meeting.table_name}.start_time DESC",
+                                            :order   => "#{Meeting.table_name}.start_time DESC, #{Meeting.table_name}.title ASC",
                                             :offset  => @offset,
                                             :limit   => @limit)
   end
