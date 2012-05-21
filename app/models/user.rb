@@ -686,7 +686,7 @@ class DeletedUser < User
   # Overrides a few properties
   def logged?; false end
   def admin; false end
-  def name(*args); I18n.t(:label_deleted_user) end
+  def name(*args); I18n.t('user.deleted') end
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end

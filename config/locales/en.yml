@@ -1047,6 +1047,9 @@ en:
   more_actions: More functions
   show_hide_project_menu: Hide/Show project menu
 
+  user:
+    deleted: "Deleted user"
+
   account:
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
