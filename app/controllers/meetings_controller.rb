@@ -16,7 +16,19 @@ class MeetingsController < ApplicationController
   def index
     # Wo sollen Meetings ohne Termin hin?
     # (gibt's momentan nicht, Zeitpunkt ist ein Pflichtfeld)
-    @meetings_by_start_year_month_date = @project.meetings.find_time_sorted :all, :include => [{:participants => :user}, :author]
+    scope = @project.meetings
+
+    @count = scope.count
+    @limit = 10
+
+    @meetings_pages = Paginator.new self, @count, @limit, params['page']
+    @offset = @meetings_pages.current.offset
+
+    @meetings_by_start_year_month_date = scope.find_time_sorted(:all,
+                                            :include => [{:participants => :user}, :author],
+                                            :order   => "#{Meeting.table_name}.start_time DESC",
+                                            :offset  => @offset,
+                                            :limit   => @limit)
   end
 
   def show

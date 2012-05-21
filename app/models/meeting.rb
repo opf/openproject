@@ -37,7 +37,7 @@ class Meeting < ActiveRecord::Base
       objs.group_by(&:start_month).each do |month,objs|
         by_start_year_month_date[year][month] = ActiveSupport::OrderedHash.new
         objs.group_by(&:start_date).each do |date,objs|
-          by_start_year_month_date[year][month][date] = objs.sort_by {|m| m.start_time}.reverse
+          by_start_year_month_date[year][month][date] = objs
         end
       end
     end
