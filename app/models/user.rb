@@ -18,6 +18,7 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Account statuses
+  STATUS_BUILTIN    = 0
   STATUS_ACTIVE     = 1
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
@@ -680,7 +681,7 @@ class DeletedUser < User
   end
 
   def self.first
-    find_or_create_by_type(self.to_s)
+    find_or_create_by_type_and_status(self.to_s, User::STATUS_BUILTIN)
   end
 
   # Overrides a few properties
