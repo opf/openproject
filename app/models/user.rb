@@ -47,6 +47,8 @@ class User < Principal
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'Issue',
                              :dependent => :nullify
+  has_many :watches, :class_name => 'Watcher',
+                     :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
@@ -81,7 +83,8 @@ class User < Principal
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
 
-  before_destroy :reassign_or_delete_associated
+  before_destroy :delete_associated_public_queries
+  before_destroy :reassign_associated
 
   named_scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -629,11 +632,8 @@ class User < Principal
     @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
   end
 
-  def reassign_or_delete_associated
+  def reassign_associated
     substitute = DeletedUser.first
-
-    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
-    Watcher.delete_all ['user_id = ?', id]
 
     [Issue, Attachment, WikiContent, News, Comment, Message].each do |klass|
       klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
@@ -643,16 +643,21 @@ class User < Principal
       klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     end
 
+    foreign_keys = ['author_id', 'user_id', 'assigned_to_id']
+
     Journal.all.each do |journal|
-      ['author_id', 'assigned_to_id', 'user_id'].each do |attribute|
-        if journal.changes[attribute].present?
-          journal.changes[attribute] = journal.changes[attribute].map { |a_id| a_id == id ? substitute.id : a_id }
+      foreign_keys.each do |foreign_key|
+        if journal.changes[foreign_key].present?
+          journal.changes[foreign_key] = journal.changes[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
         end
       end
 
       journal.save
     end
+  end
 
+  def delete_associated_public_queries
+    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 end
 
