@@ -571,6 +571,13 @@ jQuery(document).ready(function($) {
   // Click on the menu header with a dropdown menu
   $('#account-nav .drop-down').live('click', function(event) {
     var menuItem = $(this);
+    var menuUl = menuItem.find('> ul');
+
+    menuUl.css('height', 'auto');
+    if(menuUl.height() > $.viewportHeight()) {
+      var windowHeight = $.viewportHeight() - 150;
+      menuUl.css({'height': windowHeight});
+    }
 
     toggleTopMenu(menuItem);
 

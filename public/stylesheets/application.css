@@ -2797,6 +2797,17 @@ input: -moz-placeholder {
   border: 1px solid #b7b7b7;
   border-top: 0px;
   background-color: #FFFFFF;
+  display:none;
+  position:absolute;
+  height:auto;
+  min-width:200px;
+  left:-1px;
+  z-index:20;
+  border: 1px solid #b7b7b7;
+  border-top: 0px;
+  background-color:#FFFFFF;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 #header li.last-child > ul {
@@ -2826,6 +2837,7 @@ input: -moz-placeholder {
   margin-right: 6px;
   height: 15px;
   line-height: 15px;
+  overflow: hidden;
 }
 
 #header li.drop-down li > a.separator {
