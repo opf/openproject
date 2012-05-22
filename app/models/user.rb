@@ -632,14 +632,17 @@ class User < Principal
   def reassign_or_delete_associated
     substitute = DeletedUser.first
 
-    Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Comment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    Journal.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    Watcher.delete_all ['user_id = ?', id]
+
+    [Issue, Attachment, WikiContent, News, Comment, Message].each do |klass|
+      klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    end
+
+    [TimeEntry, Journal, Query].each do |klass|
+      klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    end
+
     Journal.all.each do |journal|
       ['author_id', 'assigned_to_id', 'user_id'].each do |attribute|
         if journal.changes[attribute].present?
@@ -650,11 +653,6 @@ class User < Principal
       journal.save
     end
 
-    Issue.update_all ['assigned_to_id = ?', nil], ['assigned_to_id = ?', id]
-
-    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
-    Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    Watcher.delete_all ['user_id = ?', id]
   end
 end
 
