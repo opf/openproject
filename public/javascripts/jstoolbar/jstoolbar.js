@@ -249,25 +249,27 @@ jsToolBar.prototype = {
       var start, end, sel, scrollPos, subst, res;
       if (typeof(document["selection"]) != "undefined") {
         // just makes it work in IE8 somehow
-        var range = document.selection.createRange();
-        var bookmark = range.getBookmark();
-        var origParent = range.parentElement();
+        var helperRange = document.selection.createRange();
+        var bookmark = helperRange.getBookmark();
+        var origParent = helperRange.parentElement();
+        var moveStart = 0;
         // we move the starting point of the selection to the last newline
+        // and track the number of movements
         try {
-          while (range.text[0] != "\n" && range.text[0] != "\r") {
-            bookmark = range.getBookmark();
-            range.moveStart("character", -1);
-            if (origParent != range.parentElement()) {
+          while (helperRange.text[0] != "\n" && helperRange.text[0] != "\r") {
+            helperRange.moveStart("character", -1);
+            if (origParent != helperRange.parentElement()) {
               throw "Outside of Textarea";
             }
+            moveStart -= 1;
           }
-          range.moveStart("character", 1);
+          moveStart += 1;
         } catch(err) {
-          if (err == "Outside of Textarea")
-            range.moveToBookmark(bookmark);
-          else
+          if (err != "Outside of Textarea")
             throw err;
         }
+        var range = document.selection.createRange();
+        range.moveStart("character", moveStart);
         if (range.text.match(/ $/))
           range.moveEnd("character", -1);
         sel = range.text;
