@@ -629,7 +629,6 @@ class User < Principal
     substitute = DeletedUser.first
 
     Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Issue.update_all ['assigned_to_id = ?', substitute.id], ['assigned_to_id = ?', id]
     Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
@@ -646,6 +645,8 @@ class User < Principal
 
       journal.save
     end
+
+    Issue.update_all ['assigned_to_id = ?', nil], ['assigned_to_id = ?', id]
 
     Query.delete_all ['user_id = ? AND is_public = ?', id, false]
     Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
