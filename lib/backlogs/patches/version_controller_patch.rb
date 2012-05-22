@@ -14,9 +14,13 @@ module Backlogs::Patches::VersionsControllerPatch
 
       before_filter :add_project_to_version_settings_attributes, :only => [:update, :create]
 
+      # this forces the current project for the nested version settings
+      # in order to prevent it from being set through firebug etc. #mass_assignment
       def add_project_to_version_settings_attributes
-        params["version"]["version_settings_attributes"].each do |h|
-          h["project"] = @project
+        if params["version"]["version_settings_attributes"]
+          params["version"]["version_settings_attributes"].each do |attr_hash|
+            attr_hash["project"] = @project
+          end
         end
       end
     end
