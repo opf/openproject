@@ -42,7 +42,11 @@ class User < Principal
 
   has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
                                    :after_remove => Proc.new {|user, group| group.user_removed(user)}
-  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+  has_many :issue_categories, :foreign_key => 'assigned_to_id',
+                              :dependent => :nullify
+  has_many :assigned_issues, :foreign_key => 'assigned_to_id',
+                             :class_name => 'Issue',
+                             :dependent => :nullify
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
