@@ -2948,3 +2948,6 @@ strong.related-issues-heading {
   display:block;
   margin-top: 10px;
 }
+div.indent {
+  padding-left: 10px;
+}
