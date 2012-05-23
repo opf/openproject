@@ -453,7 +453,7 @@ module ApplicationHelper
   end
 
   def link_to_project_ancestors(project)
-    if @project
+    if project && !project.new_record?
       ancestors = (project.root? ? [] : project.ancestors.visible)
       ancestors << project
       ancestors.collect do |p|
@@ -919,7 +919,7 @@ module ApplicationHelper
     " | " +
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
-  
+
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
     pcts = pcts.collect(&:round)
