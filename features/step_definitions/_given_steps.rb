@@ -86,20 +86,6 @@ Given /^the backlogs module is initialized(?: in [pP]roject "(.*)")?$/ do |proje
   step "the project \"#{project.name}\" uses the following trackers:", Cucumber::Ast::Table.new([['Story', 'Task']])
 end
 
-Given /^the [pP]roject(?: "([^\"]+?)")? uses the following trackers:$/ do |project, table|
-  project = get_project(project)
-
-  trackers = table.raw.map do |line|
-    name = line.first
-    tracker = Tracker.find_by_name(name)
-
-    tracker = Factory.create(:tracker, :name => name) if tracker.blank?
-    tracker
-  end
-
-  project.update_attributes :tracker_ids => trackers.map(&:id).map(&:to_s)
-end
-
 Given /^the [pP]roject(?: "([^\"]*)")? has the following sprints:$/ do |project_name, table|
   project = get_project(project_name)
 
