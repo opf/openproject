@@ -774,7 +774,7 @@ module ApplicationHelper
         elsif sep == '###'
           oid = identifier.to_i
           if issue = Issue.visible.find_by_id(oid, :include => :status)
-            link = issue_quick_info_with_description(issue,3)
+            link = issue_quick_info_with_description(issue)
           end
         elsif sep == ':'
           # removes the double quotes if any
@@ -929,7 +929,7 @@ module ApplicationHelper
     " | " +
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
-  
+
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
     pcts = pcts.collect(&:round)

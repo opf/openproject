@@ -234,7 +234,7 @@ module IssuesHelper
      "#{issue.assigned_to.nil? ? " " : " (#{issue.assigned_to.to_s})"}"
   end
 
-  def issue_quick_info_with_description(issue, lines)
+  def issue_quick_info_with_description(issue, lines = 3)
     limited_description = issue.description.to_s.lines.to_a[0,lines + 1].to_s
 
     issue_quick_info(issue) +
