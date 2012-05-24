@@ -226,12 +226,14 @@ module IssuesHelper
   end
 
   def issue_quick_info(issue)
-    link_to("##{issue.id} #{issue.status}: #{issue.subject} ",
-            {:controller => 'issues', :action => 'show', :id => issue.id},
-             :class => issue.css_classes,
-             :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})") +
-    "#{issue.start_date.nil? ? "[?]" : issue.start_date.to_s} - #{issue.due_date.nil? ? "[?]" : issue.due_date.to_s}" +
-     "#{issue.assigned_to.nil? ? " " : " (#{issue.assigned_to.to_s})"}"
+    ret = link_to(h("##{issue.id} #{issue.status}: #{issue.subject} "),
+                  { :controller => 'issues', :action => 'show', :id => issue.id },
+                    :class => issue.css_classes,
+                    :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
+    ret += "#{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"
+    ret += " - #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"
+    ret += "#{ issue.assigned_to.nil? ?  " " : " (#{h(issue.assigned_to.to_s)})" }"
+    ret
   end
 
   def issue_quick_info_with_description(issue, lines = 3)
