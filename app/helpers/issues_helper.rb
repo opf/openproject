@@ -235,7 +235,9 @@ module IssuesHelper
   end
 
   def issue_quick_info_with_description(issue, lines)
+    limited_description = issue.description.to_s.lines.to_a[0,lines + 1].to_s
+
     issue_quick_info(issue) +
-      content_tag(:div, textilizable("\n" + issue.description.to_s.lines[0,lines + 1].to_s), :class => "indent")
+      content_tag(:div, textilizable("\n" + limited_description), :class => "indent")
   end
 end
