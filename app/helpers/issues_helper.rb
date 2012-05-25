@@ -224,4 +224,22 @@ module IssuesHelper
 
 
   end
+
+  def issue_quick_info(issue)
+    ret = link_to(h("##{issue.id} #{issue.status}: #{issue.subject} "),
+                  { :controller => 'issues', :action => 'show', :id => issue.id },
+                    :class => issue.css_classes,
+                    :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
+    ret += "#{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"
+    ret += " - #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"
+    ret += "#{ issue.assigned_to.nil? ?  " " : " (#{h(issue.assigned_to.to_s)})" }"
+    ret
+  end
+
+  def issue_quick_info_with_description(issue, lines = 3)
+    limited_description = issue.description.to_s.lines.to_a[0,lines + 1].to_s
+
+    issue_quick_info(issue) +
+      content_tag(:div, textilizable("\n" + limited_description), :class => "indent")
+  end
 end
