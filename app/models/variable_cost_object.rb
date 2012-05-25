@@ -119,7 +119,9 @@ class VariableCostObject < CostObject
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_item_attributes.each do |index, attributes|
-      labor_budget_items.build(attributes) if attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
+      if attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0 && project.assignable_users.map(&:id).include?(attributes[:user_id].to_i)
+        labor_budget_items.build(attributes)
+      end
     end
   end
 
@@ -127,7 +129,7 @@ class VariableCostObject < CostObject
     labor_budget_items.reject(&:new_record?).each do |labor_budget_item|
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
       if User.current.allowed_to? :edit_cost_objects, labor_budget_item.cost_object.project
-        if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0
+        if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0 && project.assignable_users.map(&:id).include?(attributes[:user_id].to_i)
           attributes[:budget] = Rate.clean_currency(attributes[:budget])
           labor_budget_item.attributes = attributes
         else

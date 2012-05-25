@@ -3,6 +3,8 @@ class GroupUser < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :group
+
+  attr_accessible :user, :group, :membership_type
   
   MEMBERSHIP_TYPES = %w(default controller)
   DEFAULT_MEMBERSHIP_TYPE = :default

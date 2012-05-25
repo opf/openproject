@@ -5,7 +5,7 @@ class MaterialBudgetItem < ActiveRecord::Base
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   validates_presence_of :cost_type
 
-  attr_accessible :units, :comments, :budget, :cost_type_id
+  attr_accessible :units, :comments, :budget, :cost_type, :cost_type_id
 
   def costs
     self.budget || self.calculated_costs
