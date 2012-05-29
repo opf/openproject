@@ -31,7 +31,7 @@
 </div>
 <% end -%>
 
-<p class="pagination"><%= pagination_links_full @meetings_pages %></p>
+<p class="pagination"><%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today)) %> <%= pagination_links_full @meetings_pages, @meeting_count %></p>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>

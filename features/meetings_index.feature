@@ -14,7 +14,6 @@ Feature: Show existing meetings
               | view_meetings |
           And the user "alice" is a "user" in the project "dingens"
   
-  @javascript
   Scenario: Navigate to the meeting index page with no meetings
        When I login as "alice"
         And I go to the page for the project "dingens"
@@ -22,7 +21,6 @@ Feature: Show existing meetings
        Then I should see "Meetings" within "#content"
         And I should see "No data to display" within "#content"
   
-  @javascript
   Scenario: Navigate to the meeting index page with 2 meetings
       Given there is 1 meeting in project "dingens" created by "alice" with:
             | title      | Meeting 1           |
@@ -42,3 +40,38 @@ Feature: Show existing meetings
         # Die Reihenfolge der Meetings muss überprüft werden
         # jedes meeting generiert 2 Tags mit der Klasse meeting
         And I should see 4 meetings
+
+  Scenario: Lots of Meetings are split into pages
+      Given there is 25 meetings in project "dingens" that start 0 days from now with:
+            | title | Meeting Today     |
+      Given there is 5 meetings in project "dingens" that start -1 days from now with:
+            | title | Meeting Last Week |
+       When I login as "alice"
+        And I go to the page for the project "dingens"
+        And I click on "Meetings"
+         # see above: means 25 meetings
+       Then I should see 50 meetings
+        And I should see "Meeting Today"
+        But I should not see "Meeting Last Week"
+       When I click on "2"
+         # means 5 meetings
+       Then I should see 10 meetings
+        And I should not see "Meeting Today"
+        But I should see "Meeting Last Week"
+
+  Scenario: Jumps to page of current date when no page given
+      Given there is 27 meetings in project "dingens" that start +7 days from now with:
+            | title | Meeting Next Week |
+      Given there is 27 meetings in project "dingens" that start 1 days from now with:
+            | title | Meeting Tomorrow  |
+      Given there is 27 meetings in project "dingens" that start 0 days from now with:
+            | title | Meeting Today     |
+      Given there is 27 meetings in project "dingens" that start -7 days from now with:
+            | title | Meeting Last Week |
+       When I login as "alice"
+        And I go to the page for the project "dingens"
+        And I click on "Meetings"
+       Then I should see "Meeting Today"
+        And I should see "Meeting Last Week"
+        But I should not see "Meeting Tomorrow"
+        And I should not see "Meeting Next Week"

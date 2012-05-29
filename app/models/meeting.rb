@@ -8,6 +8,8 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
+  named_scope :upcoming, :conditions => ['start_time >= ?', Time.now.beginning_of_day]
+
   attr_accessible :title, :location, :start_time, :duration
 
   acts_as_watchable

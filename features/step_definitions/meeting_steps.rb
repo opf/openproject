@@ -1,8 +1,18 @@
-Given /^there is 1 [Mm]eeting in project "(.+)" created by "(.+)" with:$/ do |project,user,table|
-  m = Factory.build(:meeting)
-  m.project = Project.find_by_name(project)
-  m.author  = User.find_by_login(user)
-  send_table_to_object(m, table)
+Given /^there is (\d+) [Mm]eetings? in project "(.+)" created by "(.+)" with:$/ do |count,project,user,table|
+  count.to_i.times do
+    m = Factory.build(:meeting)
+    m.project = Project.find_by_name(project)
+    m.author  = User.find_by_login(user)
+    send_table_to_object(m, table)
+  end
+end
+
+Given /^there is (\d+) [Mm]eetings? in project "(.+)" that start (.*) days? from now with:$/ do |count,project,time,table|
+  count.to_i.times do
+    m = Factory.build(:meeting, :start_time => Time.now + time.to_i.days)
+    m.project = Project.find_by_name(project)
+    send_table_to_object(m, table)
+  end
 end
 
 Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting,table|

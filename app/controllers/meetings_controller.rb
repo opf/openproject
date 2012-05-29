@@ -18,10 +18,19 @@ class MeetingsController < ApplicationController
     # (gibt's momentan nicht, Zeitpunkt ist ein Pflichtfeld)
     scope = @project.meetings
 
-    @count = scope.count
-    @limit = 10
+    @meeting_count = scope.count
+    @limit = per_page_option
 
-    @meetings_pages = Paginator.new self, @count, @limit, params['page']
+    upcoming_meetings_count = scope.upcoming.count
+    if upcoming_meetings_count > 0
+      @page_of_today = 1 + (upcoming_meetings_count-1) / @limit
+    end
+
+    # from params => today's page otherwise => first page as fallback
+    @page_of_today ||= 1
+    @page = params['page'] || @page_of_today
+
+    @meetings_pages = Paginator.new self, @meeting_count, @limit, @page
     @offset = @meetings_pages.current.offset
 
     @meetings_by_start_year_month_date = scope.find_time_sorted(:all,
