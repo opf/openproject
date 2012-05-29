@@ -645,14 +645,26 @@ class User < Principal
 
     foreign_keys = ['author_id', 'user_id', 'assigned_to_id']
 
-    Journal.all.each do |journal|
-      foreign_keys.each do |foreign_key|
-        if journal.changes[foreign_key].present?
-          journal.changes[foreign_key] = journal.changes[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
+    # as updating the journals will take some time we do it in batches
+    # so that journals created later are also accounted for
+    while (journal_subset = Journal.all(:conditions => ["id > ?", current_id ||= 0],
+                                        :order => "id ASC",
+                                        :limit => 1000)).size > 0 do
+
+      journal_subset.each do |journal|
+        change = journal.changes.dup
+
+        foreign_keys.each do |foreign_key|
+          if journal.changes[foreign_key].present?
+            change[foreign_key] = change[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
+          end
         end
+
+        journal.changes = change
+        journal.save if journal.changed?
       end
 
-      journal.save
+      current_id = journal_subset.last.id
     end
   end
 
