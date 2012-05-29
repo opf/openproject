@@ -9,7 +9,13 @@
   <h3 class="month_year"><%= "#{month_name(month)} #{year}" %></h3>
   <div class="meetings_by_date">
   <% meetings_by_start_date.each do |date,meetings| -%>
-    <h3 class="date"><%= format_activity_day(date) %></h3>
+    <h3 class="date">
+      <a name="<%= format_date(date) %>"></a>
+      <% if date.today? %>
+        <a name="today"></a>
+      <% end %>
+      <%= format_activity_day(date) %>
+    </h3>
     <dl class="meetings">
     <% meetings.each do |meeting| -%>
       <dt class="meeting" id="meeting-<%= meeting.id %>">
@@ -31,7 +37,7 @@
 </div>
 <% end -%>
 
-<p class="pagination"><%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today)) %> <%= pagination_links_full @meetings_pages, @meeting_count %></p>
+<p class="pagination"><%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today, :anchor => 'today')) %> <%= pagination_links_full @meetings_pages, @meeting_count %></p>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'redmine_meeting', :plugin => 'redmine_meeting' %>
