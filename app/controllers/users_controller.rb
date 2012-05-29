@@ -209,7 +209,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    # as destroying users is a lengthy process we handle it in the background
+    @user.send_later(:destroy)
 
     flash[:notice] = l('account.deleted')
     logged_user = nil

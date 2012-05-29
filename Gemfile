@@ -8,6 +8,7 @@ gem "rubytree", "~> 0.5.2", :require => 'tree'
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
+gem 'delayed_job', "~>2.0.4"
 
 group :test do
   gem 'shoulda', '~> 2.10.3'
