@@ -10,7 +10,7 @@
   <div class="meetings_by_date">
   <% meetings_by_start_date.each do |date,meetings| -%>
     <h3 class="date">
-      <a name="<%= format_date(date) %>"></a>
+      <a name="<%= ::I18n.l(date, :locale => :en) %>"></a>
       <% if date.today? %>
         <a name="today"></a>
       <% end %>
