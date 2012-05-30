@@ -8,7 +8,7 @@ class Meeting < ActiveRecord::Base
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
   
-  named_scope :upcoming, :conditions => ['start_time >= ?', Time.now.beginning_of_day]
+  named_scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
 
   attr_accessible :title, :location, :start_time, :duration
 
@@ -33,6 +33,10 @@ class Meeting < ActiveRecord::Base
   after_create :add_author_as_watcher
   
   def self.find_time_sorted(*args)
+    options = args.extract_options!
+    options[:order] = ["#{Meeting.table_name}.start_time DESC", options[:order]].compact.join(', ')
+    args << options
+
     by_start_year_month_date = ActiveSupport::OrderedHash.new
     self.find(*args).group_by(&:start_year).each do |year,objs|
       by_start_year_month_date[year] = ActiveSupport::OrderedHash.new

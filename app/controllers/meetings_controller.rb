@@ -21,13 +21,9 @@ class MeetingsController < ApplicationController
     @meeting_count = scope.count
     @limit = per_page_option
 
-    upcoming_meetings_count = scope.upcoming.count
-    if upcoming_meetings_count > 0
-      @page_of_today = 1 + (upcoming_meetings_count-1) / @limit
-    end
-
     # from params => today's page otherwise => first page as fallback
-    @page_of_today ||= 1
+    tomorrows_meetings_count = scope.from_tomorrow.count
+    @page_of_today = 1 + tomorrows_meetings_count / @limit
     @page = params['page'] || @page_of_today
 
     @meetings_pages = Paginator.new self, @meeting_count, @limit, @page
@@ -35,7 +31,7 @@ class MeetingsController < ApplicationController
 
     @meetings_by_start_year_month_date = scope.find_time_sorted(:all,
                                             :include => [{:participants => :user}, :author],
-                                            :order   => "#{Meeting.table_name}.start_time DESC, #{Meeting.table_name}.title ASC",
+                                            :order   => "#{Meeting.table_name}.title ASC",
                                             :offset  => @offset,
                                             :limit   => @limit)
   end

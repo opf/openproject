@@ -12,6 +12,7 @@ describe MeetingsController do
       before(:each) do
         Project.stub!(:find).and_return(@p)
         @ms = [mock_model(Meeting), mock_model(Meeting), mock_model(Meeting)]
+        @ms.stub!(:from_tomorrow).and_return(@ms)
         @p.stub!(:meetings).and_return(@ms)
         @ms.stub!(:find_time_sorted).and_return(@ms)
       end

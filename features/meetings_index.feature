@@ -72,6 +72,6 @@ Feature: Show existing meetings
         And I go to the page for the project "dingens"
         And I click on "Meetings"
        Then I should see "Meeting Today"
-        And I should see "Meeting Last Week"
-        But I should not see "Meeting Tomorrow"
+        And I should see "Meeting Tomorrow"
+        But I should not see "Meeting Last Week"
         And I should not see "Meeting Next Week"

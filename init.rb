@@ -37,7 +37,7 @@ Redmine::Plugin.register :redmine_meeting do
 
   activity_provider :meetings, :default => false, :class_name => ['Meeting', 'MeetingAgenda', 'MeetingMinutes']
 
-  menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index', :anchor => 'today'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
+  menu :project_menu, :meetings, {:controller => 'meetings', :action => 'index'}, :caption => :project_module_meetings, :param => :project_id, :after => :wiki
   menu :project_menu, :new_meeting, {:controller => 'meetings', :action => 'new'}, :param => :project_id, :caption => :label_meeting_new, :parent => :meetings
 
   ActiveSupport::Inflector.inflections do |inflect|
