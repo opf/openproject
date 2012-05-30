@@ -14,6 +14,6 @@
 
 module MyHelper
   def deletion_info_path
-    { :controller => 'users', :id => @user.id, :action => 'deletion_info' }
+    url_for(:delete_my_account_info)
   end
 end

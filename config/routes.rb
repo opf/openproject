@@ -253,6 +253,13 @@ ActionController::Routing::Routes.draw do |map|
     sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
   end
 
+  # alternate routes for the current user
+  map.with_options :path_prefix => "my" do |my|
+    my.delete_my_account_info 'deletion_info', :controller => 'users',
+                                               :action => 'deletion_info',
+                                               :conditions => { :method => :get }
+  end
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'

@@ -210,12 +210,20 @@ class UsersController < ApplicationController
 
   def destroy
     # as destroying users is a lengthy process we handle it in the background
+    # and lock the account now so that no action can be performed with it
+    @user.status = User::STATUS_LOCKED
+    @user.save
+
     @user.delay.destroy
 
     flash[:notice] = l('account.deleted')
-    logged_user = nil
 
-    redirect_to signin_path
+    if @user == User.current
+      logged_user = nil
+      redirect_to signin_path
+    else
+      redirect_to users_path
+    end
   end
 
   def destroy_membership
@@ -230,13 +238,13 @@ class UsersController < ApplicationController
   end
 
   def deletion_info
-    render :action => 'deletion_info', :layout => 'my'
+    render :action => 'deletion_info', :layout => my_or_admin_layout
   end
 
   private
 
   def find_user
-    if params[:id] == 'current'
+    if params[:id] == 'current' || params['id'].nil?
       require_login || return
       @user = User.current
     else
@@ -247,11 +255,22 @@ class UsersController < ApplicationController
   end
 
   def authorize_for_user
-    if @user != User.current ||
-       User.current == User.anonymous
+    if (User.current != @user ||
+        User.current == User.anonymous) &&
+       !User.current.admin?
 
       render_403
       false
+    end
+  end
+
+  def my_or_admin_layout
+    # TODO: how can this be done better:
+    # check if the route used to call the action is in the 'my' namespace
+    if url_for(:delete_my_account_info) == request.url
+      'my'
+    else
+      'admin'
     end
   end
 end
