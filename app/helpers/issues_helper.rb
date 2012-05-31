@@ -226,7 +226,7 @@ module IssuesHelper
   end
 
   def issue_quick_info(issue)
-    ret = link_to(h("##{issue.id} #{issue.status}: #{issue.subject} "),
+    ret = link_to(h("#{issue.tracker.name} ##{issue.id} #{issue.status}: #{issue.subject} "),
                   { :controller => 'issues', :action => 'show', :id => issue.id },
                     :class => issue.css_classes,
                     :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
