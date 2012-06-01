@@ -69,18 +69,17 @@
                             if (lastSelected !== null)
                             {
                                 var toggling = false;
-                                var rows = $(selectorName);
-                                for (i = 0; i < rows.length; i++)
-                                {
-                                    if (toggling || rows[i] == tr)
-                                    {
-                                        methods.addSelection(rows[i]);
+                                var rows = $('.' + selectorName);
+                                rows.each(function() {
+                                    var self = $(this);
+                                    if(toggling || (self.get(0) == tr.get(0))) {
+                                        methods.addSelection(self);
                                     }
-                                    if (rows[i] == tr || rows[i] == lastSelected)
-                                    {
+                                    if(((self.get(0) == tr.get(0)) || (self.get(0) == lastSelected.get(0)))
+                                        && (tr.get(0) !== lastSelected.get(0))) {
                                         toggling = !toggling;
                                     }
-                                }
+                                });
                             } else {
                                 methods.addSelection(tr);
                             }
