@@ -174,6 +174,7 @@
             addSelection: function(element) {
                element.addClass(contextMenuSelectionClass);
                methods.checkSelectionBox(element, true);
+               methods.clearDocumentSelection();
             },
             isSelected: function(element) {
                 return element.hasClass(contextMenuSelectionClass);
@@ -208,6 +209,13 @@
                         methods.addSelection(self);
                     }
                 });
+            },
+            clearDocumentSelection: function() {
+                if(document.selection) {
+                    document.selection.clear();
+                } else {
+                    window.getSelection().removeAllRanges();
+                }
             }
         };
 
