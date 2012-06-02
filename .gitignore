@@ -31,3 +31,4 @@ doc/app
 /.rvmrc*
 /*.iml
 /.idea
+.rbx
