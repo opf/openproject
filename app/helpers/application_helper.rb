@@ -314,7 +314,7 @@ module ApplicationHelper
     s = ''
     if projects.any?
       ancestors = []
-      projects.sort_by(&:lft).each do |project|
+      Project.project_tree(projects) do |project, level|
         if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
           s << "<ul>\n"
         else
