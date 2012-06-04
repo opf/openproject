@@ -55,7 +55,7 @@ module ProjectsHelper
     if projects.any?
       ancestors = []
       original_project = @project
-      projects.each do |project|
+      Project.project_tree(projects) do |project, level|
         # set the project environment to please macros.
         @project = project
         if (ancestors.empty? || project.is_descendant_of?(ancestors.last))

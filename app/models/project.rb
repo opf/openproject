@@ -617,16 +617,58 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Yields the given block for each project with its level in the tree
-  def self.project_tree(projects, &block)
+  # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
+  #
+  # it expects a simple list of projects with a #lft column (awesome_nested_set)
+  # and returns a hierarchy based on #lft
+  #
+  # the result is a nested list of root level projects that contain their child projects
+  # but, each entry is actually a ruby hash wrapping the project and child projects
+  # the keys are :project and :children where :children is in the same format again
+  #
+  #   result = [ root_level_project_info_1, root_level_project_info_2, ... ]
+  #
+  # where each entry has the form
+  #
+  #   project_info = { :project => the_project, :children => [ child_info_1, child_info_2, ... ] }
+  #
+  # if a project has no children the :children array is just empty
+  #
+  def self.build_projects_hierarchy(projects)
     ancestors = []
+    result    = []
+
     projects.sort_by(&:lft).each do |project|
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
+      while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
+        # before we pop back one level, we sort the child projects by name
+        ancestors.last[:children] = ancestors.last[:children].sort_by { |h| h[:project].name }
         ancestors.pop
       end
-      yield project, ancestors.size
-      ancestors << project
+
+      current_hierarchy = { :project => project, :children => [] }
+      current_tree      = ancestors.any? ? ancestors.last[:children] : result
+
+      current_tree << current_hierarchy
+      ancestors    << current_hierarchy
     end
+
+    # at the end the root level must be sorted as well
+    result.sort_by { |h| h[:project].name }
+  end
+
+  def self.project_tree_from_hierarchy(projects_hierarchy, level, &block)
+    projects_hierarchy.each do |hierarchy|
+      project, children = hierarchy[:project], hierarchy[:children]
+      yield project, level
+      # recursively show children
+      project_tree_from_hierarchy(children, level + 1, &block) if children.any?
+    end
+  end
+
+  # Yields the given block for each project with its level in the tree
+  def self.project_tree(projects, &block)
+    projects_hierarchy = build_projects_hierarchy(projects)
+    project_tree_from_hierarchy(projects_hierarchy, 0, &block)
   end
 
   private
