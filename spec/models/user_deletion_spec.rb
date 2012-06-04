@@ -104,4 +104,19 @@ describe User, "#destroy" do
 
     it_should_behave_like "created journalized associated object"
   end
+
+  describe "WHEN the user is part of a group" do
+    let(:group) { Factory.create(:group) }
+    let(:group_user) { Factory.create(:group_user, :group => group,
+                                                   :user => user) }
+
+    before do
+      group_user
+
+      user.destroy
+    end
+
+    it { Group.find_by_id(group.id).should == group }
+    it { GroupUser.find_by_id(group_user.id).should be_nil }
+  end
 end
