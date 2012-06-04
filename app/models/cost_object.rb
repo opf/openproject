@@ -31,15 +31,9 @@ class CostObject < ActiveRecord::Base
     replace_author_with_deleted_user user
   end
 
-  def before_validation
-    self.author_id = User.current.id if self.new_record?
-  end
-
-  def before_destroy
-    issues.all.each do |i|
-      result = i.update_attributes({:cost_object => nil})
-      return false unless result
-    end
+  def initialize(attributes = nil)
+    super
+    self.author = User.current if self.new_record?
   end
 
   def attributes=(attrs)
