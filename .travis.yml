@@ -15,8 +15,7 @@ matrix:
     - rvm: 1.9.3
       env: "RAILS_ENV=test DB=mysql BUNDLE_WITHOUT=rmagick:mysql2:postgres:sqlite"
 before_script:
-  - "sudo apt-get -qq update"
-  - "sudo apt-get -qq --no-install-recommends install bzr cvs darcs git mercurial subversion"
+  - "sudo apt-get --no-install-recommends install bzr cvs darcs git mercurial subversion"
   - "rake ci:travis:prepare"
 branches:
   only:
