@@ -231,7 +231,7 @@ module IssuesHelper
                     :class => issue.css_classes,
                     :title => "#{ truncate(issue.subject, :length => 100) } (#{ issue.status.name })")
     ret += "#{ issue.start_date.nil? ? "[?]" : issue.start_date.to_s }"
-    ret += " — #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"
+    ret += " – #{ issue.due_date.nil? ? "[?]" : issue.due_date.to_s }"
     ret += "#{ issue.assigned_to.nil? ?  " " : " (#{h(issue.assigned_to.to_s)})" }"
     ret
   end
