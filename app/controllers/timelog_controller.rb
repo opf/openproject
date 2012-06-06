@@ -259,4 +259,7 @@ private
     @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
   end
 
+  def default_breadcrumb
+    I18n.t(:label_spent_time)
+  end
 end
