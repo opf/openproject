@@ -217,7 +217,18 @@ describe CostEntry do
           before { cost_type.deleted_at = Date.new }
 
           it { cost_entry.should_not be_valid }
+    describe :user do
+      describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
+        before do
+          cost_entry.save!
+          user.destroy
         end
+
+        it { cost_entry.reload.user.should == DeletedUser.first }
+      end
+
+      describe "WHEN an existing user is provided" do
+        it { cost_entry.user.should == user }
       end
     end
   end

@@ -57,6 +57,32 @@ describe LaborBudgetItem do
     end
   end
 
+  describe :user do
+    describe "WHEN an existing user is provided" do
+      before do
+        item.save!
+        item.reload
+        item.update_attribute(:user_id, user.id)
+        item.reload
+      end
+
+      it { item.user.should == user }
+    end
+
+    describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
+      before do
+        item.save!
+        item.reload
+        item.update_attribute(:user_id, user.id)
+        user.destroy
+        item.reload
+      end
+
+      it { item.user.should == DeletedUser.first }
+      it { item.user_id.should == user.id }
+    end
+  end
+
   describe :valid? do
     describe "WHEN hours, cost_object and user are provided" do
       it "should be valid" do
