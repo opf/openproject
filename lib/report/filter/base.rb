@@ -96,6 +96,13 @@ class Report::Filter
       self.values = [val]
     end
 
+    ##
+    # Always empty. You may include additional_operators as a filter module.
+    # This is here for the case you don't.
+    def self.additional_operators
+      []
+    end
+
     def self.use(*names)
       operators = []
       names.each do |name|
@@ -180,7 +187,9 @@ class Report::Filter
 
     def operator=(value)
       @operator = value.to_operator.tap do |o|
-        raise ArgumentError, "#{o.inspect} not supported by #{inspect}." unless available_operators.include? o
+        unless available_operators.include?(o) || additional_operators.include?(o)
+          raise ArgumentError, "#{o.inspect} not supported by #{inspect}."
+        end
       end
     end
 
