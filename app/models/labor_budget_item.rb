@@ -4,6 +4,8 @@ class LaborBudgetItem < ActiveRecord::Base
 
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   validates_presence_of :user
+  validates_presence_of :cost_object
+  validates_numericality_of :hours, :allow_nil => false
 
   # user_id correctness is ensured in VariableCostObject#*_labor_budget_item_attributes=
   attr_accessible :hours, :comments, :budget, :user_id
