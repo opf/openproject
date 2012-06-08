@@ -4,6 +4,7 @@ describe User, "#destroy" do
   let(:user) { Factory.create(:user) }
   let(:user2) { Factory.create(:user) }
   let(:substitute_user) { DeletedUser.first }
+  let(:project) { Factory.create(:valid_project) }
 
   before do
     user
@@ -109,7 +110,6 @@ describe User, "#destroy" do
     let(:group) { Factory.create(:group) }
     let(:group_user) { Factory.create(:group_user, :group => group,
                                                    :user => user) }
-
     before do
       group_user
 
@@ -118,5 +118,67 @@ describe User, "#destroy" do
 
     it { Group.find_by_id(group.id).should == group }
     it { GroupUser.find_by_id(group_user.id).should be_nil }
+  end
+
+  describe "WHEN the user has a labor_budget_item associated" do
+    let(:item) { Factory.build(:labor_budget_item, :user => user) }
+
+    before do
+      item.save!
+
+      user.destroy
+    end
+
+    it { LaborBudgetItem.find_by_id(item.id).should == item }
+    it { item.user_id.should == user.id }
+  end
+
+  describe "WHEN the user has a cost entry" do
+    let(:issue) { Factory.create(:valid_issue) }
+    let(:entry) { Factory.build(:cost_entry, :user => user,
+                                             :project => issue.project,
+                                             :units => 100.0,
+                                             :spent_on => Date.today,
+                                             :issue => issue,
+                                             :comments => "") }
+
+    before do
+      Factory.create(:member, :project => issue.project,
+                              :user => user,
+                              :roles => [Factory.build(:role)])
+      entry.save!
+
+      user.destroy
+
+      entry.reload
+    end
+
+    it { entry.user_id.should == user.id }
+  end
+
+  describe "WHEN the user is assigned an hourly rate" do
+    let(:hourly_rate) { Factory.build(:hourly_rate, :user => user,
+                                                    :project => project) }
+
+    before do
+      hourly_rate.save!
+      user.destroy
+    end
+
+    it { HourlyRate.find_by_id(hourly_rate.id).should == hourly_rate }
+    it { hourly_rate.reload.user_id.should == user.id }
+  end
+
+  describe "WHEN the user is assigned a default hourly rate" do
+    let(:default_hourly_rate) { Factory.build(:default_hourly_rate, :user => user,
+                                                                    :project => project) }
+
+    before do
+      default_hourly_rate.save!
+      user.destroy
+    end
+
+    it { DefaultHourlyRate.find_by_id(default_hourly_rate.id).should == default_hourly_rate }
+    it { default_hourly_rate.reload.user_id.should == user.id }
   end
 end
