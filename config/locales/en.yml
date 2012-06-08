@@ -134,6 +134,7 @@ en:
   label_variable_cost_object: Variable rate based budget
   label_view_all_cost_objects: View all Budgets
   label_yes: "Yes"
+  label_hourly_rate: "Hourly rate"
 
   notice_cost_object_conflict: "Issues must be of the same project."
   notice_no_cost_objects_available: "No budgets available."
