@@ -28,4 +28,12 @@ class DefaultHourlyRate < Rate
   def before_save
     self.valid_from &&= valid_from.to_date
   end
+
+  def self.at_for_user(date, user_id)
+    user_id = user_id.id if user_id.is_a?(User)
+
+    find(:first,
+         :conditions => [ "user_id = ? and valid_from <= ?", user_id, date],
+         :order => "valid_from DESC")
+  end
 end
