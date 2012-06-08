@@ -1,6 +1,4 @@
 class DefaultHourlyRate < Rate
-  belongs_to :user
-
   validates_uniqueness_of :valid_from, :scope => :user_id
   validates_presence_of :user_id, :valid_from
 
