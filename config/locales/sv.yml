@@ -1,7 +1,7 @@
 # Swedish translation for Ruby on Rails and ChiliProject
 # by Johan Lundström (johanlunds@gmail.com),
 # with parts taken from http://github.com/daniel/swe_rails
-# 
+#
 # contributor: Björn Blissing
 
 sv:
@@ -988,7 +988,7 @@ sv:
   text_display_subprojects: Visa underprojekt
   text_current_project: Nuvarande project
   text_mail_handler_confirmation_successful: "Din e-post har framgångsrikt lagts till på följande webbadress"
-  
+
   default_role_manager: Projektledare
   default_role_developer: Utvecklare
   default_role_reporter: Rapportör
