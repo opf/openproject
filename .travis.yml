@@ -29,3 +29,4 @@ branches:
     - stable
 notifications:
   email: false
+  irc: "irc.freenode.org#chiliproject"
