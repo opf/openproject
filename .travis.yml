@@ -27,6 +27,8 @@ branches:
     - unstable
     - master
     - stable
+    - /^stable-.*$/
+    - /^release-.*$/
 notifications:
   email: false
   irc: "irc.freenode.org#chiliproject"
