@@ -1,5 +1,32 @@
 = ChiliProject Changelog
 
+== 2012-06-09 v3.2.0
+
+* Bug #844: Set autocomplete=off for some fields in Registration form
+* Bug #863: missing journals fixture at test/unit/issue_test.rb
+* Bug #950: jQuery AJAX requests don't include CSRF token
+* Bug #966: "edit own notes" fails since 3.1.0
+* Bug #967: Menu - Missing translations (French)
+* Bug #968: Forum threads aren't always displaying "Last Message"
+* Bug #969: Forum URLs in the menu are missing the project_id
+* Bug #970: Long version titles extend outside the group menu when expanding Roadmap
+* Bug #974: menu link broken in duplicate issue mode
+* Bug #975: Start Date is not saved for Versions
+* Bug #984: Cannot unlock a forum thread
+* Bug #986: Notification Mail for Wiki-Changes doesn't contain change comment
+* Bug #994: select all in issue list isn't working
+* Bug #1007: Right clicking on item in roadmap displays menu at incorrect position
+* Bug #1008: error 500 when uploading a new file to an existing document
+* Bug #1024: Select multiple issues with shift key in issue list
+* Bug #1025: Rails: Unsafe Query Generation Risk in Ruby on Rails (CVE-2012-2660)
+* Bug #1033: Replace vendored gravatar lib by gem
+* Feature #749: Git Integration: Property Main Branch
+* Feature #947: Reformat the CSS files to use a standard
+* Feature #983: Bulgarian translation of several strings
+* Feature #988: Swedish translation of several strings
+* Feature #1016: Limit height of project drop down menu
+* Task #982: Updated czech localization for chiliproject 3.1
+
 == 2012-04-04 v3.1.0
 
 * Bug #739: Relative textile links not converted to full URLs in emails
