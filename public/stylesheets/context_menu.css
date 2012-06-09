@@ -1,53 +1,112 @@
-#context-menu { position: absolute; z-index: 40; }
+#context-menu {
+  position: absolute;
+  z-index: 40;
+}
 
-#context-menu ul, #context-menu li, #context-menu a {
-	display:block;
-	margin:0;
-	padding:0;
-	border:0;
+#context-menu ul,
+#context-menu li,
+#context-menu a {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 #context-menu ul {
-	width:150px;
-	border-top:1px solid #ddd;
-	border-left:1px solid #ddd;
-	border-bottom:1px solid #777;
-	border-right:1px solid #777;
-	background:white;
-	list-style:none;
+  width: 150px;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #777;
+  border-right: 1px solid #777;
+  background: white;
+  list-style: none;
 }
 
 #context-menu li {
-	position:relative;
-	padding:1px;
-	z-index:39;
-	border:1px solid white;
+  position: relative;
+  padding: 1px;
+  z-index: 39;
+  border: 1px solid white;
 }
-#context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
-#context-menu li.folder>ul { left:148px; }
 
-#context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
-#context-menu.reverse-x li.folder ul { left:auto; right:168px; /* IE6 */ }
-#context-menu.reverse-x li.folder>ul { right:148px; }
+#context-menu li.folder ul {
+  position: absolute;
+  left: 168px; /* ie6 */
+  top: -2px;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+#context-menu li.folder > ul {
+  left: 148px;
+}
+
+#context-menu.reverse-y li.folder > ul {
+  top: auto;
+  bottom: 0;
+}
+
+#context-menu.reverse-x li.folder ul {
+  left: auto;
+  right: 168px; /* IE6 */
+}
+
+#context-menu.reverse-x li.folder > ul {
+  right: 148px;
+}
 
 #context-menu a {
-	text-decoration:none !important;
-	background-repeat: no-repeat;
-	background-position: 1px 50%;
-	padding: 1px 0px 1px 20px;
-	width:100%; /* IE */
+  text-decoration: none !important;
+  background-repeat: no-repeat;
+  background-position: 1px 50%;
+  padding: 1px 0px 1px 20px;
+  width: 100%; /* IE */
 }
-#context-menu li>a { width:auto; } /* others */
-#context-menu a.disabled, #context-menu a.disabled:hover {color: #ccc;}
-#context-menu li:hover { border:1px solid gray; background-color:#eee; }
-#context-menu a:hover {color:#2A5685;}
-#context-menu li.folder:hover { z-index:40; }		
-#context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
-#context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
+
+#context-menu li > a {
+  width: auto;
+}
+
+/* others */
+#context-menu a.disabled,
+#context-menu a.disabled:hover {
+  color: #ccc;
+}
+
+#context-menu li:hover {
+  border: 1px solid gray;
+  background-color: #eee;
+}
+
+#context-menu a:hover {
+  color: #2A5685;
+}
+
+#context-menu li.folder:hover {
+  z-index: 40;
+}
+
+#context-menu ul ul,
+#context-menu li:hover ul ul {
+  display: none;
+}
+
+#context-menu li:hover ul,
+#context-menu li:hover li:hover ul {
+  display: block;
+}
 
 /* selected element */
-.context-menu-selection { background-color:#507AAA !important; color:#000 !important; }
-.context-menu-selection:hover { background-color:#507AAA !important; color:#000  !important; }
+.context-menu-selection {
+  background-color: #507AAA !important;
+  color: #000 !important;
+}
+
+.context-menu-selection:hover {
+  background-color: #507AAA !important;
+  color: #000 !important;
+}
 
 #context-menu .submenu {
   border: transparent solid 5px;

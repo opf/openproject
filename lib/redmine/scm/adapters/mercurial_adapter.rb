@@ -271,7 +271,8 @@ module Redmine
           end
           blame
         rescue HgCommandAborted
-          nil  # means not found or cannot be annotated
+          # means not found or cannot be annotated
+          Annotate.new
         end
 
         class Revision < Redmine::Scm::Adapters::Revision

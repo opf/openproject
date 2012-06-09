@@ -983,22 +983,22 @@ bg:
   description_choose_project: Проекти
   description_date_from: Въведете начална дата
   label_deleted_custom_field: (изтрито потребителско поле)
-  field_custom_filter: Custom LDAP filter
-  text_display_subprojects: Display subprojects
-  text_current_project: Current project
-  label_toc: Contents
-  search_input_placeholder: search ...
-  setting_mail_handler_confirmation_on_success: Send confirmation email on successful incoming email
-  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
-  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
-  label_document_watchers: Watchers
-  setting_mail_handler_confirmation_on_failure: Send confirmation email on failed incoming email
+  field_custom_filter: Потребителски LDAP филтър
+  text_display_subprojects: Показване на подпроекти
+  text_current_project: Текущ проект
+  label_toc: Съдържание
+  search_input_placeholder: търсене ...
+  setting_mail_handler_confirmation_on_success: Изпращане на е-мейл за потвърждение при успешен входен е-мейл
+  label_mail_handler_confirmation: "Потвърждение на изпратено с е-мейл: %{subject}"
+  label_mail_handler_errors_with_submission: "Има грешки във вашия е-мейл:"
+  label_document_watchers: Наблюдатели
+  setting_mail_handler_confirmation_on_failure: Изпращане на е-мейл за потвърждение при неуспешен входен е-мейл
   label_between: between
-  label_mail_handler_failure: "Failed email submission: %{subject}"
-  notice_not_authorized_action: You are not authorized to perform this action.
-  text_mail_handler_confirmation_successful: Your email has been successful added at the following url
-  field_issue_summary: Issue summary
-  field_new_saved_query: New saved query
-  field_issue_view_all_open: View all open issues
-  label_subtask_add: Add a subtask
-  label_issue_hierarchy: Issue hierarchy
+  label_mail_handler_failure: "Пропаднал е-мейл: %{subject}"
+  notice_not_authorized_action: Вие нямате разрешение да изпълните това действие.
+  text_mail_handler_confirmation_successful: Вашият е-мейл беше успешно добавен на следващия адрес
+  field_issue_summary: Заглавие на задачата
+  field_new_saved_query: Нова записана заявка
+  field_issue_view_all_open: Разглеждане на всички отворени задачи
+  label_subtask_add: Добавяне на подзадача
+  label_issue_hierarchy: Йерархия на задачите

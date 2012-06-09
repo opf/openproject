@@ -154,7 +154,7 @@ pt-BR:
   general_text_Yes: 'Sim'
   general_text_no: 'não'
   general_text_yes: 'sim'
-  general_lang_name: 'Português(Brasil)'
+  general_lang_name: 'Português (Brasil)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
@@ -245,7 +245,7 @@ pt-BR:
   field_role: Cargo
   field_homepage: Página do projeto
   field_is_public: Público
-  field_parent: Sub-projeto de
+  field_parent: Subprojeto de
   field_is_in_roadmap: Exibir no planejamento
   field_login: Usuário
   field_mail_notification: Notificações por e-mail
@@ -273,7 +273,7 @@ pt-BR:
   field_comments: Comentário
   field_url: URL
   field_start_page: Página inicial
-  field_subproject: Sub-projeto
+  field_subproject: Subprojeto
   field_hours: Horas
   field_activity: Atividade
   field_spent_on: Data
@@ -411,8 +411,8 @@ pt-BR:
   label_auth_source: Modo de autenticação
   label_auth_source_new: Novo modo de autenticação
   label_auth_source_plural: Modos de autenticação
-  label_subproject_plural: Sub-projetos
-  label_and_its_subprojects: "%{value} e seus sub-projetos"
+  label_subproject_plural: Subprojetos
+  label_and_its_subprojects: "%{value} e seus subprojetos"
   label_min_max_length: Tamanho mín-máx
   label_list: Lista
   label_date: Data
@@ -879,7 +879,7 @@ pt-BR:
   field_sharing: Compartilhamento
   label_version_sharing_hierarchy: Com a hierarquia do projeto
   label_version_sharing_system: Com todos os projetos
-  label_version_sharing_descendants: Com sub-projetos
+  label_version_sharing_descendants: Com subprojetos
   label_version_sharing_tree: Com a árvore do projeto
   label_version_sharing_none: Sem compartilhamento
   error_can_not_archive_project: Este projeto não pode ser arquivado
@@ -989,7 +989,7 @@ pt-BR:
   label_mercurial_path: Diretório raiz
 
   label_diff: diff
-  description_search: Searchfield
+  description_search: Campo de pesquisa
   description_user_mail_notification: Configuração de notificações por e-mail
   description_date_range_list: Escolha um período a partira da lista
   description_date_to: Digite a data final
@@ -1008,21 +1008,21 @@ pt-BR:
   description_date_from: Digita a data inicial
   label_deleted_custom_field: (campo personalizado excluído)
   field_custom_filter: Custom LDAP filter
-  text_display_subprojects: Display subprojects
-  text_current_project: Current project
-  label_toc: Contents
-  search_input_placeholder: search ...
-  setting_mail_handler_confirmation_on_success: Send confirmation email on successful incoming email
-  label_mail_handler_confirmation: "Confirmation of email submission: %{subject}"
-  label_mail_handler_errors_with_submission: "There were errors with your email submission:"
-  label_document_watchers: Watchers
-  setting_mail_handler_confirmation_on_failure: Send confirmation email on failed incoming email
+  text_display_subprojects: Exibir subprojetos
+  text_current_project: Projeto atual
+  label_toc: Conteúdo
+  search_input_placeholder: pesquisar ...
+  setting_mail_handler_confirmation_on_success: Enviar confirmação ao receber um e-mail
+  label_mail_handler_confirmation: "Confirmação de envio de e-mail: %{subject}"
+  label_mail_handler_errors_with_submission: "Seu envio de email falhou:"
+  label_document_watchers: Observadores
+  setting_mail_handler_confirmation_on_failure: Enviar confirmação ao falhar o recebimento de um e-mail
   label_between: between
-  label_mail_handler_failure: "Failed email submission: %{subject}"
-  notice_not_authorized_action: You are not authorized to perform this action.
-  text_mail_handler_confirmation_successful: Your email has been successful added at the following url
-  field_issue_summary: Issue summary
-  field_new_saved_query: New saved query
-  field_issue_view_all_open: View all open issues
-  label_subtask_add: Add a subtask
-  label_issue_hierarchy: Issue hierarchy
+  label_mail_handler_failure: "Envio de e-mail falhou: %{subject}"
+  notice_not_authorized_action: Você não tem permissão para fazer isto.
+  text_mail_handler_confirmation_successful: Seu e-mail foi adicionado com sucesso a URL a seguir
+  field_issue_summary: Relatório
+  field_new_saved_query: Nova consulta
+  field_issue_view_all_open: Ver tarefas abertas
+  label_subtask_add: Adicionar
+  label_issue_hierarchy: Subtarefas

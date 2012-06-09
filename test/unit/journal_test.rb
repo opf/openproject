@@ -14,7 +14,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals, :enumerations
+  fixtures :issues, :issue_statuses, :journals, :enumerations,\
+    :users, :trackers, :projects, :members, :member_roles, :roles,\
+    :enabled_modules
 
   def setup
     @journal = IssueJournal.find(1)
@@ -35,23 +37,17 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(:first)
-    if issue.journals.empty?
-      issue.init_journal(User.current, "This journal represents the creationa of journal version 1")
-      issue.save
-    end
-    user = User.find(:first)
+    issue = issues :issues_001
 
     assert_equal 0, ActionMailer::Base.deliveries.size
-    issue.reload
     issue.update_attribute(:subject, "New subject to trigger automatic journal entry")
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_create_should_not_send_email_notification_if_told_not_to
     ActionMailer::Base.deliveries.clear
-    issue = Issue.find(:first)
-    user = User.find(:first)
+    issue = issues :issues_001
+    user = users :users_001
     journal = issue.init_journal(user, "A note")
     JournalObserver.instance.send_notification = false
 

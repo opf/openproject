@@ -259,7 +259,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :caption => :label_issue_plural,
               :children => issue_query_proc
             })
-  menu.push(:new_issue, { :controller => 'issues', :action => 'new' }, {
+  menu.push(:new_issue, { :controller => 'issues', :action => 'new', :copy_from => nil }, {
               :param => :project_id,
               :caption => :label_issue_new,
               :parent => :issues,
@@ -345,7 +345,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                 project.boards.collect do |board|
                   Redmine::MenuManager::MenuItem.new(
                                                      "board-#{board.id}".to_sym,
-                                                     { :controller => 'boards', :action => 'show', :id => board },
+                                                     { :controller => 'boards', :action => 'show', :project_id => project, :id => board },
                                                      {
                                                        :caption => board.name # is h() in menu_helper.rb
                                                      })

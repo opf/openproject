@@ -3,6 +3,7 @@
         var element = el;
         var opts = options;
         var observingContextMenuClick;
+        var observingToggleAllClick;
         var lastSelected = null;
         var menu;
         var menuId = 'context-menu';
@@ -68,18 +69,17 @@
                             if (lastSelected !== null)
                             {
                                 var toggling = false;
-                                var rows = $(selectorName);
-                                for (i = 0; i < rows.length; i++)
-                                {
-                                    if (toggling || rows[i] == tr)
-                                    {
-                                        methods.addSelection(rows[i]);
+                                var rows = $('.' + selectorName);
+                                rows.each(function() {
+                                    var self = $(this);
+                                    if(toggling || (self.get(0) == tr.get(0))) {
+                                        methods.addSelection(self);
                                     }
-                                    if (rows[i] == tr || rows[i] == lastSelected)
-                                    {
+                                    if(((self.get(0) == tr.get(0)) || (self.get(0) == lastSelected.get(0)))
+                                        && (tr.get(0) !== lastSelected.get(0))) {
                                         toggling = !toggling;
                                     }
-                                }
+                                });
                             } else {
                                 methods.addSelection(tr);
                             }
@@ -153,7 +153,7 @@
                         }
 
                         if(maxHeight > $(window).height()) {
-                            renderY =+ menu.height();
+                            renderY -= menu.height();
                             menu.addClass(reverseYClass);
                         } else {
                             menu.removeClass(reverseYClass);
@@ -174,6 +174,7 @@
             addSelection: function(element) {
                element.addClass(contextMenuSelectionClass);
                methods.checkSelectionBox(element, true);
+               methods.clearDocumentSelection();
             },
             isSelected: function(element) {
                 return element.hasClass(contextMenuSelectionClass);
@@ -194,6 +195,27 @@
                 inputs.each(function() {
                     inputs.attr('checked', checked ? 'checked' : false);
                 });
+            },
+            toggleIssuesSelection: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var issues = $(this).parents('form').find('tr.issue');
+                var checked = methods.isSelected(issues.eq(0));
+                issues.each(function() {
+                    var self = $(this);
+                    if(checked) {
+                        methods.removeSelection(self)
+                    } else {
+                        methods.addSelection(self);
+                    }
+                });
+            },
+            clearDocumentSelection: function() {
+                if(document.selection) {
+                    document.selection.clear();
+                } else {
+                    window.getSelection().removeAllRanges();
+                }
             }
         };
 
@@ -203,6 +225,11 @@
             element.bind('click.contextMenu', methods.click);
             element.bind('contextmenu.contextMenu', methods.click);
             observingContextMenuClick = true;
+        }
+
+        if(!observingToggleAllClick) {
+            element.find('.issues img[alt="Toggle_check"]').bind('click', methods.toggleIssuesSelection);
+            observingToggleAllClick = true;
         }
 
         methods.unselectAll();

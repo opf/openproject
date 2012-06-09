@@ -85,7 +85,7 @@ class DocumentsController < ApplicationController
 
     if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
       # TODO: refactor
-      attachments.first.container.recipients.each do |recipient|
+      @document.recipients.each do |recipient|
         Mailer.deliver_attachments_added(attachments[:files], recipient)
       end
     end

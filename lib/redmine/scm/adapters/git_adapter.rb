@@ -100,6 +100,13 @@ module Redmine
         def default_branch
           bras = self.branches
           return nil if bras.nil?
+           head = nil
+           scm_cmd('symbolic-ref', 'HEAD') do |io|
+             head = io.readline
+           end
+           /^refs\/heads\/(.*)$/.match(head)
+           bras.include?($1) ? $1 : bras.first
+         rescue ScmCommandAborted, EOFError
           bras.include?('master') ? 'master' : bras.first
         end
 

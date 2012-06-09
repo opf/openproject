@@ -131,6 +131,10 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
+    # SQLite doesn't support nested transactions, thus we can't test transaction-
+    # based features in a test wrapped in a transaction.
+    return if ChiliProject::Database.sqlite?
+
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a dupicate

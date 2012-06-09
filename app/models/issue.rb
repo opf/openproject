@@ -712,7 +712,7 @@ class Issue < ActiveRecord::Base
   # The default assumption is that journals have the same permissions
   # as the journaled object, issue notes have separate permissions though
   def journal_editable_by?(journal, user)
-    return true if journal.author == user && user.allowed_to?(:edit_own_issue_notes, project)
+    return true if journal.user == user && user.allowed_to?(:edit_own_issue_notes, project)
     user.allowed_to? :edit_issue_notes, project
   end
 
