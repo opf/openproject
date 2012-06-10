@@ -962,6 +962,7 @@ module ApplicationHelper
     [:default, :size, :rating, :filetype].each {|key| gravatarify_options[key] = options.delete key}
     # Default size is 50x50 px
     gravatarify_options[:size] ||= 50
+    options[:class] ||= 'gravatar'
     gravatarify_options[:html] = options
     gravatar_tag email, gravatarify_options
   end

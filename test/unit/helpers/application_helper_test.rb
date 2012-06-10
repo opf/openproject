@@ -669,6 +669,9 @@ RAW
     assert avatar('jsmith <jsmith@somenet.foo>', :size => 24).include?('s=24')
     # Non-avatar options should be considered html options
     assert avatar('jsmith <jsmith@somenet.foo>', :title => 'John Smith').include?('title="John Smith"')
+    # The default class of the img tag should be gravatar
+    assert avatar('jsmith <jsmith@somenet.foo>').include?('class="gravatar"')
+    assert !avatar('jsmith <jsmith@somenet.foo>', :class => 'picture').include?('class="gravatar"')
     assert_nil avatar('jsmith')
     assert_nil avatar(nil)
 
