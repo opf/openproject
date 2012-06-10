@@ -959,7 +959,10 @@ module ApplicationHelper
   def gravatar(email, options={})
     gravatarify_options = {}
     gravatarify_options[:secure] = options.delete :ssl
-    [:default, :size, :rating, :filetype].each {|key| gravatarify_options[:key] = options.delete :key}
+    [:default, :size, :rating, :filetype].each {|key| gravatarify_options[key] = options.delete key}
+    # Default size is 50x50 px
+    gravatarify_options[:size] ||= 50
+    options[:class] ||= 'gravatar'
     gravatarify_options[:html] = options
     gravatar_tag email, gravatarify_options
   end

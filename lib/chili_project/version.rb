@@ -19,7 +19,7 @@ module ChiliProject
 
     MAJOR = 3
     MINOR = 2
-    PATCH = 0
+    PATCH = 1
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).
