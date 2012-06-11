@@ -11,11 +11,15 @@ Feature: Filter
 
   @javascript
   Scenario: When using jump-to-project comming from a projects cost report to the overall cost report page unsets the project filter
+    Given the desired behaviour is described in #32085 on myproject
     Given there is a standard cost control project named "First Project"
     And I am already logged in as "controller"
     And I am on the Cost Reports page for the project called "First Project"
-    And I follow "Cost Reports"
-    Then "" should be selected for "project_id_arg_1_val"
+    And I follow "Modules" within "#top-menu-items"
+    And I follow "Cost Reports" within "#top-menu-items"
+    Then I should see "New Cost Report" within "h2"
+    And I should be on the overall Cost Reports page
+    And "" should be selected for "project_id_arg_1_val"
 
   #TODO: Fix test - for more information see #32085 on myproject
   #@javascript
