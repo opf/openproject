@@ -6,6 +6,12 @@ Dispatcher.to_prepare do
   require 'redmine_meeting/patch_redmine_classes'
   Project.send(:include, ::Plugin::Meeting::Project)
   Mailer.send(:include, ::Plugin::Meeting::Mailer)
+
+  # load classes so that all User.before_destroy filters are loaded
+  require_dependency 'meeting'
+  require_dependency 'meeting_agenda'
+  require_dependency 'meeting_minutes'
+  require_dependency 'meeting_participant'
 end
 
 Redmine::Plugin.register :redmine_meeting do
