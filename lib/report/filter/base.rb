@@ -99,7 +99,7 @@ class Report::Filter
     ##
     # Always empty. You may include additional_operators as a filter module.
     # This is here for the case you don't.
-    def self.additional_operators
+    def additional_operators
       []
     end
 
