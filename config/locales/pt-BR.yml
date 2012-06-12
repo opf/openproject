@@ -327,6 +327,8 @@ pt-BR:
   setting_mail_handler_api_enabled: Habilitar WS para e-mails de entrada
   setting_mail_handler_api_key: Chave de API
   setting_sequential_project_identifiers: Gerar identificadores sequenciais de projeto
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Gerenciamento de Tarefas
   project_module_time_tracking: Gerenciamento de tempo

@@ -357,6 +357,8 @@ zh:
   setting_issue_done_ratio_issue_status: 使用问题状态
   setting_start_of_week: 日历开始于
   setting_rest_api_enabled: 启用REST web service
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: 新建项目
   permission_add_subprojects: 新建子项目

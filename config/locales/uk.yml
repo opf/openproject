@@ -281,6 +281,8 @@ uk:
   setting_repositories_encodings: Кодування репозиторія
   setting_emails_footer: Підпис до електронної пошти
   setting_protocol: Протокол
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   label_user: Користувач
   label_user_plural: Користувачі

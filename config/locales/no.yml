@@ -289,6 +289,8 @@
   setting_activity_days_default: Dager vist på prosjektaktivitet
   setting_display_subprojects_issues: Vis saker fra underprosjekter på hovedprosjekt som standard
   setting_enabled_scm: Aktiviserte SCM
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Sakssporing
   project_module_time_tracking: Tidssporing

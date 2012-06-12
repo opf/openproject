@@ -327,6 +327,8 @@ el:
   setting_openid: Επιτρέψτε συνδέσεις OpenID και εγγραφή
   setting_password_min_length: Ελάχιστο μήκος κωδικού πρόσβασης
   setting_new_project_user_role_id: Απόδοση ρόλου σε χρήστη μη-διαχειριστή όταν δημιουργεί ένα έργο
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Δημιουργία έργου
   permission_edit_project: Επεξεργασία έργου

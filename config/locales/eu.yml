@@ -346,6 +346,8 @@ eu:
   setting_issue_done_ratio_issue_status: Zeregin egoera erabili
   setting_start_of_week: "Egutegiak noiz hasi:"
   setting_rest_api_enabled: Gaitu REST web zerbitzua
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Proiektua sortu
   permission_add_subprojects: Azpiproiektuak sortu

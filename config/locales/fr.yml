@@ -368,6 +368,8 @@ fr:
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
   setting_issue_startdate_is_adddate: Utiliser "aujourd'hui" comme début pour les nouvelles demandes
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

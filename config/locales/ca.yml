@@ -356,6 +356,8 @@ ca:
   setting_start_of_week: "Inicia les setmanes en"
   setting_rest_api_enabled: "Habilita el servei web REST"
   setting_cache_formatted_text: Cache formatted text
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: "Crea projectes"
   permission_add_subprojects: "Crea subprojectes"

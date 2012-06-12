@@ -365,6 +365,8 @@ fa:
   setting_commit_logtime_enabled: فعالسازی زمان گذاشته شده
   setting_commit_logtime_activity_id: فعالیت زمان گذاشته شده
   setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: ساخت پروژه
   permission_add_subprojects: ساخت زیرپروژه

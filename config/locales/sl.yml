@@ -306,6 +306,8 @@ sl:
   setting_sequential_project_identifiers: Generiraj projektne identifikatorje sekvenčno
   setting_gravatar_enabled: Uporabljaj Gravatar ikone
   setting_diff_max_lines_displayed: Maksimalno število prikazanih vrstic različnosti
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_edit_project: Uredi projekt
   permission_select_project_modules: Izberi module projekta

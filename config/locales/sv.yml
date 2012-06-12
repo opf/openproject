@@ -407,6 +407,8 @@ sv:
   setting_commit_logtime_enabled: Aktivera tidloggning
   setting_commit_logtime_activity_id: Aktivitet för loggad tid
   setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa underprojekt

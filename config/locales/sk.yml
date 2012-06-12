@@ -292,6 +292,8 @@ sk:
   setting_user_format: Formát zobrazenia užívateľa
   setting_activity_days_default: "Zobrazené dni aktivity projektu:"
   setting_display_subprojects_issues: Prednastavenie zobrazenia úloh podporojektov v hlavnom projekte
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Sledovanie úloh
   project_module_time_tracking: Sledovanie času

@@ -338,6 +338,8 @@ lv:
   setting_start_of_week: Sākt kalendāru ar
   setting_rest_api_enabled: Lietot REST web-servisu
   setting_cache_formatted_text: Kešot formatētu tekstu
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Izveidot projektu
   permission_add_subprojects: Izveidot apakšprojektu

@@ -901,6 +901,8 @@ ru:
   setting_user_format: Формат отображения имени
   setting_welcome_text: Текст приветствия
   setting_wiki_compression: Сжатие истории Wiki
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   status_active: активен
   status_locked: заблокирован

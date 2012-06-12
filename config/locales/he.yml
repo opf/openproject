@@ -360,6 +360,8 @@ he:
   setting_rest_api_enabled: אפשר שירות רשת REST
   setting_cache_formatted_text: שמור טקסט מעוצב במטמון
   setting_default_notification_option: אפשרות התראה ברירת־מחדל
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: יצירת פרויקט
   permission_add_subprojects: יצירת תתי־פרויקט

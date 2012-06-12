@@ -375,6 +375,8 @@ ko:
   setting_openid: OpenID 로그인과 등록 허용
   setting_password_min_length: 최소 암호 길이
   setting_new_project_user_role_id: 프로젝트를 만든 사용자에게 주어질 역할
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: 프로젝트 생성
   permission_edit_project: 프로젝트 편집

@@ -275,6 +275,8 @@ it:
   setting_autologin: Connessione automatica
   setting_date_format: Formato data
   setting_cross_project_issue_relations: Consenti la creazione di relazioni tra segnalazioni in progetti differenti
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   label_user: Utente
   label_user_plural: Utenti

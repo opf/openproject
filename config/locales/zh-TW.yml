@@ -447,6 +447,8 @@
   setting_commit_logtime_enabled: 啟用送交中的時間記錄
   setting_commit_logtime_activity_id: 時間記錄對應的活動
   setting_gantt_items_limit: 甘特圖中項目顯示數量的最大值
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案

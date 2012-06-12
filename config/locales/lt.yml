@@ -390,6 +390,8 @@ lt:
   setting_password_min_length: Minimalus slaptažodžio ilgis
   setting_new_project_user_role_id: Vaidmuo, suteikiamas vartotojui (non-admin), kuris sukuria projektą
   setting_default_projects_modules: Nustatytieji naujam projektui priskirti moduliai
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Sukurti projektą
   permission_edit_project: Taisyti projektą

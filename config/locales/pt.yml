@@ -312,6 +312,8 @@ pt:
   setting_mail_handler_api_enabled: Activar Web Service para e-mails recebidos
   setting_mail_handler_api_key: Chave da API
   setting_sequential_project_identifiers: Gerar identificadores de projecto sequênciais
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Tarefas
   project_module_time_tracking: Registo de tempo

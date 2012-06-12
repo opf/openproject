@@ -368,6 +368,8 @@ cs:
   setting_commit_logtime_enabled: Povolit zapisování času
   setting_commit_logtime_activity_id: Aktivita pro zapsaný čas
   setting_gantt_items_limit: Maximální počet položek zobrazený na ganttově grafu
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Vytvořit projekt
   permission_add_subprojects: Vytvořit podprojekty

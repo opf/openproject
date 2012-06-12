@@ -301,7 +301,6 @@ bs:
   setting_host_name: Ime hosta i putanja
   setting_text_formatting: Formatiranje teksta
   setting_wiki_compression: Kompresija Wiki istorije
-
   setting_feeds_limit: 'Limit za "RSS" feed-ove'
   setting_default_projects_public: Podrazumjeva se da je novi projekat javni
   setting_autofetch_changesets: 'Automatski kupi "commit"-e'
@@ -330,6 +329,8 @@ bs:
   setting_file_max_size_displayed: Maksimalna veličina fajla kod prikaza razlika unutar fajla (inline)
   setting_repository_log_display_limit: Maksimalna veličina revizija prikazanih na log fajlu
   setting_openid: Omogući OpenID prijavu i registraciju
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_edit_project: Ispravke projekta
   permission_select_project_modules: Odaberi module projekta

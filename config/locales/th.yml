@@ -294,6 +294,8 @@ th:
   setting_user_format: รูปแบบการแสดงชื่อผู้ใช้
   setting_activity_days_default: จำนวนวันที่แสดงในกิจกรรมของโครงการ
   setting_display_subprojects_issues: แสดงปัญหาของโครงการย่อยในโครงการหลัก
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: การติดตามปัญหา
   project_module_time_tracking: การใช้เวลา

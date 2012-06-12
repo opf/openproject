@@ -352,6 +352,8 @@ sr-YU:
   setting_start_of_week: Prvi dan u sedmici
   setting_rest_api_enabled: Omogući REST web usluge
   setting_cache_formatted_text: Keširanje obrađenog teksta
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Kreiranje projekta
   permission_add_subprojects: Kreiranje potpojekta

@@ -334,6 +334,8 @@ id:
   setting_password_min_length: Panjang minimum untuk kata sandi
   setting_new_project_user_role_id: Peran diberikan pada pengguna non-admin yang membuat proyek
   setting_default_projects_modules: Modul yang diaktifkan pada proyek baru
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_add_project: Tambahkan proyek
   permission_edit_project: Sunting proyek

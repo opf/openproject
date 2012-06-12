@@ -309,6 +309,8 @@ ro:
   setting_file_max_size_displayed: Număr maxim de fișiere text afișate în pagină (inline)
   setting_repository_log_display_limit: Număr maxim de revizii afișate în istoricul fișierului
   setting_openid: Permite înregistrare și autentificare cu OpenID
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   permission_edit_project: Editează proiectul
   permission_select_project_modules: Alege module pentru proiect

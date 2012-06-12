@@ -314,6 +314,8 @@ fi:
   setting_emails_footer: Sähköpostin alatunniste
   setting_protocol: Protokolla
   setting_per_page_options: Sivun objektien määrän asetukset
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   label_user: Käyttäjä
   label_user_plural: Käyttäjät

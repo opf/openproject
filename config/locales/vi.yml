@@ -357,6 +357,8 @@ vi:
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: Mã số API
   setting_sequential_project_identifiers: Tự sinh chuỗi ID dự án
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Theo dõi vấn đề
   project_module_time_tracking: Theo dõi thời gian

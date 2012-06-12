@@ -306,6 +306,8 @@ da:
   setting_emails_footer: Email-fodnote
   setting_protocol: Protokol
   setting_user_format: Brugervisningsformat
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Users allowed to delete their accounts
 
   project_module_issue_tracking: Sagssøgning
   project_module_time_tracking: Tidsstyring
