@@ -239,7 +239,7 @@ module IssuesHelper
   def issue_quick_info_with_description(issue, lines = 3)
     description_lines = issue.description.to_s.lines.to_a[0,lines]
 
-    if description_lines[lines-1] && issue.description.to_s.lines.size > lines
+    if description_lines[lines-1] && issue.description.to_s.lines.to_a.size > lines
       description_lines[lines-1].strip!
 
       while !description_lines[lines-1].end_with?("...") do
