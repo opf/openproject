@@ -116,26 +116,33 @@ module ActionController
     end
   end
 
-  # Backported fix for CVE-2012-2660
+  # Backported fix for
+  # CVE-2012-2660
   # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/f1203e3376acec0f
-  # TODO: Remove this once we are on Rails >= 3.2.4
+  #
+  # CVE-2012-2694
+  # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/8c82d9df8b401c5e
+  #
+  # TODO: Remove this once we are on Rails >= 3.2.6
   require 'action_controller/request'
   class Request
     protected
 
     # Remove nils from the params hash
     def deep_munge(hash)
+      keys = hash.keys.find_all { |k| hash[k] == [nil] }
+      keys.each { |k| hash[k] = nil }
+
       hash.each_value do |v|
         case v
         when Array
           v.grep(Hash) { |x| deep_munge(x) }
+          v.compact!
         when Hash
           deep_munge(v)
         end
       end
 
-      keys = hash.keys.find_all { |k| hash[k] == [nil] }
-      keys.each { |k| hash[k] = nil }
       hash
     end
 
