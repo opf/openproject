@@ -1,5 +1,10 @@
 = ChiliProject Changelog
 
+== 2012-06-13 v3.2.2
+
+* Bug #1036: Ruby on Rails Unsafe Query Generation Risk in Ruby on Rails (CVE-2012-2694)
+* Bug #1037: SQL Injection Vulnerability in Ruby on Rails (CVE-2012-2695)
+
 == 2012-06-10 v3.2.1
 
 * Bug #1034: Gravatar
