@@ -1,8 +1,8 @@
 # German strings go here for Rails i18n
 de:
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "Neues Meeting"
+  label_meeting: "Besprechung"
+  label_meeting_plural: "Besprechungen"
+  label_meeting_new: "Neue Besprechung"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Protokoll"
   label_meeting_close: "Schließen"
@@ -16,11 +16,11 @@ de:
   field_location: "Ort/Raum"
   field_start_time: "Anfangszeit"
   field_duration: "Dauer"
-  project_module_meetings: "Meetings"
-  permission_create_meetings: "Meetings erstellen"
-  permission_edit_meetings: "Meetings bearbeiten"
-  permission_delete_meetings: "Meetings löschen"
-  permission_view_meetings: "Meetings ansehen"
+  project_module_meetings: "Besprechungen"
+  permission_create_meetings: "Besprechungen erstellen"
+  permission_edit_meetings: "Besprechungen bearbeiten"
+  permission_delete_meetings: "Besprechungen löschen"
+  permission_view_meetings: "Besprechungen ansehen"
   permission_create_meeting_agendas: "Agenden anlegen/bearbeiten"
   permission_close_meeting_agendas: "Agenden schließen"
   permission_send_meeting_agendas_notification: "Benachrichtigungen für Agenden verschicken"
@@ -29,9 +29,9 @@ de:
   text_in_hours: "in Stunden"
   text_meeting_agenda_open_are_you_sure: "Nicht-gespeicherte Inhalte des Protokolls werden durch diese Aktion verworfen! Weitermachen?"
   text_review_agenda: "%{author} hat die %{link} zur Einsicht freigegeben:"
-  text_agenda_for_meeting: 'Agenda für das Meeting "%{meeting}"'
+  text_agenda_for_meeting: 'Agenda für die Besprechung "%{meeting}"'
   text_review_minutes: "%{author} hat das %{link} zur Einsicht freigegeben:"
-  text_minutes_for_meeting: 'Protokoll für das Meeting "%{meeting}"'
+  text_minutes_for_meeting: 'Protokoll für die Besprechungen "%{meeting}"'
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   description_invite: eingeladen
   description_attended: teilgenommen
