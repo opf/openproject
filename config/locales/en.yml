@@ -470,6 +470,9 @@ en:
   label_issues_by: "Issues by %{value}"
   label_issue_added: Issue added
   label_issue_updated: Issue updated
+  label_sum_for: "Sum for %{value}"
+  label_all_issues: all Issues
+  label_display_sums: Display Sums
   label_document: Document
   label_document_new: New document
   label_document_plural: Documents

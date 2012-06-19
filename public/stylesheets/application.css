@@ -128,6 +128,7 @@ tr.project.idnt-8 td.name {padding-left: 11em;}
 tr.project.idnt-9 td.name {padding-left: 12.5em;}
 
 tr.issue { text-align: center; white-space: nowrap; }
+tr.issue.sum { font-weight: bold; }
 tr.issue td.subject, tr.issue td.category, td.assigned_to { white-space: normal; }
 tr.issue td.subject { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}

@@ -3,8 +3,15 @@
 
 <div class="box">
 <div class="tabular">
-<p><label for="query_name"><%=l(:field_name)%></label>
-<%= text_field 'query', 'name', :size => 80 %></p>
+<p>
+  <%= label_tag :query_name, l(:field_name) %>
+  <%= text_field 'query', 'name', :size => 80 %>
+</p>
+<p>
+  <%= label_tag :display_sums, l(:label_display_sums) %>
+  <%= check_box 'query', 'display_sums' %>
+</p>
+
 <%= call_hook(:view_query_form_top, :query => query) %>
 
 <% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>

@@ -40,6 +40,33 @@
           </td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>
+	<% if display_sums? %>
+    <% caching_issue(issue) %>
+    <%# Check if we are at the end of a group or the end of a page %>
+    <% if @query.grouped? %>
+      <% if !next_in_same_group? or issue == issues.last %>
+        <tr class="<%= cycle('odd', 'even') + " sum grouped " + issue.css_classes %>">
+          <td colspan="2">
+            <% column_content = column_content(@query.group_by_column, issue).to_s %>
+            <%= l(:label_sum_for, :value => (column_content.empty? ? 'None' : column_content)) %>
+          </td>
+          <% @query.columns.each do |column| %>
+            <td><%= mapping_for(column).call(grouped_sum_of(column)) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+
+    <%# Check if we are at the end of a page %>
+    <% if issue == issues.last %>
+      <tr class="<%= cycle('odd', 'even') + " sum group all " + all_issues.first.css_classes %>">
+        <td colspan="2"><%= l(:label_sum_for, :value => l(:label_all_issues)) %></td>
+        <% @query.columns.each do |column| %>
+          <td><%= mapping_for(column).call(total_sum_of(column)) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
   <%= call_hook(:issue_list_group_bottom, :current_issue => issue, :issues => issues, :query => @query, :group => group) %>
   <% end -%>
 	</tbody>

@@ -84,6 +84,7 @@ module QueriesHelper
           end
         end
         @query.group_by = params[:group_by]
+        @query.display_sums = params[:display_sums].present?
         @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
         session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
       else
