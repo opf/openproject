@@ -383,8 +383,10 @@ class Query < ActiveRecord::Base
       next unless v and !v.empty?
       operator = operator_for(field)
 
-      # "me" value subsitution
-      if %w(assigned_to_id author_id watcher_id).include?(field)
+      # "me" value substitution
+      if %w(assigned_to_id author_id watcher_id).include?(field) ||
+        # user custom fields
+        available_filters.has_key?(field) && available_filters[field][:format] == 'user'
         v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
 
@@ -640,11 +642,15 @@ class Query < ActiveRecord::Base
         options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
       when "user", "version"
         next unless project
-        options = { :type => :list_optional, :values => field.possible_values_options(project), :order => 20}
+        values = field.possible_values_options(project)
+        if User.current.logged? && field.field_format == 'user'
+          values.unshift ["<< #{l(:label_me)} >>", "me"]
+        end
+        options = { :type => :list_optional, :values => values, :order => 20}
       else
         options = { :type => :string, :order => 20 }
       end
-      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
+      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name, :format => field.field_format })
     end
   end
 
