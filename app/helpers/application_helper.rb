@@ -436,6 +436,7 @@ module ApplicationHelper
       css << 'theme-' + theme.name
     end
 
+    css << 'project-' + @project.id.to_s if @project.present?
     css << 'controller-' + params[:controller] if params[:controller]
     css << 'action-' + params[:action] if params[:action]
     css.join(' ')
