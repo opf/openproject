@@ -25,7 +25,7 @@ class Wiki < ActiveRecord::Base
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
 
-  safe_attributes 'start_page', 'tabs_attributes'
+  safe_attributes 'start_page'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
