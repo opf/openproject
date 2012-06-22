@@ -7,7 +7,7 @@ class Widget::Filters::Label < Widget::Filters::Base
         options.merge! :class => 'dependent-filter-label'
       end
       content_tag :label, options do
-        l(filter_class.label)
+        h(l(filter_class.label))
       end
     end)
   end

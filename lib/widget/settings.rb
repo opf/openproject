@@ -1,18 +1,33 @@
 class Widget::Settings < Widget::Base
   dont_cache! # Settings may change due to permissions
 
+  def render_with_options(options, &block)
+    @cost_types = options.delete(:cost_types)
+    @selected_type_id = options.delete(:selected_type_id)
+
+    super(options, &block)
+  end
+
   def render
     write(form_tag("#", {:id => 'query_form', :method => :post}) do
       content_tag :div, :id => "query_form_content" do
 
         fieldsets = render_widget Widget::Settings::Fieldset, @subject,
-            { :type => "filter", :help_text => self.filter_help } do
+            { :type => "filters", :help_text => self.filter_help } do
           render_widget Widget::Filters, @subject
         end
 
         fieldsets += render_widget Widget::Settings::Fieldset, @subject,
             { :type => "group_by", :help_text => self.group_by_help } do
           render_widget Widget::GroupBys, @subject
+        end
+
+        fieldsets += render_widget Widget::Settings::Fieldset,
+                                   @subject,
+                                   { :type => "units" } do
+          render_widget Widget::CostTypes,
+                        @cost_types,
+                        :selected_type_id => @selected_type_id
         end
 
         controls = content_tag :div, :class => "buttons form_controls" do

@@ -4,7 +4,7 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
       hidden_field = tag :input, :id => "rm_#{filter_class.underscore_name}",
         :name => "fields[]", :type => "hidden", :value => ""
       button = tag :input, :type => "button", :value => "",
-        :class => "icon filter_rem icon-filter-rem"
+        :class => "icon filter_rem icon-filter-rem", :title => l(:description_remove_filter)
       content_tag(:div, hidden_field + button, :id => "rm_box_#{filter_class.underscore_name}", :class => "remove-box")
     end)
   end

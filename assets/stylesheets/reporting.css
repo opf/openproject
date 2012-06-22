@@ -1,11 +1,3 @@
-#content p,
-#content label,
-#content a,
-#content div  {
-  font-size: 11px;
-  line-height: 16px;
-}
-
 .cost_types {
   padding-bottom: 3px;
 }
@@ -138,6 +130,9 @@
   width: 916px;
 }
 
+#query_form fieldset.header_collapsible.collapsible {
+  padding-bottom: 10px;
+}
 
 /* Overwriting styling for headlines within the query. */
 /* TODO: Font-size seems to be a bit odd. Needs some love. */
@@ -201,7 +196,6 @@
 
 #query-name-edit-button {
   margin-left: 16px;
-  font-size: 11px;
 }
 
 .filter {
@@ -235,11 +229,11 @@
   margin-bottom: 10px;
 }
 
-fieldset#filter-settings table tr.filter:hover {
+fieldset#filters table tr.filter:hover {
   background: #aaa;
 }
 
-fieldset#filter-settings table tr.filter {
+fieldset#filters table tr.filter {
   color: #000;
   background: #ededed;
   -webkit-border-radius: 5px;
@@ -248,7 +242,7 @@ fieldset#filter-settings table tr.filter {
 }
 
 /* Aligning filter elements at the top. */
-fieldset#filter-settings table td {
+fieldset#filters table td {
   vertical-align: top;
   border-spacing: 5px 5px;
   border-color: white;
@@ -257,11 +251,11 @@ fieldset#filter-settings table td {
   padding: 5px 2px 5px 2px;
 }
 
-fieldset#filter-settings table .no-border td {
+fieldset#filters table .no-border td {
   border-style: none !important;
 }
 
-fieldset#filter-settings table td > label {
+fieldset#filters table td > label {
   left: 3px;
   top: 3px;
   position: relative;
@@ -269,7 +263,6 @@ fieldset#filter-settings table td > label {
 
 /* ----- group by --- */
 #group_by_area {
-  font-family: Arial,Geneva,Helvetica,sans-serif;
   margin: 5px 0 10px 0;
 }
 
@@ -310,14 +303,22 @@ fieldset#filter-settings table td > label {
   width: 8px;
   position: absolute;
   top: 7px;
-  right: 18px;
+  right: 21px;
   cursor: pointer;
-  background: no-repeat left center;
-  background-image: url(../images/remove.gif);
 }
 
 .group_by_remove.hover {
   background-color: #009999 !important;
+}
+
+/* Overwrite normal h3 definition - a h-tag is needed for accessibility purposes */
+h3.reporting_formatting {
+  font-weight:normal;
+  font-size: 13px;
+  margin:0px;
+  padding:0px;
+  color:#333;
+  border:0px;
 }
 
 /* have #content here to overwrite line-heigth of other themes through being more specific*/
@@ -326,6 +327,7 @@ fieldset#filter-settings table td > label {
   background-color: #000000;
   font-weight: bold;
   padding: 0 7px;
+  margin: 0;
   height: 22px;
   line-height: 22px;
   min-width: 55px;
@@ -422,7 +424,6 @@ td:hover .drill_down, th:hover .drill_down {
 .buttons .reporting_button * em {
   color: white;
   display: block;
-  font-size: 11px;
   font-style: normal;
   font-weight: bold;
   line-height: 17px;
@@ -470,7 +471,6 @@ td:hover .drill_down, th:hover .drill_down {
 .buttons .button span em {
   color: white;
   display: block;
-  font-size: 11px;
   font-style: normal;
   font-weight: bold;
   line-height: 17px;
@@ -604,5 +604,15 @@ div.calendar table div { /* make sure the nested divs are large enough, too */
 .calendar tbody .day { /* avoid jitter during quick mouse-overs over days */
   border: 1px dotted transparent;
   padding: 1px 3px 1px 1px;
+}
+
+/* Accessibility specific styles */
+fieldset#filters table td > label.hidden-for-sighted, .hidden-for-sighted {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
 }
 
