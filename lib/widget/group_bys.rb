@@ -62,7 +62,8 @@ class Widget::GroupBys < Widget::Base
       out += image_tag "remove.gif",
                        :plugin => "reporting_engine",
                        :id => "hidden_remove_img",
-                       :style => "display:none"
+                       :style => "display:none",
+                       :class => "reporting_hidden_group_remove_image"
       out.html_safe
     end)
   end
