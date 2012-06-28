@@ -65,11 +65,11 @@
 <% end %>
 <p>
 	<label for='issue_start_date'><%= l(:field_start_date) %></label>
-	<%= text_field_tag 'issue[start_date]', '', :size => 10 %><%= calendar_for('issue_start_date') %>
+	<%= date_field_tag 'issue[start_date]', '', :size => 10 %>
 </p>
 <p>
 	<label for='issue_due_date'><%= l(:field_due_date) %></label>
-	<%= text_field_tag 'issue[due_date]', '', :size => 10 %><%= calendar_for('issue_due_date') %>
+	<%= date_field_tag 'issue[due_date]', '', :size => 10 %>
 </p>
 <% if Issue.use_field_for_done_ratio? %>
 <p>
