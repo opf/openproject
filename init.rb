@@ -5,6 +5,7 @@ require 'view_projects_show_sidebar_bottom_hook'
 $LOAD_PATH << File.expand_path("../lib/redmine_widgets", __FILE__)
 require 'simple_table'
 require 'entry_table'
+require 'cost_types'
 
 Redmine::Plugin.register :redmine_reporting do
   name 'Reporting Plugin'
