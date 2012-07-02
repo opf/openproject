@@ -64,6 +64,21 @@ module ChiliProject
           count.to_i > 0 ? array[(count.to_i * -1)..-1] : []
         end
       end
+
+      def date(input, format=nil)
+        if format.nil?
+          return "" unless input
+          if Setting.date_format.blank?
+            input = super(input, '%Y-%m-%d')
+            return ::I18n.l(input.to_date) if input.respond_to?(:to_date)
+            input # default return value
+          else
+            super(input, Setting.date_format)
+          end
+        else
+          super
+        end
+      end
     end
 
     module Filters
