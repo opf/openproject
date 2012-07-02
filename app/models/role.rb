@@ -142,6 +142,11 @@ class Role < ActiveRecord::Base
     anonymous_role
   end
 
+  def self.by_permission(permission)
+    all.select do |role|
+      role.allowed_to? permission
+    end
+  end
 
 private
   def allowed_permissions
