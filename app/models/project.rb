@@ -641,7 +641,7 @@ class Project < ActiveRecord::Base
     projects.sort_by(&:lft).each do |project|
       while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
         # before we pop back one level, we sort the child projects by name
-        ancestors.last[:children] = ancestors.last[:children].sort_by { |h| h[:project].name }
+        ancestors.last[:children] = ancestors.last[:children].sort_by { |h| h[:project].name.downcase if h[:project].name }
         ancestors.pop
       end
 
@@ -653,7 +653,7 @@ class Project < ActiveRecord::Base
     end
 
     # at the end the root level must be sorted as well
-    result.sort_by { |h| h[:project].name }
+    result.sort_by { |h| h[:project].name.downcase if h[:project].name }
   end
 
   def self.project_tree_from_hierarchy(projects_hierarchy, level, &block)
