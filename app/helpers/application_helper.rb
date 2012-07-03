@@ -868,12 +868,10 @@ module ApplicationHelper
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
-    content_tag('table',
-      content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
-        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
-      ), :class => 'progress', :style => "width: #{width};") +
+    content_tag('div',
+      content_tag('div', '', :style => "width: #{pcts[0]}%;", :class => 'closed ui-progressbar-value ui-widget-header ui-corner-left') +
+      content_tag('div', '', :style => "width: #{pcts[1]}%;", :class => 'done ui-progressbar-value ui-widget-header'),
+      :class => 'progress ui-progressbar ui-widget ui-widget-content ui-corner-all', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
 
