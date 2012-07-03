@@ -55,7 +55,7 @@
                        }, :class => 'icon icon-checked' %>
 
     <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1, :project_id => @project },
+                       { :url => { :set_filter => 1, :sort => 'parent:desc', :project_id => @project },
                          :method => :get,
                          :update => "content",
                        }, :class => 'icon icon-reload'  %>
