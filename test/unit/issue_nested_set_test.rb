@@ -248,6 +248,20 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert root.leaf?, "Root issue is not a leaf (lft: #{root.lft}, rgt: #{root.rgt})"
   end
 
+  def test_destroy_issue_with_grand_child
+    parent = create_issue!
+    issue = create_issue!(:parent_issue_id => parent.id)
+    child = create_issue!(:parent_issue_id => issue.id)
+    grandchild1 = create_issue!(:parent_issue_id => child.id)
+    grandchild2 = create_issue!(:parent_issue_id => child.id)
+
+    assert_difference 'Issue.count', -4 do
+      Issue.find(issue.id).destroy
+      parent.reload
+      assert_equal [3, 4], [parent.lft, parent.rgt]
+    end
+  end
+
   def test_parent_priority_should_be_the_highest_child_priority
     parent = create_issue!(:priority => IssuePriority.find_by_name('Normal'))
     # Create children
