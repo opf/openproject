@@ -611,7 +611,7 @@ a.toggle-all:hover {
 }
 
 table.list tbody tr:hover {
-  background-color: #ffffdd;
+  background-color: #ffd !important;
 }
 
 table.list tbody tr.group:hover {
