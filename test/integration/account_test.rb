@@ -101,6 +101,15 @@ class AccountTest < ActionController::IntegrationTest
     assert_equal 0, Token.count
   end
 
+  def test_self_register_link_present
+    Setting.self_registration = '3'
+    Setting.login_required = '1'
+
+    get "/"
+    follow_redirect!
+    assert_select "a[href*=?]", "/account/register", :text => "Register"
+  end
+
   def test_register_with_automatic_activation
     Setting.self_registration = '3'
 

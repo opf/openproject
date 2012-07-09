@@ -39,8 +39,8 @@
         <%= render :partial => 'search/quick_search', :locals => {:search_term => @question} %>
       </div>
 
-      <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
+        <% if User.current.logged? || !Setting.login_required? %>
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
@@ -75,7 +75,8 @@
           </ul>
         </li>
         <% end %>
-          <%= render_menu_node(help_menu_item) %>
+        <%= render_menu_node(help_menu_item) %>
+        <% end %>
           <% unless User.current.logged? %>
             <% if Setting.self_registration? %>
             <li>
@@ -99,7 +100,6 @@
             </li>
           <% end %>
       </ul>
-      <% end %>
     </div>
     </div>
     <div id="breadcrumb">
