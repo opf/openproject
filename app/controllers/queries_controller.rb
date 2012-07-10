@@ -51,6 +51,7 @@ private
 
     @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
     @query.group_by ||= params[:group_by]
+    @query.display_sums ||= params[:display_sums].present?
     @query.column_names = params[:c] if params[:c]
     @query.column_names = nil if params[:default_columns]
   end
