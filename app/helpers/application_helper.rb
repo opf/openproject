@@ -271,8 +271,7 @@ module ApplicationHelper
   end
 
   # Renders the project quick-jump box
-  def render_project_jump_box(projects = [], html_options = {})
-    projects ||= User.current.memberships.collect(&:project).compact.uniq
+  def render_project_jump_box(projects = Project.visible, html_options = {})
     if projects.any?
       option_tags = (content_tag :option, "", :value => "")
       option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
