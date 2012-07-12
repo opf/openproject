@@ -37,11 +37,11 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_issue_add(issue, user) => sends an email to user.mail
   def issue_add(issue, recipient)
     set_language_if_valid recipient.language
-    redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login,
-                    'Type' => "Issue"
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    openproject_headers 'Project' => issue.project.identifier,
+                        'Issue-Id' => issue.id,
+                        'Issue-Author' => issue.author.login,
+                        'Type' => "Issue"
+    openproject_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
     recipients [recipient.mail]
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
@@ -58,11 +58,11 @@ class Mailer < ActionMailer::Base
   def issue_edit(journal, recipient)
     set_language_if_valid recipient.language
     issue = journal.journaled.reload
-    redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login,
-                    'Type' => "Issue"
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    openproject_headers 'Project' => issue.project.identifier,
+                        'Issue-Id' => issue.id,
+                        'Issue-Author' => issue.author.login,
+                        'Type' => "Issue"
+    openproject_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id journal
     references issue
     @author = journal.user
@@ -79,7 +79,7 @@ class Mailer < ActionMailer::Base
   end
 
   def reminder(user, issues, days)
-    redmine_headers 'Type' => "Issue"
+    openproject_headers 'Type' => "Issue"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_reminder, :count => issues.size, :days => days)
@@ -96,8 +96,8 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_document_added(document, user) => sends an email to user.mail
   def document_added(document, recipient)
     set_language_if_valid recipient.language    
-    redmine_headers 'Project' => document.project.identifier,
-                    'Type' => "Document"
+    openproject_headers 'Project' => document.project.identifier,
+                        'Type' => "Document"
     recipients [recipient.mail]
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
     body :document => document,
@@ -127,8 +127,8 @@ class Mailer < ActionMailer::Base
       added_to = "#{l(:label_document)}: #{container.title}"
     end
     recipients [recipient.mail]
-    redmine_headers 'Project' => container.project.identifier,
-                    'Type' => "Attachment"
+    openproject_headers 'Project' => container.project.identifier,
+                        'Type' => "Attachment"
     subject "[#{container.project.name}] #{l(:label_attachment_new)}"
     body :attachments => attachments,
          :added_to => added_to,
@@ -143,8 +143,8 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_news_added(news, user) => sends an email to user.mail
   def news_added(news, recipient)
     set_language_if_valid recipient.language
-    redmine_headers 'Project' => news.project.identifier,
-                    'Type' => "News"
+    openproject_headers 'Project' => news.project.identifier,
+                        'Type' => "News"
     message_id news
     recipients [recipient.mail]
     subject "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
@@ -162,7 +162,7 @@ class Mailer < ActionMailer::Base
   # Note: not used?
   def news_comment_added(comment)
     news = comment.commented
-    redmine_headers 'Project' => news.project.identifier
+    openproject_headers 'Project' => news.project.identifier
     message_id comment
     recipients news.recipients
     cc news.watcher_recipients
@@ -180,9 +180,9 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_message_posted(message, user) => sends an email to user.mail
   def message_posted(message, recipient)
     set_language_if_valid recipient.language    
-    redmine_headers 'Project' => message.project.identifier,
-                    'Topic-Id' => (message.parent_id || message.id),
-                    'Type' => "Forum"
+    openproject_headers 'Project' => message.project.identifier,
+                        'Topic-Id' => (message.parent_id || message.id),
+                        'Type' => "Forum"
     message_id message
     references message.parent unless message.parent.nil?
     recipients [recipient.mail]
@@ -199,9 +199,9 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_wiki_content_added(wiki_content, user) => sends an email to user.mail
   def wiki_content_added(wiki_content, recipient)
     set_language_if_valid recipient.language    
-    redmine_headers 'Project' => wiki_content.project.identifier,
-                    'Wiki-Page-Id' => wiki_content.page.id,
-                    'Type' => "Wiki"
+    openproject_headers 'Project' => wiki_content.project.identifier,
+                        'Wiki-Page-Id' => wiki_content.page.id,
+                        'Type' => "Wiki"
     message_id wiki_content
     recipients [recipient.mail]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
@@ -217,9 +217,9 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_wiki_content_updated(wiki_content, user) => sends an email to user.mail
   def wiki_content_updated(wiki_content, recipient)
     set_language_if_valid recipient.language    
-    redmine_headers 'Project' => wiki_content.project.identifier,
-                    'Wiki-Page-Id' => wiki_content.page.id,
-                    'Type' => "Wiki"
+    openproject_headers 'Project' => wiki_content.project.identifier,
+                        'Wiki-Page-Id' => wiki_content.page.id,
+                        'Type' => "Wiki"
     message_id wiki_content
     recipients [recipient.mail]
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
@@ -235,7 +235,7 @@ class Mailer < ActionMailer::Base
   #   account_information(user, password) => tmail object
   #   Mailer.deliver_account_information(user, password) => sends account information to the user
   def account_information(user, password)
-    redmine_headers 'Type' => "Account"
+    openproject_headers 'Type' => "Account"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -251,9 +251,9 @@ class Mailer < ActionMailer::Base
   #   account_activation_request(user) => tmail object
   #   Mailer.deliver_account_activation_request(user)=> sends an email to all active administrators
   def account_activation_request(user)
-    set_language_if_valid user.language    
+    set_language_if_valid user.language
     # Send the email to all active administrators
-    redmine_headers 'Type' => "Account"
+    openproject_headers 'Type' => "Account"
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
@@ -268,7 +268,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_account_activated(user) => sends an email to the registered user
   def account_activated(user)
     set_language_if_valid user.language    
-    redmine_headers 'Type' => "Account"
+    openproject_headers 'Type' => "Account"
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -278,7 +278,7 @@ class Mailer < ActionMailer::Base
   end
 
   def lost_password(token)
-    redmine_headers 'Type' => "Account"
+    openproject_headers 'Type' => "Account"
     set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_lost_password, Setting.app_title)
@@ -288,7 +288,7 @@ class Mailer < ActionMailer::Base
   end
 
   def register(token)
-    redmine_headers 'Type' => "Account"
+    openproject_headers 'Type' => "Account"
     set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -298,10 +298,10 @@ class Mailer < ActionMailer::Base
   end
 
   def test(user)
-    redmine_headers 'Type' => "Test"
+    openproject_headers 'Type' => "Test"
     set_language_if_valid(user.language)
     recipients user.mail
-    subject 'ChiliProject test'
+    subject 'OpenProject test'
     body :url => url_for(:controller => 'welcome')
     render_multipart('test', body)
   end
@@ -383,16 +383,16 @@ class Mailer < ActionMailer::Base
     from Setting.mail_from
 
     # Common headers
-    headers 'X-Mailer' => 'ChiliProject',
-            'X-ChiliProject-Host' => Setting.host_name,
-            'X-ChiliProject-Site' => Setting.app_title,
+    headers 'X-Mailer' => 'OpenProject',
+            'X-OpenProject-Host' => Setting.host_name,
+            'X-OpenProject-Site' => Setting.app_title,
             'Precedence' => 'bulk',
             'Auto-Submitted' => 'auto-generated'
   end
 
-  # Appends a Redmine header field (name is prepended with 'X-ChiliProject-')
-  def redmine_headers(h)
-    h.each { |k,v| headers["X-ChiliProject-#{k}"] = v }
+  # Appends a OpenProject header field (name is prepended with 'X-OpenProject-')
+  def openproject_headers(h)
+    h.each { |k,v| headers["X-OpenProject-#{k}"] = v }
   end
 
   # Overrides the create_mail method
@@ -439,9 +439,9 @@ class Mailer < ActionMailer::Base
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
     timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    hash = "chiliproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
-    host = "#{::Socket.gethostname}.chiliproject" if host.empty?
+    host = "#{::Socket.gethostname}.openproject" if host.empty?
     "<#{hash}@#{host}>"
   end
 
