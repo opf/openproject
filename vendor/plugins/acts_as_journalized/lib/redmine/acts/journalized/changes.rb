@@ -89,9 +89,11 @@ module Redmine::Acts::Journalized
         # creation. Incremental changes are reset when the record is saved because they represent
         # a subset of the dirty attribute changes, which are reset upon save.
         def incremental_journal_changes
-          changes.slice(*journaled_columns).reject do |k, (was, is)|
-                                              was.blank? && is.blank?
-                                            end
+          changed.inject({}) do |h, attr|
+            h[attr] = attribute_change(attr) unless !attribute_change(attr).nil? &&
+              attribute_change(attr)[0].blank? && attribute_change(attr)[1].blank?
+            h
+          end.slice(*journaled_columns)
         end
 
         # Simply resets the cumulative changes after journal creation.
