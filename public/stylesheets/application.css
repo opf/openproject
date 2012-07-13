@@ -1296,6 +1296,9 @@ li a.help:hover {
 	display:block;
 	padding:0px 9px 0px;
 }
+#account-nav li > ul > li {
+  max-width:350px;
+}
 #header .search_field {
         position: relative;
         border:0px;
@@ -1339,9 +1342,6 @@ input:-moz-placeholder {
   border: 1px solid #b7b7b7;
   border-top: 0px;
   background-color:#FFFFFF;
-}
-#header li > ul.limit-width-topmenu {
-  max-width:350px;
 }
 #header li.last-child > ul {
         left:auto;

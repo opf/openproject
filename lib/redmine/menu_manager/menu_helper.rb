@@ -13,6 +13,8 @@
 #++
 
 module Redmine::MenuManager::MenuHelper
+  include TopMenuHelper
+
   # Returns the current menu item name
   def current_menu_item
     @controller.current_menu_item
@@ -34,6 +36,32 @@ module Redmine::MenuManager::MenuHelper
       links << render_menu_node(node, project)
     end
     links.empty? ? nil : content_tag('ul', links.join("\n"), :class => "menu_root")
+  end
+
+  def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &block)
+
+    items, options = if block_given?
+                       [[], items_or_options_with_block || {} ]
+                     else
+                       [items_or_options_with_block, html_options]
+                     end
+
+    return "" if items.empty? && !block_given?
+
+    options.reverse_merge!({ :class => "drop-down" })
+
+    content_tag :li, options do
+      label + if block_given?
+                yield
+              else
+                content_tag :ul, :style => "display:none" do
+
+                  items.collect do |item|
+                    render_menu_node(item)
+                  end.join(" ")
+                end
+              end
+    end
   end
 
   def render_menu_node(node, project=nil)

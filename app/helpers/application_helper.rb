@@ -270,23 +270,6 @@ module ApplicationHelper
     end
   end
 
-  # Renders the project quick-jump box
-  def render_project_jump_box(projects = [], html_options = {})
-    projects ||= User.current.memberships.collect(&:project).compact.uniq
-    if projects.any?
-      option_tags = (content_tag :option, "", :value => "")
-      option_tags << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-      end
-      html_options[:class] ||= ""
-      html_options[:class] << " chzn-select "
-      select_tag "", option_tags, html_options.merge({
-        :onchange => "if (this.value != \'\') { window.location = this.value; }",
-        :title => l(:label_jump_to_a_project)
-      })
-    end
-  end
-
   def project_tree_options_for_select(projects, options = {})
     s = ''
     project_tree(projects) do |project, level|
@@ -1121,45 +1104,6 @@ module ApplicationHelper
     javascript_tag("jQuery.menu_expand({ menuItem: '.#{current_menu_class}' });")
   end
 
-  # Menu items for the main top menu
-  def main_top_menu_items
-    split_top_menu_into_main_or_more_menus[:main]
-  end
-
-  # Menu items for the more top menu
-  def more_top_menu_items
-    split_top_menu_into_main_or_more_menus[:more]
-  end
-
-  def help_menu_item
-    split_top_menu_into_main_or_more_menus[:help]
-  end
-
-  # Split the :top_menu into separate :main and :more items
-  def split_top_menu_into_main_or_more_menus
-    unless @top_menu_split
-      items_for_main_level = []
-      items_for_more_level = []
-      help_menu = nil
-      menu_items_for(:top_menu) do |item|
-        if item.name == :home || item.name == :my_page
-          items_for_main_level << item
-        elsif item.name == :help
-          help_menu = item
-        elsif item.name == :projects
-          # Remove, present in layout
-        else
-          items_for_more_level << item
-        end
-      end
-      @top_menu_split = {
-        :main => items_for_main_level,
-        :more => items_for_more_level,
-        :help => help_menu
-      }
-    end
-    @top_menu_split
-  end
 
   def disable_accessibility_css!
     @accessibility_css_disabled = true
