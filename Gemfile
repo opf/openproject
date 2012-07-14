@@ -24,7 +24,7 @@ group :test do
 end
 
 group :ldap do
-  gem "net-ldap", '~> 0.2.2'
+  gem "net-ldap", '~> 0.3.1'
 end
 
 group :openid do
