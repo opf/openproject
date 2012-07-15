@@ -1,5 +1,28 @@
 = ChiliProject Changelog
 
+== 2012-07-15 v3.3.0
+
+* Bug #935: Serialization problem in Setting model
+* Bug #944: Engines::Testing.set_fixture_path appends array to $LOAD_PATH in Ruby 1.9
+* Bug #952: Engines tests are broken in current versions of Ruby
+* Bug #979: Register / Login not available if authentication required
+* Bug #1050: Create vagrant file/chef cookbook
+* Bug #1051: HTML tag should use users language
+* Bug #1063: Hover on even table rows doesn't highlight
+* Bug #1067: Upgrade 20100714111653_build_initial_journals_for_acts_as_journalized.rb crashed with method_missing "repo_log_encoding"
+* Bug #1070: Re-compress all the image assets
+* Bug #1074: Rake tasks of plugins in vendor/chiliproject_plugins are not loaded
+* Bug #1075: Can no longer render unordered lists within ordered lists
+* Bug #1078: "incompatible character encoding" with LDAP auth
+* Feature #817: Replace the current custom datepicker with the one shipped with jQuery UI
+* Feature #1017: Custom style (css) per project
+* Feature #1018: Switch to an HTML5 doctype
+* Feature #1046: Enable use of the "<<me>>" operator when querying custom fields
+* Feature #1054: Include modernizr JS
+* Feature #1055: Add a today variable to liquid
+* Feature #1056: Replace the table soup progress bars with HTML5 meters
+* Feature #1076: Update jQuery libraries to their latest version
+
 == 2012-06-13 v3.2.2
 
 * Bug #1036: Ruby on Rails Unsafe Query Generation Risk in Ruby on Rails (CVE-2012-2694)
