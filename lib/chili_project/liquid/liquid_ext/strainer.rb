@@ -21,18 +21,23 @@ module ChiliProject
           base.extend(ClassMethods)
 
           base.class_attribute :filters, :instance_reader => false, :instance_writer => false
-          base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-            self.filters = @@filters.values
-          RUBY
+          base.class_eval do
+            self.filters = base.send(:class_variable_get, '@@filters').values
+
+            class << self
+              alias_method_chain :global_filter, :filter_array
+              alias_method_chain :create, :filter_array
+            end
+          end
         end
 
         module ClassMethods
-          def global_filter(filter)
+          def global_filter_with_filter_array(filter)
             raise ArgumentError, "Passed filter is not a module" unless filter.is_a?(Module)
-            filters += [filter]
+            self.filters += [filter]
           end
 
-          def create(context)
+          def create_with_filter_array(context)
             strainer = self.new(context)
             filters.each { |filter| strainer.extend(filter) }
             strainer

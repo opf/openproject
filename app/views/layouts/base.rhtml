@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!doctype html>
+<html lang="<%= current_language %>">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <title><%= html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
@@ -20,6 +20,7 @@
 <%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
 <%= javascript_tag('jQuery.noConflict();') %>
+<%= javascript_include_tag 'modernizr.min.js' %>
 <%= javascript_heads %>
 <%= stylesheet_link_tag 'jstoolbar' %>
 <%= heads_for_theme %>
@@ -34,12 +35,14 @@
     <div id="header">
       <div id="logo"><%= link_to(h(Setting.app_title), home_path) %></div>
       <div id="top-menu-items">
+      <% if User.current.logged? || !Setting.login_required? %>
       <div id="search">
         <%= render :partial => 'search/quick_search', :locals => {:search_term => @question} %>
       </div>
+      <% end %>
 
-      <% if User.current.logged? || !Setting.login_required? %>
       <ul id="account-nav">
+        <% if User.current.logged? || !Setting.login_required? %>
         <% main_top_menu_items.each do |item| %>
             <%= render_menu_node(item) %>
         <% end %>
@@ -74,7 +77,8 @@
           </ul>
         </li>
         <% end %>
-          <%= render_menu_node(help_menu_item) %>
+        <%= render_menu_node(help_menu_item) %>
+        <% end %>
           <% unless User.current.logged? %>
             <% if Setting.self_registration? %>
             <li>
@@ -98,7 +102,6 @@
             </li>
           <% end %>
       </ul>
-      <% end %>
     </div>
     </div>
     <div id="breadcrumb">

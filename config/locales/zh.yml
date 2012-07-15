@@ -3,6 +3,8 @@
 
 zh:
   direction: ltr
+  jquery:
+    ui: "zh-CN"
   date:
     formats:
       default: "%Y-%m-%d"

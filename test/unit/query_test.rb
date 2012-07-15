@@ -222,6 +222,28 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_user_custom_field_filtered_on_me
+    User.current = User.find(2)
+    cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+
+    project = Project.find(1)
+    tracker = Tracker.find(1)
+    project.trackers << tracker unless project.trackers.include?(tracker)
+
+    issue = Issue.create!(:project => project, :tracker => tracker, :subject => 'Test', :author_id => 1)
+    issue.update_attribute(:custom_field_values, {cf.id.to_s => '2'})
+
+    query = Query.new(:name => '_', :project => project)
+    filter = query.available_filters["cf_#{cf.id}"]
+    assert_not_nil filter
+    assert filter[:values].map{|v| v[1]}.include?('me')
+
+    query.filters = { "cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
+    result = query.issues
+    assert_equal 1, result.size
+    assert_equal issue, result.first
+  end
+
   def test_filter_watched_issues
     User.current = User.find(1)
     query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})

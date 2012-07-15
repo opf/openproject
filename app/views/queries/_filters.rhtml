@@ -42,10 +42,17 @@ function enableValues(field, indexes) {
       f[i].up('span').hide();
 		}
 	}
+  var hasDateFields = ((jQuery("#div_values_" + field).find('input[type="date"]').size() > 0) && (Modernizr.inputtypes.date === false));
 	if (indexes.length > 0) {
 		Element.show("div_values_" + field);
+    if(hasDateFields) {
+      jQuery("#div_values_" + field).find('input[type="date"]').datepicker('enable');
+    }
 	} else {
 		Element.hide("div_values_" + field);
+    if(hasDateFields) {
+      jQuery("#div_values_" + field).find('input[type="date"]').datepicker('disable');
+    }
 	}
 }
 
@@ -95,6 +102,9 @@ function apply_filters_observer() {
                           :complete => "e.stop(); apply_filters_observer()") %>
     }
   });
+  if(Modernizr.inputtypes.date === false) {
+    jQuery('#query_form input[type="date"]').datepicker(datepickerSettings);
+  }
 }
 Event.observe(document,"dom:loaded", apply_filters_observer);
 //]]>
@@ -125,8 +135,8 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
           <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('values_#{field}_1');", :style => "vertical-align: bottom;" %>
         </span>
     <% when :date, :date_past %>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 10, :class => "values_#{field}", :id => "values_#{field}_1" %> <%= calendar_for "values_#{field}_1" %></span>
-        <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field, 1), :size => 10, :class => "values_#{field}", :id => "values_#{field}_2" %> <%= calendar_for "values_#{field}_2" %></span>
+        <span class="span_values_<%= field %>"><%= date_field_tag "v[#{field}][]", query.value_for(field), :size => 10, :class => "values_#{field}", :id => "values_#{field}_1" %></span>
+        <span class="span_values_<%= field %>"><%= date_field_tag "v[#{field}][]", query.value_for(field, 1), :size => 10, :class => "values_#{field}", :id => "values_#{field}_2" %></span>
         <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :size => 3, :class => "values_#{field}" %> <%= l(:label_day_plural) %></span>
     <% when :string, :text %>
         <span class="span_values_<%= field %>"><%= text_field_tag "v[#{field}][]", query.value_for(field), :class => "values_#{field}", :id => "values_#{field}", :size => 30 %></span>

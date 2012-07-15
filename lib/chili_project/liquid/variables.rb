@@ -53,6 +53,10 @@ module ChiliProject
         vars.uniq.sort
       end
 
+      register "today" do
+        Date.today.to_s
+      end
+
       # DEPRACATED: This is just a hint on how to use Liquid introspection
       register "macro_list",
         "Use '{{ variables | to_list: \"Variables:\" }}' to see all Liquid variables and '{{ tags | to_list: \"Tags:\" }}' to see all of the Liquid tags."

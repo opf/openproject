@@ -350,11 +350,6 @@ tr.issue td.subject {
   text-align: left;
 }
 
-tr.issue td.done_ratio table.progress {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 #content tr.issue.idnt td.subject a {
   background: url(../images/bullet_arrow_right.png) no-repeat 0 50%;
   padding-left: 16px;
@@ -611,7 +606,7 @@ a.toggle-all:hover {
 }
 
 table.list tbody tr:hover {
-  background-color: #ffffdd;
+  background-color: #ffd !important;
 }
 
 table.list tbody tr.group:hover {
@@ -1721,32 +1716,6 @@ div.tooltip:hover span.tip {
 }
 
 /***** Progress bar *****/
-#content table.progress {
-  border: 1px solid #D7D7D7;
-  border-collapse: collapse;
-  border-spacing: 0pt;
-  empty-cells: show;
-  text-align: center;
-  float: left;
-  margin: 1px 6px 1px 0px;
-}
-
-#content table.progress td {
-  height: 0.9em;
-}
-
-#content table.progress td.closed {
-  background: #BAE0BA none repeat scroll 0%;
-}
-
-#content table.progress td.done {
-  background: #DEF0DE none repeat scroll 0%;
-}
-
-#content table.progress td.open {
-  background: #FFF none repeat scroll 0%;
-}
-
 #content p.pourcent {
   font-size: 80%;
 }
@@ -3498,7 +3467,7 @@ blockquote {
   background: url(../images/blockquote-bg.png) no-repeat 25px 3px;
 }
 
-.wiki ul li {
+.wiki ul > li {
   list-style: disc outside none;
 }
 
@@ -4074,14 +4043,6 @@ fieldset#filters div.add-filter {
   border-top: none;
 }
 
-#content .meta table.progress {
-  border: 1px solid #bbb;
-  border-collapse: separate;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-
 .nosidebar fieldset ul {
   margin-left: 0;
 }
@@ -4129,7 +4090,7 @@ div.issue div,
 }
 
 /* comments */
-.wiki ol li {
+.wiki ol > li {
   list-style: decimal outside;
 }
 
@@ -4371,4 +4332,29 @@ Additional wiki styles
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+/* jQuery datepicker */
+.ui-datepicker-trigger {
+    margin: 0 0 0 4px;
+    vertical-align: middle;
+}
+
+div.progress {
+  height: 0.9em;
+  float: left;
+  margin: 0 6px 0 0;
+}
+
+div.progress .closed,
+div.progress .done {
+  float: left;
+  background: #BAE0BA;
+  border-left: 0;
+  border-right: 0;
+  margin: -1px 0;
+}
+
+div.progress .done {
+  background: #DEF0DE;
 }

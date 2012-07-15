@@ -78,6 +78,53 @@ module ActionView
         end
       end
     end
+
+    module FormHelper
+      # Returns an input tag of the "date" type tailored for accessing a specified attribute (identified by +method+) on an object
+      # assigned to the template (identified by +object+). Additional options on the input tag can be passed as a
+      # hash with +options+. These options will be tagged onto the HTML as an HTML element attribute as in the example
+      # shown.
+      #
+      # ==== Examples
+      #   date_field(:user, :birthday, :size => 20)
+      #   # => <input type="date" id="user_birthday" name="user[birthday]" size="20" value="#{@user.birthday}" />
+      #
+      #   date_field(:user, :birthday, :class => "create_input")
+      #   # => <input type="date" id="user_birthday" name="user[birthday]" value="#{@user.birthday}" class="create_input" />
+      #
+      # NOTE: This will be part of rails 4.0, the monkey patch can be removed by then.
+      def date_field(object_name, method, options = {})
+        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("date", options)
+      end
+    end
+
+    # As ActionPacks metaprogramming will already have happened when we're here,
+    # we have to tell the FormBuilder about the above date_field ourselvse
+    #
+    # NOTE: This can be remove when the above ActionView::Helpers::FormHelper#date_field is removed
+    class FormBuilder
+      self.field_helpers << "date_field"
+
+      def date_field(method, options = {})
+        @template.date_field(@object_name, method, objectify_options(options))
+      end
+    end
+
+    module FormTagHelper
+      # Creates a date form input field.
+      #
+      # ==== Options
+      # * Creates standard HTML attributes for the tag.
+      #
+      # ==== Examples
+      #   date_field_tag 'meeting_date'
+      #   # => <input id="meeting_date" name="meeting_date" type="date" />
+      #
+      # NOTE: This will be part of rails 4.0, the monkey patch can be removed by then.
+      def date_field_tag(name, value = nil, options = {})
+        text_field_tag(name, value, options.stringify_keys.update("type" => "date"))
+      end
+    end
   end
 end
 

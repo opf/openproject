@@ -24,9 +24,12 @@ ENV['RAILS_ENV'] ||= ENV['RACK_ENV'] if ENV['RACK_ENV']
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.14' unless defined? RAILS_GEM_VERSION
 
+# this is replaced by config.encoding = "utf-8" in rails3
 if RUBY_VERSION >= '1.9'
   Encoding.default_external = 'UTF-8'
   Encoding.default_internal = 'UTF-8'
+else
+  $KCODE='UTF-8'
 end
 
 # Bootstrap the Rails environment, frameworks, and default configuration

@@ -4,6 +4,9 @@
 
 "zh-TW":
   direction: ltr
+  jquery:
+    # Falls back to the value in zh.yml if not set
+    ui: "zh-TW"
   date:
     formats:
       # Use the strftime parameters for formats.
