@@ -4,6 +4,7 @@
 # Cleaned up by László Bácsi (http://lackac.hu)
 # updated by kfl62 kfl62g@gmail.com
 # updated by Gábor Takács (taky77@gmail.com)
+# updated by László Matusek (matuseklaszlo@gmail.com)
 
 "hu":
   direction: ltr
@@ -940,95 +941,96 @@
   label_overall_spent_time: Összes rászánt idő
   field_time_entries: Log time
   project_module_gantt: Gantt
-  project_module_calendar: Calendar
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  text_are_you_sure_with_children: Delete issue and all child issues?
-  field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
-  setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
-  field_member_of_group: Assignee's group
-  field_assigned_to_role: Assignee's role
-  notice_not_authorized_archived_project: The project you're trying to access has been archived.
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  field_visible: Visible
-  setting_emails_header: Emails header
-  setting_commit_logtime_activity_id: Activity for logged time
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  setting_commit_logtime_enabled: Enable time logging
-  notice_gantt_chart_truncated: The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
+  project_module_calendar: Naptár
+  button_edit_associated_wikipage: "Hozzárendelt Wiki oldal szerkesztése: %{page_title}"
+  text_are_you_sure_with_children: A feladat törlése az összes alfeladattal együtt?
+  field_text: Szöveg mező
+  label_user_mail_option_only_owner: Csak arról, aminek én vagyok a tulajdonosa
+  setting_default_notification_option: Alapértelmezett értesítési beállítások
+  label_user_mail_option_only_my_events: Csak az általam megfigyelt dolgokról vagy amiben részt veszek
+  label_user_mail_option_only_assigned: Csak a hozzámrendelt dolgokról
+  label_user_mail_option_none: Semilyen eseményről
+  field_member_of_group: Hozzárendelt csoport
+  field_assigned_to_role: Hozzárendelt szerepkör
+  notice_not_authorized_archived_project: A projekt, amihez hozzá szeretnél férni archiválva lett.
+  label_principal_search: "Felhasználó vagy csoport keresése:"
+  label_user_search: "Felhasználó keresése:"
+  field_visible: Látható
+  setting_emails_header: Emailek fejléce
+  setting_commit_logtime_activity_id: A rögzített időhöz tartozó tevékenység
+  text_time_logged_by_changeset: Alkalmazva a %{value} changeset-ben.
+  setting_commit_logtime_enabled: Időrögzítés engedélyezése
+  notice_gantt_chart_truncated: A diagram le lett vágva, mert elérte a maximálisan megjeleníthető elemek számát (%{max})
+  setting_gantt_items_limit: A gantt diagrammon megjeleníthető maximális elemek száma
   text_powered_by: Powered by %{link}
-  label_cvs_module: Module
-  label_filesystem_path: Root directory
-  label_darcs_path: Root directory
-  label_bazaar_path: Root directory
+  label_cvs_module: Modul
+  label_filesystem_path: Gyökér könyvtár
+  label_darcs_path: Gyökér könyvtár
+  label_bazaar_path: Gyökér könyvtár
   label_cvs_path: CVSROOT
-  label_git_path: Path to .git directory
-  label_mercurial_path: Root directory
-  label_my_queries: My custom queries
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  text_journal_changed_no_detail: "%{label} updated"
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  field_effective_date: Due date
-  label_news_comment_added: Comment added to a news
-  field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
-  text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  text_default_encoding: "Default: UTF-8"
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
-  label_notify_member_plural: Email issue updates
-  label_path_encoding: Path encoding
-  text_mercurial_repo_example: local repository (e.g. /hgrepo, c:\hgrepo)
-  label_diff: diff
-  setting_issue_startdate_is_adddate: Use current date as start date for new issues
-  description_search: Searchfield
-  description_user_mail_notification: Mail notification settings
-  description_date_range_list: Choose range from list
-  description_date_to: Enter end date
-  description_query_sort_criteria_attribute: Sort attribute
-  description_message_content: Message content
-  description_wiki_subpages_reassign: Choose new parent page
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_project_scope: Search scope
-  description_issue_category_reassign: Choose issue category
-  description_query_sort_criteria_direction: Sort direction
-  description_notes: Notes
-  description_filter: Filter
-  description_choose_project: Projects
-  description_date_from: Enter start date
-  label_deleted_custom_field: (deleted custom field)
-  label_checked: checked
-  label_calendar_show: Show Calendar
-  description_compare_to: Compare to version
-  description_active: Active?
-  label_main_menu: Side Menu
-  label_enable_multi_select: Toggle multiselect
-  label_remove_columns: Remove selected columns
-  notice_account_inactive: Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
-  description_enter_text: Enter text
-  label_content: Content
-  description_current_position: "You are here:"
-  label_top_menu: Top Menu
-  description_compare_from: Compare from version
-  label_add_columns: Add selected columns
-  button_remove_widget: Remove widget
-  label_modules: Modules
-  notice_account_update_failed: Account setting could not be safed. Please have a look at your account page.
-  description_enter_number: Enter number
-  description_select_issue: Select issue
-  label_table_of_contents: Table of Contents
-  field_impaired: Accessibility mode
-  search_input_placeholder: search ...
-  text_analyze: "Further analyze: %{subject}"
-  label_project_view_all: View all projects
-  description_subissue: Subissue of
+  label_git_path: A .git könyvtár elérési útja
+  label_mercurial_path: Helyi könyvtár
+  label_my_queries: Egyéni lekérdezéseim
+  label_additional_workflow_transitions_for_assignee: További átmenetek engedélyezettek, ha a felhasználó a hozzárendelt
+  text_journal_changed_no_detail: "%{label} módosítva"
+  button_expand_all: Mindet kibont
+  button_collapse_all: Mindet összecsuk
+  label_additional_workflow_transitions_for_author: További átmenetek engedélyezettek, ha a felhasználó a szerző
+  field_effective_date: Dátum
+  label_news_comment_added: Megjegyzés hozzáadva a hírhez
+  field_warn_on_leaving_unsaved: Figyelmeztessen, nem mentett módosításokat tartalmazó oldal elhagyásakor
+  text_warn_on_leaving_unsaved: A jelenlegi oldal nem mentett módosításokat tartalmaz, ami elvész, ha elhagyja az oldalt.
+  text_default_encoding: "Alapértelmezett: UTF-8"
+  text_git_repo_example: Üres és helyi repository (e.g. /gitrepo, c:\gitrepo)
+  label_notify_member_plural: Emailek frissítése
+  label_path_encoding: Elérési útvonal kódlapja
+  text_mercurial_repo_example: helyi repository (e.g. /hgrepo, c:\hgrepo)
+  label_diff: különbség
+  setting_issue_startdate_is_adddate: Használja az aktuális időt az új feladat kezdőidejének
+  description_search: Keresőmező
+  description_user_mail_notification: Levél értesítések beállítása
+  description_date_range_list: Dátumtartomány választása listából
+  description_date_to: Végdátum megadása
+  description_query_sort_criteria_attribute: Attributumok rendezése
+  description_message_content: Üzenet tartalma
+  description_wiki_subpages_reassign: Új szülőlap választása
+  description_available_columns: Meglévő oszlopok
+  description_selected_columns: Kiválasztott oszlopok
+  description_date_range_interval: Időintervallum választása a kezdő- és végdátum kijelölésével
+  description_project_scope: Keresési terület
+  description_issue_category_reassign: Feladat kategóriájának választása
+  description_query_sort_criteria_direction: Rendezés iránya
+  description_notes: Megjegyzés
+  description_filter: Szűrő
+  description_choose_project: Projektek
+  description_date_from: Kezdődátum magadás
+  label_deleted_custom_field: (törölt saját mező)
+  label_checked: kijelölve
+  label_calendar_show: Naptár mutatása
+  description_compare_to: Verziók összehasonlítása
+  description_active: Aktív?
+  label_main_menu: Oldalsó menü
+  label_enable_multi_select: Többszörös kijelölés
+  label_remove_columns: Kijelölt oszlopok eltávolítása
+  notice_account_inactive: A hozzáférése még nincs aktiválva. A hozzáférés aktiválásához kattintson az emailben kiküldött linkre.
+  description_enter_text: Szövegbevitel
+  label_content: Tartalom
+  description_current_position: "Ön itt van:"
+  label_top_menu: Főmenü
+  description_compare_from: Verziók összehasonlítása
+  label_add_columns: Kijelölt oszlopok hozzáadása
+  button_remove_widget: Widget eltávolítása
+  label_modules: Modulok
+  notice_account_update_failed: A fiókbeállítás mentése sikertelen. Nézze meg a fiók adatait.
+  description_enter_number: Számbevitel
+  description_select_issue: Feladatválasztás
+  label_table_of_contents: Tartalomjegyzés
+  field_impaired_settings: "%{app_title} kisegítő felhasználói felületet ajánl a gyengénlátóknak "
+  field_impaired: "Kisegítő felület használata %{app_title}"
+  search_input_placeholder: keresés ...
+  text_analyze: "További elemzés: %{subject}"
+  label_project_view_all: Az összes projekt megtekintése
+  description_subissue: részfeladat
 
   user:
     deleted: "Deleted user"
