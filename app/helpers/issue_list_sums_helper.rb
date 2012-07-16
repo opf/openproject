@@ -34,11 +34,13 @@ module IssueListSumsHelper
   end
 
   def sum_of(column, collection)
+    return unless should_be_summed_up?(column)
+
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
-    values = collection.collect { |is| column.respond_to?(:real_value) ? column.real_value(is) : column.value(is) }.select do |val|
+    values = collection.map { |issue| column.respond_to?(:real_value) ? colum.real_value(issue) : column.value(issue) }.select do |value|
       begin
-        next if (val.respond_to? :today? or val.is_a? String)
-        true if Float(val)
+        next if value.respond_to? :today? or value.is_a? String
+        true if Float(value)
       rescue ArgumentError, TypeError
         false
       end
@@ -79,5 +81,9 @@ module IssueListSumsHelper
 
   def display_sums?
     @query.display_sums?
+  end
+
+  def should_be_summed_up?(column)
+    Setting.issue_list_summable_columns.include?(column.name.to_s)
   end
 end

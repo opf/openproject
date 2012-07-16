@@ -127,6 +127,10 @@ issue_list_default_columns:
   - subject
   - assigned_to
   - updated_on
+issue_list_summable_columns:
+  serialized: true
+  default:
+  - estimated_hours
 display_subprojects_issues:
   default: 1
 issue_done_ratio:

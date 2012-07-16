@@ -14,9 +14,9 @@
 <p><%= setting_text_field :gantt_items_limit, :size => 6 %></p>
 </div>
 
-<fieldset class="box settings"><legend><%= l(:setting_issue_list_default_columns) %></legend>
-<%= setting_multiselect(:issue_list_default_columns,
-        Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label => false) %>
+<fieldset class="box settings"><legend><%= l(:setting_column_options) %></legend>
+<%= settings_multiselect([:issue_list_default_columns, :issue_list_summable_columns],
+  Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label_choices => :label_columns) %>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>
