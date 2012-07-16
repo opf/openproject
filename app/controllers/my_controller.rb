@@ -34,16 +34,13 @@ class MyController < ApplicationController
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
 
-  def index
-    page
-    render :action => 'page'
-  end
-
   # Show user's page
-  def page
+  def index
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+    render :action => 'page', :layout => 'base'
   end
+  alias :page :index
 
   # Edit user's account
   def account

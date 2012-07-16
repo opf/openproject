@@ -188,3 +188,7 @@ emails_header:
     en: ''
 issue_startdate_is_adddate:
   default: 1
+users_deletable_by_admins:
+  default: 0
+users_deletable_by_self:
+  default: 0

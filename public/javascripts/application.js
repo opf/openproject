@@ -1153,3 +1153,19 @@ var I18nForms = (function ($) {
 }(jQuery));
 
 jQuery(document).ready(I18nForms.init);
+
+var SubmitConfirm = (function($) {
+  var init;
+
+  init = function(element, question) {
+    element.submit(function() {
+      if(!confirm(question)) {
+        return false;
+      }
+    });
+  };
+
+  return {
+    init: init
+  }
+})(jQuery);

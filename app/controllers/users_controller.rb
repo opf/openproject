@@ -15,8 +15,18 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :edit_membership, :destroy_membership]
+  before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
+  before_filter :find_user, :only => [:show,
+                                      :edit,
+                                      :update,
+                                      :edit_membership,
+                                      :destroy_membership,
+                                      :destroy,
+                                      :deletion_info]
+  before_filter :require_login, :only => [:deletion_info] # should also contain destroy but post data can not be redirected
+  before_filter :authorize_for_user, :only => [:destroy]
+  before_filter :check_if_deletion_allowed, :only => [:deletion_info,
+                                                      :destroy]
   accept_key_auth :index, :show, :create, :update
 
   include SortHelper
@@ -200,6 +210,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    # as destroying users is a lengthy process we handle it in the background
+    # and lock the account now so that no action can be performed with it
+    @user.status = User::STATUS_LOCKED
+    @user.save
+
+    @user.delay.destroy
+
+    flash[:notice] = l('account.deleted')
+
+    if @user == User.current
+      logged_user = nil
+      redirect_to signin_path
+    else
+      redirect_to users_path
+    end
+  end
+
   def destroy_membership
     @membership = Member.find(params[:membership_id])
     if request.post? && @membership.deletable?
@@ -211,10 +239,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def deletion_info
+    render :action => 'deletion_info', :layout => my_or_admin_layout
+  end
+
   private
 
   def find_user
-    if params[:id] == 'current'
+    if params[:id] == 'current' || params['id'].nil?
       require_login || return
       @user = User.current
     else
@@ -222,5 +254,33 @@ class UsersController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def authorize_for_user
+    if (User.current != @user ||
+        User.current == User.anonymous) &&
+       !User.current.admin?
+
+      render_403
+      false
+    end
+  end
+
+  def check_if_deletion_allowed
+    if (User.current.admin && @user != User.current && !Setting.users_deletable_by_admins?) ||
+       (User.current == @user && !Setting.users_deletable_by_self?)
+      render_404
+      false
+    end
+  end
+
+  def my_or_admin_layout
+    # TODO: how can this be done better:
+    # check if the route used to call the action is in the 'my' namespace
+    if url_for(:delete_my_account_info) == request.url
+      'my'
+    else
+      'admin'
+    end
   end
 end

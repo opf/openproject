@@ -184,6 +184,10 @@ end
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account, {:controller => 'my', :action => 'account'}, :caption => :label_my_account
   menu.push :password, {:controller => 'my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }
+  menu.push :delete_account, :deletion_info_path,
+                             :caption => I18n.t('account.delete'),
+                             :param => :user_id,
+                             :if => Proc.new { Setting.users_deletable_by_self? }
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|

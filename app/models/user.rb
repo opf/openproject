@@ -18,7 +18,7 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Account statuses
-  STATUS_ANONYMOUS  = 0
+  STATUS_BUILTIN    = 0
   STATUS_ACTIVE     = 1
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
@@ -40,9 +40,17 @@ class User < Principal
     ['none', :label_user_mail_option_none]
   ]
 
+  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
+
   has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
                                    :after_remove => Proc.new {|user, group| group.user_removed(user)}
-  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+  has_many :issue_categories, :foreign_key => 'assigned_to_id',
+                              :dependent => :nullify
+  has_many :assigned_issues, :foreign_key => 'assigned_to_id',
+                             :class_name => 'Issue',
+                             :dependent => :nullify
+  has_many :watches, :class_name => 'Watcher',
+                     :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
@@ -60,7 +68,12 @@ class User < Principal
   # Prevents unauthorized assignments
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 
-  validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+  validates_presence_of :login,
+                        :firstname,
+                        :lastname,
+                        :mail,
+                        :if => Proc.new { |user| !(user.is_a?(AnonymousUser) || user.is_a?(DeletedUser)) }
+
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
@@ -71,6 +84,9 @@ class User < Principal
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
+
+  before_destroy :delete_associated_public_queries
+  before_destroy :reassign_associated
 
   named_scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -617,6 +633,46 @@ class User < Principal
   def candidates_for_project_allowance project
     @registered_allowance_evaluators.map{ |f| f.project_granting_candidates(project) }.flatten.uniq
   end
+
+  def reassign_associated
+    substitute = DeletedUser.first
+
+    [Issue, Attachment, WikiContent, News, Comment, Message].each do |klass|
+      klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    end
+
+    [TimeEntry, Journal, Query].each do |klass|
+      klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    end
+
+    foreign_keys = ['author_id', 'user_id', 'assigned_to_id']
+
+    # as updating the journals will take some time we do it in batches
+    # so that journals created later are also accounted for
+    while (journal_subset = Journal.all(:conditions => ["id > ?", current_id ||= 0],
+                                        :order => "id ASC",
+                                        :limit => USER_DELETION_JOURNAL_BUCKET_SIZE)).size > 0 do
+
+      journal_subset.each do |journal|
+        change = journal.changes.dup
+
+        foreign_keys.each do |foreign_key|
+          if journal.changes[foreign_key].present?
+            change[foreign_key] = change[foreign_key].map { |a_id| a_id == id ? substitute.id : a_id }
+          end
+        end
+
+        journal.changes = change
+        journal.save if journal.changed?
+      end
+
+      current_id = journal_subset.last.id
+    end
+  end
+
+  def delete_associated_public_queries
+    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+  end
 end
 
 class AnonymousUser < User
@@ -637,4 +693,25 @@ class AnonymousUser < User
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
+  def destroy; false end
+end
+
+class DeletedUser < User
+  def validate_on_create
+    # There should be only one DeletedUser in the database
+    errors.add_to_base 'A DeletedUser already exists.' if DeletedUser.find(:first)
+  end
+
+  def self.first
+    find_or_create_by_type_and_status(self.to_s, User::STATUS_BUILTIN)
+  end
+
+  # Overrides a few properties
+  def logged?; false end
+  def admin; false end
+  def name(*args); I18n.t('user.deleted') end
+  def mail; nil end
+  def time_zone; nil end
+  def rss_key; nil end
+  def destroy; false end
 end

@@ -13,4 +13,7 @@
 #++
 
 module MyHelper
+  def deletion_info_path
+    url_for(:delete_my_account_info)
+  end
 end
