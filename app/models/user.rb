@@ -40,6 +40,8 @@ class User < Principal
     ['none', :label_user_mail_option_none]
   ]
 
+  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
+
   has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
                                    :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :issue_categories, :foreign_key => 'assigned_to_id',
@@ -649,7 +651,7 @@ class User < Principal
     # so that journals created later are also accounted for
     while (journal_subset = Journal.all(:conditions => ["id > ?", current_id ||= 0],
                                         :order => "id ASC",
-                                        :limit => 1000)).size > 0 do
+                                        :limit => USER_DELETION_JOURNAL_BUCKET_SIZE)).size > 0 do
 
       journal_subset.each do |journal|
         change = journal.changes.dup
