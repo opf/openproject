@@ -1,37 +1,41 @@
 class Meeting < ActiveRecord::Base
   unloadable
-  
+
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   has_one :agenda, :dependent => :destroy, :class_name => 'MeetingAgenda'
   has_one :minutes, :dependent => :destroy, :class_name => 'MeetingMinutes'
   has_many :contents, :class_name => 'MeetingContent', :readonly => true
   has_many :participants, :dependent => :destroy, :class_name => 'MeetingParticipant'
-  
+
   named_scope :from_tomorrow, :conditions => ['start_time >= ?', Date.tomorrow.beginning_of_day]
 
   attr_accessible :title, :location, :start_time, :duration
 
   acts_as_watchable
-  
+
   acts_as_searchable :columns => ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
                      :include => [:contents, :project],
                      :date_column => "#{table_name}.created_at"
-  
+
   acts_as_journalized :activity_find_options => {:include => [:agenda, :author, :project]},
                       :event_title => Proc.new {|o| "#{l :label_meeting}: #{o.title} (#{format_date o.start_time} #{format_time o.start_time, false}-#{format_time o.end_time, false})"},
                       :event_url => Proc.new {|o| {:controller => 'meetings', :action => 'show', :id => o.journaled}}
-  
+
   register_on_journal_formatter(:fraction, 'duration')
   register_on_journal_formatter(:datetime, 'start_time')
   register_on_journal_formatter(:plaintext, 'location')
-  
+
   accepts_nested_attributes_for :participants, :reject_if => proc {|attrs| !(attrs['attended'] || attrs['invited'])}
-  
+
   validates_presence_of :title, :start_time, :duration
-  
+
   after_create :add_author_as_watcher
-  
+
+  User.before_destroy do |user|
+    Meeting.update_all ['author_id = ?', DeletedUser.first.id], ['author_id = ?', user.id]
+  end
+
   def self.find_time_sorted(*args)
     options = args.extract_options!
     options[:order] = ["#{Meeting.table_name}.start_time DESC", options[:order]].compact.join(', ')
@@ -49,28 +53,28 @@ class Meeting < ActiveRecord::Base
     end
     by_start_year_month_date
   end
-  
+
   def start_date
     # the text_field + calendar_for form helpers expect a Date
     start_time.to_date if start_time.present?
   end
-  
+
   def start_month
     start_time.month
   end
-  
+
   def start_year
     start_time.year
   end
-  
+
   def end_time
     start_time + duration.hours
   end
-  
+
   def to_s
     title
   end
-  
+
   def text
     agenda.text if agenda.present?
   end
@@ -79,7 +83,7 @@ class Meeting < ActiveRecord::Base
     self.write_attribute(:author_id, user.id)
     self.participants.build(:user => user, :invited => true) if (self.new_record? && self.participants.empty? && user) # Don't add the author as participant if we already have some through nested attributes
   end
-  
+
   def copy(attrs)
     copy = self.clone
     copy.author = attrs.delete(:author)
@@ -89,17 +93,17 @@ class Meeting < ActiveRecord::Base
     copy.participants << self.participants.invited.reject{|p| copy_participant_user_ids.include? p.user_id}.collect(&:clone).each{|p| p.attended=false} # Make sure the participants have no id
     copy
   end
-  
+
   protected
-  
+
   def after_initialize
     # set defaults
     self.start_time ||= Date.tomorrow + 10.hours
     self.duration   ||= 1
   end
-  
+
   private
-  
+
   def add_author_as_watcher
     add_watcher(author)
   end

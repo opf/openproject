@@ -12,6 +12,10 @@ class MeetingContent < ActiveRecord::Base
 
   before_save :comment_to_journal_notes
 
+  User.before_destroy do |user|
+    MeetingContent.update_all ['author_id = ?', DeletedUser.first], ['author_id = ?', user.id]
+  end
+
   def editable?
     true
   end
