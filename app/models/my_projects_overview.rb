@@ -16,7 +16,7 @@ class MyProjectsOverview < ActiveRecord::Base
   unloadable
 
   DEFAULTS = {
-    "left" => ["wiki", "projectdetails", "issuetracking"],
+    "left" => ["projectdescription", "projectdetails", "issuetracking"],
     "right" => ["members", "news"],
     "top" => [],
     "hidden" => [] }
