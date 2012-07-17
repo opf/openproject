@@ -32,7 +32,7 @@ class MyProjectsOverview < ActiveRecord::Base
       not_provided = DEFAULTS.keys - attributes.keys.collect(&:to_s)
 
       not_provided.each do |k|
-        self.send("#{k}=", [])
+        self.send("#{k}=", DEFAULTS[k])
       end
     end
   end
