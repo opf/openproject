@@ -10,7 +10,7 @@ describe MyProjectsOverview do
 
   it 'sets default elements for new records if no elements are provided' do
     o = MyProjectsOverview.new
-    o.left.should =~ ["wiki", "projectdetails", "issuetracking"]
+    o.left.should =~ ["projectdescription", "projectdetails", "issuetracking"]
     o.right.should =~ ["members", "news"]
     o.top.should =~ []
     o.hidden.should =~ []
@@ -19,7 +19,7 @@ describe MyProjectsOverview do
   it 'does not set default elements if elements are provided' do
     o = MyProjectsOverview.new :left => ["members"]
     o.left.should =~ ["members"]
-    o.right.should =~ []
+    o.right.should =~ ["members", "news"]
     o.top.should =~ []
     o.hidden.should =~ []
   end
