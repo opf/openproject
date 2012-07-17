@@ -27,16 +27,13 @@ class CostObject < ActiveRecord::Base
   validates_length_of :subject, :maximum => 255
   validates_length_of :subject, :minimum => 1
 
-
-  def before_validation
-    self.author_id = User.current.id if self.new_record?
+  User.before_destroy do |user|
+    replace_author_with_deleted_user user
   end
 
-  def before_destroy
-    issues.all.each do |i|
-      result = i.update_attributes({:cost_object => nil})
-      return false unless result
-    end
+  def initialize(attributes = nil)
+    super
+    self.author = User.current if self.new_record?
   end
 
   def attributes=(attrs)
@@ -150,4 +147,11 @@ class CostObject < ActiveRecord::Base
     return "issue cost_object"
   end
 
+  private
+
+  def self.replace_author_with_deleted_user(user)
+    substitute = DeletedUser.first
+
+    self.update_all ['author_id = ?', substitute.id], ['author_id = ?', user.id]
+  end
 end

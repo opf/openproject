@@ -1,9 +1,9 @@
 class Rate < ActiveRecord::Base
-  validates_presence_of :valid_from
-  validates_presence_of :rate
   validates_numericality_of :rate, :allow_nil => false
+  validate :validate_date_is_a_date
 
   belongs_to :user
+  include Costs::DeletedUserFallback
   belongs_to :project
 
   attr_accessible :rate, :project, :valid_from
@@ -18,14 +18,15 @@ class Rate < ActiveRecord::Base
     end
   end
 
-  def validate
-    valid_from.to_date
-  rescue Exception
-    errors.add :valid_from, :not_a_date
-  end
-
   def before_save
     self.valid_from &&= valid_from.to_date
   end
 
+  private
+
+  def validate_date_is_a_date
+    valid_from.to_date
+  rescue Exception
+    errors.add :valid_from, :not_a_date
+  end
 end

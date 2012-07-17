@@ -4,6 +4,7 @@ class CostEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :issue
   belongs_to :user
+  include Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :cost_object
   belongs_to :rate, :class_name => "CostRate"

@@ -125,24 +125,18 @@ module CostsUserPatch
       rate_at(Date.today, project, include_default)
     end
 
+    # kept for backwards compatibility
     def rate_at(date, project = nil, include_default = true)
-      unless project.nil?
-        rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id = ? and valid_from <= ?", id, project, date], :order => "valid_from DESC")
-        if rate.nil?
-          project = Project.find(project) unless project.is_a?(Project)
-          rate = HourlyRate.find(:first, :conditions => [ "user_id = ? and project_id in (?) and valid_from <= ?", id, project.ancestors, date], :include => :project, :order => "projects.lft DESC, valid_from DESC")
-        end
-      end
-      rate ||= default_rate_at(date) if include_default
-      rate
+      ::HourlyRate.at_date_for_user_in_project(date, self.id, project, include_default)
     end
 
     def current_default_rate()
-      default_rate_at(Date.today)
+      ::DefaultHourlyRate.at_for_user(Date.today, self.id)
     end
 
+    # kept for backwards compatibility
     def default_rate_at(date)
-      DefaultHourlyRate.find(:first, :conditions => [ "user_id = ? and valid_from <= ?", id, date], :order => "valid_from DESC")
+      ::DefaultHourlyRate.at_for_user(date, self.id)
     end
 
     def add_rates(project, rate_attributes)

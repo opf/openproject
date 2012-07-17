@@ -119,8 +119,12 @@ class VariableCostObject < CostObject
 
   def new_labor_budget_item_attributes=(labor_budget_item_attributes)
     labor_budget_item_attributes.each do |index, attributes|
-      if attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0 && project.assignable_users.map(&:id).include?(attributes[:user_id].to_i)
-        labor_budget_items.build(attributes)
+      if attributes[:hours].to_i > 0 &&
+         attributes[:user_id].to_i > 0 &&
+         project.assignable_users.map(&:id).include?(attributes[:user_id].to_i)
+
+        item = labor_budget_items.build(attributes)
+        item.cost_object = self # to please the labor_budget_item validation
       end
     end
   end

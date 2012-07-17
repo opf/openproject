@@ -1,9 +1,12 @@
 class LaborBudgetItem < ActiveRecord::Base
   belongs_to :cost_object
   belongs_to :user
+  include Costs::DeletedUserFallback
 
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   validates_presence_of :user
+  validates_presence_of :cost_object
+  validates_numericality_of :hours, :allow_nil => false
 
   # user_id correctness is ensured in VariableCostObject#*_labor_budget_item_attributes=
   attr_accessible :hours, :comments, :budget, :user_id
@@ -13,7 +16,7 @@ class LaborBudgetItem < ActiveRecord::Base
   end
 
   def calculated_costs(fixed_date = cost_object.fixed_date, project_id = cost_object.project_id)
-    if user && hours && rate = user.rate_at(fixed_date, project_id)
+    if user_id && hours && rate = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id)
       rate.rate * hours
     else
       0.0
