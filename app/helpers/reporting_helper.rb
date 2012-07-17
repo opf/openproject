@@ -115,7 +115,7 @@ module ReportingHelper
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
-    when :user_id, :assigned_to_id, :author_id  then link_to_user User.find(value.to_i)
+    when :user_id, :assigned_to_id, :author_id  then link_to_user(User.find_by_id(value.to_i) || DeletedUser.first)
     when :tyear, :units                         then value.to_s
     when :tweek                                 then "#{l(:label_week)} ##{value}"
     when :tmonth                                then month_name(value.to_i)
