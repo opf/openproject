@@ -69,6 +69,8 @@ en:
   field_costs: Costs
   field_default: Default
   field_deliverable: Budget
+  label_display_cost_entries: Display unit costs
+  label_display_time_entries: Display reported hours
   field_fixed_date: Fixed Date
   field_kind: Type
   field_labor_budget: Planned Labor Costs
