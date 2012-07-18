@@ -812,7 +812,7 @@ var I18nForms = (function ($) {
         update_locale_availability;
 
     active_locale_selectors = function (localized_p) {
-      return localized_p.find('.locale_selector:not([disabled=disabled])');
+      return localized_p.find('.locale_selector');
     };
 
     add_locale_fields = function (localized_p) {
@@ -834,10 +834,7 @@ var I18nForms = (function ($) {
     destroy_locale = function (element) {
       var localized_p = element.closest('p');
 
-      element.siblings('.destroy_flag').attr('disabled', false)
-                                       .attr('value', 1);
-      element.parent().hide();
-      element.siblings('.locale_selector').attr('disabled', true);
+      element.closest('.translation').remove();
 
       update_interaction_elements(localized_p);
     };
@@ -990,7 +987,7 @@ var I18nForms = (function ($) {
       var new_translations = $('');
 
       $.each(translation_classes, function(i, translated_attribute) {
-        var translations = $('.' + translated_attribute + ':visible'),
+        var translations = $('.' + translated_attribute),
             locale_selectors = translations.find('.locale_selector'),
             included,
             new_translation;
