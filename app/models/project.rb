@@ -109,6 +109,10 @@ class Project < ActiveRecord::Base
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
 
+  def possible_members(criteria, limit)
+    Principal.active_or_registered.like(criteria).not_in_project(self).find(:all, :limit => limit)
+  end
+
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
