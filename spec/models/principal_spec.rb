@@ -16,8 +16,8 @@ describe Principal do
     let(:role) { Factory.build(:global_role) }
 
     before do
-      principal.global_roles = [role]
-      principal.save
+      Factory.create(:principal_role, :role => role,
+                                      :principal => principal)
 
       principal.destroy
     end
