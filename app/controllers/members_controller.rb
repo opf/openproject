@@ -88,8 +88,10 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    @principals = Principal.possible_members(params[:q], 100) - @project.principals
-    render :layout => false
+    roles = Role.find_all_givable
+    available_principals = @project.possible_members(params[:q], 100)
+
+    render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles }
   end
 
   private
