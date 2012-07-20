@@ -607,7 +607,12 @@ jQuery(document).ready(function($) {
        event.stopPropagation();
     });
 
-    this.find(" > li.drop-down").click(function() {
+    // trap all mouseevents inside dropdown menu items to prevent side effects
+    this.find(" > li.drop-down").bind("mousedown mouseup click", function (event) {
+      event.stopPropagation();
+    });
+
+    this.find(" > li.drop-down").click(function(event) {
       // if an h2 tag follows the submenu should unfold out at the border
       var menu_start_position;
       if (that.next().get(0) != undefined && (that.next().get(0).tagName == 'H2')){
