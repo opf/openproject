@@ -62,7 +62,7 @@ describe CostQuery do
     end
 
     it "does >=" do
-      query('projects', 'id', '>=', Project.first.id + 1).size.should == Project.count - 1
+      query('projects', 'id', '>=', Project.first(:order => "id ASC").id + 1).size.should == Project.count - 1
     end
 
     it "does !" do
@@ -244,7 +244,7 @@ describe CostQuery do
 
     it "does =d" do
       #assuming that there aren't more than one project created at the same time (which actually is not true, but works for the first project in our fixtures)
-      query('projects', 'created_on', '=d', Project.first.created_on).size.should == 1
+      query('projects', 'created_on', '=d', Project.first(:order => "id ASC").created_on).size.should == 1
     end
 
     it "does <d" do

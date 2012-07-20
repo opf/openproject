@@ -104,7 +104,7 @@ describe CostQuery do
       te_result = id_sorted.select { |r| r[:type]==TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type]==CostEntry.to_s }.first
       te_result.units.should == TimeEntry.all.first.hours
-      ce_result.units.should == CostEntry.all.first.units
+      ce_result.units.should == CostEntry.all(:order => "id ASC").first.units
     end
 
     it "should compute real_costs for DirectResults" do
