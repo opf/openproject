@@ -132,7 +132,7 @@ class VersionTest < ActiveSupport::TestCase
       @project = Project.generate!(:identifier => 'test0')
       @project.trackers << Tracker.generate!
 
-      (@version = Version.new.force_attributes = {:project => @project, :effective_date => nil)).save!
+      (@version = Version.new.force_attributes = {:project => @project, :effective_date => nil}).save!
     end
 
     should "be false if there are no issues assigned" do
@@ -178,7 +178,7 @@ class VersionTest < ActiveSupport::TestCase
 
   context "#estimated_hours" do
     setup do
-      (@version = Version.new.force_attributes = {:project_id => 1, :name => '#estimated_hours')).save!
+      (@version = Version.new.force_attributes = {:project_id => 1, :name => '#estimated_hours'}).save!
     end
 
     should "return 0 with no assigned issues" do
