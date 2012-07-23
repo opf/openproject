@@ -14,7 +14,14 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :members, :projects, :roles, :member_roles, :auth_sources
+  fixtures :users,
+           :members,
+           :projects,
+           :projects_trackers,
+           :trackers,
+           :roles,
+           :member_roles,
+           :auth_sources
 
   def setup
     @admin = User.find(1)
@@ -510,7 +517,9 @@ class UserTest < ActiveSupport::TestCase
 
       should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
         @user = User.generate_with_protected!(:mail_notification => 'only_my_events')
-        (Member.new.force_attributes = {:user => @user, :project => @project, :role_ids => [1]}).save!
+        (Member.new.tap do |m|
+          m.force_attributes = { :user => @user, :project => @project, :role_ids => [1] }
+        end).save!
         assert ! @user.notify_about?(@issue)
       end
 
@@ -556,7 +565,9 @@ class UserTest < ActiveSupport::TestCase
 
       should "be false for a user with :selected and is not the author or assignee" do
         @user = User.generate_with_protected!(:mail_notification => 'selected')
-        (Member.new.force_attributes = {:user => @user, :project => @project, :role_ids => [1]}).save!
+        (Member.new.tap do |m|
+          m.force_attributes = { :user => @user, :project => @project, :role_ids => [1] }
+        end).save!
         assert ! @user.notify_about?(@issue)
       end
     end
