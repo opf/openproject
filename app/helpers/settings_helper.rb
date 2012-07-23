@@ -65,7 +65,7 @@ module SettingsHelper
           '<tr>' +
             '<td>' + h(text) + '</td>' +
             settings.collect do |setting|
-              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + '</td>'
+              '<td align="center">' + check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value), :id => "#{setting}_#{value}" ) + '</td>'
             end.join +
           '</tr>'
         end.join +
