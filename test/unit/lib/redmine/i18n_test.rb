@@ -120,6 +120,8 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   end
 
   def test_valid_language
+    Setting.available_languages = [:fr, :zh, :"zh-TW"]
+
     to_test = {'fr' => :fr,
                'Fr' => :fr,
                'zh' => :zh,
