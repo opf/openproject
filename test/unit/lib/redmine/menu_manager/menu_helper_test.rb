@@ -98,10 +98,10 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   end
 
   def test_render_menu_node_with_children
-    User.current = User.find(2)
+    User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p|
                                                          children = []
@@ -126,10 +126,10 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   end
 
   def test_render_menu_node_with_nested_items_and_children
-    User.current = User.find(2)
+    User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p|
                                                          children = []
@@ -141,7 +141,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
                                                      })
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p|
                                                          children = []
@@ -175,9 +175,9 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
   def test_render_menu_node_with_children_without_an_array
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
-                                                       :children => Proc.new {|p| Redmine::MenuManager::MenuItem.new("test_child", "/testing", {})}
+                                                       :children => Proc.new {|p| Redmine::MenuManager::MenuItem.new("test_child", {:controller => 'issues', :action => 'index'}, {})},
                                                      })
 
     assert_raises Redmine::MenuManager::MenuError, ":children must be an array of MenuItems" do
@@ -187,7 +187,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
   def test_render_menu_node_with_incorrect_children
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p| ["a string"] }
                                                      })
@@ -234,7 +234,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
       menu.push(:unallowed, {:controller => 'issues', :action => 'unallowed' }, { })
     end
 
-    User.current = User.find(2)
+    User.current = User.find(1)
 
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
@@ -243,16 +243,15 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   def test_menu_items_for_should_skip_items_that_fail_the_conditions
     menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, {:controller => 'issues', :action => 'index' }, { })
+      menu.push(:a_menu, { :controller => 'issues', :action => 'index' }, { })
       menu.push(:unallowed,
-                {:controller => 'issues', :action => 'index' },
+                { :controller => 'issues', :action => 'index' },
                 { :if => Proc.new { false }})
     end
 
-    User.current = User.find(2)
+    User.current = User.find(1)
 
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 1, items.size
   end
-
 end
