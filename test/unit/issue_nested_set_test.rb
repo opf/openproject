@@ -231,9 +231,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_destroy_child_issue_with_children
-    root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
-    child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
-    leaf = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
+    root = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
+    child = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
+    leaf = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
     leaf.init_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
@@ -371,7 +371,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   # Helper that creates an issue with default attributes
   def create_issue!(attributes={})
-    (i = Issue.new.force_attributes = {:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test'}.merge(attributes)).save!
+    (i = Issue.new.tap do |i|
+      attr = { :project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
+      i.force_attributes = attr
+    end).save!
     i
   end
 end
