@@ -25,6 +25,7 @@ class IssuesTest < ActionController::IntegrationTest
            :issues,
            :enumerations,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_trackers
 

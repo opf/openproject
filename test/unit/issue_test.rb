@@ -21,7 +21,11 @@ class IssueTest < ActiveSupport::TestCase
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
            :enumerations,
            :issues,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
+           :custom_fields,
+           :custom_field_translations,
+           :custom_fields_projects,
+           :custom_fields_trackers,
+           :custom_values,
            :time_entries
 
   def test_create

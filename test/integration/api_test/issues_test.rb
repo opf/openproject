@@ -30,6 +30,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :attachments,
     :workflows,
     :custom_fields,
+    :custom_field_translations,
     :custom_values,
     :custom_fields_projects,
     :custom_fields_trackers,

@@ -29,6 +29,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                    :enumerations,
                    :issue_categories,
                    :custom_fields,
+                   :custom_field_translations,
                    :custom_fields_trackers,
                    :custom_fields_projects,
                    :boards,

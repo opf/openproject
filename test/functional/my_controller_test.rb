@@ -18,7 +18,9 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields
+  fixtures :users, :user_preferences, :roles, :projects,
+           :issues, :issue_statuses, :trackers, :enumerations,
+           :custom_fields, :custom_field_translations
 
   def setup
     @controller = MyController.new

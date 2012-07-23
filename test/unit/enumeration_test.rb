@@ -14,7 +14,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class EnumerationTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues, :custom_fields, :custom_values
+  fixtures :enumerations, :issues,
+           :custom_fields, :custom_field_translations, :custom_values
 
   def setup
   end

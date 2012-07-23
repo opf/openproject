@@ -34,6 +34,7 @@ class IssuesControllerTest < ActionController::TestCase
            :attachments,
            :workflows,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers,
@@ -566,7 +567,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {'2' => 'Value for field 2'}}
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-    
+
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
