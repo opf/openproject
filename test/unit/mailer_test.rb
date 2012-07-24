@@ -391,8 +391,9 @@ class MailerTest < ActiveSupport::TestCase
 
   context "layout" do
     should "include the emails_header depeding on the locale" do
-      Setting.stubs(:available_languages).returns(['en', 'de'])
-      Setting.stubs(:emails_header).returns({"de"=>"deutscher header", "en"=>"english header"})
+      Setting.available_languages = [:en, :de]
+      Setting.emails_header = { "de" => "deutscher header",
+                                "en" => "english header" }
 
       user = User.find(1)
       user.language = :en
