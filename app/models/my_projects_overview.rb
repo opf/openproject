@@ -16,7 +16,7 @@ class MyProjectsOverview < ActiveRecord::Base
   unloadable
 
   DEFAULTS = {
-    "left" => ["wiki", "projectdetails", "issuetracking"],
+    "left" => ["projectdescription", "projectdetails", "issuetracking"],
     "right" => ["members", "news"],
     "top" => [],
     "hidden" => [] }
@@ -32,7 +32,7 @@ class MyProjectsOverview < ActiveRecord::Base
       not_provided = DEFAULTS.keys - attributes.keys.collect(&:to_s)
 
       not_provided.each do |k|
-        self.send("#{k}=", [])
+        self.send("#{k}=", DEFAULTS[k])
       end
     end
   end
