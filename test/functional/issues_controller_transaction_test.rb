@@ -95,7 +95,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /redMine Admin \(19 Mar 00:00\), John Smith \(21 Mar 00:00\)/
+                              :content => /redMine Admin \(#{Journal.find(1).created_at.strftime("%d %b 00:00")}\), John Smith \(#{Journal.find(2).created_at.strftime("%d %b 00:00")}\)/
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
                               :content => /Please reload the page/
   end
