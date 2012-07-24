@@ -1,10 +1,19 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal, :member_roles])
-	 available_principals = @project.possible_members("", 100) %>
+   available_principals = @project.possible_members("", 100)
+
+   member_per_page = 20
+
+   @members_count = @project.member_principals.count
+   @members_pages = @controller.class::Paginator.new @controller, @members_count, member_per_page, params[:page]
+   @members = @project.member_principals.find :all,
+                          :limit  =>  @members_pages.items_per_page,
+                          :offset =>  @members_pages.current.offset,
+                          :include => [:roles, :principal, :member_roles]
+%>
 
 <div class="splitcontentleft">
-<% if members.any? %>
+<% if @members.any? %>
   <% authorized = authorize_for('members', 'edit') %>
 <table class="list members">
 	<thead><tr>
@@ -14,7 +23,7 @@
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
 	</tr></thead>
 	<tbody>
-	<% members.each do |member| %>
+	<% @members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
 	<td class="<%= member.principal.class.name.downcase %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
@@ -47,6 +56,10 @@
 <% end; reset_cycle %>
 	</tbody>
 </table>
+
+<%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
+                          :window_size => 10, :tab => "members", :action=>"settings", :controller => "projects", :id => @project.identifier %>
+
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
