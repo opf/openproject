@@ -36,15 +36,26 @@ class MemberRole < ActiveRecord::Base
   def add_role_to_group_users
     if member && member.principal.is_a?(Group)
       member.principal.users.each do |user|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id) || Member.new(:project_id => member.project_id, :user_id => user.id)
-        user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-        user_member.save!
+        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id)
+
+        if user_member.nil?
+          user_member = Member.new.tap do |m|
+            m.project_id = member.project_id
+            m.user_id = user.id
+          end
+
+          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+
+          user_member.save
+        else
+          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+        end
       end
     end
   end
 
   def remove_role_from_group_users
-    MemberRole.find(:all, :conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
+    MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
       member_roles.each(&:destroy)
       if member && member.user
         Watcher.prune(:user => member.user, :project => member.project)
