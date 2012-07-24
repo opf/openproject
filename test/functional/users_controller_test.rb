@@ -238,6 +238,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_update_with_activation_should_send_a_notification
+    Setting.available_languages = [:en, :fr]
     u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
     u.login = 'foo'
     u.status = User::STATUS_REGISTERED
