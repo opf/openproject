@@ -156,6 +156,11 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
       end
       issue.project = new_project
+
+      if !Setting.cross_project_issue_relations? &&
+         parent && parent.project_id != project_id
+        self.parent_issue_id = nil
+      end
     end
     if new_tracker
       issue.tracker = new_tracker
