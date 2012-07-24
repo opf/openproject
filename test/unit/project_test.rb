@@ -725,12 +725,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
-  
+
   def test_export_issues_is_allowed
     project = Project.find(1)
     assert project.allows_to?(:export_issues)
   end
-  
+
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
@@ -835,9 +835,16 @@ class ProjectTest < ActiveSupport::TestCase
     should "copy memberships with groups and additional roles" do
       group = Group.create!(:lastname => "Copy group")
       user = User.find(7)
+
       group.users << user
+
       # group role
-      (Member.new.force_attributes = {:project_id => @source_project.id, :principal => group, :role_ids => [2]}).save
+      (Member.new.tap do |m|
+        m.force_attributes = { :project_id => @source_project.id,
+                               :principal => group,
+                               :role_ids => [2] }
+      end).save!
+
       member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
       # additional role
       member.role_ids = [1]
