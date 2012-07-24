@@ -70,10 +70,12 @@ class MembersControllerTest < ActionController::TestCase
         assert_select '#tab-content-members', 0
       end
 
-      should "open an error message" do
+      should "show an error message" do
         post :new, :format => "js", :id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
 
-        assert @response.body.match(/alert/i), "Alert message not sent"
+        assert_select_rjs :insert_html, :top do
+          assert_select '#errorExplanation'
+        end
       end
     end
 
