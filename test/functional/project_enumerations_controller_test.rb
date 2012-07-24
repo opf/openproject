@@ -133,19 +133,27 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   def test_update_when_creating_new_activities_will_not_convert_existing_data_if_an_exception_is_raised
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
-    # second one is a dupicate
+    # second one is a duplicate
     parent = TimeEntryActivity.find(9)
-    TimeEntryActivity.create!({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
-    TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1), :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
+    parent = TimeEntryActivity.new({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
+    parent.save(false)
+
+    TimeEntry.create!({ :project_id => 1,
+                        :hours => 1.0,
+                        :user => User.find(1),
+                        :issue_id => 3,
+                        :activity_id => 10,
+                        :spent_on => '2009-01-01' })
 
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size
 
     @request.session[:user_id] = 2 # manager
-    put :update, :project_id => 1, :enumerations => {
-      "9"=> {"parent_id"=>"9", "custom_field_values"=>{"7" => "1"}, "active"=>"0"}, # Design
-      "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"} # Development, Change custom value
-    }
+
+    put :update, :project_id => 1,
+                 :enumerations => { "9" => { "parent_id" => parent.id,
+                                             "custom_field_values" => { "7" => "1" },
+                                             "active" => "0" } }
     assert_response :redirect
 
     # TimeEntries shouldn't have been reassigned on the failed record
