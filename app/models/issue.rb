@@ -340,7 +340,9 @@ class Issue < ActiveRecord::Base
 
     # Checks parent issue assignment
     if @parent_issue
-      if !new_record?
+      if !Setting.cross_project_issue_relations? && @parent_issue.project_id != self.project_id
+        errors.add :parent_issue_id, :not_a_valid_parent
+      elsif !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
           # we can always move to another tree
