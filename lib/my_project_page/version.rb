@@ -17,7 +17,7 @@ module MyProjectPage
     end
 
     def patch
-      4
+      5
     end
 
     extend self
