@@ -632,7 +632,13 @@ jQuery(document).ready(function($) {
 
   $.fn.toggleSubmenu = function(menu){
     if (menu.find(" > li.drop-down.open").get(0) !== $(this).get(0)){
-      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide();
+      menu.find(" > li.drop-down.open").removeClass("open").find("> ul").mySlide(function () {
+        if ($(this).is(":visible")) {
+          $(this).parents('li.drop-down').trigger("opened");
+        } else {
+          $(this).parents('li.drop-down').trigger("closed");
+        }
+      });
     }
 
     $(this).slideAndFocus(function (element) {
