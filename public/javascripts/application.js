@@ -500,7 +500,7 @@ jQuery.viewportHeight = function() {
 jQuery(document).ready(function($) {
 
   $('#project-search-container select.select2-select').each(function (ix, select) {
-    var parent, select2Container, results;
+    var parent, select2Container, results, input;
     parent = $(select).parents('li.drop-down');
     // deselect all options
     $(select).find(":selected").each(function (ix, option) {
@@ -515,8 +515,28 @@ jQuery(document).ready(function($) {
     results = parent.find("div.select2-container").data("select2").dropdown;
     results.attr("id", "project-search-results");
 
+    input = results.find("input.select2-input");
+    $.each(input.data("events")["keydown"], function(i, handler) {
+      var old_handler = handler.handler;
+      handler.handler = function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == 9) {
+          closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
+          if (e.shiftKey) {
+            closestVisible.previousElementInDom(":input:visible, a:visible").focus();
+          } else {
+            closestVisible.nextElementInDom(":input:visible, a:visible").focus();
+          }
+          e.stopPropagation();
+          e.preventDefault();
+        } else {
+          old_handler(e);
+        }
+      }
+    });
+
     // prevent menu from getting closed prematurely
-    jQuery('div.select2-search').click(function(event){
+    $('div.select2-search').click(function(event){
       event.stopPropagation();
     });
 
