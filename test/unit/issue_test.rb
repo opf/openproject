@@ -488,9 +488,10 @@ class IssueTest < ActiveSupport::TestCase
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
     issue = Issue.find(12)
     assert issue.recipients.include?(issue.author.mail)
+    User.current = issue.author
     # move the issue to a private project
     copy  = issue.move_to_project(Project.find(5), Tracker.find(2), :copy => true)
-    # author is not a member of project anymore
+    # the author of the original issue is no user of the project and thus not informed
     assert !copy.recipients.include?(copy.author.mail)
   end
 
