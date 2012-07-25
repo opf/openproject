@@ -61,7 +61,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
-  filter_parameter_logging :password
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
