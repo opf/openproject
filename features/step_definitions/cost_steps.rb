@@ -38,7 +38,7 @@ Given /^there (?:is|are) (\d+) (default )?hourly rate[s]? with the following:$/ 
       rate.reload.save!
       unless rate.project.nil? || User.find_by_login(value).projects.include?(rate.project)
         rate.save!
-        rate.update_attribute :project_id, User.find_by_login(value).projects.last.id
+        rate.update_attribute :project_id, User.find_by_login(value).projects(:order => "id ASC").last.id
         rate.reload.save!
       end
       rate.update_attribute :user_id, User.find_by_login(value).id
