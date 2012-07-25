@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   before_filter :authorize_for_user, :only => [:destroy]
   before_filter :check_if_deletion_allowed, :only => [:deletion_info,
                                                       :destroy]
-  accept_key_auth :index, :show, :create, :update
+  accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
   include CustomFieldsHelper
@@ -216,15 +216,26 @@ class UsersController < ApplicationController
     @user.status = User::STATUS_LOCKED
     @user.save
 
-    @user.delay.destroy
+    # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
+    # delayed job allows for it
+    RAILS_ENV == 'test' ?
+      @user.destroy :
+      @user.delay.destroy
 
     flash[:notice] = l('account.deleted')
 
-    if @user == User.current
-      logged_user = nil
-      redirect_to signin_path
-    else
-      redirect_to users_path
+    respond_to do |format|
+      format.html do
+        if @user == User.current
+          logged_user = nil
+          redirect_to signin_path
+        else
+          redirect_to users_path
+        end
+      end
+      format.api  do
+        head :ok
+      end
     end
   end
 
@@ -261,7 +272,13 @@ class UsersController < ApplicationController
         User.current == User.anonymous) &&
        !User.current.admin?
 
-      render_403
+      respond_to do |format|
+        format.html { render_403 }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+      end
+
       false
     end
   end
