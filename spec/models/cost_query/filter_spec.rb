@@ -180,13 +180,13 @@ describe CostQuery do
     end
 
     it "filters start" do
-      @query.filter :start_date, :operator => '=d', :value => Issue.all.first.start_date
-      @query.result.count.should == Entry.all.select { |e| e.issue.start_date == Issue.all.first.start_date }.count
+      @query.filter :start_date, :operator => '=d', :value => Issue.all(:order => "id ASC").first.start_date
+      @query.result.count.should == Entry.all.select { |e| e.issue.start_date == Issue.all(:order => "id ASC").first.start_date }.count
     end
 
     it "filters due date" do
-      @query.filter :due_date, :operator => '=d', :value => Issue.all.first.due_date
-      @query.result.count.should == Entry.all.select { |e| e.issue.due_date == Issue.all.first.due_date }.count
+      @query.filter :due_date, :operator => '=d', :value => Issue.all(:order => "id ASC").first.due_date
+      @query.result.count.should == Entry.all.select { |e| e.issue.due_date == Issue.all(:order => "id ASC").first.due_date }.count
     end
 
     it "raises an error if operator is not supported" do
