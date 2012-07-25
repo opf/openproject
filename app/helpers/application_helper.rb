@@ -998,16 +998,14 @@ module ApplicationHelper
   end
 
   def content_for(name, content = nil, &block)
-    super(name, content, &block)
+    content = capture(&block) if block_given?
 
     # only care for non whitespace contents;
-    # rails 2.3 specific implementation
-    if instance_variable_get("@content_for_#{name}").match /\S+/
-      @has_content ||= {}
-      @has_content[name] = true
+    if content.match /\S+/
+      super(name, content)
+    else
+      #nothing
     end
-
-    nil
   end
 
   def has_content?(name)
