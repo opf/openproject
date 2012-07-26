@@ -17,7 +17,7 @@ module Redmine::MenuManager::MenuHelper
 
   # Returns the current menu item name
   def current_menu_item
-    @controller.current_menu_item
+    controller.current_menu_item
   end
 
   # Renders the application main menu
@@ -35,7 +35,7 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n"), :class => "menu_root")
+    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "menu_root")
   end
 
   def render_drop_down_menu_node(label, items_or_options_with_block = nil, html_options = {}, &block)
@@ -58,7 +58,7 @@ module Redmine::MenuManager::MenuHelper
 
                   items.collect do |item|
                     render_menu_node(item)
-                  end.join(" ")
+                  end.join(" ").html_safe
                 end
               end
     end
@@ -78,27 +78,24 @@ module Redmine::MenuManager::MenuHelper
   def render_menu_node_with_children(node, project=nil)
     caption, url, selected = extract_node_details(node, project)
 
-    html = [].tap do |html|
-      html << '<li>'
-      # Parent
-      html << render_single_menu_node(node, caption, url, selected)
-
+    content_tag :li do
       # Standard children
-      standard_children_list = "".tap do |child_html|
-        node.children.each do |child|
-          child_html << render_menu_node(child, project)
-        end
-      end
-
-      html << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
+      standard_children_list = node.children.collect do |child|
+                                 render_menu_node(child, project)
+                               end.join.html_safe
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)
-      html << content_tag(:ul, unattached_children_list, :class => 'menu-children unattached') unless unattached_children_list.blank?
 
-      html << '</li>'
+      # Parent
+      node = [render_single_menu_node(node, caption, url, selected)]
+
+      # add children
+      node << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
+      node << content_tag(:ul, unattached_children_list, :class => 'menu-children unattached') unless unattached_children_list.blank?
+
+      node.join("\n").html_safe
     end
-    return html.join("\n")
   end
 
   # Returns a list of unattached children menu items
@@ -115,12 +112,12 @@ module Redmine::MenuManager::MenuHelper
       else
         raise Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems"
       end
-    end
+    end.html_safe
   end
 
   def render_single_menu_node(item, caption, url, selected)
     position_span = selected ? "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>" : ""
-    link_to(position_span + h(caption), url, item.html_options(:selected => selected).merge({:title => h(caption)}))
+    link_to(position_span.html_safe.safe_concat(h(caption)), url, item.html_options(:selected => selected).merge({:title => h(caption)}))
   end
 
   def render_unattached_menu_item(menu_item, project)
