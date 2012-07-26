@@ -66,7 +66,7 @@ module ApplicationHelper
     if user.is_a?(User)
       name = h(user.name(options.delete(:format)))
       if user.active? || user.registered?
-        link_to(name, {:controller => 'users', :action => 'show', :id => user}, options)
+        link_to(name, user, options)
       else
         name
       end
@@ -346,7 +346,7 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
+    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created)).html_safe
   end
 
   def time_tag(time)
