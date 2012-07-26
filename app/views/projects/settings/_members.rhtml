@@ -31,7 +31,7 @@
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorized %>
-      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member},
+      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member, :page => params[:page]},
       																		:method => :post,
       																		:html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
       	<p><% roles.each do |role| %>
@@ -46,7 +46,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member, :page => params[:page]},
                                               :method => :post,
                                               :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)
                                             }, :title => l(:button_delete),
@@ -68,7 +68,7 @@
 
 <div class="splitcontentright">
 <% if roles.any? && available_principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post,
+  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project, :page => params[:page]}, :method => :post,
 									   :loading => '$(\'member-add-submit\').disable();',
 									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
