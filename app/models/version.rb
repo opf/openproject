@@ -34,9 +34,9 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
 
-  named_scope :open, :conditions => {:status => 'open'}
-  named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+  scope :open, :conditions => {:status => 'open'}
+  scope :visible, lambda {|*args| { :include => :project,
+                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
 
   safe_attributes 'name',
     'description',
