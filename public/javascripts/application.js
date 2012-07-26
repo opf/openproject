@@ -516,11 +516,12 @@ jQuery(document).ready(function($) {
     results.attr("id", "project-search-results");
 
     input = results.find("input.select2-input");
+
     $.each(input.data("events")["keydown"], function(i, handler) {
       var old_handler = handler.handler;
       handler.handler = function (e) {
         var keyCode = e.keyCode || e.which;
-        if (keyCode == 9) {
+        if (keyCode === 9) {
           closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
           if (e.shiftKey) {
             closestVisible.previousElementInDom(":input:visible, a:visible").focus();
@@ -543,6 +544,7 @@ jQuery(document).ready(function($) {
     parent.bind("closed", function () {
       if ($(results).is(":visible")) {
         select2Container.trigger(jQuery.Event('click'));
+
       }
     });
     parent.bind("opened", function () {
@@ -551,6 +553,22 @@ jQuery(document).ready(function($) {
       input = parent.find(".select2-search input");
       input.val("");
       input.trigger("keyup-change");
+
+      select2Container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 9 && !(e.shiftKey)) {
+          input.focus();
+          e.preventDefault();
+        }
+      });
+
+      select2Container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 9 && e.shiftKey) {
+          input.focus();
+          e.preventDefault();
+        }
+      });
     });
   });
 
