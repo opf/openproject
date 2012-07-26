@@ -32,7 +32,7 @@ module SearchHelper
         result << content_tag('span', h(words), :class => "highlight token-#{t}")
       end
     end
-    result
+    result.html_safe
   end
 
   def type_label(t)
@@ -57,7 +57,7 @@ module SearchHelper
       text = "#{type_label(t)} (#{c})"
       links << link_to(h(text), :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
     end
-    ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>') unless links.empty?
+    ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>').html_safe unless links.empty?
   end
 
   def link_to_previous_search_page(pagination_previous_date)
