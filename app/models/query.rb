@@ -629,18 +629,4 @@ class Query < ActiveRecord::Base
     end
     s.join(' AND ')
   end
-
-  # active record 2.3 backport, was removed in 3.0, only used in Query
-  def self.merge_conditions(*conditions)
-    segments = []
-
-    conditions.each do |condition|
-      unless condition.blank?
-        sql = sanitize_sql(condition)
-        segments << sql unless sql.blank?
-      end
-    end
-
-    "(#{segments.join(') AND (')})" unless segments.empty?
-  end
 end

@@ -206,17 +206,35 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-class ActiveRecord::Errors
-#  def on_with_id_handling(attribute)
-#    attribute = attribute.to_s
-#    if attribute.ends_with? '_id'
-#      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-#    else
-#      on_without_id_handling(attribute)
-#    end
-#  end
+module ActiveRecord
+  class Base
+    # active record 2.3 backport, was removed in 3.0, only used in Query
+    def self.merge_conditions(*conditions)
+      segments = []
 
-#  alias_method_chain :on, :id_handling
+      conditions.each do |condition|
+        unless condition.blank?
+          sql = sanitize_sql(condition)
+          segments << sql unless sql.blank?
+        end
+      end
+
+      "(#{segments.join(') AND (')})" unless segments.empty?
+    end
+  end
+
+  class Errors
+  #  def on_with_id_handling(attribute)
+  #    attribute = attribute.to_s
+  #    if attribute.ends_with? '_id'
+  #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+  #    else
+  #      on_without_id_handling(attribute)
+  #    end
+  #  end
+
+  #  alias_method_chain :on, :id_handling
+  end
 end
 
 # Adds :async_smtp and :async_sendmail delivery methods
