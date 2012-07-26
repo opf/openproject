@@ -521,17 +521,24 @@ jQuery(document).ready(function($) {
       var old_handler = handler.handler;
       handler.handler = function (e) {
         var keyCode = e.keyCode || e.which;
-        if (keyCode === 9) {
-          closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
-          if (e.shiftKey) {
-            closestVisible.previousElementInDom(":input:visible, a:visible").focus();
-          } else {
-            closestVisible.nextElementInDom(":input:visible, a:visible").focus();
-          }
-          e.stopPropagation();
-          e.preventDefault();
-        } else {
-          old_handler(e);
+        switch (keyCode) {
+          case 9:
+            closestVisible = results.data("select2").container.children(".select2-choice").closest(":visible");
+            if (e.shiftKey) {
+              closestVisible.previousElementInDom(":input:visible, a:visible").focus();
+            } else {
+              closestVisible.nextElementInDom(":input:visible, a:visible").focus();
+            }
+            e.stopPropagation();
+            e.preventDefault();
+            break;
+          case 27:
+            e.stopPropagation();
+            e.preventDefault();
+            break;
+          default:
+            old_handler(e);
+            break;
         }
       }
     });
