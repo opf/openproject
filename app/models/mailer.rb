@@ -395,6 +395,11 @@ class Mailer < ActionMailer::Base
     h.each { |k,v| headers["X-OpenProject-#{k}"] = v }
   end
 
+  # Some plugins still call redmine_headers, this preserves backwards
+  # compatibility and adds a deprecation warning to the logs
+  alias :redmine_headers :openproject_headers
+  deprecate :redmine_headers
+
   # Overrides the create_mail method
   def create_mail
     # Removes the current user from the recipients and cc
