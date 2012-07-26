@@ -34,7 +34,6 @@ class MembersController < ApplicationController
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
           }
         }
       else
