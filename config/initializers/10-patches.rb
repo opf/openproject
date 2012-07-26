@@ -207,16 +207,16 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
 end
 
 class ActiveRecord::Errors
-  def on_with_id_handling(attribute)
-    attribute = attribute.to_s
-    if attribute.ends_with? '_id'
-      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    else
-      on_without_id_handling(attribute)
-    end
-  end
+#  def on_with_id_handling(attribute)
+#    attribute = attribute.to_s
+#    if attribute.ends_with? '_id'
+#      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+#    else
+#      on_without_id_handling(attribute)
+#    end
+#  end
 
-  alias_method_chain :on, :id_handling
+#  alias_method_chain :on, :id_handling
 end
 
 # Adds :async_smtp and :async_sendmail delivery methods
