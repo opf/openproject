@@ -65,7 +65,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
       text ||= l(("field_" + field.to_s.gsub(/\_id$/, "")).to_sym)
       text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
-      @template.label(@object_name, field.to_s, text,
+      @template.label(@object_name, field.to_s, text.html_safe,
                                      :class => (@object && @object.errors[field] ? "error" : nil))
   end
 
