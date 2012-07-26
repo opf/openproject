@@ -69,7 +69,7 @@
   </div>
 
   <% main_menu = render_main_menu(@project) %>
-  <% side_displayed = has_content?(:sidebar) || has_content?(:main_menu) || !main_menu.blank? %>
+  <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %>">
     <% if (side_displayed) %>
       <div id="main-menu">
