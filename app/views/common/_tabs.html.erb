@@ -4,7 +4,7 @@
   <ul>
   <% tabs.each do |tab| -%>
     <li><%=
-    position_span = (tab[:name] == selected_tab  ? "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>" : "")
+    position_span = you_are_here_info(tab[:name] == selected_tab)
     link_to(position_span + l(tab[:label]), { :tab => tab[:name] },
                                     :id => "tab-#{tab[:name]}",
                                     :class => (tab[:name] != selected_tab ? nil : 'selected'),
