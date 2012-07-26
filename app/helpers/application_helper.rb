@@ -1040,7 +1040,7 @@ module ApplicationHelper
   end
 
   def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />"
+    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
   end
 
   # Add a HTML meta tag to control robots (web spiders)
