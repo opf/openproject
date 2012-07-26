@@ -78,7 +78,7 @@ module ProjectsHelper
       s << ("</li></ul>\n" * ancestors.size)
       @project = original_project
     end
-    s
+    s.html_safe
   end
 
   # Returns a set of options for a select field, grouped by project.

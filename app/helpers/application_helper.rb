@@ -282,9 +282,9 @@ module ApplicationHelper
         tag_options[:selected] = nil
       end
       tag_options.merge!(yield(project)) if block_given?
-      s << content_tag('option', name_prefix + h(project), tag_options)
+      s << content_tag('option', name_prefix + project.name, tag_options)
     end
-    s
+    s.html_safe
   end
 
   # Yields the given block for each project with its level in the tree
@@ -414,9 +414,9 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    concat('<p class="other-formats">' + l(:label_export_to))
+    safe_concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
-    concat('</p>')
+    safe_concat('</p>')
   end
 
   def page_header_title
