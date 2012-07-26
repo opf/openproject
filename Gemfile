@@ -75,6 +75,10 @@ platforms :mri_19, :mingw_19 do
   group :sqlite do
     gem "sqlite3"
   end
+
+  group :mysql2 do
+    gem 'mysql2', '~> 0.2.7'
+  end
 end
 
 platforms :jruby do
