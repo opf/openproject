@@ -69,7 +69,7 @@ module ActionView
         def wrap_with_error_span(html_tag, object, method)
           object_identifier = erroneous_object_identifier(object.object_id.to_s, method)
 
-          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>".html_safe
         end
 
         def erroneous_object_identifier(id, method)
