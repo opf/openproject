@@ -61,12 +61,12 @@ module SearchHelper
   end
 
   def link_to_previous_search_page(pagination_previous_date)
-    link_to_content_update('&#171; ' + l(:label_previous),
-                           params.merge(:previous => 1, :offset => pagination_previous_date.strftime("%Y%m%d%H%M%S")))
+    link_to_content_update(l(:label_previous),
+                           params.merge(:previous => 1, :offset => pagination_previous_date.strftime("%Y%m%d%H%M%S")), :class => 'navigate-left')
   end
 
   def link_to_next_search_page(pagination_next_date)
-    link_to_content_update(l(:label_next) + ' &#187;',
-                           params.merge(:previous => nil, :offset => pagination_next_date.strftime("%Y%m%d%H%M%S")))
+    link_to_content_update(l(:label_next),
+                           params.merge(:previous => nil, :offset => pagination_next_date.strftime("%Y%m%d%H%M%S")), :class => 'navigate-right')
   end
 end

@@ -375,7 +375,7 @@ module ApplicationHelper
 
     html = ''
     if paginator.current.previous
-      html << link_to_content_update('&#171; ' + l(:label_previous), url_param.merge(page_param => paginator.current.previous)) + ' '
+      html << link_to_content_update(l(:label_previous), url_param.merge(page_param => paginator.current.previous), :class => 'navigate-left') + ' '
     end
 
     html << (pagination_links_each(paginator, options) do |n|
@@ -383,7 +383,7 @@ module ApplicationHelper
     end || '')
 
     if paginator.current.next
-      html << ' ' + link_to_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
+      html << ' ' + link_to_content_update((l(:label_next)), url_param.merge(page_param => paginator.current.next), :class => 'navigate-right')
     end
 
     unless count.nil?
