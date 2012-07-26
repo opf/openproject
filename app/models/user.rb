@@ -23,12 +23,24 @@ class User < Principal
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
 
+  USER_FORMATS_STRUCTURE = {
+    :firstname_lastname => [:firstname, :lastname],
+    :firstname => [:firstname],
+    :lastname_firstname => [:lastname, :firstname],
+    :lastname_coma_firstname => [:lastname, :firstname],
+    :username => [:login]
+  }
+
+  def self.user_format_structure_to_format(key, delimiter = " ")
+    USER_FORMATS_STRUCTURE[key].map{|elem| "\#{#{elem.to_s}}"}.join(delimiter)
+  end
+
   USER_FORMATS = {
-    :firstname_lastname => '#{firstname} #{lastname}',
-    :firstname => '#{firstname}',
-    :lastname_firstname => '#{lastname} #{firstname}',
-    :lastname_coma_firstname => '#{lastname}, #{firstname}',
-    :username => '#{login}'
+    :firstname_lastname =>      User.user_format_structure_to_format(:firstname_lastname, " "),
+    :firstname =>               User.user_format_structure_to_format(:firstname),
+    :lastname_firstname =>      User.user_format_structure_to_format(:lastname_firstname, " "),
+    :lastname_coma_firstname => User.user_format_structure_to_format(:lastname_coma_firstname, ", "),
+    :username =>                User.user_format_structure_to_format(:username)
   }
 
   MAIL_NOTIFICATION_OPTIONS = [

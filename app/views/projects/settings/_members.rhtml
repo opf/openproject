@@ -9,7 +9,8 @@
    @members = @project.member_principals.find :all,
                           :limit  =>  @members_pages.items_per_page,
                           :offset =>  @members_pages.current.offset,
-                          :include => [:roles, :principal, :member_roles]
+                          :include => [:roles, :principal, :member_roles],
+                          :order => User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", ")
 %>
 
 <div class="splitcontentleft">
