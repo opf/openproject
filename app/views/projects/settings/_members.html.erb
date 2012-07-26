@@ -71,9 +71,8 @@
 		</div>
 
     <p><%= l(:label_role_plural) %>:
-    <% roles.each do |role| %>
-    	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
-   	<% end %></p>
+      <%= labeled_check_box_tags 'member[role_ids][]', roles %>
+   	</p>
 
     <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
 		</fieldset>

@@ -319,11 +319,28 @@ module ApplicationHelper
   end
 
   def principals_check_box_tags(name, principals)
-    s = ''
-    principals.sort.each do |principal|
-      s << "<label class='#{user_status_class principal}' title='#{user_status_i18n principal}'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
-    end
-    s
+    labeled_check_box_tags(name, principals,
+                                 { :title => :user_status_i18n,
+                                   :class => :user_status_class })
+  end
+
+  def labeled_check_box_tags(name, collection, options = {})
+    collection.sort.collect do |object|
+      id = name.gsub(/[\[\]]+/,"_") + object.id.to_s
+
+      object_options = options.inject({}) do |h, (k, v)|
+        h[k] = v.is_a?(Symbol) ?
+                 send(v, object) :
+                 v
+
+        h
+      end
+
+      content_tag :div do
+        check_box_tag(name, object.id, false, :id => id) +
+        label_tag(id, object, object_options)
+      end
+    end.join().html_safe
   end
 
   # Truncates and returns the string as a single line
