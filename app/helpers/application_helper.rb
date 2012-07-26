@@ -1014,7 +1014,7 @@ module ApplicationHelper
   # @param [optional, String] content the content of the ROBOTS tag.
   #   defaults to no index, follow, and no archive
   def robot_exclusion_tag(content="NOINDEX,FOLLOW,NOARCHIVE")
-    "<meta name='ROBOTS' content='#{h(content)}' />"
+    "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
   # Returns true if arg is expected in the API response
