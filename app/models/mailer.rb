@@ -426,11 +426,11 @@ class Mailer < ActionMailer::Base
   def render_multipart(method_name, body)
     if Setting.plain_text_mail?
       content_type "text/plain"
-      body render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+      body render(:file => "#{method_name}.text.erb", :body => body, :layout => 'mailer.text.plain.erb')
     else
       content_type "multipart/alternative"
-      part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
-      part :content_type => "text/html", :body => render_message("#{method_name}.text.html.rhtml", body)
+      part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.erb", :body => body, :layout => 'mailer.text.plain.erb')
+      part :content_type => "text/html", :body => render_message("#{method_name}.html.erb", body)
     end
   end
 
