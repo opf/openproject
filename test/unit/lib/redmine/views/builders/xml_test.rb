@@ -44,7 +44,7 @@ class Redmine::Views::Builders::XmlTest < HelperTestCase
   end
 
   def assert_xml_output(expected, &block)
-    builder = Redmine::Views::Builders::Xml.new
+    builder = Redmine::Views::Builders::Xml.new(ActionDispatch::TestRequest.new, ActionDispatch::TestResponse.new)
     block.call(builder)
     assert_equal('<?xml version="1.0" encoding="UTF-8"?>' + expected, builder.output)
   end
