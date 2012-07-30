@@ -64,7 +64,7 @@ module ApplicationHelper
   # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
-      name = h(user.name(options.delete(:format)))
+      name = user.name(options.delete(:format))
       if user.active? || user.registered?
         link_to(name, user, options)
       else
