@@ -21,7 +21,11 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_create
-    member = Member.new.force_attributes = {:project_id => 1, :user_id => 4, :role_ids => [1, 2]}
+    member = Member.new.tap do |m|
+      m.force_attributes = { :project_id => 1,
+                             :user_id => 4,
+                             :role_ids => [1, 2] }
+    end
     assert member.save
     member.reload
 
@@ -46,11 +50,19 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   def test_validate
-    member = Member.new.force_attributes = {:project_id => 1, :user_id => 2, :role_ids => [2]}
+    member = Member.new.tap do |m|
+      m.force_attributes = { :project_id => 1,
+                             :user_id => 2,
+                             :role_ids => [2] }
+    end
     # same use can't have more than one membership for a project
     assert !member.save
 
-    member = Member.new.force_attributes = {:project_id => 1, :user_id => 2, :role_ids => []}
+    member = Member.new.tap do |m|
+      m.force_attributes = { :project_id => 1,
+                             :user_id => 2,
+                             :role_ids => [] }
+    end
     # must have one role at least
     assert !member.save
   end
@@ -80,7 +92,11 @@ class MemberTest < ActiveSupport::TestCase
 
     context "of user" do
       setup do
-        (@member = Member.new.force_attributes = {:project => Project.find(2), :principal => User.find(9), :role_ids => [1, 2]}).save!
+        (@member = Member.new.tap do |m|
+          m.force_attributes = { :project_id => 2,
+                                 :user_id => 9,
+                                 :role_ids => [1, 2] }
+        end).save!
       end
 
       context "by deleting membership" do
@@ -107,7 +123,16 @@ class MemberTest < ActiveSupport::TestCase
     context "of group" do
       setup do
         group = Group.find(10)
-        @member = (Member.new.force_attributes = {:project => Project.find(2), :principal => group, :role_ids => [1, 2]}).save!
+        group.members = []
+
+        @member = (Member.new.tap do |m|
+          m.force_attributes = { :project_id => 2,
+                                 :user_id => group.id,
+                                 :role_ids => [1, 2] }
+        end)
+
+        group.members << @member
+
         group.users << User.find(9)
       end
 

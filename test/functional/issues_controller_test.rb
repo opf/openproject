@@ -34,6 +34,7 @@ class IssuesControllerTest < ActionController::TestCase
            :attachments,
            :workflows,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers,
@@ -189,6 +190,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_csv_with_project
     Setting.default_language = 'en'
+    Role.anonymous.add_permission!(:export_issues)
 
     get :index, :format => 'csv'
     assert_response :success
@@ -203,6 +205,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_pdf
+    Role.anonymous.add_permission!(:export_issues)
+
     get :index, :format => 'pdf'
     assert_response :success
     assert_not_nil assigns(:issues)
@@ -220,6 +224,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_pdf_with_query_grouped_by_list_custom_field
+    Role.anonymous.add_permission!(:export_issues)
+
     get :index, :project_id => 1, :query_id => 9, :format => 'pdf'
     assert_response :success
     assert_not_nil assigns(:issues)
@@ -327,11 +333,10 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_atom
-    get :show, :id => 2, :format => 'atom'
+    get :show, :id => 1, :format => 'atom'
     assert_response :success
     assert_template 'journals/index.rxml'
-    # Inline image
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
+    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/issues/2'))
   end
 
   def test_show_export_to_pdf
@@ -566,7 +571,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {'2' => 'Value for field 2'}}
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-    
+
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 

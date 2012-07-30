@@ -19,7 +19,10 @@ require 'custom_fields_controller'
 class CustomFieldsController; def rescue_action(e) raise e end; end
 
 class CustomFieldsControllerTest < ActionController::TestCase
-  fixtures :custom_fields, :trackers, :users
+  fixtures :custom_fields,
+           :custom_field_translations,
+           :trackers,
+           :users
 
   def setup
     @controller = CustomFieldsController.new

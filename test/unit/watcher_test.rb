@@ -106,7 +106,9 @@ class WatcherTest < ActiveSupport::TestCase
     Watcher.create!(:watchable => WikiPage.find(2), :user => user)
 
     # private project (id: 2)
-    (Member.new.force_attributes = {:project => Project.find(2), :principal => user, :role_ids => [1]}).save!
+    (Member.new.tap do |m|
+      m.force_attributes = {:project => Project.find(2), :principal => user, :role_ids => [1]}
+    end).save!
     Watcher.create!(:watchable => Issue.find(4), :user => user)
     Watcher.create!(:watchable => Message.find(7), :user => user)
     Watcher.create!(:watchable => Wiki.find(2), :user => user)

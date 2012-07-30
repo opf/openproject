@@ -14,19 +14,30 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :issues, :issue_statuses, :trackers, :enumerations, :versions
+  fixtures :projects,
+           :users,
+           :issues,
+           :issue_statuses,
+           :trackers,
+           :projects_trackers,
+           :enumerations,
+           :versions
 
   def setup
   end
 
   def test_create
-    (v = Version.new.force_attributes = {:project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25' })
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '2011-03-25' }
+    end)
     assert v.save
     assert_equal 'open', v.status
   end
 
   def test_invalid_effective_date_validation
-    (v = Version.new.force_attributes = {:project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01' })
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01' }
+    end)
     assert !v.save
     assert_equal I18n.translate('activerecord.errors.messages.not_a_date'), v.errors.on(:effective_date)
   end
@@ -35,7 +46,9 @@ class VersionTest < ActiveSupport::TestCase
     context "with no value saved" do
       should "be the date of the earlist issue" do
         project = Project.find(1)
-        (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+        (v = Version.new.tap do |v|
+          v.force_attributes = { :project => project, :name => 'Progress' }
+        end).save!
         add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
         Issue.generate_for_project!(project, :subject => 'not assigned', :start_date => '2010-01-01')
 
@@ -46,8 +59,11 @@ class VersionTest < ActiveSupport::TestCase
     context "with a value saved" do
       should "be the value" do
         project = Project.find(1)
-        (v = Version.new.force_attributes = {:project => project, :name => 'Progress', :start_date => '2010-01-05'})
-        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01').save!
+        (v = Version.new.tap do |v|
+          v.force_attributes = { :project => project, :name => 'Progress', :start_date => '2010-01-05' }
+        end).save!
+
+        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
 
         assert_equal '2010-01-05', v.start_date.to_s
       end
@@ -58,14 +74,18 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_be_0_with_no_assigned_issues
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     assert_equal 0, v.completed_pourcent
     assert_equal 0, v.closed_pourcent
   end
 
   def test_progress_should_be_0_with_unbegun_assigned_issues
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v)
     add_issue(v, :done_ratio => 0)
     assert_progress_equal 0, v.completed_pourcent
@@ -75,7 +95,9 @@ class VersionTest < ActiveSupport::TestCase
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
     status = IssueStatus.find(:first, :conditions => {:is_closed => true})
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v, :status => status)
     add_issue(v, :status => status, :done_ratio => 20)
     add_issue(v, :status => status, :done_ratio => 70, :estimated_hours => 25)
@@ -86,7 +108,9 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_consider_done_ratio_of_open_assigned_issues
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v)
     add_issue(v, :done_ratio => 20)
     add_issue(v, :done_ratio => 70)
@@ -96,7 +120,9 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_consider_closed_issues_as_completed
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v)
     add_issue(v, :done_ratio => 20)
     add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
@@ -106,7 +132,9 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_consider_estimated_hours_to_weigth_issues
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v, :estimated_hours => 10)
     add_issue(v, :estimated_hours => 20, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
@@ -117,7 +145,9 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
     project = Project.find(1)
-    (v = Version.new.force_attributes = {:project => project, :name => 'Progress'}).save!
+    (v = Version.new.tap do |v|
+      v.force_attributes = { :project => project, :name => 'Progress' }
+    end).save!
     add_issue(v, :done_ratio => 20)
     add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
     add_issue(v, :estimated_hours => 10, :done_ratio => 30)
@@ -132,7 +162,9 @@ class VersionTest < ActiveSupport::TestCase
       @project = Project.generate!(:identifier => 'test0')
       @project.trackers << Tracker.generate!
 
-      (@version = Version.new.force_attributes = {:project => @project, :effective_date => nil)).save!
+      (@version = Version.new.tap do |v|
+        v.force_attributes = { :project => @project, :effective_date => nil, :name => "test" }
+      end).save!
     end
 
     should "be false if there are no issues assigned" do
@@ -178,7 +210,9 @@ class VersionTest < ActiveSupport::TestCase
 
   context "#estimated_hours" do
     setup do
-      (@version = Version.new.force_attributes = {:project_id => 1, :name => '#estimated_hours')).save!
+      (@version = Version.new.tap do |v|
+        v.force_attributes = { :project_id => 1, :name => '#estimated_hours' }
+      end).save!
     end
 
     should "return 0 with no assigned issues" do
@@ -242,11 +276,15 @@ class VersionTest < ActiveSupport::TestCase
   private
 
   def add_issue(version, attributes={})
-    (Issue.new.force_attributes = {:project => version.project,
-                   :fixed_version => version,
-                   :subject => 'Test',
-                   :author => User.find(:first),
-                   :tracker => version.project.trackers.find(:first)}.merge(attributes)).save!
+    (v = Issue.new.tap do |v|
+      v.force_attributes = { :project => version.project,
+                             :fixed_version => version,
+                             :subject => 'Test',
+                             :author => User.first,
+                             :tracker => version.project.trackers.first }.merge(attributes)
+    end).save!
+
+    v
   end
 
   def assert_progress_equal(expected_float, actual_float, message="")

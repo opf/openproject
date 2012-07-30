@@ -19,6 +19,7 @@ class ApplicationTest < ActionController::IntegrationTest
   fixtures :all
 
   def test_set_localization
+    Setting.available_languages = [:fr, :en, :it]
     Setting.default_language = 'en'
 
     # a french user

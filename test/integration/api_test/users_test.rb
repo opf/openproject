@@ -241,26 +241,48 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
         end
       end
     end
+  end
 
-    context "DELETE /users/2" do
-      context ".xml" do
-        should "not be allowed" do
-          assert_no_difference('User.count') do
-            delete '/users/2.xml'
-          end
+  context "DELETE /users/2" do
+    setup do
+      Setting.users_deletable_by_admins = "1"
+      # setup deleted user to not tamper with the count
+      # as the deleted user gets created lazily when it is required
+      # which it is for the first time when deleting a user
+      DeletedUser.first
+    end
 
-          assert_response :method_not_allowed
+    context ".xml" do
+      should_allow_api_authentication(:delete,
+                                      '/users/2.xml',
+                                      {},
+                                      {:success_code => :ok})
+
+
+      should "delete user" do
+        assert_difference('User.count', -1) do
+          delete '/users/2.xml', {}, :authorization => credentials('admin')
         end
+
+        assert_response :ok
+        assert_equal ' ', @response.body
       end
+    end
 
-      context ".json" do
-        should "not be allowed" do
-          assert_no_difference('User.count') do
-            delete '/users/2.json'
-          end
 
-          assert_response :method_not_allowed
+    context ".json" do
+      should_allow_api_authentication(:delete,
+                                      '/users/2.json',
+                                      {},
+                                      {:success_code => :ok})
+
+      should "delete user" do
+        assert_difference('User.count', -1) do
+          delete '/users/2.json', {}, :authorization => credentials('admin')
         end
+
+        assert_response :ok
+        assert_equal ' ', @response.body
       end
     end
   end

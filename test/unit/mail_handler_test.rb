@@ -14,25 +14,28 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MailHandlerTest < ActiveSupport::TestCase
-  fixtures :users, :projects,
-                   :enabled_modules,
-                   :roles,
-                   :members,
-                   :member_roles,
-                   :users,
-                   :issues,
-                   :issue_statuses,
-                   :workflows,
-                   :trackers,
-                   :projects_trackers,
-                   :versions,
-                   :enumerations,
-                   :issue_categories,
-                   :custom_fields,
-                   :custom_fields_trackers,
-                   :custom_fields_projects,
-                   :boards,
-                   :messages
+  fixtures :users,
+           :projects,
+           :enabled_modules,
+           :roles,
+           :members,
+           :member_roles,
+           :users,
+           :issues,
+           :issue_statuses,
+           :workflows,
+           :trackers,
+           :projects_trackers,
+           :versions,
+           :enumerations,
+           :issue_categories,
+           :custom_fields,
+           :custom_field_translations,
+           :custom_fields_trackers,
+           :custom_fields_projects,
+           :boards,
+           :messages,
+           :journals
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
@@ -279,7 +282,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_emails_from_emission_address
     Role.anonymous.add_permission!(:add_issues)
     assert_no_difference 'User.count' do
-      assert_equal false, submit_email('ticket_from_emission_address.eml', :issue => {:project => 'ecookbook'}, :unknown_user => 'create')
+      assert !submit_email('ticket_from_emission_address.eml', :issue => { :project => 'ecookbook'}, :unknown_user => 'create')
     end
   end
 

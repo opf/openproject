@@ -20,7 +20,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
            :enumerations,
            :issues,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
+           :custom_fields, :custom_field_translations,
+           :custom_fields_projects, :custom_fields_trackers, :custom_values,
            :time_entries
 
   self.use_transactional_fixtures = false
@@ -47,11 +48,32 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [parent.id, parent.id, 1], [child.root_id, child.parent_id, child.rgt - child.lft]
   end
 
-  def test_creating_a_child_in_different_project_should_not_validate
+  def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
+    Setting.cross_project_issue_relations = "0"
     issue = create_issue!
-    child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1, :subject => 'child', :parent_issue_id => issue.id)
+    child = Issue.new.tap do |i|
+      i.force_attributes = { :project_id => 2,
+                             :tracker_id => 1,
+                             :author_id => 1,
+                             :subject => 'child',
+                             :parent_issue_id => issue.id }
+    end
     assert !child.save
     assert_not_nil child.errors.on(:parent_issue_id)
+  end
+
+  def test_creating_a_child_in_different_project_should_validate_if_allowed
+    Setting.cross_project_issue_relations = "1"
+    issue = create_issue!
+    child = Issue.new.tap do |i|
+      i.force_attributes = { :project_id => 2,
+                             :tracker_id => 1,
+                             :author_id => 1,
+                             :subject => 'child',
+                             :parent_issue_id => issue.id }
+    end
+    assert child.save
+    assert_nil child.errors.on(:parent_issue_id)
   end
 
   def test_move_a_root_to_child
@@ -132,6 +154,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_move_a_child_with_descendants_to_another_project
+    Setting.cross_project_issue_relations = "0"
+
     parent1 = create_issue!
     child =   create_issue!(:parent_issue_id => parent1.id)
     grandchild = create_issue!(:parent_issue_id => child.id)
@@ -184,9 +208,21 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue2 = create_issue!
     issue3 = create_issue!(:parent_issue_id => issue2.id)
     issue4 = create_issue!
-    (r1 = IssueRelation.new).force_attributes = {:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES}
-    (r2 = IssueRelation.new).force_attributes = {:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES}
-    (r3 = IssueRelation.new).force_attributes = {:issue_from => issue2, :issue_to => issue4, :relation_type => IssueRelation::TYPE_PRECEDES}
+    (r1 = IssueRelation.new.tap do |i|
+      i.force_attributes = { :issue_from => issue1,
+                             :issue_to => issue2,
+                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    end).save!
+    (r2 = IssueRelation.new.tap do |i|
+      i.force_attributes = { :issue_from => issue1,
+                             :issue_to => issue3,
+                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    end).save!
+    (r3 = IssueRelation.new.tap do |i|
+      i.force_attributes = { :issue_from => issue2,
+                             :issue_to => issue4,
+                             :relation_type => IssueRelation::TYPE_PRECEDES }
+    end).save!
     issue2.reload
     issue2.parent_issue_id = issue1.id
     issue2.save!
@@ -230,9 +266,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_destroy_child_issue_with_children
-    root = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
-    child = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
-    leaf = Issue.create!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
+    root = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'root').reload
+    child = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => root.id).reload
+    leaf = create_issue!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'leaf', :parent_issue_id => child.id).reload
     leaf.init_journal(User.find(2))
     leaf.subject = 'leaf with journal'
     leaf.save!
@@ -370,7 +406,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   # Helper that creates an issue with default attributes
   def create_issue!(attributes={})
-    (i = Issue.new.force_attributes = {:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test'}.merge(attributes)).save!
+    (i = Issue.new.tap do |i|
+      attr = { :project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test' }.merge(attributes)
+      i.force_attributes = attr
+    end).save!
     i
   end
 end

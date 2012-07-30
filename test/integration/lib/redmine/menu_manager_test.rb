@@ -19,16 +19,17 @@ class MenuManagerTest < ActionController::IntegrationTest
   fixtures :all
 
   def test_project_menu_with_specific_locale
+    Setting.available_languages = [:fr, :en]
     get 'projects/ecookbook/issues', { }, 'Accept-Language' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
 
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('fr', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
-                                                                                              :class => 'activity' } } }
+                                                                                              :class => 'activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('fr', :label_issue_plural),
                                                                              :attributes => { :href => '/projects/ecookbook/issues',
-                                                                                              :class => 'issues selected' } } }
+                                                                                              :class => 'issues ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items
@@ -43,16 +44,16 @@ class MenuManagerTest < ActionController::IntegrationTest
       get 'projects/ecookbook'
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Foo',
-                                                                               :attributes => { :class => 'foo' } } }
+                                                                               :attributes => { :class => 'foo ellipsis' } } }
 
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'Bar',
-                                                                               :attributes => { :class => 'bar' } },
+                                                                               :attributes => { :class => 'bar ellipsis' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK' } } }
 
       assert_tag :div, :attributes => { :id => 'main-menu' },
                        :descendant => { :tag => 'li', :child => { :tag => 'a', :content => 'ECOOKBOOK',
-                                                                               :attributes => { :class => 'hello' } },
+                                                                               :attributes => { :class => 'hello ellipsis' } },
                                                       :before => { :tag => 'li', :child => { :tag => 'a', :content => 'Activity' } } }
 
       # Remove the menu items

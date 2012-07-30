@@ -21,7 +21,16 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
 
-  fixtures :users, :projects, :members, :member_roles, :roles, :auth_sources, :custom_fields, :custom_values, :groups_users
+  fixtures :users,
+           :projects,
+           :members,
+           :member_roles,
+           :roles,
+           :auth_sources,
+           :custom_fields,
+           :custom_field_translations,
+           :custom_values,
+           :groups_users
 
   def setup
     @controller = UsersController.new
@@ -229,6 +238,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_update_with_activation_should_send_a_notification
+    Setting.available_languages = [:en, :fr]
     u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
     u.login = 'foo'
     u.status = User::STATUS_REGISTERED

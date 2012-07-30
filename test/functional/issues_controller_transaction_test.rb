@@ -34,6 +34,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
            :attachments,
            :workflows,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers,
@@ -53,7 +54,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   def test_put_update_stale_issue
     issue = Issue.find(2)
     @request.session[:user_id] = 2
-    
+
     assert_no_difference 'Journal.count' do
       assert_no_difference 'TimeEntry.count' do
         assert_no_difference 'Attachment.count' do
@@ -75,7 +76,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
                               :content => /Information has been updated by at least one other user in the meantime./
   end
-  
+
   def test_put_update_stale_issue_prints_users_that_were_changing_it
     issue = Issue.find(1)
     @request.session[:user_id] = 3
@@ -92,13 +93,13 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    
+
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
-                              :content => /redMine Admin \(19 Mar 00:00\), John Smith \(21 Mar 00:00\)/
+                              :content => /redMine Admin \(#{Journal.find(1).created_at.strftime("%d %b 00:00")}\), John Smith \(#{Journal.find(2).created_at.strftime("%d %b 00:00")}\)/
     assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' },
                               :content => /Please reload the page/
   end
-  
+
 end
 
 

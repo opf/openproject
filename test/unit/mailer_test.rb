@@ -34,7 +34,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal, @user)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -56,7 +56,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal, @user)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -81,7 +81,7 @@ class MailerTest < ActiveSupport::TestCase
 
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal, @user)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -212,11 +212,11 @@ class MailerTest < ActiveSupport::TestCase
       assert_equal 1, ActionMailer::Base.deliveries.length
       assert_equal ['admin@somenet.foo'], last_email.to
     end
-    
+
     should "change mail language depending on recipient language" do
-      Setting.stubs(:available_languages).returns(['en', 'de'])      
+      Setting.stubs(:available_languages).returns(['en', 'de'])
       set_language_if_valid 'en'
-      
+
       user = User.find(1)
       user.language = 'de'
 
@@ -226,29 +226,29 @@ class MailerTest < ActiveSupport::TestCase
       mail = last_email
       assert_equal ['admin@somenet.foo'], mail.to
       assert mail.body.include?('erstellt')
-      assert !mail.body.include?('reported')      
+      assert !mail.body.include?('reported')
       assert_equal :en, current_language
     end
-    
+
     should "falls back to default language if user has no language" do
       # 1. user's language
       # 2. Setting.default_language
       # 3. :en
-      
+
       Setting.stubs(:available_languages).returns(['en', 'de', 'fr'])
       set_language_if_valid 'fr'
-      
+
       Setting.default_language = 'de'
-    
+
       user = User.find(1)
       user.language = '' # (auto)
-    
+
       assert Mailer.deliver_issue_add(@issue, user)
       assert_equal 1, ActionMailer::Base.deliveries.length
-    
+
       mail = last_email
       assert_equal ['admin@somenet.foo'], mail.to
-      assert !mail.body.include?('reported')      
+      assert !mail.body.include?('reported')
       assert mail.body.include?('erstellt')
       assert_equal :fr, current_language
     end
@@ -391,8 +391,9 @@ class MailerTest < ActiveSupport::TestCase
 
   context "layout" do
     should "include the emails_header depeding on the locale" do
-      Setting.stubs(:available_languages).returns(['en', 'de'])
-      Setting.stubs(:emails_header).returns({"de"=>"deutscher header", "en"=>"english header"})
+      Setting.available_languages = [:en, :de]
+      Setting.emails_header = { "de" => "deutscher header",
+                                "en" => "english header" }
 
       user = User.find(1)
       user.language = :en

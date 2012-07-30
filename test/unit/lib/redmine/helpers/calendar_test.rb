@@ -16,6 +16,7 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class CalendarTest < ActiveSupport::TestCase
 
   def test_monthly
+    Setting.available_languages = [:fr, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :fr, :month)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 
@@ -27,6 +28,7 @@ class CalendarTest < ActiveSupport::TestCase
   end
 
   def test_weekly
+    Setting.available_languages = [:fr, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :fr, :week)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 

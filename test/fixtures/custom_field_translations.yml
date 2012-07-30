@@ -1,0 +1,62 @@
+---
+custom_field_translations_001:
+  name: Database
+  locale: en
+  possible_values:
+  - MySQL
+  - PostgreSQL
+  - Oracle
+  default_value: ""
+  custom_field_id: 1
+custom_field_translations_002:
+  name: Searchable field
+  locale: en
+  possible_values: ""
+  default_value: "Default string"
+  custom_field_id: 2
+custom_field_translations_003:
+  name: Development status
+  locale: en
+  possible_values:
+  - Stable
+  - Beta
+  - Alpha
+  - Planning
+  default_value: ""
+  custom_field_id: 3
+custom_field_translations_004:
+  name: Phone number
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 4
+custom_field_translations_005:
+  name: Money
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 5
+custom_field_translations_006:
+  name: Float field
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 6
+custom_field_translations_007:
+  name: Billable
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 7
+custom_field_translations_008:
+  name: Custom date
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 8
+custom_field_translations_009:
+  name: Project 1 cf
+  locale: en
+  possible_values: ""
+  default_value: ""
+  custom_field_id: 9

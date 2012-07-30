@@ -30,6 +30,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :attachments,
     :workflows,
     :custom_fields,
+    :custom_field_translations,
     :custom_values,
     :custom_fields_projects,
     :custom_fields_trackers,
@@ -84,7 +85,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     context "with nometa header" do
       should "not contain metadata" do
-        get '/issues.xml', {}, {'X-ChiliProject-Nometa' => '1'}
+        get '/issues.xml', {}, {'X-OpenProject-Nometa' => '1'}
 
         assert_tag :tag => 'issues',
           :attributes => {
