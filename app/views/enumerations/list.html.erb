@@ -1,6 +1,6 @@
 <h2><%=l(:label_enumerations)%></h2>
 
-<% Enumeration.get_subclasses.each do |klass| %>
+<% Enumeration.subclasses.each do |klass| %>
 <h3><%= l(klass::OptionName) %></h3>
 
 <% enumerations = klass.shared %>

@@ -86,14 +86,6 @@ class Enumeration < ActiveRecord::Base
 
   def to_s; name end
 
-  # Returns the Subclasses of Enumeration.  Each Subclass needs to be
-  # required in development mode.
-  #
-  # Note: subclasses is protected in ActiveRecord
-  def self.get_subclasses
-    @@subclasses[Enumeration]
-  end
-
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
     if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
