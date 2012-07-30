@@ -11,6 +11,9 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize3', :require => 'globalize'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
+# TODO: check that it doesn't break the functionality of acts_as_journalized
+gem 'safe_attributes' # allows active record to have a #changes column
+
 group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
