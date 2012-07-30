@@ -14,6 +14,8 @@ gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 # TODO: check that it doesn't break the functionality of acts_as_journalized
 gem 'safe_attributes' # allows active record to have a #changes column
 
+gem 'awesome_nested_set'
+
 group :test do
   gem 'shoulda', '~> 2.10.3'
   gem 'edavis10-object_daddy', :require => 'object_daddy'
