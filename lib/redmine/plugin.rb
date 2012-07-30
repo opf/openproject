@@ -59,6 +59,9 @@ module Redmine #:nodoc:
     @registered_plugins = ActiveSupport::OrderedHash.new
     @deferred_plugins   = {}
 
+    cattr_accessor :public_directory
+    self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
+
     class << self
       attr_reader :registered_plugins, :deferred_plugins
       private :new
