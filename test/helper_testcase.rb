@@ -18,7 +18,7 @@ class StubController < ApplicationController
   attr_accessor :request, :url
 end
 
-class HelperTestCase < ActiveSupport::TestCase
+class HelperTestCase < ActionView::TestCase
 
   # Add other helpers here if you need them
   include ActionView::Helpers::ActiveRecordHelper

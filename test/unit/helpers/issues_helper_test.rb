@@ -17,7 +17,7 @@ class IssuesHelperTest < HelperTestCase
   include ApplicationHelper
   include IssuesHelper
 
-  include ActionController::Assertions::SelectorAssertions
+  include ActionDispatch::Assertions::SelectorAssertions
   fixtures :all
 
   # Used by assert_select
