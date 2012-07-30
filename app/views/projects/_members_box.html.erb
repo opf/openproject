@@ -2,8 +2,8 @@
   <div class="members box">
     <h3><%=l(:label_member_plural)%></h3>
     <p>
-      <% @users_by_role.keys.sort.each do |role| %>
-        <%=h role %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %><br />
+      <% @users_by_role.sort.each do |role, users| %>
+        <%= role %>: <%= users.sort.collect{ |u| link_to_user u }.join(", ").html_safe %><br />
       <% end %>
     </p>
   </div>
