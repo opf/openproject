@@ -30,8 +30,11 @@ module SettingsHelper
     if blank_text = options.delete(:blank)
       choices = [[blank_text.is_a?(Symbol) ? l(blank_text) : blank_text, '']] + choices
     end
-    setting_label(setting, options) +
-      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+
+    ret = select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+    ret = setting_label(setting).safe_concat(ret) unless options[:label] == false
+
+    ret
   end
 
   def setting_multiselect(setting, choices, options={})
@@ -42,11 +45,12 @@ module SettingsHelper
       hidden_field_tag("settings[#{setting}][]", '') +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+
         content_tag('label',
           check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + text.to_s,
           :class => 'block'
         )
-      end.join
+      end.join.html_safe
   end
 
   def setting_text_field(setting, options={})
@@ -67,7 +71,7 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", l(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''
+    label != false ? content_tag("label", l(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''.html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option
