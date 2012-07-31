@@ -44,6 +44,9 @@ class ActiveSupport::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  # included in order to use #fixture_file_upload
+  include ActionDispatch::TestProcess
+
   # Add more helper methods to be used by all tests here...
   def setup
     super
@@ -61,7 +64,8 @@ class ActiveSupport::TestCase
   end
 
   def uploaded_test_file(name, mime)
-    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
+    # Shortcut for ActionController::TestUploadedFile.new(ActionController::TestCase.fixture_path + path, type):
+    fixture_file_upload("/files/#{name}", mime, true)
   end
 
   # Mock out a file
