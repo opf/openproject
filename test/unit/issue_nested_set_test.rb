@@ -26,6 +26,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   self.use_transactional_fixtures = false
 
+  def setup
+    Issue.delete_all
+  end
+
   def test_create_root_issue
     issue1 = create_issue!
     issue2 = create_issue!
@@ -294,7 +298,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_difference 'Issue.count', -4 do
       Issue.find(issue.id).destroy
       parent.reload
-      assert_equal [3, 4], [parent.lft, parent.rgt]
+      assert_equal [1, 2], [parent.lft, parent.rgt]
     end
   end
 
