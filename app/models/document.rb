@@ -48,7 +48,10 @@ class Document < ActiveRecord::Base
 
   def updated_on
     unless @updated_on
-      a = attachments.find(:first, :order => 'created_on DESC')
+      # attachments has a default order that conflicts with `created_on DESC`
+      # #reorder removes that default order but rather than #unscoped keeps the
+      # scoping by this document
+      a = attachments.reorder(nil).order('created_on DESC').first
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on
