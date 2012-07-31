@@ -58,6 +58,11 @@ module Redmine
       'application/x-tar' => 'tar',
       'application/zip' => 'zip',
       'application/x-gzip' => 'gz',
+      'video/x-flv' => 'flv,f4v',
+      'video/mpeg' => 'mpeg,mpg,mpe',
+      'video/quicktime' => 'qt,mov',
+      'video/vnd.vivo' => 'viv,vivo',
+      'video/x-msvideo' => 'avi',
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
