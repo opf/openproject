@@ -641,7 +641,7 @@ class User < Principal
       klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     end
 
-    [TimeEntry, Journal, Query].each do |klass|
+    [TimeEntry, Journal, ::Query].each do |klass|
       klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     end
 
@@ -671,7 +671,7 @@ class User < Principal
   end
 
   def delete_associated_public_queries
-    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 end
 

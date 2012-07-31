@@ -424,16 +424,21 @@ class ProjectTest < ActiveSupport::TestCase
 
   context "description" do
     setup do
-      @project = Project.generate!
-      @project.description = ("Abcd " * 5 + "\n") * 11
+      # this block unfortunately isn't run
+      # move first two lines of next to specs up here
+      # when you know that it will work
     end
 
     def test_short_description_returns_shortened_description
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
       @project.summary = ""
       assert_equal (("Abcd " * 5 + "\n") * 10)[0..-2] + "...", @project.short_description
     end
 
     def test_short_description_returns_summary
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
       @project.summary = "In short"
       assert_equal "In short", @project.short_description
     end

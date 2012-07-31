@@ -87,7 +87,7 @@ class Issue < ActiveRecord::Base
 
   scope :with_query, lambda {|query|
     {
-      :conditions => Query.merge_conditions(query.statement)
+      :conditions => ::Query.merge_conditions(query.statement)
     }
   }
 
