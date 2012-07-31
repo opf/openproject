@@ -96,6 +96,13 @@ class IssueRelation < ActiveRecord::Base
     TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
   end
 
+  # delay is an attribute of IssueRelation but its getter is masked by delayed_job's #delay method
+  # here we overwrite dj's delay method with the one reading the attribute
+  # since we don't plan to use dj with IssueRelation objects, this should be fine
+  def delay
+    self[:delay]
+  end
+
   private
 
   # Reverses the relation if needed so that it gets stored in the proper way
