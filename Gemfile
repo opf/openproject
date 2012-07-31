@@ -21,7 +21,8 @@ group :test do
   gem 'edavis10-object_daddy', :require => 'object_daddy'
   gem 'mocha'
 
-  platforms :mri_18, :mingw_18, :mri_19, :mingw_19 do gem 'debugger' end
+  platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
+  platforms :mri_19, :mingw_19 do gem 'debugger' end
 end
 
 group :openid do
