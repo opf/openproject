@@ -182,17 +182,17 @@ end
 # for the sake of nested attributes it is necessary to redefine possible_values
 # the values get set directly on the translations association
 
-#class CustomField::Translation < ActiveRecord::Base
-#  serialize :possible_values
-#
-#  def possible_values=(arg)
-#    if arg.is_a?(Array)
-#      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
-#
-#      write_attribute(:possible_values, value)
-#    else
-#      self.possible_values = arg.to_s.split(/[\n\r]+/)
-#    end
-#  end
+class CustomField::Translation < ActiveRecord::Base
+  serialize :possible_values
 
-#end
+  def possible_values=(arg)
+    if arg.is_a?(Array)
+      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+
+      write_attribute(:possible_values, value)
+    else
+      self.possible_values = arg.to_s.split(/[\n\r]+/)
+    end
+  end
+
+end
