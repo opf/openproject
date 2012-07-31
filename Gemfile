@@ -18,7 +18,7 @@ gem 'awesome_nested_set'
 
 group :test do
   gem 'shoulda', '~> 2.10.3'
-  gem 'edavis10-object_daddy', :require => 'object_daddy'
+  gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
   gem 'mocha'
 
   platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
