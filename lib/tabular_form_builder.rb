@@ -46,7 +46,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         ret
       else
-        label_for_field(field, options) + super
+        (label_for_field(field, options) + super).html_safe
       end
     end
     END_SRC
@@ -70,32 +70,32 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def localized_field(translation_form, method, field, options)
-    ret = "<span class=\"translation #{field.to_s}_translation\">"
+    @template.content_tag :span, :class => "translation #{field.to_s}_translation" do
+      ret = ''.html_safe
 
-    field_options = localized_options options, translation_form.object.locale
+      field_options = localized_options options, translation_form.object.locale
 
-    ret.concat translation_form.send(method, field, field_options)
-    ret.concat translation_form.hidden_field :id,
+      ret.safe_concat translation_form.send(method, field, field_options)
+      ret.safe_concat translation_form.hidden_field :id,
                                              :class => 'translation_id'
-    if options[:multi_locale]
-      ret.concat translation_form.select :locale,
-                                         Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
-                                         {},
-                                         :class => 'locale_selector'
-      ret.concat translation_form.hidden_field '_destroy',
-                                               :disabled => true,
-                                               :class => 'destroy_flag',
-                                               :value => "1"
-      ret.concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
-      ret.concat "<br>"
-    else
-      ret.concat translation_form.hidden_field :locale,
-                                               :class => 'locale_selector'
+      if options[:multi_locale]
+        ret.safe_concat translation_form.select :locale,
+                                                Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
+                                                {},
+                                                :class => 'locale_selector'
+        ret.safe_concat translation_form.hidden_field '_destroy',
+                                                 :disabled => true,
+                                                 :class => 'destroy_flag',
+                                                 :value => "1"
+        ret.safe_concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
+        ret.safe_concat("<br>")
+      else
+        ret.safe_concat translation_form.hidden_field :locale,
+                                                      :class => 'locale_selector'
+      end
+
+      ret
     end
-
-    ret.concat "</span>"
-
-    ret
   end
 
   def translation_objects field, options
@@ -134,7 +134,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def add_localization_link
-    "<a href=\"#\" class=\"add_locale\">#{l(:button_add)}</a>"
+    @template.content_tag :a, l(:button_add), :href => "#", :class => "add_locale"
   end
 
   def localized_options options, locale = :en

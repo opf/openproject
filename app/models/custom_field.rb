@@ -89,7 +89,7 @@ class CustomField < ActiveRecord::Base
       end
     else
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
-      attribute = globalize.fetch(locale || self.class.locale || I18n.locale, :possible_values)
+      attribute = possible_values(locale)
       attribute
     end
   end
@@ -99,17 +99,17 @@ class CustomField < ActiveRecord::Base
     when 'user'
       possible_values_options(obj).collect(&:last)
     else
-      globalize.fetch(obj || self.class.locale || I18n.locale, :possible_values)
+      options = obj.nil? ? {} : obj
+      read_attribute(:possible_values, obj)
     end
   end
 
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+      value = arg.compact.collect(&:strip).select{ |v| !v.blank? }
 
-      globalize.write(self.class.locale || I18n.locale, :possible_values, value)
-      self[:possible_values] = value
+      write_attribute(:possible_values, value, {})
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
     end
@@ -182,7 +182,7 @@ end
 # for the sake of nested attributes it is necessary to redefine possible_values
 # the values get set directly on the translations association
 
-class CustomField::Translation < ActiveRecord::Base
+class CustomField::Translation < Globalize::ActiveRecord::Translation
   serialize :possible_values
 
   def possible_values=(arg)
