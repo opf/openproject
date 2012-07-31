@@ -1,88 +1,47 @@
+# this is a pull request on globalize 3
+# https://github.com/svenfuchs/globalize3/pull/139
+# which is based on
+# https://github.com/svenfuchs/globalize3/pull/121
+# does not work on rails 3.0 as it depends on build_relation but will on 3.1
 
-module Globalize::ActiveRecord::ClassMethodsPatch
-  def self.included(base)
-    base.send(:include, ClassMethods)
-  end
+require 'active_record/validations/uniqueness.rb'
 
-  module ClassMethods
-    def validates_uniqueness_of(*attr_names)
-      configuration = { :case_sensitive => true }
-      configuration.update(attr_names.extract_options!)
+ActiveRecord::Validations::UniquenessValidator.class_eval do
+  def validate_each_with_translations(record, attribute, value)
+    klass = record.class
+    if klass.translates? && klass.translated?(attribute)
+      finder_class = klass.translation_class
+      table = finder_class.arel_table
 
-      validates_each(attr_names,configuration) do |record, attr_name, value|
-        # The check for an existing value should be run from a class that
-        # isn't abstract. This means working down from the current class
-        # (self), to the first non-abstract class. Since classes don't know
-        # their subclasses, we have to build the hierarchy between self and
-        # the record's class.
-        class_hierarchy = [record.class]
-        while class_hierarchy.first != self
-          class_hierarchy.insert(0, class_hierarchy.first.superclass)
+      relation = build_relation(finder_class, table, attribute, value).and(table[:locale].eq(Globalize.locale))
+      relation = relation.and(table[klass.reflect_on_association(:translations).foreign_key].not_eq(record.send(:id))) if record.persisted?
+
+      translated_scopes = Array(options[:scope]) & klass.translated_attribute_names
+      untranslated_scopes = Array(options[:scope]) - translated_scopes
+
+      untranslated_scopes.each do |scope_item|
+        scope_value = record.send(scope_item)
+        reflection = klass.reflect_on_association(scope_item)
+        if reflection
+          scope_value = record.send(reflection.foreign_key)
+          scope_item = reflection.foreign_key
         end
-
-        # Now we can work our way down the tree to the first non-abstract
-        # class (which has a database table to query from).
-        finder_class = class_hierarchy.detect { |klass| !klass.abstract_class? }
-        is_translated_attribute = finder_class.translated_attribute_names.include?(attr_name)
-        translation_class = finder_class.translation_class if is_translated_attribute
-
-        column = finder_class.columns_hash[attr_name.to_s] || translation_class.columns_hash[attr_name.to_s]
-
-        if value.nil?
-          comparison_operator = "IS ?"
-        elsif column.text?
-          comparison_operator = "#{connection.case_sensitive_equality_operator} ?"
-          value = column.limit ? value.to_s.mb_chars[0, column.limit] : value.to_s
-        else
-          comparison_operator = "= ?"
-        end
-
-        sql_attribute = is_translated_attribute ?
-          "#{translation_class.quoted_table_name}.#{connection.quote_column_name(attr_name)}" :
-          "#{record.class.quoted_table_name}.#{connection.quote_column_name(attr_name)}"
-
-        if value.nil? || (configuration[:case_sensitive] || !column.text?)
-          condition_sql = "#{sql_attribute} #{comparison_operator}"
-          condition_params = [value]
-        else
-          condition_sql = "LOWER(#{sql_attribute}) #{comparison_operator}"
-          condition_params = [value.mb_chars.downcase]
-        end
-
-        if scope = configuration[:scope]
-          Array(scope).map do |scope_item|
-            scope_value, scope_class = if scope_item == :locale
-              [ I18n.locale.to_s,
-                record.class.translation_class ]
-            elsif record.class.translated_attribute_names.include? scope_item.to_s
-              translation = record.translations.detect{ |t| t.locale == I18n.locale }
-              value = translation.send(scope_item) if translation.present?
-
-              [ value,
-                record.class.translation_class ]
-            else
-              [ record.send(scope_item),
-                record.class ]
-            end
-
-            condition_sql << " AND " << attribute_condition("#{scope_class.quoted_table_name}.#{scope_item}", scope_value)
-            condition_params << scope_value
-          end
-        end
-
-        unless record.new_record?
-          condition_sql << " AND #{record.class.quoted_table_name}.#{record.class.primary_key} <> ?"
-          condition_params << record.send(:id)
-        end
-
-        finder_class.with_exclusive_scope do
-          if finder_class.first(:conditions => [condition_sql, *condition_params], :include => :translations ).present?
-            record.errors.add(attr_name, :taken, :default => configuration[:message], :value => value)
-          end
-        end
+        relation = relation.and(find_finder_class_for(record).arel_table[scope_item].eq(scope_value))
       end
+
+      translated_scopes.each do |scope_item|
+        scope_value = record.send(scope_item)
+        relation = relation.and(table[scope_item].eq(scope_value))
+      end
+
+      if klass.unscoped.with_translations.where(relation).exists?
+        record.errors.add(attribute, :taken, options.except(:case_sensitive, :scope).merge(:value => value))
+      end
+    else
+      validate_each_without_translations(record, attribute, value)
     end
   end
+  alias_method_chain :validate_each, :translations
 end
 
 module Globalize
@@ -132,8 +91,6 @@ module GlobalizePatch
   end
 end
 
-
-Globalize::ActiveRecord::ClassMethods.send(:include, Globalize::ActiveRecord::ClassMethodsPatch)
 Globalize.send(:include, GlobalizePatch)
 Globalize::ActiveRecord::Adapter.send(:include, Globalize::ActiveRecord::AdapterPatch)
 
