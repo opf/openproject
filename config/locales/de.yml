@@ -700,6 +700,8 @@ de:
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
+  create_child_page: Neue Unterseite anlegen
+  create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
   label_index_by_title: Seiten nach Titel
   label_index_by_date: Seiten nach Datum
   label_current_version: Gegenwärtige Version

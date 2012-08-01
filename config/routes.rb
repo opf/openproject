@@ -39,6 +39,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :time_entries, :controller => 'timelog'
 
+  map.wiki_new       'projects/:project_id/wiki/new',     :controller => 'wiki', :action => 'new',    :conditions => { :method => :get }
+  map.wiki_create    'projects/:project_id/wiki/new',     :controller => 'wiki', :action => 'create', :conditions => { :method => :post }
+  map.wiki_preview   'projects/:project_id/wiki/preview', :controller => 'wiki', :action => 'preview', :conditions => { :method => :post }
+  map.wiki_new_child 'projects/:project_id/wiki/:id/new', :controller => 'wiki', :action => 'new_child', :conditions => { :method => :get }
   map.connect 'projects/:id/wiki', :controller => 'wikis', :action => 'edit', :conditions => {:method => :post}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :get}
   map.connect 'projects/:id/wiki/destroy', :controller => 'wikis', :action => 'destroy', :conditions => {:method => :post}

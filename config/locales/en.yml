@@ -699,6 +699,8 @@ en:
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
+  wiki_create_child_page: Create new child page
+  wiki_create_child_page_for: "Create new child page: \"%{title}\""
   label_index_by_title: Index by title
   label_index_by_date: Index by date
   label_current_version: Current version

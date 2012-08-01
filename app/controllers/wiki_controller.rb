@@ -34,6 +34,8 @@ class WikiController < ApplicationController
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
+  verify :method => :get,  :only => [:new, :new_child], :render => {:nothing => true, :status => :method_not_allowed}
+  verify :method => :post, :only => :create,            :render => {:nothing => true, :status => :method_not_allowed}
 
   include AttachmentsHelper
 
@@ -47,6 +49,45 @@ class WikiController < ApplicationController
   def date_index
     load_pages_for_index
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+  end
+
+  def new
+    @page = WikiPage.new(:wiki => @wiki)
+    @page.content = WikiContent.new(:page => @page)
+
+    @content = @page.content_for_version(nil)
+    @content.text = initial_page_content(@page)
+  end
+
+  def new_child
+    find_existing_page
+    return if performed?
+
+    old_page = @page
+
+    new
+
+    @page.parent = old_page
+    render :action => 'new'
+  end
+
+  def create
+    new
+
+    @page.title     = params[:page][:title]
+    @page.parent_id = params[:page][:parent_id]
+
+    @content.attributes = params[:content].slice(:comments, :text)
+    @content.author = User.current
+
+    if @page.save
+      attachments = Attachment.attach_files(@page, params[:attachments])
+      render_attachment_warning_if_needed(@page)
+      call_hook(:controller_wiki_edit_after_save, :params => params, :page => @page)
+      redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    else
+      render :action => 'new'
+    end
   end
 
   # display a page (in editing mode if it doesn't exist)

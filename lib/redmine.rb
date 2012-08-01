@@ -133,7 +133,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_wiki_pages, :wiki => [:index, :show, :special, :date_index]
     map.permission :export_wiki_pages, :wiki => [:export]
     map.permission :view_wiki_edits, :wiki => [:history, :diff, :annotate]
-    map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment]
+    map.permission :edit_wiki_pages, :wiki => [:edit, :update, :preview, :add_attachment, :new, :new_child, :create]
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
