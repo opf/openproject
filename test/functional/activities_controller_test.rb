@@ -92,7 +92,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   def test_index_atom_feed
     get :index, :format => 'atom'
     assert_response :success
-    assert_template 'common/feed.atom.rxml'
+    assert_template 'common/feed'
     assert_tag :tag => 'entry', :child => {
       :tag => 'link',
       :attributes => {:href => 'http://test.host/issues/11'}}

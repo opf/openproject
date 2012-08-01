@@ -54,7 +54,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_index_atom
     get :index, :format => 'atom'
     assert_response :success
-    assert_template 'common/feed.atom.rxml'
+    assert_template 'common/feed'
     assert_select 'feed>title', :text => 'OpenProject: Latest projects'
     assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_by(User.current))
   end
