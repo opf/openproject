@@ -10,29 +10,11 @@ module Backlogs::Patches::QueryPatch
       add_available_column(QueryColumn.new(:story_points, :sortable => "#{Issue.table_name}.story_points"))
       add_available_column(QueryColumn.new(:remaining_hours, :sortable => "#{Issue.table_name}.remaining_hours"))
 
-      add_available_column(QueryColumn.new(:position, :default_order => 'asc', :sortable => [
-        # sprint startdate
-        "coalesce((select start_date from versions where versions.id = issues.fixed_version_id), '1900-01-01')",
-
-        # sprint name, in case start dates are the same
-        "(select name from versions where versions.id = issues.fixed_version_id)",
-
-        # make sure stories with NULL
-        # position sort-last
-        "(select case when root.position is null then 1 else 0 end from issues root where issues.root_id = root.id)",
-
-        # story position
-        "(select root.position from issues root where issues.root_id = root.id)",
-
-        # story ID, in case positions
-        # are the same (SHOULD NOT HAPPEN!).
-        # DO NOT CHANGE; root_id is the only field that sorts the same for stories _and_
-        # the tasks it has.
-        "issues.root_id",
-
-        # order in task tree
-        "issues.lft"
-      ]))
+      add_available_column(QueryColumn.new(:position,
+                                           :default_order => 'asc',
+                                           # Sort by position only, always show issues without a position at the end
+                                           :sortable => "CASE WHEN #{Issue.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{Issue.table_name}.position"
+                                          ))
 
       alias_method_chain :available_filters, :backlogs_issue_type
       alias_method_chain :sql_for_field, :backlogs_issue_type
