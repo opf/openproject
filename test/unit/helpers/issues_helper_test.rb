@@ -65,25 +65,28 @@ class IssuesHelperTest < HelperTestCase
         @journal = IssueJournal.generate!(:changes => {"done_ratio" => [40, 100]}, :journaled => Issue.last)
         @response.body = @journal.render_detail(@journal.details.to_a.first, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'i', :text => '40'
-        assert_select 'i', :text => '100'
+        html_node = HTML::Document.new(@response.body)
+        assert_select html_node.root, 'strong', :text => '% Done'
+        assert_select html_node.root, 'i', :text => '40'
+        assert_select html_node.root, 'i', :text => '100'
       end
 
       should 'show a new attribute with HTML highlights' do
         @journal = IssueJournal.generate!(:changes => {"done_ratio" => [nil, 100]}, :journaled => Issue.last)
         @response.body = @journal.render_detail(@journal.details.to_a.first, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'i', :text => '100'
+        html_node = HTML::Document.new(@response.body)
+        assert_select html_node.root, 'strong', :text => '% Done'
+        assert_select html_node.root, 'i', :text => '100'
       end
 
       should 'show a deleted attribute with HTML highlights' do
         @journal = IssueJournal.generate!(:changes => {"done_ratio" => [50, nil]}, :journaled => Issue.last)
         @response.body = @journal.render_detail(@journal.details.to_a.first, false)
 
-        assert_select 'strong', :text => '% Done'
-        assert_select 'strike' do
+        html_node = HTML::Document.new(@response.body)
+        assert_select html_node.root, 'strong', :text => '% Done'
+        assert_select html_node.root, 'strike' do
           assert_select 'i', :text => '50'
         end
       end
