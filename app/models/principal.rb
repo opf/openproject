@@ -24,7 +24,7 @@ class Principal < ActiveRecord::Base
 
   named_scope :active_or_registered, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status = 1 OR #{Principal.table_name}.status = 2))"
 
-  named_scope :not_in_project, lambda { |project| {:conditions => "id NOT IN (select u.id from users as u, members as m, member_roles as r where m.id = r.member_id AND m.project_id = #{project.id} AND m.user_id = u.id)"}}
+  named_scope :not_in_project, lambda { |project| {:conditions => "id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})"}}
 
   named_scope :like, lambda {|q|
     s = "%#{q.to_s.strip.downcase}%"
