@@ -20,6 +20,7 @@ group :test do
   gem 'shoulda', '~> 3.1.1'
   gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
   gem 'mocha'
+  gem "launchy", "~> 2.1.0"
 
   platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
   platforms :mri_19, :mingw_19 do gem 'debugger' end

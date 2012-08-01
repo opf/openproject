@@ -82,6 +82,23 @@ class ActiveSupport::TestCase
     self.class.mock_file
   end
 
+  def save_and_open_page
+    body = @response.body
+
+    body.gsub!('/javascripts', Rails.root.join('public/javascript').to_s)
+    body.gsub!('/stylesheets', Rails.root.join('public/stylesheets').to_s)
+
+    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
+
+    page_path = Rails.root.join("tmp/pages/#{ActiveSupport::SecureRandom.hex(16)}.html").to_s
+    File.open(page_path, 'w') { |f| f.write(body) }
+
+    Launchy.open(page_path)
+    debugger
+
+    FileUtils.rm(page_path)
+  end
+
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
     Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
