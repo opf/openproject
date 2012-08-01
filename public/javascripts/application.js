@@ -550,13 +550,13 @@ jQuery(document).ready(function($) {
 
     parent.bind("closed", function () {
       if ($(results).is(":visible")) {
-        select2Container.trigger(jQuery.Event('click'));
+        select2Container.trigger(jQuery.Event('mousedown'));
 
       }
     });
     parent.bind("opened", function () {
       var input;
-      select2Container.trigger(jQuery.Event('click'));
+      select2Container.trigger(jQuery.Event('mousedown'));
       input = parent.find(".select2-search input");
       input.val("");
       input.trigger("keyup-change");
@@ -571,7 +571,7 @@ jQuery(document).ready(function($) {
 
       select2Container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
         var keyCode = e.keyCode || e.which;
-        if (keyCode === 9 && e.shiftKey) {
+        if (keyCode === 9 && e.shiftKey && input.is(":visible")) {
           input.focus();
           e.preventDefault();
         }

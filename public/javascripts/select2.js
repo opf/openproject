@@ -92,6 +92,14 @@
 
     nextUid=(function() { var counter=1; return function() { return counter++; }; }());
 
+    function escapeMarkup(markup) {
+        if (markup && typeof(markup) === "string") {
+            return markup.replace("&", "&amp;");
+        } else {
+            return markup;
+        }
+    }
+
     function indexOf(value, array) {
         var i = 0, l = array.length, v;
 
@@ -379,11 +387,27 @@
     }
 
     /**
+     * Checks if the formatter function should be used.
+     *
+     * Throws an error if it is not a function. Returns true if it should be used,
+     * false if no formatting should be performed.
+     *
+     * @param formatter
+     */
+    function checkFormatter(formatter, formatterName) {
+        if ($.isFunction(formatter)) return true;
+        if (!formatter) return fasle;
+        throw new Error("formatterName must be a function or a falsy value");
+    }
+
+    /**
      * blurs any Select2 container that has focus when an element outside them was clicked or received focus
+     *
+     * also takes care of clicks on label tags that point to the source element
      */
     $(document).ready(function () {
         $(document).delegate("*", "mousedown touchend", function (e) {
-            var target = $(e.target).closest("div.select2-container").get(0);
+            var target = $(e.target).closest("div.select2-container").get(0), attr;
             if (target) {
                 $(document).find("div.select2-container-active").each(function () {
                     if (this !== target) $(this).data("select2").blur();
@@ -393,6 +417,14 @@
                 $(document).find("div.select2-drop-active").each(function () {
                     if (this !== target) $(this).data("select2").blur();
                 });
+            }
+
+            target=$(e.target);
+            attr = target.attr("for");
+            if ("LABEL" === e.target.tagName && attr && attr.length > 0) {
+                target = $("#"+attr);
+                target = target.data("select2");
+                if (target !== undefined) { target.focus(); e.preventDefault();}
             }
         });
     });
@@ -469,6 +501,8 @@
             this.results = results = this.container.find(resultsSelector);
             this.search = search = this.container.find("input.select2-input");
 
+            search.attr("tabIndex", this.opts.element.attr("tabIndex"));
+
             this.resultsPage = 0;
             this.context = null;
 
@@ -501,7 +535,7 @@
             search.bind("focus", function () { search.addClass("select2-focused"); if (search.val() === " ") search.val(""); });
             search.bind("blur", function () { search.removeClass("select2-focused");});
 
-            this.dropdown.delegate(resultsSelector, "click", this.bind(function (e) {
+            this.dropdown.delegate(resultsSelector, "mouseup", this.bind(function (e) {
                 if ($(e.target).closest(".select2-result-selectable:not(.select2-disabled)").length > 0) {
                     this.highlightUnderEvent(e);
                     this.selectHighlighted(e);
@@ -543,7 +577,7 @@
 
         // abstract
         prepareOpts: function (opts) {
-            var element, select, idKey;
+            var element, select, idKey, ajaxUrl;
 
             element = opts.element;
 
@@ -587,7 +621,7 @@
 
                             formatted=opts.formatResult(result, label, query);
                             if (formatted!==undefined) {
-                                label.html(formatted);
+                                label.html(escapeMarkup(formatted));
                             }
 
                             node.append(label);
@@ -654,6 +688,10 @@
             } else {
                 if (!("query" in opts)) {
                     if ("ajax" in opts) {
+                        ajaxUrl = opts.element.data("ajax-url");
+                        if (ajaxUrl && ajaxUrl.length > 0) {
+                            opts.ajax.url = ajaxUrl;
+                        }
                         opts.query = ajax(opts.ajax);
                     } else if ("data" in opts) {
                         opts.query = local(opts.data);
@@ -663,7 +701,10 @@
                         opts.initSelection = function (element, callback) {
                             var data = [];
                             $(splitVal(element.val(), opts.separator)).each(function () {
-                                data.push({id: this, text: this});
+                                var id = this, text = this, tags=opts.tags;
+                                if ($.isFunction(tags)) tags=tags();
+                                $(tags).each(function() { if (equal(this.id, id)) { text = this.text; return false; } });
+                                data.push({id: id, text: text});
                             });
 
                             callback(data);
@@ -702,6 +743,10 @@
             this.opts.element.data("select2-change-triggered", true);
             this.opts.element.trigger(details);
             this.opts.element.data("select2-change-triggered", false);
+
+            // some validation frameworks ignore the change event and listen instead to keyup, click for selects
+            // so here we trigger the click event manually
+            this.opts.element.click();
         },
 
 
@@ -841,9 +886,11 @@
             this.clearDropdownAlignmentPreference();
 
             this.dropdown.hide();
-            this.container.removeClass("select2-dropdown-open");
+            this.container.removeClass("select2-dropdown-open").removeClass("select2-container-active");
             this.results.empty();
             this.clearSearch();
+
+            this.opts.element.trigger(jQuery.Event("close"));
         },
 
         // abstract
@@ -987,7 +1034,7 @@
          */
         // abstract
         updateResults: function (initial) {
-            var search = this.search, results = this.results, opts = this.opts, self=this;
+            var search = this.search, results = this.results, opts = this.opts, data, self=this;
 
             // if the search is currently hidden we do not alter the results
             if (initial !== true && (this.showSearchInput === false || !this.opened())) {
@@ -999,15 +1046,23 @@
             function postRender() {
                 results.scrollTop(0);
                 search.removeClass("select2-active");
-                if (initial !== true) self.positionDropdown();
+                self.positionDropdown();
             }
 
             function render(html) {
-                results.html(html);
+                results.html(escapeMarkup(html));
                 postRender();
             }
 
-            if (search.val().length < opts.minimumInputLength) {
+            if (opts.maximumSelectionSize >=1) {
+                data = this.data();
+                if ($.isArray(data) && data.length >= opts.maximumSelectionSize && checkFormatter(opts.formatSelectionTooBig, "formatSelectionTooBig")) {
+            	    render("<li class='select2-selection-limit'>" + opts.formatSelectionTooBig(opts.maximumSelectionSize) + "</li>");
+            	    return;
+                }
+            }
+
+            if (search.val().length < opts.minimumInputLength && checkFormatter(opts.formatInputTooShort, "formatInputTooShort")) {
                 render("<li class='select2-no-results'>" + opts.formatInputTooShort(search.val(), opts.minimumInputLength) + "</li>");
                 return;
             }
@@ -1037,7 +1092,7 @@
                     }
                 }
 
-                if (data.results.length === 0) {
+                if (data.results.length === 0 && checkFormatter(opts.formatNoMatches, "formatNoMatches")) {
                     render("<li class='select2-no-results'>" + opts.formatNoMatches(search.val()) + "</li>");
                     return;
                 }
@@ -1045,8 +1100,8 @@
                 results.empty();
                 self.opts.populateResults.call(this, results, data.results, {term: search.val(), page: this.resultsPage, context:null});
 
-                if (data.more === true) {
-                    results.children().filter(":last").append("<li class='select2-more-results'>" + opts.formatLoadMore(this.resultsPage) + "</li>");
+                if (data.more === true && checkFormatter(opts.formatLoadMore, "formatLoadMore")) {
+                    results.children().filter(":last").append("<li class='select2-more-results'>" + escapeMarkup(opts.formatLoadMore(this.resultsPage)) + "</li>");
                     window.setTimeout(function() { self.loadMoreIfNeeded(); }, 10);
                 }
 
@@ -1078,6 +1133,8 @@
              this makes sure the search field is focussed even if the current event would blur it */
             window.setTimeout(this.bind(function () {
                 this.search.focus();
+                // reset the value so IE places the cursor at the end of the input box
+                this.search.val(this.search.val());
             }), 10);
         },
 
@@ -1140,6 +1197,8 @@
                     }
 
                     return null;
+                } else if ($.isFunction(this.opts.width)) {
+                    return this.opts.width();
                 } else {
                     return this.opts.width;
                }
@@ -1176,6 +1235,7 @@
 
         // single
         opening: function () {
+            this.search.show();
             this.parent.opening.apply(this, arguments);
             this.dropdown.removeClass("select2-offscreen");
         },
@@ -1190,7 +1250,7 @@
         // single
         focus: function () {
             this.close();
-            this.search.focus();
+            this.selection.focus();
         },
 
         // single
@@ -1201,7 +1261,7 @@
         // single
         cancel: function () {
             this.parent.cancel.apply(this, arguments);
-            this.search.focus();
+            this.selection.focus();
         },
 
         // single
@@ -1241,6 +1301,7 @@
                             return;
                     }
                 } else {
+
                     if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC) {
                         return;
                     }
@@ -1249,18 +1310,25 @@
 
                     if (e.which === KEY.ENTER) {
                         // do not propagate the event otherwise we open, and propagate enter which closes
-                        killEvent(e);
                         return;
                     }
                 }
             }));
 
-            selection.bind("click", this.bind(function (e) {
+            this.search.bind("focus", this.bind(function() {
+                this.selection.attr("tabIndex", "-1");
+            }));
+            this.search.bind("blur", this.bind(function() {
+                if (!this.opened()) this.container.removeClass("select2-container-active");
+                window.setTimeout(this.bind(function() { this.selection.attr("tabIndex", this.opts.element.attr("tabIndex")); }), 10);
+            }));
+
+            selection.bind("mousedown", this.bind(function (e) {
                 clickingInside = true;
 
                 if (this.opened()) {
                     this.close();
-                    this.search.focus();
+                    this.selection.focus();
                 } else if (this.enabled) {
                     this.open();
                 }
@@ -1269,18 +1337,67 @@
                 clickingInside = false;
             }));
 
-            dropdown.bind("click", this.bind(function() { this.search.focus(); }));
+            dropdown.bind("mousedown", this.bind(function() { this.search.focus(); }));
 
-            selection.delegate("abbr", "click", this.bind(function (e) {
+            selection.bind("focus", this.bind(function() {
+                this.container.addClass("select2-container-active");
+                // hide the search so the tab key does not focus on it
+                this.search.attr("tabIndex", "-1");
+            }));
+
+            selection.bind("blur", this.bind(function() {
+                this.container.removeClass("select2-container-active");
+                window.setTimeout(this.bind(function() { this.search.attr("tabIndex", this.opts.element.attr("tabIndex")); }), 10);
+            }));
+
+            selection.bind("keydown", this.bind(function(e) {
+                if (!this.enabled) return;
+
+                if (e.which === KEY.PAGE_UP || e.which === KEY.PAGE_DOWN) {
+                    // prevent the page from scrolling
+                    killEvent(e);
+                    return;
+                }
+
+                if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC) {
+                    return;
+                }
+
+                this.open();
+
+                if (e.which === KEY.ENTER) {
+                    // do not propagate the event otherwise we open, and propagate enter which closes
+                    killEvent(e);
+                    return;
+                }
+
+                // do not set the search input value for non-alpha-numeric keys
+                // otherwise pressing down results in a '(' being set in the search field
+                if (e.which < 48 ) { // '0' == 48
+                    killEvent(e);
+                    return;
+                }
+
+                var keyWritten = String.fromCharCode(e.which).toLowerCase();
+
+                if (e.shiftKey) {
+                    keyWritten = keyWritten.toUpperCase();
+                }
+
+                this.search.val(keyWritten);
+
+                // prevent event propagation so it doesnt replay on the now focussed search field and result in double key entry
+                killEvent(e);
+            }));
+
+            selection.delegate("abbr", "mousedown", this.bind(function (e) {
                 if (!this.enabled) return;
                 this.clear();
                 killEvent(e);
                 this.close();
                 this.triggerChange();
-                this.search.focus();
+                this.selection.focus();
             }));
-
-            selection.bind("focus", this.bind(function() { this.search.focus(); }));
 
             this.setPlaceholder();
 
@@ -1289,6 +1406,7 @@
             }));
         },
 
+        // single
         clear: function() {
             this.opts.element.val("");
             this.selection.find("span").empty();
@@ -1343,7 +1461,7 @@
                 // check for a first blank option if attached to a select
                 if (this.select && this.select.find("option:first").text() !== "") return;
 
-                this.selection.find("span").html(placeholder);
+                this.selection.find("span").html(escapeMarkup(placeholder));
 
                 this.selection.addClass("select2-default");
 
@@ -1389,7 +1507,7 @@
             this.opts.element.val(this.id(data));
             this.updateSelection(data);
             this.close();
-            this.search.focus();
+            this.selection.focus();
 
             if (!equal(old, this.id(data))) { this.triggerChange(); }
         },
@@ -1404,7 +1522,7 @@
             container.empty();
             formatted=this.opts.formatSelection(data, container);
             if (formatted !== undefined) {
-                container.append(formatted);
+                container.append(escapeMarkup(formatted));
             }
 
             this.selection.removeClass("select2-default");
@@ -1416,7 +1534,7 @@
 
         // single
         val: function () {
-            var val, data = null;
+            var val, data = null, self = this;
 
             if (arguments.length === 0) {
                 return this.opts.element.val();
@@ -1425,7 +1543,6 @@
             val = arguments[0];
 
             if (this.select) {
-                // val is an id
                 this.select
                     .val(val)
                     .find(":selected").each2(function (i, elm) {
@@ -1433,13 +1550,22 @@
                         return false;
                     });
                 this.updateSelection(data);
+                this.setPlaceholder();
             } else {
-                // val is an object. !val is true for [undefined,null,'']
-                this.opts.element.val(!val ? "" : this.id(val));
-                this.updateSelection(val);
+                if (this.opts.initSelection === undefined) {
+                    throw new Error("cannot call val() if initSelection() is not defined");
+                }
+                // val is an id. !val is true for [undefined,null,'']
+                if (!val) {
+                    this.clear();
+                    return;
+                }
+                this.opts.initSelection(this.opts.element, function(data){
+                    self.opts.element.val(!data ? "" : self.id(data));
+                    self.updateSelection(data);
+                    self.setPlaceholder();
+                });
             }
-            this.setPlaceholder();
-
         },
 
         // single
@@ -1573,7 +1699,11 @@
 
             this.search.bind("keyup", this.bind(this.resizeSearch));
 
-            this.container.delegate(selector, "click", this.bind(function (e) {
+            this.search.bind("blur", this.bind(function() {
+                this.container.removeClass("select2-container-active");
+            }));
+
+            this.container.delegate(selector, "mousedown", this.bind(function (e) {
                 if (!this.enabled) return;
                 this.clearPlaceholder();
                 this.open();
@@ -1598,7 +1728,7 @@
 
             this.parent.enable.apply(this, arguments);
 
-            this.search.show();
+            this.search.removeAttr("disabled");
         },
 
         // multi
@@ -1607,7 +1737,7 @@
 
             this.parent.disable.apply(this, arguments);
 
-            this.search.hide();
+            this.search.attr("disabled", true);
         },
 
         // multi
@@ -1748,7 +1878,7 @@
                 formatted;
 
             formatted=this.opts.formatSelection(data, choice);
-            choice.find("div").replaceWith("<div>"+formatted+"</div>");
+            choice.find("div").replaceWith("<div>"+escapeMarkup(formatted)+"</div>");
             choice.find(".select2-search-choice-close")
                 .bind("click dblclick", this.bind(function (e) {
                 if (!this.enabled) return;
@@ -1802,20 +1932,29 @@
         postprocessResults: function () {
             var val = this.getVal(),
                 choices = this.results.find(".select2-result-selectable"),
+                compound = this.results.find(".select2-result-with-children"),
                 self = this;
 
             choices.each2(function (i, choice) {
                 var id = self.id(choice.data("select2-data"));
                 if (indexOf(id, val) >= 0) {
-                    choice.addClass("select2-disabled");
+                    choice.addClass("select2-disabled").removeClass("select2-result-selectable");
                 } else {
-                    choice.removeClass("select2-disabled");
+                    choice.removeClass("select2-disabled").addClass("select2-result-selectable");
+                }
+            });
+
+            compound.each2(function(i, e) {
+                if (e.find(".select2-result-selectable").length==0) {
+                    e.addClass("select2-disabled");
+                } else {
+                    e.removeClass("select2-disabled");
                 }
             });
 
             choices.each2(function (i, choice) {
-                if (!choice.hasClass("select2-disabled")) {
-                    self.highlight(i);
+                if (!choice.hasClass("select2-disabled") && choice.hasClass("select2-result-selectable")) {
+                    self.highlight(0);
                     return false;
                 }
             });
@@ -1870,7 +2009,7 @@
                 $(val).each(function () {
                     if (indexOf(this, unique) < 0) unique.push(this);
                 });
-                this.opts.element.val(unique.length === 0 ? "" : unique.join(","));
+                this.opts.element.val(unique.length === 0 ? "" : unique.join(this.opts.separator));
             }
         },
 
@@ -1884,21 +2023,33 @@
 
             val = arguments[0];
 
+            if (!val) {
+                this.opts.element.val("");
+                this.updateSelection([]);
+                this.clearSearch();
+                return;
+            }
+
+            // val is a list of ids
+            this.setVal(val);
+
             if (this.select) {
-                // val is a list of ids
-                this.setVal(val);
                 this.select.find(":selected").each(function () {
                     data.push({id: $(this).attr("value"), text: $(this).text()});
                 });
                 this.updateSelection(data);
             } else {
-                val = (val === null) ? [] : val;
-                // val is a list of objects
-                $(val).each(function () { data.push(self.id(this)); });
-                this.setVal(data);
-                this.updateSelection(val);
-            }
+                if (this.opts.initSelection === undefined) {
+                    throw new Error("val() cannot be called if initSelection() is not defined")
+                }
 
+                this.opts.initSelection(this.opts.element, function(data){
+                    var ids=$(data).map(self.id);
+                    self.setVal(ids);
+                    self.updateSelection(data);
+                    self.clearSearch();
+                });
+            }
             this.clearSearch();
         },
 
@@ -1944,6 +2095,7 @@
                      .map(function() { return $(this).data("select2-data"); })
                      .get();
             } else {
+                if (!values) { values = []; }
                 ids = $.map(values, function(e) { return self.opts.id(e)});
                 this.setVal(ids);
                 this.updateSelection(values);
@@ -2013,9 +2165,11 @@
         },
         formatNoMatches: function () { return "No matches found"; },
         formatInputTooShort: function (input, min) { return "Please enter " + (min - input.length) + " more characters"; },
+        formatSelectionTooBig: function (limit) { return "You can only select " + limit + " items"; },
         formatLoadMore: function (pageNumber) { return "Loading more results..."; },
         minimumResultsForSearch: 0,
         minimumInputLength: 0,
+        maximumSelectionSize: 0,
         id: function (e) { return e.id; },
         matcher: function(term, text) {
             return text.toUpperCase().indexOf(term.toUpperCase()) >= 0;
