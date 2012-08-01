@@ -10,8 +10,16 @@
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
 
 <% if @groups.present? %>
-<label for='group_id'><%= l(:label_group) %>:</label>
-<%= select_tag 'group_id', '<option></option>' + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
+  <label for='group_id'><%= l(:label_group) %>:</label>
+  <%= collection_select :group,
+                        :id,
+                        @groups,
+                        :id,
+                        :name,
+                        { :include_blank => true,
+                          :selected => params[:group_id].to_i },
+                        { :name => "group_id",
+                          :onchange => "this.form.submit(); return false;" } %>
 <% end %>
 
 <label for='name'><%= l(:label_user) %>:</label>
