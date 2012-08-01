@@ -1,6 +1,7 @@
 class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration
   def self.up
-    ActiveRecord::Base.connection.execute("UPDATE `repositories` SET `type` = CONCAT('Repository::',`type`) WHERE `type` NOT LIKE 'Repository::%'")
+    type = ActiveRecord::Base.connection.quote_column_name('type')
+    ActiveRecord::Base.connection.execute("UPDATE #{ActiveRecord::Base.connection.quote_table_name('repositories')} SET #{type} = CONCAT('Repository::',#{type}) WHERE #{type} NOT LIKE 'Repository::%'")
   end
 
   def self.down
