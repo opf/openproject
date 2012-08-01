@@ -175,10 +175,10 @@ class AccountControllerTest < ActionController::TestCase
         Setting.self_registration = '3'
         get :register
       end
-
-      should_respond_with :success
-      should_render_template :register
-      should_assign_to :user
+      
+      should respond_with :success
+      should render_template :register
+      should assign_to :user
     end
 
     context "with self registration off" do
@@ -187,7 +187,7 @@ class AccountControllerTest < ActionController::TestCase
         get :register
       end
 
-      should_redirect_to('/') { home_url }
+      should redirect_to('/') { home_url }
     end
   end
 
@@ -206,9 +206,9 @@ class AccountControllerTest < ActionController::TestCase
         }
       end
 
-      should_respond_with :redirect
-      should_assign_to :user
-      should_redirect_to('my page') { {:controller => 'my', :action => 'account'} }
+      should respond_with :redirect
+      should assign_to :user
+      should redirect_to('my page') { {:controller => 'my', :action => 'account'} }
 
       should_create_a_new_user { User.last(:conditions => {:login => 'register'}) }
 
@@ -225,7 +225,7 @@ class AccountControllerTest < ActionController::TestCase
         post :register
       end
 
-      should_redirect_to('/') { home_url }
+      should redirect_to('/') { home_url }
     end
   end
 
