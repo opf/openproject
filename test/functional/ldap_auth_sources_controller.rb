@@ -26,9 +26,9 @@ class LdapAuthSourcesControllerTest < ActionController::TestCase
       get :new
     end
 
-    should_assign_to :auth_source
-    should_respond_with :success
-    should_render_template :new
+    should assign_to :auth_source
+    should respond_with :success
+    should render_template :new
 
     should "initilize a new AuthSource" do
       assert_equal AuthSourceLdap, assigns(:auth_source).class

@@ -151,8 +151,8 @@ class ActiveSupport::TestCase
 
   # Shoulda macros
   def self.should_render_404
-    should_respond_with :not_found
-    should_render_template 'common/error'
+    should respond_with :not_found
+    should render_template 'common/error'
   end
 
   def self.should_have_before_filter(expected_method, options = {})
@@ -251,7 +251,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
@@ -265,7 +265,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -277,7 +277,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => ''})
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "include_www_authenticate_header" do
           assert @controller.response.headers.has_key?('WWW-Authenticate')
@@ -308,7 +308,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -324,7 +324,7 @@ class ActiveSupport::TestCase
           send(http_method, url, parameters, {:authorization => @authorization})
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -359,7 +359,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -380,7 +380,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -395,7 +395,7 @@ class ActiveSupport::TestCase
         send(http_method, url, parameters, {'X-OpenProject-API-Key' => @token.value.to_s})
       end
 
-      should_respond_with success_code
+      should respond_with success_code
       should_respond_with_content_type_based_on_url(url)
       should_be_a_valid_response_string_based_on_url(url)
       should "login as the user" do

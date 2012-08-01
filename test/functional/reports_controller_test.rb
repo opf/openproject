@@ -33,12 +33,12 @@ class ReportsControllerTest < ActionController::TestCase
       get :issue_report, :id => 1
     end
 
-    should_respond_with :success
-    should_render_template :issue_report
+    should respond_with :success
+    should render_template :issue_report
 
     [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
      :issues_by_author, :issues_by_subproject].each do |ivar|
-      should_assign_to ivar
+      should assign_to ivar
       should "set a value for #{ivar}" do
         assert assigns[ivar.to_s].present?
       end
@@ -52,12 +52,12 @@ class ReportsControllerTest < ActionController::TestCase
           get :issue_report_details, :id => 1, :detail => detail
         end
 
-        should_respond_with :success
-        should_render_template :issue_report_details
-        should_assign_to :field
-        should_assign_to :rows
-        should_assign_to :data
-        should_assign_to :report_title
+        should respond_with :success
+        should render_template :issue_report_details
+        should assign_to :field
+        should assign_to :rows
+        should assign_to :data
+        should assign_to :report_title
       end
     end
 
@@ -66,8 +66,8 @@ class ReportsControllerTest < ActionController::TestCase
         get :issue_report_details, :id => 1, :detail => 'invalid'
       end
 
-      should_respond_with :redirect
-      should_redirect_to('the issue report') {{:controller => 'reports', :action => 'issue_report', :id => 'ecookbook'}}
+      should respond_with :redirect
+      should redirect_to('the issue report') {{:controller => 'reports', :action => 'issue_report', :id => 'ecookbook'}}
     end
 
   end
