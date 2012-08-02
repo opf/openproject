@@ -4,7 +4,9 @@
 <%= f.hidden_field :lock_version %>
 <%= error_messages_for 'content' %>
 
-<p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
+<p><%= markup_text_area 'content_text', :name => 'content[text]',:cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) do
+         textilizable @content, :text, :attachments => @content.page.attachments, :edit => true
+       end %></p>
 <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
 <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
 

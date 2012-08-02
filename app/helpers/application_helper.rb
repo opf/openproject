@@ -504,6 +504,11 @@ module ApplicationHelper
     Redmine::AccessKeys.key_for s
   end
 
+  def markup_text_area(name, options = {})
+    content = block_given? ? yield : ''
+    text_area_tag name, content, options
+  end
+
   # Formats text according to system settings.
   # 2 ways to call this method:
   # * with a String: textilizable(text, options)
