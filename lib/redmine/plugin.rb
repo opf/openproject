@@ -352,5 +352,125 @@ module Redmine #:nodoc:
     def configurable?
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
     end
+
+    def mirror_assets
+      source = assets_directory
+      destination = public_directory
+      return unless File.directory?(source)
+
+      source_files = Dir[source + "/**/*"]
+      source_dirs = source_files.select { |d| File.directory?(d) }
+      source_files -= source_dirs
+
+      unless source_files.empty?
+        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
+        FileUtils.mkdir_p(base_target_dir)
+      end
+
+      source_dirs.each do |dir|
+        # strip down these paths so we have simple, relative paths we can
+        # add to the destination
+        target_dir = File.join(destination, dir.gsub(source, ''))
+        begin
+          FileUtils.mkdir_p(target_dir)
+        rescue Exception => e
+          raise "Could not create directory #{target_dir}: \n" + e
+        end
+      end
+
+      source_files.each do |file|
+        begin
+          target = File.join(destination, file.gsub(source, ''))
+          unless File.exist?(target) && FileUtils.identical?(file, target)
+            FileUtils.cp(file, target)
+          end
+        rescue Exception => e
+          raise "Could not copy #{file} to #{target}: \n" + e
+        end
+      end
+    end
+
+    # Mirrors assets from one or all plugins to public/plugin_assets
+    def self.mirror_assets(name=nil)
+      if name.present?
+        find(name).mirror_assets
+      else
+        all.each do |plugin|
+          plugin.mirror_assets
+        end
+      end
+    end
+
+    # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)
+    def migration_directory
+      File.join(Rails.root, 'vendor/plugins', id.to_s, 'db', 'migrate')
+    end
+
+    # Returns the version number of the latest migration for this plugin. Returns
+    # nil if this plugin has no migrations.
+    def latest_migration
+      migrations.last
+    end
+
+    # Returns the version numbers of all migrations for this plugin.
+    def migrations
+      migrations = Dir[migration_directory+"/*.rb"]
+      migrations.map { |p| File.basename(p).match(/0*(\d+)\_/)[1].to_i }.sort
+    end
+
+    # Migrate this plugin to the given version
+    def migrate(version = nil)
+      puts "Migrating #{id} (#{name})..."
+      Redmine::Plugin::Migrator.migrate_plugin(self, version)
+    end
+
+    # Migrates all plugins or a single plugin to a given version
+    # Exemples:
+    #   Plugin.migrate
+    #   Plugin.migrate('sample_plugin')
+    #   Plugin.migrate('sample_plugin', 1)
+    #
+    def self.migrate(name=nil, version=nil)
+      if name.present?
+        find(name).migrate(version)
+      else
+        all.each do |plugin|
+          plugin.migrate
+        end
+      end
+    end
+
+    class Migrator < ActiveRecord::Migrator
+      # We need to be able to set the 'current' plugin being migrated.
+      cattr_accessor :current_plugin
+
+      class << self
+        # Runs the migrations from a plugin, up (or down) to the version given
+        def migrate_plugin(plugin, version)
+          self.current_plugin = plugin
+          require 'ruby-debug'; debugger
+          return if current_version(plugin) == version
+          migrate(plugin.migration_directory, version)
+        end
+
+        def current_version(plugin=current_plugin)
+          # Delete migrations that don't match .. to_i will work because the number comes first
+          ::ActiveRecord::Base.connection.select_values(
+            "SELECT version FROM #{schema_migrations_table_name}"
+          ).delete_if{ |v| v.match(/-#{plugin.id}/) == nil }.map(&:to_i).max || 0
+        end
+      end
+
+      def migrated
+        sm_table = self.class.schema_migrations_table_name
+        ::ActiveRecord::Base.connection.select_values(
+          "SELECT version FROM #{sm_table}"
+        ).delete_if{ |v| v.match(/-#{current_plugin.id}/) == nil }.map(&:to_i).sort
+      end
+
+      def record_version_state_after_migrating(version)
+        super(version.to_s + "-" + current_plugin.id.to_s)
+      end
+    end
   end
 end

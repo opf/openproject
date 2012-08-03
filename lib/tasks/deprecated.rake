@@ -21,4 +21,5 @@ end
 deprecated_task :load_default_data, "redmine:load_default_data"
 deprecated_task :migrate_from_mantis, "redmine:migrate_from_mantis"
 deprecated_task :migrate_from_trac, "redmine:migrate_from_trac"
-deprecated_task "db:migrate_plugins", "db:migrate:plugins"
+deprecated_task "db:migrate_plugins", "redmine:plugins:migrate"
+deprecated_task "db:migrate:plugin", "redmine:plugins:migrate"
