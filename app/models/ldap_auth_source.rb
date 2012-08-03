@@ -15,7 +15,7 @@
 require 'net/ldap'
 require 'iconv'
 
-class AuthSourceLdap < AuthSource
+class LdapAuthSource < AuthSource
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
   validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
@@ -23,10 +23,7 @@ class AuthSourceLdap < AuthSource
   validates_numericality_of :port, :only_integer => true
 
   before_validation :strip_ldap_attributes
-
-  def after_initialize
-    self.port = 389 if self.port == 0
-  end
+  after_initialize :set_default_port
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
@@ -123,5 +120,9 @@ class AuthSourceLdap < AuthSource
     if !attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
+  end
+
+  def set_default_port
+    self.port = 389 if self.port.to_i == 0
   end
 end

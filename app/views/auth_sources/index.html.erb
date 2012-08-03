@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_auth_source_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to l(:label_auth_source_new), { :action => 'new' }, :class => 'icon icon-add' %>
 </div>
 
 <h2><%=l(:label_auth_source_plural)%></h2>
@@ -15,17 +15,17 @@
   <tbody>
 <% for source in @auth_sources %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td><%= link_to(h(source.name), :action => 'edit', :id => source)%></td>
-    <td align="center"><%= h source.auth_method_name %></td>
-    <td align="center"><%= h source.host %></td>
-    <td align="center"><%= h source.users.count %></td>
+    <td><%= link_to source.name, :action => 'edit', :id => source %></td>
+    <td align="center"><%= source.auth_method_name %></td>
+    <td align="center"><%= source.host %></td>
+    <td align="center"><%= source.users.count %></td>
     <td class="buttons">
-    	<%= link_to l(:button_test), :action => 'test_connection', :id => source %>
-    	<%= link_to l(:button_delete), { :action => 'destroy', :id => source },
-    																										:method => :post,
-                                                        :confirm => l(:text_are_you_sure),
-                                                        :class => 'icon icon-del',
-                                                        :disabled => source.users.any? %>
+      <%= link_to l(:button_test), { :action => 'test_connection', :id => source } %>
+      <%= link_to l(:button_delete), { :action => 'destroy', :id => source },
+                                     :method => :delete,
+                                     :confirm => l(:text_are_you_sure),
+                                     :class => 'icon icon-del',
+                                     :disabled => source.users.any? %>
     </td>
   </tr>
 <% end %>

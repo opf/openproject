@@ -253,6 +253,14 @@ OpenProject::Application.routes.draw do
       match '/deletion_info' => 'users#deletion_info', :via => :get, :as => 'delete_my_account_info'
     end
 
+    scope "admin" do
+      resources :auth_sources, :ldap_auth_sources do
+        member do
+          get :test_connection
+        end
+      end
+    end
+
     # Install the default route as the lowest priority.
     match '/:controller(/:action(/:id))'
     match '/robots.txt' => 'welcome#robots'
