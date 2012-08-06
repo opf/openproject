@@ -79,7 +79,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'move'
+    resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'issue_move'
 
     # Misc issue routes. TODO: move into resources
     match '/issues/auto_complete' => 'autoCompletes#issues', :as => 'auto_complete_issues'
