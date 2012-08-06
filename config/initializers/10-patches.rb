@@ -271,9 +271,9 @@ module ActionController
   end
 end
 
-module CollectiveIdea
-  module Acts
-    module NestedSet
+module CollectiveIdea #:nodoc:
+  module Acts #:nodoc:
+    module NestedSet #:nodoc:
       module Model
         def destroy_descendants_with_reload
           destroy_descendants_without_reload
@@ -282,15 +282,7 @@ module CollectiveIdea
           reload
         end
         alias_method_chain :destroy_descendants, :reload
-      end
-    end
-  end
-end
 
-module CollectiveIdea #:nodoc:
-  module Acts #:nodoc:
-    module NestedSet #:nodoc:
-      module Model
         module ClassMethods
           # Rebuilds the left & rights if unset or invalid.
           # Also very useful for converting from acts_as_tree.
