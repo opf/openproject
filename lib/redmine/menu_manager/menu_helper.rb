@@ -14,6 +14,7 @@
 
 module Redmine::MenuManager::MenuHelper
   include TopMenuHelper
+  include AccessibilityHelper
 
   # Returns the current menu item name
   def current_menu_item

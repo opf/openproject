@@ -59,14 +59,16 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { })
     @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
 
-    assert_select("a.testing", "This is a test")
+    html_node = HTML::Document.new(@response.body)
+    assert_select(html_node.root, "a.testing", "This is a test")
   end
 
   def test_render_menu_node
     single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', { })
     @response.body = render_menu_node(single_node, nil)
 
-    assert_select("li") do
+    html_node = HTML::Document.new(@response.body)
+    assert_select(html_node.root, "li") do
       assert_select("a.single-node", "Single node")
     end
   end
@@ -81,7 +83,8 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     @response.body = render_menu_node(parent_node, nil)
 
-    assert_select("li") do
+    html_node = HTML::Document.new(@response.body)
+    assert_select(html_node.root, "li") do
       assert_select("a.parent-node", "Parent node")
       assert_select("ul") do
         assert_select("li a.child-one-node", "Child one node")
@@ -115,7 +118,8 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
                                                      })
     @response.body = render_menu_node(parent_node, Project.find(1))
 
-    assert_select("li") do
+    html_node = HTML::Document.new(@response.body)
+    assert_select(html_node.root, "li") do
       assert_select("a.parent-node", "Parent node")
       assert_select("ul") do
         assert_select("li a.test-child-0", "Test child 0")
@@ -154,7 +158,8 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
 
     @response.body = render_menu_node(parent_node, Project.find(1))
 
-    assert_select("li") do
+    html_node = HTML::Document.new(@response.body)
+    assert_select(html_node.root, "li") do
       assert_select("a.parent-node", "Parent node")
       assert_select("ul") do
         assert_select("li a.child-node", "Child node")
