@@ -39,7 +39,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :xml
+        should respond_with_content_type :xml
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
@@ -53,7 +53,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :xml
+        should respond_with_content_type :xml
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
@@ -68,7 +68,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :xml
+        should respond_with_content_type :xml
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
@@ -84,7 +84,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :json
+        should respond_with_content_type :json
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
@@ -98,7 +98,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :json
+        should respond_with_content_type :json
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end
@@ -113,7 +113,7 @@ class ApiTest::DisabledRestApiTest < ActionController::IntegrationTest
         end
 
         should respond_with :unauthorized
-        should_respond_with_content_type :json
+        should respond_with_content_type :json
         should "not login as the user" do
           assert_equal User.anonymous, User.current
         end

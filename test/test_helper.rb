@@ -404,18 +404,18 @@ class ActiveSupport::TestCase
     end
   end
 
-  # Uses should_respond_with_content_type based on what's in the url:
+  # Uses should respond_with_content_type based on what's in the url:
   #
-  # '/project/issues.xml' => should_respond_with_content_type :xml
-  # '/project/issues.json' => should_respond_with_content_type :json
+  # '/project/issues.xml' => should respond_with_content_type :xml
+  # '/project/issues.json' => should respond_with_content_type :json
   #
   # @param [String] url Request
   def self.should_respond_with_content_type_based_on_url(url)
     case
     when url.match(/xml/i)
-      should_respond_with_content_type :xml
+      should respond_with_content_type :xml
     when url.match(/json/i)
-      should_respond_with_content_type :json
+      should respond_with_content_type :json
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
     end
