@@ -12,6 +12,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'builder'
+
 module Redmine
   module Views
     module Builders
