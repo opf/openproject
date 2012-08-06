@@ -252,7 +252,7 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of AnonymousUser, anon
   end
 
-  should_have_one :rss_token
+  should have_one :rss_token
 
   def test_rss_key
     assert_nil @jsmith.rss_token
@@ -264,7 +264,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
-  should_have_one :api_token
+  should have_one :api_token
 
   context "User#api_key" do
     should "generate a new one if the user doesn't have one" do
