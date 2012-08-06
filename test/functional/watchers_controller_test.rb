@@ -32,6 +32,7 @@ class WatchersControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     get :watch, :object_type => 'issue', :object_id => '1'
     assert_response 405
+    # verify won't to anything, needs to be done by routes.rb
   end
 
   def test_watch
