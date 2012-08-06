@@ -70,7 +70,7 @@ module Redmine
         transaction do
           all.each do |object|
             clear = object.send(attribute)
-            object.write_attribute attribute, clear
+            object[attribute] = clear
             raise(ActiveRecord::Rollback) unless object.save(false)
           end
         end
