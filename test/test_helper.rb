@@ -212,6 +212,11 @@ class ActiveSupport::TestCase
     end
   end
 
+  def credentials(login, password = nil)
+    { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password || login) }
+  end
+
+
   # Test that a request allows the three types of API authentication
   #
   # * HTTP Basic with username and password
@@ -246,8 +251,8 @@ class ActiveSupport::TestCase
       context "with a valid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@user.login, 'my_password'))
         end
 
         should respond_with success_code
@@ -260,8 +265,8 @@ class ActiveSupport::TestCase
       context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
         end
 
         should respond_with failure_code
@@ -273,13 +278,21 @@ class ActiveSupport::TestCase
 
       context "without credentials" do
         setup do
-          send(http_method, url, parameters, {:authorization => ''})
+          send(http_method, url, parameters)
         end
 
         should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "include_www_authenticate_header" do
-          assert @controller.response.headers.has_key?('WWW-Authenticate')
+          # the 3.0.9 implementation of head leads to Www as the method capitalizes each
+          # word split by a hyphen.
+          # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
+          # remove this switch once on 3.1.0
+          if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
+            assert @controller.response.headers.has_key?('Www-Authenticate')
+          else
+            assert @controller.response.headers.has_key?('WWW-Authenticate')
+          end
         end
       end
     end
@@ -303,8 +316,8 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
         should respond_with success_code
@@ -319,8 +332,8 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'feeds')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
         should respond_with failure_code
