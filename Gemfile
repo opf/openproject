@@ -30,7 +30,10 @@ group :openid do
   gem "ruby-openid", '~> 2.1.4', :require => 'openid'
 end
 
-gem 'rails-footnotes', '>= 3.7.5.rc4', :group => :development
+group :development do
+  gem 'rails-footnotes', '>= 3.7.5.rc4'
+  gem 'bullet'
+end
 
 group :rmagick do
   gem "rmagick", ">= 1.15.17"
