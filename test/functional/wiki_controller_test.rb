@@ -397,7 +397,7 @@ class WikiControllerTest < ActionController::TestCase
 
       should respond_with :success
       should assign_to :pages
-      should_respond_with_content_type "text/html"
+      should respond_with_content_type "text/html"
       should "export all of the wiki pages to a single html file" do
         assert_select "a[name=?]", "CookBook_documentation"
         assert_select "a[name=?]", "Another_page"

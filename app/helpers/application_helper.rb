@@ -850,7 +850,8 @@ module ApplicationHelper
     text.to_s.
       gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
       gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
-      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />').  # 1 newline   -> br
+      html_safe
   end
 
   def lang_options_for_select(blank=true)
@@ -986,9 +987,8 @@ module ApplicationHelper
 
   def content_for(name, content = nil, &block)
     content = capture(&block) if block_given?
-
     # only care for non whitespace contents;
-    if content.match /\S+/
+    if content.to_s.match /\S+/
       super(name, content)
     else
       #nothing
