@@ -7,7 +7,7 @@ module BreadcrumbHelper
 
   def breadcrumb(*args)
     elements = args.flatten
-    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
+    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, :class => 'breadcrumb') : nil
   end
 
   def breadcrumb_list(*args)
