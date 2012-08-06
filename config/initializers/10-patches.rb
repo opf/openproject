@@ -261,19 +261,9 @@ ActionMailer::Base.send :include, AsynchronousMailer
 #  end
 # end
 
-module ActionController
-  module MimeResponds
-    class Collector
-      def api(&block)
-        any(:xml, :json, &block)
-      end
-    end
-  end
-end
-
-module CollectiveIdea #:nodoc:
-  module Acts #:nodoc:
-    module NestedSet #:nodoc:
+module CollectiveIdea
+  module Acts
+    module NestedSet
       module Model
         def destroy_descendants_with_reload
           destroy_descendants_without_reload
