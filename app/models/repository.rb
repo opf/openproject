@@ -276,8 +276,8 @@ class Repository < ActiveRecord::Base
 
   def before_save
     # Strips url and root_url
-    url.strip!
-    root_url.strip!
+    url.strip! if url.present?
+    root_url.strip! if root_url.present?
     true
   end
 
