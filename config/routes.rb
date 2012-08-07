@@ -105,8 +105,10 @@ OpenProject::Application.routes.draw do
     match '/issues' => 'issues#index', :via => :post
     match '/issues/create' => 'issues#index', :via => :post
 
-    resources :issues, :member => { :edit => :post }, :collection => {} do
+    resources :issues do
       resources :time_entries, :controller => 'timelog'
+      
+      post :edit, :on => :member
     end
 
     resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post, :all => :get } do
