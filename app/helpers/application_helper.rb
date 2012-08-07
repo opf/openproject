@@ -995,12 +995,12 @@ module ApplicationHelper
   end
 
   def content_for(name, content = nil, &block)
-    content = capture(&block) if block_given?
-    # only care for non whitespace contents;
-    if content.to_s.match /\S+/
-      super(name, content)
+    if block_given?
+      content = capture(&block)
+      # only care for non whitespace contents;
+      super(name, content) if content.to_s.match /\S+/
     else
-      #nothing
+      super
     end
   end
 
