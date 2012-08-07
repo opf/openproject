@@ -83,7 +83,7 @@ OpenProject::Application.routes.draw do
       member do
         get 'copy'
         post 'copy'
-        get 'settings'
+        get 'settings(/:tab)', :action => "settings"
         post 'modules'
         post 'archive'
         post 'unarchive'
