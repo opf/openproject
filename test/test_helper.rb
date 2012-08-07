@@ -22,6 +22,16 @@ require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
 
+
+class ActionDispatch::IntegrationTest
+  include Shoulda::Matchers::ActionController
+  extend Shoulda::Matchers::ActionController
+
+  def subject
+    @controller
+  end
+end
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
