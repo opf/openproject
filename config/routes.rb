@@ -79,6 +79,47 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    resources :projects do
+      member do
+        get 'copy'
+        post 'copy'
+        get 'settings'
+        post 'modules'
+        post 'archive'
+        post 'unarchive'
+      end
+
+      resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
+      resources :files, :only => [:index, :new, :create]
+      resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
+      resources :news, :shallow => true
+      resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
+
+      match '/wiki' => 'wiki#show', :via => :get, :as => 'wiki_start_page'
+      match '/wiki/index' => 'wiki#index', :via => :get, :as => 'wiki_index'
+      match '/wiki/:id/diff/:version' => 'wiki#diff', :as => 'wiki_diff'
+      match '/wiki/:id/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
+      match '/wiki/:id/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
+      resources :wiki, :except => [:new, :create], :member => {
+        :rename => [:get, :post],
+        :history => :get,
+        :preview => :any,
+        :protect => :post,
+        :add_attachment => :post
+      }, :collection => {
+        :export => :get,
+        :date_index => :get
+      }
+
+      resources :issues do
+        collection do
+          get :all
+          get :bulk_edit
+          post :bulk_update
+        end
+      end
+    end
+
     resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'issue_move'
 
     # Misc issue routes. TODO: move into resources
@@ -107,7 +148,7 @@ OpenProject::Application.routes.draw do
 
     resources :issues do
       resources :time_entries, :controller => 'timelog'
-      
+
       post :edit, :on => :member
     end
 
@@ -146,40 +187,6 @@ OpenProject::Application.routes.draw do
     match '/news/preview' => 'previews#news', :as => 'preview_news'
     match '/news/:id/comments' => 'comments#create', :via => :post
     match '/news/:id/comments/:comment_id' => 'comments#destroy', :via => :delete
-
-    resources :projects do
-      member do
-        get 'copy'
-        post 'copy'
-        get 'settings(/:tab)', :action => "settings"
-        post 'modules'
-        post 'archive'
-        post 'unarchive'
-      end
-
-      resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
-      resources :files, :only => [:index, :new, :create]
-      resources :versions, :collection => {:close_completed => :put}, :member => {:status_by => :post}
-      resources :news, :shallow => true
-      resources :time_entries, :controller => 'timelog', :path_prefix => 'projects/:project_id'
-
-      match '/wiki' => 'wiki#show', :via => :get, :as => 'wiki_start_page'
-      match '/wiki/index' => 'wiki#index', :via => :get, :as => 'wiki_index'
-      match '/wiki/:id/diff/:version' => 'wiki#diff', :as => 'wiki_diff'
-      match '/wiki/:id/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
-      match '/wiki/:id/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
-      resources :wiki, :except => [:new, :create], :member => {
-        :rename => [:get, :post],
-        :history => :get,
-        :preview => :any,
-        :protect => :post,
-        :add_attachment => :post
-      }, :collection => {
-        :export => :get,
-        :date_index => :get
-      }
-
-    end
 
     # Destroy uses a get request to prompt the user before the actual DELETE request
     match '/projects/:id/destroy' => 'project#destroy', :via => :get, :as => 'project_destroy_confirm'
