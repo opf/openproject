@@ -234,7 +234,7 @@ OpenProject::Application.routes.draw do
     resources :groups
 
     #left old routes at the bottom for backwards compat
-    match '/projects/:project_id/issues/:action', :controller => 'issues'
+    match '/projects/:project_id/issues(/:action)', :controller => 'issues'
     match '/projects/:project_id/documents/:action', :controller => 'documents'
     match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
