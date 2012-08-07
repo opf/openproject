@@ -910,13 +910,20 @@ module ApplicationHelper
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
-    content_tag('table',
-      content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
+
+    bar = content_tag 'table', { :class => 'progress', :style => "width: #{width};" } do
+      row = content_tag 'tr' do
+        ((pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
-      ), :class => 'progress', :style => "width: #{width};") +
-      content_tag('p', legend + " " + l(:total_progress), :class => 'pourcent')
+        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')).html_safe
+      end
+    end
+
+    number = content_tag 'p', :class => 'pourcent' do
+      legend + " " + l(:total_progress)
+    end
+
+    bar + number
   end
 
   def checked_image(checked=true)
@@ -1119,4 +1126,5 @@ module ApplicationHelper
   def password_complexity_requirements
     raw "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
   end
+
 end
