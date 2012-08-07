@@ -431,9 +431,11 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    safe_concat('<p class="other-formats">' + l(:label_export_to))
-    yield Redmine::Views::OtherFormatsBuilder.new(self)
-    safe_concat('</p>')
+    content_tag 'p', :class => 'other-formats' do
+      formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
+
+      (l(:label_export_to) + formats).html_safe
+    end
   end
 
   def page_header_title
