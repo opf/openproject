@@ -70,6 +70,6 @@ module WatchersHelper
       end
       "<li>#{ s }</li>"
     end
-    lis.empty? ? "" : "<ul>#{ lis.join("\n") }</ul>"
+    lis.empty? ? "" : "<ul>#{ lis.join("\n") }</ul>".html_safe
   end
 end
