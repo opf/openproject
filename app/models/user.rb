@@ -418,7 +418,7 @@ class User < Principal
 
   # Return true if the user is a member of project
   def member_of?(project)
-    !roles_for_project(project).detect {|role| role.member?}.nil?
+    roles_for_project(project).any?(&:member?)
   end
 
   # Returns a hash of user's projects grouped by roles
