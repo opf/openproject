@@ -149,7 +149,7 @@ OpenProject::Application.routes.draw do
       member do
         get 'copy'
         post 'copy'
-        get 'settings'
+        get 'settings(/:tab)', :action => "settings"
         post 'modules'
         post 'archive'
         post 'unarchive'
@@ -184,7 +184,6 @@ OpenProject::Application.routes.draw do
 
     # TODO: port to be part of the resources route(s)
     scope :via => :get do
-      match '/projects/:id/settings(/:tab)' => 'projects#settings'
       match '/projects/:project_id/issues/:copy_from/copy' => 'issues#new'
     end
 
