@@ -81,9 +81,18 @@ OpenProject::Application.routes.draw do
 
     resources :projects do
       member do
+        # this route let's you access the project specific settings (by tab)
+        #
+        #   settings_project_path(@project)
+        #     => "/projects/1/settings"
+        #
+        #   settings_project_path(@project, :tab => 'members')
+        #     => "/projects/1/settings/members"
+        #
+        get 'settings(/:tab)', :action => 'settings', :as => :settings
+
         get 'copy'
         post 'copy'
-        get 'settings(/:tab)', :action => "settings"
         post 'modules'
         post 'archive'
         post 'unarchive'

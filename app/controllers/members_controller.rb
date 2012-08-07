@@ -28,7 +28,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       if members.present? && members.all? {|m| m.valid? }
 
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+        format.html { redirect_to settings_project_path(@project, :tab => 'members') }
 
         format.js {
           render(:update) {|page|
