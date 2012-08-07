@@ -41,7 +41,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     # here we implement #reload differently for that single repository instance
     def @repository.reload
       ActiveRecord::Base.connection.clear_query_cache
-      Repository::Subversion.find(self.id)
+      self.class.find(self.id)
     end
 
     assert @repository
