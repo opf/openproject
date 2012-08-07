@@ -104,6 +104,7 @@ class ActiveSupport::TestCase
     File.open(page_path, 'w') { |f| f.write(body) }
 
     Launchy.open(page_path)
+    debugger
 
     FileUtils.rm(page_path)
   end
