@@ -510,8 +510,4 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       assert_nil Issue.find_by_id(6)
     end
   end
-
-  def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
-  end
 end

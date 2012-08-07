@@ -286,8 +286,4 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       end
     end
   end
-
-  def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
-  end
 end
