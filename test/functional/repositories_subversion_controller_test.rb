@@ -35,6 +35,15 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     @project = Project.find(PRJ_ID)
     @repository = Repository::Subversion.create(:project => @project,
                :url => self.class.subversion_repository_url)
+
+    # #reload is broken for repositories because it defines
+    # `has_many :changes` which conflicts with AR's #changes method
+    # here we implement #reload differently for that single repository instance
+    def @repository.reload
+      ActiveRecord::Base.connection.clear_query_cache
+      Repository::Subversion.find(self.id)
+    end
+
     assert @repository
   end
 
@@ -133,7 +142,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       with_settings :file_max_size_displayed => 0 do
         get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c']
         assert_response :success
-        assert_template ''
+        assert_template nil
         assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
       end
     end
@@ -162,7 +171,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.reload
       get :entry, :id => PRJ_ID, :path => ['subversion_test', 'helloworld.c'], :format => 'raw'
       assert_response :success
-      assert_template ''
+      assert_template nil
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end
 

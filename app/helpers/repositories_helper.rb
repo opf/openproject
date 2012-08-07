@@ -33,9 +33,9 @@ module RepositoriesHelper
     unless properties.nil? || properties.empty?
       content = ''
       properties.keys.sort.each do |property|
-        content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>")
+        content << content_tag('li', raw("<b>#{h property}</b>: <span>#{h properties[property]}</span>"))
       end
-      content_tag('ul', content, :class => 'properties')
+      content_tag('ul', content.html_safe, :class => 'properties')
     end
   end
 
@@ -99,18 +99,18 @@ module RepositoriesHelper
                              :id => @project,
                              :path => path_param,
                              :rev => @changeset.identifier) unless c.action == 'D'
-        text << " - #{h(c.revision)}" unless c.revision.blank?
-        text << ' (' + link_to(l(:label_diff), :controller => 'repositories',
+        text << raw(" - #{h(c.revision)}") unless c.revision.blank?
+        text << raw(' (' + link_to(l(:label_diff), :controller => 'repositories',
                                        :action => 'diff',
                                        :id => @project,
                                        :path => path_param,
-                                       :rev => @changeset.identifier) + ') ' if c.action == 'M'
-        text << ' ' + content_tag('span', h(c.from_path), :class => 'copied-from') unless c.from_path.blank?
+                                       :rev => @changeset.identifier) + ') ') if c.action == 'M'
+        text << raw(' ' + content_tag('span', h(c.from_path), :class => 'copied-from')) unless c.from_path.blank?
         output << "<li class='#{style}'>#{text}</li>"
       end
     end
     output << '</ul>'
-    output
+    output.html_safe
   end
 
   def to_utf8_for_repositories(str)

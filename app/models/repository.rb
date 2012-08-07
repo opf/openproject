@@ -124,8 +124,9 @@ class Repository < ActiveRecord::Base
 
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
+    name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name.to_s] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
   end
 
   def latest_changeset

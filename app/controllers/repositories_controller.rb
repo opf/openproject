@@ -236,7 +236,7 @@ class RepositoriesController < ApplicationController
     (render_404; return false) unless @repository
     @path = params[:path].join('/') unless params[:path].nil?
     @path ||= ''
-    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
+    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 
     unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
