@@ -43,13 +43,13 @@ module IssuesHelper
     @cached_label_priority ||= l(:field_priority)
     @cached_label_project ||= l(:field_project)
 
-    link_to_issue(issue) + "<br /><br />" +
-      "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />" +
-      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />" +
-      "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />" +
-      "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
-      "<strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />" +
-      "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}"
+    (link_to_issue(issue).html_safe + "<br /><br />".html_safe +
+      "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />".html_safe +
+      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />".html_safe +
+      "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />".html_safe +
+      "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />".html_safe +
+      "<strong>#{@cached_label_assigned_to}</strong>: #{h(issue.assigned_to)}<br />".html_safe +
+      "<strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe).html_safe
   end
 
   # TODO: deprecate and/or remove

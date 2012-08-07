@@ -81,7 +81,7 @@ t_height = g_height + headers_height
 <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
 
 <div class="gantt_subjects">
-<%= @gantt.subjects %>
+<%= @gantt.subjects.html_safe %>
 </div>
 
 </div>
@@ -161,7 +161,7 @@ if show_days
 	end
 end %>
 
-<%= @gantt.lines %>
+<%= @gantt.lines.html_safe %>
 
 <%
 #
