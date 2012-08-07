@@ -34,8 +34,12 @@ module JournalFormatter
   def self.included(base)
     base.class_eval do
       # Required to use any link_to in the formatters
-      def self.default_url_options
+      def default_url_options
         {:only_path => true }
+      end
+
+      def controller
+        nil
       end
     end
   end
