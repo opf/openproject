@@ -19,7 +19,7 @@ rescue
   # Won't run some tests
 end
 
-class AccountTest < ActionController::IntegrationTest
+class AccountTest < ActionDispatch::IntegrationTest
   fixtures :users, :roles
 
   # Replace this with your real tests.
@@ -37,7 +37,7 @@ class AccountTest < ActionController::IntegrationTest
     target_url =  "/my/account?q=%C3%A4"
 
     get target_url
-    post "/login", :username => 'jsmith', :password => 'jsmith', :back_url => @response.redirected_to[:back_url]
+    post @response.redirected_to, :username => 'jsmith', :password => 'jsmith'
 
     assert_redirected_to target_url
   end
