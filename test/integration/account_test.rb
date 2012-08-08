@@ -71,7 +71,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template 'my/page'
     assert_equal user.id, session[:user_id]
     assert_not_nil user.reload.last_login_on
-    assert user.last_login_on.utc > 10.second.ago.utc
+    assert user.last_login_on.utc > 20.second.ago.utc
   end
 
   def test_lost_password
