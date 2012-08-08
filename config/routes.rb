@@ -271,7 +271,7 @@ OpenProject::Application.routes.draw do
     end
 
     # alternate routes for the current user
-    scope :path_prefix => "my" do
+    scope "my" do
       match '/deletion_info' => 'users#deletion_info', :via => :get, :as => 'delete_my_account_info'
     end
 
