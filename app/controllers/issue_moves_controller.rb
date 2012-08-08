@@ -64,7 +64,7 @@ class IssueMovesController < ApplicationController
     @issues.sort!
     @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = Issue.allowed_target_projects_on_move
-    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id].to_s} if params[:new_project_id]
     @target_project ||= @project
     @trackers = @target_project.trackers
     @available_statuses = Workflow.available_statuses(@project)
