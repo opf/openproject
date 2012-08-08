@@ -121,6 +121,10 @@ OpenProject::Application.routes.draw do
       }
 
       resources :issues do
+        # should probably belong to :member, but requires :copy_from instead
+        # of the default :id
+        get ':copy_from/copy', :action => "new", :on => :collection, :as => "copy"
+        
         collection do
           get :all
           get :bulk_edit
@@ -137,7 +141,11 @@ OpenProject::Application.routes.draw do
 
     end
 
-    resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'issue_move'
+    # TODO: nest under issues resources
+    scope 'issues' do
+      match '/move' => "issue_moves#create", :via => :post
+      match '/move/new' => "issue_moves#new", :via => :get, :as => "new_issue_move"
+    end
 
     # Misc issue routes. TODO: move into resources
     match '/issues/auto_complete' => 'autoCompletes#issues', :as => 'auto_complete_issues'
@@ -206,11 +214,6 @@ OpenProject::Application.routes.draw do
 
     # Destroy uses a get request to prompt the user before the actual DELETE request
     match '/projects/:id/destroy' => 'project#destroy', :via => :get, :as => 'project_destroy_confirm'
-
-    # TODO: port to be part of the resources route(s)
-    scope :via => :get do
-      match '/projects/:project_id/issues/:copy_from/copy' => 'issues#new'
-    end
 
     scope :controller => 'activities', :action => 'index', :via => :get do
       match '/projects/:id/activity(.:format)'
