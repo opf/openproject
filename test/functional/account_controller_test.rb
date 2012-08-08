@@ -53,6 +53,13 @@ class AccountControllerTest < ActionController::TestCase
     assert_template 'login'
   end
 
+  def test_login_should_reset_session
+    @controller.expects(:reset_session).once
+
+    post :login, :username => 'jsmith', :password => 'jsmith'
+    assert_response 302
+  end
+
   def test_login_with_logged_account
     @request.session[:user_id] = 2
     get :login
@@ -169,13 +176,21 @@ class AccountControllerTest < ActionController::TestCase
     assert_nil @request.session[:user_id]
   end
 
+  def test_logout_should_reset_session
+    @controller.expects(:reset_session).once
+
+    @request.session[:user_id] = 2
+    get :logout
+    assert_response 302
+  end
+
   context "GET #register" do
     context "with self registration on" do
       setup do
         Setting.self_registration = '3'
         get :register
       end
-      
+
       should respond_with :success
       should render_template :register
       should assign_to :user
