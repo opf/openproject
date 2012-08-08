@@ -438,6 +438,7 @@ module ApplicationHelper
     end
   end
 
+  # this method seems to not be used any more
   def page_header_title
     if @page_header_title.present?
       h(@page_header_title)
@@ -461,16 +462,19 @@ module ApplicationHelper
   end
 
   def html_title(*args)
+    title = []
+
     if args.empty?
-      title = []
       title << h(@project.name) if @project
       title += @html_title if @html_title
       title << h(Setting.app_title)
-      title.select {|t| !t.blank? }.join(' - ')
     else
       @html_title ||= []
       @html_title += args
+      title += @html_title
     end
+
+    title.select {|t| !t.blank? }.join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
