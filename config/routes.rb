@@ -128,6 +128,10 @@ OpenProject::Application.routes.draw do
 
           # get a preview of a new issue (i.e. one without an ID)
           match '/new/preview' => 'previews#issue', :as => 'preview_new', :via => :post
+
+          # issues#index is right now used with get and post
+          # defining an extra route prevents confusion with create
+          match '/query' => 'issues#index', :via => :post
         end
       end
 
@@ -155,11 +159,13 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/issues/report/:detail', :action => :issue_report_details
     end
 
-    # Following two routes conflict with the resources because #index allows POST
-    match '/issues' => 'issues#index', :via => :post
-    match '/issues/create' => 'issues#index', :via => :post
-
     resources :issues do
+      collection do
+        # issues#index is right now used with get and post
+        # defining an extra route prevents confusion with create
+        match '/query' => 'issues#index', :via => :post
+      end
+
       resources :time_entries, :controller => 'timelog'
 
       post :edit, :on => :member
