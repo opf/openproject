@@ -125,8 +125,12 @@ OpenProject::Application.routes.draw do
           get :all
           get :bulk_edit
           post :bulk_update
+
+          # get a preview of a new issue (i.e. one without an ID)
+          match '/new/preview' => 'previews#issue', :as => 'preview_new', :via => :post
         end
       end
+
     end
 
     resources :issue_moves, :only => [:new, :create], :path_prefix => '/issues', :as => 'issue_move'
