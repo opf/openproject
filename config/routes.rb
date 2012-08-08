@@ -176,6 +176,13 @@ OpenProject::Application.routes.draw do
 
     match '/projects/:id/members/new' => 'members#new'
 
+
+    resources :users, :member => {
+      :edit_membership => :post,
+      :destroy_membership => :post,
+      :deletion_info => :get
+    }
+
     scope :controller => 'users' do
       match '/users/:id/edit/:tab', :action => 'edit', :tab => nil, :via => :get
 
@@ -185,12 +192,6 @@ OpenProject::Application.routes.draw do
         match '/users/:id/memberships/:membership_id/destroy', :action => 'destroy_membership'
       end
     end
-
-    resources :users, :member => {
-      :edit_membership => :post,
-      :destroy_membership => :post,
-      :deletion_info => :get
-    }
 
     # For nice "road in the url for the index action
     match '/projects/:project_id/roadmap' => 'Versions#index'
