@@ -100,7 +100,7 @@ class CustomField < ActiveRecord::Base
       possible_values_options(obj).collect(&:last)
     else
       options = obj.nil? ? {} : obj
-      read_attribute(:possible_values, obj)
+      read_attribute(:possible_values, options)
     end
   end
 
