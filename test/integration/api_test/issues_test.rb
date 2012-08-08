@@ -320,7 +320,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       end
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert json['errors'].include?(['subject', "can't be blank"])
+      assert_equal json['errors'], { "subject" => ["can't be blank"] }
     end
   end
 
@@ -477,7 +477,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       put '/issues/6.json', @parameters, @headers
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert json['errors'].include?(['subject', "can't be blank"])
+      assert_equal json['errors'], { "subject" => ["can't be blank"] }
     end
   end
 
