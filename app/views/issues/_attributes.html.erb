@@ -1,4 +1,4 @@
-<% fields_for :issue, @issue, :builder => TabularFormBuilder do |f| %>
+<%= fields_for :issue, @issue, :builder => TabularFormBuilder do |f| %>
 
 <div class="splitcontentleft">
 <% if @issue.new_record? || @allowed_statuses.any? %>

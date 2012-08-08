@@ -17,7 +17,7 @@
     <% end %>
     <% if authorize_for('timelog', 'edit') %>
         <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
-        <% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
+        <%= fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
         <div class="splitcontentleft">
         <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
         </div>
