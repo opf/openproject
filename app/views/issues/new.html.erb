@@ -1,12 +1,20 @@
 <h2><%=l(:label_issue_new)%></h2>
 
-<% labelled_tabular_form_for :issue, @issue, :url => project_issues_path(@project),
-                             :html => {:multipart => true, :id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
+
+<% labelled_tabular_form_for :issue,
+                             @issue,
+                             :url => project_issues_path(@project),
+                             :html => { :multipart => true,
+                                        :id => 'issue-form',
+                                        :class => 'tabular new-issue-form' } do |f| %>
+
     <%= error_messages_for 'issue' %>
+
     <div class="box">
-    <%= render :partial => 'issues/form', :locals => {:f => f} %>
-    <%= send_notification_option %>
+      <%= render :partial => 'issues/form', :locals => {:f => f} %>
+      <%= send_notification_option %>
     </div>
+
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
     <%= link_to_remote l(:label_preview),
