@@ -171,10 +171,6 @@ OpenProject::Application.routes.draw do
       post :edit, :on => :member
     end
 
-    resources :issues, :path_prefix => '/projects/:project_id', :collection => { :create => :post, :all => :get } do
-      resources :time_entries, :controller => 'timelog'
-    end
-
     scope  :controller => 'issue_relations', :via => :post do
       match '/issues/:issue_id/relations/:id', :action => :new
       match '/issues/:issue_id/relations/:id/destroy', :action => :destroy
