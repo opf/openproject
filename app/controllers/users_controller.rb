@@ -119,8 +119,8 @@ class UsersController < ApplicationController
         format.html {
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ?
-            {:controller => 'users', :action => 'new'} :
-            {:controller => 'users', :action => 'edit', :id => @user}
+            new_user_path :
+            edit_user_path(@user)
           )
         }
         format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
