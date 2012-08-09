@@ -49,10 +49,10 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:topics)
   end
 
-  def test_post_new
+  def test_create
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :new, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
+      post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
   end
@@ -75,10 +75,10 @@ class BoardsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:messages)
   end
 
-  def test_post_edit
+  def test_update
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      post :edit, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
+      put :update, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_equal 'Testing', Board.find(2).name

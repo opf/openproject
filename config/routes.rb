@@ -52,20 +52,6 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    scope :controller => 'boards' do
-      scope :via => :get do
-        match '/projects/:project_id/boards', :action => :index
-        match '/projects/:project_id/boards/new', :action => :new
-        match '/projects/:project_id/boards/:id', :action => :show
-        match '/projects/:project_id/boards/:id.:format', :action => :show
-        match '/projects/:project_id/boards/:id/edit', :action => :edit
-      end
-      scope :via => :post do
-        match '/projects/:project_id/boards', :action => :new
-        match '/projects/:project_id/boards/:id/:action', :action => /edit|destroy/
-      end
-    end
-
     scope :controller => 'documents' do
       scope :via => :get do
         match '/projects/:project_id/documents', :action => :index
@@ -137,6 +123,8 @@ OpenProject::Application.routes.draw do
       end
 
       resources :activity, :activities, :only => :index, :controller => 'activities'
+
+      resources :boards
     end
 
     # TODO: nest under issues resources

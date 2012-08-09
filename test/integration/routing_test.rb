@@ -62,15 +62,36 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "boards" do
-    should_route :get, "/projects/world_domination/boards", :controller => 'boards', :action => 'index', :project_id => 'world_domination'
-    should_route :get, "/projects/world_domination/boards/new", :controller => 'boards', :action => 'new', :project_id => 'world_domination'
-    should_route :get, "/projects/world_domination/boards/44", :controller => 'boards', :action => 'show', :project_id => 'world_domination', :id => '44'
-    should_route :get, "/projects/world_domination/boards/44.atom", :controller => 'boards', :action => 'show', :project_id => 'world_domination', :id => '44', :format => 'atom'
-    should_route :get, "/projects/world_domination/boards/44/edit", :controller => 'boards', :action => 'edit', :project_id => 'world_domination', :id => '44'
-
-    should_route :post, "/projects/world_domination/boards/new", :controller => 'boards', :action => 'new', :project_id => 'world_domination'
-    should_route :post, "/projects/world_domination/boards/44/edit", :controller => 'boards', :action => 'edit', :project_id => 'world_domination', :id => '44'
-    should_route :post, "/projects/world_domination/boards/44/destroy", :controller => 'boards', :action => 'destroy', :project_id => 'world_domination', :id => '44'
+    should route(:get, "/projects/world_domination/boards").to( :controller => 'boards',
+                                                                :action => 'index',
+                                                                :project_id => 'world_domination')
+    should route(:get, "/projects/world_domination/boards/new").to( :controller => 'boards',
+                                                                    :action => 'new',
+                                                                    :project_id => 'world_domination')
+    should route(:post, "/projects/world_domination/boards").to( :controller => 'boards',
+                                                                 :action => 'create',
+                                                                 :project_id => 'world_domination')
+    should route(:get, "/projects/world_domination/boards/44").to( :controller => 'boards',
+                                                                   :action => 'show',
+                                                                   :project_id => 'world_domination',
+                                                                   :id => '44')
+    should route(:get, "/projects/world_domination/boards/44.atom").to( :controller => 'boards',
+                                                                        :action => 'show',
+                                                                        :project_id => 'world_domination',
+                                                                        :id => '44',
+                                                                        :format => 'atom')
+    should route(:get, "/projects/world_domination/boards/44/edit").to( :controller => 'boards',
+                                                                       :action => 'edit',
+                                                                       :project_id => 'world_domination',
+                                                                       :id => '44')
+    should route(:put, "/projects/world_domination/boards/44").to( :controller => 'boards',
+                                                                   :action => 'update',
+                                                                   :project_id => 'world_domination',
+                                                                        :id => '44')
+    should route(:delete, "/projects/world_domination/boards/44").to( :controller => 'boards',
+                                                                      :action => 'destroy',
+                                                                      :project_id => 'world_domination',
+                                                                      :id => '44')
 
   end
 
