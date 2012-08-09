@@ -12,8 +12,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../test_helper', __FILE__)
-require 'pp'
-class ApiTest::NewsTest < ActionController::IntegrationTest
+
+class ApiTest::NewsTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
