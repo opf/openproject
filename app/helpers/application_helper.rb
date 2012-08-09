@@ -504,16 +504,6 @@ module ApplicationHelper
     Redmine::AccessKeys.key_for s
   end
 
-  def markup_text_area(form, name, options = {})
-    markup = form.object.send name
-    content = if User.current.wysiwyg_editing_preference :enabled
-      block_given? ? yield(markup) : ''
-    else
-      markup
-    end
-    form.text_area name, options.merge(:value => content)
-  end
-
   # Formats text according to system settings.
   # 2 ways to call this method:
   # * with a String: textilizable(text, options)
