@@ -236,9 +236,19 @@ OpenProject::Application.routes.draw do
       match '/projects/:id/repository/:action', :via => :post
     end
 
-    match '/attachments/:id' => 'attachments#show', :id => /\d+/
-    match '/attachments/:id/:filename' => 'attachments#show', :id => /\d+/, :filename => /.*/
-    match '/attachments/download/:id/:filename' => 'attachments#download', :id => /\d+/, :filename => /.*/
+    resources :attachments, :only => [:show], :format => false do
+      member do
+        scope :via => :get,  :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
+          match 'download(/:filename)' => 'attachments#download', :as => 'download'
+          match ':filename' => 'attachments#show'
+        end
+      end
+    end
+    # redirect for backwards compatibility
+    scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
+      match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
+      match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
+    end
 
     resources :groups
 

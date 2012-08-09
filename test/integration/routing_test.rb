@@ -36,10 +36,29 @@ class RoutingTest < ActionController::IntegrationTest
   end
 
   context "attachments" do
-    should_route :get, "/attachments/1", :controller => 'attachments', :action => 'show', :id => '1'
-    should_route :get, "/attachments/1/filename.ext", :controller => 'attachments', :action => 'show', :id => '1', :filename => 'filename.ext'
-    should_route :get, "/attachments/download/1", :controller => 'attachments', :action => 'download', :id => '1'
-    should_route :get, "/attachments/download/1/filename.ext", :controller => 'attachments', :action => 'download', :id => '1', :filename => 'filename.ext'
+    should route(:get, "/attachments/1").to( :controller => 'attachments',
+                                             :action => 'show',
+                                             :id => '1')
+    should route(:get, "/attachments/1/filename.ext").to( :controller => 'attachments',
+                                                          :action => 'show',
+                                                          :id => '1',
+                                                          :filename => 'filename.ext' )
+    should route(:get, "/attachments/1/download").to( :controller => 'attachments',
+                                                      :action => 'download',
+                                                      :id => '1' )
+    should route(:get, "/attachments/1/download/filename.ext").to( :controller => 'attachments',
+                                                                   :action => 'download',
+                                                                   :id => '1',
+                                                                   :filename => 'filename.ext' )
+    should "redirect /atttachments/download/1 to /attachments/1/download" do
+      get '/attachments/download/1'
+      assert_redirected_to '/attachments/1/download'
+    end
+
+    should "redirect /atttachments/download/1/filename.ext to /attachments/1/download/filename.ext" do
+      get '/attachments/download/1/filename.ext'
+      assert_redirected_to '/attachments/1/download/filename.ext'
+    end
   end
 
   context "boards" do
