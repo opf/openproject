@@ -22,8 +22,8 @@ group :test do
   gem 'mocha'
   gem "launchy", "~> 2.1.0"
 
-  platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
-  platforms :mri_19, :mingw_19 do gem 'debugger' end
+  gem 'ruby-debug', :platforms => [:mri_18, :mingw_18]
+  gem 'debugger',   :platforms => [:mri_19, :mingw_19]
 end
 
 group :openid do
