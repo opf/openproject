@@ -12,14 +12,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# removed redcloth3 and introduced RedCloth gem as a prototype implementation.
-# Things should be tested and portet to RedCloth 4, which is not done in any way yet!
-#require 'redcloth3'
+require 'redcloth3'
 
 module Redmine
   module WikiFormatting
     module Textile
-      class Formatter < RedCloth::TextileDoc
+      class Formatter < RedCloth3
         include ActionView::Helpers::TagHelper
 
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
