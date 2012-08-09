@@ -12,8 +12,12 @@ end
 
 require 'dispatcher'
 Dispatcher.to_prepare :wysiwyg_editing do
-  require_dependency 'wysiwyg_editing/hooks'
-  require_dependency 'wysiwyg_editing/patches/user_patch'
-  require_dependency 'wysiwyg_editing/patches/my_controller_patch'
-  require_dependency 'wysiwyg_editing/patches/wiki_formatter_textile_patch'
+  require_dependency 'wysiwyg_editing/patches/wiki_formatter_xml'
+  require_dependency 'wysiwyg_editing/patches/wiki_formatter_xml_helper'
+
+  #require 'ruby-debug'; debugger
+
+  Redmine::WikiFormatting.map do |format|
+    format.register :xml, Redmine::WikiFormatting::Xml::Formatter, Redmine::WikiFormatting::Xml::Helper
+  end
 end
