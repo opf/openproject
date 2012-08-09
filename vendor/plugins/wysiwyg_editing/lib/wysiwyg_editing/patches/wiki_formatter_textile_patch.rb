@@ -11,7 +11,10 @@ module Redmine
 
             javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
           else
-            javascript_tag("tinyMCE.execCommand(\"mceAddControl\", true, \"#{field_id}\");")
+            javascript_tag("tinyMCE.execCommand(\"mceAddControl\", true, \"#{field_id}\");
+                            $($('#{field_id}').form).onsubmit = function() {
+                                jQuery('##{field_id}').val(undress(jQuery(tinyMCE.getInstanceById('#{field_id}').getBody()).clone()[0].childNodes));
+                            };")
           end
         end
 
