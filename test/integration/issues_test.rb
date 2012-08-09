@@ -106,13 +106,14 @@ class IssuesTest < ActionController::IntegrationTest
     end
   end
 
-  def test_other_formats_links_on_post_index_without_project_id_in_url
+  def test_other_formats_links_on_get_index_without_project_id_in_url
     Role.anonymous.add_permission!(:export_issues)
-    post '/issues', :project_id => 'ecookbook'
+    get '/issues', :project_id => 'ecookbook'
 
     %w(Atom PDF CSV).each do |format|
       assert_tag :a, :content => format,
                      :attributes => { :href => "/projects/ecookbook/issues.#{format.downcase}",
+                                      :class => format.downcase,
                                       :rel => 'nofollow' }
     end
   end
@@ -126,9 +127,9 @@ class IssuesTest < ActionController::IntegrationTest
 
   end
 
-  def test_pagination_links_on_post_index_without_project_id_in_url
+  def test_pagination_links_on_get_index_without_project_id_in_url
     Setting.per_page_options = '2'
-    post '/issues', :project_id => 'ecookbook'
+    get '/issues', :project_id => 'ecookbook'
 
     assert_tag :a, :content => '2',
                    :attributes => { :href => '/projects/ecookbook/issues?page=2' }

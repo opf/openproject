@@ -133,12 +133,8 @@ OpenProject::Application.routes.draw do
           # get a preview of a new issue (i.e. one without an ID)
           match '/new/preview' => 'previews#issue', :as => 'preview_new', :via => :post
 
-          # issues#index is right now used with get and post
-          # defining an extra route prevents confusion with create
-          match '/query' => 'issues#index', :via => :post
         end
       end
-
     end
 
     # TODO: nest under issues resources
@@ -169,9 +165,6 @@ OpenProject::Application.routes.draw do
 
     resources :issues do
       collection do
-        # issues#index is right now used with get and post
-        # defining an extra route prevents confusion with create
-        match '/query' => 'issues#index', :via => :post
       end
 
       resources :time_entries, :controller => 'timelog'
@@ -185,7 +178,6 @@ OpenProject::Application.routes.draw do
     end
 
     match '/projects/:id/members/new' => 'members#new'
-
 
     resources :users, :member => {
       :edit_membership => :post,
