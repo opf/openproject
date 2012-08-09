@@ -61,10 +61,11 @@ class ActivitiesController < ApplicationController
 
   private
 
-  # TODO: refactor, duplicated in projects_controller
+  # TODO: this should now be functionally identical to the implementation in application_controller
+  # double check and remove
   def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404

@@ -15,8 +15,24 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RoutingTest < ActionController::IntegrationTest
   context "activities" do
-    should_route :get, "/activity", :controller => 'activities', :action => 'index', :id => nil
-    should_route :get, "/activity.atom", :controller => 'activities', :action => 'index', :id => nil, :format => 'atom'
+    should route(:get, "/activity").to(:controller => 'activities', :action => 'index')
+    should route(:get, "/activity.atom").to(:controller => 'activities', :action => 'index', :format => 'atom')
+    should "route /activities to activities#index" do
+      assert_recognizes({ :controller => 'activities', :action => 'index' }, "/activities")
+    end
+    should "route /activites.atom to activities#index" do
+      assert_recognizes({ :controller => 'activities', :action => 'index', :format => 'atom' }, "/activities.atom")
+    end
+
+    should route(:get, "projects/eCookbook/activity").to(:controller => 'activities', :action => 'index', :project_id => "eCookbook")
+    should route(:get, "projects/eCookbook/activity.atom").to(:controller => 'activities', :action => 'index', :project_id => "eCookbook", :format => 'atom')
+
+    should "route project/eCookbook/activities to activities#index" do
+      assert_recognizes({ :controller => 'activities', :action => 'index', :project_id => "eCookbook" }, "/projects/eCookbook/activities")
+    end
+    should "route project/eCookbook/activites.atom to activities#index" do
+      assert_recognizes({ :controller => 'activities', :action => 'index', :format => 'atom', :project_id => "eCookbook" }, "/projects/eCookbook/activities.atom")
+    end
   end
 
   context "attachments" do
