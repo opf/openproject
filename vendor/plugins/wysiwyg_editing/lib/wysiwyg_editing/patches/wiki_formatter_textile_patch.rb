@@ -19,6 +19,7 @@ module Redmine
           unless @heads_for_wiki_formatter_included
             content_for :header_tags do
               if User.current.wysiwyg_editing_preference :enabled
+                javascript_include_tag('lib/undress',                :plugin => 'wysiwyg_editing') +
                 javascript_include_tag('lib/tiny_mce/tiny_mce',      :plugin => 'wysiwyg_editing') +
                 javascript_include_tag('app/tiny_mce_configuration', :plugin => 'wysiwyg_editing')
               else
