@@ -1,0 +1,20 @@
+<%= t(:text_issue_added, :id => "##{@issue.id}", :author => @issue.author) %>
+
+----------------------------------------
+<% #render :partial => "issue_text", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+
+<%= "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+<%= issue_url(@issue) %>
+
+<%= t(:field_author)        %>: <%= @issue.author        %>
+<%= t(:field_status)        %>: <%= @issue.status        %>
+<%= t(:field_priority)      %>: <%= @issue.priority      %>
+<%= t(:field_assigned_to)   %>: <%= @issue.assigned_to   %>
+<%= t(:field_category)      %>: <%= @issue.category      %>
+<%= t(:field_fixed_version) %>: <%= @issue.fixed_version %>
+
+<% @issue.custom_field_values.each do |value| %>
+  <%= value.custom_field.name %>: <%= show_value(value) %>
+<% end %>
+
+<%= @issue.description %>

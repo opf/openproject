@@ -1,0 +1,29 @@
+<%= t(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+
+<ul>
+<% @journal.details.each do |detail| %>
+  <li><%= @journal.render_detail(detail, true) %></li>
+<% end %>
+</ul>
+
+<%= textilizable(@journal.notes, :only_path => false) %>
+<hr />
+<%# render :partial => "issue_text", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+
+<h1><%= link_to("#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}", issue_url(@issue)) %></h1>
+
+<ul>
+  <li><%= t(:field_author)        %>: <%= @issue.author        %></li>
+  <li><%= t(:field_status)        %>: <%= @issue.status        %></li>
+  <li><%= t(:field_priority)      %>: <%= @issue.priority      %></li>
+  <li><%= t(:field_assigned_to)   %>: <%= @issue.assigned_to   %></li>
+  <li><%= t(:field_category)      %>: <%= @issue.category      %></li>
+  <li><%= t(:field_fixed_version) %>: <%= @issue.fixed_version %></li>
+  
+  <% @issue.custom_field_values.each do |value| %>
+    <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
+  <% end %>
+</ul>
+
+<%= textilizable(@issue.description) %>
+
