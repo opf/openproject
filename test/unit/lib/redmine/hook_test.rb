@@ -145,15 +145,15 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue, user)
-    mail = ActionMailer::Base.deliveries.last
+    mail = UserMailer.issue_added(user, issue)
+    mail.deliver
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue, user)
-    mail2 = ActionMailer::Base.deliveries.last
+    mail2 = UserMailer.issue_added(user, issue)
+    mail2.deliver
 
     assert_equal mail.body, mail2.body
   end
