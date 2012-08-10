@@ -22,8 +22,7 @@ class CustomField < ActiveRecord::Base
 
   accepts_nested_attributes_for :translations,
                                 :allow_destroy => true,
-                                :reject_if =>  proc { |attributes| attributes['locale'].blank? ||
-                                                                   (attributes.size == 1 && attributes.has_key?('locale')) }
+                                :reject_if => :blank_attributes
 
   def translations_attributes_with_globalized=(attr)
     ret = self.translations_attributes_without_globalized=(attr)
@@ -176,6 +175,14 @@ class CustomField < ActiveRecord::Base
 
   def type_name
     nil
+  end
+
+  private
+
+  def blank_attributes(attributes)
+    value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)
+
+    !value_keys.include?(:locale) || (value_keys & translated_attribute_names).size == 0
   end
 end
 
