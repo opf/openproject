@@ -191,6 +191,8 @@ de:
   notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_unable_delete_time_entry: Der Zeiterfassungseintrag konnte nicht gelöscht werden.
   notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
+  notice_to_many_principals_to_display: "Es gibt zu viele Treffer.\nBitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben."
+  notice_no_principals_found: "Keine Treffer gefunden."
 
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
   error_scm_not_found: Eintrag und/oder Revision existiert nicht im Projektarchiv.

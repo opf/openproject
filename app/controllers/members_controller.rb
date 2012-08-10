@@ -33,8 +33,9 @@ class MembersController < ApplicationController
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+            page.insert_html :top, "tab-content-members", content_tag(:div, l(:notice_successful_create),
+                                                                      :class => "flash notice")
             page << 'hideOnLoad()'
-            members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
           }
         }
       else
@@ -61,7 +62,7 @@ class MembersController < ApplicationController
       member.save
 
   	 respond_to do |format|
-        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+        format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
         format.js {
           render(:update) { |page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
@@ -88,8 +89,10 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    @principals = Principal.possible_members(params[:q], 100) - @project.principals
-    render :layout => false
+    roles = Role.find_all_givable
+    available_principals = @project.possible_members(params[:q], 100)
+
+    render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles }
   end
 
   private

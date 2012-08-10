@@ -1,10 +1,21 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort
-	 available_principals = Principal.possible_members("", 100) - @project.principals %>
+   available_principals = @project.possible_members("", 100)
+
+   member_per_page = 20
+
+   @members_count = @project.member_principals.count
+   @members_pages = @controller.class::Paginator.new @controller, @members_count, member_per_page, params[:page]
+   @members = @project.member_principals.find :all,
+                          :limit  =>  @members_pages.items_per_page,
+                          :offset =>  @members_pages.current.offset,
+                          :include => [:roles, :principal, :member_roles],
+                          :order => User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", ")
+%>
 
 <div class="splitcontentleft">
-<% if members.any? %>
+<% if @members.any? %>
+  <% authorized = authorize_for('members', 'edit') %>
 <table class="list members">
 	<thead><tr>
 	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
@@ -13,14 +24,14 @@
           <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
 	</tr></thead>
 	<tbody>
-	<% members.each do |member| %>
+	<% @members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
 	<td class="<%= member.principal.class.name.downcase %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
-    <% if authorize_for('members', 'edit') %>
-      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member},
+    <% if authorized %>
+      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member, :page => params[:page]},
       																		:method => :post,
       																		:html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }) do |f| %>
       	<p><% roles.each do |role| %>
@@ -35,7 +46,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member, :page => params[:page]},
                                               :method => :post,
                                               :confirm => (!User.current.admin? && member.include?(User.current) ? l(:text_own_membership_delete_confirmation) : nil)
                                             }, :title => l(:button_delete),
@@ -46,6 +57,10 @@
 <% end; reset_cycle %>
 	</tbody>
 </table>
+
+<%= pagination_links_full @members_pages, @members_count, :per_page_links => false,
+                          :window_size => 10, :tab => "members", :action=>"settings", :controller => "projects", :id => @project.identifier %>
+
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
@@ -53,7 +68,7 @@
 
 <div class="splitcontentright">
 <% if roles.any? && available_principals.any? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post,
+  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project, :page => params[:page]}, :method => :post,
 									   :loading => '$(\'member-add-submit\').disable();',
 									   :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable();') do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
@@ -67,15 +82,10 @@
                   %>
 
 		<div id="principals">
-			<%= principals_check_box_tags 'member[user_ids][]', available_principals %>
+      <%= render :partial => 'members/autocomplete_for_member', :locals => { :available_principals => available_principals, :roles => roles } %>
 		</div>
 
-    <p><%= l(:label_role_plural) %>:
-    <% roles.each do |role| %>
-    	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
-   	<% end %></p>
 
-    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
 		</fieldset>
   <% end %>
 <% end %>
