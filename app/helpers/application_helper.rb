@@ -526,7 +526,7 @@ module ApplicationHelper
     only_path = options.delete(:only_path) == false ? false : true
     edit = !!options.delete(:edit)
 
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr, :edit => edit) { |macro, args| exec_macro(macro, obj, args, :view => self) }
+    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr, :edit => edit) { |macro, args| exec_macro(macro, obj, args, :view => self, :edit => edit) }
 
     unless edit #do not perform production modifications on edit-html
       #TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
