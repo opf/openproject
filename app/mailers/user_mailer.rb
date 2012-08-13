@@ -185,6 +185,32 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def message_posted(user, message)
+    @message     = message
+    @message_url = url_for(:controller => :messages,
+                           :action     => :show,
+                           :board_id   => @message.board,
+                           :id         => @message.root,
+                           :r          => @message,
+                           :anchor     => "message-#{@message.id}")
+
+    headers["X-OpenProject-Project"] = @message.project.identifier
+    headers["X-OpenProject-Topic-Id"] = message.parent_id || message.id
+    headers["X-OpenProject-Type"] = "Forum"
+
+    #message_id message
+    #references message.parent unless message.parent.nil?
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)

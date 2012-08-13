@@ -206,4 +206,37 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
+  def test_message_posted_message_id
+    user    = FactoryGirl.create(:user)
+    message = Message.find(1)
+    UserMailer.message_posted(user, message).deliver
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_nil mail.references
+    assert_select_email do
+      # link to the message
+      assert_select "a[href*=?]", "#{Setting.protocol}://#{Setting.host_name}/boards/#{message.board.id}/topics/#{message.id}", :text => message.subject
+    end
+  end
+
+  def test_reply_posted_message_id
+    user    = FactoryGirl.create(:user)
+    message = Message.find(3)
+    UserMailer.message_posted(user, message).deliver
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert_equal Mailer.message_id_for(message), mail.message_id
+    assert_equal Mailer.message_id_for(message.parent), mail.references.first.to_s
+    assert_select_email do
+      # link to the reply
+      assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject
+    end
+  end
+
+  def test_message_posted
+    user    = FactoryGirl.create(:user)
+    message = Message.find(:first)
+    assert UserMailer.message_posted(user, message).deliver
+  end
 end
