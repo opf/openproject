@@ -18,7 +18,7 @@
     end
     title << " #{h(issue.tracker.name)} ##{issue.id}"
 
-    issue_text = link_to(title, issue, :class => issue.css_classes)
+    issue_text = link_to(title.html_safe, issue, :class => issue.css_classes)
   end
   issue_text << ": "
   issue_text << truncate(issue.subject, :length => 60)
@@ -30,7 +30,7 @@
       content_tag('td', h(issue.status)),
       content_tag('td', link_to_user(issue.assigned_to)),
       content_tag('td', link_to_version(issue.fixed_version))
-    ].join,
+    ].join.html_safe,
     :class => css_classes.join(' ')
   )
 %>

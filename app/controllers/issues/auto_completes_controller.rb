@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AutoCompletesController < ApplicationController
+class Issues::AutoCompletesController < ApplicationController
   before_filter :find_project
 
   def issues

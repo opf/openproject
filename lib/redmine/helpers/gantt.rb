@@ -80,7 +80,7 @@ module Redmine
       end
 
       def common_params
-        { :controller => 'gantts', :action => 'show', :project_id => @project }
+        { :controller => 'gantts', :action => 'index', :project_id => @project }
       end
 
       def params

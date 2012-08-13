@@ -79,7 +79,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 <% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
     <% field = filter[0]
        options = filter[1] %>
-    <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
+    <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
     <td style="width:200px;">
         <%= check_box_tag 'f[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>
         <label for="cb_<%= field %>"><%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %></label>

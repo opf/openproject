@@ -195,13 +195,13 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
     assert @response.body.starts_with?("#,")
 
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
     assert_not_nil assigns(:issues)
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv; header=present', @response.content_type
   end
 
   def test_index_pdf
@@ -1145,17 +1145,17 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
-                                     :issue => {:priority_id => 7,
-                                                :assigned_to_id => '',
-                                                :custom_field_values => {'2' => ''}}
+    put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
+                                      :issue => { :priority_id => 7,
+                                                  :assigned_to_id => '',
+                                                  :custom_field_values => {'2' => ''} }
 
     assert_response 302
     # check that the issues were updated
     assert_equal [7, 7], Issue.find_all_by_id([1, 2]).collect {|i| i.priority.id}
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_at DESC')
+    journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -1164,7 +1164,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bullk_update_should_not_send_a_notification_if_send_notification_is_off
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    post(:bulk_update,
+    put(:bulk_update,
          {
            :ids => [1, 2],
            :issue => {
@@ -1183,7 +1183,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_update_on_different_projects
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_update, :ids => [1, 2, 6], :notes => 'Bulk editing',
+    put :bulk_update, :ids => [1, 2, 6], :notes => 'Bulk editing',
                                      :issue => {:priority_id => 7,
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
@@ -1193,7 +1193,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
 
     issue = Issue.find(1)
-    journal = issue.journals.find(:first, :order => 'created_at DESC')
+    journal = issue.journals.reorder('created_at DESC').first
     assert_equal '125', issue.custom_value_for(2).value
     assert_equal 'Bulk editing', journal.notes
     assert_equal 1, journal.details.size
@@ -1205,7 +1205,7 @@ class IssuesControllerTest < ActionController::TestCase
     action = { :controller => "issues", :action => "bulk_update" }
     assert user.allowed_to?(action, Issue.find(1).project)
     assert ! user.allowed_to?(action, Issue.find(6).project)
-    post :bulk_update, :ids => [1, 6], :notes => 'Bulk should fail',
+    put :bulk_update, :ids => [1, 6], :notes => 'Bulk should fail',
                                      :issue => {:priority_id => 7,
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => ''}}
@@ -1216,7 +1216,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bullk_update_should_send_a_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    post(:bulk_update,
+    put(:bulk_update,
          {
            :ids => [1, 2],
            :notes => 'Bulk editing',
@@ -1234,7 +1234,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_update_status
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing status',
+    put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing status',
                                      :issue => {:priority_id => '',
                                                 :assigned_to_id => '',
                                                 :status_id => '5'}
@@ -1246,7 +1246,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_bulk_update_parent_id
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1, 3],
+    put :bulk_update, :ids => [1, 3],
       :notes => 'Bulk editing parent',
       :issue => {:priority_id => '', :assigned_to_id => '', :status_id => '', :parent_issue_id => '2'}
 
@@ -1260,7 +1260,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bulk_update_custom_field
     @request.session[:user_id] = 2
     # update issues priority
-    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing custom field',
+    put :bulk_update, :ids => [1, 2], :notes => 'Bulk editing custom field',
                                      :issue => {:priority_id => '',
                                                 :assigned_to_id => '',
                                                 :custom_field_values => {'2' => '777'}}
@@ -1279,7 +1279,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil Issue.find(2).assigned_to
     @request.session[:user_id] = 2
     # unassign issues
-    post :bulk_update, :ids => [1, 2], :notes => 'Bulk unassigning', :issue => {:assigned_to_id => 'none'}
+    put :bulk_update, :ids => [1, 2], :notes => 'Bulk unassigning', :issue => {:assigned_to_id => 'none'}
     assert_response 302
     # check that the issues were updated
     assert_nil Issue.find(2).assigned_to
@@ -1288,7 +1288,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_post_bulk_update_should_allow_fixed_version_to_be_set_to_a_subproject
     @request.session[:user_id] = 2
 
-    post :bulk_update, :ids => [1,2], :issue => {:fixed_version_id => 4}
+    put :bulk_update, :ids => [1,2], :issue => {:fixed_version_id => 4}
 
     assert_response :redirect
     issues = Issue.find([1,2])
@@ -1300,7 +1300,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1,2], :back_url => '/issues'
+    put :bulk_update, :ids => [1,2], :back_url => '/issues'
 
     assert_response :redirect
     assert_redirected_to '/issues'
@@ -1308,7 +1308,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_post_bulk_update_should_not_redirect_back_using_the_back_url_parameter_off_the_host
     @request.session[:user_id] = 2
-    post :bulk_update, :ids => [1,2], :back_url => 'http://google.com'
+    put :bulk_update, :ids => [1,2], :back_url => 'http://google.com'
 
     assert_response :redirect
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier

@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CalendarsController < ApplicationController
+class Issues::CalendarsController < ApplicationController
   menu_item :calendar
   before_filter :find_optional_project
 
@@ -21,7 +21,7 @@ class CalendarsController < ApplicationController
   include QueriesHelper
   include SortHelper
 
-  def show
+  def index
     if params[:year] and params[:year].to_i > 1900
       @year = params[:year].to_i
       if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
@@ -44,11 +44,6 @@ class CalendarsController < ApplicationController
       @calendar.events = events
     end
 
-    render :action => 'show', :layout => false if request.xhr?
+    render :layout => !request.xhr?
   end
-
-  def update
-    show
-  end
-
 end

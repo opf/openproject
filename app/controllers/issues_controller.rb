@@ -93,7 +93,7 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @journals = @issue.journals.changing.find(:all, :include => [:user], :order => "#{Journal.table_name}.created_at ASC")
+    @journals = @issue.journals.changing.find(:all, :include => [:user, :journaled], :order => "#{Journal.table_name}.created_at ASC")
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @changesets = @issue.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?

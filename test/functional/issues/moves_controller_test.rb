@@ -12,9 +12,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../../../test_helper', __FILE__)
 
-class IssueMovesControllerTest < ActionController::TestCase
+class Issues::MovesControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
@@ -24,7 +24,7 @@ class IssueMovesControllerTest < ActionController::TestCase
   def test_create_one_issue_to_another_project
     @request.session[:user_id] = 2
     post :create, :id => 1, :new_project_id => 2, :tracker_id => '', :assigned_to_id => '', :status_id => '', :start_date => '', :due_date => ''
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to project_issues_path(:project_id => 'ecookbook')
     assert_equal 2, Issue.find(1).project_id
   end
 
@@ -37,7 +37,7 @@ class IssueMovesControllerTest < ActionController::TestCase
   def test_bulk_create_to_another_project
     @request.session[:user_id] = 2
     post :create, :ids => [1, 2], :new_project_id => 2
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to project_issues_path(:project_id => 'ecookbook')
     # Issues moved to project 2
     assert_equal 2, Issue.find(1).project_id
     assert_equal 2, Issue.find(2).project_id
@@ -49,7 +49,7 @@ class IssueMovesControllerTest < ActionController::TestCase
   def test_bulk_create_to_another_tracker
     @request.session[:user_id] = 2
     post :create, :ids => [1, 2], :new_tracker_id => 2
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to project_issues_path(:project_id => 'ecookbook')
     assert_equal 2, Issue.find(1).tracker_id
     assert_equal 2, Issue.find(2).tracker_id
   end
@@ -62,7 +62,7 @@ class IssueMovesControllerTest < ActionController::TestCase
     should "allow changing the issue priority" do
       post :create, :ids => [1, 2], :priority_id => 6
 
-      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+      assert_redirected_to project_issues_path(:project_id => 'ecookbook')
       assert_equal 6, Issue.find(1).priority_id
       assert_equal 6, Issue.find(2).priority_id
 
@@ -71,7 +71,7 @@ class IssueMovesControllerTest < ActionController::TestCase
     should "allow adding a note when moving" do
       post :create, :ids => [1, 2], :notes => 'Moving two issues'
 
-      assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+      assert_redirected_to project_issues_path(:project_id => 'ecookbook')
       assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
       assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
 
@@ -132,7 +132,7 @@ class IssueMovesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     post :create, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
     issue = Issue.first(:order => 'id DESC')
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
+    assert_redirected_to issue_path(issue)
   end
 
 end

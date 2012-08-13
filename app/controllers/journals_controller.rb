@@ -13,10 +13,10 @@
 #++
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :diff]
+  before_filter :find_journal, :only => [:edit, :update]
   before_filter :find_issue, :only => [:new]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :diff]
+  before_filter :authorize, :only => [:new, :edit, :update ]
   accept_key_auth :index
   menu_item :issues
 
@@ -64,23 +64,23 @@ class JournalsController < ApplicationController
 
   def edit
     (render_403; return false) unless @journal.editable_by?(User.current)
-    if request.post?
-      @journal.update_attribute(:notes, params[:notes]) if params[:notes]
-      @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-      call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
-      respond_to do |format|
-        format.html { redirect_to :controller => @journal.journaled.class.name.pluralize.downcase,
-          :action => 'show', :id => @journal.journaled_id }
-        format.js { render :action => 'update' }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          # TODO: implement non-JS journal update
-          render :nothing => true
-        }
-        format.js
-      end
+    respond_to do |format|
+      format.html {
+        # TODO: implement non-JS journal update
+        render :nothing => true
+      }
+      format.js
+    end
+  end
+
+  def update
+    @journal.update_attribute(:notes, params[:notes]) if params[:notes]
+    @journal.destroy if @journal.details.empty? && @journal.notes.blank?
+    call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+    respond_to do |format|
+      format.html { redirect_to :controller => @journal.journaled.class.name.pluralize.downcase,
+        :action => 'show', :id => @journal.journaled_id }
+      format.js { render :action => 'update' }
     end
   end
 

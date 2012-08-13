@@ -13,7 +13,7 @@ while day <= calendar.enddt %>
   <% if i.is_a? Issue %>
   <div class="<%= i.css_classes %> tooltip">
   <%= h("#{i.project} -") unless @project && @project == i.project %>
-  <% date_img = '' %>
+  <%# date_img = '' %>
   <% if day == i.start_date and day == i.due_date %>
     <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_issue_begin_end_day), :alt => l(:text_tip_issue_begin_end_day),
                                     :class => "imgtag-icon") %>

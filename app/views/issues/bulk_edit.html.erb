@@ -64,7 +64,7 @@
 	<%= text_field_tag 'issue[parent_issue_id]', '', :size => 10 %>
 </p>
 <div id="parent_issue_candidates" class="autocomplete"></div>
-<%= javascript_tag "observeParentIssueField('#{auto_complete_issues_path(:project_id => @project) }')" %>
+<%= javascript_tag "observeParentIssueField('#{issues_auto_complete_path }')" %>
 <% end %>
 <p>
 	<label for='issue_start_date'><%= l(:field_start_date) %></label>

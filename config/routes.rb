@@ -65,6 +65,30 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    # only providing routes for journals when there are multiple subclasses of journals
+    # all subclasses will look for the journals routes
+    resources :journals, :only => [:edit, :update]
+
+    namespace :issues do
+    end
+
+    # generic route for adding/removing watchers
+    # looks to be ressourceful
+    scope ':object_type/:object_id', :constraints => { :object_type => /issues/,
+                                                       :object_id => /\d+/ } do
+      resources :watchers, :only => [:new]
+
+      match '/watch' => 'watchers#watch', :via => :post
+      match '/unwatch' => 'watchers#unwatch', :via => :delete
+    end
+
+    resources :watchers, :only => [:destroy]
+
+    # TODO: remove
+    scope "issues" do
+      match 'changes' => 'journals#index', :as => 'changes'
+    end
+
     resources :projects do
       member do
         # this route let's you access the project specific settings (by tab)
@@ -106,19 +130,21 @@ OpenProject::Application.routes.draw do
         :date_index => :get
       }
 
-      resources :issues do
+      namespace :issues do
+        resources :gantt, :controller => 'gantts', :only => [:index]
+        resources :calendar, :controller => 'calendars', :only => [:index]
+      end
+
+      resources :issues, :except => [:show, :edit, :update, :destroy] do
         # should probably belong to :member, but requires :copy_from instead
         # of the default :id
         get ':copy_from/copy', :action => "new", :on => :collection, :as => "copy"
 
         collection do
           get :all
-          get :bulk_edit
-          post :bulk_update
 
           # get a preview of a new issue (i.e. one without an ID)
           match '/new/preview' => 'previews#issue', :as => 'preview_new', :via => :post
-
         end
       end
 
@@ -127,45 +153,53 @@ OpenProject::Application.routes.draw do
       resources :boards
     end
 
-    # TODO: nest under issues resources
-    scope 'issues' do
-      match '/move' => "issue_moves#create", :via => :post
-      match '/move/new' => "issue_moves#new", :via => :get, :as => "new_issue_move"
+    # this is to support global actions on issues and
+    # for backwards compatibility
+    namespace :issues do
+      resources :gantt, :controller => 'gantts', :only => [:index]
+      resources :calendar, :controller => 'calendars', :only => [:index]
+
+      # have a global autocompleter for issues
+      # TODO: make this ressourceful
+      match 'auto_complete' => 'auto_completes#issues', :via => [:get, :post], :format => false
+
+      # TODO: separate routes and action for get and post
+      match 'context_menu' => 'context_menus#issues', :via => [:get, :post], :format => false
+
+      resource :move, :controller => 'moves', :only => [:new, :create]
+    end
+
+    # TODO: remove create as issues should be created scoped under project
+    resources :issues, :only => [:create, :show, :edit, :update, :destroy] do
+      resources :time_entries, :controller => 'timelog'
+
+      member do
+        # this route is defined so that it has precedence of the one defined on the collection
+        delete :destroy
+      end
+
+      collection do
+        get :bulk_edit, :format => false
+        put :bulk_update, :format => false
+
+        delete :destroy
+      end
     end
 
     # Misc issue routes. TODO: move into resources
-    match '/issues/auto_complete' => 'autoCompletes#issues', :as => 'auto_complete_issues'
     match '/issues/preview/:id' => 'previews#issue', :as => 'preview_issue'  # TODO: would look nicer as /issues/:id/preview
-    match '/issues/context_menu' => 'issues#context_menu', :as => 'issues_context_menu'
-    match '/issues/changes' => 'journals#index', :as => 'issue_changes'
-    match '/issues/bulk_edit' => 'issues#bulk_edit', :via => :get, :as => 'bulk_edit_issue'
-    match '/issues/bulk_edit' => 'issues#bulk_udpate', :via => :post, :as => 'bulk_update_issue'
     match '/issues/:id/quoted' => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
     match '/issues/:id/destroy' => 'issues#destroy', :via => :post # legacy
-
-    resource :gantt, :path_prefix => '/issues', :controller => 'gantts', :only => [:show, :update]
-    resource :gantt, :path_prefix => '/projects/:project_id/issues', :controller => 'gantts', :only => [:show, :update]
-    resource :calendar, :path_prefix => '/issues', :controller => 'calendars', :only => [:show, :update]
-    resource :calendar, :path_prefix => '/projects/:project_id/issues', :controller => 'calendars', :only => [:show, :update]
 
     scope :controller => 'reports', :via => :get do
       match '/projects/:id/issues/report', :action => :issue_report
       match '/projects/:id/issues/report/:detail', :action => :issue_report_details
     end
 
-    resources :issues do
-      collection do
-      end
-
-      resources :time_entries, :controller => 'timelog'
-
-      post :edit, :on => :member
-    end
-
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
     scope  :controller => 'issue_relations', :via => :post do
-      match '/issues/:issue_id/relations/:id', :action => :new
+      match '/issues/:issue_id/relations(/:id)', :action => :new
       match '/issues/:issue_id/relations/:id/destroy', :action => :destroy
     end
 
@@ -241,7 +275,6 @@ OpenProject::Application.routes.draw do
     resources :groups
 
     #left old routes at the bottom for backwards compat
-    match '/projects/:project_id/issues(/:action)', :controller => 'issues'
     match '/projects/:project_id/documents/:action', :controller => 'documents'
     match '/projects/:project_id/boards/:action/:id', :controller => 'boards'
     match '/boards/:board_id/topics/:action/:id', :controller => 'messages'
