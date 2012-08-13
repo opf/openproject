@@ -95,10 +95,10 @@
       <%= render_flash_messages %>
 
       <!-- Action menu -->
-      <% if @content_for_action_menu_main %>
+      <% if content_for?(:action_menu_main) %>
         <ul class="action_menu_main">
           <%= yield :action_menu_main %>
-          <% if @content_for_action_menu_more %>
+          <% if content_for?(:action_menu_more) %>
             <li class="drop-down">
               <a href="javascript:" class="icon icon-more"><%= l(:more_actions) %></a>
               <ul class="action_menu_more" style="display:none;">
