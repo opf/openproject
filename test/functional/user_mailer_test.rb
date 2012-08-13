@@ -239,4 +239,10 @@ class UserMailerTest < ActionMailer::TestCase
     message = Message.find(:first)
     assert UserMailer.message_posted(user, message).deliver
   end
+
+  def test_document_added
+    user     = FactoryGirl.create(:user)
+    document = Document.find(1)
+    assert UserMailer.document_added(user, document).deliver
+  end
 end

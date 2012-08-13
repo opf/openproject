@@ -217,6 +217,23 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def document_added(user, document)
+    @document = document
+
+    headers["X-OpenProject-Project"] = @document.project.identifier
+    headers["X-OpenProject-Type"] = "Document"
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)
