@@ -139,6 +139,8 @@ class UserMailer < ActionMailer::Base
     #message_id comment
     to = user.mail
 
+    locale = user.language.presence || I18n.default_locale
+
     I18n.with_locale(locale) do
       subject = "Re: [#{@news.project.name}] #{t(:label_news)}: #{@news.title}"
 
@@ -155,6 +157,8 @@ class UserMailer < ActionMailer::Base
 
     # message_id wiki_content
     to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
 
     I18n.with_locale(locale) do
       subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
@@ -177,6 +181,8 @@ class UserMailer < ActionMailer::Base
 
     #message_id wiki_content
     to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
 
     I18n.with_locale(locale) do
       subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
