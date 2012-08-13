@@ -30,6 +30,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
     :attachments,
     :workflows,
     :custom_fields,
+    :custom_field_translations,
     :custom_values,
     :custom_fields_projects,
     :custom_fields_trackers,
@@ -84,7 +85,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     context "with nometa header" do
       should "not contain metadata" do
-        get '/issues.xml', {}, {'X-ChiliProject-Nometa' => '1'}
+        get '/issues.xml', {}, {'X-OpenProject-Nometa' => '1'}
 
         assert_tag :tag => 'issues',
           :attributes => {
@@ -257,7 +258,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "create an issue with the attributes" do
       assert_difference('Issue.count') do
-        post '/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, :authorization => credentials('jsmith')
+        post '/issues.xml', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
       issue = Issue.first(:order => 'id DESC')
@@ -280,7 +281,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "have an errors tag" do
       assert_no_difference('Issue.count') do
-        post '/issues.xml', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
+        post '/issues.xml', {:issue => {:project_id => 1}}, credentials('jsmith')
       end
 
       assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
@@ -295,7 +296,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "create an issue with the attributes" do
       assert_difference('Issue.count') do
-        post '/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, :authorization => credentials('jsmith')
+        post '/issues.json', {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}}, credentials('jsmith')
       end
 
       issue = Issue.first(:order => 'id DESC')
@@ -315,11 +316,11 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "have an errors element" do
       assert_no_difference('Issue.count') do
-        post '/issues.json', {:issue => {:project_id => 1}}, :authorization => credentials('jsmith')
+        post '/issues.json', {:issue => {:project_id => 1}}, credentials('jsmith')
       end
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert json['errors'].include?(['subject', "can't be blank"])
+      assert_equal json['errors'], { "subject" => ["can't be blank"] }
     end
   end
 
@@ -327,7 +328,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "PUT /issues/6.xml" do
     setup do
       @parameters = {:issue => {:subject => 'API update', :notes => 'A new note'}}
-      @headers = { :authorization => credentials('jsmith') }
+      @headers = credentials('jsmith')
     end
 
     should_allow_api_authentication(:put,
@@ -366,7 +367,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "PUT /issues/3.xml with custom fields" do
     setup do
       @parameters = {:issue => {:custom_fields => [{'id' => '1', 'value' => 'PostgreSQL' }, {'id' => '2', 'value' => '150'}]}}
-      @headers = { :authorization => credentials('jsmith') }
+      @headers = credentials('jsmith')
     end
 
     should "update custom fields" do
@@ -383,7 +384,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "PUT /issues/6.xml with failed update" do
     setup do
       @parameters = {:issue => {:subject => ''}}
-      @headers = { :authorization => credentials('jsmith') }
+      @headers = credentials('jsmith')
     end
 
     should_allow_api_authentication(:put,
@@ -413,7 +414,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "PUT /issues/6.json" do
     setup do
       @parameters = {:issue => {:subject => 'API update', :notes => 'A new note'}}
-      @headers = { :authorization => credentials('jsmith') }
+      @headers = credentials('jsmith')
     end
 
     should_allow_api_authentication(:put,
@@ -452,7 +453,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
   context "PUT /issues/6.json with failed update" do
     setup do
       @parameters = {:issue => {:subject => ''}}
-      @headers = { :authorization => credentials('jsmith') }
+      @headers = credentials('jsmith')
     end
 
     should_allow_api_authentication(:put,
@@ -476,7 +477,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
       put '/issues/6.json', @parameters, @headers
 
       json = ActiveSupport::JSON.decode(response.body)
-      assert json['errors'].include?(['subject', "can't be blank"])
+      assert_equal json['errors'], { "subject" => ["can't be blank"] }
     end
   end
 
@@ -488,7 +489,7 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "delete the issue" do
       assert_difference('Issue.count',-1) do
-        delete '/issues/6.xml', {}, :authorization => credentials('jsmith')
+        delete '/issues/6.xml', {}, credentials('jsmith')
       end
 
       assert_nil Issue.find_by_id(6)
@@ -503,14 +504,10 @@ class ApiTest::IssuesTest < ActionController::IntegrationTest
 
     should "delete the issue" do
       assert_difference('Issue.count',-1) do
-        delete '/issues/6.json', {}, :authorization => credentials('jsmith')
+        delete '/issues/6.json', {}, credentials('jsmith')
       end
 
       assert_nil Issue.find_by_id(6)
     end
-  end
-
-  def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
   end
 end

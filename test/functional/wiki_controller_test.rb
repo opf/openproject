@@ -395,9 +395,9 @@ class WikiControllerTest < ActionController::TestCase
         get :export, :project_id => 'ecookbook'
       end
 
-      should_respond_with :success
-      should_assign_to :pages
-      should_respond_with_content_type "text/html"
+      should respond_with :success
+      should assign_to :pages
+      should respond_with_content_type "text/html"
       should "export all of the wiki pages to a single html file" do
         assert_select "a[name=?]", "CookBook_documentation"
         assert_select "a[name=?]", "Another_page"
@@ -410,8 +410,8 @@ class WikiControllerTest < ActionController::TestCase
       setup do
         get :export, :project_id => 'ecookbook'
 
-        should_respond_with :redirect
-        should_redirect_to('wiki index') { {:action => 'show', :project_id => @project, :id => nil} }
+        should respond_with :redirect
+        should redirect_to('wiki index') { {:action => 'show', :project_id => @project, :id => nil} }
       end
     end
   end
@@ -421,10 +421,10 @@ class WikiControllerTest < ActionController::TestCase
       get :date_index, :project_id => 'ecookbook'
     end
 
-    should_respond_with :success
-    should_assign_to :pages
-    should_assign_to :pages_by_date
-    should_render_template 'wiki/date_index'
+    should respond_with :success
+    should assign_to :pages
+    should assign_to :pages_by_date
+    should render_template 'wiki/date_index'
 
     should "include atom link" do
       assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}

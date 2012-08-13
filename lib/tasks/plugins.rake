@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'source_annotation_extractor'
+#require 'source_annotation_extractor'
 
 # Modified version of the SourceAnnotationExtractor in railties
 # Will search for runable code that uses <tt>call_hook</tt>
@@ -47,6 +47,72 @@ namespace :redmine do
     desc "Enumerate all Redmine plugin hooks and their context parameters"
     task :hook_list do
       PluginSourceAnnotationExtractor.enumerate 'call_hook'
+    end
+
+    desc 'Migrates installed plugins.'
+    task :migrate => :environment do
+      name = ENV['NAME']
+      version = nil
+      version_string = ENV['VERSION']
+      if version_string
+        if version_string =~ /^\d+$/
+          version = version_string.to_i
+          if name.nil?
+            abort "The VERSION argument requires a plugin NAME."
+          end
+        else
+          abort "Invalid VERSION #{version_string} given."
+        end
+      end
+
+      begin
+        Redmine::Plugin.migrate(name, version)
+      rescue Redmine::PluginNotFound
+        abort "Plugin #{name} was not found."
+      end
+
+      Rake::Task["db:schema:dump"].invoke
+    end
+
+    desc 'Copies plugins assets into the public directory.'
+    task :assets => :environment do
+      name = ENV['NAME']
+
+      begin
+        Redmine::Plugin.mirror_assets(name)
+      rescue Redmine::PluginNotFound
+        abort "Plugin #{name} was not found."
+      end
+    end
+
+    desc 'Runs the plugins tests.'
+    task :test do
+      Rake::Task["redmine:plugins:test:units"].invoke
+      Rake::Task["redmine:plugins:test:functionals"].invoke
+      Rake::Task["redmine:plugins:test:integration"].invoke
+    end
+
+    namespace :test do
+      desc 'Runs the plugins unit tests.'
+      Rake::TestTask.new :units => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+      end
+
+      desc 'Runs the plugins functional tests.'
+      Rake::TestTask.new :functionals => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+      end
+
+      desc 'Runs the plugins integration tests.'
+      Rake::TestTask.new :integration => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+      end
     end
   end
 end

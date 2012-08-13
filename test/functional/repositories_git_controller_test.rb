@@ -34,6 +34,13 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                       :url     => REPOSITORY_PATH,
                       :path_encoding => 'ISO-8859-1'
                       )
+
+    # see repositories_subversion_controller_test.rb
+    def @repository.reload
+      ActiveRecord::Base.connection.clear_query_cache
+      self.class.find(self.id)
+    end
+
     assert @repository
   end
 

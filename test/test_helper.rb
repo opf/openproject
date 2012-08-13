@@ -13,13 +13,24 @@
 #++
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
+
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
 require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
+
+
+class ActionDispatch::IntegrationTest
+  include Shoulda::Matchers::ActionController
+  extend Shoulda::Matchers::ActionController
+
+  def subject
+    @controller
+  end
+end
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -43,6 +54,9 @@ class ActiveSupport::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  # included in order to use #fixture_file_upload
+  include ActionDispatch::TestProcess
+
   # Add more helper methods to be used by all tests here...
   def setup
     super
@@ -60,7 +74,8 @@ class ActiveSupport::TestCase
   end
 
   def uploaded_test_file(name, mime)
-    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
+    # Shortcut for ActionController::TestUploadedFile.new(ActionController::TestCase.fixture_path + path, type):
+    fixture_file_upload("/files/#{name}", mime, true)
   end
 
   # Mock out a file
@@ -75,6 +90,23 @@ class ActiveSupport::TestCase
 
   def mock_file
     self.class.mock_file
+  end
+
+  def save_and_open_page
+    body = @response.body
+
+    body.gsub!('/javascripts', Rails.root.join('public/javascript').to_s)
+    body.gsub!('/stylesheets', Rails.root.join('public/stylesheets').to_s)
+
+    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
+
+    page_path = Rails.root.join("tmp/pages/#{ActiveSupport::SecureRandom.hex(16)}.html").to_s
+    File.open(page_path, 'w') { |f| f.write(body) }
+
+    Launchy.open(page_path)
+    debugger
+
+    FileUtils.rm(page_path)
   end
 
   # Use a temporary directory for attachment related tests
@@ -129,8 +161,8 @@ class ActiveSupport::TestCase
 
   # Shoulda macros
   def self.should_render_404
-    should_respond_with :not_found
-    should_render_template 'common/error'
+    should respond_with :not_found
+    should render_template 'common/error'
   end
 
   def self.should_have_before_filter(expected_method, options = {})
@@ -191,6 +223,11 @@ class ActiveSupport::TestCase
     end
   end
 
+  def credentials(login, password = nil)
+    { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password || login) }
+  end
+
+
   # Test that a request allows the three types of API authentication
   #
   # * HTTP Basic with username and password
@@ -225,11 +262,11 @@ class ActiveSupport::TestCase
       context "with a valid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@user.login, 'my_password'))
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
@@ -239,11 +276,11 @@ class ActiveSupport::TestCase
       context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -252,13 +289,21 @@ class ActiveSupport::TestCase
 
       context "without credentials" do
         setup do
-          send(http_method, url, parameters, {:authorization => ''})
+          send(http_method, url, parameters)
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "include_www_authenticate_header" do
-          assert @controller.response.headers.has_key?('WWW-Authenticate')
+          # the 3.0.9 implementation of head leads to Www as the method capitalizes each
+          # word split by a hyphen.
+          # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
+          # remove this switch once on 3.1.0
+          if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
+            assert @controller.response.headers.has_key?('Www-Authenticate')
+          else
+            assert @controller.response.headers.has_key?('WWW-Authenticate')
+          end
         end
       end
     end
@@ -282,11 +327,11 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -298,11 +343,11 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'feeds')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -337,7 +382,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -358,7 +403,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -366,14 +411,14 @@ class ActiveSupport::TestCase
       end
     end
 
-    context "should allow key based auth using X-ChiliProject-API-Key header for #{http_method} #{url}" do
+    context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
       setup do
         @user = User.generate_with_protected!(:admin => true)
         @token = Token.generate!(:user => @user, :action => 'api')
-        send(http_method, url, parameters, {'X-ChiliProject-API-Key' => @token.value.to_s})
+        send(http_method, url, parameters, {'X-OpenProject-API-Key' => @token.value.to_s})
       end
 
-      should_respond_with success_code
+      should respond_with success_code
       should_respond_with_content_type_based_on_url(url)
       should_be_a_valid_response_string_based_on_url(url)
       should "login as the user" do
@@ -382,18 +427,18 @@ class ActiveSupport::TestCase
     end
   end
 
-  # Uses should_respond_with_content_type based on what's in the url:
+  # Uses should respond_with_content_type based on what's in the url:
   #
-  # '/project/issues.xml' => should_respond_with_content_type :xml
-  # '/project/issues.json' => should_respond_with_content_type :json
+  # '/project/issues.xml' => should respond_with_content_type :xml
+  # '/project/issues.json' => should respond_with_content_type :json
   #
   # @param [String] url Request
   def self.should_respond_with_content_type_based_on_url(url)
     case
     when url.match(/xml/i)
-      should_respond_with_content_type :xml
+      should respond_with_content_type :xml
     when url.match(/json/i)
-      should_respond_with_content_type :json
+      should respond_with_content_type :json
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
     end

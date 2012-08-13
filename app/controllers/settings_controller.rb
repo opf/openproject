@@ -38,8 +38,7 @@ class SettingsController < ApplicationController
       @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
       @deliveries = ActionMailer::Base.perform_deliveries
 
-      @guessed_host_and_path = request.host_with_port.dup
-      @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+      @guessed_host_and_path = request.host_with_port.dup + Redmine::Utils.relative_url_root.to_s
 
       Redmine::Themes.rescan
     end

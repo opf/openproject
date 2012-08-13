@@ -78,10 +78,10 @@ class Project < ActiveRecord::Base
 
   before_destroy :delete_all_members
 
-  named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  named_scope :all_public, { :conditions => { :is_public => true } }
-  named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
+  scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
+  scope :all_public, { :conditions => { :is_public => true } }
+  scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
   def initialize(attributes = nil)
     super
@@ -809,7 +809,7 @@ class Project < ActiveRecord::Base
   # Copies queries from +project+
   def copy_queries(project)
     project.queries.each do |query|
-      new_query = Query.new
+      new_query = ::Query.new
       new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self

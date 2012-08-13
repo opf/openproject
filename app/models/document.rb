@@ -25,14 +25,14 @@ class Document < ActiveRecord::Base
       end)
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
-  
+
   attr_protected :project_id
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
 
-  named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Project.allowed_to_condition(args.first || User.current, :view_documents) } }
+  scope :visible, lambda {|*args| { :include => :project,
+                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_documents) } }
 
   safe_attributes 'category_id', 'title', 'description'
 
@@ -48,7 +48,10 @@ class Document < ActiveRecord::Base
 
   def updated_on
     unless @updated_on
-      a = attachments.find(:first, :order => 'created_on DESC')
+      # attachments has a default order that conflicts with `created_on DESC`
+      # #reorder removes that default order but rather than #unscoped keeps the
+      # scoping by this document
+      a = attachments.reorder(nil).order('created_on DESC').first
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on

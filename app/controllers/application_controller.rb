@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
 
   layout 'base'
-  exempt_from_layout 'builder', 'rsb'
 
   protect_from_forgery
   def handle_unverified_request
@@ -62,7 +61,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :user_setup, :check_if_login_required, :reset_i18n_fallbacks, :set_localization
-  filter_parameter_logging :password
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -157,9 +155,9 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="ChiliProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="ChiliProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="ChiliProject API"' }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
       return false
     end
@@ -379,7 +377,7 @@ class ApplicationController < ActionController::Base
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
+    render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
   end
 
   def self.accept_key_auth(*actions)
@@ -464,8 +462,8 @@ class ApplicationController < ActionController::Base
   def api_key_from_request
     if params[:key].present?
       params[:key]
-    elsif request.headers["X-ChiliProject-API-Key"].present?
-      request.headers["X-ChiliProject-API-Key"]
+    elsif request.headers["X-OpenProject-API-Key"].present?
+      request.headers["X-OpenProject-API-Key"]
     end
   end
 

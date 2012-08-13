@@ -123,8 +123,4 @@ class ApiTest::TimeEntriesTest < ActionController::IntegrationTest
       assert_nil TimeEntry.find_by_id(2)
     end
   end
-
-  def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
-  end
 end

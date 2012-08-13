@@ -21,7 +21,7 @@ class Repository::Darcs < Repository
       "url"          => "Root directory",
       "log_encoding" => "Commit messages encoding",
     }
-  def self.human_attribute_name(attribute_key_name)
+  def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
 

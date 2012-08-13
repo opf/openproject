@@ -14,7 +14,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_values, :users
+  fixtures :custom_fields, :custom_field_translations,
+           :custom_values, :users
 
   def test_string_field_validation_with_blank_value
     f = CustomField.new(:field_format => 'string')

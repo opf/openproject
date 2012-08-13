@@ -39,6 +39,13 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
                                           :root_url     => REPOSITORY_PATH,
                                           :url          => MODULE_NAME,
                                           :log_encoding => 'UTF-8')
+
+    # see repositories_subversion_controller_test.rb
+    def @repository.reload
+      ActiveRecord::Base.connection.clear_query_cache
+      self.class.find(self.id)
+    end
+
     assert @repository
   end
 

@@ -1,2 +1,2 @@
-class Query::StatementInvalid < ActiveRecord::StatementInvalid
+class ::Query::StatementInvalid < ActiveRecord::StatementInvalid
 end

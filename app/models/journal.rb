@@ -33,7 +33,7 @@ class Journal < ActiveRecord::Base
   belongs_to :user
 
   #attr_protected :user_id
-  
+
   # "touch" the journaled object on creation
   after_create :touch_journaled_after_creation
 
@@ -46,7 +46,7 @@ class Journal < ActiveRecord::Base
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
-  named_scope "changing", :conditions => ["version > 1"]
+  scope "changing", :conditions => ["version > 1"]
 
   def touch_journaled_after_creation
     journaled.touch

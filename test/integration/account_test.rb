@@ -19,7 +19,7 @@ rescue
   # Won't run some tests
 end
 
-class AccountTest < ActionController::IntegrationTest
+class AccountTest < ActionDispatch::IntegrationTest
   fixtures :users, :roles
 
   # Replace this with your real tests.
@@ -37,7 +37,7 @@ class AccountTest < ActionController::IntegrationTest
     target_url =  "/my/account?q=%C3%A4"
 
     get target_url
-    post "/login", :username => 'jsmith', :password => 'jsmith', :back_url => @response.redirected_to[:back_url]
+    post @response.redirected_to, :username => 'jsmith', :password => 'jsmith'
 
     assert_redirected_to target_url
   end
@@ -71,7 +71,7 @@ class AccountTest < ActionController::IntegrationTest
     assert_template 'my/page'
     assert_equal user.id, session[:user_id]
     assert_not_nil user.reload.last_login_on
-    assert user.last_login_on.utc > 10.second.ago.utc
+    assert user.last_login_on.utc > 20.second.ago.utc
   end
 
   def test_lost_password
@@ -208,24 +208,6 @@ class AccountTest < ActionController::IntegrationTest
     assert user.is_a?(User)
     assert_equal 66, user.auth_source_id
     assert user.hashed_password.blank?
-  end
-
-  def test_login_and_logout_should_clear_session
-    get '/login'
-    sid = session[:session_id]
-
-    post '/login', :username => 'admin', :password => 'admin'
-    assert_redirected_to '/my/page'
-    assert_not_equal sid, session[:session_id], "login should reset session"
-    assert_equal 1, session[:user_id]
-    sid = session[:session_id]
-
-    get '/'
-    assert_equal sid, session[:session_id]
-
-    get '/logout'
-    assert_not_equal sid, session[:session_id], "logout should reset session"
-    assert_nil session[:user_id]
   end
 
   else

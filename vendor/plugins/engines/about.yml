@@ -1,7 +1,0 @@
-author: James Adam
-email: james.adam@gmail.com
-homepage: http://www.rails-engines.org
-summary: Enhances the plugin mechanism to perform more flexible sharing
-description: The Rails Engines plugin allows the sharing of almost any type of code or asset that you could use in a Rails application, including controllers, models, stylesheets, and views.
-license: MIT
-version: 2.3.2

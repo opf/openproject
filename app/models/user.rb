@@ -58,8 +58,8 @@ class User < Principal
   belongs_to :auth_source
 
   # Active non-anonymous users scope
-  named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
-  named_scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
+  scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
+  scope :active_or_registered, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE} or #{User.table_name}.status = #{STATUS_REGISTERED}"
 
   acts_as_customizable
 
@@ -72,15 +72,15 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        :if => Proc.new { |user| !(user.is_a?(AnonymousUser) || user.is_a?(DeletedUser)) }
+                        :unless => Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) }
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
-  validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
+  validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
   validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_length_of :firstname, :lastname, :maximum => 30
-  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
+  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
@@ -88,11 +88,11 @@ class User < Principal
   before_destroy :delete_associated_public_queries
   before_destroy :reassign_associated
 
-  named_scope :in_group, lambda {|group|
+  scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     { :conditions => ["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
-  named_scope :not_in_group, lambda {|group|
+  scope :not_in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     { :conditions => ["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id] }
   }
@@ -418,7 +418,7 @@ class User < Principal
 
   # Return true if the user is a member of project
   def member_of?(project)
-    !roles_for_project(project).detect {|role| role.member?}.nil?
+    roles_for_project(project).any?(&:member?)
   end
 
   # Returns a hash of user's projects grouped by roles
@@ -641,7 +641,7 @@ class User < Principal
       klass.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
     end
 
-    [TimeEntry, Journal, Query].each do |klass|
+    [TimeEntry, Journal, ::Query].each do |klass|
       klass.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
     end
 
@@ -671,7 +671,7 @@ class User < Principal
   end
 
   def delete_associated_public_queries
-    Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 end
 

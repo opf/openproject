@@ -23,7 +23,7 @@ module TimelogHelper
       if @issue.visible?
         links << link_to_issue(@issue, :subject => false)
       else
-        links << "##{@issue.id}"
+        links << "##{@issue.id}".html_safe
       end
     end
     breadcrumb links

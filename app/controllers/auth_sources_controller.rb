@@ -17,10 +17,6 @@ class AuthSourcesController < ApplicationController
 
   before_filter :require_admin
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :template => :index }
-
   def index
     @auth_source_pages, @auth_sources = paginate auth_source_class.name.tableize, :per_page => 10
     render "auth_sources/index"

@@ -38,7 +38,7 @@ class SysController < ActionController::Base
   def fetch_changesets
     projects = []
     if params[:id]
-      projects << Project.active.has_module(:repository).find(params[:id])
+      projects << Project.active.has_module(:repository).find_by_identifier!(params[:id])
     else
       projects = Project.active.has_module(:repository).find(:all, :include => :repository)
     end

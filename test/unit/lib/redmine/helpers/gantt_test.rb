@@ -29,7 +29,7 @@ class Redmine::Helpers::GanttTest < ActiveSupport::TestCase
 
   end
 
-  include ActionController::Assertions::SelectorAssertions
+  include ActionDispatch::Assertions::SelectorAssertions
 
   def setup
     @response = ActionController::TestResponse.new

@@ -15,7 +15,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryReportsControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses, :custom_fields, :custom_values
+  fixtures :projects, :enabled_modules, :roles,
+           :members, :member_roles, :issues,
+           :time_entries, :users, :trackers,
+           :enumerations, :issue_statuses,
+           :custom_fields, :custom_field_translations,
+           :custom_values
 
   def test_report_at_project_level
     get :report, :project_id => 'ecookbook'
@@ -131,7 +136,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   def test_report_all_projects_csv_export
     get :report, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_match(/text\/csv/, @response.content_type)
     lines = @response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first
@@ -142,7 +147,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   def test_report_csv_export
     get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_match(/text\/csv/, @response.content_type)
     lines = @response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,Member,Activity,2007-1,2007-2,2007-3,2007-4,2007-5,2007-6,Total', lines.first

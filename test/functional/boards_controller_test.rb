@@ -69,7 +69,7 @@ class BoardsControllerTest < ActionController::TestCase
   def test_show_atom
     get :show, :project_id => 1, :id => 1, :format => 'atom'
     assert_response :success
-    assert_template 'common/feed.atom'
+    assert_template 'common/feed'
     assert_not_nil assigns(:board)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:messages)

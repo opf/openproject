@@ -14,7 +14,7 @@
 
 class IssuesController < ApplicationController
   EXPORT_FORMATS = %w[atom rss api xls csv pdf]
-  
+
   menu_item :new_issue, :only => [:new, :create]
   menu_item :view_all_issues, :only => [:all]
   default_search_scope :issues
@@ -24,8 +24,8 @@ class IssuesController < ApplicationController
   before_filter :check_project_uniqueness, :only => [:move, :perform_move]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index, :all]
-  before_filter :protect_from_unauthorized_export, :only => [:index, :all]
   before_filter :find_optional_project, :only => [:index, :all]
+  before_filter :protect_from_unauthorized_export, :only => [:index, :all]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   before_filter :retrieve_query, :only => [:index, :all]
@@ -80,7 +80,7 @@ class IssuesController < ApplicationController
       @issue_count_by_group = @query.issue_count_by_group
 
       respond_to do |format|
-        format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
+        format.html { render :template => 'issues/index', :layout => !request.xhr? }
         format.api
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
@@ -88,7 +88,7 @@ class IssuesController < ApplicationController
       end
     else
       # Send html if the query is not valid
-      render(:template => 'issues/index.rhtml', :layout => !request.xhr?)
+      render(:template => 'issues/index', :layout => !request.xhr?)
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -111,7 +111,7 @@ class IssuesController < ApplicationController
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     respond_to do |format|
-      format.html { render :template => 'issues/show.rhtml' }
+      format.html { render :template => 'issues/show' }
       format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
@@ -323,12 +323,12 @@ private
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
     attributes
   end
-  
+
   def protect_from_unauthorized_export
     return true unless EXPORT_FORMATS.include? params[:format]
-    
-    find_optional_project
-    return true if User.current.allowed_to? :export_issues, @project
+
+    find_optional_project if @project.nil?
+    return true if User.current.allowed_to? :export_issues, @project, :global => @project.nil?
 
     # otherwise deny access
     params[:format] = 'html'

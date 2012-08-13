@@ -61,7 +61,7 @@ class Issue < ActiveRecord::Base
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
-  attr_protected :project_id, :author_id
+  attr_protected :project_id, :author_id, :lft, :rgt
 
   validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 
@@ -69,25 +69,25 @@ class Issue < ActiveRecord::Base
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
 
-  named_scope :visible, lambda {|*args| { :include => :project,
-                                          :conditions => Issue.visible_condition(args.first || User.current) } }
+  scope :visible, lambda {|*args| { :include => :project,
+                                    :conditions => Issue.visible_condition(args.first || User.current) } }
 
-  named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
+  scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  named_scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
-  named_scope :with_limit, lambda { |limit| { :limit => limit} }
-  named_scope :on_active_project, :include => [:status, :project, :tracker],
-                                  :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
+  scope :recently_updated, :order => "#{Issue.table_name}.updated_on DESC"
+  scope :with_limit, lambda { |limit| { :limit => limit} }
+  scope :on_active_project, :include => [:status, :project, :tracker],
+                            :conditions => ["#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"]
 
-  named_scope :without_version, lambda {
+  scope :without_version, lambda {
     {
       :conditions => { :fixed_version_id => nil}
     }
   }
 
-  named_scope :with_query, lambda {|query|
+  scope :with_query, lambda {|query|
     {
-      :conditions => Query.merge_conditions(query.statement)
+      :conditions => ::Query.merge_conditions(query.statement)
     }
   }
 
@@ -156,6 +156,11 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
       end
       issue.project = new_project
+
+      if !Setting.cross_project_issue_relations? &&
+         parent && parent.project_id != project_id
+        self.parent_issue_id = nil
+      end
     end
     if new_tracker
       issue.tracker = new_tracker
@@ -340,7 +345,9 @@ class Issue < ActiveRecord::Base
 
     # Checks parent issue assignment
     if @parent_issue
-      if !new_record?
+      if !Setting.cross_project_issue_relations? && @parent_issue.project_id != self.project_id
+        errors.add :parent_issue_id, :not_a_valid_parent
+      elsif !new_record?
         # moving an existing issue
         if @parent_issue.root_id != root_id
           # we can always move to another tree

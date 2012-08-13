@@ -266,7 +266,10 @@ private
   def add_current_user_to_project_if_not_admin(project)
     unless User.current.admin?
       r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-      m = Member.new(:user => User.current, :roles => [r])
+      m = Member.new do |member|
+        member.user = User.current
+        member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
+      end
       project.members << m
     end
   end

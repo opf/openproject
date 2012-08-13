@@ -65,8 +65,10 @@ class LayoutTest < ActionController::IntegrationTest
     with_settings :app_title => '<3' do
       get "/projects/#{project.to_param}"
 
-      assert_select "title", /C&amp;A/
-      assert_select "title", /&lt;3/
+      html_node = HTML::Document.new(@response.body)
+
+      assert_select html_node.root, "title", /C&amp;A/
+      assert_select html_node.root, "title", /&lt;3/
     end
   end
 end

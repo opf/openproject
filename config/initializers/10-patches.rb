@@ -14,13 +14,13 @@
 
 
 require 'active_record'
-
+ActiveSupport::Deprecation.silenced = true
 module ActiveRecord
   class Base
     include Redmine::I18n
 
     # Translate attribute names for validation errors display
-    def self.human_attribute_name(attr)
+    def self.human_attribute_name(attr, options = {})
       l("field_#{attr.to_s.gsub(/_id$/, '')}")
     end
   end
@@ -69,7 +69,7 @@ module ActionView
         def wrap_with_error_span(html_tag, object, method)
           object_identifier = erroneous_object_identifier(object.object_id.to_s, method)
 
-          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>".html_safe
         end
 
         def erroneous_object_identifier(id, method)
@@ -206,17 +206,35 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-class ActiveRecord::Errors
-  def on_with_id_handling(attribute)
-    attribute = attribute.to_s
-    if attribute.ends_with? '_id'
-      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    else
-      on_without_id_handling(attribute)
+module ActiveRecord
+  class Base
+    # active record 2.3 backport, was removed in 3.0, only used in Query
+    def self.merge_conditions(*conditions)
+      segments = []
+
+      conditions.each do |condition|
+        unless condition.blank?
+          sql = sanitize_sql(condition)
+          segments << sql unless sql.blank?
+        end
+      end
+
+      "(#{segments.join(') AND (')})" unless segments.empty?
     end
   end
 
-  alias_method_chain :on, :id_handling
+  class Errors
+  #  def on_with_id_handling(attribute)
+  #    attribute = attribute.to_s
+  #    if attribute.ends_with? '_id'
+  #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+  #    else
+  #      on_without_id_handling(attribute)
+  #    end
+  #  end
+
+  #  alias_method_chain :on, :id_handling
+  end
 end
 
 # Adds :async_smtp and :async_sendmail delivery methods
@@ -235,20 +253,63 @@ ActionMailer::Base.send :include, AsynchronousMailer
 
 # TMail::Unquoter.convert_to_with_fallback_on_iso_8859_1 introduced in TMail 1.2.7
 # triggers a test failure in test_add_issue_with_japanese_keywords(MailHandlerTest)
-module TMail
-  class Unquoter
-    class << self
-      alias_method :convert_to, :convert_to_without_fallback_on_iso_8859_1
-    end
-  end
-end
+# module TMail
+#  class Unquoter
+#    class << self
+#      alias_method :convert_to, :convert_to_without_fallback_on_iso_8859_1
+#    end
+#  end
+# end
 
-module ActionController
-  module MimeResponds
-    class Responder
-      def api(&block)
-        any(:xml, :json, &block)
+module CollectiveIdea
+  module Acts
+    module NestedSet
+      module Model
+        def destroy_descendants_with_reload
+          destroy_descendants_without_reload
+          # Reload is needed because children may have updated their parent (self) during deletion.
+          # fixes stale object error in issue_nested_set_test
+          reload
+        end
+        alias_method_chain :destroy_descendants, :reload
+
+        module ClassMethods
+          # Rebuilds the left & rights if unset or invalid.
+          # Also very useful for converting from acts_as_tree.
+          def rebuild!(validate_nodes = true)
+            # Don't rebuild a valid tree.
+            return true if valid?
+
+            scope = lambda{|node|}
+            if acts_as_nested_set_options[:scope]
+              scope = lambda{|node|
+                scope_column_names.inject(""){|str, column_name|
+                  str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
+                }
+              }
+            end
+            indices = {}
+
+            set_left_and_rights = lambda do |node|
+              # set left
+              node[left_column_name] = indices[scope.call(node)] += 1
+              # find
+              where(["#{quoted_parent_column_name} = ? #{scope.call(node)}", node]).order("#{quoted_left_column_name}, #{quoted_right_column_name}, #{acts_as_nested_set_options[:order] || 'id'}").each{|n| set_left_and_rights.call(n) }
+              # set right
+              node[right_column_name] = indices[scope.call(node)] += 1
+              node.save!(:validate => validate_nodes)
+            end
+
+            # Find root node(s)
+            root_nodes = where("#{quoted_parent_column_name} IS NULL").order("#{quoted_left_column_name}, #{quoted_right_column_name}, #{acts_as_nested_set_options[:order] || 'id'}").each do |root_node|
+              # setup index for this scope
+              indices[scope.call(root_node)] ||= 0
+              set_left_and_rights.call(root_node)
+            end
+          end
+        end
       end
     end
   end
 end
+

@@ -34,6 +34,7 @@ class IssuesControllerTest < ActionController::TestCase
            :attachments,
            :workflows,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers,
@@ -53,7 +54,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :index
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
     assert_tag :tag => 'a', :content => /Can't print recipes/
@@ -69,7 +70,7 @@ class IssuesControllerTest < ActionController::TestCase
     EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
     get :index
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
     assert_no_tag :tag => 'a', :content => /Can't print recipes/
@@ -80,7 +81,7 @@ class IssuesControllerTest < ActionController::TestCase
     EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
     get :index
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
     assert_no_tag :tag => 'a', :content => /Can't print recipes/
@@ -91,7 +92,7 @@ class IssuesControllerTest < ActionController::TestCase
     Setting.display_subprojects_issues = 0
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_tag :tag => 'a', :content => /Can't print recipes/
     assert_no_tag :tag => 'a', :content => /Subproject issue/
@@ -101,7 +102,7 @@ class IssuesControllerTest < ActionController::TestCase
     Setting.display_subprojects_issues = 1
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_tag :tag => 'a', :content => /Can't print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
@@ -113,7 +114,7 @@ class IssuesControllerTest < ActionController::TestCase
     Setting.display_subprojects_issues = 1
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_tag :tag => 'a', :content => /Can't print recipes/
     assert_tag :tag => 'a', :content => /Subproject issue/
@@ -123,7 +124,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_project_and_default_filter
     get :index, :project_id => 1, :set_filter => 1
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template ''
     assert_not_nil assigns(:issues)
 
     query = assigns(:query)
@@ -138,7 +139,7 @@ class IssuesControllerTest < ActionController::TestCase
       :op => {'tracker_id' => '='},
       :v => {'tracker_id' => ['1']}
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
 
     query = assigns(:query)
@@ -149,7 +150,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_project_and_empty_filters
     get :index, :project_id => 1, :set_filter => 1, :fields => ['']
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
 
     query = assigns(:query)
@@ -161,7 +162,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_query
     get :index, :project_id => 1, :query_id => 5
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_nil assigns(:issue_count_by_group)
   end
@@ -169,7 +170,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_query_grouped_by_tracker
     get :index, :project_id => 1, :query_id => 6
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_not_nil assigns(:issue_count_by_group)
   end
@@ -177,7 +178,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_query_grouped_by_list_custom_field
     get :index, :project_id => 1, :query_id => 9
     assert_response :success
-    assert_template 'index.rhtml'
+    assert_template 'index'
     assert_not_nil assigns(:issues)
     assert_not_nil assigns(:issue_count_by_group)
   end
@@ -189,6 +190,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_csv_with_project
     Setting.default_language = 'en'
+    Role.anonymous.add_permission!(:export_issues)
 
     get :index, :format => 'csv'
     assert_response :success
@@ -203,6 +205,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_pdf
+    Role.anonymous.add_permission!(:export_issues)
+
     get :index, :format => 'pdf'
     assert_response :success
     assert_not_nil assigns(:issues)
@@ -220,6 +224,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_pdf_with_query_grouped_by_list_custom_field
+    Role.anonymous.add_permission!(:export_issues)
+
     get :index, :project_id => 1, :query_id => 9, :format => 'pdf'
     assert_response :success
     assert_not_nil assigns(:issues)
@@ -260,7 +266,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
-    assert_template 'show.rhtml'
+    assert_template 'show'
     assert_not_nil assigns(:issue)
     assert_equal Issue.find(1), assigns(:issue)
 
@@ -327,11 +333,10 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_atom
-    get :show, :id => 2, :format => 'atom'
+    get :show, :id => 1, :format => 'atom'
     assert_response :success
-    assert_template 'journals/index.rxml'
-    # Inline image
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
+    assert_template 'journals/index'
+    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/issues/2'))
   end
 
   def test_show_export_to_pdf
@@ -566,7 +571,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :custom_field_values => {'2' => 'Value for field 2'}}
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-    
+
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 

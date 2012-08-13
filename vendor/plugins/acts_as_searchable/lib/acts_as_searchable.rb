@@ -103,7 +103,7 @@ module Redmine
             project_conditions = []
             project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
                                                  Project.allowed_to_condition(User.current, searchable_options[:permission]))
-            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.collect(&:id).join(',')})" unless projects.nil?
+            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.collect(&:id).join(',')})" unless projects.nil?
             
             results = []
             results_count = 0

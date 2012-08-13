@@ -718,9 +718,9 @@ module Redmine
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
 
-        output = view.content_tag 'div', subject, :class => options[:css], :style => style, :title => options[:title]
-        @subjects << output
-        output
+        output = view.content_tag 'div', subject.html_safe, :class => options[:css], :style => style, :title => options[:title]
+        @subjects << output.html_safe
+        output.html_safe
       end
 
       def pdf_subject(params, subject, options={})

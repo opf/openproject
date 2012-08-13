@@ -18,6 +18,7 @@ class IssuesTest < ActionController::IntegrationTest
            :users,
            :roles,
            :members,
+           :member_roles,
            :trackers,
            :projects_trackers,
            :enabled_modules,
@@ -25,6 +26,7 @@ class IssuesTest < ActionController::IntegrationTest
            :issues,
            :enumerations,
            :custom_fields,
+           :custom_field_translations,
            :custom_values,
            :custom_fields_trackers
 
@@ -94,6 +96,7 @@ class IssuesTest < ActionController::IntegrationTest
   end
 
   def test_other_formats_links_on_get_index
+    Role.anonymous.add_permission!(:export_issues)
     get '/projects/ecookbook/issues'
 
     %w(Atom PDF CSV).each do |format|
@@ -104,6 +107,7 @@ class IssuesTest < ActionController::IntegrationTest
   end
 
   def test_other_formats_links_on_post_index_without_project_id_in_url
+    Role.anonymous.add_permission!(:export_issues)
     post '/issues', :project_id => 'ecookbook'
 
     %w(Atom PDF CSV).each do |format|

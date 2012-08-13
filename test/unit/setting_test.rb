@@ -16,7 +16,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class SettingTest < ActiveSupport::TestCase
 
   def test_read_default
-    assert_equal "ChiliProject", Setting.app_title
+    assert_equal "OpenProject", Setting.app_title
     assert Setting.self_registration?
     assert !Setting.login_required?
   end

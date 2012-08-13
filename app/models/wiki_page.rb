@@ -39,7 +39,7 @@ class WikiPage < ActiveRecord::Base
   validates_associated :content
 
   # eager load information about last updates, without loading text
-  named_scope :with_updated_on, {
+  scope :with_updated_on, {
     :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
     :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
   }
@@ -156,6 +156,10 @@ class WikiPage < ActiveRecord::Base
     @parent_title = t
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
+  end
+
+  def to_param
+    title
   end
 
   protected

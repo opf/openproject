@@ -22,15 +22,15 @@ class Enumeration < ActiveRecord::Base
   acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
-  
+
   attr_protected :project_id
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
 
-  named_scope :shared, :conditions => { :project_id => nil }
-  named_scope :active, :conditions => { :active => true }
+  scope :shared, :conditions => { :project_id => nil }
+  scope :active, :conditions => { :active => true }
 
   def self.default
     # Creates a fake default scope so Enumeration.default will check
@@ -85,14 +85,6 @@ class Enumeration < ActiveRecord::Base
   end
 
   def to_s; name end
-
-  # Returns the Subclasses of Enumeration.  Each Subclass needs to be
-  # required in development mode.
-  #
-  # Note: subclasses is protected in ActiveRecord
-  def self.get_subclasses
-    @@subclasses[Enumeration]
-  end
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)

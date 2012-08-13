@@ -150,7 +150,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil TimeEntry.find_by_id(1)
 
     # remove the simulation
-    TimeEntry.before_destroy.reject! {|callback| callback.method == :stop_callback_chain }
+    TimeEntry._destroy_callbacks.reject! {|callback| callback.filter == :stop_callback_chain }
   end
 
   def test_index_all_projects
@@ -245,7 +245,7 @@ class TimelogControllerTest < ActionController::TestCase
     Setting.date_format = '%m/%d/%Y'
     get :index, :format => 'csv'
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_match(/text\/csv/, @response.content_type)
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
@@ -254,7 +254,7 @@ class TimelogControllerTest < ActionController::TestCase
     Setting.date_format = '%m/%d/%Y'
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_match(/text\/csv/, @response.content_type)
     assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end

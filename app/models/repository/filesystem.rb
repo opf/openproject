@@ -21,7 +21,7 @@ class Repository::Filesystem < Repository
   ATTRIBUTE_KEY_NAMES = {
       "url"          => "Root directory",
     }
-  def self.human_attribute_name(attribute_key_name)
+  def self.human_attribute_name(attribute_key_name, options = {})
     ATTRIBUTE_KEY_NAMES[attribute_key_name] || super
   end
 

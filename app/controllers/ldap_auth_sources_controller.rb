@@ -18,6 +18,6 @@ class LdapAuthSourcesController < AuthSourcesController
   protected
 
   def auth_source_class
-    AuthSourceLdap
+    LdapAuthSource
   end
 end

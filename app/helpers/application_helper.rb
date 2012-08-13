@@ -64,9 +64,9 @@ module ApplicationHelper
   # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
-      name = h(user.name(options.delete(:format)))
+      name = user.name(options.delete(:format))
       if user.active? || user.registered?
-        link_to(name, {:controller => 'users', :action => 'show', :id => user}, options)
+        link_to(name, user, options)
       else
         name
       end
@@ -176,18 +176,19 @@ module ApplicationHelper
   #   link_to_project(project, {}, :class => "project") # => html options with default url (project overview)
   #
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
+    link = ''
+
     if show_icon && User.current.member_of?(project)
-      icon = image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
-    else
-      icon = ""
+      link << image_tag('fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
     end
 
     if project.active?
-      url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      icon + link_to(h(project), url, html_options)
+      link << link_to(project.name, project_path(project, options), html_options)
     else
-      icon + h(project)
+      link << project.name
     end
+
+    link.html_safe
   end
 
   def toggle_link(name, id, options={})
@@ -242,22 +243,22 @@ module ApplicationHelper
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
         content << "<li>"
-        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title},
+        content << link_to(page.pretty_title, project_wiki_path(page.project, page),
                            :title => (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id, options) if pages[page.id]
         content << "</li>\n"
       end
       content << "</ul>\n"
     end
-    content
+    content.html_safe
   end
 
   # Renders flash messages
   def render_flash_messages
     if User.current.impaired?
-      flash.map { |k,v| content_tag('div', content_tag('a', v, :href => 'javascript:;'), :class => "flash #{k}") }.join
+      flash.map { |k,v| content_tag('div', content_tag('a', v, :href => 'javascript:;'), :class => "flash #{k}") }.join.html_safe
     else
-      flash.map { |k,v| content_tag('div', v, :class => "flash #{k}") }.join
+      flash.map { |k,v| content_tag('div', v, :class => "flash #{k}") }.join.html_safe
     end
   end
 
@@ -281,9 +282,9 @@ module ApplicationHelper
         tag_options[:selected] = nil
       end
       tag_options.merge!(yield(project)) if block_given?
-      s << content_tag('option', name_prefix + h(project), tag_options)
+      s << content_tag('option', name_prefix + project.name, tag_options)
     end
-    s
+    s.html_safe
   end
 
   # Yields the given block for each project with its level in the tree
@@ -314,15 +315,32 @@ module ApplicationHelper
       end
       s << ("</li></ul>\n" * ancestors.size)
     end
-    s
+    s.html_safe
   end
 
   def principals_check_box_tags(name, principals)
-    s = ''
-    principals.sort.each do |principal|
-      s << "<label class='#{user_status_class principal}' title='#{user_status_i18n principal}'>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
-    end
-    s
+    labeled_check_box_tags(name, principals,
+                                 { :title => :user_status_i18n,
+                                   :class => :user_status_class })
+  end
+
+  def labeled_check_box_tags(name, collection, options = {})
+    collection.sort.collect do |object|
+      id = name.gsub(/[\[\]]+/,"_") + object.id.to_s
+
+      object_options = options.inject({}) do |h, (k, v)|
+        h[k] = v.is_a?(Symbol) ?
+                 send(v, object) :
+                 v
+
+        h
+      end
+
+      content_tag :div do
+        check_box_tag(name, object.id, false, :id => id) +
+        label_tag(id, object, object_options)
+      end
+    end.join().html_safe
   end
 
   # Truncates and returns the string as a single line
@@ -341,11 +359,11 @@ module ApplicationHelper
   end
 
   def html_hours(text)
-    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
+    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>').html_safe
   end
 
   def authoring(created, author, options={})
-    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
+    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created)).html_safe
   end
 
   def time_tag(time)
@@ -374,7 +392,7 @@ module ApplicationHelper
 
     html = ''
     if paginator.current.previous
-      html << link_to_content_update('&#171; ' + l(:label_previous), url_param.merge(page_param => paginator.current.previous)) + ' '
+      html << link_to_content_update(l(:label_previous), url_param.merge(page_param => paginator.current.previous), :class => 'navigate-left') + ' '
     end
 
     html << (pagination_links_each(paginator, options) do |n|
@@ -382,7 +400,7 @@ module ApplicationHelper
     end || '')
 
     if paginator.current.next
-      html << ' ' + link_to_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
+      html << ' ' + link_to_content_update((l(:label_next)), url_param.merge(page_param => paginator.current.next), :class => 'navigate-right')
     end
 
     unless count.nil?
@@ -392,7 +410,7 @@ module ApplicationHelper
       end
     end
 
-    html
+    html.html_safe
   end
 
   def per_page_links(selected=nil)
@@ -412,43 +430,15 @@ module ApplicationHelper
     )
   end
 
-  def breadcrumb(*args)
-    elements = args.flatten
-    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
-  end
-
-  def breadcrumb_list(*args)
-    elements = args.flatten
-    cutme_elements = []
-    breadcrumb_elements = [content_tag(:li, elements.shift.to_s, :class => 'first-breadcrumb-element', :style => 'list-style-image:none;')]
-
-    breadcrumb_elements += elements.collect do |element|
-      content_tag(:li, element.to_s) if element
-    end
-
-    content_tag(:ul, breadcrumb_elements, :class => 'breadcrumb')
-  end
-
   def other_formats_links(&block)
-    concat('<p class="other-formats">' + l(:label_export_to))
-    yield Redmine::Views::OtherFormatsBuilder.new(self)
-    concat('</p>')
-  end
+    content_tag 'p', :class => 'other-formats' do
+      formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &block)
 
-  def link_to_project_ancestors(project)
-    if project && !project.new_record?
-      ancestors = (project.root? ? [] : project.ancestors.visible)
-      ancestors << project
-      ancestors.collect do |p|
-        if p == project
-          link_to_project(p, {:jump => current_menu_item}, {:title => p, :class => 'breadcrumb-project-title nocut'})
-        else
-          link_to_project(p, {:jump => current_menu_item}, {:title => p})
-        end
-      end
+      (l(:label_export_to) + formats).html_safe
     end
   end
 
+  # this method seems to not be used any more
   def page_header_title
     if @page_header_title.present?
       h(@page_header_title)
@@ -472,16 +462,19 @@ module ApplicationHelper
   end
 
   def html_title(*args)
+    title = []
+
     if args.empty?
-      title = []
       title << h(@project.name) if @project
       title += @html_title if @html_title
       title << h(Setting.app_title)
-      title.select {|t| !t.blank? }.join(' - ')
     else
       @html_title ||= []
       @html_title += args
+      title += @html_title
     end
+
+    title.select {|t| !t.blank? }.join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
@@ -542,7 +535,7 @@ module ApplicationHelper
       end
     end
 
-    text
+    text.html_safe
   end
 
   def parse_non_pre_blocks(text)
@@ -867,7 +860,8 @@ module ApplicationHelper
     text.to_s.
       gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
       gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
-      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />').  # 1 newline   -> br
+      html_safe
   end
 
   def lang_options_for_select(blank=true)
@@ -924,13 +918,20 @@ module ApplicationHelper
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
-    content_tag('table',
-      content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
+
+    bar = content_tag 'table', { :class => 'progress', :style => "width: #{width};" } do
+      row = content_tag 'tr' do
+        ((pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
-      ), :class => 'progress', :style => "width: #{width};") +
-      content_tag('p', legend + " " + l(:total_progress), :class => 'pourcent')
+        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')).html_safe
+      end
+    end
+
+    number = content_tag 'p', :class => 'pourcent' do
+      legend + " " + l(:total_progress)
+    end
+
+    bar + number
   end
 
   def checked_image(checked=true)
@@ -1002,20 +1003,13 @@ module ApplicationHelper
   end
 
   def content_for(name, content = nil, &block)
-    super(name, content, &block)
-
-    # only care for non whitespace contents;
-    # rails 2.3 specific implementation
-    if instance_variable_get("@content_for_#{name}").match /\S+/
-      @has_content ||= {}
-      @has_content[name] = true
+    if block_given?
+      content = capture(&block)
+      # only care for non whitespace contents;
+      super(name, content) if content.to_s.match /\S+/
+    else
+      super
     end
-
-    nil
-  end
-
-  def has_content?(name)
-    (@has_content && @has_content[name]) || false
   end
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
@@ -1039,14 +1033,14 @@ module ApplicationHelper
   def javascript_heads
     tags = javascript_include_tag(:defaults)
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags << "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags.safe_concat "\n" + javascript_tag("Event.observe(window, 'load', function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
-    tags << "\n" + javascript_include_tag("accessibility.js") if User.current.impaired? and accessibility_js_enabled?
+    tags.safe_concat("\n" + javascript_include_tag("accessibility.js")) if User.current.impaired? and accessibility_js_enabled?
     tags
   end
 
   def favicon
-    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />"
+    "<link rel='shortcut icon' href='#{image_path('/favicon.ico')}' />".html_safe
   end
 
   # Add a HTML meta tag to control robots (web spiders)
@@ -1054,7 +1048,7 @@ module ApplicationHelper
   # @param [optional, String] content the content of the ROBOTS tag.
   #   defaults to no index, follow, and no archive
   def robot_exclusion_tag(content="NOINDEX,FOLLOW,NOARCHIVE")
-    "<meta name='ROBOTS' content='#{h(content)}' />"
+    "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
   # Returns true if arg is expected in the API response
@@ -1067,10 +1061,10 @@ module ApplicationHelper
     @included_in_api_response.include?(arg.to_s)
   end
 
-  # Returns options or nil if nometa param or X-ChiliProject-Nometa header
+  # Returns options or nil if nometa param or X-OpenProject-Nometa header
   # was set in the request
   def api_meta(options)
-    if params[:nometa].present? || request.headers['X-ChiliProject-Nometa']
+    if params[:nometa].present? || request.headers['X-OpenProject-Nometa']
       # compatibility mode for activeresource clients that raise
       # an error when unserializing an array with attributes
       nil
@@ -1138,17 +1132,7 @@ module ApplicationHelper
   end
 
   def password_complexity_requirements
-    "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
+    raw "<em>" + l(:text_caracters_minimum, :count => Setting.password_min_length) + "</em>"
   end
 
-  def breadcrumb_paths(*args)
-    if args.nil?
-      nil
-    elsif args.empty?
-      @breadcrumb_paths ||= [default_breadcrumb]
-    else
-      @breadcrumb_paths ||= []
-      @breadcrumb_paths += args
-    end
-  end
 end

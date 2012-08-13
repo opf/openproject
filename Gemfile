@@ -1,30 +1,38 @@
 source :rubygems
 
-gem "rails", "2.3.14"
+gem "rails", "~> 3.0.15"
 
 gem "coderay", "~> 0.9.7"
-gem "i18n", "~> 0.4.2"
+gem "i18n", "~> 0.5.0"
 gem "rubytree", "~> 0.5.2", :require => 'tree'
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
-gem 'delayed_job', "~>2.0.4"
+gem 'globalize3', :require => 'globalize'
+gem "delayed_job_active_record" # that's how delayed job's readme recommends it
+
+# TODO: check that it doesn't break the functionality of acts_as_journalized
+gem 'safe_attributes' # allows active record to have a #changes column
+
+gem 'awesome_nested_set'
 
 group :test do
-  gem 'shoulda', '~> 2.10.3'
-  gem 'edavis10-object_daddy', :require => 'object_daddy'
+  gem 'shoulda', '~> 3.1.1'
+  gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
   gem 'mocha'
+  gem "launchy", "~> 2.1.0"
 
   platforms :mri_18, :mingw_18 do gem 'ruby-debug' end
-  platforms :mri_19, :mingw_19 do gem 'ruby-debug19', :require => 'ruby-debug' end
+  platforms :mri_19, :mingw_19 do gem 'debugger' end
 end
 
 group :openid do
   gem "ruby-openid", '~> 2.1.4', :require => 'openid'
 end
 
-group :globalize do
-  gem 'globalize2', :require => 'globalize'
+group :development do
+  gem 'rails-footnotes', '>= 3.7.5.rc4'
+  gem 'bullet'
 end
 
 group :rmagick do
@@ -76,6 +84,10 @@ end
 platforms :mri_19, :mingw_19 do
   group :sqlite do
     gem "sqlite3"
+  end
+
+  group :mysql2 do
+    gem 'mysql2', '~> 0.2.7'
   end
 end
 

@@ -1,7 +1,7 @@
 ---
 auth_sources_001:
   id: 1
-  type: AuthSourceLdap
+  type: LdapAuthSource
   name: 'LDAP test server'
   host: '127.0.0.1'
   port: 389

@@ -47,17 +47,18 @@ module JournalsHelper
     if journal.details.any?
       details = content_tag "ul", :class => "details journal-attributes" do
         journal.details.collect do |detail|
-          if d = journal.render_detail(detail)
+          if d = journal.render_detail(detail).html_safe
             content_tag("li", d)
           end
-        end.compact.join(' ')
+        end.compact.join(' ').html_safe
       end
     end
 
-    notes = <<-HTML
-      #{render_notes(model, journal, options) unless journal.notes.blank?}
-    HTML
-    content_tag("div", "#{header}#{details}#{notes}", :id => "change-#{journal.id}", :class => "journal")
+    notes = journal.notes.blank? ?
+              '' :
+              render_notes(model, journal, options)
+
+    content_tag("div", "#{header}#{details}#{notes}".html_safe, :id => "change-#{journal.id}", :class => "journal")
   end
 
   def render_notes(model, journal, options={})
@@ -87,13 +88,13 @@ module JournalsHelper
     end
 
     content = ''
-    content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
+    content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
     content << textilizable(journal, :notes)
 
     css_classes = "wiki"
     css_classes << " editable" if editable
 
-    content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    content_tag('div', content, { :id => "journal-#{journal.id}-notes", :class => css_classes }, false)
   end
 
   def link_to_in_place_notes_editor(text, field_id, url, options={})

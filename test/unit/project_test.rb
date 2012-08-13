@@ -22,33 +22,33 @@ class ProjectTest < ActiveSupport::TestCase
     User.current = nil
   end
 
-  should_validate_presence_of :name
-  should_validate_presence_of :identifier
+  should validate_presence_of :name
+  should validate_presence_of :identifier
 
-  should_validate_uniqueness_of :identifier
+  should validate_uniqueness_of :identifier
 
   context "associations" do
-    should_have_many :members
-    should_have_many :users, :through => :members
-    should_have_many :member_principals
-    should_have_many :principals, :through => :member_principals
-    should_have_many :enabled_modules
-    should_have_many :issues
-    should_have_many :issue_changes, :through => :issues
-    should_have_many :versions
-    should_have_many :time_entries
-    should_have_many :queries
-    should_have_many :documents
-    should_have_many :news
-    should_have_many :issue_categories
-    should_have_many :boards
-    should_have_many :changesets, :through => :repository
+    should have_many :members
+    should have_many(:users).through(:members)
+    should have_many :member_principals
+    should have_many(:principals).through(:member_principals)
+    should have_many :enabled_modules
+    should have_many :issues
+    should have_many(:issue_changes).through(:issues)
+    should have_many :versions
+    should have_many :time_entries
+    should have_many :queries
+    should have_many :documents
+    should have_many :news
+    should have_many :issue_categories
+    should have_many :boards
+    should have_many(:changesets).through(:repository)
 
-    should_have_one :repository
-    should_have_one :wiki
+    should have_one :repository
+    should have_one :wiki
 
-    should_have_and_belong_to_many :trackers
-    should_have_and_belong_to_many :issue_custom_fields
+    should have_and_belong_to_many :trackers
+    should have_and_belong_to_many :issue_custom_fields
   end
 
   def test_truth
@@ -424,16 +424,21 @@ class ProjectTest < ActiveSupport::TestCase
 
   context "description" do
     setup do
-      @project = Project.generate!
-      @project.description = ("Abcd " * 5 + "\n") * 11
+      # this block unfortunately isn't run
+      # move first two lines of next to specs up here
+      # when you know that it will work
     end
 
     def test_short_description_returns_shortened_description
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
       @project.summary = ""
       assert_equal (("Abcd " * 5 + "\n") * 10)[0..-2] + "...", @project.short_description
     end
 
     def test_short_description_returns_summary
+      @project = Project.generate!
+      @project.description = ("Abcd " * 5 + "\n") * 11
       @project.summary = "In short"
       assert_equal "In short", @project.short_description
     end
@@ -725,12 +730,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
     assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
-  
+
   def test_export_issues_is_allowed
     project = Project.find(1)
     assert project.allows_to?(:export_issues)
   end
-  
+
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
@@ -835,9 +840,16 @@ class ProjectTest < ActiveSupport::TestCase
     should "copy memberships with groups and additional roles" do
       group = Group.create!(:lastname => "Copy group")
       user = User.find(7)
+
       group.users << user
+
       # group role
-      (Member.new.force_attributes = {:project_id => @source_project.id, :principal => group, :role_ids => [2]}).save
+      (Member.new.tap do |m|
+        m.force_attributes = { :project_id => @source_project.id,
+                               :principal => group,
+                               :role_ids => [2] }
+      end).save!
+
       member = Member.find_by_user_id_and_project_id(user.id, @source_project.id)
       # additional role
       member.role_ids = [1]

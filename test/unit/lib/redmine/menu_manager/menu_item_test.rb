@@ -112,7 +112,7 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     parent_item = get_menu_item(:test_menu, :parent)
     assert parent_item.hasChildren?
     assert_equal 2, parent_item.children.size
-    assert_equal get_menu_item(:test_menu, :child_menu), parent_item.children[0]
-    assert_equal get_menu_item(:test_menu, :child2_menu), parent_item.children[1]
+    assert_equal get_menu_item(:test_menu, :child_menu).name, parent_item.children[0].name
+    assert_equal get_menu_item(:test_menu, :child2_menu).name, parent_item.children[1].name
   end
 end
