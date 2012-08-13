@@ -16,6 +16,8 @@ gem 'safe_attributes' # allows active record to have a #changes column
 
 gem 'awesome_nested_set'
 
+gem 'loofah'
+
 group :test do
   gem 'shoulda', '~> 3.1.1'
   gem 'object-daddy', :git => 'git://github.com/awebneck/object_daddy.git'
