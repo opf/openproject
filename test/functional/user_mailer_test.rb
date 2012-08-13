@@ -245,4 +245,18 @@ class UserMailerTest < ActionMailer::TestCase
     document = Document.find(1)
     assert UserMailer.document_added(user, document).deliver
   end
+
+  def test_mailer_should_not_change_locale
+    Setting.stubs(:available_languages).returns(['en', 'it', 'fr'])
+    Setting.default_language = 'en'
+    # Set current language to italian
+    set_language_if_valid 'it'
+    # Send an email to a french user
+    user = FactoryGirl.create(:user)
+    user.language = 'fr'
+    UserMailer.account_activated(user).deliver
+    mail = ActionMailer::Base.deliveries.last
+    assert mail.body.include?('Votre compte')
+    assert_equal :it, current_language
+  end
 end

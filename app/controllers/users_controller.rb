@@ -161,7 +161,7 @@ class UsersController < ApplicationController
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
       if was_activated
-        Mailer.deliver_account_activated(@user)
+        UserMailer.account_activated(@user).deliver
       elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
         Mailer.deliver_account_information(@user, params[:user][:password])
       end
