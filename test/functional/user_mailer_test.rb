@@ -147,6 +147,30 @@ class UserMailerTest < ActionMailer::TestCase
     mail
   end
 
+  def test_news_added
+    news = News.find(:first)
+    assert UserMailer.news_added(@user, news).deliver
+  end
 
+  def test_should_not_send_email_without_recipient
+    news = News.find(:first)
+    user = news.author
+    # Remove members except news author
+    news.project.memberships.each {|m| m.destroy unless m.user == user}
+
+    user.pref[:no_self_notified] = false
+    user.pref.save
+    User.current = user
+    UserMailer.news_added(user, news.reload).deliver
+    assert_equal 1, last_email.to.size
+
+    # nobody to notify
+    user.pref[:no_self_notified] = true
+    user.pref.save
+    User.current = user
+    ActionMailer::Base.deliveries.clear
+    UserMailer.news_added(user, news.reload).deliver
+    assert ActionMailer::Base.deliveries.empty?
+  end
 
 end

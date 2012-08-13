@@ -89,6 +89,25 @@ class UserMailer < ActionMailer::Base
       mail :to => to, :subject => subject
     end
   end
+
+  def news_added(user, news)
+    @news = news
+
+    headers["X-OpenProject-Project"] = news.project.identifier
+    headers["X-OpenProject-Type"] = "News"
+
+    #message_id news
+
+    to = user.mail
+
+    locale = user.language.presence || I18n.default_locale
+
+    I18n.with_locale(locale) do
+      subject = "[#{news.project.name}] #{t(:label_news)}: #{news.title}"
+
+      mail :to => to, :subject => subject
+    end
+  end
   
 private
 
