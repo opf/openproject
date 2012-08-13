@@ -163,6 +163,28 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def wiki_content_updated(user, wiki_content)
+    @wiki_content  = wiki_content
+    @wiki_diff_url = url_for(:controller => :wiki,
+                             :action     => :diff,
+                             :project_id => wiki_content.project,
+                             :id         => wiki_content.page.title,
+                             :version    => wiki_content.version)
+
+    headers["X-OpenProject-Project"] = @wiki_content.project.identifier
+    headers["X-OpenProject-Wiki-Page-Id"] = @wiki_content.page.id
+    headers["X-OpenProject-Type"] = "Wiki"
+
+    #message_id wiki_content
+    to = user.mail
+
+    I18n.with_locale(locale) do
+      subject = "[#{wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
+
+      mail :to => to, :subject => subject
+    end
+  end
+
 private
 
   def assigned_to_header(user)

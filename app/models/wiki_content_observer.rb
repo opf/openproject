@@ -28,7 +28,7 @@ class WikiContentObserver < ActiveRecord::Observer
       recipients = wiki_content.recipients + wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        Mailer.deliver_wiki_content_updated(wiki_content, user)
+        UserMailer.wiki_content_updated(user, wiki_content).deliver
       end
     end
   end

@@ -198,4 +198,12 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
+  def test_wiki_content_updated
+    user    = FactoryGirl.create(:user)
+    content = WikiContent.find(1)
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert UserMailer.wiki_content_updated(user, content).deliver
+    end
+  end
+
 end
