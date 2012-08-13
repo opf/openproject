@@ -2,7 +2,7 @@
 <hr />
 <% #render :partial => "issue_text", :locals => { :issue => @issue, :issue_url => @issue_url } %>
 
-<h1><%= link_to("#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}", issue_url(@issue)) %></h1>
+<h1><%= link_to "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}", issue_url(@issue) %></h1>
 
 <ul>
   <li><%= t(:field_author)        %>: <%= @issue.author        %></li>
@@ -17,5 +17,5 @@
   <% end %>
 </ul>
 
-<%= textilizable(@issue.description) %>
+<%= textilizable @issue.description %>
 
